@@ -16,17 +16,24 @@
         android:layout_height="wrap_content"
         android:text="@string/list_title"/>
 
+    <SearchView
+        android:id="@+id/searchBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:queryHint="@string/search_hint"/>
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"/>
+        android:layout_below="@id/searchBox"/>
 
     <TextView
         android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FF0000"
+        android:layout_below="@id/searchBox"
         android:text="@string/result_placeholder"/>
 
 </RelativeLayout>
