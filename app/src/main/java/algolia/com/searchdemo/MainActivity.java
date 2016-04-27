@@ -34,12 +34,21 @@ public class MainActivity extends ListActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        setListAdapter(new ArrayAdapter<>(this, itemStyleResourceId, dataList));
+        resetList();
         SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchBox.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
         searchBox.setIconifiedByDefault(false);
 
-        Intent intent = getIntent();
+        handleIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             search(query);
@@ -57,12 +66,24 @@ public class MainActivity extends ListActivity {
         getListView().setAdapter(new ArrayAdapter<>(this, itemStyleResourceId, matchingList));
     }
 
-    private int levenshtein(String a, String b) {
-        if (a == null && b == null) return 0;
-        if (a == null || a.length() == 0 ) return b.length();
-        if (b == null || b.length() == 0 ) return a.length();
+    private void resetList() {
+        setListAdapter(new ArrayAdapter<>(this, itemStyleResourceId, dataList));
+    }
 
-        if (a.charAt(0) == b.charAt(0)) return levenshtein(a.substring(1), b.substring(1));
+    private int levenshtein(String a, String b) {
+        if (a == null && b == null) {
+            return 0;
+        }
+        if (a == null || a.length() == 0) {
+            return b.length();
+        }
+        if (b == null || b.length() == 0) {
+            return a.length();
+        }
+
+        if (a.charAt(0) == b.charAt(0)) {
+            return levenshtein(a.substring(1), b.substring(1));
+        }
 
         int distanceA = levenshtein(a, b.substring(1));
         int distanceB = levenshtein(a.substring(1), b.substring(1));
