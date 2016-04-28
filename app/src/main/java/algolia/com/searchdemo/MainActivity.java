@@ -4,9 +4,7 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -33,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.hits)
     Hits hits;
 
-    private ArrayAdapter<String> adapter;
     private AlgoliaHelper helper;
 
     @Override
@@ -41,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        resetList();
         helper = new AlgoliaHelper("9V0VSE2N4Z", "7c4db7c9e62611b1eb078a220044f546", "contacts");
         helper.setActivity(this);
         View emptyView = findViewById(android.R.id.empty);
@@ -58,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() == 0) {
-                    resetList();
+                    hits.clear();
                 } else {
                     search(newText);
                 }
@@ -87,10 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void searchResult(Index index, Query query, JSONObject jsonResults) {
                         List<String> results = helper.parseResults(jsonResults);
-                        adapter.clear();
-                        adapter.addAll(results);
-                        adapter.notifyDataSetChanged();
-
+                        hits.replace(results);
                         hits.smoothScrollToPosition(0);
                     }
 
@@ -101,15 +94,5 @@ public class MainActivity extends AppCompatActivity {
                 }
 
         );
-    }
-
-
-    private void resetList() {
-        if (adapter == null) {
-            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-            hits.setAdapter(adapter);
-        }
-        adapter.clear();
-        adapter.notifyDataSetChanged();
     }
 }
