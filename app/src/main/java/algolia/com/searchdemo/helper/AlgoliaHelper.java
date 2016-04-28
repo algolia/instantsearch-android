@@ -26,8 +26,6 @@ public class AlgoliaHelper {
     private final Index index;
     private final APIClient client;
     private final Query query;
-    private Activity activity;
-    private View rootView;
     private SearchBox searchBox;
     private Hits hits;
 
@@ -91,8 +89,7 @@ public class AlgoliaHelper {
     }
 
     public void setActivity(Activity activity) {
-        this.activity = activity;
-        rootView = activity.getWindow().getDecorView().getRootView();
+        View rootView = activity.getWindow().getDecorView().getRootView();
         searchBox = (SearchBox) rootView.findViewById(R.id.searchBox);
         hits = (Hits) rootView.findViewById(R.id.hits);
         query.setHitsPerPage(hits.getHitsPerPage());
