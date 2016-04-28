@@ -1,0 +1,28 @@
+package algolia.com.searchdemo.helper;
+
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.widget.SearchView;
+
+import algolia.com.searchdemo.R;
+
+public class SearchBox extends SearchView {
+
+    public SearchBox(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SearchBox, 0, 0);
+
+        try {
+            final boolean iconifiedByDefault = attrs.getAttributeBooleanValue(android.R.attr.iconifiedByDefault, true);
+            final boolean submitButtonEnabled = styledAttributes.getBoolean(R.styleable.SearchBox_submitButtonEnabled, false);
+            Log.e("PLN", "init: submit(" + false + "), iconified(" + iconifiedByDefault + ").");
+
+            setIconifiedByDefault(iconifiedByDefault);
+            setSubmitButtonEnabled(submitButtonEnabled);
+        } finally {
+            styledAttributes.recycle();
+        }
+    }
+}

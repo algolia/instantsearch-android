@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SearchBox">
+        <attr name="submitButtonEnabled" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="Hits">
+        <attr name="hitsPerPage" format="integer"/>
+    </declare-styleable>
+</resources>

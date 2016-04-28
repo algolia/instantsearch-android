@@ -19,12 +19,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import algolia.com.searchdemo.R;
+
 public class AlgoliaHelper {
     private static final int HITS_PER_PAGE = 20;
 
     private final Index index;
     private final APIClient client;
     private final Query query;
+    private Activity activity;
+    private View rootView;
+    private SearchBox searchBox;
 
     public AlgoliaHelper(final String applicationId, final String apiKey, final String indexName) {
         client = new APIClient(applicationId, apiKey);
@@ -88,5 +93,14 @@ public class AlgoliaHelper {
             results.add(name);
         }
         return results;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+        rootView = activity.getWindow().getDecorView().getRootView();
+        searchBox = (SearchBox) rootView.findViewById(R.id.searchBox);
+
+        SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
+        searchBox.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
     }
 }

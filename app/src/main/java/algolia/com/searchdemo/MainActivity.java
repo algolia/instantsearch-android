@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import algolia.com.searchdemo.helper.AlgoliaHelper;
+import algolia.com.searchdemo.helper.SearchBox;
 import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,21 +47,16 @@ public class MainActivity extends ListActivity {
         helper = new AlgoliaHelper("9V0VSE2N4Z", "7c4db7c9e62611b1eb078a220044f546", "contacts");
         helper.setActivity(this);
 
-        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchBox.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
-        searchBox.setIconifiedByDefault(false);
         searchBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.e("PLN", "Submit!");
-                Toast.makeText(MainActivity.this, "Submit!", Toast.LENGTH_SHORT).show();
+                Log.e("PLN", "TextSubmit (" + query + ")");
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.e("PLN", "Change!");
-                Toast.makeText(MainActivity.this, "Change!", Toast.LENGTH_SHORT).show();
+                Log.e("PLN", "TextChange(" + newText + ")");
                 if (newText.length() == 0) {
                     resetList();
                 } else {
