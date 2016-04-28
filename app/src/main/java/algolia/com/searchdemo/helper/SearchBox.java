@@ -17,8 +17,17 @@ public class SearchBox extends SearchView {
         try {
             final boolean iconifiedByDefault = attrs.getAttributeBooleanValue(android.R.attr.iconifiedByDefault, true);
             final boolean submitButtonEnabled = styledAttributes.getBoolean(R.styleable.SearchBox_submitButtonEnabled, false);
-            Log.e("PLN", "init: submit(" + false + "), iconified(" + iconifiedByDefault + ").");
+            final boolean autofocus = styledAttributes.getBoolean(R.styleable.SearchBox_autofocus, false);
+            Log.e("PLN", "init: " +
+                    "submit(" + submitButtonEnabled + "), " +
+                    "focus(" + autofocus+ "), " +
+                    "iconified(" + iconifiedByDefault + ").");
 
+            if (autofocus) {
+                setFocusable(true);
+                setIconified(false);
+                requestFocusFromTouch();
+            }
             setIconifiedByDefault(iconifiedByDefault);
             setSubmitButtonEnabled(submitButtonEnabled);
         } finally {
