@@ -34,4 +34,5 @@ public class SearchBox extends SearchView {
             styledAttributes.recycle();
         }
     }
+
 }

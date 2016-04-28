@@ -1,11 +1,11 @@
 package algolia.com.searchdemo;
 
-import android.app.ListActivity;
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -17,23 +17,21 @@ import com.algolia.search.saas.listeners.SearchListener;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import algolia.com.searchdemo.helper.AlgoliaHelper;
+import algolia.com.searchdemo.helper.Hits;
 import algolia.com.searchdemo.helper.SearchBox;
-import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.searchBox)
     SearchBox searchBox;
 
-    @BindArray(R.array.data)
-    String[] dataList;
+    @BindView(R.id.hits)
+    Hits hits;
 
     private ArrayAdapter<String> adapter;
     private AlgoliaHelper helper;
@@ -46,17 +44,19 @@ public class MainActivity extends ListActivity {
         resetList();
         helper = new AlgoliaHelper("9V0VSE2N4Z", "7c4db7c9e62611b1eb078a220044f546", "contacts");
         helper.setActivity(this);
-
+        View emptyView = findViewById(android.R.id.empty);
+        if (emptyView == null) {
+            throw new RuntimeException("You have to provide an empty view.");
+        }
+        hits.setEmptyView(emptyView);
         searchBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.e("PLN", "TextSubmit (" + query + ")");
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.e("PLN", "TextChange(" + newText + ")");
                 if (newText.length() == 0) {
                     resetList();
                 } else {
@@ -91,7 +91,7 @@ public class MainActivity extends ListActivity {
                         adapter.addAll(results);
                         adapter.notifyDataSetChanged();
 
-                        getListView().smoothScrollToPosition(0);
+                        hits.smoothScrollToPosition(0);
                     }
 
                     @Override
@@ -101,49 +101,15 @@ public class MainActivity extends ListActivity {
                 }
 
         );
-//
-//        ArrayList<String> matchingList = new ArrayList<>();
-//
-//        for (String item : dataList) {
-//            if (levenshtein(item, query) < 2) {
-//                matchingList.add(item);
-//            }
-//        }
-//
-//        getListView().setAdapter(new ArrayAdapter<>(this, itemStyleResourceId, matchingList));
     }
 
 
     private void resetList() {
         if (adapter == null) {
-            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>(Arrays.asList(dataList)));
-            setListAdapter(adapter);
-        } else {
-            adapter.clear();
-            adapter.addAll(dataList);
-            adapter.notifyDataSetChanged();
+            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+            hits.setAdapter(adapter);
         }
-    }
-
-    private int levenshtein(String a, String b) {
-        if (a == null && b == null) {
-            return 0;
-        }
-        if (a == null || a.length() == 0) {
-            return b.length();
-        }
-        if (b == null || b.length() == 0) {
-            return a.length();
-        }
-
-        if (a.charAt(0) == b.charAt(0)) {
-            return levenshtein(a.substring(1), b.substring(1));
-        }
-
-        int distanceA = levenshtein(a, b.substring(1));
-        int distanceB = levenshtein(a.substring(1), b.substring(1));
-        int distanceC = levenshtein(a.substring(1), b);
-
-        return 1 + Math.min(distanceA, Math.min(distanceB, distanceC));
+        adapter.clear();
+        adapter.notifyDataSetChanged();
     }
 }

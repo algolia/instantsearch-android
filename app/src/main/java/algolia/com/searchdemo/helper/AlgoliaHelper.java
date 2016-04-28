@@ -13,7 +13,6 @@ import com.algolia.search.saas.Query;
 import com.algolia.search.saas.listeners.SearchListener;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import java.util.List;
 import algolia.com.searchdemo.R;
 
 public class AlgoliaHelper {
-    private static final int HITS_PER_PAGE = 20;
+    static final int HITS_PER_PAGE = 20;
 
     private final Index index;
     private final APIClient client;
@@ -30,6 +29,7 @@ public class AlgoliaHelper {
     private Activity activity;
     private View rootView;
     private SearchBox searchBox;
+    private Hits hits;
 
     public AlgoliaHelper(final String applicationId, final String apiKey, final String indexName) {
         client = new APIClient(applicationId, apiKey);
@@ -80,12 +80,7 @@ public class AlgoliaHelper {
             if (highlightResult == null) {
                 continue;
             }
-            String name;
-            try {
-                name = highlightResult.getString("name");
-            } catch (JSONException e) {
-                continue;
-            }
+            String name = hit.optString("name");
             if (name == null) {
                 continue;
             }
@@ -99,6 +94,8 @@ public class AlgoliaHelper {
         this.activity = activity;
         rootView = activity.getWindow().getDecorView().getRootView();
         searchBox = (SearchBox) rootView.findViewById(R.id.searchBox);
+        hits = (Hits) rootView.findViewById(R.id.hits);
+        query.setHitsPerPage(hits.getHitsPerPage());
 
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchBox.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));

@@ -25,11 +25,12 @@
         algoliaHelper:queryHint="@string/search_hint"
         algoliaHelper:autofocus="true"/>
 
-    <ListView
-        android:id="@android:id/list"
+    <algolia.com.searchdemo.helper.Hits
+        android:id="@+id/hits"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/searchBox"/>
+        android:layout_below="@id/searchBox"
+        algoliaHelper:hitsPerPage="30"/>
 
     <TextView
         android:id="@android:id/empty"

@@ -3,10 +3,4 @@
     <string name="search_hint">Search your data…</string>
     <string name="result_placeholder">No data</string>
     <string name="list_title">Awesome search demo!</string>
-
-    <string-array name="data">
-        <item>foo</item>
-        <item>bar</item>
-        <item>baz</item>
-    </string-array>
 </resources>
