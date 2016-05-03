@@ -1,4 +1,4 @@
-package algolia.com.searchdemo.helper;
+package com.algolia.searchdemo.helper;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -18,7 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import algolia.com.searchdemo.R;
+import com.algolia.searchdemo.R;
 
 public class AlgoliaHelper {
     static final int HITS_PER_PAGE = 20;

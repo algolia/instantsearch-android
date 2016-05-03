@@ -1,19 +1,17 @@
-package algolia.com.searchdemo.helper;
+package com.algolia.searchdemo.helper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.algolia.search.saas.AlgoliaException;
 
 import java.util.Collection;
-import java.util.List;
 
-import algolia.com.searchdemo.R;
+import com.algolia.searchdemo.R;
 
 public class Hits extends ListView {
 

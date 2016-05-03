@@ -1,4 +1,4 @@
-package algolia.com.searchdemo.helper;
+package com.algolia.searchdemo.helper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.SearchView;
 
-import algolia.com.searchdemo.R;
+import com.algolia.searchdemo.R;
 
 public class SearchBox extends SearchView {
 

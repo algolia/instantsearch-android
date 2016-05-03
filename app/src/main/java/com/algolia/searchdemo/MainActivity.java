@@ -1,4 +1,4 @@
-package algolia.com.searchdemo;
+package com.algolia.searchdemo;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -17,9 +17,9 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import algolia.com.searchdemo.helper.AlgoliaHelper;
-import algolia.com.searchdemo.helper.Hits;
-import algolia.com.searchdemo.helper.SearchBox;
+import com.algolia.searchdemo.helper.AlgoliaHelper;
+import com.algolia.searchdemo.helper.Hits;
+import com.algolia.searchdemo.helper.SearchBox;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

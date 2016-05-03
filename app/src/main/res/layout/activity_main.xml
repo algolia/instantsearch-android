@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="algolia.com.searchdemo.MainActivity">
+    tools:context="com.algolia.searchdemo.MainActivity">
 
     <TextView
         android:id="@+id/title"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:text="@string/list_title"/>
 
-    <algolia.com.searchdemo.helper.SearchBox
+    <com.algolia.searchdemo.helper.SearchBox
         android:id="@+id/searchBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         algoliaHelper:queryHint="@string/search_hint"
         algoliaHelper:autofocus="true"/>
 
-    <algolia.com.searchdemo.helper.Hits
+    <com.algolia.searchdemo.helper.Hits
         android:id="@+id/hits"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
