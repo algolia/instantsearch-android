@@ -9,17 +9,15 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.algolia.search.saas.AlgoliaException;
-import com.algolia.search.saas.Index;
-import com.algolia.search.saas.Query;
-import com.algolia.search.saas.listeners.SearchListener;
+import com.algolia.search.saas.CompletionHandler;
+import com.algolia.searchdemo.helper.AlgoliaHelper;
+import com.algolia.searchdemo.helper.Hits;
+import com.algolia.searchdemo.helper.SearchBox;
 
 import org.json.JSONObject;
 
 import java.util.List;
 
-import com.algolia.searchdemo.helper.AlgoliaHelper;
-import com.algolia.searchdemo.helper.Hits;
-import com.algolia.searchdemo.helper.SearchBox;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -79,20 +77,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void search(String query) {
-        helper.search(query, new SearchListener() {
-                    @Override
-                    public void searchResult(Index index, Query query, JSONObject jsonResults) {
-                        List<String> results = helper.parseResults(jsonResults);
-                        hits.replace(results);
-                        hits.smoothScrollToPosition(0);
-                    }
-
-                    @Override
-                    public void searchError(Index index, Query query, AlgoliaException e) {
-                        Toast.makeText(MainActivity.this, "Error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+        helper.search(query, new CompletionHandler() {
+            @Override
+            public void requestCompleted(JSONObject content, AlgoliaException error) {
+                if (error != null) {
+                    Toast.makeText(MainActivity.this, "Error:" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    List<String> results = helper.parseResults(content);
+                    hits.replace(results);
+                    hits.smoothScrollToPosition(0);
                 }
-
-        );
+            }
+        });
     }
 }
