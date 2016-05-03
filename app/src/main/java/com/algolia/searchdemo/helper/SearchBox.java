@@ -2,9 +2,9 @@ package com.algolia.searchdemo.helper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v7.widget.SearchView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.SearchView;
 
 import com.algolia.searchdemo.R;
 
