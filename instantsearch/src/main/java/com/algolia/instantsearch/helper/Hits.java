@@ -3,7 +3,6 @@ package com.algolia.instantsearch.helper;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -16,23 +15,22 @@ public class Hits extends ListView {
 
     private final Integer hitsPerPage;
 
+    private final String[] attributesToRetrieve;
+    private final String[] attributesToHighlight;
+
     private ArrayAdapter<String> adapter;
 
     public Hits(Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
-        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SearchBox, 0, 0);
+        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Hits, 0, 0);
         initAdapter();
         try {
-            hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, AlgoliaHelper.HITS_PER_PAGE);
-            Log.e("PLN", "init: submit(" + false + "), hitsPerPage(" + hitsPerPage + ").");
-
+            hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, AlgoliaHelper.DEFAULT_HITS_PER_PAGE);
+            attributesToRetrieve = getAttributes(styledAttributes, R.styleable.Hits_attributesToRetrieve);
+            attributesToHighlight = getAttributes(styledAttributes, R.styleable.Hits_attributesToHighlight);
         } finally {
             styledAttributes.recycle();
         }
-    }
-
-    public Integer getHitsPerPage() {
-        return hitsPerPage;
     }
 
     private void initAdapter() {
@@ -53,10 +51,32 @@ public class Hits extends ListView {
     public void replace(Collection<String> values, boolean scrollToTop) {
         adapter.clear();
         add(values);
-        smoothScrollToPosition(0);
+        if (scrollToTop) {
+            smoothScrollToPosition(0);
+        }
     }
 
     public void replace(Collection<String> values) {
         replace(values, true);
+    }
+
+    private String[] getAttributes(TypedArray styledAttributes, int attributeResourceId) {
+        String attributesToRetrieveStr = styledAttributes.getString(attributeResourceId);
+        if (attributesToRetrieveStr == null) {
+            attributesToRetrieveStr = AlgoliaHelper.DEFAULT_ATTRIBUTES;
+        }
+        return attributesToRetrieveStr.split(",");
+    }
+
+    public Integer getHitsPerPage() {
+        return hitsPerPage;
+    }
+
+    public String[] getAttributesToRetrieve() {
+        return attributesToRetrieve;
+    }
+
+    public String[] getAttributesToHighlight() {
+        return attributesToHighlight;
     }
 }

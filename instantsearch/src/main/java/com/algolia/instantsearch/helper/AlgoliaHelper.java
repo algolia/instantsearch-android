@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlgoliaHelper {
-    static final int HITS_PER_PAGE = 20;
+    static final int DEFAULT_HITS_PER_PAGE = 20;
+    public static final String DEFAULT_ATTRIBUTES = "objectID";
 
     private final Index index;
     private final Client client;
@@ -32,9 +33,6 @@ public class AlgoliaHelper {
         client = new Client(applicationId, apiKey);
         index = client.initIndex(indexName);
         query = new Query();
-        query.setAttributesToRetrieve("name", "company", "country", "followers");
-        query.setAttributesToHighlight("name", "company");
-        query.setHitsPerPage(HITS_PER_PAGE);
     }
 
 
@@ -90,6 +88,8 @@ public class AlgoliaHelper {
         searchBox = (SearchBox) rootView.findViewById(R.id.searchBox);
         hits = (Hits) rootView.findViewById(R.id.hits);
         query.setHitsPerPage(hits.getHitsPerPage());
+        query.setAttributesToRetrieve(hits.getAttributesToRetrieve());
+        query.setAttributesToHighlight(hits.getAttributesToHighlight());
 
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchBox.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
