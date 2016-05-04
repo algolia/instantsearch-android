@@ -1,4 +1,4 @@
-package com.algolia.searchdemo.helper;
+package com.algolia.instantsearch.helper;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -11,7 +11,7 @@ import com.algolia.search.saas.Client;
 import com.algolia.search.saas.CompletionHandler;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
-import com.algolia.searchdemo.R;
+import com.algolia.instantsearch.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

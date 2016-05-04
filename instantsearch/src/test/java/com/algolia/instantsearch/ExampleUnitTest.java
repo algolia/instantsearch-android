@@ -1,4 +1,4 @@
-package com.algolia.searchdemo;
+package com.algolia.instantsearch;
 
 import org.junit.Test;
 
