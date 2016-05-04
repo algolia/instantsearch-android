@@ -9,5 +9,6 @@
         <attr name="searchBoxId" format="string"/>
         <attr name="attributesToRetrieve" format="string"/>
         <attr name="attributesToHighlight" format="string"/>
+        <attr name="attributeToDisplay" format="string"/>
     </declare-styleable>
 </resources>

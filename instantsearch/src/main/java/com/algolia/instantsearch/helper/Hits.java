@@ -14,9 +14,9 @@ import java.util.Collection;
 public class Hits extends ListView {
 
     private final Integer hitsPerPage;
-
     private final String[] attributesToRetrieve;
     private final String[] attributesToHighlight;
+    private final String attributeToDisplay;
 
     private ArrayAdapter<String> adapter;
 
@@ -28,6 +28,7 @@ public class Hits extends ListView {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, AlgoliaHelper.DEFAULT_HITS_PER_PAGE);
             attributesToRetrieve = getAttributes(styledAttributes, R.styleable.Hits_attributesToRetrieve);
             attributesToHighlight = getAttributes(styledAttributes, R.styleable.Hits_attributesToHighlight);
+            attributeToDisplay = styledAttributes.getString(R.styleable.Hits_attributeToDisplay);
         } finally {
             styledAttributes.recycle();
         }
@@ -78,5 +79,9 @@ public class Hits extends ListView {
 
     public String[] getAttributesToHighlight() {
         return attributesToHighlight;
+    }
+
+    public String getAttributeToDisplay() {
+        return attributeToDisplay;
     }
 }

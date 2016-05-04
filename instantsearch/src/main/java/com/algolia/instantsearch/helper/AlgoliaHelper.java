@@ -58,13 +58,13 @@ public class AlgoliaHelper {
         }
 
         List<String> results = new ArrayList<>();
-        JSONArray hits = jsonObject.optJSONArray("hits");
-        if (hits == null) {
+        JSONArray resultHits = jsonObject.optJSONArray("hits");
+        if (resultHits == null) {
             return null;
         }
 
-        for (int i = 0; i < hits.length(); ++i) {
-            JSONObject hit = hits.optJSONObject(i);
+        for (int i = 0; i < resultHits.length(); ++i) {
+            JSONObject hit = resultHits.optJSONObject(i);
             if (hit == null) {
                 continue;
             }
@@ -73,12 +73,12 @@ public class AlgoliaHelper {
             if (highlightResult == null) {
                 continue;
             }
-            String name = hit.optString("name");
-            if (name == null) {
+            String attribute = hit.optString(hits.getAttributeToDisplay());
+            if (attribute == null) {
                 continue;
             }
 
-            results.add(name);
+            results.add(attribute);
         }
         return results;
     }
