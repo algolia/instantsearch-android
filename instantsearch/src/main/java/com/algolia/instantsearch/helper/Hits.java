@@ -7,11 +7,10 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.algolia.instantsearch.R;
 import com.algolia.search.saas.AlgoliaException;
 
 import java.util.Collection;
-
-import com.algolia.instantsearch.R;
 
 public class Hits extends ListView {
 
@@ -51,8 +50,13 @@ public class Hits extends ListView {
         adapter.notifyDataSetChanged();
     }
 
-    public void replace(Collection<String> values) {
+    public void replace(Collection<String> values, boolean scrollToTop) {
         adapter.clear();
         add(values);
+        smoothScrollToPosition(0);
+    }
+
+    public void replace(Collection<String> values) {
+        replace(values, true);
     }
 }
