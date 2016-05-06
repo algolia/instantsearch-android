@@ -29,10 +29,12 @@ public class AlgoliaHelper {
     private SearchBox searchBox;
     private Hits hits;
 
-    public AlgoliaHelper(final String applicationId, final String apiKey, final String indexName) {
+    public AlgoliaHelper(Activity activity, final String applicationId, final String apiKey, final String indexName) {
         client = new Client(applicationId, apiKey);
         index = client.initIndex(indexName);
         query = new Query();
+
+        processActivity(activity);
     }
 
 
@@ -83,15 +85,29 @@ public class AlgoliaHelper {
         return results;
     }
 
-    public void setActivity(Activity activity) {
+    private void processActivity(Activity activity) {
         View rootView = activity.getWindow().getDecorView().getRootView();
         searchBox = (SearchBox) rootView.findViewById(R.id.searchBox);
+        if (searchBox == null) {
+            throw new RuntimeException(activity.getString(R.string.error_missing_searchbox));
+        }
+
         hits = (Hits) rootView.findViewById(R.id.hits);
+        if (hits == null) {
+            throw new RuntimeException(activity.getString(R.string.error_missing_hits));
+        }
+
         query.setHitsPerPage(hits.getHitsPerPage());
         query.setAttributesToRetrieve(hits.getAttributesToRetrieve());
         query.setAttributesToHighlight(hits.getAttributesToHighlight());
 
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchBox.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
+
+        View emptyView = rootView.findViewById(android.R.id.empty);
+        if (emptyView == null) {
+            throw new RuntimeException(activity.getString(R.string.error_missing_empty));
+        }
+        hits.setEmptyView(emptyView);
     }
 }

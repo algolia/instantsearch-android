@@ -3,4 +3,7 @@
     <string name="search_hint">Search your data…</string>
     <string name="result_placeholder">No data</string>
     <string name="list_title">Awesome search demo!</string>
+    <string name="error_missing_searchbox">You need to add a searchBox identified as @id/searchBox.</string>
+    <string name="error_missing_hits">You need to add Hits identified as @id/hits.</string>
+    <string name="error_missing_empty">You need to add an empty view identified as @android:id/empty.</string>
 </resources>

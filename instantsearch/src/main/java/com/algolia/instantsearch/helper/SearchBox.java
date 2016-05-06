@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.SearchView;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.algolia.instantsearch.R;
 
@@ -18,10 +17,6 @@ public class SearchBox extends SearchView {
             final boolean iconifiedByDefault = attrs.getAttributeBooleanValue(android.R.attr.iconifiedByDefault, true);
             final boolean submitButtonEnabled = styledAttributes.getBoolean(R.styleable.SearchBox_submitButtonEnabled, false);
             final boolean autofocus = styledAttributes.getBoolean(R.styleable.SearchBox_autofocus, false);
-            Log.e("PLN", "init: " +
-                    "submit(" + submitButtonEnabled + "), " +
-                    "focus(" + autofocus+ "), " +
-                    "iconified(" + iconifiedByDefault + ").");
 
             if (autofocus) {
                 setFocusable(true);
