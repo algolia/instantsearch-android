@@ -49,6 +49,13 @@ public class Hits extends RecyclerView {
             styledAttributes.recycle();
         }
         adapter = new ResultsAdapter();
+        adapter.registerAdapterDataObserver(new AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                updateEmptyView();
+            }
+        });
         setAdapter(adapter);
 
         layoutManager = new LinearLayoutManager(context);
@@ -101,5 +108,17 @@ public class Hits extends RecyclerView {
 
     public String getAttributeToDisplay() {
         return attributeToDisplay;
+    }
+
+    public void setEmptyView(View emptyView) {
+        this.emptyView = emptyView;
+    }
+
+    private void updateEmptyView() {
+        if (adapter.getItemCount() == 0) {
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+        }
     }
 }
