@@ -2,8 +2,10 @@ package com.algolia.instantsearch.helper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.widget.ListView;
+import android.view.View;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helper.databinding.Result;
@@ -12,7 +14,7 @@ import com.algolia.search.saas.AlgoliaException;
 
 import java.util.Collection;
 
-public class Hits extends ListView {
+public class Hits extends RecyclerView {
 
     private final Integer hitsPerPage;
     private final String[] attributesToRetrieve;
@@ -21,6 +23,8 @@ public class Hits extends ListView {
     private final int itemLayout;
 
     private ResultsAdapter adapter;
+    private LayoutManager layoutManager;
+    private View emptyView;
 
     public Hits(Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
@@ -44,8 +48,11 @@ public class Hits extends ListView {
         } finally {
             styledAttributes.recycle();
         }
-        adapter = new ResultsAdapter(getContext(), itemLayout);
+        adapter = new ResultsAdapter();
         setAdapter(adapter);
+
+        layoutManager = new LinearLayoutManager(context);
+        setLayoutManager(layoutManager);
     }
 
     public void clear() {
