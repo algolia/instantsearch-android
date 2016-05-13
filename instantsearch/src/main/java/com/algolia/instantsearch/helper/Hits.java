@@ -19,7 +19,6 @@ public class Hits extends RecyclerView {
     private final Integer hitsPerPage;
     private final String[] attributesToRetrieve;
     private final String[] attributesToHighlight;
-    private final int itemLayout;
 
     private ResultsAdapter adapter;
     private LayoutManager layoutManager;
@@ -32,18 +31,6 @@ public class Hits extends RecyclerView {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, AlgoliaHelper.DEFAULT_HITS_PER_PAGE);
             attributesToRetrieve = getAttributes(styledAttributes, R.styleable.Hits_attributesToRetrieve);
             attributesToHighlight = getAttributes(styledAttributes, R.styleable.Hits_attributesToHighlight);
-            String layoutIdStr = styledAttributes.getString(R.styleable.Hits_itemLayout);
-            if (layoutIdStr == null) {
-                layoutIdStr = "";
-            } else {
-                layoutIdStr = layoutIdStr.replace("android.", "").replace("R.layout.", "");
-            }
-            itemLayout = getResources().getIdentifier(layoutIdStr, "layout", context.getPackageName());
-            if (itemLayout == 0) {
-                throw new RuntimeException(layoutIdStr + " is not a valid layout identifier.");
-            }
-
-
         } finally {
             styledAttributes.recycle();
         }

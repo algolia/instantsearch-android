@@ -6,7 +6,6 @@
     </declare-styleable>
     <declare-styleable name="Hits">
         <attr name="hitsPerPage" format="integer"/>
-        <attr name="searchBoxId" format="string"/>
         <attr name="attributesToRetrieve" format="string"/>
         <attr name="attributesToHighlight" format="string"/>
         <attr name="attributeToDisplay" format="string"/>

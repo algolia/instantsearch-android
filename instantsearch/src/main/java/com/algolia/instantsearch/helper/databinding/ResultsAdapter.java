@@ -34,7 +34,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         ViewDataBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
-                R.layout.item_default, parent, false);
+                R.layout.hits_item, parent, false);
         this.parent = parent;
         return new ViewHolder(binding.getRoot());
     }
