@@ -3,26 +3,34 @@ package com.algolia.instantsearch.helper;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.databinding.BindingAdapter;
 import android.util.Log;
 import android.view.View;
 
+import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.helper.databinding.Result;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.CompletionHandler;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
-import com.algolia.instantsearch.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class AlgoliaHelper {
-    static final int DEFAULT_HITS_PER_PAGE = 20;
+    public static final int DEFAULT_HITS_PER_PAGE = 20;
     public static final String DEFAULT_ATTRIBUTES = "objectID";
 
+    private static HashMap<Integer, String> attributesMap = new HashMap<>();
+    private static Context context;
     private final Index index;
     private final Client client;
     private final Query query;
@@ -37,6 +45,24 @@ public class AlgoliaHelper {
         processActivity(activity);
     }
 
+    public static Collection<String> getAttributes() {
+        return attributesMap.values();
+    }
+
+    public static Set<Map.Entry<Integer, String>> getEntrySet() {
+        return attributesMap.entrySet();
+    }
+
+    @SuppressWarnings("unused") // called via Data Binding
+    @BindingAdapter({"attribute"})
+    public static void bindAttribute(View view, String attributeName) {
+        final int id = view.getId();
+        final String entryName = context.getResources().getResourceEntryName(id);
+        String existingAttribute = attributesMap.get(id);
+        if (existingAttribute == null) {
+            attributesMap.put(id, attributeName);
+        }
+    }
 
     public void search(final String queryString, final CompletionHandler listener) {
         query.setQuery(queryString);
@@ -54,12 +80,12 @@ public class AlgoliaHelper {
         });
     }
 
-    public List<String> parseResults(final JSONObject jsonObject) {
+    public List<Result> parseResults(final JSONObject jsonObject) {
         if (jsonObject == null) {
             return null;
         }
 
-        List<String> results = new ArrayList<>();
+        List<Result> results = new ArrayList<>();
         JSONArray resultHits = jsonObject.optJSONArray("hits");
         if (resultHits == null) {
             return null;
@@ -70,22 +96,26 @@ public class AlgoliaHelper {
             if (hit == null) {
                 continue;
             }
+            Result result = new Result();
 
             JSONObject highlightResult = hit.optJSONObject("_highlightResult");
             if (highlightResult == null) {
                 continue;
             }
-            String attribute = hit.optString(hits.getAttributeToDisplay());
-            if (attribute == null) {
-                continue;
+            for (String boundAttribute : AlgoliaHelper.getAttributes()) {
+                String resultAttribute = hit.optString(boundAttribute);
+                if (resultAttribute == null) {
+                    continue;
+                }
+                result.set(boundAttribute, resultAttribute);
             }
-
-            results.add(attribute);
+            results.add(result);
         }
         return results;
     }
 
-    private void processActivity(Activity activity) {
+    private void processActivity(final Activity activity) {
+        context = activity;
         View rootView = activity.getWindow().getDecorView().getRootView();
         searchBox = (SearchBox) rootView.findViewById(R.id.searchBox);
         if (searchBox == null) {
@@ -101,9 +131,11 @@ public class AlgoliaHelper {
         query.setAttributesToRetrieve(hits.getAttributesToRetrieve());
         query.setAttributesToHighlight(hits.getAttributesToHighlight());
 
+        // Link searchBox to the Activity's SearchableInfo
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchBox.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
 
+        // Link hits to activity's empty view
         View emptyView = rootView.findViewById(android.R.id.empty);
         if (emptyView == null) {
             throw new RuntimeException(activity.getString(R.string.error_missing_empty));

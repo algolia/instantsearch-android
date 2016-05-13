@@ -19,7 +19,6 @@ public class Hits extends RecyclerView {
     private final Integer hitsPerPage;
     private final String[] attributesToRetrieve;
     private final String[] attributesToHighlight;
-    private final String attributeToDisplay;
     private final int itemLayout;
 
     private ResultsAdapter adapter;
@@ -33,7 +32,6 @@ public class Hits extends RecyclerView {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, AlgoliaHelper.DEFAULT_HITS_PER_PAGE);
             attributesToRetrieve = getAttributes(styledAttributes, R.styleable.Hits_attributesToRetrieve);
             attributesToHighlight = getAttributes(styledAttributes, R.styleable.Hits_attributesToHighlight);
-            attributeToDisplay = styledAttributes.getString(R.styleable.Hits_attributeToDisplay);
             String layoutIdStr = styledAttributes.getString(R.styleable.Hits_itemLayout);
             if (layoutIdStr == null) {
                 layoutIdStr = "";
@@ -44,6 +42,7 @@ public class Hits extends RecyclerView {
             if (itemLayout == 0) {
                 throw new RuntimeException(layoutIdStr + " is not a valid layout identifier.");
             }
+
 
         } finally {
             styledAttributes.recycle();
@@ -67,14 +66,14 @@ public class Hits extends RecyclerView {
         adapter.notifyDataSetChanged();
     }
 
-    public void add(Collection<String> results) {
-        for (String res: results) {
-            adapter.add(new Result(res));
+    public void add(Collection<Result> results) {
+        for (Result res : results) {
+            adapter.add(res);
         }
         adapter.notifyDataSetChanged();
     }
 
-    public void replace(Collection<String> values, boolean scrollToTop) {
+    public void replace(Collection<Result> values, boolean scrollToTop) {
         adapter.clear();
         add(values);
         if (scrollToTop) {
@@ -82,16 +81,22 @@ public class Hits extends RecyclerView {
         }
     }
 
-    public void replace(Collection<String> values) {
+    public void replace(Collection<Result> values) {
         replace(values, true);
     }
 
     private String[] getAttributes(TypedArray styledAttributes, int attributeResourceId) {
-        String attributesToRetrieveStr = styledAttributes.getString(attributeResourceId);
-        if (attributesToRetrieveStr == null) {
-            attributesToRetrieveStr = AlgoliaHelper.DEFAULT_ATTRIBUTES;
+        String attributeString = styledAttributes.getString(attributeResourceId);
+        if (attributeString == null) {
+            attributeString = AlgoliaHelper.DEFAULT_ATTRIBUTES;
         }
-        return attributesToRetrieveStr.split(",");
+        final String[] splitAttributes = attributeString.split(",");
+        final String[] cleanAttributes = new String[splitAttributes.length];
+
+        for (int i = 0; i < splitAttributes.length; i++) {
+            cleanAttributes[i] = splitAttributes[i].trim();
+        }
+        return cleanAttributes;
     }
 
     public Integer getHitsPerPage() {
@@ -104,10 +109,6 @@ public class Hits extends RecyclerView {
 
     public String[] getAttributesToHighlight() {
         return attributesToHighlight;
-    }
-
-    public String getAttributeToDisplay() {
-        return attributeToDisplay;
     }
 
     public void setEmptyView(View emptyView) {
