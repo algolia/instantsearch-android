@@ -19,6 +19,7 @@ public class Hits extends RecyclerView {
     private final Integer hitsPerPage;
     private final String[] attributesToRetrieve;
     private final String[] attributesToHighlight;
+    private final String layoutName;
 
     private ResultsAdapter adapter;
     private LayoutManager layoutManager;
@@ -31,6 +32,7 @@ public class Hits extends RecyclerView {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, AlgoliaHelper.DEFAULT_HITS_PER_PAGE);
             attributesToRetrieve = getAttributes(styledAttributes, R.styleable.Hits_attributesToRetrieve);
             attributesToHighlight = getAttributes(styledAttributes, R.styleable.Hits_attributesToHighlight);
+            layoutName = styledAttributes.getString(R.styleable.Hits_itemLayout);
         } finally {
             styledAttributes.recycle();
         }
@@ -108,5 +110,9 @@ public class Hits extends RecyclerView {
         } else {
             emptyView.setVisibility(View.GONE);
         }
+    }
+
+    public String getLayoutName() {
+        return layoutName;
     }
 }

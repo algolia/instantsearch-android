@@ -31,6 +31,8 @@ public class AlgoliaHelper {
 
     private static HashMap<Integer, String> attributesMap = new HashMap<>();
     private static Context context;
+    private static int itemLayoutId;
+
     private final Index index;
     private final Client client;
     private final Query query;
@@ -62,6 +64,10 @@ public class AlgoliaHelper {
         if (existingAttribute == null) {
             attributesMap.put(id, attributeName);
         }
+    }
+
+    public static int getItemLayoutId() {
+        return itemLayoutId;
     }
 
     public void search(final String queryString, final CompletionHandler listener) {
@@ -141,5 +147,6 @@ public class AlgoliaHelper {
             throw new RuntimeException(activity.getString(R.string.error_missing_empty));
         }
         hits.setEmptyView(emptyView);
+        itemLayoutId = context.getResources().getIdentifier(hits.layoutName, "layout", context.getPackageName());
     }
 }

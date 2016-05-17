@@ -9,5 +9,6 @@
         <attr name="attributesToRetrieve" format="string"/>
         <attr name="attributesToHighlight" format="string"/>
         <attr name="attributeToDisplay" format="string"/>
+        <attr name="itemLayout" format="string"/>
     </declare-styleable>
 </resources>

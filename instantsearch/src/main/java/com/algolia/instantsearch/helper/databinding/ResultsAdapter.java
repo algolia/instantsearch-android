@@ -3,13 +3,13 @@ package com.algolia.instantsearch.helper.databinding;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helper.AlgoliaHelper;
 
 import java.util.ArrayList;
@@ -33,8 +33,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         ViewDataBinding binding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.getContext()),
-                R.layout.hits_item, parent, false);
+                LayoutInflater.from(parent.getContext()), AlgoliaHelper.getItemLayoutId(), parent, false);
         this.parent = parent;
         return new ViewHolder(binding.getRoot());
     }
