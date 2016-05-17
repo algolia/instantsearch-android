@@ -1,4 +1,5 @@
 <resources>
     <item name="hits" type="id"/>
     <item name="searchBox" type="id"/>
+    <item name="empty" type="id"/>
 </resources>

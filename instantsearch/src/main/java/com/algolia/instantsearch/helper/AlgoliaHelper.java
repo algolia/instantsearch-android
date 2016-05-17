@@ -142,7 +142,7 @@ public class AlgoliaHelper {
         searchBox.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
 
         // Link hits to activity's empty view
-        View emptyView = rootView.findViewById(android.R.id.empty);
+        View emptyView = rootView.findViewById(R.id.empty);
         if (emptyView == null) {
             throw new RuntimeException(activity.getString(R.string.error_missing_empty));
         }
