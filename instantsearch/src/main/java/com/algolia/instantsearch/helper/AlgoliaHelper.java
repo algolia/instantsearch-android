@@ -133,9 +133,9 @@ public class AlgoliaHelper {
             throw new RuntimeException(activity.getString(R.string.error_missing_hits));
         }
 
-        query.setHitsPerPage(hits.getHitsPerPage());
-        query.setAttributesToRetrieve(hits.getAttributesToRetrieve());
-        query.setAttributesToHighlight(hits.getAttributesToHighlight());
+        query.setHitsPerPage(hits.hitsPerPage);
+        query.setAttributesToRetrieve(hits.attributesToRetrieve);
+        query.setAttributesToHighlight(hits.attributesToHighlight);
 
         // Link searchBox to the Activity's SearchableInfo
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);

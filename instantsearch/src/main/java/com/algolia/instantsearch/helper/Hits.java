@@ -16,10 +16,10 @@ import java.util.Collection;
 
 public class Hits extends RecyclerView {
 
-    private final Integer hitsPerPage;
-    private final String[] attributesToRetrieve;
-    private final String[] attributesToHighlight;
-    private final String layoutName;
+    final Integer hitsPerPage;
+    final String[] attributesToRetrieve;
+    final String[] attributesToHighlight;
+    final String layoutName;
 
     private ResultsAdapter adapter;
     private LayoutManager layoutManager;
@@ -88,18 +88,6 @@ public class Hits extends RecyclerView {
         return cleanAttributes;
     }
 
-    public Integer getHitsPerPage() {
-        return hitsPerPage;
-    }
-
-    public String[] getAttributesToRetrieve() {
-        return attributesToRetrieve;
-    }
-
-    public String[] getAttributesToHighlight() {
-        return attributesToHighlight;
-    }
-
     public void setEmptyView(View emptyView) {
         this.emptyView = emptyView;
     }
@@ -110,9 +98,5 @@ public class Hits extends RecyclerView {
         } else {
             emptyView.setVisibility(View.GONE);
         }
-    }
-
-    public String getLayoutName() {
-        return layoutName;
     }
 }
