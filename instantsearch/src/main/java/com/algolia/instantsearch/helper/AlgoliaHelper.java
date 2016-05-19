@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helper.databinding.Result;
+import com.algolia.instantsearch.ui.Highlight;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.CompletionHandler;
@@ -104,16 +105,23 @@ public class AlgoliaHelper {
             }
             Result result = new Result();
 
-            JSONObject highlightResult = hit.optJSONObject("_highlightResult");
-            if (highlightResult == null) {
-                continue;
-            }
-            for (String boundAttribute : AlgoliaHelper.getAttributes()) {
-                String resultAttribute = hit.optString(boundAttribute);
-                if (resultAttribute == null) {
+            for (String attributeName : AlgoliaHelper.getAttributes()) {
+                String attributeValue = hit.optString(attributeName);
+                if (attributeValue == null) {
                     continue;
                 }
-                result.set(boundAttribute, resultAttribute);
+                result.set(attributeName, attributeValue);
+
+                final JSONObject highlightResult = hit.optJSONObject("_highlightResult");
+                if (highlightResult != null) {
+                    JSONObject highlightAttribute = highlightResult.optJSONObject(attributeName);
+                    if (highlightAttribute != null) {
+                        String value = highlightAttribute.optString("value");
+                        if (value != null) {
+                            result.addHighlight(new Highlight(attributeName, value));
+                        }
+                    }
+                }
             }
             results.add(result);
         }

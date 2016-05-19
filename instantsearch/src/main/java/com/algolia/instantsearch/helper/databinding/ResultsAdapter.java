@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.algolia.instantsearch.ImageLoadTask;
 import com.algolia.instantsearch.helper.AlgoliaHelper;
+import com.algolia.instantsearch.ui.Highlight;
+import com.algolia.instantsearch.ui.HighlightRenderer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +25,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
     private ViewGroup parent;
 
     private List<Result> results = new ArrayList<>();
+    private HighlightRenderer highlightRenderer;
 
     public ResultsAdapter() {
         this(new ArrayList<Result>());
@@ -37,6 +40,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
         ViewDataBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()), AlgoliaHelper.getItemLayoutId(), parent, false);
         this.parent = parent;
+        this.highlightRenderer = new HighlightRenderer(parent.getContext());
         return new ViewHolder(binding.getRoot());
     }
 
@@ -46,7 +50,8 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
         for (Map.Entry<String, View> entry : holder.viewMap.entrySet()) {
             final View view = entry.getValue();
             final String attributeName = entry.getKey();
-            final String attributeValue = results.get(position).get(attributeName);
+            final Result result = results.get(position);
+            final String attributeValue = result.get(attributeName);
             final String viewName = parent.getResources().getResourceEntryName(view.getId());
 
             if (view instanceof EditText) {
@@ -54,7 +59,12 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
             } else if (view instanceof TextView) {
                 final TextView textView = (TextView) view;
                 final CharSequence old = textView.getText();
-                textView.setText(attributeValue);
+                final Highlight highlight = result.getHighlight(attributeName);
+                if (highlight != null) {
+                    textView.setText(highlightRenderer.renderHighlights(highlight.getHighlightedValue()));
+                } else {
+                    textView.setText(result.get(attributeName));
+                }
             } else if (view instanceof ImageView) {
                 final ImageView imageView = (ImageView) view;
                 new ImageLoadTask(imageView).execute(attributeValue);

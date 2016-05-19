@@ -1,18 +1,34 @@
 package com.algolia.instantsearch.helper.databinding;
 
+import com.algolia.instantsearch.ui.Highlight;
+
 import java.util.HashMap;
+import java.util.Map;
 
 public class Result {
-    private HashMap<String, String> attributesMap;
+    private Map<String, String> attributes;
+    private Map<String, Highlight> highlights;
+
     public Result() {
-        attributesMap = new HashMap<>();
+        attributes = new HashMap<>();
+        highlights = new HashMap<>();
     }
 
     public void set(String key, String value) {
-        attributesMap.put(key, value);
+        attributes.put(key, value);
     }
 
     public String get(String key) {
-        return attributesMap.get(key);
+        return attributes.get(key);
     }
+
+
+    public Highlight getHighlight(String attributeName) {
+        return highlights.get(attributeName);
+    }
+
+    public void addHighlight(Highlight highlight) {
+        highlights.put(highlight.getAttributeName(), highlight);
+    }
+
 }
