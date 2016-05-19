@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.algolia.instantsearch.ImageLoadTask;
 import com.algolia.instantsearch.helper.AlgoliaHelper;
 
 import java.util.ArrayList;
@@ -53,6 +55,9 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
                 final TextView textView = (TextView) view;
                 final CharSequence old = textView.getText();
                 textView.setText(attributeValue);
+            } else if (view instanceof ImageView) {
+                final ImageView imageView = (ImageView) view;
+                new ImageLoadTask(imageView).execute(attributeValue);
             } else {
                 throw new RuntimeException("I was not told how to handle " + view.getClass().getCanonicalName() + "s.");
             }
