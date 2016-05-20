@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper;
+package com.algolia.instantsearch.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;

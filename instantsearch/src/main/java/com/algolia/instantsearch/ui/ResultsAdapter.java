@@ -1,9 +1,8 @@
-package com.algolia.instantsearch.helper.databinding;
+package com.algolia.instantsearch.ui;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.ImageLoadTask;
-import com.algolia.instantsearch.helper.AlgoliaHelper;
-import com.algolia.instantsearch.ui.Highlight;
-import com.algolia.instantsearch.ui.HighlightRenderer;
+import com.algolia.instantsearch.model.Highlight;
+import com.algolia.instantsearch.model.Result;
 
 import java.util.ArrayList;
 import java.util.HashMap;

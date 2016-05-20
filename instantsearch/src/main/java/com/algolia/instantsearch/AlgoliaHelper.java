@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper;
+package com.algolia.instantsearch;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -7,9 +7,10 @@ import android.databinding.BindingAdapter;
 import android.util.Log;
 import android.view.View;
 
-import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.helper.databinding.Result;
-import com.algolia.instantsearch.ui.Highlight;
+import com.algolia.instantsearch.model.Result;
+import com.algolia.instantsearch.model.Highlight;
+import com.algolia.instantsearch.views.Hits;
+import com.algolia.instantsearch.views.SearchBox;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.CompletionHandler;
@@ -79,7 +80,7 @@ public class AlgoliaHelper {
                 if (error == null) {
                     Log.d("PLN|search.searchResult", String.format("Index %s with query %s succeeded: %s.", index.getIndexName(), queryString, content));
                 } else {
-                    Log.d("PLN|search.searchError", String.format("Index %s with query %s failed: %s(%s).", index.getIndexName(), queryString, error.getCause(), error.getMessage()));
+                    Log.e("PLN|search.searchError", String.format("Index %s with query %s failed: %s(%s).", index.getIndexName(), queryString, error.getCause(), error.getMessage()));
 
                 }
                 listener.requestCompleted(content, error);
@@ -141,9 +142,9 @@ public class AlgoliaHelper {
             throw new RuntimeException(activity.getString(R.string.error_missing_hits));
         }
 
-        query.setHitsPerPage(hits.hitsPerPage);
-        query.setAttributesToRetrieve(hits.attributesToRetrieve);
-        query.setAttributesToHighlight(hits.attributesToHighlight);
+        query.setHitsPerPage(hits.getHitsPerPage());
+        query.setAttributesToRetrieve(hits.getAttributesToRetrieve());
+        query.setAttributesToHighlight(hits.getAttributesToHighlight());
 
         // Link searchBox to the Activity's SearchableInfo
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
@@ -155,6 +156,6 @@ public class AlgoliaHelper {
             throw new RuntimeException(activity.getString(R.string.error_missing_empty));
         }
         hits.setEmptyView(emptyView);
-        itemLayoutId = context.getResources().getIdentifier(hits.layoutName, "layout", context.getPackageName());
+        itemLayoutId = context.getResources().getIdentifier(hits.getLayoutName(), "layout", context.getPackageName());
     }
 }

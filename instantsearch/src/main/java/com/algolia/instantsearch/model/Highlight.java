@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-package com.algolia.instantsearch.ui;
+package com.algolia.instantsearch.model;
 
 /**
  * The highlighted value of an attribute.

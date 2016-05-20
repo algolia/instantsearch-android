@@ -1,6 +1,6 @@
-package com.algolia.instantsearch.helper.databinding;
+package com.algolia.instantsearch.model;
 
-import com.algolia.instantsearch.ui.Highlight;
+import com.algolia.instantsearch.model.Highlight;
 
 import java.util.HashMap;
 import java.util.Map;

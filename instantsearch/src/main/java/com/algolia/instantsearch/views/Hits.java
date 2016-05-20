@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper;
+package com.algolia.instantsearch.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,9 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.helper.databinding.Result;
-import com.algolia.instantsearch.helper.databinding.ResultsAdapter;
+import com.algolia.instantsearch.model.Result;
+import com.algolia.instantsearch.ui.ResultsAdapter;
 import com.algolia.search.saas.AlgoliaException;
 
 import java.util.Collection;
@@ -98,5 +99,20 @@ public class Hits extends RecyclerView {
         } else {
             emptyView.setVisibility(View.GONE);
         }
+    }
+    public Integer getHitsPerPage() {
+        return hitsPerPage;
+    }
+
+    public String[] getAttributesToRetrieve() {
+        return attributesToRetrieve;
+    }
+
+    public String[] getAttributesToHighlight() {
+        return attributesToHighlight;
+    }
+
+    public String getLayoutName() {
+        return layoutName;
     }
 }
