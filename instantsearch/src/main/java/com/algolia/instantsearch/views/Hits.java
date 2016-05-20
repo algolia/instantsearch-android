@@ -17,10 +17,10 @@ import java.util.Collection;
 
 public class Hits extends RecyclerView {
 
-    final Integer hitsPerPage;
-    final String[] attributesToRetrieve;
-    final String[] attributesToHighlight;
-    final String layoutName;
+    private final Integer hitsPerPage;
+    private final String[] attributesToRetrieve;
+    private final String[] attributesToHighlight;
+    private final String layoutName;
 
     private ResultsAdapter adapter;
     private LayoutManager layoutManager;

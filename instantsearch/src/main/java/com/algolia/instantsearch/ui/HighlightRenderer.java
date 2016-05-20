@@ -38,11 +38,11 @@ import java.util.regex.Pattern;
 /**
  * Renders HTML-like attributed strings into `Spannable` instances suitable for display.
  */
-public class HighlightRenderer {
+class HighlightRenderer {
     // NOTE: This pattern is not bullet-proof (most notably against nested tags), but it is
     // sufficient for our purposes.
-    static final Pattern HIGHLIGHT_PATTERN = Pattern.compile("<em>([^<]*)</em>");
-    private Context context;
+    private static final Pattern HIGHLIGHT_PATTERN = Pattern.compile("<em>([^<]*)</em>");
+    private final Context context;
 
     public HighlightRenderer(Context context) {
         this.context = context;
@@ -66,7 +66,7 @@ public class HighlightRenderer {
             final BackgroundColorSpan span;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 span = new BackgroundColorSpan(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
-            } else {
+            } else { //noinspection deprecation
                 span = new BackgroundColorSpan(context.getResources().getColor(R.color.colorAccent));
             }
             result.setSpan(span, posOut, posOut + highlightString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

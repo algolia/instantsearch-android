@@ -1,7 +1,5 @@
 package com.algolia.instantsearch.model;
 
-import com.algolia.instantsearch.model.Highlight;
-
 import java.util.HashMap;
 import java.util.Map;
 

@@ -10,7 +10,7 @@ import java.net.URL;
 
 public class ImageLoadTask extends AsyncTask<String, Void, Bitmap>{
     private final ImageView view;
-    Bitmap bitmap;
+    private Bitmap bitmap;
 
     public ImageLoadTask(ImageView imageView) {
         view = imageView;

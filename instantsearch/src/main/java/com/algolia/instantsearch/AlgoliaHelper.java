@@ -7,8 +7,8 @@ import android.databinding.BindingAdapter;
 import android.util.Log;
 import android.view.View;
 
-import com.algolia.instantsearch.model.Result;
 import com.algolia.instantsearch.model.Highlight;
+import com.algolia.instantsearch.model.Result;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.SearchBox;
 import com.algolia.search.saas.AlgoliaException;
@@ -21,7 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +30,7 @@ public class AlgoliaHelper {
     public static final int DEFAULT_HITS_PER_PAGE = 20;
     public static final String DEFAULT_ATTRIBUTES = "objectID";
 
-    private static HashMap<Integer, String> attributesMap = new HashMap<>();
-    private static Context context;
+    private static final Map<Integer, String> attributes = new HashMap<>();
     private static int itemLayoutId;
 
     private final Index index;
@@ -49,22 +47,17 @@ public class AlgoliaHelper {
         processActivity(activity);
     }
 
-    public static Collection<String> getAttributes() {
-        return attributesMap.values();
-    }
-
     public static Set<Map.Entry<Integer, String>> getEntrySet() {
-        return attributesMap.entrySet();
+        return attributes.entrySet();
     }
 
     @SuppressWarnings("unused") // called via Data Binding
     @BindingAdapter({"attribute"})
     public static void bindAttribute(View view, String attributeName) {
         final int id = view.getId();
-        final String entryName = context.getResources().getResourceEntryName(id);
-        String existingAttribute = attributesMap.get(id);
+        String existingAttribute = attributes.get(id);
         if (existingAttribute == null) {
-            attributesMap.put(id, attributeName);
+            attributes.put(id, attributeName);
         }
     }
 
@@ -106,7 +99,7 @@ public class AlgoliaHelper {
             }
             Result result = new Result();
 
-            for (String attributeName : AlgoliaHelper.getAttributes()) {
+            for (String attributeName : attributes.values()) {
                 String attributeValue = hit.optString(attributeName);
                 if (attributeValue == null) {
                     continue;
@@ -130,7 +123,6 @@ public class AlgoliaHelper {
     }
 
     private void processActivity(final Activity activity) {
-        context = activity;
         View rootView = activity.getWindow().getDecorView().getRootView();
         searchBox = (SearchBox) rootView.findViewById(R.id.searchBox);
         if (searchBox == null) {
@@ -156,6 +148,6 @@ public class AlgoliaHelper {
             throw new RuntimeException(activity.getString(R.string.error_missing_empty));
         }
         hits.setEmptyView(emptyView);
-        itemLayoutId = context.getResources().getIdentifier(hits.getLayoutName(), "layout", context.getPackageName());
+        itemLayoutId = activity.getResources().getIdentifier(hits.getLayoutName(), "layout", activity.getPackageName());
     }
 }

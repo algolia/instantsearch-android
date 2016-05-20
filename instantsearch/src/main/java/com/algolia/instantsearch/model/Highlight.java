@@ -27,8 +27,8 @@ package com.algolia.instantsearch.model;
  * The highlighted value of an attribute.
  */
 public class Highlight {
-    private String attributeName;
-    private String highlightedValue;
+    private final String attributeName;
+    private final String highlightedValue;
 
     public Highlight(String attributeName, String highlightedValue) {
         this.attributeName = attributeName;

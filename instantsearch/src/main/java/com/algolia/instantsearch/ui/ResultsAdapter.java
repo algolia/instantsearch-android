@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
-    private ViewGroup parent;
 
     private List<Result> results = new ArrayList<>();
     private HighlightRenderer highlightRenderer;
@@ -38,7 +37,6 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         ViewDataBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()), AlgoliaHelper.getItemLayoutId(), parent, false);
-        this.parent = parent;
         this.highlightRenderer = new HighlightRenderer(parent.getContext());
         return new ViewHolder(binding.getRoot());
     }
@@ -51,13 +49,11 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
             final String attributeName = entry.getKey();
             final Result result = results.get(position);
             final String attributeValue = result.get(attributeName);
-            final String viewName = parent.getResources().getResourceEntryName(view.getId());
 
             if (view instanceof EditText) {
                 ((EditText) view).setHint(attributeValue);
             } else if (view instanceof TextView) {
                 final TextView textView = (TextView) view;
-                final CharSequence old = textView.getText();
                 final Highlight highlight = result.getHighlight(attributeName);
                 if (highlight != null) {
                     textView.setText(highlightRenderer.renderHighlights(highlight.getHighlightedValue()));
@@ -87,7 +83,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        HashMap<String, View> viewMap = new HashMap<>();
+        final Map<String, View> viewMap = new HashMap<>();
 
         public ViewHolder(View itemView) {
             super(itemView);
