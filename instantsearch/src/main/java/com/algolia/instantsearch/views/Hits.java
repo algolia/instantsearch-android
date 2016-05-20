@@ -57,10 +57,11 @@ public class Hits extends RecyclerView {
     }
 
     public void add(Collection<Result> results) {
+        int currentCount = adapter.getItemCount();
         for (Result res : results) {
             adapter.add(res);
         }
-        adapter.notifyDataSetChanged();
+        adapter.notifyItemRangeInserted(currentCount, results.size());
     }
 
     public void replace(Collection<Result> values, boolean scrollToTop) {
