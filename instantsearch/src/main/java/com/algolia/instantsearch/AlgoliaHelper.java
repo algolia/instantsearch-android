@@ -28,6 +28,7 @@ import java.util.Set;
 
 public class AlgoliaHelper {
     public static final int DEFAULT_HITS_PER_PAGE = 20;
+    public static final int DEFAULT_VISIBLE_THRESHOLD = 5;
     public static final String DEFAULT_ATTRIBUTES = "objectID";
 
     private static final Map<Integer, String> attributes = new HashMap<>();
@@ -39,6 +40,12 @@ public class AlgoliaHelper {
     private SearchBox searchBox;
     private Hits hits;
 
+    private int lastSearchSeqNumber; // Identifier of last fired query
+    private int lastDisplayedSeqNumber; // Identifier of last displayed query
+    private int lastRequestedPage;
+    private int lastDisplayedPage;
+    private boolean endReached;
+
     public AlgoliaHelper(Activity activity, final String applicationId, final String apiKey, final String indexName) {
         client = new Client(applicationId, apiKey);
         index = client.initIndex(indexName);
@@ -46,6 +53,7 @@ public class AlgoliaHelper {
 
         processActivity(activity);
     }
+
 
     public static Set<Map.Entry<Integer, String>> getEntrySet() {
         return attributes.entrySet();
@@ -66,17 +74,69 @@ public class AlgoliaHelper {
     }
 
     public void search(final String queryString, final CompletionHandler listener) {
+        endReached = false;
+        lastRequestedPage = 0;
+        lastDisplayedPage = -1;
+        final int currentSearchSeqNumber = ++lastSearchSeqNumber;
+
         query.setQuery(queryString);
         index.searchAsync(query, new CompletionHandler() {
             @Override
             public void requestCompleted(JSONObject content, AlgoliaException error) {
+                // NOTE: Check that the received results are newer that the last displayed results.
+                //
+                // Rationale: Although TCP imposes a server to send responses in the same order as
+                // requests, nothing prevents the system from opening multiple connections to the
+                // same server, nor the Algolia client to transparently switch to another server
+                // between two requests. Therefore the order of responses is not guaranteed.
+                if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
+                    return;
+                }
+
+
                 if (error == null) {
                     Log.d("PLN|search.searchResult", String.format("Index %s with query %s succeeded: %s.", index.getIndexName(), queryString, content));
                 } else {
                     Log.e("PLN|search.searchError", String.format("Index %s with query %s failed: %s(%s).", index.getIndexName(), queryString, error.getCause(), error.getMessage()));
-
                 }
+
+                //TODO: Avoid useless parse -> refactor listener with Results instead of JSONO?
+                final List<Result> results = parseResults(content);
+                if (results == null || results.isEmpty()) {
+                    endReached = true;
+                }
+
+                lastDisplayedSeqNumber = currentSearchSeqNumber;
+                lastDisplayedPage = 0;
+
                 listener.requestCompleted(content, error);
+            }
+        });
+    }
+
+
+    public void loadMore() {
+        Query loadMoreQuery = new Query(query);
+        loadMoreQuery.setPage(++lastRequestedPage);
+        final int currentSearchSeqNumber = ++lastSearchSeqNumber;
+        index.searchAsync(loadMoreQuery, new CompletionHandler() {
+            @Override
+            public void requestCompleted(JSONObject content, AlgoliaException error) {
+                if (error != null) {
+                    throw new RuntimeException("Error while loading more data", error);
+                } else {
+                    if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
+                        return; // Results are for an older query, let's ignore them
+                    }
+
+                    List<Result> results = parseResults(content);
+                    if (results.isEmpty()) {
+                        endReached = true;
+                    } else {
+                        hits.add(results);
+                        lastDisplayedPage = lastRequestedPage;
+                    }
+                }
             }
         });
     }
@@ -133,6 +193,7 @@ public class AlgoliaHelper {
         if (hits == null) {
             throw new RuntimeException(activity.getString(R.string.error_missing_hits));
         }
+        hits.setHelper(this);
 
         query.setHitsPerPage(hits.getHitsPerPage());
         query.setAttributesToRetrieve(hits.getAttributesToRetrieve());
@@ -149,5 +210,9 @@ public class AlgoliaHelper {
         }
         hits.setEmptyView(emptyView);
         itemLayoutId = activity.getResources().getIdentifier(hits.getLayoutName(), "layout", activity.getPackageName());
+    }
+
+    public boolean didReachEnd() {
+        return endReached;
     }
 }
