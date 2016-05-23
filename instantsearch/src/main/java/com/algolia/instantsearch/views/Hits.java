@@ -45,6 +45,8 @@ public class Hits extends RecyclerView {
             styledAttributes.recycle();
         }
 
+        this.setHasFixedSize(true); // Enables optimisations as the view's width & height are fixed
+
         adapter = new ResultsAdapter();
         adapter.registerAdapterDataObserver(new AdapterDataObserver() {
             @Override
