@@ -6,7 +6,7 @@
     </declare-styleable>
     <declare-styleable name="Hits">
         <attr name="hitsPerPage" format="integer"/>
-        <attr name="visibleTreshold" format="integer"/>
+        <attr name="remainingItemsBeforeLoading" format="integer"/>
         <attr name="attributesToRetrieve" format="string"/>
         <attr name="attributesToHighlight" format="string"/>
         <attr name="attributeToDisplay" format="string"/>

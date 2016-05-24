@@ -19,7 +19,7 @@ import java.util.Collection;
 public class Hits extends RecyclerView {
 
     private final Integer hitsPerPage;
-    private final int visibleThreshold; // Minimum number of remaining items before loading more
+    private final int remainingItemsBeforeLoading; // Minimum number of remaining items before loading more
 
     private final String[] attributesToRetrieve;
     private final String[] attributesToHighlight;
@@ -36,7 +36,7 @@ public class Hits extends RecyclerView {
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Hits, 0, 0);
         try {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, AlgoliaHelper.DEFAULT_HITS_PER_PAGE);
-            visibleThreshold = styledAttributes.getInt(R.styleable.Hits_visibleTreshold, AlgoliaHelper.DEFAULT_VISIBLE_THRESHOLD);
+            remainingItemsBeforeLoading = styledAttributes.getInt(R.styleable.Hits_remainingItemsBeforeLoading, AlgoliaHelper.DEFAULT_REMAINING_ITEMS);
 
             attributesToRetrieve = getAttributes(styledAttributes, R.styleable.Hits_attributesToRetrieve);
             attributesToHighlight = getAttributes(styledAttributes, R.styleable.Hits_attributesToHighlight);
@@ -151,6 +151,7 @@ public class Hits extends RecyclerView {
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
             int totalItemCount = layoutManager.getItemCount();
             if (totalItemCount < lastItemCount) {
                 // we have less elements than before, the count should be reset
@@ -171,7 +172,7 @@ public class Hits extends RecyclerView {
             } else {
                 int lastVisiblePosition = getLastVisibleItemPosition();
 
-                if ((lastVisiblePosition + visibleThreshold > totalItemCount)) {
+                if ((lastVisiblePosition + remainingItemsBeforeLoading > totalItemCount)) {
                     // we are under the loading threshold, let's load more data
                     helper.loadMore();
                     currentlyLoading = true;

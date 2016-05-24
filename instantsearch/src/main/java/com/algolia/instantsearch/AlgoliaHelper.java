@@ -28,7 +28,7 @@ import java.util.Set;
 
 public class AlgoliaHelper {
     public static final int DEFAULT_HITS_PER_PAGE = 20;
-    public static final int DEFAULT_VISIBLE_THRESHOLD = 5;
+    public static final int DEFAULT_REMAINING_ITEMS = 5;
     public static final String DEFAULT_ATTRIBUTES = "objectID";
 
     private static final Map<Integer, String> attributes = new HashMap<>();
