@@ -37,10 +37,9 @@ public class Hits extends RecyclerView {
         try {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, AlgoliaHelper.DEFAULT_HITS_PER_PAGE);
             remainingItemsBeforeLoading = styledAttributes.getInt(R.styleable.Hits_remainingItemsBeforeLoading, AlgoliaHelper.DEFAULT_REMAINING_ITEMS);
-
+            layoutName = styledAttributes.getString(R.styleable.Hits_itemLayout);
             attributesToRetrieve = getAttributes(styledAttributes, R.styleable.Hits_attributesToRetrieve);
             attributesToHighlight = getAttributes(styledAttributes, R.styleable.Hits_attributesToHighlight);
-            layoutName = styledAttributes.getString(R.styleable.Hits_itemLayout);
         } finally {
             styledAttributes.recycle();
         }
@@ -183,6 +182,7 @@ public class Hits extends RecyclerView {
 
         /**
          * Calculates the position of last visible item, notwithstanding the LayoutManager's class
+         *
          * @return the last visible item's position in the list
          */
         private int getLastVisibleItemPosition() {

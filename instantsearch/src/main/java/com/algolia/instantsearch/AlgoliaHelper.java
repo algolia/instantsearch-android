@@ -7,7 +7,6 @@ import android.databinding.BindingAdapter;
 import android.util.Log;
 import android.view.View;
 
-import com.algolia.instantsearch.model.Highlight;
 import com.algolia.instantsearch.model.Result;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.SearchBox;
@@ -170,9 +169,9 @@ public class AlgoliaHelper {
                 if (highlightResult != null) {
                     JSONObject highlightAttribute = highlightResult.optJSONObject(attributeName);
                     if (highlightAttribute != null) {
-                        String value = highlightAttribute.optString("value");
-                        if (value != null) {
-                            result.addHighlight(new Highlight(attributeName, value));
+                        String highlightedValue = highlightAttribute.optString("value");
+                        if (highlightedValue != null) {
+                            result.set(attributeName, highlightedValue, true);
                         }
                     }
                 }

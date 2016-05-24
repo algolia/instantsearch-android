@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.ImageLoadTask;
-import com.algolia.instantsearch.model.Highlight;
 import com.algolia.instantsearch.model.Result;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import java.util.Map;
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
 
     private List<Result> results = new ArrayList<>();
-    private HighlightRenderer highlightRenderer;
+    private ViewGroup parent;
 
     public ResultsAdapter() {
         this(new ArrayList<Result>());
@@ -35,9 +34,9 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+        this.parent = parent;
         ViewDataBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()), AlgoliaHelper.getItemLayoutId(), parent, false);
-        this.highlightRenderer = new HighlightRenderer(parent.getContext());
         return new ViewHolder(binding.getRoot());
     }
 
@@ -54,9 +53,8 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
                 ((EditText) view).setHint(attributeValue);
             } else if (view instanceof TextView) {
                 final TextView textView = (TextView) view;
-                final Highlight highlight = result.getHighlight(attributeName);
-                if (highlight != null) {
-                    textView.setText(highlightRenderer.renderHighlights(highlight.getHighlightedValue()));
+                if (result.hasHighlighted(attributeName)) {
+                    textView.setText(HighlightRenderer.renderHighlights(parent.getContext(), result, attributeName));
                 } else {
                     textView.setText(result.get(attributeName));
                 }

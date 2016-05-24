@@ -30,6 +30,7 @@ import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.model.Result;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,17 +39,16 @@ import java.util.regex.Pattern;
 /**
  * Renders HTML-like attributed strings into `Spannable` instances suitable for display.
  */
-class HighlightRenderer {
+public class HighlightRenderer {
     // NOTE: This pattern is not bullet-proof (most notably against nested tags), but it is
     // sufficient for our purposes.
     private static final Pattern HIGHLIGHT_PATTERN = Pattern.compile("<em>([^<]*)</em>");
-    private final Context context;
 
-    public HighlightRenderer(Context context) {
-        this.context = context;
+    public static Spannable renderHighlights(Context context, Result result, String attributeName) {
+        return renderHighlights(context, result.get(attributeName, true));
     }
 
-    public Spannable renderHighlights(String markupString) {
+    public static Spannable renderHighlights(Context context, String markupString) {
         SpannableStringBuilder result = new SpannableStringBuilder();
         Matcher matcher = HIGHLIGHT_PATTERN.matcher(markupString);
         int posIn = 0; // current position in input string
@@ -76,5 +76,9 @@ class HighlightRenderer {
         // Append text after.
         result.append(markupString.substring(posIn));
         return result;
+    }
+
+    public static String removeHighlight(String attribute) {
+        return attribute.replace("<em>", "").replace("</em>", "");
     }
 }
