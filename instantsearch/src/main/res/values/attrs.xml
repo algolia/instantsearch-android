@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SearchBox">
-        <attr name="submitButtonEnabled" format="boolean"/>
         <attr name="autofocus" format="boolean"/>
+        <attr name="submitButtonEnabled" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="Hits">
-        <attr name="hitsPerPage" format="integer"/>
-        <attr name="remainingItemsBeforeLoading" format="integer"/>
         <attr name="attributesToRetrieve" format="string"/>
         <attr name="attributesToHighlight" format="string"/>
         <attr name="attributeToDisplay" format="string"/>
+        <attr name="hitsPerPage" format="integer"/>
         <attr name="itemLayout" format="string"/>
+        <attr name="remainingItemsBeforeLoading" format="integer"/>
     </declare-styleable>
 </resources>

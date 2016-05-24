@@ -24,12 +24,13 @@
 package com.algolia.instantsearch.ui;
 
 import android.content.Context;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 
-import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Result;
 
 import java.util.regex.Matcher;
@@ -44,11 +45,23 @@ public class HighlightRenderer {
     // sufficient for our purposes.
     private static final Pattern HIGHLIGHT_PATTERN = Pattern.compile("<em>([^<]*)</em>");
 
-    public static Spannable renderHighlights(Context context, Result result, String attributeName) {
-        return renderHighlights(context, result.get(attributeName, true));
+    public static Spannable renderHighlightColor(Result result, String attributeName, @ColorRes int colorId, Context context) {
+        return renderHighlightColor(result.get(attributeName, true), colorId, context);
     }
 
-    public static Spannable renderHighlights(Context context, String markupString) {
+    public static Spannable renderHighlightColor(String markupString, @ColorRes int colorId, Context context) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            return renderHighlightColor(markupString, context.getResources().getColor(colorId, context.getTheme()));
+        } else { //noinspection deprecation
+            return renderHighlightColor(markupString, context.getResources().getColor(colorId));
+        }
+    }
+
+    public static Spannable renderHighlightColor(Result result, String attributeName, @ColorInt int color) {
+        return renderHighlightColor(result.get(attributeName, true), color);
+    }
+
+    public static Spannable renderHighlightColor(String markupString, @ColorInt int color) {
         SpannableStringBuilder result = new SpannableStringBuilder();
         Matcher matcher = HIGHLIGHT_PATTERN.matcher(markupString);
         int posIn = 0; // current position in input string
@@ -64,11 +77,7 @@ public class HighlightRenderer {
             String highlightString = matcher.group(1);
             result.append(highlightString);
             final BackgroundColorSpan span;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                span = new BackgroundColorSpan(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
-            } else { //noinspection deprecation
-                span = new BackgroundColorSpan(context.getResources().getColor(R.color.colorAccent));
-            }
+            span = new BackgroundColorSpan(color);
             result.setSpan(span, posOut, posOut + highlightString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             posOut += highlightString.length();
             posIn = matcher.end();

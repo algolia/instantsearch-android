@@ -62,10 +62,17 @@ public class AlgoliaHelper {
     @BindingAdapter({"attribute"})
     public static void bindAttribute(View view, String attributeName) {
         final int id = view.getId();
-        String existingAttribute = attributes.get(id);
-        if (existingAttribute == null) {
-            attributes.put(id, attributeName);
+        if (notAlreadyMapped(id)) { // only map when you see a view for the first time.
+            mapAttribute(attributeName, id);
         }
+    }
+
+    static boolean notAlreadyMapped(int id) {
+        return attributes.get(id) == null;
+    }
+
+    private static void mapAttribute(String attributeName, int viewId) {
+        attributes.put(viewId, attributeName);
     }
 
     public static int getItemLayoutId() {
@@ -171,7 +178,7 @@ public class AlgoliaHelper {
                     if (highlightAttribute != null) {
                         String highlightedValue = highlightAttribute.optString("value");
                         if (highlightedValue != null) {
-                            result.set(attributeName, highlightedValue, true);
+                            result.set(attributeName, highlightedValue);
                         }
                     }
                 }

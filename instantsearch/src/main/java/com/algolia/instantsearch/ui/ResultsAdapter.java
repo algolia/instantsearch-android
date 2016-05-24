@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.ImageLoadTask;
+import com.algolia.instantsearch.RenderingHelper;
 import com.algolia.instantsearch.model.Result;
 
 import java.util.ArrayList;
@@ -53,8 +54,9 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
                 ((EditText) view).setHint(attributeValue);
             } else if (view instanceof TextView) {
                 final TextView textView = (TextView) view;
-                if (result.hasHighlighted(attributeName)) {
-                    textView.setText(HighlightRenderer.renderHighlights(parent.getContext(), result, attributeName));
+                if (RenderingHelper.shouldHighlight(attributeName)) {
+                    final int highlightColor = RenderingHelper.getHighlightColor(attributeName);
+                    textView.setText(HighlightRenderer.renderHighlightColor(result, attributeName, highlightColor, view.getContext()));
                 } else {
                     textView.setText(result.get(attributeName));
                 }
