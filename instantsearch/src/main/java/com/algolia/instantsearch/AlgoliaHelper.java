@@ -139,7 +139,7 @@ public class AlgoliaHelper {
                     if (results.isEmpty()) {
                         endReached = true;
                     } else {
-                        hits.add(results);
+                        hits.onUpdateView(results, false);
                         lastDisplayedPage = lastRequestedPage;
                     }
                 }

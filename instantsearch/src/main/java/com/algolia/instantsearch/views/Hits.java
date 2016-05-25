@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.algolia.instantsearch.AlgoliaHelper;
@@ -17,7 +16,7 @@ import com.algolia.search.saas.AlgoliaException;
 
 import java.util.Collection;
 
-public class Hits extends RecyclerView {
+public class Hits extends RecyclerView implements AlgoliaResultsView {
 
     private final Integer hitsPerPage;
     private final int remainingItemsBeforeLoading; // Minimum number of remaining items before loading more
@@ -67,32 +66,27 @@ public class Hits extends RecyclerView {
         adapter.notifyDataSetChanged();
     }
 
-    public void add(Collection<Result> results) {
-        add(results, false);
-    }
+    /**
+     * Add or replace Results to this widget
+     *
+     * @param results     A collection of Result objects
+     * @param isReplacing if true, will replace the current results
+     */
+    private void addResults(Collection<Result> results, boolean isReplacing) {
+        if (isReplacing) {
+            adapter.clear();
+        }
 
-    private void add(Collection<Result> results, boolean isReplacing) {
         for (Result res : results) {
             adapter.add(res);
         }
 
         if (isReplacing) {
             adapter.notifyDataSetChanged();
+            smoothScrollToPosition(0);
         } else {
             adapter.notifyItemRangeInserted(adapter.getItemCount(), results.size());
         }
-    }
-
-    public void replace(Collection<Result> values, boolean scrollToTop) {
-        adapter.clear();
-        add(values, true);
-        if (scrollToTop) {
-            smoothScrollToPosition(0);
-        }
-    }
-
-    public void replace(Collection<Result> values) {
-        replace(values, true);
     }
 
     private void updateEmptyView() {
@@ -101,6 +95,11 @@ public class Hits extends RecyclerView {
         } else {
             emptyView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onUpdateView(Collection<Result> results, boolean isReplacing) {
+        addResults(results, isReplacing);
     }
 
     public void setEmptyView(View emptyView) {
