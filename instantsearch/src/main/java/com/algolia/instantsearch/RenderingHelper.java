@@ -5,6 +5,8 @@ import android.databinding.BindingAdapter;
 import android.support.annotation.ColorRes;
 import android.view.View;
 
+import com.algolia.instantsearch.model.Errors;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -51,19 +53,19 @@ public class RenderingHelper {
     @SuppressWarnings("unused") // called via Data Binding
     @BindingAdapter({"highlighted"})
     public static void bindInvalid(View view, Boolean isHighlighted) {
-        throwBindingError(view, "You need an algolia:attribute to use algolia:highlighted.");
+        throwBindingError(view, Errors.BINDING_HIGHLIGHTED_NO_ATTR);
     }
 
     @SuppressWarnings("unused") // called via Data Binding
     @BindingAdapter({"highlightingColor"})
     public static void bindInvalid(View view, @ColorRes int color) {
-        throwBindingError(view, "You need an algolia:attribute to use algolia:highlighting.");
+        throwBindingError(view, Errors.BINDING_HIGHLIGHTING_NO_ATTR);
     }
 
     @SuppressWarnings("unused") // called via Data Binding
     @BindingAdapter({"highlighted", "highlighting"})
     public static void bindInvalid(View view, Boolean isHighlighted, String colorStr) {
-        throwBindingError(view, "You need an algolia:attribute to use algolia:highlighted and algolia:highlighting.");
+        throwBindingError(view, Errors.BINDING_NO_ATTR);
     }
 
     private static void bindAndHighlight(View view, String attributeName, String colorStr) {
@@ -78,7 +80,7 @@ public class RenderingHelper {
             } else if (identifierType.equals("@color")) {
                 colorId = view.getResources().getIdentifier(colorName, "color", view.getContext().getPackageName());
             } else {
-                throw new RuntimeException("algolia:highlightingColor should be an @android:color or @color resource.");
+                throw new RuntimeException(Errors.BINDING_COLOR_INVALID);
             }
 
             AlgoliaHelper.bindAttribute(view, attributeName);

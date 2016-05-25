@@ -7,6 +7,7 @@ import android.databinding.BindingAdapter;
 import android.util.Log;
 import android.view.View;
 
+import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Result;
 import com.algolia.instantsearch.views.AlgoliaResultsView;
 import com.algolia.instantsearch.views.Hits;
@@ -125,7 +126,7 @@ public class AlgoliaHelper {
             @Override
             public void requestCompleted(JSONObject content, AlgoliaException error) {
                 if (error != null) {
-                    throw new RuntimeException("Error while loading more data", error);
+                    throw new RuntimeException(Errors.LOADMORE_FAIL, error);
                 } else {
                     if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
                         return; // Results are for an older query, let's ignore them
@@ -188,12 +189,12 @@ public class AlgoliaHelper {
         View rootView = activity.getWindow().getDecorView().getRootView();
         searchBox = (SearchBox) rootView.findViewById(R.id.searchBox);
         if (searchBox == null) {
-            throw new RuntimeException(activity.getString(R.string.error_missing_searchbox));
+            throw new RuntimeException(Errors.LAYOUT_MISSING_SEARCHBOX);
         }
 
         hits = (Hits) rootView.findViewById(R.id.hits);
         if (hits == null) {
-            throw new RuntimeException(activity.getString(R.string.error_missing_hits));
+            throw new RuntimeException(Errors.LAYOUT_MISSING_HITS);
         }
         hits.setHelper(this);
 
@@ -206,7 +207,7 @@ public class AlgoliaHelper {
         // Link hits to activity's empty view
         View emptyView = rootView.findViewById(R.id.empty);
         if (emptyView == null) {
-            throw new RuntimeException(activity.getString(R.string.error_missing_empty));
+            throw new RuntimeException(Errors.LAYOUT_MISSING_EMPTY);
         }
         hits.setEmptyView(emptyView);
         itemLayoutId = activity.getResources().getIdentifier(hits.getLayoutName(), "layout", activity.getPackageName());

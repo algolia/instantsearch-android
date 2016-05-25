@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Result;
 import com.algolia.instantsearch.ui.ResultsAdapter;
 import com.algolia.search.saas.AlgoliaException;
@@ -45,7 +46,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
             } else {
                 remainingItemsBeforeLoading = remainingItemsAttribute;
                 if (disableInfiniteScroll) {
-                    throw new AlgoliaException("You specified both disableInfiniteScroll and remainingItemsBeforeLoading, but they are mutually exclusive.");
+                    throw new AlgoliaException(Errors.HITS_INFINITESCROLL);
                 }
             }
 
