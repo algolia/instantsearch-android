@@ -124,6 +124,10 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            if (!helper.shouldLoadMore()) {
+                return;
+            }
+
             int totalItemCount = layoutManager.getItemCount();
             if (totalItemCount < lastItemCount) {
                 // we have less elements than before, the count should be reset

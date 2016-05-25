@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.algolia.instantsearch.model.Result;
+import com.algolia.instantsearch.views.AlgoliaResultsView;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.SearchBox;
 import com.algolia.search.saas.AlgoliaException;
@@ -28,7 +29,6 @@ import java.util.Set;
 public class AlgoliaHelper {
     public static final int DEFAULT_HITS_PER_PAGE = 20;
     public static final int DEFAULT_REMAINING_ITEMS = 5;
-    public static final String DEFAULT_ATTRIBUTES = "objectID";
 
     private static final Map<Integer, String> attributes = new HashMap<>();
     private static int itemLayoutId;
@@ -52,7 +52,6 @@ public class AlgoliaHelper {
 
         processActivity(activity);
     }
-
 
     public static Set<Map.Entry<Integer, String>> getEntrySet() {
         return attributes.entrySet();
@@ -119,7 +118,6 @@ public class AlgoliaHelper {
             }
         });
     }
-
 
     public void loadMore() {
         Query loadMoreQuery = new Query(query);
@@ -214,5 +212,14 @@ public class AlgoliaHelper {
         }
         hits.setEmptyView(emptyView);
         itemLayoutId = activity.getResources().getIdentifier(hits.getLayoutName(), "layout", activity.getPackageName());
+    }
+
+    /**
+     * Tells if we should load more results when reaching the end of an {@link AlgoliaResultsView}
+     *
+     * @return true unless we reached the end of results or we already requested a new page
+     */
+    public boolean shouldLoadMore() {
+        return !(endReached || lastRequestedPage > lastDisplayedPage);
     }
 }
