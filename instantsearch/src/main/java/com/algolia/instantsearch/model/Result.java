@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.model;
 
-import com.algolia.instantsearch.ui.HighlightRenderer;
+import com.algolia.instantsearch.ui.Highlighter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +42,7 @@ public class Result {
     public String get(String attributeName, boolean withHighlight) {
         final String attribute = attributes.get(attributeName);
         if (attribute != null && !withHighlight) {
-            return HighlightRenderer.removeHighlight(attribute);
+            return Highlighter.removeHighlight(attribute);
         }
         return attribute;
     }

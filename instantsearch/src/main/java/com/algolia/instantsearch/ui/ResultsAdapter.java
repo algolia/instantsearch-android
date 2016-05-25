@@ -56,7 +56,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
                 final TextView textView = (TextView) view;
                 if (RenderingHelper.shouldHighlight(attributeName)) {
                     final int highlightColor = RenderingHelper.getHighlightColor(attributeName);
-                    textView.setText(HighlightRenderer.renderHighlightColor(result, attributeName, highlightColor, view.getContext()));
+                    textView.setText(Highlighter.renderHighlightColor(result, attributeName, highlightColor, view.getContext()));
                 } else {
                     textView.setText(result.get(attributeName));
                 }

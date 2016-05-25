@@ -40,15 +40,32 @@ import java.util.regex.Pattern;
 /**
  * Renders HTML-like attributed strings into `Spannable` instances suitable for display.
  */
-public class HighlightRenderer {
-    // NOTE: This pattern is not bullet-proof (most notably against nested tags), but it is
-    // sufficient for our purposes.
+public class Highlighter {
+    // NOTE: This pattern is not bullet-proof (most notably against nested tags),
+    // but it is sufficient for detecting flat highlighting tag usage.
     private static final Pattern HIGHLIGHT_PATTERN = Pattern.compile("<em>([^<]*)</em>");
 
+    /**
+     * Render a highlighted result's attribute using a color resource
+     *
+     * @param result        {@link Result} containing the attribute values
+     * @param attributeName name of the attribute to be highlighted
+     * @param colorId       a resource Id referencing a color
+     * @param context       a {@link Context} to get resources from
+     * @return a {@link Spannable} with the highlighted text
+     */
     public static Spannable renderHighlightColor(Result result, String attributeName, @ColorRes int colorId, Context context) {
         return renderHighlightColor(result.get(attributeName, true), colorId, context);
     }
 
+    /**
+     * Render a highlighted text using a color resource
+     *
+     * @param markupString a string to highlight
+     * @param colorId      a resource Id referencing a color
+     * @param context      a {@link Context} to get resources from
+     * @return a {@link Spannable} with the highlighted text
+     */
     public static Spannable renderHighlightColor(String markupString, @ColorRes int colorId, Context context) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             return renderHighlightColor(markupString, context.getResources().getColor(colorId, context.getTheme()));
@@ -57,10 +74,25 @@ public class HighlightRenderer {
         }
     }
 
+    /**
+     * Render a highlighted result's attribute using a packed color int
+     *
+     * @param result        {@link Result} containing the attribute values
+     * @param attributeName name of the attribute to be highlighted
+     * @param color         a color integer, see {@link android.graphics.Color}
+     * @return a {@link Spannable} with the highlighted text
+     */
     public static Spannable renderHighlightColor(Result result, String attributeName, @ColorInt int color) {
         return renderHighlightColor(result.get(attributeName, true), color);
     }
 
+    /**
+     * Render a highlighted text using a packed color int
+     *
+     * @param markupString a string to highlight
+     * @param color        a color integer, see {@link android.graphics.Color}
+     * @return a {@link Spannable} with the highlighted text
+     */
     public static Spannable renderHighlightColor(String markupString, @ColorInt int color) {
         SpannableStringBuilder result = new SpannableStringBuilder();
         Matcher matcher = HIGHLIGHT_PATTERN.matcher(markupString);
