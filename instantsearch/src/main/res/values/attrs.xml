@@ -5,6 +5,7 @@
         <attr name="submitButtonEnabled" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="Hits">
+        <attr name="disableInfiniteScroll" format="boolean"/>
         <attr name="hitsPerPage" format="integer"/>
         <attr name="itemLayout" format="string"/>
         <attr name="remainingItemsBeforeLoading" format="integer"/>

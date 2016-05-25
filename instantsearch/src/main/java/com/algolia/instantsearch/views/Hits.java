@@ -17,10 +17,13 @@ import com.algolia.search.saas.AlgoliaException;
 import java.util.Collection;
 
 public class Hits extends RecyclerView implements AlgoliaResultsView {
+    public static final int MISSING_VALUE = -42;
+    public static final int DEFAULT_HITS_PER_PAGE = 20;
+    public static final int DEFAULT_REMAINING_ITEMS = 5;
 
     private final Integer hitsPerPage;
     private final int remainingItemsBeforeLoading; // Minimum number of remaining items before loading more
-
+    private final boolean disableInfiniteScroll;
     private final String layoutName;
 
     private ResultsAdapter adapter;
@@ -33,9 +36,19 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
         super(context, attrs);
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Hits, 0, 0);
         try {
-            hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, AlgoliaHelper.DEFAULT_HITS_PER_PAGE);
-            remainingItemsBeforeLoading = styledAttributes.getInt(R.styleable.Hits_remainingItemsBeforeLoading, AlgoliaHelper.DEFAULT_REMAINING_ITEMS);
+            hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, DEFAULT_HITS_PER_PAGE);
             layoutName = styledAttributes.getString(R.styleable.Hits_itemLayout);
+            disableInfiniteScroll = styledAttributes.getBoolean(R.styleable.Hits_disableInfiniteScroll, false);
+            int remainingItemsAttribute = styledAttributes.getInt(R.styleable.Hits_remainingItemsBeforeLoading, MISSING_VALUE);
+            if (remainingItemsAttribute == MISSING_VALUE) {
+                remainingItemsBeforeLoading = DEFAULT_REMAINING_ITEMS;
+            } else {
+                remainingItemsBeforeLoading = remainingItemsAttribute;
+                if (disableInfiniteScroll) {
+                    throw new AlgoliaException("You specified both disableInfiniteScroll and remainingItemsBeforeLoading, but they are mutually exclusive.");
+                }
+            }
+
         } finally {
             styledAttributes.recycle();
         }
@@ -55,7 +68,9 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
         layoutManager = new LinearLayoutManager(context);
         setLayoutManager(layoutManager);
 
-        addOnScrollListener(new HitsScrollListener());
+        if (!disableInfiniteScroll) {
+            addOnScrollListener(new HitsScrollListener());
+        }
     }
 
     /**

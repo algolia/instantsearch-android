@@ -27,8 +27,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class AlgoliaHelper {
-    public static final int DEFAULT_HITS_PER_PAGE = 20;
-    public static final int DEFAULT_REMAINING_ITEMS = 5;
 
     private static final Map<Integer, String> attributes = new HashMap<>();
     private static int itemLayoutId;
