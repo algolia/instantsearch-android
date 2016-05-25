@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.algolia.instantsearch.AlgoliaHelper;
@@ -21,8 +22,6 @@ public class Hits extends RecyclerView {
     private final Integer hitsPerPage;
     private final int remainingItemsBeforeLoading; // Minimum number of remaining items before loading more
 
-    private final String[] attributesToRetrieve;
-    private final String[] attributesToHighlight;
     private final String layoutName;
 
     private ResultsAdapter adapter;
@@ -38,8 +37,6 @@ public class Hits extends RecyclerView {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, AlgoliaHelper.DEFAULT_HITS_PER_PAGE);
             remainingItemsBeforeLoading = styledAttributes.getInt(R.styleable.Hits_remainingItemsBeforeLoading, AlgoliaHelper.DEFAULT_REMAINING_ITEMS);
             layoutName = styledAttributes.getString(R.styleable.Hits_itemLayout);
-            attributesToRetrieve = getAttributes(styledAttributes, R.styleable.Hits_attributesToRetrieve);
-            attributesToHighlight = getAttributes(styledAttributes, R.styleable.Hits_attributesToHighlight);
         } finally {
             styledAttributes.recycle();
         }
@@ -110,30 +107,8 @@ public class Hits extends RecyclerView {
         this.emptyView = emptyView;
     }
 
-    private String[] getAttributes(TypedArray styledAttributes, int attributeResourceId) {
-        String attributeString = styledAttributes.getString(attributeResourceId);
-        if (attributeString == null) {
-            attributeString = AlgoliaHelper.DEFAULT_ATTRIBUTES;
-        }
-        final String[] splitAttributes = attributeString.split(",");
-        final String[] cleanAttributes = new String[splitAttributes.length];
-
-        for (int i = 0; i < splitAttributes.length; i++) {
-            cleanAttributes[i] = splitAttributes[i].trim();
-        }
-        return cleanAttributes;
-    }
-
     public Integer getHitsPerPage() {
         return hitsPerPage;
-    }
-
-    public String[] getAttributesToRetrieve() {
-        return attributesToRetrieve;
-    }
-
-    public String[] getAttributesToHighlight() {
-        return attributesToHighlight;
     }
 
     public String getLayoutName() {
@@ -150,7 +125,6 @@ public class Hits extends RecyclerView {
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
             int totalItemCount = layoutManager.getItemCount();
             if (totalItemCount < lastItemCount) {
                 // we have less elements than before, the count should be reset

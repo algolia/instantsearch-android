@@ -5,9 +5,6 @@
         <attr name="submitButtonEnabled" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="Hits">
-        <attr name="attributesToRetrieve" format="string"/>
-        <attr name="attributesToHighlight" format="string"/>
-        <attr name="attributeToDisplay" format="string"/>
         <attr name="hitsPerPage" format="integer"/>
         <attr name="itemLayout" format="string"/>
         <attr name="remainingItemsBeforeLoading" format="integer"/>

@@ -202,8 +202,6 @@ public class AlgoliaHelper {
         hits.setHelper(this);
 
         query.setHitsPerPage(hits.getHitsPerPage());
-        query.setAttributesToRetrieve(hits.getAttributesToRetrieve());
-        query.setAttributesToHighlight(hits.getAttributesToHighlight());
 
         // Link searchBox to the Activity's SearchableInfo
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
@@ -216,9 +214,5 @@ public class AlgoliaHelper {
         }
         hits.setEmptyView(emptyView);
         itemLayoutId = activity.getResources().getIdentifier(hits.getLayoutName(), "layout", activity.getPackageName());
-    }
-
-    public boolean didReachEnd() {
-        return endReached;
     }
 }
