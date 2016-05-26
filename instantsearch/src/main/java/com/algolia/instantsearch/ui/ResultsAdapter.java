@@ -45,9 +45,9 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // For every view we have, if we can handle its type let's use the result attribute
-        for (Map.Entry<String, View> entry : holder.viewMap.entrySet()) {
-            final View view = entry.getValue();
-            final String attributeName = entry.getKey();
+        for (Map.Entry<View, String> entry : holder.viewMap.entrySet()) {
+            final View view = entry.getKey();
+            final String attributeName = entry.getValue();
             final Result result = results.get(position);
             final String attributeValue = result.get(attributeName);
 
@@ -86,7 +86,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final Map<String, View> viewMap = new HashMap<>();
+        final Map<View, String> viewMap = new HashMap<>();
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -95,7 +95,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
             for (Map.Entry<Integer, String> entry : AlgoliaHelper.getEntrySet()) {
                 final String attributeName = entry.getValue();
                 final View view = itemView.findViewById(entry.getKey());
-                viewMap.put(attributeName, view);
+                viewMap.put(view, attributeName);
             }
         }
     }
