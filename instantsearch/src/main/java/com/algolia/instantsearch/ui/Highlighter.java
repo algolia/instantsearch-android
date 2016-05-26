@@ -94,6 +94,10 @@ public class Highlighter {
      * @return a {@link Spannable} with the highlighted text
      */
     public static Spannable renderHighlightColor(String markupString, @ColorInt int color) {
+        if (markupString == null) {
+            return null;
+        }
+
         SpannableStringBuilder result = new SpannableStringBuilder();
         Matcher matcher = HIGHLIGHT_PATTERN.matcher(markupString);
         int posIn = 0; // current position in input string
