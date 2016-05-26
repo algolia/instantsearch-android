@@ -14,6 +14,7 @@ import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.ImageLoadTask;
 import com.algolia.instantsearch.RenderingHelper;
 import com.algolia.instantsearch.model.Result;
+import com.algolia.instantsearch.views.AlgoliaAttributeView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +51,9 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
             final Result result = results.get(position);
             final String attributeValue = result.get(attributeName);
 
-            if (view instanceof EditText) {
+            if (view instanceof AlgoliaAttributeView) {
+                ((AlgoliaAttributeView) view).onUpdateView(result);
+            } else if (view instanceof EditText) {
                 ((EditText) view).setHint(attributeValue);
             } else if (view instanceof TextView) {
                 final TextView textView = (TextView) view;
