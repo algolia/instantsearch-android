@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.algolia.instantsearch.model.Errors;
-import com.algolia.instantsearch.model.Result;
 import com.algolia.instantsearch.views.AlgoliaResultsView;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.SearchBox;
@@ -22,10 +21,7 @@ import com.algolia.search.saas.Query;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -132,9 +128,7 @@ public class AlgoliaHelper {
                     Log.e("PLN|search.searchError", String.format("Index %s with query %s failed: %s(%s).", index.getIndexName(), queryString, error.getCause(), error.getMessage()));
                 }
 
-                //TODO: Avoid useless parse -> refactor listener with Results instead of JSONO?
-                final List<Result> results = parseResults(content);
-                if (results == null || results.isEmpty()) {
+                if (content == null || !hasHits(content)) {
                     endReached = true;
                 }
 
@@ -157,62 +151,18 @@ public class AlgoliaHelper {
                     throw new RuntimeException(Errors.LOADMORE_FAIL, error);
                 } else {
                     if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
-                        return; // Results are for an older query, let's ignore them
+                        return; // Hits are for an older query, let's ignore them
                     }
 
-                    List<Result> results = parseResults(content);
-                    if (results.isEmpty()) {
-                        endReached = true;
-                    } else {
-                        hits.onUpdateView(results, false);
+                    if (hasHits(content)) {
+                        hits.onUpdateView(content, false);
                         lastDisplayedPage = lastRequestedPage;
+                    } else {
+                        endReached = true;
                     }
                 }
             }
         });
-    }
-
-    public List<Result> parseResults(final JSONObject jsonObject) {
-        if (jsonObject == null) {
-            return null;
-        }
-
-        List<Result> results = new ArrayList<>();
-        JSONArray resultHits = jsonObject.optJSONArray("hits");
-        if (resultHits == null) {
-            return null;
-        }
-
-        for (int i = 0; i < resultHits.length(); ++i) {
-            JSONObject hit = resultHits.optJSONObject(i);
-            if (hit == null) {
-                continue;
-            }
-            Result result = new Result();
-
-            Iterator<String> iterator = hit.keys();
-            while (iterator.hasNext()) {
-                String attributeName = iterator.next();
-                String value = hit.optString(attributeName);
-                if (value == null) {
-                    continue;
-                }
-                result.set(attributeName, value);
-
-                final JSONObject highlightResult = hit.optJSONObject("_highlightResult");
-                if (highlightResult != null) {
-                    JSONObject highlightAttribute = highlightResult.optJSONObject(attributeName);
-                    if (highlightAttribute != null) {
-                        String highlightedValue = highlightAttribute.optString("value");
-                        if (highlightedValue != null) {
-                            result.set(attributeName, highlightedValue);
-                        }
-                    }
-                }
-            }
-            results.add(result);
-        }
-        return results;
     }
 
     private void processActivity(final Activity activity) {
@@ -244,9 +194,34 @@ public class AlgoliaHelper {
     }
 
     /**
-     * Tells if we should load more results when reaching the end of an {@link AlgoliaResultsView}
+     * Find if a returned json contains at least one hit
      *
-     * @return true unless we reached the end of results or we already requested a new page
+     * @param jsonObject the query result
+     * @return true if it contains a hits array with at least one non null element
+     */
+    private static boolean hasHits(JSONObject jsonObject) {
+        if (jsonObject == null) {
+            return false;
+        }
+
+        JSONArray resultHits = jsonObject.optJSONArray("hits");
+        if (resultHits == null) {
+            return false;
+        }
+
+        for (int i = 0; i < resultHits.length(); ++i) {
+            JSONObject hit = resultHits.optJSONObject(i);
+            if (hit != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Tells if we should load more hits when reaching the end of an {@link AlgoliaResultsView}
+     *
+     * @return true unless we reached the end of hits or we already requested a new page
      */
     public boolean shouldLoadMore() {
         return !(endReached || lastRequestedPage > lastDisplayedPage);

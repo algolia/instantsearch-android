@@ -31,7 +31,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 
-import com.algolia.instantsearch.model.Result;
+import org.json.JSONObject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,14 +48,14 @@ public class Highlighter {
     /**
      * Render a highlighted result's attribute using a color resource
      *
-     * @param result        {@link Result} containing the attribute values
+     * @param result        {@link JSONObject} describing a hit
      * @param attributeName name of the attribute to be highlighted
      * @param colorId       a resource Id referencing a color
      * @param context       a {@link Context} to get resources from
      * @return a {@link Spannable} with the highlighted text
      */
-    public static Spannable renderHighlightColor(Result result, String attributeName, @ColorRes int colorId, Context context) {
-        return renderHighlightColor(result.get(attributeName, true), colorId, context);
+    public static Spannable renderHighlightColor(JSONObject result, String attributeName, @ColorRes int colorId, Context context) {
+        return renderHighlightColor(getHighlightedAttribute(result, attributeName), colorId, context);
     }
 
     /**
@@ -77,13 +77,13 @@ public class Highlighter {
     /**
      * Render a highlighted result's attribute using a packed color int
      *
-     * @param result        {@link Result} containing the attribute values
+     * @param result        {@link JSONObject} describing a hit
      * @param attributeName name of the attribute to be highlighted
      * @param color         a color integer, see {@link android.graphics.Color}
      * @return a {@link Spannable} with the highlighted text
      */
-    public static Spannable renderHighlightColor(Result result, String attributeName, @ColorInt int color) {
-        return renderHighlightColor(result.get(attributeName, true), color);
+    public static Spannable renderHighlightColor(JSONObject result, String attributeName, @ColorInt int color) {
+        return renderHighlightColor(getHighlightedAttribute(result, attributeName), color);
     }
 
     /**
@@ -121,6 +121,27 @@ public class Highlighter {
         // Append text after.
         result.append(markupString.substring(posIn));
         return result;
+    }
+
+    /**
+     * Get the highlighted version of an attribute, if there is one
+     *
+     * @param result        {@link JSONObject} describing a hit
+     * @param attributeName the name of the attribute to return highlighted
+     * @return the highlighted version of this attribute if there is one, else the raw attribute
+     */
+    private static String getHighlightedAttribute(JSONObject result, String attributeName) {
+        final JSONObject highlightResult = result.optJSONObject("_highlightResult");
+        if (highlightResult != null) {
+            JSONObject highlightAttribute = highlightResult.optJSONObject(attributeName);
+            if (highlightAttribute != null) {
+                String highlightedValue = highlightAttribute.optString("value");
+                if (highlightedValue != null) {
+                    return highlightedValue;
+                }
+            }
+        }
+        return result.optString(attributeName);
     }
 
     public static String removeHighlight(String attribute) {

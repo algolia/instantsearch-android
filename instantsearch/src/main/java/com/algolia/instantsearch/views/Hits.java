@@ -11,11 +11,11 @@ import android.view.View;
 import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
-import com.algolia.instantsearch.model.Result;
-import com.algolia.instantsearch.ui.ResultsAdapter;
+import com.algolia.instantsearch.ui.HitsAdapter;
 import com.algolia.search.saas.AlgoliaException;
 
-import java.util.Collection;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Hits extends RecyclerView implements AlgoliaResultsView {
     public static final int MISSING_VALUE = -42;
@@ -27,7 +27,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     private final boolean disableInfiniteScroll;
     private final String layoutName;
 
-    private ResultsAdapter adapter;
+    private HitsAdapter adapter;
     private LayoutManager layoutManager;
     private View emptyView;
     private AlgoliaHelper helper;
@@ -56,7 +56,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
 
         this.setHasFixedSize(true); // Enables optimisations as the view's width & height are fixed
 
-        adapter = new ResultsAdapter();
+        adapter = new HitsAdapter();
         adapter.registerAdapterDataObserver(new AdapterDataObserver() {
             @Override
             public void onChanged() {
@@ -83,25 +83,32 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     }
 
     /**
-     * Add or replace Results to this widget
+     * Add or replace hits to/in this widget
      *
-     * @param results     A collection of Result objects
-     * @param isReplacing if true, will replace the current results
+     * @param hits        a {@link JSONObject} containing hits
+     * @param isReplacing if true, will replace the current hits
      */
-    private void addResults(Collection<Result> results, boolean isReplacing) {
+    private void addHits(JSONObject hits, boolean isReplacing) {
+        JSONArray resultHits = hits.optJSONArray("hits");
+
         if (isReplacing) {
             adapter.clear();
         }
 
-        for (Result res : results) {
-            adapter.add(res);
+        for (int i = 0; i < resultHits.length(); ++i) {
+            JSONObject hit = resultHits.optJSONObject(i);
+            if (hit == null) {
+                continue;
+            }
+            adapter.add(hit);
+
         }
 
         if (isReplacing) {
             adapter.notifyDataSetChanged();
             smoothScrollToPosition(0);
         } else {
-            adapter.notifyItemRangeInserted(adapter.getItemCount(), results.size());
+            adapter.notifyItemRangeInserted(adapter.getItemCount(), resultHits.length());
         }
     }
 
@@ -114,8 +121,8 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     }
 
     @Override
-    public void onUpdateView(Collection<Result> results, boolean isReplacing) {
-        addResults(results, isReplacing);
+    public void onUpdateView(JSONObject hits, boolean isReplacing) {
+        addHits(hits, isReplacing);
     }
 
     public void setEmptyView(View emptyView) {

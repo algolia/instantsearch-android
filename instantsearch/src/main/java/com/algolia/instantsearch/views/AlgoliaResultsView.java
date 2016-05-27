@@ -1,18 +1,16 @@
 package com.algolia.instantsearch.views;
 
-import com.algolia.instantsearch.model.Result;
-
-import java.util.Collection;
+import org.json.JSONObject;
 
 /**
- * A view that can hold several Result objects.
+ * A view that can hold several hits.
  */
 public interface AlgoliaResultsView {
     /**
-     * Event listener to react to new results.
+     * Event listener to react to new hits.
      *
-     * @param results     a collection of Result objects
-     * @param isReplacing if true, the view should dispose previous results
+     * @param hits     a {@link JSONObject} containing hits
+     * @param isReplacing if true, the view should dispose previous hits
      */
-    void onUpdateView(Collection<Result> results, boolean isReplacing);
+    void onUpdateView(JSONObject hits, boolean isReplacing);
 }

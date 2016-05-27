@@ -15,4 +15,6 @@ public class Errors {
     public static final String LAYOUT_MISSING_SEARCHBOX = "You need to add a searchBox identified as @id/searchBox.";
 
     public static final String LOADMORE_FAIL = "Error while loading more data.";
+
+    public static final String ADAPTER_UNKNOWN_VIEW = "Unrecognized view class ({className}): Your view should either use/extend a system view or implement AlgoliaAttributeView.";
 }

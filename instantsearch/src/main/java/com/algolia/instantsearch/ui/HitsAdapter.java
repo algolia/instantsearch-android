@@ -13,24 +13,26 @@ import android.widget.TextView;
 import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.ImageLoadTask;
 import com.algolia.instantsearch.RenderingHelper;
-import com.algolia.instantsearch.model.Result;
+import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.views.AlgoliaAttributeView;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
+public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
 
-    private List<Result> results = new ArrayList<>();
+    private List<JSONObject> hits = new ArrayList<>();
 
-    public ResultsAdapter() {
-        this(new ArrayList<Result>());
+    public HitsAdapter() {
+        this(new ArrayList<JSONObject>());
     }
 
-    public ResultsAdapter(List<Result> dataSet) {
-        results = dataSet;
+    public HitsAdapter(List<JSONObject> dataSet) {
+        hits = dataSet;
     }
 
     @Override
@@ -44,22 +46,22 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.resetIfEmpty();
 
-        // For every view we have, if we can handle its type let's use the result attribute
+        // For every view we have, if we can handle its type let's use the hit's attribute
         for (Map.Entry<View, String> entry : holder.viewMap.entrySet()) {
             final View view = entry.getKey();
             final String attributeName = entry.getValue();
-            final Result result = results.get(position);
-            final String attributeValue = result.get(attributeName);
+            final JSONObject hit = hits.get(position);
+            final String attributeValue = hit.optString(attributeName);
 
             if (view instanceof AlgoliaAttributeView) {
-                ((AlgoliaAttributeView) view).onUpdateView(result);
+                ((AlgoliaAttributeView) view).onUpdateView(hit);
             } else if (view instanceof EditText) {
                 ((EditText) view).setHint(attributeValue);
             } else if (view instanceof TextView) {
                 final TextView textView = (TextView) view;
                 if (RenderingHelper.shouldHighlight(attributeName)) {
                     final int highlightColor = RenderingHelper.getHighlightColor(attributeName);
-                    textView.setText(Highlighter.renderHighlightColor(result, attributeName, highlightColor, view.getContext()));
+                    textView.setText(Highlighter.renderHighlightColor(hit, attributeName, highlightColor, view.getContext()));
                 } else {
                     textView.setText(attributeValue);
                 }
@@ -67,22 +69,22 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
                 final ImageView imageView = (ImageView) view;
                 new ImageLoadTask(imageView).execute(attributeValue);
             } else {
-                throw new RuntimeException("I was not told how to handle " + view.getClass().getCanonicalName() + "s.");
+                throw new RuntimeException(Errors.ADAPTER_UNKNOWN_VIEW.replace("{className}", view.getClass().getCanonicalName()));
             }
         }
     }
 
     @Override
     public int getItemCount() {
-        return results.size();
+        return hits.size();
     }
 
     public void clear() {
-        results.clear();
+        hits.clear();
     }
 
-    public void add(Result result) {
-        results.add(result);
+    public void add(JSONObject result) {
+        hits.add(result);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
