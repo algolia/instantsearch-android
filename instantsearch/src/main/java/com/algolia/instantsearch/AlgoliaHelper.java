@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 
@@ -45,10 +46,36 @@ public class AlgoliaHelper {
     private int lastDisplayedPage;
     private boolean endReached;
 
+    /**
+     * Create and initialize the helper
+     *
+     * @param activity      the Activity containing an {@link AlgoliaResultsView}
+     * @param applicationId your application's ID
+     * @param apiKey        a search api key associated with this application
+     * @param indexName     the name of the application's index to search in
+     */
     public AlgoliaHelper(Activity activity, final String applicationId, final String apiKey, final String indexName) {
         client = new Client(applicationId, apiKey);
         index = client.initIndex(indexName);
         query = new Query();
+
+        processActivity(activity);
+    }
+
+
+    /**
+     * Create and initialize the helper
+     *
+     * @param activity      the Activity containing an {@link AlgoliaResultsView}
+     * @param applicationId your application's ID
+     * @param apiKey        a search api key associated with this application
+     * @param indexName     the name of the application's index to search in
+     * @param baseQuery     a {@link Query} which properties will be applied to all search queries
+     */
+    public AlgoliaHelper(Activity activity, final String applicationId, final String apiKey, final String indexName, @NonNull Query baseQuery) {
+        client = new Client(applicationId, apiKey);
+        index = client.initIndex(indexName);
+        query = new Query(baseQuery);
 
         processActivity(activity);
     }
