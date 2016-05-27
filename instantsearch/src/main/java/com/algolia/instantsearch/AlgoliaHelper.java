@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -162,12 +163,14 @@ public class AlgoliaHelper {
             }
             Result result = new Result();
 
-            for (String attributeName : attributes.values()) {
-                String attributeValue = hit.optString(attributeName);
-                if (attributeValue == null) {
+            Iterator<String> iterator = hit.keys();
+            while (iterator.hasNext()) {
+                String attributeName = iterator.next();
+                String value = hit.optString(attributeName);
+                if (value == null) {
                     continue;
                 }
-                result.set(attributeName, attributeValue);
+                result.set(attributeName, value);
 
                 final JSONObject highlightResult = hit.optJSONObject("_highlightResult");
                 if (highlightResult != null) {
