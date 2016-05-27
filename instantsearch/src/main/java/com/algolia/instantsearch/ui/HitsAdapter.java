@@ -86,6 +86,10 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
         hits.add(result);
     }
 
+    public JSONObject getItem(int position) {
+        return hits.get(position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public static final int RESET_CHECK_INTERVAL_MS = 50;
 

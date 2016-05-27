@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.algolia.instantsearch.AlgoliaHelper;
+import com.algolia.instantsearch.ItemClickSupport;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.ui.HitsAdapter;
@@ -72,6 +73,24 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
         if (!disableInfiniteScroll) {
             addOnScrollListener(new HitsScrollListener());
         }
+    }
+
+    /**
+     * Set a listener for click events on child views
+     *
+     * @param listener an @{OnItemClickListener} which will handle the event
+     */
+    public void setOnItemClickListener(ItemClickSupport.OnItemClickListener listener) {
+        ItemClickSupport.addTo(this).setOnItemClickListener(listener);
+    }
+
+    /**
+     * Set a listener for long click events on child views
+     *
+     * @param listener an @{OnItemLongClickListener} which will handle the event
+     */
+    public void setOnItemLongClickListener(ItemClickSupport.OnItemLongClickListener listener) {
+        ItemClickSupport.addTo(this).setOnItemLongClickListener(listener);
     }
 
     /**
