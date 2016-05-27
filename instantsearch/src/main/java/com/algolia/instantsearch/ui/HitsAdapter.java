@@ -1,5 +1,8 @@
 package com.algolia.instantsearch.ui;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
@@ -28,11 +31,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
     private List<JSONObject> hits = new ArrayList<>();
 
     public HitsAdapter() {
-        this(new ArrayList<JSONObject>());
-    }
-
-    public HitsAdapter(List<JSONObject> dataSet) {
-        hits = dataSet;
+        this.hits = new ArrayList<>();
     }
 
     @Override
@@ -87,7 +86,9 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
         hits.add(result);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public static final int RESET_CHECK_INTERVAL_MS = 50;
+
         final Map<View, String> viewMap = new HashMap<>();
 
         public ViewHolder(View itemView) {
@@ -97,13 +98,56 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
 
         /**
          * This method helps avoid a race condition: as the ViewHolder can be created before
-         * our data-bindings are called, we need to check when binding it and eventually
+         * our data-bindings are called, we need to check when binding it that it contains views.
+         * If it is not the case, we wait for the data-bindings and update views afterwards.
          * initialize its views.
          */
         private void resetIfEmpty() {
-            if (viewMap.size() == 0) {
-                initViewHolder(itemView);
+            if (viewMap.size() != 0) {
+                return;
             }
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // Try to initialize ViewHolder, looping until we have some bindings
+                    initViewHolder(itemView);
+                    while (viewMap.size() == 0) {
+                        try {
+                            initViewHolder(itemView);
+                            Thread.sleep(RESET_CHECK_INTERVAL_MS);
+                        } catch (InterruptedException ignored) {
+                        }
+                    }
+
+                    // Now we have an initialized ViewHolder, we can bind it from UI thread
+                    getActivity(viewMap.keySet().iterator().next()).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            onBindViewHolder(ViewHolder.this, getAdapterPosition());
+                        }
+                    });
+                }
+            }).start();
+        }
+
+        /**
+         * Get the Activity linked to a view
+         * Based on {@link android.support.v7.app.MediaRouteButton#getActivity()}
+         */
+        private Activity getActivity(View view) {
+            Context context = view.getContext();
+            Activity activity = null;
+            while (context instanceof ContextWrapper) {
+                if (context instanceof Activity) {
+                    activity = (Activity) context;
+                }
+                context = ((ContextWrapper) context).getBaseContext();
+            }
+            if (activity == null) {
+                throw new RuntimeException(Errors.VIEW_HAS_NO_ACTIVITY.replace("{viewName}", view.toString()));
+            }
+            return activity;
         }
 
         /**
