@@ -9,8 +9,9 @@ import java.util.Collection;
  */
 public interface AlgoliaResultsView {
     /**
-     * Event listener to react to new results. This
-     * @param results a collection of Result objects
+     * Event listener to react to new results.
+     *
+     * @param results     a collection of Result objects
      * @param isReplacing if true, the view should dispose previous results
      */
     void onUpdateView(Collection<Result> results, boolean isReplacing);

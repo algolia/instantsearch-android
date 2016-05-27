@@ -24,7 +24,6 @@ import java.util.Map;
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
 
     private List<Result> results = new ArrayList<>();
-    private ViewGroup parent;
 
     public ResultsAdapter() {
         this(new ArrayList<Result>());
@@ -36,7 +35,6 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        this.parent = parent;
         ViewDataBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()), AlgoliaHelper.getItemLayoutId(), parent, false);
         return new ViewHolder(binding.getRoot());
@@ -44,6 +42,8 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.resetIfEmpty();
+
         // For every view we have, if we can handle its type let's use the result attribute
         for (Map.Entry<View, String> entry : holder.viewMap.entrySet()) {
             final View view = entry.getKey();
@@ -61,7 +61,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
                     final int highlightColor = RenderingHelper.getHighlightColor(attributeName);
                     textView.setText(Highlighter.renderHighlightColor(result, attributeName, highlightColor, view.getContext()));
                 } else {
-                    textView.setText(result.get(attributeName));
+                    textView.setText(attributeValue);
                 }
             } else if (view instanceof ImageView) {
                 final ImageView imageView = (ImageView) view;
@@ -90,7 +90,26 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
 
         public ViewHolder(View itemView) {
             super(itemView);
+            initViewHolder(itemView);
+        }
 
+        /**
+         * This method helps avoid a race condition: as the ViewHolder can be created before
+         * our data-bindings are called, we need to check when binding it and eventually
+         * initialize its views.
+         */
+        private void resetIfEmpty() {
+            if (viewMap.size() == 0) {
+                initViewHolder(itemView);
+            }
+        }
+
+        /**
+         * Initializes the ViewHolder, populating its viewMap
+         *
+         * @param itemView the rootView containing the holder's views
+         */
+        private void initViewHolder(View itemView) {
             // Store every annotated view with its attribute name
             for (Map.Entry<Integer, String> entry : AlgoliaHelper.getEntrySet()) {
                 final String attributeName = entry.getValue();
