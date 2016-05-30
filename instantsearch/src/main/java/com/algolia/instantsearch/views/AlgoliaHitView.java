@@ -3,9 +3,9 @@ package com.algolia.instantsearch.views;
 import org.json.JSONObject;
 
 /**
- * A view that can hold a hit's attribute.
+ * A view that can hold a search hit.
  */
-public interface AlgoliaAttributeView {
+public interface AlgoliaHitView {
     /**
      * Event listener to handle a result and update your view accordingly.
      *

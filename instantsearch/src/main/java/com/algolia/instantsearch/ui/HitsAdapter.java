@@ -17,7 +17,7 @@ import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.ImageLoadTask;
 import com.algolia.instantsearch.RenderingHelper;
 import com.algolia.instantsearch.model.Errors;
-import com.algolia.instantsearch.views.AlgoliaAttributeView;
+import com.algolia.instantsearch.views.AlgoliaHitView;
 
 import org.json.JSONObject;
 
@@ -52,8 +52,8 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
             final JSONObject hit = hits.get(position);
             final String attributeValue = hit.optString(attributeName);
 
-            if (view instanceof AlgoliaAttributeView) {
-                ((AlgoliaAttributeView) view).onUpdateView(hit);
+            if (view instanceof AlgoliaHitView) {
+                ((AlgoliaHitView) view).onUpdateView(hit);
             } else if (view instanceof EditText) {
                 ((EditText) view).setHint(attributeValue);
             } else if (view instanceof TextView) {
