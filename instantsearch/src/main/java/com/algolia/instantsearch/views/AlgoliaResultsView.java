@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.views;
 
+import com.algolia.instantsearch.AlgoliaHelper;
 import org.json.JSONObject;
 
 /**
@@ -13,4 +14,6 @@ public interface AlgoliaResultsView {
      * @param isReplacing if true, the view should dispose previous hits
      */
     void onUpdateView(JSONObject hits, boolean isReplacing);
+
+    void onInit(AlgoliaHelper helper);
 }

@@ -7,17 +7,11 @@ import android.databinding.BindingAdapter;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.views.AlgoliaResultsView;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.SearchBox;
-import com.algolia.search.saas.AlgoliaException;
-import com.algolia.search.saas.Client;
-import com.algolia.search.saas.CompletionHandler;
-import com.algolia.search.saas.Index;
-import com.algolia.search.saas.Query;
-
+import com.algolia.search.saas.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -34,7 +28,7 @@ public class AlgoliaHelper {
     private final Client client;
     private final Query query;
     private SearchBox searchBox;
-    private Hits hits;
+    private AlgoliaResultsView resultsView;
 
     private int lastSearchSeqNumber; // Identifier of last fired query
     private int lastDisplayedSeqNumber; // Identifier of last displayed query
@@ -98,6 +92,9 @@ public class AlgoliaHelper {
     }
 
     public static int getItemLayoutId() {
+        if (itemLayoutId == 0) {
+            throw new IllegalStateException(Errors.GET_ITEMLAYOUT_WITHOUT_HITS);
+        }
         return itemLayoutId;
     }
 
@@ -155,7 +152,7 @@ public class AlgoliaHelper {
                     }
 
                     if (hasHits(content)) {
-                        hits.onUpdateView(content, false);
+                        resultsView.onUpdateView(content, false);
                         lastDisplayedPage = lastRequestedPage;
                     } else {
                         endReached = true;
@@ -172,25 +169,33 @@ public class AlgoliaHelper {
             throw new RuntimeException(Errors.LAYOUT_MISSING_SEARCHBOX);
         }
 
-        hits = (Hits) rootView.findViewById(R.id.hits);
-        if (hits == null) {
+        resultsView = (AlgoliaResultsView) rootView.findViewById(R.id.hits);
+        if (resultsView == null) {
             throw new RuntimeException(Errors.LAYOUT_MISSING_HITS);
         }
-        hits.setHelper(this);
+        resultsView.onInit(this);
 
-        query.setHitsPerPage(hits.getHitsPerPage());
+        if (resultsView instanceof Hits) {
+            final Hits hits = (Hits) resultsView;
+            query.setHitsPerPage(hits.getHitsPerPage());
+
+            // Link hits to activity's empty view
+            View emptyView = rootView.findViewById(R.id.empty);
+            if (emptyView == null) {
+                throw new RuntimeException(Errors.LAYOUT_MISSING_EMPTY);
+            }
+            hits.setEmptyView(emptyView);
+            final String layoutName = hits.getLayoutName();
+            if (layoutName == null) {
+                throw new RuntimeException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
+            } else {
+                itemLayoutId = activity.getResources().getIdentifier(layoutName, "layout", activity.getPackageName());
+            }
+        }
 
         // Link searchBox to the Activity's SearchableInfo
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchBox.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
-
-        // Link hits to activity's empty view
-        View emptyView = rootView.findViewById(R.id.empty);
-        if (emptyView == null) {
-            throw new RuntimeException(Errors.LAYOUT_MISSING_EMPTY);
-        }
-        hits.setEmptyView(emptyView);
-        itemLayoutId = activity.getResources().getIdentifier(hits.getLayoutName(), "layout", activity.getPackageName());
     }
 
     /**

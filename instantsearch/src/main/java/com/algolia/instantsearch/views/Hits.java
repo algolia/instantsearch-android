@@ -7,14 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.view.View;
-
 import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.ItemClickSupport;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.ui.HitsAdapter;
 import com.algolia.search.saas.AlgoliaException;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -101,6 +99,16 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onInit(AlgoliaHelper helper) {
+        this.helper = helper;
+    }
+
+    @Override
+    public void onUpdateView(JSONObject hits, boolean isReplacing) {
+        addHits(hits, isReplacing);
+    }
+
     /**
      * Add or replace hits to/in this widget
      *
@@ -139,11 +147,6 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
         }
     }
 
-    @Override
-    public void onUpdateView(JSONObject hits, boolean isReplacing) {
-        addHits(hits, isReplacing);
-    }
-
     public void setEmptyView(View emptyView) {
         this.emptyView = emptyView;
     }
@@ -154,10 +157,6 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
 
     public String getLayoutName() {
         return layoutName;
-    }
-
-    public void setHelper(AlgoliaHelper helper) {
-        this.helper = helper;
     }
 
     private class HitsScrollListener extends OnScrollListener {
@@ -196,7 +195,6 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
                     currentlyLoading = true;
                 }
             }
-
         }
 
         /**
@@ -221,6 +219,5 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
             }
             return lastVisiblePosition;
         }
-
     }
 }
