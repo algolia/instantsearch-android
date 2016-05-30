@@ -12,7 +12,7 @@ public class Errors {
 
     public static final String HITS_INFINITESCROLL = "You specified both disableInfiniteScroll and remainingItemsBeforeLoading, but they are mutually exclusive.";
 
-    public static final String IMAGELOAD_MISSING_URL = "There should only be one url per image.";
+    public static final String IMAGELOAD_INVALID_URL = "There should be one valid url per ImageView.";
 
     public static final String LAYOUT_MISSING_EMPTY = "You need to add an empty view identified as @id/empty.";
     public static final String LAYOUT_MISSING_HITS = "You need to add an AlgoliaResultsView identified as @id/hits.";

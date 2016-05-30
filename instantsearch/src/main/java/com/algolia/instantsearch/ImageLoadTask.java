@@ -21,7 +21,7 @@ public class ImageLoadTask extends AsyncTask<String, Void, Bitmap>{
     @Override
     protected Bitmap doInBackground(String... params) {
         if (params.length != 1) {
-            throw new RuntimeException(Errors.IMAGELOAD_MISSING_URL);
+            throw new IllegalStateException(Errors.IMAGELOAD_INVALID_URL);
         }
         try {
             URL url = new URL(params[0]);

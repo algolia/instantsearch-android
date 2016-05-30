@@ -80,7 +80,7 @@ public class RenderingHelper {
             } else if (identifierType.equals("@color")) {
                 colorId = view.getResources().getIdentifier(colorName, "color", view.getContext().getPackageName());
             } else {
-                throw new RuntimeException(Errors.BINDING_COLOR_INVALID);
+                throw new IllegalStateException(Errors.BINDING_COLOR_INVALID);
             }
 
             AlgoliaHelper.bindAttribute(view, attributeName);
@@ -93,6 +93,6 @@ public class RenderingHelper {
         final Resources r = view.getContext().getResources();
         int id = view.getId();
         String viewName = r.getResourcePackageName(id) + ":" + r.getResourceTypeName(id) + "/" + r.getResourceEntryName(id);
-        throw new RuntimeException("Binding error on " + viewName + ": " + message);
+        throw new IllegalStateException("Cannot bind " + viewName + ": " + message);
     }
 }

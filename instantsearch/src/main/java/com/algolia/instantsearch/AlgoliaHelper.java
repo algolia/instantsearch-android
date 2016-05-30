@@ -166,12 +166,12 @@ public class AlgoliaHelper {
         View rootView = activity.getWindow().getDecorView().getRootView();
         searchBox = (SearchBox) rootView.findViewById(R.id.searchBox);
         if (searchBox == null) {
-            throw new RuntimeException(Errors.LAYOUT_MISSING_SEARCHBOX);
+            throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
         }
 
         resultsView = (AlgoliaResultsView) rootView.findViewById(R.id.hits);
         if (resultsView == null) {
-            throw new RuntimeException(Errors.LAYOUT_MISSING_HITS);
+            throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS);
         }
         resultsView.onInit(this);
 
@@ -182,12 +182,12 @@ public class AlgoliaHelper {
             // Link hits to activity's empty view
             View emptyView = rootView.findViewById(R.id.empty);
             if (emptyView == null) {
-                throw new RuntimeException(Errors.LAYOUT_MISSING_EMPTY);
+                throw new IllegalStateException(Errors.LAYOUT_MISSING_EMPTY);
             }
             hits.setEmptyView(emptyView);
             final String layoutName = hits.getLayoutName();
             if (layoutName == null) {
-                throw new RuntimeException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
+                throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
             } else {
                 itemLayoutId = activity.getResources().getIdentifier(layoutName, "layout", activity.getPackageName());
             }

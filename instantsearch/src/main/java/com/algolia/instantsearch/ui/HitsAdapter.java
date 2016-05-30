@@ -68,7 +68,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
                 final ImageView imageView = (ImageView) view;
                 new ImageLoadTask(imageView).execute(attributeValue);
             } else {
-                throw new RuntimeException(Errors.ADAPTER_UNKNOWN_VIEW.replace("{className}", view.getClass().getCanonicalName()));
+                throw new IllegalStateException(Errors.ADAPTER_UNKNOWN_VIEW.replace("{className}", view.getClass().getCanonicalName()));
             }
         }
     }
