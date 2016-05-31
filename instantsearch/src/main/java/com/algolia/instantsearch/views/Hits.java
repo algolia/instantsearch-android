@@ -101,8 +101,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
      * Clear the Hits, emptying the underlying data
      */
     public void clear() {
-        adapter.clear();
-        adapter.notifyDataSetChanged();
+        adapter.clear(true);
     }
 
     @Override
@@ -121,21 +120,21 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     }
 
     /**
-     * Add or replace hits to/in this widget
+     * Add or replace hits to/in this widget.
      *
-     * @param hits        a {@link JSONObject} containing hits
-     * @param isReplacing if true, will replace the current hits
+     * @param hits        A {@link JSONObject} containing hits.
+     * @param isReplacing true if the given hits should replace the current hits.
      */
     private void addHits(@Nullable JSONObject hits, boolean isReplacing) {
         if (hits == null) {
-            adapter.clear();
+            adapter.clear(true);
             return;
         }
 
         JSONArray resultHits = hits.optJSONArray("hits");
 
         if (isReplacing) {
-            adapter.clear();
+            adapter.clear(false);
         }
 
         for (int i = 0; i < resultHits.length(); ++i) {
@@ -144,7 +143,6 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
                 continue;
             }
             adapter.add(hit);
-
         }
 
         if (isReplacing) {

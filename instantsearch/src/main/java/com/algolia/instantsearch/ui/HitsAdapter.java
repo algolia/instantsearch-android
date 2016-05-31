@@ -38,13 +38,12 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         ViewDataBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()), AlgoliaHelper.getItemLayoutId(), parent, false);
+        binding.executePendingBindings();
         return new ViewHolder(binding.getRoot());
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.resetIfEmpty();
-
         // For every view we have, if we can handle its type let's use the hit's attribute
         for (Map.Entry<View, String> entry : holder.viewMap.entrySet()) {
             final View view = entry.getKey();
@@ -78,8 +77,19 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
         return hits.size();
     }
 
-    public void clear() {
-        hits.clear();
+    /**
+     * Remove the current hits, potentially notifying observers.
+     *
+     * @param shouldNotify true if the adapter should notify observers of removal.
+     */
+    public void clear(boolean shouldNotify) {
+        if (shouldNotify) {
+            final int previousItemCount = getItemCount();
+            hits.clear();
+            notifyItemRangeRemoved(0, previousItemCount);
+        } else {
+            hits.clear();
+        }
     }
 
     public void add(JSONObject result) {
@@ -91,8 +101,6 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public static final int RESET_CHECK_INTERVAL_MS = 50;
-
         final Map<View, String> viewMap = new HashMap<>();
 
         public ViewHolder(View itemView) {
@@ -101,42 +109,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
         }
 
         /**
-         * This method helps avoid a race condition: as the ViewHolder can be created before
-         * our data-bindings are called, we need to check when binding it that it contains views.
-         * If it is not the case, we wait for the data-bindings and update views afterwards.
-         * initialize its views.
-         */
-        private void resetIfEmpty() {
-            if (viewMap.size() != 0) {
-                return;
-            }
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    // Try to initialize ViewHolder, looping until we have some bindings
-                    initViewHolder(itemView);
-                    while (viewMap.size() == 0) {
-                        try {
-                            initViewHolder(itemView);
-                            Thread.sleep(RESET_CHECK_INTERVAL_MS);
-                        } catch (InterruptedException ignored) {
-                        }
-                    }
-
-                    // Now we have an initialized ViewHolder, we can bind it from UI thread
-                    getActivity(viewMap.keySet().iterator().next()).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            onBindViewHolder(ViewHolder.this, getAdapterPosition());
-                        }
-                    });
-                }
-            }).start();
-        }
-
-        /**
-         * Get the Activity linked to a view
+         * Get the Activity linked to a view.
          * Based on {@link android.support.v7.app.MediaRouteButton#getActivity()}
          */
         private Activity getActivity(View view) {
