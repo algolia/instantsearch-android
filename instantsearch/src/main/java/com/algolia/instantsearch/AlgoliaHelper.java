@@ -3,7 +3,9 @@ package com.algolia.instantsearch;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BindingAdapter;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
 
@@ -75,15 +77,15 @@ public class AlgoliaHelper {
         return attributes.get(id) == null;
     }
 
-    private static void mapAttribute(String attributeName, int viewId) {
-        attributes.put(viewId, attributeName);
-    }
-
     public static int getItemLayoutId() {
         if (itemLayoutId == 0) {
             throw new IllegalStateException(Errors.GET_ITEMLAYOUT_WITHOUT_HITS);
         }
         return itemLayoutId;
+    }
+
+    private static void mapAttribute(String attributeName, int viewId) {
+        attributes.put(viewId, attributeName);
     }
 
     /**
@@ -111,7 +113,24 @@ public class AlgoliaHelper {
         return false;
     }
 
-    public void search(final String queryString, final CompletionHandler listener) {
+    /**
+     * Start a search if the given intent is an ACTION_SEARCH intent
+     *
+     * @param intent an Intent that may contain a search query
+     */
+    public void search(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            search(query);
+        }
+    }
+
+    /**
+     * Start a search with the given text
+     *
+     * @param queryString a String to search on the index
+     */
+    public void search(final String queryString) {
         endReached = false;
         lastRequestedPage = 0;
         lastDisplayedPage = -1;
@@ -131,13 +150,6 @@ public class AlgoliaHelper {
                     return;
                 }
 
-
-                if (error == null) {
-                    Log.d("PLN|search.searchResult", String.format("Index %s with query %s succeeded: %s.", index.getIndexName(), queryString, content));
-                } else {
-                    Log.e("PLN|search.searchError", String.format("Index %s with query %s failed: %s(%s).", index.getIndexName(), queryString, error.getCause(), error.getMessage()));
-                }
-
                 if (content == null || !hasHits(content)) {
                     endReached = true;
                 }
@@ -145,11 +157,20 @@ public class AlgoliaHelper {
                 lastDisplayedSeqNumber = currentSearchSeqNumber;
                 lastDisplayedPage = 0;
 
-                listener.requestCompleted(content, error);
+                if (error != null) {
+                    resultsView.onError(query, error);
+                    Log.e("PLN|search.searchError", String.format("Index %s with query %s failed: %s(%s).", index.getIndexName(), queryString, error.getCause(), error.getMessage()));
+                } else {
+                    resultsView.onUpdateView(content, true);
+                    Log.d("PLN|search.searchResult", String.format("Index %s with query %s succeeded: %s.", index.getIndexName(), queryString, content));
+                }
             }
         });
     }
 
+    /**
+     * Load more results with the same query
+     */
     public void loadMore() {
         Query loadMoreQuery = new Query(query);
         loadMoreQuery.setPage(++lastRequestedPage);
@@ -175,12 +196,46 @@ public class AlgoliaHelper {
         });
     }
 
+    /**
+     * Tell if we should load more hits when reaching the end of an {@link AlgoliaResultsView}
+     *
+     * @return true unless we reached the end of hits or we already requested a new page
+     */
+    public boolean shouldLoadMore() {
+        return !(endReached || lastRequestedPage > lastDisplayedPage);
+    }
+
+    /**
+     * Use the given query's parameters for following search queries
+     *
+     * @param baseQuery a {@link Query} object with some parameters set
+     */
+    public void setBaseQuery(Query baseQuery) {
+        query = baseQuery;
+    }
+
     private void processActivity(final Activity activity) {
         View rootView = activity.getWindow().getDecorView().getRootView();
         searchBox = (SearchBox) rootView.findViewById(R.id.searchBox);
         if (searchBox == null) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
         }
+        searchBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false; // Ignore submission events: we already update on changes.
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.length() == 0) {
+                    resultsView.onUpdateView(null, true);
+                } else {
+                    search(newText);
+                }
+                return true;
+            }
+        });
 
         resultsView = (AlgoliaResultsView) rootView.findViewById(R.id.hits);
         if (resultsView == null) {
@@ -209,23 +264,5 @@ public class AlgoliaHelper {
         // Link searchBox to the Activity's SearchableInfo
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchBox.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
-    }
-
-    /**
-     * Tell if we should load more hits when reaching the end of an {@link AlgoliaResultsView}
-     *
-     * @return true unless we reached the end of hits or we already requested a new page
-     */
-    public boolean shouldLoadMore() {
-        return !(endReached || lastRequestedPage > lastDisplayedPage);
-    }
-
-    /**
-     * Use the given query's parameters for following search queries
-     *
-     * @param baseQuery a {@link Query} object with some parameters set
-     */
-    public void setBaseQuery(Query baseQuery) {
-        query = baseQuery;
     }
 }

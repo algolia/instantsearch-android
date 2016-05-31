@@ -2,17 +2,23 @@ package com.algolia.instantsearch.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Toast;
+
 import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.ItemClickSupport;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.ui.HitsAdapter;
 import com.algolia.search.saas.AlgoliaException;
+import com.algolia.search.saas.Query;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -100,13 +106,18 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     }
 
     @Override
-    public void onInit(AlgoliaHelper helper) {
+    public void onInit(@NonNull AlgoliaHelper helper) {
         this.helper = helper;
     }
 
     @Override
-    public void onUpdateView(JSONObject hits, boolean isReplacing) {
+    public void onUpdateView(@Nullable JSONObject hits, boolean isReplacing) {
         addHits(hits, isReplacing);
+    }
+
+    @Override
+    public void onError(Query query, AlgoliaException error) {
+        Toast.makeText(getContext(), "Error:" + error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -115,7 +126,12 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
      * @param hits        a {@link JSONObject} containing hits
      * @param isReplacing if true, will replace the current hits
      */
-    private void addHits(JSONObject hits, boolean isReplacing) {
+    private void addHits(@Nullable JSONObject hits, boolean isReplacing) {
+        if (hits == null) {
+            adapter.clear();
+            return;
+        }
+
         JSONArray resultHits = hits.optJSONArray("hits");
 
         if (isReplacing) {
