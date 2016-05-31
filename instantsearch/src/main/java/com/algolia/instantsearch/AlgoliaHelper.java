@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.databinding.BindingAdapter;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 
@@ -32,7 +31,7 @@ public class AlgoliaHelper {
 
     private final Index index;
     private final Client client;
-    private final Query query;
+    private Query query;
 
     private SearchBox searchBox;
     private AlgoliaResultsView resultsView;
@@ -55,24 +54,6 @@ public class AlgoliaHelper {
         client = new Client(applicationId, apiKey);
         index = client.initIndex(indexName);
         query = new Query();
-
-        processActivity(activity);
-    }
-
-
-    /**
-     * Create and initialize the helper
-     *
-     * @param activity      the Activity containing an {@link AlgoliaResultsView}
-     * @param applicationId your application's ID
-     * @param apiKey        a search api key associated with this application
-     * @param indexName     the name of the application's index to search in
-     * @param baseQuery     a {@link Query} which properties will be applied to all search queries
-     */
-    public AlgoliaHelper(Activity activity, final String applicationId, final String apiKey, final String indexName, @NonNull Query baseQuery) {
-        client = new Client(applicationId, apiKey);
-        index = client.initIndex(indexName);
-        query = new Query(baseQuery);
 
         processActivity(activity);
     }
@@ -231,11 +212,20 @@ public class AlgoliaHelper {
     }
 
     /**
-     * Tells if we should load more hits when reaching the end of an {@link AlgoliaResultsView}
+     * Tell if we should load more hits when reaching the end of an {@link AlgoliaResultsView}
      *
      * @return true unless we reached the end of hits or we already requested a new page
      */
     public boolean shouldLoadMore() {
         return !(endReached || lastRequestedPage > lastDisplayedPage);
+    }
+
+    /**
+     * Use the given query's parameters for following search queries
+     *
+     * @param baseQuery a {@link Query} object with some parameters set
+     */
+    public void setBaseQuery(Query baseQuery) {
+        query = baseQuery;
     }
 }
