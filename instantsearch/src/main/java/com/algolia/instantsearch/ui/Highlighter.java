@@ -130,7 +130,7 @@ public class Highlighter {
      * @param attributeName the name of the attribute to return highlighted
      * @return the highlighted version of this attribute if there is one, else the raw attribute
      */
-    private static String getHighlightedAttribute(JSONObject result, String attributeName) {
+    public static String getHighlightedAttribute(JSONObject result, String attributeName) {
         final JSONObject highlightResult = result.optJSONObject("_highlightResult");
         if (highlightResult != null) {
             JSONObject highlightAttribute = highlightResult.optJSONObject(attributeName);
@@ -141,7 +141,7 @@ public class Highlighter {
                 }
             }
         }
-        return result.optString(attributeName);
+        return null;
     }
 
     public static String removeHighlight(String attribute) {

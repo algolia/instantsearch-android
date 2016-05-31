@@ -7,11 +7,17 @@ import android.databinding.BindingAdapter;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.views.AlgoliaResultsView;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.SearchBox;
-import com.algolia.search.saas.*;
+import com.algolia.search.saas.AlgoliaException;
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.CompletionHandler;
+import com.algolia.search.saas.Index;
+import com.algolia.search.saas.Query;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -27,6 +33,7 @@ public class AlgoliaHelper {
     private final Index index;
     private final Client client;
     private final Query query;
+
     private SearchBox searchBox;
     private AlgoliaResultsView resultsView;
 
@@ -96,6 +103,31 @@ public class AlgoliaHelper {
             throw new IllegalStateException(Errors.GET_ITEMLAYOUT_WITHOUT_HITS);
         }
         return itemLayoutId;
+    }
+
+    /**
+     * Find if a returned json contains at least one hit
+     *
+     * @param jsonObject the query result
+     * @return true if it contains a hits array with at least one non null element
+     */
+    private static boolean hasHits(JSONObject jsonObject) {
+        if (jsonObject == null) {
+            return false;
+        }
+
+        JSONArray resultHits = jsonObject.optJSONArray("hits");
+        if (resultHits == null) {
+            return false;
+        }
+
+        for (int i = 0; i < resultHits.length(); ++i) {
+            JSONObject hit = resultHits.optJSONObject(i);
+            if (hit != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void search(final String queryString, final CompletionHandler listener) {
@@ -196,31 +228,6 @@ public class AlgoliaHelper {
         // Link searchBox to the Activity's SearchableInfo
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchBox.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
-    }
-
-    /**
-     * Find if a returned json contains at least one hit
-     *
-     * @param jsonObject the query result
-     * @return true if it contains a hits array with at least one non null element
-     */
-    private static boolean hasHits(JSONObject jsonObject) {
-        if (jsonObject == null) {
-            return false;
-        }
-
-        JSONArray resultHits = jsonObject.optJSONArray("hits");
-        if (resultHits == null) {
-            return false;
-        }
-
-        for (int i = 0; i < resultHits.length(); ++i) {
-            JSONObject hit = resultHits.optJSONObject(i);
-            if (hit != null) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
