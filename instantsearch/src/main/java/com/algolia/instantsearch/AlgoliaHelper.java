@@ -5,9 +5,11 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.views.AlgoliaResultsView;
@@ -248,21 +250,36 @@ public class AlgoliaHelper {
             query.setHitsPerPage(hits.getHitsPerPage());
 
             // Link hits to activity's empty view
-            View emptyView = rootView.findViewById(R.id.empty);
-            if (emptyView == null) {
-                throw new IllegalStateException(Errors.LAYOUT_MISSING_EMPTY);
-            }
-            hits.setEmptyView(emptyView);
+            hits.setEmptyView(getEmptyView(rootView));
+
             final String layoutName = hits.getLayoutName();
             if (layoutName == null) {
                 throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
             } else {
                 itemLayoutId = activity.getResources().getIdentifier(layoutName, "layout", activity.getPackageName());
             }
+        } else if (resultsView instanceof ListView) {
+            ((ListView) resultsView).setEmptyView(getEmptyView(rootView));
         }
 
         // Link searchBox to the Activity's SearchableInfo
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchBox.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
+    }
+
+    /**
+     * Find the empty view in the given rootView.
+     *
+     * @param rootView the topmost view in the view hierarchy of the Activity.
+     * @return the empty view if it was in the given rootView.
+     * @throws IllegalStateException if no empty view can be found.
+     */
+    @NonNull
+    private View getEmptyView(View rootView) {
+        View emptyView = rootView.findViewById(R.id.empty);
+        if (emptyView == null) {
+            throw new IllegalStateException(Errors.LAYOUT_MISSING_EMPTY);
+        }
+        return emptyView;
     }
 }
