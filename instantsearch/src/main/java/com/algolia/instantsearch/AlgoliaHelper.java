@@ -37,7 +37,7 @@ public class AlgoliaHelper {
     private final Client client;
     private Query query;
 
-    private SearchBox searchBox;
+    private SearchView searchView;
     private AlgoliaResultsView resultsView;
 
     private int lastSearchSeqNumber; // Identifier of last fired query
@@ -218,11 +218,11 @@ public class AlgoliaHelper {
 
     private void processActivity(final Activity activity) {
         View rootView = activity.getWindow().getDecorView().getRootView();
-        searchBox = (SearchBox) rootView.findViewById(R.id.searchBox);
-        if (searchBox == null) {
+        searchView = (SearchBox) rootView.findViewById(R.id.searchBox);
+        if (searchView == null) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
         }
-        searchBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false; // Ignore submission events: we already update on changes.
@@ -262,9 +262,9 @@ public class AlgoliaHelper {
             ((ListView) resultsView).setEmptyView(getEmptyView(rootView));
         }
 
-        // Link searchBox to the Activity's SearchableInfo
+        // Link searchView to the Activity's SearchableInfo
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
-        searchBox.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
+        searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
     }
 
     /**
