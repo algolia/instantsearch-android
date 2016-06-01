@@ -1,8 +1,5 @@
 package com.algolia.instantsearch.ui;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
@@ -96,10 +93,6 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
         hits.add(result);
     }
 
-    public JSONObject getItem(int position) {
-        return hits.get(position);
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         final Map<View, String> viewMap = new HashMap<>();
 
@@ -109,26 +102,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
         }
 
         /**
-         * Get the Activity linked to a view.
-         * Based on {@link android.support.v7.app.MediaRouteButton#getActivity()}
-         */
-        private Activity getActivity(View view) {
-            Context context = view.getContext();
-            Activity activity = null;
-            while (context instanceof ContextWrapper) {
-                if (context instanceof Activity) {
-                    activity = (Activity) context;
-                }
-                context = ((ContextWrapper) context).getBaseContext();
-            }
-            if (activity == null) {
-                throw new RuntimeException(Errors.VIEW_HAS_NO_ACTIVITY.replace("{viewName}", view.toString()));
-            }
-            return activity;
-        }
-
-        /**
-         * Initializes the ViewHolder, populating its viewMap
+         * Initializes the ViewHolder, populating its viewMap.
          *
          * @param itemView the rootView containing the holder's views
          */

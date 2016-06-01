@@ -29,40 +29,40 @@ public class RenderingHelper {
         return attributeColors.get(attributeName);
     }
 
-    @SuppressWarnings("unused") // called via Data Binding
+    @SuppressWarnings({"unused"}) // called via Data Binding
     @BindingAdapter({"attribute", "highlighted"})
     public static void bindHighlighted(View view, String attributeName, Boolean isHighlighted) {
         // C: Bind attribute, enable highlight with default color
         bindAndHighlight(view, attributeName, DEFAULT_COLOR);
     }
 
-    @SuppressWarnings("unused") // called via Data Binding
+    @SuppressWarnings({"unused"}) // called via Data Binding
     @BindingAdapter({"attribute", "highlightingColor"})
     public static void bindHighlighted(View view, String attributeName, String colorStr) {
         // D: Bind attribute, enable highlight with color
         bindAndHighlight(view, attributeName, colorStr);
     }
 
-    @SuppressWarnings("unused") // called via Data Binding
+    @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding
     @BindingAdapter({"attribute", "highlighted", "highlightingColor"})
     public static void bindHighlighted(View view, String attributeName, Boolean isHighlighted, String colorStr) {
         // D: Bind attribute, enable highlight with color
         bindAndHighlight(view, attributeName, colorStr);
     }
 
-    @SuppressWarnings("unused") // called via Data Binding
+    @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding and throws
     @BindingAdapter({"highlighted"})
     public static void bindInvalid(View view, Boolean isHighlighted) {
         throwBindingError(view, Errors.BINDING_HIGHLIGHTED_NO_ATTR);
     }
 
-    @SuppressWarnings("unused") // called via Data Binding
+    @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding and throws
     @BindingAdapter({"highlightingColor"})
     public static void bindInvalid(View view, @ColorRes int color) {
         throwBindingError(view, Errors.BINDING_HIGHLIGHTING_NO_ATTR);
     }
 
-    @SuppressWarnings("unused") // called via Data Binding
+    @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding and throws
     @BindingAdapter({"highlighted", "highlighting"})
     public static void bindInvalid(View view, Boolean isHighlighted, String colorStr) {
         throwBindingError(view, Errors.BINDING_NO_ATTR);

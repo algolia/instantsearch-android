@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.ItemClickSupport;
+import com.algolia.instantsearch.ItemClickSupport.OnItemClickListener;
+import com.algolia.instantsearch.ItemClickSupport.OnItemLongClickListener;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.ui.HitsAdapter;
@@ -23,7 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Hits extends RecyclerView implements AlgoliaResultsView {
-    public static final int MISSING_VALUE = -42;
+    public static final int MISSING_VALUE = Integer.MIN_VALUE;
     public static final int DEFAULT_HITS_PER_PAGE = 20;
     public static final int DEFAULT_REMAINING_ITEMS = 5;
 
@@ -80,25 +82,25 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     }
 
     /**
-     * Set a listener for click events on child views
+     * Set a listener for click events on child views.
      *
-     * @param listener an @{OnItemClickListener} which will handle the event
+     * @param listener An {@link OnItemClickListener} which should receive these events.
      */
-    public void setOnItemClickListener(ItemClickSupport.OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         ItemClickSupport.addTo(this).setOnItemClickListener(listener);
     }
 
     /**
-     * Set a listener for long click events on child views
+     * Set a listener for long click events on child views.
      *
-     * @param listener an @{OnItemLongClickListener} which will handle the event
+     * @param listener An {@link OnItemLongClickListener} which should receive these events.
      */
-    public void setOnItemLongClickListener(ItemClickSupport.OnItemLongClickListener listener) {
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
         ItemClickSupport.addTo(this).setOnItemLongClickListener(listener);
     }
 
     /**
-     * Clear the Hits, emptying the underlying data
+     * Clear the Hits, emptying the underlying data.
      */
     public void clear() {
         adapter.clear(true);
@@ -116,7 +118,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
 
     @Override
     public void onError(Query query, AlgoliaException error) {
-        Toast.makeText(getContext(), "Error:" + error.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Error while searching '" + query.getQuery() + "':" + error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -212,9 +214,9 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
         }
 
         /**
-         * Calculates the position of last visible item, notwithstanding the LayoutManager's class
+         * Calculate the position of last visible item, notwithstanding the LayoutManager's class.
          *
-         * @return the last visible item's position in the list
+         * @return the last visible item's position in the list.
          */
         private int getLastVisibleItemPosition() {
             int lastVisiblePosition = 0;

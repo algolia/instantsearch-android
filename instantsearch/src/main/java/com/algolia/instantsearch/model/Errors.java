@@ -20,6 +20,4 @@ public class Errors {
     public static final String LAYOUT_MISSING_SEARCHBOX = "You need to add a searchBox identified as @id/searchBox.";
 
     public static final String LOADMORE_FAIL = "Error while loading more data.";
-
-    public static final String VIEW_HAS_NO_ACTIVITY = "Could not get an activity from view {viewName}.";
 }
