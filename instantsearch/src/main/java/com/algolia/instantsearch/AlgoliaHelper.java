@@ -47,12 +47,12 @@ public class AlgoliaHelper {
     private boolean endReached;
 
     /**
-     * Create and initialize the helper
+     * Create and initialize the helper.
      *
-     * @param activity      the Activity containing an {@link AlgoliaResultsView}
-     * @param applicationId your application's ID
-     * @param apiKey        a search api key associated with this application
-     * @param indexName     the name of the application's index to search in
+     * @param activity      the Activity containing an {@link AlgoliaResultsView}.
+     * @param applicationId your application's ID.
+     * @param apiKey        a search api key associated with this application.
+     * @param indexName     the name of the application's index to search in.
      */
     public AlgoliaHelper(Activity activity, final String applicationId, final String apiKey, final String indexName) {
         client = new Client(applicationId, apiKey);
@@ -116,9 +116,9 @@ public class AlgoliaHelper {
     }
 
     /**
-     * Start a search if the given intent is an ACTION_SEARCH intent
+     * Start a search if the given intent is an ACTION_SEARCH intent.
      *
-     * @param intent an Intent that may contain a search query
+     * @param intent an Intent that may contain a search query.
      */
     public void search(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -128,9 +128,9 @@ public class AlgoliaHelper {
     }
 
     /**
-     * Start a search with the given text
+     * Start a search with the given text.
      *
-     * @param queryString a String to search on the index
+     * @param queryString a String to search on the index.
      */
     public void search(final String queryString) {
         endReached = false;
@@ -171,7 +171,7 @@ public class AlgoliaHelper {
     }
 
     /**
-     * Load more results with the same query
+     * Load more results with the same query.
      */
     public void loadMore() {
         Query loadMoreQuery = new Query(query);
