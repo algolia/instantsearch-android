@@ -12,9 +12,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.algolia.instantsearch.AlgoliaHelper;
-import com.algolia.instantsearch.ItemClickSupport;
-import com.algolia.instantsearch.ItemClickSupport.OnItemClickListener;
-import com.algolia.instantsearch.ItemClickSupport.OnItemLongClickListener;
+import com.algolia.instantsearch.utils.ItemClickSupport;
+import com.algolia.instantsearch.utils.ItemClickSupport.OnItemClickListener;
+import com.algolia.instantsearch.utils.ItemClickSupport.OnItemLongClickListener;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.ui.HitsAdapter;

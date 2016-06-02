@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.algolia.instantsearch.AlgoliaHelper;
-import com.algolia.instantsearch.ImageLoadTask;
+import com.algolia.instantsearch.utils.ImageLoadTask;
 import com.algolia.instantsearch.RenderingHelper;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.views.AlgoliaHitView;

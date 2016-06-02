@@ -1,19 +1,19 @@
-package com.algolia.instantsearch;
+package com.algolia.instantsearch.utils;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.algolia.instantsearch.R;
+
 /**
- * <pre>
- * Helper to set onItemClick/onItemLongClick listeners on a RecyclerView
- * <a href="http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/">Made by Hugo Visser</a>
- * See (un)license at <a href="http://unlicense.org/">unlicense.org</a>
- * </pre>
+ * Helper to set onItem[Long]Click listeners on a RecyclerView <br />
+ * <a href="http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/">Made by Hugo Visser</a> <br />
+ * See (un)license at <a href="http://unlicense.org/">unlicense.org</a> <br />
  */
 public class ItemClickSupport {
     private final RecyclerView mRecyclerView;
+
     private OnItemClickListener mOnItemClickListener;
-    private OnItemLongClickListener mOnItemLongClickListener;
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -23,6 +23,8 @@ public class ItemClickSupport {
             }
         }
     };
+
+    private OnItemLongClickListener mOnItemLongClickListener;
     private final View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
@@ -33,6 +35,7 @@ public class ItemClickSupport {
             return false;
         }
     };
+
     private final RecyclerView.OnChildAttachStateChangeListener mAttachListener
             = new RecyclerView.OnChildAttachStateChangeListener() {
         @Override

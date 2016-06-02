@@ -1,4 +1,4 @@
-package com.algolia.instantsearch;
+package com.algolia.instantsearch.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
