@@ -11,9 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.algolia.instantsearch.AlgoliaHelper;
-import com.algolia.instantsearch.utils.ImageLoadTask;
 import com.algolia.instantsearch.RenderingHelper;
 import com.algolia.instantsearch.model.Errors;
+import com.algolia.instantsearch.utils.ImageLoadTask;
+import com.algolia.instantsearch.utils.LayoutViews;
 import com.algolia.instantsearch.views.AlgoliaHitView;
 
 import org.json.JSONObject;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
 
@@ -41,11 +43,23 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // For every view we have, if we can handle its type let's use the hit's attribute
+        final Set<View> mappedViews = holder.viewMap.keySet();
+        final List<AlgoliaHitView> hitViews = LayoutViews.findByClass((ViewGroup) holder.itemView, AlgoliaHitView.class);
+        final JSONObject hit = hits.get(position);
+
+        // For every AlgoliaHitView that is not bound, trigger onUpdateView
+        for (AlgoliaHitView hitView : hitViews) {
+            //noinspection SuspiciousMethodCalls: With LayoutViews, we are sure to only find Views
+            if (mappedViews.contains(hitView)) {
+                continue;
+            }
+            hitView.onUpdateView(hit);
+        }
+
+        // For every view we have bound, if we can handle its class let's send them the hit
         for (Map.Entry<View, String> entry : holder.viewMap.entrySet()) {
             final View view = entry.getKey();
             final String attributeName = entry.getValue();
-            final JSONObject hit = hits.get(position);
             final String attributeValue = hit.optString(attributeName);
 
             if (view instanceof AlgoliaHitView) {
@@ -98,15 +112,6 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            initViewHolder(itemView);
-        }
-
-        /**
-         * Initializes the ViewHolder, populating its viewMap.
-         *
-         * @param itemView the rootView containing the holder's views
-         */
-        private void initViewHolder(View itemView) {
             // Store every annotated view with its attribute name
             for (Map.Entry<Integer, String> entry : AlgoliaHelper.getEntrySet()) {
                 final String attributeName = entry.getValue();
@@ -114,5 +119,6 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
                 viewMap.put(view, attributeName);
             }
         }
+
     }
 }

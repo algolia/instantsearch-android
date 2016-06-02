@@ -12,12 +12,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.algolia.instantsearch.AlgoliaHelper;
-import com.algolia.instantsearch.utils.ItemClickSupport;
-import com.algolia.instantsearch.utils.ItemClickSupport.OnItemClickListener;
-import com.algolia.instantsearch.utils.ItemClickSupport.OnItemLongClickListener;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.ui.HitsAdapter;
+import com.algolia.instantsearch.utils.ItemClickSupport;
+import com.algolia.instantsearch.utils.ItemClickSupport.OnItemClickListener;
+import com.algolia.instantsearch.utils.ItemClickSupport.OnItemLongClickListener;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
@@ -42,6 +42,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
 
     public Hits(Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
+
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Hits, 0, 0);
         try {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, DEFAULT_HITS_PER_PAGE);
