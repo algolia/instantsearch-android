@@ -112,8 +112,8 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     }
 
     @Override
-    public void onUpdateView(@Nullable JSONObject hits, boolean isReplacing) {
-        addHits(hits, isReplacing);
+    public void onUpdateView(@Nullable JSONObject hits, boolean isLoadingMore) {
+        addHits(hits, isLoadingMore);
     }
 
     @Override

@@ -14,25 +14,25 @@ import org.json.JSONObject;
  */
 public interface AlgoliaResultsView {
     /**
-     * Called at initialisation to give this AlgoliaResultsView a reference to its AlgoliaHelper
+     * Called at initialisation to give this AlgoliaResultsView a reference to its AlgoliaHelper.
      *
-     * @param helper an {@link AlgoliaHelper} instance
+     * @param helper an {@link AlgoliaHelper} instance.
      */
     void onInit(@NonNull AlgoliaHelper helper);
 
     /**
      * Event listener to react to new hits
      *
-     * @param hits        a {@link JSONObject} containing hits,
-     * @param isReplacing if true, the view should dispose previous hits
+     * @param hits          a {@link JSONObject} containing hits.
+     * @param isLoadingMore true if these hits come from the same query than the previous ones.
      */
-    void onUpdateView(@Nullable JSONObject hits, boolean isReplacing);
+    void onUpdateView(@Nullable JSONObject hits, boolean isLoadingMore);
 
     /**
-     * Event listener to react to potential search errors
+     * Event listener to react to potential search errors.
      *
-     * @param query the {@link Query} that was used
-     * @param error the resulting {@link AlgoliaException}
+     * @param query the {@link Query} that was used.
+     * @param error the resulting {@link AlgoliaException}.
      */
     void onError(Query query, AlgoliaException error);
 }
