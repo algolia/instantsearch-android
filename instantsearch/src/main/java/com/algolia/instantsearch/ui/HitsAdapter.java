@@ -85,7 +85,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
                     ((ImageView) view).setImageBitmap(bitmap);
                 }
             } else {
-                throw new IllegalStateException(Errors.ADAPTER_UNKNOWN_VIEW.replace("{className}", view.getClass().getCanonicalName()));
+                throw new IllegalStateException(String.format(Errors.ADAPTER_UNKNOWN_VIEW, view.getClass().getCanonicalName()));
             }
         }
     }

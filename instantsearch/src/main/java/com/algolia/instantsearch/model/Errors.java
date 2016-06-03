@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.model;
 
 public class Errors {
-    public static final String ADAPTER_UNKNOWN_VIEW = "Unrecognized view class ({className}): Your view should either use/extend a system view or implement AlgoliaHitView.";
+    public static final String ADAPTER_UNKNOWN_VIEW = "Unrecognized view class (%s): Your view should either use/extend a system view or implement AlgoliaHitView.";
 
     public static final String BINDING_HIGHLIGHTED_NO_ATTR = "You need an algolia:attribute to use algolia:highlighted.";
     public static final String BINDING_HIGHLIGHTING_NO_ATTR = "You need an algolia:attribute to use algolia:highlighting.";
