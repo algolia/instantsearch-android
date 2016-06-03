@@ -10,12 +10,16 @@ import com.algolia.instantsearch.model.Errors;
 import java.io.IOException;
 import java.net.URL;
 
-public class ImageLoadTask extends AsyncTask<String, Void, Bitmap>{
-    private final ImageView view;
-    private Bitmap bitmap;
+public class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
+    private final BitmapListener listener;
 
-    public ImageLoadTask(ImageView imageView) {
-        view = imageView;
+    private final ImageView imageView;
+    private Bitmap bitmap;
+    private String url;
+
+    public ImageLoadTask(BitmapListener listener, ImageView imageView) {
+        this.listener = listener;
+        this.imageView = imageView;
     }
 
     @Override
@@ -24,8 +28,8 @@ public class ImageLoadTask extends AsyncTask<String, Void, Bitmap>{
             throw new IllegalStateException(Errors.IMAGELOAD_INVALID_URL);
         }
         try {
-            URL url = new URL(params[0]);
-            bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            url = params[0];
+            bitmap = BitmapFactory.decodeStream(new URL(url).openConnection().getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,6 +39,10 @@ public class ImageLoadTask extends AsyncTask<String, Void, Bitmap>{
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        view.setImageBitmap(bitmap);
+        listener.onResult(url, bitmap, imageView);
+    }
+
+    public interface BitmapListener {
+        void onResult(String url, Bitmap bitmap, ImageView imageView);
     }
 }

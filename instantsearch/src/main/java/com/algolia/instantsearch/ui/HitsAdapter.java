@@ -2,6 +2,7 @@ package com.algolia.instantsearch.ui;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +26,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
+public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> implements ImageLoadTask.BitmapListener {
 
     private List<JSONObject> hits = new ArrayList<>();
+        private Map<String, Bitmap> bitmaps = new HashMap<>();
 
     public HitsAdapter() {
         this.hits = new ArrayList<>();
@@ -75,8 +77,13 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
                     textView.setText(attributeValue);
                 }
             } else if (view instanceof ImageView) {
+                final Bitmap bitmap = bitmaps.get(attributeValue);
                 final ImageView imageView = (ImageView) view;
-                new ImageLoadTask(imageView).execute(attributeValue);
+                if (bitmap == null) {
+                    new ImageLoadTask(this, imageView).execute(attributeValue);
+                } else {
+                    ((ImageView) view).setImageBitmap(bitmap);
+                }
             } else {
                 throw new IllegalStateException(Errors.ADAPTER_UNKNOWN_VIEW.replace("{className}", view.getClass().getCanonicalName()));
             }
@@ -86,6 +93,12 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return hits.size();
+    }
+
+    @Override
+    public void onResult(String url, Bitmap bitmap, ImageView view) {
+        view.setImageBitmap(bitmap);
+        bitmaps.put(url, bitmap);
     }
 
     /**
