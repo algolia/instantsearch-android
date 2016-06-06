@@ -14,7 +14,6 @@ import android.widget.ListView;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.views.AlgoliaResultsView;
 import com.algolia.instantsearch.views.Hits;
-import com.algolia.instantsearch.views.SearchBox;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.CompletionHandler;
@@ -123,6 +122,8 @@ public class AlgoliaHelper {
     public void search(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
+            searchView.setQuery(query, false);
+            searchView.clearFocus();
             search(query);
         }
     }
@@ -218,10 +219,7 @@ public class AlgoliaHelper {
 
     private void processActivity(final Activity activity) {
         View rootView = activity.getWindow().getDecorView().getRootView();
-        searchView = (SearchBox) rootView.findViewById(R.id.searchBox);
-        if (searchView == null) {
-            throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
-        }
+        searchView = getSearchView(rootView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -238,6 +236,8 @@ public class AlgoliaHelper {
                 return true;
             }
         });
+
+        linkSearchViewToActivity(activity, searchView);
 
         resultsView = (AlgoliaResultsView) rootView.findViewById(R.id.hits);
         if (resultsView == null) {
@@ -261,10 +261,36 @@ public class AlgoliaHelper {
         } else if (resultsView instanceof ListView) {
             ((ListView) resultsView).setEmptyView(getEmptyView(rootView));
         }
+    }
 
-        // Link searchView to the Activity's SearchableInfo
+    /**
+     * Initialise search from the given activity according to its {@link android.app.SearchableInfo searchable info}.
+     *
+     * @param activity the activity with a {@link SearchView} identified as @+id/searchBox.
+     */
+    public static void initSearchFrom(Activity activity) {
+        final View rootView = activity.getWindow().getDecorView().getRootView();
+        SearchView searchView = getSearchView(rootView);
+
+        linkSearchViewToActivity(activity, searchView);
+    }
+
+    private static void linkSearchViewToActivity(Activity activity, SearchView searchView) {
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
+    }
+
+    @NonNull
+    private static SearchView getSearchView(View rootView) {
+        try {
+            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchBox);
+            if (searchView == null) {
+                throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
+            }
+            return searchView;
+        } catch (ClassCastException e) {
+            throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
+        }
     }
 
     /**
@@ -275,7 +301,7 @@ public class AlgoliaHelper {
      * @throws IllegalStateException if no empty view can be found.
      */
     @NonNull
-    private View getEmptyView(View rootView) {
+    private static View getEmptyView(View rootView) {
         View emptyView = rootView.findViewById(R.id.empty);
         if (emptyView == null) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_EMPTY);
