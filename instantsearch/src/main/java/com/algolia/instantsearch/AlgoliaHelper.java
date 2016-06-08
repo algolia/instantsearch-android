@@ -32,7 +32,7 @@ public class AlgoliaHelper {
     private static final Map<Integer, String> attributes = new HashMap<>();
     private static int itemLayoutId;
 
-    private final Index index;
+    private Index index;
     private final Client client;
     private Query query;
 
@@ -215,6 +215,28 @@ public class AlgoliaHelper {
      */
     public void setBaseQuery(Query baseQuery) {
         query = baseQuery;
+    }
+
+    /**
+     * Change the targeted index for future queries.
+     * Be aware that this method only changed the index without invalidating any existing state (pagination, facets, etc).
+     * You may want to use {@link AlgoliaHelper#reset} to reinitialize the helper to an empty state.
+     *
+     * @param indexName name of the new index.
+     */
+    public void setIndex(String indexName) {
+        index = client.initIndex(indexName);
+    }
+
+    /**
+     * Reset the helper's state.
+     */
+    public void reset() {
+        lastDisplayedPage = 0;
+        lastRequestedPage = 0;
+        lastDisplayedSeqNumber = 0;
+        lastSearchSeqNumber = 0;
+        endReached = false;
     }
 
     private void processActivity(final Activity activity) {
