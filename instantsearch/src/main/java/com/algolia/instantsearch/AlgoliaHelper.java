@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BindingAdapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -23,13 +22,8 @@ import com.algolia.search.saas.Query;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 public class AlgoliaHelper {
 
-    private static final Map<Integer, String> attributes = new HashMap<>();
     private static int itemLayoutId;
 
     private Index index;
@@ -61,32 +55,11 @@ public class AlgoliaHelper {
         processActivity(activity);
     }
 
-    public static Set<Map.Entry<Integer, String>> getEntrySet() {
-        return attributes.entrySet();
-    }
-
-    @SuppressWarnings("unused") // called via Data Binding
-    @BindingAdapter({"attribute"})
-    public static void bindAttribute(View view, String attributeName) {
-        final int id = view.getId();
-        if (notAlreadyMapped(id)) { // only map when you see a view for the first time.
-            mapAttribute(attributeName, id);
-        }
-    }
-
-    static boolean notAlreadyMapped(int id) {
-        return attributes.get(id) == null;
-    }
-
     public static int getItemLayoutId() {
         if (itemLayoutId == 0) {
             throw new IllegalStateException(Errors.GET_ITEMLAYOUT_WITHOUT_HITS);
         }
         return itemLayoutId;
-    }
-
-    private static void mapAttribute(String attributeName, int viewId) {
-        attributes.put(viewId, attributeName);
     }
 
     /**

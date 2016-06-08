@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.algolia.instantsearch.AlgoliaHelper;
+import com.algolia.instantsearch.BindingHelper;
 import com.algolia.instantsearch.RenderingHelper;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.utils.ImageLoadTask;
@@ -126,7 +127,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
         public ViewHolder(View itemView) {
             super(itemView);
             // Store every annotated view with its attribute name
-            for (Map.Entry<Integer, String> entry : AlgoliaHelper.getEntrySet()) {
+            for (Map.Entry<Integer, String> entry : BindingHelper.getEntrySet()) {
                 final String attributeName = entry.getValue();
                 final View view = itemView.findViewById(entry.getKey());
                 viewMap.put(view, attributeName);
