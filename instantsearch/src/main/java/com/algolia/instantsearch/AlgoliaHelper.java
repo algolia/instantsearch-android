@@ -138,7 +138,7 @@ public class AlgoliaHelper {
                     resultsView.onError(query, error);
                     Log.e("PLN|search.searchError", String.format("Index %s with query %s failed: %s(%s).", index.getIndexName(), queryString, error.getCause(), error.getMessage()));
                 } else {
-                    resultsView.onUpdateView(content, true);
+                    resultsView.onUpdateView(content, false);
                     Log.d("PLN|search.searchResult", String.format("Index %s with query %s succeeded: %s.", index.getIndexName(), queryString, content));
                 }
             }
@@ -164,7 +164,7 @@ public class AlgoliaHelper {
                     }
 
                     if (hasHits(content)) {
-                        resultsView.onUpdateView(content, false);
+                        resultsView.onUpdateView(content, true);
                         lastDisplayedPage = lastRequestedPage;
                     } else {
                         endReached = true;
@@ -215,6 +215,7 @@ public class AlgoliaHelper {
         lastDisplayedSeqNumber = 0;
         lastSearchSeqNumber = 0;
         endReached = false;
+        resultsView.onUpdateView(null, false);
         return this;
     }
 
@@ -230,7 +231,7 @@ public class AlgoliaHelper {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() == 0) {
-                    resultsView.onUpdateView(null, true);
+                    resultsView.onUpdateView(null, false);
                 } else {
                     search(newText);
                 }

@@ -121,7 +121,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
 
     @Override
     public void onUpdateView(@Nullable JSONObject hits, boolean isLoadingMore) {
-        addHits(hits, isLoadingMore);
+        addHits(hits, !isLoadingMore);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
      * @param isReplacing true if the given hits should replace the current hits.
      */
     private void addHits(@Nullable JSONObject hits, boolean isReplacing) {
-        if (hits == null) {
+        if (hits == null && isReplacing) {
             adapter.clear(true);
             return;
         }
