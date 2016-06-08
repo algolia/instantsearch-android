@@ -119,13 +119,14 @@ public class AlgoliaHelper {
      *
      * @param intent an Intent that may contain a search query.
      */
-    public void search(Intent intent) {
+    public AlgoliaHelper search(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             searchView.setQuery(query, false);
             searchView.clearFocus();
             search(query);
         }
+        return this;
     }
 
     /**
@@ -133,7 +134,7 @@ public class AlgoliaHelper {
      *
      * @param queryString a String to search on the index.
      */
-    public void search(final String queryString) {
+    public AlgoliaHelper search(final String queryString) {
         endReached = false;
         lastRequestedPage = 0;
         lastDisplayedPage = -1;
@@ -169,12 +170,13 @@ public class AlgoliaHelper {
                 }
             }
         });
+        return this;
     }
 
     /**
      * Load more results with the same query.
      */
-    public void loadMore() {
+    public AlgoliaHelper loadMore() {
         Query loadMoreQuery = new Query(query);
         loadMoreQuery.setPage(++lastRequestedPage);
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
@@ -197,6 +199,7 @@ public class AlgoliaHelper {
                 }
             }
         });
+        return this;
     }
 
     /**
@@ -213,8 +216,9 @@ public class AlgoliaHelper {
      *
      * @param baseQuery a {@link Query} object with some parameters set
      */
-    public void setBaseQuery(Query baseQuery) {
+    public AlgoliaHelper setBaseQuery(Query baseQuery) {
         query = baseQuery;
+        return this;
     }
 
     /**
@@ -224,19 +228,21 @@ public class AlgoliaHelper {
      *
      * @param indexName name of the new index.
      */
-    public void setIndex(String indexName) {
+    public AlgoliaHelper setIndex(String indexName) {
         index = client.initIndex(indexName);
+        return this;
     }
 
     /**
      * Reset the helper's state.
      */
-    public void reset() {
+    public AlgoliaHelper reset() {
         lastDisplayedPage = 0;
         lastRequestedPage = 0;
         lastDisplayedSeqNumber = 0;
         lastSearchSeqNumber = 0;
         endReached = false;
+        return this;
     }
 
     private void processActivity(final Activity activity) {
