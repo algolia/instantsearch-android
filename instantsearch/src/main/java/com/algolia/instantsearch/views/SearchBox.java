@@ -11,6 +11,10 @@ public class SearchBox extends SearchView {
 
     public SearchBox(Context context, AttributeSet attrs) {
         super(context, attrs);
+        if (isInEditMode()) {
+            return;
+        }
+
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SearchBox, 0, 0);
 
         try {

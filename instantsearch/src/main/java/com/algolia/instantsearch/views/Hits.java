@@ -42,6 +42,13 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
 
     public Hits(Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
+        if (isInEditMode()) {
+            hitsPerPage = 0;
+            remainingItemsBeforeLoading = 0;
+            disableInfiniteScroll = false;
+            layoutName = null;
+            return;
+        }
 
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Hits, 0, 0);
         try {
