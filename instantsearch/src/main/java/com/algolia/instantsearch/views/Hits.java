@@ -33,6 +33,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     private final int remainingItemsBeforeLoading; // Minimum number of remaining items before loading more
     private final boolean disableInfiniteScroll;
     private final String layoutName;
+    private final HitsScrollListener scrollListener;
 
     private HitsAdapter adapter;
     private LayoutManager layoutManager;
@@ -47,6 +48,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
             remainingItemsBeforeLoading = 0;
             disableInfiniteScroll = false;
             layoutName = null;
+            scrollListener = null;
             return;
         }
 
@@ -84,8 +86,9 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
         layoutManager = new LinearLayoutManager(context);
         setLayoutManager(layoutManager);
 
+        scrollListener = disableInfiniteScroll ? null : new HitsScrollListener();
         if (!disableInfiniteScroll) {
-            addOnScrollListener(new HitsScrollListener());
+            addOnScrollListener(scrollListener);
         }
     }
 
@@ -136,8 +139,11 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
      * @param isReplacing true if the given hits should replace the current hits.
      */
     private void addHits(@Nullable JSONObject hits, boolean isReplacing) {
-        if (hits == null && isReplacing) {
-            adapter.clear(true);
+        if (hits == null) {
+            if (isReplacing) {
+                adapter.clear(true);
+                scrollListener.setCurrentlyLoading(false);
+            }
             return;
         }
 
@@ -186,6 +192,10 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     private class HitsScrollListener extends OnScrollListener {
         private int lastItemCount = 0; // Item count after last event
         private boolean currentlyLoading = true; // Are we waiting for new results?
+
+        public void setCurrentlyLoading(boolean currentlyLoading) {
+            this.currentlyLoading = currentlyLoading;
+        }
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
