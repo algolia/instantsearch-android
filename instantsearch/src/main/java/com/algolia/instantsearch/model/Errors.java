@@ -20,4 +20,6 @@ public class Errors {
     public static final String LAYOUT_MISSING_SEARCHBOX = "You need to add a SearchBox or SearchView identified as @id/searchBox.";
 
     public static final String LOADMORE_FAIL = "Error while loading more data.";
+
+    public static final String REFINEMENTS_MISSING_ATTRIBUTE = "You need to specify the attribute to refine on with algolia:attribute.";
 }

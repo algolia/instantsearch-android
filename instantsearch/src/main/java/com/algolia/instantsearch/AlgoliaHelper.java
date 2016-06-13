@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.views.AlgoliaResultsView;
 import com.algolia.instantsearch.views.Hits;
+import com.algolia.instantsearch.views.RefinementList;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.CompletionHandler;
@@ -38,6 +39,7 @@ public class AlgoliaHelper {
     private int lastRequestedPage;
     private int lastDisplayedPage;
     private boolean endReached;
+    private RefinementList refinementList;
 
     /**
      * Create and initialize the helper.
@@ -138,7 +140,7 @@ public class AlgoliaHelper {
                     resultsView.onError(query, error);
                     Log.e("PLN|search.searchError", String.format("Index %s with query %s failed: %s(%s).", index.getIndexName(), queryString, error.getCause(), error.getMessage()));
                 } else {
-                    resultsView.onUpdateView(content, false);
+                    updateViews(content, false);
                     Log.d("PLN|search.searchResult", String.format("Index %s with query %s succeeded: %s.", index.getIndexName(), queryString, content));
                 }
             }
@@ -164,7 +166,7 @@ public class AlgoliaHelper {
                     }
 
                     if (hasHits(content)) {
-                        resultsView.onUpdateView(content, true);
+                        updateViews(content, true);
                         lastDisplayedPage = lastRequestedPage;
                     } else {
                         endReached = true;
@@ -215,7 +217,7 @@ public class AlgoliaHelper {
         lastDisplayedSeqNumber = 0;
         lastSearchSeqNumber = 0;
         endReached = false;
-        resultsView.onUpdateView(null, false);
+        updateViews(null, false);
         return this;
     }
 
@@ -231,7 +233,7 @@ public class AlgoliaHelper {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() == 0) {
-                    resultsView.onUpdateView(null, false);
+                    updateViews(null, false);
                 } else {
                     search(newText);
                 }
@@ -263,6 +265,11 @@ public class AlgoliaHelper {
         } else if (resultsView instanceof ListView) {
             ((ListView) resultsView).setEmptyView(getEmptyView(rootView));
         }
+
+        refinementList = (RefinementList) rootView.findViewById(R.id.refinements);
+        if (refinementList != null) {
+            query.setFacets(refinementList.getAttributeName());
+        }
     }
 
     /**
@@ -280,6 +287,13 @@ public class AlgoliaHelper {
     private static void linkSearchViewToActivity(Activity activity, SearchView searchView) {
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
+    }
+
+    public void updateViews(JSONObject hits, boolean isLoadingMore ) {
+        resultsView.onUpdateView(hits, isLoadingMore);
+        if (refinementList != null) {
+            refinementList.onUpdateView(hits, isLoadingMore);
+        }
     }
 
     @NonNull

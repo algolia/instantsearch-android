@@ -10,4 +10,14 @@
         <attr name="itemLayout" format="string"/>
         <attr name="remainingItemsBeforeLoading" format="integer"/>
     </declare-styleable>
+    <declare-styleable name="RefinementList">
+        <attr name="attribute" format="string"/>
+        <attr name="operator" format="string">
+            <enum name="or" value="0"/>
+            <enum name="and" value="1"/>
+        </attr>
+        <attr name="sortBy" format="string"/>
+        <attr name="limit" format="integer"/>
+        <attr name="autoHide" format="boolean"/>
+    </declare-styleable>
 </resources>

@@ -41,6 +41,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile "com.android.support:appcompat-v7:$VERSION_APPCOMPAT"
-    compile 'com.algolia:algoliasearch-android:3.0@aar'
     compile "com.android.support:recyclerview-v7:$VERSION_APPCOMPAT"
+    compile 'com.algolia:algoliasearch-android:3.0@aar'
 }

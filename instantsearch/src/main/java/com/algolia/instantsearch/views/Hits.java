@@ -155,10 +155,9 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
 
         for (int i = 0; i < resultHits.length(); ++i) {
             JSONObject hit = resultHits.optJSONObject(i);
-            if (hit == null) {
-                continue;
+            if (hit != null) {
+                adapter.add(hit);
             }
-            adapter.add(hit);
         }
 
         if (isReplacing) {
