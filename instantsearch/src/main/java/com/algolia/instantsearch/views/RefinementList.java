@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
+import com.algolia.instantsearch.model.Facet;
 import com.algolia.search.saas.AlgoliaException;
 
 import org.json.JSONObject;
@@ -67,8 +68,8 @@ public class RefinementList extends ListView {
 
     public void onUpdateView(JSONObject content, boolean isLoadingMore) {
         if (isLoadingMore || content == null) {
-            // either we did load more results (and the facets are unchanged),
-            // or the request did return no results.
+            // either we did load more results of the same request, or the last request
+            // did return no results. In both cases, facets should not change.
             return;
         }
 
@@ -115,10 +116,10 @@ public class RefinementList extends ListView {
         }
 
         private void updateActiveStatus(Facet facet) {
-            if (facet.isEnabled) {
-                activeFacets.add(facet.name);
+            if (facet.isEnabled()) {
+                activeFacets.add(facet.getName());
             } else {
-                activeFacets.remove(facet.name);
+                activeFacets.remove(facet.getName());
             }
         }
 
@@ -131,8 +132,8 @@ public class RefinementList extends ListView {
         @Override
         public void add(Facet facet) {
             super.add(facet);
-            if (facet.isEnabled) {
-                activeFacets.add(facet.name);
+            if (facet.isEnabled()) {
+                activeFacets.add(facet.getName());
             }
         }
 
@@ -140,8 +141,8 @@ public class RefinementList extends ListView {
         public void addAll(Collection<? extends Facet> items) {
             super.addAll(items);
             for (Facet facet : items) {
-                if (facet.isEnabled) {
-                    activeFacets.add(facet.name);
+                if (facet.isEnabled()) {
+                    activeFacets.add(facet.getName());
                 }
             }
         }
@@ -149,7 +150,7 @@ public class RefinementList extends ListView {
         @Override
         public void remove(Facet facet) {
             super.remove(facet);
-            activeFacets.remove(facet.name);
+            activeFacets.remove(facet.getName());
         }
 
         public void loadFakeData() {
@@ -172,8 +173,8 @@ public class RefinementList extends ListView {
 
             final TextView nameView = (TextView) convertView.findViewById(R.id.refinementName);
             final TextView countView = (TextView) convertView.findViewById(R.id.refinementCount);
-            nameView.setText(facet.name);
-            countView.setText(String.valueOf(facet.count));
+            nameView.setText(facet.getName());
+            countView.setText(String.valueOf(facet.getCount()));
             updateFacetTextView(facet, nameView);
 
             convertView.setOnClickListener(new OnClickListener() {
@@ -181,7 +182,7 @@ public class RefinementList extends ListView {
                 public void onClick(View v) {
                     final Facet facet = adapter.getItem(position);
 
-                    facet.isEnabled = !facet.isEnabled;
+                    facet.setEnabled(!facet.isEnabled());
                     updateActiveStatus(facet);
 
                     helper.updateFacetRefinement(attributeName, facet);
@@ -192,7 +193,7 @@ public class RefinementList extends ListView {
         }
 
         private void updateFacetTextView(Facet facet, TextView viewName) {
-            if (facet.isEnabled) {
+            if (facet.isEnabled()) {
                 viewName.setPaintFlags(viewName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             } else {
                 viewName.setPaintFlags(viewName.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
@@ -205,29 +206,4 @@ public class RefinementList extends ListView {
     }
 
 
-    public class Facet {
-        public String name;
-        int count;
-        boolean isEnabled;
-
-        public Facet(String name, int count, boolean isEnabled) {
-            this.name = name;
-            this.count = count;
-            this.isEnabled = isEnabled;
-        }
-
-        public Facet(String name, int count) {
-            this.name = name;
-            this.count = count;
-        }
-
-        public boolean isEnabled() {
-            return isEnabled;
-        }
-
-        @Override
-        public String toString() {
-            return "Facet{" + "name='" + name + ", count=" + count + ", enabled=" + isEnabled + '}';
-        }
-    }
 }

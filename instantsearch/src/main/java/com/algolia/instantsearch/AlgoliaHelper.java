@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.algolia.instantsearch.model.Errors;
+import com.algolia.instantsearch.model.Facet;
 import com.algolia.instantsearch.utils.DevUtils;
 import com.algolia.instantsearch.views.AlgoliaResultsView;
 import com.algolia.instantsearch.views.Hits;
@@ -352,12 +353,12 @@ public class AlgoliaHelper {
      * @param attributeName the attribute referenced by this facet
      * @param facet         a Facet object to add to the query
      */
-    public void updateFacetRefinement(String attributeName, RefinementList.Facet facet) {
+    public void updateFacetRefinement(String attributeName, Facet facet) {
         Log.e("PLN", "Updating refinement:" + facet);
         if (facet.isEnabled()) {
-            addFacetRefinement(attributeName, facet.name);
+            addFacetRefinement(attributeName, facet.getName());
         } else {
-            removeFacetRefinement(attributeName, facet.name);
+            removeFacetRefinement(attributeName, facet.getName());
         }
     }
 
