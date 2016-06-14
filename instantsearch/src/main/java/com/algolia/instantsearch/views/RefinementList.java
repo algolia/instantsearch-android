@@ -58,7 +58,6 @@ public class RefinementList extends ListView {
         }
 
         adapter = new FacetAdapter(context);
-        adapter.loadFakeData();
         setAdapter(adapter);
     }
 
@@ -67,9 +66,12 @@ public class RefinementList extends ListView {
     }
 
     public void onUpdateView(JSONObject content, boolean isLoadingMore) {
-        if (isLoadingMore || content == null) {
-            // either we did load more results of the same request, or the last request
-            // did return no results. In both cases, facets should not change.
+        if (isLoadingMore) { // more results of the same request -> facets should not change
+            return;
+        }
+
+        if (content == null) { // no results for query, facet counts should be set to 0
+            adapter.resetFacetCounts();
             return;
         }
 
@@ -84,13 +86,19 @@ public class RefinementList extends ListView {
                 while (iterKeys.hasNext()) {
                     final String key = iterKeys.next();
                     int value = refinementFacets.optInt(key);
-                    final boolean wasThere = adapter.contains(key);
-                    newFacets.add(new Facet(key, value, wasThere));
+                    final boolean wasActive = adapter.hasActive(key);
+                    final Facet facet = new Facet(key, value, wasActive);
+                    newFacets.add(facet);
                 }
             }
 
-            adapter.clear();
-            adapter.addAll(newFacets);
+            // If we have new facets we should use them, and else set count=0 to old ones
+            if (newFacets.size() > 0) {
+                adapter.clear();
+                adapter.addAll(newFacets);
+            } else {
+                adapter.resetFacetCounts();
+            }
             adapter.notifyDataSetChanged();
         }
     }
@@ -101,6 +109,8 @@ public class RefinementList extends ListView {
 
 
     private class FacetAdapter extends ArrayAdapter<Facet> {
+        private List<Facet> facets;
+
         private HashSet<String> activeFacets = new HashSet<>();
 
         public FacetAdapter(Context context) {
@@ -109,9 +119,10 @@ public class RefinementList extends ListView {
 
         private FacetAdapter(Context context, List<Facet> facets) {
             super(context, -1, facets);
+            this.facets = new ArrayList<>(facets);
         }
 
-        private boolean contains(String facetName) {
+        private boolean hasActive(String facetName) {
             return activeFacets.contains(facetName);
         }
 
@@ -127,39 +138,40 @@ public class RefinementList extends ListView {
         public void clear() {
             super.clear();
             activeFacets.clear();
+            facets.clear();
         }
 
         @Override
         public void add(Facet facet) {
-            super.add(facet);
+            addFacet(facet);
+        }
+
+        @Override
+        public void addAll(Collection<? extends Facet> items) {
+            for (Facet facet : items) {
+                addFacet(facet);
+            }
+        }
+
+        public void addFacet(Facet facet) {
+            facets.add(facet);
+
+            // Add to visible facets if we didn't reach the limit
+            if (getCount() < limit) {
+                super.add(facet);
+            }
+
             if (facet.isEnabled()) {
                 activeFacets.add(facet.getName());
             }
         }
 
         @Override
-        public void addAll(Collection<? extends Facet> items) {
-            super.addAll(items);
-            for (Facet facet : items) {
-                if (facet.isEnabled()) {
-                    activeFacets.add(facet.getName());
-                }
-            }
-        }
-
-        @Override
         public void remove(Facet facet) {
             super.remove(facet);
-            activeFacets.remove(facet.getName());
-        }
 
-        public void loadFakeData() {
-            clear();
-            add(new Facet("Paris", 42));
-            add(new Facet("SF", 21));
-            add(new Facet("Tours", 12));
-            add(new Facet("Bordeaux", 8));
-            notifyDataSetChanged();
+            facets.remove(facet);
+            activeFacets.remove(facet.getName());
         }
 
         @Override
@@ -176,7 +188,6 @@ public class RefinementList extends ListView {
             nameView.setText(facet.getName());
             countView.setText(String.valueOf(facet.getCount()));
             updateFacetTextView(facet, nameView);
-
             convertView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -197,6 +208,12 @@ public class RefinementList extends ListView {
                 viewName.setPaintFlags(viewName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             } else {
                 viewName.setPaintFlags(viewName.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+            }
+        }
+
+        private void resetFacetCounts() {
+            for (Facet facet : facets) {
+                facet.setCount(0);
             }
         }
     }

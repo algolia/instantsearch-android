@@ -313,8 +313,8 @@ public class AlgoliaHelper {
             facetFilters = new JSONArray();
         }
         final String facetRefinement = attribute + ":" + value;
-        facetFilters.put(facetRefinement);
 
+        facetFilters.put(facetRefinement);
         query.setFacetFilters(facetFilters);
         search();
     }
