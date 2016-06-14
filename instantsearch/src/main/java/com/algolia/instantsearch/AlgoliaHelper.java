@@ -324,16 +324,12 @@ public class AlgoliaHelper {
             return;
         }
 
-        Log.e("PLN", "Removing " + value + " from " + facetFilters);
         final String toRemove = attribute + ":" + value;
 
         for (int i = 0; i < facetFilters.length(); i++) {
             final String facetStr = facetFilters.optString(i);
-            Log.e("PLN", "Should I remove " + facetStr + "?");
             if (facetStr.equals(toRemove)) {
-                Log.e("PLN", "YES I SHOULD!");
                 DevUtils.removeFrom(facetFilters, i);
-                Log.e("PLN", "And I did:" + facetFilters);
             }
         }
 
@@ -348,7 +344,6 @@ public class AlgoliaHelper {
      * @param facet         a Facet object to add to the query
      */
     public void updateFacetRefinement(String attributeName, Facet facet) {
-        Log.e("PLN", "Updating refinement:" + facet);
         if (facet.isEnabled()) {
             addFacetRefinement(attributeName, facet.getName());
         } else {

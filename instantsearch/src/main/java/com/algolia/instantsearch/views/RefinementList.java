@@ -17,10 +17,14 @@ import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Facet;
 import com.algolia.search.saas.AlgoliaException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -28,15 +32,23 @@ import java.util.List;
 public class RefinementList extends ListView {
     public static final int OPERATOR_OR = 0;
     public static final int OPERATOR_AND = 1;
+
+    public static final String SORT_COUNT = "count";
+    public static final String SORT_ISREFINED = "isRefined";
+    public static final String SORT_NAME_ASC = "name:asc";
+    public static final String SORT_NAME_DESC = "name:desc";
+
     public static final int DEFAULT_LIMIT = 10;
 
     private final String attributeName;
     private final int operator;
+    private final ArrayList<String> sortOrder;
     private int limit;
     private final boolean autoHide;
 
     private final FacetAdapter adapter;
     private AlgoliaHelper helper;
+    private Comparator<? super Facet> sortComparator;
 
     public RefinementList(final Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
@@ -52,17 +64,46 @@ public class RefinementList extends ListView {
             limit = styledAttributes.getInt(R.styleable.RefinementList_limit, DEFAULT_LIMIT);//TODO: Use!
             autoHide = styledAttributes.getBoolean(R.styleable.RefinementList_autoHide, false);
 
-            final String sortByString = styledAttributes.getString(R.styleable.RefinementList_sortBy);//TODO: Parse!
+            sortOrder = parseSortOrder(styledAttributes.getString(R.styleable.RefinementList_sortBy));
         } finally {
             styledAttributes.recycle();
         }
 
         adapter = new FacetAdapter(context);
         setAdapter(adapter);
+
+        sortComparator = new Comparator<Facet>() {
+            @Override
+            public int compare(Facet lhs, Facet rhs) {
+                // For each value of sortOrder, try to sort with it and continue if tie (value==0)
+                int comparisonValue = 0;
+                for (String sortValue : sortOrder) {
+                    switch (sortValue) {
+                        case SORT_COUNT:
+                            comparisonValue = -Integer.valueOf(lhs.getCount()).compareTo(rhs.getCount());
+                            break;
+                        case SORT_ISREFINED:
+                            comparisonValue = -Boolean.valueOf(lhs.isEnabled()).compareTo(rhs.isEnabled());
+                            break;
+                        case SORT_NAME_ASC:
+                            comparisonValue = lhs.getName().compareTo(rhs.getName());
+                            break;
+                        case SORT_NAME_DESC:
+                            comparisonValue = rhs.getName().compareTo(lhs.getName());
+                            break;
+                    }
+                    if (comparisonValue != 0) {
+                        break;
+                    }
+                }
+
+                return comparisonValue;
+            }
+        };
     }
 
-    public String getAttributeName() {
-        return attributeName;
+    public void onInit(AlgoliaHelper helper) {
+        this.helper = helper;
     }
 
     public void onUpdateView(JSONObject content, boolean isLoadingMore) {
@@ -96,6 +137,7 @@ public class RefinementList extends ListView {
             if (newFacets.size() > 0) {
                 adapter.clear();
                 adapter.addAll(newFacets);
+                adapter.sort(sortComparator);
             } else {
                 adapter.resetFacetCounts();
             }
@@ -107,6 +149,48 @@ public class RefinementList extends ListView {
         adapter.clear();
     }
 
+    public String getAttributeName() {
+        return attributeName;
+    }
+
+    private ArrayList<String> parseSortOrder(String string) {
+        if (string == null) {
+            return null;
+        }
+
+        ArrayList<String> sortOrder = new ArrayList<>();
+
+        JSONArray array;
+        try {
+            array = new JSONArray(string);
+            for (int i = 0; i < array.length(); i++) {
+                String value = array.optString(i);
+                addSortOrderOrThrow(value, sortOrder);
+            }
+        } catch (JSONException e) {
+            // The attribute was not a valid JSONArray. Maybe it was a single valid sortOrder?
+            try {
+                addSortOrderOrThrow(string, sortOrder);
+            } catch (IllegalStateException e2) { // The string was neither a single sortOrder
+                throw new IllegalStateException(String.format(Errors.SORT_INVALID_VALUE, string));
+            }
+        }
+
+        return sortOrder;
+    }
+
+    private void addSortOrderOrThrow(String string, ArrayList<String> sortOrder) {
+        switch (string) {
+            case SORT_COUNT:
+            case SORT_ISREFINED:
+            case SORT_NAME_ASC:
+            case SORT_NAME_DESC:
+                sortOrder.add(string);
+                break;
+            default:
+                throw new IllegalStateException(String.format(Errors.SORT_INVALID_VALUE, string));
+        }
+    }
 
     private class FacetAdapter extends ArrayAdapter<Facet> {
         private List<Facet> facets;
@@ -120,18 +204,6 @@ public class RefinementList extends ListView {
         private FacetAdapter(Context context, List<Facet> facets) {
             super(context, -1, facets);
             this.facets = new ArrayList<>(facets);
-        }
-
-        private boolean hasActive(String facetName) {
-            return activeFacets.contains(facetName);
-        }
-
-        private void updateActiveStatus(Facet facet) {
-            if (facet.isEnabled()) {
-                activeFacets.add(facet.getName());
-            } else {
-                activeFacets.remove(facet.getName());
-            }
         }
 
         @Override
@@ -153,25 +225,18 @@ public class RefinementList extends ListView {
             }
         }
 
-        public void addFacet(Facet facet) {
-            facets.add(facet);
-
-            // Add to visible facets if we didn't reach the limit
-            if (getCount() < limit) {
-                super.add(facet);
-            }
-
-            if (facet.isEnabled()) {
-                activeFacets.add(facet.getName());
-            }
-        }
-
         @Override
         public void remove(Facet facet) {
             super.remove(facet);
 
             facets.remove(facet);
             activeFacets.remove(facet.getName());
+        }
+
+        @Override
+        public void sort(Comparator<? super Facet> comparator) {
+            super.sort(comparator);
+            Collections.sort(facets, comparator);
         }
 
         @Override
@@ -203,6 +268,33 @@ public class RefinementList extends ListView {
             return convertView;
         }
 
+        private boolean hasActive(String facetName) {
+            return activeFacets.contains(facetName);
+        }
+
+        private void updateActiveStatus(Facet facet) {
+            if (facet.isEnabled()) {
+                activeFacets.add(facet.getName());
+            } else {
+                activeFacets.remove(facet.getName());
+            }
+            sort(sortComparator);
+        }
+
+
+        public void addFacet(Facet facet) {
+            facets.add(facet);
+
+            // Add to visible facets if we didn't reach the limit
+            if (getCount() < limit) {
+                super.add(facet);
+            }
+
+            if (facet.isEnabled()) {
+                activeFacets.add(facet.getName());
+            }
+        }
+
         private void updateFacetTextView(Facet facet, TextView viewName) {
             if (facet.isEnabled()) {
                 viewName.setPaintFlags(viewName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -216,10 +308,6 @@ public class RefinementList extends ListView {
                 facet.setCount(0);
             }
         }
-    }
-
-    public void onInit(AlgoliaHelper helper) {
-        this.helper = helper;
     }
 
 

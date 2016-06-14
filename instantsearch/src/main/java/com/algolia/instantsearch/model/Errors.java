@@ -22,4 +22,6 @@ public class Errors {
     public static final String LOADMORE_FAIL = "Error while loading more data.";
 
     public static final String REFINEMENTS_MISSING_ATTRIBUTE = "You need to specify the attribute to refine on with algolia:attribute.";
+
+    public static final String SORT_INVALID_VALUE = "invalid sortBy value: %s is none of \"count\"|\"isRefined\"|\"name:asc\"|\"name:desc\" nor an array of these choices.";
 }
