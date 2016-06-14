@@ -117,19 +117,14 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
         adapter.clear(true);
     }
 
-    @Override
-    public void onInit(@NonNull AlgoliaHelper helper) {
-        this.helper = helper;
-    }
-
-    @Override
-    public void onUpdateView(@Nullable JSONObject hits, boolean isLoadingMore) {
-        addHits(hits, !isLoadingMore);
-    }
-
-    @Override
-    public void onError(Query query, AlgoliaException error) {
-        Toast.makeText(getContext(), "Error while searching '" + query.getQuery() + "':" + error.getMessage(), Toast.LENGTH_SHORT).show();
+    /**
+     * Get the hit at a given position
+     *
+     * @param position the position to look at
+     * @return a JSONObject representing the hit
+     */
+    public JSONObject get(int position) {
+        return adapter.getItemAt(position);
     }
 
     /**
@@ -174,6 +169,21 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
         } else {
             emptyView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onInit(@NonNull AlgoliaHelper helper) {
+        this.helper = helper;
+    }
+
+    @Override
+    public void onUpdateView(@Nullable JSONObject hits, boolean isLoadingMore) {
+        addHits(hits, !isLoadingMore);
+    }
+
+    @Override
+    public void onError(Query query, AlgoliaException error) {
+        Toast.makeText(getContext(), "Error while searching '" + query.getQuery() + "':" + error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     public void setEmptyView(View emptyView) {

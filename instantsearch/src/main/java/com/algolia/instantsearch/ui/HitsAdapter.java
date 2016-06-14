@@ -36,6 +36,29 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
         this.hits = new ArrayList<>();
     }
 
+    /**
+     * Remove the current hits, potentially notifying observers.
+     *
+     * @param shouldNotify true if the adapter should notify observers of removal.
+     */
+    public void clear(boolean shouldNotify) {
+        if (shouldNotify) {
+            final int previousItemCount = getItemCount();
+            hits.clear();
+            notifyItemRangeRemoved(0, previousItemCount);
+        } else {
+            hits.clear();
+        }
+    }
+
+    public void add(JSONObject result) {
+        hits.add(result);
+    }
+
+    public JSONObject getItemAt(int position) {
+        return hits.get(position);
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         ViewDataBinding binding = DataBindingUtil.inflate(
@@ -100,25 +123,6 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
     public void onResult(String url, Bitmap bitmap, ImageView view) {
         view.setImageBitmap(bitmap);
         bitmaps.put(url, bitmap);
-    }
-
-    /**
-     * Remove the current hits, potentially notifying observers.
-     *
-     * @param shouldNotify true if the adapter should notify observers of removal.
-     */
-    public void clear(boolean shouldNotify) {
-        if (shouldNotify) {
-            final int previousItemCount = getItemCount();
-            hits.clear();
-            notifyItemRangeRemoved(0, previousItemCount);
-        } else {
-            hits.clear();
-        }
-    }
-
-    public void add(JSONObject result) {
-        hits.add(result);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
