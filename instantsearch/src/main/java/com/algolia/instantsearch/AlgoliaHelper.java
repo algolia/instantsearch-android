@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -333,12 +332,7 @@ public class AlgoliaHelper {
             Log.e("PLN", "Should I remove " + facetStr + "?");
             if (facetStr.equals(toRemove)) {
                 Log.e("PLN", "YES I SHOULD!");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    facetFilters.remove(i);
-                } else {
-                    facetFilters = DevUtils.removeFrom(facetFilters, i);
-
-                }
+                DevUtils.removeFrom(facetFilters, i);
                 Log.e("PLN", "And I did:" + facetFilters);
             }
         }
