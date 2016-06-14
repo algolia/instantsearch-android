@@ -2,6 +2,7 @@ package com.algolia.instantsearch.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.algolia.instantsearch.AlgoliaHelper;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.search.saas.AlgoliaException;
@@ -17,6 +19,8 @@ import com.algolia.search.saas.AlgoliaException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,8 +35,9 @@ public class RefinementList extends ListView {
     private final boolean autoHide;
 
     private final FacetAdapter adapter;
+    private AlgoliaHelper helper;
 
-    public RefinementList(Context context, AttributeSet attrs) throws AlgoliaException {
+    public RefinementList(final Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
 
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.RefinementList, 0, 0);
@@ -61,16 +66,15 @@ public class RefinementList extends ListView {
     }
 
     public void onUpdateView(JSONObject content, boolean isLoadingMore) {
-        if (isLoadingMore) { // do nothing, loading next page does not change facets
+        if (isLoadingMore || content == null) {
+            // either we did load more results (and the facets are unchanged),
+            // or the request did return no results.
             return;
         }
 
-        adapter.clear(); // in every other case, delete current facets
-        if (content == null) {
-            return; // and return if we have no results anymore
-        }
-
         // else build updated facet list
+        ArrayList<Facet> newFacets = new ArrayList<>();
+
         JSONObject resultFacets = content.optJSONObject("facets");
         if (resultFacets != null) {
             JSONObject refinementFacets = resultFacets.optJSONObject(attributeName);
@@ -79,22 +83,73 @@ public class RefinementList extends ListView {
                 while (iterKeys.hasNext()) {
                     final String key = iterKeys.next();
                     int value = refinementFacets.optInt(key);
-                    adapter.add(new Facet(key, value));
+                    final boolean wasThere = adapter.contains(key);
+                    newFacets.add(new Facet(key, value, wasThere));
                 }
             }
 
+            adapter.clear();
+            adapter.addAll(newFacets);
             adapter.notifyDataSetChanged();
         }
     }
 
+    public void reset() {
+        adapter.clear();
+    }
+
 
     private class FacetAdapter extends ArrayAdapter<Facet> {
+        private HashSet<String> activeFacets = new HashSet<>();
+
         public FacetAdapter(Context context) {
             this(context, new ArrayList<Facet>());
         }
 
-        private FacetAdapter(Context context, List<Facet> givenFacets) {
-            super(context, -1, givenFacets);
+        private FacetAdapter(Context context, List<Facet> facets) {
+            super(context, -1, facets);
+        }
+
+        private boolean contains(String facetName) {
+            return activeFacets.contains(facetName);
+        }
+
+        private void updateActiveStatus(Facet facet) {
+            if (facet.isEnabled) {
+                activeFacets.add(facet.name);
+            } else {
+                activeFacets.remove(facet.name);
+            }
+        }
+
+        @Override
+        public void clear() {
+            super.clear();
+            activeFacets.clear();
+        }
+
+        @Override
+        public void add(Facet facet) {
+            super.add(facet);
+            if (facet.isEnabled) {
+                activeFacets.add(facet.name);
+            }
+        }
+
+        @Override
+        public void addAll(Collection<? extends Facet> items) {
+            super.addAll(items);
+            for (Facet facet : items) {
+                if (facet.isEnabled) {
+                    activeFacets.add(facet.name);
+                }
+            }
+        }
+
+        @Override
+        public void remove(Facet facet) {
+            super.remove(facet);
+            activeFacets.remove(facet.name);
         }
 
         public void loadFakeData() {
@@ -107,27 +162,51 @@ public class RefinementList extends ListView {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, final ViewGroup parent) {
             if (convertView == null) {
                 convertView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                         .inflate(R.layout.refinement_row, parent, false);
             }
 
-            Facet facet = getItem(position);
+            final Facet facet = getItem(position);
 
             final TextView nameView = (TextView) convertView.findViewById(R.id.refinementName);
             final TextView countView = (TextView) convertView.findViewById(R.id.refinementCount);
             nameView.setText(facet.name);
             countView.setText(String.valueOf(facet.count));
+            updateFacetTextView(facet, nameView);
 
+            convertView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Facet facet = adapter.getItem(position);
+
+                    facet.isEnabled = !facet.isEnabled;
+                    updateActiveStatus(facet);
+
+                    helper.updateFacetRefinement(attributeName, facet);
+                    updateFacetTextView(facet, nameView);
+                }
+            });
             return convertView;
         }
 
+        private void updateFacetTextView(Facet facet, TextView viewName) {
+            if (facet.isEnabled) {
+                viewName.setPaintFlags(viewName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            } else {
+                viewName.setPaintFlags(viewName.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+            }
+        }
+    }
+
+    public void onInit(AlgoliaHelper helper) {
+        this.helper = helper;
     }
 
 
-    private class Facet {
-        String name;
+    public class Facet {
+        public String name;
         int count;
         boolean isEnabled;
 
@@ -144,6 +223,11 @@ public class RefinementList extends ListView {
 
         public boolean isEnabled() {
             return isEnabled;
+        }
+
+        @Override
+        public String toString() {
+            return "Facet{" + "name='" + name + ", count=" + count + ", enabled=" + isEnabled + '}';
         }
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.algolia.instantsearch.model.Errors;
+import com.algolia.instantsearch.utils.DevUtils;
 import com.algolia.instantsearch.views.AlgoliaResultsView;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.RefinementList;
@@ -87,6 +89,14 @@ public class AlgoliaHelper {
             }
         }
         return false;
+    }
+
+    /**
+     * Start a new search with the current query.
+     */
+    public AlgoliaHelper search() {
+        search(searchView.getQuery().toString());
+        return this;
     }
 
     /**
@@ -218,6 +228,9 @@ public class AlgoliaHelper {
         lastSearchSeqNumber = 0;
         endReached = false;
         updateViews(null, false);
+        if (refinementList != null) {
+            refinementList.reset();
+        }
         return this;
     }
 
@@ -269,6 +282,15 @@ public class AlgoliaHelper {
         refinementList = (RefinementList) rootView.findViewById(R.id.refinements);
         if (refinementList != null) {
             query.setFacets(refinementList.getAttributeName());
+            refinementList.onInit(this);
+            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    query.setFacetFilters(new JSONArray());
+                    refinementList.reset();
+                    return false;
+                }
+            });
         }
     }
 
@@ -284,12 +306,68 @@ public class AlgoliaHelper {
         linkSearchViewToActivity(activity, searchView);
     }
 
+    public void addFacetRefinement(String attribute, String value) {
+        JSONArray facetFilters = query.getFacetFilters();
+        if (facetFilters == null) {
+            facetFilters = new JSONArray();
+        }
+        final String facetRefinement = attribute + ":" + value;
+        facetFilters.put(facetRefinement);
+
+        query.setFacetFilters(facetFilters);
+        search();
+    }
+
+    public void removeFacetRefinement(String attribute, String value) {
+        JSONArray facetFilters = query.getFacetFilters();
+        if (facetFilters == null) {
+            return;
+        }
+
+        Log.e("PLN", "Removing " + value + " from " + facetFilters);
+        final String toRemove = attribute + ":" + value;
+
+        for (int i = 0; i < facetFilters.length(); i++) {
+            final String facetStr = facetFilters.optString(i);
+            Log.e("PLN", "Should I remove " + facetStr + "?");
+            if (facetStr.equals(toRemove)) {
+                Log.e("PLN", "YES I SHOULD!");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    facetFilters.remove(i);
+                } else {
+                    facetFilters = DevUtils.removeFrom(facetFilters, i);
+
+                }
+                Log.e("PLN", "And I did:" + facetFilters);
+            }
+        }
+
+        query.setFacetFilters(facetFilters);
+        search();
+    }
+
+    /**
+     * Add or remove this facet accordng to its enabled status
+     *
+     * @param attributeName the attribute referenced by this facet
+     * @param facet         a Facet object to add to the query
+     */
+    public void updateFacetRefinement(String attributeName, RefinementList.Facet facet) {
+        Log.e("PLN", "Updating refinement:" + facet);
+        if (facet.isEnabled()) {
+            addFacetRefinement(attributeName, facet.name);
+        } else {
+            removeFacetRefinement(attributeName, facet.name);
+        }
+    }
+
+
     private static void linkSearchViewToActivity(Activity activity, SearchView searchView) {
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
     }
 
-    public void updateViews(JSONObject hits, boolean isLoadingMore ) {
+    private void updateViews(JSONObject hits, boolean isLoadingMore) {
         resultsView.onUpdateView(hits, isLoadingMore);
         if (refinementList != null) {
             refinementList.onUpdateView(hits, isLoadingMore);
