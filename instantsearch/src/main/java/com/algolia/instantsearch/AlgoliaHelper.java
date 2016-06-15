@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,13 +65,6 @@ public class AlgoliaHelper {
         query = new Query();
 
         processActivity(activity);
-    }
-
-    public static int getItemLayoutId() {
-        if (itemLayoutId == 0) {
-            throw new IllegalStateException(Errors.GET_ITEMLAYOUT_WITHOUT_HITS);
-        }
-        return itemLayoutId;
     }
 
     /**
@@ -313,21 +307,76 @@ public class AlgoliaHelper {
         linkSearchViewToActivity(activity, searchView);
     }
 
-    public void registerFacetRefinement(String attributeName, int operator) {
-        refinementMap.put(attributeName, new Pair<Integer, List<String>>(operator, new ArrayList<String>()));
+
+    /**
+     * Initialise a list of facet for the given widget's attribute and operator.
+     *
+     * @param widget a RefinementList to register as a source of facetRefinements.
+     */
+    public void registerRefinementList(RefinementList widget) {
+        refinementMap.put(widget.getAttributeName(), new Pair<Integer, List<String>>(widget.getOperator(), new ArrayList<String>()));
     }
 
     /**
-     * Add or remove this facet according to its enabled status
+     * Add or remove this facet according to its enabled status.
      *
-     * @param attributeName the attribute referenced by this facet
-     * @param facet         a Facet object to add to the query
+     * @param attributeName the attribute referenced by this facet.
+     * @param facet         a Facet object to add to the query.
      */
     public void updateFacetRefinement(String attributeName, Facet facet) {
         if (facet.isEnabled()) {
-            refinementMap.get(attributeName).second.add(facet.getName());
+            addFacetRefinement(attributeName, facet.getName());
         } else {
-            refinementMap.get(attributeName).second.remove(facet.getName());
+            removeFacetRefinement(attributeName, facet.getName());
+        }
+    }
+
+    /**
+     * Add a facet refinement and run again the current query.
+     *
+     * @param attribute the attribute to refine on.
+     * @param value     the facet's value to refine with.
+     */
+    public void addFacetRefinement(String attribute, String value) {
+        refinementMap.get(attribute).second.add(value);
+        rebuildQueryFacetRefinements();
+    }
+
+    /**
+     * Remove a facet refinement and run again the current query.
+     *
+     * @param attribute the attribute to refine on.
+     * @param value     the facet's value to refine with.
+     */
+    public void removeFacetRefinement(String attribute, String value) {
+        refinementMap.get(attribute).second.remove(value);
+        rebuildQueryFacetRefinements();
+    }
+
+    /**
+     * Checks if a facet refinement is enabled.
+     *
+     * @param attribute the attribute to refine on.
+     * @param value     the facet's value to check.
+     * @return true if attribute is being refined with value.
+     */
+    public boolean hasFacetRefinement(String attribute, String value) {
+        return refinementMap.get(attribute).second.contains(value);
+    }
+
+    /**
+     * Clears the facet refinements.
+     *
+     * @param attribute if not null, only this attribute's refinements will be cleared.
+     */
+    public void clearFacetRefinements(String attribute) {
+        if (attribute == null) {
+            final Collection<Pair<Integer, List<String>>> values = refinementMap.values();
+            for (Pair<Integer, List<String>> pair : values) {
+                pair.second.clear();
+            }
+        } else {
+            refinementMap.get(attribute).second.clear();
         }
         rebuildQueryFacetRefinements();
     }
@@ -366,6 +415,13 @@ public class AlgoliaHelper {
         if (refinementList != null) {
             refinementList.onUpdateView(hits, isLoadingMore);
         }
+    }
+
+    public static int getItemLayoutId() {
+        if (itemLayoutId == 0) {
+            throw new IllegalStateException(Errors.GET_ITEMLAYOUT_WITHOUT_HITS);
+        }
+        return itemLayoutId;
     }
 
     @NonNull

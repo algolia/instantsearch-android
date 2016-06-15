@@ -104,7 +104,7 @@ public class RefinementList extends ListView {
 
     public void onInit(AlgoliaHelper helper) {
         this.helper = helper;
-        helper.registerFacetRefinement(attributeName, operator);
+        helper.registerRefinementList(this);
     }
 
     public void onUpdateView(JSONObject content, boolean isLoadingMore) {
@@ -150,10 +150,6 @@ public class RefinementList extends ListView {
         adapter.clear();
     }
 
-    public String getAttributeName() {
-        return attributeName;
-    }
-
     private ArrayList<String> parseSortOrder(String string) {
         if (string == null) {
             return null;
@@ -191,6 +187,14 @@ public class RefinementList extends ListView {
             default:
                 throw new IllegalStateException(String.format(Errors.SORT_INVALID_VALUE, string));
         }
+    }
+
+    public String getAttributeName() {
+        return attributeName;
+    }
+
+    public int getOperator() {
+        return operator;
     }
 
     private class FacetAdapter extends ArrayAdapter<Facet> {
