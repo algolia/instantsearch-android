@@ -24,10 +24,23 @@ public class RenderingHelper {
         return attributeHighlights.contains(attributeName);
     }
 
-    protected static Integer addColor(String attributeName, int colorId) {
+    /**
+     * Set a color for this attribute's highlighting.
+     *
+     * @param attributeName the attribute to color.
+     * @param colorId       a {@link ColorRes} to associate with this attribute.
+     * @return the previous color associated with this attribute or {@code null} if there was none.
+     */
+    protected static Integer addColor(String attributeName, @ColorRes int colorId) {
         return attributeColors.put(attributeName, colorId);
     }
 
+    /**
+     * Enable highlighting for this attribute.
+     *
+     * @param attributeName the attribute to color.
+     * @return {@code true} if the attribute was not already highlighted, {@code false} otherwise.
+     */
     protected static boolean addHighlight(String attributeName) {
         return attributeHighlights.add(attributeName);
     }

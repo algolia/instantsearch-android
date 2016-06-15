@@ -99,7 +99,7 @@ public class ItemClickSupport {
          * Callback method to be invoked when an item in this view has been clicked.
          *
          * @param recyclerView The {@link RecyclerView} where the click happened.
-         * @param v            The view within the RecyclerView that was clicked
+         * @param v            The view within the RecyclerView that was clicked.
          * @param position     The position of the view in the associated adapter.
          */
         void onItemClick(RecyclerView recyclerView, int position, View v);
@@ -113,9 +113,9 @@ public class ItemClickSupport {
          * Callback method to be invoked when an item in this view has been clicked and held.
          *
          * @param recyclerView The {@link RecyclerView} where the click happened.
-         * @param v            The view within the RecyclerView that was clicked
+         * @param v            The view within the RecyclerView that was clicked.
          * @param position     The position of the view in the associated adapter.
-         * @return true if the callback consumed the long click, false otherwise
+         * @return {@code true} if the callback consumed the long click, {@code false} otherwise.
          */
         boolean onItemLongClick(RecyclerView recyclerView, int position, View v);
     }

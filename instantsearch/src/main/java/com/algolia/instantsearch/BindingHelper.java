@@ -88,12 +88,15 @@ public class BindingHelper {
             final String colorName = split[1];
 
             final int colorId;
-            if (identifierType.equals("@android:color")) {
-                colorId = Resources.getSystem().getIdentifier(colorName, "color", "android");
-            } else if (identifierType.equals("@color")) {
-                colorId = view.getResources().getIdentifier(colorName, "color", view.getContext().getPackageName());
-            } else {
-                throw new IllegalStateException(Errors.BINDING_COLOR_INVALID);
+            switch (identifierType) {
+                case "@android:color":
+                    colorId = Resources.getSystem().getIdentifier(colorName, "color", "android");
+                    break;
+                case "@color":
+                    colorId = view.getResources().getIdentifier(colorName, "color", view.getContext().getPackageName());
+                    break;
+                default:
+                    throw new IllegalStateException(Errors.BINDING_COLOR_INVALID);
             }
 
             bindAttribute(view, attributeName);

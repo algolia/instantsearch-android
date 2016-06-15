@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -68,10 +69,10 @@ public class AlgoliaHelper {
     }
 
     /**
-     * Find if a returned json contains at least one hit
+     * Find if a returned json contains at least one hit.
      *
-     * @param jsonObject the query result
-     * @return true if it contains a hits array with at least one non null element
+     * @param jsonObject the query result.
+     * @return {@code true} if it contains a hits array with at least one non null element.
      */
     private static boolean hasHits(JSONObject jsonObject) {
         if (jsonObject == null) {
@@ -189,18 +190,18 @@ public class AlgoliaHelper {
     }
 
     /**
-     * Tell if we should load more hits when reaching the end of an {@link AlgoliaResultsView}
+     * Tell if we should load more hits when reaching the end of an {@link AlgoliaResultsView}.
      *
-     * @return true unless we reached the end of hits or we already requested a new page
+     * @return {@code true} unless we reached the end of hits or we already requested a new page.
      */
     public boolean shouldLoadMore() {
         return !(endReached || lastRequestedPage > lastDisplayedPage);
     }
 
     /**
-     * Use the given query's parameters for following search queries
+     * Use the given query's parameters for following search queries.
      *
-     * @param baseQuery a {@link Query} object with some parameters set
+     * @param baseQuery a {@link Query} object with some parameters set.
      */
     public AlgoliaHelper setBaseQuery(Query baseQuery) {
         query = baseQuery;
@@ -358,7 +359,7 @@ public class AlgoliaHelper {
      *
      * @param attribute the attribute to refine on.
      * @param value     the facet's value to check.
-     * @return true if attribute is being refined with value.
+     * @return {@code true} if {@code attribute} is being refined with {@code value}.
      */
     public boolean hasFacetRefinement(String attribute, String value) {
         return refinementMap.get(attribute).second.contains(value);
@@ -369,7 +370,7 @@ public class AlgoliaHelper {
      *
      * @param attribute if not null, only this attribute's refinements will be cleared.
      */
-    public void clearFacetRefinements(String attribute) {
+    public void clearFacetRefinements(@Nullable String attribute) {
         if (attribute == null) {
             final Collection<Pair<Integer, List<String>>> values = refinementMap.values();
             for (Pair<Integer, List<String>> pair : values) {

@@ -21,7 +21,7 @@ final public class LayoutViews {
     }
 
     public static <T> List<T> findByClass(ViewGroup root, Class<T> classType) {
-        FinderByClass<T> finderByClass = new FinderByClass<T>(classType);
+        FinderByClass<T> finderByClass = new FinderByClass<>(classType);
         LayoutTraverser.build(finderByClass)
                 .traverse(root);
         return finderByClass.getViews();
@@ -55,7 +55,7 @@ final public class LayoutViews {
 
         private FinderByClass(Class<T> type) {
             this.type = type;
-            views = new ArrayList<T>();
+            views = new ArrayList<>();
         }
 
         @Override

@@ -12,8 +12,7 @@ public class Facet {
     }
 
     public Facet(String name, int count) {
-        this.name = name;
-        this.count = count;
+        this(name, count, false);
     }
 
     public boolean isEnabled() {
