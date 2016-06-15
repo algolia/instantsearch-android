@@ -38,6 +38,7 @@ public class RefinementList extends ListView {
     public static final String SORT_NAME_ASC = "name:asc";
     public static final String SORT_NAME_DESC = "name:desc";
 
+    public static final String DEFAULT_SORT = SORT_COUNT;
     public static final int DEFAULT_LIMIT = 10;
 
     private final String attributeName;
@@ -64,7 +65,8 @@ public class RefinementList extends ListView {
             limit = styledAttributes.getInt(R.styleable.RefinementList_limit, DEFAULT_LIMIT);
             autoHide = styledAttributes.getBoolean(R.styleable.RefinementList_autoHide, false);
 
-            sortOrder = parseSortOrder(styledAttributes.getString(R.styleable.RefinementList_sortBy));
+            ArrayList<String> parsedSortOrder = parseSortOrder(styledAttributes.getString(R.styleable.RefinementList_sortBy));
+            sortOrder = parsedSortOrder != null ? parsedSortOrder : new ArrayList<>(Collections.singletonList(DEFAULT_SORT));
         } finally {
             styledAttributes.recycle();
         }
@@ -150,7 +152,7 @@ public class RefinementList extends ListView {
         adapter.clear();
     }
 
-    private ArrayList<String> parseSortOrder(String string) {
+    protected static ArrayList<String> parseSortOrder(String string) {
         if (string == null) {
             return null;
         }
@@ -176,7 +178,7 @@ public class RefinementList extends ListView {
         return sortOrder;
     }
 
-    private void addSortOrderOrThrow(String string, ArrayList<String> sortOrder) {
+    private static void addSortOrderOrThrow(String string, ArrayList<String> sortOrder) {
         switch (string) {
             case SORT_COUNT:
             case SORT_ISREFINED:
