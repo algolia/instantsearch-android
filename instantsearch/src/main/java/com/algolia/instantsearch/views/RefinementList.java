@@ -61,7 +61,7 @@ public class RefinementList extends ListView {
             }
 
             operator = styledAttributes.getInt(R.styleable.RefinementList_operator, OPERATOR_OR);
-            limit = styledAttributes.getInt(R.styleable.RefinementList_limit, DEFAULT_LIMIT);//TODO: Use!
+            limit = styledAttributes.getInt(R.styleable.RefinementList_limit, DEFAULT_LIMIT);
             autoHide = styledAttributes.getBoolean(R.styleable.RefinementList_autoHide, false);
 
             sortOrder = parseSortOrder(styledAttributes.getString(R.styleable.RefinementList_sortBy));
@@ -104,6 +104,7 @@ public class RefinementList extends ListView {
 
     public void onInit(AlgoliaHelper helper) {
         this.helper = helper;
+        helper.registerFacetRefinement(attributeName, operator);
     }
 
     public void onUpdateView(JSONObject content, boolean isLoadingMore) {

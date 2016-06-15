@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.ListView;
 
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Facet;
-import com.algolia.instantsearch.utils.DevUtils;
 import com.algolia.instantsearch.views.AlgoliaResultsView;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.RefinementList;
@@ -25,6 +25,11 @@ import com.algolia.search.saas.Query;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class AlgoliaHelper {
 
     private static int itemLayoutId;
@@ -35,13 +40,15 @@ public class AlgoliaHelper {
 
     private SearchView searchView;
     private AlgoliaResultsView resultsView;
+    private RefinementList refinementList;
 
     private int lastSearchSeqNumber; // Identifier of last fired query
     private int lastDisplayedSeqNumber; // Identifier of last displayed query
     private int lastRequestedPage;
     private int lastDisplayedPage;
     private boolean endReached;
-    private RefinementList refinementList;
+
+    private Map<String, Pair<Integer, List<String>>> refinementMap = new HashMap<>();
 
     /**
      * Create and initialize the helper.
@@ -306,51 +313,48 @@ public class AlgoliaHelper {
         linkSearchViewToActivity(activity, searchView);
     }
 
-    public void addFacetRefinement(String attribute, String value) {
-        JSONArray facetFilters = query.getFacetFilters();
-        if (facetFilters == null) {
-            facetFilters = new JSONArray();
-        }
-        final String facetRefinement = attribute + ":" + value;
-
-        facetFilters.put(facetRefinement);
-        query.setFacetFilters(facetFilters);
-        search();
-    }
-
-    public void removeFacetRefinement(String attribute, String value) {
-        JSONArray facetFilters = query.getFacetFilters();
-        if (facetFilters == null) {
-            return;
-        }
-
-        final String toRemove = attribute + ":" + value;
-
-        for (int i = 0; i < facetFilters.length(); i++) {
-            final String facetStr = facetFilters.optString(i);
-            if (facetStr.equals(toRemove)) {
-                DevUtils.removeFrom(facetFilters, i);
-            }
-        }
-
-        query.setFacetFilters(facetFilters);
-        search();
+    public void registerFacetRefinement(String attributeName, int operator) {
+        refinementMap.put(attributeName, new Pair<Integer, List<String>>(operator, new ArrayList<String>()));
     }
 
     /**
-     * Add or remove this facet accordng to its enabled status
+     * Add or remove this facet according to its enabled status
      *
      * @param attributeName the attribute referenced by this facet
      * @param facet         a Facet object to add to the query
      */
     public void updateFacetRefinement(String attributeName, Facet facet) {
         if (facet.isEnabled()) {
-            addFacetRefinement(attributeName, facet.getName());
+            refinementMap.get(attributeName).second.add(facet.getName());
         } else {
-            removeFacetRefinement(attributeName, facet.getName());
+            refinementMap.get(attributeName).second.remove(facet.getName());
         }
+        rebuildQueryFacetRefinements();
     }
 
+    private void rebuildQueryFacetRefinements() {
+        JSONArray facetFilters = new JSONArray();
+        for (Map.Entry<String, Pair<Integer, List<String>>> entry : refinementMap.entrySet()) {
+            final Pair<Integer, List<String>> pair = entry.getValue();
+            final String attribute = entry.getKey();
+            final Boolean operatorIsAnd = pair.first == RefinementList.OPERATOR_AND;
+            final List<String> values = pair.second;
+
+            if (operatorIsAnd) {
+                for (String value : values) {
+                    facetFilters.put(attribute + ":" + value);
+                }
+            } else {
+                JSONArray attributeArray = new JSONArray();
+                for (String value : values) {
+                    attributeArray.put(attribute + ":" + value);
+                }
+                facetFilters.put(attributeArray);
+            }
+        }
+        query.setFacetFilters(facetFilters);
+        search();
+    }
 
     private static void linkSearchViewToActivity(Activity activity, SearchView searchView) {
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
