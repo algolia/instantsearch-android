@@ -150,42 +150,49 @@ public class RefinementList extends ListView {
         adapter.clear();
     }
 
-    protected static ArrayList<String> parseSortOrder(String string) {
-        if (string == null) {
+    protected static ArrayList<String> parseSortOrder(String attribute) {
+        if (attribute == null) {
             return null;
         }
 
         ArrayList<String> sortOrder = new ArrayList<>();
 
-        JSONArray array;
-        try {
-            array = new JSONArray(string);
-            for (int i = 0; i < array.length(); i++) {
-                String value = array.optString(i);
-                addSortOrderOrThrow(value, sortOrder);
-            }
-        } catch (JSONException e) {
-            // The attribute was not a valid JSONArray. Maybe it was a single valid sortOrder?
-            try {
-                addSortOrderOrThrow(string, sortOrder);
-            } catch (IllegalStateException e2) { // The string was neither a single sortOrder
-                throw new IllegalStateException(String.format(Errors.SORT_INVALID_VALUE, string));
-            }
+        switch (attribute) {
+            case SORT_COUNT:
+            case SORT_ISREFINED:
+            case SORT_NAME_ASC:
+            case SORT_NAME_DESC:
+                sortOrder.add(attribute);
+                break;
+            default:
+                if (!attribute.startsWith("[")) {
+                    throw new IllegalStateException(String.format(Errors.SORT_INVALID_VALUE, attribute));
+                }
+                JSONArray array;
+                try {
+                    array = new JSONArray(attribute);
+                    for (int i = 0; i < array.length(); i++) {
+                        String value = array.optString(i);
+                        addSortOrderOrThrow(value, sortOrder);
+                    }
+                } catch (JSONException e) {
+                    throw new IllegalStateException(String.format(Errors.SORT_INVALID_ARRAY, attribute));
+                }
         }
 
         return sortOrder;
     }
 
-    private static void addSortOrderOrThrow(String string, ArrayList<String> sortOrder) {
-        switch (string) {
+    private static void addSortOrderOrThrow(String value, ArrayList<String> sortOrder) {
+        switch (value) {
             case SORT_COUNT:
             case SORT_ISREFINED:
             case SORT_NAME_ASC:
             case SORT_NAME_DESC:
-                sortOrder.add(string);
+                sortOrder.add(value);
                 break;
             default:
-                throw new IllegalStateException(String.format(Errors.SORT_INVALID_VALUE, string));
+                throw new IllegalStateException(String.format(Errors.SORT_INVALID_VALUE, value));
         }
     }
 
