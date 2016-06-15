@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="City"
+        android:text="@string/placeholder_facet_name"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@+id/refinementName"
         android:layout_toRightOf="@+id/refinementName"
-        android:text="10"
+        android:text="@string/placeholder_facet_value"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/colorPrimary"/>
 </RelativeLayout>

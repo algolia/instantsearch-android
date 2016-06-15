@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="placeholder_facet_name">City</string>
+    <string name="placeholder_facet_value">10</string>
+</resources>
