@@ -15,7 +15,6 @@ android {
         enabled true
     }
 
-
     compileSdkVersion 23
     buildToolsVersion '24 rc2'
 
@@ -31,15 +30,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // Disable automatic throwing on system method calls.
+    // Rationale: We don't want to mock system methods (for example JSONArray.length),
+    // but rather ensure we use them correctly. TODO: Sync on this
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 ext {
-    VERSION_APPCOMPAT='23.4.0'
+    VERSION_APPCOMPAT = '23.4.0'
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.0"
     compile "com.android.support:appcompat-v7:$VERSION_APPCOMPAT"
     compile "com.android.support:recyclerview-v7:$VERSION_APPCOMPAT"
     compile 'com.algolia:algoliasearch-android:3.0@aar'
