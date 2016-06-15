@@ -18,6 +18,5 @@
         </attr>
         <attr name="sortBy" format="string"/>
         <attr name="limit" format="integer"/>
-        <attr name="autoHide" format="boolean"/>
     </declare-styleable>
 </resources>

@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: Is it ok to use this?
 /**
  * Helper to iterate on views in a layout
  * <a href="android-wtf.com/2013/06/how-to-easily-traverse-any-view-hierarchy-in-android/">Initially made by Android-WTF</a><br />

@@ -45,7 +45,6 @@ public class RefinementList extends ListView {
     private final int operator;
     private final ArrayList<String> sortOrder;
     private int limit;
-    private final boolean autoHide;
 
     private final FacetAdapter adapter;
     private AlgoliaHelper helper;
@@ -63,7 +62,6 @@ public class RefinementList extends ListView {
 
             operator = styledAttributes.getInt(R.styleable.RefinementList_operator, OPERATOR_OR);
             limit = styledAttributes.getInt(R.styleable.RefinementList_limit, DEFAULT_LIMIT);
-            autoHide = styledAttributes.getBoolean(R.styleable.RefinementList_autoHide, false);
 
             ArrayList<String> parsedSortOrder = parseSortOrder(styledAttributes.getString(R.styleable.RefinementList_sortBy));
             sortOrder = parsedSortOrder != null ? parsedSortOrder : new ArrayList<>(Collections.singletonList(DEFAULT_SORT));
