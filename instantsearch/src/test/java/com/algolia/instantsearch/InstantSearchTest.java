@@ -6,5 +6,5 @@ import org.robolectric.annotation.Config;
 
 @Config(manifest = Config.NONE, constants = BuildConfig.class)
 @RunWith(RobolectricTestRunner.class)
-public class InstantSearchTest {
+public abstract class InstantSearchTest {
 }
