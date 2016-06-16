@@ -1,21 +1,16 @@
 package com.algolia.instantsearch.views;
 
-import com.algolia.instantsearch.BuildConfig;
+import com.algolia.instantsearch.InstantSearchTest;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Config(manifest = Config.NONE, constants = BuildConfig.class)
-@RunWith(RobolectricTestRunner.class)
-public class RefinementListTest {
+public class RefinementListTest extends InstantSearchTest {
     @Test(expected = IllegalStateException.class)
     public void shouldParseEmptyThrow() {
         String input = "";
