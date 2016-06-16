@@ -74,7 +74,7 @@ public class SearchHelper {
      * @param jsonObject the query result.
      * @return {@code true} if it contains a hits array with at least one non null element.
      */
-    private static boolean hasHits(JSONObject jsonObject) {
+    public static boolean hasHits(@Nullable JSONObject jsonObject) {
         if (jsonObject == null) {
             return false;
         }
