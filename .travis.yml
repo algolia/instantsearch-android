@@ -18,4 +18,4 @@ android:
 
 
 script:
-  - ./gradlew clean test
+  - gradle clean test
