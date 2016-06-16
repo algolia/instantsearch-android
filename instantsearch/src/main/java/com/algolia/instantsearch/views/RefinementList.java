@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.algolia.instantsearch.AlgoliaHelper;
+import com.algolia.instantsearch.SearchHelper;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Facet;
@@ -47,7 +47,7 @@ public class RefinementList extends ListView {
     private int limit;
 
     private final FacetAdapter adapter;
-    private AlgoliaHelper helper;
+    private SearchHelper helper;
     private Comparator<? super Facet> sortComparator;
 
     public RefinementList(final Context context, AttributeSet attrs) throws AlgoliaException {
@@ -102,7 +102,7 @@ public class RefinementList extends ListView {
         };
     }
 
-    public void onInit(AlgoliaHelper helper) {
+    public void onInit(SearchHelper helper) {
         this.helper = helper;
         helper.registerRefinementList(this);
     }

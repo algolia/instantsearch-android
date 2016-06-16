@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.algolia.instantsearch.AlgoliaHelper;
+import com.algolia.instantsearch.SearchHelper;
 import com.algolia.instantsearch.BindingHelper;
 import com.algolia.instantsearch.RenderingHelper;
 import com.algolia.instantsearch.model.Errors;
@@ -62,7 +62,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         ViewDataBinding binding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.getContext()), AlgoliaHelper.getItemLayoutId(), parent, false);
+                LayoutInflater.from(parent.getContext()), SearchHelper.getItemLayoutId(), parent, false);
         binding.executePendingBindings();
         return new ViewHolder(binding.getRoot());
     }

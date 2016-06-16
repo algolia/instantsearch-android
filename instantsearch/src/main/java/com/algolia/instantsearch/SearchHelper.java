@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AlgoliaHelper {
+public class SearchHelper {
 
     private static int itemLayoutId;
 
@@ -60,7 +60,7 @@ public class AlgoliaHelper {
      * @param apiKey        a search api key associated with this application.
      * @param indexName     the name of the application's index to search in.
      */
-    public AlgoliaHelper(Activity activity, final String applicationId, final String apiKey, final String indexName) {
+    public SearchHelper(Activity activity, final String applicationId, final String apiKey, final String indexName) {
         client = new Client(applicationId, apiKey);
         index = client.initIndex(indexName);
         query = new Query();
@@ -96,7 +96,7 @@ public class AlgoliaHelper {
     /**
      * Start a new search with the current query.
      */
-    public AlgoliaHelper search() {
+    public SearchHelper search() {
         search(searchView.getQuery().toString());
         return this;
     }
@@ -106,7 +106,7 @@ public class AlgoliaHelper {
      *
      * @param intent an Intent that may contain a search query.
      */
-    public AlgoliaHelper search(Intent intent) {
+    public SearchHelper search(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             searchView.setQuery(query, false);
@@ -121,7 +121,7 @@ public class AlgoliaHelper {
      *
      * @param queryString a String to search on the index.
      */
-    public AlgoliaHelper search(final String queryString) {
+    public SearchHelper search(final String queryString) {
         endReached = false;
         lastRequestedPage = 0;
         lastDisplayedPage = -1;
@@ -163,7 +163,7 @@ public class AlgoliaHelper {
     /**
      * Load more results with the same query.
      */
-    public AlgoliaHelper loadMore() {
+    public SearchHelper loadMore() {
         Query loadMoreQuery = new Query(query);
         loadMoreQuery.setPage(++lastRequestedPage);
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
@@ -203,7 +203,7 @@ public class AlgoliaHelper {
      *
      * @param baseQuery a {@link Query} object with some parameters set.
      */
-    public AlgoliaHelper setBaseQuery(Query baseQuery) {
+    public SearchHelper setBaseQuery(Query baseQuery) {
         query = baseQuery;
         return this;
     }
@@ -211,11 +211,11 @@ public class AlgoliaHelper {
     /**
      * Change the targeted index for future queries.
      * Be aware that this method only changed the index without invalidating any existing state (pagination, facets, etc).
-     * You may want to use {@link AlgoliaHelper#reset} to reinitialize the helper to an empty state.
+     * You may want to use {@link SearchHelper#reset} to reinitialize the helper to an empty state.
      *
      * @param indexName name of the new index.
      */
-    public AlgoliaHelper setIndex(String indexName) {
+    public SearchHelper setIndex(String indexName) {
         index = client.initIndex(indexName);
         return this;
     }
@@ -223,7 +223,7 @@ public class AlgoliaHelper {
     /**
      * Reset the helper's state.
      */
-    public AlgoliaHelper reset() {
+    public SearchHelper reset() {
         lastDisplayedPage = 0;
         lastRequestedPage = 0;
         lastDisplayedSeqNumber = 0;

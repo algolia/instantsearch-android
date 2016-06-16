@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Toast;
 
-import com.algolia.instantsearch.AlgoliaHelper;
+import com.algolia.instantsearch.SearchHelper;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.ui.HitsAdapter;
@@ -38,7 +38,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     private HitsAdapter adapter;
     private LayoutManager layoutManager;
     private View emptyView;
-    private AlgoliaHelper helper;
+    private SearchHelper helper;
 
 
     public Hits(Context context, AttributeSet attrs) throws AlgoliaException {
@@ -172,7 +172,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     }
 
     @Override
-    public void onInit(@NonNull AlgoliaHelper helper) {
+    public void onInit(@NonNull SearchHelper helper) {
         this.helper = helper;
     }
 
