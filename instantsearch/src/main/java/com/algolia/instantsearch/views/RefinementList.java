@@ -11,8 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.algolia.instantsearch.SearchHelper;
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.SearchHelper;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Facet;
 import com.algolia.search.saas.AlgoliaException;
@@ -148,6 +148,15 @@ public class RefinementList extends ListView {
 
     public void reset() {
         adapter.clear();
+    }
+
+    /**
+     * Replace the default sortComparator by a custom one respecting the {@link Comparator} interface.
+     *
+     * @param sortComparator a new Comparator to use for sorting facets.
+     */
+    public void setSortComparator(Comparator<? super Facet> sortComparator) {
+        this.sortComparator = sortComparator;
     }
 
     protected static ArrayList<String> parseSortOrder(String attribute) {
