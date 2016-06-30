@@ -3,6 +3,7 @@ package com.algolia.instantsearch.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -273,7 +274,7 @@ public class RefinementList extends ListView {
             final TextView countView = (TextView) convertView.findViewById(R.id.refinementCount);
             nameView.setText(facet.getName());
             countView.setText(String.valueOf(facet.getCount()));
-            updateFacetTextView(facet, nameView);
+            updateFacetViews(facet, nameView, countView);
             convertView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -283,7 +284,7 @@ public class RefinementList extends ListView {
                     updateActiveStatus(facet);
 
                     helper.updateFacetRefinement(attributeName, facet);
-                    updateFacetTextView(facet, nameView);
+                    updateFacetViews(facet, nameView, countView);
                 }
             });
             return convertView;
@@ -316,11 +317,13 @@ public class RefinementList extends ListView {
             }
         }
 
-        private void updateFacetTextView(Facet facet, TextView viewName) {
+        private void updateFacetViews(Facet facet, TextView nameView, TextView countView) {
             if (facet.isEnabled()) {
-                viewName.setPaintFlags(viewName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                nameView.setPaintFlags(nameView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                countView.setTypeface(null, Typeface.BOLD);
             } else {
-                viewName.setPaintFlags(viewName.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                nameView.setPaintFlags(nameView.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                countView.setTypeface(null, Typeface.NORMAL);
             }
         }
 
