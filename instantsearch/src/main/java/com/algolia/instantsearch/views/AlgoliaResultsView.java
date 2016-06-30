@@ -21,7 +21,7 @@ public interface AlgoliaResultsView {
     void onInit(@NonNull SearchHelper helper);
 
     /**
-     * Event listener to react to new hits
+     * Event listener to react to new hits.
      *
      * @param hits          a {@link JSONObject} containing hits.
      * @param isLoadingMore true if these hits come from the same query than the previous ones.

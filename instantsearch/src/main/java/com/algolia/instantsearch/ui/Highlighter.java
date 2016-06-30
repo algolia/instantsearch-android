@@ -46,25 +46,25 @@ public class Highlighter {
     private static final Pattern HIGHLIGHT_PATTERN = Pattern.compile("<em>([^<]*)</em>");
 
     /**
-     * Render a highlighted result's attribute using a color resource
+     * Render a highlighted result's attribute using a color resource.
      *
-     * @param result        {@link JSONObject} describing a hit
-     * @param attributeName name of the attribute to be highlighted
-     * @param colorId       a resource Id referencing a color
-     * @param context       a {@link Context} to get resources from
-     * @return a {@link Spannable} with the highlighted text
+     * @param result        {@link JSONObject} describing a hit.
+     * @param attributeName name of the attribute to be highlighted.
+     * @param colorId       a resource Id referencing a color.
+     * @param context       a {@link Context} to get resources from.
+     * @return a {@link Spannable} with the highlighted text.
      */
     public static Spannable renderHighlightColor(JSONObject result, String attributeName, @ColorRes int colorId, Context context) {
         return renderHighlightColor(getHighlightedAttribute(result, attributeName), colorId, context);
     }
 
     /**
-     * Render a highlighted text using a color resource
+     * Render a highlighted text using a color resource.
      *
-     * @param markupString a string to highlight
-     * @param colorId      a resource Id referencing a color
-     * @param context      a {@link Context} to get resources from
-     * @return a {@link Spannable} with the highlighted text
+     * @param markupString a string to highlight.
+     * @param colorId      a resource Id referencing a color.
+     * @param context      a {@link Context} to get resources from.
+     * @return a {@link Spannable} with the highlighted text.
      */
     public static Spannable renderHighlightColor(String markupString, @ColorRes int colorId, Context context) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -75,23 +75,23 @@ public class Highlighter {
     }
 
     /**
-     * Render a highlighted result's attribute using a packed color int
+     * Render a highlighted result's attribute using a packed color int.
      *
-     * @param result        {@link JSONObject} describing a hit
-     * @param attributeName name of the attribute to be highlighted
-     * @param color         a color integer, see {@link android.graphics.Color}
-     * @return a {@link Spannable} with the highlighted text
+     * @param result        {@link JSONObject} describing a hit.
+     * @param attributeName name of the attribute to be highlighted.
+     * @param color         a color integer, see {@link android.graphics.Color}.
+     * @return a {@link Spannable} with the highlighted text.
      */
     public static Spannable renderHighlightColor(JSONObject result, String attributeName, @ColorInt int color) {
         return renderHighlightColor(getHighlightedAttribute(result, attributeName), color);
     }
 
     /**
-     * Render a highlighted text using a packed color int
+     * Render a highlighted text using a packed color int.
      *
-     * @param markupString a string to highlight
-     * @param color        a color integer, see {@link android.graphics.Color}
-     * @return a {@link Spannable} with the highlighted text
+     * @param markupString a string to highlight.
+     * @param color        a color integer, see {@link android.graphics.Color}.
+     * @return a {@link Spannable} with the highlighted text.
      */
     public static Spannable renderHighlightColor(String markupString, @ColorInt int color) {
         if (markupString == null) {
@@ -124,11 +124,11 @@ public class Highlighter {
     }
 
     /**
-     * Get the highlighted version of an attribute, if there is one
+     * Get the highlighted version of an attribute, if there is one.
      *
-     * @param result        {@link JSONObject} describing a hit
-     * @param attributeName the name of the attribute to return highlighted
-     * @return the highlighted version of this attribute if there is one, else the raw attribute
+     * @param result        {@link JSONObject} describing a hit.
+     * @param attributeName the name of the attribute to return highlighted.
+     * @return the highlighted version of this attribute if there is one, else the raw attribute.
      */
     public static String getHighlightedAttribute(JSONObject result, String attributeName) {
         final JSONObject highlightResult = result.optJSONObject("_highlightResult");

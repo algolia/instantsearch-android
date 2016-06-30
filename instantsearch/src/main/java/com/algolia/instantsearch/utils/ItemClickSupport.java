@@ -6,7 +6,7 @@ import android.view.View;
 import com.algolia.instantsearch.R;
 
 /**
- * Helper to set onItem[Long]Click listeners on a RecyclerView <br />
+ * Helper to set onItem[Long]Click listeners on a RecyclerView. <br />
  * <a href="http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/">Initially made by Hugo Visser</a> <br />
  * See (un)license at <a href="http://unlicense.org/">unlicense.org</a> <br />
  */

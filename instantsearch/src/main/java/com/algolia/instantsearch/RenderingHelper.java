@@ -14,9 +14,7 @@ public class RenderingHelper {
 
     static final String DEFAULT_COLOR = "@color/highlightingColor";
 
-    public static
-    @ColorRes
-    int getHighlightColor(String attributeName) {
+    public static @ColorRes int getHighlightColor(String attributeName) {
         return attributeColors.get(attributeName);
     }
 

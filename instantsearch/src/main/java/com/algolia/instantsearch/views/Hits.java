@@ -118,10 +118,10 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     }
 
     /**
-     * Get the hit at a given position
+     * Get the hit at a given position.
      *
-     * @param position the position to look at
-     * @return a JSONObject representing the hit
+     * @param position the position to look at.
+     * @return a JSONObject representing the hit.
      */
     public JSONObject get(int position) {
         return adapter.getItemAt(position);
