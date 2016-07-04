@@ -60,12 +60,23 @@ public class SearchHelper {
      * @param apiKey        a search api key associated with this application.
      * @param indexName     the name of the application's index to search in.
      */
-    public SearchHelper(Activity activity, final String applicationId, final String apiKey, final String indexName) {
+    public SearchHelper(final Activity activity, final String applicationId, final String apiKey, final String indexName) {
+        this(applicationId, apiKey, indexName);
+
+        processActivity(activity);
+    }
+
+    public SearchHelper(final AlgoliaResultsView resultsView, final String applicationId, final String apiKey, final String indexName) {
+        this(applicationId, apiKey, indexName);
+
+        this.resultsView = resultsView;
+        resultsView.onInit(this);
+    }
+
+    private SearchHelper(String applicationId, String apiKey, String indexName) {
         client = new Client(applicationId, apiKey);
         index = client.initIndex(indexName);
         query = new Query();
-
-        processActivity(activity);
     }
 
     /**
