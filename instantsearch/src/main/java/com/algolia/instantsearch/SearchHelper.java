@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 
@@ -213,6 +215,45 @@ public class SearchHelper {
      */
     public boolean shouldLoadMore() {
         return !(endReached || lastRequestedPage > lastDisplayedPage);
+    }
+
+    /**
+     * Registers the Search Widget of an Activity's Menu to fire queries on text change.
+     *
+     * @param activity The searchable Activity, see {@link android.app.SearchableInfo}.
+     * @param menu     The Menu that contains a search item.
+     * @param id       The identifier of the menu's search item.
+     */
+    public void registerSearchView(final Activity activity, Menu menu, int id) {
+        registerSearchView(activity, (SearchView) MenuItemCompat.getActionView(menu.findItem(id)));
+    }
+
+    /**
+     * Registers a {@link SearchView} to fire queries on text change.
+     *
+     * @param activity The searchable activity, see {@link android.app.SearchableInfo}.
+     * @param view     a SearchView where the query text will be picked up from.
+     */
+    public void registerSearchView(final Activity activity, final SearchView view) {
+        view.setSearchableInfo(((SearchManager) activity.getSystemService(Context.SEARCH_SERVICE)).getSearchableInfo(activity.getComponentName()));
+        view.setIconifiedByDefault(false);
+        view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            // SearchView.OnQueryTextListener
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Nothing to do: the search has already been performed by `onQueryTextChange()`.
+                // We do try to close the keyboard, though.
+                view.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                search(view.getQuery().toString());
+                return true;
+            }
+        });
     }
 
     /**
