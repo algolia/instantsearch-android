@@ -3,20 +3,29 @@ android:
   components:
     # Uncomment the lines below if you want to
     # use the latest revision of Android SDK Tools
-    # - platform-tools
-    # - tools
+    - platform-tools
+    - tools
 
     # The BuildTools version used by your project
-    - build-tools-23
+    - build-tools-23.0.3
 
     # The SDK version used to compile your project
-    - android-19
     - android-23
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
     - sys-img-armeabi-v7a-android-19
 
+    # Maven
+    - extra-android-m2repository
+
+# https://docs.travis-ci.com/user/languages/android#Caching
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
 
 script:
   - ./gradlew clean test
