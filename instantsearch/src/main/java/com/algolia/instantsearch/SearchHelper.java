@@ -52,6 +52,7 @@ public class SearchHelper {
 
     private Map<String, Pair<Integer, List<String>>> refinementMap = new HashMap<>();
     private List<Integer> pendingRequests = new ArrayList<>();
+    private List<Integer> cancelledRequests = new ArrayList<>();
 
     /**
      * Create and initialize the helper.
@@ -151,7 +152,7 @@ public class SearchHelper {
                 // requests, nothing prevents the system from opening multiple connections to the
                 // same server, nor the Algolia client to transparently switch to another server
                 // between two requests. Therefore the order of responses is not guaranteed.
-                if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
+                if (currentSearchSeqNumber <= lastDisplayedSeqNumber || cancelledRequests.contains(currentSearchSeqNumber)) {
                     return;
                 }
 
@@ -181,7 +182,7 @@ public class SearchHelper {
         Query loadMoreQuery = new Query(query);
         loadMoreQuery.setPage(++lastRequestedPage);
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
-        pendingRequests.add(currentSearchSeqNumber);\
+        pendingRequests.add(currentSearchSeqNumber);
         index.searchAsync(loadMoreQuery, new CompletionHandler() {
             @Override
             public void requestCompleted(JSONObject content, AlgoliaException error) {
@@ -189,8 +190,8 @@ public class SearchHelper {
                 if (error != null) {
                     throw new RuntimeException(Errors.LOADMORE_FAIL, error);
                 } else {
-                    if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
-                        return; // Hits are for an older query, let's ignore them
+                    if (currentSearchSeqNumber <= lastDisplayedSeqNumber || cancelledRequests.contains(currentSearchSeqNumber)) {
+                        return; // Hits are for an older query or a cancelled one, let's ignore them
                     }
 
                     if (hasHits(content)) {
@@ -259,6 +260,20 @@ public class SearchHelper {
      */
     public boolean hasPendingRequests() {
         return pendingRequests.size() != 0;
+    }
+
+    /**
+     * Cancels all requests still waiting for a response.
+     *
+     * @return how many requests were cancelled.
+     */
+    public int cancelPendingRequests() {
+        if (pendingRequests.size() != 0) {
+            for (Integer reqId : pendingRequests) {
+                cancelledRequests.add(reqId);
+            }
+        }
+        return pendingRequests.size();
     }
 
     private void processActivity(final Activity activity) {
