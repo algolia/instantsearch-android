@@ -51,6 +51,7 @@ public class SearchHelper {
     private boolean endReached;
 
     private Map<String, Pair<Integer, List<String>>> refinementMap = new HashMap<>();
+    private List<Integer> pendingRequests = new ArrayList<>();
 
     /**
      * Create and initialize the helper.
@@ -137,11 +138,13 @@ public class SearchHelper {
         lastRequestedPage = 0;
         lastDisplayedPage = -1;
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
+        pendingRequests.add(currentSearchSeqNumber);
 
         query.setQuery(queryString);
         index.searchAsync(query, new CompletionHandler() {
             @Override
             public void requestCompleted(JSONObject content, AlgoliaException error) {
+                pendingRequests.remove(Integer.valueOf(currentSearchSeqNumber));
                 // NOTE: Check that the received results are newer that the last displayed results.
                 //
                 // Rationale: Although TCP imposes a server to send responses in the same order as
@@ -178,9 +181,11 @@ public class SearchHelper {
         Query loadMoreQuery = new Query(query);
         loadMoreQuery.setPage(++lastRequestedPage);
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
+        pendingRequests.add(currentSearchSeqNumber);\
         index.searchAsync(loadMoreQuery, new CompletionHandler() {
             @Override
             public void requestCompleted(JSONObject content, AlgoliaException error) {
+                pendingRequests.remove(Integer.valueOf(currentSearchSeqNumber));
                 if (error != null) {
                     throw new RuntimeException(Errors.LOADMORE_FAIL, error);
                 } else {
@@ -245,6 +250,15 @@ public class SearchHelper {
             refinementList.reset();
         }
         return this;
+    }
+
+    /**
+     * Checks if some requests are still waiting for a response.
+     *
+     * @return true if there is at least one pending request.
+     */
+    public boolean hasPendingRequests() {
+        return pendingRequests.size() != 0;
     }
 
     private void processActivity(final Activity activity) {
