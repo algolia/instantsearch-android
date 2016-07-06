@@ -43,7 +43,7 @@ public class SearchHelper {
     private Query query;
 
     private SearchView searchView;
-    private AlgoliaResultsView resultsView;
+    private List<AlgoliaResultsView> resultsViews = new ArrayList<>();
     private RefinementList refinementList;
 
     private int lastSearchSeqNumber; // Identifier of last fired query
@@ -73,8 +73,8 @@ public class SearchHelper {
     public SearchHelper(final AlgoliaResultsView resultsView, final String applicationId, final String apiKey, final String indexName) {
         this(applicationId, apiKey, indexName);
 
-        this.resultsView = resultsView;
-        resultsView.onInit(this);
+        resultsViews.add(resultsView);
+        initResultsViews();
     }
 
     private SearchHelper(String applicationId, String apiKey, String indexName) {
@@ -166,10 +166,12 @@ public class SearchHelper {
                 lastDisplayedPage = 0;
 
                 if (error != null) {
-                    resultsView.onError(query, error);
+                    for (AlgoliaResultsView view : resultsViews) {
+                        view.onError(query, error);
+                    }
                     Log.e("PLN|search.searchError", String.format("Index %s with query %s failed: %s(%s).", index.getIndexName(), queryString, error.getCause(), error.getMessage()));
                 } else {
-                    updateViews(content, false);
+                    updateResultsViews(content, false);
                     Log.d("PLN|search.searchResult", String.format("Index %s with query %s succeeded: %s.", index.getIndexName(), queryString, content));
                 }
             }
@@ -197,7 +199,7 @@ public class SearchHelper {
                     }
 
                     if (hasHits(content)) {
-                        updateViews(content, true);
+                        updateResultsViews(content, true);
                         lastDisplayedPage = lastRequestedPage;
                     } else {
                         endReached = true;
@@ -218,7 +220,7 @@ public class SearchHelper {
     }
 
     /**
-     * Registers the Search Widget of an Activity's Menu to fire queries on text change.
+     * Register the Search Widget of an Activity's Menu to fire queries on text change.
      *
      * @param activity The searchable Activity, see {@link android.app.SearchableInfo}.
      * @param menu     The Menu that contains a search item.
@@ -287,7 +289,7 @@ public class SearchHelper {
         lastDisplayedSeqNumber = 0;
         lastSearchSeqNumber = 0;
         endReached = false;
-        updateViews(null, false);
+        updateResultsViews(null, false);
         if (refinementList != null) {
             refinementList.reset();
         }
@@ -329,7 +331,7 @@ public class SearchHelper {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() == 0) {
-                    updateViews(null, false);
+                    updateResultsViews(null, false);
                 } else {
                     search(newText);
                 }
@@ -339,14 +341,14 @@ public class SearchHelper {
 
         linkSearchViewToActivity(activity, searchView);
 
-        resultsView = (AlgoliaResultsView) rootView.findViewById(R.id.hits);
-        if (resultsView == null) {
+        AlgoliaResultsView hitsView = (AlgoliaResultsView) rootView.findViewById(R.id.hits);
+        if (hitsView == null) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS);
         }
-        resultsView.onInit(this);
+        resultsViews.add(hitsView);
 
-        if (resultsView instanceof Hits) {
-            final Hits hits = (Hits) resultsView;
+        if (hitsView instanceof Hits) {
+            final Hits hits = (Hits) hitsView;
             query.setHitsPerPage(hits.getHitsPerPage());
 
             // Link hits to activity's empty view
@@ -358,14 +360,14 @@ public class SearchHelper {
             } else {
                 itemLayoutId = activity.getResources().getIdentifier(layoutName, "layout", activity.getPackageName());
             }
-        } else if (resultsView instanceof ListView) {
-            ((ListView) resultsView).setEmptyView(getEmptyView(rootView));
+        } else if (hitsView instanceof ListView) {
+            ((ListView) hitsView).setEmptyView(getEmptyView(rootView));
         }
 
         refinementList = (RefinementList) rootView.findViewById(R.id.refinements);
         if (refinementList != null) {
+            resultsViews.add(refinementList);
             query.setFacets(refinementList.getAttributeName());
-            refinementList.onInit(this);
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                 @Override
                 public boolean onClose() {
@@ -375,6 +377,8 @@ public class SearchHelper {
                 }
             });
         }
+
+        initResultsViews();
     }
 
     /**
@@ -388,7 +392,6 @@ public class SearchHelper {
 
         linkSearchViewToActivity(activity, searchView);
     }
-
 
     /**
      * Initialise a list of facet for the given widget's attribute and operator.
@@ -436,7 +439,7 @@ public class SearchHelper {
     }
 
     /**
-     * Checks if a facet refinement is enabled.
+     * Check if a facet refinement is enabled.
      *
      * @param attribute the attribute to refine on.
      * @param value     the facet's value to check.
@@ -447,7 +450,7 @@ public class SearchHelper {
     }
 
     /**
-     * Clears the facet refinements.
+     * Clear the facet refinements.
      *
      * @param attribute if not null, only this attribute's refinements will be cleared.
      */
@@ -461,6 +464,19 @@ public class SearchHelper {
             refinementMap.get(attribute).second.clear();
         }
         rebuildQueryFacetRefinements();
+    }
+
+    /**
+     * Get the {@link android.support.annotation.IdRes} of the item layout registered by a Hits widget.
+     *
+     * @return the registered item layout id, if any.
+     * @throws IllegalStateException if no item layout was registered.
+     */
+    public static int getItemLayoutId() {
+        if (itemLayoutId == 0) {
+            throw new IllegalStateException(Errors.GET_ITEMLAYOUT_WITHOUT_HITS);
+        }
+        return itemLayoutId;
     }
 
     private void rebuildQueryFacetRefinements() {
@@ -487,23 +503,21 @@ public class SearchHelper {
         search();
     }
 
+    private void initResultsViews() {
+        for (AlgoliaResultsView view : resultsViews) {
+            view.onInit(this);
+        }
+    }
+
+    private void updateResultsViews(JSONObject hits, boolean isLoadingMore) {
+        for (AlgoliaResultsView view : resultsViews) {
+            view.onUpdateView(hits, isLoadingMore);
+        }
+    }
+
     private static void linkSearchViewToActivity(Activity activity, SearchView searchView) {
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
-    }
-
-    private void updateViews(JSONObject hits, boolean isLoadingMore) {
-        resultsView.onUpdateView(hits, isLoadingMore);
-        if (refinementList != null) {
-            refinementList.onUpdateView(hits, isLoadingMore);
-        }
-    }
-
-    public static int getItemLayoutId() {
-        if (itemLayoutId == 0) {
-            throw new IllegalStateException(Errors.GET_ITEMLAYOUT_WITHOUT_HITS);
-        }
-        return itemLayoutId;
     }
 
     @NonNull

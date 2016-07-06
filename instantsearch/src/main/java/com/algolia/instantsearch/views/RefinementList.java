@@ -17,6 +17,7 @@ import com.algolia.instantsearch.SearchHelper;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Facet;
 import com.algolia.search.saas.AlgoliaException;
+import com.algolia.search.saas.Query;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +31,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-public class RefinementList extends ListView {
+public class RefinementList extends ListView implements AlgoliaResultsView {
     public static final int OPERATOR_OR = 0;
     public static final int OPERATOR_AND = 1;
 
@@ -108,6 +109,7 @@ public class RefinementList extends ListView {
         helper.registerRefinementList(this);
     }
 
+    @Override
     public void onUpdateView(JSONObject content, boolean isLoadingMore) {
         if (isLoadingMore) { // more results of the same request -> facets should not change
             return;
@@ -147,6 +149,11 @@ public class RefinementList extends ListView {
         }
     }
 
+    @Override public void onError(Query query, AlgoliaException error) {
+        throw new RuntimeException(String.format(Errors.REFINEMENTS_RECEIVED_ERROR, error.getMessage()));
+    }
+
+    //TODO: Should this be a onReset() callback to only use interface? Something à la Collection with UnsupportedOperationException?
     public void reset() {
         adapter.clear();
     }
