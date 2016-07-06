@@ -26,4 +26,6 @@ public class Errors {
 
     public static final String SORT_INVALID_VALUE = "invalid sortBy value: %s is none of \"count\"|\"isRefined\"|\"name:asc\"|\"name:desc\".";
     public static final String SORT_INVALID_ARRAY = "invalid sortBy value: %s is not a valid JSONArray.";
+
+    public static final String PROGRESS_WITHOUT_SEARCHVIEW = "Could not find a view with id @id/search_plate in SearchView.";
 }

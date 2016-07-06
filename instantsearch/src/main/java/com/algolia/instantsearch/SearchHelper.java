@@ -4,14 +4,19 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.algolia.instantsearch.model.Errors;
@@ -52,6 +57,9 @@ public class SearchHelper {
     private int lastDisplayedPage;
     private boolean endReached;
 
+    private boolean showProgressBar;
+    private int progressBarDelay; /*TODO: Default delay?*/
+
     private Map<String, Pair<Integer, List<String>>> refinementMap = new HashMap<>();
     private List<Integer> pendingRequests = new ArrayList<>();
     private List<Integer> cancelledRequests = new ArrayList<>();
@@ -68,6 +76,7 @@ public class SearchHelper {
         this(applicationId, apiKey, indexName);
 
         processActivity(activity);
+        enableProgressBar();
     }
 
     public SearchHelper(final AlgoliaResultsView resultsView, final String applicationId, final String apiKey, final String indexName) {
@@ -142,12 +151,22 @@ public class SearchHelper {
         lastDisplayedPage = -1;
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
         pendingRequests.add(currentSearchSeqNumber);
+        final Handler handler = new Handler(Looper.getMainLooper());
+        final Runnable progressBarRunnable = new Runnable() {
+            @Override
+            public void run() {
+                updateProgressBar(searchView, true);
+            }
+        };
+        handler.postDelayed(progressBarRunnable, progressBarDelay);
 
         query.setQuery(queryString);
         index.searchAsync(query, new CompletionHandler() {
             @Override
             public void requestCompleted(JSONObject content, AlgoliaException error) {
                 pendingRequests.remove(Integer.valueOf(currentSearchSeqNumber));
+                handler.removeCallbacks(progressBarRunnable);
+                updateProgressBar(searchView, false);
                 // NOTE: Check that the received results are newer that the last displayed results.
                 //
                 // Rationale: Although TCP imposes a server to send responses in the same order as
@@ -394,6 +413,32 @@ public class SearchHelper {
     }
 
     /**
+     * Enable the display of a spinning progressBar in the SearchView when waiting for results.
+     *
+     * @param delay a delay to wait between firing a request and displaying the indicator.
+     */
+    public void enableProgressBar(int delay) {
+        enableProgressBar();
+        progressBarDelay = delay;
+    }
+
+    /**
+     * Enable the display of a {@link android.widget.ProgressBar} in the SearchView when waiting for results.
+     */
+    public void enableProgressBar() {
+        showProgressBar = true;
+    }
+
+    /**
+     * Disable the {@link android.widget.ProgressBar}, removing it if it is already displayed.
+     */
+    public void disableProgressBar() {
+        updateProgressBar(searchView, false);
+        showProgressBar = false;
+    }
+
+
+    /**
      * Initialise a list of facet for the given widget's attribute and operator.
      *
      * @param widget a RefinementList to register as a source of facetRefinements.
@@ -501,6 +546,32 @@ public class SearchHelper {
         }
         query.setFacetFilters(facetFilters);
         search();
+    }
+
+    private void updateProgressBar(SearchView searchView, Boolean showProgress) {
+        Log.d("PLN", "updateProgressBar() called with: " + "searchView = [" + searchView + "], showProgress = [" + showProgress + "]");
+        if (!showProgressBar) {
+            return;
+        }
+        View searchPlate = searchView.findViewById(R.id.search_plate);
+        if (searchPlate == null) {
+            Log.e("SearchHelper", Errors.PROGRESS_WITHOUT_SEARCHVIEW);
+            return;
+        }
+
+        final View progressBarView = searchPlate.findViewById(R.id.search_progress_bar);
+        if (progressBarView != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                progressBarView.animate().setDuration(200).alpha(showProgress ? 1 : 0).start();
+                Log.d("PLN", "Animated " + (showProgress ? "apparition" : "dispariition") + " of progressbar.");
+            } else { /* No ViewPropertyAnimator before API14 and no animation before API 10, let's just change Visibility */
+                progressBarView.setVisibility(showProgress ? View.VISIBLE : View.GONE);
+                Log.d("PLN", "Set visibility of progressBar to " + (showProgress ? "VISIBLE" : "GONE"));
+            }
+        } else if (showProgress) {
+            ((ViewGroup) searchPlate).addView(LayoutInflater.from(searchView.getContext()).inflate(R.layout.loading_icon, null), 1);
+            Log.d("PLN", "Added progressbar to searchView.");
+        }
     }
 
     private void initResultsViews() {
