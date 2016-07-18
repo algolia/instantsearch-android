@@ -11,9 +11,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.algolia.instantsearch.SearchHelper;
 import com.algolia.instantsearch.BindingHelper;
 import com.algolia.instantsearch.RenderingHelper;
+import com.algolia.instantsearch.SearchHelper;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.utils.ImageLoadTask;
 import com.algolia.instantsearch.utils.LayoutViews;
@@ -30,10 +30,17 @@ import java.util.Set;
 public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> implements ImageLoadTask.BitmapListener {
 
     private List<JSONObject> hits = new ArrayList<>();
-        private Map<String, Bitmap> bitmaps = new HashMap<>();
+    private Map<String, Bitmap> bitmaps = new HashMap<>();
 
     public HitsAdapter() {
         this.hits = new ArrayList<>();
+    }
+
+    /**
+     * Remove the current hits, notifying observers.
+     */
+    public void clear() {
+        clear(true);
     }
 
     /**

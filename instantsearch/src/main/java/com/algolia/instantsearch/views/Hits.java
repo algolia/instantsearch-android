@@ -114,7 +114,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
      * Clear the Hits, emptying the underlying data.
      */
     public void clear() {
-        adapter.clear(true);
+        adapter.clear();
     }
 
     /**
@@ -136,7 +136,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     private void addHits(@Nullable JSONObject hits, boolean isReplacing) {
         if (hits == null) {
             if (isReplacing) {
-                adapter.clear(true);
+                adapter.clear();
                 scrollListener.setCurrentlyLoading(false);
             }
             return;
