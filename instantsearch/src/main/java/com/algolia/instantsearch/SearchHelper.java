@@ -51,6 +51,9 @@ public class SearchHelper {
     private List<AlgoliaResultsView> resultsViews = new ArrayList<>();
     private RefinementList refinementList;
 
+    private Menu searchMenu;
+    private int searchMenuId;
+
     private int lastSearchSeqNumber; // Identifier of last fired query
     private int lastDisplayedSeqNumber; // Identifier of last displayed query
     private int lastRequestedPage;
@@ -76,7 +79,6 @@ public class SearchHelper {
         this(applicationId, apiKey, indexName);
 
         processActivity(activity);
-        enableProgressBar();
     }
 
     public SearchHelper(final AlgoliaResultsView resultsView, final String applicationId, final String apiKey, final String indexName) {
@@ -90,6 +92,7 @@ public class SearchHelper {
         client = new Client(applicationId, apiKey);
         index = client.initIndex(indexName);
         query = new Query();
+        enableProgressBar();
     }
 
     /**
@@ -246,6 +249,8 @@ public class SearchHelper {
      * @param id       The identifier of the menu's search item.
      */
     public void registerSearchView(final Activity activity, Menu menu, int id) {
+        searchMenu = menu;
+        searchMenuId = id;
         registerSearchView(activity, (SearchView) MenuItemCompat.getActionView(menu.findItem(id)));
     }
 
@@ -405,7 +410,7 @@ public class SearchHelper {
      *
      * @param activity the activity with a {@link SearchView} identified as @+id/searchBox.
      */
-    public static void initSearchFrom(Activity activity) {
+    public void initSearchFrom(Activity activity) {
         final View rootView = activity.getWindow().getDecorView().getRootView();
         SearchView searchView = getSearchView(rootView);
 
@@ -549,28 +554,36 @@ public class SearchHelper {
     }
 
     private void updateProgressBar(SearchView searchView, Boolean showProgress) {
+        if (searchView == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                searchView = (SearchView) searchMenu.findItem(searchMenuId).getActionView();
+            }
+        }
+
         Log.d("PLN", "updateProgressBar() called with: " + "searchView = [" + searchView + "], showProgress = [" + showProgress + "]");
         if (!showProgressBar) {
             return;
         }
-        View searchPlate = searchView.findViewById(R.id.search_plate);
-        if (searchPlate == null) {
-            Log.e("SearchHelper", Errors.PROGRESS_WITHOUT_SEARCHVIEW);
-            return;
-        }
-
-        final View progressBarView = searchPlate.findViewById(R.id.search_progress_bar);
-        if (progressBarView != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                progressBarView.animate().setDuration(200).alpha(showProgress ? 1 : 0).start();
-                Log.d("PLN", "Animated " + (showProgress ? "apparition" : "dispariition") + " of progressbar.");
-            } else { /* No ViewPropertyAnimator before API14 and no animation before API 10, let's just change Visibility */
-                progressBarView.setVisibility(showProgress ? View.VISIBLE : View.GONE);
-                Log.d("PLN", "Set visibility of progressBar to " + (showProgress ? "VISIBLE" : "GONE"));
+        if (searchView != null) {
+            View searchPlate = searchView.findViewById(R.id.search_plate); //TODO: Check with menu
+            if (searchPlate == null) {
+                Log.e("SearchHelper", Errors.PROGRESS_WITHOUT_SEARCHVIEW);
+                return;
             }
-        } else if (showProgress) {
-            ((ViewGroup) searchPlate).addView(LayoutInflater.from(searchView.getContext()).inflate(R.layout.loading_icon, null), 1);
-            Log.d("PLN", "Added progressbar to searchView.");
+
+            final View progressBarView = searchPlate.findViewById(R.id.search_progress_bar);
+            if (progressBarView != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                    progressBarView.animate().setDuration(200).alpha(showProgress ? 1 : 0).start();
+                    Log.d("PLN", "Animated " + (showProgress ? "apparition" : "dispariition") + " of progressbar.");
+                } else { /* No ViewPropertyAnimator before API14 and no animation before API 10, let's just change Visibility */
+                    progressBarView.setVisibility(showProgress ? View.VISIBLE : View.GONE);
+                    Log.d("PLN", "Set visibility of progressBar to " + (showProgress ? "VISIBLE" : "GONE"));
+                }
+            } else if (showProgress) {
+                ((ViewGroup) searchPlate).addView(LayoutInflater.from(searchView.getContext()).inflate(R.layout.loading_icon, null), 1);
+                Log.d("PLN", "Added progressbar to searchView.");
+            }
         }
     }
 
@@ -586,7 +599,7 @@ public class SearchHelper {
         }
     }
 
-    private static void linkSearchViewToActivity(Activity activity, SearchView searchView) {
+    private void linkSearchViewToActivity(Activity activity, SearchView searchView) {
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
     }
