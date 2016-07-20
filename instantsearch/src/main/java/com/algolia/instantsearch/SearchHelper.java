@@ -554,18 +554,18 @@ public class SearchHelper {
     }
 
     private void updateProgressBar(SearchView searchView, Boolean showProgress) {
+        if (!showProgressBar) {
+            return;
+        }
+
         if (searchView == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 searchView = (SearchView) searchMenu.findItem(searchMenuId).getActionView();
             }
         }
 
-        Log.d("PLN", "updateProgressBar() called with: " + "searchView = [" + searchView + "], showProgress = [" + showProgress + "]");
-        if (!showProgressBar) {
-            return;
-        }
         if (searchView != null) {
-            View searchPlate = searchView.findViewById(R.id.search_plate); //TODO: Check with menu
+            View searchPlate = searchView.findViewById(R.id.search_plate);
             if (searchPlate == null) {
                 Log.e("SearchHelper", Errors.PROGRESS_WITHOUT_SEARCHVIEW);
                 return;
@@ -575,14 +575,11 @@ public class SearchHelper {
             if (progressBarView != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                     progressBarView.animate().setDuration(200).alpha(showProgress ? 1 : 0).start();
-                    Log.d("PLN", "Animated " + (showProgress ? "apparition" : "dispariition") + " of progressbar.");
                 } else { /* No ViewPropertyAnimator before API14 and no animation before API 10, let's just change Visibility */
                     progressBarView.setVisibility(showProgress ? View.VISIBLE : View.GONE);
-                    Log.d("PLN", "Set visibility of progressBar to " + (showProgress ? "VISIBLE" : "GONE"));
                 }
             } else if (showProgress) {
                 ((ViewGroup) searchPlate).addView(LayoutInflater.from(searchView.getContext()).inflate(R.layout.loading_icon, null), 1);
-                Log.d("PLN", "Added progressbar to searchView.");
             }
         }
     }
