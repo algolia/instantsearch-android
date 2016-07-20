@@ -41,8 +41,6 @@ import java.util.Map;
 
 public class SearchHelper {
 
-    private static int itemLayoutId;
-
     private Index index;
     private final Client client;
     private Query query;
@@ -53,6 +51,7 @@ public class SearchHelper {
 
     private Menu searchMenu;
     private int searchMenuId;
+    private static int itemLayoutId = -42;
 
     private int lastSearchSeqNumber; // Identifier of last fired query
     private int lastDisplayedSeqNumber; // Identifier of last displayed query
@@ -378,11 +377,10 @@ public class SearchHelper {
             // Link hits to activity's empty view
             hits.setEmptyView(getEmptyView(rootView));
 
-            final String layoutName = hits.getLayoutName();
-            if (layoutName == null) {
+            itemLayoutId = hits.getLayoutId();
+
+            if (itemLayoutId == -42) {
                 throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
-            } else {
-                itemLayoutId = activity.getResources().getIdentifier(layoutName, "layout", activity.getPackageName());
             }
         } else if (hitsView instanceof ListView) {
             ((ListView) hitsView).setEmptyView(getEmptyView(rootView));

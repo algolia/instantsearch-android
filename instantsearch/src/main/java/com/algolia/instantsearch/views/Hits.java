@@ -32,22 +32,22 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
     private final Integer hitsPerPage;
     private final int remainingItemsBeforeLoading; // Minimum number of remaining items before loading more
     private final boolean disableInfiniteScroll;
-    private final String layoutName;
     private final HitsScrollListener scrollListener;
 
+    private final int layoutId;
+
     private HitsAdapter adapter;
+
     private LayoutManager layoutManager;
     private View emptyView;
     private SearchHelper helper;
-
-
     public Hits(Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
         if (isInEditMode()) {
             hitsPerPage = 0;
             remainingItemsBeforeLoading = 0;
             disableInfiniteScroll = false;
-            layoutName = null;
+            layoutId = 0;
             scrollListener = null;
             return;
         }
@@ -55,7 +55,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Hits, 0, 0);
         try {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, DEFAULT_HITS_PER_PAGE);
-            layoutName = styledAttributes.getString(R.styleable.Hits_itemLayout);
+            layoutId = styledAttributes.getResourceId(R.styleable.Hits_itemLayout, 0);
             disableInfiniteScroll = styledAttributes.getBoolean(R.styleable.Hits_disableInfiniteScroll, false);
             int remainingItemsAttribute = styledAttributes.getInt(R.styleable.Hits_remainingItemsBeforeLoading, MISSING_VALUE);
             if (remainingItemsAttribute == MISSING_VALUE) {
@@ -91,6 +91,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
             addOnScrollListener(scrollListener);
         }
     }
+
 
     /**
      * Set a listener for click events on child views.
@@ -194,8 +195,8 @@ public class Hits extends RecyclerView implements AlgoliaResultsView {
         return hitsPerPage;
     }
 
-    public String getLayoutName() {
-        return layoutName;
+    public int getLayoutId() {
+        return layoutId;
     }
 
     private class HitsScrollListener extends OnScrollListener {
