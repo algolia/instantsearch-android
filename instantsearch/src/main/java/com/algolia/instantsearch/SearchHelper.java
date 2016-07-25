@@ -67,31 +67,37 @@ public class SearchHelper {
     private List<Integer> cancelledRequests = new ArrayList<>();
 
     /**
-     * Create and initialize the helper.
+     * Create and initialize the helper, then link it to the given Activity.
      *
-     * @param activity      the Activity containing an {@link AlgoliaResultsListener}.
-     * @param applicationId your application's ID.
-     * @param apiKey        a search api key associated with this application.
-     * @param indexName     the name of the application's index to search in.
+     * @param activity an Activity containing an {@link AlgoliaResultsListener} to update with incoming results.
+     * @param client   a Client instance which will handle network requests.
+     * @param index    an Index initialized and eventually configured.
      */
-    public SearchHelper(final Activity activity, final String applicationId, final String apiKey, final String indexName) {
-        this(applicationId, apiKey, indexName);
+    public SearchHelper(final Activity activity, final Client client, final Index index) {
+        this(client, index);
 
         processActivity(activity);
     }
 
-    public SearchHelper(final AlgoliaResultsListener resultsView, final String applicationId, final String apiKey, final String indexName) {
-        this(applicationId, apiKey, indexName);
+    /**
+     * Create and initialize the helper, then link it to the given Activity.
+     *
+     * @param resultsListener an AlgoliaResultsListener to update with incoming results.
+     * @param client          a Client instance which will handle network requests.
+     * @param index           an Index initialized and eventually configured.
+     */
+    public SearchHelper(final AlgoliaResultsListener resultsListener, final Client client, final Index index) {
+        this(client, index);
 
         resultsListeners.add(resultsListener);
         initResultsListeners();
     }
 
-    private SearchHelper(String applicationId, String apiKey, String indexName) {
-        client = new Client(applicationId, apiKey);
-        index = client.initIndex(indexName);
+    private SearchHelper(final Client client, final Index index) {
         query = new Query();
         enableProgressBar();
+        SearchHelper.client = client;
+        this.index = index;
     }
 
     /**
@@ -288,18 +294,6 @@ public class SearchHelper {
      */
     public SearchHelper setBaseQuery(Query baseQuery) {
         query = baseQuery;
-        return this;
-    }
-
-    /**
-     * Change the targeted index for future queries.
-     * Be aware that this method only changed the index without invalidating any existing state (pagination, facets, etc).
-     * You may want to use {@link SearchHelper#reset} to reinitialize the helper to an empty state.
-     *
-     * @param indexName name of the new index.
-     */
-    public SearchHelper setIndex(String indexName) {
-        index = client.initIndex(indexName);
         return this;
     }
 
@@ -626,5 +620,21 @@ public class SearchHelper {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_EMPTY);
         }
         return emptyView;
+    }
+
+    public Index getIndex() {
+        return index;
+    }
+
+    /**
+     * Change the targeted index for future queries.
+     * Be aware that this method only changed the index without invalidating any existing state (pagination, facets, etc).
+     * You may want to use {@link SearchHelper#reset} to reinitialize the helper to an empty state.
+     *
+     * @param indexName name of the new index.
+     */
+    public SearchHelper setIndex(String indexName) {
+        index = client.initIndex(indexName);
+        return this;
     }
 }
