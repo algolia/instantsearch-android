@@ -15,7 +15,7 @@ public class Errors {
     public static final String IMAGELOAD_INVALID_URL = "There should be one valid url per ImageView.";
 
     public static final String LAYOUT_MISSING_EMPTY = "You need to add an empty view identified as @id/empty.";
-    public static final String LAYOUT_MISSING_HITS = "You need to add an AlgoliaResultsView identified as @id/hits.";
+    public static final String LAYOUT_MISSING_HITS = "You need to add an AlgoliaResultsListener identified as @id/hits.";
     public static final String LAYOUT_MISSING_HITS_ITEMLAYOUT = "To use the Hits widget, you need to specify an item layout with algolia:itemLayout.";
     public static final String LAYOUT_MISSING_SEARCHBOX = "You need to add a SearchBox or SearchView identified as @id/searchBox.";
 

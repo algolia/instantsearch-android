@@ -12,9 +12,9 @@ import org.json.JSONObject;
 /**
  * A view that can hold several hits.
  */
-public interface AlgoliaResultsView {
+public interface AlgoliaResultsListener {
     /**
-     * Called at initialisation to give this AlgoliaResultsView a reference to its SearchHelper.
+     * Called at initialisation to give this AlgoliaResultsListener a reference to its SearchHelper.
      *
      * @param helper an {@link SearchHelper} instance.
      */

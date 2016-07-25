@@ -31,7 +31,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-public class RefinementList extends ListView implements AlgoliaResultsView {
+public class RefinementList extends ListView implements AlgoliaResultsListener {
     public static final int OPERATOR_OR = 0;
     public static final int OPERATOR_AND = 1;
 

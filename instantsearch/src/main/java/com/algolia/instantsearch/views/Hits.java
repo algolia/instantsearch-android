@@ -24,7 +24,7 @@ import com.algolia.search.saas.Query;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Hits extends RecyclerView implements AlgoliaResultsView {
+public class Hits extends RecyclerView implements AlgoliaResultsListener {
     public static final int MISSING_VALUE = Integer.MIN_VALUE;
     public static final int DEFAULT_HITS_PER_PAGE = 20;
     public static final int DEFAULT_REMAINING_ITEMS = 5;

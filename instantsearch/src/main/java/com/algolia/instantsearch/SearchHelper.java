@@ -21,7 +21,7 @@ import android.widget.ListView;
 
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Facet;
-import com.algolia.instantsearch.views.AlgoliaResultsView;
+import com.algolia.instantsearch.views.AlgoliaResultsListener;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.RefinementList;
 import com.algolia.search.saas.AlgoliaException;
@@ -46,7 +46,7 @@ public class SearchHelper {
     private Query query;
 
     private SearchView searchView;
-    private List<AlgoliaResultsView> resultsViews = new ArrayList<>();
+    private List<AlgoliaResultsListener> resultsListeners = new ArrayList<>();
     private RefinementList refinementList;
 
     private Menu searchMenu;
@@ -69,7 +69,7 @@ public class SearchHelper {
     /**
      * Create and initialize the helper.
      *
-     * @param activity      the Activity containing an {@link AlgoliaResultsView}.
+     * @param activity      the Activity containing an {@link AlgoliaResultsListener}.
      * @param applicationId your application's ID.
      * @param apiKey        a search api key associated with this application.
      * @param indexName     the name of the application's index to search in.
@@ -80,11 +80,11 @@ public class SearchHelper {
         processActivity(activity);
     }
 
-    public SearchHelper(final AlgoliaResultsView resultsView, final String applicationId, final String apiKey, final String indexName) {
+    public SearchHelper(final AlgoliaResultsListener resultsView, final String applicationId, final String apiKey, final String indexName) {
         this(applicationId, apiKey, indexName);
 
-        resultsViews.add(resultsView);
-        initResultsViews();
+        resultsListeners.add(resultsListener);
+        initResultsListeners();
     }
 
     private SearchHelper(String applicationId, String apiKey, String indexName) {
@@ -187,7 +187,7 @@ public class SearchHelper {
                 lastDisplayedPage = 0;
 
                 if (error != null) {
-                    for (AlgoliaResultsView view : resultsViews) {
+                    for (AlgoliaResultsListener view : resultsListeners) {
                         view.onError(query, error);
                     }
                     Log.e("PLN|search.searchError", String.format("Index %s with query %s failed: %s(%s).", index.getIndexName(), queryString, error.getCause(), error.getMessage()));
@@ -232,7 +232,7 @@ public class SearchHelper {
     }
 
     /**
-     * Tell if we should load more hits when reaching the end of an {@link AlgoliaResultsView}.
+     * Tell if we should load more hits when reaching the end of an {@link AlgoliaResultsListener}.
      *
      * @return {@code true} unless we reached the end of hits or we already requested a new page.
      */
@@ -364,11 +364,11 @@ public class SearchHelper {
 
         linkSearchViewToActivity(activity, searchView);
 
-        AlgoliaResultsView hitsView = (AlgoliaResultsView) rootView.findViewById(R.id.hits);
+        AlgoliaResultsListener hitsView = (AlgoliaResultsListener) rootView.findViewById(R.id.hits);
         if (hitsView == null) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS);
         }
-        resultsViews.add(hitsView);
+        resultsListeners.add(hitsView);
 
         if (hitsView instanceof Hits) {
             final Hits hits = (Hits) hitsView;
@@ -388,7 +388,7 @@ public class SearchHelper {
 
         refinementList = (RefinementList) rootView.findViewById(R.id.refinements);
         if (refinementList != null) {
-            resultsViews.add(refinementList);
+            resultsListeners.add(refinementList);
             query.setFacets(refinementList.getAttributeName());
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                 @Override
@@ -400,7 +400,7 @@ public class SearchHelper {
             });
         }
 
-        initResultsViews();
+        initResultsListeners();
     }
 
     /**
@@ -582,14 +582,14 @@ public class SearchHelper {
         }
     }
 
-    private void initResultsViews() {
-        for (AlgoliaResultsView view : resultsViews) {
-            view.onInit(this);
+    private void initResultsListeners() {
+        for (AlgoliaResultsListener listener : resultsListeners) {
+            listener.onInit(this);
         }
     }
 
     private void updateResultsViews(JSONObject hits, boolean isLoadingMore) {
-        for (AlgoliaResultsView view : resultsViews) {
+        for (AlgoliaResultsListener view : resultsListeners) {
             view.onUpdateView(hits, isLoadingMore);
         }
     }
