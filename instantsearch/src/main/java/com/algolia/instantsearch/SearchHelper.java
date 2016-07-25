@@ -25,6 +25,7 @@ import com.algolia.instantsearch.utils.LayoutViews;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.RefinementList;
+import com.algolia.instantsearch.views.SearchBox;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.CompletionHandler;
@@ -598,15 +599,32 @@ public class SearchHelper {
 
     @NonNull
     private static SearchView getSearchView(View rootView) {
-        try {
-            SearchView searchView = (SearchView) rootView.findViewById(R.id.searchBox);
-            if (searchView == null) {
-                throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
+        SearchView searchView;
+
+        // Either the developer uses our SearchBox
+        final List<SearchBox> searchBoxes = LayoutViews.findByClass(rootView, SearchBox.class);
+        if (searchBoxes != null && searchBoxes.size() != 0) {
+            if (searchBoxes.size() == 1) {
+                searchView = searchBoxes.get(0);
+            } else { // We should not find more than one SearchBox
+                throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHBOXES); //TODO: Discuss - Fixme?
             }
-            return searchView;
-        } catch (ClassCastException e) {
-            throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
+        } else {
+            // Or he uses AppCompat's SearchView //TODO: Support standard SearchView?
+            final List<SearchView> searchViews = LayoutViews.findByClass(rootView, SearchView.class);
+            if (searchViews == null || searchViews.size() == 0) { // We should find at least one
+                throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
+            } else if (searchViews.size() > 1) { // One of those should have the id @id/searchBox
+                searchView = (SearchView) rootView.findViewById(R.id.searchBox);
+                if (searchView == null) {
+                    throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHVIEWS);
+                }
+            } else {
+                searchView = searchViews.get(0);
+            }
         }
+
+        return searchView;
     }
 
     /**

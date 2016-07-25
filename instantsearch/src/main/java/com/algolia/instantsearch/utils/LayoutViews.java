@@ -19,6 +19,11 @@ final public class LayoutViews {
         return finderByTag.getViews();
     }
 
+    public static <T> List<T> findByClass(View rootView, Class<T> classType) {
+        ViewGroup viewGroup = (ViewGroup) rootView.findViewById(android.R.id.content);
+        return findByClass(viewGroup, classType);
+    }
+
     public static <T> List<T> findByClass(ViewGroup root, Class<T> classType) {
         FinderByClass<T> finderByClass = new FinderByClass<>(classType);
         LayoutTraverser.build(finderByClass)
