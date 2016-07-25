@@ -44,7 +44,7 @@ import java.util.Map;
 public class SearchHelper {
 
     private Index index;
-    private final Client client;
+    private static Client client; 
     private Query query;
 
     private SearchView searchView;
