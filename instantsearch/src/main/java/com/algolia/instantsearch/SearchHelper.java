@@ -21,6 +21,7 @@ import android.widget.ListView;
 
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Facet;
+import com.algolia.instantsearch.utils.LayoutViews;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.RefinementList;
@@ -159,21 +160,21 @@ public class SearchHelper {
         lastDisplayedPage = -1;
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
         pendingRequests.add(currentSearchSeqNumber);
-        final Handler handler = new Handler(Looper.getMainLooper());
+        final Handler progressHandler = new Handler(Looper.getMainLooper());
         final Runnable progressBarRunnable = new Runnable() {
             @Override
             public void run() {
                 updateProgressBar(searchView, true);
             }
         };
-        handler.postDelayed(progressBarRunnable, progressBarDelay);
+        progressHandler.postDelayed(progressBarRunnable, progressBarDelay);
 
         query.setQuery(queryString);
         index.searchAsync(query, new CompletionHandler() {
             @Override
             public void requestCompleted(JSONObject content, AlgoliaException error) {
                 pendingRequests.remove(Integer.valueOf(currentSearchSeqNumber));
-                handler.removeCallbacks(progressBarRunnable);
+                progressHandler.removeCallbacks(progressBarRunnable);
                 updateProgressBar(searchView, false);
                 // NOTE: Check that the received results are newer that the last displayed results.
                 //
@@ -358,26 +359,28 @@ public class SearchHelper {
 
         linkSearchViewToActivity(activity, searchView);
 
-        AlgoliaResultsListener hitsView = (AlgoliaResultsListener) rootView.findViewById(R.id.hits);
-        if (hitsView == null) {
+        final List<AlgoliaResultsListener> foundListeners = LayoutViews.findByClass(rootView, AlgoliaResultsListener.class);
+        if (foundListeners == null || foundListeners.size() == 0) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS);
         }
-        resultsListeners.add(hitsView);
+        resultsListeners.addAll(foundListeners);
 
-        if (hitsView instanceof Hits) {
-            final Hits hits = (Hits) hitsView;
-            query.setHitsPerPage(hits.getHitsPerPage());
+        for (AlgoliaResultsListener listener : resultsListeners) {
+            if (listener instanceof Hits) {
+                final Hits hits = (Hits) listener;
+                query.setHitsPerPage(hits.getHitsPerPage());
 
-            // Link hits to activity's empty view
-            hits.setEmptyView(getEmptyView(rootView));
+                // Link hits to activity's empty view
+                hits.setEmptyView(getEmptyView(rootView));
 
-            itemLayoutId = hits.getLayoutId();
+                itemLayoutId = hits.getLayoutId();
 
-            if (itemLayoutId == -42) {
-                throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
+                if (itemLayoutId == -42) {
+                    throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
+                }
+            } else if (listener instanceof ListView) {
+                ((ListView) listener).setEmptyView(getEmptyView(rootView));
             }
-        } else if (hitsView instanceof ListView) {
-            ((ListView) hitsView).setEmptyView(getEmptyView(rootView));
         }
 
         refinementList = (RefinementList) rootView.findViewById(R.id.refinements);
