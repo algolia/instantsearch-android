@@ -454,12 +454,13 @@ public class SearchHelper {
      * @param attributeName the attribute referenced by this facet.
      * @param facet         a Facet object to add to the query.
      */
-    public void updateFacetRefinement(String attributeName, Facet facet) {
+    public SearchHelper updateFacetRefinement(String attributeName, Facet facet) {
         if (facet.isEnabled()) {
             addFacetRefinement(attributeName, facet.getName());
         } else {
             removeFacetRefinement(attributeName, facet.getName());
         }
+        return this;
     }
 
     /**
@@ -468,20 +469,21 @@ public class SearchHelper {
      * @param attribute the attribute to refine on.
      * @param value     the facet's value to refine with.
      */
-    public void addFacetRefinement(String attribute, String value) {
+    public SearchHelper addFacetRefinement(String attribute, String value) {
         refinementMap.get(attribute).second.add(value);
         rebuildQueryFacetRefinements();
+        return this;
     }
 
     /**
      * Remove a facet refinement and run again the current query.
-     *
-     * @param attribute the attribute to refine on.
+     *  @param attribute the attribute to refine on.
      * @param value     the facet's value to refine with.
      */
-    public void removeFacetRefinement(String attribute, String value) {
+    public SearchHelper removeFacetRefinement(String attribute, String value) {
         refinementMap.get(attribute).second.remove(value);
         rebuildQueryFacetRefinements();
+        return this;
     }
 
     /**
@@ -546,7 +548,6 @@ public class SearchHelper {
             }
         }
         query.setFacetFilters(facetFilters);
-        search();
     }
 
     private void updateProgressBar(SearchView searchView, Boolean showProgress) {
