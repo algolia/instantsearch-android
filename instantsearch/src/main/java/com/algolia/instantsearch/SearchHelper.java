@@ -189,6 +189,8 @@ public class SearchHelper {
 
                 if (content == null || !hasHits(content)) {
                     endReached = true;
+                } else {
+                    checkIfLastPage(content);
                 }
 
                 lastDisplayedSeqNumber = currentSearchSeqNumber;
@@ -230,6 +232,8 @@ public class SearchHelper {
                     if (hasHits(content)) {
                         updateResultsViews(content, true);
                         lastDisplayedPage = lastRequestedPage;
+
+                        checkIfLastPage(content);
                     } else {
                         endReached = true;
                     }
@@ -237,6 +241,12 @@ public class SearchHelper {
             }
         });
         return this;
+    }
+
+    private void checkIfLastPage(JSONObject content) {
+        if (content.optInt("nbPages") == content.optInt("page") + 1) {
+            endReached = true;
+        }
     }
 
     /**
