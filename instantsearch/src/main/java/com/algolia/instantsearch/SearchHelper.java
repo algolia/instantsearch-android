@@ -366,6 +366,7 @@ public class SearchHelper {
 
         linkSearchViewToActivity(activity, searchView);
 
+        // Register any AlgoliaResultsListener
         final List<AlgoliaResultsListener> foundListeners = LayoutViews.findByClass(rootView, AlgoliaResultsListener.class);
         if (foundListeners == null || foundListeners.size() == 0) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS);
@@ -390,19 +391,30 @@ public class SearchHelper {
             }
         }
 
-        refinementList = (RefinementList) rootView.findViewById(R.id.refinements);
-        if (refinementList != null) {
-            resultsListeners.add(refinementList);
-            query.setFacets(refinementList.getAttributeName());
-            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-                @Override
-                public boolean onClose() {
-                    query.setFacetFilters(new JSONArray());
-                    refinementList.reset();
-                    return false;
-                }
-            });
+        // If we find any RefinementList, add associated facet(s) to the query
+        List<RefinementList> refinementLists = LayoutViews.findByClass(rootView, RefinementList.class);
+        final boolean hasRefinementList = refinementLists.size() != 0;
+        if (hasRefinementList) {
+            List<String> refinementAttributes = new ArrayList<>();
+            for (RefinementList refinementList : refinementLists) {
+                resultsListeners.add(refinementList);
+                refinementAttributes.add(refinementList.getAttributeName());
+            }
+
+            final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
+            query.setFacets(facets);
         }
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                if (hasRefinementList) { // we need to remove facetFilters on reset
+                    query.setFacetFilters(new JSONArray());
+                }
+                resetListeners();
+                return false;
+            }
+        });
 
         initResultsListeners();
     }
@@ -483,7 +495,8 @@ public class SearchHelper {
 
     /**
      * Remove a facet refinement and run again the current query.
-     *  @param attribute the attribute to refine on.
+     *
+     * @param attribute the attribute to refine on.
      * @param value     the facet's value to refine with.
      */
     public SearchHelper removeFacetRefinement(String attribute, String value) {
@@ -625,7 +638,7 @@ public class SearchHelper {
         } else {
             // Or he uses AppCompat's SearchView //TODO: Support standard SearchView?
             final List<SearchView> searchViews = LayoutViews.findByClass(rootView, SearchView.class);
-            if (searchViews == null || searchViews.size() == 0) { // We should find at least one
+            if (searchViews.size() == 0) { // We should find at least one
                 throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
             } else if (searchViews.size() > 1) { // One of those should have the id @id/searchBox
                 searchView = (SearchView) rootView.findViewById(R.id.searchBox);
