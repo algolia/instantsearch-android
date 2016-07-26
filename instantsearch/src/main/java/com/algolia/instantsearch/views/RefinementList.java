@@ -54,6 +54,13 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
 
     public RefinementList(final Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
+        if (isInEditMode()) {
+            operator = OPERATOR_AND;
+            sortOrder = null;
+            attributeName = null;
+            adapter = null;
+            return;
+        }
 
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.RefinementList, 0, 0);
         try {
@@ -147,7 +154,6 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
             }
             adapter.notifyDataSetChanged();
         }
-        Log.e("PLN", "After update, has " + adapter.getCount() + " facets.");
     }
 
     @Override public void onError(Query query, AlgoliaException error) {
