@@ -189,6 +189,10 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener {
         Toast.makeText(getContext(), "Error while searching '" + query.getQuery() + "':" + error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
+    @Override public void onReset() {
+        addHits(null, true);
+    }
+
     public void setEmptyView(View emptyView) {
         this.emptyView = emptyView;
     }

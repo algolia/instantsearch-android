@@ -147,14 +147,14 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
             }
             adapter.notifyDataSetChanged();
         }
+        Log.e("PLN", "After update, has " + adapter.getCount() + " facets.");
     }
 
     @Override public void onError(Query query, AlgoliaException error) {
         throw new RuntimeException(String.format(Errors.REFINEMENTS_RECEIVED_ERROR, error.getMessage()));
     }
 
-    //TODO: Should this be a onReset() callback to only use interface? Something à la Collection with UnsupportedOperationException?
-    public void reset() {
+    @Override public void onReset() {
         adapter.clear();
     }
 

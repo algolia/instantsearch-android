@@ -18,7 +18,7 @@ public interface AlgoliaResultsListener {
      *
      * @param helper an {@link SearchHelper} instance.
      */
-    void onInit(@NonNull SearchHelper helper);
+    void onInit(@NonNull final SearchHelper helper);
 
     /**
      * Event listener to react to new hits.
@@ -26,7 +26,7 @@ public interface AlgoliaResultsListener {
      * @param hits          a {@link JSONObject} containing hits.
      * @param isLoadingMore true if these hits come from the same query than the previous ones.
      */
-    void onUpdateView(@Nullable JSONObject hits, boolean isLoadingMore);
+    void onUpdateView(@Nullable final JSONObject hits, boolean isLoadingMore);
 
     /**
      * Event listener to react to potential search errors.
@@ -34,5 +34,10 @@ public interface AlgoliaResultsListener {
      * @param query the {@link Query} that was used.
      * @param error the resulting {@link AlgoliaException}.
      */
-    void onError(Query query, AlgoliaException error);
+    void onError(final Query query, final AlgoliaException error);
+
+    /**
+     * Event listener to react to reinitialization of search interface.
+     */
+    void onReset();
 }

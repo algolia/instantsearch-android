@@ -49,7 +49,6 @@ public class SearchHelper {
 
     private SearchView searchView;
     private List<AlgoliaResultsListener> resultsListeners = new ArrayList<>();
-    private RefinementList refinementList;
 
     private Menu searchMenu;
     private int searchMenuId;
@@ -202,7 +201,7 @@ public class SearchHelper {
                     }
                     Log.e("PLN|search.searchError", String.format("Index %s with query %s failed: %s(%s).", index.getIndexName(), queryString, error.getCause(), error.getMessage()));
                 } else {
-                    updateResultsViews(content, false);
+                    updateListeners(content, false);
                     Log.d("PLN|search.searchResult", String.format("Index %s with query %s succeeded: %s.", index.getIndexName(), queryString, content));
                 }
             }
@@ -230,7 +229,7 @@ public class SearchHelper {
                     }
 
                     if (hasHits(content)) {
-                        updateResultsViews(content, true);
+                        updateListeners(content, true);
                         lastDisplayedPage = lastRequestedPage;
 
                         checkIfLastPage(content);
@@ -318,10 +317,7 @@ public class SearchHelper {
         lastDisplayedSeqNumber = 0;
         lastSearchSeqNumber = 0;
         endReached = false;
-        updateResultsViews(null, false);
-        if (refinementList != null) {
-            refinementList.reset();
-        }
+        resetListeners();
         return this;
     }
 
@@ -360,7 +356,7 @@ public class SearchHelper {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() == 0) {
-                    updateResultsViews(null, false);
+                    resetListeners();
                 } else {
                     search(newText);
                 }
@@ -597,9 +593,15 @@ public class SearchHelper {
         }
     }
 
-    private void updateResultsViews(JSONObject hits, boolean isLoadingMore) {
+    private void updateListeners(JSONObject hits, boolean isLoadingMore) {
         for (AlgoliaResultsListener view : resultsListeners) {
             view.onUpdateView(hits, isLoadingMore);
+        }
+    }
+
+    private void resetListeners() {
+        for (AlgoliaResultsListener view : resultsListeners) {
+            view.onReset();
         }
     }
 
@@ -614,7 +616,7 @@ public class SearchHelper {
 
         // Either the developer uses our SearchBox
         final List<SearchBox> searchBoxes = LayoutViews.findByClass(rootView, SearchBox.class);
-        if (searchBoxes != null && searchBoxes.size() != 0) {
+        if (searchBoxes.size() != 0) {
             if (searchBoxes.size() == 1) {
                 searchView = searchBoxes.get(0);
             } else { // We should not find more than one SearchBox
