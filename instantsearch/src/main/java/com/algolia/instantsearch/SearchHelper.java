@@ -102,31 +102,6 @@ public class SearchHelper {
     }
 
     /**
-     * Find if a returned json contains at least one hit.
-     *
-     * @param jsonObject the query result.
-     * @return {@code true} if it contains a hits array with at least one non null element.
-     */
-    public static boolean hasHits(@Nullable JSONObject jsonObject) {
-        if (jsonObject == null) {
-            return false;
-        }
-
-        JSONArray resultHits = jsonObject.optJSONArray("hits");
-        if (resultHits == null) {
-            return false;
-        }
-
-        for (int i = 0; i < resultHits.length(); ++i) {
-            JSONObject hit = resultHits.optJSONObject(i);
-            if (hit != null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Start a new search with the current query.
      */
     public SearchHelper search() {
@@ -623,6 +598,22 @@ public class SearchHelper {
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
     }
 
+    public Index getIndex() {
+        return index;
+    }
+
+    /**
+     * Change the targeted index for future queries.
+     * Be aware that this method only changed the index without invalidating any existing state (pagination, facets, etc).
+     * You may want to use {@link SearchHelper#reset} to reinitialize the helper to an empty state.
+     *
+     * @param indexName name of the new index.
+     */
+    public SearchHelper setIndex(String indexName) {
+        index = client.initIndex(indexName);
+        return this;
+    }
+
     @NonNull
     private static SearchView getSearchView(View rootView) {
         SearchView searchView;
@@ -669,19 +660,29 @@ public class SearchHelper {
         return emptyView;
     }
 
-    public Index getIndex() {
-        return index;
+    /**
+     * Find if a returned json contains at least one hit.
+     *
+     * @param jsonObject the query result.
+     * @return {@code true} if it contains a hits array with at least one non null element.
+     */
+    static boolean hasHits(@Nullable JSONObject jsonObject) {
+        if (jsonObject == null) {
+            return false;
+        }
+
+        JSONArray resultHits = jsonObject.optJSONArray("hits");
+        if (resultHits == null) {
+            return false;
+        }
+
+        for (int i = 0; i < resultHits.length(); ++i) {
+            JSONObject hit = resultHits.optJSONObject(i);
+            if (hit != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    /**
-     * Change the targeted index for future queries.
-     * Be aware that this method only changed the index without invalidating any existing state (pagination, facets, etc).
-     * You may want to use {@link SearchHelper#reset} to reinitialize the helper to an empty state.
-     *
-     * @param indexName name of the new index.
-     */
-    public SearchHelper setIndex(String indexName) {
-        index = client.initIndex(indexName);
-        return this;
-    }
 }
