@@ -18,7 +18,9 @@ public class SearchBox extends SearchView {
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SearchBox, 0, 0);
 
         try {
-            final boolean iconifiedByDefault = attrs.getAttributeBooleanValue(android.R.attr.iconifiedByDefault, true);
+            final boolean iconifiedByDefault;
+            iconifiedByDefault = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB &&
+                    attrs.getAttributeBooleanValue(android.R.attr.iconifiedByDefault, true); // iconifiedByDefault requires API >= 11
             final boolean submitButtonEnabled = styledAttributes.getBoolean(R.styleable.SearchBox_submitButtonEnabled, false);
             final boolean autofocus = styledAttributes.getBoolean(R.styleable.SearchBox_autofocus, false);
 
