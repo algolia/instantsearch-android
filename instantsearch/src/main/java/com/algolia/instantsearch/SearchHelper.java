@@ -61,7 +61,7 @@ public class SearchHelper {
     private boolean endReached;
 
     private boolean showProgressBar;
-    private int progressBarDelay; /*TODO: Default delay?*/
+    private int progressBarDelay = 200;
 
     private Map<String, Pair<Integer, List<String>>> refinementMap = new HashMap<>();
     private List<Integer> pendingRequests = new ArrayList<>();
