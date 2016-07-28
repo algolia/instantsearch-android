@@ -14,7 +14,7 @@ public class RefinementListTest extends InstantSearchTest {
     @Test(expected = IllegalStateException.class)
     public void shouldParseEmptyThrow() {
         String input = "";
-        final ArrayList<String> output = RefinementList.parseSortOrder(input);
+        RefinementList.parseSortOrder(input);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class RefinementListTest extends InstantSearchTest {
     @Test(expected = IllegalStateException.class)
     public void shouldParseInvalidStringThrow() throws IllegalStateException {
         final String input = "invalidOption";
-        ArrayList<String> output = RefinementList.parseSortOrder(input);
+        RefinementList.parseSortOrder(input);
     }
 
     @Test
@@ -60,6 +60,6 @@ public class RefinementListTest extends InstantSearchTest {
     @Test(expected = IllegalStateException.class)
     public void shouldParseInvalidArrayThrow() throws IllegalStateException {
         final String input = "[foo, bar]";
-        ArrayList<String> output = RefinementList.parseSortOrder(input);
+        RefinementList.parseSortOrder(input);
     }
 }

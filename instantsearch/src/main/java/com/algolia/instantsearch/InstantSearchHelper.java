@@ -30,7 +30,7 @@ import java.util.List;
 public class InstantSearchHelper {
     private SearchView searchView;
 
-    private Searcher searcher;
+    private final Searcher searcher;
 
     private Menu searchMenu;
     private int searchMenuId;
@@ -42,7 +42,7 @@ public class InstantSearchHelper {
     /**
      * Create and initialize the helper, then link it to the given Activity.
      *
-     * @param activity an Activity containing an {@link AlgoliaResultsListener} to update with incoming results.
+     * @param activity an Activity containing a {@link AlgoliaResultsListener} to update with incoming results.
      * @param searcher the Searcher to use with this activity.
      */
     public InstantSearchHelper(final Activity activity, final Searcher searcher) {

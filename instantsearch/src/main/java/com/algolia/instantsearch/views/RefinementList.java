@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,7 +112,7 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
         };
     }
 
-    public void onInit(Searcher searcher) {
+    public void onInit(@NonNull Searcher searcher) {
         this.searcher = searcher;
         searcher.registerRefinementList(this);
     }
@@ -228,9 +229,9 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
     }
 
     private class FacetAdapter extends ArrayAdapter<Facet> {
-        private List<Facet> facets;
+        private final List<Facet> facets;
 
-        private HashSet<String> activeFacets = new HashSet<>();
+        private final HashSet<String> activeFacets = new HashSet<>();
 
         public FacetAdapter(Context context) {
             this(context, new ArrayList<Facet>());

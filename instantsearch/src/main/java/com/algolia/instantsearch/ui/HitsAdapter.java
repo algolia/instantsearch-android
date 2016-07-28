@@ -30,7 +30,7 @@ import java.util.Set;
 public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> implements ImageLoadTask.BitmapListener {
 
     private List<JSONObject> hits = new ArrayList<>();
-    private Map<String, Bitmap> bitmaps = new HashMap<>();
+    private final Map<String, Bitmap> bitmaps = new HashMap<>();
 
     public HitsAdapter() {
         this.hits = new ArrayList<>();

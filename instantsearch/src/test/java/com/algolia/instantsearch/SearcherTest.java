@@ -9,8 +9,7 @@ import org.junit.Test;
 public class SearcherTest extends InstantSearchTest {
     @Test
     public void hasHitsFalseIfEmpty() {
-        JSONObject input = null;
-        boolean output = Searcher.hasHits(input);
+        boolean output = Searcher.hasHits(null);
         Assert.assertFalse("hasHits should return false on null input", output);
     }
 

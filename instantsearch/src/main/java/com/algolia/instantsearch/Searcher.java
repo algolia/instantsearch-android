@@ -37,7 +37,7 @@ public class Searcher {
     private Runnable progressStopRunnable;
     private int progressStartDelay;
 
-    private List<AlgoliaResultsListener> resultsListeners = new ArrayList<>();
+    private final List<AlgoliaResultsListener> resultsListeners = new ArrayList<>();
 
     private int lastSearchSeqNumber; // Identifier of last fired query
     private int lastDisplayedSeqNumber; // Identifier of last displayed query
@@ -45,9 +45,9 @@ public class Searcher {
     private int lastDisplayedPage;
     private boolean endReached;
 
-    private Map<String, Pair<Integer, List<String>>> refinementMap = new HashMap<>();
-    private List<Integer> pendingRequests = new ArrayList<>();
-    private List<Integer> cancelledRequests = new ArrayList<>();
+    private final Map<String, Pair<Integer, List<String>>> refinementMap = new HashMap<>();
+    private final List<Integer> pendingRequests = new ArrayList<>();
+    private final List<Integer> cancelledRequests = new ArrayList<>();
 
     /**
      * Create and initialize the helper.
