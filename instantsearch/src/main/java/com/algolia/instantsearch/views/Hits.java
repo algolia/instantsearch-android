@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.SearchHelper;
+import com.algolia.instantsearch.Searcher;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.ui.HitsAdapter;
 import com.algolia.instantsearch.utils.ItemClickSupport;
@@ -40,7 +40,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener {
 
     private LayoutManager layoutManager;
     private View emptyView;
-    private SearchHelper helper;
+    private Searcher searcher;
 
     public Hits(Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
@@ -175,8 +175,8 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener {
     }
 
     @Override
-    public void onInit(@NonNull SearchHelper helper) {
-        this.helper = helper;
+    public void onInit(@NonNull Searcher searcher) {
+        this.searcher = searcher;
     }
 
     @Override
@@ -215,7 +215,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener {
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            if (!helper.shouldLoadMore()) {
+            if (!searcher.shouldLoadMore()) {
                 return;
             }
 
@@ -241,7 +241,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener {
 
                 if ((lastVisiblePosition + remainingItemsBeforeLoading > totalItemCount)) {
                     // we are under the loading threshold, let's load more data
-                    helper.loadMore();
+                    searcher.loadMore();
                     currentlyLoading = true;
                 }
             }
