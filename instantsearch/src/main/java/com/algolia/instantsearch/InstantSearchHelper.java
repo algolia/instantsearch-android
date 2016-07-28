@@ -295,7 +295,8 @@ public class InstantSearchHelper {
                     progressBarView.setVisibility(showProgress ? View.VISIBLE : View.GONE);
                 }
             } else if (showProgress) {
-                ((ViewGroup) searchPlate).addView(LayoutInflater.from(searchView.getContext()).inflate(R.layout.loading_icon, null), 1);
+                final ViewGroup searchPlateViewGroup = (ViewGroup) searchPlate;
+                searchPlateViewGroup.addView(LayoutInflater.from(searchView.getContext()).inflate(R.layout.loading_icon, searchPlateViewGroup, false), 1);
             }
         }
     }
