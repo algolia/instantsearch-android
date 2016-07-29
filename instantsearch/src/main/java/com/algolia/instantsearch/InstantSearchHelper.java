@@ -279,7 +279,7 @@ public class InstantSearchHelper {
         return itemLayoutId;
     }
 
-    private void updateProgressBar(@NonNull SearchView searchView, boolean showProgress) {
+    private void updateProgressBar(SearchView searchView, boolean showProgress) {
         if (!showProgressBar) {
             return;
         }
