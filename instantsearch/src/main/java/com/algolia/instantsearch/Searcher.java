@@ -129,8 +129,13 @@ public class Searcher {
 
     /**
      * Load more results with the same query.
+     * Note that this method won't do anything if {@link Searcher#shouldLoadMore} returns false.
      */
     public Searcher loadMore() {
+        if (!shouldLoadMore()) {
+            return this;
+        }
+
         Query loadMoreQuery = new Query(query);
         loadMoreQuery.setPage(++lastRequestedPage);
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
