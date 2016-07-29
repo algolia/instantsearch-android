@@ -45,7 +45,7 @@ public class InstantSearchHelper {
      * @param activity an Activity containing a {@link AlgoliaResultsListener} to update with incoming results.
      * @param searcher the Searcher to use with this activity.
      */
-    public InstantSearchHelper(final Activity activity, final Searcher searcher) {
+    public InstantSearchHelper(@NonNull final Activity activity, @NonNull final Searcher searcher) {
         this(searcher);
 
         processActivity(activity);
@@ -57,12 +57,12 @@ public class InstantSearchHelper {
      * @param resultsListener an AlgoliaResultsListener to update with incoming results.
      * @param searcher        the Searcher to use with this AlgoliaResultsListener.
      */
-    public InstantSearchHelper(final AlgoliaResultsListener resultsListener, final Searcher searcher) {
+    public InstantSearchHelper(@NonNull final AlgoliaResultsListener resultsListener, @NonNull final Searcher searcher) {
         this(searcher);
         searcher.registerListener(resultsListener);
     }
 
-    private InstantSearchHelper(final Searcher searcher) {
+    private InstantSearchHelper(@NonNull final Searcher searcher) {
         this.searcher = searcher;
         enableProgressBar();
     }
@@ -80,7 +80,7 @@ public class InstantSearchHelper {
      *
      * @param intent an Intent that may contain a search query.
      */
-    public void search(Intent intent) {
+    public void search(@NonNull Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             searchView.setQuery(query, false);
@@ -96,7 +96,7 @@ public class InstantSearchHelper {
      * @param menu     The Menu that contains a search item.
      * @param id       The identifier of the menu's search item.
      */
-    public void registerSearchView(final Activity activity, Menu menu, int id) {
+    public void registerSearchView(@NonNull final Activity activity, @NonNull Menu menu, int id) {
         searchMenu = menu;
         searchMenuId = id;
         registerSearchView(activity, (SearchView) MenuItemCompat.getActionView(menu.findItem(id)));
@@ -108,7 +108,7 @@ public class InstantSearchHelper {
      * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
      * @param searchView a SearchView where the query text will be picked up from.
      */
-    public void registerSearchView(final Activity activity, final SearchView searchView) {
+    public void registerSearchView(@NonNull final Activity activity, @NonNull final SearchView searchView) {
         searchView.setSearchableInfo(((SearchManager) activity.getSystemService(Context.SEARCH_SERVICE)).getSearchableInfo(activity.getComponentName()));
         searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -136,11 +136,11 @@ public class InstantSearchHelper {
      *
      * @param widget a RefinementList to register as a source of facetRefinements.
      */
-    public static void registerRefinementList(RefinementList widget, Searcher searcher) {
+    public static void registerRefinementList(@NonNull RefinementList widget, @NonNull Searcher searcher) {
         searcher.addFacet(widget.getAttributeName(), widget.getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
     }
 
-    private void processActivity(final Activity activity) {
+    private void processActivity(@NonNull final Activity activity) {
         View rootView = activity.getWindow().getDecorView().getRootView();
         searchView = getSearchView(rootView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -221,7 +221,7 @@ public class InstantSearchHelper {
      *
      * @param activity the activity with a {@link SearchView} identified as @+id/searchBox.
      */
-    public void initSearchFrom(Activity activity) {
+    public void initSearchFrom(@NonNull Activity activity) {
         final View rootView = activity.getWindow().getDecorView().getRootView();
         SearchView searchView = getSearchView(rootView);
 
@@ -279,7 +279,7 @@ public class InstantSearchHelper {
         return itemLayoutId;
     }
 
-    private void updateProgressBar(SearchView searchView, Boolean showProgress) {
+    private void updateProgressBar(@NonNull SearchView searchView, boolean showProgress) {
         if (!showProgressBar) {
             return;
         }
@@ -311,13 +311,13 @@ public class InstantSearchHelper {
         }
     }
 
-    private void linkSearchViewToActivity(Activity activity, SearchView searchView) {
+    private void linkSearchViewToActivity(@NonNull Activity activity, @NonNull SearchView searchView) {
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
     }
 
     @NonNull
-    private static SearchView getSearchView(View rootView) {
+    private static SearchView getSearchView(@NonNull View rootView) {
         SearchView searchView;
 
         // Either the developer uses our SearchBox
@@ -354,7 +354,7 @@ public class InstantSearchHelper {
      * @throws IllegalStateException if no empty view can be found.
      */
     @NonNull
-    private static View getEmptyView(View rootView) {
+    private static View getEmptyView(@NonNull View rootView) {
         View emptyView = rootView.findViewById(R.id.empty);
         if (emptyView == null) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_EMPTY);

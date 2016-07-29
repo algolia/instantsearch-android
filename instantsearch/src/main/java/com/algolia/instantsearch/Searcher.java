@@ -5,7 +5,6 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Facet;
@@ -54,7 +53,7 @@ public class Searcher {
      * @param client a Client instance which will handle network requests.
      * @param index  an Index initialized and eventually configured.
      */
-    public Searcher(final Client client, final Index index) {
+    public Searcher(@NonNull final Client client, @NonNull final Index index) {
         query = new Query();
         this.client = client;
         this.index = index;
@@ -161,7 +160,7 @@ public class Searcher {
         return this;
     }
 
-    private void checkIfLastPage(JSONObject content) {
+    private void checkIfLastPage(@NonNull JSONObject content) {
         if (content.optInt("nbPages") == content.optInt("page") + 1) {
             endReached = true;
         }
@@ -213,9 +212,12 @@ public class Searcher {
         return pendingRequests.size();
     }
 
-    void addFacet(String attributeName, boolean isDisjunctiveFacet, ArrayList<String> values) {
+    void addFacet(@NonNull String attributeName, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
         if (isDisjunctiveFacet) {
             disjunctiveFacets.add(attributeName);
+        }
+        if (values == null) {
+            values = new ArrayList<>();
         }
         refinementMap.put(attributeName, values);
     }
@@ -226,7 +228,7 @@ public class Searcher {
      * @param attributeName the attribute referenced by this facet.
      * @param facet         a Facet object to add to the query.
      */
-    public Searcher updateFacetRefinement(String attributeName, Facet facet) {
+    public Searcher updateFacetRefinement(@NonNull String attributeName, @NonNull Facet facet) {
         if (facet.isEnabled()) {
             addFacetRefinement(attributeName, facet.getName());
         } else {
@@ -242,7 +244,7 @@ public class Searcher {
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to refine with.
      */
-    public Searcher addFacetRefinement(String attributeName, String value) {
+    public Searcher addFacetRefinement(@NonNull String attributeName, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attributeName);
         if (attributeRefinements == null) {
             attributeRefinements = new ArrayList<>();
@@ -259,7 +261,7 @@ public class Searcher {
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to refine with.
      */
-    public Searcher removeFacetRefinement(String attributeName, String value) {
+    public Searcher removeFacetRefinement(@NonNull String attributeName, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attributeName);
         if (attributeRefinements == null) {
             attributeRefinements = new ArrayList<>();
@@ -277,7 +279,7 @@ public class Searcher {
      * @param value         the facet's value to check.
      * @return {@code true} if {@code attributeName} is being refined with {@code value}.
      */
-    public boolean hasFacetRefinement(String attributeName, String value) {
+    public boolean hasFacetRefinement(@NonNull String attributeName, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attributeName);
         return attributeRefinements != null && attributeRefinements.contains(value);
     }
@@ -297,7 +299,7 @@ public class Searcher {
      *
      * @param attribute the attribute's name.
      */
-    public void clearFacetRefinements(String attribute) {
+    public void clearFacetRefinements(@NonNull String attribute) {
         final List<String> stringList = refinementMap.get(attribute);
         if (stringList != null) {
             stringList.clear();
@@ -328,7 +330,7 @@ public class Searcher {
         query.setFacetFilters(facetFilters);
     }
 
-    void registerListener(AlgoliaResultsListener resultsListener) {
+    void registerListener(@NonNull AlgoliaResultsListener resultsListener) {
         if (!resultsListeners.contains(resultsListener)) {
             resultsListeners.add(resultsListener);
         }
@@ -340,7 +342,7 @@ public class Searcher {
         }
     }
 
-    private void updateListeners(JSONObject hits, boolean isLoadingMore) {
+    private void updateListeners(@Nullable JSONObject hits, boolean isLoadingMore) {
         for (AlgoliaResultsListener view : resultsListeners) {
             view.onUpdateView(hits, isLoadingMore);
         }
@@ -350,22 +352,6 @@ public class Searcher {
         for (AlgoliaResultsListener view : resultsListeners) {
             view.onReset();
         }
-    }
-
-    /**
-     * Find the empty view in the given rootView.
-     *
-     * @param rootView the topmost view in the view hierarchy of the Activity.
-     * @return the empty view if it was in the given rootView.
-     * @throws IllegalStateException if no empty view can be found.
-     */
-    @NonNull
-    private static View getEmptyView(View rootView) {
-        View emptyView = rootView.findViewById(R.id.empty);
-        if (emptyView == null) {
-            throw new IllegalStateException(Errors.LAYOUT_MISSING_EMPTY);
-        }
-        return emptyView;
     }
 
     /**
@@ -393,15 +379,15 @@ public class Searcher {
         return false;
     }
 
-    public void setProgressStartRunnable(Runnable progressStartRunnable) {
+    public void setProgressStartRunnable(@Nullable Runnable progressStartRunnable) {
         this.progressStartRunnable = progressStartRunnable;
     }
 
-    public void setProgressStopRunnable(Runnable progressStopRunnable) {
+    public void setProgressStopRunnable(@Nullable Runnable progressStopRunnable) {
         this.progressStopRunnable = progressStopRunnable;
     }
 
-    public void setProgressStartRunnable(Runnable runnable, int delay) {
+    public void setProgressStartRunnable(@Nullable Runnable runnable, int delay) {
         setProgressStartRunnable(runnable);
         progressStartDelay = delay;
     }
@@ -411,7 +397,7 @@ public class Searcher {
      *
      * @param baseQuery a {@link Query} object with some parameters set.
      */
-    public Searcher setBaseQuery(Query baseQuery) {
+    public Searcher setBaseQuery(@NonNull Query baseQuery) {
         query = baseQuery;
         return this;
     }
@@ -427,7 +413,7 @@ public class Searcher {
      *
      * @param indexName name of the new index.
      */
-    public Searcher setIndex(String indexName) {
+    public Searcher setIndex(@NonNull String indexName) {
         index = client.initIndex(indexName);
         return this;
     }
