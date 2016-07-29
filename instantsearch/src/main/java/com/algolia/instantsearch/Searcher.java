@@ -4,14 +4,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 import android.util.Log;
 import android.view.View;
 
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Facet;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
-import com.algolia.instantsearch.views.RefinementList;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.CompletionHandler;
@@ -22,7 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +42,9 @@ public class Searcher {
     private int lastDisplayedPage;
     private boolean endReached;
 
-    private final Map<String, Pair<Integer, List<String>>> refinementMap = new HashMap<>();
+    private final List<String> disjunctiveFacets = new ArrayList<>();
+    private final Map<String, List<String>> refinementMap = new HashMap<>();
+
     private final List<Integer> pendingRequests = new ArrayList<>();
     private final List<Integer> cancelledRequests = new ArrayList<>();
 
@@ -178,16 +177,6 @@ public class Searcher {
     }
 
     /**
-     * Use the given query's parameters for following search queries.
-     *
-     * @param baseQuery a {@link Query} object with some parameters set.
-     */
-    public Searcher setBaseQuery(Query baseQuery) {
-        query = baseQuery;
-        return this;
-    }
-
-    /**
      * Reset the helper's state.
      */
     public Searcher reset() {
@@ -224,15 +213,12 @@ public class Searcher {
         return pendingRequests.size();
     }
 
-    /**
-     * Initialise a list of facet for the given widget's attribute and operator.
-     *
-     * @param widget a RefinementList to register as a source of facetRefinements.
-     */
-    public void registerRefinementList(RefinementList widget) {
-        refinementMap.put(widget.getAttributeName(), new Pair<Integer, List<String>>(widget.getOperator(), new ArrayList<String>()));
+    void addFacet(String attributeName, boolean isDisjunctiveFacet, ArrayList<String> values) {
+        if (isDisjunctiveFacet) {
+            disjunctiveFacets.add(attributeName);
+        }
+        refinementMap.put(attributeName, values);
     }
-
 
     /**
      * Add or remove this facet according to its enabled status.
@@ -249,14 +235,20 @@ public class Searcher {
         return this;
     }
 
+
     /**
      * Add a facet refinement and run again the current query.
      *
-     * @param attribute the attribute to refine on.
-     * @param value     the facet's value to refine with.
+     * @param attributeName the attribute to refine on.
+     * @param value         the facet's value to refine with.
      */
-    public Searcher addFacetRefinement(String attribute, String value) {
-        refinementMap.get(attribute).second.add(value);
+    public Searcher addFacetRefinement(String attributeName, String value) {
+        List<String> attributeRefinements = refinementMap.get(attributeName);
+        if (attributeRefinements == null) {
+            attributeRefinements = new ArrayList<>();
+            refinementMap.put(attributeName, attributeRefinements);
+        }
+        attributeRefinements.add(value);
         rebuildQueryFacetRefinements();
         return this;
     }
@@ -264,11 +256,16 @@ public class Searcher {
     /**
      * Remove a facet refinement and run again the current query.
      *
-     * @param attribute the attribute to refine on.
-     * @param value     the facet's value to refine with.
+     * @param attributeName the attribute to refine on.
+     * @param value         the facet's value to refine with.
      */
-    public Searcher removeFacetRefinement(String attribute, String value) {
-        refinementMap.get(attribute).second.remove(value);
+    public Searcher removeFacetRefinement(String attributeName, String value) {
+        List<String> attributeRefinements = refinementMap.get(attributeName);
+        if (attributeRefinements == null) {
+            attributeRefinements = new ArrayList<>();
+            refinementMap.put(attributeName, attributeRefinements);
+        }
+        attributeRefinements.remove(value);
         rebuildQueryFacetRefinements();
         return this;
     }
@@ -276,25 +273,24 @@ public class Searcher {
     /**
      * Check if a facet refinement is enabled.
      *
-     * @param attribute the attribute to refine on.
-     * @param value     the facet's value to check.
-     * @return {@code true} if {@code attribute} is being refined with {@code value}.
+     * @param attributeName the attribute to refine on.
+     * @param value         the facet's value to check.
+     * @return {@code true} if {@code attributeName} is being refined with {@code value}.
      */
-    public boolean hasFacetRefinement(String attribute, String value) {
-        return refinementMap.get(attribute).second.contains(value);
+    public boolean hasFacetRefinement(String attributeName, String value) {
+        List<String> attributeRefinements = refinementMap.get(attributeName);
+        return attributeRefinements != null && attributeRefinements.contains(value);
     }
-
 
     /**
      * Clear all facet refinements.
      */
     public void clearFacetRefinements() {
-        final Collection<Pair<Integer, List<String>>> values = refinementMap.values();
-        for (Pair<Integer, List<String>> pair : values) {
-            pair.second.clear();
-        }
+        refinementMap.clear();
+        disjunctiveFacets.clear();
         rebuildQueryFacetRefinements();
     }
+
 
     /**
      * Clear an attribute's facet refinements.
@@ -302,28 +298,31 @@ public class Searcher {
      * @param attribute the attribute's name.
      */
     public void clearFacetRefinements(String attribute) {
-        refinementMap.get(attribute).second.clear();
+        final List<String> stringList = refinementMap.get(attribute);
+        if (stringList != null) {
+            stringList.clear();
+        }
+        disjunctiveFacets.remove(attribute);
         rebuildQueryFacetRefinements();
     }
 
-    private void rebuildQueryFacetRefinements() {
+    private void rebuildQueryFacetRefinements() { //FIXME: use searchDisjunctiveFacetingAsync properly
         JSONArray facetFilters = new JSONArray();
-        for (Map.Entry<String, Pair<Integer, List<String>>> entry : refinementMap.entrySet()) {
-            final Pair<Integer, List<String>> pair = entry.getValue();
+        for (Map.Entry<String, List<String>> entry : refinementMap.entrySet()) {
+            final List<String> values = entry.getValue();
             final String attribute = entry.getKey();
-            final Boolean operatorIsAnd = pair.first == RefinementList.OPERATOR_AND;
-            final List<String> values = pair.second;
+            final Boolean operatorIsOr = disjunctiveFacets.contains(attribute);
 
-            if (operatorIsAnd) {
-                for (String value : values) {
-                    facetFilters.put(attribute + ":" + value);
-                }
-            } else {
+            if (operatorIsOr) {
                 JSONArray attributeArray = new JSONArray();
                 for (String value : values) {
                     attributeArray.put(attribute + ":" + value);
                 }
                 facetFilters.put(attributeArray);
+            } else {
+                for (String value : values) {
+                    facetFilters.put(attribute + ":" + value);
+                }
             }
         }
         query.setFacetFilters(facetFilters);
@@ -351,22 +350,6 @@ public class Searcher {
         for (AlgoliaResultsListener view : resultsListeners) {
             view.onReset();
         }
-    }
-
-    public Index getIndex() {
-        return index;
-    }
-
-    /**
-     * Change the targeted index for future queries.
-     * Be aware that this method only changed the index without invalidating any existing state (pagination, facets, etc).
-     * You may want to use {@link Searcher#reset} to reinitialize the helper to an empty state.
-     *
-     * @param indexName name of the new index.
-     */
-    public Searcher setIndex(String indexName) {
-        index = client.initIndex(indexName);
-        return this;
     }
 
     /**
@@ -410,10 +393,6 @@ public class Searcher {
         return false;
     }
 
-    public Query getQuery() {
-        return query;
-    }
-
     public void setProgressStartRunnable(Runnable progressStartRunnable) {
         this.progressStartRunnable = progressStartRunnable;
     }
@@ -425,5 +404,35 @@ public class Searcher {
     public void setProgressStartRunnable(Runnable runnable, int delay) {
         setProgressStartRunnable(runnable);
         progressStartDelay = delay;
+    }
+
+    /**
+     * Use the given query's parameters for following search queries.
+     *
+     * @param baseQuery a {@link Query} object with some parameters set.
+     */
+    public Searcher setBaseQuery(Query baseQuery) {
+        query = baseQuery;
+        return this;
+    }
+
+    public Index getIndex() {
+        return index;
+    }
+
+    /**
+     * Change the targeted index for future queries. //TODO: Discuss with JS: Do you support this?
+     * Be aware that this method only changed the index without invalidating any existing state (pagination, facets, etc).
+     * You may want to use {@link Searcher#reset} to reinitialize the helper to an empty state.
+     *
+     * @param indexName name of the new index.
+     */
+    public Searcher setIndex(String indexName) {
+        index = client.initIndex(indexName);
+        return this;
+    }
+
+    public Query getQuery() {
+        return query;
     }
 }

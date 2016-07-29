@@ -130,6 +130,16 @@ public class InstantSearchHelper {
         });
     }
 
+
+    /**
+     * Initialise a list of facet for the given widget's attribute and operator.
+     *
+     * @param widget a RefinementList to register as a source of facetRefinements.
+     */
+    public static void registerRefinementList(RefinementList widget, Searcher searcher) {
+        searcher.addFacet(widget.getAttributeName(), widget.getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
+    }
+
     private void processActivity(final Activity activity) {
         View rootView = activity.getWindow().getDecorView().getRootView();
         searchView = getSearchView(rootView);
