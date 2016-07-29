@@ -30,7 +30,7 @@ import java.util.Map;
 public class Searcher {
 
     private Index index;
-    private static Client client; //TODO: Discuss: get/set for client/index?
+    private Client client;
     private Query query;
 
     private Runnable progressStartRunnable;
@@ -57,7 +57,7 @@ public class Searcher {
      */
     public Searcher(final Client client, final Index index) {
         query = new Query();
-        Searcher.client = client;
+        this.client = client;
         this.index = index;
     }
 
