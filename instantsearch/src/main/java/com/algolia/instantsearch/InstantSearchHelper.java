@@ -1,5 +1,6 @@
 package com.algolia.instantsearch;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
@@ -279,6 +280,7 @@ public class InstantSearchHelper {
         return itemLayoutId;
     }
 
+    @SuppressLint("InflateParams") // Giving a root to inflate caused the searchView to break when adding the progressBarView
     private void updateProgressBar(SearchView searchView, boolean showProgress) {
         if (!showProgressBar) {
             return;
@@ -305,8 +307,7 @@ public class InstantSearchHelper {
                     progressBarView.setVisibility(showProgress ? View.VISIBLE : View.GONE);
                 }
             } else if (showProgress) {
-                final ViewGroup searchPlateViewGroup = (ViewGroup) searchPlate;
-                searchPlateViewGroup.addView(LayoutInflater.from(searchView.getContext()).inflate(R.layout.loading_icon, searchPlateViewGroup, false), 1);
+                ((ViewGroup) searchPlate).addView(LayoutInflater.from(searchView.getContext()).inflate(R.layout.loading_icon, null), 1);
             }
         }
     }
