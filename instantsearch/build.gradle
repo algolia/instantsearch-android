@@ -33,7 +33,7 @@ android {
 
     // Disable automatic throwing on system method calls.
     // Rationale: We don't want to mock system methods (for example JSONArray.length),
-    // but rather ensure we use them correctly. TODO: Sync on this
+    // but rather ensure we use them correctly.
     testOptions {
         unitTests.returnDefaultValues = true
     }

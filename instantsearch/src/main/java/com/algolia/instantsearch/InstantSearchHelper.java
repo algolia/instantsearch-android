@@ -40,6 +40,8 @@ public class InstantSearchHelper {
     private boolean showProgressBar;
     private int progressBarDelay = 200;
 
+    private boolean shouldResetOnEmptyQuery;
+
     /**
      * Create and initialize the helper, then link it to the given Activity.
      *
@@ -67,7 +69,6 @@ public class InstantSearchHelper {
         this.searcher = searcher;
         enableProgressBar();
     }
-
 
     /**
      * Start a new search with the searchView's text.
@@ -131,7 +132,6 @@ public class InstantSearchHelper {
         });
     }
 
-
     /**
      * Initialise a list of facet for the given widget's attribute and operator.
      *
@@ -153,8 +153,12 @@ public class InstantSearchHelper {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() == 0) {
-                    searcher.reset();
-                    searcher.resetListeners(); //TODO: Reset or empty search, or allow both? Ask JS guys what they did
+                    if (shouldResetOnEmptyQuery) {
+                        searcher.reset();
+                        searcher.resetListeners();
+                    } else {
+                        searcher.search(newText);
+                    }
                 } else {
                     searcher.search(newText);
                 }
@@ -280,7 +284,7 @@ public class InstantSearchHelper {
         return itemLayoutId;
     }
 
-    @SuppressLint("InflateParams") // Giving a root to inflate caused the searchView to break when adding the progressBarView
+    @SuppressLint("InflateParams"/* Giving a root to inflate caused the searchView to break when adding the progressBarView */)
     private void updateProgressBar(SearchView searchView, boolean showProgress) {
         if (!showProgressBar) {
             return;
@@ -361,5 +365,23 @@ public class InstantSearchHelper {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_EMPTY);
         }
         return emptyView;
+    }
+
+    /**
+     * Tell if this InstantSearchHelper will reset itself when given an empty query string.
+     *
+     * @return {@code true} when an empty query text triggers a reset of this helper.
+     */
+    public boolean shouldResetOnEmptyQuery() {
+        return shouldResetOnEmptyQuery;
+    }
+
+    /**
+     * Force reset on empty query instead of searching with an empty query string.
+     *
+     * @param shouldResetOnEmptyQuery if {@code true}, this helper will reset given an empty query.
+     */
+    public void setShouldResetOnEmptyQuery(boolean shouldResetOnEmptyQuery) {
+        this.shouldResetOnEmptyQuery = shouldResetOnEmptyQuery;
     }
 }
