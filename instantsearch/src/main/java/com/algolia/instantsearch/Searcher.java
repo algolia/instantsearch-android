@@ -14,6 +14,7 @@ import com.algolia.search.saas.Client;
 import com.algolia.search.saas.CompletionHandler;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
+import com.algolia.search.saas.Request;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,8 +45,7 @@ public class Searcher {
     private final List<String> disjunctiveFacets = new ArrayList<>();
     private final Map<String, List<String>> refinementMap = new HashMap<>();
 
-    private final List<Integer> pendingRequests = new ArrayList<>();
-    private final List<Integer> cancelledRequests = new ArrayList<>();
+    private final Map<Integer, Request> pendingRequests = new HashMap<>();
 
     /**
      * Create and initialize the helper.
@@ -78,16 +78,15 @@ public class Searcher {
         lastRequestedPage = 0;
         lastDisplayedPage = -1;
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
-        pendingRequests.add(currentSearchSeqNumber);
         final Handler progressHandler = new Handler(Looper.getMainLooper());
         if (progressStartRunnable != null) {
             progressHandler.postDelayed(progressStartRunnable, progressStartDelay);
         }
 
-        index.searchAsync(query, new CompletionHandler() {
+        pendingRequests.put(currentSearchSeqNumber, index.searchAsync(query, new CompletionHandler() {
             @Override
             public void requestCompleted(JSONObject content, AlgoliaException error) {
-                pendingRequests.remove(Integer.valueOf(currentSearchSeqNumber));
+                pendingRequests.remove(currentSearchSeqNumber);
                 if (progressStartRunnable != null) {
                     progressHandler.removeCallbacks(progressStartRunnable);
                 }
@@ -100,7 +99,7 @@ public class Searcher {
                 // requests, nothing prevents the system from opening multiple connections to the
                 // same server, nor the Algolia client to transparently switch to another server
                 // between two requests. Therefore the order of responses is not guaranteed.
-                if (currentSearchSeqNumber <= lastDisplayedSeqNumber || cancelledRequests.contains(currentSearchSeqNumber)) {
+                if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
                     return;
                 }
 
@@ -123,7 +122,7 @@ public class Searcher {
                     Log.d("PLN|search.searchResult", String.format("Index %s with query %s succeeded: %s.", index.getIndexName(), query, content));
                 }
             }
-        });
+        }));
         return this;
     }
 
@@ -139,16 +138,15 @@ public class Searcher {
         Query loadMoreQuery = new Query(query);
         loadMoreQuery.setPage(++lastRequestedPage);
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
-        pendingRequests.add(currentSearchSeqNumber);
-        index.searchAsync(loadMoreQuery, new CompletionHandler() {
+        pendingRequests.put(currentSearchSeqNumber, index.searchAsync(loadMoreQuery, new CompletionHandler() {
             @Override
             public void requestCompleted(JSONObject content, AlgoliaException error) {
-                pendingRequests.remove(Integer.valueOf(currentSearchSeqNumber));
+                pendingRequests.remove(currentSearchSeqNumber);
                 if (error != null) {
                     throw new RuntimeException(Errors.LOADMORE_FAIL, error);
                 } else {
-                    if (currentSearchSeqNumber <= lastDisplayedSeqNumber || cancelledRequests.contains(currentSearchSeqNumber)) {
-                        return; // Hits are for an older query or a cancelled one, let's ignore them
+                    if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
+                        return; // Hits are for an older query, let's ignore them
                     }
 
                     if (hasHits(content)) {
@@ -161,7 +159,7 @@ public class Searcher {
                     }
                 }
             }
-        });
+        }));
         return this;
     }
 
@@ -210,8 +208,10 @@ public class Searcher {
      */
     public int cancelPendingRequests() {
         if (pendingRequests.size() != 0) {
-            for (Integer reqId : pendingRequests) {
-                cancelledRequests.add(reqId);
+            for (Request r : pendingRequests.values()) {
+                if (!r.isFinished() && !r.isCancelled()) {
+                    r.cancel();
+                }
             }
         }
         return pendingRequests.size();

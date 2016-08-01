@@ -347,7 +347,6 @@ public class InstantSearchHelper {
                 searchView = searchViews.get(0);
             }
         }
-
         return searchView;
     }
 
