@@ -38,7 +38,7 @@ public class InstantSearchHelper {
     private static int itemLayoutId = -42;
 
     private boolean showProgressBar;
-    private int progressBarDelay = 200;
+    private int progressBarDelay;
 
     private boolean shouldResetOnEmptyQuery;
 
@@ -260,6 +260,9 @@ public class InstantSearchHelper {
                 updateProgressBar(searchView, false);
             }
         });
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            progressBarDelay = 200; // Without animations, a delay is needed to avoid blinking.
+        }
     }
 
     /**
@@ -284,7 +287,7 @@ public class InstantSearchHelper {
         return itemLayoutId;
     }
 
-    @SuppressLint("InflateParams"/* Giving a root to inflate caused the searchView to break when adding the progressBarView */)
+    @SuppressLint("InflateParams"/* Giving a root to inflate causes the searchView to break when adding the progressBarView */)
     private void updateProgressBar(SearchView searchView, boolean showProgress) {
         if (!showProgressBar) {
             return;
