@@ -197,6 +197,7 @@ public class Searcher {
         endReached = false;
         clearFacetRefinements();
         resetListeners();
+        cancelPendingRequests();
         return this;
     }
 
