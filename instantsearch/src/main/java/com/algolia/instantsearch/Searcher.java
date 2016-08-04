@@ -50,13 +50,12 @@ public class Searcher {
     /**
      * Create and initialize the helper.
      *
-     * @param client a Client instance which will handle network requests.
      * @param index  an Index initialized and eventually configured.
      */
-    public Searcher(@NonNull final Client client, @NonNull final Index index) {
+    public Searcher(@NonNull final Index index) {
         query = new Query();
-        this.client = client;
         this.index = index;
+        this.client = index.getClient();
     }
 
     /**

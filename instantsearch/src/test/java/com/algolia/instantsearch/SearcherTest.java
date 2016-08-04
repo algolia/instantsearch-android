@@ -52,7 +52,7 @@ public class SearcherTest extends InstantSearchTest {
     @Test
     public void canCancelPendingRequests() {
         final Client client = new Client(Helpers.app_id, Helpers.api_key);
-        Searcher searcher = new Searcher(client, client.initIndex(Helpers.safeIndexName("test")));
+        Searcher searcher = new Searcher(client.initIndex(Helpers.safeIndexName("test")));
         final AlgoliaResultsListener resultsListener = new AlgoliaResultsListener() {
             @Override public void onUpdateView(@Nullable JSONObject hits, boolean isLoadingMore) {
                 Assert.fail("The request should have been cancelled.");
