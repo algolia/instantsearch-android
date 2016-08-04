@@ -83,7 +83,7 @@ public class Searcher {
             progressHandler.postDelayed(progressStartRunnable, progressStartDelay);
         }
 
-        pendingRequests.put(currentSearchSeqNumber, index.searchAsync(query, new CompletionHandler() {
+        final CompletionHandler searchHandler = new CompletionHandler() {
             @Override
             public void requestCompleted(JSONObject content, AlgoliaException error) {
                 pendingRequests.remove(currentSearchSeqNumber);
@@ -122,7 +122,15 @@ public class Searcher {
                     Log.d("PLN|search.searchResult", String.format("Index %s with query %s succeeded: %s.", index.getIndexName(), query, content));
                 }
             }
-        }));
+        };
+
+        final Request searchRequest;
+        if (disjunctiveFacets.size() != 0) {
+            searchRequest = index.searchDisjunctiveFacetingAsync(query, disjunctiveFacets, refinementMap, searchHandler);
+        } else {
+            searchRequest = index.searchAsync(query, searchHandler);
+        }
+        pendingRequests.put(currentSearchSeqNumber, searchRequest);
         return this;
     }
 
@@ -318,18 +326,9 @@ public class Searcher {
         for (Map.Entry<String, List<String>> entry : refinementMap.entrySet()) {
             final List<String> values = entry.getValue();
             final String attribute = entry.getKey();
-            final Boolean operatorIsOr = disjunctiveFacets.contains(attribute);
 
-            if (operatorIsOr) {
-                JSONArray attributeArray = new JSONArray();
-                for (String value : values) {
-                    attributeArray.put(attribute + ":" + value);
-                }
-                facetFilters.put(attributeArray);
-            } else {
-                for (String value : values) {
-                    facetFilters.put(attribute + ":" + value);
-                }
+            for (String value : values) {
+                facetFilters.put(attribute + ":" + value);
             }
         }
         query.setFacetFilters(facetFilters);
