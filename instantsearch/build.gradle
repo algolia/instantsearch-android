@@ -48,5 +48,5 @@ dependencies {
     testCompile "org.robolectric:robolectric:3.0"
     compile "com.android.support:appcompat-v7:$VERSION_APPCOMPAT"
     compile "com.android.support:recyclerview-v7:$VERSION_APPCOMPAT"
-    compile 'com.algolia:algoliasearch-android:3.3.0@aar'
+    compile 'com.algolia:algoliasearch-android:3.4.0'
 }
