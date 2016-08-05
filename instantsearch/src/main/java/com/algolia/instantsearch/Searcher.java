@@ -141,7 +141,6 @@ public class Searcher {
         if (!shouldLoadMore()) {
             return this;
         }
-
         Query loadMoreQuery = new Query(query);
         loadMoreQuery.setPage(++lastRequestedPage);
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
@@ -321,7 +320,7 @@ public class Searcher {
         rebuildQueryFacetRefinements();
     }
 
-    private void rebuildQueryFacetRefinements() { //FIXME: use searchDisjunctiveFacetingAsync properly
+    private void rebuildQueryFacetRefinements() {
         JSONArray facetFilters = new JSONArray();
         for (Map.Entry<String, List<String>> entry : refinementMap.entrySet()) {
             final List<String> values = entry.getValue();
@@ -411,14 +410,15 @@ public class Searcher {
     }
 
     /**
-     * Change the targeted index for future queries. //TODO: Discuss with JS: Do you support this?
-     * Be aware that this method only changed the index without invalidating any existing state (pagination, facets, etc).
+     * Change the targeted index for future queries.
+     * Be aware that as index ordering may differ, this method will reset the current page to 0,
      * You may want to use {@link Searcher#reset} to reinitialize the helper to an empty state.
      *
      * @param indexName name of the new index.
      */
     public Searcher setIndex(@NonNull String indexName) {
         index = client.initIndex(indexName);
+        query.setPage(0);
         return this;
     }
 

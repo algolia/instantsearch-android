@@ -297,7 +297,6 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
 
                     facet.setEnabled(!facet.isEnabled());
                     updateActiveStatus(facet);
-
                     searcher.updateFacetRefinement(attributeName, facet).search();
                     updateFacetViews(facet, nameView, countView);
                 }
