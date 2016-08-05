@@ -8,13 +8,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.utils.LayoutViews;
@@ -334,10 +334,9 @@ public class InstantSearchHelper {
             if (searchBoxes.size() == 1) {
                 searchView = searchBoxes.get(0);
             } else { // We should not find more than one SearchBox
-                throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHBOXES); //TODO: Discuss - any legitimate usecase?
+                throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHBOXES);
             }
-        } else {
-            // Or he uses AppCompat's SearchView //TODO: Support standard SearchView?
+        } else { // Or he uses a standard SearchView
             final List<SearchView> searchViews = LayoutViews.findByClass(rootView, SearchView.class);
             if (searchViews.size() == 0) { // We should find at least one
                 throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
