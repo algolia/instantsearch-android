@@ -7,10 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -18,6 +18,7 @@ import android.widget.SearchView;
 
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.utils.LayoutViews;
+import com.algolia.instantsearch.utils.SearchViewFacade;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.RefinementList;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InstantSearchHelper {
-    private SearchView searchView;
+    private SearchViewFacade searchView;
 
     private final Searcher searcher;
 
@@ -101,7 +102,9 @@ public class InstantSearchHelper {
     public void registerSearchView(@NonNull final Activity activity, @NonNull Menu menu, int id) {
         searchMenu = menu;
         searchMenuId = id;
-        registerSearchView(activity, (SearchView) MenuItemCompat.getActionView(menu.findItem(id)));
+        final MenuItem menuItem = menu.findItem(id);
+        final SearchViewFacade actionView = new SearchViewFacade(menu, id);
+        registerSearchView(activity, actionView);
     }
 
     /**
@@ -110,7 +113,7 @@ public class InstantSearchHelper {
      * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
      * @param searchView a SearchView where the query text will be picked up from.
      */
-    public void registerSearchView(@NonNull final Activity activity, @NonNull final SearchView searchView) {
+    public void registerSearchView(@NonNull final Activity activity, @NonNull final SearchViewFacade searchView) {
         searchView.setSearchableInfo(((SearchManager) activity.getSystemService(Context.SEARCH_SERVICE)).getSearchableInfo(activity.getComponentName()));
         searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -228,7 +231,7 @@ public class InstantSearchHelper {
      */
     public void initSearchFrom(@NonNull Activity activity) {
         final View rootView = activity.getWindow().getDecorView().getRootView();
-        SearchView searchView = getSearchView(rootView);
+        SearchViewFacade searchView = getSearchView(rootView);
 
         linkSearchViewToActivity(activity, searchView);
     }
@@ -288,14 +291,14 @@ public class InstantSearchHelper {
     }
 
     @SuppressLint("InflateParams"/* Giving a root to inflate causes the searchView to break when adding the progressBarView */)
-    private void updateProgressBar(SearchView searchView, boolean showProgress) {
+    private void updateProgressBar(SearchViewFacade searchView, boolean showProgress) {
         if (!showProgressBar) {
             return;
         }
 
         if (searchView == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                searchView = (SearchView) searchMenu.findItem(searchMenuId).getActionView();
+                searchView = new SearchViewFacade(searchMenu, searchMenuId);
             }
         }
 
@@ -319,37 +322,51 @@ public class InstantSearchHelper {
         }
     }
 
-    private void linkSearchViewToActivity(@NonNull Activity activity, @NonNull SearchView searchView) {
+    private void linkSearchViewToActivity(@NonNull Activity activity, @NonNull SearchViewFacade searchView) {
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
     }
 
     @NonNull
-    private static SearchView getSearchView(@NonNull View rootView) {
-        SearchView searchView;
+    private static SearchViewFacade getSearchView(@NonNull View rootView) {
+        SearchViewFacade facade;
 
         // Either the developer uses our SearchBox
         final List<SearchBox> searchBoxes = LayoutViews.findByClass(rootView, SearchBox.class);
         if (searchBoxes.size() != 0) {
             if (searchBoxes.size() == 1) {
-                searchView = searchBoxes.get(0);
+                facade = new SearchViewFacade(searchBoxes.get(0));
             } else { // We should not find more than one SearchBox
                 throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHBOXES);
             }
         } else { // Or he uses a standard SearchView
             final List<SearchView> searchViews = LayoutViews.findByClass(rootView, SearchView.class);
-            if (searchViews.size() == 0) { // We should find at least one
-                throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
+            if (searchViews.size() == 0) { // Or he uses a support SearchView
+                final List<android.support.v7.widget.SearchView> supportViews = LayoutViews.findByClass(rootView, android.support.v7.widget.SearchView.class);
+                if (supportViews.size() == 0) { // We should find at least one
+                    throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
+                } else if (supportViews.size() > 1) { // One of those should have the id @id/searchBox
+                    final SearchView labeledSearchView = (SearchView) rootView.findViewById(R.id.searchBox);
+                    if (labeledSearchView == null) {
+                        throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHVIEWS);
+                    } else {
+                        facade = new SearchViewFacade((SearchView) rootView.findViewById(R.id.searchBox));
+                    }
+                } else {
+                    facade = new SearchViewFacade(supportViews.get(0));
+                }
             } else if (searchViews.size() > 1) { // One of those should have the id @id/searchBox
-                searchView = (SearchView) rootView.findViewById(R.id.searchBox);
-                if (searchView == null) {
+                final SearchView labeledSearchView = (SearchView) rootView.findViewById(R.id.searchBox);
+                if (labeledSearchView == null) {
                     throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHVIEWS);
+                } else {
+                    facade = new SearchViewFacade(labeledSearchView);
                 }
             } else {
-                searchView = searchViews.get(0);
+                facade = new SearchViewFacade(searchViews.get(0));
             }
         }
-        return searchView;
+        return facade;
     }
 
     /**
