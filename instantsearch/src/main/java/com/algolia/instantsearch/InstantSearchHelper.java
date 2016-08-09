@@ -19,7 +19,7 @@ import android.widget.SearchView;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.utils.LayoutViews;
 import com.algolia.instantsearch.utils.SearchViewFacade;
-import com.algolia.instantsearch.views.AlgoliaResultsListener;
+import com.algolia.instantsearch.views.AlgoliaWidget;
 import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.RefinementList;
 import com.algolia.instantsearch.views.SearchBox;
@@ -46,7 +46,7 @@ public class InstantSearchHelper {
     /**
      * Create and initialize the helper, then link it to the given Activity.
      *
-     * @param activity an Activity containing a {@link AlgoliaResultsListener} to update with incoming results.
+     * @param activity an Activity containing a {@link AlgoliaWidget} to update with incoming results.
      * @param searcher the Searcher to use with this activity.
      */
     public InstantSearchHelper(@NonNull final Activity activity, @NonNull final Searcher searcher) {
@@ -58,12 +58,12 @@ public class InstantSearchHelper {
     /**
      * Create and initialize the helper, then link it to the given Activity.
      *
-     * @param resultsListener an AlgoliaResultsListener to update with incoming results.
-     * @param searcher        the Searcher to use with this AlgoliaResultsListener.
+     * @param widget an AlgoliaWidget to update with incoming results.
+     * @param searcher        the Searcher to use with this AlgoliaWidget.
      */
-    public InstantSearchHelper(@NonNull final AlgoliaResultsListener resultsListener, @NonNull final Searcher searcher) {
+    public InstantSearchHelper(@NonNull final AlgoliaWidget widget, @NonNull final Searcher searcher) {
         this(searcher);
-        searcher.registerListener(resultsListener);
+        searcher.registerListener(widget);
     }
 
     private InstantSearchHelper(@NonNull final Searcher searcher) {
@@ -171,16 +171,17 @@ public class InstantSearchHelper {
 
         linkSearchViewToActivity(activity, searchView);
 
-        // Register any AlgoliaResultsListener
-        final List<AlgoliaResultsListener> foundListeners = LayoutViews.findByClass(rootView, AlgoliaResultsListener.class);
+        // Register any AlgoliaWidget
+        final List<AlgoliaWidget> foundListeners = LayoutViews.findByClass(rootView, AlgoliaWidget.class);
         if (foundListeners == null || foundListeners.size() == 0) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS);
         }
-        for (AlgoliaResultsListener listener : foundListeners) {
-            searcher.registerListener(listener);
+        for (AlgoliaWidget widget : foundListeners) {
+            searcher.registerListener(widget);
+            widget.setSearcher(searcher);
 
-            if (listener instanceof Hits) {
-                final Hits hits = (Hits) listener;
+            if (widget instanceof Hits) {
+                final Hits hits = (Hits) widget;
                 searcher.getQuery().setHitsPerPage(hits.getHitsPerPage());
 
                 // Link hits to activity's empty view
@@ -191,8 +192,8 @@ public class InstantSearchHelper {
                 if (itemLayoutId == -42) {
                     throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
                 }
-            } else if (listener instanceof ListView) {
-                ((ListView) listener).setEmptyView(getEmptyView(rootView));
+            } else if (widget instanceof ListView) {
+                ((ListView) widget).setEmptyView(getEmptyView(rootView));
             }
         }
 
@@ -220,8 +221,6 @@ public class InstantSearchHelper {
                 return false;
             }
         });
-
-        searcher.initResultsListeners();
     }
 
     /**

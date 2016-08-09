@@ -33,7 +33,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-public class RefinementList extends ListView implements AlgoliaResultsListener {
+public class RefinementList extends ListView implements AlgoliaWidget {
     public static final int OPERATOR_OR = 0;
     public static final int OPERATOR_AND = 1;
 
@@ -113,13 +113,13 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
         };
     }
 
-    public void onInit(@NonNull Searcher searcher) {
+    public void setSearcher(@NonNull Searcher searcher) {
         this.searcher = searcher;
         InstantSearchHelper.registerRefinementList(this, searcher);
     }
 
     @Override
-    public void onUpdateView(JSONObject content, boolean isLoadingMore) {
+    public void onResults(JSONObject content, boolean isLoadingMore) {
         if (isLoadingMore) { // more results of the same request -> facets should not change
             return;
         }
@@ -317,7 +317,6 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
             }
             sort(sortComparator);
         }
-
 
         public void addFacet(Facet facet) {
             facets.add(facet);

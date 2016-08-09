@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Facet;
+import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
@@ -339,15 +340,9 @@ public class Searcher {
         }
     }
 
-    void initResultsListeners() {
-        for (AlgoliaResultsListener listener : resultsListeners) {
-            listener.onInit(this);
-        }
-    }
-
     private void updateListeners(@Nullable JSONObject hits, boolean isLoadingMore) {
         for (AlgoliaResultsListener view : resultsListeners) {
-            view.onUpdateView(hits, isLoadingMore);
+            view.onResults(hits, isLoadingMore);
         }
     }
 

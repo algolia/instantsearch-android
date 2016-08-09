@@ -24,7 +24,7 @@ import com.algolia.search.saas.Query;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Hits extends RecyclerView implements AlgoliaResultsListener {
+public class Hits extends RecyclerView implements AlgoliaWidget {
     public static final int MISSING_VALUE = Integer.MIN_VALUE;
     public static final int DEFAULT_HITS_PER_PAGE = 20;
     public static final int DEFAULT_REMAINING_ITEMS = 5;
@@ -175,12 +175,12 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener {
     }
 
     @Override
-    public void onInit(@NonNull Searcher searcher) {
+    public void setSearcher(@NonNull Searcher searcher) {
         this.searcher = searcher;
     }
 
     @Override
-    public void onUpdateView(@Nullable JSONObject hits, boolean isLoadingMore) {
+    public void onResults(@Nullable JSONObject hits, boolean isLoadingMore) {
         addHits(hits, !isLoadingMore);
     }
 

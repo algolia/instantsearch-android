@@ -80,7 +80,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
         final List<AlgoliaHitView> hitViews = LayoutViews.findByClass((ViewGroup) holder.itemView, AlgoliaHitView.class);
         final JSONObject hit = hits.get(position);
 
-        // For every AlgoliaHitView that is not bound, trigger onUpdateView
+        // For every AlgoliaHitView that is not bound, trigger onResults
         for (AlgoliaHitView hitView : hitViews) {
             //noinspection SuspiciousMethodCalls: With LayoutViews, we are sure to only find Views
             if (mappedViews.contains(hitView)) {
