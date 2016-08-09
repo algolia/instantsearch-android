@@ -1,7 +1,6 @@
 package com.algolia.instantsearch;
 
-import android.support.annotation.Nullable;
-
+import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
@@ -53,7 +52,7 @@ public class SearcherTest extends InstantSearchTest {
         final Client client = new Client(Helpers.app_id, Helpers.api_key);
         Searcher searcher = new Searcher(client.initIndex(Helpers.safeIndexName("test")));
         final AlgoliaResultsListener resultsListener = new AlgoliaResultsListener() {
-            @Override public void onResults(@Nullable JSONObject hits, boolean isLoadingMore) {
+            @Override public void onResults(SearchResults results, boolean isLoadingMore) {
                 Assert.fail("The request should have been cancelled.");
             }
 

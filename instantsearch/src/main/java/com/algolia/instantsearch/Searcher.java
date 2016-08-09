@@ -342,7 +342,7 @@ public class Searcher {
 
     private void updateListeners(@Nullable JSONObject hits, boolean isLoadingMore) {
         for (AlgoliaResultsListener view : resultsListeners) {
-            view.onResults(hits, isLoadingMore);
+            view.onResults(new SearchResults(hits), isLoadingMore);
         }
     }
 

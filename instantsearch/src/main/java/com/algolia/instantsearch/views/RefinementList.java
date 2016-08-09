@@ -18,20 +18,20 @@ import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.Searcher;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.Facet;
+import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class RefinementList extends ListView implements AlgoliaWidget {
     public static final int OPERATOR_OR = 0;
@@ -119,43 +119,32 @@ public class RefinementList extends ListView implements AlgoliaWidget {
     }
 
     @Override
-    public void onResults(JSONObject content, boolean isLoadingMore) {
+    public void onResults(SearchResults results, boolean isLoadingMore) {
         if (isLoadingMore) { // more results of the same request -> facets should not change
             return;
         }
 
-        if (content == null) { // no results for query, facet counts should be set to 0
+        if (results == null) { // no results for query, facet counts should be set to 0
             adapter.resetFacetCounts();
             return;
         }
 
         // else build updated facet list
-        ArrayList<Facet> newFacets = new ArrayList<>();
-
-        JSONObject resultFacets = content.optJSONObject("facets");
-        if (resultFacets != null) {
-            JSONObject refinementFacets = resultFacets.optJSONObject(attributeName);
-            if (refinementFacets != null) {
-                final Iterator<String> iterKeys = refinementFacets.keys();
-                while (iterKeys.hasNext()) {
-                    final String key = iterKeys.next();
-                    int value = refinementFacets.optInt(key);
-                    final boolean wasActive = adapter.hasActive(key);
-                    final Facet facet = new Facet(key, value, wasActive);
-                    newFacets.add(facet);
-                }
-            }
-
-            // If we have new facets we should use them, and else set count=0 to old ones
-            if (newFacets.size() > 0) {
-                adapter.clear();
-                adapter.addAll(newFacets);
-                adapter.sort(sortComparator);
-            } else {
-                adapter.resetFacetCounts();
-            }
-            adapter.notifyDataSetChanged();
+        final Map<String, List<Facet>> facets = results.facets;
+        List<Facet> refinementFacets = facets.get(attributeName);
+        for (Facet facet : refinementFacets) {
+            facet.isEnabled = adapter.hasActive(facet.value);
         }
+
+        // If we have new facets we should use them, and else set count=0 to old ones
+        if (refinementFacets.size() > 0) {
+            adapter.clear();
+            adapter.addAll(refinementFacets);
+            adapter.sort(sortComparator);
+        } else {
+            adapter.resetFacetCounts();
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override public void onError(Query query, AlgoliaException error) {

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.Searcher;
 import com.algolia.instantsearch.model.Errors;
+import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.ui.HitsAdapter;
 import com.algolia.instantsearch.utils.ItemClickSupport;
 import com.algolia.instantsearch.utils.ItemClickSupport.OnItemClickListener;
@@ -131,12 +132,11 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
 
     /**
      * Add or replace hits to/in this widget.
-     *
-     * @param hits        A {@link JSONObject} containing hits.
+     *  @param results        A {@link JSONObject} containing hits.
      * @param isReplacing true if the given hits should replace the current hits.
      */
-    private void addHits(@Nullable JSONObject hits, boolean isReplacing) {
-        if (hits == null) {
+    private void addHits(@Nullable SearchResults results, boolean isReplacing) {
+        if (results == null) {
             if (isReplacing) {
                 adapter.clear();
                 scrollListener.setCurrentlyLoading(false);
@@ -144,14 +144,14 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
             return;
         }
 
-        JSONArray resultHits = hits.optJSONArray("hits");
+        JSONArray hits = results.hits;
 
         if (isReplacing) {
             adapter.clear(false);
         }
 
-        for (int i = 0; i < resultHits.length(); ++i) {
-            JSONObject hit = resultHits.optJSONObject(i);
+        for (int i = 0; i < hits.length(); ++i) {
+            JSONObject hit = hits.optJSONObject(i);
             if (hit != null) {
                 adapter.add(hit);
             }
@@ -162,7 +162,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
             smoothScrollToPosition(0);
             scrollListener.setCurrentlyLoading(false);
         } else {
-            adapter.notifyItemRangeInserted(adapter.getItemCount(), resultHits.length());
+            adapter.notifyItemRangeInserted(adapter.getItemCount(), hits.length());
         }
     }
 
@@ -180,8 +180,8 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     }
 
     @Override
-    public void onResults(@Nullable JSONObject hits, boolean isLoadingMore) {
-        addHits(hits, !isLoadingMore);
+    public void onResults(SearchResults results, boolean isLoadingMore) {
+        addHits(results, !isLoadingMore);
     }
 
     @Override
