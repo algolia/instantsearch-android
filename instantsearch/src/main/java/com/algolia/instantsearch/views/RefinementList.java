@@ -91,16 +91,16 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
                 for (String sortValue : sortOrder) {
                     switch (sortValue) {
                         case SORT_COUNT:
-                            comparisonValue = -Integer.valueOf(lhs.getCount()).compareTo(rhs.getCount());
+                            comparisonValue = -Integer.valueOf(lhs.count).compareTo(rhs.count);
                             break;
                         case SORT_ISREFINED:
-                            comparisonValue = -Boolean.valueOf(lhs.isEnabled()).compareTo(rhs.isEnabled());
+                            comparisonValue = -Boolean.valueOf(lhs.isEnabled).compareTo(rhs.isEnabled);
                             break;
                         case SORT_NAME_ASC:
-                            comparisonValue = lhs.getName().compareTo(rhs.getName());
+                            comparisonValue = lhs.value.compareTo(rhs.value);
                             break;
                         case SORT_NAME_DESC:
-                            comparisonValue = rhs.getName().compareTo(lhs.getName());
+                            comparisonValue = rhs.value.compareTo(lhs.value);
                             break;
                     }
                     if (comparisonValue != 0) {
@@ -267,7 +267,7 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
             super.remove(facet);
 
             facets.remove(facet);
-            activeFacets.remove(facet.getName());
+            activeFacets.remove(facet.value);
         }
 
         @Override
@@ -287,15 +287,16 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
 
             final TextView nameView = (TextView) convertView.findViewById(R.id.refinementName);
             final TextView countView = (TextView) convertView.findViewById(R.id.refinementCount);
-            nameView.setText(facet.getName());
-            countView.setText(String.valueOf(facet.getCount()));
+            nameView.setText(facet.value);
+            countView.setText(String.valueOf(facet.count));
             updateFacetViews(facet, nameView, countView);
             convertView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final Facet facet = adapter.getItem(position);
 
-                    facet.setEnabled(!facet.isEnabled());
+                    boolean enabled = !facet.isEnabled;
+                    facet.isEnabled = enabled;
                     updateActiveStatus(facet);
                     searcher.updateFacetRefinement(attributeName, facet).search();
                     updateFacetViews(facet, nameView, countView);
@@ -309,10 +310,10 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
         }
 
         private void updateActiveStatus(Facet facet) {
-            if (facet.isEnabled()) {
-                activeFacets.add(facet.getName());
+            if (facet.isEnabled) {
+                activeFacets.add(facet.value);
             } else {
-                activeFacets.remove(facet.getName());
+                activeFacets.remove(facet.value);
             }
             sort(sortComparator);
         }
@@ -326,13 +327,13 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
                 super.add(facet);
             }
 
-            if (facet.isEnabled()) {
-                activeFacets.add(facet.getName());
+            if (facet.isEnabled) {
+                activeFacets.add(facet.value);
             }
         }
 
         private void updateFacetViews(Facet facet, TextView nameView, TextView countView) {
-            if (facet.isEnabled()) {
+            if (facet.isEnabled) {
                 nameView.setPaintFlags(nameView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 countView.setTypeface(null, Typeface.BOLD);
             } else {
@@ -343,7 +344,7 @@ public class RefinementList extends ListView implements AlgoliaResultsListener {
 
         private void resetFacetCounts() {
             for (Facet facet : facets) {
-                facet.setCount(0);
+                facet.count = 0;
             }
         }
     }

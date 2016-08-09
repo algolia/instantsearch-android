@@ -241,10 +241,10 @@ public class Searcher {
      * @param facet         a Facet object to add to the query.
      */
     public Searcher updateFacetRefinement(@NonNull String attributeName, @NonNull Facet facet) {
-        if (facet.isEnabled()) {
-            addFacetRefinement(attributeName, facet.getName());
+        if (facet.isEnabled) {
+            addFacetRefinement(attributeName, facet.value);
         } else {
-            removeFacetRefinement(attributeName, facet.getName());
+            removeFacetRefinement(attributeName, facet.value);
         }
         return this;
     }

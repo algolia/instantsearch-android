@@ -1,42 +1,22 @@
 package com.algolia.instantsearch.model;
 
 public class Facet {
-    final private String name;
-    private int count;
-    private boolean isEnabled;
+    final public String value;
+    public int count;
+    public boolean isEnabled;
 
-    public Facet(String name, int count, boolean isEnabled) {
-        this.name = name;
+    public Facet(String value, int count, boolean isEnabled) {
+        this.value = value;
         this.count = count;
         this.isEnabled = isEnabled;
     }
 
-    public Facet(String name, int count) {
-        this(name, count, false);
-    }
-
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
+    public Facet(String value, int count) {
+        this(value, count, false);
     }
 
     @Override
     public String toString() {
-        return "Facet{" + "name='" + name + ", count=" + count + ", enabled=" + isEnabled + '}';
+        return "Facet{" + "value='" + value + ", count=" + count + ", enabled=" + isEnabled + '}';
     }
 }
