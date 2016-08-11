@@ -100,8 +100,9 @@ public class BindingHelper {
             }
 
             bindAttribute(view, attributeName);
-            RenderingHelper.addHighlight(attributeName);
-            RenderingHelper.addColor(attributeName, colorId);
+            final RenderingHelper renderingHelper = RenderingHelper.getDefault();
+            renderingHelper.addHighlight(attributeName);
+            renderingHelper.addColor(attributeName, colorId);
         }
     }
 }

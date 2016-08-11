@@ -9,16 +9,30 @@ import java.util.Set;
 
 public class RenderingHelper {
 
-    private static final Set<String> attributeHighlights = new HashSet<>();
-    private static final Map<String, Integer> attributeColors = new HashMap<>();
+    private static RenderingHelper defaultRenderingHelper;
 
-    static final String DEFAULT_COLOR = "@color/highlightingColor";
+    private final Set<String> attributeHighlights;
+    private final Map<String, Integer> attributeColors;
 
-    public static @ColorRes int getHighlightColor(String attributeName) {
+    public static RenderingHelper getDefault() {
+        if (defaultRenderingHelper == null) {
+            defaultRenderingHelper = new RenderingHelper();
+        }
+        return defaultRenderingHelper;
+    }
+
+    private RenderingHelper() {
+        attributeHighlights = new HashSet<>();
+        attributeColors = new HashMap<>();
+    }
+
+    final String DEFAULT_COLOR = "@color/highlightingColor";
+
+    public @ColorRes int getHighlightColor(String attributeName) {
         return attributeColors.get(attributeName);
     }
 
-    public static boolean shouldHighlight(String attributeName) {
+    public boolean shouldHighlight(String attributeName) {
         return attributeHighlights.contains(attributeName);
     }
 
@@ -29,7 +43,7 @@ public class RenderingHelper {
      * @param colorId       a {@link ColorRes} to associate with this attribute.
      * @return the previous color associated with this attribute or {@code null} if there was none.
      */
-    protected static Integer addColor(String attributeName, @ColorRes int colorId) {
+    protected Integer addColor(String attributeName, @ColorRes int colorId) {
         return attributeColors.put(attributeName, colorId);
     }
 
@@ -39,7 +53,7 @@ public class RenderingHelper {
      * @param attributeName the attribute to color.
      * @return {@code true} if the attribute was not already highlighted, {@code false} otherwise.
      */
-    protected static boolean addHighlight(String attributeName) {
+    protected boolean addHighlight(String attributeName) {
         return attributeHighlights.add(attributeName);
     }
 }

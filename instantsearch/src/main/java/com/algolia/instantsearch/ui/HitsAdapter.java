@@ -101,8 +101,8 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
                 ((EditText) view).setHint(attributeValue);
             } else if (view instanceof TextView) {
                 final TextView textView = (TextView) view;
-                if (RenderingHelper.shouldHighlight(attributeName)) {
-                    final int highlightColor = RenderingHelper.getHighlightColor(attributeName);
+                if (RenderingHelper.getDefault().shouldHighlight(attributeName)) {
+                    final int highlightColor = RenderingHelper.getDefault().getHighlightColor(attributeName);
                     textView.setText(Highlighter.renderHighlightColor(hit, attributeName, highlightColor, view.getContext()));
                 } else {
                     textView.setText(attributeValue);
