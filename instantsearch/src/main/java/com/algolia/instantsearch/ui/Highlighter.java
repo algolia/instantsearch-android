@@ -143,8 +143,4 @@ public class Highlighter {
         }
         return null;
     }
-
-    public static String removeHighlight(String attribute) {
-        return attribute.replace("<em>", "").replace("</em>", "");
-    }
 }

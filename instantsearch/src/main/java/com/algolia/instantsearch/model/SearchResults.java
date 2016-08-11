@@ -31,8 +31,6 @@ public class SearchResults {
     public String params;
     /** Processing time of the last query (in ms). */
     public int processingTimeMS;
-
-    // Optional attributes
     /** Last returned page. */
     public Integer page;
     /** Total number of pages. */
@@ -40,6 +38,7 @@ public class SearchResults {
     /** Number of hits per page. */
     public Integer hitsPerPage;
 
+    // Optional attributes
     /** Whether facet counts are exhaustive. */
     public Boolean exhaustiveFacetsCount;
 
@@ -112,7 +111,7 @@ public class SearchResults {
         // Mandatory attributes, throw if any is missing
         try {
             hits = content.getJSONArray("hits");
-            nbHits = content.getInt("nbPages");
+            nbHits = content.getInt("nbHits");
             query = content.getString("query");
             params = content.getString("params");
             processingTimeMS = content.getInt("processingTimeMS");
@@ -126,32 +125,20 @@ public class SearchResults {
         serverUsed = content.optString("serverUsed", null);
         parsedQuery = content.optString("parsedQuery", null);
         try {
-            facets = parseFacets(content.optJSONObject("facets"));
+            facets = parseFacets(content.optJSONObject("facets")); //TODO: Refact with has?
         } catch (JSONException ignored) {
         }
-        try {
-            page = content.getInt("page");
-        } catch (JSONException ignored) {
-        }
-        try {
-            nbPages = content.getInt("nbPages");
-        } catch (JSONException ignored) {
-        }
-        try {
-            hitsPerPage = content.getInt("hitsPerPage");
-        } catch (JSONException ignored) {
-        }
-        try {
-            exhaustiveFacetsCount = content.getBoolean("exhaustiveFacetsCount");
-        } catch (JSONException ignored) {
-        }
+        page = content.optInt("page");
+        nbPages = content.optInt("nbPages");
+        hitsPerPage = content.optInt("hitsPerPage");
+        exhaustiveFacetsCount = content.optBoolean("exhaustiveFacetsCount");
         try {
             automaticRadius = content.getInt("automaticRadius");
         } catch (JSONException ignored) {
         }
         try {
             timeoutCounts = content.getBoolean("timeoutCounts");
-            timeoutHits = content.optBoolean("timeoutHits");
+            timeoutHits = content.getBoolean("timeoutHits");
         } catch (JSONException ignored) {
         }
     }

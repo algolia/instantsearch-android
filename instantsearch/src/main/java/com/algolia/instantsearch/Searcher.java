@@ -51,7 +51,7 @@ public class Searcher {
     /**
      * Create and initialize the helper.
      *
-     * @param index  an Index initialized and eventually configured.
+     * @param index an Index initialized and eventually configured.
      */
     public Searcher(@NonNull final Index index) {
         query = new Query();
@@ -211,10 +211,8 @@ public class Searcher {
 
     /**
      * Cancels all requests still waiting for a response.
-     *
-     * @return how many requests were cancelled.
      */
-    public int cancelPendingRequests() {
+    public void cancelPendingRequests() {
         if (pendingRequests.size() != 0) {
             for (Request r : pendingRequests.values()) {
                 if (!r.isFinished() && !r.isCancelled()) {
@@ -222,7 +220,6 @@ public class Searcher {
                 }
             }
         }
-        return pendingRequests.size();
     }
 
     void addFacet(@NonNull String attributeName, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
@@ -334,7 +331,7 @@ public class Searcher {
         query.setFacetFilters(facetFilters);
     }
 
-    void registerListener(@NonNull AlgoliaResultsListener resultsListener) {
+    public void registerListener(@NonNull AlgoliaResultsListener resultsListener) {
         if (!resultsListeners.contains(resultsListener)) {
             resultsListeners.add(resultsListener);
         }
@@ -393,10 +390,10 @@ public class Searcher {
     /**
      * Use the given query's parameters for following search queries.
      *
-     * @param baseQuery a {@link Query} object with some parameters set.
+     * @param query a {@link Query} object with some parameters set.
      */
-    public Searcher setBaseQuery(@NonNull Query baseQuery) {
-        query = baseQuery;
+    public Searcher setQuery(@NonNull Query query) {
+        this.query = query;
         return this;
     }
 
