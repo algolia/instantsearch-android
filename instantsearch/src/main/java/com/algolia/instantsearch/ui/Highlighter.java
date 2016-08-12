@@ -26,6 +26,8 @@ package com.algolia.instantsearch.ui;
 import android.content.Context;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -54,7 +56,8 @@ public class Highlighter {
      * @param context       a {@link Context} to get resources from.
      * @return a {@link Spannable} with the highlighted text.
      */
-    public static Spannable renderHighlightColor(JSONObject result, String attributeName, @ColorRes int colorId, Context context) {
+    @Nullable
+    public static Spannable renderHighlightColor(@NonNull JSONObject result, String attributeName, @ColorRes int colorId, @NonNull Context context) {
         return renderHighlightColor(getHighlightedAttribute(result, attributeName), colorId, context);
     }
 
@@ -66,7 +69,8 @@ public class Highlighter {
      * @param context      a {@link Context} to get resources from.
      * @return a {@link Spannable} with the highlighted text.
      */
-    public static Spannable renderHighlightColor(String markupString, @ColorRes int colorId, Context context) {
+    @Nullable
+    public static Spannable renderHighlightColor(String markupString, @ColorRes int colorId, @NonNull Context context) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             return renderHighlightColor(markupString, context.getResources().getColor(colorId, context.getTheme()));
         } else { //noinspection deprecation
@@ -82,7 +86,8 @@ public class Highlighter {
      * @param color         a color integer, see {@link android.graphics.Color}.
      * @return a {@link Spannable} with the highlighted text.
      */
-    public static Spannable renderHighlightColor(JSONObject result, String attributeName, @ColorInt int color) {
+    @Nullable
+    public static Spannable renderHighlightColor(@NonNull JSONObject result, String attributeName, @ColorInt int color) {
         return renderHighlightColor(getHighlightedAttribute(result, attributeName), color);
     }
 
@@ -93,7 +98,7 @@ public class Highlighter {
      * @param color        a color integer, see {@link android.graphics.Color}.
      * @return a {@link Spannable} with the highlighted text.
      */
-    public static Spannable renderHighlightColor(String markupString, @ColorInt int color) {
+    @Nullable public static Spannable renderHighlightColor(@Nullable String markupString, @ColorInt int color) {
         if (markupString == null) {
             return null;
         }
@@ -130,7 +135,7 @@ public class Highlighter {
      * @param attributeName the name of the attribute to return highlighted.
      * @return the highlighted version of this attribute if there is one, else the raw attribute.
      */
-    public static String getHighlightedAttribute(JSONObject result, String attributeName) {
+    public static String getHighlightedAttribute(@NonNull JSONObject result, String attributeName) {
         final JSONObject highlightResult = result.optJSONObject("_highlightResult");
         if (highlightResult != null) {
             JSONObject highlightAttribute = highlightResult.optJSONObject(attributeName);

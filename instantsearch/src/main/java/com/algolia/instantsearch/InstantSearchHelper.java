@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,7 +34,9 @@ import java.util.Set;
 
 public class InstantSearchHelper {
     private SearchViewFacade searchView;
+    @NonNull
     private Set<AlgoliaWidget> widgets = new HashSet<>();
+    @NonNull
     private final Searcher searcher;
 
     private Menu searchMenu;
@@ -169,7 +172,7 @@ public class InstantSearchHelper {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(@NonNull String newText) {
                 if (newText.length() == 0) {
                     if (shouldResetOnEmptyQuery) {
                         reset();
@@ -187,7 +190,7 @@ public class InstantSearchHelper {
 
         // Register any AlgoliaWidget
         final List<AlgoliaWidget> foundListeners = LayoutViews.findByClass(rootView, AlgoliaWidget.class);
-        if (foundListeners == null || foundListeners.size() == 0) {
+        if (foundListeners.size() == 0) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS);
         }
         final List<String> refinementAttributes = new ArrayList<>();
@@ -300,7 +303,7 @@ public class InstantSearchHelper {
     }
 
     @SuppressLint("InflateParams"/* Giving a root to inflate causes the searchView to break when adding the progressBarView */)
-    private void updateProgressBar(SearchViewFacade searchView, boolean showProgress) {
+    private void updateProgressBar(@Nullable SearchViewFacade searchView, boolean showProgress) {
         if (!showProgressBar) {
             return;
         }

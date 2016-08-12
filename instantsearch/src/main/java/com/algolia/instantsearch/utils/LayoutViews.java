@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.utils;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,18 +14,18 @@ import java.util.List;
  * open source or commercial. A link to this page in source code would be great, though."
  */
 final public class LayoutViews {
-    public static List<View> findByTag(ViewGroup root, Object tag) {
+    @NonNull public static List<View> findByTag(ViewGroup root, Object tag) {
         FinderByTag finderByTag = new FinderByTag(tag);
         LayoutTraverser.build(finderByTag).traverse(root);
         return finderByTag.getViews();
     }
 
-    public static <T> List<T> findByClass(View rootView, Class<T> classType) {
+    @NonNull public static <T> List<T> findByClass(@NonNull View rootView, Class<T> classType) {
         ViewGroup viewGroup = (ViewGroup) rootView.findViewById(android.R.id.content);
         return findByClass(viewGroup, classType);
     }
 
-    public static <T> List<T> findByClass(ViewGroup root, Class<T> classType) {
+    @NonNull public static <T> List<T> findByClass(ViewGroup root, Class<T> classType) {
         FinderByClass<T> finderByClass = new FinderByClass<>(classType);
         LayoutTraverser.build(finderByClass)
                 .traverse(root);
@@ -40,7 +41,7 @@ final public class LayoutViews {
         }
 
         @Override
-        public void process(View view) {
+        public void process(@NonNull View view) {
             Object viewTag = view.getTag();
 
             if (viewTag != null && viewTag.equals(searchTag)) {
@@ -48,13 +49,14 @@ final public class LayoutViews {
             }
         }
 
-        private List<View> getViews() {
+        @NonNull private List<View> getViews() {
             return views;
         }
     }
 
     private static class FinderByClass<T> implements LayoutTraverser.Processor {
         private final Class<T> type;
+        @NonNull
         private final List<T> views;
 
         private FinderByClass(Class<T> type) {
@@ -64,13 +66,13 @@ final public class LayoutViews {
 
         @Override
         @SuppressWarnings("unchecked")
-        public void process(View view) {
+        public void process(@NonNull View view) {
             if (type.isAssignableFrom(view.getClass())) {
                 views.add((T) view);
             }
         }
 
-        public List<T> getViews() {
+        @NonNull public List<T> getViews() {
             return views;
         }
     }

@@ -1,5 +1,8 @@
 package com.algolia.instantsearch.model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.algolia.search.saas.Query;
 
 import org.json.JSONArray;
@@ -14,6 +17,7 @@ import java.util.Map;
 
 public class SearchResults {
     /** The received JSON content. */
+    @Nullable
     public JSONObject content;
     /** Facets that will be treated as disjunctive (`OR`). By default, facets are conjunctive (`AND`). */
     public List<String> disjunctiveFacets; //TODO
@@ -59,6 +63,7 @@ public class SearchResults {
      *
      * Note: Only returned when `aroundLatLngViaIP` is set.
      */
+    @Nullable
     public Query.LatLng aroundLatLng;
 
     /**
@@ -105,9 +110,12 @@ public class SearchResults {
      * @param content the JSON content to parse.
      * @throws IllegalStateException if the server response misses any mandatory field.
      */
-    public SearchResults(JSONObject content) {
-        //TODO: Discuss: what if mandatory missing? What about processingTimeMS? IF not mandatory, null or default value?
+    public SearchResults(@Nullable JSONObject content) {
+        //DISCUSS: what if mandatory missing? What about processingTimeMS? IF not mandatory, null or default value?
         this.content = content;
+        if (content == null) {
+            return;
+        }
         // Mandatory attributes, throw if any is missing
         try {
             hits = content.getJSONArray("hits");
@@ -143,7 +151,8 @@ public class SearchResults {
         }
     }
 
-    private Query.LatLng parseLatLng(String value) { //TODO: Merge with Query.getLatLng()
+    @Nullable
+    private Query.LatLng parseLatLng(@Nullable String value) { //TODO: Merge with Query.getLatLng()
         if (value == null) {
             return null;
         }
@@ -158,7 +167,8 @@ public class SearchResults {
         }
     }
 
-    private Map<String, List<FacetValue>> parseFacets(JSONObject facets) throws JSONException {
+    @NonNull
+    private Map<String, List<FacetValue>> parseFacets(@Nullable JSONObject facets) throws JSONException {
         Map<String, List<FacetValue>> facetMap = new HashMap<>();
 
         if (facets == null) {

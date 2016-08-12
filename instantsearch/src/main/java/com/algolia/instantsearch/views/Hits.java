@@ -43,7 +43,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     private View emptyView;
     private Searcher searcher;
 
-    public Hits(Context context, AttributeSet attrs) throws AlgoliaException {
+    public Hits(@NonNull Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
         if (isInEditMode()) {
             hitsPerPage = 0;
@@ -185,7 +185,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     }
 
     @Override
-    public void onError(Query query, AlgoliaException error) {
+    public void onError(@NonNull Query query, @NonNull AlgoliaException error) {
         Toast.makeText(getContext(), "Error while searching '" + query.getQuery() + "':" + error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 

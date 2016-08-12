@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.utils;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,11 +17,11 @@ public class LayoutTraverser {
         this.processor = processor;
     }
 
-    public static LayoutTraverser build(Processor processor) {
+    @NonNull public static LayoutTraverser build(Processor processor) {
         return new LayoutTraverser(processor);
     }
 
-    public void traverse(ViewGroup root) {
+    public void traverse(@NonNull ViewGroup root) {
         final int childCount = root.getChildCount();
 
         for (int i = 0; i < childCount; ++i) {

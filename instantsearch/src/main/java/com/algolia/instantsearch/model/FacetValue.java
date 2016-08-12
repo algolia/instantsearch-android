@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.model;
 
+import android.support.annotation.NonNull;
+
 public class FacetValue {
     final public String value;
     public int count;
@@ -9,7 +11,7 @@ public class FacetValue {
         this.count = count;
     }
 
-    @Override
+    @NonNull @Override
     public String toString() {
         return "FacetValue{" + "value='" + value + ", count=" + count + '}';
     }

@@ -1,6 +1,7 @@
 package com.algolia.instantsearch;
 
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,7 +12,9 @@ public class RenderingHelper {
 
     private static RenderingHelper defaultRenderingHelper;
 
+    @NonNull
     private final Set<String> attributeHighlights;
+    @NonNull
     private final Map<String, Integer> attributeColors;
 
     public static RenderingHelper getDefault() {

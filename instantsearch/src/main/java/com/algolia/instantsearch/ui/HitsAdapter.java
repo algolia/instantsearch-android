@@ -3,6 +3,7 @@ package com.algolia.instantsearch.ui;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import java.util.Set;
 
 public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> implements ImageLoadTask.BitmapListener {
 
+    @NonNull
     private List<JSONObject> hits = new ArrayList<>();
     private final Map<String, Bitmap> bitmaps = new HashMap<>();
 
@@ -66,8 +68,8 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
         return hits.get(position);
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+    @NonNull @Override
+    public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         ViewDataBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()), InstantSearchHelper.getItemLayoutId(), parent, false);
         binding.executePendingBindings();
@@ -75,7 +77,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Set<View> mappedViews = holder.viewMap.keySet();
         final List<AlgoliaHitView> hitViews = LayoutViews.findByClass((ViewGroup) holder.itemView, AlgoliaHitView.class);
         final JSONObject hit = hits.get(position);
@@ -127,7 +129,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
     }
 
     @Override
-    public void onResult(String url, Bitmap bitmap, ImageView view) {
+    public void onResult(String url, Bitmap bitmap, @NonNull ImageView view) {
         view.setImageBitmap(bitmap);
         bitmaps.put(url, bitmap);
     }
@@ -135,7 +137,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
     public class ViewHolder extends RecyclerView.ViewHolder {
         final Map<View, String> viewMap = new HashMap<>();
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             // Store every annotated view with its attribute name
             for (Map.Entry<Integer, String> entry : BindingHelper.getEntrySet()) {

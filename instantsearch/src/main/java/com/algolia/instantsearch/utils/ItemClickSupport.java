@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.utils;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -14,9 +16,10 @@ public class ItemClickSupport {
     private final RecyclerView mRecyclerView;
 
     private OnItemClickListener mOnItemClickListener;
+    @Nullable
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(@NonNull View v) {
             if (mOnItemClickListener != null) {
                 RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(v);
                 mOnItemClickListener.onItemClick(mRecyclerView, holder.getAdapterPosition(), v);
@@ -25,9 +28,10 @@ public class ItemClickSupport {
     };
 
     private OnItemLongClickListener mOnItemLongClickListener;
+    @Nullable
     private final View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
         @Override
-        public boolean onLongClick(View v) {
+        public boolean onLongClick(@NonNull View v) {
             if (mOnItemLongClickListener != null) {
                 RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(v);
                 return mOnItemLongClickListener.onItemLongClick(mRecyclerView, holder.getAdapterPosition(), v);
@@ -36,10 +40,11 @@ public class ItemClickSupport {
         }
     };
 
+    @Nullable
     private final RecyclerView.OnChildAttachStateChangeListener mAttachListener
             = new RecyclerView.OnChildAttachStateChangeListener() {
         @Override
-        public void onChildViewAttachedToWindow(View view) {
+        public void onChildViewAttachedToWindow(@NonNull View view) {
             if (mOnItemClickListener != null) {
                 view.setOnClickListener(mOnClickListener);
             }
@@ -60,7 +65,7 @@ public class ItemClickSupport {
         mRecyclerView.addOnChildAttachStateChangeListener(mAttachListener);
     }
 
-    public static ItemClickSupport addTo(RecyclerView view) {
+    @NonNull public static ItemClickSupport addTo(@NonNull RecyclerView view) {
         ItemClickSupport support = (ItemClickSupport) view.getTag(R.id.item_click_support);
         if (support == null) {
             support = new ItemClickSupport(view);
@@ -68,7 +73,7 @@ public class ItemClickSupport {
         return support;
     }
 
-    public static ItemClickSupport removeFrom(RecyclerView view) {
+    @Nullable public static ItemClickSupport removeFrom(@NonNull RecyclerView view) {
         ItemClickSupport support = (ItemClickSupport) view.getTag(R.id.item_click_support);
         if (support != null) {
             support.detach(view);
@@ -76,17 +81,17 @@ public class ItemClickSupport {
         return support;
     }
 
-    public ItemClickSupport setOnItemClickListener(OnItemClickListener listener) {
+    @NonNull public ItemClickSupport setOnItemClickListener(OnItemClickListener listener) {
         mOnItemClickListener = listener;
         return this;
     }
 
-    public ItemClickSupport setOnItemLongClickListener(OnItemLongClickListener listener) {
+    @NonNull public ItemClickSupport setOnItemLongClickListener(OnItemLongClickListener listener) {
         mOnItemLongClickListener = listener;
         return this;
     }
 
-    private void detach(RecyclerView view) {
+    private void detach(@NonNull RecyclerView view) {
         view.removeOnChildAttachStateChangeListener(mAttachListener);
         view.setTag(R.id.item_click_support, null);
     }

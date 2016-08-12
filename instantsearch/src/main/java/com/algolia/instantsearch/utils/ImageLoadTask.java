@@ -3,6 +3,7 @@ package com.algolia.instantsearch.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.algolia.instantsearch.model.Errors;
@@ -23,7 +24,7 @@ public class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
     }
 
     @Override
-    protected Bitmap doInBackground(String... params) {
+    protected Bitmap doInBackground(@NonNull String... params) {
         if (params.length != 1) {
             throw new IllegalStateException(Errors.IMAGELOAD_INVALID_URL);
         }

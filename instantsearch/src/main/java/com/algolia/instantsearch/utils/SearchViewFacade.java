@@ -2,12 +2,15 @@ package com.algolia.instantsearch.utils;
 
 import android.app.SearchableInfo;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
 import android.view.View;
 import android.widget.SearchView;
 
 public class SearchViewFacade {
+    private static final String ERROR_NO_SEARCHVIEW = "A SearchViewFacade should have at least one SearchView reference.";
     private SearchView searchView;
     private android.support.v7.widget.SearchView supportView;
 
@@ -19,7 +22,7 @@ public class SearchViewFacade {
         supportView = searchView;
     }
 
-    public SearchViewFacade(Menu menu, int id) {
+    public SearchViewFacade(@NonNull Menu menu, int id) {
         try {
             searchView = (SearchView) menu.findItem(id).getActionView();
         } catch (ClassCastException e) {
@@ -32,6 +35,8 @@ public class SearchViewFacade {
             searchView.setQuery(query, submit);
         } else if (supportView != null) {
             supportView.setQuery(query, submit);
+        } else {
+            throw new IllegalStateException(ERROR_NO_SEARCHVIEW);
         }
     }
 
@@ -40,6 +45,8 @@ public class SearchViewFacade {
             searchView.clearFocus();
         } else if (supportView != null) {
             supportView.clearFocus();
+        } else {
+            throw new IllegalStateException(ERROR_NO_SEARCHVIEW);
         }
     }
 
@@ -48,6 +55,8 @@ public class SearchViewFacade {
             searchView.setSearchableInfo(searchableInfo);
         } else if (supportView != null) {
             supportView.setSearchableInfo(searchableInfo);
+        } else {
+            throw new IllegalStateException(ERROR_NO_SEARCHVIEW);
         }
     }
 
@@ -56,37 +65,39 @@ public class SearchViewFacade {
             searchView.setIconifiedByDefault(iconified);
         } else if (supportView != null) {
             supportView.setIconifiedByDefault(iconified);
+        } else {
+            throw new IllegalStateException(ERROR_NO_SEARCHVIEW);
         }
     }
 
-    public View findViewById(int id) {
+    @Nullable public View findViewById(int id) {
         if (searchView != null) {
             return searchView.findViewById(id);
         } else if (supportView != null) {
             return supportView.findViewById(id);
         }
-        return null;
+        throw new IllegalStateException(ERROR_NO_SEARCHVIEW);
     }
 
-    public Context getContext() {
+    @NonNull public Context getContext() {
         if (searchView != null) {
             return searchView.getContext();
         } else if (supportView != null) {
             return supportView.getContext();
         }
-        return null;
+        throw new IllegalStateException(ERROR_NO_SEARCHVIEW);
     }
 
-    public CharSequence getQuery() {
+    @NonNull public CharSequence getQuery() {
         if (searchView != null) {
             return searchView.getQuery();
         } else if (supportView != null) {
             return supportView.getQuery();
         }
-        return null;
+        throw new IllegalStateException(ERROR_NO_SEARCHVIEW);
     }
 
-    public void setOnQueryTextListener(final SearchView.OnQueryTextListener listener) {
+    public void setOnQueryTextListener(@NonNull final SearchView.OnQueryTextListener listener) {
         if (searchView != null) {
             searchView.setOnQueryTextListener(listener);
         } else if (supportView != null) {
@@ -99,10 +110,12 @@ public class SearchViewFacade {
                     return listener.onQueryTextChange(newText);
                 }
             });
+        } else {
+            throw new IllegalStateException(ERROR_NO_SEARCHVIEW);
         }
     }
 
-    public void setOnQueryTextListener(final android.support.v7.widget.SearchView.OnQueryTextListener listener) {
+    public void setOnQueryTextListener(@NonNull final android.support.v7.widget.SearchView.OnQueryTextListener listener) {
         if (searchView != null) {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override public boolean onQueryTextSubmit(String query) {
@@ -115,10 +128,12 @@ public class SearchViewFacade {
             });
         } else if (supportView != null) {
             supportView.setOnQueryTextListener(listener);
+        } else {
+            throw new IllegalStateException(ERROR_NO_SEARCHVIEW);
         }
     }
 
-    public void setOnCloseListener(final SearchView.OnCloseListener listener) {
+    public void setOnCloseListener(@NonNull final SearchView.OnCloseListener listener) {
         if (searchView != null) {
             searchView.setOnCloseListener(listener);
         } else if (supportView != null) {
@@ -127,10 +142,12 @@ public class SearchViewFacade {
                     return listener.onClose();
                 }
             });
+        } else {
+            throw new IllegalStateException(ERROR_NO_SEARCHVIEW);
         }
     }
 
-    public void setOnCloseListener(final android.support.v7.widget.SearchView.OnCloseListener listener) {
+    public void setOnCloseListener(@NonNull final android.support.v7.widget.SearchView.OnCloseListener listener) {
         if (searchView != null) {
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                 @Override public boolean onClose() {
@@ -139,6 +156,8 @@ public class SearchViewFacade {
             });
         } else if (supportView != null) {
             supportView.setOnCloseListener(listener);
+        } else {
+            throw new IllegalStateException(ERROR_NO_SEARCHVIEW);
         }
     }
 }

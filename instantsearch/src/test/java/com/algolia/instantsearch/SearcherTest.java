@@ -59,9 +59,6 @@ public class SearcherTest extends InstantSearchTest {
             @Override public void onError(Query query, AlgoliaException error) {
                 Assert.fail("The request should have been cancelled.");
             }
-
-            @Override public void onReset() {
-            }
         };
         searcher.registerListener(resultsListener);
         searcher.search();

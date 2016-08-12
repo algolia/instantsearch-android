@@ -2,6 +2,7 @@ package com.algolia.instantsearch.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.SearchView;
 
@@ -9,7 +10,7 @@ import com.algolia.instantsearch.R;
 
 public class SearchBox extends SearchView {
 
-    public SearchBox(Context context, AttributeSet attrs) {
+    public SearchBox(@NonNull Context context, @NonNull AttributeSet attrs) {
         super(context, attrs);
         if (isInEditMode()) {
             return;

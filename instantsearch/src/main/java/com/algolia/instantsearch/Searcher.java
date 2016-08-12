@@ -30,7 +30,9 @@ public class Searcher {
     private Client client;
     private Query query;
 
+    @Nullable
     private Runnable progressStartRunnable;
+    @Nullable
     private Runnable progressStopRunnable;
     private int progressStartDelay;
 
@@ -63,7 +65,7 @@ public class Searcher {
      *
      * @param queryString a String to search on the index.
      */
-    public Searcher search(final String queryString) {
+    @NonNull public Searcher search(final String queryString) {
         query.setQuery(queryString);
         search();
         return this;
@@ -72,7 +74,7 @@ public class Searcher {
     /**
      * Start a search with the current helper's state.
      */
-    public Searcher search() {
+    @NonNull public Searcher search() {
         endReached = false;
         lastRequestedPage = 0;
         lastDisplayedPage = -1;
@@ -84,7 +86,7 @@ public class Searcher {
 
         final CompletionHandler searchHandler = new CompletionHandler() {
             @Override
-            public void requestCompleted(JSONObject content, AlgoliaException error) {
+            public void requestCompleted(@Nullable JSONObject content, @Nullable AlgoliaException error) {
                 pendingRequests.remove(currentSearchSeqNumber);
                 if (progressStartRunnable != null) {
                     progressHandler.removeCallbacks(progressStartRunnable);
@@ -137,7 +139,7 @@ public class Searcher {
      * Load more results with the same query.
      * Note that this method won't do anything if {@link Searcher#shouldLoadMore} returns false.
      */
-    public Searcher loadMore() {
+    @NonNull public Searcher loadMore() {
         if (!shouldLoadMore()) {
             return this;
         }
@@ -146,7 +148,7 @@ public class Searcher {
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
         pendingRequests.put(currentSearchSeqNumber, index.searchAsync(loadMoreQuery, new CompletionHandler() {
             @Override
-            public void requestCompleted(JSONObject content, AlgoliaException error) {
+            public void requestCompleted(@NonNull JSONObject content, @Nullable AlgoliaException error) {
                 pendingRequests.remove(currentSearchSeqNumber);
                 if (error != null) {
                     throw new RuntimeException(Errors.LOADMORE_FAIL, error);
@@ -237,6 +239,7 @@ public class Searcher {
      * @param value         the value for this attribute.
      * @param active        {@code true} if this facet value is currently refined on.
      */
+    @NonNull
     public Searcher updateFacetRefinement(@NonNull String attributeName, @NonNull String value, boolean active) {
         if (active) {
             addFacetRefinement(attributeName, value);
@@ -253,7 +256,7 @@ public class Searcher {
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to refine with.
      */
-    public Searcher addFacetRefinement(@NonNull String attributeName, @NonNull String value) {
+    @NonNull public Searcher addFacetRefinement(@NonNull String attributeName, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attributeName);
         if (attributeRefinements == null) {
             attributeRefinements = new ArrayList<>();
@@ -270,7 +273,7 @@ public class Searcher {
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to refine with.
      */
-    public Searcher removeFacetRefinement(@NonNull String attributeName, @NonNull String value) {
+    @NonNull public Searcher removeFacetRefinement(@NonNull String attributeName, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attributeName);
         if (attributeRefinements == null) {
             attributeRefinements = new ArrayList<>();
@@ -385,7 +388,7 @@ public class Searcher {
      *
      * @param query a {@link Query} object with some parameters set.
      */
-    public Searcher setQuery(@NonNull Query query) {
+    @NonNull public Searcher setQuery(@NonNull Query query) {
         this.query = query;
         return this;
     }
@@ -401,7 +404,7 @@ public class Searcher {
      *
      * @param indexName name of the new index.
      */
-    public Searcher setIndex(@NonNull String indexName) {
+    @NonNull public Searcher setIndex(@NonNull String indexName) {
         index = client.initIndex(indexName);
         query.setPage(0);
         return this;
