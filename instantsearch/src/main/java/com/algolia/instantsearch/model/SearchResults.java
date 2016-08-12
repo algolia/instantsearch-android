@@ -16,11 +16,11 @@ public class SearchResults {
     /** The received JSON content. */
     public JSONObject content;
     /** Facets that will be treated as disjunctive (`OR`). By default, facets are conjunctive (`AND`). */
-    public List<String> disjunctiveFacets;
+    public List<String> disjunctiveFacets; //TODO
 
     // Mandatory attributes
     /** Facets for the last results. */
-    public Map<String, List<Facet>> facets;
+    public Map<String, List<FacetValue>> facets;
     /** Hits. */
     public JSONArray hits;
     /** Total number of hits. */
@@ -158,8 +158,8 @@ public class SearchResults {
         }
     }
 
-    private Map<String, List<Facet>> parseFacets(JSONObject facets) throws JSONException {
-        Map<String, List<Facet>> facetMap = new HashMap<>();
+    private Map<String, List<FacetValue>> parseFacets(JSONObject facets) throws JSONException {
+        Map<String, List<FacetValue>> facetMap = new HashMap<>();
 
         if (facets == null) {
             return facetMap;
@@ -170,12 +170,12 @@ public class SearchResults {
             final String attribute = attributesIterator.next();
             final JSONObject attributeFacets = facets.getJSONObject(attribute);
             final Iterator<String> valuesIterator = attributeFacets.keys();
-            List<Facet> facetList = new ArrayList<>();
+            List<FacetValue> facetList = new ArrayList<>();
 
             while (valuesIterator.hasNext()) {
                 final String value = valuesIterator.next();
                 final int count = attributeFacets.getInt(value);
-                facetList.add(new Facet(value, count));
+                facetList.add(new FacetValue(value, count));
             }
             facetMap.put(attribute, facetList);
         }
