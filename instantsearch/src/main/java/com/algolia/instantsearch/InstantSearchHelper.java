@@ -150,10 +150,13 @@ public class InstantSearchHelper {
     /**
      * Initialise a list of facet for the given widget's attribute and operator.
      *
-     * @param widget a RefinementList to register as a source of facetRefinements.
+     * @param refinementList a RefinementList to register as a source of facetRefinements.
      */
-    public static void registerRefinementList(@NonNull RefinementList widget, @NonNull Searcher searcher) {
-        searcher.addFacet(widget.getAttributeName(), widget.getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
+    public void registerRefinementList(@NonNull RefinementList refinementList, @NonNull Searcher searcher) {
+        if (!widgets.contains(refinementList)) {
+            widgets.add(refinementList);
+        }
+        searcher.addFacet(refinementList.getAttributeName(), refinementList.getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
     }
 
     private void processActivity(@NonNull final Activity activity) {
@@ -187,6 +190,7 @@ public class InstantSearchHelper {
         if (foundListeners == null || foundListeners.size() == 0) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS);
         }
+        final List<String> refinementAttributes = new ArrayList<>();
         for (AlgoliaWidget widget : foundListeners) {
             widgets.add(widget);
             searcher.registerListener(widget);
@@ -204,21 +208,14 @@ public class InstantSearchHelper {
                 if (itemLayoutId == -42) {
                     throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
                 }
+            } else if (widget instanceof RefinementList) {
+                RefinementList refinementList = (RefinementList) widget;
+                searcher.registerListener(refinementList);
+                refinementAttributes.add(refinementList.getAttributeName());
+                registerRefinementList(refinementList, searcher);
             } else if (widget instanceof ListView) {
                 ((ListView) widget).setEmptyView(getEmptyView(rootView));
             }
-        }
-
-        // If we find any RefinementList, add associated facet(s) to the query
-        List<RefinementList> refinementLists = LayoutViews.findByClass(rootView, RefinementList.class);
-        final boolean hasRefinementList = refinementLists.size() != 0;
-        if (hasRefinementList) {
-            List<String> refinementAttributes = new ArrayList<>();
-            for (RefinementList refinementList : refinementLists) {
-                searcher.registerListener(refinementList);
-                refinementAttributes.add(refinementList.getAttributeName());
-            }
-
             final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
             searcher.getQuery().setFacets(facets);
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {

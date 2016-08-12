@@ -132,8 +132,8 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         List<FacetValue> refinementFacets = facets.get(attributeName);
 
         // If we have new facetValues we should use them, and else set count=0 to old ones
-        if (refinementFacets.size() > 0) {
-            adapter.clear();
+        if (refinementFacets != null && refinementFacets.size() > 0) {
+            adapter.clear(false);
             adapter.addAll(refinementFacets);
             adapter.sort(sortComparator);
         } else {
@@ -227,11 +227,17 @@ public class RefinementList extends ListView implements AlgoliaWidget {
             this.facetValues = new ArrayList<>(facetValues);
         }
 
+        public void clear(boolean clearActiveFacets) {
+            super.clear();
+            if (clearActiveFacets) {
+                activeFacets.clear();
+            }
+            facetValues.clear();
+        }
+
         @Override
         public void clear() {
-            super.clear();
-            activeFacets.clear();
-            facetValues.clear();
+            clear(true);
         }
 
         @Override
@@ -278,7 +284,13 @@ public class RefinementList extends ListView implements AlgoliaWidget {
                 @Override
                 public void onClick(View v) {
                     final FacetValue facet = adapter.getItem(position);
-                    updateActiveStatus(facet);
+                    final boolean wasActive = hasActive(facet.value);
+                    if (wasActive) {
+                        activeFacets.remove(facet.value);
+                    } else {
+                        activeFacets.add(facet.value);
+                    }
+                    sort(sortComparator);
                     searcher.updateFacetRefinement(attributeName, facet.value, hasActive(facet.value)).search();
                     updateFacetViews(facet, nameView, countView);
                 }
@@ -288,15 +300,6 @@ public class RefinementList extends ListView implements AlgoliaWidget {
 
         private boolean hasActive(String facetName) {
             return activeFacets.contains(facetName);
-        }
-
-        private void updateActiveStatus(FacetValue facet) {
-            if (adapter.hasActive(facet.value)) {
-                activeFacets.add(facet.value);
-            } else {
-                activeFacets.remove(facet.value);
-            }
-            sort(sortComparator);
         }
 
         public void addFacet(FacetValue facetValue) {

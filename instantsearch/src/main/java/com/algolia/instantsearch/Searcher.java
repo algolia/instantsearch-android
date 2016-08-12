@@ -342,12 +342,6 @@ public class Searcher {
         }
     }
 
-    void resetListeners() {
-        for (AlgoliaResultsListener view : resultsListeners) {
-            view.onReset();
-        }
-    }
-
     /**
      * Find if a returned json contains at least one hit.
      *
