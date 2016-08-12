@@ -27,11 +27,13 @@ import com.algolia.instantsearch.views.SearchBox;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class InstantSearchHelper {
     private SearchViewFacade searchView;
-
+    private Set<AlgoliaWidget> widgets = new HashSet<>();
     private final Searcher searcher;
 
     private Menu searchMenu;
@@ -58,8 +60,8 @@ public class InstantSearchHelper {
     /**
      * Create and initialize the helper, then link it to the given Activity.
      *
-     * @param widget an AlgoliaWidget to update with incoming results.
-     * @param searcher        the Searcher to use with this AlgoliaWidget.
+     * @param widget   an AlgoliaWidget to update with incoming results.
+     * @param searcher the Searcher to use with this AlgoliaWidget.
      */
     public InstantSearchHelper(@NonNull final AlgoliaWidget widget, @NonNull final Searcher searcher) {
         this(searcher);
@@ -89,6 +91,16 @@ public class InstantSearchHelper {
             searchView.setQuery(query, false);
             searchView.clearFocus();
             searcher.search(query);
+        }
+    }
+
+    /**
+     * Resets the search interface and state via {@link Searcher#reset()} and {@link AlgoliaWidget#onReset()}.
+     */
+    public void reset() {
+        searcher.reset();
+        for (AlgoliaWidget widget : widgets) {
+            widget.onReset();
         }
     }
 
@@ -157,8 +169,7 @@ public class InstantSearchHelper {
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() == 0) {
                     if (shouldResetOnEmptyQuery) {
-                        searcher.reset();
-                        searcher.resetListeners();
+                        reset();
                     } else {
                         searcher.search(newText);
                     }
@@ -177,6 +188,7 @@ public class InstantSearchHelper {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS);
         }
         for (AlgoliaWidget widget : foundListeners) {
+            widgets.add(widget);
             searcher.registerListener(widget);
             widget.setSearcher(searcher);
 
@@ -209,18 +221,19 @@ public class InstantSearchHelper {
 
             final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
             searcher.getQuery().setFacets(facets);
+            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    if (refinementAttributes.size() != 0) { // we need to remove facetFilters on reset
+                        searcher.getQuery().setFacetFilters(new JSONArray());
+                    }
+                    reset(); //TODO: Should we reset when closing the searchView?
+                    return false;
+                }
+            });
+
         }
 
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                if (hasRefinementList) { // we need to remove facetFilters on reset
-                    searcher.getQuery().setFacetFilters(new JSONArray());
-                }
-                searcher.resetListeners();
-                return false;
-            }
-        });
     }
 
     /**

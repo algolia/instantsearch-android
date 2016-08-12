@@ -23,9 +23,4 @@ public interface AlgoliaResultsListener {
      * @param error the resulting {@link AlgoliaException}.
      */
     void onError(final Query query, final AlgoliaException error);
-
-    /**
-     * Event listener to react to reinitialization of search interface. //TODO: Move to AlgoliaWidget or useful for UI-less Listeners too?
-     */
-    void onReset();
 }

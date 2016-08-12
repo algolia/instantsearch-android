@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.algolia.instantsearch.InstantSearchHelper;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.Searcher;
 import com.algolia.instantsearch.model.Errors;
@@ -115,7 +114,6 @@ public class RefinementList extends ListView implements AlgoliaWidget {
 
     public void setSearcher(@NonNull Searcher searcher) {
         this.searcher = searcher;
-        InstantSearchHelper.registerRefinementList(this, searcher);
     }
 
     @Override
