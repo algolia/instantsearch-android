@@ -26,9 +26,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Hits extends RecyclerView implements AlgoliaWidget {
-    public static final int MISSING_VALUE = Integer.MIN_VALUE;
     public static final int DEFAULT_HITS_PER_PAGE = 20;
     public static final int DEFAULT_REMAINING_ITEMS = 5;
+    private static final int MISSING_VALUE = Integer.MIN_VALUE;
 
     private final Integer hitsPerPage;
     private final int remainingItemsBeforeLoading; // Minimum number of remaining items before loading more

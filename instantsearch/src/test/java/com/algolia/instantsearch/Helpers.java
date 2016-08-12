@@ -23,10 +23,10 @@
 
 package com.algolia.instantsearch;
 
-public class Helpers {
-    static String app_id = "APP_ID_REPLACE_ME";
-    static String api_key = "API_KEY_REPLACE_ME";
-    static String job_number = "JOB_NUMBER_REPLACE_ME";
+class Helpers {
+    static final String app_id = "APP_ID_REPLACE_ME";
+    static final String api_key = "API_KEY_REPLACE_ME";
+    static final String job_number = "JOB_NUMBER_REPLACE_ME";
 
     static int wait = 30;
 

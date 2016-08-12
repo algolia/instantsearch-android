@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -35,7 +34,7 @@ import java.util.Set;
 public class InstantSearchHelper {
     private SearchViewFacade searchView;
     @NonNull
-    private Set<AlgoliaWidget> widgets = new HashSet<>();
+    private final Set<AlgoliaWidget> widgets = new HashSet<>();
     @NonNull
     private final Searcher searcher;
 
@@ -117,7 +116,6 @@ public class InstantSearchHelper {
     public void registerSearchView(@NonNull final Activity activity, @NonNull Menu menu, int id) {
         searchMenu = menu;
         searchMenuId = id;
-        final MenuItem menuItem = menu.findItem(id);
         final SearchViewFacade actionView = new SearchViewFacade(menu, id);
         registerSearchView(activity, actionView);
     }
@@ -151,7 +149,7 @@ public class InstantSearchHelper {
     }
 
     /**
-     * Initialise a list of facet for the given widget's attribute and operator.
+     * Initialize a list of facet for the given widget's attribute and operator.
      *
      * @param refinementList a RefinementList to register as a source of facetRefinements.
      */
@@ -227,7 +225,7 @@ public class InstantSearchHelper {
                     if (refinementAttributes.size() != 0) { // we need to remove facetFilters on reset
                         searcher.getQuery().setFacetFilters(new JSONArray());
                     }
-                    reset(); //TODO: Should we reset when closing the searchView?
+                    reset(); //DISCUSS: Should we reset when closing the searchView?
                     return false;
                 }
             });
@@ -237,7 +235,7 @@ public class InstantSearchHelper {
     }
 
     /**
-     * Initialise search from the given activity according to its {@link android.app.SearchableInfo searchable info}.
+     * Initialize search from the given activity according to its {@link android.app.SearchableInfo searchable info}.
      *
      * @param activity the activity with a {@link SearchView} identified as @+id/searchBox.
      */

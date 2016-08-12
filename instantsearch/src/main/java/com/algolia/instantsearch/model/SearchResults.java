@@ -18,7 +18,7 @@ import java.util.Map;
 public class SearchResults {
     /** The received JSON content. */
     @Nullable
-    public JSONObject content;
+    public final JSONObject content;
     /** Facets that will be treated as disjunctive (`OR`). By default, facets are conjunctive (`AND`). */
     public List<String> disjunctiveFacets; //TODO
 

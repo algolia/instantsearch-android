@@ -27,7 +27,7 @@ import java.util.Map;
 public class Searcher {
 
     private Index index;
-    private Client client;
+    private final Client client;
     private Query query;
 
     @Nullable
@@ -189,14 +189,14 @@ public class Searcher {
     /**
      * Reset the helper's state.
      */
-    public Searcher reset() {
+    @NonNull public Searcher reset() {
         lastDisplayedPage = 0;
         lastRequestedPage = 0;
         lastDisplayedSeqNumber = 0;
         lastSearchSeqNumber = 0;
         endReached = false;
         clearFacetRefinements();
-        cancelPendingRequests(); //TODO: Should I warn refinementLists to avoid showing now defunct facets?
+        cancelPendingRequests(); //DISCUSS: Should I warn refinementLists to avoid showing now defunct facets?
         return this;
     }
 

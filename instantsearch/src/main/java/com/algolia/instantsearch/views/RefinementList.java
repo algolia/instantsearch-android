@@ -166,7 +166,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         this.sortComparator = sortComparator;
     }
 
-    @Nullable protected static ArrayList<String> parseSortOrder(@Nullable String attribute) {
+    @Nullable static ArrayList<String> parseSortOrder(@Nullable String attribute) {
         if (attribute == null) {
             return null;
         }

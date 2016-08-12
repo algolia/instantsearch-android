@@ -46,7 +46,7 @@ public class RenderingHelper {
      * @param colorId       a {@link ColorRes} to associate with this attribute.
      * @return the previous color associated with this attribute or {@code null} if there was none.
      */
-    protected Integer addColor(String attributeName, @ColorRes int colorId) {
+    Integer addColor(String attributeName, @ColorRes int colorId) {
         return attributeColors.put(attributeName, colorId);
     }
 
@@ -56,7 +56,7 @@ public class RenderingHelper {
      * @param attributeName the attribute to color.
      * @return {@code true} if the attribute was not already highlighted, {@code false} otherwise.
      */
-    protected boolean addHighlight(String attributeName) {
+    boolean addHighlight(String attributeName) {
         return attributeHighlights.add(attributeName);
     }
 }
