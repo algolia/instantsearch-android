@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.algolia.instantsearch.model.Errors;
-import com.algolia.instantsearch.model.FacetValue;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
 import com.algolia.search.saas.AlgoliaException;
@@ -235,14 +234,15 @@ public class Searcher {
     /**
      * Add or remove this facet according to its enabled status.
      *
-     * @param attributeName the attribute referenced by this facetValue.
-     * @param facetValue    a FacetValue object to add to the query.
+     * @param attributeName the attribute to facet on.
+     * @param value         the value for this attribute.
+     * @param active        {@code true} if this facet value is currently refined on.
      */
-    public Searcher updateFacetRefinement(@NonNull String attributeName, @NonNull FacetValue facetValue) {//TODO: Remove or refact (name, boolean, value)
-        if (facetValue.isEnabled) {
-            addFacetRefinement(attributeName, facetValue.value);
+    public Searcher updateFacetRefinement(@NonNull String attributeName, @NonNull String value, boolean active) {
+        if (active) {
+            addFacetRefinement(attributeName, value);
         } else {
-            removeFacetRefinement(attributeName, facetValue.value);
+            removeFacetRefinement(attributeName, value);
         }
         return this;
     }

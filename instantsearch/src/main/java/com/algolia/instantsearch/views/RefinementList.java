@@ -94,7 +94,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
                             comparisonValue = -Integer.valueOf(lhs.count).compareTo(rhs.count);
                             break;
                         case SORT_ISREFINED:
-                            comparisonValue = -Boolean.valueOf(lhs.isEnabled).compareTo(rhs.isEnabled);
+                            comparisonValue = -Boolean.valueOf(adapter.hasActive(lhs.value)).compareTo(adapter.hasActive(rhs.value));
                             break;
                         case SORT_NAME_ASC:
                             comparisonValue = lhs.value.compareTo(rhs.value);
@@ -132,9 +132,6 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         // else build updated facet list
         final Map<String, List<FacetValue>> facets = results.facets;
         List<FacetValue> refinementFacets = facets.get(attributeName);
-        for (FacetValue facetValue : refinementFacets) {
-            facetValue.isEnabled = adapter.hasActive(facetValue.value);
-        }
 
         // If we have new facetValues we should use them, and else set count=0 to old ones
         if (refinementFacets.size() > 0) {
@@ -252,11 +249,11 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         }
 
         @Override
-        public void remove(FacetValue facetValue) {
-            super.remove(facetValue);
+        public void remove(FacetValue facet) {
+            super.remove(facet);
 
-            facetValues.remove(facetValue);
-            activeFacets.remove(facetValue.value);
+            facetValues.remove(facet);
+            activeFacets.remove(facet.value);
         }
 
         @Override
@@ -272,23 +269,20 @@ public class RefinementList extends ListView implements AlgoliaWidget {
                         .inflate(R.layout.refinement_row, parent, false);
             }
 
-            final FacetValue facetValue = getItem(position);
+            final FacetValue facet = getItem(position);
 
             final TextView nameView = (TextView) convertView.findViewById(R.id.refinementName);
             final TextView countView = (TextView) convertView.findViewById(R.id.refinementCount);
-            nameView.setText(facetValue.value);
-            countView.setText(String.valueOf(facetValue.count));
-            updateFacetViews(facetValue, nameView, countView);
+            nameView.setText(facet.value);
+            countView.setText(String.valueOf(facet.count));
+            updateFacetViews(facet, nameView, countView);
             convertView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final FacetValue facetValue = adapter.getItem(position);
-
-                    boolean enabled = !facetValue.isEnabled;
-                    facetValue.isEnabled = enabled;
-                    updateActiveStatus(facetValue);
-                    searcher.updateFacetRefinement(attributeName, facetValue).search();
-                    updateFacetViews(facetValue, nameView, countView);
+                    final FacetValue facet = adapter.getItem(position);
+                    updateActiveStatus(facet);
+                    searcher.updateFacetRefinement(attributeName, facet.value, hasActive(facet.value)).search();
+                    updateFacetViews(facet, nameView, countView);
                 }
             });
             return convertView;
@@ -298,11 +292,11 @@ public class RefinementList extends ListView implements AlgoliaWidget {
             return activeFacets.contains(facetName);
         }
 
-        private void updateActiveStatus(FacetValue facetValue) {
-            if (facetValue.isEnabled) {
-                activeFacets.add(facetValue.value);
+        private void updateActiveStatus(FacetValue facet) {
+            if (adapter.hasActive(facet.value)) {
+                activeFacets.add(facet.value);
             } else {
-                activeFacets.remove(facetValue.value);
+                activeFacets.remove(facet.value);
             }
             sort(sortComparator);
         }
@@ -314,14 +308,10 @@ public class RefinementList extends ListView implements AlgoliaWidget {
             if (getCount() < limit) {
                 super.add(facetValue);
             }
-
-            if (facetValue.isEnabled) {
-                activeFacets.add(facetValue.value);
-            }
         }
 
-        private void updateFacetViews(FacetValue facetValue, TextView nameView, TextView countView) {
-            if (facetValue.isEnabled) {
+        private void updateFacetViews(FacetValue facet, TextView nameView, TextView countView) {
+            if (hasActive(facet.value)) {
                 nameView.setPaintFlags(nameView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 countView.setTypeface(null, Typeface.BOLD);
             } else {
