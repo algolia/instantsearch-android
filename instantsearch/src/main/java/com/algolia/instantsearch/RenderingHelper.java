@@ -26,7 +26,7 @@ public class RenderingHelper {
         attributeColors = new HashMap<>();
     }
 
-    final String DEFAULT_COLOR = "@color/highlightingColor";
+    final static String DEFAULT_COLOR = "@color/highlightingColor";
 
     public @ColorRes int getHighlightColor(String attributeName) {
         return attributeColors.get(attributeName);
