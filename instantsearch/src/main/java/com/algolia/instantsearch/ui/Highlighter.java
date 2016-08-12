@@ -43,9 +43,36 @@ import java.util.regex.Pattern;
  * Renders HTML-like attributed strings into `Spannable` instances suitable for display.
  */
 public class Highlighter {
-    // NOTE: This pattern is not bullet-proof (most notably against nested tags),
-    // but it is sufficient for detecting flat highlighting tag usage.
-    private static final Pattern HIGHLIGHT_PATTERN = Pattern.compile("<em>([^<]*)</em>");
+    private static Highlighter defaultHighlighter;
+
+    private final Pattern pattern;
+
+    /**
+     * Get the default highlighter.
+     *
+     * @return an Highlighter matching anything between {@code <em>} and {@code </em>}.
+     */
+    public static Highlighter getDefault() {
+        if (defaultHighlighter == null) {
+            defaultHighlighter = new Highlighter();
+        }
+        return defaultHighlighter;
+    }
+
+    /**
+     * Constructor for a custom highlighter.
+     *
+     * @param pattern a capturing RegExp pattern to find and capture the part to highlight.
+     */
+    public Highlighter(String pattern) {
+        this.pattern = Pattern.compile(pattern);
+    }
+
+    private Highlighter() {
+        // NOTE: This pattern is not bullet-proof (most notably against nested tags),
+        // but it is sufficient for detecting flat highlighting tag usage.
+        this("<em>([^<]*)</em>"); //TODO: Constructor with pre/post? Which regex then?
+    }
 
     /**
      * Render a highlighted result's attribute using a color resource.
@@ -57,7 +84,7 @@ public class Highlighter {
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
-    public static Spannable renderHighlightColor(@NonNull JSONObject result, String attributeName, @ColorRes int colorId, @NonNull Context context) {
+    public Spannable renderHighlightColor(@NonNull JSONObject result, String attributeName, @ColorRes int colorId, @NonNull Context context) {
         return renderHighlightColor(getHighlightedAttribute(result, attributeName), colorId, context);
     }
 
@@ -70,7 +97,7 @@ public class Highlighter {
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
-    public static Spannable renderHighlightColor(String markupString, @ColorRes int colorId, @NonNull Context context) {
+    public Spannable renderHighlightColor(String markupString, @ColorRes int colorId, @NonNull Context context) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             return renderHighlightColor(markupString, context.getResources().getColor(colorId, context.getTheme()));
         } else { //noinspection deprecation
@@ -87,7 +114,7 @@ public class Highlighter {
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
-    public static Spannable renderHighlightColor(@NonNull JSONObject result, String attributeName, @ColorInt int color) {
+    public Spannable renderHighlightColor(@NonNull JSONObject result, String attributeName, @ColorInt int color) {
         return renderHighlightColor(getHighlightedAttribute(result, attributeName), color);
     }
 
@@ -98,13 +125,14 @@ public class Highlighter {
      * @param color        a color integer, see {@link android.graphics.Color}.
      * @return a {@link Spannable} with the highlighted text.
      */
-    @Nullable public static Spannable renderHighlightColor(@Nullable String markupString, @ColorInt int color) {
+    @Nullable
+    public Spannable renderHighlightColor(@Nullable String markupString, @ColorInt int color) {
         if (markupString == null) {
             return null;
         }
 
         SpannableStringBuilder result = new SpannableStringBuilder();
-        Matcher matcher = HIGHLIGHT_PATTERN.matcher(markupString);
+        Matcher matcher = pattern.matcher(markupString);
         int posIn = 0; // current position in input string
         int posOut = 0; // current position in output string
 
