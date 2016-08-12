@@ -132,10 +132,8 @@ public class SearchResults {
         aroundLatLng = parseLatLng(content.optString("aroundLatLng", null));
         serverUsed = content.optString("serverUsed", null);
         parsedQuery = content.optString("parsedQuery", null);
-        try {
-            facets = parseFacets(content.optJSONObject("facets")); //TODO: Refact with has?
-        } catch (JSONException ignored) {
-        }
+        facets = parseFacets(content.optJSONObject("facets"));
+        disjunctiveFacets = parseDisjunctiveFacets(content.optJSONObject("disjunctiveFacets"));
         page = content.optInt("page");
         nbPages = content.optInt("nbPages");
         hitsPerPage = content.optInt("hitsPerPage");
@@ -168,7 +166,20 @@ public class SearchResults {
     }
 
     @NonNull
-    private Map<String, List<FacetValue>> parseFacets(@Nullable JSONObject facets) throws JSONException {
+    private List<String> parseDisjunctiveFacets(JSONObject disjunctiveFacets) {
+        List<String> disjunctiveFacetList = new ArrayList<>();
+
+        if (disjunctiveFacets != null) {
+            final Iterator<String> iterator = disjunctiveFacets.keys();
+            while (iterator.hasNext()) {
+                disjunctiveFacetList.add(iterator.next());
+            }
+        }
+        return disjunctiveFacetList;
+    }
+
+    @NonNull
+    private Map<String, List<FacetValue>> parseFacets(@Nullable JSONObject facets) {
         Map<String, List<FacetValue>> facetMap = new HashMap<>();
 
         if (facets == null) {
@@ -178,13 +189,13 @@ public class SearchResults {
         final Iterator<String> attributesIterator = facets.keys();
         while (attributesIterator.hasNext()) {
             final String attribute = attributesIterator.next();
-            final JSONObject attributeFacets = facets.getJSONObject(attribute);
+            final JSONObject attributeFacets = facets.optJSONObject(attribute);
             final Iterator<String> valuesIterator = attributeFacets.keys();
             List<FacetValue> facetList = new ArrayList<>();
 
             while (valuesIterator.hasNext()) {
                 final String value = valuesIterator.next();
-                final int count = attributeFacets.getInt(value);
+                final int count = attributeFacets.optInt(value);
                 facetList.add(new FacetValue(value, count));
             }
             facetMap.put(attribute, facetList);
