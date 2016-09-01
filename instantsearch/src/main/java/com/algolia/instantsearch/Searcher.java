@@ -117,10 +117,8 @@ public class Searcher {
                     for (AlgoliaResultsListener view : resultsListeners) {
                         view.onError(query, error);
                     }
-                    Log.e("PLN|search.searchError", String.format("Index %s with query %s failed: %s(%s).", index.getIndexName(), query, error.getCause(), error.getMessage()));
                 } else {
                     updateListeners(content, false);
-                    Log.d("PLN|search.searchResult", String.format("Index %s with query %s succeeded: %s.", index.getIndexName(), query, content));
                 }
             }
         };

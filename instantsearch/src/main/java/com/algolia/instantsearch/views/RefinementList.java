@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,7 +151,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
     }
 
     @Override public void onError(Query query, @NonNull AlgoliaException error) {
-        throw new RuntimeException(String.format(Errors.REFINEMENTS_RECEIVED_ERROR, error.getMessage()));
+        Log.e("InstantSearch", String.format(Errors.REFINEMENTS_RECEIVED_ERROR, error.getMessage())); //DISCUSS: Should we log errors or rethrow?
     }
 
     @Override public void onReset() {
