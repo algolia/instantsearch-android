@@ -6,6 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.algolia.instantsearch.events.CancelEvent;
+import com.algolia.instantsearch.events.ErrorEvent;
+import com.algolia.instantsearch.events.ResultEvent;
+import com.algolia.instantsearch.events.SearchEvent;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
@@ -16,6 +20,7 @@ import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
 import com.algolia.search.saas.Request;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -84,6 +89,7 @@ public class Searcher {
             progressHandler.postDelayed(progressStartRunnable, progressStartDelay);
         }
 
+        EventBus.getDefault().post(new SearchEvent(query));
         final CompletionHandler searchHandler = new CompletionHandler() {
             @Override
             public void requestCompleted(@Nullable JSONObject content, @Nullable AlgoliaException error) {
@@ -120,10 +126,12 @@ public class Searcher {
                 lastDisplayedPage = 0;
 
                 if (error != null) {
+                    EventBus.getDefault().post(new ErrorEvent(error));
                     for (AlgoliaResultsListener view : resultsListeners) {
                         view.onError(query, error);
                     }
                 } else {
+                    EventBus.getDefault().post(new ResultEvent(content));
                     updateListeners(content, false);
                 }
             }
@@ -141,6 +149,7 @@ public class Searcher {
 
     private void cancelRequest(Request request) {
         request.cancel();
+        EventBus.getDefault().post(new CancelEvent(request));
     }
 
     /**
@@ -224,7 +233,7 @@ public class Searcher {
         if (pendingRequests.size() != 0) {
             for (Request r : pendingRequests.values()) {
                 if (!r.isFinished() && !r.isCancelled()) {
-                    r.cancel();
+                    cancelRequest(r);
                 }
             }
         }
