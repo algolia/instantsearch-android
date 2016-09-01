@@ -94,14 +94,20 @@ public class Searcher {
                 if (progressStopRunnable != null) {
                     new Handler().post(progressStopRunnable);
                 }
-                // NOTE: Check that the received results are newer that the last displayed results.
+                // NOTE: Canceling any request anterior to the current one.
                 //
                 // Rationale: Although TCP imposes a server to send responses in the same order as
                 // requests, nothing prevents the system from opening multiple connections to the
                 // same server, nor the Algolia client to transparently switch to another server
                 // between two requests. Therefore the order of responses is not guaranteed.
+                for (Map.Entry<Integer, Request> entry : pendingRequests.entrySet()) {
+                    if (entry.getKey() < currentSearchSeqNumber) {
+                        cancelRequest(entry.getValue());
+                    }
+                }
+
                 if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
-                    return;
+                    throw new IllegalStateException("This request should have been cancelled.");
                 }
 
                 if (content == null || !hasHits(content)) {
@@ -131,6 +137,10 @@ public class Searcher {
         }
         pendingRequests.put(currentSearchSeqNumber, searchRequest);
         return this;
+    }
+
+    private void cancelRequest(Request request) {
+        request.cancel();
     }
 
     /**
