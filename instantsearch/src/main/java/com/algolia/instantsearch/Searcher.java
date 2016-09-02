@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.algolia.instantsearch.events.CancelEvent;
 import com.algolia.instantsearch.events.ErrorEvent;
@@ -126,12 +125,12 @@ public class Searcher {
                 lastDisplayedPage = 0;
 
                 if (error != null) {
-                    EventBus.getDefault().post(new ErrorEvent(error));
+                    EventBus.getDefault().post(new ErrorEvent(error, query, currentSearchSeqNumber));
                     for (AlgoliaResultsListener view : resultsListeners) {
                         view.onError(query, error);
                     }
                 } else {
-                    EventBus.getDefault().post(new ResultEvent(content));
+                    EventBus.getDefault().post(new ResultEvent(content, query, currentSearchSeqNumber));
                     updateListeners(content, false);
                 }
             }
