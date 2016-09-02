@@ -45,8 +45,6 @@ public class InstantSearchHelper {
     private boolean showProgressBar;
     private int progressBarDelay;
 
-    private boolean shouldResetOnEmptyQuery;
-
     /**
      * Create and initialize the helper, then link it to the given Activity.
      *
@@ -171,15 +169,7 @@ public class InstantSearchHelper {
 
             @Override
             public boolean onQueryTextChange(@NonNull String newText) {
-                if (newText.length() == 0) {
-                    if (shouldResetOnEmptyQuery) {
-                        reset();
-                    } else {
-                        searcher.search(newText);
-                    }
-                } else {
-                    searcher.search(newText);
-                }
+                searcher.search(newText); //TODO: Same as in registerSearchView
                 return true;
             }
         });
@@ -393,23 +383,5 @@ public class InstantSearchHelper {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_EMPTY);
         }
         return emptyView;
-    }
-
-    /**
-     * Tell if this InstantSearchHelper will reset itself when given an empty query string.
-     *
-     * @return {@code true} when an empty query text triggers a reset of this helper.
-     */
-    public boolean shouldResetOnEmptyQuery() {
-        return shouldResetOnEmptyQuery;
-    }
-
-    /**
-     * Force reset on empty query instead of searching with an empty query string.
-     *
-     * @param shouldResetOnEmptyQuery if {@code true}, this helper will reset given an empty query.
-     */
-    public void setShouldResetOnEmptyQuery(boolean shouldResetOnEmptyQuery) {
-        this.shouldResetOnEmptyQuery = shouldResetOnEmptyQuery;
     }
 }
