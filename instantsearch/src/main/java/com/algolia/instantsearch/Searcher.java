@@ -5,6 +5,10 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.algolia.instantsearch.events.CancelEvent;
+import com.algolia.instantsearch.events.ErrorEvent;
+import com.algolia.instantsearch.events.ResultEvent;
+import com.algolia.instantsearch.events.SearchEvent;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
@@ -15,6 +19,7 @@ import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
 import com.algolia.search.saas.Request;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -83,6 +88,7 @@ public class Searcher {
             progressHandler.postDelayed(progressStartRunnable, progressStartDelay);
         }
 
+        EventBus.getDefault().post(new SearchEvent(query, currentSearchSeqNumber));
         final CompletionHandler searchHandler = new CompletionHandler() {
             @Override
             public void requestCompleted(@Nullable JSONObject content, @Nullable AlgoliaException error) {
@@ -101,7 +107,7 @@ public class Searcher {
                 // between two requests. Therefore the order of responses is not guaranteed.
                 for (Map.Entry<Integer, Request> entry : pendingRequests.entrySet()) {
                     if (entry.getKey() < currentSearchSeqNumber) {
-                        cancelRequest(entry.getValue());
+                        cancelRequest(entry.getValue(), entry.getKey());
                     }
                 }
 
@@ -119,10 +125,12 @@ public class Searcher {
                 lastDisplayedPage = 0;
 
                 if (error != null) {
+                    EventBus.getDefault().post(new ErrorEvent(error, query, currentSearchSeqNumber));
                     for (AlgoliaResultsListener view : resultsListeners) {
                         view.onError(query, error);
                     }
                 } else {
+                    EventBus.getDefault().post(new ResultEvent(content, query, currentSearchSeqNumber));
                     updateListeners(content, false);
                 }
             }
@@ -138,8 +146,9 @@ public class Searcher {
         return this;
     }
 
-    private void cancelRequest(Request request) {
+    private void cancelRequest(Request request, Integer requestSeqNumber) {
         request.cancel();
+        EventBus.getDefault().post(new CancelEvent(request, requestSeqNumber));
     }
 
     /**
@@ -221,9 +230,10 @@ public class Searcher {
      */
     public void cancelPendingRequests() {
         if (pendingRequests.size() != 0) {
-            for (Request r : pendingRequests.values()) {
+            for (Map.Entry<Integer, Request> entry: pendingRequests.entrySet()) {
+                Request r = entry.getValue();
                 if (!r.isFinished() && !r.isCancelled()) {
-                    r.cancel();
+                    cancelRequest(r, entry.getKey());
                 }
             }
         }
