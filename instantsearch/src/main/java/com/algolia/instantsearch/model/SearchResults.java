@@ -20,7 +20,7 @@ public class SearchResults {
     @Nullable
     public final JSONObject content;
     /** Facets that will be treated as disjunctive (`OR`). By default, facets are conjunctive (`AND`). */
-    public List<String> disjunctiveFacets; //TODO
+    public List<String> disjunctiveFacets;
 
     // Mandatory attributes
     /** Facets for the last results. */

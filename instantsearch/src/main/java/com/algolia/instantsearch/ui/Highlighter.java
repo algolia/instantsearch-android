@@ -60,7 +60,7 @@ public class Highlighter {
     }
 
     /**
-     * Constructor for a custom highlighter.
+     * Constructor for a custom highlighter, using a custom pattern.
      *
      * @param pattern a capturing RegExp pattern to find and capture the part to highlight.
      */
@@ -68,10 +68,18 @@ public class Highlighter {
         this.pattern = Pattern.compile(pattern);
     }
 
+    /**
+     * Constructor for a custom highlighter, using prefix and postfix tags.
+     *
+     * @param prefixTag the String that is inserted before a highlighted part of a result.
+     * @param postfixTag the String that is inserted after a highlighted part of a result.
+     */
+    public Highlighter(String prefixTag, String postfixTag) {
+        this(prefixTag + "(.*?)" + postfixTag);
+    }
+
     private Highlighter() {
-        // NOTE: This pattern is not bullet-proof (most notably against nested tags),
-        // but it is sufficient for detecting flat highlighting tag usage.
-        this("<em>([^<]*)</em>"); //TODO: Constructor with pre/post? Which regex then?
+        this("<em>", "</em>");
     }
 
     /**
