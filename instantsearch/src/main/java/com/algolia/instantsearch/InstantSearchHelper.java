@@ -46,6 +46,7 @@ public class InstantSearchHelper {
 
     private boolean showProgressBar;
     private int progressBarDelay;
+    private boolean searchOnEmptyString;
 
     /**
      * Create and initialize the helper, then link it to the given Activity.
@@ -130,23 +131,7 @@ public class InstantSearchHelper {
     public void registerSearchView(@NonNull final Activity activity, @NonNull final SearchViewFacade searchView) {
         searchView.setSearchableInfo(((SearchManager) activity.getSystemService(Context.SEARCH_SERVICE)).getSearchableInfo(activity.getComponentName()));
         searchView.setIconifiedByDefault(false);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // SearchView.OnQueryTextListener
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // Nothing to do: the search has already been performed by `onQueryTextChange()`.
-                // We do try to close the keyboard, though.
-                searchView.clearFocus();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searcher.search(searchView.getQuery().toString());
-                return true;
-            }
-        });
+        linkSearchViewToSearcher(searchView);
     }
 
     /**
@@ -164,19 +149,7 @@ public class InstantSearchHelper {
     private void processActivity(@NonNull final Activity activity) {
         View rootView = activity.getWindow().getDecorView().getRootView();
         searchView = getSearchView(rootView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false; // Ignore submission events: we already update on changes.
-            }
-
-            @Override
-            public boolean onQueryTextChange(@NonNull String newText) {
-                searcher.search(newText); //TODO: Same as in registerSearchView
-                return true;
-            }
-        });
-
+        linkSearchViewToSearcher(searchView);
         linkSearchViewToActivity(activity, searchView);
 
         // Register any AlgoliaWidget
@@ -324,9 +297,46 @@ public class InstantSearchHelper {
         }
     }
 
+    private void linkSearchViewToSearcher(@NonNull final SearchViewFacade searchView) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            // SearchView.OnQueryTextListener
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Nothing to do: the search has already been performed by `onQueryTextChange()`.
+                // We do try to close the keyboard, though.
+                searchView.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.length() == 0 && searchOnEmptyString) {
+                    return true;
+                }
+                //Discuss: searchFunction equivalent? Let the dev decide when to fire search
+                searcher.search(searchView.getQuery().toString()); //TODO: Disable as you type if required?
+                return true;
+            }
+        });
+    }
+
     private void linkSearchViewToActivity(@NonNull Activity activity, @NonNull SearchViewFacade searchView) {
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
+    }
+
+    /**
+     * Enable or disable the sending of a search request when the SearchView becomes empty (defaults to true).
+     *
+     * @param searchOnEmptyString if true, a request will be fired.
+     */
+    public void setSearchOnEmptyString(boolean searchOnEmptyString) {
+        this.searchOnEmptyString = searchOnEmptyString;
+    }
+
+    public boolean searchOnEmptyString() {
+        return searchOnEmptyString;
     }
 
     @NonNull
