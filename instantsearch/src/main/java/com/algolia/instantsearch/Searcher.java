@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
@@ -38,7 +37,7 @@ public class Searcher {
 
     private final List<AlgoliaResultsListener> resultsListeners = new ArrayList<>();
 
-    private int lastSearchSeqNumber; // Identifier of last fired query
+    private static int lastSearchSeqNumber; // Identifier of last fired query
     private int lastDisplayedSeqNumber; // Identifier of last displayed query
     private int lastRequestedPage;
     private int lastDisplayedPage;
