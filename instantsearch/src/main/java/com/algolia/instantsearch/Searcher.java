@@ -107,7 +107,7 @@ public class Searcher {
                 // between two requests. Therefore the order of responses is not guaranteed.
                 for (Map.Entry<Integer, Request> entry : pendingRequests.entrySet()) {
                     if (entry.getKey() < currentSearchSeqNumber) {
-                        cancelRequest(entry.getValue());
+                        cancelRequest(entry.getValue(), entry.getKey());
                     }
                 }
 
@@ -146,9 +146,9 @@ public class Searcher {
         return this;
     }
 
-    private void cancelRequest(Request request) {
+    private void cancelRequest(Request request, Integer requestSeqNumber) {
         request.cancel();
-        EventBus.getDefault().post(new CancelEvent(request));
+        EventBus.getDefault().post(new CancelEvent(request, requestSeqNumber));
     }
 
     /**
@@ -230,9 +230,10 @@ public class Searcher {
      */
     public void cancelPendingRequests() {
         if (pendingRequests.size() != 0) {
-            for (Request r : pendingRequests.values()) {
+            for (Map.Entry<Integer, Request> entry: pendingRequests.entrySet()) {
+                Request r = entry.getValue();
                 if (!r.isFinished() && !r.isCancelled()) {
-                    cancelRequest(r);
+                    cancelRequest(r, entry.getKey());
                 }
             }
         }
