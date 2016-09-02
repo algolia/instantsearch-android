@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.utils.LayoutViews;
 import com.algolia.instantsearch.utils.SearchViewFacade;
@@ -24,6 +25,7 @@ import com.algolia.instantsearch.views.Hits;
 import com.algolia.instantsearch.views.RefinementList;
 import com.algolia.instantsearch.views.SearchBox;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -102,6 +104,7 @@ public class InstantSearchHelper {
         for (AlgoliaWidget widget : widgets) {
             widget.onReset();
         }
+        EventBus.getDefault().post(new ResetEvent());
     }
 
     /**
@@ -215,7 +218,6 @@ public class InstantSearchHelper {
                     if (refinementAttributes.size() != 0) { // we need to remove facetFilters on reset
                         searcher.getQuery().setFacetFilters(new JSONArray());
                     }
-                    reset(); //DISCUSS: Should we reset when closing the searchView?
                     return false;
                 }
             });
