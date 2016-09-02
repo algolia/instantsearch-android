@@ -88,7 +88,7 @@ public class Searcher {
             progressHandler.postDelayed(progressStartRunnable, progressStartDelay);
         }
 
-        EventBus.getDefault().post(new SearchEvent(query));
+        EventBus.getDefault().post(new SearchEvent(query, currentSearchSeqNumber));
         final CompletionHandler searchHandler = new CompletionHandler() {
             @Override
             public void requestCompleted(@Nullable JSONObject content, @Nullable AlgoliaException error) {
