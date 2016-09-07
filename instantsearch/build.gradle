@@ -15,10 +15,10 @@ android {
     }
 
     compileSdkVersion 24
-    buildToolsVersion '23.0.3'
+    buildToolsVersion '24.0.1'
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 10
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -39,7 +39,7 @@ android {
 }
 
 ext {
-    VERSION_APPCOMPAT = '24.1.1'
+    VERSION_APPCOMPAT = '24.2.0'
 }
 
 dependencies {
@@ -47,7 +47,7 @@ dependencies {
     compile 'com.algolia:algoliasearch-android:3.4.0'
     compile 'org.greenrobot:eventbus:3.0.0'
 
-    compile "com.android.support:appcompat-v7:24.1.1"
+    compile "com.android.support:appcompat-v7:$VERSION_APPCOMPAT"
     compile "com.android.support:recyclerview-v7:$VERSION_APPCOMPAT"
 
     testCompile 'junit:junit:4.12'
