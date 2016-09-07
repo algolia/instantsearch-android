@@ -2,13 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:gravity="right">
 
     <TextView
         android:id="@+id/refinementName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
         android:text="@string/placeholder_facet_name"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
@@ -16,11 +18,9 @@
         android:id="@+id/refinementCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/refinementName"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_toEndOf="@+id/refinementName"
-        android:layout_toRightOf="@+id/refinementName"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
         android:text="@string/placeholder_facet_value"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/colorPrimary"/>
