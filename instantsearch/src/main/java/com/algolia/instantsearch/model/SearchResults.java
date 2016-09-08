@@ -129,7 +129,7 @@ public class SearchResults {
         // Optional attributes, ignore and set to null if missing
         message = content.optString("message", null);
         queryAfterRemoval = content.optString("queryAfterRemoval", null);
-        aroundLatLng = parseLatLng(content.optString("aroundLatLng", null));
+        aroundLatLng = Query.parseLatLng(content.optString("aroundLatLng", null));
         serverUsed = content.optString("serverUsed", null);
         parsedQuery = content.optString("parsedQuery", null);
         facets = parseFacets(content.optJSONObject("facets"));
@@ -146,22 +146,6 @@ public class SearchResults {
             timeoutCounts = content.getBoolean("timeoutCounts");
             timeoutHits = content.getBoolean("timeoutHits");
         } catch (JSONException ignored) {
-        }
-    }
-
-    @Nullable
-    private Query.LatLng parseLatLng(@Nullable String value) { //TODO: Merge with Query.getLatLng()
-        if (value == null) {
-            return null;
-        }
-        String[] components = value.split(",");
-        if (components.length != 2) {
-            return null;
-        }
-        try {
-            return new Query.LatLng(Double.valueOf(components[0]), Double.valueOf(components[1]));
-        } catch (NumberFormatException e) {
-            return null;
         }
     }
 

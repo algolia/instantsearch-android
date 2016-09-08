@@ -211,7 +211,7 @@ public class Searcher {
         lastDisplayedSeqNumber = 0;
         endReached = false;
         clearFacetRefinements();
-        cancelPendingRequests(); //DISCUSS: Should I warn refinementLists to avoid showing now defunct facets?
+        cancelPendingRequests();
         return this;
     }
 
