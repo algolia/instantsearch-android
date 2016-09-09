@@ -33,6 +33,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.regex.Matcher;
@@ -71,7 +72,7 @@ public class Highlighter {
     /**
      * Constructor for a custom highlighter, using prefix and postfix tags.
      *
-     * @param prefixTag the String that is inserted before a highlighted part of a result.
+     * @param prefixTag  the String that is inserted before a highlighted part of a result.
      * @param postfixTag the String that is inserted after a highlighted part of a result.
      */
     public Highlighter(String prefixTag, String postfixTag) {
@@ -179,6 +180,21 @@ public class Highlighter {
                 String highlightedValue = highlightAttribute.optString("value");
                 if (highlightedValue != null) {
                     return highlightedValue;
+                }
+            } else { //Maybe it is an array?
+                final JSONArray array = highlightResult.optJSONArray(attributeName);
+                if (array != null) {
+                    StringBuilder builder = new StringBuilder();
+                    final int length = array.length();
+
+                    for (int i = 0; i < length; i++) {
+                        final String elementValue = ((JSONObject) array.opt(i)).optString("value");
+                        builder.append(elementValue);
+                        if (i + 1 < length) {
+                            builder.append(", ");
+                        }
+                    }
+                    return builder.toString();
                 }
             }
         }
