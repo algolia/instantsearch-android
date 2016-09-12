@@ -30,7 +30,7 @@ public class EveryXCharStrategy implements SearchStrategy {
             first = false;
             return true;
         } else {
-            searcher.postErrorEvent("EveryXCharStrategy: Blocked request of length " + count);
+            searcher.postErrorEvent("EveryXCharStrategy: Blocked search query of length " + count);
         }
 
         return false;
