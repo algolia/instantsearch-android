@@ -11,6 +11,7 @@ import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
+import com.algolia.instantsearch.strategies.SearchStrategy;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
@@ -41,6 +42,7 @@ public class Searcher {
     private int progressStartDelay;
 
     private final List<AlgoliaResultsListener> resultsListeners = new ArrayList<>();
+    private SearchStrategy strategy;
 
     private static int lastSearchSeqNumber; // Identifier of last fired query
     private int lastDisplayedSeqNumber; // Identifier of last displayed query
@@ -76,9 +78,15 @@ public class Searcher {
     }
 
     /**
-     * Start a search with the current helper's state.
+     * Start a search with the current helper's state, eventually checking the {{@link SearchStrategy}}.
      */
     @NonNull public Searcher search() {
+        if (strategy != null) {
+            if (!strategy.search(this, query.getQuery())) {
+                return this;
+            }
+        }
+
         endReached = false;
         lastRequestedPage = 0;
         lastDisplayedPage = -1;
@@ -407,6 +415,10 @@ public class Searcher {
         return this;
     }
 
+    public Query getQuery() {
+        return query;
+    }
+
     /**
      * Use the given query's parameters for following search queries.
      *
@@ -434,7 +446,16 @@ public class Searcher {
         return this;
     }
 
-    public Query getQuery() {
-        return query;
+    public SearchStrategy getStrategy() {
+        return strategy;
+    }
+
+    public Searcher setStrategy(SearchStrategy strategy) {
+        this.strategy = strategy;
+        return this;
+    }
+
+    public int getLastRequestNumber() {
+        return lastSearchSeqNumber;
     }
 }
