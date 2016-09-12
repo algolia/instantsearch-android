@@ -32,16 +32,15 @@ public class EveryXCharStrategy implements SearchStrategy {
     @Override
     public boolean search(Searcher searcher, String queryString) {
         final int count = queryString.length();
-        if (first || count % x == 1) { // Search the first time, then every X characters
+        if (count == 0) {
+            first = true; //reset first time on empty string
+        } else if (first || count % x == 1) { // Search the first time, then every X characters
             first = false;
             return true;
         } else {
             bus.post(new ErrorEvent(new AlgoliaException("EveryXCharStrategy: Blocked request of length " + count), searcher.getQuery(), searcher.getLastRequestNumber()));
         }
 
-        if (count == 0) {
-            first = true; //reset first time on empty string
-        }
         return false;
     }
 
