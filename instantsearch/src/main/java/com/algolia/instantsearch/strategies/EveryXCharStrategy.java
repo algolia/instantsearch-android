@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.strategies;
 
-import com.algolia.instantsearch.strategies.SearchStrategy;
 import com.algolia.instantsearch.Searcher;
 import com.algolia.instantsearch.events.ErrorEvent;
 import com.algolia.instantsearch.events.ResetEvent;
@@ -48,6 +47,7 @@ public class EveryXCharStrategy implements SearchStrategy {
 
     /**
      * Subscriber to reset first search when a {@link ResetEvent} is broadcasted.
+     *
      * @param event the received event.
      */
     @Subscribe(threadMode = ThreadMode.MAIN)

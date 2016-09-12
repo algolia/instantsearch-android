@@ -71,7 +71,8 @@ public class Searcher {
      *
      * @param queryString a String to search on the index.
      */
-    @NonNull public Searcher search(final String queryString) {
+    @NonNull
+    public Searcher search(final String queryString) {
         query.setQuery(queryString);
         search();
         return this;
@@ -80,7 +81,8 @@ public class Searcher {
     /**
      * Start a search with the current helper's state, eventually checking the {{@link SearchStrategy}}.
      */
-    @NonNull public Searcher search() {
+    @NonNull
+    public Searcher search() {
         if (strategy != null) {
             if (!strategy.search(this, query.getQuery())) {
                 return this;
@@ -163,7 +165,8 @@ public class Searcher {
      * Load more results with the same query.
      * Note that this method won't do anything if {@link Searcher#shouldLoadMore} returns false.
      */
-    @NonNull public Searcher loadMore() {
+    @NonNull
+    public Searcher loadMore() {
         if (!shouldLoadMore()) {
             return this;
         }
@@ -213,7 +216,8 @@ public class Searcher {
     /**
      * Reset the helper's state.
      */
-    @NonNull public Searcher reset() {
+    @NonNull
+    public Searcher reset() {
         lastDisplayedPage = 0;
         lastRequestedPage = 0;
         lastDisplayedSeqNumber = 0;
@@ -237,7 +241,7 @@ public class Searcher {
      */
     public Searcher cancelPendingRequests() {
         if (pendingRequests.size() != 0) {
-            for (Map.Entry<Integer, Request> entry: pendingRequests.entrySet()) {
+            for (Map.Entry<Integer, Request> entry : pendingRequests.entrySet()) {
                 Request r = entry.getValue();
                 if (!r.isFinished() && !r.isCancelled()) {
                     cancelRequest(r, entry.getKey());
@@ -281,7 +285,8 @@ public class Searcher {
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to refine with.
      */
-    @NonNull public Searcher addFacetRefinement(@NonNull String attributeName, @NonNull String value) {
+    @NonNull
+    public Searcher addFacetRefinement(@NonNull String attributeName, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attributeName);
         if (attributeRefinements == null) {
             attributeRefinements = new ArrayList<>();
@@ -298,7 +303,8 @@ public class Searcher {
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to refine with.
      */
-    @NonNull public Searcher removeFacetRefinement(@NonNull String attributeName, @NonNull String value) {
+    @NonNull
+    public Searcher removeFacetRefinement(@NonNull String attributeName, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attributeName);
         if (attributeRefinements == null) {
             attributeRefinements = new ArrayList<>();
@@ -424,7 +430,8 @@ public class Searcher {
      *
      * @param query a {@link Query} object with some parameters set.
      */
-    @NonNull public Searcher setQuery(@NonNull Query query) {
+    @NonNull
+    public Searcher setQuery(@NonNull Query query) {
         this.query = query;
         return this;
     }
@@ -440,7 +447,8 @@ public class Searcher {
      *
      * @param indexName name of the new index.
      */
-    @NonNull public Searcher setIndex(@NonNull String indexName) {
+    @NonNull
+    public Searcher setIndex(@NonNull String indexName) {
         index = client.initIndex(indexName);
         query.setPage(0);
         return this;
