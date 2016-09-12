@@ -227,7 +227,7 @@ public class Searcher {
     /**
      * Cancels all requests still waiting for a response.
      */
-    public void cancelPendingRequests() {
+    public Searcher cancelPendingRequests() {
         if (pendingRequests.size() != 0) {
             for (Map.Entry<Integer, Request> entry: pendingRequests.entrySet()) {
                 Request r = entry.getValue();
@@ -236,6 +236,7 @@ public class Searcher {
                 }
             }
         }
+        return this;
     }
 
     void addFacet(@NonNull String attributeName, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
@@ -315,10 +316,11 @@ public class Searcher {
     /**
      * Clear all facet refinements.
      */
-    public void clearFacetRefinements() {
+    public Searcher clearFacetRefinements() {
         refinementMap.clear();
         disjunctiveFacets.clear();
         rebuildQueryFacetRefinements();
+        return this;
     }
 
 
@@ -327,16 +329,17 @@ public class Searcher {
      *
      * @param attribute the attribute's name.
      */
-    public void clearFacetRefinements(@NonNull String attribute) {
+    public Searcher clearFacetRefinements(@NonNull String attribute) {
         final List<String> stringList = refinementMap.get(attribute);
         if (stringList != null) {
             stringList.clear();
         }
         disjunctiveFacets.remove(attribute);
         rebuildQueryFacetRefinements();
+        return this;
     }
 
-    private void rebuildQueryFacetRefinements() {
+    private Searcher rebuildQueryFacetRefinements() {
         JSONArray facetFilters = new JSONArray();
         for (Map.Entry<String, List<String>> entry : refinementMap.entrySet()) {
             final List<String> values = entry.getValue();
@@ -347,12 +350,14 @@ public class Searcher {
             }
         }
         query.setFacetFilters(facetFilters);
+        return this;
     }
 
-    public void registerListener(@NonNull AlgoliaResultsListener resultsListener) {
+    public Searcher registerListener(@NonNull AlgoliaResultsListener resultsListener) {
         if (!resultsListeners.contains(resultsListener)) {
             resultsListeners.add(resultsListener);
         }
+        return this;
     }
 
     private void updateListeners(@Nullable JSONObject hits, boolean isLoadingMore) {
@@ -386,17 +391,20 @@ public class Searcher {
         return false;
     }
 
-    public void setProgressStartRunnable(@Nullable Runnable progressStartRunnable) {
+    public Searcher setProgressStartRunnable(@Nullable Runnable progressStartRunnable) {
         this.progressStartRunnable = progressStartRunnable;
+        return this;
     }
 
-    public void setProgressStopRunnable(@Nullable Runnable progressStopRunnable) {
+    public Searcher setProgressStopRunnable(@Nullable Runnable progressStopRunnable) {
         this.progressStopRunnable = progressStopRunnable;
+        return this;
     }
 
-    public void setProgressStartRunnable(@Nullable Runnable runnable, int delay) {
+    public Searcher setProgressStartRunnable(@Nullable Runnable runnable, int delay) {
         setProgressStartRunnable(runnable);
         progressStartDelay = delay;
+        return this;
     }
 
     /**
