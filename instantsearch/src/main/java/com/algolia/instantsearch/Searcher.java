@@ -31,6 +31,7 @@ import java.util.Map;
 
 public class Searcher {
 
+    private final EventBus bus;
     private Index index;
     private final Client client;
     private Query query;
@@ -64,6 +65,7 @@ public class Searcher {
         query = new Query();
         this.index = index;
         this.client = index.getClient();
+        bus = EventBus.getDefault();
     }
 
     /**
@@ -98,7 +100,7 @@ public class Searcher {
             progressHandler.postDelayed(progressStartRunnable, progressStartDelay);
         }
 
-        EventBus.getDefault().post(new SearchEvent(query, currentSearchSeqNumber));
+        bus.post(new SearchEvent(query, currentSearchSeqNumber));
         final CompletionHandler searchHandler = new CompletionHandler() {
             @Override
             public void requestCompleted(@Nullable JSONObject content, @Nullable AlgoliaException error) {
@@ -135,12 +137,12 @@ public class Searcher {
                 lastDisplayedPage = 0;
 
                 if (error != null) {
-                    EventBus.getDefault().post(new ErrorEvent(error, query, currentSearchSeqNumber));
+                    bus.post(new ErrorEvent(error, query, currentSearchSeqNumber));
                     for (AlgoliaResultsListener view : resultsListeners) {
                         view.onError(query, error);
                     }
                 } else {
-                    EventBus.getDefault().post(new ResultEvent(content, query, currentSearchSeqNumber));
+                    bus.post(new ResultEvent(content, query, currentSearchSeqNumber));
                     updateListeners(content, false);
                 }
             }
@@ -158,7 +160,7 @@ public class Searcher {
 
     private void cancelRequest(Request request, Integer requestSeqNumber) {
         request.cancel();
-        EventBus.getDefault().post(new CancelEvent(request, requestSeqNumber));
+        bus.post(new CancelEvent(request, requestSeqNumber));
     }
 
     /**
@@ -378,6 +380,11 @@ public class Searcher {
         for (AlgoliaResultsListener view : resultsListeners) {
             view.onResults(new SearchResults(hits), isLoadingMore);
         }
+    }
+
+    public Searcher postErrorEvent(String cause) {
+        bus.post(new ErrorEvent(new AlgoliaException(cause), query, lastSearchSeqNumber));
+        return this;
     }
 
     /**

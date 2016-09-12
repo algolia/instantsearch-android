@@ -3,6 +3,8 @@ package com.algolia.instantsearch.strategies;
 public interface SearchStrategy {
     /**
      * This method will be called to determine if a search should be performed.
+     * If not, you should use {@link com.algolia.instantsearch.Searcher#postErrorEvent(String)}
+     * to describe why the request is denied.
      *
      * @param searcher    a reference to the searcher that would perform the search.
      * @param queryString the current query text for this request.
