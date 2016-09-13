@@ -11,8 +11,9 @@ public class OnDemandStrategy implements SearchStrategy {
         if (enabled) {
             return true;
         } else {
-            searcher.postError("OnDemandStrategy: Search currently disabled.");
+            searcher.postErrorEvent("OnDemandStrategy: Search currently disabled.");
         }
+        return false;
     }
 
     public void enable() {
