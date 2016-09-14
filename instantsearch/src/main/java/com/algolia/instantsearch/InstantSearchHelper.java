@@ -183,20 +183,18 @@ public class InstantSearchHelper {
             } else if (widget instanceof ListView) {
                 ((ListView) widget).setEmptyView(getEmptyView(rootView));
             }
-            final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
-            searcher.getQuery().setFacets(facets);
-            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-                @Override
-                public boolean onClose() {
-                    if (refinementAttributes.size() != 0) { // we need to remove facetFilters on reset
-                        searcher.getQuery().setFacetFilters(new JSONArray());
-                    }
-                    return false;
-                }
-            });
-
         }
-
+        final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
+        searcher.getQuery().setFacets(facets);
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                if (refinementAttributes.size() != 0) { // we need to remove facetFilters on reset
+                    searcher.getQuery().setFacetFilters(new JSONArray());
+                }
+                return false;
+            }
+        });
     }
 
     /**
