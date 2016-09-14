@@ -7,7 +7,7 @@ public class OnDemandStrategy implements SearchStrategy {
     private boolean enabled = false;
 
     @Override
-    public boolean search(com.algolia.instantsearch.Searcher searcher, String queryString) {
+    public boolean beforeSearch(Searcher searcher, String queryString) {
         if (enabled) {
             return true;
         } else {

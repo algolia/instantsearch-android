@@ -86,7 +86,7 @@ public class Searcher {
     @NonNull
     public Searcher search() {
         if (strategy != null) {
-            if (!strategy.search(this, query.getQuery())) {
+            if (!strategy.beforeSearch(this, query.getQuery())) {
                 return this;
             }
         }

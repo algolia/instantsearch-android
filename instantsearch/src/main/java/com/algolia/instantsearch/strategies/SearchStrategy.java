@@ -11,5 +11,5 @@ public interface SearchStrategy {
      * @param queryString the current query text for this request.
      * @return {@code true} if the search request should be sent.
      */
-    boolean search(Searcher searcher, String queryString);
+    boolean beforeSearch(Searcher searcher, String queryString);
 }

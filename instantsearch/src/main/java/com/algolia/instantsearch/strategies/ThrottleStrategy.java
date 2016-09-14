@@ -30,7 +30,7 @@ public class ThrottleStrategy implements SearchStrategy {
     }
 
     @Override
-    public boolean search(final Searcher searcher, final String queryString) {
+    public boolean beforeSearch(final Searcher searcher, final String queryString) {
         boolean shouldSearch = false;
         final long newSearchTimeMillis = System.nanoTime() / 1000000;
         final long elapsed = newSearchTimeMillis - lastSearchTimeMillis;
