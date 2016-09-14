@@ -11,6 +11,7 @@ import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
+import com.algolia.instantsearch.strategies.AlwaysSearchStrategy;
 import com.algolia.instantsearch.strategies.SearchStrategy;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
 import com.algolia.search.saas.AlgoliaException;
@@ -43,7 +44,7 @@ public class Searcher {
     private int progressStartDelay;
 
     private final List<AlgoliaResultsListener> resultsListeners = new ArrayList<>();
-    private SearchStrategy strategy;
+    private SearchStrategy strategy = new AlwaysSearchStrategy();
 
     private static int lastSearchSeqNumber; // Identifier of last fired query
     private int lastDisplayedSeqNumber; // Identifier of last displayed query
@@ -461,11 +462,15 @@ public class Searcher {
         return this;
     }
 
+    @NonNull
     public SearchStrategy getStrategy() {
         return strategy;
     }
 
-    public Searcher setStrategy(SearchStrategy strategy) {
+    public Searcher setStrategy(@NonNull SearchStrategy strategy) {
+        if (strategy == null) {
+            throw new IllegalStateException("You can't set a null strategy, use new AlwaysOnStrategy().");
+        }
         this.strategy = strategy;
         return this;
     }

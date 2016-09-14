@@ -3,56 +3,25 @@ package com.algolia.instantsearch.strategies;
 import com.algolia.instantsearch.Searcher;
 
 /**
- * This {@link SearchStrategy} only fires requests when enabled.
+ * This {@link SearchStrategy} only fires requests on demand.
  */
 public class OnDemandStrategy implements SearchStrategy {
     private final Searcher searcher;
-    private boolean enabled = false;
 
     public OnDemandStrategy(Searcher searcher) {
         this.searcher = searcher;
     }
 
     @Override
-    public boolean beforeSearch(Searcher searcher, String queryString) {
-        if (enabled) {
-            return true;
-        } else {
-            searcher.postErrorEvent("OnDemandStrategy: Search currently disabled.");
-        }
+    public boolean beforeSearch(final Searcher searcher, final String queryString) {
+        searcher.postErrorEvent("OnDemandStrategy: Search currently disabled.");
         return false;
     }
 
     /**
-     * Triggers a search request with searcher's current state.
+     * Triggers a search request with the current searcher's state.
      */
-    public void triggerSearch() {
+    public void search() {
         searcher.search();
-    }
-
-    /**
-     * Enables this strategy, future requests will be fired.
-     */
-    public void enable() {
-        this.enabled = true;
-    }
-
-    /**
-     * Disables this strategy, future requests will be blocked.
-     */
-    public void disable() {
-        this.enabled = false;
-    }
-
-    /**
-     * Enables this strategy and triggers a search request.
-     */
-    public void enableAndSearch() {
-        enable();
-        triggerSearch();
-    }
-
-    public boolean isEnabled() {
-        return enabled;
     }
 }

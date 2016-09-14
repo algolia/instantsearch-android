@@ -4,7 +4,7 @@ import com.algolia.instantsearch.Searcher;
 
 public interface SearchStrategy {
     /**
-     * This method will be called to determine if a search should be performed.
+     * This method will be called before each search query to determine if it should be fired.
      * If not, use {@link Searcher#postErrorEvent(String)} to describe why the request is denied.
      *
      * @param searcher    a reference to the searcher that would perform the search.
