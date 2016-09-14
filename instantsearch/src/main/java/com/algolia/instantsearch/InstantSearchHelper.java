@@ -51,7 +51,7 @@ public class InstantSearchHelper {
     /**
      * Create and initialize the helper, then link it to the given Activity.
      *
-     * @param activity an Activity containing a {@link AlgoliaWidget} to update with incoming results.
+     * @param activity an Activity containing at least one {@link AlgoliaWidget} to update with incoming results.
      * @param searcher the Searcher to use with this activity.
      */
     public InstantSearchHelper(@NonNull final Activity activity, @NonNull final Searcher searcher) {
@@ -61,7 +61,20 @@ public class InstantSearchHelper {
     }
 
     /**
-     * Create and initialize the helper, then link it to the given Activity.
+     * Create and initialize the helper, then link it to the given Activity and Menu's searchView.
+     *
+     * @param activity an Activity containing at least one {@link AlgoliaWidget} to update with incoming results.S
+     * @param searcher the Searcher to use with this activity.
+     */
+    public InstantSearchHelper(@NonNull final Activity activity, @NonNull Menu menu, int menuItemId, @NonNull final Searcher searcher) {
+        this(searcher);
+
+        registerSearchView(activity, menu, menuItemId);
+        processActivity(activity);
+    }
+
+    /**
+     * Create and initialize the helper, then link it to the given widget.
      *
      * @param widget   an AlgoliaWidget to update with incoming results.
      * @param searcher the Searcher to use with this AlgoliaWidget.
@@ -129,6 +142,7 @@ public class InstantSearchHelper {
      * @param searchView a SearchView where the query text will be picked up from.
      */
     public void registerSearchView(@NonNull final Activity activity, @NonNull final SearchViewFacade searchView) {
+        this.searchView = searchView;
         searchView.setSearchableInfo(((SearchManager) activity.getSystemService(Context.SEARCH_SERVICE)).getSearchableInfo(activity.getComponentName()));
         searchView.setIconifiedByDefault(false);
         linkSearchViewToSearcher(searchView);
@@ -148,7 +162,9 @@ public class InstantSearchHelper {
 
     private void processActivity(@NonNull final Activity activity) {
         View rootView = activity.getWindow().getDecorView().getRootView();
-        searchView = getSearchView(rootView);
+        if (searchView == null) {
+            searchView = getSearchView(rootView);
+        }
         linkSearchViewToSearcher(searchView);
         linkSearchViewToActivity(activity, searchView);
 
