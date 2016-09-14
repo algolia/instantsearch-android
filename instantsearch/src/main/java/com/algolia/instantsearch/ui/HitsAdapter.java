@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.algolia.instantsearch.BindingHelper;
@@ -101,6 +102,8 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
                 ((AlgoliaHitView) view).onUpdateView(hit);
             } else if (view instanceof EditText) {
                 ((EditText) view).setHint(attributeValue);
+            } else if (view instanceof RatingBar) {
+                ((RatingBar) view).setNumStars(Integer.parseInt(attributeValue));
             } else if (view instanceof TextView) {
                 final TextView textView = (TextView) view;
                 if (RenderingHelper.getDefault().shouldHighlight(attributeName)) {
