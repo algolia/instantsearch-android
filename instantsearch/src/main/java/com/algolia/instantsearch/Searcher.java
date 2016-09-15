@@ -11,6 +11,8 @@ import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
+import com.algolia.instantsearch.strategies.AlwaysSearchStrategy;
+import com.algolia.instantsearch.strategies.SearchStrategy;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
@@ -30,6 +32,7 @@ import java.util.Map;
 
 public class Searcher {
 
+    private final EventBus bus;
     private Index index;
     private final Client client;
     private Query query;
@@ -41,6 +44,7 @@ public class Searcher {
     private int progressStartDelay;
 
     private final List<AlgoliaResultsListener> resultsListeners = new ArrayList<>();
+    private SearchStrategy strategy = new AlwaysSearchStrategy();
 
     private static int lastSearchSeqNumber; // Identifier of last fired query
     private int lastDisplayedSeqNumber; // Identifier of last displayed query
@@ -62,6 +66,7 @@ public class Searcher {
         query = new Query();
         this.index = index;
         this.client = index.getClient();
+        bus = EventBus.getDefault();
     }
 
     /**
@@ -69,16 +74,24 @@ public class Searcher {
      *
      * @param queryString a String to search on the index.
      */
-    @NonNull public Searcher search(final String queryString) {
+    @NonNull
+    public Searcher search(final String queryString) {
         query.setQuery(queryString);
         search();
         return this;
     }
 
     /**
-     * Start a search with the current helper's state.
+     * Start a search with the current helper's state, eventually checking the {{@link SearchStrategy}}.
      */
-    @NonNull public Searcher search() {
+    @NonNull
+    public Searcher search() {
+        if (strategy != null) {
+            if (!strategy.beforeSearch(this, query.getQuery())) {
+                return this;
+            }
+        }
+
         endReached = false;
         lastRequestedPage = 0;
         lastDisplayedPage = -1;
@@ -88,7 +101,7 @@ public class Searcher {
             progressHandler.postDelayed(progressStartRunnable, progressStartDelay);
         }
 
-        EventBus.getDefault().post(new SearchEvent(query, currentSearchSeqNumber));
+        bus.post(new SearchEvent(query, currentSearchSeqNumber));
         final CompletionHandler searchHandler = new CompletionHandler() {
             @Override
             public void requestCompleted(@Nullable JSONObject content, @Nullable AlgoliaException error) {
@@ -125,12 +138,12 @@ public class Searcher {
                 lastDisplayedPage = 0;
 
                 if (error != null) {
-                    EventBus.getDefault().post(new ErrorEvent(error, query, currentSearchSeqNumber));
+                    bus.post(new ErrorEvent(error, query, currentSearchSeqNumber));
                     for (AlgoliaResultsListener view : resultsListeners) {
                         view.onError(query, error);
                     }
                 } else {
-                    EventBus.getDefault().post(new ResultEvent(content, query, currentSearchSeqNumber));
+                    bus.post(new ResultEvent(content, query, currentSearchSeqNumber));
                     updateListeners(content, false);
                 }
             }
@@ -148,14 +161,15 @@ public class Searcher {
 
     private void cancelRequest(Request request, Integer requestSeqNumber) {
         request.cancel();
-        EventBus.getDefault().post(new CancelEvent(request, requestSeqNumber));
+        bus.post(new CancelEvent(request, requestSeqNumber));
     }
 
     /**
      * Load more results with the same query.
      * Note that this method won't do anything if {@link Searcher#shouldLoadMore} returns false.
      */
-    @NonNull public Searcher loadMore() {
+    @NonNull
+    public Searcher loadMore() {
         if (!shouldLoadMore()) {
             return this;
         }
@@ -205,7 +219,8 @@ public class Searcher {
     /**
      * Reset the helper's state.
      */
-    @NonNull public Searcher reset() {
+    @NonNull
+    public Searcher reset() {
         lastDisplayedPage = 0;
         lastRequestedPage = 0;
         lastDisplayedSeqNumber = 0;
@@ -229,7 +244,7 @@ public class Searcher {
      */
     public Searcher cancelPendingRequests() {
         if (pendingRequests.size() != 0) {
-            for (Map.Entry<Integer, Request> entry: pendingRequests.entrySet()) {
+            for (Map.Entry<Integer, Request> entry : pendingRequests.entrySet()) {
                 Request r = entry.getValue();
                 if (!r.isFinished() && !r.isCancelled()) {
                     cancelRequest(r, entry.getKey());
@@ -273,7 +288,8 @@ public class Searcher {
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to refine with.
      */
-    @NonNull public Searcher addFacetRefinement(@NonNull String attributeName, @NonNull String value) {
+    @NonNull
+    public Searcher addFacetRefinement(@NonNull String attributeName, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attributeName);
         if (attributeRefinements == null) {
             attributeRefinements = new ArrayList<>();
@@ -290,7 +306,8 @@ public class Searcher {
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to refine with.
      */
-    @NonNull public Searcher removeFacetRefinement(@NonNull String attributeName, @NonNull String value) {
+    @NonNull
+    public Searcher removeFacetRefinement(@NonNull String attributeName, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attributeName);
         if (attributeRefinements == null) {
             attributeRefinements = new ArrayList<>();
@@ -366,6 +383,11 @@ public class Searcher {
         }
     }
 
+    public Searcher postErrorEvent(String cause) {
+        bus.post(new ErrorEvent(new AlgoliaException(cause), query, lastSearchSeqNumber));
+        return this;
+    }
+
     /**
      * Find if a returned json contains at least one hit.
      *
@@ -407,12 +429,17 @@ public class Searcher {
         return this;
     }
 
+    public Query getQuery() {
+        return query;
+    }
+
     /**
      * Use the given query's parameters for following search queries.
      *
      * @param query a {@link Query} object with some parameters set.
      */
-    @NonNull public Searcher setQuery(@NonNull Query query) {
+    @NonNull
+    public Searcher setQuery(@NonNull Query query) {
         this.query = query;
         return this;
     }
@@ -428,13 +455,27 @@ public class Searcher {
      *
      * @param indexName name of the new index.
      */
-    @NonNull public Searcher setIndex(@NonNull String indexName) {
+    @NonNull
+    public Searcher setIndex(@NonNull String indexName) {
         index = client.initIndex(indexName);
         query.setPage(0);
         return this;
     }
 
-    public Query getQuery() {
-        return query;
+    @NonNull
+    public SearchStrategy getStrategy() {
+        return strategy;
+    }
+
+    public Searcher setStrategy(@NonNull SearchStrategy strategy) {
+        if (strategy == null) {
+            throw new IllegalStateException("You can't set a null strategy, use new AlwaysOnStrategy().");
+        }
+        this.strategy = strategy;
+        return this;
+    }
+
+    public int getLastRequestNumber() {
+        return lastSearchSeqNumber;
     }
 }

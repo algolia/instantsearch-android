@@ -328,8 +328,7 @@ public class InstantSearchHelper {
                 if (newText.length() == 0 && searchOnEmptyString) {
                     return true;
                 }
-                //Discuss: searchFunction equivalent? Let the dev decide when to fire search
-                searcher.search(searchView.getQuery().toString()); //TODO: Disable as you type if required?
+                searcher.search(searchView.getQuery().toString());
                 return true;
             }
         });
