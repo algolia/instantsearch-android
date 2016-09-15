@@ -103,7 +103,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
             } else if (view instanceof EditText) {
                 ((EditText) view).setHint(attributeValue);
             } else if (view instanceof RatingBar) {
-                ((RatingBar) view).setNumStars(Integer.parseInt(attributeValue));
+                ((RatingBar) view).setNumStars(Math.round(Float.parseFloat(attributeValue)));
             } else if (view instanceof TextView) {
                 final TextView textView = (TextView) view;
                 if (RenderingHelper.getDefault().shouldHighlight(attributeName)) {
