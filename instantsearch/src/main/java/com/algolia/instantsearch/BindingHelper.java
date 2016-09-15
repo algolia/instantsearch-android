@@ -50,7 +50,7 @@ public class BindingHelper {
         bindAndHighlight(view, attributeName, colorStr);
     }
 
-    @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding
+    @SuppressWarnings({"unused"}) // called via Data Binding
     @BindingAdapter({"attribute", "highlighted", "highlightingColor"})
     public static void bindHighlighted(@NonNull View view, String attributeName, Boolean isHighlighted, @NonNull String colorStr) {
         // Bind attribute, enable highlight with color
@@ -70,7 +70,7 @@ public class BindingHelper {
     }
 
     @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding and throws
-    @BindingAdapter({"highlighted", "highlighting"})
+    @BindingAdapter({"highlighted", "highlightingColor"})
     public static void bindInvalid(@NonNull View view, Boolean isHighlighted, String colorStr) {
         throwBindingError(view, Errors.BINDING_NO_ATTR);
     }
