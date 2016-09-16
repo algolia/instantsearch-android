@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.algolia.instantsearch.Searcher;
 import com.algolia.instantsearch.model.NumericFilter;
-import com.algolia.search.saas.Query;
 
 public class FilterResultsFragment extends DialogFragment {
     public static final String TAG = "FilterResultsFragment";
@@ -63,7 +62,7 @@ public class FilterResultsFragment extends DialogFragment {
 
         final TextView tv = new TextView(getActivity());
         final SeekBar seekBar = new SeekBar(getActivity());
-        final NumericFilter currentFilter = searcher.numericFilterMap.get(attribute);
+        final NumericFilter currentFilter = searcher.getNumericFilter(attribute);
 
         if (currentFilter != null && currentFilter.value != 0) {
             final long progressValue = (currentFilter.value - minValue) * steps / (maxValue - minValue);
@@ -87,7 +86,7 @@ public class FilterResultsFragment extends DialogFragment {
 
             private void onUpdate(final SeekBar seekBar) {
                 final long actualValue = updateProgressText(tv, seekBar, name, minValue, maxValue, steps);
-                updateFilters(attribute, actualValue);
+                searcher.addNumericFilter(new NumericFilter(attribute, actualValue, NumericFilter.OPERATOR_GT));
             }
         });
         tv.setPadding(seekBar.getPaddingLeft(), tv.getPaddingTop() + 50, tv.getPaddingRight(), tv.getPaddingBottom()); // TODO: Better way to fine tune layout?
@@ -109,20 +108,6 @@ public class FilterResultsFragment extends DialogFragment {
         final long actualValue = minValue + progress * (maxValue - minValue) / steps;
         textView.setText(progress == 0 ? String.format(TEXT_SEEKBAR_DEFAULT, name) : Html.fromHtml(String.format(TEXT_SEEKBAR_CHANGED, actualValue, name)));
         return actualValue;
-    }
-
-    private void updateFilters(String attribute, long value) {
-        StringBuilder filters = new StringBuilder();
-        searcher.numericFilterMap.put(attribute, new NumericFilter(attribute, value, NumericFilter.OPERATOR_GT));
-
-        final Query query = searcher.getQuery();
-        for (NumericFilter numericFilter : searcher.numericFilterMap.values()) {
-            if (filters.length() > 0) {
-                filters.append(" AND ");
-            }
-            filters.append(numericFilter.toString());
-        }
-        query.setFilters(filters.toString()); //FIXME: How can I avoid erasing existing filters before adding my numericRefinements?
     }
 
     public FilterResultsFragment setSearcher(Searcher searcher) {

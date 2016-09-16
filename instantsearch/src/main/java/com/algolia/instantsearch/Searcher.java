@@ -55,7 +55,7 @@ public class Searcher {
 
     private final List<String> disjunctiveFacets = new ArrayList<>();
     private final Map<String, List<String>> refinementMap = new HashMap<>();
-    public final Map<String, NumericFilter> numericFilterMap = new HashMap<>(); //FIXME: NOT PUBLIC!
+    private final Map<String, NumericFilter> numericFilterMap = new HashMap<>();
 
     private final Map<Integer, Request> pendingRequests = new HashMap<>();
 
@@ -299,7 +299,7 @@ public class Searcher {
             refinementMap.put(attributeName, attributeRefinements);
         }
         attributeRefinements.add(value);
-        rebuildQueryFacetRefinements();
+        rebuildQueryFacetFilters();
         return this;
     }
 
@@ -317,7 +317,7 @@ public class Searcher {
             refinementMap.put(attributeName, attributeRefinements);
         }
         attributeRefinements.remove(value);
-        rebuildQueryFacetRefinements();
+        rebuildQueryFacetFilters();
         return this;
     }
 
@@ -339,7 +339,7 @@ public class Searcher {
     public Searcher clearFacetRefinements() {
         refinementMap.clear();
         disjunctiveFacets.clear();
-        rebuildQueryFacetRefinements();
+        rebuildQueryFacetFilters();
         return this;
     }
 
@@ -355,11 +355,11 @@ public class Searcher {
             stringList.clear();
         }
         disjunctiveFacets.remove(attribute);
-        rebuildQueryFacetRefinements();
+        rebuildQueryFacetFilters();
         return this;
     }
 
-    private Searcher rebuildQueryFacetRefinements() {
+    private Searcher rebuildQueryFacetFilters() {
         JSONArray facetFilters = new JSONArray();
         for (Map.Entry<String, List<String>> entry : refinementMap.entrySet()) {
             final List<String> values = entry.getValue();
@@ -371,6 +371,26 @@ public class Searcher {
         }
         query.setFacetFilters(facetFilters);
         return this;
+    }
+
+    public NumericFilter getNumericFilter(String attribute) {
+        return numericFilterMap.get(attribute);
+    }
+
+    public void addNumericFilter(NumericFilter filter) {
+        numericFilterMap.put(filter.attribute, filter);
+        rebuildQueryFilters();
+    }
+
+    private void rebuildQueryFilters() {
+        StringBuilder filters = new StringBuilder();
+        for (NumericFilter numericFilter : numericFilterMap.values()) {
+            if (filters.length() > 0) {
+                filters.append(" AND ");
+            }
+            filters.append(numericFilter.toString());
+        }
+        query.setFilters(filters.toString()); //FIXME: How can I avoid erasing existing filters before adding my numericRefinements?
     }
 
     public Searcher registerListener(@NonNull AlgoliaResultsListener resultsListener) {
@@ -481,4 +501,5 @@ public class Searcher {
     public int getLastRequestNumber() {
         return lastSearchSeqNumber;
     }
+
 }
