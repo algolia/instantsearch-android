@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.model;
 
+import java.util.Locale;
+
 public class NumericFilter {
     /** The lower than operator (<).*/
     public static final int OPERATOR_LT = 0;
@@ -18,19 +20,15 @@ public class NumericFilter {
 
     public final int operator;
     public final String attribute;
-    public final Long value;
+    public final Double value;
 
-    public NumericFilter(String attribute, Long value, int operator) {
+    public NumericFilter(String attribute, double value, int operator) {
         if (operator < OPERATOR_LT || operator > OPERATOR_GT) {
             throw new IllegalStateException(ERROR_INVALID_OPERATOR);
         }
         this.operator = operator;
         this.value = value;
         this.attribute = attribute;
-    }
-
-    public NumericFilter(String attribute, int value, int operator) {
-        this(attribute, (long) value, operator);
     }
 
     private static String getOperatorSymbol(int operatorCode) {
@@ -54,6 +52,6 @@ public class NumericFilter {
 
     @Override
     public String toString() {
-        return attribute + " " + getOperatorSymbol(operator) + " " + value;
+        return attribute + " " + getOperatorSymbol(operator) + " " + String.format(Locale.US, "%f", value);
     }
 }

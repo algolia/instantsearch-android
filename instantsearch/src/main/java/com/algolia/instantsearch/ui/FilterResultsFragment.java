@@ -21,8 +21,6 @@ public class FilterResultsFragment extends DialogFragment {
     private Searcher searcher;
 
     private LinearLayout layout;
-    public static final String TEXT_SEEKBAR_CHANGED = "At least <b>%d</b> %s";
-    public static final String TEXT_SEEKBAR_DEFAULT = "Filter minimum %s";
 
     @NonNull
     @Override
@@ -54,19 +52,19 @@ public class FilterResultsFragment extends DialogFragment {
         return b.create();
     }
 
-    private void addSeekBar(final String attribute, final long minValue, final long maxValue, final int steps) {
+    private void addSeekBar(final String attribute, final double minValue, final double maxValue, final int steps) {
         addSeekBar(attribute, attribute, minValue, maxValue, steps);
     }
 
-    private void addSeekBar(final String attribute, final String name, final long minValue, final long maxValue, final int steps) {
+    private void addSeekBar(final String attribute, final String name, final double minValue, final double maxValue, final int steps) {
 
         final TextView tv = new TextView(getActivity());
         final SeekBar seekBar = new SeekBar(getActivity());
         final NumericFilter currentFilter = searcher.getNumericFilter(attribute);
 
         if (currentFilter != null && currentFilter.value != 0) {
-            final long progressValue = (currentFilter.value - minValue) * steps / (maxValue - minValue);
-            seekBar.setProgress((int) progressValue);
+            final int progressValue = (int) ((currentFilter.value - minValue) * steps / (maxValue - minValue));
+            seekBar.setProgress(progressValue);
         }
         seekBar.setMax(steps);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -85,32 +83,49 @@ public class FilterResultsFragment extends DialogFragment {
             }
 
             private void onUpdate(final SeekBar seekBar) {
-                final long actualValue = updateProgressText(tv, seekBar, name, minValue, maxValue, steps);
+                final double actualValue = updateProgressText(tv, seekBar, name, minValue, maxValue, steps);
                 searcher.addNumericFilter(new NumericFilter(attribute, actualValue, NumericFilter.OPERATOR_GT));
             }
         });
         tv.setPadding(seekBar.getPaddingLeft(), tv.getPaddingTop() + 50, tv.getPaddingRight(), tv.getPaddingBottom()); // TODO: Better way to fine tune layout?
 
-        updateProgressText(tv, currentFilter != null ? currentFilter : new NumericFilter(name, 0, NumericFilter.OPERATOR_GT), minValue, maxValue, steps);
+        updateProgressText(tv, currentFilter != null ? currentFilter : new NumericFilter(name, minValue, NumericFilter.OPERATOR_GT), minValue);
 
         layout.addView(tv);
         layout.addView(seekBar);
     }
 
-    private long updateProgressText(TextView textView, NumericFilter filter, long minValue, long maxValue, int steps) {
-        final long progress = (filter.value - minValue) * steps / (maxValue - minValue);
-        textView.setText(progress == 0 ? String.format(TEXT_SEEKBAR_DEFAULT, filter.attribute) : Html.fromHtml(String.format(TEXT_SEEKBAR_CHANGED, filter.value, filter.attribute)));
+    private double updateProgressText(final TextView textView, final NumericFilter filter, final double minValue) {
+        updateProgressText(textView, filter.attribute, filter.value, minValue);
         return filter.value;
     }
 
-    private long updateProgressText(TextView textView, SeekBar seekBar, String name, long minValue, long maxValue, int steps) {
+    private double updateProgressText(final TextView textView, final SeekBar seekBar, final String name, final double minValue, final double maxValue, int steps) {
         int progress = seekBar.getProgress();
-        final long actualValue = minValue + progress * (maxValue - minValue) / steps;
-        textView.setText(progress == 0 ? String.format(TEXT_SEEKBAR_DEFAULT, name) : Html.fromHtml(String.format(TEXT_SEEKBAR_CHANGED, actualValue, name)));
-        return actualValue;
+        final double value = minValue + progress * (maxValue - minValue) / steps;
+        updateProgressText(textView, name, value, minValue);
+        return value;
     }
 
-    public FilterResultsFragment setSearcher(Searcher searcher) {
+    private void updateProgressText(final TextView textView, final String name, final double value, final double minValue) {
+        if (value == minValue) {
+            final String prefix = "Filter ";
+            final String operatorMeaning = "minimum";
+            textView.setText(String.format(prefix + operatorMeaning + " %s", name));
+        } else {
+            final String prefix = "At least <b>";
+            final String suffix = "</b> %s";
+            final String html;
+            if (value == (long) value) {
+                html = String.format(prefix + "%d" + suffix, (long) value, name);
+            } else {
+                html = String.format(prefix + "%.1f" + suffix, value, name);
+            }
+            textView.setText(Html.fromHtml(html));
+        }
+    }
+
+    public FilterResultsFragment setSearcher(final Searcher searcher) {
         this.searcher = searcher;
         return this;
     }
