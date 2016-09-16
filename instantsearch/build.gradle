@@ -39,7 +39,7 @@ android {
 }
 
 ext {
-    VERSION_APPCOMPAT = '24.2.0'
+    VERSION_APPCOMPAT = '24.2.1'
 }
 
 dependencies {

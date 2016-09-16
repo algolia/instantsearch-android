@@ -1,6 +1,7 @@
 # IDE Files
 *.iml
 .idea/*
+projectFilesBackup
 
 # Build
 .gradle
