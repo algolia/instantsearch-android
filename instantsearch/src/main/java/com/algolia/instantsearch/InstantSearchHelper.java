@@ -292,9 +292,10 @@ public class InstantSearchHelper {
         }
 
         if (searchView != null) {
-            View searchPlate = searchView.findViewById(R.id.search_plate);
+            int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
+            View searchPlate = searchView.findViewById(searchPlateId);
             if (searchPlate == null) {
-                Log.e("Searcher", Errors.PROGRESS_WITHOUT_SEARCHVIEW);
+                Log.e("Searcher", Errors.PROGRESS_WITHOUT_SEARCHPLATE);
                 return;
             }
 

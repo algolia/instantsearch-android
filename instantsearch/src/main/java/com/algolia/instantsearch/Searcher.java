@@ -112,7 +112,7 @@ public class Searcher {
                     progressHandler.removeCallbacks(progressStartRunnable);
                 }
                 if (progressStopRunnable != null) {
-                    new Handler().post(progressStopRunnable);
+                    progressHandler.post(progressStopRunnable);
                 }
                 // NOTE: Canceling any request anterior to the current one.
                 //
@@ -178,12 +178,22 @@ public class Searcher {
         Query loadMoreQuery = new Query(query);
         loadMoreQuery.setPage(++lastRequestedPage);
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
+        final Handler progressHandler = new Handler(Looper.getMainLooper());
+        if (progressStartRunnable != null) {
+            progressHandler.postDelayed(progressStartRunnable, progressStartDelay);
+        }
         pendingRequests.put(currentSearchSeqNumber, index.searchAsync(loadMoreQuery, new CompletionHandler() {
             @Override
             public void requestCompleted(@NonNull JSONObject content, @Nullable AlgoliaException error) {
                 pendingRequests.remove(currentSearchSeqNumber);
+                if (progressStartRunnable != null) { // TODO: Display differently loadMore?
+                    progressHandler.removeCallbacks(progressStartRunnable);
+                }
+                if (progressStopRunnable != null) {
+                    new Handler().post(progressStopRunnable);
+                }
                 if (error != null) {
-                    throw new RuntimeException(Errors.LOADMORE_FAIL, error);
+                    throw new RuntimeException(String.format(Errors.LOADMORE_FAIL, error.getMessage()), error); //TODO: What should I do when loadMore timeouts?
                 } else {
                     if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
                         return; // Hits are for an older query, let's ignore them
