@@ -10,6 +10,7 @@ import com.algolia.instantsearch.events.ErrorEvent;
 import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
 import com.algolia.instantsearch.model.Errors;
+import com.algolia.instantsearch.model.NumericFilter;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.strategies.AlwaysSearchStrategy;
 import com.algolia.instantsearch.strategies.SearchStrategy;
@@ -54,6 +55,7 @@ public class Searcher {
 
     private final List<String> disjunctiveFacets = new ArrayList<>();
     private final Map<String, List<String>> refinementMap = new HashMap<>();
+    public final Map<String, NumericFilter> numericFilterMap = new HashMap<>(); //FIXME: NOT PUBLIC!
 
     private final Map<Integer, Request> pendingRequests = new HashMap<>();
 
@@ -227,6 +229,7 @@ public class Searcher {
         endReached = false;
         clearFacetRefinements();
         cancelPendingRequests();
+        numericFilterMap.clear();
         return this;
     }
 
