@@ -1,11 +1,13 @@
 package com.algolia.instantsearch.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -21,6 +23,7 @@ public class FilterResultsFragment extends DialogFragment {
     private Searcher searcher;
 
     private LinearLayout layout;
+    private Activity activity;
 
     @NonNull
     @Override
@@ -29,10 +32,8 @@ public class FilterResultsFragment extends DialogFragment {
             throw new IllegalStateException("You need to call setSearcher() before you can use a FilterResultsFragment.");
         }
 
-        AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
-        layout = new LinearLayout(getActivity());
-        layout.setOrientation(LinearLayout.VERTICAL);
-        addSeekBar("views", 0, 1000000000, 100);
+        final FragmentActivity activity = getActivity();
+        AlertDialog.Builder b = new AlertDialog.Builder(activity);
         b.setTitle("Filter results").setView(layout)
                 .setMessage("Use these settings to refine the current results.")
                 .setPositiveButton("Search", new DialogInterface.OnClickListener() {
@@ -46,20 +47,20 @@ public class FilterResultsFragment extends DialogFragment {
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getActivity(), "Cancelled filtering.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Cancelled filtering.", Toast.LENGTH_SHORT).show();
                     }
                 });
         return b.create();
     }
 
-    private void addSeekBar(final String attribute, final double minValue, final double maxValue, final int steps) {
-        addSeekBar(attribute, attribute, minValue, maxValue, steps);
+    public FilterResultsFragment addSeekBar(final String attribute, final double minValue, final double maxValue, final int steps) {
+        return addSeekBar(attribute, attribute, minValue, maxValue, steps);
     }
 
-    private void addSeekBar(final String attribute, final String name, final double minValue, final double maxValue, final int steps) {
-
-        final TextView tv = new TextView(getActivity());
-        final SeekBar seekBar = new SeekBar(getActivity());
+    public FilterResultsFragment addSeekBar(final String attribute, final String name, final double minValue, final double maxValue, final int steps) {
+        Activity activity = this.activity != null ? this.activity : getActivity();
+        final TextView tv = new TextView(activity);
+        final SeekBar seekBar = new SeekBar(activity);
         final NumericFilter currentFilter = searcher.getNumericFilter(attribute);
 
         if (currentFilter != null && currentFilter.value != 0) {
@@ -93,6 +94,7 @@ public class FilterResultsFragment extends DialogFragment {
 
         layout.addView(tv);
         layout.addView(seekBar);
+        return this;
     }
 
     private double updateProgressText(final TextView textView, final NumericFilter filter, final double minValue) {
@@ -123,6 +125,13 @@ public class FilterResultsFragment extends DialogFragment {
             }
             textView.setText(Html.fromHtml(html));
         }
+    }
+
+    public FilterResultsFragment withActivity(Activity activity) { //FIXME: Bad DX
+        this.activity = activity;
+        layout = new LinearLayout(activity);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        return this;
     }
 
     public FilterResultsFragment setSearcher(final Searcher searcher) {
