@@ -10,6 +10,7 @@ import com.algolia.instantsearch.events.ErrorEvent;
 import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
 import com.algolia.instantsearch.model.Errors;
+import com.algolia.instantsearch.model.FacetStat;
 import com.algolia.instantsearch.model.NumericFilter;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.strategies.AlwaysSearchStrategy;
@@ -61,6 +62,7 @@ public class Searcher {
     private final Map<String, Boolean> booleanFilterMap = new HashMap<>();
 
     private List<String> facets = new ArrayList<>();
+    private final Map<String, FacetStat> facetStats = new HashMap<>();
 
     private final Map<Integer, Request> pendingRequests = new HashMap<>();
 
@@ -152,6 +154,7 @@ public class Searcher {
                 } else {
                     bus.post(new ResultEvent(content, query, currentSearchSeqNumber));
                     updateListeners(content, false);
+                    updateFacetStats(content);
                 }
             }
         };
@@ -426,6 +429,46 @@ public class Searcher {
     public void removeBooleanFilter(String attribute) {
         booleanFilterMap.remove(attribute);
         rebuildQueryFilters();
+    }
+
+    private void updateFacetStats(JSONObject content) {
+        JSONObject facets = content.optJSONObject("facets");
+        if (facets != null) {
+            final Iterator<String> keys = facets.keys();
+            while (keys.hasNext()) {
+                double min = Double.MAX_VALUE;
+                double max = Double.MIN_VALUE;
+                double sum = 0;
+
+                String attribute = keys.next();
+                JSONObject values = facets.optJSONObject(attribute);
+                final Iterator<String> valueKeys = values.keys();
+                while (valueKeys.hasNext()) {
+                    String valueKey = valueKeys.next();
+                    try {
+                        final double attributeValue = Double.parseDouble(valueKey);
+                        if (attributeValue < min) {
+                            min = attributeValue;
+                        }
+                        if (attributeValue > max) {
+                            max = attributeValue;
+                        }
+                        sum += attributeValue;
+                    } catch (NumberFormatException ignored) {
+                    }
+                }
+                if (min != Double.MAX_VALUE && max != Double.MIN_VALUE) {
+                    double avg = sum / values.length();
+                    facetStats.put(attribute, new FacetStat(min, max, avg, sum));
+                }
+            }
+        }
+    }
+
+    public
+    @Nullable
+    FacetStat getFacetStat(String attribute) {
+        return facetStats.get(attribute);
     }
 
     public void addFacet(String... attributes) {
