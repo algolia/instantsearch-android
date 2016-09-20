@@ -422,7 +422,9 @@ public class Searcher {
         rebuildQueryFilters();
     }
 
-    public Boolean getBooleanFilter(String attribute) {
+    public
+    @Nullable
+    Boolean getBooleanFilter(String attribute) {
         return booleanFilterMap.get(attribute);
     }
 
