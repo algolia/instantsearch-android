@@ -102,7 +102,7 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
                 ((AlgoliaHitView) view).onUpdateView(hit);
             } else if (view instanceof EditText) {
                 ((EditText) view).setHint(attributeValue);
-            } else if (view instanceof RatingBar) {
+            } else if (view instanceof RatingBar) { //TODO SeekBar?
                 ((RatingBar) view).setRating(Float.parseFloat(attributeValue));
             } else if (view instanceof TextView) {
                 final TextView textView = (TextView) view;

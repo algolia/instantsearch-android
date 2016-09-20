@@ -10,15 +10,20 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.Searcher;
 import com.algolia.instantsearch.model.NumericFilter;
 
-public class FilterResultsFragment extends DialogFragment {
+public class FilterResultsFragment extends DialogFragment { //TODO: See display on tablet
     public static final String TAG = "FilterResultsFragment";
     private Searcher searcher;
 
@@ -29,13 +34,12 @@ public class FilterResultsFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         if (searcher == null) {
-            throw new IllegalStateException("You need to call setSearcher() before you can use a FilterResultsFragment.");
+            throw new IllegalStateException("You need to call with(activity, searcher) before you can show a FilterResultsFragment.");
         }
 
         final FragmentActivity activity = getActivity();
         AlertDialog.Builder b = new AlertDialog.Builder(activity);
         b.setTitle("Filter results").setView(layout)
-                .setMessage("Use these settings to refine the current results.")
                 .setPositiveButton("Search", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -53,14 +57,19 @@ public class FilterResultsFragment extends DialogFragment {
         return b.create();
     }
 
+    //TODO: get max from results
     public FilterResultsFragment addSeekBar(final String attribute, final double minValue, final double maxValue, final int steps) {
         return addSeekBar(attribute, attribute, minValue, maxValue, steps);
     }
 
     public FilterResultsFragment addSeekBar(final String attribute, final String name, final double minValue, final double maxValue, final int steps) {
+        checkWith();
         Activity activity = this.activity != null ? this.activity : getActivity();
-        final TextView tv = new TextView(activity);
-        final SeekBar seekBar = new SeekBar(activity);
+        LayoutInflater inflater = activity.getLayoutInflater();
+        final View seekBarLayout = inflater.inflate(R.layout.dialog_seekbar, null);
+
+        final TextView tv = (TextView) seekBarLayout.findViewById(R.id.dialog_seekbar_text);
+        final SeekBar seekBar = (SeekBar) seekBarLayout.findViewById(R.id.dialog_seekbar_bar);
         final NumericFilter currentFilter = searcher.getNumericFilter(attribute);
 
         if (currentFilter != null && currentFilter.value != 0) {
@@ -84,32 +93,61 @@ public class FilterResultsFragment extends DialogFragment {
             }
 
             private void onUpdate(final SeekBar seekBar) {
-                final double actualValue = updateProgressText(tv, seekBar, name, minValue, maxValue, steps);
+                final double actualValue = updateSeekBarText(tv, seekBar, name, minValue, maxValue, steps);
                 searcher.addNumericFilter(new NumericFilter(attribute, actualValue, NumericFilter.OPERATOR_GT));
             }
         });
-        tv.setPadding(seekBar.getPaddingLeft(), tv.getPaddingTop() + 50, tv.getPaddingRight(), tv.getPaddingBottom()); // TODO: Better way to fine tune layout?
 
-        updateProgressText(tv, currentFilter != null ? currentFilter : new NumericFilter(name, minValue, NumericFilter.OPERATOR_GT), minValue);
-
-        layout.addView(tv);
-        layout.addView(seekBar);
+        updateSeekBarText(tv, currentFilter != null ? currentFilter : new NumericFilter(name, minValue, NumericFilter.OPERATOR_GT), minValue);
+        layout.addView(seekBarLayout);
         return this;
     }
 
-    private double updateProgressText(final TextView textView, final NumericFilter filter, final double minValue) {
-        updateProgressText(textView, filter.attribute, filter.value, minValue);
+    public FilterResultsFragment addCheckBox(final String attribute, boolean checkedIsTrue) {
+        return addCheckBox(attribute, attribute, checkedIsTrue);
+    }
+
+    public FilterResultsFragment addCheckBox(final String attribute, final String name, final boolean checkedIsTrue) {
+        checkWith();
+        Activity activity = this.activity != null ? this.activity : getActivity();
+        LayoutInflater inflater = activity.getLayoutInflater();
+        final View checkBoxLayout = inflater.inflate(R.layout.dialog_checkbox, null);
+
+        final TextView tv = (TextView) checkBoxLayout.findViewById(R.id.dialog_checkbox_text);
+        final CheckBox checkBox = (CheckBox) checkBoxLayout.findViewById(R.id.dialog_checkbox_box);
+        final Boolean currentFilter = searcher.getBooleanFilter(attribute);
+
+        if (currentFilter != null) {
+            checkBox.setChecked(currentFilter);
+        }
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    searcher.addBooleanFilter(attribute, checkedIsTrue);
+                } else {
+                    searcher.removeBooleanFilter(attribute);
+                }
+            }
+        });
+        tv.setText(name != null ? name : attribute);
+        layout.addView(checkBoxLayout);
+        return this;
+    }
+
+    private double updateSeekBarText(final TextView textView, final NumericFilter filter, final double minValue) {
+        updateSeekBarText(textView, filter.attribute, filter.value, minValue);
         return filter.value;
     }
 
-    private double updateProgressText(final TextView textView, final SeekBar seekBar, final String name, final double minValue, final double maxValue, int steps) {
+    private double updateSeekBarText(final TextView textView, final SeekBar seekBar, final String name, final double minValue, final double maxValue, int steps) {
         int progress = seekBar.getProgress();
         final double value = minValue + progress * (maxValue - minValue) / steps;
-        updateProgressText(textView, name, value, minValue);
+        updateSeekBarText(textView, name, value, minValue);
         return value;
     }
 
-    private void updateProgressText(final TextView textView, final String name, final double value, final double minValue) {
+    private void updateSeekBarText(final TextView textView, final String name, final double value, final double minValue) {
         if (value == minValue) {
             final String prefix = "Filter ";
             final String operatorMeaning = "minimum";
@@ -127,15 +165,17 @@ public class FilterResultsFragment extends DialogFragment {
         }
     }
 
-    public FilterResultsFragment withActivity(Activity activity) { //FIXME: Bad DX
+    public FilterResultsFragment with(Activity activity, Searcher searcher) { //FIXME: Bad DX
         this.activity = activity;
+        this.searcher = searcher;
         layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.VERTICAL);
         return this;
     }
 
-    public FilterResultsFragment setSearcher(final Searcher searcher) {
-        this.searcher = searcher;
-        return this;
+    private void checkWith() {
+        if (searcher == null || activity == null) {
+            throw new RuntimeException("You need to prepare the fragment by calling with(activity, searcher) before you can use this method.");
+        }
     }
 }

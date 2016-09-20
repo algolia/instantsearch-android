@@ -56,6 +56,7 @@ public class Searcher {
     private final List<String> disjunctiveFacets = new ArrayList<>();
     private final Map<String, List<String>> refinementMap = new HashMap<>();
     private final Map<String, NumericFilter> numericFilterMap = new HashMap<>();
+    private final Map<String, Boolean> booleanFilterMap = new HashMap<>();
 
     private final Map<Integer, Request> pendingRequests = new HashMap<>();
 
@@ -387,7 +388,7 @@ public class Searcher {
         return numericFilterMap.get(attribute);
     }
 
-    public void addNumericFilter(NumericFilter filter) {
+    public void addNumericFilter(NumericFilter filter) { //DISCUSS: set semantics?
         numericFilterMap.put(filter.attribute, filter);
         rebuildQueryFilters();
     }
@@ -400,7 +401,27 @@ public class Searcher {
             }
             filters.append(numericFilter.toString());
         }
-        query.setFilters(filters.toString()); //FIXME: How can I avoid erasing existing filters before adding my numericRefinements?
+        for (Map.Entry<String, Boolean> entry : booleanFilterMap.entrySet()) {
+            if (filters.length() > 0) {
+                filters.append(" AND ");
+            }
+            filters.append(entry.getKey()).append(":").append(entry.getValue());
+        }
+        query.setFilters(filters.toString());
+    }
+
+    public void addBooleanFilter(String attribute, Boolean value) {
+        booleanFilterMap.put(attribute, value);
+        rebuildQueryFilters();
+    }
+
+    public Boolean getBooleanFilter(String attribute) {
+        return booleanFilterMap.get(attribute);
+    }
+
+    public void removeBooleanFilter(String attribute) {
+        booleanFilterMap.remove(attribute);
+        rebuildQueryFilters();
     }
 
     public Searcher registerListener(@NonNull AlgoliaResultsListener resultsListener) {
