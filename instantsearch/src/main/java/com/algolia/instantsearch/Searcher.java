@@ -27,7 +27,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +59,8 @@ public class Searcher {
     private final Map<String, List<String>> refinementMap = new HashMap<>();
     private final Map<String, NumericFilter> numericFilterMap = new HashMap<>();
     private final Map<String, Boolean> booleanFilterMap = new HashMap<>();
+
+    private List<String> facets = new ArrayList<>();
 
     private final Map<Integer, Request> pendingRequests = new HashMap<>();
 
@@ -422,6 +426,24 @@ public class Searcher {
     public void removeBooleanFilter(String attribute) {
         booleanFilterMap.remove(attribute);
         rebuildQueryFilters();
+    }
+
+    public void addFacet(String... attributes) {
+        Collections.addAll(facets, attributes);
+        rebuildQueryFacets();
+    }
+
+    public void removeFacet(String... attributes) {
+        for (String attribute : attributes) {
+            facets.remove(attribute);
+        }
+        rebuildQueryFacets();
+    }
+
+    private Searcher rebuildQueryFacets() {
+        final String[] facetArray = this.facets.toArray(new String[this.facets.size()]);
+        query.setFacets(facetArray);
+        return this;
     }
 
     public Searcher registerListener(@NonNull AlgoliaResultsListener resultsListener) {

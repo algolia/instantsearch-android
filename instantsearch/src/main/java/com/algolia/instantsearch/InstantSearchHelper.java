@@ -201,7 +201,7 @@ public class InstantSearchHelper {
             }
         }
         final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
-        searcher.getQuery().setFacets(facets);
+        searcher.addFacet(facets);
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
