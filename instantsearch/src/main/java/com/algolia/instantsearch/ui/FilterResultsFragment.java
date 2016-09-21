@@ -9,10 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -26,9 +25,7 @@ import com.algolia.instantsearch.model.FacetStat;
 import com.algolia.instantsearch.model.NumericFilter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FilterResultsFragment extends DialogFragment { //TODO: See display on tablet
     //FIXME: Default constructor + setArguments() http://stackoverflow.com/questions/12062946/why-do-i-want-to-avoid-non-default-constructors-in-fragments
@@ -37,7 +34,7 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
 
     private List<SeekBarRequirements> futureSeekBars = new ArrayList<>();
     private List<CheckBoxRequirements> futureCheckBoxes = new ArrayList<>();
-    private Map<Integer, View> views = new HashMap<>();
+    private SparseArray<View> filterViews = new SparseArray<>();
     private int filterCount = 0;
 
     private Activity activity;
@@ -54,22 +51,15 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.VERTICAL);
 
+        filterViews.clear();
         for (SeekBarRequirements seekBar : futureSeekBars) {
             seekBar.create();
         }
-        futureSeekBars.clear();
-
         for (CheckBoxRequirements checkBox : futureCheckBoxes) {
             checkBox.create();
         }
-        futureCheckBoxes.clear();
-
-        for (int i = 0; i < views.size(); i++) {
-            View v = views.get(i);
-            final ViewParent parent = v.getParent();
-            if (parent != null) {
-                ((ViewGroup) parent).removeView(v);
-            }
+        for (int i = 0; i < filterViews.size(); i++) {
+            View v = filterViews.get(i);
             layout.addView(v);
         }
 
@@ -114,7 +104,49 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
 
     public FilterResultsFragment addCheckBox(final String attribute, final String name, final boolean checkedIsTrue) {
         futureCheckBoxes.add(new CheckBoxRequirements(attribute, name, checkedIsTrue, filterCount++));
+        searcher.addFacet(attribute);
         return this;
+    }
+
+    private View getInflatedLayout(int layoutId) {
+        Activity activity = this.activity != null ? this.activity : getActivity();
+        LayoutInflater inflater = activity.getLayoutInflater();
+        return inflater.inflate(layoutId, null);
+    }
+
+    private void createCheckBox(final CheckBoxRequirements requirements) {
+        checkWith();
+
+        final String attribute = requirements.attribute;
+        final String name = requirements.name;
+        final boolean checkedIsTrue = requirements.checkedIsTrue;
+
+        final View checkBoxLayout = getInflatedLayout(R.layout.dialog_checkbox);
+
+        final TextView tv = (TextView) checkBoxLayout.findViewById(R.id.dialog_checkbox_text);
+        final CheckBox checkBox = (CheckBox) checkBoxLayout.findViewById(R.id.dialog_checkbox_box);
+        final Boolean currentFilter = searcher.getBooleanFilter(attribute);
+        final FacetStat stats = searcher.getFacetStat(attribute);
+        final boolean hasOnlyOneValue = stats != null && stats.min == stats.max;
+
+        if (currentFilter != null) { // If the attribute is currently filtered, show its state
+            checkBox.setChecked(currentFilter);
+        } else if (hasOnlyOneValue) { // If the attribute is not filtered and has only one value, disable its checkbox
+            checkBox.setChecked(stats.min != 0); // If min=max=1, we check the box before disabling
+            checkBox.setEnabled(false);
+        }
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    searcher.addBooleanFilter(attribute, checkedIsTrue);
+                } else {
+                    searcher.removeBooleanFilter(attribute);
+                }
+            }
+        });
+        tv.setText(name != null ? name : attribute);
+        filterViews.put(requirements.position, checkBoxLayout);
     }
 
     private void createSeekBar(SeekBarRequirements requirements) {
@@ -159,44 +191,7 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
         });
 
         updateSeekBarText(tv, currentFilter != null ? currentFilter : new NumericFilter(name, minValue, NumericFilter.OPERATOR_GT), minValue);
-        views.put(requirements.position, seekBarLayout);
-    }
-
-    private void createCheckBox(final CheckBoxRequirements requirements) {
-        checkWith();
-
-        final String attribute = requirements.attribute;
-        final String name = requirements.name;
-        final boolean checkedIsTrue = requirements.checkedIsTrue;
-
-        final View checkBoxLayout = getInflatedLayout(R.layout.dialog_checkbox);
-        searcher.addFacet(attribute);
-
-        final TextView tv = (TextView) checkBoxLayout.findViewById(R.id.dialog_checkbox_text);
-        final CheckBox checkBox = (CheckBox) checkBoxLayout.findViewById(R.id.dialog_checkbox_box);
-        final Boolean currentFilter = searcher.getBooleanFilter(attribute);
-
-        if (currentFilter != null) {
-            checkBox.setChecked(currentFilter);
-        }
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    searcher.addBooleanFilter(attribute, checkedIsTrue);
-                } else {
-                    searcher.removeBooleanFilter(attribute);
-                }
-            }
-        });
-        tv.setText(name != null ? name : attribute);
-        views.put(requirements.position, checkBoxLayout);
-    }
-
-    private View getInflatedLayout(int layoutId) {
-        Activity activity = this.activity != null ? this.activity : getActivity();
-        LayoutInflater inflater = activity.getLayoutInflater();
-        return inflater.inflate(layoutId, null);
+        filterViews.put(requirements.position, seekBarLayout);
     }
 
     private double updateSeekBarText(final TextView textView, final NumericFilter filter, final double minValue) {
@@ -213,9 +208,7 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
 
     private void updateSeekBarText(final TextView textView, final String name, final double value, final double minValue) {
         if (value == minValue) {
-            final String prefix = "Filter ";
-            final String operatorMeaning = "minimum";
-            textView.setText(String.format(prefix + operatorMeaning + " %s", name));
+            textView.setText(String.format("Filter minimum %s", name));
         } else {
             final String prefix = "At least <b>";
             final String suffix = "</b> %s";
