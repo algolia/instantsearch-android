@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.SparseArray;
 
 import com.algolia.instantsearch.events.CancelEvent;
 import com.algolia.instantsearch.events.ErrorEvent;
@@ -64,7 +65,7 @@ public class Searcher {
     private List<String> facets = new ArrayList<>();
     private final Map<String, FacetStat> facetStats = new HashMap<>();
 
-    private final Map<Integer, Request> pendingRequests = new HashMap<>();
+    private final SparseArray<Request> pendingRequests = new SparseArray<>();
 
     /**
      * Create and initialize the helper.
@@ -127,9 +128,11 @@ public class Searcher {
                 // requests, nothing prevents the system from opening multiple connections to the
                 // same server, nor the Algolia client to transparently switch to another server
                 // between two requests. Therefore the order of responses is not guaranteed.
-                for (Map.Entry<Integer, Request> entry : pendingRequests.entrySet()) {
-                    if (entry.getKey() < currentSearchSeqNumber) {
-                        cancelRequest(entry.getValue(), entry.getKey());
+                for (int i = 0; i < pendingRequests.size(); i++) {
+                    int reqId = pendingRequests.keyAt(i);
+                    Request request = pendingRequests.valueAt(i);
+                    if (reqId < currentSearchSeqNumber) {
+                        cancelRequest(request, reqId);
                     }
                 }
 
@@ -265,10 +268,11 @@ public class Searcher {
      */
     public Searcher cancelPendingRequests() {
         if (pendingRequests.size() != 0) {
-            for (Map.Entry<Integer, Request> entry : pendingRequests.entrySet()) {
-                Request r = entry.getValue();
+            for (int i = 0; i < pendingRequests.size(); i++) {
+                int reqId = pendingRequests.keyAt(i);
+                Request r = pendingRequests.valueAt(i);
                 if (!r.isFinished() && !r.isCancelled()) {
-                    cancelRequest(r, entry.getKey());
+                    cancelRequest(r, reqId);
                 }
             }
         }
