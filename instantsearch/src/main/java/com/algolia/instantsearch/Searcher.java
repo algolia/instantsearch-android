@@ -399,9 +399,10 @@ public class Searcher {
         return numericFilterMap.get(attribute);
     }
 
-    public void addNumericFilter(NumericFilter filter) { //DISCUSS: set semantics?
+    public Searcher addNumericFilter(NumericFilter filter) { //DISCUSS: set semantics?
         numericFilterMap.put(filter.attribute, filter);
         rebuildQueryFilters();
+        return this;
     }
 
     private void rebuildQueryFilters() {
@@ -421,9 +422,10 @@ public class Searcher {
         query.setFilters(filters.toString());
     }
 
-    public void addBooleanFilter(String attribute, Boolean value) {
+    public Searcher addBooleanFilter(String attribute, Boolean value) {
         booleanFilterMap.put(attribute, value);
         rebuildQueryFilters();
+        return this;
     }
 
     public
@@ -432,9 +434,10 @@ public class Searcher {
         return booleanFilterMap.get(attribute);
     }
 
-    public void removeBooleanFilter(String attribute) {
+    public Searcher removeBooleanFilter(String attribute) {
         booleanFilterMap.remove(attribute);
         rebuildQueryFilters();
+        return this;
     }
 
     private void updateFacetStats(JSONObject content) {
@@ -477,16 +480,18 @@ public class Searcher {
         return facetStats.get(attribute);
     }
 
-    public void addFacet(String... attributes) {
+    public Searcher addFacet(String... attributes) {
         Collections.addAll(facets, attributes);
         rebuildQueryFacets();
+        return this;
     }
 
-    public void removeFacet(String... attributes) {
+    public Searcher removeFacet(String... attributes) {
         for (String attribute : attributes) {
             facets.remove(attribute);
         }
         rebuildQueryFacets();
+        return this;
     }
 
     private Searcher rebuildQueryFacets() {
