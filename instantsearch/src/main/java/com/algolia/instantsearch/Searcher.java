@@ -25,6 +25,7 @@ import com.algolia.search.saas.Query;
 import com.algolia.search.saas.Request;
 
 import org.greenrobot.eventbus.EventBus;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -440,11 +441,11 @@ public class Searcher {
         return this;
     }
 
-    private void updateFacetStats(JSONObject content) {
+    private void updateFacetStats(@NotNull JSONObject content) {
         JSONObject facets = content.optJSONObject("facets");
         if (facets != null) {
             final Iterator<String> keys = facets.keys();
-            while (keys.hasNext()) {
+            while (keys.hasNext()) { // for each facet
                 double min = Double.MAX_VALUE;
                 double max = Double.MIN_VALUE;
                 double sum = 0;
@@ -452,10 +453,21 @@ public class Searcher {
                 String attribute = keys.next();
                 JSONObject values = facets.optJSONObject(attribute);
                 final Iterator<String> valueKeys = values.keys();
-                while (valueKeys.hasNext()) {
+                while (valueKeys.hasNext()) { // for each facet value
                     String valueKey = valueKeys.next();
+                    double attributeValue = Double.NaN;
+
+                    // try to get the value as a number
                     try {
-                        final double attributeValue = Double.parseDouble(valueKey);
+                        attributeValue = Double.parseDouble(valueKey);
+                    } catch (NumberFormatException ignored) {
+                        if (valueKey.equals("true") || valueKey.equals("false")) {
+                            attributeValue = valueKey.equals("true") ? 1 : 0;
+                        }
+                    }
+
+                    // and eventually compute facet stats
+                    if (attributeValue != Double.NaN) {
                         if (attributeValue < min) {
                             min = attributeValue;
                         }
@@ -463,7 +475,6 @@ public class Searcher {
                             max = attributeValue;
                         }
                         sum += attributeValue;
-                    } catch (NumberFormatException ignored) {
                     }
                 }
                 if (min != Double.MAX_VALUE && max != Double.MIN_VALUE) {
