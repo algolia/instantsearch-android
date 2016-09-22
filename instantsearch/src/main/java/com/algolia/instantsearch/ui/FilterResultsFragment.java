@@ -37,8 +37,6 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
     private SparseArray<View> filterViews = new SparseArray<>();
     private int filterCount = 0;
 
-    private Activity activity;
-
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -80,28 +78,79 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
         return b.create();
     }
 
+    /**
+     * Add a SeekBar to the fragment, automatically fetching min and max values for its attribute.
+     * This method <b>MUST</b> be called in the enclosing activity's <code>onCreate</code> to setup the required facets <b>before</b> the fragment is created.
+     *
+     * @param attribute the attribute this SeekBar will filter on.
+     * @param steps     the amount of steps between min and max.
+     * @return the fragment to allow chaining calls.
+     */
     public FilterResultsFragment addSeekBar(final String attribute, final int steps) {
         return addSeekBar(attribute, attribute, null, null, steps);
     }
 
+    /**
+     * Add a SeekBar to the fragment, naming the attribute differently in the UI and automatically fetching min and max values for its attribute.
+     * This method <b>MUST</b> be called in the enclosing activity's <code>onCreate</code> to setup the required facets <b>before</b> the fragment is created.
+     *
+     * @param attribute the attribute this SeekBar will filter on.
+     * @param name      the name to use when referring to the refined attribute.
+     * @param steps     the amount of steps between min and max.
+     * @return the fragment to allow chaining calls.
+     */
     public FilterResultsFragment addSeekBar(final String attribute, final String name, final int steps) {
         return addSeekBar(attribute, name, null, null, steps);
     }
 
+    /**
+     * Add a SeekBar to the fragment.
+     *
+     * @param attribute the attribute this SeekBar will filter on.
+     * @param min       the minimum value that the user can select.
+     * @param max       the maximum value that the user can select.
+     * @param steps     the amount of steps between min and max.
+     * @return the fragment to allow chaining calls.
+     */
     public FilterResultsFragment addSeekBar(final String attribute, final Double min, final Double max, final int steps) {
         return addSeekBar(attribute, attribute, min, max, steps);
     }
 
+    /**
+     * Add a SeekBar to the fragment, naming the attribute differently in the UI.
+     *
+     * @param attribute the attribute this SeekBar will filter on.
+     * @param name      the name to use when referring to the refined attribute.
+     * @param min       the minimum value that the user can select.
+     * @param max       the maximum value that the user can select.
+     * @param steps     the amount of steps between min and max.
+     * @return the fragment to allow chaining calls.
+     */
     public FilterResultsFragment addSeekBar(final String attribute, final String name, final Double min, final Double max, final int steps) {
         futureSeekBars.add(new SeekBarRequirements(attribute, name, min, max, steps, filterCount++));
         searcher.addFacet(attribute);
         return this;
     }
 
+    /**
+     * Add a CheckBox to the fragment.
+     *
+     * @param attribute     the attribute this SeekBar will filter on.
+     * @param checkedIsTrue if {@code true}, a checked box will refine on attribute:true, else on attribute:false.
+     * @return the fragment to allow chaining calls.
+     */
     public FilterResultsFragment addCheckBox(final String attribute, boolean checkedIsTrue) {
         return addCheckBox(attribute, attribute, checkedIsTrue);
     }
 
+    /**
+     * Add a CheckBox to the fragment, naming the attribute differently in the UI.
+     *
+     * @param attribute     the attribute this SeekBar will filter on.
+     * @param name          the name to use when referring to the refined attribute.
+     * @param checkedIsTrue if {@code true}, a checked box will refine on attribute:true, else on attribute:false.
+     * @return the fragment to allow chaining calls.
+     */
     public FilterResultsFragment addCheckBox(final String attribute, final String name, final boolean checkedIsTrue) {
         futureCheckBoxes.add(new CheckBoxRequirements(attribute, name, checkedIsTrue, filterCount++));
         searcher.addFacet(attribute);
@@ -109,7 +158,7 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
     }
 
     private View getInflatedLayout(int layoutId) {
-        Activity activity = this.activity != null ? this.activity : getActivity();
+        Activity activity = getActivity();
         LayoutInflater inflater = activity.getLayoutInflater();
         return inflater.inflate(layoutId, null);
     }
@@ -222,14 +271,13 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
         }
     }
 
-    public FilterResultsFragment with(Activity activity, Searcher searcher) { //FIXME: Bad DX
-        this.activity = activity;
+    public FilterResultsFragment with(Searcher searcher) { //FIXME: Bad DX
         this.searcher = searcher;
         return this;
     }
 
     private void checkWith() {
-        if (searcher == null || activity == null) {
+        if (searcher == null) {
             throw new RuntimeException("You need to prepare the fragment by calling with(activity, searcher) before you can use this method.");
         }
     }
@@ -242,7 +290,7 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
         private final int steps;
         private final int position;
 
-        public SeekBarRequirements(String attribute, String name, Double min, Double max, int steps, int position) {
+        SeekBarRequirements(String attribute, String name, Double min, Double max, int steps, int position) {
             this.attribute = attribute;
             this.name = name;
             this.min = min;
@@ -251,11 +299,11 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
             this.position = position;
         }
 
-        public void create() {
+        void create() {
             if (min == null || max == null) {
                 FacetStat stats = searcher.getFacetStat(attribute);
                 if (stats == null) {
-                    throw new RuntimeException("We need either some FacetStat or given min/max values.");
+                    throw new RuntimeException("No facet stats were stored for `" + attribute + "`. Did you call addSeekBar(attribute, name, steps) in the activity's onCreate, as required?");
                 }
                 min = min == null ? stats.min : min;
                 max = max == null ? stats.max : max;
@@ -270,14 +318,14 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
         private final boolean checkedIsTrue;
         private final int position;
 
-        public CheckBoxRequirements(String attribute, String name, boolean checkedIsTrue, int position) {
+        CheckBoxRequirements(String attribute, String name, boolean checkedIsTrue, int position) {
             this.attribute = attribute;
             this.name = name;
             this.checkedIsTrue = checkedIsTrue;
             this.position = position;
         }
 
-        public void create() {
+        void create() {
             createCheckBox(this);
         }
     }
