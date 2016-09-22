@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +62,9 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
             layout.addView(v);
         }
 
-        b.setTitle("Filter results").setView(layout)
+        ScrollView scrollView = new ScrollView(activity);
+        scrollView.addView(layout);
+        b.setTitle("Filter results").setView(scrollView)
                 .setPositiveButton("Search", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
