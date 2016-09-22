@@ -37,11 +37,14 @@ import java.util.List;
 import java.util.Map;
 
 public class Searcher {
+    private static List<Searcher> instances = new ArrayList<>();
+    private int id;
 
     private final EventBus bus;
     private Index index;
     private final Client client;
     private Query query;
+
 
     @Nullable
     private Runnable progressStartRunnable;
@@ -78,6 +81,12 @@ public class Searcher {
         this.index = index;
         this.client = index.getClient();
         bus = EventBus.getDefault();
+        id = instances.size();
+        instances.add(this);
+    }
+
+    public static Searcher get(int id) {
+        return instances.get(id);
     }
 
     /**
@@ -632,4 +641,7 @@ public class Searcher {
         return lastSearchSeqNumber;
     }
 
+    public int getId() {
+        return id;
+    }
 }

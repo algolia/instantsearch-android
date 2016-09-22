@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
@@ -29,8 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FilterResultsFragment extends DialogFragment { //TODO: See display on tablet
-    //FIXME: Default constructor + setArguments() http://stackoverflow.com/questions/12062946/why-do-i-want-to-avoid-non-default-constructors-in-fragments
     public static final String TAG = "FilterResultsFragment";
+    public static final String KEY_SEARCHER = "searcherId";
+
     private Searcher searcher;
 
     private List<SeekBarRequirements> futureSeekBars = new ArrayList<>();
@@ -38,11 +40,41 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
     private SparseArray<View> filterViews = new SparseArray<>();
     private int filterCount = 0;
 
+    /**
+     * Default constructor required when the fragment is restored.
+     * You <b>MUST</b> use {@link FilterResultsFragment#get(Searcher)} as this fragment requires a Searcher reference.
+     * @deprecated you <b>MUST</b> use {@link FilterResultsFragment#get(Searcher)} instead.
+     */
+    public FilterResultsFragment() {}
+
+    /**
+     * Get a FilterResultsFragment instance linked with a given searcher.
+     * @param searcher the searcher object to associate with this fragment.
+     * @return a fragment ready to use.
+     */
+    public static FilterResultsFragment get(Searcher searcher) {
+        final FilterResultsFragment fragment = new FilterResultsFragment();
+        fragment.searcher = searcher; //storing the searcher for method calls before onCreateDialog, like addSeekBar
+
+        final Bundle bundle = new Bundle();
+        bundle.putInt(KEY_SEARCHER, searcher.getId());
+        fragment.setArguments(bundle); //storing the searcher's id for restoring it in onCreateDialog
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setRetainInstance(true);
+        super.onCreate(savedInstanceState);
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final int searcherId = getArguments().getInt(KEY_SEARCHER);
+        searcher = Searcher.get(searcherId);
         if (searcher == null) {
-            throw new IllegalStateException("You need to call with(activity, searcher) before you can show a FilterResultsFragment.");
+            throw new IllegalStateException("This fragment has no searcher. Did you use FilterResultsFragment.get(Searcher) as required?");
         }
 
         final FragmentActivity activity = getActivity();
