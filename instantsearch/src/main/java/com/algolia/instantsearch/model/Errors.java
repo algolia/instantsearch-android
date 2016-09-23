@@ -8,8 +8,7 @@ public class Errors {
     public static final String BINDING_NO_ATTR = "You need an algolia:attribute to use algolia:highlighted and algolia:highlighting.";
     public static final String BINDING_COLOR_INVALID = "algolia:highlightingColor should be an @android:color or @color resource.";
 
-    public static final String GET_ITEMLAYOUT_WITHOUT_HITS = "This method should only be called when using the default Hits widget.";
-
+    public static final String HITS_NO_ITEMLAYOUT = "Your Hits widget is missing an algolia:itemLayout attribute to specify the hits item layout.";
     public static final String HITS_INFINITESCROLL = "You specified both disableInfiniteScroll and remainingItemsBeforeLoading, but they are mutually exclusive.";
 
     public static final String IMAGELOAD_INVALID_URL = "There should be one valid url per ImageView.";

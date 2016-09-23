@@ -268,13 +268,14 @@ public class InstantSearchHelper {
 
     /**
      * Get the {@link android.support.annotation.IdRes} of the item layout registered by a Hits widget.
+     * This method should only be used by the library's internals. TODO: Can I enforce that while keeping separated packages?
      *
      * @return the registered item layout id, if any.
      * @throws IllegalStateException if no item layout was registered.
      */
     public static int getItemLayoutId() {
         if (itemLayoutId == 0) {
-            throw new IllegalStateException(Errors.GET_ITEMLAYOUT_WITHOUT_HITS);
+            throw new IllegalStateException(Errors.HITS_NO_ITEMLAYOUT);
         }
         return itemLayoutId;
     }
