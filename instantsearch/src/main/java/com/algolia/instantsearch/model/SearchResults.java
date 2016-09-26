@@ -111,7 +111,6 @@ public class SearchResults {
      * @throws IllegalStateException if the server response misses any mandatory field.
      */
     public SearchResults(@Nullable JSONObject content) {
-        //DISCUSS: what if mandatory missing? What about processingTimeMS? IF not mandatory, null or default value?
         this.content = content;
         if (content == null) {
             return;

@@ -69,7 +69,8 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
         return hits.get(position);
     }
 
-    @NonNull @Override
+    @NonNull
+    @Override
     public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         ViewDataBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()), InstantSearchHelper.getItemLayoutId(), parent, false);

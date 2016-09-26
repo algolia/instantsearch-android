@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.algolia.instantsearch.model.Errors;
@@ -32,7 +33,7 @@ public class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
             url = params[0];
             bitmap = BitmapFactory.decodeStream(new URL(url).openConnection().getInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("ImageLoadTask", "Error loading image with url `" + url + "`: " + e.getMessage());
         }
         return bitmap;
     }
