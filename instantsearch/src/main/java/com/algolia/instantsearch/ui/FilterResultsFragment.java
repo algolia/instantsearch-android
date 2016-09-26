@@ -306,11 +306,6 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
         }
     }
 
-    public FilterResultsFragment with(Searcher searcher) { //FIXME: Bad DX
-        this.searcher = searcher;
-        return this;
-    }
-
     private void checkWith() {
         if (searcher == null) {
             throw new RuntimeException("You need to prepare the fragment by calling with(activity, searcher) before you can use this method.");
