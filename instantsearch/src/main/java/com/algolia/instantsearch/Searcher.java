@@ -10,7 +10,6 @@ import com.algolia.instantsearch.events.CancelEvent;
 import com.algolia.instantsearch.events.ErrorEvent;
 import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
-import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.FacetStat;
 import com.algolia.instantsearch.model.NumericFilter;
 import com.algolia.instantsearch.model.SearchResults;
@@ -203,6 +202,7 @@ public class Searcher {
         if (progressStartRunnable != null) {
             progressHandler.postDelayed(progressStartRunnable, progressStartDelay);
         }
+        bus.post(new SearchEvent(query, currentSearchSeqNumber));
         pendingRequests.put(currentSearchSeqNumber, index.searchAsync(loadMoreQuery, new CompletionHandler() {
             @Override
             public void requestCompleted(@NonNull JSONObject content, @Nullable AlgoliaException error) {
@@ -214,7 +214,10 @@ public class Searcher {
                     new Handler().post(progressStopRunnable);
                 }
                 if (error != null) {
-                    throw new RuntimeException(String.format(Errors.LOADMORE_FAIL, error.getMessage()), error); //TODO: What should I do when loadMore timeouts?
+                    bus.post(new ErrorEvent(error, query, currentSearchSeqNumber));
+                    for (AlgoliaResultsListener view : resultsListeners) {
+                        view.onError(query, error);
+                    }
                 } else {
                     if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
                         return; // Hits are for an older query, let's ignore them
