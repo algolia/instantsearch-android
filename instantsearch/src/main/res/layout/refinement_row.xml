@@ -8,20 +8,21 @@
         android:id="@+id/refinementName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
         android:text="@string/placeholder_facet_name"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorRefinementName"/>
 
     <TextView
         android:id="@+id/refinementCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:layout_marginRight="10dp"
         android:text="@string/placeholder_facet_value"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="@color/colorRefinementCount"/>
 </RelativeLayout>
