@@ -24,6 +24,7 @@
 package com.algolia.instantsearch.ui;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
@@ -32,6 +33,8 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
+
+import com.algolia.instantsearch.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -98,6 +101,32 @@ public class Highlighter {
     }
 
     /**
+     * Render a highlighted result's attribute using the default highlighting color resource.
+     *
+     * @param result        {@link JSONObject} describing a hit.
+     * @param attributeName name of the attribute to be highlighted.
+     * @param context       a {@link Context} to get resources from.
+     * @return a {@link Spannable} with the highlighted text.
+     */
+    @Nullable
+    public Spannable renderHighlightColor(@NonNull JSONObject result, String attributeName, @NonNull Context context) {
+        return renderHighlightColor(getHighlightedAttribute(result, attributeName), getColor(context, R.color.colorHighlighting));
+    }
+
+    /**
+     * Render a highlighted text using the default highlighting color resource.
+     *
+     * @param markupString a string to highlight.
+     * @param colorId      a resource Id referencing a color.
+     * @param context      a {@link Context} to get resources from.
+     * @return a {@link Spannable} with the highlighted text.
+     */
+    @Nullable
+    public Spannable renderHighlightColor(String markupString, @NonNull Context context) {
+        return renderHighlightColor(markupString, getColor(context, R.color.colorHighlighting));
+    }
+
+    /**
      * Render a highlighted text using a color resource.
      *
      * @param markupString a string to highlight.
@@ -107,11 +136,7 @@ public class Highlighter {
      */
     @Nullable
     public Spannable renderHighlightColor(String markupString, @ColorRes int colorId, @NonNull Context context) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            return renderHighlightColor(markupString, context.getResources().getColor(colorId, context.getTheme()));
-        } else { //noinspection deprecation
-            return renderHighlightColor(markupString, context.getResources().getColor(colorId));
-        }
+        return renderHighlightColor(markupString, getColor(context, colorId));
     }
 
     /**
@@ -199,5 +224,17 @@ public class Highlighter {
             }
         }
         return null;
+    }
+
+    private
+    @ColorInt
+    int getColor(@NonNull Context context, @ColorRes int colorId) {
+        final int colorHighlighting;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            colorHighlighting = context.getResources().getColor(colorId, context.getTheme());
+        } else {
+            colorHighlighting = context.getResources().getColor(colorId);
+        }
+        return colorHighlighting;
     }
 }
