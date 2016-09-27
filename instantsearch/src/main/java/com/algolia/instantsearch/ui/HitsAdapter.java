@@ -141,10 +141,10 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
         bitmaps.put(url, bitmap);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         final Map<View, String> viewMap = new HashMap<>();
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             // Store every annotated view with its attribute name
             for (Map.Entry<Integer, String> entry : BindingHelper.getEntrySet()) {
