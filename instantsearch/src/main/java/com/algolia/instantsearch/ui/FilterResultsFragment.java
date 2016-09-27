@@ -42,13 +42,15 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
 
     /**
      * Default constructor required when the fragment is restored.
-     * You <b>MUST</b> use {@link FilterResultsFragment#get(Searcher)} as this fragment requires a Searcher reference.
+     * You <b>MUST</b> use {@link FilterResultsFragment#get(Searcher)} instead as this fragment requires a Searcher reference.
+     *
      * @deprecated you <b>MUST</b> use {@link FilterResultsFragment#get(Searcher)} instead.
      */
     public FilterResultsFragment() {}
 
     /**
      * Get a FilterResultsFragment instance linked with a given searcher.
+     *
      * @param searcher the searcher object to associate with this fragment.
      * @return a fragment ready to use.
      */
