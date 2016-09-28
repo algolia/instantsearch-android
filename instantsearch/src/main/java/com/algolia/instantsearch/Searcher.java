@@ -225,6 +225,7 @@ public class Searcher {
 
                     if (hasHits(content)) {
                         updateListeners(content, true);
+                        updateFacetStats(content);
                         lastDisplayedPage = lastRequestedPage;
 
                         checkIfLastPage(content);
