@@ -31,6 +31,7 @@
         <LinearLayout
             android:id="@+id/popup_filters"
             android:layout_width="wrap_content"
+            android:paddingBottom="@dimen/dialog_padding"
             android:layout_height="wrap_content"
             android:orientation="vertical">
         </LinearLayout>

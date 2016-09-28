@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.algolia.instantsearch.events.CancelEvent;
@@ -514,6 +515,22 @@ public class Searcher {
     @Nullable
     FacetStat getFacetStat(String attribute) {
         return facetStats.get(attribute);
+    }
+
+    /**
+     * Update the facet stats, calling {@link Index#search(Query)} without notifying listeners of the result.
+     */
+    public void getUpdatedFacetStats() {
+        index.searchAsync(query, new CompletionHandler() {
+            @Override
+            public void requestCompleted(JSONObject content, AlgoliaException error) {
+                if (error == null) {
+                    updateFacetStats(content);
+                } else {
+                    Log.e("Searcher", "Error while getting updated facet stats:" + error.getMessage());
+                }
+            }
+        });
     }
 
     public Searcher addFacet(String... attributes) {

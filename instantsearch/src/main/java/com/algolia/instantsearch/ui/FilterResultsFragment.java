@@ -207,7 +207,7 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
         final String name = requirements.name;
         final boolean checkedIsTrue = requirements.checkedIsTrue;
 
-        final View checkBoxLayout = getInflatedLayout(R.layout.dialog_checkbox);
+        final View checkBoxLayout = getInflatedLayout(R.layout.layout_checkbox);
 
         final TextView tv = (TextView) checkBoxLayout.findViewById(R.id.dialog_checkbox_text);
         final CheckBox checkBox = (CheckBox) checkBoxLayout.findViewById(R.id.dialog_checkbox_box);
@@ -244,7 +244,7 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
         final double maxValue = requirements.max;
         final int steps = requirements.steps;
 
-        final View seekBarLayout = getInflatedLayout(R.layout.dialog_seekbar);
+        final View seekBarLayout = getInflatedLayout(R.layout.layout_seekbar);
 
         final TextView tv = (TextView) seekBarLayout.findViewById(R.id.dialog_seekbar_text);
         final SeekBar seekBar = (SeekBar) seekBarLayout.findViewById(R.id.dialog_seekbar_bar);
