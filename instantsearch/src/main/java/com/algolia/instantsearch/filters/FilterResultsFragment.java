@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.ui;
+package com.algolia.instantsearch.filters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -141,19 +141,6 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
     }
 
     /**
-     * Add a SeekBar to the fragment.
-     *
-     * @param attribute the attribute this SeekBar will filter on.
-     * @param min       the minimum value that the user can select.
-     * @param max       the maximum value that the user can select.
-     * @param steps     the amount of steps between min and max.
-     * @return the fragment to allow chaining calls.
-     */
-    public FilterResultsFragment addSeekBar(final String attribute, final Double min, final Double max, final int steps) {
-        return addSeekBar(attribute, attribute, min, max, steps);
-    }
-
-    /**
      * Add a SeekBar to the fragment, naming the attribute differently in the UI.
      *
      * @param attribute the attribute this SeekBar will filter on.
@@ -167,17 +154,6 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
         futureSeekBars.add(new SeekBarRequirements(attribute, name, min, max, steps, filterCount++));
         searcher.addFacet(attribute);
         return this;
-    }
-
-    /**
-     * Add a CheckBox to the fragment.
-     *
-     * @param attribute     the attribute this SeekBar will filter on.
-     * @param checkedIsTrue if {@code true}, a checked box will refine on attribute:true, else on attribute:false.
-     * @return the fragment to allow chaining calls.
-     */
-    public FilterResultsFragment addCheckBox(final String attribute, boolean checkedIsTrue) {
-        return addCheckBox(attribute, attribute, checkedIsTrue);
     }
 
     /**
@@ -276,13 +252,8 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
             }
         });
 
-        updateSeekBarText(tv, currentFilter != null ? currentFilter : new NumericFilter(name, minValue, NumericFilter.OPERATOR_GT), minValue);
+        updateSeekBarText(tv, name, currentFilter != null ? currentFilter.value : minValue, minValue);
         filterViews.put(requirements.position, seekBarLayout);
-    }
-
-    private double updateSeekBarText(final TextView textView, final NumericFilter filter, final double minValue) {
-        updateSeekBarText(textView, filter.attribute, filter.value, minValue);
-        return filter.value;
     }
 
     private double updateSeekBarText(final TextView textView, final SeekBar seekBar, final String name, final double minValue, final double maxValue, int steps) {
