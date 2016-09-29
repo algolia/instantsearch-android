@@ -3,9 +3,9 @@ package com.algolia.instantsearch.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.SearchView;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
-import android.widget.SearchView;
 
 import com.algolia.instantsearch.R;
 
