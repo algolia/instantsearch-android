@@ -1,7 +1,5 @@
 package com.algolia.instantsearch;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -44,13 +42,6 @@ public class Searcher {
     private Index index;
     private final Client client;
     private Query query;
-
-
-    @Nullable
-    private Runnable progressStartRunnable;
-    @Nullable
-    private Runnable progressStopRunnable;
-    private int progressStartDelay;
 
     private final List<AlgoliaResultsListener> resultsListeners = new ArrayList<>();
     private SearchStrategy strategy = new AlwaysSearchStrategy();
@@ -116,22 +107,12 @@ public class Searcher {
         lastRequestedPage = 0;
         lastDisplayedPage = -1;
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
-        final Handler progressHandler = new Handler(Looper.getMainLooper());
-        if (progressStartRunnable != null) {
-            progressHandler.postDelayed(progressStartRunnable, progressStartDelay);
-        }
 
         bus.post(new SearchEvent(query, currentSearchSeqNumber));
         final CompletionHandler searchHandler = new CompletionHandler() {
             @Override
             public void requestCompleted(@Nullable JSONObject content, @Nullable AlgoliaException error) {
                 pendingRequests.remove(currentSearchSeqNumber);
-                if (progressStartRunnable != null) {
-                    progressHandler.removeCallbacks(progressStartRunnable);
-                }
-                if (progressStopRunnable != null) {
-                    progressHandler.post(progressStopRunnable);
-                }
                 // NOTE: Canceling any request anterior to the current one.
                 //
                 // Rationale: Although TCP imposes a server to send responses in the same order as
@@ -199,21 +180,11 @@ public class Searcher {
         Query loadMoreQuery = new Query(query);
         loadMoreQuery.setPage(++lastRequestedPage);
         final int currentSearchSeqNumber = ++lastSearchSeqNumber;
-        final Handler progressHandler = new Handler(Looper.getMainLooper());
-        if (progressStartRunnable != null) {
-            progressHandler.postDelayed(progressStartRunnable, progressStartDelay);
-        }
         bus.post(new SearchEvent(query, currentSearchSeqNumber));
         pendingRequests.put(currentSearchSeqNumber, index.searchAsync(loadMoreQuery, new CompletionHandler() {
             @Override
             public void requestCompleted(@NonNull JSONObject content, @Nullable AlgoliaException error) {
                 pendingRequests.remove(currentSearchSeqNumber);
-                if (progressStartRunnable != null) { // TODO: Display differently loadMore?
-                    progressHandler.removeCallbacks(progressStartRunnable);
-                }
-                if (progressStopRunnable != null) {
-                    new Handler().post(progressStopRunnable);
-                }
                 if (error != null) {
                     bus.post(new ErrorEvent(error, query, currentSearchSeqNumber));
                     for (AlgoliaResultsListener view : resultsListeners) {
@@ -597,22 +568,6 @@ public class Searcher {
         return false;
     }
 
-    public Searcher setProgressStartRunnable(@Nullable Runnable progressStartRunnable) {
-        this.progressStartRunnable = progressStartRunnable;
-        return this;
-    }
-
-    public Searcher setProgressStopRunnable(@Nullable Runnable progressStopRunnable) {
-        this.progressStopRunnable = progressStopRunnable;
-        return this;
-    }
-
-    public Searcher setProgressStartRunnable(@Nullable Runnable runnable, int delay) {
-        setProgressStartRunnable(runnable);
-        progressStartDelay = delay;
-        return this;
-    }
-
     public Query getQuery() {
         return query;
     }
@@ -657,10 +612,6 @@ public class Searcher {
         }
         this.strategy = strategy;
         return this;
-    }
-
-    public int getLastRequestNumber() {
-        return lastSearchSeqNumber;
     }
 
     public int getId() {
