@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.Set;
 
 public class InstantSearchHelper {
+    public static final int DELAY_PROGRESSBAR_NO_ANIMATIONS = 200;
+
     private SearchViewFacade searchView;
     @NonNull
     private final Set<AlgoliaWidget> widgets = new HashSet<>();
@@ -45,8 +47,10 @@ public class InstantSearchHelper {
     private static int itemLayoutId = -42;
 
     private boolean showProgressBar;
-    private int progressBarDelay;
+    private SearchProgressController progressController;
+
     private boolean searchOnEmptyString;
+    private int progressBarDelay = SearchProgressController.DEFAULT_DELAY;
 
     /**
      * Create and initialize the helper, then link it to the given Activity.
@@ -242,21 +246,21 @@ public class InstantSearchHelper {
      */
     public void enableProgressBar() {
         showProgressBar = true;
-        searcher.setProgressStartRunnable(new Runnable() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            progressBarDelay = DELAY_PROGRESSBAR_NO_ANIMATIONS; // Without animations, a delay is needed to avoid blinking.
+        }
+
+        progressController = new SearchProgressController(new SearchProgressController.ProgressListener() {
             @Override
-            public void run() {
+            public void onStart() {
                 updateProgressBar(searchView, true);
             }
-        }, progressBarDelay);
-        searcher.setProgressStopRunnable(new Runnable() {
+
             @Override
-            public void run() {
+            public void onStop() {
                 updateProgressBar(searchView, false);
             }
-        });
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            progressBarDelay = 200; // Without animations, a delay is needed to avoid blinking.
-        }
+        }, progressBarDelay);
     }
 
     /**
@@ -264,8 +268,7 @@ public class InstantSearchHelper {
      */
     public void disableProgressBar() {
         updateProgressBar(searchView, false);
-        searcher.setProgressStartRunnable(null);
-        searcher.setProgressStopRunnable(null);
+        progressController.disable();
     }
 
     /**
