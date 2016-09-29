@@ -224,6 +224,7 @@ public class Searcher {
                         return; // Hits are for an older query, let's ignore them
                     }
 
+                    bus.post(new ResultEvent(content, query, currentSearchSeqNumber));
                     if (hasHits(content)) {
                         updateListeners(content, true);
                         updateFacetStats(content);
