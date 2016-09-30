@@ -24,12 +24,12 @@ import android.widget.Toast;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.Searcher;
 import com.algolia.instantsearch.model.FacetStat;
-import com.algolia.instantsearch.model.NumericFilter;
+import com.algolia.instantsearch.model.NumericRefinement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterResultsFragment extends DialogFragment { //TODO: See display on tablet
+public class FilterResultsFragment extends DialogFragment {
     public static final String TAG = "FilterResultsFragment";
     public static final String KEY_SEARCHER = "searcherId";
 
@@ -224,7 +224,7 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
 
         final TextView tv = (TextView) seekBarLayout.findViewById(R.id.dialog_seekbar_text);
         final SeekBar seekBar = (SeekBar) seekBarLayout.findViewById(R.id.dialog_seekbar_bar);
-        final NumericFilter currentFilter = searcher.getNumericFilter(attribute);
+        final NumericRefinement currentFilter = searcher.getNumericRefinement(attribute);
 
         if (currentFilter != null && currentFilter.value != 0) {
             final int progressValue = (int) ((currentFilter.value - minValue) * steps / (maxValue - minValue));
@@ -248,7 +248,7 @@ public class FilterResultsFragment extends DialogFragment { //TODO: See display 
 
             private void onUpdate(final SeekBar seekBar) {
                 final double actualValue = updateSeekBarText(tv, seekBar, name, minValue, maxValue, steps);
-                searcher.addNumericFilter(new NumericFilter(attribute, actualValue, NumericFilter.OPERATOR_GT));
+                searcher.addNumericRefinement(new NumericRefinement(attribute, NumericRefinement.OPERATOR_GT, actualValue));
             }
         });
 

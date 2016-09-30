@@ -10,7 +10,7 @@ import com.algolia.instantsearch.events.ErrorEvent;
 import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
 import com.algolia.instantsearch.model.FacetStat;
-import com.algolia.instantsearch.model.NumericFilter;
+import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.strategies.AlwaysSearchStrategy;
 import com.algolia.instantsearch.strategies.SearchStrategy;
@@ -54,7 +54,7 @@ public class Searcher {
 
     private final List<String> disjunctiveFacets = new ArrayList<>();
     private final Map<String, List<String>> refinementMap = new HashMap<>();
-    private final Map<String, NumericFilter> numericFilterMap = new HashMap<>();
+    private final Map<String, NumericRefinement> numericRefinements = new HashMap<>();
     private final Map<String, Boolean> booleanFilterMap = new HashMap<>();
 
     private List<String> facets = new ArrayList<>();
@@ -237,7 +237,7 @@ public class Searcher {
         endReached = false;
         clearFacetRefinements();
         cancelPendingRequests();
-        numericFilterMap.clear();
+        numericRefinements.clear();
         return this;
     }
 
@@ -382,23 +382,40 @@ public class Searcher {
         return this;
     }
 
-    public NumericFilter getNumericFilter(String attribute) {
-        return numericFilterMap.get(attribute);
+    public NumericRefinement getNumericRefinement(String attribute) { //TODO: By attribute + operator
+        return numericRefinements.get(attribute);
     }
 
-    public Searcher addNumericFilter(NumericFilter filter) { //DISCUSS: set semantics?
-        numericFilterMap.put(filter.attribute, filter);
+    public Searcher addNumericRefinement(NumericRefinement filter) {
+        numericRefinements.put(filter.attribute, filter);
         rebuildQueryFilters();
+        return this;
+    }
+
+    public Searcher removeNumericRefinement(String attribute) {
+        numericRefinements.remove(attribute);
+        return this;
+    }
+
+    public Searcher removeNumericRefinement(String attribute, int operator) {
+        NumericRefinement.checkOperatorIsValid(operator);
+        numericRefinements.remove(attribute);
+        return this;
+    }
+
+    public Searcher removeNumericRefinement(NumericRefinement refinement) {
+        NumericRefinement.checkOperatorIsValid(refinement.operator);
+        numericRefinements.values().remove(refinement);
         return this;
     }
 
     private void rebuildQueryFilters() {
         StringBuilder filters = new StringBuilder();
-        for (NumericFilter numericFilter : numericFilterMap.values()) {
+        for (NumericRefinement numericRefinement : numericRefinements.values()) {
             if (filters.length() > 0) {
                 filters.append(" AND ");
             }
-            filters.append(numericFilter.toString());
+            filters.append(numericRefinement.toString());
         }
         for (Map.Entry<String, Boolean> entry : booleanFilterMap.entrySet()) {
             if (filters.length() > 0) {

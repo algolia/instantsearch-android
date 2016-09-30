@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.Searcher;
 import com.algolia.instantsearch.model.FacetStat;
-import com.algolia.instantsearch.model.NumericFilter;
+import com.algolia.instantsearch.model.NumericRefinement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +121,7 @@ public class FilterResultsWindow extends PopupWindow {
 
         final TextView tv = (TextView) seekBarLayout.findViewById(R.id.dialog_seekbar_text);
         final SeekBar seekBar = (SeekBar) seekBarLayout.findViewById(R.id.dialog_seekbar_bar);
-        final NumericFilter currentFilter = searcher.getNumericFilter(attribute);
+        final NumericRefinement currentFilter = searcher.getNumericRefinement(attribute);
 
         if (currentFilter != null && currentFilter.value != 0) {
             final int progressValue = (int) ((currentFilter.value - minValue) * steps / (maxValue - minValue));
@@ -145,16 +145,16 @@ public class FilterResultsWindow extends PopupWindow {
 
             private void onUpdate(final SeekBar seekBar) {
                 final double actualValue = updateSeekBarText(tv, seekBar, name, minValue, maxValue, steps);
-                searcher.addNumericFilter(new NumericFilter(attribute, actualValue, NumericFilter.OPERATOR_GT))
+                searcher.addNumericRefinement(new NumericRefinement(attribute, NumericRefinement.OPERATOR_GT, actualValue))
                         .search();
             }
         });
 
-        updateSeekBarText(tv, currentFilter != null ? currentFilter : new NumericFilter(name, minValue, NumericFilter.OPERATOR_GT), null, minValue);
+        updateSeekBarText(tv, currentFilter != null ? currentFilter : new NumericRefinement(name, NumericRefinement.OPERATOR_GT, minValue), null, minValue);
         filterViews.put(requirements.position, seekBarLayout);
     }
 
-    private double updateSeekBarText(final TextView textView, final NumericFilter filter, final String name, final double minValue) {
+    private double updateSeekBarText(final TextView textView, final NumericRefinement filter, final String name, final double minValue) {
         updateSeekBarText(textView, name != null ? name : filter.attribute, filter.value, minValue);
         return filter.value;
     }
