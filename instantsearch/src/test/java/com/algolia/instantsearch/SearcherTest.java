@@ -1,5 +1,7 @@
 package com.algolia.instantsearch;
 
+import android.support.annotation.NonNull;
+
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
@@ -16,6 +18,12 @@ import org.junit.Test;
 import java.util.Locale;
 
 public class SearcherTest extends InstantSearchTest {
+    @NonNull
+    private Searcher initSearcher() {
+        final Client client = new Client(Helpers.app_id, Helpers.api_key);
+        return new Searcher(client.initIndex(Helpers.safeIndexName("test")));
+    }
+
     @Test
     public void hasHitsFalseIfEmpty() {
         boolean output = Searcher.hasHits(null);
@@ -52,14 +60,15 @@ public class SearcherTest extends InstantSearchTest {
 
     @Test
     public void canCancelPendingRequests() {
-        final Client client = new Client(Helpers.app_id, Helpers.api_key);
-        Searcher searcher = new Searcher(client.initIndex(Helpers.safeIndexName("test")));
+        Searcher searcher = initSearcher();
         final AlgoliaResultsListener resultsListener = new AlgoliaResultsListener() {
-            @Override public void onResults(SearchResults results, boolean isLoadingMore) {
+            @Override
+            public void onResults(SearchResults results, boolean isLoadingMore) {
                 Assert.fail("The request should have been cancelled.");
             }
 
-            @Override public void onError(Query query, AlgoliaException error) {
+            @Override
+            public void onError(Query query, AlgoliaException error) {
                 Assert.fail("The request should have been cancelled.");
             }
         };
@@ -71,8 +80,7 @@ public class SearcherTest extends InstantSearchTest {
 
     @Test
     public void numericRefinements() {
-        final Client client = new Client(Helpers.app_id, Helpers.api_key);
-        Searcher searcher = new Searcher(client.initIndex(Helpers.safeIndexName("test")));
+        Searcher searcher = initSearcher();
         final NumericRefinement r = new NumericRefinement("attribute", NumericRefinement.OPERATOR_EQ, 42);
         final NumericRefinement r2 = new NumericRefinement("attribute", NumericRefinement.OPERATOR_NE, 42);
         final String formattedValue = String.format(Locale.US, "%f", 42f);
