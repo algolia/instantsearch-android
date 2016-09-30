@@ -379,6 +379,7 @@ public class Searcher {
             }
         }
         query.setFacetFilters(facetFilters);
+        query.setPage(0);
         return this;
     }
 
@@ -436,7 +437,7 @@ public class Searcher {
             filters.append(entry.getKey()).append(":").append(entry.getValue());
         }
         query.setFilters(filters.toString());
-        //DISCUSS: Should I reset current page here?
+        query.setPage(0);
     }
 
     public Searcher addBooleanFilter(String attribute, Boolean value) {
@@ -610,6 +611,7 @@ public class Searcher {
     @NonNull
     public Searcher setQuery(@NonNull Query query) {
         this.query = query;
+        this.query.setPage(0);
         return this;
     }
 
