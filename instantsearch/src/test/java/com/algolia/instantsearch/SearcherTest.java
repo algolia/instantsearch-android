@@ -13,6 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.util.Locale;
+
 public class SearcherTest extends InstantSearchTest {
     @Test
     public void hasHitsFalseIfEmpty() {
@@ -53,13 +55,11 @@ public class SearcherTest extends InstantSearchTest {
         final Client client = new Client(Helpers.app_id, Helpers.api_key);
         Searcher searcher = new Searcher(client.initIndex(Helpers.safeIndexName("test")));
         final AlgoliaResultsListener resultsListener = new AlgoliaResultsListener() {
-            @Override
-            public void onResults(SearchResults results, boolean isLoadingMore) {
+            @Override public void onResults(SearchResults results, boolean isLoadingMore) {
                 Assert.fail("The request should have been cancelled.");
             }
 
-            @Override
-            public void onError(Query query, AlgoliaException error) {
+            @Override public void onError(Query query, AlgoliaException error) {
                 Assert.fail("The request should have been cancelled.");
             }
         };
@@ -73,23 +73,30 @@ public class SearcherTest extends InstantSearchTest {
     public void numericRefinements() {
         final Client client = new Client(Helpers.app_id, Helpers.api_key);
         Searcher searcher = new Searcher(client.initIndex(Helpers.safeIndexName("test")));
-        final NumericRefinement refinement = new NumericRefinement("attribute", NumericRefinement.OPERATOR_EQ, 42);
+        final NumericRefinement r = new NumericRefinement("attribute", NumericRefinement.OPERATOR_EQ, 42);
+        final NumericRefinement r2 = new NumericRefinement("attribute", NumericRefinement.OPERATOR_NE, 42);
+        final String formattedValue = String.format(Locale.US, "%f", 42f);
 
-        searcher.addNumericRefinement(refinement);
-        Assert.assertTrue("There should be a numeric refinement for attribute", refinement.equals(searcher.getNumericRefinement("attribute")));
-        Assert.assertEquals("Query filters should represent the refinement.", "attribute=" + String.format(Locale.US, "%f", 42f), searcher.getQuery().getFilters());
+        searcher.addNumericRefinement(r);
+        Assert.assertEquals("There should be a numeric refinement for attribute", r, searcher.getNumericRefinement(r.attribute, r.operator));
+        Assert.assertEquals("Query filters should represent the refinement", "attribute=" + formattedValue, searcher.getQuery().getFilters());
 
-        searcher.removeNumericRefinement(refinement);
-        Assert.assertTrue("This numeric refinement should have been removed", searcher.getNumericRefinement("attribute") == null);
-        Assert.assertEquals("Query filters should be empty after removal.", "", searcher.getQuery().getFilters());
+        searcher.removeNumericRefinement(r);
+        Assert.assertEquals("This numeric refinement should have been removed.", searcher.getNumericRefinement(r.attribute, r.operator), null);
+        Assert.assertEquals("Query filters should be empty after removal", "", searcher.getQuery().getFilters());
 
-        searcher.addNumericRefinement(refinement);
-        searcher.removeNumericRefinement(refinement.attribute);
-        Assert.assertTrue("The numeric refinement for this attribute should have been removed", searcher.getNumericRefinement("attribute") == null);
+        searcher.addNumericRefinement(r);
+        searcher.addNumericRefinement(r2);
+        Assert.assertEquals("Query filters should represent both refinements", "attribute=" + formattedValue + " AND attribute!=" + formattedValue, searcher.getQuery().getFilters());
 
-        searcher.addNumericRefinement(refinement);
-        searcher.removeNumericRefinement(refinement.attribute, refinement.operator);
-        Assert.assertTrue("The numeric refinement for this attribute/operator pair should have been removed", searcher.getNumericRefinement("attribute") == null);
-        //TODO: When handling different operators for same attribute, test remove(attr, operator) does not remove the other one.
+        searcher.removeNumericRefinement(r.attribute);
+        Assert.assertEquals("Both numeric refinements for this attribute should have been removed", searcher.getNumericRefinement(r.attribute, r.operator), null);
+        Assert.assertEquals("Query filters should be empty after removal", "", searcher.getQuery().getFilters());
+
+        searcher.addNumericRefinement(r);
+        searcher.addNumericRefinement(r2);
+        searcher.removeNumericRefinement(r.attribute, r.operator);
+        Assert.assertEquals("The numeric refinement for this attribute/operator pair should have been removed", searcher.getNumericRefinement(r.attribute, r.operator), null);
+        Assert.assertEquals("The numeric refinement for this attribute but other operator should have been kept", r2, searcher.getNumericRefinement(r2.attribute, r2.operator));
     }
 }

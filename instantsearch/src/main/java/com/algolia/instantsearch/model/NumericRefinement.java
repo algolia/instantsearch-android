@@ -66,7 +66,7 @@ public class NumericRefinement {
 
     @Override
     public String toString() {
-        return attribute + " " + getOperatorSymbol(operator) + " " + String.format(Locale.US, "%f", value);
+        return attribute + getOperatorSymbol(operator) + String.format(Locale.US, "%f", value);
     }
 
     @Override

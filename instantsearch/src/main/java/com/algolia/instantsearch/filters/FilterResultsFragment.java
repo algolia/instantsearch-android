@@ -224,7 +224,7 @@ public class FilterResultsFragment extends DialogFragment {
 
         final TextView tv = (TextView) seekBarLayout.findViewById(R.id.dialog_seekbar_text);
         final SeekBar seekBar = (SeekBar) seekBarLayout.findViewById(R.id.dialog_seekbar_bar);
-        final NumericRefinement currentFilter = searcher.getNumericRefinement(attribute);
+        final NumericRefinement currentFilter = searcher.getNumericRefinement(attribute, NumericRefinement.OPERATOR_GT);
 
         if (currentFilter != null && currentFilter.value != 0) {
             final int progressValue = (int) ((currentFilter.value - minValue) * steps / (maxValue - minValue));

@@ -54,7 +54,7 @@ public class Searcher {
 
     private final List<String> disjunctiveFacets = new ArrayList<>();
     private final Map<String, List<String>> refinementMap = new HashMap<>();
-    private final Map<String, NumericRefinement> numericRefinements = new HashMap<>();
+    private final Map<String, Map<Integer, NumericRefinement>> numericRefinements = new HashMap<>();
     private final Map<String, Boolean> booleanFilterMap = new HashMap<>();
 
     private List<String> facets = new ArrayList<>();
@@ -382,43 +382,52 @@ public class Searcher {
         return this;
     }
 
-    public NumericRefinement getNumericRefinement(String attribute) { //TODO: By attribute + operator
-        return numericRefinements.get(attribute);
-    }
-
-    public Searcher addNumericRefinement(NumericRefinement filter) {
-        numericRefinements.put(filter.attribute, filter);
-        rebuildQueryFilters();
-        return this;
-    }
-
-    public Searcher removeNumericRefinement(String attribute) {
-        numericRefinements.remove(attribute);
-        rebuildQueryFilters();
-        return this;
-    }
-
-    public Searcher removeNumericRefinement(String attribute, int operator) {
+    public NumericRefinement getNumericRefinement(@NonNull String attribute, int operator) {
         NumericRefinement.checkOperatorIsValid(operator);
+        final Map<Integer, NumericRefinement> attributeRefinements = numericRefinements.get(attribute);
+        return attributeRefinements == null ? null : attributeRefinements.get(operator);
+    }
+
+    public Searcher addNumericRefinement(@NonNull NumericRefinement filter) {
+        Map<Integer, NumericRefinement> refinements = numericRefinements.get(filter.attribute);
+        if (refinements == null) {
+            refinements = new HashMap<>();
+        }
+        refinements.put(filter.operator, filter);
+        numericRefinements.put(filter.attribute, refinements);
+        rebuildQueryFilters();
+        return this;
+    }
+
+    public Searcher removeNumericRefinement(@NonNull String attribute) {
         numericRefinements.remove(attribute);
         rebuildQueryFilters();
         return this;
     }
 
-    public Searcher removeNumericRefinement(NumericRefinement refinement) {
+    public Searcher removeNumericRefinement(@NonNull String attribute, int operator) {
+        NumericRefinement.checkOperatorIsValid(operator);
+        numericRefinements.get(attribute).remove(operator);
+        rebuildQueryFilters();
+        return this;
+    }
+
+    public Searcher removeNumericRefinement(@NonNull NumericRefinement refinement) {
         NumericRefinement.checkOperatorIsValid(refinement.operator);
-        numericRefinements.values().remove(refinement);
+        numericRefinements.get(refinement.attribute).remove(refinement.operator);
         rebuildQueryFilters();
         return this;
     }
 
     private void rebuildQueryFilters() {
         StringBuilder filters = new StringBuilder();
-        for (NumericRefinement numericRefinement : numericRefinements.values()) {
-            if (filters.length() > 0) {
-                filters.append(" AND ");
+        for (Map<Integer, NumericRefinement> refinements: numericRefinements.values()) {
+            for (NumericRefinement numericRefinement : refinements.values()) {
+                if (filters.length() > 0) {
+                    filters.append(" AND ");
+                }
+                filters.append(numericRefinement.toString());
             }
-            filters.append(numericRefinement.toString());
         }
         for (Map.Entry<String, Boolean> entry : booleanFilterMap.entrySet()) {
             if (filters.length() > 0) {
@@ -427,6 +436,7 @@ public class Searcher {
             filters.append(entry.getKey()).append(":").append(entry.getValue());
         }
         query.setFilters(filters.toString());
+        //DISCUSS: Should I reset current page here?
     }
 
     public Searcher addBooleanFilter(String attribute, Boolean value) {
