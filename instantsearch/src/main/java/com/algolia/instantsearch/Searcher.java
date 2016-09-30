@@ -12,8 +12,6 @@ import com.algolia.instantsearch.events.SearchEvent;
 import com.algolia.instantsearch.model.FacetStat;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
-import com.algolia.instantsearch.strategies.AlwaysSearchStrategy;
-import com.algolia.instantsearch.strategies.SearchStrategy;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
@@ -44,7 +42,6 @@ public class Searcher {
     private Query query;
 
     private final List<AlgoliaResultsListener> resultsListeners = new ArrayList<>();
-    private SearchStrategy strategy = new AlwaysSearchStrategy();
 
     private static int lastSearchSeqNumber; // Identifier of last fired query
     private int lastDisplayedSeqNumber; // Identifier of last displayed query
@@ -93,16 +90,10 @@ public class Searcher {
     }
 
     /**
-     * Start a search with the current helper's state, eventually checking the {{@link SearchStrategy}}.
+     * Start a search with the current helper's state.
      */
     @NonNull
     public Searcher search() {
-        if (strategy != null) {
-            if (!strategy.beforeSearch(this, query.getQuery())) {
-                return this;
-            }
-        }
-
         endReached = false;
         lastRequestedPage = 0;
         lastDisplayedPage = -1;
@@ -630,19 +621,6 @@ public class Searcher {
     public Searcher setIndex(@NonNull String indexName) {
         index = client.initIndex(indexName);
         query.setPage(0);
-        return this;
-    }
-
-    @NonNull
-    public SearchStrategy getStrategy() {
-        return strategy;
-    }
-
-    public Searcher setStrategy(@NonNull SearchStrategy strategy) {
-        if (strategy == null) {
-            throw new IllegalStateException("You can't set a null strategy, use new AlwaysOnStrategy().");
-        }
-        this.strategy = strategy;
         return this;
     }
 
