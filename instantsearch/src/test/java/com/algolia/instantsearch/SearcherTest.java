@@ -107,4 +107,36 @@ public class SearcherTest extends InstantSearchTest {
         Assert.assertEquals("The numeric refinement for this attribute/operator pair should have been removed", searcher.getNumericRefinement(r.attribute, r.operator), null);
         Assert.assertEquals("The numeric refinement for this attribute but other operator should have been kept", r2, searcher.getNumericRefinement(r2.attribute, r2.operator));
     }
+
+    @Test
+    public void facetRefinements() {
+        final Searcher searcher = initSearcher();
+        searcher.addFacetRefinement("attribute", "value");
+        Assert.assertEquals("facetFilters should represent the refinement", searcher.getQuery().getFacetFilters().toString(), "[attribute:value]");
+        Assert.assertTrue("hasFacetRefinement should return true for attribute/value", searcher.hasFacetRefinement("attribute", "value"));
+
+        searcher.removeFacetRefinement("attribute", "value");
+        Assert.assertEquals("facetFilters should not contain the refinement after removeFacetRefinement()", searcher.getQuery().getFacetFilters().toString(), "[]");
+        Assert.assertTrue("hasFacetRefinement should return false for attribute/value", searcher.hasFacetRefinement("attribute", "value"));
+
+        searcher.updateFacetRefinement("attribute", "value", true);
+        Assert.assertEquals("facetFilters should represent again the refinement", searcher.getQuery().getFacetFilters().toString(), "[attribute:value]");
+
+        searcher.updateFacetRefinement("attribute", "value", true);
+        Assert.assertEquals("facetFilters should not contain the refinement after updateFacetRefinement(true)", searcher.getQuery().getFacetFilters().toString(), "[]");
+
+        searcher.addFacetRefinement("attribute", "value2");
+        Assert.assertTrue("facetFilters should contain the first refinement", searcher.getQuery().getFacetFilters().toString().contains("attribute:value"));
+        Assert.assertTrue("facetFilters should contain the second refinement", searcher.getQuery().getFacetFilters().toString().contains("attribute:value2"));
+
+        searcher.removeFacetRefinement("attribute", "value");
+        Assert.assertFalse("facetFilters should not contain the first refinement anymore", searcher.getQuery().getFacetFilters().toString().contains("attribute:value"));
+        Assert.assertTrue("facetFilters should still contain the second refinement", searcher.getQuery().getFacetFilters().toString().contains("attribute:value2"));
+
+        searcher.addFacetRefinement("attribute", "value2");
+        searcher.addFacetRefinement("other", "value3");
+        searcher.clearFacetRefinements("attribute");
+        Assert.assertFalse("facetFilters should have no more refinements on attribute", searcher.getQuery().getFacetFilters().toString().contains("attribute"));
+        Assert.assertTrue("facetFilters should still contain the other attribute's refinement", searcher.getQuery().getFacetFilters().toString().contains("other:value3"));
+    }
 }
