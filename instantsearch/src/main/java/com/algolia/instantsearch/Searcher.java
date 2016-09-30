@@ -54,7 +54,7 @@ public class Searcher {
 
     private final List<String> disjunctiveFacets = new ArrayList<>();
     private final Map<String, List<String>> refinementMap = new HashMap<>();
-    private final Map<String, Map<Integer, NumericRefinement>> numericRefinements = new HashMap<>();
+    private final Map<String, SparseArray<NumericRefinement>> numericRefinements = new HashMap<>();
     private final Map<String, Boolean> booleanFilterMap = new HashMap<>();
 
     private List<String> facets = new ArrayList<>();
@@ -384,17 +384,17 @@ public class Searcher {
 
     public NumericRefinement getNumericRefinement(@NonNull String attribute, int operator) {
         NumericRefinement.checkOperatorIsValid(operator);
-        final Map<Integer, NumericRefinement> attributeRefinements = numericRefinements.get(attribute);
+        final SparseArray<NumericRefinement> attributeRefinements = numericRefinements.get(attribute);
         return attributeRefinements == null ? null : attributeRefinements.get(operator);
     }
 
-    public Searcher addNumericRefinement(@NonNull NumericRefinement filter) {
-        Map<Integer, NumericRefinement> refinements = numericRefinements.get(filter.attribute);
+    public Searcher addNumericRefinement(@NonNull NumericRefinement refinement) {
+        SparseArray<NumericRefinement> refinements = numericRefinements.get(refinement.attribute);
         if (refinements == null) {
-            refinements = new HashMap<>();
+            refinements = new SparseArray<>();
         }
-        refinements.put(filter.operator, filter);
-        numericRefinements.put(filter.attribute, refinements);
+        refinements.put(refinement.operator, refinement);
+        numericRefinements.put(refinement.attribute, refinements);
         rebuildQueryFilters();
         return this;
     }
@@ -421,12 +421,12 @@ public class Searcher {
 
     private void rebuildQueryFilters() {
         StringBuilder filters = new StringBuilder();
-        for (Map<Integer, NumericRefinement> refinements: numericRefinements.values()) {
-            for (NumericRefinement numericRefinement : refinements.values()) {
+        for (SparseArray<NumericRefinement> refinements: numericRefinements.values()) {
+            for (int i = 0; i < refinements.size(); i++) {
                 if (filters.length() > 0) {
                     filters.append(" AND ");
                 }
-                filters.append(numericRefinement.toString());
+                filters.append(refinements.valueAt(i).toString());
             }
         }
         for (Map.Entry<String, Boolean> entry : booleanFilterMap.entrySet()) {
