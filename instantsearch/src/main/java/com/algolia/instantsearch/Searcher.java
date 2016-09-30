@@ -394,18 +394,21 @@ public class Searcher {
 
     public Searcher removeNumericRefinement(String attribute) {
         numericRefinements.remove(attribute);
+        rebuildQueryFilters();
         return this;
     }
 
     public Searcher removeNumericRefinement(String attribute, int operator) {
         NumericRefinement.checkOperatorIsValid(operator);
         numericRefinements.remove(attribute);
+        rebuildQueryFilters();
         return this;
     }
 
     public Searcher removeNumericRefinement(NumericRefinement refinement) {
         NumericRefinement.checkOperatorIsValid(refinement.operator);
         numericRefinements.values().remove(refinement);
+        rebuildQueryFilters();
         return this;
     }
 

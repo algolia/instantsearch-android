@@ -53,11 +53,13 @@ public class SearcherTest extends InstantSearchTest {
         final Client client = new Client(Helpers.app_id, Helpers.api_key);
         Searcher searcher = new Searcher(client.initIndex(Helpers.safeIndexName("test")));
         final AlgoliaResultsListener resultsListener = new AlgoliaResultsListener() {
-            @Override public void onResults(SearchResults results, boolean isLoadingMore) {
+            @Override
+            public void onResults(SearchResults results, boolean isLoadingMore) {
                 Assert.fail("The request should have been cancelled.");
             }
 
-            @Override public void onError(Query query, AlgoliaException error) {
+            @Override
+            public void onError(Query query, AlgoliaException error) {
                 Assert.fail("The request should have been cancelled.");
             }
         };
@@ -75,9 +77,11 @@ public class SearcherTest extends InstantSearchTest {
 
         searcher.addNumericRefinement(refinement);
         Assert.assertTrue("There should be a numeric refinement for attribute", refinement.equals(searcher.getNumericRefinement("attribute")));
+        Assert.assertEquals("Query filters should represent the refinement.", "attribute=" + String.format(Locale.US, "%f", 42f), searcher.getQuery().getFilters());
 
         searcher.removeNumericRefinement(refinement);
         Assert.assertTrue("This numeric refinement should have been removed", searcher.getNumericRefinement("attribute") == null);
+        Assert.assertEquals("Query filters should be empty after removal.", "", searcher.getQuery().getFilters());
 
         searcher.addNumericRefinement(refinement);
         searcher.removeNumericRefinement(refinement.attribute);
