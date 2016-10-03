@@ -427,7 +427,7 @@ public class Searcher {
 
     private void rebuildQueryFilters() {
         StringBuilder filters = new StringBuilder();
-        for (SparseArray<NumericRefinement> refinements: numericRefinements.values()) {
+        for (SparseArray<NumericRefinement> refinements : numericRefinements.values()) {
             for (int i = 0; i < refinements.size(); i++) {
                 if (filters.length() > 0) {
                     filters.append(" AND ");
@@ -572,11 +572,6 @@ public class Searcher {
         for (AlgoliaResultsListener view : resultsListeners) {
             view.onResults(new SearchResults(hits), isLoadingMore);
         }
-    }
-
-    public Searcher postErrorEvent(String cause) {
-        bus.post(new ErrorEvent(new AlgoliaException(cause), query, lastSearchSeqNumber));
-        return this;
     }
 
     /**
