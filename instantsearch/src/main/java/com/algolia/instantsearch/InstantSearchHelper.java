@@ -145,7 +145,21 @@ public class InstantSearchHelper {
      * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
      * @param searchView a SearchView where the query text will be picked up from.
      */
-    public void registerSearchView(@NonNull final Activity activity, @NonNull final SearchViewFacade searchView) {
+    public void registerSearchView(@NonNull final Activity activity, @NonNull final SearchView searchView) {
+        registerSearchView(activity, new SearchViewFacade(searchView));
+    }
+
+    /**
+     * Registers a {@link android.support.v7.widget.SearchView} to fire queries on text change.
+     *
+     * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
+     * @param searchView a SearchView where the query text will be picked up from.
+     */
+    public void registerSearchView(@NonNull final Activity activity, @NonNull final android.support.v7.widget.SearchView searchView) {
+        registerSearchView(activity, new SearchViewFacade(searchView));
+    }
+
+    private void registerSearchView(@NonNull final Activity activity, @NonNull final SearchViewFacade searchView) {
         this.searchView = searchView;
         searchView.setSearchableInfo(((SearchManager) activity.getSystemService(Context.SEARCH_SERVICE)).getSearchableInfo(activity.getComponentName()));
         searchView.setIconifiedByDefault(false);
