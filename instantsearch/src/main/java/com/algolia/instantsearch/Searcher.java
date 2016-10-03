@@ -73,6 +73,20 @@ public class Searcher {
         instances.add(this);
     }
 
+    /**
+     * Create and initialize the helper.
+     *
+     * @param index an Index initialized and eventually configured.
+     */
+    public Searcher(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName) {
+        query = new Query();
+        this.client = new Client(appId, apiKey);
+        this.index = client.initIndex(indexName);
+        bus = EventBus.getDefault();
+        id = instances.size();
+        instances.add(this);
+    }
+
     public static Searcher get(int id) {
         return instances.get(id);
     }
