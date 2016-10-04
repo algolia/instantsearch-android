@@ -32,7 +32,6 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
 
     private final Integer hitsPerPage;
     private final int remainingItemsBeforeLoading; // Minimum number of remaining items before loading more
-    private final boolean disableInfiniteScroll;
     private final HitsScrollListener scrollListener;
 
     private final int layoutId;
@@ -48,12 +47,12 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         if (isInEditMode()) {
             hitsPerPage = 0;
             remainingItemsBeforeLoading = 0;
-            disableInfiniteScroll = false;
             layoutId = 0;
             scrollListener = null;
             return;
         }
 
+        boolean disableInfiniteScroll;
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Hits, 0, 0);
         try {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, DEFAULT_HITS_PER_PAGE);
