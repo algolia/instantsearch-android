@@ -6,7 +6,7 @@ It is built on top of Algolia's [Android API Client](https://github.com/algolia/
 You can see InstantSearch Android in action in our Examples repository, in which we published two example apps built with InstantSearch:
 
 | [Media app](media-url) | [E-commerce app](ecommerce-url) |
-| ------------- | ------------- |
+| --- | --- |
 | [![animated screenshot of media app][media-gif]][media-url] | [![animated screenshot of ecommerce app][ecommerce-gif]][ecommerce-url] |
 
 
@@ -25,7 +25,7 @@ new Searcher(ALGOLIA_APP_ID, ALGOLIA_API_KEY, ALGOLIA_INDEX_NAME);
 *You can also instantiate a Searcher by directly constructing it with an Index instance. This will let you use this index to  enable all features exposed in the [standard API client](https://github.com/algolia/algoliasearch-client-android), like [enabling the search cache](https://github.com/algolia/algoliasearch-client-android#search-cache) or [setting specific settings](https://github.com/algolia/algoliasearch-client-android#settings).*
 
 Once created, the Searcher is responsible of all search requests: when `Searcher#search()` is called, the Searcher will fire a request with the current query, and will forward the search results to its **listeners**.  
-You can add a listener to a Searcher by calling `Searcher#registerListener()` with an object implementing the `AlgoliaResultsListener` interface. This object's `onResults` or `onError` method will be called after each search request returns to let you either process the results or handle the  error.
+You can add a listener to a Searcher by calling `Searcher#registerListener()` with an object implementing the [`AlgoliaResultsListener`](instantsearch/src/main/java/com/algolia/instantsearch/views/AlgoliaResultsListener.java) interface. This object's `onResults` or `onError` method will be called after each search request returns to let you either process the results or handle the  error.
 
 ## InstantSearchHelper
 
@@ -109,7 +109,9 @@ To display the search results, the Hits widget will use a layout resource specif
 
 This attribute should reference a layout file in which you will describe how a search result should be displayed. When receiving results from its `Searcher`, this widget will bind the given layout to each result to display its attributes in the appropriate Views.
 
-This binding is done using the Android DataBinding Library, which allows to link a layout to an application's data. The layout file should use a `<layout></layout>` root node, followed by a regular ViewGroup (such as a `LinearLayout`). You can then describe what attributes should be mapped to each View as follows:
+### Data Binding
+
+This binding is done using the [Android DataBinding Library](https://developer.android.com/topic/libraries/data-binding/index.html), which allows to link a layout to an application's data. The layout file should use a `<layout></layout>` root node, followed by a regular ViewGroup (such as a `LinearLayout`). You can then describe what attributes should be mapped to each View as follows:
 
 ```xml
 <layout
@@ -143,8 +145,8 @@ For each View which should receive a result's attribute, you can specify `algoli
 
 |View Class | Use of the attribute | Method called | Notes|
 | --------- | -------------------- | ------------- | ---- |
-|TextView   | text content | setText(attributeValue) | Can be highlighted |
-|EditText   | hint content | setHint(attributeValue) | Can be highlighted |
+|TextView   | text content | setText(attributeValue) | Can be highlighted
+|EditText   | hint content | setHint(attributeValue) | Can be highlighted
 |ImageView  | bitmap image URL | setBitmapImage(attributeBitmap)| Parsed to an URL, then loaded asynchronously
 |RatingBar  | rating value| setRating(attributeValue)| Parsed as Float
 |ProgressBar| progress value | setProgress(attributeValue)| Parsed as Float and rounded to the nearest Integer
