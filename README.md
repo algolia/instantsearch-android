@@ -65,18 +65,18 @@ When instantiating the InstantSearchHelper with an Activity, we will scan its la
 If the activity contains a `SearchView` or our `SearchBox` widget, we will register it for you as explained above.
 
 ----
-After following those steps, you have the basis of an InstantSearch application: an activity with a `SearchView` and one or several `AlgoliaWidget`, where changes in the SearchView's text trigger searches on your Algolia index which results are displayed in your widget. 🎉
+After following those steps, you have the basis of an InstantSearch application: an activity with a `SearchView` and one or several `AlgoliaWidget`, where changes in the SearchView's text trigger searches on your Algolia index which results are displayed in your widget. *Voilà !* 🎉
 
-## Widgets
+# Widgets
 
 Widgets are the UI building blocks of InstantSearch Android, linked together by an `InstantSearchHelper` to help you build instant-search interfaces. We provide some basic widgets such as the **`SearchBox`**, the **`Hits`** or the **`RefinementList`**, and you can easily implement new ones by implementing the `AlgoliaWidget` interface.
 
-### Anatomy of an `AlgoliaWidget`
+## Anatomy of an `AlgoliaWidget`
 
 An `AlgoliaWidget` is a specialization of the `AlgoliaListener` interface used by the `Searcher` to notify its listeners of search results. Beyond reacting to search results with `onResults` and to errors in `onError`, an `AlgoliaWidget` exposes an `onReset` method which will be called when the interface is resetted (which you can trigger via `InstantSearchHelper#reset()`).  
 When linked to a `Searcher`, the widget's `setSearcher` method will be called to provide it a reference to its Searcher, which is useful to some widgets. For example, the `Hits` widget uses it to load more results as the user scrolls.
 
-### SearchBox
+## SearchBox
 
 The SearchBox is a specialized `SearchView` which provides some customization options and facility methods. Apart from the existing `SearchView` attributes, it exposes two attributes you can specify in its XML definition:
 
@@ -92,6 +92,63 @@ The SearchBox is a specialized `SearchView` which provides some customization op
 
 - The **autofocus** attribute, when `true`, will make the SearchBox request the user's focus when displayed. (defaults to `false`)
 - The **submitButtonEnabled** attribute, when `true`, will display the SearchBox with its submit button. This button is hidden by default: as every keystroke will update the results, it is usually misleading to display a submit button.
+
+## Hits
+
+The `Hits` widget is made to display your search results in a flexible way. Built over a `RecyclerView`, it displays a limited window into a large data set of search results.
+
+To display the search results, the Hits widget will use a layout resource specified with the `itemLayout` attribute:
+
+```xml
+<com.algolia.instantsearch.views.Hits
+    android:id="@+id/hits"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    algolia:itemLayout="@layout/hits_item">
+```
+
+This attribute should reference a layout file in which you will describe how a search result should be displayed. When receiving results from its `Searcher`, this widget will bind the given layout to each result to display its attributes in the appropriate Views.
+
+This binding is done using the Android DataBinding Library, which allows to link a layout to an application's data. The layout file should use a `<layout></layout>` root node, followed by a regular ViewGroup (such as a `LinearLayout`). You can then describe what attributes should be mapped to each View as follows:
+
+```xml
+<layout
+    xmlns:algolia="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/contactFace"
+            style="@style/AppTheme.View.ContactImage"
+            algolia:attribute='@{"img"}'/>
+
+        <TextView
+            android:id="@+id/contactCompany"
+            style="@style/AppTheme.View.ContactText.Small"
+            algolia:attribute='@{"company"}'/>
+
+        <RatingBar
+            android:id="@+id/contactScore"
+            style="@style/AppTheme.View"
+            algolia:attribute='@{"score"}'/>
+    </RelativeLayout>
+</layout>
+```
+
+For each View which should receive a result's attribute, you can specify `algolia:attribute='@{"foo"}'` to map the record's `foo` attribute to this View. Currently, the Hits widget handles natively the following Views and their subclasses:  
+
+|View Class | Use of the attribute | Method called | Notes|
+| --------- | -------------------- | ------------- | ---- |
+|TextView   | text content | setText(attributeValue) | Can be highlighted |
+|EditText   | hint content | setHint(attributeValue) | Can be highlighted |
+|ImageView  | bitmap image URL | setBitmapImage(attributeBitmap)| Parsed to an URL, then loaded asynchronously
+|RatingBar  | rating value| setRating(attributeValue)| Parsed as Float
+|ProgressBar| progress value | setProgress(attributeValue)| Parsed as Float and rounded to the nearest Integer
+
 
 [media-gif]: ./docs/media.gif
 [ecommerce-gif]: ./docs/ecommerce.gif
