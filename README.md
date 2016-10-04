@@ -31,7 +31,12 @@ You can add a listener to a Searcher by calling `Searcher#registerListener()` wi
 
 The Searcher is UI-agnostic, and only communicates with its listeners. On top of it, we provide you a component which will link it to your user interface: the **InstantSearchHelper**.
 
-The InstantSearchHelper will use the Searcher to react to changes in your application's interface, like when your user types a new query or interacts with Widgets. To create it, you need to provide a Searcher instance and either an AlgoliaWidget which will receive incoming results:
+The InstantSearchHelper will use the Searcher to react to changes in your application's interface, like when your user types a new query or interacts with Widgets. You can either use it with a single widget which will receive incoming results, or with several that will interact together in the same activity.
+
+### With a single Widget
+
+When you have only one widget, the `InstantSearchHelper` will simply send any incoming results or error to this widget.  
+Simply call its constructor with a `Searcher` instance and the `AlgoliaWidget` which will receive incoming results:
 
 ```java
 Searcher searcher = /* initialize searcher as explained earlier */;
@@ -48,17 +53,45 @@ instantSearchHelper.registerSearchView(this, searchView);
 
 Once registered, any change to the SearchView will trigger a search query with the new text, and results will be propagated to your widget.
 
+### With several Widgets in the same Activity
+
 If you have several AlgoliaWidgets in your Activity, you should create the InstantSearchHelper by directly providing a reference to this activity:
 
 ```java
 InstantSearchHelper helper = new InstantSearchHelper(this, searcher);
 ```
 
-When instantiating the InstantSearchHelper, we will scan your activity to pick-up every AlgoliaWidget in its layout.
-If the activity contains a `SearchView` or our `SearchBox` widget, we will automatically register it as explained above.
+When instantiating the InstantSearchHelper with an Activity, we will scan its layout to pick-up every AlgoliaWidget it contains.
+If the activity contains a `SearchView` or our `SearchBox` widget, we will register it for you as explained above.
 
 ----
-After following those steps, you have the basis of an InstantSearch application: an activity with a SearchView and an AlgoliaWidget, where changes in the SearchView's text trigger searches on your Algolia index which results are displayed in your widget. **Congratulations!** 🎉
+After following those steps, you have the basis of an InstantSearch application: an activity with a `SearchView` and one or several `AlgoliaWidget`, where changes in the SearchView's text trigger searches on your Algolia index which results are displayed in your widget. 🎉
+
+## Widgets
+
+Widgets are the UI building blocks of InstantSearch Android, linked together by an `InstantSearchHelper` to help you build instant-search interfaces. We provide some basic widgets such as the **`SearchBox`**, the **`Hits`** or the **`RefinementList`**, and you can easily implement new ones by implementing the `AlgoliaWidget` interface.
+
+### Anatomy of an `AlgoliaWidget`
+
+An `AlgoliaWidget` is a specialization of the `AlgoliaListener` interface used by the `Searcher` to notify its listeners of search results. Beyond reacting to search results with `onResults` and to errors in `onError`, an `AlgoliaWidget` exposes an `onReset` method which will be called when the interface is resetted (which you can trigger via `InstantSearchHelper#reset()`).  
+When linked to a `Searcher`, the widget's `setSearcher` method will be called to provide it a reference to its Searcher, which is useful to some widgets. For example, the `Hits` widget uses it to load more results as the user scrolls.
+
+### SearchBox
+
+The SearchBox is a specialized `SearchView` which provides some customization options and facility methods. Apart from the existing `SearchView` attributes, it exposes two attributes you can specify in its XML definition:
+
+```xml
+<com.algolia.instantsearch.views.SearchBox
+    android:id="@+id/searchBox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:queryHint="Search"
+    algolia:autofocus="true"
+    algolia:submitButtonEnabled="false" />
+```
+
+- The **autofocus** attribute, when `true`, will make the SearchBox request the user's focus when displayed. (defaults to `false`)
+- The **submitButtonEnabled** attribute, when `true`, will display the SearchBox with its submit button. This button is hidden by default: as every keystroke will update the results, it is usually misleading to display a submit button.
 
 [media-gif]: ./docs/media.gif
 [ecommerce-gif]: ./docs/ecommerce.gif
