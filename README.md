@@ -69,11 +69,11 @@ After following those steps, you have the basis of an InstantSearch application:
 
 # Widgets
 
-Widgets are the UI building blocks of InstantSearch Android, linked together by an `InstantSearchHelper` to help you build instant-search interfaces. We provide some basic widgets such as the **`SearchBox`**, the **`Hits`** or the **`RefinementList`**, and you can easily implement new ones by implementing the `AlgoliaWidget` interface.
+Widgets are the UI building blocks of InstantSearch Android, linked together by an `InstantSearchHelper` to help you build instant-search interfaces. We provide some basic widgets such as the **`SearchBox`**, the **`Hits`** or the **`RefinementList`**, and you can easily implement new ones by implementing the [`AlgoliaWidget`](instantsearch/src/main/java/com/algolia/instantsearch/views/AlgoliaWidget.java) interface.
 
 ## Anatomy of an `AlgoliaWidget`
 
-An `AlgoliaWidget` is a specialization of the `AlgoliaListener` interface used by the `Searcher` to notify its listeners of search results. Beyond reacting to search results with `onResults` and to errors in `onError`, an `AlgoliaWidget` exposes an `onReset` method which will be called when the interface is resetted (which you can trigger via `InstantSearchHelper#reset()`).  
+An **`AlgoliaWidget`** is a specialization of the `AlgoliaResultsListener` interface used by the `Searcher` to notify its listeners of search results. Beyond reacting to search results with `onResults` and to errors in `onError`, an `AlgoliaWidget` exposes an `onReset` method which will be called when the interface is resetted (which you can trigger via `InstantSearchHelper#reset()`).  
 When linked to a `Searcher`, the widget's `setSearcher` method will be called to provide it a reference to its Searcher, which is useful to some widgets. For example, the `Hits` widget uses it to load more results as the user scrolls.
 
 ## SearchBox
@@ -90,24 +90,33 @@ The SearchBox is a specialized `SearchView` which provides some customization op
     algolia:submitButtonEnabled="false" />
 ```
 
-- The **autofocus** attribute, when `true`, will make the SearchBox request the user's focus when displayed. (defaults to `false`)
-- The **submitButtonEnabled** attribute, when `true`, will display the SearchBox with its submit button. This button is hidden by default: as every keystroke will update the results, it is usually misleading to display a submit button.
+- **`autofocus`**, when `true`, will make the SearchBox request the user's focus when displayed. (defaults to `false`)
+- **`submitButtonEnabled`**, when `true`, will display the SearchBox with its submit button. This button is hidden by default: as every keystroke will update the results, it is usually misleading to display a submit button.
 
 ## Hits
 
 The `Hits` widget is made to display your search results in a flexible way. Built over a `RecyclerView`, it displays a limited window into a large data set of search results.
 
-To display the search results, the Hits widget will use a layout resource specified with the `itemLayout` attribute:
+This widget exposes a few attributes that you can set in its xml definition:
 
 ```xml
 <com.algolia.instantsearch.views.Hits
     android:id="@+id/hits"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    algolia:hitsPerPage="10"
+    algolia:disableInfiniteScroll="false"
+    algolia:remainingItemsBeforeLoading="10"
+    algolia:hitsPerPage="10"
     algolia:itemLayout="@layout/hits_item">
 ```
 
-This attribute should reference a layout file in which you will describe how a search result should be displayed. When receiving results from its `Searcher`, this widget will bind the given layout to each result to display its attributes in the appropriate Views.
+- **`hitsPerPage`** controls how many hits are requested and displayed with each search query. (defaults to 20)
+- **`disableInfiniteScroll`**, when `true`, disables the [**Infinite scroll**](#infinite-scroll) feature (defaults to `false`)
+- **`remainingItemsBeforeLoading`** sets the minimum number of remaining hits to load the next page: if you set it to 10, the next page will be loaded when there are less than 10 items below the last visible item. (defaults to 5)
+- **`itemLayout`**, finally, is used to determine the appearance of the search results.
+
+This last attribute should reference a layout file in which you will describe how a search result should be displayed. When receiving results from its `Searcher`, this widget will bind the given layout to each result to display its attributes in the appropriate Views.
 
 ### Data Binding
 
@@ -141,7 +150,7 @@ This binding is done using the [Android DataBinding Library](https://developer.a
 </layout>
 ```
 
-For each View which should receive a result's attribute, you can specify `algolia:attribute='@{"foo"}'` to map the record's `foo` attribute to this View. Currently, the Hits widget handles natively the following Views and their subclasses:  
+For each `View` which should receive a result's attribute, you can specify `algolia:attribute='@{"foo"}'` to map the record's `foo` attribute to this View. Currently, the Hits widget handles natively the following Views and their subclasses:  
 
 |View Class | Use of the attribute | Method called | Notes|
 | --------- | -------------------- | ------------- | ---- |
@@ -153,7 +162,15 @@ For each View which should receive a result's attribute, you can specify `algoli
 
 Apart from those system components, any `View` can be used to hold an attribute if it implements the [`AlgoliaHitView`](/instantsearch/src/main/java/com/algolia/instantsearch/views/AlgoliaHitView.java) interface. In this case, we will call `onUpdateView(JSONObject result)` and the view will be responsible of using the result's JSON to display the hit.  
 
-*See for example the [media app][media-url]'s [`TimestampHitView`](https://github.com/algolia/instantsearch-android-examples/blob/master/media/src/main/java/com/algolia/instantsearch/examples/media/views/TimestampHitView.java) is a TextView which transforms a timestamp attribute to display a human-readable date instead.*
+*See for example the [media app][media-url]'s [`TimestampHitView`](https://github.com/algolia/instantsearch-android-examples/blob/master/media/src/main/java/com/algolia/instantsearch/examples/media/views/TimestampHitView.java), a TextView which transforms a timestamp attribute to display a human-readable date instead.*
+
+### Infinite scroll
+
+An infinite scroll mechanism is built in to load more results as the user scrolls.  
+Enabled by default, it will watch the state of the Hits to load more results before the user reaches the end of the current page.
+
+As explained [earlier](#hits), you can use the attributes `disableInfiniteScroll` and `remainingItemsBeforeLoading` to control or disable this feature.
+
 
 [media-gif]: ./docs/media.gif
 [ecommerce-gif]: ./docs/ecommerce.gif
