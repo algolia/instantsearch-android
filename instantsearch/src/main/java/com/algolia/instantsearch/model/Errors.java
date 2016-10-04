@@ -20,7 +20,7 @@ public class Errors {
     public static final String LAYOUT_TOO_MANY_SEARCHVIEWS = "If you have several SearchViews, you need to identify the Algolia one with @id/searchBox.";
     public static final String LAYOUT_TOO_MANY_SEARCHBOXES = "You cannot have more than one SearchBox.";
 
-    public static final String LOADMORE_FAIL = "Error while loading more data (%s).";
+    public static final String LOADMORE_FAIL = "Error while loading more data (%s)."; //TODO: Still useful? What happens on error?
 
     public static final String REFINEMENTS_MISSING_ATTRIBUTE = "You need to specify the attribute to refine on with algolia:attribute.";
 

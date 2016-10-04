@@ -19,4 +19,8 @@
         <attr name="sortBy" format="string"/>
         <attr name="limit" format="integer"/>
     </declare-styleable>
+    <declare-styleable name="Stats">
+        <attr name="resultTemplate" format="string"/>
+        <attr name="errorTemplate" format="string"/>
+    </declare-styleable>
 </resources>
