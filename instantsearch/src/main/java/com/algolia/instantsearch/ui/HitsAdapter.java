@@ -5,6 +5,8 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,23 +101,16 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
             final View view = entry.getKey();
             final String attributeName = entry.getValue();
             final String attributeValue = hit.optString(attributeName);
-
             if (view instanceof AlgoliaHitView) {
                 ((AlgoliaHitView) view).onUpdateView(hit);
             } else if (view instanceof EditText) {
-                ((EditText) view).setHint(attributeValue);
+                ((EditText) view).setHint(getHighlightedAttribute(hit, view, attributeName, attributeValue));
             } else if (view instanceof RatingBar) {
                 ((RatingBar) view).setRating(Float.parseFloat(attributeValue));
             } else if (view instanceof ProgressBar) {
                 ((ProgressBar) view).setProgress(Math.round(Float.parseFloat(attributeValue)));
             } else if (view instanceof TextView) {
-                final TextView textView = (TextView) view;
-                if (RenderingHelper.getDefault().shouldHighlight(attributeName)) {
-                    final int highlightColor = RenderingHelper.getDefault().getHighlightColor(attributeName);
-                    textView.setText(Highlighter.getDefault().renderHighlightColor(hit, attributeName, highlightColor, view.getContext()));
-                } else {
-                    textView.setText(attributeValue);
-                }
+                ((TextView) view).setText(getHighlightedAttribute(hit, view, attributeName, attributeValue));
             } else if (view instanceof ImageView) {
                 final Bitmap bitmap = bitmaps.get(attributeValue);
                 final ImageView imageView = (ImageView) view;
@@ -128,6 +123,17 @@ public class HitsAdapter extends RecyclerView.Adapter<HitsAdapter.ViewHolder> im
                 throw new IllegalStateException(String.format(Errors.ADAPTER_UNKNOWN_VIEW, view.getClass().getCanonicalName()));
             }
         }
+    }
+
+    private Spannable getHighlightedAttribute(JSONObject hit, View view, String attributeName, String attributeValue) {
+        Spannable attributeText;
+        if (RenderingHelper.getDefault().shouldHighlight(attributeName)) {
+            final int highlightColor = RenderingHelper.getDefault().getHighlightColor(attributeName);
+            attributeText = Highlighter.getDefault().renderHighlightColor(hit, attributeName, highlightColor, view.getContext());
+        } else {
+            attributeText = new SpannableString(attributeValue);
+        }
+        return attributeText;
     }
 
     @Override
