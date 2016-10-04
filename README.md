@@ -5,7 +5,7 @@ It is built on top of Algolia's [Android API Client](https://github.com/algolia/
 # Demo
 You can see InstantSearch Android in action in our Examples repository, in which we published two example apps built with InstantSearch:
 
-| (Media app)[media-url] | (E-commerce app)[ecommerce-url] |
+| [Media app](media-url) | [E-commerce app](ecommerce-url) |
 | ------------- | ------------- |
 | [![animated screenshot of media app][media-gif]][media-url] | [![animated screenshot of ecommerce app][ecommerce-gif]][ecommerce-url] |
 
