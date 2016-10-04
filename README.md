@@ -151,6 +151,9 @@ For each View which should receive a result's attribute, you can specify `algoli
 |RatingBar  | rating value| setRating(attributeValue)| Parsed as Float
 |ProgressBar| progress value | setProgress(attributeValue)| Parsed as Float and rounded to the nearest Integer
 
+Apart from those system components, any `View` can be used to hold an attribute if it implements the [`AlgoliaHitView`](/instantsearch/src/main/java/com/algolia/instantsearch/views/AlgoliaHitView.java) interface. In this case, we will call `onUpdateView(JSONObject result)` and the view will be responsible of using the result's JSON to display the hit.  
+
+*See for example the [media app][media-url]'s [`TimestampHitView`](https://github.com/algolia/instantsearch-android-examples/blob/master/media/src/main/java/com/algolia/instantsearch/examples/media/views/TimestampHitView.java) is a TextView which transforms a timestamp attribute to display a human-readable date instead.*
 
 [media-gif]: ./docs/media.gif
 [ecommerce-gif]: ./docs/ecommerce.gif
