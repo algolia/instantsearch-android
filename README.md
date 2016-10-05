@@ -24,7 +24,8 @@ new Searcher(ALGOLIA_APP_ID, ALGOLIA_API_KEY, ALGOLIA_INDEX_NAME);
 
 *You can also instantiate a Searcher by directly constructing it with an Index instance. This will let you use this index to  enable all features exposed in the [standard API client](https://github.com/algolia/algoliasearch-client-android), like [enabling the search cache](https://github.com/algolia/algoliasearch-client-android#search-cache) or [setting specific settings](https://github.com/algolia/algoliasearch-client-android#settings).*
 
-Once created, the Searcher is responsible of all search requests: when `Searcher#search()` is called, the Searcher will fire a request with the current query, and will forward the search results to its **listeners**.  
+Once created, the Searcher is responsible of all search requests: when `Searcher#search()` is called, the Searcher will fire a request with the current query, and will forward the search results to its **listeners**.
+
 You can add a listener to a Searcher by calling `Searcher#registerListener()` with an object implementing the [`AlgoliaResultsListener`](instantsearch/src/main/java/com/algolia/instantsearch/views/AlgoliaResultsListener.java) interface. This object's `onResults` or `onError` method will be called after each search request returns to let you either process the results or handle the  error.
 
 ## InstantSearchHelper
@@ -35,7 +36,8 @@ The InstantSearchHelper will use the Searcher to react to changes in your applic
 
 ### With a single Widget
 
-When you have only one widget, the `InstantSearchHelper` will simply send any incoming results or error to this widget.  
+When you have only one widget, the `InstantSearchHelper` will simply send any incoming results or error to this widget.
+
 Simply call its constructor with a `Searcher` instance and the `AlgoliaWidget` which will receive incoming results:
 
 ```java
@@ -73,12 +75,13 @@ Widgets are the UI building blocks of InstantSearch Android, linked together by 
 
 ## Anatomy of an `AlgoliaWidget`
 
-An **`AlgoliaWidget`** is a specialization of the `AlgoliaResultsListener` interface used by the `Searcher` to notify its listeners of search results. Beyond reacting to search results with `onResults` and to errors in `onError`, an `AlgoliaWidget` exposes an `onReset` method which will be called when the interface is resetted (which you can trigger via `InstantSearchHelper#reset()`).  
+An **`AlgoliaWidget`** is a specialization of the `AlgoliaResultsListener` interface used by the `Searcher` to notify its listeners of search results. Beyond reacting to search results with `onResults` and to errors in `onError`, an `AlgoliaWidget` exposes an `onReset` method which will be called when the interface is resetted (which you can trigger via `InstantSearchHelper#reset()`).
 When linked to a `Searcher`, the widget's `setSearcher` method will be called to provide it a reference to its Searcher, which is useful to some widgets. For example, the `Hits` widget uses it to load more results as the user scrolls.
 
 ## SearchBox
+<img src="docs/widget_SearchBox.png" align="right"/>
 
-The SearchBox is a specialized `SearchView` which provides some customization options and facility methods. Apart from the existing `SearchView` attributes, it exposes two attributes you can specify in its XML definition:
+The **SearchBox** is a specialized `SearchView` which provides some customization options and facility methods. Apart from the existing `SearchView` attributes, it exposes two attributes you can specify in its XML definition:
 
 ```xml
 <com.algolia.instantsearch.views.SearchBox
@@ -94,8 +97,9 @@ The SearchBox is a specialized `SearchView` which provides some customization op
 - **`submitButtonEnabled`**, when `true`, will display the SearchBox with its submit button. This button is hidden by default: as every keystroke will update the results, it is usually misleading to display a submit button.
 
 ## Hits
+<img src="docs/widget_Hits.png" align="right"/>
 
-The `Hits` widget is made to display your search results in a flexible way. Built over a `RecyclerView`, it displays a limited window into a large data set of search results.
+The **Hits** widget is made to display your search results in a flexible way. Built over a `RecyclerView`, it displays a limited window into a large data set of search results.
 
 This widget exposes a few attributes that you can set in its xml definition:
 
@@ -150,7 +154,8 @@ This binding is done using the [Android DataBinding Library](https://developer.a
 </layout>
 ```
 
-For each `View` which should receive a result's attribute, you can specify `algolia:attribute='@{"foo"}'` to map the record's `foo` attribute to this View. Currently, the Hits widget handles natively the following Views and their subclasses:  
+For each `View` which should receive a result's attribute, you can specify `algolia:attribute='@{"foo"}'` to map the record's `foo` attribute to this View. Currently, the Hits widget handles natively the following Views and their subclasses:
+
 
 |View Class | Use of the attribute | Method called | Notes|
 | --------- | -------------------- | ------------- | ---- |
