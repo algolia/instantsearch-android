@@ -309,9 +309,12 @@ public class InstantSearchHelper {
         if (searchView != null) {
             int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
             View searchPlate = searchView.findViewById(searchPlateId);
-            if (searchPlate == null) {
-                Log.e("Searcher", Errors.PROGRESS_WITHOUT_SEARCHPLATE);
-                return;
+            if (searchPlate == null) { // Maybe it is an appcompat SearchView?
+                searchPlate = searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
+                if (searchPlate == null) {
+                    Log.e("Searcher", Errors.PROGRESS_WITHOUT_SEARCHPLATE);
+                    return;
+                }
             }
 
             final View progressBarView = searchPlate.findViewById(R.id.search_progress_bar);
