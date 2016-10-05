@@ -25,6 +25,7 @@ You can see InstantSearch Android in action in our [Examples repository](https:/
     * [Empty View](#empty-view)
   * [RefinementList](#refinementlist)
   * [Stats](#stats)
+* [Highlighting](#highlighting)
 * [Errors](#errors)
 * [License](#license)
 
@@ -211,6 +212,9 @@ If you add a View to your layout with the id `@android:id/empty`, it will be dis
 [media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
 
+### Highlighting
+See [dedicated section](#highlighting).
+
 ## RefinementList
 <img src="docs/widget_RefinementList.png" align="right"/>
 
@@ -222,7 +226,7 @@ Four attributes allow you to configure how it will filter your results:
 <com.algolia.instantsearch.views.RefinementList
             android:id="@+id/refinements"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             algolia:attribute="city"
             algolia:limit="10"
             algolia:operator="or"
@@ -271,6 +275,21 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
   - `{query}` will be replaced by the query text
 
   If you don't specify an `errorTemplate`, the Stats widget will be hidden when a query returns an error.
+
+# Highlighting
+
+Visually highlighting the search result is [an essential feature of a great search interface](https://blog.algolia.com/inside-the-algolia-engine-part-5-highlighting-a-cornerstone-to-search-ux/). It will help your users understand your results by explaining them why a result is relevant to their query.
+An highlighting mechanism is built-in with the `Hits` widget. To highlight a textual attribute, simply add the `highlighted` attribute on its view:
+
+```xml
+<TextView
+    android:id="@+id/name"
+    algolia:attribute='@{"city"}'
+    algolia:highlighted="@{true}"/>
+```
+This will highlight the attribute according to the query term, like you can see in the screenshot. The color used for highlighting is `R.color.colorHighlighting`, which you can override in your application.
+
+Alternatively, you can specify `algolia:highlightingColor='@{"color/appDefinedColor"}'` to use a specific color for the current view.
 
 # Errors
 
