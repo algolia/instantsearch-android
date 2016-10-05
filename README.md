@@ -171,6 +171,10 @@ Enabled by default, it will watch the state of the Hits to load more results bef
 
 As explained [earlier](#hits), you can use the attributes `disableInfiniteScroll` and `remainingItemsBeforeLoading` to control or disable this feature.
 
+### Empty View
+
+The Hits widget implements an empty view mechanism to display an alternative View if there are no results to display, following the [AdapterView's interface](https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)).  
+If you add a View to your layout with the id `@android:id/empty`, it will be displayed instead of the Hits when there is no data to display.  You can also set it programmatically using `Hits#setEmptyView(View)`.
 
 [media-gif]: ./docs/media.gif
 [ecommerce-gif]: ./docs/ecommerce.gif
