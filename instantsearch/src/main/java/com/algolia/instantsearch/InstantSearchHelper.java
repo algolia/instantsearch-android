@@ -424,7 +424,7 @@ public class InstantSearchHelper {
      */
     @NonNull
     private static View getEmptyView(@NonNull View rootView) {
-        View emptyView = rootView.findViewById(R.id.empty);
+        View emptyView = rootView.findViewById(android.R.id.empty);
         if (emptyView == null) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_EMPTY);
         }
