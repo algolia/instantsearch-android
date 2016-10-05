@@ -52,9 +52,9 @@ public class RefinementListTest extends InstantSearchTest {
 
     @Test
     public void shouldParseValidArray() {
-        final ArrayList<String> output = RefinementList.parseSortOrder("['count', 'name:asc']");
+        final ArrayList<String> output = RefinementList.parseSortOrder("['count:asc', 'name:asc']");
         Assert.assertEquals("Parsing an array with two valid sortOrders should result in a List of two values.", 2, output.size());
-        Assert.assertTrue("The output's first value should be 'count'.", "count".equals(output.get(0)));
+        Assert.assertTrue("The output's first value should be 'count:asc'.", "count:asc".equals(output.get(0)));
         Assert.assertTrue("The output's second value should be 'name:asc'.", "name:asc".equals(output.get(1)));
     }
 
