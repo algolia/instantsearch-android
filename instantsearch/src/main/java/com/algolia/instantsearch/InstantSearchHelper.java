@@ -415,14 +415,9 @@ public class InstantSearchHelper {
      *
      * @param rootView the topmost view in the view hierarchy of the Activity.
      * @return the empty view if it was in the given rootView.
-     * @throws IllegalStateException if no empty view can be found.
      */
-    @NonNull
+    @Nullable
     private static View getEmptyView(@NonNull View rootView) {
-        View emptyView = rootView.findViewById(android.R.id.empty);
-        if (emptyView == null) {
-            throw new IllegalStateException(Errors.LAYOUT_MISSING_EMPTY);
-        }
-        return emptyView;
+        return rootView.findViewById(android.R.id.empty);
     }
 }

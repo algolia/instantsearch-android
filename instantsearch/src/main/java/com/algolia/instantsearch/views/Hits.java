@@ -166,6 +166,9 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     }
 
     private void updateEmptyView() {
+        if (emptyView == null) {
+            return;
+        }
         if (adapter.getItemCount() == 0) {
             emptyView.setVisibility(View.VISIBLE);
         } else {
