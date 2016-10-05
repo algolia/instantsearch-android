@@ -165,23 +165,56 @@ For each `View` which should receive a result's attribute, you can specify `algo
 |RatingBar  | rating value| setRating(attributeValue)| Parsed as Float
 |ProgressBar| progress value | setProgress(attributeValue)| Parsed as Float and rounded to the nearest Integer
 
-Apart from those system components, any `View` can be used to hold an attribute if it implements the [`AlgoliaHitView`](/instantsearch/src/main/java/com/algolia/instantsearch/views/AlgoliaHitView.java) interface. In this case, we will call `onUpdateView(JSONObject result)` and the view will be responsible of using the result's JSON to display the hit.  
+Apart from those system components, any `View` can be used to hold an attribute if it implements the [`AlgoliaHitView`](/instantsearch/src/main/java/com/algolia/instantsearch/views/AlgoliaHitView.java) interface. In this case, we will call `onUpdateView(JSONObject result)` and the view will be responsible of using the result's JSON to display the hit.
 
 *See for example the [media app][media-url]'s [`TimestampHitView`](https://github.com/algolia/instantsearch-android-examples/blob/master/media/src/main/java/com/algolia/instantsearch/examples/media/views/TimestampHitView.java), a TextView which transforms a timestamp attribute to display a human-readable date instead.*
 
 ### Infinite scroll
 
-An infinite scroll mechanism is built in to load more results as the user scrolls.  
+An infinite scroll mechanism is built in to load more results as the user scrolls.
 Enabled by default, it will watch the state of the Hits to load more results before the user reaches the end of the current page.
 
 As explained [earlier](#hits), you can use the attributes `disableInfiniteScroll` and `remainingItemsBeforeLoading` to control or disable this feature.
 
 ### Empty View
 
-The Hits widget implements an empty view mechanism to display an alternative View if there are no results to display, following the [AdapterView's interface](https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)).  
+The Hits widget implements an empty view mechanism to display an alternative View if there are no results to display, following the [AdapterView's interface](https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)).
 If you add a View to your layout with the id `@android:id/empty`, it will be displayed instead of the Hits when there is no data to display.  You can also set it programmatically using `Hits#setEmptyView(View)`.
 
 [media-gif]: ./docs/media.gif
 [ecommerce-gif]: ./docs/ecommerce.gif
 [media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
+
+## RefinementList
+<img src="docs/widget_RefinementList.png" align="right"/>
+
+The **RefinementList** is a filtering widget made to display your [facets](https://www.algolia.com/doc/guides/search/filtering-faceting#faceting) and let the user refine the search results.
+
+Four attributes allow you to configure how it will filter your results:
+
+```xml
+<com.algolia.instantsearch.views.RefinementList
+            android:id="@+id/refinements"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            algolia:attribute="city"
+            algolia:limit="10"
+            algolia:operator="or"
+            algolia:sortBy="['isRefined', 'count:desc']"/>
+```
+
+- **`attribute`** defines which faceted attribute will be used by the widget.
+- **`operator`** can either be `"or"` or `"and"`, to control if the results should match *any* selected value or *all* selected values. (defaults to `"or"`)
+- **`limit`** is the maximum amount of facet values we will display (defaults to 10). If there are more values, we will display the cwmost important ones.
+- **`limit`** is the maximum amount of facet values we will display (defaults to 10). If there are more values, we will display the most important ones.
+- **`sortBy`** controls the sort order of the attributes. You can either specify a single value or an array of values to apply one after another.
+
+  This attribute accepts the following values:
+  - `"isRefined"` to sort the facets by displaying first currently refined facets
+  - `"count:asc"` to sort the facets by increasing count
+  - `"count:desc"` to sort the facets by decreasing count
+  - `"name:asc"` to sort the facet values by alphabetical order
+  - `"name:desc"` to sort the facet values by reverse alphabetical order
+
+In the previous code sample, `sortBy="['isRefined', 'count']"` will display the refined facets before the non-refined ones, and will then sort them by decreasing count.
