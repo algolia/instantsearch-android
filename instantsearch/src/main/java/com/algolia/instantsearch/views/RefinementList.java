@@ -37,12 +37,13 @@ public class RefinementList extends ListView implements AlgoliaWidget {
     public static final int OPERATOR_OR = 0;
     public static final int OPERATOR_AND = 1;
 
-    public static final String SORT_COUNT = "count";
+    public static final String SORT_COUNT_ASC = "count:asc";
+    public static final String SORT_COUNT_DESC = "count:desc";
     public static final String SORT_ISREFINED = "isRefined";
     public static final String SORT_NAME_ASC = "name:asc";
     public static final String SORT_NAME_DESC = "name:desc";
 
-    public static final String DEFAULT_SORT = SORT_COUNT;
+    public static final String DEFAULT_SORT = SORT_COUNT_DESC;
     public static final int DEFAULT_LIMIT = 10;
 
     @NonNull
@@ -96,8 +97,11 @@ public class RefinementList extends ListView implements AlgoliaWidget {
                 int comparisonValue = 0;
                 for (String sortValue : sortOrder) {
                     switch (sortValue) {
-                        case SORT_COUNT:
-                            comparisonValue = -Integer.valueOf(lhs.count).compareTo(rhs.count);
+                        case SORT_COUNT_ASC:
+                            comparisonValue = Integer.valueOf(lhs.count).compareTo(rhs.count);
+                            break;
+                        case SORT_COUNT_DESC:
+                            comparisonValue = Integer.valueOf(rhs.count).compareTo(lhs.count);
                             break;
                         case SORT_ISREFINED:
                             comparisonValue = -Boolean.valueOf(adapter.hasActive(lhs.value)).compareTo(adapter.hasActive(rhs.value));
@@ -173,7 +177,8 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         ArrayList<String> sortOrder = new ArrayList<>();
 
         switch (attribute) {
-            case SORT_COUNT:
+            case SORT_COUNT_ASC:
+            case SORT_COUNT_DESC:
             case SORT_ISREFINED:
             case SORT_NAME_ASC:
             case SORT_NAME_DESC:
@@ -200,7 +205,8 @@ public class RefinementList extends ListView implements AlgoliaWidget {
 
     private static void addSortOrderOrThrow(@NonNull String value, @NonNull ArrayList<String> sortOrder) {
         switch (value) {
-            case SORT_COUNT:
+            case SORT_COUNT_ASC:
+            case SORT_COUNT_DESC:
             case SORT_ISREFINED:
             case SORT_NAME_ASC:
             case SORT_NAME_DESC:
@@ -211,7 +217,8 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         }
     }
 
-    @NonNull public String getAttributeName() {
+    @NonNull
+    public String getAttributeName() {
         return attributeName;
     }
 
