@@ -29,7 +29,8 @@ public class RefinementListTest extends InstantSearchTest {
                 RefinementList.SORT_ISREFINED,
                 RefinementList.SORT_NAME_ASC,
                 RefinementList.SORT_NAME_DESC,
-                RefinementList.SORT_COUNT);
+                RefinementList.SORT_COUNT_ASC,
+                RefinementList.SORT_COUNT_DESC);
         for (String input : inputs) {
             ArrayList<String> output = RefinementList.parseSortOrder(input);
             Assert.assertEquals(String.format("Parsing a single valid value %s should result in a singletonList.", input), 1, output.size());
