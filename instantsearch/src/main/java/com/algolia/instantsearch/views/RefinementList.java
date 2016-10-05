@@ -47,7 +47,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
     public static final int DEFAULT_LIMIT = 10;
 
     @NonNull
-    private final String attributeName;
+    private final String attribute;
     private final int operator;
     @NonNull
     private final ArrayList<String> sortOrder;
@@ -59,22 +59,22 @@ public class RefinementList extends ListView implements AlgoliaWidget {
     @NonNull
     private Comparator<? super FacetValue> sortComparator;
 
-    @SuppressWarnings("ConstantConditions") /* We set to null only if isInEditMode and throw if attributeName is null */
+    @SuppressWarnings("ConstantConditions") /* We set to null only if isInEditMode and throw if attribute is null */
     public RefinementList(@NonNull final Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
         if (isInEditMode()) {
             operator = OPERATOR_AND;
             sortOrder = null;
             sortComparator = null;
-            attributeName = null;
+            attribute = null;
             adapter = null;
             return;
         }
 
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.RefinementList, 0, 0);
         try {
-            attributeName = styledAttributes.getString(R.styleable.RefinementList_attribute);
-            if (attributeName == null) {
+            attribute = styledAttributes.getString(R.styleable.RefinementList_attribute);
+            if (attribute == null) {
                 throw new AlgoliaException(Errors.REFINEMENTS_MISSING_ATTRIBUTE);
             }
 
@@ -140,7 +140,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
 
         // else build updated facet list
         final Map<String, List<FacetValue>> facets = results.facets;
-        List<FacetValue> refinementFacets = facets.get(attributeName);
+        List<FacetValue> refinementFacets = facets.get(attribute);
 
         // If we have new facetValues we should use them, and else set count=0 to old ones
         if (refinementFacets != null && refinementFacets.size() > 0) {
@@ -153,10 +153,12 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         adapter.notifyDataSetChanged();
     }
 
-    @Override public void onError(Query query, @NonNull AlgoliaException error) {
+    @Override
+    public void onError(Query query, @NonNull AlgoliaException error) {
     }
 
-    @Override public void onReset() {
+    @Override
+    public void onReset() {
         adapter.clear();
     }
 
@@ -169,7 +171,8 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         this.sortComparator = sortComparator;
     }
 
-    @Nullable static ArrayList<String> parseSortOrder(@Nullable String attribute) {
+    @Nullable
+    static ArrayList<String> parseSortOrder(@Nullable String attribute) {
         if (attribute == null) {
             return null;
         }
@@ -218,8 +221,8 @@ public class RefinementList extends ListView implements AlgoliaWidget {
     }
 
     @NonNull
-    public String getAttributeName() {
-        return attributeName;
+    public String getAttribute() {
+        return attribute;
     }
 
     public int getOperator() {
@@ -232,7 +235,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
 
         private final HashSet<String> activeFacets = new HashSet<>();
 
-        public FacetAdapter(Context context) {
+        FacetAdapter(Context context) {
             this(context, new ArrayList<FacetValue>());
         }
 
@@ -267,21 +270,24 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         }
 
         @Override
-        public void remove(@NonNull FacetValue facet) {
+        public void remove(@Nullable FacetValue facet) {
             super.remove(facet);
 
             facetValues.remove(facet);
-            activeFacets.remove(facet.value);
+            if (facet != null) {
+                activeFacets.remove(facet.value);
+            }
         }
 
         @Override
-        public void sort(Comparator<? super FacetValue> comparator) {
+        public void sort(@NonNull Comparator<? super FacetValue> comparator) {
             super.sort(comparator);
             Collections.sort(facetValues, comparator);
         }
 
-        @Nullable @Override
-        public View getView(final int position, @Nullable View convertView, final ViewGroup parent) {
+        @Nullable
+        @Override
+        public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent) {
             if (convertView == null) {
                 convertView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                         .inflate(R.layout.refinement_row, parent, false);
@@ -305,7 +311,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
                         activeFacets.add(facet.value);
                     }
                     sort(sortComparator);
-                    searcher.updateFacetRefinement(attributeName, facet.value, hasActive(facet.value)).search();
+                    searcher.updateFacetRefinement(attribute, facet.value, hasActive(facet.value)).search();
                     updateFacetViews(facet, nameView, countView);
                 }
             });

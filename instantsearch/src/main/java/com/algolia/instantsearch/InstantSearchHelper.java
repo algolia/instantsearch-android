@@ -219,9 +219,9 @@ public class InstantSearchHelper {
                 widgets.add(widget);
             }
             searcher.registerListener(widget);
-            searcher.addFacet(((RefinementList) widget).getAttributeName(), ((RefinementList) widget).getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
+            searcher.addFacet(((RefinementList) widget).getAttribute(), ((RefinementList) widget).getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
             if (refinementAttributes != null) {
-                refinementAttributes.add(((RefinementList) widget).getAttributeName());
+                refinementAttributes.add(((RefinementList) widget).getAttribute());
             }
         } else if (widget instanceof ListView) {
             ((ListView) widget).setEmptyView(getEmptyView(rootView));
