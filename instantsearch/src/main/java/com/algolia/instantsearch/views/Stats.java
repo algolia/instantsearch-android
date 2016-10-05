@@ -53,6 +53,8 @@ public class Stats extends TextView implements AlgoliaWidget {
                 .replace("{hitsPerPage}", String.valueOf(results.hitsPerPage))
                 .replace("{processingTimeMS}", String.valueOf(results.processingTimeMS))
                 .replace("{nbHits}", String.valueOf(results.nbHits))
+                .replace("{nbPages}", String.valueOf(results.nbPages))
+                .replace("{page}", String.valueOf(results.page))
                 .replace("{query}", String.valueOf(results.query));
     }
 
