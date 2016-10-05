@@ -3,7 +3,7 @@
 It is built on top of Algolia's [Android API Client](https://github.com/algolia/algoliasearch-client-android) to provide you a high-level solution to quickly build various search interfaces.
 
 # Demo
-You can see InstantSearch Android in action in our Examples repository, in which we published two example apps built with InstantSearch:
+You can see InstantSearch Android in action in our [Examples repository](https://github.com/algolia/instantsearch-android-examples), in which we published two example apps built with InstantSearch:
 
 | [Media app](media-url) | [E-commerce app](ecommerce-url) |
 | --- | --- |
@@ -254,6 +254,20 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
 
   If you don't specify an `errorTemplate`, the Stats widget will be hidden when a query returns an error.
 
+# Errors
+
+There are a few errors that you may encounter if your setup is not correct. Here are the frequent errors and the appropriate solutions:
+
+- 
+> Error:(42, 42) **No resource type specified** (at 'attribute' with value '@{"image"}’).
+
+  Either you forgot to [enable the DataBinding Library](#data-binding) or your `itemLayout` does not start with a `<layout>` root tag.
+
+- 
+> **java.lang.NoClassDefFoundError: Failed resolution of: Landroid/databinding/DataBinderMapper;**
+    at android.databinding.DataBindingUtil.<clinit>(DataBindingUtil.java:31)  
+
+  You forgot to [enable the DataBinding Library](#data-binding).
 
 # License
 
