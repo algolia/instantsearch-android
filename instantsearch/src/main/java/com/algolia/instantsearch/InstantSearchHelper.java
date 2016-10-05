@@ -85,7 +85,7 @@ public class InstantSearchHelper {
      */
     public InstantSearchHelper(@NonNull final AlgoliaWidget widget, @NonNull final Searcher searcher) {
         this(searcher);
-        searcher.registerListener(widget);
+        processWidget(((View) widget).getRootView(), widget, null);
     }
 
     private InstantSearchHelper(@NonNull final Searcher searcher) {
@@ -166,18 +166,6 @@ public class InstantSearchHelper {
         linkSearchViewToSearcher(searchView);
     }
 
-    /**
-     * Initialize a list of facet for the given widget's attribute and operator.
-     *
-     * @param refinementList a RefinementList to register as a source of facetRefinements.
-     */
-    public void registerRefinementList(@NonNull RefinementList refinementList, @NonNull Searcher searcher) {
-        if (!widgets.contains(refinementList)) {
-            widgets.add(refinementList);
-        }
-        searcher.addFacet(refinementList.getAttributeName(), refinementList.getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
-    }
-
     private void processActivity(@NonNull final Activity activity) {
         View rootView = activity.getWindow().getDecorView().getRootView();
         if (searchView == null) {
@@ -193,30 +181,7 @@ public class InstantSearchHelper {
         }
         final List<String> refinementAttributes = new ArrayList<>();
         for (AlgoliaWidget widget : foundListeners) {
-            widgets.add(widget);
-            searcher.registerListener(widget);
-            widget.setSearcher(searcher);
-
-            if (widget instanceof Hits) {
-                final Hits hits = (Hits) widget;
-                searcher.getQuery().setHitsPerPage(hits.getHitsPerPage());
-
-                // Link hits to activity's empty view
-                hits.setEmptyView(getEmptyView(rootView));
-
-                itemLayoutId = hits.getLayoutId();
-
-                if (itemLayoutId == -42) {
-                    throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
-                }
-            } else if (widget instanceof RefinementList) {
-                RefinementList refinementList = (RefinementList) widget;
-                searcher.registerListener(refinementList);
-                refinementAttributes.add(refinementList.getAttributeName());
-                registerRefinementList(refinementList, searcher);
-            } else if (widget instanceof ListView) {
-                ((ListView) widget).setEmptyView(getEmptyView(rootView));
-            }
+            processWidget(rootView, widget, refinementAttributes);
         }
         final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
         if (facets.length > 0) {
@@ -231,6 +196,36 @@ public class InstantSearchHelper {
                 return false;
             }
         });
+    }
+
+    private void processWidget(View rootView, AlgoliaWidget widget, @Nullable List<String> refinementAttributes) {
+        widgets.add(widget);
+        searcher.registerListener(widget);
+        widget.setSearcher(searcher);
+
+        if (widget instanceof Hits) {
+            searcher.getQuery().setHitsPerPage(((Hits) widget).getHitsPerPage());
+
+            // Link hits to activity's empty view
+            ((Hits) widget).setEmptyView(getEmptyView(rootView));
+
+            itemLayoutId = ((Hits) widget).getLayoutId();
+
+            if (itemLayoutId == -42) {
+                throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
+            }
+        } else if (widget instanceof RefinementList) {
+            if (!widgets.contains(widget)) {
+                widgets.add(widget);
+            }
+            searcher.registerListener(widget);
+            searcher.addFacet(((RefinementList) widget).getAttributeName(), ((RefinementList) widget).getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
+            if (refinementAttributes != null) {
+                refinementAttributes.add(((RefinementList) widget).getAttributeName());
+            }
+        } else if (widget instanceof ListView) {
+            ((ListView) widget).setEmptyView(getEmptyView(rootView));
+        }
     }
 
     /**
