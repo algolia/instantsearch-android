@@ -26,8 +26,7 @@ new Searcher(ALGOLIA_APP_ID, ALGOLIA_API_KEY, ALGOLIA_INDEX_NAME);
 
 Once created, the Searcher is responsible of all search requests: when `Searcher#search()` is called, the Searcher will fire a request with the current query, and will forward the search results to its **listeners**.
 
-You can add a listener to a Searcher by calling `Searcher#registerListener()` with an object implementing the [`AlgoliaResultsListener`](instantsearch/src/main/java/com/algolia/instantsearch/views/AlgoliaResultsListener.java) interface. This object's `onResults` or `onError` method will be called after each search request returns to let you either process the results or handle the  error.
-
+A listener is an object implementing the [`AlgoliaResultsListener`](instantsearch/src/main/java/com/algolia/instantsearch/views/AlgoliaResultsListener.java) interface: this object's `onResults` or `onError` method will be called after each search request returns to let you either process the results or handle the error. You can add a listener to a Searcher by calling `Searcher#registerListener()`.
 ## InstantSearchHelper
 
 The Searcher is UI-agnostic, and only communicates with its listeners. On top of it, we provide you a component which will link it to your user interface: the **InstantSearchHelper**.
@@ -206,7 +205,6 @@ Four attributes allow you to configure how it will filter your results:
 
 - **`attribute`** defines which faceted attribute will be used by the widget.
 - **`operator`** can either be `"or"` or `"and"`, to control if the results should match *any* selected value or *all* selected values. (defaults to `"or"`)
-- **`limit`** is the maximum amount of facet values we will display (defaults to 10). If there are more values, we will display the cwmost important ones.
 - **`limit`** is the maximum amount of facet values we will display (defaults to 10). If there are more values, we will display the most important ones.
 - **`sortBy`** controls the sort order of the attributes. You can either specify a single value or an array of values to apply one after another.
 
@@ -218,3 +216,32 @@ Four attributes allow you to configure how it will filter your results:
   - `"name:desc"` to sort the facet values by reverse alphabetical order
 
 In the previous code sample, `sortBy="['isRefined', 'count']"` will display the refined facets before the non-refined ones, and will then sort them by decreasing count.
+
+## Stats
+<img src="docs/widget_Stats.png" align="right"/>
+
+**Stats** is a widget for displaying statistics about the current search result. You can configure it with two attributes:
+
+```xml
+<com.algolia.instantsearch.views.Stats
+            android:id="@+id/stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            algolia:resultTemplate="{nbHits} results found in {processingTimeMS} ms"
+            algolia:errorTemplate="Error, please try again"/>
+```
+- **`resultTemplate`** defines what this widget will display when a search request returns successfully. It takes the form of a templated string where we will replace the following templates:
+  - `{nbHits}` will be replaced by the hit count for the current query
+  - `{processingTimeMS}` will be replaced by the time the server took to process the request, in milliseconds
+  - `{hitsPerPage}` will be replaced by the maximum number of hits returned per page
+  - `{nbPages}` will be replaced by the number of pages corresponding to the number of hits
+  - `{page}` will be replaced by the index of the current page (zero-based)
+  - `{query}` will be replaced by the query text
+
+  The default `resultTemplate` is `"{nbHits} results found in {processingTimeMS} ms"`.
+
+- **`errorTemplate`** defines what this widget will display when a search query returns with an error. It takes the form of a templated string where we will replace the following templates:
+  - `{error}` will be replaced by the error message
+  - `{query}` will be replaced by the query text
+
+  If you don't specify an `errorTemplate`, the Stats widget will be hidden when a query returns an error.
