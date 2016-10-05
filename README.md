@@ -9,6 +9,24 @@ You can see InstantSearch Android in action in our [Examples repository](https:/
 | --- | --- |
 | [![animated screenshot of media app][media-gif]][media-url] | [![animated screenshot of ecommerce app][ecommerce-gif]][ecommerce-url] |
 
+# Table of Contents
+
+* [Getting started](#getting-started)
+  * [Searcher](#searcher)
+  * [InstantSearchHelper](#instantsearchhelper)
+    * [With a single Widget](#with-a-single-widget)
+    * [With several Widgets in the same Activity](#with-several-widgets-in-the-same-activity)
+* [Widgets](#widgets)
+  * [Anatomy of an AlgoliaWidget](#anatomy-of-an-algoliawidget)
+  * [SearchBox](#searchbox)
+  * [Hits](#hits)
+    * [Data Binding](#data-binding)
+    * [Infinite scroll](#infinite-scroll)
+    * [Empty View](#empty-view)
+  * [RefinementList](#refinementlist)
+  * [Stats](#stats)
+* [Errors](#errors)
+* [License](#license)
 
 # Getting started
 
