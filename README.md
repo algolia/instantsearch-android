@@ -245,3 +245,8 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
   - `{query}` will be replaced by the query text
 
   If you don't specify an `errorTemplate`, the Stats widget will be hidden when a query returns an error.
+
+
+# License
+
+InstantSearch Android is [MIT licensed](LICENSE.md).
