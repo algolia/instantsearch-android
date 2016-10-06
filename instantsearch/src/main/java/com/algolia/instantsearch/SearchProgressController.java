@@ -57,7 +57,7 @@ public class SearchProgressController {
     }
 
     @Subscribe
-    public void onSearchEvent(SearchEvent event) {
+    public void onSearch(SearchEvent event) {
         if (delay == 0) {
             listener.onStart();
         } else {

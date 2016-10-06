@@ -10,4 +10,12 @@ public class SearchEvent {
         this.query = query;
         this.requestSeqNumber = requestSeqNumber;
     }
+
+    @Override
+    public String toString() {
+        return "SearchEvent{" +
+                "requestSeqNumber=" + requestSeqNumber +
+                ", query=" + query +
+                '}';
+    }
 }

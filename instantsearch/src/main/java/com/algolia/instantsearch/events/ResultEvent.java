@@ -20,4 +20,13 @@ public class ResultEvent {
         this.query = query;
         this.requestSeqNumber = requestSeqNumber;
     }
+
+    @Override
+    public String toString() {
+        return "ResultEvent{" +
+                "requestSeqNumber=" + requestSeqNumber +
+                ", content=" + content +
+                ", query=" + query +
+                '}';
+    }
 }

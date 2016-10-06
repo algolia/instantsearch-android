@@ -19,4 +19,13 @@ public class ErrorEvent {
         this.query = query;
         this.requestSeqNumber = requestSeqNumber;
     }
+
+    @Override
+    public String toString() {
+        return "ErrorEvent{" +
+                "requestSeqNumber=" + requestSeqNumber +
+                ", query=" + query +
+                ", error=" + error +
+                '}';
+    }
 }

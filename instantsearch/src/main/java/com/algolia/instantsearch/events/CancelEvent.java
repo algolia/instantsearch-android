@@ -15,4 +15,12 @@ public class CancelEvent {
         this.request = request;
         this.requestSeqNumber = requestSeqNumber;
     }
+
+    @Override
+    public String toString() {
+        return "CancelEvent{" +
+                "requestSeqNumber=" + requestSeqNumber +
+                ", request=" + request +
+                '}';
+    }
 }
