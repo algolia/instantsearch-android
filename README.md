@@ -23,9 +23,13 @@ You can see InstantSearch Android in action in our [Examples repository](https:/
     * [Data Binding](#data-binding)
     * [Infinite scroll](#infinite-scroll)
     * [Empty View](#empty-view)
+    * [Highlighting](#highlighting)
   * [RefinementList](#refinementlist)
   * [Stats](#stats)
-* [Highlighting](#highlighting)
+* [Highlighting](#highlighting-1)
+  * [With the Hits widget and system Views](#with-the-hits-widget-and-system-views)
+  * [With custom Hit Views or a custom Widget](#with-custom-hit-views-or-a-custom-widget)
+* [Progress indicator](#progress-indicator)
 * [Errors](#errors)
 * [License](#license)
 
@@ -215,7 +219,7 @@ If you add a View to your layout with the id `@android:id/empty`, it will be dis
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
 
 ### Highlighting
-See [dedicated section](#highlighting).
+See [dedicated section](#highlighting-1).
 
 ## RefinementList
 <img src="docs/widget_RefinementList.png" align="right"/>
@@ -317,7 +321,7 @@ The default Highlighter will highlight anything between `<em>` and `</em>`. You 
 A useful pattern to improve your user's experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.
 
 By default, the InstantSearchHelper will display an indeterminate [`ProgressBar`](https://developer.android.com/reference/android/widget/ProgressBar.html) in your `SearchView` as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (>= API 14), or after a small delay to avoid blinking.
-You can change this delay by calling `InstantSearchHelper#enableProgressBar(int)` with a delay in milliseconds, or disable this progress indicator with `InstantSearchHelper#disablePRogressBar()`.
+You can change this delay by calling `InstantSearchHelper#enableProgressBar(int)` with a delay in milliseconds, or disable this progress indicator with `InstantSearchHelper#disableProgressBar()`.
 
 Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java).  
 Once instantiated, a **SearchProgressController** will inform its [`ProgressListener`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java#L99) when some requests are sent with `onStart()`, and will call `onStop()` when all current requests have returned.
