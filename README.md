@@ -7,7 +7,7 @@ You can see InstantSearch Android in action in our [Examples repository](https:/
 
 | [Media app](media-url) | [E-commerce app](ecommerce-url) |
 | --- | --- |
-| [![animated screenshot of media app][media-gif]][media-url] | [![animated screenshot of ecommerce app][ecommerce-gif]][ecommerce-url] |
+| [![animated screenshot of media app][media-gif]][media-url] | [![animated screenshot of e-commerce app][ecommerce-gif]][ecommerce-url] |
 
 # Table of Contents
 
@@ -191,6 +191,8 @@ For each `View` which should receive a result's attribute, you can specify `algo
 |RatingBar  | rating value| setRating(attributeValue)| Parsed as Float
 |ProgressBar| progress value | setProgress(attributeValue)| Parsed as Float and rounded to the nearest Integer
 
+#### Custom hit views
+
 Apart from those system components, any `View` can be used to hold an attribute if it implements the [`AlgoliaHitView`](/instantsearch/src/main/java/com/algolia/instantsearch/views/AlgoliaHitView.java) interface. In this case, we will call `onUpdateView(JSONObject result)` and the view will be responsible of using the result's JSON to display the hit.
 
 *See for example the [media app][media-url]'s [`TimestampHitView`](https://github.com/algolia/instantsearch-android-examples/blob/master/media/src/main/java/com/algolia/instantsearch/examples/media/views/TimestampHitView.java), a TextView which transforms a timestamp attribute to display a human-readable date instead.*
@@ -277,9 +279,12 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
   If you don't specify an `errorTemplate`, the Stats widget will be hidden when a query returns an error.
 
 # Highlighting
+<img src="docs/highlighting.png" align="right">
 
 Visually highlighting the search result is [an essential feature of a great search interface](https://blog.algolia.com/inside-the-algolia-engine-part-5-highlighting-a-cornerstone-to-search-ux/). It will help your users understand your results by explaining them why a result is relevant to their query.
-An highlighting mechanism is built-in with the `Hits` widget. To highlight a textual attribute, simply add the `highlighted` attribute on its view:
+
+## With the `Hits` widget and system Views
+A highlighting mechanism is built-in with the `Hits` widget. To highlight a textual attribute, simply add the `highlighted` attribute on its view:
 
 ```xml
 <TextView
@@ -290,6 +295,21 @@ An highlighting mechanism is built-in with the `Hits` widget. To highlight a tex
 This will highlight the attribute according to the query term, like you can see in the screenshot. The color used for highlighting is `R.color.colorHighlighting`, which you can override in your application.
 
 Alternatively, you can specify `algolia:highlightingColor='@{"color/appDefinedColor"}'` to use a specific color for the current view.
+
+Note that highlighting **only works automatically on TextViews**. if you implement a [custom hit view](#custom-hit-views), you should use the `Highlighter` to render the appropriate highlight, as explained below.
+
+## With custom Hit Views or a custom Widget
+
+To highlight an attribute in your `AlgoliaHitView` or to highlight results received by your [custom widget](#anatomy-of-an-algoliawidget), you should use the **Highligter**.
+This tool will let you build a highlighted [`Spannable`](https://developer.android.com/reference/android/text/Spannable.html) from a search result and an optional highlight color:
+
+```java
+final Spannable highlightedAttribute = Highlighter.getDefault().renderHighlightColor(result, attributeToHighlight, context);
+```
+
+The default Highlighter will highlight anything between `<em>` and `</em>`. You can configure the Highlighter to highlight between any pair of terms with `Highlighter.setDefault(newPrefix, newSuffix)`, or use a RegExp pattern to highlight any captured part with `Highlighter.setDefault(newPattern)`.
+
+*See for example the [e-commerce app][ecommerce-url]'s [`CategoryOrTypeView`](https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java), a TextView which takes either the `category` or the `type` attribute of a record and [highlights it](https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java#L25) before displaying.*
 
 # Errors
 
