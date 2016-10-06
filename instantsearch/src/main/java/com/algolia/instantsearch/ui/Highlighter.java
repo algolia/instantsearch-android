@@ -64,12 +64,31 @@ public class Highlighter {
     }
 
     /**
-     * Constructor for a custom highlighter, using a custom pattern.
+     * Set the default highlighter to highlight the captured group of the given RegExp regexp.
      *
-     * @param pattern a capturing RegExp pattern to find and capture the part to highlight.
+     * @param regexp a capturing RegExp regexp to find and capture the part to highlight.
      */
-    public Highlighter(String pattern) {
-        this.pattern = Pattern.compile(pattern);
+    public static void setDefault(@NonNull final String regexp) {
+        defaultHighlighter = new Highlighter(regexp);
+    }
+
+    /**
+     * Set the default highlighter to highlight anything between {@code prefixTag} and {@code postfixTag}.
+     *
+     * @param prefixTag  the String that is inserted before a highlighted part of a result.
+     * @param postfixTag the String that is inserted after a highlighted part of a result.
+     */
+    public static void setDefault(final String prefixTag, final String postfixTag) {
+        defaultHighlighter = new Highlighter(prefixTag, postfixTag);
+    }
+
+    /**
+     * Constructor for a custom highlighter, using a custom regexp.
+     *
+     * @param regexp a capturing RegExp regexp to find and capture the part to highlight.
+     */
+    public Highlighter(String regexp) {
+        this.pattern = Pattern.compile(regexp);
     }
 
     /**
