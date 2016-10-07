@@ -30,7 +30,7 @@ You can see InstantSearch Android in action in our [Examples repository](https:/
   * [With the Hits widget and system Views](#with-the-hits-widget-and-system-views)
   * [With custom Hit Views or a custom Widget](#with-custom-hit-views-or-a-custom-widget)
 * [Progress indicator](#progress-indicator)
-* [Errors](#errors)
+* [Troubleshooting](#troubleshooting)
 * [License](#license)
 
 # Getting started
@@ -326,7 +326,7 @@ You can change this delay by calling `InstantSearchHelper#enableProgressBar(int)
 Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java).  
 Once instantiated, a **SearchProgressController** will inform its [`ProgressListener`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java#L99) when some requests are sent with `onStart()`, and will call `onStop()` when all current requests have returned.
 
-# Errors
+# Troubleshooting
 
 There are a few errors that you may encounter if your setup is not correct. Here are the frequent errors and the appropriate solutions:
 
