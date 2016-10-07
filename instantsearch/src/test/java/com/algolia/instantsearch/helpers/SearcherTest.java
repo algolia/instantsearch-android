@@ -1,7 +1,9 @@
-package com.algolia.instantsearch;
+package com.algolia.instantsearch.helpers;
 
 import android.support.annotation.NonNull;
 
+import com.algolia.instantsearch.Helpers;
+import com.algolia.instantsearch.InstantSearchTest;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.views.AlgoliaResultsListener;

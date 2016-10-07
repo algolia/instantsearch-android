@@ -23,14 +23,14 @@
 
 package com.algolia.instantsearch;
 
-class Helpers {
-    static final String app_id = "APP_ID_REPLACE_ME";
-    static final String api_key = "API_KEY_REPLACE_ME";
-    static final String job_number = "JOB_NUMBER_REPLACE_ME";
+public class Helpers {
+    public static final String app_id = "APP_ID_REPLACE_ME";
+    public static final String api_key = "API_KEY_REPLACE_ME";
+    private static final String job_number = "JOB_NUMBER_REPLACE_ME";
 
     static int wait = 30;
 
-    static String safeIndexName(String name) {
+    public static String safeIndexName(String name) {
         if (job_number.matches("\\d+\\.\\d+")) {
             name = String.format("%s_travis-%s", name, job_number);
         }
