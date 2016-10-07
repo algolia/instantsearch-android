@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-package com.algolia.instantsearch.ui;
+package com.algolia.instantsearch.helpers;
 
 import android.content.Context;
 import android.os.Build;

@@ -24,13 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.algolia.instantsearch.BindingHelper;
-import com.algolia.instantsearch.InstantSearchHelper;
+import com.algolia.instantsearch.helpers.InstantSearchHelper;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.RenderingHelper;
-import com.algolia.instantsearch.Searcher;
+import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
-import com.algolia.instantsearch.ui.Highlighter;
+import com.algolia.instantsearch.helpers.Highlighter;
 import com.algolia.instantsearch.utils.ImageLoadTask;
 import com.algolia.instantsearch.utils.ItemClickSupport;
 import com.algolia.instantsearch.utils.ItemClickSupport.OnItemClickListener;

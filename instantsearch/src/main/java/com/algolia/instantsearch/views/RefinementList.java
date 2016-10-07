@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.Searcher;
+import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.FacetValue;
 import com.algolia.instantsearch.model.SearchResults;

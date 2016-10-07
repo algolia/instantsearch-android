@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.algolia.instantsearch.Searcher;
+import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;

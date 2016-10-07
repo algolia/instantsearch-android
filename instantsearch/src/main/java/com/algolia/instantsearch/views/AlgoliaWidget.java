@@ -2,7 +2,7 @@ package com.algolia.instantsearch.views;
 
 import android.support.annotation.NonNull;
 
-import com.algolia.instantsearch.Searcher;
+import com.algolia.instantsearch.helpers.Searcher;
 
 public interface AlgoliaWidget extends AlgoliaResultsListener {
     /**

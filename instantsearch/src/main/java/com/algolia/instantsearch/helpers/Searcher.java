@@ -1,4 +1,4 @@
-package com.algolia.instantsearch;
+package com.algolia.instantsearch.helpers;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -271,7 +271,7 @@ public class Searcher {
         return this;
     }
 
-    void addFacet(@NonNull String attributeName, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
+    public void addFacet(@NonNull String attributeName, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
         if (isDisjunctiveFacet) {
             disjunctiveFacets.add(attributeName);
         }
