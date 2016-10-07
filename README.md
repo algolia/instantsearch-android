@@ -38,7 +38,7 @@ You can see InstantSearch Android in action in our [Examples repository](https:/
 This guide will walk you through the few steps needed to start a project with InstantSearch Android, while explaining its basic concepts.
 
 ## Searcher
-The main component of InstantSearch Android is the **Searcher**, which will wrap an [Algolia Client](https://github.com/algolia/algoliasearch-client-android/blob/master/algoliasearch/src/main/java/com/algolia/search/saas/Client.java) and provide a level of abstraction over it.
+The main component of InstantSearch Android is the **Searcher**, which will wrap an [Algolia API `Client`](https://github.com/algolia/algoliasearch-client-android/blob/master/algoliasearch/src/main/java/com/algolia/search/saas/Client.java) and provide a level of abstraction over it.
 
 To create a Searcher, simply call its constructor with your Application ID, the appropriate API Key and the name of the index you want to target:
 ```java
@@ -63,7 +63,7 @@ When you have only one widget, the `InstantSearchHelper` will simply send any in
 Simply call its constructor with a `Searcher` instance and the `AlgoliaWidget` which will receive incoming results:
 
 ```java
-Searcher searcher = /* initialize searcher as explained earlier */;
+Searcher searcher = /* initialize searcher as explained in the Searcher section */;
 AlgoliaWidget widget = (AlgoliaWidget) findViewById(R.id.myWidget);
 InstantSearchHelper helper = new InstantSearchHelper(searcher, widget); // link the widget to the searcher
 ```
@@ -86,7 +86,7 @@ InstantSearchHelper helper = new InstantSearchHelper(this, searcher);
 ```
 
 When instantiating the InstantSearchHelper with an Activity, we will scan its layout to pick-up every AlgoliaWidget it contains.
-If the activity contains a `SearchView` or our `SearchBox` widget, we will register it for you as explained above.
+If the activity contains a `SearchView` or our `SearchBox` widget, we will register it for you [as explained in the previous section](#with-a-single-widget).
 
 ----
 After following those steps, you have the basis of an InstantSearch application: an activity with a `SearchView` and one or several `AlgoliaWidget`, where changes in the SearchView's text trigger searches on your Algolia index which results are displayed in your widget. *Voilà !* 🎉
@@ -97,7 +97,7 @@ Widgets are the UI building blocks of InstantSearch Android, linked together by 
 
 ## Anatomy of an `AlgoliaWidget`
 
-An **`AlgoliaWidget`** is a specialization of the `AlgoliaResultsListener` interface used by the `Searcher` to notify its listeners of search results. Beyond reacting to search results with `onResults` and to errors in `onError`, an `AlgoliaWidget` exposes an `onReset` method which will be called when the interface is resetted (which you can trigger via `InstantSearchHelper#reset()`).
+An **`AlgoliaWidget`** is a specialization of the `AlgoliaResultsListener` interface used by the `Searcher` to notify its listeners of search results. Beyond reacting to search results with `onResults` and to errors in `onError`, an `AlgoliaWidget` exposes an `onReset` method which will be called when the interface is reset (which you can trigger via `InstantSearchHelper#reset()`).
 When linked to a `Searcher`, the widget's `setSearcher` method will be called to provide it a reference to its Searcher, which is useful to some widgets. For example, the `Hits` widget uses it to load more results as the user scrolls.
 
 ## SearchBox
@@ -206,7 +206,7 @@ Apart from those system components, any `View` can be used to hold an attribute 
 An infinite scroll mechanism is built in to load more results as the user scrolls.
 Enabled by default, it will watch the state of the Hits to load more results before the user reaches the end of the current page.
 
-As explained [earlier](#hits), you can use the attributes `disableInfiniteScroll` and `remainingItemsBeforeLoading` to control or disable this feature.
+As explained [in the attributes description](#hits), you can use the attributes `disableInfiniteScroll` and `remainingItemsBeforeLoading` to control or disable this feature.
 
 ### Empty View
 
@@ -219,7 +219,7 @@ If you add a View to your layout with the id `@android:id/empty`, it will be dis
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
 
 ### Highlighting
-See [dedicated section](#highlighting-1).
+This important feature of the `Hits` widget is explained in the [dedicated Highlighting section of this readme]((#highlighting-1)).
 
 ## RefinementList
 <img src="docs/widget_RefinementList.png" align="right"/>
@@ -300,7 +300,7 @@ This will highlight the attribute according to the query term, like you can see 
 
 Alternatively, you can specify `algolia:highlightingColor='@{"color/appDefinedColor"}'` to use a specific color for the current view.
 
-Note that highlighting **only works automatically on TextViews**. if you implement a [custom hit view](#custom-hit-views), you should use the `Highlighter` to render the appropriate highlight, as explained below.
+Note that highlighting **only works automatically on TextViews**. if you implement a [custom hit view](#custom-hit-views), you should use the `Highlighter` to render the appropriate highlight, as explained in the next section.
 
 ## With custom Hit Views or a custom Widget
 
