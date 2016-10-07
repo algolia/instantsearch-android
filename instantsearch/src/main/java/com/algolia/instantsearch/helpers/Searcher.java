@@ -271,6 +271,13 @@ public class Searcher {
         return this;
     }
 
+    /**
+     * Add a facet refinement for the next queries.
+     *
+     * @param attributeName
+     * @param isDisjunctiveFacet
+     * @param values
+     */
     public void addFacet(@NonNull String attributeName, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
         if (isDisjunctiveFacet) {
             disjunctiveFacets.add(attributeName);
@@ -300,7 +307,8 @@ public class Searcher {
 
 
     /**
-     * Add a facet refinement and run again the current query.
+     * Add a facet refinement for the next queries.
+     * This method resets the current page to 0.
      *
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to refine with.
@@ -318,7 +326,8 @@ public class Searcher {
     }
 
     /**
-     * Remove a facet refinement and run again the current query.
+     * Remove a facet refinement for the next queries.
+     * This method resets the current page to 0.
      *
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to refine with.
@@ -348,7 +357,8 @@ public class Searcher {
     }
 
     /**
-     * Clear all facet refinements.
+     * Clear all facet refinements for the next queries.
+     * This method resets the current page to 0.
      */
     public Searcher clearFacetRefinements() {
         refinementMap.clear();
@@ -359,7 +369,8 @@ public class Searcher {
 
 
     /**
-     * Clear an attribute's facet refinements.
+     * Clear an attribute's facet refinements for the next queries.
+     * This method resets the current page to 0.
      *
      * @param attribute the attribute's name.
      */
