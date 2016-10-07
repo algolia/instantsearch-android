@@ -1,4 +1,7 @@
 # InstantSearch Android
+[![Build Status](https://travis-ci.com/algolia/instantsearch-android.svg?token=bgTPqva7dW7pbzDMM6e1&branch=master)](https://travis-ci.com/algolia/instantsearch-android)
+
+
 **InstantSearch Android** is a library providing widgets and helpers to help you build the best instant-search experience on Android with Algolia.
 It is built on top of Algolia's [Android API Client](https://github.com/algolia/algoliasearch-client-android) to provide you a high-level solution to quickly build various search interfaces.
 
