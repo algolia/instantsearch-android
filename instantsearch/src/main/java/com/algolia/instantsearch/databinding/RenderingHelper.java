@@ -1,4 +1,4 @@
-package com.algolia.instantsearch;
+package com.algolia.instantsearch.databinding;
 
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;

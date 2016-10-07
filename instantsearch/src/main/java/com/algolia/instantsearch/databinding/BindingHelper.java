@@ -1,4 +1,4 @@
-package com.algolia.instantsearch;
+package com.algolia.instantsearch.databinding;
 
 import android.content.res.Resources;
 import android.databinding.BindingAdapter;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class BindingHelper {
-    private static final Map<Integer, String> attributes = new HashMap<>();
+    private static final Map<Integer, String> attributes = new HashMap<>(); //TODO: SparseArray
 
     private static boolean notAlreadyMapped(int id) {
         return attributes.get(id) == null;

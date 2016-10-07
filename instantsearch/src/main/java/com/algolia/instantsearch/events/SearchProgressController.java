@@ -1,11 +1,6 @@
-package com.algolia.instantsearch;
+package com.algolia.instantsearch.events;
 
 import android.os.Handler;
-
-import com.algolia.instantsearch.events.CancelEvent;
-import com.algolia.instantsearch.events.ErrorEvent;
-import com.algolia.instantsearch.events.ResultEvent;
-import com.algolia.instantsearch.events.SearchEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
