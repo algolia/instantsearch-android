@@ -75,18 +75,18 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
             return;
         }
 
-        boolean disableInfiniteScroll;
+        boolean infiniteScroll;
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Hits, 0, 0);
         try {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, DEFAULT_HITS_PER_PAGE);
             layoutId = styledAttributes.getResourceId(R.styleable.Hits_itemLayout, 0);
-            disableInfiniteScroll = styledAttributes.getBoolean(R.styleable.Hits_disableInfiniteScroll, false);
+            infiniteScroll = styledAttributes.getBoolean(R.styleable.Hits_infiniteScroll, true);
             int remainingItemsAttribute = styledAttributes.getInt(R.styleable.Hits_remainingItemsBeforeLoading, MISSING_VALUE);
             if (remainingItemsAttribute == MISSING_VALUE) {
                 remainingItemsBeforeLoading = DEFAULT_REMAINING_ITEMS;
             } else {
                 remainingItemsBeforeLoading = remainingItemsAttribute;
-                if (disableInfiniteScroll) {
+                if (!infiniteScroll) {
                     throw new AlgoliaException(Errors.HITS_INFINITESCROLL);
                 }
             }
@@ -110,8 +110,8 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         layoutManager = new LinearLayoutManager(context);
         setLayoutManager(layoutManager);
 
-        scrollListener = disableInfiniteScroll ? null : new HitsScrollListener();
-        if (!disableInfiniteScroll) {
+        scrollListener = infiniteScroll ? new HitsScrollListener() : null;
+        if (infiniteScroll) {
             addOnScrollListener(scrollListener);
         }
     }
