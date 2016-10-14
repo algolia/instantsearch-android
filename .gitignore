@@ -2,6 +2,7 @@
 *.iml
 .idea/*
 projectFilesBackup
+.gradletasknamecache
 
 # Build
 .gradle
@@ -9,6 +10,7 @@ projectFilesBackup
 /.idea/libraries
 /build
 /captures
+.bintray.json
 
 # Local setup
 /local.properties

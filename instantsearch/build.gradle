@@ -4,10 +4,37 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     }
 }
 
+plugins {
+    id "com.jfrog.bintray" version "1.7"
+}
+
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.github.dcendents.android-maven'
+
+ext {
+    GROUP = 'com.algolia'
+    BASENAME = 'instantsearch-android'
+    CODENAME = GROUP + ":" + BASENAME
+    NAME = 'InstantSearch Android'
+    DESC = "A library of widgets and helpers to build instant-search applications on Android."
+    WEBSITE = "https://github.com/algolia/instantsearch-android"
+    REPO = WEBSITE + ".git"
+    LICENSE = 'MIT'
+    LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
+    VERSION = '0.1'
+    VERSION_DESC = 'Version Beta ' + VERSION
+
+    VERSION_APPCOMPAT = '24.2.1'
+}
+
+group = project.ext.GROUP
+version = project.ext.VERSION
 
 android {
     dataBinding {
@@ -48,10 +75,6 @@ android {
     }
 }
 
-ext {
-    VERSION_APPCOMPAT = '24.2.1'
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.algolia:algoliasearch-android:3.4.1'
@@ -62,4 +85,111 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:robolectric:3.0"
+}
+
+task writeNewPom << {
+    apply plugin: 'maven'
+    description "Generates pom.xml"
+
+    pom {
+        project {
+            packaging 'aar'
+            groupId project.ext.GROUP
+            artifactId project.ext.BASENAME
+
+            // Add your description here
+            name project.ext.CODENAME
+            description project.ext.DESC
+            url project.ext.WEBSITE
+
+            // Set your license
+            licenses {
+                license {
+                    name project.ext.LICENSE
+                    url project.ext.LICENSE_URL
+                }
+            }
+            developers {
+                developer {
+                    id "algolia"
+                    name "The Algolia Team"
+                    email "hey@algolia.com"
+                }
+            }
+            scm {
+                connection project.ext.REPO
+                developerConnection project.ext.REPO
+                url project.ext.WEBSITE
+
+            }
+        }
+    }.writeTo("${project.buildDir}/${project.ext.BASENAME}-${project.ext.VERSION}.pom")
+}
+task sourceJar(type: Jar, dependsOn: writeNewPom) {
+    classifier "source"
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    failOnError false //FIXME: Can I include annotation library and algoliasearch?
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier "javadoc"
+    from javadoc.destinationDir
+}
+
+//add javadoc/source jar tasks as artifacts
+artifacts {
+    archives sourceJar
+    archives javadocJar
+}
+
+publishing.publications {
+    BinTrayPublication(MavenPublication) {
+        groupId project.ext.GROUP
+        artifactId project.ext.BASENAME
+        version project.ext.VERSION
+
+        artifact "${project.buildDir}/outputs/aar/${project.name}-release.aar"
+        artifact sourceJar
+        artifact javadocJar
+        artifact "${project.buildDir}/${project.ext.BASENAME}-${project.ext.VERSION}.pom"
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['BinTrayPublication']
+    publish = true // auto publish after upload
+    pkg {
+        repo = 'maven'
+        name = project.ext.CODENAME
+        licenses = [project.ext.LICENSE]
+        vcsUrl = project.ext.REPO
+        version {
+            name = project.ext.VERSION
+            desc = project.ext.VERSION_DESC
+            released = new Date()
+            vcsTag = project.ext.VERSION
+            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+
+//            gpg {
+//                sign = true
+//                //DISCUSS: GPG-sign with our own key instead of BinTray's?
+//                //passphrase = System.env.GPG_PASSPHRASE
+//            }
+
+//              //TODO: mavenCentral Sync
+//            mavenCentralSync {
+//                sync = true
+//                user = System.getenv('OSS_USER')
+//                password = System.getenv('OSS_PASS')
+//                close = '1' //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
+//            }
+        }
+    }
 }
