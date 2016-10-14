@@ -52,7 +52,7 @@ public class SearchResults {
     /**
      * A markup text indicating which parts of the original query have been removed
      * in order to retrieve a non-empty result set.
-     * The removed parts are surrounded by `<em>` tags.
+     * The removed parts are surrounded by `<em></em>` tags.
      *
      * Note: Only returned when `removeWordsIfNoResults` is set.
      */

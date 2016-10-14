@@ -25,7 +25,7 @@ public class SearchProgressController {
     }
 
     /**
-     * Create a controller that will report requests if they don't complete before <code><delay</code>.
+     * Create a controller that will report requests if they don't complete before <code>delay</code>.
      *
      * @param listener a {@link ProgressListener} to notify of progress events.
      * @param delay    a duration in milliseconds to wait before calling {@link ProgressListener#onStart()}.
