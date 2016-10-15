@@ -134,6 +134,7 @@ task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     failOnError false //FIXME: Can I include annotation library and algoliasearch?
+    //TODO: Check javadoc "errors": are tags/< displayed correctly?
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {

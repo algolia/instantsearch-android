@@ -8,7 +8,7 @@ public interface AlgoliaWidget extends AlgoliaResultsListener {
     /**
      * Called at initialization to give this AlgoliaResultsListener a reference to its Searcher.
      *
-     * @param searcher an {@link Searcher} instance.
+     * @param searcher a {@link Searcher} instance.
      */
     void setSearcher(@NonNull final Searcher searcher);
 
