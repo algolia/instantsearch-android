@@ -178,19 +178,20 @@ bintray {
             vcsTag = project.ext.VERSION
             attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
 
-//            gpg {
-//                sign = true
-//                //DISCUSS: GPG-sign with our own key instead of BinTray's?
+            gpg {
+                sign = true
+                //DISCUSS: GPG-sign with our own key instead of BinTray's?
+                //This would imply uploading a private/public keypair
 //                //passphrase = System.env.GPG_PASSPHRASE
-//            }
+            }
 
-//              //TODO: mavenCentral Sync
-//            mavenCentralSync {
-//                sync = true
-//                user = System.getenv('OSS_USER')
-//                password = System.getenv('OSS_PASS')
-//                close = '1' //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
-//            }
+            mavenCentralSync {
+                sync = true
+                user = System.getenv('OSS_USER')
+                password = System.getenv('OSS_PASS')
+                close = '1'
+                //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
+            }
         }
     }
 }
