@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.views;
+package com.algolia.instantsearch.ui.views;
 
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;

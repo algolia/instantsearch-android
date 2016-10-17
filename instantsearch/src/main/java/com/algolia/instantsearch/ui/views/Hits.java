@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.views;
+package com.algolia.instantsearch.ui.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -23,19 +23,19 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.algolia.instantsearch.databinding.BindingHelper;
-import com.algolia.instantsearch.helpers.InstantSearchHelper;
+import com.algolia.instantsearch.ui.databinding.BindingHelper;
+import com.algolia.instantsearch.ui.InstantSearchHelper;
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.databinding.RenderingHelper;
+import com.algolia.instantsearch.ui.databinding.RenderingHelper;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.helpers.Highlighter;
-import com.algolia.instantsearch.utils.ImageLoadTask;
-import com.algolia.instantsearch.utils.ItemClickSupport;
-import com.algolia.instantsearch.utils.ItemClickSupport.OnItemClickListener;
-import com.algolia.instantsearch.utils.ItemClickSupport.OnItemLongClickListener;
-import com.algolia.instantsearch.utils.LayoutViews;
+import com.algolia.instantsearch.ui.utils.ImageLoadTask;
+import com.algolia.instantsearch.ui.utils.ItemClickSupport;
+import com.algolia.instantsearch.ui.utils.ItemClickSupport.OnItemClickListener;
+import com.algolia.instantsearch.ui.utils.ItemClickSupport.OnItemLongClickListener;
+import com.algolia.instantsearch.ui.utils.LayoutViews;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 

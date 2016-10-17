@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.views;
+package com.algolia.instantsearch.ui.views;
 
 import android.support.annotation.NonNull;
 

@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helpers;
+package com.algolia.instantsearch.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -19,13 +19,14 @@ import android.widget.SearchView;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.events.SearchProgressController;
 import com.algolia.instantsearch.events.ResetEvent;
+import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.Errors;
-import com.algolia.instantsearch.utils.LayoutViews;
-import com.algolia.instantsearch.utils.SearchViewFacade;
-import com.algolia.instantsearch.views.AlgoliaWidget;
-import com.algolia.instantsearch.views.Hits;
-import com.algolia.instantsearch.views.RefinementList;
-import com.algolia.instantsearch.views.SearchBox;
+import com.algolia.instantsearch.ui.utils.LayoutViews;
+import com.algolia.instantsearch.ui.utils.SearchViewFacade;
+import com.algolia.instantsearch.ui.views.AlgoliaWidget;
+import com.algolia.instantsearch.ui.views.Hits;
+import com.algolia.instantsearch.ui.views.RefinementList;
+import com.algolia.instantsearch.ui.views.SearchBox;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
