@@ -176,7 +176,6 @@ bintray {
             desc = project.ext.VERSION_DESC
             released = new Date()
             vcsTag = project.ext.VERSION
-            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
 
             gpg {
                 sign = true
