@@ -42,7 +42,7 @@ android {
     }
 
     compileSdkVersion 24
-    buildToolsVersion '24.0.1'
+    buildToolsVersion '24.0.3'
 
     defaultConfig {
         minSdkVersion 11
@@ -124,6 +124,7 @@ task writeNewPom << {
             }
         }
     }.writeTo("${project.buildDir}/${project.ext.BASENAME}-${project.ext.VERSION}.pom")
+            .writeTo("${project.buildDir}/publications/BinTrayPublication/pom-default.xml")
 }
 task sourceJar(type: Jar, dependsOn: writeNewPom) {
     classifier "source"
