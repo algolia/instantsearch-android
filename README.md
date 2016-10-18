@@ -1,4 +1,5 @@
-# InstantSearch Android
+<img src="docs/instant-search-android.png" alt="InstantSearch Android" />
+
 [![Build Status](https://travis-ci.com/algolia/instantsearch-android.svg?token=bgTPqva7dW7pbzDMM6e1&branch=master)](https://travis-ci.com/algolia/instantsearch-android)
 
 
