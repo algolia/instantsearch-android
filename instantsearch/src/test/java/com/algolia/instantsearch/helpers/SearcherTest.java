@@ -6,7 +6,7 @@ import com.algolia.instantsearch.Helpers;
 import com.algolia.instantsearch.InstantSearchTest;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
-import com.algolia.instantsearch.ui.views.AlgoliaResultsListener;
+import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Query;
