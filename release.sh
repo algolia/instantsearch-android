@@ -58,4 +58,4 @@ set -e
 
 # Tag and push on GitHub
 git tag $VERSION_CODE
-git push --tags
+git push --follow-tags
