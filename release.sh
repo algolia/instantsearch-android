@@ -54,7 +54,7 @@ git commit -m "Version $VERSION_CODE"
 set -e
 
 # Release on Bintray
-./gradlew bintrayUpload
+./gradlew clean build bintrayUpload
 
 # Tag and push on GitHub
 git tag $VERSION_CODE
