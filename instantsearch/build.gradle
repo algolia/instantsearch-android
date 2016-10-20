@@ -23,7 +23,8 @@ ext {
     CODENAME = GROUP + ":" + BASENAME
     NAME = 'InstantSearch Android'
     DESC = "A library of widgets and helpers to build instant-search applications on Android."
-    WEBSITE = "https://github.com/algolia/instantsearch-android"
+    GITHUB = "algolia/instantsearch-android"
+    WEBSITE = "https://github.com/" + GITHUB
     REPO = WEBSITE + ".git"
     LICENSE = 'MIT'
     LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
@@ -172,6 +173,10 @@ bintray {
         name = project.ext.CODENAME
         licenses = [project.ext.LICENSE]
         vcsUrl = project.ext.REPO
+
+        githubRepo = project.ext.GITHUB
+        githubReleaseNotesFile = 'README.md'
+
         version {
             name = project.ext.VERSION
             desc = project.ext.VERSION_DESC
