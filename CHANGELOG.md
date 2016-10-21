@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.2 (2016-10-21)
+- Remove `popup_filter.xml` from library
+
 ## 0.2.1 (2016-10-20)
 - Move AlgoliaResultsListener out of the .ui. package
 
