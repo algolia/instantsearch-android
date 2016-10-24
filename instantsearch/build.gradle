@@ -9,7 +9,7 @@ buildscript {
 }
 
 plugins {
-    id "com.jfrog.bintray" version "1.7"
+    id "com.jfrog.bintray" version "1.7.2"
 }
 
 apply plugin: 'com.android.library'
@@ -78,14 +78,14 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.algolia:algoliasearch-android:3.4.1'
+    compile 'com.algolia:algoliasearch-android:3.5.0'
     compile 'org.greenrobot:eventbus:3.0.0'
 
     compile "com.android.support:appcompat-v7:$VERSION_APPCOMPAT"
     compile "com.android.support:recyclerview-v7:$VERSION_APPCOMPAT"
 
     testCompile 'junit:junit:4.12'
-    testCompile "org.robolectric:robolectric:3.0"
+    testCompile "org.robolectric:robolectric:3.1.2"
 }
 
 task writeNewPom << {
