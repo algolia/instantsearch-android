@@ -9,10 +9,10 @@ import com.algolia.instantsearch.events.CancelEvent;
 import com.algolia.instantsearch.events.ErrorEvent;
 import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
+import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.FacetStat;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
-import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.CompletionHandler;
@@ -169,8 +169,13 @@ public class Searcher {
     }
 
     private void cancelRequest(Request request, Integer requestSeqNumber) {
-        request.cancel();
-        bus.post(new CancelEvent(request, requestSeqNumber));
+        if (!request.isCancelled()) {
+            request.cancel();
+            bus.post(new CancelEvent(request, requestSeqNumber));
+            pendingRequests.delete(requestSeqNumber);
+        } else {
+            throw new IllegalStateException("cancelRequest was called on a request that was already canceled.");
+        }
     }
 
     /**
