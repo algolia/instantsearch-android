@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("ConstantConditions") // NPE will count as failure
 public class RefinementListTest extends InstantSearchTest {
     @Test(expected = IllegalStateException.class)
     public void shouldParseEmptyThrow() {

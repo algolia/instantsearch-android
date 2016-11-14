@@ -79,7 +79,7 @@ public class Searcher {
      *
      * @param appId     Your Algolia Application ID.
      * @param apiKey    A search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
-     * @param indexName
+     * @param indexName An index to target.
      */
     public Searcher(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName) {
         query = new Query();
