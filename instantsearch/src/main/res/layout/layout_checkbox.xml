@@ -10,7 +10,7 @@
         android:id="@+id/dialog_checkbox_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Attribute"/>
+        android:text="@string/placeholder_checkbox_attribute"/>
 
     <CheckBox
         android:id="@+id/dialog_checkbox_box"

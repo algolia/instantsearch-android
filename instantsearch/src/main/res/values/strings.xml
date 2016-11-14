@@ -2,4 +2,5 @@
 <resources>
     <string name="placeholder_facet_name">City</string>
     <string name="placeholder_facet_value">10</string>
+    <string name="placeholder_checkbox_attribute">Attribute</string>
 </resources>
