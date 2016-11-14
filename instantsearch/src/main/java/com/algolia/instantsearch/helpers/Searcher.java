@@ -492,49 +492,52 @@ public class Searcher {
         if (facets != null) {
             final Iterator<String> keys = facets.keys();
             while (keys.hasNext()) { // for each faceted attribute
-                double min = Double.MAX_VALUE;
-                double max = Double.MIN_VALUE;
-                double sum = 0;
-                double avg;
+                updateFacetStat(facets, facets_stats, keys.next());
+            }
+        }
+    }
 
-                String attribute = keys.next();
-                if (facets_stats != null) {
-                    JSONObject attributeStats = facets_stats.optJSONObject(attribute);
-                    if (attributeStats != null) { // Numerical attribute, let's use existing facets_stats
-                        try {
-                            min = attributeStats.getDouble("min");
-                            max = attributeStats.getDouble("max");
-                            sum = attributeStats.getDouble("sum");
-                            avg = attributeStats.getDouble("avg");
-                            facetStats.put(attribute, new FacetStat(min, max, avg, sum));
-                            continue;
-                        } catch (JSONException ignored) {
-                        }
-                    }
-                }
+    private void updateFacetStat(JSONObject facets, JSONObject facets_stats, String attribute) {
+        double min = Double.MAX_VALUE;
+        double max = Double.MIN_VALUE;
+        double sum = 0;
+        double avg;
 
-                JSONObject values = facets.optJSONObject(attribute);
-                final Iterator<String> valueKeys = values.keys();
-                while (valueKeys.hasNext()) { // for each facet value
-                    String valueKey = valueKeys.next();
-
-                    // if boolean, interpret as int, else continue
-                    if (valueKey.equals("true") || valueKey.equals("false")) {
-                        int attributeValue = valueKey.equals("false") ? 0 : 1;
-                        if (attributeValue < min) {
-                            min = attributeValue;
-                        }
-                        if (attributeValue > max) {
-                            max = attributeValue;
-                        }
-                        sum += attributeValue;
-                    }
-                }
-                if (min != Double.MAX_VALUE && max != Double.MIN_VALUE) {
-                    avg = sum / values.length();
+        if (facets_stats != null) {
+            JSONObject attributeStats = facets_stats.optJSONObject(attribute);
+            if (attributeStats != null) { // Numerical attribute, let's use existing facets_stats
+                try {
+                    min = attributeStats.getDouble("min");
+                    max = attributeStats.getDouble("max");
+                    sum = attributeStats.getDouble("sum");
+                    avg = attributeStats.getDouble("avg");
                     facetStats.put(attribute, new FacetStat(min, max, avg, sum));
+                    return;
+                } catch (JSONException ignored) {
                 }
             }
+        }
+
+        JSONObject values = facets.optJSONObject(attribute);
+        final Iterator<String> valueKeys = values.keys();
+        while (valueKeys.hasNext()) { // for each facet value
+            String valueKey = valueKeys.next();
+
+            // if boolean, interpret as int, else continue
+            if (valueKey.equals("true") || valueKey.equals("false")) {
+                int attributeValue = valueKey.equals("false") ? 0 : 1;
+                if (attributeValue < min) {
+                    min = attributeValue;
+                }
+                if (attributeValue > max) {
+                    max = attributeValue;
+                }
+                sum += attributeValue;
+            }
+        }
+        if (min != Double.MAX_VALUE && max != Double.MIN_VALUE) {
+            avg = sum / values.length();
+            facetStats.put(attribute, new FacetStat(min, max, avg, sum));
         }
     }
 
