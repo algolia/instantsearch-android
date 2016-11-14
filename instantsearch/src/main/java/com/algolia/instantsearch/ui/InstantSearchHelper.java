@@ -9,16 +9,17 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.events.SearchProgressController;
 import com.algolia.instantsearch.events.ResetEvent;
+import com.algolia.instantsearch.events.SearchProgressController;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.ui.utils.LayoutViews;
@@ -311,16 +312,16 @@ public class InstantSearchHelper {
 
         if (searchView != null) {
             int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
-            View searchPlate = searchView.findViewById(searchPlateId);
+            LinearLayout searchPlate = (LinearLayout) searchView.findViewById(searchPlateId);
             if (searchPlate == null) { // Maybe it is an appcompat SearchView?
-                searchPlate = searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
+                searchPlate = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
                 if (searchPlate == null) {
                     Log.e("Algolia|Searcher", Errors.PROGRESS_WITHOUT_SEARCHPLATE);
                     return;
                 }
             }
 
-            final View progressBarView = searchPlate.findViewById(R.id.search_progress_bar);
+            View progressBarView = searchPlate.findViewById(R.id.search_progress_bar);
             if (progressBarView != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                     progressBarView.animate().setDuration(200).alpha(showProgress ? 1 : 0).start();
@@ -328,7 +329,8 @@ public class InstantSearchHelper {
                     progressBarView.setVisibility(showProgress ? View.VISIBLE : View.GONE);
                 }
             } else if (showProgress) {
-                ((ViewGroup) searchPlate).addView(LayoutInflater.from(searchView.getContext()).inflate(R.layout.loading_icon, null), 1);
+                searchPlate.setGravity(Gravity.CENTER);
+                searchPlate.addView(LayoutInflater.from(searchView.getContext()).inflate(R.layout.loading_icon, null), 1);
             }
         }
     }
