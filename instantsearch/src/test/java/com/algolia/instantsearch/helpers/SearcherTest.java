@@ -23,7 +23,7 @@ public class SearcherTest extends InstantSearchTest {
     @NonNull
     private Searcher initSearcher() {
         final Client client = new Client(Helpers.app_id, Helpers.api_key);
-        return new Searcher(client.initIndex(Helpers.safeIndexName("test")));
+        return new Searcher(client.getIndex(Helpers.safeIndexName("test")));
     }
 
     @Test

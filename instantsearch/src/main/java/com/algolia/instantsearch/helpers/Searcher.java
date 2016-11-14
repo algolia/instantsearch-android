@@ -84,7 +84,7 @@ public class Searcher {
     public Searcher(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName) {
         query = new Query();
         this.client = new Client(appId, apiKey);
-        this.index = client.initIndex(indexName);
+        this.index = client.getIndex(indexName);
         bus = EventBus.getDefault();
         id = instances.size();
         instances.add(this);
@@ -647,7 +647,7 @@ public class Searcher {
      */
     @NonNull
     public Searcher setIndex(@NonNull String indexName) {
-        index = client.initIndex(indexName);
+        index = client.getIndex(indexName);
         query.setPage(0);
         return this;
     }
