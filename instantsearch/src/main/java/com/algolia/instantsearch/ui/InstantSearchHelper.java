@@ -315,7 +315,7 @@ public class InstantSearchHelper {
             if (searchPlate == null) { // Maybe it is an appcompat SearchView?
                 searchPlate = searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
                 if (searchPlate == null) {
-                    Log.e("Searcher", Errors.PROGRESS_WITHOUT_SEARCHPLATE);
+                    Log.e("Algolia|Searcher", Errors.PROGRESS_WITHOUT_SEARCHPLATE);
                     return;
                 }
             }

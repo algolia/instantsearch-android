@@ -33,7 +33,7 @@ public class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
             url = params[0];
             bitmap = BitmapFactory.decodeStream(new URL(url).openConnection().getInputStream());
         } catch (IOException e) {
-            Log.e("ImageLoadTask", "Error loading image with url `" + url + "`: " + e.getMessage());
+            Log.e("Algolia|ImageLoadTask", "Error loading image with url `" + url + "`: " + e.getMessage());
         }
         return bitmap;
     }

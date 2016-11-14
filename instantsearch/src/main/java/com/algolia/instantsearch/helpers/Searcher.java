@@ -551,7 +551,7 @@ public class Searcher {
                 if (error == null) {
                     updateFacetStats(content);
                 } else {
-                    Log.e("Searcher", "Error while getting updated facet stats:" + error.getMessage());
+                    Log.e("Algolia|Searcher", "Error while getting updated facet stats:" + error.getMessage());
                 }
             }
         });
