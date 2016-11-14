@@ -12,6 +12,7 @@ import com.algolia.instantsearch.R;
  * <a href="http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/">Initially made by Hugo Visser</a> <br />
  * See (un)license at <a href="http://unlicense.org/">unlicense.org</a> <br />
  */
+@SuppressWarnings("UnusedReturnValue") //chaining
 public class ItemClickSupport {
     private final RecyclerView mRecyclerView;
 

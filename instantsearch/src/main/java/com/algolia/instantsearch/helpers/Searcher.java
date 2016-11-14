@@ -32,9 +32,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("UnusedReturnValue") // chaining
 public class Searcher {
-    private static List<Searcher> instances = new ArrayList<>();
-    private int id;
+    private static final List<Searcher> instances = new ArrayList<>();
+    private final int id;
 
     private final EventBus bus;
     private Index index;
@@ -54,7 +55,7 @@ public class Searcher {
     private final Map<String, SparseArray<NumericRefinement>> numericRefinements = new HashMap<>();
     private final Map<String, Boolean> booleanFilterMap = new HashMap<>();
 
-    private List<String> facets = new ArrayList<>();
+    private final List<String> facets = new ArrayList<>();
     private final Map<String, FacetStat> facetStats = new HashMap<>();
 
     private final SparseArray<Request> pendingRequests = new SparseArray<>();
@@ -76,7 +77,9 @@ public class Searcher {
     /**
      * Create and initialize the helper.
      *
-     * @param index an Index initialized and eventually configured.
+     * @param appId     Your Algolia Application ID.
+     * @param apiKey    A search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
+     * @param indexName
      */
     public Searcher(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName) {
         query = new Query();
@@ -279,9 +282,9 @@ public class Searcher {
     /**
      * Add a facet refinement for the next queries.
      *
-     * @param attributeName
-     * @param isDisjunctiveFacet
-     * @param values
+     * @param attributeName      the facet name.
+     * @param isDisjunctiveFacet if {@code true}, the facet will be added as a disjunctive facet.
+     * @param values             an eventual list of values to refine on.
      */
     public void addFacet(@NonNull String attributeName, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
         if (isDisjunctiveFacet) {

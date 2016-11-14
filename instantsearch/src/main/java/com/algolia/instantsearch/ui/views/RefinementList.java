@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.ui.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
@@ -285,7 +286,8 @@ public class RefinementList extends ListView implements AlgoliaWidget {
             Collections.sort(facetValues, comparator);
         }
 
-        @Nullable
+        @SuppressLint("DefaultLocale") // Formats are for exception messages
+        @NonNull
         @Override
         public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent) {
             if (convertView == null) {
@@ -294,6 +296,9 @@ public class RefinementList extends ListView implements AlgoliaWidget {
             }
 
             final FacetValue facet = getItem(position);
+            if (facet == null) {
+                throw new IllegalStateException(String.format(Errors.REFINEMENTS_MISSING_ITEM, position));
+            }
 
             final TextView nameView = (TextView) convertView.findViewById(R.id.refinementName);
             final TextView countView = (TextView) convertView.findViewById(R.id.refinementCount);
@@ -304,6 +309,10 @@ public class RefinementList extends ListView implements AlgoliaWidget {
                 @Override
                 public void onClick(View v) {
                     final FacetValue facet = adapter.getItem(position);
+                    if (facet == null) {
+                        throw new IllegalStateException(String.format(Errors.REFINEMENTS_MISSING_ITEM, position));
+                    }
+
                     final boolean wasActive = hasActive(facet.value);
                     if (wasActive) {
                         activeFacets.remove(facet.value);

@@ -234,7 +234,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         private int lastItemCount = 0; // Item count after last event
         private boolean currentlyLoading = true; // Are we waiting for new results?
 
-        public void setCurrentlyLoading(boolean currentlyLoading) {
+        void setCurrentlyLoading(boolean currentlyLoading) {
             this.currentlyLoading = currentlyLoading;
         }
 

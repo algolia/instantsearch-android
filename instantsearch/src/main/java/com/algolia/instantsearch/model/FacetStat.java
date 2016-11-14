@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.model;
 
+@SuppressWarnings("WeakerAccess")
 public class FacetStat {
     public final double min;
     public final double max;

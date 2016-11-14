@@ -7,6 +7,7 @@ import org.json.JSONObject;
 /**
  * An event to let you react to new search results.
  */
+@SuppressWarnings("WeakerAccess")
 public class ResultEvent {
     /** the JSON content containing these results. */
     public final JSONObject content;

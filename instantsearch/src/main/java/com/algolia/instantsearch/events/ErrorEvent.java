@@ -6,6 +6,7 @@ import com.algolia.search.saas.Query;
 /**
  * An event to let you react to search errors.
  */
+@SuppressWarnings("WeakerAccess")
 public class ErrorEvent {
     /** The error that was received. */
     public final AlgoliaException error;

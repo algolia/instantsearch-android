@@ -20,6 +20,7 @@ public class RefinementListTest extends InstantSearchTest {
     @Test
     public void shouldParseNullToNull() {
         final ArrayList<String> output = RefinementList.parseSortOrder(null);
+        //noinspection ConstantConditions warning means test passes for IDE ;)
         Assert.assertEquals("Parsing a null string should result in a null List.", null, output);
     }
 

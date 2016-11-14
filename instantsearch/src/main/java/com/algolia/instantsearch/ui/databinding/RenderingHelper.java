@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@SuppressWarnings("UnusedReturnValue")
 public class RenderingHelper {
 
     private static RenderingHelper defaultRenderingHelper;

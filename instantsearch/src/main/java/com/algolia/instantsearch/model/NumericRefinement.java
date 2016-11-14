@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.Locale;
 
+@SuppressWarnings("WeakerAccess")
 public class NumericRefinement {
     /** The lower than operator (<). */
     public static final int OPERATOR_LT = 0;

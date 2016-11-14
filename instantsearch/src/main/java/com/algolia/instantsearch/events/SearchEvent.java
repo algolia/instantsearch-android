@@ -2,6 +2,7 @@ package com.algolia.instantsearch.events;
 
 import com.algolia.search.saas.Query;
 
+@SuppressWarnings("WeakerAccess")
 public class SearchEvent {
     public final Query query;
     public final int requestSeqNumber;

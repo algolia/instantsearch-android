@@ -136,7 +136,6 @@ public class Highlighter {
      * Render a highlighted text using the default highlighting color resource.
      *
      * @param markupString a string to highlight.
-     * @param colorId      a resource Id referencing a color.
      * @param context      a {@link Context} to get resources from.
      * @return a {@link Spannable} with the highlighted text.
      */
@@ -252,6 +251,7 @@ public class Highlighter {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             colorHighlighting = context.getResources().getColor(colorId, context.getTheme());
         } else {
+            //noinspection deprecation
             colorHighlighting = context.getResources().getColor(colorId);
         }
         return colorHighlighting;

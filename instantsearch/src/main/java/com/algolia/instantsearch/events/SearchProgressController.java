@@ -8,6 +8,7 @@ import org.greenrobot.eventbus.Subscribe;
 /**
  * This class lets you specify a listener which will be informed of progress events.
  */
+@SuppressWarnings("UnusedParameters") // binding to EventBus events without using the event objects
 public class SearchProgressController {
     public static final int DEFAULT_DELAY = 0;
 

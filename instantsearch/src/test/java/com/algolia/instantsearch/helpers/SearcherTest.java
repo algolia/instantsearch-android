@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.algolia.instantsearch.Helpers;
 import com.algolia.instantsearch.InstantSearchTest;
+import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
-import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Query;
@@ -29,6 +29,7 @@ public class SearcherTest extends InstantSearchTest {
     @Test
     public void hasHitsFalseIfEmpty() {
         boolean output = Searcher.hasHits(null);
+        //noinspection ConstantConditions warning means test passes for IDE ;)
         Assert.assertFalse("hasHits should return false on null input", output);
     }
 

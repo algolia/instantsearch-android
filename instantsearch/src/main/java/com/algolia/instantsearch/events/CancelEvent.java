@@ -5,6 +5,7 @@ import com.algolia.search.saas.Request;
 /**
  * An event to let you react to cancellation of search requests.
  */
+@SuppressWarnings("WeakerAccess")
 public class CancelEvent {
     /** The request that has been cancelled.*/
     public final Request request;
