@@ -30,7 +30,6 @@ import com.algolia.instantsearch.ui.views.RefinementList;
 import com.algolia.instantsearch.ui.views.SearchBox;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -191,15 +190,6 @@ public class InstantSearchHelper {
         if (facets.length > 0) {
             searcher.addFacet(facets);
         }
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                if (refinementAttributes.size() != 0) { // we need to remove facetFilters on reset
-                    searcher.getQuery().setFacetFilters(new JSONArray());
-                }
-                return false;
-            }
-        });
     }
 
     private void processWidget(View rootView, AlgoliaWidget widget, @Nullable List<String> refinementAttributes) {
