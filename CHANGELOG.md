@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1 (2016-11-22)
+
+### Fixes
+- Correct binding of nested objects' values
+- Report InstantSearch version in user-agent
+
 ## 0.3.0 (2016-11-22)
 
 ### Features
