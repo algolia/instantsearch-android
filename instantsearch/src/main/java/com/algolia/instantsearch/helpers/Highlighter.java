@@ -37,6 +37,7 @@ import android.text.style.BackgroundColorSpan;
 import com.algolia.instantsearch.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.regex.Matcher;
@@ -241,7 +242,11 @@ public class Highlighter {
                 }
             }
         }
-        return null;
+        try {
+            return result.getString(attributeName);
+        } catch (JSONException e) {
+            throw new IllegalStateException("Could not get \"" + attributeName + "\" in record: " + e.getMessage(), e);
+        }
     }
 
     private
