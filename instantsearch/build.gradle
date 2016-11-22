@@ -49,7 +49,7 @@ android {
         minSdkVersion 11
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0"
+        versionName project.ext.VERSION
     }
     buildTypes {
         release {

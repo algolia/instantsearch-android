@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.algolia.instantsearch.BuildConfig;
 import com.algolia.instantsearch.events.CancelEvent;
 import com.algolia.instantsearch.events.ErrorEvent;
 import com.algolia.instantsearch.events.ResultEvent;
@@ -69,6 +70,7 @@ public class Searcher {
         query = new Query();
         this.index = index;
         this.client = index.getClient();
+        client.addUserAgent(new Client.LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME)));
         bus = EventBus.getDefault();
         id = instances.size();
         instances.add(this);
