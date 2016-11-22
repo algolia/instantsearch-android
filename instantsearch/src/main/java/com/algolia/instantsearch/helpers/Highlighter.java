@@ -35,9 +35,9 @@ import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.utils.JSONUtils;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.regex.Matcher;
@@ -218,9 +218,8 @@ public class Highlighter {
      */
     public static String getHighlightedAttribute(@NonNull JSONObject result, String attributeName) {
         final JSONObject highlightResult = result.optJSONObject("_highlightResult");
-        try {
             if (highlightResult != null) {
-                JSONObject highlightAttribute = getJSONObjectFromJSONPath(highlightResult, attributeName);
+                JSONObject highlightAttribute = JSONUtils.getJSONObjectFromJSONPath(highlightResult, attributeName);
                 if (highlightAttribute != null) {
                     String highlightedValue = highlightAttribute.optString("value");
                     if (highlightedValue != null) {
@@ -243,35 +242,7 @@ public class Highlighter {
                     }
                 }
             }
-            return getStringFromJSONPath(result, attributeName);
-        } catch (JSONException e) {
-            throw new IllegalStateException("Error while processing JSONObject \"" + result + "\": " + e.getMessage(), e);
-        }
-    }
-
-    private static String getStringFromJSONPath(JSONObject record, String path) throws JSONException {
-        return getObjectFromJSONPath(record, path).toString();
-    }
-
-    private static JSONObject getJSONObjectFromJSONPath(JSONObject record, String path) throws JSONException {
-        return (JSONObject) getObjectFromJSONPath(record, path);
-    }
-
-    private static Object getObjectFromJSONPath(JSONObject record, String path) throws JSONException {
-        if (path.contains(".")) { // "user.name"
-
-            while (path.contains(".")) {
-                String[] paths = path.split("\\."); //["user", "name"]
-                if (paths.length > 1) {
-                    record = record.getJSONObject(paths[0]); // getJSONObject("user")
-                    path = path.substring(paths[0].length() + 1); // "user.|name"
-                } else { // ["name"]
-                    path = paths[0]; // "name"
-                    break;
-                }
-            }
-        }
-        return record.get(path);
+            return JSONUtils.getStringFromJSONPath(result, attributeName);
     }
 
     private
