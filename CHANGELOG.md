@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.0 (2016-11-22)
+
+### Features
+- Highlighting of nested objects
+- Closing the SearchBox does not reset the interface anymore
+
+### Fixes
+- Highlighter now returns raw attribute value when no highlight exists
+- Searcher only cancels once each former request when a new one is made
+- Log messages are now prefixed with "Algolia|"
+- Centered SearchBox's progress indicator
+
 ## 0.2.2 (2016-10-21)
 - Remove `popup_filter.xml` from library
 
