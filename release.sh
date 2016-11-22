@@ -48,8 +48,8 @@ echo "Updating version number to $VERSION_CODE..."
 call_sed "s/VERSION = '.*'/VERSION = '$VERSION_CODE'/" $FILE_BUILD_GRADLE
 
 # Commit to git
-set +e # don't crash if already committed
-git add .
+set +e # don\'t crash if already committed
+git add $CHANGELOG
 git commit -m "Version $VERSION_CODE"
 set -e
 
