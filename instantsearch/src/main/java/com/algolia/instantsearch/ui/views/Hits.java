@@ -36,6 +36,7 @@ import com.algolia.instantsearch.ui.utils.ItemClickSupport;
 import com.algolia.instantsearch.ui.utils.ItemClickSupport.OnItemClickListener;
 import com.algolia.instantsearch.ui.utils.ItemClickSupport.OnItemLongClickListener;
 import com.algolia.instantsearch.ui.utils.LayoutViews;
+import com.algolia.instantsearch.utils.JSONUtils;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
@@ -364,7 +365,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
             for (Map.Entry<View, String> entry : holder.viewMap.entrySet()) {
                 final View view = entry.getKey();
                 final String attributeName = entry.getValue();
-                final String attributeValue = hit.optString(attributeName);
+                final String attributeValue = JSONUtils.getStringFromJSONPath(hit, attributeName);
                 if (view instanceof AlgoliaHitView) {
                     ((AlgoliaHitView) view).onUpdateView(hit);
                 } else if (view instanceof EditText) {
