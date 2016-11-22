@@ -218,35 +218,60 @@ public class Highlighter {
      */
     public static String getHighlightedAttribute(@NonNull JSONObject result, String attributeName) {
         final JSONObject highlightResult = result.optJSONObject("_highlightResult");
-        if (highlightResult != null) {
-            JSONObject highlightAttribute = highlightResult.optJSONObject(attributeName);
-            if (highlightAttribute != null) {
-                String highlightedValue = highlightAttribute.optString("value");
-                if (highlightedValue != null) {
-                    return highlightedValue;
-                }
-            } else { //Maybe it is an array?
-                final JSONArray array = highlightResult.optJSONArray(attributeName);
-                if (array != null) {
-                    StringBuilder builder = new StringBuilder();
-                    final int length = array.length();
-
-                    for (int i = 0; i < length; i++) {
-                        final String elementValue = ((JSONObject) array.opt(i)).optString("value");
-                        builder.append(elementValue);
-                        if (i + 1 < length) {
-                            builder.append(", ");
-                        }
+        try {
+            if (highlightResult != null) {
+                JSONObject highlightAttribute = getJSONObjectFromJSONPath(highlightResult, attributeName);
+                if (highlightAttribute != null) {
+                    String highlightedValue = highlightAttribute.optString("value");
+                    if (highlightedValue != null) {
+                        return highlightedValue;
                     }
-                    return builder.toString();
+                } else { //Maybe it is an array?
+                    final JSONArray array = highlightResult.optJSONArray(attributeName);
+                    if (array != null) {
+                        StringBuilder builder = new StringBuilder();
+                        final int length = array.length();
+
+                        for (int i = 0; i < length; i++) {
+                            final String elementValue = ((JSONObject) array.opt(i)).optString("value");
+                            builder.append(elementValue);
+                            if (i + 1 < length) {
+                                builder.append(", ");
+                            }
+                        }
+                        return builder.toString();
+                    }
+                }
+            }
+            return getStringFromJSONPath(result, attributeName);
+        } catch (JSONException e) {
+            throw new IllegalStateException("Error while processing JSONObject \"" + result + "\": " + e.getMessage(), e);
+        }
+    }
+
+    private static String getStringFromJSONPath(JSONObject record, String path) throws JSONException {
+        return getObjectFromJSONPath(record, path).toString();
+    }
+
+    private static JSONObject getJSONObjectFromJSONPath(JSONObject record, String path) throws JSONException {
+        return (JSONObject) getObjectFromJSONPath(record, path);
+    }
+
+    private static Object getObjectFromJSONPath(JSONObject record, String path) throws JSONException {
+        if (path.contains(".")) { // "user.name"
+
+            while (path.contains(".")) {
+                String[] paths = path.split("\\."); //["user", "name"]
+                if (paths.length > 1) {
+                    record = record.getJSONObject(paths[0]); // getJSONObject("user")
+                    path = path.substring(paths[0].length() + 1); // "user.|name"
+                } else { // ["name"]
+                    path = paths[0]; // "name"
+                    break;
                 }
             }
         }
-        try {
-            return result.getString(attributeName);
-        } catch (JSONException e) {
-            throw new IllegalStateException("Could not get \"" + attributeName + "\" in record: " + e.getMessage(), e);
-        }
+        return record.get(path);
     }
 
     private
