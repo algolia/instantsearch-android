@@ -49,7 +49,7 @@ call_sed "s/VERSION = '.*'/VERSION = '$VERSION_CODE'/" $FILE_BUILD_GRADLE
 
 # Commit to git
 set +e # don\'t crash if already committed
-git add $CHANGELOG
+git add $CHANGELOG $FILE_BUILD_GRADLE
 git commit -m "Version $VERSION_CODE"
 set -e
 
