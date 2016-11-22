@@ -29,7 +29,7 @@ VERSION_CODE=$1
 # Check that the working repository is clean (without any changes, neither staged nor unstaged).
 # An exception is the change log, which should have been edited, but not necessarily committed (we usually commit it
 # along with the version number).
-if [[ ! -z `git status --porcelain | grep -v "$CHANGELOG"` ]]; then
+if [[ ! -z `git status --porcelain | grep -v "$CHANGELOG" | grep -v "^?? "` ]]; then
     echo "ERROR: Working copy not clean! Aborting." 1>&2
     echo "Please revert or commit any pending changes before releasing." 1>&2
     exit 1
