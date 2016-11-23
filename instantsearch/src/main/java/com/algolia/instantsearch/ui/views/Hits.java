@@ -24,14 +24,14 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.algolia.instantsearch.ui.databinding.BindingHelper;
-import com.algolia.instantsearch.ui.InstantSearchHelper;
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.ui.databinding.RenderingHelper;
+import com.algolia.instantsearch.helpers.Highlighter;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
-import com.algolia.instantsearch.helpers.Highlighter;
+import com.algolia.instantsearch.ui.InstantSearchHelper;
+import com.algolia.instantsearch.ui.databinding.BindingHelper;
+import com.algolia.instantsearch.ui.databinding.RenderingHelper;
 import com.algolia.instantsearch.ui.utils.ImageLoadTask;
 import com.algolia.instantsearch.ui.utils.ItemClickSupport;
 import com.algolia.instantsearch.ui.utils.ItemClickSupport.OnItemClickListener;
@@ -50,9 +50,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Displays your search results in a flexible way. Built over a {@link RecyclerView}, it displays a limited window into a large data set of search results.
+ */
 public class Hits extends RecyclerView implements AlgoliaWidget {
+    /** Default amount of hits fetched with each page */
     public static final int DEFAULT_HITS_PER_PAGE = 20;
+    /** Default amount of remaining results to display before loading a new page */
     public static final int DEFAULT_REMAINING_ITEMS = 5;
+
     private static final int MISSING_VALUE = Integer.MIN_VALUE;
 
     private final Integer hitsPerPage;
@@ -156,7 +162,8 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
 
     /**
      * Add or replace hits to/in this widget.
-     *  @param results        A {@link JSONObject} containing hits.
+     *
+     * @param results     A {@link JSONObject} containing hits.
      * @param isReplacing true if the given hits should replace the current hits.
      */
     private void addHits(@Nullable SearchResults results, boolean isReplacing) {
@@ -216,18 +223,35 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         Toast.makeText(getContext(), "Error while searching '" + query.getQuery() + "':" + error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    @Override public void onReset() {
+    @Override
+    public void onReset() {
         addHits(null, true);
     }
 
+    /**
+     * Specify an empty View to display instead of these Hits when they are empty.
+     * By default, we will search for a view with id {@code @android:id/empty} and will use it if it exists.
+     *
+     * @param emptyView the View you want to display when Hits are empty.
+     */
     public void setEmptyView(View emptyView) {
         this.emptyView = emptyView;
     }
 
+    /**
+     * Get the current hitsPerPage settings.
+     *
+     * @return the value of the attribute hitsPerPage if specified, else DEFAULT_HITS_PER_PAGE.
+     */
     public Integer getHitsPerPage() {
         return hitsPerPage;
     }
 
+    /**
+     * Get the itemLayout layout identifier.
+     *
+     * @return the identifier of the layout referenced in itemLayout if specified, else 0.
+     */
     public int getLayoutId() {
         return layoutId;
     }

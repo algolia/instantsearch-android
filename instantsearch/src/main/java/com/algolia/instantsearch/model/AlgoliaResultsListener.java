@@ -4,7 +4,7 @@ import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
 /**
- * A view that can hold several hits.
+ * The {@code AlgoliaResultsListener} interface lets you define a component that will react to search results or errors.
  */
 public interface AlgoliaResultsListener {
     /**

@@ -15,6 +15,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Results corresponding to a search request.
+ */
 @SuppressWarnings("WeakerAccess")
 public class SearchResults {
     /** The received JSON content. */
@@ -54,14 +57,14 @@ public class SearchResults {
      * A markup text indicating which parts of the original query have been removed
      * in order to retrieve a non-empty result set.
      * The removed parts are surrounded by `<em></em>` tags.
-     *
+     * <p>
      * Note: Only returned when `removeWordsIfNoResults` is set.
      */
     public String queryAfterRemoval;
 
     /**
      * The computed geo location.
-     *
+     * <p>
      * Note: Only returned when `aroundLatLngViaIP` is set.
      */
     @Nullable
@@ -69,7 +72,7 @@ public class SearchResults {
 
     /**
      * The automatically computed radius.
-     *
+     * <p>
      * Note: Only returned for geo queries without an explicitly specified radius (see `aroundRadius`).
      */
     public Integer automaticRadius;
@@ -78,14 +81,14 @@ public class SearchResults {
     /**
      * Actual host name of the server that processed the request. (Our DNS supports automatic failover
      * and load balancing, so this may differ from the host name used in the request.)
-     *
+     * <p>
      * Note: Only returned when `getRankingInfo` is true.
      */
     public String serverUsed;
 
     /**
      * The query string that will be searched, after normalization.
-     *
+     * <p>
      * Note: Only returned when `getRankingInfo` is true.
      */
     public String parsedQuery;
@@ -93,14 +96,14 @@ public class SearchResults {
     /**
      * Whether a timeout was hit when computing the facet counts.
      * When true, the counts will be interpolated (i.e. approximate). See also `exhaustiveFacetsCount`.
-     *
+     * <p>
      * Note: Only returned when `getRankingInfo` is true.
      */
     public Boolean timeoutCounts;
 
     /**
      * Whether a timeout was hit when retrieving the hits. When true, some results may be missing.
-     *
+     * <p>
      * Note: Only returned when `getRankingInfo` is true.
      */
     public Boolean timeoutHits;

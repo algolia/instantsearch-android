@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
+/**
+ * Contains mappings between an attribute to highlight and its appropriate highlighting color.
+ */
 @SuppressWarnings("UnusedReturnValue")
 public class RenderingHelper {
 

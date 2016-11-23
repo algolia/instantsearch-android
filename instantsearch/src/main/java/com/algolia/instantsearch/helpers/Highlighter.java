@@ -218,31 +218,31 @@ public class Highlighter {
      */
     public static String getHighlightedAttribute(@NonNull JSONObject result, String attributeName) {
         final JSONObject highlightResult = result.optJSONObject("_highlightResult");
-            if (highlightResult != null) {
-                JSONObject highlightAttribute = JSONUtils.getJSONObjectFromJSONPath(highlightResult, attributeName);
-                if (highlightAttribute != null) {
-                    String highlightedValue = highlightAttribute.optString("value");
-                    if (highlightedValue != null) {
-                        return highlightedValue;
-                    }
-                } else { //Maybe it is an array?
-                    final JSONArray array = highlightResult.optJSONArray(attributeName);
-                    if (array != null) {
-                        StringBuilder builder = new StringBuilder();
-                        final int length = array.length();
+        if (highlightResult != null) {
+            JSONObject highlightAttribute = JSONUtils.getJSONObjectFromJSONPath(highlightResult, attributeName);
+            if (highlightAttribute != null) {
+                String highlightedValue = highlightAttribute.optString("value");
+                if (highlightedValue != null) {
+                    return highlightedValue;
+                }
+            } else { //Maybe it is an array?
+                final JSONArray array = highlightResult.optJSONArray(attributeName);
+                if (array != null) {
+                    StringBuilder builder = new StringBuilder();
+                    final int length = array.length();
 
-                        for (int i = 0; i < length; i++) {
-                            final String elementValue = ((JSONObject) array.opt(i)).optString("value");
-                            builder.append(elementValue);
-                            if (i + 1 < length) {
-                                builder.append(", ");
-                            }
+                    for (int i = 0; i < length; i++) {
+                        final String elementValue = ((JSONObject) array.opt(i)).optString("value");
+                        builder.append(elementValue);
+                        if (i + 1 < length) {
+                            builder.append(", ");
                         }
-                        return builder.toString();
                     }
+                    return builder.toString();
                 }
             }
-            return JSONUtils.getStringFromJSONPath(result, attributeName);
+        }
+        return JSONUtils.getStringFromJSONPath(result, attributeName);
     }
 
     private

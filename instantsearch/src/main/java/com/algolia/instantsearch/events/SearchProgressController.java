@@ -6,10 +6,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
- * This class lets you specify a listener which will be informed of progress events.
+ * A controller which will inform its listener of progress events.
  */
 @SuppressWarnings("UnusedParameters") // binding to EventBus events without using the event objects
 public class SearchProgressController {
+    /** Default waiting delay: unless specified otherwise, {@code listener.onStart()} will be called immediately on any {@link SearchEvent}.*/
     public static final int DEFAULT_DELAY = 0;
 
     private final ProgressListener listener;

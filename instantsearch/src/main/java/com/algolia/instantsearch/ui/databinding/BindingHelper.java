@@ -9,6 +9,9 @@ import android.view.View;
 
 import com.algolia.instantsearch.model.Errors;
 
+/**
+ * Contains every {@link BindingAdapter} used for binding record attributes to Views.
+ */
 public class BindingHelper {
     private static final SparseArray<String> bindings = new SparseArray<>();
 

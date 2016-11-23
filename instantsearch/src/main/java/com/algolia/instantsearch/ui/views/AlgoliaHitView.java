@@ -2,8 +2,10 @@ package com.algolia.instantsearch.ui.views;
 
 import org.json.JSONObject;
 
+
 /**
- * A view that can hold a search hit.
+ * The {@code AlgoliaHitView} interface lets you define a component that will be used for displaying a hit. <br/>
+ * Intended to be implemented by a {@link android.view.View}, it lets you process the hit JSONObject and decide how your view should display it.
  */
 public interface AlgoliaHitView {
     /**
