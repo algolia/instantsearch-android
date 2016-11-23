@@ -13,6 +13,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -418,10 +419,9 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 // Store every annotated view with its attribute name
-                for (Map.Entry<Integer, String> entry : BindingHelper.getEntrySet()) {
-                    final String attributeName = entry.getValue();
-                    final View view = itemView.findViewById(entry.getKey());
-                    viewMap.put(view, attributeName);
+                final SparseArray<String> attributes = BindingHelper.getBindings();
+                for (int i = 0; i < attributes.size(); i++) {
+                    viewMap.put(itemView.findViewById(attributes.keyAt(i)), attributes.valueAt(i));
                 }
             }
 

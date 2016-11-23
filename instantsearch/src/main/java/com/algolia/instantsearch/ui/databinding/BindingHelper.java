@@ -4,27 +4,20 @@ import android.content.res.Resources;
 import android.databinding.BindingAdapter;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.util.SparseArray;
 import android.view.View;
 
 import com.algolia.instantsearch.model.Errors;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 public class BindingHelper {
-    private static final Map<Integer, String> attributes = new HashMap<>(); //TODO: SparseArray
+    private static final SparseArray<String> bindings = new SparseArray<>();
 
     private static boolean notAlreadyMapped(int id) {
-        return attributes.get(id) == null;
+        return bindings.get(id) == null;
     }
 
     private static void mapAttribute(String attributeName, int viewId) {
-        attributes.put(viewId, attributeName);
-    }
-
-    public static Set<Map.Entry<Integer, String>> getEntrySet() {
-        return attributes.entrySet();
+        bindings.put(viewId, attributeName);
     }
 
     @SuppressWarnings("unused") // called via Data Binding
@@ -105,5 +98,9 @@ public class BindingHelper {
             renderingHelper.addHighlight(attributeName);
             renderingHelper.addColor(attributeName, colorId);
         }
+    }
+
+    public static SparseArray<String> getBindings() {
+        return bindings;
     }
 }
