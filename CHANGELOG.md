@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0 (2013-11-24)
+
+### Features
+- Performance improvements of attributes binding
+- Implement binding of values inside array attributes
+
+### Fixes
+- Correct location of Manifest for unit-tests
+- Fill missing documentation of some public constants/members/classes
+
 ## 0.3.1 (2016-11-22)
 
 ### Fixes
