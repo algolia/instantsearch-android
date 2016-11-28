@@ -15,3 +15,6 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Keep any GlideModule
+-keep public class * implements com.bumptech.glide.module.GlideModule

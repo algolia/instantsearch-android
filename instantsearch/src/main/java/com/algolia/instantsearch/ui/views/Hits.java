@@ -32,7 +32,6 @@ import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.ui.InstantSearchHelper;
 import com.algolia.instantsearch.ui.databinding.BindingHelper;
 import com.algolia.instantsearch.ui.databinding.RenderingHelper;
-import com.algolia.instantsearch.ui.utils.ImageLoadTask;
 import com.algolia.instantsearch.ui.utils.ItemClickSupport;
 import com.algolia.instantsearch.ui.utils.ItemClickSupport.OnItemClickListener;
 import com.algolia.instantsearch.ui.utils.ItemClickSupport.OnItemLongClickListener;
@@ -40,6 +39,7 @@ import com.algolia.instantsearch.ui.utils.LayoutViews;
 import com.algolia.instantsearch.utils.JSONUtils;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -322,11 +322,10 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         }
     }
 
-    private static class HitsAdapter extends Adapter<HitsAdapter.ViewHolder> implements ImageLoadTask.BitmapListener {
+    private static class HitsAdapter extends Adapter<HitsAdapter.ViewHolder> {
 
         @NonNull
         private List<JSONObject> hits = new ArrayList<>();
-        private final Map<String, Bitmap> bitmaps = new HashMap<>();
 
         public HitsAdapter() {
             this.hits = new ArrayList<>();
@@ -402,13 +401,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
                 } else if (view instanceof TextView) {
                     ((TextView) view).setText(getHighlightedAttribute(hit, view, attributeName, attributeValue));
                 } else if (view instanceof ImageView) {
-                    final Bitmap bitmap = bitmaps.get(attributeValue);
-                    final ImageView imageView = (ImageView) view;
-                    if (bitmap == null) {
-                        new ImageLoadTask(this, imageView).execute(attributeValue);
-                    } else {
-                        ((ImageView) view).setImageBitmap(bitmap);
-                    }
+                    Glide.with(view.getContext()).load(attributeValue).into((ImageView) view);
                 } else {
                     throw new IllegalStateException(String.format(Errors.ADAPTER_UNKNOWN_VIEW, view.getClass().getCanonicalName()));
                 }
@@ -429,12 +422,6 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         @Override
         public int getItemCount() {
             return hits.size();
-        }
-
-        @Override
-        public void onResult(String url, Bitmap bitmap, @NonNull ImageView view) {
-            view.setImageBitmap(bitmap);
-            bitmaps.put(url, bitmap);
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
