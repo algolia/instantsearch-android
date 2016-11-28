@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.utils;
 
+import android.util.Log;
+
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.PathNotFoundException;
 
@@ -9,7 +11,8 @@ import java.util.HashMap;
 
 public class JSONUtils {
     public static String getStringFromJSONPath(JSONObject record, String path) {
-        return getObjectFromJSONPath(record, path).toString();
+        final Object object = getObjectFromJSONPath(record, path);
+        return object == null ? null : object.toString();
     }
 
     public static HashMap<String, String> getJSONObjectFromJSONPath(JSONObject record, String path) {
@@ -21,7 +24,8 @@ public class JSONUtils {
         try {
             return JsonPath.read(json, path);
         } catch (PathNotFoundException exception) {
-            throw new IllegalArgumentException("Cannot find \"" + path + "\" in json:" + json, exception);
+            Log.e("Algolia|JSONUtils", "Cannot find \"" + path + "\" in json:" + json);
+            return null;
         }
     }
 }

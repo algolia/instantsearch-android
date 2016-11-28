@@ -425,13 +425,15 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
             }
         }
 
-        private Spannable getHighlightedAttribute(JSONObject hit, View view, String attributeName, String attributeValue) {
+        private
+        @Nullable
+        Spannable getHighlightedAttribute(@NonNull JSONObject hit, @NonNull View view, @NonNull String attributeName, @Nullable String attributeValue) {
             Spannable attributeText;
             if (RenderingHelper.getDefault().shouldHighlight(attributeName)) {
                 final int highlightColor = RenderingHelper.getDefault().getHighlightColor(attributeName);
                 attributeText = Highlighter.getDefault().renderHighlightColor(hit, attributeName, highlightColor, view.getContext());
             } else {
-                attributeText = new SpannableString(attributeValue);
+                attributeText = attributeValue != null ? new SpannableString(attributeValue) : null;
             }
             return attributeText;
         }
