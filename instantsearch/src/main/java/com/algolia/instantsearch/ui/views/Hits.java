@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -327,7 +326,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         @NonNull
         private List<JSONObject> hits = new ArrayList<>();
 
-        public HitsAdapter() {
+        HitsAdapter() {
             this.hits = new ArrayList<>();
         }
 
@@ -357,7 +356,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
             hits.add(result);
         }
 
-        public JSONObject getItemAt(int position) {
+        JSONObject getItemAt(int position) {
             return hits.get(position);
         }
 
