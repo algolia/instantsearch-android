@@ -83,7 +83,9 @@ dependencies {
     compile ('com.github.bumptech.glide:glide:3.7.0') {
         exclude module: 'asm'
     }
-    compile 'com.jayway.jsonpath:json-path:2.2.0'
+    compile ('com.jayway.jsonpath:json-path:2.2.0') {
+        exclude module: 'asm'
+    }
 
     compile "com.android.support:appcompat-v7:$VERSION_APPCOMPAT"
     compile "com.android.support:recyclerview-v7:$VERSION_APPCOMPAT"
@@ -102,12 +104,10 @@ task writeNewPom << {
             groupId project.ext.GROUP
             artifactId project.ext.BASENAME
 
-            // Add your description here
             name project.ext.CODENAME
             description project.ext.DESC
             url project.ext.WEBSITE
 
-            // Set your license
             licenses {
                 license {
                     name project.ext.LICENSE
