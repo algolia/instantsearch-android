@@ -40,6 +40,7 @@ import com.algolia.instantsearch.utils.JSONUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -219,9 +220,9 @@ public class Highlighter {
     public static String getHighlightedAttribute(@NonNull JSONObject result, String attributeName) {
         final JSONObject highlightResult = result.optJSONObject("_highlightResult");
         if (highlightResult != null) {
-            JSONObject highlightAttribute = JSONUtils.getJSONObjectFromJSONPath(highlightResult, attributeName);
+            HashMap<String, String> highlightAttribute = JSONUtils.getJSONObjectFromJSONPath(highlightResult, attributeName);
             if (highlightAttribute != null) {
-                String highlightedValue = highlightAttribute.optString("value");
+                String highlightedValue = highlightAttribute.get("value");
                 if (highlightedValue != null) {
                     return highlightedValue;
                 }
