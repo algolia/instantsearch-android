@@ -1,9 +1,13 @@
 package com.algolia.instantsearch.ui.views;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +16,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -325,6 +330,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
 
         @NonNull
         private List<JSONObject> hits = new ArrayList<>();
+        private SparseArray<Drawable> placeholders = new SparseArray<>();
 
         HitsAdapter() {
             this.hits = new ArrayList<>();
@@ -400,7 +406,19 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
                 } else if (view instanceof TextView) {
                     ((TextView) view).setText(getHighlightedAttribute(hit, view, attributeName, attributeValue));
                 } else if (view instanceof ImageView) {
-                    Glide.with(view.getContext()).load(attributeValue).into((ImageView) view);
+                    final Activity activity = getActivity(view);
+                    if (activity == null || Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed()) {
+                        continue;
+                    }
+
+                    final ImageView imageView = (ImageView) view;
+                    final int viewId = imageView.getId();
+                    Drawable placeholder = placeholders.get(viewId);
+                    if (placeholder == null) {
+                        placeholder = imageView.getDrawable();
+                        placeholders.put(viewId, placeholder);
+                    }
+                    Glide.with(activity).load(attributeValue).placeholder(placeholder).into(imageView);
                 } else {
                     throw new IllegalStateException(String.format(Errors.ADAPTER_UNKNOWN_VIEW, view.getClass().getCanonicalName()));
                 }
@@ -421,6 +439,18 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         @Override
         public int getItemCount() {
             return hits.size();
+        }
+
+        private Activity getActivity(View view) {
+            Context context = view.getContext();
+            while (context instanceof ContextWrapper) {
+                if (context instanceof Activity) {
+                    return (Activity) context;
+                }
+                context = ((ContextWrapper) context).getBaseContext();
+            }
+            Log.e("Algolia|Hits", "Error: Could not get activity from View.");
+            return null;
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
