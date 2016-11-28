@@ -67,9 +67,9 @@ public class Searcher {
      * @param index an Index initialized and eventually configured.
      */
     public Searcher(@NonNull final Index index) {
-        query = new Query();
         this.index = index;
         this.client = index.getClient();
+        query = new Query();
         client.addUserAgent(new Client.LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME)));
         bus = EventBus.getDefault();
         id = instances.size();
@@ -84,12 +84,7 @@ public class Searcher {
      * @param indexName An index to target.
      */
     public Searcher(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName) {
-        query = new Query();
-        this.client = new Client(appId, apiKey);
-        this.index = client.getIndex(indexName);
-        bus = EventBus.getDefault();
-        id = instances.size();
-        instances.add(this);
+        this(new Client(appId, apiKey).getIndex(indexName));
     }
 
     public static Searcher get(int id) {
