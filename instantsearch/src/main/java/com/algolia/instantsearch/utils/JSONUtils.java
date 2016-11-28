@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.utils;
 
 import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.PathNotFoundException;
 
 import org.json.JSONObject;
 
@@ -16,6 +17,11 @@ public class JSONUtils {
     }
 
     private static <T> T getObjectFromJSONPath(JSONObject record, String path) {
-            return JsonPath.read(record.toString(), path);
+        final String json = record.toString();
+        try {
+            return JsonPath.read(json, path);
+        } catch (PathNotFoundException exception) {
+            throw new IllegalArgumentException("Cannot find \"" + path + "\" in json:" + json, exception);
+        }
     }
 }
