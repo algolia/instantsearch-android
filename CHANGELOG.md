@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.0 (2013-12-01)
+
+### Features
+- Faster and more robust Image Loading with [Glide](https://github.com/bumptech/glide)
+- Support of binding to attributes that are missing from some records
+
+### Fixes
+- Correct Highlighter's usage of JSONPath
+- Unify Searcher's constructor behavior
+- Keep initial placeholders of ImageViews bound to a Hits widget for recycling
+- Fix potential `Multiple dex files define Lorg/objectweb/asm/AnnotationVisitor` build error
+
 ## 0.4.0 (2013-11-24)
 
 ### Features
