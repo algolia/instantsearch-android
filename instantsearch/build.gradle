@@ -50,6 +50,7 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName project.ext.VERSION
+        consumerProguardFiles "proguard-rules.pro"
     }
     buildTypes {
         release {
