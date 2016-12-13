@@ -31,7 +31,7 @@ ext {
     VERSION = '0.5.0'
     VERSION_DESC = 'Version Beta ' + VERSION
 
-    VERSION_APPCOMPAT = '24.2.1'
+    VERSION_APPCOMPAT = '25.0.1'
 }
 
 group = project.ext.GROUP
@@ -42,12 +42,12 @@ android {
         enabled true
     }
 
-    compileSdkVersion 24
-    buildToolsVersion '24.0.3'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.1'
 
     defaultConfig {
         minSdkVersion 11
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName project.ext.VERSION
         consumerProguardFiles "proguard-rules.pro"
