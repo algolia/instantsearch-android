@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     }
 }
@@ -31,7 +31,7 @@ ext {
     VERSION = '0.5.0'
     VERSION_DESC = 'Version Beta ' + VERSION
 
-    VERSION_APPCOMPAT = '24.2.1'
+    VERSION_APPCOMPAT = '25.0.1'
 }
 
 group = project.ext.GROUP
@@ -42,14 +42,15 @@ android {
         enabled true
     }
 
-    compileSdkVersion 24
-    buildToolsVersion '24.0.3'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.1'
 
     defaultConfig {
         minSdkVersion 11
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName project.ext.VERSION
+        consumerProguardFiles "proguard-rules.pro"
     }
     buildTypes {
         release {
@@ -80,10 +81,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.algolia:algoliasearch-android:3.7.0'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile ('com.github.bumptech.glide:glide:3.7.0') {
-        exclude module: 'asm'
-    }
-    compile ('com.jayway.jsonpath:json-path:2.2.0') {
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile('com.jayway.jsonpath:json-path:2.2.0') {
         exclude module: 'asm'
     }
 
@@ -94,42 +93,44 @@ dependencies {
     testCompile "org.robolectric:robolectric:3.1.2"
 }
 
-task writeNewPom << {
-    apply plugin: 'maven'
-    description "Generates pom.xml"
+task writeNewPom {
+    doLast {
+        apply plugin: 'maven'
+        description "Generates pom.xml"
 
-    pom {
-        project {
-            packaging 'aar'
-            groupId project.ext.GROUP
-            artifactId project.ext.BASENAME
+        pom {
+            project {
+                packaging 'aar'
+                groupId project.ext.GROUP
+                artifactId project.ext.BASENAME
 
-            name project.ext.CODENAME
-            description project.ext.DESC
-            url project.ext.WEBSITE
-
-            licenses {
-                license {
-                    name project.ext.LICENSE
-                    url project.ext.LICENSE_URL
-                }
-            }
-            developers {
-                developer {
-                    id "algolia"
-                    name "The Algolia Team"
-                    email "hey@algolia.com"
-                }
-            }
-            scm {
-                connection project.ext.REPO
-                developerConnection project.ext.REPO
+                name project.ext.CODENAME
+                description project.ext.DESC
                 url project.ext.WEBSITE
 
+                licenses {
+                    license {
+                        name project.ext.LICENSE
+                        url project.ext.LICENSE_URL
+                    }
+                }
+                developers {
+                    developer {
+                        id "algolia"
+                        name "The Algolia Team"
+                        email "hey@algolia.com"
+                    }
+                }
+                scm {
+                    connection project.ext.REPO
+                    developerConnection project.ext.REPO
+                    url project.ext.WEBSITE
+
+                }
             }
-        }
-    }.writeTo("${project.buildDir}/${project.ext.BASENAME}-${project.ext.VERSION}.pom")
-            .writeTo("${project.buildDir}/publications/BinTrayPublication/pom-default.xml")
+        }.writeTo("${project.buildDir}/${project.ext.BASENAME}-${project.ext.VERSION}.pom")
+                .writeTo("${project.buildDir}/publications/BinTrayPublication/pom-default.xml")
+    }
 }
 task sourceJar(type: Jar, dependsOn: writeNewPom) {
     classifier "source"
