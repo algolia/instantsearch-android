@@ -60,8 +60,8 @@ public class Stats extends TextView implements AlgoliaWidget {
 
     private String applyTemplate(@NonNull String template, @NonNull Query query, @NonNull AlgoliaException error) {
         return template
-                .replace("{query}", query.getQuery())
-                .replace("{error}", error.getLocalizedMessage());
+                .replace("{query}", String.valueOf((query.getQuery())))
+                .replace("{error}", String.valueOf((error.getLocalizedMessage())));
     }
 
     @Override
