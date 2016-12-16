@@ -343,8 +343,9 @@ public class Searcher {
         if (attributeRefinements == null) {
             attributeRefinements = new ArrayList<>();
             refinementMap.put(attributeName, attributeRefinements);
+        } else {
+            attributeRefinements.remove(value);
         }
-        attributeRefinements.remove(value);
         rebuildQueryFacetFilters();
         return this;
     }
