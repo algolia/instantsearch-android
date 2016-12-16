@@ -9,5 +9,4 @@ then
 fi
 
 echo "Restoring Helper file..."
-mv $FILE.bak $FILE
-rm $FILE.tmp
+git checkout -- $FILE
