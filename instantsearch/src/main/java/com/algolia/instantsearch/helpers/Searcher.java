@@ -400,6 +400,9 @@ public class Searcher {
                 facetFilters.put(attribute + ":" + value);
             }
         }
+        for (Map.Entry<String, Boolean> entry : booleanFilterMap.entrySet()) {
+            facetFilters.put(entry.getKey() + ":" + entry.getValue());
+        }
         query.setFacetFilters(facetFilters);
         query.setPage(0);
         return this;
@@ -418,53 +421,44 @@ public class Searcher {
         }
         refinements.put(refinement.operator, refinement);
         numericRefinements.put(refinement.attribute, refinements);
-        rebuildQueryFilters();
+        rebuildQueryNumericFilters();
         return this;
     }
 
     public Searcher removeNumericRefinement(@NonNull String attribute) {
         numericRefinements.remove(attribute);
-        rebuildQueryFilters();
+        rebuildQueryNumericFilters();
         return this;
     }
 
     public Searcher removeNumericRefinement(@NonNull String attribute, int operator) {
         NumericRefinement.checkOperatorIsValid(operator);
         numericRefinements.get(attribute).remove(operator);
-        rebuildQueryFilters();
+        rebuildQueryNumericFilters();
         return this;
     }
 
     public Searcher removeNumericRefinement(@NonNull NumericRefinement refinement) {
         NumericRefinement.checkOperatorIsValid(refinement.operator);
         numericRefinements.get(refinement.attribute).remove(refinement.operator);
-        rebuildQueryFilters();
+        rebuildQueryNumericFilters();
         return this;
     }
 
-    private void rebuildQueryFilters() {
-        StringBuilder filters = new StringBuilder();
+    private void rebuildQueryNumericFilters() {
+        JSONArray numericFilters = new JSONArray();
         for (SparseArray<NumericRefinement> refinements : numericRefinements.values()) {
             for (int i = 0; i < refinements.size(); i++) {
-                if (filters.length() > 0) {
-                    filters.append(" AND ");
-                }
-                filters.append(refinements.valueAt(i).toString());
+                numericFilters.put(refinements.valueAt(i).toString());
             }
         }
-        for (Map.Entry<String, Boolean> entry : booleanFilterMap.entrySet()) {
-            if (filters.length() > 0) {
-                filters.append(" AND ");
-            }
-            filters.append(entry.getKey()).append(":").append(entry.getValue());
-        }
-        query.setFilters(filters.toString());
+        query.setNumericFilters(numericFilters);
         query.setPage(0);
     }
 
     public Searcher addBooleanFilter(String attribute, Boolean value) {
         booleanFilterMap.put(attribute, value);
-        rebuildQueryFilters();
+        rebuildQueryFacetFilters();
         return this;
     }
 
@@ -476,7 +470,7 @@ public class Searcher {
 
     public Searcher removeBooleanFilter(String attribute) {
         booleanFilterMap.remove(attribute);
-        rebuildQueryFilters();
+        rebuildQueryFacetFilters();
         return this;
     }
 
