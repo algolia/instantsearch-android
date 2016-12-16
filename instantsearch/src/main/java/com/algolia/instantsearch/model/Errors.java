@@ -11,8 +11,6 @@ public class Errors {
     public static final String HITS_NO_ITEMLAYOUT = "Your Hits widget is missing an algolia:itemLayout attribute to specify the hits item layout.";
     public static final String HITS_INFINITESCROLL = "You specified infiniteScroll=\"false\" and remainingItemsBeforeLoading, but they are mutually exclusive.";
 
-    public static final String IMAGELOAD_INVALID_URL = "There should be one valid url per ImageView.";
-
     public static final String LAYOUT_MISSING_HITS = "You need to add at least one AlgoliaResultsListener.";
     public static final String LAYOUT_MISSING_HITS_ITEMLAYOUT = "To use the Hits widget, you need to specify an item layout with algolia:itemLayout.";
     public static final String LAYOUT_MISSING_SEARCHBOX = "You need to add a SearchBox or SearchView.";
