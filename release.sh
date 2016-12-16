@@ -50,7 +50,7 @@ call_sed "s/VERSION = '.*'/VERSION = '$VERSION_CODE'/" $FILE_BUILD_GRADLE
 # Commit to git
 set +e # don\'t crash if already committed
 git add $CHANGELOG $FILE_BUILD_GRADLE
-git commit -m "chore: Version $VERSION_CODE"
+git commit -m "chore(release): Version $VERSION_CODE [ci skip]"
 set -e
 
 # Release on Bintray
