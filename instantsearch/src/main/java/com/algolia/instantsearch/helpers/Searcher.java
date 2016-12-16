@@ -133,7 +133,7 @@ public class Searcher {
                 }
 
                 if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
-                    throw new IllegalStateException("This request should have been cancelled.");
+                    Log.e("Algolia|Searcher", "We already displayed results for request " + lastDisplayedSeqNumber + ", current request (" + currentSearchSeqNumber + ") should have been canceled");
                 }
 
                 if (content == null || !hasHits(content)) {
