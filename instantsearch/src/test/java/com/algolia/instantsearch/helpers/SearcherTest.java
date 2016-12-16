@@ -90,19 +90,19 @@ public class SearcherTest extends InstantSearchTest {
 
         searcher.addNumericRefinement(r);
         Assert.assertEquals("There should be a numeric refinement for attribute", r, searcher.getNumericRefinement(r.attribute, r.operator));
-        Assert.assertEquals("Query filters should represent the refinement", "attribute=" + formattedValue, searcher.getQuery().getFilters());
+        Assert.assertEquals("Query numericFilters should represent the refinement", "[\"attribute=" + formattedValue + "\"]", searcher.getQuery().getNumericFilters().toString());
 
         searcher.removeNumericRefinement(r);
         Assert.assertEquals("This numeric refinement should have been removed.", null, searcher.getNumericRefinement(r.attribute, r.operator));
-        Assert.assertEquals("Query filters should be empty after removal", "", searcher.getQuery().getFilters());
+        Assert.assertEquals("Query numericFilters should be empty after removal", "[]", searcher.getQuery().getNumericFilters().toString());
 
         searcher.addNumericRefinement(r);
         searcher.addNumericRefinement(r2);
-        Assert.assertEquals("Query filters should represent both refinements", "attribute=" + formattedValue + " AND attribute!=" + formattedValue, searcher.getQuery().getFilters());
+        Assert.assertEquals("Query numericFilters should represent both refinements", "[\"attribute=" + formattedValue + "\",\"attribute!=" + formattedValue + "\"]", searcher.getQuery().getNumericFilters().toString());
 
         searcher.removeNumericRefinement(r.attribute);
         Assert.assertEquals("Both numeric refinements for this attribute should have been removed", null, searcher.getNumericRefinement(r.attribute, r.operator));
-        Assert.assertEquals("Query filters should be empty after removal", "", searcher.getQuery().getFilters());
+        Assert.assertEquals("Query numericFilters should be empty after removal", "[]", searcher.getQuery().getNumericFilters().toString());
 
         searcher.addNumericRefinement(r);
         searcher.addNumericRefinement(r2);
