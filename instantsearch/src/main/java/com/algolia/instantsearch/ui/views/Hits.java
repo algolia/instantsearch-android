@@ -132,7 +132,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     /**
      * Set a listener for click events on child views.
      *
-     * @param listener An {@link OnItemClickListener} which should receive these events.
+     * @param listener An {@link OnItemClickListener OnItemLongClickListener} which should receive these events.
      */
     public void setOnItemClickListener(OnItemClickListener listener) {
         ItemClickSupport.addTo(this).setOnItemClickListener(listener);
@@ -141,7 +141,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     /**
      * Set a listener for long click events on child views.
      *
-     * @param listener An {@link OnItemLongClickListener} which should receive these events.
+     * @param listener An {@link OnItemLongClickListener OnItemLongClickListener} which should receive these events.
      */
     public void setOnItemLongClickListener(OnItemLongClickListener listener) {
         ItemClickSupport.addTo(this).setOnItemLongClickListener(listener);

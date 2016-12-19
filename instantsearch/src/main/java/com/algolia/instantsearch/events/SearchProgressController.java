@@ -10,7 +10,7 @@ import org.greenrobot.eventbus.Subscribe;
  */
 @SuppressWarnings("UnusedParameters") // binding to EventBus events without using the event objects
 public class SearchProgressController {
-    /** Default waiting delay: unless specified otherwise, {@code listener.onStart()} will be called immediately on any {@link SearchEvent}.*/
+    /** Default waiting delay: unless specified otherwise, {@link ProgressListener#onStart() listener.onStart()} will be called immediately on any {@link SearchEvent}.*/
     public static final int DEFAULT_DELAY = 0;
 
     private final ProgressListener listener;
@@ -20,7 +20,7 @@ public class SearchProgressController {
     /**
      * Create a controller that will report requests immediately.
      *
-     * @param listener a {@link ProgressListener} to notify of progress events.
+     * @param listener a {@link ProgressListener ProgressListener} to notify of progress events.
      */
     public SearchProgressController(ProgressListener listener) {
         this(listener, DEFAULT_DELAY);
@@ -29,8 +29,8 @@ public class SearchProgressController {
     /**
      * Create a controller that will report requests if they don't complete before <code>delay</code>.
      *
-     * @param listener a {@link ProgressListener} to notify of progress events.
-     * @param delay    a duration in milliseconds to wait before calling {@link ProgressListener#onStart()}.
+     * @param listener a {@link ProgressListener ProgressListener} to notify of progress events.
+     * @param delay    a duration in milliseconds to wait before calling {@link ProgressListener#onStart() listener.onStart()}.
      */
     public SearchProgressController(ProgressListener listener, int delay) {
         this.listener = listener;

@@ -12,7 +12,7 @@ import android.view.View;
 import com.algolia.instantsearch.R;
 
 /**
- * Helper to set onItem[Long]Click listeners on a RecyclerView.
+ * Helper to set onItem[Long]Click listeners on a RecyclerView. //TODO: Document public methods
  */
 @SuppressWarnings("UnusedReturnValue") //chaining
 public class ItemClickSupport {

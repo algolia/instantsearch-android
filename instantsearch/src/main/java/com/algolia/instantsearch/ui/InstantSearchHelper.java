@@ -253,7 +253,7 @@ public class InstantSearchHelper {
     }
 
     /**
-     * Enable the display of a {@link android.widget.ProgressBar} in the SearchView when waiting for results.
+     * Enable the display of a {@link android.widget.ProgressBar ProgressBar} in the SearchView when waiting for results.
      */
     public void enableProgressBar() {
         showProgressBar = true;
@@ -275,7 +275,7 @@ public class InstantSearchHelper {
     }
 
     /**
-     * Disable the {@link android.widget.ProgressBar}, removing it if it is already displayed.
+     * Disable the {@link android.widget.ProgressBar ProgressBar}, removing it if it is already displayed.
      */
     public void disableProgressBar() {
         updateProgressBar(searchView, false);
@@ -283,7 +283,7 @@ public class InstantSearchHelper {
     }
 
     /**
-     * Get the {@link android.support.annotation.IdRes} of the item layout registered by a Hits widget.
+     * Get the {@link android.support.annotation.IdRes IdRes} of the item layout registered by a Hits widget.
      * This method should only be used by the library's internals.
      *
      * @return the registered item layout id, if any.
