@@ -41,7 +41,7 @@ import java.util.Set;
  * You can either use it with a single widget which will receive incoming results, or with several that will interact together in the same activity.
  */
 public class InstantSearchHelper {
-    /** Delay before displaying progressbar when the current android API does not support animations. (API < 14) */
+    /** Delay before displaying progressbar when the current android API does not support animations. {@literal (API < 14)} */
     public static final int DELAY_PROGRESSBAR_NO_ANIMATIONS = 200;
 
     private SearchViewFacade searchView;

@@ -39,7 +39,7 @@ public class SearchBox extends SearchView {
     }
 
     /**
-     * Disable fullscreen keyboard display in landscape mode. This only works on >= 4.1 devices.
+     * Disable fullscreen keyboard display in landscape mode. This only works on {@literal >= 4.1} devices.
      */
     public void disableFullScreen() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -48,7 +48,7 @@ public class SearchBox extends SearchView {
     }
 
     /**
-     * Enable fullscreen keyboard display in landscape mode. This only works on >= 4.1 devices.
+     * Enable fullscreen keyboard display in landscape mode. This only works on {@literal >= 4.1} devices.
      */
     public void enableFullScreen() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
