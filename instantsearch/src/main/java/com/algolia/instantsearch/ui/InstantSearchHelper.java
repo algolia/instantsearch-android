@@ -6,6 +6,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -80,7 +81,7 @@ public class InstantSearchHelper {
      * @param menuItemId the SearchView item's {@link android.support.annotation.IdRes id} in your Menu.
      * @param searcher   the Searcher to use with this activity.
      */
-    public InstantSearchHelper(@NonNull final Activity activity, @NonNull Menu menu, int menuItemId, @NonNull final Searcher searcher) {
+    public InstantSearchHelper(@NonNull final Activity activity, @NonNull Menu menu, @IdRes int menuItemId, @NonNull final Searcher searcher) {
         this(searcher);
 
         registerSearchView(activity, menu, menuItemId);
