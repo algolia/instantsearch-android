@@ -111,6 +111,7 @@ public class SearcherTest extends InstantSearchTest {
         Assert.assertEquals("The numeric refinement for this attribute but other operator should have been kept", r2, searcher.getNumericRefinement(r2.attribute, r2.operator));
     }
 
+    @SuppressWarnings("deprecation") // deprecated facetFilters are used on purpose for filters managed programmatically
     @Test
     public void facetRefinements() {
         final Searcher searcher = initSearcher();
