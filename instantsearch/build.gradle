@@ -132,16 +132,30 @@ task writeNewPom {
                 .writeTo("${project.buildDir}/publications/BinTrayPublication/pom-default.xml")
     }
 }
-task sourceJar(type: Jar, dependsOn: writeNewPom) {
-    classifier "source"
+task sourcesJar(type: Jar, dependsOn: writeNewPom) {
+    classifier "sources"
     from android.sourceSets.main.java.srcDirs
 }
 
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+task javadoc(type: Javadoc, dependsOn: assemble) {
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) // dependencies
     failOnError false //FIXME: Can I include annotation library and algoliasearch?
     //TODO: Check javadoc "errors": are tags/< displayed correctly?
+    exclude '**/R.html', '**/R.*.html', '**/index.html'
+    options.optionFiles << file('javadoc.options')
+    options.encoding('UTF-8')
+    options.version(true)
+    options.windowTitle(project.ext.NAME)
+    options.docTitle(project.ext.NAME)
+    options.footer(project.ext.NAME + ": " + project.ext.DESC)
+}
+
+afterEvaluate {
+    // we need this as javadoc task's body is called before android.libraryVariants is filled. http://stackoverflow.com/a/34572606/3109189
+    javadoc.classpath += files(android.libraryVariants.collect { variant ->
+        variant.javaCompile.classpath.files
+    })
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
@@ -149,10 +163,9 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-//add javadoc/source jar tasks as artifacts
+// add sources jar tasks as artifacts
 artifacts {
-    archives sourceJar
-    archives javadocJar
+    archives sourcesJar
 }
 
 publishing.publications {
@@ -162,7 +175,7 @@ publishing.publications {
         version project.ext.VERSION
 
         artifact "${project.buildDir}/outputs/aar/${project.name}-release.aar"
-        artifact sourceJar
+        artifact sourcesJar
         artifact javadocJar
         artifact "${project.buildDir}/${project.ext.BASENAME}-${project.ext.VERSION}.pom"
     }
