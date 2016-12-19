@@ -516,7 +516,6 @@ public class Searcher {
      * Remove any boolean refinement for an attribute.
      *
      * @param attribute the attribute that may have a refinement.
-     * @return
      */
     public Searcher removeBooleanFilter(String attribute) {
         booleanFilterMap.remove(attribute);
