@@ -1,3 +1,8 @@
+/*
+ * Initially made by Android-WTF: android-wtf.com/2013/06/how-to-easily-traverse-any-view-hierarchy-in-android/
+ * License: "I haven’t applied a licence to it yet. But you are free to use it for any kind of project,
+ * open source or commercial. A link to this page in source code would be great, though."
+ */
 package com.algolia.instantsearch.ui.utils;
 
 import android.support.annotation.NonNull;
@@ -9,9 +14,6 @@ import java.util.List;
 
 /**
  * Helper to iterate on views in a layout.
- * <a href="android-wtf.com/2013/06/how-to-easily-traverse-any-view-hierarchy-in-android/">Initially made by Android-WTF</a><br />
- * License: "I haven’t applied a licence to it yet. But you are free to use it for any kind of project,
- * open source or commercial. A link to this page in source code would be great, though."
  */
 final public class LayoutViews {
     @NonNull public static List<View> findByTag(ViewGroup root, Object tag) {
