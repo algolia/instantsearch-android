@@ -87,6 +87,7 @@ public class Searcher {
         this(new Client(appId, apiKey).getIndex(indexName));
     }
 
+    @Deprecated //DISCUSS: Should we expose this?
     public static Searcher get(int id) {
         return instances.get(id);
     }
@@ -582,6 +583,7 @@ public class Searcher {
         }
     }
 
+    @Deprecated //DISCUSS: Should we expose this?
     public
     @Nullable
     FacetStat getFacetStat(String attribute) {
@@ -624,6 +626,7 @@ public class Searcher {
         return this;
     }
 
+    @Deprecated //DISCUSS: Should we expose this?
     public Searcher registerListener(@NonNull AlgoliaResultsListener resultsListener) {
         if (!resultsListeners.contains(resultsListener)) {
             resultsListeners.add(resultsListener);
@@ -696,6 +699,7 @@ public class Searcher {
         return this;
     }
 
+    @Deprecated //DISCUSS: Should we expose this?
     public int getId() {
         return id;
     }
