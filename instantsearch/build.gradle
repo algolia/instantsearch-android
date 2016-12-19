@@ -140,9 +140,7 @@ task sourcesJar(type: Jar, dependsOn: writeNewPom) {
 task javadoc(type: Javadoc, dependsOn: assemble) {
     source = android.sourceSets.main.java.sourceFiles
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) // dependencies
-    failOnError false //FIXME: Can I include annotation library and algoliasearch?
-    //TODO: Check javadoc "errors": are tags/< displayed correctly?
-    exclude '**/R.html', '**/R.*.html', '**/index.html'
+    failOnError false // Errors about classes `R` and `BuildConfig` should not trigger failure
     options.optionFiles << file('javadoc.options')
     options.encoding('UTF-8')
     options.version(true)
