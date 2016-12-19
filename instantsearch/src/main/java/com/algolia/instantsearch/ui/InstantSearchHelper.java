@@ -75,8 +75,10 @@ public class InstantSearchHelper {
     /**
      * Create and initialize the helper, then link it to the given Activity and Menu's searchView.
      *
-     * @param activity an Activity containing at least one {@link AlgoliaWidget} to update with incoming results.S
-     * @param searcher the Searcher to use with this activity.
+     * @param activity   an Activity containing at least one {@link AlgoliaWidget} to update with incoming results.
+     * @param menu       the Menu which contains your SearchView.
+     * @param menuItemId the SearchView item's {@link android.support.annotation.IdRes id} in your Menu.
+     * @param searcher   the Searcher to use with this activity.
      */
     public InstantSearchHelper(@NonNull final Activity activity, @NonNull Menu menu, int menuItemId, @NonNull final Searcher searcher) {
         this(searcher);

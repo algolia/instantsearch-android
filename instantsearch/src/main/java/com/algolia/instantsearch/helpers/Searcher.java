@@ -408,12 +408,25 @@ public class Searcher {
         return this;
     }
 
+    /**
+     * Get the current numeric refinement for an attribute and an operator.
+     *
+     * @param attribute the attribute to refine on.
+     * @param operator  one of the {@link NumericRefinement#OPERATOR_EQ operators} defined in {@link NumericRefinement}.
+     * @return a {@link NumericRefinement} describing the current refinement for these parameters, or {@code null} if there is none.
+     */
+    @Nullable
     public NumericRefinement getNumericRefinement(@NonNull String attribute, int operator) {
         NumericRefinement.checkOperatorIsValid(operator);
         final SparseArray<NumericRefinement> attributeRefinements = numericRefinements.get(attribute);
         return attributeRefinements == null ? null : attributeRefinements.get(operator);
     }
 
+    /**
+     * Add a numeric refinement.
+     *
+     * @param refinement a {@link NumericRefinement} refining an attribute with a numerical value.
+     */
     public Searcher addNumericRefinement(@NonNull NumericRefinement refinement) {
         SparseArray<NumericRefinement> refinements = numericRefinements.get(refinement.attribute);
         if (refinements == null) {
@@ -425,12 +438,24 @@ public class Searcher {
         return this;
     }
 
+    /**
+     * Remove any numeric refinements relative to a specific attribute.
+     *
+     * @param attribute the attribute that may have a refinement.
+     */
     public Searcher removeNumericRefinement(@NonNull String attribute) {
         numericRefinements.remove(attribute);
         rebuildQueryNumericFilters();
         return this;
     }
 
+
+    /**
+     * Remove the numeric refinement for a specific attribute and operator.
+     *
+     * @param attribute an attribute that maybe has some refinements.
+     * @param operator  an {@link NumericRefinement#OPERATOR_EQ operator}.
+     */
     public Searcher removeNumericRefinement(@NonNull String attribute, int operator) {
         NumericRefinement.checkOperatorIsValid(operator);
         numericRefinements.get(attribute).remove(operator);
@@ -438,6 +463,11 @@ public class Searcher {
         return this;
     }
 
+    /**
+     * Remove the numeric refinement for a specific attribute and operator.
+     *
+     * @param refinement a description of the refinement to remove.
+     */
     public Searcher removeNumericRefinement(@NonNull NumericRefinement refinement) {
         NumericRefinement.checkOperatorIsValid(refinement.operator);
         numericRefinements.get(refinement.attribute).remove(refinement.operator);
@@ -456,18 +486,37 @@ public class Searcher {
         query.setPage(0);
     }
 
+
+    /**
+     * Add a boolean refinement.
+     *
+     * @param attribute the attribute to refine on.
+     * @param value     the value to refine with.
+     */
     public Searcher addBooleanFilter(String attribute, Boolean value) {
         booleanFilterMap.put(attribute, value);
         rebuildQueryFacetFilters();
         return this;
     }
 
+    /**
+     * Get the current boolean refinement for an attribute.
+     *
+     * @param attribute the attribute that may have a refinement.
+     * @return the refinement value, or {@code null} if there is none.
+     */
     public
     @Nullable
     Boolean getBooleanFilter(String attribute) {
         return booleanFilterMap.get(attribute);
     }
 
+    /**
+     * Remove any boolean refinement for an attribute.
+     *
+     * @param attribute the attribute that may have a refinement.
+     * @return
+     */
     public Searcher removeBooleanFilter(String attribute) {
         booleanFilterMap.remove(attribute);
         rebuildQueryFacetFilters();
