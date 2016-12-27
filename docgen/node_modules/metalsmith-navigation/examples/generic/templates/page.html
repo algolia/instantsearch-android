@@ -1,0 +1,42 @@
+<html>
+<head>
+    <title>{{title}}</title>
+
+    <link href="{{relative_path nav_path "assets/css/bootstrap.min.css"}}" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="container">
+
+        {{> breadcrumbs}}
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <h3>All Nav</h3>
+                {{> nav_global}}
+            </div>
+
+            <div class="col-md-4">
+                <h3>Current Child Nav</h3>
+                {{> nav_relative}}
+            </div>
+
+            <div class="col-md-4">
+                <h3>Content</h3>
+                <div class="well well-sm">
+                    <h4>{{title}}</h4>
+                    {{{contents}}}
+                </div>
+            </div>
+
+        </div>
+
+        <h3>Footer Nav</h3>
+        {{> nav_footer}}
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "absolute",
+  "version": "0.0.1",
+  "description": "Test if a path (string) is absolute",
+  "author": "Dave Eddy <dave@daveeddy.com> (http://www.daveeddy.com)",
+  "main": "./absolute.js",
+  "scripts": {
+    "test": "for f in test/*.js; do echo \"$f\"; node \"$f\" || exit 1; done; echo Passed; exit 0"
+  },
+  "repository": "git://github.com/bahamas10/node-absolute.git",
+  "license": "MIT",
+  "dependencies": {}
+}

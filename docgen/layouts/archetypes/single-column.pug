@@ -1,0 +1,9 @@
+include ../common/meta.pug
+body
+  include ../common/header.pug
+  include ../common/hero.pug
+
+  div
+    block content
+  include ../common/footer.pug
+  script(src=webpack.assets['js/main.js'])

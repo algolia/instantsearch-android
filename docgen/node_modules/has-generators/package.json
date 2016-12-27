@@ -1,0 +1,21 @@
+{
+  "name": "has-generators",
+  "version": "1.0.1",
+  "description": "feature-detect generators",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://gist.github.com/nathan7/53031bbfdf884ba2817a.git"
+  },
+  "keywords": [
+    "generators",
+    "es6",
+    "feature-detection"
+  ],
+  "author": "Nathan Zadoks",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gist.github.com/nathan7/53031bbfdf884ba2817a"
+  },
+  "homepage": "https://gist.github.com/nathan7/53031bbfdf884ba2817a"
+}

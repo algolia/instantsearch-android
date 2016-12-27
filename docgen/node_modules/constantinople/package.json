@@ -1,0 +1,26 @@
+{
+  "name": "constantinople",
+  "version": "3.1.0",
+  "description": "Determine whether a JavaScript expression evaluates to a constant (using acorn)",
+  "keywords": [
+    "acorn",
+    "ast",
+    "tooling"
+  ],
+  "dependencies": {
+    "acorn": "^3.1.0",
+    "is-expression": "^2.0.1"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ForbesLindesay/constantinople.git"
+  },
+  "author": "ForbesLindesay",
+  "license": "MIT"
+}

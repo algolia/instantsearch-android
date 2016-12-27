@@ -1,0 +1,9 @@
+{
+  "presets": ["latest", "stage-2"],
+  "env": {
+    "development": {
+      "plugins": [
+      ]
+    }
+  }
+}
