@@ -10,11 +10,13 @@
   "dependencies": {
     "autoprefixer": "^6.6.0",
     "babel-cli": "^6.18.0",
+    "babel-loader": "^6.2.10",
     "babel-preset-latest": "^6.16.0",
     "babel-preset-stage-2": "^6.18.0",
     "browser-sync": "^2.18.5",
     "codemirror": "^5.22.0",
     "compression": "^1.6.2",
+    "json-loader": "^0.5.4",
     "markdown-it": "^8.2.2",
     "markdown-it-anchor": "^2.6.0",
     "metalsmith": "^2.3.0",
