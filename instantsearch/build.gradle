@@ -31,7 +31,7 @@ ext {
     VERSION = '0.5.1'
     VERSION_DESC = 'Version Beta ' + VERSION
 
-    VERSION_APPCOMPAT = '25.0.1'
+    VERSION_APPCOMPAT = '25.1.0'
 }
 
 group = project.ext.GROUP
