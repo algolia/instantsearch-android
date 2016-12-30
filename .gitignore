@@ -1,6 +1,6 @@
 # IDE Files
 *.iml
-.idea/*
+.idea
 projectFilesBackup
 .gradletasknamecache
 
