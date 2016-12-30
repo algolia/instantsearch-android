@@ -6,10 +6,7 @@ export default {
   docsDist: prod ?
     rootPath('docs-production/react') : // avoids publishing an `npm start`ed build if running.
     rootPath('docs/react'),
-  storyBookPublicPath: prod ?
-    'https://community.algolia.com/instantsearch.js/react/storybook/' :
-    'http://localhost:6006/',
   publicPath: prod ?
-    'https://community.algolia.com/instantsearch.js/react/' :
+    'https://community.algolia.com/instantsearch-android/' :
     '/',
 };
