@@ -3,6 +3,7 @@ title: Main Concepts
 layout: main.pug
 name: concepts
 category: intro
+withHeadings: true
 ---
 
 **InstantSearch Android** is a library providing widgets and helpers to help you build the best instant-search experience on Android with Algolia.
@@ -12,7 +13,7 @@ It is built on top of Algolia's [Android API Client](https://github.com/algolia/
 In this guide, you will learn the key concepts of InstantSearch Android.
 
 
-# Searcher
+## Searcher
 
 The main component of InstantSearch Android is the **Searcher**, which will wrap an [Algolia API `Client`](https://github.com/algolia/algoliasearch-client-android/blob/master/algoliasearch/src/main/java/com/algolia/search/saas/Client.java) and provide a level of abstraction over it.
 
@@ -25,7 +26,7 @@ Searcher.search(query) -> algolia --┤
 ```
 
 
-## Listeners
+### Listeners
 A listener is an object implementing the [`AlgoliaResultsListener`](instantsearch/src/main/java/com/algolia/instantsearch/model/AlgoliaResultsListener.java) interface: this object's `onResults` or `onError` method will be called after each search request returns to let you either process the results or handle the error. You can add a listener to a Searcher by calling `Searcher#registerListener()`.
 
 
@@ -35,7 +36,7 @@ new Search -> -─┤
                 └→ (success) onResults(SearchResults results, boolean isLoadingMore);
 ```
 
-# InstantSearchHelper
+## InstantSearchHelper
 
 The Searcher is UI-agnostic, and only communicates with its listeners. On top of it, we provide you a component which will link it to your user interface: the **InstantSearchHelper**.
 
@@ -55,21 +56,49 @@ Linked to a `SearchView`, it will watch its content to send any new query to the
 Widget1.onResults(hits, isLoadingMore) Widget2.onResults(hits, isLoadingMore)
 ```
 
-# Widgets
+## Widgets
 
 Widgets are the UI building blocks of InstantSearch Android, linked together by an `InstantSearchHelper` to help you build instant-search interfaces. We provide some basic widgets such as the **`SearchBox`**, the **`Hits`** or the **`RefinementList`**, and you can easily implement new ones by implementing the [`AlgoliaWidget`](instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaWidget.java) interface.
 
-## Anatomy of an `AlgoliaWidget`
+### Anatomy of an `AlgoliaWidget`
 
 An **`AlgoliaWidget`** is a specialization of the `AlgoliaResultsListener` interface used by the `Searcher` to notify its listeners of search results. Beyond reacting to search results with `onResults` and to errors in `onError`, an `AlgoliaWidget` exposes an `onReset` method which will be called when the interface is reset (which you can trigger via `InstantSearchHelper#reset()`).
 When linked to a `Searcher`, the widget's `setSearcher` method will be called to provide it a reference to its Searcher, which is useful to some widgets. For example, the `Hits` widget uses it to load more results as the user scrolls.
 
-# Highlighting
+## Events
+
+InstantSearch comes with an event system that lets you react during the lifecycle of a search query:
+- when a query is fired via a `SearchEvent(Query query, int requestSeqNumber)`
+- when its results arrive via a `ResultEvent(JSONObject content, Query query, int requestSeqNumber)`
+- when a query is cancelled via a `CancelEvent(Request request, Integer requestSeqNumber)`
+- when a request errors via a `ErrorEvent(AlgoliaException error, Query query, int requestSeqNumber)`
+
+We use EventBus to dispatch events. You can register an object to the event bus using `EventBus.getDefault().register(this);` after which it will receive events on methods annotated by `@Subscribe`:
+
+```java
+public class Logger {
+    Logger() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe
+    onSearchEvent(SearchEvent e) {
+        Log.d("Logger", "Search:" + e.query);
+    }
+
+    @Subscribe
+    onResultEvent(ResultEvent e) {
+        Log.d("Logger", "Result:" + e.query);
+    }
+}
+```
+
+## Highlighting
 <img src="docs/highlighting.png" align="right"/>
 
 Visually highlighting the search result is [an essential feature of a great search interface](https://blog.algolia.com/inside-the-algolia-engine-part-5-highlighting-a-cornerstone-to-search-ux/). It will help your users understand your results by explaining them why a result is relevant to their query.
 
-## With the `Hits` widget and system Views
+### With the `Hits` widget and system Views
 A highlighting mechanism is built-in with the `Hits` widget. To highlight a textual attribute, simply add the `highlighted` attribute on its view:
 
 ```xml
@@ -84,7 +113,7 @@ Alternatively, you can specify `algolia:highlightingColor='@{"color/appDefinedCo
 
 Note that highlighting **only works automatically on TextViews**. if you implement a [custom hit view](#custom-hit-views), you should use the `Highlighter` to render the appropriate highlight, as explained in the next section.
 
-## With custom Hit Views or a custom Widget
+### With custom Hit Views or a custom Widget
 
 To highlight an attribute in your `AlgoliaHitView` or to highlight results received by your [custom widget](#anatomy-of-an-algoliawidget), you should use the **Highligter**.
 This tool will let you build a highlighted [`Spannable`](https://developer.android.com/reference/android/text/Spannable.html) from a search result and an optional highlight color:
@@ -97,7 +126,7 @@ The default Highlighter will highlight anything between `<em>` and `</em>`. You 
 
 *See for example the [e-commerce app][ecommerce-url]'s [`CategoryOrTypeView`](https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java), a TextView which takes either the `category` or the `type` attribute of a record and [highlights it](https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java#L25) before displaying.*
 
-# Progress indicator
+## Progress indicator
 <img src="docs/progress.gif" align="right" />
 
 A useful pattern to improve your user's experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.
