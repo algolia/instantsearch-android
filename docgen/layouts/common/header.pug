@@ -2,6 +2,7 @@
 - var url_widgets = "widgets.html"
 - var url_concepts = "concepts.html"
 - var url_getting_started = "getting-started.html"
+- var url_troubleshooting = "troubleshooting.html"
 
 nav.cm-navigation
   .cm-navigation__brands
@@ -64,12 +65,14 @@ nav.cm-navigation
       li.cm-menu__list__item(class=h.maybeActive(navPath, "guide/"))
         a(href="guide/", data-link = 'true') Guides
       li.cm-menu__list__item(class=h.maybeActive(navPath, [url_widgets, ["connectors/"]]))
-        a(aria-controls='dropdown-1', aria-expanded='false', data-toggle-dropdown='dropdown-1', class="dropdown-toggler") API <span class="glyph">&#x25BC;</span>
+        a(aria-controls='dropdown-1', aria-expanded='false', data-toggle-dropdown='dropdown-1', class="dropdown-toggler") Documentation <span class="glyph">&#x25BC;</span>
         ul#dropdown-1.simple-dropdown(role='tree', tabindex='-1')
           li
             a(href=url_concepts, role='treeitem', data-link = 'true') Main concepts
           li
             a(href=url_widgets, role='treeitem', data-link = 'true') Widgets
+          li
+            a(href=url_troubleshooting, role='treeitem', data-link = 'true') Troubleshooting
 
       li.cm-menu__list__item(class=h.maybeActive(navPath, url_examples))
         a(href=url_examples, data-link = 'true') Examples
