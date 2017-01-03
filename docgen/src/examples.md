@@ -2,8 +2,9 @@
 title: Examples
 layout: examples.pug
 name: examples
-category: reference
+category: intro
 withHeadings: true
+navWeight: 0
 ---
 
 We have built two demo applications to give you an idea of what you can build with InstantSearch Android:
