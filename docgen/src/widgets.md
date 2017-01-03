@@ -6,8 +6,8 @@ category: reference
 withHeadings: true
 ---
 
-# SearchBox
-<img src="docs/widget_SearchBox.png" align="right"/>
+## SearchBox
+<img src="assets/img/widget_SearchBox.png" align="right"/>
 
 The **SearchBox** is a specialized `SearchView` which provides some customization options and facility methods. Apart from the existing `SearchView` attributes, it exposes two attributes you can specify in its XML definition:
 
@@ -24,8 +24,8 @@ The **SearchBox** is a specialized `SearchView` which provides some customizatio
 - **`autofocus`**, when `true`, will make the SearchBox request the user's focus when displayed. (defaults to `false`)
 - **`submitButtonEnabled`**, when `true`, will display the SearchBox with its submit button. This button is hidden by default: as every keystroke will update the results, it is usually misleading to display a submit button.
 
-# Hits
-<img src="docs/widget_Hits.png" align="right"/>
+## Hits
+<img src="assets/img/widget_Hits.png" align="right"/>
 
 The **Hits** widget is made to display your search results in a flexible way. Built over a `RecyclerView`, it displays a limited window into a large data set of search results.
 
@@ -50,7 +50,7 @@ This widget exposes a few attributes that you can set in its xml definition:
 
 This last attribute should reference a layout file in which you will describe how a search result should be displayed. When receiving results from its `Searcher`, this widget will bind the given layout to each result to display its attributes in the appropriate Views.
 
-## Data Binding
+### Data Binding
 
 This binding is done using the [Android DataBinding Library](https://developer.android.com/topic/libraries/data-binding/index.html), which allows to link a layout to an application's data. To enable this feature, add `dataBinding.enabled true` to your app's `build.gradle` under `android`:
 ```groovy
@@ -90,7 +90,9 @@ You can now create the hit layout. The layout file should use a `<layout></layou
 </layout>
 ```
 
-For each `View` which should receive a result's attribute, you can specify `algolia:attribute='@{"foo"}'` to map the record's `foo` attribute to this View. Currently, the Hits widget handles natively the following Views and their subclasses:
+For each `View` which should receive a result's attribute, you can specify `algolia:attribute='@{"foo"}'` to map the record's `foo` attribute to this View. 
+
+Currently, the Hits widget handles natively the following Views and their subclasses:
 
 
 |View Class | Use of the attribute | Method called | Notes|
@@ -101,25 +103,25 @@ For each `View` which should receive a result's attribute, you can specify `algo
 |RatingBar  | rating value| setRating(attributeValue)| Parsed as Float
 |ProgressBar| progress value | setProgress(attributeValue)| Parsed as Float and rounded to the nearest Integer
 
-### Custom hit views
+#### Custom hit views
 
 Apart from those system components, any `View` can be used to hold an attribute if it implements the [`AlgoliaHitView`](/instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaHitView.java) interface. In this case, we will call `onUpdateView(JSONObject result)` and the view will be responsible of using the result's JSON to display the hit.
 
 *See for example the [media app][media-url]'s [`TimestampHitView`](https://github.com/algolia/instantsearch-android-examples/blob/master/media/src/main/java/com/algolia/instantsearch/examples/media/views/TimestampHitView.java), a TextView which transforms a timestamp attribute to display a human-readable date instead.*
 
-## Infinite scroll
+### Infinite scroll
 
 An infinite scroll mechanism is built in to load more results as the user scrolls.
 Enabled by default, it will watch the state of the Hits to load more results before the user reaches the end of the current page.
 
 As explained [in the attributes description](#hits), you can use the attributes `disableInfiniteScroll` and `remainingItemsBeforeLoading` to control or disable this feature.
 
-## Empty View
+### Empty View
 
 The Hits widget implements an empty view mechanism to display an alternative View if there are no results to display, following the [AdapterView's interface](https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)).
 If you add a View to your layout with the id `@android:id/empty`, it will be displayed instead of the Hits when there is no data to display.  You can also set it programmatically using `Hits#setEmptyView(View)`.
 
-## Highlighting
+### Highlighting
 
 A highlighting mechanism is built-in with the `Hits` widget. To highlight a textual attribute, simply add the `highlighted` attribute on its view:
 
@@ -146,7 +148,7 @@ The default Highlighter will highlight anything between `<em>` and `</em>`. You 
 
 
 ## RefinementList
-<img src="docs/widget_RefinementList.png" align="right"/>
+<img src="assets/img/widget_RefinementList.png" align="right"/>
 
 The **RefinementList** is a filtering widget made to display your [facets](https://www.algolia.com/doc/guides/search/filtering-faceting#faceting) and let the user refine the search results.
 
@@ -178,7 +180,7 @@ Four attributes allow you to configure how it will filter your results:
 In the previous code sample, `sortBy="['isRefined', 'count']"` will display the refined facets before the non-refined ones, and will then sort them by decreasing count.
 
 ## Stats
-<img src="docs/widget_Stats.png" align="right"/>
+<img src="assets/img/widget_Stats.png" align="right"/>
 
 **Stats** is a widget for displaying statistics about the current search result. You can configure it with two attributes:
 
@@ -206,8 +208,9 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
 
   If you don't specify an `errorTemplate`, the Stats widget will be hidden when a query returns an error.
 
-# Progress indicator
-<img src="docs/progress.gif" align="right" />
+### Progress indicator
+<img src="assets/img/progress.gif" align="right" />
+<!-- TODO: Move to separate guide -->
 
 A useful pattern to improve your user's experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.
 
