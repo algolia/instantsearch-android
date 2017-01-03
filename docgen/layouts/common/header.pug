@@ -1,3 +1,8 @@
+- var url_examples = "examples.html"
+- var url_widgets = "widgets.html"
+- var url_concepts = "concepts.html"
+- var url_getting_started = "getting-started.html"
+
 nav.cm-navigation
   .cm-navigation__brands
     .cm-navigation__brands--algolia
@@ -54,22 +59,20 @@ nav.cm-navigation
             svg
               use(xlink:href='#cancel-icon')
     ul.cm-menu__list
-      li.cm-menu__list__item(class=h.maybeActive(navPath, "getting-started.html"))
-        a(href="getting-started.html", data-link = 'true') Getting started
+      li.cm-menu__list__item(class=h.maybeActive(navPath, url_getting_started))
+        a(href=url_getting_started, data-link = 'true') Getting started
       li.cm-menu__list__item(class=h.maybeActive(navPath, "guide/"))
-        a(href="guide/", data-link = 'true') Guide
-      li.cm-menu__list__item(class=h.maybeActive(navPath, ["widgets/", ["connectors/"]]))
+        a(href="guide/", data-link = 'true') Guides
+      li.cm-menu__list__item(class=h.maybeActive(navPath, [url_widgets, ["connectors/"]]))
         a(aria-controls='dropdown-1', aria-expanded='false', data-toggle-dropdown='dropdown-1', class="dropdown-toggler") API <span class="glyph">&#x25BC;</span>
         ul#dropdown-1.simple-dropdown(role='tree', tabindex='-1')
           li
-            a(href="widgets/InstantSearch.html", role='treeitem', data-link = 'true') #{'<InstantSearch>'}
+            a(href=url_concepts, role='treeitem', data-link = 'true') Main concepts
           li
-            a(href="widgets/", role='treeitem', data-link = 'true') Widgets
-          li
-            a(href="connectors/", role='treeitem', data-link = 'true') Connectors
+            a(href=url_widgets, role='treeitem', data-link = 'true') Widgets
 
-      li.cm-menu__list__item(class=h.maybeActive(navPath, "examples/"))
-        a(href="examples/", data-link = 'true') Examples
+      li.cm-menu__list__item(class=h.maybeActive(navPath, url_examples))
+        a(href=url_examples, data-link = 'true') Examples
       li.cm-menu__list__item
         a(href='https://github.com/algolia/instantsearch-android', data-link = 'true')
           figure.github-icon
