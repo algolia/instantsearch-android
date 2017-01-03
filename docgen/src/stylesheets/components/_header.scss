@@ -51,7 +51,7 @@ $nav-background-light: mix($nav-background,#fff,92%);
     }
 
     @media (max-width: 1140px) {
-      max-width: auto;
+      max-width: auto; //FIXME: Meaningless?
       width: auto;
       transform: translateX(-204px);
       float: left;
