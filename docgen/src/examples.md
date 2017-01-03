@@ -10,7 +10,7 @@ navWeight: 0
 We have built two demo applications to give you an idea of what you can build with InstantSearch Android:
 
 ## [Media application][media-url]
-<img class="example-screenshot" src="assets/img/media.gif" />
+<img align="right" src="assets/img/media.gif" />
 
 This example mimics the classical video search interface, with a modal to refine your search.
 
@@ -29,7 +29,7 @@ This example mimics the classical video search interface, with a modal to refine
 <br />
 
 ## [E-commerce application][ecommerce-url]
-<img class="example-screenshot" src="assets/img/ecommerce.gif" />
+<img align="right" src="assets/img/ecommerce.gif" />
 
 This example imitates a product search interface like well-known e-commerce applications.
 
