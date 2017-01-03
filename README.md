@@ -140,7 +140,6 @@ This widget exposes a few attributes that you can set in its xml definition:
     algolia:hitsPerPage="10"
     algolia:disableInfiniteScroll="false"
     algolia:remainingItemsBeforeLoading="10"
-    algolia:hitsPerPage="10"
     algolia:itemLayout="@layout/hits_item">
 ```
 
