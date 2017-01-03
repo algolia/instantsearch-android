@@ -1,14 +1,9 @@
-extends archetypes/single-column-formatted.pug
+extends archetypes/content-with-menu.pug
+include mixins/nav.pug
+
+block navigation
+  +nav(navPath, navigation, mainTitle || title, withHeadings && headings || [])
 
 block content
-  .content!=contents
-
-  - var values = ['e-commerce', 'e-commerce-infinite', 'material-ui', 'media', 'tourism'];
-
-  div(class="examples-container")
-    each val in values
-      div.example-tile
-         a(href=`examples/${val}/index.html`)
-          figure
-            img(src=`images/examples/${val}.png`)
-            figcaption #{val}
+  div(id="examples")
+    .content!=contents

@@ -145,3 +145,15 @@ body.example {
   }
 
 }
+
+#examples {
+    ul {
+        margin-top: 20px;
+    }
+    ul > li {
+        clear: none;
+    }
+    h2 {
+        clear: both;
+    }
+}
