@@ -116,17 +116,13 @@ nav.sidebar {
   }
 }
 
-
 .sidebar-opener {
   position: fixed;
   left: 2em;
   bottom: 2em;
   height: 52px;
   width: 52px;
-  background: #39b1de;
-  background-image: url(../images/open-doc-menu_icon.svg), linear-gradient(to right, #8f64f3 0%, #39b1de 90%);
-  background-repeat: no-repeat;
-  background-position: 65% center, center center;
+  background: #39b1de url(../../../assets/img/open-doc-menu_icon.svg), linear-gradient(to right, #8f64f3 0%, #39b1de 90%) no-repeat 65% center, center center;
   background-size: 60%, 100%;
   z-index: 11;
   border-radius: 50%;
@@ -135,7 +131,6 @@ nav.sidebar {
   transform-origin: center center;
   cursor: pointer;
   display: none;
-
 
   @include small-mq {
     display: block;
@@ -148,7 +143,7 @@ nav.sidebar {
   &.Showed {
     transform: rotate(-180deg);
     transform-origin: center center;
-    background-image: url(../images/open-doc-menu_icon.svg), linear-gradient(to left, #8f64f3 0%, #39b1de 90%);
+    background-image: url(../../../assets/img/open-doc-menu_icon.svg), linear-gradient(to left, #8f64f3 0%, #39b1de 90%);
     left: 340px;
   }
 }

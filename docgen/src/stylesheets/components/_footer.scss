@@ -8,7 +8,7 @@
   text-align: center;
   color: $white-75;
   background-color: #263748;
-  background-image: url("../images/background_footer.svg");
+  background-image: url("../../../assets/img/background_footer.svg");
   background-repeat: no-repeat;
   background-position:  center center;
   background-size: 1420px;
@@ -37,7 +37,7 @@
 
     &:hover {
       .ac-icon-love-dark {
-        background: url("../images/icon-heart-light.svg")no-repeat center center / contain;
+        background: url("../../../assets/img/icon-heart-light.svg")no-repeat center center / contain;
       }
     }
 
@@ -223,7 +223,7 @@
     margin: auto;
   }
   .ac-icon-love-dark {
-    background: url("../images/icon-heart-dark.svg")no-repeat center center / contain;
+    background: url("../../../assets/img/icon-heart-dark.svg")no-repeat center center / contain;
   }
 }
 
