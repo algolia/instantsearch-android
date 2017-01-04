@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
 
 
 /**
- * Renders HTML-like attributed strings into `Spannable` instances suitable for display.
+ * Renders HTML-like attributed strings into {@link Spannable} instances suitable for display.
  */
 public class Highlighter {
     private static Highlighter defaultHighlighter;

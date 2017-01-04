@@ -23,7 +23,7 @@ public class SearchResults {
     /** The received JSON content. */
     @Nullable
     public final JSONObject content;
-    /** Facets that will be treated as disjunctive (`OR`). By default, facets are conjunctive (`AND`). */
+    /** Facets that will be treated as disjunctive ({@code OR}). By default, facets are conjunctive ({@code AND}). */
     public List<String> disjunctiveFacets;
 
     // Mandatory attributes
@@ -33,7 +33,7 @@ public class SearchResults {
     public JSONArray hits;
     /** Total number of hits. */
     public int nbHits;
-    /** Query text that produced those results. Should be identical to `params.query`. */
+    /** Query text that produced those results. Should be identical to {@link SearchResults#params params.query}}. */
     public String query;
     /** Query parameters that produced those results. */
     public String params;
@@ -56,16 +56,16 @@ public class SearchResults {
     /**
      * A markup text indicating which parts of the original query have been removed
      * in order to retrieve a non-empty result set.
-     * The removed parts are surrounded by `<em></em>` tags.
+     * The removed parts are surrounded by {@code <em></em>} tags.
      * <p>
-     * Note: Only returned when `removeWordsIfNoResults` is set.
+     * Note: Only returned when {@link Query#getRemoveWordsIfNoResults() removeWordsIfNoResults} is {@code true}.
      */
     public String queryAfterRemoval;
 
     /**
      * The computed geo location.
      * <p>
-     * Note: Only returned when `aroundLatLngViaIP` is set.
+     * Note: Only returned when {@link Query#getAroundLatLngViaIP() aroundLatLngViaIp} is {@code true}.
      */
     @Nullable
     public Query.LatLng aroundLatLng;
@@ -73,7 +73,7 @@ public class SearchResults {
     /**
      * The automatically computed radius.
      * <p>
-     * Note: Only returned for geo queries without an explicitly specified radius (see `aroundRadius`).
+     * Note: Only returned for geo queries without an explicitly specified radius (see {@link Query#setAroundRadius}).
      */
     public Integer automaticRadius;
 
@@ -82,29 +82,29 @@ public class SearchResults {
      * Actual host name of the server that processed the request. (Our DNS supports automatic failover
      * and load balancing, so this may differ from the host name used in the request.)
      * <p>
-     * Note: Only returned when `getRankingInfo` is true.
+     * Note: Only returned when {@link Query#getGetRankingInfo getRankingInfo} is true.
      */
     public String serverUsed;
 
     /**
      * The query string that will be searched, after normalization.
      * <p>
-     * Note: Only returned when `getRankingInfo` is true.
+     * Note: Only returned when {@link Query#getGetRankingInfo getRankingInfo} is true.
      */
     public String parsedQuery;
 
     /**
      * Whether a timeout was hit when computing the facet counts.
-     * When true, the counts will be interpolated (i.e. approximate). See also `exhaustiveFacetsCount`.
+     * When true, the counts will be interpolated (i.e. approximate). See also {@link SearchResults#exhaustiveFacetsCount exhaustiveFacetsCount}.
      * <p>
-     * Note: Only returned when `getRankingInfo` is true.
+     * Note: Only returned when {@link Query#getGetRankingInfo getRankingInfo} is true.
      */
     public Boolean timeoutCounts;
 
     /**
      * Whether a timeout was hit when retrieving the hits. When true, some results may be missing.
      * <p>
-     * Note: Only returned when `getRankingInfo` is true.
+     * Note: Only returned when {@link Query#getGetRankingInfo getRankingInfo} is true.
      */
     public Boolean timeoutHits;
 
