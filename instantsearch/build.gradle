@@ -161,6 +161,13 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+task copyJavaDoc(type: Copy, dependsOn: javadoc) {
+    def sources = "../docgen/src/"
+    inputs.file sources
+    into(sources)
+    from("./build/docs/")
+}
+
 // add sources jar tasks as artifacts
 artifacts {
     archives sourcesJar
