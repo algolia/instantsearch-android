@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.2 (2017-01-05)
+
+### Fixes
+- Fix NPE when binding to ProgressBar an attribute that is missing from some records
+- In Hits, Log error instead of using a Toast
+- Fix an erroneous tag when logging a specific error
+
+### Improvements
+- Use `IdRes` annotation when relevant
+- Various improvements to the library's Javadoc
+
 ## 0.5.1 (2016-12-16)
 
 ### Fixes
