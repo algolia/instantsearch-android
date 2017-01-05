@@ -399,9 +399,9 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
                 } else if (view instanceof EditText) {
                     ((EditText) view).setHint(getHighlightedAttribute(hit, view, attributeName, attributeValue));
                 } else if (view instanceof RatingBar) {
-                    ((RatingBar) view).setRating(Float.parseFloat(attributeValue));
+                    ((RatingBar) view).setRating(getFloatValue(attributeValue));
                 } else if (view instanceof ProgressBar) {
-                    ((ProgressBar) view).setProgress(Math.round(Float.parseFloat(attributeValue)));
+                    ((ProgressBar) view).setProgress(Math.round(getFloatValue(attributeValue)));
                 } else if (view instanceof TextView) {
                     ((TextView) view).setText(getHighlightedAttribute(hit, view, attributeName, attributeValue));
                 } else if (view instanceof ImageView) {
@@ -422,6 +422,10 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
                     throw new IllegalStateException(String.format(Errors.ADAPTER_UNKNOWN_VIEW, view.getClass().getCanonicalName()));
                 }
             }
+        }
+
+        private float getFloatValue(String attributeValue) {
+            return attributeValue != null ? Float.parseFloat(attributeValue) : 0;
         }
 
         private
