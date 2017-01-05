@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helpers.Highlighter;
@@ -224,7 +223,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
 
     @Override
     public void onError(@NonNull Query query, @NonNull AlgoliaException error) {
-        Toast.makeText(getContext(), "Error while searching '" + query.getQuery() + "':" + error.getMessage(), Toast.LENGTH_SHORT).show();
+        Log.e("Algolia|Hits", "Error while searching '" + query.getQuery() + "':" + error.getMessage());
     }
 
     @Override
