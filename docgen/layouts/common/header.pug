@@ -3,6 +3,7 @@
 - var url_concepts = "concepts.html"
 - var url_getting_started = "getting-started.html"
 - var url_troubleshooting = "troubleshooting.html"
+- var url_doc = "/javadoc/"
 
 nav.cm-navigation
   .cm-navigation__brands
@@ -62,8 +63,8 @@ nav.cm-navigation
     ul.cm-menu__list
       li.cm-menu__list__item(class=h.maybeActive(navPath, url_getting_started))
         a(href=url_getting_started, data-link = 'true') Getting started
-      li.cm-menu__list__item(class=h.maybeActive(navPath, "guide/"))
-        a(href="guide/", data-link = 'true') Guides
+      //li.cm-menu__list__item(class=h.maybeActive(navPath, "guide/"))
+      //  a(href="guide/", data-link = 'true') Guides
       li.cm-menu__list__item(class=h.maybeActive(navPath, [url_widgets, ["connectors/"]]))
         a(aria-controls='dropdown-1', aria-expanded='false', data-toggle-dropdown='dropdown-1', class="dropdown-toggler") Documentation <span class="glyph">&#x25BC;</span>
         ul#dropdown-1.simple-dropdown(role='tree', tabindex='-1')
@@ -71,6 +72,8 @@ nav.cm-navigation
             a(href=url_concepts, role='treeitem', data-link = 'true') Main concepts
           li
             a(href=url_widgets, role='treeitem', data-link = 'true') Widgets
+          li
+            a(href=url_doc, role='treeitem', data-link = 'true') API Reference
           li
             a(href=url_troubleshooting, role='treeitem', data-link = 'true') Troubleshooting
 
