@@ -417,7 +417,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
                         placeholder = imageView.getDrawable();
                         placeholders.put(viewId, placeholder);
                     }
-                    Glide.with(activity).load(attributeValue).placeholder(placeholder).into(imageView);
+                    Glide.with(activity).load(attributeValue).fitCenter().placeholder(placeholder).into(imageView);
                 } else {
                     throw new IllegalStateException(String.format(Errors.ADAPTER_UNKNOWN_VIEW, view.getClass().getCanonicalName()));
                 }
