@@ -21,3 +21,7 @@ Here are the frequent errors and the appropriate solutions:
     at android.databinding.DataBindingUtil.<clinit>(DataBindingUtil.java:31)  
 
   You forgot to [enable the DataBinding Library](#data-binding).
+
+## Only one layout element
+> Error:Only one layout element and one data element are allowed. /Users/pln/Work/ISA/instantsearch-mvp/app/build/intermediates/res/merged/debug/layout/hits_item.xml has 2 
+`<layout>` should have only one child.
