@@ -20,6 +20,9 @@ public class BindingHelper {
     }
 
     private static void mapAttribute(String attributeName, int viewId) {
+        if (viewId == -1) {
+            throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID, attributeName));
+        }
         bindings.put(viewId, attributeName);
     }
 
