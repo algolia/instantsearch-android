@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.3 (2017-01-12)
+
+### Improvements
+- When loading an image, fit and center it in its ImageView
+- Better error message when the user forgot to give an identifier to a View
+
 ## 0.5.2 (2017-01-05)
 
 ### Fixes
