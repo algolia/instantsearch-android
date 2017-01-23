@@ -1,0 +1,8 @@
+doctype html
+html
+  head
+  body
+    - var scripts = webpack.assetsByType.js
+    if scripts
+      each file in scripts
+        script(src=file)

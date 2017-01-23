@@ -1,0 +1,14 @@
+MaxHeight on mvp images
+Intro: Screenshot at beginning of guide
+
+TODO: Hits hide searchbar
+
+Mention highlighting, even if automagic: educate!
+Refinements in popup?
+
+Ordering to optimise TTFRes:
+- App + Library
+- Display your data: Hits + Helpers
+- Search it: SearchBox
+- Filter it: RefinementList
+-> filter: in PopupWindow?
