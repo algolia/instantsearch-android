@@ -18,5 +18,5 @@ projectFilesBackup
 # OS Files
 .DS_Store
 
-# Generated doc TODO: update location
-docs/react/
+# Generated doc
+docs-dev/
