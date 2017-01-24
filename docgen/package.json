@@ -5,7 +5,10 @@
   "license": "MIT",
   "scripts": {
     "start": "babel-node start.js",
-    "build": "babel-node build.js"
+    "build": "babel-node build.js",
+    "build-preview": "DOCS_DIST=docs-preview/instantsearch-android/;  NODE_ENV=production yarn build && mv $DOCS_DIST/_redirects $DOCS_DIST/../; unset DOCS_DIST",
+    "deploy-preview": "rm -f preview.zip && zip -r -9 preview.zip docs-preview/ && netlify deploy && rm preview.zip",
+    "preview": "yarn build-preview && yarn deploy-preview"
   },
   "dependencies": {
     "autoprefixer": "^6.6.0",
@@ -25,6 +28,7 @@
     "metalsmith-navigation": "^0.2.9",
     "metalsmith-sass": "^1.3.0",
     "ms-webpack": "^1.0.2",
+    "netlify-cli": "^1.1.0",
     "node-sass": "^4.1.1",
     "postcss-scss": "^0.4.0",
     "pug": "^2.0.0-beta6",
