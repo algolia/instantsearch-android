@@ -28,7 +28,7 @@ The **SearchBox** is a specialized `SearchView` which provides some customizatio
 ## Hits
 <img src="assets/img/widget_Hits.png" align="right"/>
 
-The **Hits** widget is made to display your search results in a flexible way. Built over a `RecyclerView`, it displays a limited window into a large data set of search results.
+The **Hits** widget is made to display your search results in a flexible way. Built over a [`RecyclerView`](https://developer.android.com/reference/android/support/v7/widget/RecyclerView.html), it displays a limited window into a large data set of search results.
 
 This widget exposes a few attributes that you can set in its xml definition:
 

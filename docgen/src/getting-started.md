@@ -7,7 +7,8 @@ withHeadings: true
 navWeight: 100
 ---
 
-*This guide will walk you through the few steps needed to start a project with InstantSearch Android.*
+*This guide will walk you through the few steps needed to start a project with InstantSearch Android.  
+We will start from an empty Android project, and create from scratch a full search interface!*
 
 ## Before we start
 To use InstantSearch Android, you need an Algolia account. You can create one by clicking here, or use the following credentials:
@@ -20,14 +21,17 @@ In Android Studio, create a new Project:
 - On the Target screen, select **Phone and Tablet**
 - On the Add an Activity screen, select **Empty Activity**
 
-in your app's `build.gradle`, add the following dependency:
-`compile 'com.algolia:instantsearch-android:0.5.1'`
+in your app's `build.gradle`, add the following dependency:  
+```groovy
+compile 'com.algolia:instantsearch-android:0.5.1'
+```
 
 ## Build the User Interface and display your data: Hits and helpers 
 
-We'll start with a minimal interface: a search bar and a list of results.
+InstantSearch Android is based on a system of [widgets][widgets] that communicate when an user interacts with your app. The first widget we'll add is [Hits][widgets-hits], which will display your search results (and as your app has no input for now, we will trigger the search programmatically).
 
-- First, replace the layout by a vertical `LinearLayout`:
+
+- To keep this guide simple, we'll replace the main activity's layout by a vertical `LinearLayout`:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
@@ -39,15 +43,15 @@ We'll start with a minimal interface: a search bar and a list of results.
 </LinearLayout>
 ```
 
-- Add Hits
+- You can then add the `Hits` widget to your layout:
 ```xml
 <com.algolia.instantsearch.ui.views.Hits
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         algolia:itemLayout="@layout/hits_item"/>
 ```
-
-- Create `hits_item.xml` layout:
+Its `itemLayout` attribute specifies the layout that will be used to display each item of the results. This layout will contain a view for each attribute of our data that we want to display.
+- Let's create a new layout called `hits_item.xml`:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -137,3 +141,6 @@ public class MainActivity extends AppCompatActivity {
 ## Help the user understand your results: Highlighting
 
 ## Filter your data: the RefinementList
+
+[widgets]: /widgets.html
+[widgets-hits]: /widgets.html#hits
