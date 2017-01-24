@@ -1,4 +1,4 @@
 #! /usr/bin/env bash
 cd docgen
-yarn preview
+npm run preview
 

@@ -17,6 +17,6 @@ printf "\n\nRelease: update working tree"
 git pull origin master
 git fetch origin --tags
 
-(cd docgen && NODE_ENV=production yarn build)
+(cd docgen && NODE_ENV=production npm run build)
 git commit -m "chore: Update docs"
 git push origin master
