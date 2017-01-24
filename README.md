@@ -1,4 +1,4 @@
-<img src="docs/instant-search-android.png" alt="InstantSearch Android" />
+<img src="img/instant-search-android.png" alt="InstantSearch Android" />
 
 [![Build Status](https://travis-ci.com/algolia/instantsearch-android.svg?token=bgTPqva7dW7pbzDMM6e1&branch=master)](https://travis-ci.com/algolia/instantsearch-android)
 
@@ -108,7 +108,7 @@ An **`AlgoliaWidget`** is a specialization of the `AlgoliaResultsListener` inter
 When linked to a `Searcher`, the widget's `setSearcher` method will be called to provide it a reference to its Searcher, which is useful to some widgets. For example, the `Hits` widget uses it to load more results as the user scrolls.
 
 ## SearchBox
-<img src="docs/widget_SearchBox.png" align="right"/>
+<img src="img/widget_SearchBox.png" align="right"/>
 
 The **SearchBox** is a specialized `SearchView` which provides some customization options and facility methods. Apart from the existing `SearchView` attributes, it exposes two attributes you can specify in its XML definition:
 
@@ -126,7 +126,7 @@ The **SearchBox** is a specialized `SearchView` which provides some customizatio
 - **`submitButtonEnabled`**, when `true`, will display the SearchBox with its submit button. This button is hidden by default: as every keystroke will update the results, it is usually misleading to display a submit button.
 
 ## Hits
-<img src="docs/widget_Hits.png" align="right"/>
+<img src="img/widget_Hits.png" align="right"/>
 
 The **Hits** widget is made to display your search results in a flexible way. Built over a `RecyclerView`, it displays a limited window into a large data set of search results.
 
@@ -219,8 +219,8 @@ As explained [in the attributes description](#hits), you can use the attributes 
 The Hits widget implements an empty view mechanism to display an alternative View if there are no results to display, following the [AdapterView's interface](https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)).
 If you add a View to your layout with the id `@android:id/empty`, it will be displayed instead of the Hits when there is no data to display.  You can also set it programmatically using `Hits#setEmptyView(View)`.
 
-[media-gif]: ./docs/media.gif
-[ecommerce-gif]: ./docs/ecommerce.gif
+[media-gif]: ./img/media.gif
+[ecommerce-gif]: ./img/ecommerce.gif
 [media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
 
@@ -228,7 +228,7 @@ If you add a View to your layout with the id `@android:id/empty`, it will be dis
 This important feature of the `Hits` widget is explained in the [dedicated Highlighting section of this readme]((#highlighting-1)).
 
 ## RefinementList
-<img src="docs/widget_RefinementList.png" align="right"/>
+<img src="img/widget_RefinementList.png" align="right"/>
 
 The **RefinementList** is a filtering widget made to display your [facets](https://www.algolia.com/doc/guides/search/filtering-faceting#faceting) and let the user refine the search results.
 
@@ -260,7 +260,7 @@ Four attributes allow you to configure how it will filter your results:
 In the previous code sample, `sortBy="['isRefined', 'count']"` will display the refined facets before the non-refined ones, and will then sort them by decreasing count.
 
 ## Stats
-<img src="docs/widget_Stats.png" align="right"/>
+<img src="img/widget_Stats.png" align="right"/>
 
 **Stats** is a widget for displaying statistics about the current search result. You can configure it with two attributes:
 
@@ -289,7 +289,7 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
   If you don't specify an `errorTemplate`, the Stats widget will be hidden when a query returns an error.
 
 # Highlighting
-<img src="docs/highlighting.png" align="right"/>
+<img src="img/highlighting.png" align="right"/>
 
 Visually highlighting the search result is [an essential feature of a great search interface](https://blog.algolia.com/inside-the-algolia-engine-part-5-highlighting-a-cornerstone-to-search-ux/). It will help your users understand your results by explaining them why a result is relevant to their query.
 
@@ -322,7 +322,7 @@ The default Highlighter will highlight anything between `<em>` and `</em>`. You 
 *See for example the [e-commerce app][ecommerce-url]'s [`CategoryOrTypeView`](https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java), a TextView which takes either the `category` or the `type` attribute of a record and [highlights it](https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java#L25) before displaying.*
 
 # Progress indicator
-<img src="docs/progress.gif" align="right" />
+<img src="img/progress.gif" align="right" />
 
 A useful pattern to improve your user's experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.
 
