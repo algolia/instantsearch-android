@@ -95,7 +95,7 @@ public class Logger {
 ```
 
 ## Highlighting
-<img src="docs/highlighting.png" align="right"/>
+<img src="assets/img/highlighting.png" align="right"/>
 
 Visually highlighting the search result is [an essential feature of a great search interface](https://blog.algolia.com/inside-the-algolia-engine-part-5-highlighting-a-cornerstone-to-search-ux/). It will help your users understand your results by explaining them why a result is relevant to their query.
 
@@ -128,7 +128,7 @@ The default Highlighter will highlight anything between `<em>` and `</em>`. You 
 *See for example the [e-commerce app][ecommerce-url]'s [`CategoryOrTypeView`](https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java), a TextView which takes either the `category` or the `type` attribute of a record and [highlights it](https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java#L25) before displaying.*
 
 ## Progress indicator
-<img src="docs/progress.gif" align="right" />
+<img src="assets/img/progress.gif" align="right" />
 
 A useful pattern to improve your user's experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.
 
