@@ -17,5 +17,6 @@ git pull origin master
 git fetch origin --tags
 
 (cd docgen && NODE_ENV=production npm run build)
+git add docs/
 git commit -m "chore: Update docs"
 git push origin master
