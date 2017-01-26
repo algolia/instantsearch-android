@@ -137,3 +137,5 @@ You can change this delay by calling `InstantSearchHelper#enableProgressBar(int)
 
 Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java).  
 Once instantiated, a **SearchProgressController** will inform its [`ProgressListener`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java#L99) when some requests are sent with `onStart()`, and will call `onStop()` when all current requests have returned.
+
+[ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
