@@ -6,7 +6,7 @@ const docsDist = process.env.DOCS_DIST;
 export default {
   docsDist:  docsDist? docsDist :
              prod ? rootPath('docs') : // avoids publishing an `npm start`ed build if running.
-             rootPath('docs-dev'),
+             rootPath('docs-preview'),
   publicPath: prod ? '/instantsearch-android/' :
     '/',
 };
