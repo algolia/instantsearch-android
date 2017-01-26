@@ -22,3 +22,6 @@ projectFilesBackup
 docs-dev/
 docs-preview/
 preview.zip
+
+# Logs
+npm-debug.log
