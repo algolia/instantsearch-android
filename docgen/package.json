@@ -6,9 +6,9 @@
   "scripts": {
     "start": "babel-node start.js",
     "build": "babel-node build.js",
-    "build-preview": "DOCS_DIST=docs-preview/instantsearch-android/;  NODE_ENV=production npm run build && mv $DOCS_DIST/_redirects $DOCS_DIST/../; unset DOCS_DIST",
-    "deploy-preview": "rm -f preview.zip && zip -r -9 preview.zip docs-preview/ && netlify deploy && rm preview.zip",
-    "preview": "npm run build-preview && npm run deploy-preview"
+    "build-preview": "DOCS_DIST=../docs-preview/instantsearch-android/; mkdir -p $DOCS_DIST && NODE_ENV=production yarn build && mv $DOCS_DIST/_redirects $DOCS_DIST/../; unset DOCS_DIST",
+    "deploy-preview": "rm -f preview.zip && ls .. && zip -r -9 preview.zip ../docs-preview/ && netlify deploy && rm preview.zip",
+    "preview": "yarn build-preview && yarn deploy-preview"
   },
   "dependencies": {
     "autoprefixer": "^6.6.0",

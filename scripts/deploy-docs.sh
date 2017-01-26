@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -e # exit when error
 
 currentBranch=`git rev-parse --abbrev-ref HEAD`
