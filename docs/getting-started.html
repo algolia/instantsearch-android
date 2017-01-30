@@ -14,7 +14,7 @@ We will start from an empty Android project, and create from scratch a full sear
 <li>On the Add an Activity screen, select <strong>Empty Activity</strong></li>
 </ul>
 <p>in your app’s <code>build.gradle</code>, add the following dependency:</p>
-<pre class="CodeMirror cm-s-mdn-like"><code>compile &#39;com.algolia:instantsearch-android:0.5.1&#39;
+<pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-variable">compile</span> <span class="cm-string">&#39;com.algolia:instantsearch-android:0.5.1&#39;</span>
 </code></pre>
 <h2 id="build-the-user-interface-and-display-your-data-hits-and-helpers">Build the User Interface and display your data: Hits and helpers <a class="anchor" href="getting-started.html#build-the-user-interface-and-display-your-data-hits-and-helpers" aria-hidden="true"></a></h2>
 <p>InstantSearch Android is based on a system of <a href="/widgets.html">widgets</a> that communicate when an user interacts with your app. The first widget we’ll add is <a href="/widgets.html#hits">Hits</a>, which will display your search results (and as your app has no input for now, we will trigger the search programmatically).</p>
@@ -64,9 +64,9 @@ We will start from an empty Android project, and create from scratch a full sear
 <ul>
 <li>Add databinding:</li>
 </ul>
-<pre class="CodeMirror cm-s-mdn-like"><code>android {
-    dataBinding.enabled true
-    //...
+<pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-variable">android</span> {
+    <span class="cm-variable">dataBinding</span>.<span class="cm-property">enabled</span> <span class="cm-atom">true</span>
+    <span class="cm-comment">//...</span>
 }
 </code></pre>
 <ul>
@@ -102,18 +102,18 @@ We will start from an empty Android project, and create from scratch a full sear
 <ul>
 <li>Setup Searcher and InstantSearchHelper</li>
 </ul>
-<pre class="CodeMirror cm-s-mdn-like"><code>public class MainActivity extends AppCompatActivity {
-    private static final String ALGOLIA_APP_ID = &quot;latency&quot;;
-    private static final String ALGOLIA_SEARCH_API_KEY = &quot;3d9875e51fbd20c7754e65422f7ce5e1&quot;;
-    private static final String ALGOLIA_INDEX_NAME = &quot;bestbuy&quot;;
+<pre class="CodeMirror cm-s-eclipse"><code><span class="cm-keyword">public</span> <span class="cm-keyword">class</span> <span class="cm-def">MainActivity</span> <span class="cm-keyword">extends</span> <span class="cm-variable">AppCompatActivity</span> {
+    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-variable-3">String</span> <span class="cm-variable">ALGOLIA_APP_ID</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;latency&quot;</span>;
+    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-variable-3">String</span> <span class="cm-variable">ALGOLIA_SEARCH_API_KEY</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;3d9875e51fbd20c7754e65422f7ce5e1&quot;</span>;
+    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-variable-3">String</span> <span class="cm-variable">ALGOLIA_INDEX_NAME</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;bestbuy&quot;</span>;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Searcher searcher = new Searcher(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, ALGOLIA_INDEX_NAME);
-        InstantSearchHelper helper = new InstantSearchHelper(this, searcher);
-        helper.search(); // First empty search to display default results
+    <span class="cm-meta">@Override</span>
+    <span class="cm-keyword">protected</span> <span class="cm-variable-3">void</span> <span class="cm-variable">onCreate</span>(<span class="cm-variable">Bundle</span> <span class="cm-variable">savedInstanceState</span>) {
+        <span class="cm-keyword">super</span>.<span class="cm-variable">onCreate</span>(<span class="cm-variable">savedInstanceState</span>);
+        <span class="cm-variable">setContentView</span>(<span class="cm-variable">R</span>.<span class="cm-variable">layout</span>.<span class="cm-variable">activity_main</span>);
+        <span class="cm-variable">Searcher</span> <span class="cm-variable">searcher</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">Searcher</span>(<span class="cm-variable">ALGOLIA_APP_ID</span>, <span class="cm-variable">ALGOLIA_SEARCH_API_KEY</span>, <span class="cm-variable">ALGOLIA_INDEX_NAME</span>);
+        <span class="cm-variable">InstantSearchHelper</span> <span class="cm-variable">helper</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">InstantSearchHelper</span>(<span class="cm-keyword">this</span>, <span class="cm-variable">searcher</span>);
+        <span class="cm-variable">helper</span>.<span class="cm-variable">search</span>(); <span class="cm-comment">// First empty search to display default results</span>
     }
 }
 </code></pre>

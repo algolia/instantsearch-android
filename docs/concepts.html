@@ -41,24 +41,24 @@ When linked to a <code>Searcher</code>, the widget’s <code>setSearcher</code> 
 <li>when a request errors via a <code>ErrorEvent(AlgoliaException error, Query query, int requestSeqNumber)</code></li>
 </ul>
 <p>We use EventBus to dispatch events. You can register an object to the event bus using <code>EventBus.getDefault().register(this);</code> after which it will receive events on methods annotated by <code>@Subscribe</code>:</p>
-<pre class="CodeMirror cm-s-mdn-like"><code>public class Logger {
-    Logger() {
-        EventBus.getDefault().register(this);
+<pre class="CodeMirror cm-s-eclipse"><code><span class="cm-keyword">public</span> <span class="cm-keyword">class</span> <span class="cm-def">Logger</span> {
+    <span class="cm-variable">Logger</span>() {
+        <span class="cm-variable">EventBus</span>.<span class="cm-variable">getDefault</span>().<span class="cm-variable">register</span>(<span class="cm-keyword">this</span>);
     }
 
-    @Subscribe
-    onSearchEvent(SearchEvent e) {
-        Log.d(&quot;Logger&quot;, &quot;Search:&quot; + e.query);
+    <span class="cm-meta">@Subscribe</span>
+    <span class="cm-variable">onSearchEvent</span>(<span class="cm-variable">SearchEvent</span> <span class="cm-variable">e</span>) {
+        <span class="cm-variable">Log</span>.<span class="cm-variable">d</span>(<span class="cm-string">&quot;Logger&quot;</span>, <span class="cm-string">&quot;Search:&quot;</span> <span class="cm-operator">+</span> <span class="cm-variable">e</span>.<span class="cm-variable">query</span>);
     }
 
-    @Subscribe
-    onResultEvent(ResultEvent e) {
-        Log.d(&quot;Logger&quot;, &quot;Result:&quot; + e.query);
+    <span class="cm-meta">@Subscribe</span>
+    <span class="cm-variable">onResultEvent</span>(<span class="cm-variable">ResultEvent</span> <span class="cm-variable">e</span>) {
+        <span class="cm-variable">Log</span>.<span class="cm-variable">d</span>(<span class="cm-string">&quot;Logger&quot;</span>, <span class="cm-string">&quot;Result:&quot;</span> <span class="cm-operator">+</span> <span class="cm-variable">e</span>.<span class="cm-variable">query</span>);
     }
 }
 </code></pre>
 <h2 id="highlighting">Highlighting <a class="anchor" href="concepts.html#highlighting" aria-hidden="true"></a></h2>
-<img src="docs/highlighting.png" align="right"/>
+<img src="assets/img/highlighting.png" align="right"/>
 <p>Visually highlighting the search result is <a href="https://blog.algolia.com/inside-the-algolia-engine-part-5-highlighting-a-cornerstone-to-search-ux/">an essential feature of a great search interface</a>. It will help your users understand your results by explaining them why a result is relevant to their query.</p>
 <h3 id="with-the-widget-and-system-views">With the <code>Hits</code> widget and system Views <a class="anchor" href="concepts.html#with-the-widget-and-system-views" aria-hidden="true"></a></h3>
 <p>A highlighting mechanism is built-in with the <code>Hits</code> widget. To highlight a textual attribute, simply add the <code>highlighted</code> attribute on its view:</p>
@@ -73,12 +73,12 @@ When linked to a <code>Searcher</code>, the widget’s <code>setSearcher</code> 
 <h3 id="with-custom-hit-views-or-a-custom-widget">With custom Hit Views or a custom Widget <a class="anchor" href="concepts.html#with-custom-hit-views-or-a-custom-widget" aria-hidden="true"></a></h3>
 <p>To highlight an attribute in your <code>AlgoliaHitView</code> or to highlight results received by your <a href="#anatomy-of-an-algoliawidget">custom widget</a>, you should use the <strong>Highligter</strong>.
 This tool will let you build a highlighted <a href="https://developer.android.com/reference/android/text/Spannable.html"><code>Spannable</code></a> from a search result and an optional highlight color:</p>
-<pre class="CodeMirror cm-s-mdn-like"><code>final Spannable highlightedAttribute = Highlighter.getDefault().renderHighlightColor(result, attributeToHighlight, context);
+<pre class="CodeMirror cm-s-eclipse"><code><span class="cm-keyword">final</span> <span class="cm-variable">Spannable</span> <span class="cm-variable">highlightedAttribute</span> <span class="cm-operator">=</span> <span class="cm-variable">Highlighter</span>.<span class="cm-variable">getDefault</span>().<span class="cm-variable">renderHighlightColor</span>(<span class="cm-variable">result</span>, <span class="cm-variable">attributeToHighlight</span>, <span class="cm-variable">context</span>);
 </code></pre>
 <p>The default Highlighter will highlight anything between <code>&lt;em&gt;</code> and <code>&lt;/em&gt;</code>. You can configure the Highlighter to highlight between any pair of terms with <code>Highlighter.setDefault(newPrefix, newSuffix)</code>, or use a RegExp pattern to highlight any captured part with <code>Highlighter.setDefault(newPattern)</code>.</p>
-<p><em>See for example the [e-commerce app][ecommerce-url]'s <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java"><code>CategoryOrTypeView</code></a>, a TextView which takes either the <code>category</code> or the <code>type</code> attribute of a record and <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java#L25">highlights it</a> before displaying.</em></p>
+<p><em>See for example the <a href="https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce">e-commerce app</a>’s <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java"><code>CategoryOrTypeView</code></a>, a TextView which takes either the <code>category</code> or the <code>type</code> attribute of a record and <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java#L25">highlights it</a> before displaying.</em></p>
 <h2 id="progress-indicator">Progress indicator <a class="anchor" href="concepts.html#progress-indicator" aria-hidden="true"></a></h2>
-<img src="docs/progress.gif" align="right" />
+<img src="assets/img/progress.gif" align="right" />
 <p>A useful pattern to improve your user’s experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.</p>
 <p>By default, the InstantSearchHelper will display an indeterminate <a href="https://developer.android.com/reference/android/widget/ProgressBar.html"><code>ProgressBar</code></a> in your <code>SearchView</code> as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (&gt;= API 14), or after a small delay to avoid blinking.
 You can change this delay by calling <code>InstantSearchHelper#enableProgressBar(int)</code> with a delay in milliseconds, or disable this progress indicator with <code>InstantSearchHelper#disableProgressBar()</code>.</p>
