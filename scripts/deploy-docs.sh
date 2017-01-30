@@ -7,7 +7,7 @@ if [ $currentBranch != 'master' ]; then
   exit 1
 fi
 
-if [[ -n $(git status --porcelain) ]]; then
+if [[ -n $(git status --porcelain | grep -v '??') ]]; then
   printf "Release: Working tree is not clean (git status)\n"
   exit 1
 fi
