@@ -7,8 +7,10 @@ withHeadings: true
 navWeight: 100
 ---
 
-*This guide will walk you through the few steps needed to start a project with InstantSearch Android.  
+*This guide will walk you through the few steps needed to start a project with InstantSearch Android.
 We will start from an empty Android project, and create from scratch a full search interface!*
+
+<img src="assets/img/mvp/final.png"/>
 
 ## Before we start
 To use InstantSearch Android, you need an Algolia account. You can create one by clicking here, or use the following credentials:
@@ -28,7 +30,7 @@ compile 'com.algolia:instantsearch-android:0.5.1'
 
 ## Build the User Interface and display your data: Hits and helpers 
 
-InstantSearch Android is based on a system of [widgets][widgets] that communicate when an user interacts with your app. The first widget we'll add is [Hits][widgets-hits], which will display your search results (and as your app has no input for now, we will trigger the search programmatically).
+InstantSearch Android is based on a system of [widgets][widgets] that communicate when an user interacts with your app. The first widget we'll add is **[Hits][widgets-hits]**, which will display your search results.
 
 
 - To keep this guide simple, we'll replace the main activity's layout by a vertical `LinearLayout`:
@@ -73,15 +75,17 @@ Its `itemLayout` attribute specifies the layout that will be used to display eac
 </LinearLayout>
 ```
 
-- Add databinding:
+- InstantSearch Android will automatically bind your records to these Views using the [Data Binding Library][dbl].
+First, enable it in your app's `build.gradle`:
 ```groovy
 android {
     dataBinding.enabled true
     //...
 }
 ```
-- Wrap layout in `<layout>` and add databinding attributes:
-
+- To use data binding in your layout, wrap it in a **`<layout>`** root tag.  
+You can then specify which View will hold each record's attribute:  
+add **`algolia:attribute='@{"foo"}'`** on a View to bind it to the `foo` attribute of your data:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:algolia="http://schemas.android.com/apk/res-auto">
@@ -94,24 +98,43 @@ android {
             android:id="@+id/product_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            algolia:attribute="{'thumbnailImage'}"/>
+            algolia:attribute='@{"image"}'/>
 
         <TextView
             android:id="@+id/product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            algolia:attribute="{'name'}"/>
+            algolia:attribute='@{"name"}'/>
 
         <TextView
             android:id="@+id/product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            algolia:attribute="{'price'}"/>
+            algolia:attribute='@{"price"}'/>
     </LinearLayout>
 </layout>
 ```
+*Beware of the data binding attributes' syntax: **@'{"string"}'**.*
 
-- Setup Searcher and InstantSearchHelper
+You have now a main activity layout containing your `Hits` widget, and a data-binding layout ready to display your search results. You just miss a search query to display its results!  
+As your application has no input for now, we will trigger the search programmatically.  
+
+- In your `MainActivity`, create a [`Searcher`][searcher] with your credentials:
+```java
+Searcher searcher = new Searcher(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, ALGOLIA_INDEX_NAME);
+```
+
+- Instantiate an [`InstantSearchHelper`][instantsearchhelper] to link your `Searcher` to your Activity:
+```java
+InstantSearchHelper helper = new InstantSearchHelper(this, searcher);
+```
+
+- Now your Activity is connected to Algolia through the Searcher, you can trigger a search using [`InstantSearchHelper#search(String)`][doc-instantsearch-search]:
+```java
+helper.search(); // Search with empty query
+```
+
+Your activity should now look like this:
 
 ```java
 public class MainActivity extends AppCompatActivity {
@@ -129,18 +152,81 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
+
+----
+
+<img src="assets/img/mvp/step1.png" align="right"/>
+
+**Build and run your application: you now have an InstantSearch Android app displaying your data!**
+
+In this part you've learned:
+- How to build your interface with Widgets by adding the `Hits` widget
+- How to create a data-binding `<layout>` for displaying search results
+- How to initialize Algolia with your credentials
+- How to trigger a search query programmatically
+
 ## Search your data: the SearchBox
 
-- Add SearchBox to `main_activity.xml`
+Your application displays search results, but for now the user cannot input anything.  
+This will be the role of another Widget: the [`SearchBox`][widgets-searchbox].
+
+
+- Add a `SearchBox` to your `main_activity.xml`:
 ```xml
 <com.algolia.instantsearch.ui.views.SearchBox
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 ```
 
+InstantSearch will automatically recognize your SearchBox as a source of search queries.  
+Restart your app and tap a few characters: you now have a fully functional search interface!
+
 ## Help the user understand your results: Highlighting
 
-## Filter your data: the RefinementList
+<img src="assets/img/mvp/step2.png" align="right"/>
 
+Your application lets the user search and displays results, but doesn't explain _why_ these results match the user's query.
+
+You can improve it by using the [Highlighting][highlighting] feature: just add `algolia:highlighted="@{true}"` to every Views where the query should be highlighted:
+
+```xml
+<TextView
+    android:id="@+id/product_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    algolia:attribute='@{"name"}'
+    algolia:highlighted='@{true}'/>
+```
+
+<br />
+
+Restart your application and type something in the SearchBox: the results are displayed with your keywords highlighted in these Views!
+
+<!-- TODO: Add Filtering when RefinementList is a mobile-ready component
+## Filter your data: the RefinementList
+-->
+
+
+You now know how to:
+- Add a search input with the `SearchView` widget
+- Highlight search results with `algolia:highlighted`
+
+----
+
+
+## Go further
+
+Your application now displays your data, lets your users enter a query and displays search results as-they-type: you just built an instant-search interface! Congratulations 🎉  
+
+This is only an introduction to what you can do with InstantSearch Android: have a look at our [examples][examples] to see more complex examples of applications built with InstantSearch.  
+You can also head to our [Widgets page][widgets] to see the other components that you could use.
+
+[examples]: /examples.html
 [widgets]: /widgets.html
 [widgets-hits]: /widgets.html#hits
+[widgets-searchbox]: /widgets.html#hits
+[dbl]: https://developer.android.com/topic/libraries/data-binding/index.html
+[searcher]: /concepts.html#searcher
+[instantsearchhelper]: /concepts.html#instantsearchhelper
+[highlighting]: /widgets.html#highlighting
+[doc-instantsearch-search]: /javadoc/com/algolia/instantsearch/ui/InstantSearchHelper.html#search--
