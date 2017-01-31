@@ -43,8 +43,9 @@ import java.util.Set;
  */
 public class InstantSearchHelper {
     /** Delay before displaying progressbar when the current android API does not support animations. {@literal (API < 14)} */
-    public static final int DELAY_PROGRESSBAR_NO_ANIMATIONS = 200;
+    @SuppressWarnings("WeakerAccess") public static final int DELAY_PROGRESSBAR_NO_ANIMATIONS = 200;
 
+    @Nullable
     private SearchViewFacade searchView;
     @NonNull
     private final Set<AlgoliaWidget> widgets = new HashSet<>();
@@ -110,7 +111,11 @@ public class InstantSearchHelper {
      * Start a new search with the searchView's text.
      */
     public void search() {
-        searcher.search(searchView.getQuery().toString());
+        if (searchView != null) {
+            searcher.search(searchView.getQuery().toString());
+        } else {
+            searcher.search();
+        }
     }
 
     /**
@@ -121,8 +126,10 @@ public class InstantSearchHelper {
     public void search(@NonNull Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            searchView.setQuery(query, false);
-            searchView.clearFocus();
+            if (searchView != null) {
+                searchView.setQuery(query, false);
+                searchView.clearFocus();
+            }
             searcher.search(query);
         }
     }
@@ -188,8 +195,10 @@ public class InstantSearchHelper {
         if (searchView == null) {
             searchView = getSearchView(rootView);
         }
-        linkSearchViewToSearcher(searchView);
-        linkSearchViewToActivity(activity, searchView);
+        if (searchView != null) {
+            linkSearchViewToSearcher(searchView);
+            linkSearchViewToActivity(activity, searchView);
+        }
 
         // Register any AlgoliaWidget
         final List<AlgoliaWidget> foundListeners = LayoutViews.findByClass(rootView, AlgoliaWidget.class);
@@ -245,8 +254,9 @@ public class InstantSearchHelper {
     public void initSearchFrom(@NonNull Activity activity) {
         final View rootView = activity.getWindow().getDecorView().getRootView();
         SearchViewFacade searchView = getSearchView(rootView);
-
-        linkSearchViewToActivity(activity, searchView);
+        if (searchView != null) {
+            linkSearchViewToActivity(activity, searchView);
+        }
     }
 
     /**
@@ -382,9 +392,9 @@ public class InstantSearchHelper {
         return searchOnEmptyString;
     }
 
-    @NonNull
+    @Nullable
     private static SearchViewFacade getSearchView(@NonNull View rootView) {
-        SearchViewFacade facade;
+        SearchViewFacade facade = null;
 
         // Either the developer uses our SearchBox
         final List<SearchBox> searchBoxes = LayoutViews.findByClass(rootView, SearchBox.class);
@@ -399,7 +409,7 @@ public class InstantSearchHelper {
             if (searchViews.size() == 0) { // Or he uses a support SearchView
                 final List<android.support.v7.widget.SearchView> supportViews = LayoutViews.findByClass(rootView, android.support.v7.widget.SearchView.class);
                 if (supportViews.size() == 0) { // We should find at least one
-                    throw new IllegalStateException(Errors.LAYOUT_MISSING_SEARCHBOX);
+                    Log.e("Algolia|InstantSearch", Errors.LAYOUT_MISSING_SEARCHBOX);
                 } else if (supportViews.size() > 1) { // One of those should have the id @id/searchBox
                     final SearchView labeledSearchView = (SearchView) rootView.findViewById(R.id.searchBox);
                     if (labeledSearchView == null) {
