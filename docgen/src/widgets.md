@@ -25,6 +25,19 @@ The **SearchBox** is a specialized `SearchView` which provides some customizatio
 - **`autofocus`**, when `true`, will make the SearchBox request the user's focus when displayed. (defaults to `false`)
 - **`submitButtonEnabled`**, when `true`, will display the SearchBox with its submit button. This button is hidden by default: as every keystroke will update the results, it is usually misleading to display a submit button.
 
+### Progress indicator
+<img src="assets/img/progress.gif" align="right" />
+<!-- TODO: Move to separate guide -->
+
+A useful pattern to improve your user's experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.
+
+By default, the InstantSearchHelper will display an indeterminate [`ProgressBar`](https://developer.android.com/reference/android/widget/ProgressBar.html) in your `SearchView` as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (>= API 14), or after a small delay to avoid blinking.
+You can change this delay by calling `InstantSearchHelper#enableProgressBar(int)` with a delay in milliseconds, or disable this progress indicator with `InstantSearchHelper#disableProgressBar()`.
+
+Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java).  
+Once instantiated, a **SearchProgressController** will inform its [`ProgressListener`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java#L99) when some requests are sent with `onStart()`, and will call `onStop()` when all current requests have returned.
+
+
 ## Hits
 <img src="assets/img/widget_Hits.png" align="right"/>
 
@@ -122,6 +135,7 @@ The Hits widget implements an empty view mechanism to display an alternative Vie
 If you add a View to your layout with the id `@android:id/empty`, it will be displayed instead of the Hits when there is no data to display.  You can also set it programmatically using `Hits#setEmptyView(View)`.
 
 ### Highlighting
+<img src="assets/img/highlighting.png" align="right"/>
 
 A highlighting mechanism is built-in with the `Hits` widget. To highlight a textual attribute, simply add the `highlighted` attribute on its view:
 
@@ -208,14 +222,5 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
 
   If you don't specify an `errorTemplate`, the Stats widget will be hidden when a query returns an error.
 
-### Progress indicator
-<img src="assets/img/progress.gif" align="right" />
-<!-- TODO: Move to separate guide -->
-
-A useful pattern to improve your user's experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.
-
-By default, the InstantSearchHelper will display an indeterminate [`ProgressBar`](https://developer.android.com/reference/android/widget/ProgressBar.html) in your `SearchView` as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (>= API 14), or after a small delay to avoid blinking.
-You can change this delay by calling `InstantSearchHelper#enableProgressBar(int)` with a delay in milliseconds, or disable this progress indicator with `InstantSearchHelper#disableProgressBar()`.
-
-Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java).  
-Once instantiated, a **SearchProgressController** will inform its [`ProgressListener`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java#L99) when some requests are sent with `onStart()`, and will call `onStop()` when all current requests have returned.
+[media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
+[ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
