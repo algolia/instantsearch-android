@@ -20,19 +20,19 @@ public class SearchBox extends SearchView {
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SearchBox, 0, 0);
 
         try {
-            final boolean iconifiedByDefault;
-            iconifiedByDefault = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB &&
-                    attrs.getAttributeBooleanValue(android.R.attr.iconifiedByDefault, true); // iconifiedByDefault requires API >= 11
-            final boolean submitButtonEnabled = styledAttributes.getBoolean(R.styleable.SearchBox_submitButtonEnabled, false);
-            final boolean autofocus = styledAttributes.getBoolean(R.styleable.SearchBox_autofocus, false);
+            setIconifiedByDefault(false); // By default, don't collapse SearchBox
+            for (int i = 0; i < attrs.getAttributeCount(); i++) {
+                if ("iconifiedByDefault".equals(attrs.getAttributeName(i))) {
+                    setIconifiedByDefault(attrs.getAttributeBooleanValue(i, false)); // Unless iconifiedByDefault is set
+                }
+            }
 
-            if (autofocus) {
+            if (styledAttributes.getBoolean(R.styleable.SearchBox_autofocus, false)) {
                 setFocusable(true);
                 setIconified(false);
                 requestFocusFromTouch();
             }
-            setIconifiedByDefault(iconifiedByDefault);
-            setSubmitButtonEnabled(submitButtonEnabled);
+            setSubmitButtonEnabled(styledAttributes.getBoolean(R.styleable.SearchBox_submitButtonEnabled, false));
         } finally {
             styledAttributes.recycle();
         }
