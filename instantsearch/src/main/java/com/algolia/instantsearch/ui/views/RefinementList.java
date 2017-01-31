@@ -74,7 +74,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
 
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.RefinementList, 0, 0);
         try {
-            attribute = styledAttributes.getString(R.styleable.RefinementList_attribute);
+            attribute = styledAttributes.getString(R.styleable.View_attribute);
             if (attribute == null) {
                 throw new AlgoliaException(Errors.REFINEMENTS_MISSING_ATTRIBUTE);
             }

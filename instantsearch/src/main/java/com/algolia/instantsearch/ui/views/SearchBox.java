@@ -41,6 +41,7 @@ public class SearchBox extends SearchView {
     /**
      * Disable fullscreen keyboard display in landscape mode. This only works on {@literal >= 4.1} devices.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void disableFullScreen() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
             setImeOptions(getImeOptions() | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
@@ -50,6 +51,7 @@ public class SearchBox extends SearchView {
     /**
      * Enable fullscreen keyboard display in landscape mode. This only works on {@literal >= 4.1} devices.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void enableFullScreen() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
             setImeOptions(getImeOptions() & EditorInfo.IME_FLAG_NO_EXTRACT_UI);

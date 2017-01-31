@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="View">
+        <attr name="attribute" format="string"/>
+        <attr name="highlighted" format="boolean"/>
+        <attr name="highlightColor" format="color"/>
+    </declare-styleable>
     <declare-styleable name="SearchBox">
         <attr name="autofocus" format="boolean"/>
         <attr name="submitButtonEnabled" format="boolean"/>
@@ -11,7 +16,6 @@
         <attr name="remainingItemsBeforeLoading" format="integer"/>
     </declare-styleable>
     <declare-styleable name="RefinementList">
-        <attr name="attribute" format="string"/>
         <attr name="operator" format="string">
             <enum name="or" value="0"/>
             <enum name="and" value="1"/>
