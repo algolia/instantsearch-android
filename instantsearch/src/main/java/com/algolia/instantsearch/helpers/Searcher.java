@@ -66,6 +66,7 @@ public class Searcher {
      *
      * @param index an Index initialized and eventually configured.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher(@NonNull final Index index) {
         this.index = index;
         this.client = index.getClient();
@@ -257,6 +258,7 @@ public class Searcher {
      *
      * @return true if there is at least one pending request.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public boolean hasPendingRequests() {
         return pendingRequests.size() != 0;
     }
@@ -264,6 +266,7 @@ public class Searcher {
     /**
      * Cancels all requests still waiting for a response.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher cancelPendingRequests() {
         if (pendingRequests.size() != 0) {
             for (int i = 0; i < pendingRequests.size(); i++) {
@@ -320,6 +323,7 @@ public class Searcher {
      * @param value         the facet's value to refine with.
      */
     @NonNull
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addFacetRefinement(@NonNull String attributeName, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attributeName);
         if (attributeRefinements == null) {
@@ -339,6 +343,7 @@ public class Searcher {
      * @param value         the facet's value to refine with.
      */
     @NonNull
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeFacetRefinement(@NonNull String attributeName, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attributeName);
         if (attributeRefinements == null) {
@@ -358,6 +363,7 @@ public class Searcher {
      * @param value         the facet's value to check.
      * @return {@code true} if {@code attributeName} is being refined with {@code value}.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public boolean hasFacetRefinement(@NonNull String attributeName, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attributeName);
         return attributeRefinements != null && attributeRefinements.contains(value);
@@ -367,6 +373,7 @@ public class Searcher {
      * Clear all facet refinements for the next queries.
      * This method resets the current page to 0.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher clearFacetRefinements() {
         refinementMap.clear();
         disjunctiveFacets.clear();
@@ -381,6 +388,7 @@ public class Searcher {
      *
      * @param attribute the attribute's name.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher clearFacetRefinements(@NonNull String attribute) {
         final List<String> stringList = refinementMap.get(attribute);
         if (stringList != null) {
@@ -404,6 +412,7 @@ public class Searcher {
         for (Map.Entry<String, Boolean> entry : booleanFilterMap.entrySet()) {
             facetFilters.put(entry.getKey() + ":" + entry.getValue());
         }
+        //noinspection deprecation Deprecated for app developers
         query.setFacetFilters(facetFilters);
         query.setPage(0);
         return this;
@@ -416,8 +425,8 @@ public class Searcher {
      * @param operator  one of the {@link NumericRefinement#OPERATOR_EQ operators} defined in {@link NumericRefinement}.
      * @return a {@link NumericRefinement} describing the current refinement for these parameters, or {@code null} if there is none.
      */
-    @Nullable
-    public NumericRefinement getNumericRefinement(@NonNull String attribute, int operator) {
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public @Nullable NumericRefinement getNumericRefinement(@NonNull String attribute, int operator) {
         NumericRefinement.checkOperatorIsValid(operator);
         final SparseArray<NumericRefinement> attributeRefinements = numericRefinements.get(attribute);
         return attributeRefinements == null ? null : attributeRefinements.get(operator);
@@ -428,6 +437,7 @@ public class Searcher {
      *
      * @param refinement a {@link NumericRefinement} refining an attribute with a numerical value.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addNumericRefinement(@NonNull NumericRefinement refinement) {
         SparseArray<NumericRefinement> refinements = numericRefinements.get(refinement.attribute);
         if (refinements == null) {
@@ -444,6 +454,7 @@ public class Searcher {
      *
      * @param attribute the attribute that may have a refinement.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull String attribute) {
         numericRefinements.remove(attribute);
         rebuildQueryNumericFilters();
@@ -457,6 +468,7 @@ public class Searcher {
      * @param attribute an attribute that maybe has some refinements.
      * @param operator  an {@link NumericRefinement#OPERATOR_EQ operator}.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull String attribute, int operator) {
         NumericRefinement.checkOperatorIsValid(operator);
         numericRefinements.get(attribute).remove(operator);
@@ -469,6 +481,7 @@ public class Searcher {
      *
      * @param refinement a description of the refinement to remove.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull NumericRefinement refinement) {
         NumericRefinement.checkOperatorIsValid(refinement.operator);
         numericRefinements.get(refinement.attribute).remove(refinement.operator);
@@ -494,6 +507,7 @@ public class Searcher {
      * @param attribute the attribute to refine on.
      * @param value     the value to refine with.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addBooleanFilter(String attribute, Boolean value) {
         booleanFilterMap.put(attribute, value);
         rebuildQueryFacetFilters();
@@ -506,9 +520,8 @@ public class Searcher {
      * @param attribute the attribute that may have a refinement.
      * @return the refinement value, or {@code null} if there is none.
      */
-    public
-    @Nullable
-    Boolean getBooleanFilter(String attribute) {
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public @Nullable Boolean getBooleanFilter(String attribute) {
         return booleanFilterMap.get(attribute);
     }
 
@@ -517,6 +530,7 @@ public class Searcher {
      *
      * @param attribute the attribute that may have a refinement.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeBooleanFilter(String attribute) {
         booleanFilterMap.remove(attribute);
         rebuildQueryFacetFilters();
@@ -592,6 +606,7 @@ public class Searcher {
     /**
      * Update the facet stats, calling {@link Index#search(Query)} without notifying listeners of the result.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void getUpdatedFacetStats() {
         index.searchAsync(query, new CompletionHandler() {
             @Override
@@ -605,12 +620,14 @@ public class Searcher {
         });
     }
 
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addFacet(String... attributes) {
         Collections.addAll(facets, attributes);
         rebuildQueryFacets();
         return this;
     }
 
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeFacet(String... attributes) {
         for (String attribute : attributes) {
             facets.remove(attribute);
@@ -680,6 +697,8 @@ public class Searcher {
         return this;
     }
 
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    //TODO: Document every public method
     public Index getIndex() {
         return index;
     }
@@ -691,8 +710,8 @@ public class Searcher {
      *
      * @param indexName name of the new index.
      */
-    @NonNull
-    public Searcher setIndex(@NonNull String indexName) {
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public @NonNull Searcher setIndex(@NonNull String indexName) {
         index = client.getIndex(indexName);
         query.setPage(0);
         return this;

@@ -81,6 +81,7 @@ public class InstantSearchHelper {
      * @param menuItemId the SearchView item's {@link android.support.annotation.IdRes id} in your Menu.
      * @param searcher   the Searcher to use with this activity.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public InstantSearchHelper(@NonNull final Activity activity, @NonNull Menu menu, @IdRes int menuItemId, @NonNull final Searcher searcher) {
         this(searcher);
 
@@ -94,6 +95,7 @@ public class InstantSearchHelper {
      * @param widget   an AlgoliaWidget to update with incoming results.
      * @param searcher the Searcher to use with this AlgoliaWidget.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public InstantSearchHelper(@NonNull final AlgoliaWidget widget, @NonNull final Searcher searcher) {
         this(searcher);
         processWidget(((View) widget).getRootView(), widget, null);
@@ -128,6 +130,7 @@ public class InstantSearchHelper {
     /**
      * Resets the search interface and state via {@link Searcher#reset()} and {@link AlgoliaWidget#onReset()}.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void reset() {
         searcher.reset();
         for (AlgoliaWidget widget : widgets) {
@@ -143,6 +146,7 @@ public class InstantSearchHelper {
      * @param menu     The Menu that contains a search item.
      * @param id       The identifier of the menu's search item.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void registerSearchView(@NonNull final Activity activity, @NonNull Menu menu, int id) {
         searchMenu = menu;
         searchMenuId = id;
@@ -156,6 +160,7 @@ public class InstantSearchHelper {
      * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
      * @param searchView a SearchView where the query text will be picked up from.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void registerSearchView(@NonNull final Activity activity, @NonNull final SearchView searchView) {
         registerSearchView(activity, new SearchViewFacade(searchView));
     }
@@ -166,6 +171,7 @@ public class InstantSearchHelper {
      * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
      * @param searchView a SearchView where the query text will be picked up from.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void registerSearchView(@NonNull final Activity activity, @NonNull final android.support.v7.widget.SearchView searchView) {
         registerSearchView(activity, new SearchViewFacade(searchView));
     }
@@ -202,6 +208,7 @@ public class InstantSearchHelper {
 
     private void processWidget(View rootView, AlgoliaWidget widget, @Nullable List<String> refinementAttributes) {
         widgets.add(widget);
+        //noinspection deprecation Deprecated for app developers
         searcher.registerListener(widget);
         widget.setSearcher(searcher);
 
@@ -255,6 +262,7 @@ public class InstantSearchHelper {
     /**
      * Enable the display of a {@link android.widget.ProgressBar ProgressBar} in the SearchView when waiting for results.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void enableProgressBar() {
         showProgressBar = true;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
