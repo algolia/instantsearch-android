@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.0 (2017-01-31)
+
+### Features
+- You can now use the `InstantSearchHelper` and the Widget system even if you don't have any `SearchView` ([e462661](https://github.com/algolia/instantsearch-android/commit/e462661))
+
+### Fixes
+- **SearchBox:** Fix iconifiedByDefault usage - we now use the current attribute's value if it is set, and default to false otherwise ([ac8ff47](https://github.com/algolia/instantsearch-android/commit/ac8ff47))
+
+### Improvements
+- We declared all data-binding attributes to improve your developing experience ([4d8fd3d](https://github.com/algolia/instantsearch-android/commit/4d8fd3d))
+
 ## 0.5.3 (2017-01-12)
 
 ### Improvements
