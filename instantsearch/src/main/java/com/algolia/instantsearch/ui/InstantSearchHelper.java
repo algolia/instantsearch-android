@@ -236,6 +236,7 @@ public class InstantSearchHelper {
             if (!widgets.contains(widget)) {
                 widgets.add(widget);
             }
+            //noinspection deprecation Deprecated for app developers
             searcher.registerListener(widget);
             searcher.addFacet(((RefinementList) widget).getAttribute(), ((RefinementList) widget).getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
             if (refinementAttributes != null) {
@@ -251,6 +252,7 @@ public class InstantSearchHelper {
      *
      * @param activity the activity with a {@link SearchView} identified as @+id/searchBox.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void initSearchFrom(@NonNull Activity activity) {
         final View rootView = activity.getWindow().getDecorView().getRootView();
         SearchViewFacade searchView = getSearchView(rootView);
@@ -264,6 +266,7 @@ public class InstantSearchHelper {
      *
      * @param delay a delay to wait between firing a request and displaying the indicator.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void enableProgressBar(int delay) {
         enableProgressBar();
         progressBarDelay = delay;
@@ -295,6 +298,7 @@ public class InstantSearchHelper {
     /**
      * Disable the {@link android.widget.ProgressBar ProgressBar}, removing it if it is already displayed.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void disableProgressBar() {
         updateProgressBar(searchView, false);
         progressController.disable();
@@ -384,11 +388,13 @@ public class InstantSearchHelper {
      *
      * @param searchOnEmptyString if true, a request will be fired.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void setSearchOnEmptyString(boolean searchOnEmptyString) {
         this.searchOnEmptyString = searchOnEmptyString;
     }
 
-    public boolean searchOnEmptyString() {
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public boolean hasSearchOnEmptyString() {
         return searchOnEmptyString;
     }
 
