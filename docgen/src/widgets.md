@@ -224,6 +224,17 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
 
   If you don't specify an `errorTemplate`, the Stats widget will be hidden when a query returns an error.
 
+## Custom widgets
+
+If none of these widgets fits your use-case, you can implement your own! 
+
+Any `View` implementing the [`AlgoliaResultsListener`](javadoc/com/algolia/instantsearch/model/AlgoliaResultsListener.html) interface will be picked-up by `InstantSearchHelper` at instantiation. You simply need to implement two methods:
+- `onResults` will be called when new results are received
+- `onError` will be called when there is an error
+
+This interface also specifies `setSearcher`, to give a reference to the `Searcher` used in your search interface. It will enable your widget to uses the [Searcher's programmatic API][docs-searcher].
+
 [media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
-[blog-highlighting]: TODO 
+[blog-highlighting]: TODO
+[docs-searcher]: /javadoc/com/algolia/instantsearch/helpers/Searcher.html
