@@ -57,12 +57,14 @@ This widget exposes a few attributes that you can set in its xml definition:
 ```
 
 - **`hitsPerPage`** controls how many hits are requested and displayed with each search query. (defaults to 20)
-- **`disableInfiniteScroll`**, when `true`, disables the [**Infinite scroll**](#infinite-scroll) feature (defaults to `false`)
+- **`disableInfiniteScroll`**, when `true`, disables the [**Infinite scroll**][infinite-scroll] feature (defaults to `false`)
 - **`remainingItemsBeforeLoading`** sets the minimum number of remaining hits to load the next page: if you set it to 10, the next page will be loaded when there are less than 10 items below the last visible item. (defaults to 5)
 - **`itemLayout`**, finally, is used to determine the appearance of the search results.
 
-This last attribute should reference a layout file in which you will describe how a search result should be displayed. When receiving results from its `Searcher`, this widget will bind the given layout to each result to display its attributes in the appropriate Views.
+This last attribute should reference a layout file in which you will [describe how a search result will be displayed][guide-layout]. When receiving results from its `Searcher`, this widget will bind the given layout to each result to display its attributes in the appropriate Views.
 
+[infinite-scroll]: widgets.html#infinite-scroll
+[guide-layout]: getting-started.html#itemlayout
 ### Data Binding
 
 This binding is done using the [Android DataBinding Library](https://developer.android.com/topic/libraries/data-binding/index.html), which allows to link a layout to an application's data. To enable this feature, add `dataBinding.enabled true` to your app's `build.gradle` under `android`:
@@ -118,7 +120,7 @@ Currently, the Hits widget handles natively the following Views and their subcla
 
 #### Custom hit views
 
-Apart from those system components, any `View` can be used to hold an attribute if it implements the [`AlgoliaHitView`](/instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaHitView.java) interface. In this case, we will call `onUpdateView(JSONObject result)` and the view will be responsible of using the result's JSON to display the hit.
+Apart from these ones, any `View` can be used to hold an attribute if it implements the [`AlgoliaHitView`](/instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaHitView.java) interface. In this case, we will call `onUpdateView(JSONObject result)` and the view will be responsible of using the result's JSON to display the hit.
 
 *See for example the [media app][media-url]'s [`TimestampHitView`](https://github.com/algolia/instantsearch-android-examples/blob/master/media/src/main/java/com/algolia/instantsearch/examples/media/views/TimestampHitView.java), a TextView which transforms a timestamp attribute to display a human-readable date instead.*
 
@@ -127,17 +129,17 @@ Apart from those system components, any `View` can be used to hold an attribute 
 An infinite scroll mechanism is built in to load more results as the user scrolls.
 Enabled by default, it will watch the state of the Hits to load more results before the user reaches the end of the current page.
 
-As explained [in the attributes description](#hits), you can use the attributes `disableInfiniteScroll` and `remainingItemsBeforeLoading` to control or disable this feature.
+As explained [in the attributes description](#hits), you can use the attributes `remainingItemsBeforeLoading` and `disableInfiniteScroll` to control or disable this feature.
 
 ### Empty View
 
 The Hits widget implements an empty view mechanism to display an alternative View if there are no results to display, following the [AdapterView's interface](https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)).
-If you add a View to your layout with the id `@android:id/empty`, it will be displayed instead of the Hits when there is no data to display.  You can also set it programmatically using `Hits#setEmptyView(View)`.
+If you add a View to your layout with the id **`@android:id/empty`**, it will be displayed instead of the Hits when there is no data to display.  You can also set it programmatically using `Hits#setEmptyView(View)`.
 
 ### Highlighting
 <img src="assets/img/highlighting.png" align="right"/>
 
-A highlighting mechanism is built-in with the `Hits` widget. To highlight a textual attribute, simply add the `highlighted` attribute on its view:
+A [highlighting][blog-highlighting] mechanism is built-in with the `Hits` widget. To highlight a textual attribute, simply add the `highlighted` attribute on its view:
 
 ```xml
 <TextView
@@ -145,9 +147,9 @@ A highlighting mechanism is built-in with the `Hits` widget. To highlight a text
     algolia:attribute='@{"city"}'
     algolia:highlighted="@{true}"/>
 ```
-This will highlight the attribute according to the query term, like you can see in the screenshot. The color used for highlighting is `R.color.colorHighlighting`, which you can override in your application.
+This will highlight the attribute according to the query term, like you can see in the screenshot. The color used by default for highlighting is `R.color.colorHighlighting`, which you can override in your application.
 
-Alternatively, you can specify `algolia:highlightingColor='@{"color/appDefinedColor"}'` to use a specific color for the current view.
+You can also specify `algolia:highlightingColor='@{"color/appDefinedColor"}'` on a `View` to use a specific color for this one only.
 
 Note that highlighting **only works automatically on TextViews**. if you implement a [custom hit view](#custom-hit-views) or to highlight results received by your [custom widget](#anatomy-of-an-algoliawidget), you should use the `Highlighter`.
 This tool will let you build a highlighted [`Spannable`](https://developer.android.com/reference/android/text/Spannable.html) from a search result and an optional highlight color:
@@ -224,3 +226,4 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
 
 [media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
+[blog-highlighting]: TODO 

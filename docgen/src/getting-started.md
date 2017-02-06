@@ -13,10 +13,12 @@ We will start from an empty Android project, and create from scratch a full sear
 <img src="assets/img/mvp/final.png"/>
 
 ## Before we start
-To use InstantSearch Android, you need an Algolia account. You can create one by clicking here, or use the following credentials:
+To use InstantSearch Android, you need an Algolia account. You can create one by clicking [here](FIXME) <!--TODO link-->, or use the following credentials:
 - APP ID: `latency`
 - Search API Key: `3d9875e51fbd20c7754e65422f7ce5e1`
-- Index name: `bestbuy`
+- Index name: `bestbuy`  
+
+*These credentials will let you use a preloaded dataset of products appropriate for this guide.*
 
 ## Create a new Project and add InstantSearch Android
 In Android Studio, create a new Project: 
@@ -45,6 +47,8 @@ InstantSearch Android is based on a system of [widgets][widgets] that communicat
 </LinearLayout>
 ```
 
+<div id="itemlayout" />
+
 - You can then add the `Hits` widget to your layout:
 ```xml
 <com.algolia.instantsearch.ui.views.Hits
@@ -52,8 +56,9 @@ InstantSearch Android is based on a system of [widgets][widgets] that communicat
         android:layout_height="wrap_content"
         algolia:itemLayout="@layout/hits_item"/>
 ```
-Its `itemLayout` attribute specifies the layout that will be used to display each item of the results. This layout will contain a view for each attribute of our data that we want to display.
-- Let's create a new layout called `hits_item.xml`:
+
+The `itemLayout` attribute references a layout that will be used to display each item of the results. This layout will contain a `View` for each attribute of our data that we want to display.
+- Let's create a new layout called **`hits_item.xml`**:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -148,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Searcher searcher = new Searcher(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, ALGOLIA_INDEX_NAME);
         InstantSearchHelper helper = new InstantSearchHelper(this, searcher);
-        helper.search(); // First empty search to display default results
+        helper.search();
     }
 }
 ```
@@ -163,12 +168,16 @@ In this part you've learned:
 - How to build your interface with Widgets by adding the `Hits` widget
 - How to create a data-binding `<layout>` for displaying search results
 - How to initialize Algolia with your credentials
-- How to trigger a search query programmatically
+- How to trigger a search programmatically
 
 ## Search your data: the SearchBox
 
 Your application displays search results, but for now the user cannot input anything.  
-This will be the role of another Widget: the [`SearchBox`][widgets-searchbox].
+This will be the role of another Widget: the **[`SearchBox`][widgets-searchbox]**.
+  
+
+<img src="assets/img/widget_SearchBox.png" />
+
 
 
 - Add a `SearchBox` to your `main_activity.xml`:
@@ -208,7 +217,7 @@ Restart your application and type something in the SearchBox: the results are di
 
 
 You now know how to:
-- Add a search input with the `SearchView` widget
+- Add a search input with the `SearchBox` widget
 - Highlight search results with `algolia:highlighted`
 
 ----
