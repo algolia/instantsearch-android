@@ -2,12 +2,13 @@
 We will start from an empty Android project, and create from scratch a full search interface!</em></p>
 <img src="assets/img/mvp/final.png"/>
 <h2 id="before-we-start">Before we start <a class="anchor" href="getting-started.html#before-we-start" aria-hidden="true"></a></h2>
-<p>To use InstantSearch Android, you need an Algolia account. You can create one by clicking here, or use the following credentials:</p>
+<p>To use InstantSearch Android, you need an Algolia account. You can create one by clicking <a href="FIXME">here</a> <!--TODO link-->, or use the following credentials:</p>
 <ul>
 <li>APP ID: <code>latency</code></li>
 <li>Search API Key: <code>3d9875e51fbd20c7754e65422f7ce5e1</code></li>
 <li>Index name: <code>bestbuy</code></li>
 </ul>
+<p><em>These credentials will let you use a preloaded dataset of products appropriate for this guide.</em></p>
 <h2 id="create-a-new-project-and-add-instantsearch-android">Create a new Project and add InstantSearch Android <a class="anchor" href="getting-started.html#create-a-new-project-and-add-instantsearch-android" aria-hidden="true"></a></h2>
 <p>In Android Studio, create a new Project:</p>
 <ul>
@@ -31,6 +32,7 @@ We will start from an empty Android project, and create from scratch a full sear
     <span class="cm-attribute">android:orientation</span>=<span class="cm-string">&quot;vertical&quot;</span><span class="cm-tag cm-bracket">&gt;</span>
 <span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">LinearLayout</span><span class="cm-tag cm-bracket">&gt;</span>
 </code></pre>
+<div id="itemlayout" />
 <ul>
 <li>You can then add the <code>Hits</code> widget to your layout:</li>
 </ul>
@@ -39,9 +41,9 @@ We will start from an empty Android project, and create from scratch a full sear
         <span class="cm-attribute">android:layout_height</span>=<span class="cm-string">&quot;wrap_content&quot;</span>
         <span class="cm-attribute">algolia:itemLayout</span>=<span class="cm-string">&quot;@layout/hits_item&quot;</span><span class="cm-tag cm-bracket">/&gt;</span>
 </code></pre>
-<p>Its <code>itemLayout</code> attribute specifies the layout that will be used to display each item of the results. This layout will contain a view for each attribute of our data that we want to display.</p>
+<p>The <code>itemLayout</code> attribute references a layout that will be used to display each item of the results. This layout will contain a <code>View</code> for each attribute of our data that we want to display.</p>
 <ul>
-<li>Let’s create a new layout called <code>hits_item.xml</code>:</li>
+<li>Let’s create a new layout called <strong><code>hits_item.xml</code></strong>:</li>
 </ul>
 <pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-meta">&lt;?xml</span> <span class="cm-meta">version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
 <span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">LinearLayout</span> <span class="cm-attribute">xmlns:android</span>=<span class="cm-string">&quot;http://schemas.android.com/apk/res/android&quot;</span>
@@ -133,7 +135,7 @@ As your application has no input for now, we will trigger the search programmati
         <span class="cm-variable">setContentView</span>(<span class="cm-variable">R</span>.<span class="cm-variable">layout</span>.<span class="cm-variable">activity_main</span>);
         <span class="cm-variable">Searcher</span> <span class="cm-variable">searcher</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">Searcher</span>(<span class="cm-variable">ALGOLIA_APP_ID</span>, <span class="cm-variable">ALGOLIA_SEARCH_API_KEY</span>, <span class="cm-variable">ALGOLIA_INDEX_NAME</span>);
         <span class="cm-variable">InstantSearchHelper</span> <span class="cm-variable">helper</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">InstantSearchHelper</span>(<span class="cm-keyword">this</span>, <span class="cm-variable">searcher</span>);
-        <span class="cm-variable">helper</span>.<span class="cm-variable">search</span>(); <span class="cm-comment">// First empty search to display default results</span>
+        <span class="cm-variable">helper</span>.<span class="cm-variable">search</span>();
     }
 }
 </code></pre>
@@ -145,11 +147,12 @@ As your application has no input for now, we will trigger the search programmati
 <li>How to build your interface with Widgets by adding the <code>Hits</code> widget</li>
 <li>How to create a data-binding <code>&lt;layout&gt;</code> for displaying search results</li>
 <li>How to initialize Algolia with your credentials</li>
-<li>How to trigger a search query programmatically</li>
+<li>How to trigger a search programmatically</li>
 </ul>
 <h2 id="search-your-data-the-searchbox">Search your data: the SearchBox <a class="anchor" href="getting-started.html#search-your-data-the-searchbox" aria-hidden="true"></a></h2>
 <p>Your application displays search results, but for now the user cannot input anything.<br>
-This will be the role of another Widget: the <a href="/widgets.html#hits"><code>SearchBox</code></a>.</p>
+This will be the role of another Widget: the <strong><a href="/widgets.html#hits"><code>SearchBox</code></a></strong>.</p>
+<img src="assets/img/widget_SearchBox.png" />
 <ul>
 <li>Add a <code>SearchBox</code> to your <code>main_activity.xml</code>:</li>
 </ul>
@@ -177,7 +180,7 @@ Restart your app and tap a few characters: you now have a fully functional searc
 -->
 <p>You now know how to:</p>
 <ul>
-<li>Add a search input with the <code>SearchView</code> widget</li>
+<li>Add a search input with the <code>SearchBox</code> widget</li>
 <li>Highlight search results with <code>algolia:highlighted</code></li>
 </ul>
 <hr>
