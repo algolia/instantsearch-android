@@ -13,7 +13,7 @@ We will start from an empty Android project, and create from scratch a full sear
 <img src="assets/img/mvp/final.png"/>
 
 ## Before we start
-To use InstantSearch Android, you need an Algolia account. You can create one by clicking [here](FIXME) <!--TODO link-->, or use the following credentials:
+To use InstantSearch Android, you need an Algolia account. You can create one by clicking [here](https://www.algolia.com/users/sign_up), or use the following credentials:
 - APP ID: `latency`
 - Search API Key: `3d9875e51fbd20c7754e65422f7ce5e1`
 - Index name: `bestbuy`  
