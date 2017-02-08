@@ -230,12 +230,12 @@ Your application now displays your data, lets your users enter a query and displ
 This is only an introduction to what you can do with InstantSearch Android: have a look at our [examples][examples] to see more complex examples of applications built with InstantSearch.  
 You can also head to our [Widgets page][widgets] to see the other components that you could use.
 
-[examples]: /examples.html
-[widgets]: /widgets.html
-[widgets-hits]: /widgets.html#hits
-[widgets-searchbox]: /widgets.html#hits
+[examples]: examples.html
+[widgets]: widgets.html
+[widgets-hits]: widgets.html#hits
+[widgets-searchbox]: widgets.html#hits
 [dbl]: https://developer.android.com/topic/libraries/data-binding/index.html
-[searcher]: /concepts.html#searcher
-[instantsearchhelper]: /concepts.html#instantsearchhelper
-[highlighting]: /widgets.html#highlighting
-[doc-instantsearch-search]: /javadoc/com/algolia/instantsearch/ui/InstantSearchHelper.html#search--
+[searcher]: concepts.html#searcher
+[instantsearchhelper]: concepts.html#instantsearchhelper
+[highlighting]: widgets.html#highlighting
+[doc-instantsearch-search]: javadoc/com/algolia/instantsearch/ui/InstantSearchHelper.html#search--
