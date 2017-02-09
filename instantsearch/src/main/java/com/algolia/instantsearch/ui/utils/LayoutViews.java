@@ -16,7 +16,7 @@ import java.util.List;
  * Helper to iterate on views in a layout.
  */
 final public class LayoutViews {
-    @NonNull public static List<View> findByTag(ViewGroup root, Object tag) {
+    @NonNull public static List<View> findByTag(@NonNull ViewGroup root, Object tag) {
         FinderByTag finderByTag = new FinderByTag(tag);
         LayoutTraverser.build(finderByTag).traverse(root);
         return finderByTag.getViews();
@@ -24,10 +24,10 @@ final public class LayoutViews {
 
     @NonNull public static <T> List<T> findByClass(@NonNull View rootView, Class<T> classType) {
         ViewGroup viewGroup = (ViewGroup) rootView.findViewById(android.R.id.content);
-        return findByClass(viewGroup, classType);
+        return viewGroup == null ? new ArrayList<T>() : findByClass(viewGroup, classType);
     }
 
-    @NonNull public static <T> List<T> findByClass(ViewGroup root, Class<T> classType) {
+    @NonNull public static <T> List<T> findByClass(@NonNull ViewGroup root, Class<T> classType) {
         FinderByClass<T> finderByClass = new FinderByClass<>(classType);
         LayoutTraverser.build(finderByClass)
                 .traverse(root);
