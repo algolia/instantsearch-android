@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -29,6 +30,7 @@ import com.algolia.instantsearch.ui.views.AlgoliaWidget;
 import com.algolia.instantsearch.ui.views.Hits;
 import com.algolia.instantsearch.ui.views.RefinementList;
 import com.algolia.instantsearch.ui.views.SearchBox;
+import com.algolia.instantsearch.ui.views.filters.AlgoliaFacetFilter;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -381,6 +383,14 @@ public class InstantSearchHelper {
     private void linkSearchViewToActivity(@NonNull Activity activity, @NonNull SearchViewFacade searchView) {
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
+    }
+
+    public void registerFilters(@NonNull ViewGroup rootView) {
+        final List<AlgoliaFacetFilter> filterViews = LayoutViews.findByClass(rootView, AlgoliaFacetFilter.class);
+        for (final AlgoliaFacetFilter filter : filterViews) {
+            searcher.addFacet(filter.getAttribute());
+            filter.defineListeners(searcher);
+        }
     }
 
     /**

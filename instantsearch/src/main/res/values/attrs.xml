@@ -27,4 +27,7 @@
         <attr name="resultTemplate" format="string"/>
         <attr name="errorTemplate" format="string"/>
     </declare-styleable>
+    <declare-styleable name="FilterCheckBox">
+        <attr name="value" format="string"/>
+    </declare-styleable>
 </resources>
