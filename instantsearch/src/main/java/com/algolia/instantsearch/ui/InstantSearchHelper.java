@@ -460,7 +460,10 @@ public class InstantSearchHelper {
      * @return the empty view if it was in the given rootView.
      */
     @Nullable
-    private static View getEmptyView(@NonNull View rootView) {
+    private static View getEmptyView(@Nullable View rootView) {
+        if (rootView == null) {
+            throw new RuntimeException("A null rootView was passed to getEmptyView, but Hits/RefinementList require one.");
+        }
         return rootView.findViewById(android.R.id.empty);
     }
 }
