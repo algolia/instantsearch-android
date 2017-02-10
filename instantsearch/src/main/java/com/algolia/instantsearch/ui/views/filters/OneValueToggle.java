@@ -56,19 +56,16 @@ public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
      * Change the OneValueToggle's value, updating facet refinements accordingly.
      *
      * @param newValue the new value to refine with.
-     * @param newAttributeName an eventual new attribute name.
+     * @param newName  an eventual new attribute name.
      */
-    public void setValue(String newValue, @Nullable String newAttributeName) {
+    public void setValue(String newValue, @Nullable String newName) {
         if (isChecked()) {
-            final String newRefinementName = newAttributeName == null
-                    ? this.attributeName
-                    : newAttributeName;
             searcher.updateFacetRefinement(this.attributeName, value, false)
-                    .updateFacetRefinement(newRefinementName, newValue, true)
+                    .updateFacetRefinement(newName != null ? newName : attributeName, newValue, true)
                     .search();
         }
-
         this.value = newValue;
-        this.attributeName = newAttributeName;
+        applyEventualNewName(newName);
     }
+
 }

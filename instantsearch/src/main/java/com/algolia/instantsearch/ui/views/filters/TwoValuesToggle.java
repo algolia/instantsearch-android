@@ -70,29 +70,30 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
     /**
      * Change the Toggle's valueOn, updating facet refinements accordingly.
      *
-     * @param newValue         valueOn's new value.
-     * @param newAttributeName an eventual new attribute name.
+     * @param newValue valueOn's new value.
+     * @param newName  an eventual new attribute name.
      */
-    public void setValueOn(String newValue, @Nullable String newAttributeName) {
+    public void setValueOn(String newValue, @Nullable String newName) {
         if (isRefined && isChecked()) { // refining on valueOn: facetRefinement needs an update
             searcher.updateFacetRefinement(attributeName, valueOn, false)
-                    .updateFacetRefinement(newAttributeName != null ? newAttributeName : attributeName, newValue, true)
+                    .updateFacetRefinement(newName != null ? newName : attributeName, newValue, true)
                     .search();
         }
         this.valueOn = newValue;
+        applyEventualNewName(newName);
     }
 
     /**
      * Change the Toggle's valueOff, updating facet refinements accordingly.
      *
-     * @param newValue         valueOff's new value.
-     * @param newAttributeName an eventual new attribute name.
+     * @param newValue valueOff's new value.
+     * @param newName  an eventual new attribute name.
      */
-    public void setValueOff(String newValue, @Nullable String newAttributeName) {
+    public void setValueOff(String newValue, @Nullable String newName) {
         if (isRefined) { // we may need to update facets
             if (!isChecked()) { // refining on valueOff: facetRefinement needs an update
                 searcher.updateFacetRefinement(attributeName, valueOff, false)
-                        .updateFacetRefinement(newAttributeName != null ? newAttributeName : attributeName, newValue, true)
+                        .updateFacetRefinement(newName != null ? newName : attributeName, newValue, true)
                         .search();
             }
         } else { // now we have a valueOff, let's refine with it
@@ -100,5 +101,6 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
             isRefined = true;
         }
         this.valueOff = newValue;
+        applyEventualNewName(newName);
     }
 }
