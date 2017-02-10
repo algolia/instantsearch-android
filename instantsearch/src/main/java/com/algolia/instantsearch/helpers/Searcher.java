@@ -629,6 +629,7 @@ public class Searcher {
 
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeFacet(String... attributes) {
+        //TODO: Count calls to add() and remove only if last one
         for (String attribute : attributes) {
             facets.remove(attribute);
         }
