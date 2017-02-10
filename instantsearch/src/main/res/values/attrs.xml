@@ -27,7 +27,11 @@
         <attr name="resultTemplate" format="string"/>
         <attr name="errorTemplate" format="string"/>
     </declare-styleable>
-    <declare-styleable name="FilterCheckBox">
-        <attr name="value" format="string"/>
+    <declare-styleable name="Toggle">
+        <attr name="attributeName" format="string"/>
+        <attr name="valueOn" format="string"/>
+        <attr name="valueOff" format="string"/>
+        <!-- True if the Toggle should hide when results are empty. -->
+        <attr name="autoHide" format="boolean"/>
     </declare-styleable>
 </resources>
