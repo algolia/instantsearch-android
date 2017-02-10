@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.util.AttributeSet;
-import android.widget.CompoundButton;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helpers.Searcher;
@@ -13,22 +12,19 @@ import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
-
-public class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter {
+/**
+ * A widget that toggles between refining and not refining an attribute with a given value.
+ */
+public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter {
     /** The attribute to refine on. */
     public String attributeName;
-    /** The value to apply when the Toggle is checked. */
-    public String valueOn;
-    /** An eventual value to apply when the Toggle is unchecked. */
-    public String valueOff;
-    /** True if the Toggle should hide when results are empty. */
+    /** True if the OneValueToggle should hide when results are empty. */
     public boolean autoHide;
-    /** A template to use as the Toggle's text. */
+    /** A template to use as the OneValueToggle's text. */
     public String template;
 
-    private Searcher searcher;
-    private boolean isRefined;
-    private boolean shouldHide;
+    protected Searcher searcher;
+    protected boolean shouldHide;
 
     public Toggle(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -36,75 +32,46 @@ public class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter {
         try {
             attributeName = styledAttributes.getString(R.styleable.Toggle_attributeName);
             template = styledAttributes.getString(R.styleable.Toggle_template);
-            valueOn = styledAttributes.getString(R.styleable.Toggle_valueOn);
-            valueOff = styledAttributes.getString(R.styleable.Toggle_valueOff);
             autoHide = styledAttributes.getBoolean(R.styleable.Toggle_autoHide, false);
-            if (valueOff != null) {
-                isRefined = true;
-            }
         } finally {
             styledAttributes.recycle();
         }
     }
 
-    @NonNull @Override public String getAttribute() {
+    @NonNull @Override public final String getAttribute() {
         return attributeName;
     }
 
-    @Override public void initWithSearcher(@NonNull final Searcher searcher) {
+    @Override public final void initWithSearcher(@NonNull final Searcher searcher) {
         this.searcher = searcher;
 
-        // If we have a valueOff, refine according to checked state
-        if (valueOff != null) {
-            searcher.updateFacetRefinement(attributeName, isChecked() ? valueOn : valueOff, true);
-        }
-
         // Setup user interaction listener
-        setOnCheckedChangeListener(new Toggle.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (valueOff == null) { // Apply valueOn if checked, else no refinement
-                    searcher.updateFacetRefinement(attributeName, valueOn, isChecked).search();
-                    isRefined = isChecked;
-                } else { // Toggle refined values
-                    searcher.updateFacetRefinement(attributeName, isChecked ? valueOn : valueOff, true)
-                            .updateFacetRefinement(attributeName, isChecked ? valueOff : valueOn, false)
-                            .search();
-                }
-            }
-        });
+        setOnCheckedChangeListener(getOnCheckedChangeListener());
 
         // First Search to fill template, eventually applying valueOff refinement
         searcher.search();
     }
 
-    @Override public void onResults(SearchResults results, boolean isLoadingMore) {
+    @Override public final void onReset() {
+    }
+
+    @Override public final void onResults(SearchResults results, boolean isLoadingMore) {
         checkShouldHide(results.nbHits == 0);
         if (template != null) {
-            final String appliedTemplate = template
-                    .replace("{name}", attributeName)
-//FIXME                    .replace("{count}", String.valueOf(results.facets.get(attributeName).size()))
-                    .replace("{isRefined}", String.valueOf(isRefined))
-                    .replace("{refinedValue}", String.valueOf(isRefined ?
-                            isChecked()? valueOn : valueOff
-                            : valueOn));
-            setText(appliedTemplate);
+            setText(applyTemplate(results));
         }
     }
 
-    @Override public void onReset() {
-    }
-
-    @Override public void onError(Query query, AlgoliaException error) {
+    @Override public final void onError(Query query, AlgoliaException error) {
         checkShouldHide(true);
     }
 
-    private void checkShouldHide(boolean newHideValue) {
+    protected final void checkShouldHide(boolean newHideValue) {
         this.shouldHide = newHideValue;
         checkShouldHide();
     }
 
-    private void checkShouldHide() {
+    protected final void checkShouldHide() {
         if (autoHide) {
             setVisibility(shouldHide ? GONE : VISIBLE);
         }
@@ -115,51 +82,25 @@ public class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter {
      *
      * @param newName the attribute's new name.
      */
-    public void setAttributeName(String newName) {
+    public final void setAttributeName(String newName) {
         searcher.removeFacet(attributeName).addFacet(newName);
-        if (isRefined) { // We need to update facetRefinement's attribute
-            String valueRefined = isChecked() ? valueOn : valueOff;
-            searcher.removeFacetRefinement(attributeName, valueRefined)
-                    .addFacetRefinement(newName, valueRefined).search();
-        }
+        updateRefinementWithNewName(newName);
         attributeName = newName;
     }
 
     /**
-     * Change the Toggle's valueOn, updating facet refinements accordingly.
+     * Change the Toggle's autoHide setting, hiding it if needed.
      *
-     * @param newValue valueOn's new value.
+     * @param autoHide {@code true} if the Toggle should hide on empty results.
      */
-    public void setValueOn(String newValue) {
-        if (isRefined && isChecked()) { // refining on valueOn: facetRefinement needs an update
-            searcher.updateFacetRefinement(attributeName, valueOn, false)
-                    .updateFacetRefinement(attributeName, newValue, true)
-                    .search();
-        }
-        this.valueOn = newValue;
-    }
-
-    /**
-     * Change the Toggle's valueOff, updating facet refinements accordingly.
-     *
-     * @param newValue valueOff's new value.
-     */
-    public void setValueOff(String newValue) {
-        if (isRefined) { // we may need to update facets
-            if (!isChecked()) { // refining on valueOff: facetRefinement needs an update
-                searcher.updateFacetRefinement(attributeName, valueOff, false)
-                        .updateFacetRefinement(attributeName, newValue, true)
-                        .search();
-            }
-        } else { // now we have a valueOff, let's refine with it
-            searcher.updateFacetRefinement(attributeName, newValue, true).search();
-            isRefined = true;
-        }
-        this.valueOff = newValue;
-    }
-
-    public void setAutoHide(boolean autoHide) {
+    public final void setAutoHide(boolean autoHide) {
         this.autoHide = autoHide;
         checkShouldHide();
     }
+
+    protected abstract OnCheckedChangeListener getOnCheckedChangeListener();
+
+    protected abstract String applyTemplate(SearchResults results);
+
+    protected abstract void updateRefinementWithNewName(String newName);
 }

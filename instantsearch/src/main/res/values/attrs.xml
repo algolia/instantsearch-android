@@ -32,7 +32,9 @@
         <attr name="valueOn" format="string"/>
         <attr name="valueOff" format="string"/>
         <attr name="template" format="string"/>
-        <!-- True if the Toggle should hide when results are empty. -->
         <attr name="autoHide" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="OneValueToggle">
+        <attr name="value" format="string"/>
     </declare-styleable>
 </resources>
