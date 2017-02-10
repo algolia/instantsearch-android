@@ -124,7 +124,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         };
     }
 
-    public void setSearcher(@NonNull Searcher searcher) {
+    public void initWithSearcher(@NonNull Searcher searcher) {
         this.searcher = searcher;
     }
 

@@ -227,7 +227,7 @@ public class InstantSearchHelper {
         }
         //noinspection deprecation Deprecated for app developers
         searcher.registerListener(widget);
-        widget.setSearcher(searcher);
+        widget.initWithSearcher(searcher);
 
         if (widget instanceof Hits) {
             searcher.getQuery().setHitsPerPage(((Hits) widget).getHitsPerPage());

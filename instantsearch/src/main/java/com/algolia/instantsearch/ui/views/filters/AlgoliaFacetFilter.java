@@ -3,8 +3,13 @@ package com.algolia.instantsearch.ui.views.filters;
 import android.support.annotation.NonNull;
 
 import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.ui.views.AlgoliaWidget;
 
-public interface AlgoliaFacetFilter {
+public interface AlgoliaFacetFilter extends AlgoliaWidget{
+    /**
+     * This method is called when initialising your AlgoliaFacetFilter to register its facet.
+     * @return The attribute to use for faceting.
+     */
     @NonNull String getAttribute();
 
     /**
@@ -14,5 +19,4 @@ public interface AlgoliaFacetFilter {
      *
      * @param searcher the Searcher used in your search interface.
      */
-    @NonNull void defineListeners(final Searcher searcher);
 }

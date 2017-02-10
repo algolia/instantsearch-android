@@ -34,7 +34,7 @@ public class Stats extends TextView implements AlgoliaWidget {
     }
 
     @Override
-    public void setSearcher(@NonNull Searcher searcher) {
+    public void initWithSearcher(@NonNull Searcher searcher) {
     }
 
     @Override

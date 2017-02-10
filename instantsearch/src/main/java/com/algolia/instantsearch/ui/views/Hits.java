@@ -212,7 +212,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     }
 
     @Override
-    public void setSearcher(@NonNull Searcher searcher) {
+    public void initWithSearcher(@NonNull Searcher searcher) {
         this.searcher = searcher;
     }
 
