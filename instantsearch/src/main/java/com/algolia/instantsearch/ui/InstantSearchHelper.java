@@ -217,8 +217,14 @@ public class InstantSearchHelper {
         }
     }
 
-    private void processWidget(View rootView, AlgoliaWidget widget, @Nullable List<String> refinementAttributes) {
-        widgets.add(widget);
+    private void processWidget(AlgoliaWidget widget) {
+        processWidget(null, widget, null);
+    }
+
+    private void processWidget(@Nullable View rootView, AlgoliaWidget widget, @Nullable List<String> refinementAttributes) {
+        if (!widgets.contains(widget)) {
+            widgets.add(widget);
+        }
         //noinspection deprecation Deprecated for app developers
         searcher.registerListener(widget);
         widget.setSearcher(searcher);
@@ -235,9 +241,6 @@ public class InstantSearchHelper {
                 throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
             }
         } else if (widget instanceof RefinementList) {
-            if (!widgets.contains(widget)) {
-                widgets.add(widget);
-            }
             //noinspection deprecation Deprecated for app developers
             searcher.registerListener(widget);
             searcher.addFacet(((RefinementList) widget).getAttribute(), ((RefinementList) widget).getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());

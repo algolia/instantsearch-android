@@ -642,7 +642,7 @@ public class Searcher {
         return this;
     }
 
-    @Deprecated //DISCUSS: Should we expose this?
+    @Deprecated
     public Searcher registerListener(@NonNull AlgoliaResultsListener resultsListener) {
         if (!resultsListeners.contains(resultsListener)) {
             resultsListeners.add(resultsListener);
