@@ -21,9 +21,10 @@ public class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter {
     public String valueOn;
     /** An eventual value to apply when the Toggle is unchecked. */
     public String valueOff;
-
     /** True if the Toggle should hide when results are empty. */
     public boolean autoHide;
+    /** A template to use as the Toggle's text. */
+    public String template;
 
     private Searcher searcher;
     private boolean isRefined;
@@ -34,6 +35,7 @@ public class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter {
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Toggle, 0, 0);
         try {
             attributeName = styledAttributes.getString(R.styleable.Toggle_attributeName);
+            template = styledAttributes.getString(R.styleable.Toggle_template);
             valueOn = styledAttributes.getString(R.styleable.Toggle_valueOn);
             valueOff = styledAttributes.getString(R.styleable.Toggle_valueOff);
             autoHide = styledAttributes.getBoolean(R.styleable.Toggle_autoHide, false);
@@ -54,7 +56,7 @@ public class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter {
 
         // If we have a valueOff, refine according to checked state
         if (valueOff != null) {
-            searcher.updateFacetRefinement(attributeName, isChecked() ? valueOn : valueOff, true).search();
+            searcher.updateFacetRefinement(attributeName, isChecked() ? valueOn : valueOff, true);
         }
 
         // Setup user interaction listener
@@ -71,11 +73,23 @@ public class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter {
                 }
             }
         });
+
+        // First Search to fill template, eventually applying valueOff refinement
+        searcher.search();
     }
 
     @Override public void onResults(SearchResults results, boolean isLoadingMore) {
         checkShouldHide(results.nbHits == 0);
-        //TODO: Use results to implement text template
+        if (template != null) {
+            final String appliedTemplate = template
+                    .replace("{name}", attributeName)
+//FIXME                    .replace("{count}", String.valueOf(results.facets.get(attributeName).size()))
+                    .replace("{isRefined}", String.valueOf(isRefined))
+                    .replace("{refinedValue}", String.valueOf(isRefined ?
+                            isChecked()? valueOn : valueOff
+                            : valueOn));
+            setText(appliedTemplate);
+        }
     }
 
     @Override public void onReset() {
