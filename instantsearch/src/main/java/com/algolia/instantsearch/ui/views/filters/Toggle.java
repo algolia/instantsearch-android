@@ -3,6 +3,7 @@ package com.algolia.instantsearch.ui.views.filters;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.util.AttributeSet;
 
@@ -25,6 +26,7 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
 
     protected Searcher searcher;
     protected boolean shouldHide;
+    private SearchResults lastResults;
 
     public Toggle(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -60,6 +62,7 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         if (template != null) {
             setText(applyTemplate(results));
         }
+        lastResults = results;
     }
 
     @Override public final void onError(Query query, AlgoliaException error) {
@@ -98,9 +101,25 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         checkShouldHide();
     }
 
+    public final void setTemplate(String template) {
+        this.template = template;
+        setText(applyTemplate(lastResults));
+    }
+
+    /** If given a new name, update searcher's facets and attribute. */
+    protected void applyEventualNewName(@Nullable String newName) {
+        if (newName != null) {
+            searcher.removeFacet(attributeName).addFacet(newName);
+            this.attributeName = newName;
+        }
+    }
+
+    /** Subclasses should define their OnCheckedChangeListener. */
     protected abstract OnCheckedChangeListener getOnCheckedChangeListener();
 
+    /** Subclasses should apply their templates according to the given results. */
     protected abstract String applyTemplate(SearchResults results);
 
+    /** Subclasses should update their refinements according to the given name. */
     protected abstract void updateRefinementWithNewName(String newName);
 }
