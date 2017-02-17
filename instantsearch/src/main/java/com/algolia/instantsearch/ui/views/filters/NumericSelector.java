@@ -22,9 +22,12 @@ import java.util.List;
 
 
 public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFilter, AdapterView.OnItemSelectedListener {
+    public static final Double DEFAULT_VALUE = null;
+
     private final boolean autoHide;
     private String attributeName;
     private int operator;
+    private String defaultLabel;
     private final List<Double> values;
 
     private Searcher searcher;
@@ -44,6 +47,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
             Filters.checkAttributeName(attributeName);
             autoHide = filterStyledAttributes.getBoolean(R.styleable.Filter_autoHide, false);
             operator = selectorStyleAttributes.getInt(R.styleable.NumericSelector_operatorName, NumericRefinement.OPERATOR_EQ);
+            defaultLabel = selectorStyleAttributes.getString(R.styleable.NumericSelector_defaultLabel);
 
             String labelString = selectorStyleAttributes.getString(R.styleable.NumericSelector_labels);
             String valueString = selectorStyleAttributes.getString(R.styleable.NumericSelector_values);
@@ -54,9 +58,18 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
                 if (labelString == null || valueString == null) {
                     throw new IllegalStateException("You need to either specify both labels and values or none of those.");
                 } else {
-                    labels = new ArrayList<>(Arrays.asList(labelString.split(",")));
+                    final String[] labelStrings = labelString.split(",");
                     final List<String> valuesStrList = Arrays.asList(valueString.split(","));
-                    values = new ArrayList<>(valuesStrList.size());
+                    if (defaultLabel == null) {
+                        labels = new ArrayList<>(Arrays.asList(labelStrings));
+                        values = new ArrayList<>(valuesStrList.size());
+                    } else {
+                        labels = new ArrayList<>(labelStrings.length + 1);
+                        labels.add(defaultLabel);
+                        labels.addAll(Arrays.asList(labelStrings));
+                        values = new ArrayList<>(valuesStrList.size() + 1);
+                        values.add(DEFAULT_VALUE);
+                    }
                     for (String value : valuesStrList) {
                         values.add(Double.parseDouble(value));
                     }
@@ -100,12 +113,15 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
     }
 
     @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        final Double selectedValue = values.get(position);
         if (currentRefinement != null) {
             searcher.removeNumericRefinement(currentRefinement);
         }
-        currentRefinement = new NumericRefinement(attributeName, operator, values.get(position));
-        searcher.addNumericRefinement(currentRefinement)
-                .search(); //TODO: Conditional if refineNow (window) or not (dialog)
+        if (selectedValue != null) { // don't refine if user selected the default value
+            currentRefinement = new NumericRefinement(attributeName, operator, selectedValue);
+            searcher.addNumericRefinement(currentRefinement);
+        }
+        searcher.search(); //TODO: Conditional if refineNow (window) or not (dialog)
     }
 
     @Override public void onNothingSelected(AdapterView<?> parent) {

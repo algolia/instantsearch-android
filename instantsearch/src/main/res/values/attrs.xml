@@ -46,6 +46,8 @@
         <attr name="labels" format="string"/>
         <!-- The values to refine with for each choice item. -->
         <attr name="values" format="string"/>
+        <!-- A default label to use as a first option that does not refine on any value. -->
+        <attr name="defaultLabel" format="string"/>
         <!-- The operator to use for refining, in the form lt (<), le (<=), eq (=), etc. -->
         <attr name="operatorName">
             <!-- Lower than -->
