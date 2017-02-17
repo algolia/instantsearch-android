@@ -8,7 +8,7 @@ import java.util.Locale;
 public class NumericRefinement {
     /** The lower than operator {@literal (<)}. */
     public static final int OPERATOR_LT = 0;
-    /** The lower or equal operator {@literal (<)}. */
+    /** The lower or equal operator {@literal (<=)}. */
     public static final int OPERATOR_LE = 1;
     /** The equal operator (==). */
     public static final int OPERATOR_EQ = 2;
@@ -19,7 +19,8 @@ public class NumericRefinement {
     /** The greater than operator {@literal (>)}. */
     public static final int OPERATOR_GT = 5;
 
-    private static final String ERROR_INVALID_OPERATOR = "operator should be one of NumericRefinement.OPERATOR_XX.";
+    private static final String ERROR_INVALID_CODE = "operator (%s) should be one of NumericRefinement.OPERATOR_XX.";
+    private static final String ERROR_INVALID_NAME = "operator (%s) should be one of 'lt', 'le', 'eq', 'ne', 'ge', 'gt'.";
 
     public final int operator;
     public final String attribute;
@@ -47,7 +48,7 @@ public class NumericRefinement {
             case OPERATOR_GT:
                 return ">";
             default:
-                throw new IllegalStateException(ERROR_INVALID_OPERATOR);
+                throw new IllegalStateException(String.format(ERROR_INVALID_CODE, operatorCode));
         }
     }
 
@@ -61,7 +62,7 @@ public class NumericRefinement {
             case OPERATOR_GT:
                 return;
             default:
-                throw new IllegalStateException(ERROR_INVALID_OPERATOR);
+                throw new IllegalStateException(ERROR_INVALID_CODE);
         }
     }
 
