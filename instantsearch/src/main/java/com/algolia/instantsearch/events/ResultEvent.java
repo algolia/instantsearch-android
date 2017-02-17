@@ -9,6 +9,7 @@ import org.json.JSONObject;
  */
 @SuppressWarnings("WeakerAccess")
 public class ResultEvent {
+    //TODO: provide SearchResults typed object?
     /** the JSON content containing these results. */
     public final JSONObject content;
     /** the Query that was sent with the search request. */
