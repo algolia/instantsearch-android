@@ -76,8 +76,8 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
 
                     if (labels.size() != values.size()) {
                         throw new IllegalStateException("You need to specify as much labels as values ("
-                                + labels.size() + "label" + (labels.size() < 1 ? "s" : "") + " but "
-                                + values.size() + "value" + (labels.size() < 1 ? "s" : "") + ").");
+                                + labels.size() + " label" + (labels.size() > 1 ? "s" : "") + " but "
+                                + values.size() + " value" + (labels.size() > 1 ? "s" : "") + ").");
                     }
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(context, spinnerItemLayout, labels);
