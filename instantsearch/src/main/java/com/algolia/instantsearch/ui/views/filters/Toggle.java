@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helpers.Searcher;
-import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
@@ -35,11 +34,9 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         final TypedArray toggleStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Toggle, 0, 0);
         try {
             attributeName = filterStyledAttributes.getString(R.styleable.Filter_attributeName);
-            if (attributeName == null) {
-                throw new IllegalStateException(Errors.FILTER_MISSING_ATTRIBUTE);
-            }
+            Filters.checkAttributeName(attributeName);
             template = toggleStyledAttributes.getString(R.styleable.Toggle_template);
-            autoHide = toggleStyledAttributes.getBoolean(R.styleable.Toggle_autoHide, false);
+            autoHide = filterStyledAttributes.getBoolean(R.styleable.Filter_autoHide, false);
         } finally {
             filterStyledAttributes.recycle();
             toggleStyledAttributes.recycle();
@@ -64,7 +61,8 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
     }
 
     @Override public final void onResults(SearchResults results, boolean isLoadingMore) {
-        checkShouldHide(results.nbHits == 0);
+        shouldHide = results.nbHits == 0;
+        Filters.hideIfShouldHide(this, autoHide, shouldHide);
         if (template != null) {
             setText(applyTemplate(results));
         }
@@ -72,18 +70,7 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
     }
 
     @Override public final void onError(Query query, AlgoliaException error) {
-        checkShouldHide(true);
-    }
-
-    protected final void checkShouldHide(boolean newHideValue) {
-        this.shouldHide = newHideValue;
-        checkShouldHide();
-    }
-
-    protected final void checkShouldHide() {
-        if (autoHide) {
-            setVisibility(shouldHide ? GONE : VISIBLE);
-        }
+        Filters.hideIfShouldHide(this, autoHide, shouldHide);
     }
 
     /**
@@ -104,7 +91,7 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
      */
     public final void setAutoHide(boolean autoHide) {
         this.autoHide = autoHide;
-        checkShouldHide();
+        Filters.hideIfShouldHide(this, autoHide, shouldHide);
     }
 
     public final void setTemplate(String template) {

@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helpers.Searcher;
-import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
@@ -23,15 +22,17 @@ import java.util.List;
 
 
 public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFilter, AdapterView.OnItemSelectedListener {
-    // TODO: Let developer customize those layouts
-    private final int spinnerItemLayout = android.R.layout.simple_spinner_item;
-    private final int spinnerDropdownItemLayout = android.R.layout.simple_spinner_dropdown_item;
+    private final boolean autoHide;
     private String attributeName;
     private int operator;
     private final List<Double> values;
 
     private Searcher searcher;
     private NumericRefinement currentRefinement;
+
+    // TODO: Let developer customize those layouts
+    private final int spinnerItemLayout = android.R.layout.simple_spinner_item;
+    private final int spinnerDropdownItemLayout = android.R.layout.simple_spinner_dropdown_item;
 
     public NumericSelector(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -40,9 +41,8 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         final TypedArray selectorStyleAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.NumericSelector, 0, 0);
         try {
             attributeName = filterStyledAttributes.getString(R.styleable.Filter_attributeName);
-            if (attributeName == null) {
-                throw new IllegalStateException(Errors.FILTER_MISSING_ATTRIBUTE);
-            }
+            Filters.checkAttributeName(attributeName);
+            autoHide = filterStyledAttributes.getBoolean(R.styleable.Filter_autoHide, false);
             operator = selectorStyleAttributes.getInt(R.styleable.NumericSelector_operatorName, NumericRefinement.OPERATOR_EQ);
 
             String labelString = selectorStyleAttributes.getString(R.styleable.NumericSelector_labels);
@@ -57,7 +57,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
                     labels = new ArrayList<>(Arrays.asList(labelString.split(",")));
                     final List<String> valuesStrList = Arrays.asList(valueString.split(","));
                     values = new ArrayList<>(valuesStrList.size());
-                    for (String value: valuesStrList) {
+                    for (String value : valuesStrList) {
                         values.add(Double.parseDouble(value));
                     }
 
@@ -85,10 +85,11 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
     }
 
     @Override public void onResults(SearchResults results, boolean isLoadingMore) {
+        Filters.hideIfShouldHide(this, autoHide, results.nbHits == 0);
     }
 
     @Override public void onError(Query query, AlgoliaException error) {
-
+        Filters.hideIfShouldHide(this, autoHide, true);
     }
 
     @Override public void initWithSearcher(@NonNull Searcher searcher) {
@@ -102,7 +103,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         if (currentRefinement != null) {
             searcher.removeNumericRefinement(currentRefinement);
         }
-        currentRefinement = new NumericRefinement(attributeName, operator,  values.get(position));
+        currentRefinement = new NumericRefinement(attributeName, operator, values.get(position));
         searcher.addNumericRefinement(currentRefinement)
                 .search(); //TODO: Conditional if refineNow (window) or not (dialog)
     }

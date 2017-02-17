@@ -29,10 +29,10 @@
     </declare-styleable>
     <declare-styleable name="Filter">
         <attr name="attributeName" format="string"/>
+        <attr name="autoHide" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="Toggle">
         <attr name="template" format="string"/>
-        <attr name="autoHide" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="TwoValuesToggle">
         <attr name="valueOn" format="string"/>
