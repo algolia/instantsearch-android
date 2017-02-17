@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
@@ -32,11 +33,15 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         super(context, attrs);
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Toggle, 0, 0);
         try {
-            attributeName = styledAttributes.getString(R.styleable.Toggle_attributeName);
-            template = styledAttributes.getString(R.styleable.Toggle_template);
-            autoHide = styledAttributes.getBoolean(R.styleable.Toggle_autoHide, false);
+            attributeName = filterStyledAttributes.getString(R.styleable.Filter_attributeName);
+            if (attributeName == null) {
+                throw new IllegalStateException(Errors.FILTER_MISSING_ATTRIBUTE);
+            }
+            template = toggleStyledAttributes.getString(R.styleable.Toggle_template);
+            autoHide = toggleStyledAttributes.getBoolean(R.styleable.Toggle_autoHide, false);
         } finally {
-            styledAttributes.recycle();
+            filterStyledAttributes.recycle();
+            toggleStyledAttributes.recycle();
         }
     }
 
