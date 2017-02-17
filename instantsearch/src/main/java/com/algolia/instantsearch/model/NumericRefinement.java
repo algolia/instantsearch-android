@@ -33,6 +33,25 @@ public class NumericRefinement {
         this.attribute = attribute;
     }
 
+    public static int getOperatorCode(String operatorName) {
+        switch (operatorName) {
+            case "lt":
+                return OPERATOR_LT;
+            case "le":
+                return OPERATOR_LE;
+            case "eq":
+                return OPERATOR_EQ;
+            case "ne":
+                return OPERATOR_NE;
+            case "ge":
+                return OPERATOR_GE;
+            case "gt":
+                return OPERATOR_GT;
+            default:
+                throw new IllegalStateException(String.format(ERROR_INVALID_NAME, operatorName));
+        }
+    }
+
     private static String getOperatorSymbol(int operatorCode) {
         switch (operatorCode) {
             case OPERATOR_LT:
