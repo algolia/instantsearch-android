@@ -1,0 +1,114 @@
+package com.algolia.instantsearch.ui.views.filters;
+
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatSpinner;
+import android.util.AttributeSet;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+
+import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.model.Errors;
+import com.algolia.instantsearch.model.NumericRefinement;
+import com.algolia.instantsearch.model.SearchResults;
+import com.algolia.search.saas.AlgoliaException;
+import com.algolia.search.saas.Query;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+
+public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFilter, AdapterView.OnItemSelectedListener {
+    // TODO: Let developer customize those layouts
+    private final int spinnerItemLayout = android.R.layout.simple_spinner_item;
+    private final int spinnerDropdownItemLayout = android.R.layout.simple_spinner_dropdown_item;
+    private String attributeName;
+    private int operator;
+    private final List<Double> values;
+
+    private Searcher searcher;
+    private NumericRefinement currentRefinement;
+
+    public NumericSelector(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setOnItemSelectedListener(this);
+        final TypedArray filterStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Filter, 0, 0);
+        final TypedArray selectorStyleAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.NumericSelector, 0, 0);
+        try {
+            attributeName = filterStyledAttributes.getString(R.styleable.Filter_attributeName);
+            if (attributeName == null) {
+                throw new IllegalStateException(Errors.FILTER_MISSING_ATTRIBUTE);
+            }
+            operator = selectorStyleAttributes.getInt(R.styleable.NumericSelector_operatorName, NumericRefinement.OPERATOR_EQ);
+
+            String labelString = selectorStyleAttributes.getString(R.styleable.NumericSelector_labels);
+            String valueString = selectorStyleAttributes.getString(R.styleable.NumericSelector_values);
+
+            List<String> labels;
+            if (!(labelString == null && valueString == null)) {
+
+                if (labelString == null || valueString == null) {
+                    throw new IllegalStateException("You need to either specify both labels and values or none of those.");
+                } else {
+                    labels = new ArrayList<>(Arrays.asList(labelString.split(",")));
+                    final List<String> valuesStrList = Arrays.asList(valueString.split(","));
+                    values = new ArrayList<>(valuesStrList.size());
+                    for (String value: valuesStrList) {
+                        values.add(Double.parseDouble(value));
+                    }
+
+                    if (labels.size() != values.size()) {
+                        throw new IllegalStateException("You need to specify as much labels as values ("
+                                + labels.size() + "label" + (labels.size() < 1 ? "s" : "") + " but "
+                                + values.size() + "value" + (labels.size() < 1 ? "s" : "") + ").");
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(context, spinnerItemLayout, labels);
+                    adapter.setDropDownViewResource(spinnerDropdownItemLayout);
+                    setAdapter(adapter);
+                }
+            } else {
+                values = new ArrayList<>();
+            }
+        } finally {
+            filterStyledAttributes.recycle();
+            selectorStyleAttributes.recycle();
+        }
+    }
+
+    @NonNull @Override public String getAttributeName() {
+        return attributeName;
+    }
+
+    @Override public void onResults(SearchResults results, boolean isLoadingMore) {
+    }
+
+    @Override public void onError(Query query, AlgoliaException error) {
+
+    }
+
+    @Override public void initWithSearcher(@NonNull Searcher searcher) {
+        this.searcher = searcher;
+    }
+
+    @Override public void onReset() {
+    }
+
+    @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (currentRefinement != null) {
+            searcher.removeNumericRefinement(currentRefinement);
+        }
+        currentRefinement = new NumericRefinement(attributeName, operator,  values.get(position));
+        searcher.addNumericRefinement(currentRefinement)
+                .search(); //TODO: Conditional if refineNow (window) or not (dialog)
+    }
+
+    @Override public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    //TODO: Get/Set properties
+}

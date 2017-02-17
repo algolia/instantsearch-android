@@ -41,4 +41,25 @@
     <declare-styleable name="OneValueToggle">
         <attr name="value" format="string"/>
     </declare-styleable>
+    <declare-styleable name="NumericSelector">
+        <!-- The labels to display for each choice item. -->
+        <attr name="labels" format="string"/>
+        <!-- The values to refine with for each choice item. -->
+        <attr name="values" format="string"/>
+        <!-- The operator to use for refining, in the form lt (<), le (<=), eq (=), etc. -->
+        <attr name="operatorName">
+            <!-- Lower than -->
+            <enum name="lt" value="0"/>
+            <!-- Lower than or equal to -->
+            <enum name="le" value="1"/>
+            <!-- Equal to -->
+            <enum name="eq" value="2"/>
+            <!-- Not equal to -->
+            <enum name="ne" value="3"/>
+            <!-- Greater than -->
+            <enum name="ge" value="4"/>
+            <!-- Greater than or equal to -->
+            <enum name="gt" value="5"/>
+        </attr>
+    </declare-styleable>
 </resources>
