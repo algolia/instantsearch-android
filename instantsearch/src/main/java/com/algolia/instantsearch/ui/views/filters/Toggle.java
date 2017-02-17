@@ -46,7 +46,7 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         }
     }
 
-    @NonNull @Override public final String getAttribute() {
+    @NonNull @Override public final String getAttributeName() {
         return attributeName;
     }
 

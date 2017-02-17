@@ -388,10 +388,14 @@ public class InstantSearchHelper {
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
     }
 
+    /**
+     * TODO: Document and ensure developer calls before displaying widget!!1!
+     * @param rootView
+     */
     public void registerFacetFilters(@NonNull ViewGroup rootView) {
         final List<AlgoliaFacetFilter> filterViews = LayoutViews.findByClass(rootView, AlgoliaFacetFilter.class);
         for (final AlgoliaFacetFilter filter : filterViews) {
-            searcher.addFacet(filter.getAttribute());
+            searcher.addFacet(filter.getAttributeName());
             processWidget(filter);
         }
     }

@@ -10,7 +10,9 @@ public interface AlgoliaFacetFilter extends AlgoliaWidget{
      * This method is called when initialising your AlgoliaFacetFilter to register its facet.
      * @return The attribute to use for faceting.
      */
-    @NonNull String getAttribute();
+    @NonNull String getAttributeName();
+    //DISCUSS: Would you rather have only AlgoliaWidget
+    // and document that a filter should call Searcher#set
 
     /**
      * This method is called when registering your filters. You should define interaction listeners
