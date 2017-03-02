@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="452px" height="336px" viewBox="0 0 452 336" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>typo-tolerant</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="424" height="43" rx="3"></rect>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="12" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="7" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.147192029 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="424" height="43" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <rect id="path-4" x="0" y="0" width="424" height="262" rx="5"></rect>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="12" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="7" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.147192029 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="424" height="262" fill="white">
+            <use xlink:href="#path-4"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-33.000000, -58.000000)">
+            <g id="typo-tolerant" transform="translate(47.000000, 60.000000)">
+                <g id="Page-1">
+                    <g id="Group">
+                        <g id="Rectangle">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                            <use stroke="#D8D9DE" mask="url(#mask-3)" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        </g>
+                        <polygon id="Shape" stroke="#697782" fill="#697782" fill-rule="nonzero" opacity="0.5" points="397.927 22.5 393.287 17.859 393 17.573 393.573 17 393.859 17.286 398.5 21.927 403.141 17.287 403.427 17 404 17.573 403.714 17.859 399.073 22.5 403.713 27.141 404 27.427 403.427 28 403.141 27.714 398.5 23.073 393.859 27.713 393.573 28 393 27.427 393.286 27.141"></polygon>
+                        <path d="M29.15,24.692 L28.382,24.692 L28.11,24.429 C29.0953285,23.2860807 29.6369314,21.8270182 29.636,20.318 C29.636,17.7626075 28.0966687,15.4588355 25.7357939,14.4809291 C23.3749191,13.5030228 20.6574347,14.043564 18.8504994,15.8504994 C17.043564,17.6574347 16.5030228,20.3749191 17.4809291,22.7357939 C18.4588355,25.0966687 20.7626075,26.636 23.318,26.636 C24.8270182,26.6369314 26.2860807,26.0953285 27.429,25.11 L27.692,25.382 L27.692,26.15 L32.552,31 L34,29.552 L29.15,24.692 Z M23.318,24.692 C22.1574548,24.6935953 21.0439836,24.2332767 20.2233535,23.4126465 C19.4027233,22.5920164 18.9424047,21.4785452 18.944,20.318 C18.9424047,19.1574548 19.4027233,18.0439836 20.2233535,17.2233535 C21.0439836,16.4027233 22.1574548,15.9424047 23.318,15.944 C24.4785452,15.9424047 25.5920164,16.4027233 26.4126465,17.2233535 C27.2332767,18.0439836 27.6935953,19.1574548 27.692,20.318 C27.6935953,21.4785452 27.2332767,22.5920164 26.4126465,23.4126465 C25.5920164,24.2332767 24.4785452,24.6935953 23.318,24.692 L23.318,24.692 Z" id="Shape" fill="#697782" fill-rule="nonzero" opacity="0.5"></path>
+                        <g id="Gi" transform="translate(46.000000, 12.000000)" font-size="15" font-family="OpenSans, Open Sans" fill="#262626" font-weight="normal">
+                            <g id="Group">
+                                <text id="Gi">
+                                    <tspan x="0" y="16">Gi</tspan>
+                                </text>
+                            </g>
+                        </g>
+                        <g transform="translate(0.000000, 46.000000)">
+                            <g id="Rectangle">
+                                <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+                                <use stroke="#D8D9DE" mask="url(#mask-6)" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-4"></use>
+                            </g>
+                            <g transform="translate(17.000000, 18.000000)">
+                                <rect id="Rectangle-path" fill="#3369E7" fill-rule="nonzero" opacity="0.2" x="0" y="2" width="15" height="15" rx="1"></rect>
+                                <rect id="Rectangle-path" fill="#3369E7" fill-rule="nonzero" opacity="0.2" x="0" y="32" width="15" height="15" rx="1"></rect>
+                                <rect id="Rectangle-path" fill="#3369E7" fill-rule="nonzero" opacity="0.2" x="0" y="62" width="15" height="15" rx="1"></rect>
+                                <rect id="Rectangle-path" fill="#3369E7" fill-rule="nonzero" opacity="0.2" x="0" y="92" width="15" height="15" rx="1"></rect>
+                                <rect id="Rectangle-path" fill="#3369E7" fill-rule="nonzero" opacity="0.2" x="0" y="122" width="15" height="15" rx="1"></rect>
+                                <rect id="Rectangle-path" fill="#3369E7" fill-rule="nonzero" opacity="0.2" x="0" y="152" width="15" height="15" rx="1"></rect>
+                                <rect id="Rectangle-path" fill="#3369E7" fill-rule="nonzero" opacity="0.2" x="0" y="182" width="15" height="15" rx="1"></rect>
+                                <rect id="Rectangle-path" fill="#3369E7" fill-rule="nonzero" opacity="0.2" x="163" y="212" width="15" height="15" rx="1"></rect>
+                                <g transform="translate(1.000000, 0.000000)" font-weight="normal" font-family="OpenSans, Open Sans" font-size="14">
+                                    <g id="Gi" fill="#3369E7">
+                                        <text>
+                                            <tspan x="0" y="15">Gi</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="rl" transform="translate(13.000000, 0.000000)" fill="#262626">
+                                        <text>
+                                            <tspan x="0.733" y="15">rl</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="--Jamie-XX" transform="translate(26.000000, 0.000000)" fill-opacity="0.5" fill="#323333">
+                                        <text>
+                                            <tspan x="0.626" y="15">- Jamie XX</tspan>
+                                        </text>
+                                    </g>
+                                </g>
+                                <g transform="translate(1.000000, 30.000000)" font-weight="normal" font-family="OpenSans, Open Sans" font-size="14">
+                                    <g id="Gi" fill="#3369E7">
+                                        <text>
+                                            <tspan x="0" y="15">Gi</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="rl" transform="translate(13.000000, 0.000000)" fill="#262626">
+                                        <text>
+                                            <tspan x="0.733" y="15">rl</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="--The-Internet-&amp;-KAYTRANADA" transform="translate(26.000000, 0.000000)" fill-opacity="0.5" fill="#262626">
+                                        <text>
+                                            <tspan x="0.626" y="15">- The Internet &amp; KAYTRANADA</tspan>
+                                        </text>
+                                    </g>
+                                </g>
+                                <g transform="translate(1.000000, 60.000000)" font-weight="normal" font-family="OpenSans, Open Sans" font-size="14">
+                                    <g id="Gi" fill="#3369E7">
+                                        <text>
+                                            <tspan x="0" y="15">Gi</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="mme-Shelter" transform="translate(13.000000, 0.000000)" fill="#262626">
+                                        <text>
+                                            <tspan x="0.733" y="15">mme Shelter</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="--The-Rolling-Stones" transform="translate(97.000000, 0.000000)" fill-opacity="0.5" fill="#262626">
+                                        <text>
+                                            <tspan x="0.453" y="15">- The Rolling Stones</tspan>
+                                        </text>
+                                    </g>
+                                </g>
+                                <g transform="translate(1.000000, 90.000000)" font-weight="normal" font-family="OpenSans, Open Sans" font-size="14">
+                                    <g id="Gi" fill="#3369E7">
+                                        <text>
+                                            <tspan x="0" y="15">Gi</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="ve-It-Up" transform="translate(13.000000, 0.000000)" fill="#262626">
+                                        <text>
+                                            <tspan x="0.733" y="15">ve It Up</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="--J-Dilla" transform="translate(63.000000, 0.000000)" fill-opacity="0.5" fill="#262626">
+                                        <text>
+                                            <tspan x="0.492" y="15">- J Dilla</tspan>
+                                        </text>
+                                    </g>
+                                </g>
+                                <g transform="translate(1.000000, 120.000000)" font-weight="normal" font-family="OpenSans, Open Sans" font-size="14">
+                                    <g id="Gi" fill="#3369E7">
+                                        <text>
+                                            <tspan x="0" y="15">Gi</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="rl-On-Fire" transform="translate(13.000000, 0.000000)" fill="#262626">
+                                        <text>
+                                            <tspan x="0.733" y="15">rl On Fire</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="--Alicia-Keys" transform="translate(74.000000, 0.000000)" fill-opacity="0.5" fill="#262626">
+                                        <text>
+                                            <tspan x="0.095" y="15">- Alicia Keys</tspan>
+                                        </text>
+                                    </g>
+                                </g>
+                                <g transform="translate(1.000000, 150.000000)" font-weight="normal" font-family="OpenSans, Open Sans" font-size="14">
+                                    <g id="Gi" fill="#3369E7">
+                                        <text>
+                                            <tspan x="0" y="15">Gi</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="orgio-by-Moroder" transform="translate(13.000000, 0.000000)" fill="#262626">
+                                        <text>
+                                            <tspan x="0.733" y="15">orgio by Moroder</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="--Daft-Punk" transform="translate(127.000000, 0.000000)" fill-opacity="0.5" fill="#323333">
+                                        <text>
+                                            <tspan x="0.894" y="15">- Daft Punk</tspan>
+                                        </text>
+                                    </g>
+                                </g>
+                                <g transform="translate(1.000000, 180.000000)" font-weight="normal" font-family="OpenSans, Open Sans" font-size="14">
+                                    <g id="Gi" fill="#3369E7">
+                                        <text>
+                                            <tspan x="0" y="15">Gi</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="ve-It-Away" transform="translate(13.000000, 0.000000)" fill="#262626">
+                                        <text>
+                                            <tspan x="0.733" y="15">ve It Away</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="--Red-Hot-Chili-Peppers" transform="translate(82.000000, 0.000000)" fill-opacity="0.5" fill="#262626">
+                                        <text>
+                                            <tspan x="0.947" y="15">- Red Hot Chili Peppers</tspan>
+                                        </text>
+                                    </g>
+                                </g>
+                                <g transform="translate(1.000000, 210.000000)" font-weight="normal" font-family="OpenSans, Open Sans" font-size="14">
+                                    <g id="This-Song-Is-Not-About-a" fill="#262626">
+                                        <text>
+                                            <tspan x="0" y="15">This Song Is Not About a</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="Gi" transform="translate(162.000000, 0.000000)" fill="#3369E7">
+                                        <text>
+                                            <tspan x="0.531" y="15">Gi</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="rl" transform="translate(176.000000, 0.000000)" fill="#262626">
+                                        <text>
+                                            <tspan x="0.265" y="15">rl</tspan>
+                                        </text>
+                                    </g>
+                                    <g id="--Chet-Faker" transform="translate(189.000000, 0.000000)" fill-opacity="0.5" fill="#262626">
+                                        <text>
+                                            <tspan x="0.157" y="15">- Chet Faker</tspan>
+                                        </text>
+                                    </g>
+                                </g>
+                            </g>
+                            <g id="Shape" opacity="0.8" transform="translate(392.000000, 20.000000)">
+                                <polygon stroke-opacity="0.008" stroke="#000000" stroke-width="0.5" points="0 0 16 0 16 16 0 16"></polygon>
+                                <path d="M8,14.233 L7.033,13.353 C3.6,10.24 1.333,8.187 1.333,5.667 C1.32327941,4.69150365 1.70650069,3.75312935 2.39631502,3.06331502 C3.08612935,2.37350069 4.02450365,1.99027941 5,2 C6.16,2 7.273,2.54 8,3.393 C8.7515467,2.51673806 9.84562512,2.00872099 11,2 C11.9754964,1.99027941 12.9138707,2.37350069 13.603685,3.06331502 C14.2934993,3.75312935 14.6767206,4.69150365 14.667,5.667 C14.667,8.187 12.4,10.24 8.967,13.36 L8,14.233 L8,14.233 Z" fill="#3369E7" fill-rule="nonzero"></path>
+                            </g>
+                            <g id="24,3-M" transform="translate(346.000000, 19.000000)" fill-opacity="0.5" font-family="OpenSans, Open Sans" fill="#323333" font-size="12" font-weight="normal">
+                                <g id="Group">
+                                    <text id="24,3-M">
+                                        <tspan x="0.523" y="13">24,3 M</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                            <g id="Shape" opacity="0.8" transform="translate(392.000000, 50.000000)">
+                                <polygon stroke-opacity="0.008" stroke="#000000" stroke-width="0.5" points="0 0 16 0 16 16 0 16"></polygon>
+                                <path d="M8,14.233 L7.033,13.353 C3.6,10.24 1.333,8.187 1.333,5.667 C1.32327941,4.69150365 1.70650069,3.75312935 2.39631502,3.06331502 C3.08612935,2.37350069 4.02450365,1.99027941 5,2 C6.16,2 7.273,2.54 8,3.393 C8.7515467,2.51673806 9.84562512,2.00872099 11,2 C11.9754964,1.99027941 12.9138707,2.37350069 13.603685,3.06331502 C14.2934993,3.75312935 14.6767206,4.69150365 14.667,5.667 C14.667,8.187 12.4,10.24 8.967,13.36 L8,14.233 L8,14.233 Z" fill="#3369E7" fill-rule="nonzero"></path>
+                            </g>
+                            <g id="13,1-M" transform="translate(346.000000, 49.000000)" fill-opacity="0.5" font-family="OpenSans, Open Sans" fill="#323333" font-size="12" font-weight="normal">
+                                <g id="Group">
+                                    <text id="13,1-M">
+                                        <tspan x="0.523" y="13">13,1 M</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                            <g id="Shape" opacity="0.8" transform="translate(392.000000, 80.000000)">
+                                <polygon stroke-opacity="0.008" stroke="#000000" stroke-width="0.5" points="0 0 16 0 16 16 0 16"></polygon>
+                                <path d="M8,14.233 L7.033,13.353 C3.6,10.24 1.333,8.187 1.333,5.667 C1.32327941,4.69150365 1.70650069,3.75312935 2.39631502,3.06331502 C3.08612935,2.37350069 4.02450365,1.99027941 5,2 C6.16,2 7.273,2.54 8,3.393 C8.7515467,2.51673806 9.84562512,2.00872099 11,2 C11.9754964,1.99027941 12.9138707,2.37350069 13.603685,3.06331502 C14.2934993,3.75312935 14.6767206,4.69150365 14.667,5.667 C14.667,8.187 12.4,10.24 8.967,13.36 L8,14.233 L8,14.233 Z" fill="#3369E7" fill-rule="nonzero"></path>
+                            </g>
+                            <g id="3,8-M" transform="translate(353.000000, 79.000000)" fill-opacity="0.5" font-family="OpenSans, Open Sans" fill="#323333" font-size="12" font-weight="normal">
+                                <g id="Group">
+                                    <text id="3,8-M">
+                                        <tspan x="0.385" y="13">3,8 M</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                            <g id="Shape" opacity="0.8" transform="translate(392.000000, 110.000000)">
+                                <polygon stroke-opacity="0.008" stroke="#000000" stroke-width="0.5" points="0 0 16 0 16 16 0 16"></polygon>
+                                <path d="M8,14.233 L7.033,13.353 C3.6,10.24 1.333,8.187 1.333,5.667 C1.32327941,4.69150365 1.70650069,3.75312935 2.39631502,3.06331502 C3.08612935,2.37350069 4.02450365,1.99027941 5,2 C6.16,2 7.273,2.54 8,3.393 C8.7515467,2.51673806 9.84562512,2.00872099 11,2 C11.9754964,1.99027941 12.9138707,2.37350069 13.603685,3.06331502 C14.2934993,3.75312935 14.6767206,4.69150365 14.667,5.667 C14.667,8.187 12.4,10.24 8.967,13.36 L8,14.233 L8,14.233 Z" fill="#3369E7" fill-rule="nonzero"></path>
+                            </g>
+                            <g id="984,7-K" transform="translate(343.000000, 109.000000)" fill-opacity="0.5" font-family="OpenSans, Open Sans" fill="#323333" font-size="12" font-weight="normal">
+                                <g id="Group">
+                                    <text id="984,7-K">
+                                        <tspan x="0.131" y="13">984,7 K</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                            <g id="Shape" opacity="0.8" transform="translate(392.000000, 140.000000)">
+                                <polygon stroke-opacity="0.008" stroke="#000000" stroke-width="0.5" points="0 0 16 0 16 16 0 16"></polygon>
+                                <path d="M8,14.233 L7.033,13.353 C3.6,10.24 1.333,8.187 1.333,5.667 C1.32327941,4.69150365 1.70650069,3.75312935 2.39631502,3.06331502 C3.08612935,2.37350069 4.02450365,1.99027941 5,2 C6.16,2 7.273,2.54 8,3.393 C8.7515467,2.51673806 9.84562512,2.00872099 11,2 C11.9754964,1.99027941 12.9138707,2.37350069 13.603685,3.06331502 C14.2934993,3.75312935 14.6767206,4.69150365 14.667,5.667 C14.667,8.187 12.4,10.24 8.967,13.36 L8,14.233 L8,14.233 Z" fill="#3369E7" fill-rule="nonzero"></path>
+                            </g>
+                            <g id="856,2-K" transform="translate(343.000000, 139.000000)" fill-opacity="0.5" font-family="OpenSans, Open Sans" fill="#323333" font-size="12" font-weight="normal">
+                                <g id="Group">
+                                    <text id="856,2-K">
+                                        <tspan x="0.131" y="13">856,2 K</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                            <g id="Shape" opacity="0.8" transform="translate(392.000000, 170.000000)">
+                                <polygon stroke-opacity="0.008" stroke="#000000" stroke-width="0.5" points="0 0 16 0 16 16 0 16"></polygon>
+                                <path d="M8,14.233 L7.033,13.353 C3.6,10.24 1.333,8.187 1.333,5.667 C1.32327941,4.69150365 1.70650069,3.75312935 2.39631502,3.06331502 C3.08612935,2.37350069 4.02450365,1.99027941 5,2 C6.16,2 7.273,2.54 8,3.393 C8.7515467,2.51673806 9.84562512,2.00872099 11,2 C11.9754964,1.99027941 12.9138707,2.37350069 13.603685,3.06331502 C14.2934993,3.75312935 14.6767206,4.69150365 14.667,5.667 C14.667,8.187 12.4,10.24 8.967,13.36 L8,14.233 L8,14.233 Z" fill="#3369E7" fill-rule="nonzero"></path>
+                            </g>
+                            <g id="788-K" transform="translate(352.000000, 169.000000)" fill-opacity="0.5" font-family="OpenSans, Open Sans" fill="#323333" font-size="12" font-weight="normal">
+                                <g id="Group">
+                                    <text id="788-K">
+                                        <tspan x="0.934" y="13">788 K</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                            <g id="Shape" opacity="0.8" transform="translate(392.000000, 200.000000)">
+                                <polygon stroke-opacity="0.008" stroke="#000000" stroke-width="0.5" points="0 0 16 0 16 16 0 16"></polygon>
+                                <path d="M8,14.233 L7.033,13.353 C3.6,10.24 1.333,8.187 1.333,5.667 C1.32327941,4.69150365 1.70650069,3.75312935 2.39631502,3.06331502 C3.08612935,2.37350069 4.02450365,1.99027941 5,2 C6.16,2 7.273,2.54 8,3.393 C8.7515467,2.51673806 9.84562512,2.00872099 11,2 C11.9754964,1.99027941 12.9138707,2.37350069 13.603685,3.06331502 C14.2934993,3.75312935 14.6767206,4.69150365 14.667,5.667 C14.667,8.187 12.4,10.24 8.967,13.36 L8,14.233 L8,14.233 Z" fill="#3369E7" fill-rule="nonzero"></path>
+                            </g>
+                            <g id="651,8-K" transform="translate(343.000000, 199.000000)" fill-opacity="0.5" font-family="OpenSans, Open Sans" fill="#323333" font-size="12" font-weight="normal">
+                                <g id="Group">
+                                    <text id="651,8-K">
+                                        <tspan x="0.131" y="13">651,8 K</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                            <g id="Shape" opacity="0.8" transform="translate(392.000000, 230.000000)">
+                                <polygon stroke-opacity="0.008" stroke="#000000" stroke-width="0.5" points="0 0 16 0 16 16 0 16"></polygon>
+                                <path d="M8,14.233 L7.033,13.353 C3.6,10.24 1.333,8.187 1.333,5.667 C1.32327941,4.69150365 1.70650069,3.75312935 2.39631502,3.06331502 C3.08612935,2.37350069 4.02450365,1.99027941 5,2 C6.16,2 7.273,2.54 8,3.393 C8.7515467,2.51673806 9.84562512,2.00872099 11,2 C11.9754964,1.99027941 12.9138707,2.37350069 13.603685,3.06331502 C14.2934993,3.75312935 14.6767206,4.69150365 14.667,5.667 C14.667,8.187 12.4,10.24 8.967,13.36 L8,14.233 L8,14.233 Z" fill="#3369E7" fill-rule="nonzero"></path>
+                            </g>
+                            <g id="396-K" transform="translate(352.000000, 229.000000)" fill-opacity="0.5" font-family="OpenSans, Open Sans" fill="#323333" font-size="12" font-weight="normal">
+                                <g id="Group">
+                                    <text id="396-K">
+                                        <tspan x="0.934" y="13">396 K</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

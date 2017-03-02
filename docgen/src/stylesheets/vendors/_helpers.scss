@@ -10,6 +10,16 @@ $sizes: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
   }
 }
 
+.green-background {
+  background: #6ab344;
+  color: #fff
+}
+
+.darkgreen-background {
+  background: darken(#6ab344, 20%);
+  color: #fff
+}
+
 .relative {
   position: relative;
   overflow: hidden;
@@ -26,6 +36,12 @@ $sizes: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
 
 .fl-right {
   float: right;
+}
+
+.v-center {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%)
 }
 
 hr {
@@ -67,6 +83,17 @@ hr {
       display: none !important;
     }
   }
+}
+
+.flex-container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-two {
+  flex: 0 1 40%
 }
 
 // The following helper classes

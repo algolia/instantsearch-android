@@ -1,7 +1,12 @@
+var algoliaComponents = require('algolia-components');
+var fs = require('fs');
+
 import {rootPath} from './path';
 
 const prod = process.env.NODE_ENV === 'production';
 const docsDist = process.env.DOCS_DIST;
+
+var content = JSON.parse(fs.readFileSync('./src/data/community_header.json').toString());
 
 export default {
   docsDist:  docsDist? docsDist :
@@ -9,4 +14,5 @@ export default {
              rootPath('docs-preview'),
   publicPath: prod ? '/instantsearch-android/' :
     '/',
+  header: algoliaComponents.community_header.html.render(content)
 };

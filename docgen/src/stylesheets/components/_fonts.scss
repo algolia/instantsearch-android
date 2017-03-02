@@ -2,6 +2,8 @@ p a,
 a {
   color: #21A4D7;
   text-decoration: none;
+
+
 }
 
 /* heading settings
@@ -42,6 +44,10 @@ p {
     line-height: 32px;
     color: $charcoal-grey-75;
   }
+
+  &.muted {
+    opacity: 0.5;
+  }
 }
 
 /* Big titles
@@ -50,12 +56,12 @@ h2.title {
   text-align: center;
   width: 100%;
   font-size: 1.8em;
-  color: $charcoal-greyish;
+  color: $bunting;
   display: block;
   position: relative;
   margin-top: 120px;
   margin-bottom: 80px;
-  font-weight: 300;
+  font-weight: 600;
   font-family: 'Open Sans Light', 'Open Sans';
 
   &:after {
@@ -63,7 +69,7 @@ h2.title {
     position: absolute;
     width: 50px;
     height: 3px;
-    background: $sweet-purple;
+    background: $android-color;
     top: 2.8em;
     left: 0;
     right: 0;

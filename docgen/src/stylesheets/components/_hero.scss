@@ -6,44 +6,36 @@
 $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
 
 .hero-section {
-  background: url('../../../assets/img/react-atom.svg'), linear-gradient(to bottom right, #322f4c, #1c1b2f);
+  background-image:  url('../images/header-background.svg'), linear-gradient(to bottom right, $bunting 0%, $bunting 100%);
+  //background: $bunting;
   background-repeat: no-repeat, repeat;
-  background-position:  top center, top left;
-  background-size: 800px, 100%;
+  background-position: center center, top left;
+  background-size:  cover, 100%;
   color: $hero-color-accent;
   padding-top: $nav-height*1.5;
   overflow: hidden;
   position: relative;
   z-index: 5;
-  height: 500px;
+  height: 780px;
   margin-top: $nav-height;
   text-align: center;
 
+  .tagline {
+    img {
+      vertical-align: bottom;
 
-
-  &:after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1;
-
-    background: {
-      image: url("data:image/svg+xml;utf8,<?xml version=\'1.0\' encoding=\'utf-8\'?> <!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --> <svg version=\'1.1\' baseProfile=\'basic\' id=\'Layer_1\' xmlns=\'http://www.w3.org/2000/svg\' xmlns:xlink=\'http://www.w3.org/1999/xlink\' x=\'0px\' y=\'0px\' viewBox=\'0 0 52.2 90.4\' xml:space=\'preserve\'> <style type=\'text/css\'> .st0{fill:none;stroke:%23FFF;stroke-miterlimit:10;} </style> <polygon class=\'st0\' points=\'0,90.4 52.2,0 0,0 52.2,90.4 \'/> <line class=\'st0\' x1=\'0\' y1=\'45.2\' x2=\'52.2\' y2=\'45.2\'/> </svg>");
-      position:  center center;
-      size: 60px;
-      // blend-mode: overlay;
+      &.android-logo {
+        position: relative;
+        top: -8px;
+      }
     }
-    opacity: 0.05;
   }
-
 
   .container,
   .hero-container {
     position: relative;
     z-index: 5;
+    text-align: center;
   }
 
   .relative {
@@ -59,15 +51,37 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
   }
 
 
-  .btn.btn-fat-uc {
-    max-width: 230px;
-    margin-top: 2.25em;
+  .btn{
 
-    &:hover {
-      font-size: 16px
+    svg {
+      width: 22px;
+      height: 16px;
+      vertical-align: middle;
     }
   }
 
+  .tagline {
+    margin-bottom: 0.8em;
+  }
+
+  h3 {
+    margin-bottom: 2em;
+    opacity: 0.75;
+    font-size: 22px;
+    line-height: 1.27;
+  }
+
+  .hero-illustration {
+    position: relative;
+    text-align: left;
+    width: 414px;
+    margin: 4em auto;
+
+
+    img {
+      position: absolute;
+    }
+  }
 
 
   .article-title  {
@@ -118,28 +132,13 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
     font-weight: 300;
   }
 
-  .icon {
-    width: 20px;
-    height: 20px;
-    display: block;
-    position: relative;
+  .illustration {
+    padding: 1em;
 
-    &:after {
-      position: absolute;
-      display: block;
-      content: '';
-      width: 16px;
-      height: 2px;
-      background: $hero-color-accent;
-      top: 30px;
-      left: 0;
-      right: 0;
-      margin: auto;
-      opacity: 0.5;
+    img {
+      max-width: 140px;
     }
   }
-
-
 
   @include small-mq {
     text-align: center;

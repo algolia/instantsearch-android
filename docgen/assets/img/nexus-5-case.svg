@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="460px" height="883px" viewBox="0 0 460 883" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M208,7.00022539e-06 C298.372011,-0.00808307185 352.90059,6.99828436 372.941253,9.25701342 C404.530948,12.8174026 415.107304,27.0589593 415.118157,42.0780796 C415.143162,76.679249 415.2891,733.446291 415.118157,783.641659 C415.027219,810.344578 404.588256,821.025751 376.508531,826.366329 C356.605901,830.151682 270.199513,836.999873 208.26071,837 C146.321908,837.000138 59.3940994,830.151682 39.4914691,826.366329 C11.4117444,821.025751 0.972781052,810.344578 0.881842706,783.641659 C0.710899893,733.446291 0.856837747,76.679249 0.881842706,42.0780796 C0.892696208,27.0589593 11.4690523,12.8174026 43.0587472,9.25701342 C63.0994096,6.99828436 117.627989,0.00808470401 208,7.00022539e-06 Z" id="path-1"></path>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="11.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.0941176471   0 0 0 0 0.137254902   0 0 0 0 0.349019608  0 0 0 0.354478034 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="414.4" height="837" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <path d="M68.7,48.9882943 C71.4061954,48.9882943 73.6,46.7950138 73.6,44.0894649 C73.6,41.383916 71.4061954,39.1906355 68.7,39.1906355 C65.9938046,39.1906355 63.8,41.383916 63.8,44.0894649 C63.8,46.7950138 65.9938046,48.9882943 68.7,48.9882943 Z" id="path-4"></path>
+        <mask id="mask-5" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="9.8" height="9.79765886" fill="white">
+            <use xlink:href="#path-4"></use>
+        </mask>
+        <path d="M208.7,53.187291 C214.49899,53.187291 219.2,48.4874042 219.2,42.6897993 C219.2,36.8921945 214.49899,32.1923077 208.7,32.1923077 C202.90101,32.1923077 198.2,36.8921945 198.2,42.6897993 C198.2,48.4874042 202.90101,53.187291 208.7,53.187291 Z" id="path-6"></path>
+        <mask id="mask-7" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="21" height="20.9949833" fill="white">
+            <use xlink:href="#path-6"></use>
+        </mask>
+        <polygon id="path-8" points="0.101171875 0 30.9011719 0 15.5011719 18.1956522"></polygon>
+        <path d="M23.8,18.1956522 C23.8,15.1035963 21.2927947,12.59699 18.2,12.59699 C15.1072053,12.59699 12.6,15.1035963 12.6,18.1956522 C12.6,21.287708 15.1072053,23.7943144 18.2,23.7943144 C21.2927947,23.7943144 23.8,21.287708 23.8,18.1956522 Z M15.4,18.1956522 C15.4,16.6496242 16.6536026,15.3963211 18.2,15.3963211 C19.7463974,15.3963211 21,16.6496242 21,18.1956522 C21,19.7416802 19.7463974,20.9949833 18.2,20.9949833 C16.6536026,20.9949833 15.4,19.7416802 15.4,18.1956522 Z" id="path-10"></path>
+        <polygon id="path-12" points="17.1472656 0.00683430445 17.1472656 16.8014541 0.4921875 16.7098744"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop" transform="translate(-301.000000, -91.000000)">
+            <g id="Group" transform="translate(323.000000, 113.000000)">
+                <g id="Nexus-5">
+                    <g id="Shell">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        <use stroke="#394A9B" mask="url(#mask-3)" stroke-width="4" fill="#0F1A44" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                    <rect id="Screen" x="21.1" y="72.7826087" width="373.8" height="433.896321"></rect>
+                    <rect id="Keyboard_background" x="19" y="71.3829431" width="378" height="28.6931438"></rect>
+                    <path d="M19.5,66.5 L395.884112,66.5" id="Line" stroke="#394A9B" stroke-linecap="square"></path>
+                    <use id="Camera" stroke="#394A9B" mask="url(#mask-5)" stroke-width="2.8" xlink:href="#path-4"></use>
+                    <use id="Speaker" stroke="#394A9B" mask="url(#mask-7)" stroke-width="2.8" xlink:href="#path-6"></use>
+                </g>
+                <g id="Status_bar" transform="translate(288.000000, 76.000000)">
+                    <g id="Wifi_icon" transform="translate(0.000000, 1.399666)">
+                        <mask id="mask-9" fill="white">
+                            <use xlink:href="#path-8"></use>
+                        </mask>
+                        <g id="Wifi_triangle_mask"></g>
+                        <g id="Wifi_levels" mask="url(#mask-9)">
+                            <g transform="translate(-2.800000, 1.399666)">
+                                <path d="M36.4,18.1956522 C36.4,8.14647051 28.2515829,0 18.2,0 C8.14841709,0 0,8.14647051 0,18.1956522 C0,28.2448338 8.14841709,36.3913043 18.2,36.3913043 C28.2515829,36.3913043 36.4,28.2448338 36.4,18.1956522 Z M2.8,18.1956522 C2.8,9.69249838 9.69481439,2.7993311 18.2,2.7993311 C26.7051856,2.7993311 33.6,9.69249838 33.6,18.1956522 C33.6,26.698806 26.7051856,33.5919732 18.2,33.5919732 C9.69481439,33.5919732 2.8,26.698806 2.8,18.1956522 Z" id="Wifi_level_4" stroke="#394A9B" stroke-width="1" fill="none"></path>
+                                <path d="M32.2,18.1956522 C32.2,10.4655124 25.9319868,4.19899666 18.2,4.19899666 C10.4680132,4.19899666 4.2,10.4655124 4.2,18.1956522 C4.2,25.9257919 10.4680132,32.1923077 18.2,32.1923077 C25.9319868,32.1923077 32.2,25.9257919 32.2,18.1956522 Z M7,18.1956522 C7,12.0115403 12.0144105,6.99832776 18.2,6.99832776 C24.3855895,6.99832776 29.4,12.0115403 29.4,18.1956522 C29.4,24.379764 24.3855895,29.3929766 18.2,29.3929766 C12.0144105,29.3929766 7,24.379764 7,18.1956522 Z" id="Wifi_level_3" stroke="#394A9B" stroke-width="1" fill="none"></path>
+                                <path d="M28,18.1956522 C28,12.7845544 23.6123908,8.39799331 18.2,8.39799331 C12.7876092,8.39799331 8.4,12.7845544 8.4,18.1956522 C8.4,23.60675 12.7876092,27.993311 18.2,27.993311 C23.6123908,27.993311 28,23.60675 28,18.1956522 Z M11.2,18.1956522 C11.2,14.3305822 14.3340065,11.1973244 18.2,11.1973244 C22.0659935,11.1973244 25.2,14.3305822 25.2,18.1956522 C25.2,22.0607221 22.0659935,25.1939799 18.2,25.1939799 C14.3340065,25.1939799 11.2,22.0607221 11.2,18.1956522 Z" id="Wifi_level_2" stroke="#394A9B" stroke-width="1" fill="none"></path>
+                                <mask id="mask-11" fill="white">
+                                    <use xlink:href="#path-10"></use>
+                                </mask>
+                                <use id="Wifi_level_1" stroke="#394A9B" stroke-width="1" fill="none" xlink:href="#path-10"></use>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="Network_icon" transform="translate(23.800000, 2.799331)">
+                        <mask id="mask-13" fill="white">
+                            <use xlink:href="#path-12"></use>
+                        </mask>
+                        <g id="Network_triangle_mask"></g>
+                        <g id="Network_levels" mask="url(#mask-13)" fill="#394A9B">
+                            <g transform="translate(1.400000, 0.000000)">
+                                <rect id="Network_level_4" x="12.6" y="0" width="2.8" height="16.7959866"></rect>
+                                <rect id="Network_level_3" x="8.4" y="0" width="2.8" height="16.7959866"></rect>
+                                <rect id="Network_level_2" x="4.2" y="0" width="2.8" height="16.7959866"></rect>
+                                <rect id="Network_level_1" x="0" y="0" width="2.8" height="16.7959866"></rect>
+                            </g>
+                        </g>
+                    </g>
+                    <path d="M46.9006102,4.19899666 L56.6993898,4.19899666 C57.0768845,4.19899666 57.4,4.51309377 57.4,4.90055219 L57.4,18.8937622 C57.4,19.2737437 57.0863261,19.5953177 56.6993898,19.5953177 L46.9006102,19.5953177 C46.5231155,19.5953177 46.2,19.2812206 46.2,18.8937622 L46.2,4.90055219 C46.2,4.5205707 46.5136739,4.19899666 46.9006102,4.19899666 Z M49.3503051,2.7993311 L54.2496949,2.7993311 C54.4384422,2.7993311 54.6,2.95746177 54.6,3.15252582 L54.6,4.19899666 L49,4.19899666 L49,3.15252582 C49,2.94911984 49.1568369,2.7993311 49.3503051,2.7993311 Z" id="Battery_icon" fill="#394A9B"></path>
+                    <text id="Time-(4:40)" font-family=".SFNSText, .SF NS Text" font-size="18.2" font-weight="normal" letter-spacing="-0.260000005" fill="#394A9B">
+                        <tspan x="61.4124805" y="18">4:40</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

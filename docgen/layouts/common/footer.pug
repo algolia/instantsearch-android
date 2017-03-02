@@ -22,14 +22,13 @@ footer.ac-footer
       a.ac-footer-btn.ac-footer-btn-ghost-grey(href='https://www.algolia.com/why?utm_medium=social-owned&utm_source=InstantSearchAndroid%20Website&utm_campaign=homepage&utm_term=why')
         | See Why
         span.ac-icon-triangle
-      a.ac-footer-btn.ac-footer-btn-ghost-blue(href='https://www.algolia.com/users/sign_up?utm_medium=social-owned&utm_source=InstantSearchAndroid%20Website&utm_campaign=homepage&utm_term=get_started') Get Started For Free
+      a.ac-footer-btn.ac-footer-btn-ghost-green(href='https://www.algolia.com/users/sign_up?utm_medium=social-owned&utm_source=InstantSearchAndroid%20Website&utm_campaign=homepage&utm_term=get_started') Get Started For Free
 
 svg(style='display: none')
   style.
     .st0{fill:none;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
 
   defs
-
     symbol#check-icon(viewbox="0 0 33 26")
       path(d="M32.57872 2.63298L30.2617.31596c-.38617-.38617-1.01808-.38617-1.40425 0l-18.1851 18.20266-6.4947-6.49468c-.38616-.38617-1.01808-.38617-1.40425 0L.45638 14.34096c-.38617.38617-.38617 1.01808 0 1.40425l7.17926 7.17928 2.31702 2.31702c.38617.38616 1.01808.38616 1.40425 0l2.3346-2.29948 18.8872-18.9048c.38617-.38616.38617-1.01807 0-1.40424z" ,fill-rule="evenodd")
 
@@ -154,6 +153,10 @@ svg(style='display: none')
             path(d='M15.853 19.636h-7.36v-.756a12.351 12.351 0 0 1 2.435-.626V2.73H6.922L5.533 6.462h-.655a17.017 17.017 0 0 1-.131-1.187 77.995 77.995 0 0 1-.157-2.713c-.018-.444-.026-.84-.026-1.187h15.218c0 .348-.009.74-.026 1.174-.018.435-.04.882-.066 1.343l-.078 1.357c-.027.443-.066.848-.118 1.213h-.681l-1.362-3.73h-4.008v15.522c.454.087.878.173 1.27.26.393.087.773.21 1.14.366v.756z', stroke-width='1.3')
             path(d='M1.395 30s1.072-3.222 3.437-3.222c2.365 0 2.365 3.222 4.73 3.222 2.366 0 2.366-3.222 4.731-3.222 2.365 0 2.365 3.222 4.73 3.222 2.366 0 3.76-3.222 3.76-3.222', stroke-width='1.5', stroke-linecap='square')
 
+      symbol#icon-arrow-right
+        svg(xmlns='http://www.w3.org/2000/svg', viewBox="0 0 24 24")
+          path(id='icons/icon-separator-7-copy', d='M16.8243208 13.9173158l-6.5529374 7.0656635L13.2253658 23.5 23.5 12.0167931 13.2273532.5l-2.9579573 2.5125713 6.2287899 6.9831745H.5v3.92157h16.3243208z', fill="#fff")
+
 
 script(type="text/javascript", src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js")
 script(src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js")
@@ -165,99 +168,4 @@ script.
     inputSelector: '#searchbox',
     debug: true
   });
-  window.twttr = (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0],
-              t = window.twttr || {};
-      if (d.getElementById(id)) return t;
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://platform.twitter.com/widgets.js";
-      fjs.parentNode.insertBefore(js, fjs);
 
-      t._e = [];
-      t.ready = function (f) {
-          t._e.push(f);
-      };
-
-      return t;
-  }(document, "script", "twitter-wjs"));
-
-  $(function () {
-
-    var ACTIONS = {
-        PREV: 'PREV',
-        NEXT: 'NEXT'
-    };
-    var $prevBtn = $('.press__tweet__arrow--prev');
-    var $nextBtn = $('.press__tweet__arrow--next');
-    var $tweets = $('.press__tweet');
-    var $tweetsContainer = $('.press__tweets');
-
-    var currentIndex = Math.floor($tweets.length / 2);
-    function setCurrentTweet(action) {
-        switch (action) {
-        case ACTIONS.PREV:
-            if (currentIndex <= $tweets.length) {
-                currentIndex--;
-            }
-            break;
-        case ACTIONS.NEXT:
-            if (currentIndex >= 0) {
-                currentIndex++;
-            }
-            break;
-        default:
-            currentIndex = action;
-        }
-        centerTweets(action);
-    }
-    function centerTweets() {
-        var action = arguments.length <= 0 || arguments[0] === undefined ? ACTIONS.PREV : arguments[0];
-        var $centerElement = $($tweets[currentIndex]);
-        var tweetSize = $(_.first($tweets)).width();
-        var _$centerElement$posit = $centerElement.position();
-        var left = _$centerElement$posit.left;
-        var containerSize = $tweetsContainer.width();
-        var gap = action === ACTIONS.NEXT ? tweetSize / 3 : tweetSize - 325;
-        var offset = -(containerSize / 2) + left + gap;
-        $tweets.removeClass('press__tweet--current');
-        $centerElement.addClass('press__tweet--current');
-        removeClickableTweets();
-        $(_.first($tweetsContainer)).css('transform', 'translateX(' + (offset > 0 ? '-' + (offset + 150) : 0) + 'px)');
-    }
-    function loadTweets() {
-        var promises = [];
-        $tweets.each(function (index, tweet) {
-            var $tweet = $(tweet);
-            var tweetId = $tweet.attr('data-tweet-id');
-            promises.push(twttr.widgets.createTweet(tweetId, tweet, {
-                cards: 'hidden',
-                conversation: 'none'
-            }));
-        });
-        return promises;
-    }
-    function removeLoadingClass() {
-        $tweetsContainer.removeClass('press__tweets--loading');
-    }
-    function bindEvents() {
-        $prevBtn.on('click', _.partial(setCurrentTweet, ACTIONS.PREV));
-        $nextBtn.on('click', _.partial(setCurrentTweet, ACTIONS.NEXT));
-        $(window).on('resize', _.debounce(centerTweets, 100));
-    }
-
-    function showTab(e) {
-        window.location.hash = e.target.hash;
-        window.scrollTo(0, 0);
-        centerTweets();
-    }
-
-    function removeClickableTweets() {
-        $tweets.find('iframe').contents().find('.EmbeddedTweet').removeClass('js-clickToOpenTarget');
-        $tweets.nextAll('.press__tweet--current').find('iframe').contents().find('.EmbeddedTweet').addClass('js-clickToOpenTarget');
-    }
-    twttr.ready(function () {
-        Promise.all(loadTweets()).then(removeLoadingClass).then(centerTweets).then(removeClickableTweets);
-    });
-    bindEvents();
-  });

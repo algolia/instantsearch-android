@@ -203,12 +203,12 @@
   }
 
 
-  .ac-footer-btn-ghost-blue {
-    color:  $accent-color-darkish;
+  .ac-footer-btn-ghost-green {
+    color:  $android-color;
 
     &:hover {
-      background: $accent-color-darkish;
-      border-color: $accent-color-darkish;
+      background: $android-color;
+      border-color: $android-color;
       color: #fff;
     }
   }

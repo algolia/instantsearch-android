@@ -33,7 +33,6 @@ $black: #0a1724;
 $white-75: rgba(white, 0.75);
 $chocolate: #7d4704;
 $nice-purple: #8f64f3;
-$nice-blue:  #39b1de;
 $sweet-purple: #8e43e7;
 // Business variables
 $react-color: #00D8FF;
@@ -44,6 +43,26 @@ $accent-color-darkish: $accent-color;
 $bg-pale-accent: $saffron-mango-light;
 
 $border: $silver;
+$android-color: #6ab344;
+$react-color: $android-color;
+$nice-blue:  $android-color;
+
+
+/* Algolia v2 color
+==================*/
+$purple-heart: rgb(142,67,231); // Purple Heart
+$mulberry: rgb(184,69,146); // Mulberry
+$radical-red: rgb(255,79,129); // Radical Red
+$bittersweet: rgb(255,108,95); // Bittersweet
+$koromiko: rgb(255,193,104); // Koromiko
+$shamrock: rgb(45,222,152); // Shamrock
+$java: rgb(28,199,208); // Java
+$algolia-blue: rgb(0,174,255); // Algolia Blue
+$royal-blue: rgb(51,105,231); // Royal Blue
+$bunting: rgb(24,35,89); // Bunting
+$deep-cove: rgb(5,15,44); // Deep Cove
+$titan-white: rgb(247,247,255); // Titan White
+
 
 /* Icons
 ==================*/

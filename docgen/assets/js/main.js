@@ -1,7 +1,7 @@
 import sidebar from './sidebar.js';
-import header from './header.js';
-import communityProjects from './communityProjects.js';
 import dropdowns from './dropdowns.js';
+import move from './mover.js'
+import * as communityHeader from 'algolia-components/dist/_community_header.js'
 
 const container = document.querySelector('.documentation-container');
 const sidebarContainer = document.querySelector('.sidebar');
@@ -13,7 +13,8 @@ if (sidebarContainer) {
     headerStartLevel: 2,
   });
 }
-
-header();
+console.log(communityHeader)
+communityHeader.default();
 communityProjects();
 dropdowns();
+move();

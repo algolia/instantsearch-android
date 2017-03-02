@@ -71,7 +71,7 @@ $nav-background-light: mix($nav-background,#fff,92%);
       z-index: 10;
       height: $nav-height;
 
-      svg {
+      img {
         width: 60%;
         max-width: 90px;
         vertical-align: middle;
@@ -365,7 +365,7 @@ $nav-background-light: mix($nav-background,#fff,92%);
 
         &:hover,
         &.active {
-          border-bottom: 4px solid $accent-color;
+          border-bottom: 4px solid $android-color;
 
           @include small-mq {
             border-bottom: none;

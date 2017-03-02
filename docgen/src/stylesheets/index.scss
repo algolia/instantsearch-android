@@ -1,5 +1,7 @@
 @charset 'utf-8';
 
+@import 'node_modules/algolia-components/dist/_community_header';
+
 @import 'vendors/normalize',
         'vendors/variables',
         'vendors/functions',
@@ -25,4 +27,4 @@
         'components/examples',
         'components/hero',
         'components/dropdown',
-        'components/tweets';
+        'components/tweets'
