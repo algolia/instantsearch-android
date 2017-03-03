@@ -1,7 +1,7 @@
 import sidebar from './sidebar.js';
 import dropdowns from './dropdowns.js';
 import move from './mover.js';
-import community_header from 'algolia-components';
+import communityHeader from 'algolia-components';
 
 const docSearch = {
   api_key: '52641df1ce4919ba42eb84595f4825c7',
@@ -9,7 +9,7 @@ const docSearch = {
   input_selector: '#searchbox'
 }
 
-const communitHeaderInit = community_header.community_header.js.header(docSearch)
+const communitHeaderInit = communityHeaders.js.header(docSearch)
 const container = document.querySelector('.documentation-container');
 const sidebarContainer = document.querySelector('.sidebar');
 

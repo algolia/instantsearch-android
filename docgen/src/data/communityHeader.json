@@ -1,12 +1,9 @@
 {
-	"mainLogo": "<img src='assets/img/algolia-logo-darkbg.svg'/>",
 	"menu": {
 		"community": {
 			"style": "widelist",
 			"view": "integrations",
 			"label": "",
-			"logo": "<img src='assets/img/logo-community-xs-darkbg.svg'/>",
-			"caret": "",
 			"dropdownItems": [{
 				"name": "places.js",
 				"url": "https://community.algolia.com/places/",
@@ -104,8 +101,6 @@
 	"docSearch": {
 		"input_selector": "searchbox",
 		"input_selector_placeholder": "Search the docs",
-		"input_mobile_selector": "mobile-searchbox",
-		"input_search_icon": "<img src='assets/img/search-icon.svg'/>",
-		"input_cancel_icon": "<img src='assets/img/cancel-icon.svg'/>"
+		"input_mobile_selector": "mobile-searchbox"
 	}
 }

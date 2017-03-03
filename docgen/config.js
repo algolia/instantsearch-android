@@ -6,8 +6,8 @@ import {rootPath} from './path';
 const prod = process.env.NODE_ENV === 'production';
 const docsDist = process.env.DOCS_DIST;
 
-var content = JSON.parse(fs.readFileSync('./src/data/community_header.json').toString());
-var header = algoliaComponents.community_header.html.render(content);
+var content = JSON.parse(fs.readFileSync('./src/data/communityHeader.json', 'utf8').toString());
+var header = algoliaComponents.communityHeader.html.render();
 
 export default {
   docsDist:  docsDist? docsDist :
