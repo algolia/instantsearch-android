@@ -3,7 +3,7 @@
 // Avoid horizontal flickering when scrollbar appears
 body {
   overflow-y: scroll;
-  background: linear-gradient(to right, #ffffff, #ebf1f5);
+  background: #fff;
 }
 
 /* Containers
@@ -101,7 +101,7 @@ body:not(.example) section {
   }
 
   h2 {
-    color: $java;
+    color: $bunting;
   }
 }
 
@@ -112,17 +112,16 @@ body:not(.example) section {
 //---------------------------------------
 
 .is-section__intro {
-  background: #f6f9fc;
   z-index: 1 !important;
   min-height: 250px !important;
 
 
-  @include diagonal(-5deg, #f6f9fc, 200px, 'true', before) {
+  @include diagonal(-5deg, #FFF, 200px, 'true', before) {
     top: -100px;
     z-index: 0;
   }
 
-  @include diagonal(2deg, #f6f9fc, 170px, 'true', after) {
+  @include diagonal(2deg, #FFF, 170px, 'true', after) {
     top: 110px;
     z-index: -1;
   }
@@ -170,7 +169,7 @@ body:not(.example) section {
 //---------------------------------------
 .is-section__modular-widget {
   background-color: #fff;
-  background: linear-gradient(45deg, darken(#F7F7FF, 2%), #fff);
+  //background: linear-gradient(45deg, darken(#F7F7FF, 2%), #fff);
   color: $bunting;
   z-index: 0;
   padding-top: 60px;
@@ -239,6 +238,10 @@ body:not(.example) section {
     z-index: 5;
   }
 
+  h2 {
+    color: $java
+  }
+
   @include small-mq {
     p { max-width: 100% }
   }
@@ -260,105 +263,8 @@ body:not(.example) section {
 //
 //---------------------------------------
 .is-section__c {
-  background: #f6f9fc;
+  background: #fff;
   padding-top: 100px;
-
-  .section__graphic {
-    position: relative;
-    min-height: 200px;
-
-
-    .phone_illustration,
-    .computer_illustration {
-      position: absolute;
-
-    }
-    .computer_illustration {
-      max-width: 720px;
-      display: block;
-      left: -200px;
-    }
-
-    .phone_illustration {
-      z-index: 4;
-      max-width: 200px;
-      left: 50%;
-      top: 50px;
-    }
-  }
-  .section__description {
-    position: relative;
-    top: 100px;
-    left: 3em;
-    z-index: 5;
-
-     svg {
-      stroke: #00aeff;
-    }
-  }
-
-  ul.subtle-check-list {
-    position: absolute;
-    z-index: 9;
-    top: 70%;
-    right: 20px;
-    width: 170px;
-
-    li {
-      width: 100%;
-    }
-
-    svg {
-      width: 12px;
-      float: right;
-      margin-top: 4px;
-    }
-
-    use {
-      fill: $sweet-purple;
-      width: 12px;
-    }
-  }
-
-  // @include diagonal(-2deg, #1b192b, 100px, 'true', after) {
-  //   top: -140px;
-  //   position: relative;
-  //   z-index: 3;
-  // }
-  // @include diagonal(2deg, #FFF, 180px, 'true', before) {
-  //   top: 480px;
-  //   position: absolute;
-  //   z-index: 0;
-  // }
-
-  // @include big-min-mq {
-  //   @include diagonal(-2deg, #1b192b, 140px, 'true', after) {
-  //     top: -180px;
-  //     position: relative;
-  //     z-index: 3;
-  //   }
-  // }
-
-  @include mobile-mq {
-
-    .phone_illustration,
-    .computer_illustration {
-      display: none !important;
-    }
-
-    .section__description {
-      left: 0;
-    }
-
-    ul.subtle-check-list {
-      position: absolute;
-      z-index: 9;
-      top: 40%;
-      left: 0;
-      right: 0;
-      margin: auto;
-    }
-  }
 }
 
 
