@@ -195,21 +195,35 @@ body:not(.example) section {
     padding-left: 3em;
   }
 
-  p {
-    color: rgba($bunting, 0.8)
-  }
-
 
   @include mobile-mq {
    padding: 60px 0 !important;
   }
 }
 
-
+//---------------------------------------
+//
+// Relevancy section
+//
+//---------------------------------------
+.is-section__relevancy {
+  svg {
+    max-width: 230px;
+  }
+}
 
 //---------------------------------------
 //
 // Instant Faceting section
+//
+//---------------------------------------
+.is-section__instant-faceting {
+  height: 720px;
+}
+
+//---------------------------------------
+//
+// Typo tolerance section
 //
 //---------------------------------------
 .is-section__typo-tolerance {
@@ -242,6 +256,11 @@ body:not(.example) section {
     color: $java
   }
 
+  img {
+    position: relative;
+    top: 230px;
+  }
+
   @include small-mq {
     p { max-width: 100% }
   }
@@ -250,7 +269,7 @@ body:not(.example) section {
   }
 
   @include diagonal(2deg, $deep-cove, 200px, 'true', after) {
-    top: -100px;
+    top: -60px;
     z-index: 2;
   }
 }
@@ -326,11 +345,11 @@ body:not(.example) section {
           width: 100%;
         }
 
-        &.icon-react {
-          stroke: #00aeff
+        &.icon-android {
+          width: 120px
         }
         &.icon-heart {
-          fill: $sweet-purple;
+          fill: $java;
           width: 14px;
           margin: 0 8px;
         }
@@ -365,7 +384,7 @@ body:not(.example) section {
         float: right;
 
         use {
-          fill: $sweet-purple
+          fill: $java
         }
       }
     }
@@ -435,12 +454,6 @@ body:not(.example) section {
     }
   }
 
-
-  // @include diagonal(2deg, #222432, 140px, 'true', before) {
-  //   top: -140px;
-  //   position: absolute;
-  //   z-index: 8;
-  // }
 
   @include mobile-mq {
     padding: 0 !important;

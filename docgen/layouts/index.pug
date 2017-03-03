@@ -4,7 +4,7 @@ block content
   section.is-section__intro
     figure.section-illustration
       img(src="assets/img/search-focus.svg", width="380", class="searchfocus-illu")
-      img(src="assets/img/autocomplete-dropdown-simple.svg", width="300", class="autocomplete-illu", data-move = '-y', data-threesold = '300', data-factor = '50')
+      img(src="assets/img/autocomplete-dropdown-simple.svg", width="300", class="autocomplete-illu", data-move= '-y', data-threesold = '300', data-factor = '50')
 
     .container.center-text
       h2.title.
@@ -16,9 +16,9 @@ block content
   section.is-section__modular-widget
     .container.flex-container.v-center
       .section-graphic.flex-two
-        img(src="images/phone-build-3D.svg")
+        img(src="images/phone-build-3D.svg", width="520")
       .section-content.flex-two
-        h2 modular widgets
+        h2 Modular Widgets
         p A set of blocks to make your android development easier
 
   section.is-section__relevancy
@@ -30,7 +30,24 @@ block content
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
 
         .section-content.flex-two
-          img(src="images/android-screen.svg", width="210")
+          svg(xmlns='http://www.w3.org/2000/svg', viewbox="0 0 292 590", xmlns:xlink='http://www.w3.org/1999/xlink')
+            defs
+              path#path-1(d='M.48670134.72533533H265.199347V470H.48670134z')
+            g#Page-1(fill='none', fill-rule='evenodd')
+              g#OUTLINE
+                g#Group-2
+                  g#Phone
+                    path#Body(stroke='#182359', stroke-width='.69999999', d='M2.35892408 557.161947c0 13.385465 9.13814142 19.869011 12.66269432 21.527476 7.8755782 3.705241 17.7463028 4.629672 35.2084671 5.873521 14.2217499 1.012115 55.4897795 5.086878 94.3006285 5.086878l1.95685-.038831c39.943697 0 79.557546-3.293131 93.734822-4.81506 15.704212-1.686023 28.670811-3.69522 36.546389-7.400461 3.523318-1.658465 12.199425-7.474366 12.199425-19.687382V28.4774065c0-7.8814662-7.089873-14.2384974-10.614426-15.8957097-7.875578-3.70524112-17.323801-6.5048401-34.785966-7.74743617-14.22175-1.01211453-53.327856-3.79668212-93.271553-3.79668212L141.648562 1c-38.812085 0-79.6674962 2.8221461-93.8892461 3.83426063C30.2971516 6.0768567 22.5364642 7.96580313 14.660886 11.6710442c-3.5233175 1.6584649-12.30196192 7.4117346-12.30196192 16.8063633V557.161947z')
+                    path#Speaker(fill='#182359', d='M153.330065 29.3118151c0-3.9094924-3.167932-7.0779538-7.076772-7.0779538-3.907609 0-7.076772 3.1684614-7.076772 7.0779538 0 3.9082614 3.169163 7.0779537 7.076772 7.0779537 3.90884 0 7.076772-3.1696923 7.076772-7.0779537')
+                    path#Mic(fill='#182359', d='M51.8963298 31.6705263c0-1.9536269-1.5842071-3.5383702-3.5383861-3.5383702-1.954179 0-3.5383861 1.5847433-3.5383861 3.5383702 0 1.9548403 1.5842071 3.5395836 3.5383861 3.5395836 1.954179 0 3.5383861-1.5847433 3.5383861-3.5395836')
+                    path#Volumes(fill='#182359', d='M0 114.24726h2.35892408v92.013399H0z')
+                    path#Power(fill='#182359', d='M288.9682 76.4981735h2.358924V114.24726H288.9682z')
+                    g#Screen(transform='translate(14 51)')
+                      mask#mask-2(fill='#fff')
+                        use(xlink:href='#path-1')
+                      use#Mask(fill='#182359', xlink:href='#path-1')
+                    image#iPhone-3(x='15', y='51', width='264', height='468.782443', xlink:href='http://localhost:3000/assets/img/media.gif')
+
 
   section.is-section__typo-tolerance
     .container.flex-container.v-center
@@ -57,47 +74,22 @@ block content
         h2 Modular Widgets
         p for building every part of your search interface
       .section-graphic.flex-two.center-text
-        img(src="images/android-tile.svg")
+        img(src="images/android-tile.svg", data-move = '-y', data-threesold = '800', data-factor = '100')
 
-  section.is-section__c
-    .container.flex-container.v-center
-      .section-graphic.flex-two
-        img(src="https://www.algolia.com/static_assets/images/offline/illus-iphone-@3x-fcc30312.png", width="320")
-      .section-content.flex-two
-        h2 modular widgets
-        p for building every part of your search interface
-  //- section.is-section__b
-  //-   .container
-  //-    h2 more than widgets
-  //-    p tools and helpers to make your development easier
-
-  //- section.is-section__c
-  //-   .container
-  //-     h2 infinite possibilities
-  //-     p tweak components and create custom widgets to build any interface you dream of
-
-  section.is-section__footer
-    div.footer__community
-      .container
-        figure
-          svg.icon.icon-al
-            use(xlink:href="#algolia-icon")
-          svg.icon.icon-heart
-            use(xlink:href="#heart-icon")
-          svg.icon.icon-react
-            use(xlink:href="#react-icon")
-        h3 Join the community!
-
-        ul
-          li Share your awesome projects <svg><use xlink:href="#check-icon"></svg>
-          li Find useful tips & solutions <svg><use xlink:href="#check-icon"></svg>
-        a(href="https://discourse.algolia.com/c/instantsearch", class="btn btn-ghost btn-ghost-green") Join us on discourse&nbsp;&gt;
-
-    div.footer__call-to-action
-      .container
-        h2 InstantSearch Android
-        a(href="getting-started.html", class="btn btn-static-dark btn-shadow").
-          Get started <svg><use xlink:href="#icon-arrow-right" /></svg>
-        a(href="guide/", class="btn btn-static-dark btn-shadow").
-          Guide <svg><use xlink:href="#icon-arrow-right" /></svg>
-
+  .cta-free-trial
+    .container
+      .inner-container
+        .row
+          .col-md-6
+            h3 Get Started Today, For Free
+            p
+              | Don't wait! Try Algolia! No credit card required.
+              span.clearfix
+              |  Try Algolia for free for 14 days.
+          .col-md-6
+            .spacer40
+            a.btn.btn-static-dark(href='users/sign_up')
+              | Start FREE Trial
+              i.icon-arrow-right
+            .spacer10
+            a.link(href='/schedule-demo') I’d rather schedule a demo with a Product Specialist

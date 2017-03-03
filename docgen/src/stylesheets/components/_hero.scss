@@ -37,18 +37,6 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
     text-align: center;
   }
 
-  .relative {
-    margin-top: 4em;
-    float: left;
-    width: 100%;
-    display: none;
-
-    body.index &{
-      display: block;
-    }
-
-  }
-
   .tagline {
     margin-bottom: 0.8em;
   }
@@ -60,6 +48,10 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
     line-height: 1.27;
   }
 
+  .hero-content {
+    margin-top: 3em;
+    margin-bottom: -2.5em;
+  }
   .hero-illustration {
     position: relative;
     text-align: left;
@@ -69,6 +61,7 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
 
     img {
       position: absolute;
+      top: 16px;
     }
   }
 

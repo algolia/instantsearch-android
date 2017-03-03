@@ -43,9 +43,7 @@ $accent-color-darkish: $accent-color;
 $bg-pale-accent: $saffron-mango-light;
 
 $border: $silver;
-$android-color: #6ab344;
-$react-color: $android-color;
-$nice-blue:  $android-color;
+
 
 
 /* Algolia v2 color
@@ -63,7 +61,9 @@ $bunting: rgb(24,35,89); // Bunting
 $deep-cove: rgb(5,15,44); // Deep Cove
 $titan-white: rgb(247,247,255); // Titan White
 
-
+$android-color: $java;
+$react-color: $android-color;
+$nice-blue:  $android-color;
 /* Icons
 ==================*/
 $icon-heart: "data:image/svg+xml;utf8,<svg width=\'16\' height=\'15\' viewBox=\'0 0 16 15\' xmlns=\'http://www.w3.org/2000/svg\'><title>icon-heart</title><path d=\'M7.996 14.35c.155 0 .285-.053.392-.16l5.57-5.37c.058-.048.14-.125.244-.232.104-.107.27-.302.495-.585.227-.282.43-.572.607-.87.18-.297.338-.657.478-1.08.14-.42.21-.83.21-1.23 0-1.308-.378-2.33-1.134-3.07-.755-.736-1.8-1.105-3.132-1.105-.37 0-.745.064-1.13.192-.383.128-.74.3-1.07.517-.33.217-.614.42-.852.61-.238.192-.464.394-.678.608-.214-.214-.44-.416-.678-.607-.238-.19-.522-.394-.853-.61-.33-.218-.687-.39-1.07-.518-.384-.128-.76-.192-1.13-.192-1.332 0-2.376.37-3.13 1.106C.377 2.492 0 3.514 0 4.824c0 1.313.68 2.652 2.044 4.013l5.56 5.353c.106.107.237.16.392.16z\' fill=\'%23FD336E\' fill-rule=\'evenodd\'/></svg>";
