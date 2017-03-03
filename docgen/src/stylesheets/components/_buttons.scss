@@ -12,6 +12,12 @@
   -webkit-transition: background 0.2s, box-shadow 0.2s;
           transition: background 0.2s, box-shadow 0.2s;
   will-change: background, box-shadow;
+
+  svg {
+    width: 22px;
+    height: 16px;
+    vertical-align: middle;
+  }
 }
 .btn:hover, .btn:focus, .btn:active, .btn.active {
   outline: 0 !important;

@@ -99,6 +99,10 @@ body:not(.example) section {
       }
     }
   }
+
+  h2 {
+    color: $java;
+  }
 }
 
 //---------------------------------------
@@ -166,10 +170,13 @@ body:not(.example) section {
 //---------------------------------------
 .is-section__modular-widget {
   background-color: #fff;
+  background: linear-gradient(45deg, darken(#F7F7FF, 2%), #fff);
+  color: $bunting;
   z-index: 0;
   padding-top: 60px;
   padding-bottom: 160px;
-  color: $bunting;
+  border-top: 1px solid rgba(black, 0.1);
+  border-bottom: 1px solid rgba(black, 0.1);
 
 
   .section-graphic {
@@ -502,6 +509,8 @@ body:not(.example) section {
       min-width: 160px;
       font-size: 15px;
       max-width: 300px;
+      text-align: center;
+
 
       &:hover {
         font-size: 15px;

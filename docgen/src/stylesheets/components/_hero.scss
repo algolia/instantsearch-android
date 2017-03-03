@@ -17,7 +17,6 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
   position: relative;
   z-index: 5;
   height: 780px;
-  margin-top: $nav-height;
   text-align: center;
 
   .tagline {
@@ -48,16 +47,6 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
       display: block;
     }
 
-  }
-
-
-  .btn{
-
-    svg {
-      width: 22px;
-      height: 16px;
-      vertical-align: middle;
-    }
   }
 
   .tagline {
@@ -217,7 +206,7 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
     height: 150px;
     line-height: 150px;
     padding: 0;
-    background-size: 250px, 100%;
+    background-size: 100%;
     background-position: center right 10vw, center center;
     text-align: left;
 

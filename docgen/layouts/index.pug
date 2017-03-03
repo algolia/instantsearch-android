@@ -7,7 +7,7 @@ block content
       img(src="assets/img/autocomplete-dropdown-simple.svg", width="300", class="autocomplete-illu", data-move = '-y', data-threesold = '300', data-factor = '50')
 
     .container.center-text
-      h2.title
+      h2.title.
         We bring the power of Algolia to Android developers
 
       p.
@@ -96,6 +96,8 @@ block content
     div.footer__call-to-action
       .container
         h2 InstantSearch Android
-        a(href="getting-started.html", class="btn btn-cta btn-ghost btn-black") Get started
-        a(href="guide/", class="btn btn-cta btn-ghost btn-ghost-white") Guide
+        a(href="getting-started.html", class="btn btn-static-dark btn-shadow").
+          Get started <svg><use xlink:href="#icon-arrow-right" /></svg>
+        a(href="guide/", class="btn btn-static-dark btn-shadow").
+          Guide <svg><use xlink:href="#icon-arrow-right" /></svg>
 
