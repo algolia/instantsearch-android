@@ -27,6 +27,7 @@ export default {
       },
     ],
   },
+  
   postcss: [autoprefixer()],
   resolve: {
     alias: {
