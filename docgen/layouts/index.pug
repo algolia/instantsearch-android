@@ -6,30 +6,98 @@ block content
       img(src="assets/img/search-focus.svg", width="380", class="searchfocus-illu")
       img(src="assets/img/autocomplete-dropdown-simple.svg", width="300", class="autocomplete-illu", data-move= '-y', data-threesold = '300', data-factor = '50')
 
-    .container.center-text
+    .container.text-center
       h2.title.
-        UX building blocks for creating beautiful search in Android
-
+        Leverage Algolia’s out-of-the-box excellence on Android
       p.
         Algolia is a leading provider of Search as a Service, fast and fully-featured auto-completion menu for your search boxes, displaying results "as you type" with a seamless and instant user experience.
+  section.is-section__features
+    .container.flex-container
+      .flex-item-100.text-center
+        header
+          h2 Features
 
-  section.is-section__modular-widget
-    .container.flex-container.v-center
-      .section-graphic.flex-two
-        img(src="images/phone-build-3D.svg", width="520")
-      .section-content.flex-two
-        h2 Modular Widgets
-        p A set of blocks to make your android development easier
+      .flex-item-50.text-right
+        div.content-holder
+          header
+            h3 Typo-tolerance
+          p
+            | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua.
+        div.image-holder
+          img(src="assets/img/typo-tolerant.svg")
 
+      .flex-item-50
+        div.image-holder
+          img(src="https://www.algolia.com/static_assets/images/about-vvo.jpg")
+
+        div.content-holder
+          header
+            h3 Synonym-handling
+          p
+            | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua.
+
+      .flex-item-50.text-right
+        div.content-holder
+          header
+            h3 Worldwide Hosting
+          p
+            | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua.
+        div.image-holder
+          img(src="assets/img/worldwide.svg")
+
+      .flex-item-50
+        div.image-holder
+          img(src="assets/img/performance.svg")
+        div.content-holder
+          header
+            h3 Lightning-fast Results
+          p
+            | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua.
+
+      .flex-item-50.text-right
+        div.content-holder
+          header
+            h3 Geo-Search
+          p
+            | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua.
+        div.image-holder
+          img(src="assets/img/worldmap.svg")
+
+      .flex-item-50
+        div.image-holder
+          img(src="https://www.algolia.com/static_assets/images/about-vvo.jpg")
+        div.content-holder
+          header
+            h3 Offline Capabilities
+          p
+            | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua.
+
+  section.is-section__offline
+      .container.text-center
+        .content-holder
+          h2.color-white.title Offline
+          p.color-white Take your app experience offline in low- and zero-connectivity scenarios by leveraging Algolia Offline.
+          a.btn.btn-static-primary.btn-shadow-dark.btn-lg(href="#").
+            Learn more  <i class="icon icon-arrow-right"></i>
   section.is-section__relevancy
     .container.flex-container.v-center
-        .section-content.flex-two
-          h2 Instant &amp; Relevant
+        .section-content.flex-item-50
+          h2 Build beautiful search on Android easily
           p.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+            InstantSearch for Android takes all the component/widget logic for InstantSearch.js and brings it to Android app developers.
+          ul
+            li Robust search results pages
+            li Intuitive UI Components
+            li Complete Documentation
 
-        .section-content.flex-two
+
+        .section-content.flex-item-50.text-center
           svg(xmlns='http://www.w3.org/2000/svg', viewbox="0 0 292 590", xmlns:xlink='http://www.w3.org/1999/xlink')
             defs
               path#path-1(d='M.48670134.72533533H265.199347V470H.48670134z')
@@ -51,30 +119,32 @@ block content
 
   section.is-section__typo-tolerance
     .container.flex-container.v-center
-        .section-content.flex-two
+        .section-content.flex-item-50.text-center
           img(src="images/typo-tolerant.svg")
-        .section-content.flex-two
+        .section-content.flex-item-50
           h2 Typo Tolerant
           p.
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua.
   section.is-section__instant-faceting
     .container.flex-container.v-center
-        .section-content.flex-two
+        .section-content.flex-item-40
           h2 Instant Faceting
           p.
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
-        .section-content.flex-two
+        .section-content.flex-item-50.text-center
           img(src="images/facets-illus.svg")
 
   section.is-section__b
-    .container.flex-container.v-center
-      .section-content.flex-two
-        h2 Modular Widgets
-        p for building every part of your search interface
-      .section-graphic.flex-two.center-text
-        img(src="images/android-tile.svg", data-move = '-y', data-threesold = '800', data-factor = '100')
+    .container.flex-container.v-center.pos-rel
+      .pos-rel.flex-item-40
+        .section-content.v-center
+          h2 Modular Widgets
+          p for building every part of your search interface
+      .pos-rel.flex-item-40
+        .section-graphic.flex-item-50.text-center
+          img(src="images/android-tile.svg", data-move = '-y', data-threesold = '800', data-factor = '100')
 
   .cta-free-trial
     .container
@@ -90,6 +160,6 @@ block content
             .spacer40
             a.btn.btn-static-dark(href='users/sign_up')
               | Start FREE Trial
-              i.icon-arrow-right
+              i.icon.icon-arrow-right
             .spacer10
             a.link(href='/schedule-demo') I’d rather schedule a demo with a Product Specialist

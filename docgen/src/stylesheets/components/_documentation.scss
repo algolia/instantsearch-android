@@ -36,7 +36,7 @@
   }
 
   h2 {
-    color: $charcoal-grey;
+    color: $logan;
     font-size: 28px;
     padding-right: 1em;
     border-bottom: 1px solid #d8d8d8;
@@ -93,7 +93,7 @@
   }
 
   .chapter-summary {
-    background: $bg-pale-accent;
+    background: $algolia-blue;
     padding: 10px;
     border-radius: 4px;
   }
@@ -134,7 +134,7 @@
             content: '-';
             float: left;
             margin-right: 6px;
-            color: $greyish
+            color: $logan
           }
         }
       }

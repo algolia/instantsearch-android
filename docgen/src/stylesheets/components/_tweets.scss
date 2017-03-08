@@ -85,7 +85,7 @@ body.safari ul.press__tweets{
     display: none
 }
 
-@media (max-width: $bp-small) {
+@media (max-width: $screen-sm) {
     .press__tweet--current {
         max-width: 100%;
     }

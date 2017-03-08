@@ -9,7 +9,7 @@ const docSearch = {
   input_selector: '#searchbox'
 }
 
-alg.communityHeader.js.header(docSearch);
+alg.communityHeader(docSearch);
 
 const container = document.querySelector('.documentation-container');
 const sidebarContainer = document.querySelector('.sidebar');

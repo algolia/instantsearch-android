@@ -141,6 +141,7 @@ body:not(.example) section {
       position: relative;
       z-index: 90;
       top: 30px;
+      max-width: 380px
     }
   }
 
@@ -201,6 +202,72 @@ body:not(.example) section {
   }
 }
 
+//---------------------------------------
+//
+// Features section
+//
+//---------------------------------------
+.is-section__features {
+  padding: 4em 0;
+  border-top: 1px solid rgba(black, 0.1);
+  border-bottom: 1px solid rgba(black, 0.1);
+
+  h2 {
+    padding-bottom: 2em;
+  }
+
+  .flex-item-50 {
+    padding: 0 2em;
+    display: flex;
+
+    .content-holder,
+    .image-holder {
+      float: left;
+    }
+    .content-holder {
+      width: 70%;
+    }
+    .image-holder {
+      width: 30%;
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      padding: 0 1.5em;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 50%;
+      border: 1px solid rgba(black, 0.1)
+    }
+  }
+}
+
+//---------------------------------------
+//
+// Offline section
+//
+//---------------------------------------
+.is-section__offline {
+  min-height: 340px !important;
+  background: $bunting;
+  color: #fff;
+
+  .content-holder {
+    max-width: 60%;
+    margin: auto;
+    position: relative;
+    top: 50px;
+  }
+
+  .title {
+    margin-top: 0;
+  }
+
+  .btn {
+    margin-top: 1em;
+  }
+}
 //---------------------------------------
 //
 // Relevancy section

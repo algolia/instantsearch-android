@@ -1,5 +1,5 @@
 .tagline a {
-  color: $denim-blue;
+  color: $algolia-blue;
 }
 
 // Start the hero
@@ -11,13 +11,13 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
   background-repeat: no-repeat, repeat;
   background-position: center center, top left;
   background-size:  cover, 100%;
-  color: $hero-color-accent;
   padding-top: $nav-height*1.5;
   overflow: hidden;
   position: relative;
   z-index: 5;
   height: 780px;
   text-align: center;
+  color: #fff;
 
   .tagline {
     img {

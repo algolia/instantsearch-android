@@ -2,6 +2,18 @@
   will-change: transform;
 }
 
+
+.blink {
+  animation: blink-animation 0.75s steps(5, start) infinite;
+  -webkit-animation: blink-animation 0.75s steps(5, start) infinite;
+  will-change: stroke-opacity
+}
+@keyframes blink-animation {
+  to {
+    stroke-opacity: 0
+  }
+}
+
 // Footer heartbeat
 @keyframes pulse{
   0% {
