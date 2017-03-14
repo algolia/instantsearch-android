@@ -43,7 +43,7 @@ import java.util.Set;
  * Uses the {@link Searcher} to react to changes in your application's interface, like when your user types a new query or interacts with Widgets.
  * You can either use it with a single widget which will receive incoming results, or with several that will interact together in the same activity.
  */
-public class InstantSearchHelper {
+public class InstantSearch {
     /** Delay before displaying progressbar when the current android API does not support animations. {@literal (API < 14)} */
     @SuppressWarnings("WeakerAccess") public static final int DELAY_PROGRESSBAR_NO_ANIMATIONS = 200;
 
@@ -70,7 +70,7 @@ public class InstantSearchHelper {
      * @param activity an Activity containing at least one {@link AlgoliaWidget} to update with incoming results.
      * @param searcher the Searcher to use with this activity.
      */
-    public InstantSearchHelper(@NonNull final Activity activity, @NonNull final Searcher searcher) {
+    public InstantSearch(@NonNull final Activity activity, @NonNull final Searcher searcher) {
         this(searcher);
 
         processActivity(activity);
@@ -85,7 +85,7 @@ public class InstantSearchHelper {
      * @param searcher   the Searcher to use with this activity.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public InstantSearchHelper(@NonNull final Activity activity, @NonNull Menu menu, @IdRes int menuItemId, @NonNull final Searcher searcher) {
+    public InstantSearch(@NonNull final Activity activity, @NonNull Menu menu, @IdRes int menuItemId, @NonNull final Searcher searcher) {
         this(searcher);
 
         registerSearchView(activity, menu, menuItemId);
@@ -99,12 +99,12 @@ public class InstantSearchHelper {
      * @param searcher the Searcher to use with this AlgoliaWidget.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public InstantSearchHelper(@NonNull final AlgoliaWidget widget, @NonNull final Searcher searcher) {
+    public InstantSearch(@NonNull final AlgoliaWidget widget, @NonNull final Searcher searcher) {
         this(searcher);
         processWidget(((View) widget).getRootView(), widget, null);
     }
 
-    private InstantSearchHelper(@NonNull final Searcher searcher) {
+    private InstantSearch(@NonNull final Searcher searcher) {
         this.searcher = searcher;
         enableProgressBar();
     }
