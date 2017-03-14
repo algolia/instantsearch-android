@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.7.0 (2017-03-14)
+
+### Features
+
+- New `AlgoliaFacetFilter` interface to define filter Views ([16d024a](https://github.com/algolia/instantsearch-android/commit/16d024a))
+* **Filters:** New filter - NumericSelector ([4ddf599](https://github.com/algolia/instantsearch-android/commit/4ddf599))
+* **Filters:** Implement autoHide for NumericSelector, refact to prevent duplication ([4740a69](https://github.com/algolia/instantsearch-android/commit/4740a69))
+* **NumericRefinement:** Function for getting refinement operator given its name ([39be9b9](https://github.com/algolia/instantsearch-android/commit/39be9b9))
+* **NumericSelector:** accept a non-filtering option ([c73874e](https://github.com/algolia/instantsearch-android/commit/c73874e))
+* **Toggle:** New widget - toggle facet filter ([325b42e](https://github.com/algolia/instantsearch-android/commit/325b42e))
+* **Toggle:** Setter for template, applied with last results ([94e60ec](https://github.com/algolia/instantsearch-android/commit/94e60ec))
+* **Toggle:** Specialize as OneValueToggle ([7cc573e](https://github.com/algolia/instantsearch-android/commit/7cc573e))
+* **Toggle:** Specialize as TwoValuesToggle ([301a854](https://github.com/algolia/instantsearch-android/commit/301a854))
+* **Toggle:** template ([4fc49bb](https://github.com/algolia/instantsearch-android/commit/4fc49bb))
+
+### Bug Fixes
+
+* **Filters:** Throw if a filter misses an attribute ([d1a8b4a](https://github.com/algolia/instantsearch-android/commit/d1a8b4a))
+* **InstantSearchHelper:** Never register twice a widget ([3c9560d](https://github.com/algolia/instantsearch-android/commit/3c9560d))
+* **LayoutViews:** Ensure no null rootView is passed ([b43f000](https://github.com/algolia/instantsearch-android/commit/b43f000))
+* **NumericSelector:** correct error message ([650321c](https://github.com/algolia/instantsearch-android/commit/650321c))
+* **Toggle:** updating both value and name ([24bc640](https://github.com/algolia/instantsearch-android/commit/24bc640))
+* **Toggle:** Version second TypedArray creation ([a9f8fe2](https://github.com/algolia/instantsearch-android/commit/a9f8fe2))
+
 ## 0.6.0 (2017-01-31)
 
 ### Features
