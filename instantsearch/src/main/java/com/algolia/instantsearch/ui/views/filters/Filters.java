@@ -7,7 +7,7 @@ import com.algolia.instantsearch.model.Errors;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-class Filters {
+abstract class Filters {
     static void hideIfShouldHide(View view, Boolean autoHide, Boolean shouldHide) {
         if (autoHide) {
             view.setVisibility(shouldHide ? GONE : VISIBLE);
