@@ -16,8 +16,11 @@
         <attr name="remainingItemsBeforeLoading" format="integer"/>
     </declare-styleable>
     <declare-styleable name="RefinementList">
+        <!-- The operator to refine with. -->
         <attr name="operator" format="string">
+            <!-- Disjunctive faceting (foo || bar)-->
             <enum name="or" value="0"/>
+            <!-- Conjunctive faceting (foo && bar)-->
             <enum name="and" value="1"/>
         </attr>
         <attr name="sortBy" format="string"/>
@@ -39,6 +42,7 @@
         <attr name="valueOff" format="string"/>
     </declare-styleable>
     <declare-styleable name="OneValueToggle">
+        <!-- The value to refine with. -->
         <attr name="value" format="string"/>
     </declare-styleable>
     <declare-styleable name="NumericSelector">
