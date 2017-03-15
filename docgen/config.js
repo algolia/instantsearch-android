@@ -1,4 +1,4 @@
-var algoliaComponents = require('algolia-components');
+var algoliaComponents = require('algolia-frontend-components');
 var fs = require('fs');
 
 import {rootPath} from './path';

@@ -306,6 +306,8 @@
   display: inline-block
 .pull-none
   float: none
+.fl-left
+  float: left
 
 .line-v
   border-left: 1px solid #dddddd
@@ -369,19 +371,49 @@ sub
 .flex-end
   align-items: flex-end
 
+.flex-start
+  align-items: flex-start
+
 .flex-col
   flex-direction: column
+
+.flex-space
+  justify-content: space-around
+
+.flex-item-20
+  flex: 20%
+
+.flex-item-30
+  flex: 30%
+
+.flex-item-40
+  flex: 40%
 
 .flex-item-50
   flex: 50%
 
-.flex-item-40
-  flex: 40%
+.flex-item-60
+  flex: 60%
 
 .flex-item-100
   flex: 100%
 
 // Responsive
+
+.visible-xs-block,
+.visible-xs-inline,
+.visible-xs-inline-block,
+.visible-sm-block,
+.visible-sm-inline,
+.visible-sm-inline-block,
+.visible-md-block,
+.visible-md-inline,
+.visible-md-inline-block,
+.visible-lg-block,
+.visible-lg-inline,
+.visible-lg-inline-block
+  display: none !important
+
 .mobile-only
   display: none !important
 
@@ -399,6 +431,16 @@ sub
 
   @media (max-width: $screen-sm)
     display: none !important
+
+@media (max-width:768px)
+  .hidden-md-down
+    display:none!important
+
+.visible-sm-inline
+  @media (min-width: $screen-sm-max)
+    display: inline !important
+
+
 
 // Debug
 .debug

@@ -1,44 +1,5 @@
 {
-  "mainLogo": "<img src='/images/algolia-logo-darkbg.svg'/>",
   "menu": {
-    "community": {
-      "style": "widelist",
-      "view": "integrations",
-      "label": "",
-      "logo": "<img src='images/logo-community.svg'/>",
-      "caret": "",
-      "dropdownItems": [{
-        "name": "places.js",
-        "url": "https://community.algolia.com/places/",
-        "logo": "https://community.algolia.com/places/images/svg/places-illustration-65745839.svg",
-        "backgroundColor": "#3a5395"
-      }, {
-        "name": "wordpress",
-        "url": "https://community.algolia.com/wordpress",
-        "logo": "https://community.algolia.com/wordpress/img/icons/wp-icon.svg",
-        "backgroundColor": "linear-gradient(to bottom right, #4041B2, #516ED1)"
-      }, {
-        "name": "Autocomplete.js",
-        "url": "https://github.com/algolia/autocomplete.js",
-        "logo": "https://community.algolia.com/img/illus-autocomplete.svg",
-        "backgroundColor": "#00587f"
-      }, {
-        "name": "instantsearch.js",
-        "url": "https://community.algolia.com/instantsearch.js/",
-        "logo": "https://community.algolia.com/img/logo-is.svg",
-        "backgroundColor": "#385D72"
-      }, {
-        "name": "Helper.js",
-        "url": "https://community.algolia.com/algoliasearch-helper-js/",
-        "logo": "https://community.algolia.com/img/logo-helper.svg",
-        "backgroundColor": "#FDBD57"
-      }, {
-        "name": "React InstantSearch",
-        "url": "https://community.algolia.com/instantsearch.js/react/",
-        "logo": "http://res.cloudinary.com/hilnmyskv/image/upload/v1488823753/react-instantsearch-logo.svg",
-        "backgroundColor": "#f6f9fc"
-      }]
-    },
     "project": {
       "view": "links",
       "label": "Android InstantSearch",
@@ -53,7 +14,7 @@
     "url": "/getting-started.html",
     "dropdownItems": null
   },{
-    "name": "Documentation",
+    "name": "Doc<span class='visible-sm-inline'>umentation</span>",
     "url": "javascript:void(0)",
     "image": "",
     "dropdownItems": [
@@ -75,7 +36,7 @@
       }
     ]
   },{
-    "name": "examples",
+    "name": "<span class='visible-sm-inline'>examples</span>",
     "url": "/examples.html"
   }],
   "mobileMenu": [{
@@ -104,8 +65,6 @@
   "docSearch": {
     "input_selector": "searchbox",
     "input_selector_placeholder": "Search the docs",
-    "input_mobile_selector": "mobile-searchbox",
-    "input_search_icon": "<img src='/images/icons/search-icon.svg'/>",
-    "input_cancel_icon": "<img src='/images/icons/cancel-icon.svg'/>"
+    "input_mobile_selector": "mobile-searchbox"
   }
 }

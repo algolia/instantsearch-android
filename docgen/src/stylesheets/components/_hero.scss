@@ -19,6 +19,8 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
   text-align: center;
   color: #fff;
 
+
+
   .tagline {
     img {
       vertical-align: bottom;
@@ -46,6 +48,7 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
     opacity: 0.75;
     font-size: 22px;
     line-height: 1.27;
+    color: #fff
   }
 
   .hero-content {
@@ -91,11 +94,6 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
     }
 
 
-
-    h2 {
-      font-weight: 300;
-    }
-
     &.doc-only {
       width: 100%;
     }
@@ -122,13 +120,20 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
     }
   }
 
-  @include small-mq {
+  @include mobile-mq {
     text-align: center;
     padding-top: 16px;
     position: relative;
     max-width: 100%;
-    background-position: center center, center center;
+    background-position: center top, center center;
     background-size: 500px, 100%;
+    min-height: 460px !important;
+    height: 460px !important;
+
+    h3 {
+      margin-top: 1em;
+    }
+
 
     .hero-container {
       top: 70px;
@@ -175,22 +180,6 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
 
     #json-response-text {
       text-align: left;
-    }
-  }
-
-
-  &.shrink {
-    min-height: 314px;
-  }
-
-  .fl-right svg {
-    max-width: 260px;
-    position: relative;
-    top: -20px;
-
-    path,
-    ellipse {
-      transform: translateY(12px);
     }
   }
 

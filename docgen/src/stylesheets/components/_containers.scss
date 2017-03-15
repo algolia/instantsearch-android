@@ -4,6 +4,10 @@
 body {
   overflow-y: scroll;
   background: #fff;
+
+  @include mobile-mq {
+    overflow-x: hidden;
+  }
 }
 
 /* Containers
@@ -37,10 +41,6 @@ body:not(.example) section {
   &.oddbg {
     background-color: #f9fafb
   }
-
-  @include medium-mq {
-    padding: 0 16px;
-  }
 }
 
 .desc-icon {
@@ -57,9 +57,28 @@ body:not(.example) section {
 
 [class*="is-section__"] {
   min-height: inherit;
+   // To handle diagonals
+  &.is-section__intro,
+  &.is-section__blocks,
+  &.is-section__relevancy,
+  &.is-section__api,
+  &.is-section__features,
+  &.is-section__offline,
+  &.is-section__modular-widget {
+    z-index: 0;
+
+
+    @include mobile-mq {
+      &:before,
+      &:after {
+        display: none !important;
+
+      }
+    }
+  }
 
   > .container {
-    width: $container-width;
+    max-width: $container-width;
     margin: auto;
 
     &.v-center {
@@ -83,23 +102,6 @@ body:not(.example) section {
     }
   }
 
-  // To handle diagonals
-  &.is-section__intro,
-  &.is-section__a,
-  &.is-section__b,
-  &.is-section__c {
-    z-index: 0;
-
-
-    @include mobile-mq {
-      &:before,
-      &:after {
-        display: none !important;
-
-      }
-    }
-  }
-
   h2 {
     color: $bunting;
   }
@@ -114,18 +116,13 @@ body:not(.example) section {
 .is-section__intro {
   z-index: 1 !important;
   min-height: 250px !important;
+  border-bottom: 1px solid rgba($logan, 0.5);
 
 
   @include diagonal(-5deg, #FFF, 200px, 'true', before) {
     top: -100px;
     z-index: 0;
   }
-
-  @include diagonal(2deg, #FFF, 170px, 'true', after) {
-    top: 110px;
-    z-index: -1;
-  }
-
 
   .section-illustration {
     margin: auto;
@@ -155,52 +152,159 @@ body:not(.example) section {
   }
 
   @include mobile-mq {
-   display: none;
+   padding: 2em 1em;
   }
-
-
 }
 
 
-
 //---------------------------------------
 //
-// Widgets section
+// Blocks section
 //
 //---------------------------------------
-.is-section__modular-widget {
-  background-color: #fff;
-  //background: linear-gradient(45deg, darken(#F7F7FF, 2%), #fff);
-  color: $bunting;
-  z-index: 0;
-  padding-top: 60px;
-  padding-bottom: 160px;
-  border-top: 1px solid rgba(black, 0.1);
-  border-bottom: 1px solid rgba(black, 0.1);
+.is-section__blocks {
+  border-bottom: 1px solid rgba($logan, 0.5);
 
+  .illustration {
+    max-width: 80%;
+  }
 
-  .section-graphic {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
+  p a {
+    color: inherit;
+    border-bottom: 1px solid rgba(black, 0.1);
 
-    @include mobile-mq {
-      text-align: center;
-
-      img {
-        max-width: 80%;
-        margin: 1em 0;
-      }
+    &:hover {
+      border-color: $java
     }
   }
 
-  .section-content {
-    padding-left: 3em;
+  @include mobile-mq {
+    .flex-item-60,
+    .flex-item-40 {
+      flex: 100%;
+      text-align: center;
+
+    }
+  }
+}
+
+//---------------------------------------
+//
+// Relevancy section
+//
+//---------------------------------------
+.is-section__relevancy {
+  height: 720px;
+
+  .container {
+
+    z-index: 9;
+
+    @media (max-width: $screen-md) {
+      padding: 0 1.2em;
+    }
+  }
+
+  svg {
+    max-width: 230px;
+    color: $bunting;
+    stroke-width: 2 !important;
+  }
+
+   @include mobile-mq {
+
+    padding: 2em 1em;
+
+    .v-center {
+      position: relative;
+      transform: none;
+      top: 0;
+    }
+
+    .flex-item-50 {
+      flex: 100%;
+      text-align: center;
+    }
+
+    ul {
+      text-align: left;
+    }
+
+
+    svg {
+      max-width: 160px
+    }
+  }
+}
+
+
+//---------------------------------------
+//
+// API Section
+//
+//---------------------------------------
+.is-section__api {
+  background: $deep-cove;
+  color: #fff;
+
+
+  .v-center {
+    right: 0;
+    padding-right: 3em;
+
+    @include mobile-mq {
+      right: 0;
+      left: 0;
+      padding-right: 0;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .section__description {
+    min-height: 550px;
+  }
+
+  pre.al-snippet {
+    color: #fff;
+    position: relative;
+    z-index: 5;
+
+    code {
+      -webkit-transform: scale(0.765);
+      transform: scale(0.765);
+      font-size: 13px;
+      display: block;
+      left: 2em;
+    }
+  }
+
+
+  @include diagonal(2deg, $deep-cove, 200px, 'true', before) {
+    top: -60px;
+    z-index: 0;
+  }
+  @include diagonal(2deg, $deep-cove, 200px, 'true', after) {
+    bottom: -60px;
+    z-index: 0;
   }
 
 
   @include mobile-mq {
-   padding: 60px 0 !important;
+    min-height: 420px;
+    .m400 {
+      width: 100%;
+      max-width: 100%;
+    }
   }
 }
+
 
 //---------------------------------------
 //
@@ -209,16 +313,23 @@ body:not(.example) section {
 //---------------------------------------
 .is-section__features {
   padding: 4em 0;
-  border-top: 1px solid rgba(black, 0.1);
-  border-bottom: 1px solid rgba(black, 0.1);
+  border-bottom: 1px solid rgba($logan, 0.5);
 
   h2 {
     padding-bottom: 2em;
   }
 
+  .container {
+
+    @media (max-width: $screen-md) {
+      padding: 0 1.2em;
+    }
+  }
+
   .flex-item-50 {
-    padding: 0 2em;
+    padding: 0 0;
     display: flex;
+    margin-bottom: 60px;
 
     .content-holder,
     .image-holder {
@@ -226,19 +337,27 @@ body:not(.example) section {
     }
     .content-holder {
       width: 70%;
+      padding-left: 2em;
+    }
+
+     &.text-right .content-holder{
+      padding-right: 2em;
+      padding-left: 0;
     }
     .image-holder {
       width: 30%;
       display: flex;
-      flex-flow: row wrap;
+      flex-flow: column wrap;
       align-items: center;
-      padding: 0 1.5em;
+      padding: 0 0;
     }
 
     img {
       max-width: 100%;
-      border-radius: 50%;
-      border: 1px solid rgba(black, 0.1)
+    }
+
+    @include mobile-mq {
+      flex: 100%
     }
   }
 }
@@ -249,95 +368,154 @@ body:not(.example) section {
 //
 //---------------------------------------
 .is-section__offline {
-  min-height: 340px !important;
-  background: $bunting;
+  background: #495588;
+  background-image:  url('../images/header-background.svg');
+  background-repeat: no-repeat, repeat;
+  background-position: center center, top left;
+  background-size:  cover, 100%;
   color: #fff;
+  min-height: 230px !important;
+  z-index: 5 !important;
+  border-bottom: 4px solid #fff;
 
-  .content-holder {
-    max-width: 60%;
-    margin: auto;
-    position: relative;
-    top: 50px;
+  .container {
+    height: 190px !important;
+
+
+    @media (max-width: $screen-md) {
+      padding: 0 1.2em;
+    }
   }
 
-  .title {
-    margin-top: 0;
+  p {
+    max-width: 60%;
+    display: inline-block;
   }
 
   .btn {
-    margin-top: 1em;
+    float: right;
   }
-}
-//---------------------------------------
-//
-// Relevancy section
-//
-//---------------------------------------
-.is-section__relevancy {
-  svg {
-    max-width: 230px;
+
+  @include mobile-mq {
+    text-align: center;
+    min-height: 320px !important;
+
+    h2,p {
+      max-width: 100%;
+      clear: both;
+      text-align: center;
+    }
+
+    .btn {
+      float: none;
+    }
   }
+
 }
 
 //---------------------------------------
 //
-// Instant Faceting section
+// Live section
 //
 //---------------------------------------
-.is-section__instant-faceting {
-  height: 720px;
+.is-section__live {
+  background: white;
+  z-index: 10 !important;
 }
-
-//---------------------------------------
-//
-// Typo tolerance section
-//
-//---------------------------------------
-.is-section__typo-tolerance {
-  border-top: 1px solid rgba(black, 0.1);
-  border-bottom: 1px solid rgba(black, 0.1);
-}
-
 
 //---------------------------------------
 //
 // Code samples section
 //
 //---------------------------------------
-.is-section__b {
-  background: $deep-cove;
+.is-section__modular-widgets{
+  background: linear-gradient(to bottom right, $deep-cove, $bunting) ;
   color: #fff;
   padding-top: 40px;
   padding-bottom: 40px;
+  height: 720px;
+  z-index: 9;
+  overflow: hidden;
 
 
-  @include small-mq {
+
+  @include mobile-mq {
     overflow: hidden;
   }
 
   .container {
     z-index: 5;
+
+
+    @media (max-width: $screen-md) {
+      padding: 0 1.2em;
+    }
   }
 
   h2 {
-    color: $java
+    color: #fff
   }
 
-  img {
+  .illustration {
     position: relative;
-    top: 230px;
+    top: 190px;
+    right: -120px;
   }
 
-  @include small-mq {
-    p { max-width: 100% }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+
+    li {
+      align-self: flex-start;
+      width: 30%;
+
+      &:nth-child(1),
+      &:nth-child(4) {
+        margin-left: -36px;
+
+
+        @media (max-width: $screen-md) {
+          margin-left: 0;
+        }
+      }
+
+      p {
+        margin-top: 0;
+      }
+    }
   }
+
+
   @include mobile-mq {
-    overflow: hidden;
+
+    p {
+      max-width: 90%;
+      text-align: center;
+    }
+
+    .flex-item-40 {
+      width: 100%;
+      flex: 100%;
+      padding: 0 1em;
+    }
   }
 
-  @include diagonal(2deg, $deep-cove, 200px, 'true', after) {
-    top: -60px;
-    z-index: 2;
+  @media (max-width: $screen-md) {
+    .v-center {
+      position: relative !important;
+      top: 0 !important;
+      transform: none !important;
+    }
+    .flex-item-40 {
+      text-align: center;
+
+    }
+    .flex-item-40:last-child {
+      display: none;
+    }
   }
 }
 

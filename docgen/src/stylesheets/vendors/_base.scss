@@ -3,10 +3,6 @@
 
 * {
   box-sizing: border-box;
-
-  @include isRetina{
-    @include better-fonts();
-  }
 }
 
 :root {

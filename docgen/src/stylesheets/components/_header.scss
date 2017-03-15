@@ -1,0 +1,26 @@
+.algc-menu__search--holder.open input[type="search"] {
+  width: 220px;
+  transform: translateX(-220px)
+}
+
+.algc-menu__search--holder.open button#search {
+  transform: translate(calc(-220px + 3em), -50%);
+}
+
+@media (max-width: 1020px) {
+  .algc-navigation__li--algolia {
+    display: none !important;
+  }
+
+  .algc-navigation__li {
+    &:nth-child(2) {
+      a {
+        padding-left: 0;
+      }
+      .algc-arrowseparator {
+        display: none;
+
+      }
+    }
+  }
+}

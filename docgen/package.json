@@ -11,6 +11,7 @@
     "preview": "yarn build-preview && yarn deploy-preview"
   },
   "dependencies": {
+    "algolia-frontend-components": "^0.0.14",
     "autoprefixer": "^6.6.0",
     "babel-cli": "^6.18.0",
     "babel-loader": "^6.2.10",
@@ -34,7 +35,6 @@
     "pug": "^2.0.0-beta6",
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.9.0",
-    "webpack-hot-middleware": "^2.14.0",
-    "algolia-components": "git+ssh://git@github.com/JonasBa/algolia-components.git"
+    "webpack-hot-middleware": "^2.14.0"
   }
 }
