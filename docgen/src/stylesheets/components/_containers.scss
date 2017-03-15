@@ -118,12 +118,6 @@ body:not(.example) section {
   min-height: 250px !important;
   border-bottom: 1px solid rgba($logan, 0.5);
 
-
-  @include diagonal(-5deg, #FFF, 200px, 'true', before) {
-    top: -100px;
-    z-index: 0;
-  }
-
   .section-illustration {
     margin: auto;
     width: 414px;
@@ -153,6 +147,18 @@ body:not(.example) section {
 
   @include mobile-mq {
    padding: 2em 1em;
+  }
+
+  @include diagonal(-5deg, #FFF, 200px, 'true', before) {
+    top: -100px;
+    z-index: 0;
+  }
+
+  @media (min-width: 2200px) {
+      @include diagonal(-4deg, #FFF, 300px, 'true', before) {
+      top: -130px;
+      z-index: 0;
+    }
   }
 }
 
@@ -458,7 +464,7 @@ body:not(.example) section {
 
   .illustration {
     position: relative;
-    top: 190px;
+    top: 120px;
     right: -120px;
   }
 

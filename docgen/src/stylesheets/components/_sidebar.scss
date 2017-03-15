@@ -30,7 +30,7 @@ nav.sidebar {
 
     ul {
       list-style: none;
-      padding: 0;
+      padding: 1em 0;
     }
 
     .sidebar-elements {
@@ -123,7 +123,7 @@ nav.sidebar {
   height: 52px;
   width: 52px;
   background: #39b1de;
-  background-image: url(../../../assets/img/open-doc-menu_icon.svg), linear-gradient(to right, #8f64f3 0%, #39b1de 90%);
+  background-image: url(../../../assets/img/open-doc-menu_icon.svg), linear-gradient(284deg, #1cc7d0, #2dde98);
   background-repeat: no-repeat;
   background-position: 65% center, center center;
   background-size: 60%, 100%;
@@ -146,7 +146,7 @@ nav.sidebar {
   &.Showed {
     transform: rotate(-180deg);
     transform-origin: center center;
-    background-image: url(../../../assets/img/open-doc-menu_icon.svg), linear-gradient(to left, #8f64f3 0%, #39b1de 90%);
+    background-image: url(../../../assets/img/open-doc-menu_icon.svg), linear-gradient(284deg, #1cc7d0, #2dde98);
     left: 340px;
   }
 }

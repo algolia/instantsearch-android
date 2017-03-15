@@ -10,11 +10,11 @@
     }
   },
   "sideMenu": [{
-    "name": "Getting Started",
+    "name": "<span class='visible-sm-inline'>Getting Started</span>",
     "url": "/getting-started.html",
     "dropdownItems": null
   },{
-    "name": "Doc<span class='visible-sm-inline'>umentation</span>",
+    "name": "Documentation",
     "url": "javascript:void(0)",
     "image": "",
     "dropdownItems": [

@@ -48,6 +48,29 @@ p {
   }
 }
 
+
+/* Lists
+======================*/
+ul.bullets,
+.bullets {
+  list-style: none;
+
+  li {
+    position: relative;
+
+  }
+  li:before {
+   content: '';
+   position: absolute;
+   width: 13px;
+   height: 13px;
+   background: url('../images/arrow-list-icon.svg') no-repeat center center / 12px;
+   display: block;
+   left: -20px;
+   top: 50%;
+   transform: translateY(-50%)
+  }
+}
 /* Big titles
 ======================*/
 h2.title {

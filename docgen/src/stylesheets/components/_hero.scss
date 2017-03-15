@@ -16,10 +16,7 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
   position: relative;
   z-index: 5;
   height: 780px;
-  text-align: center;
   color: #fff;
-
-
 
   .tagline {
     img {
@@ -36,7 +33,6 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
   .hero-container {
     position: relative;
     z-index: 5;
-    text-align: center;
   }
 
   .tagline {
@@ -152,23 +148,7 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
       }
     }
 
-    .fl-left.project-logo {
-      display: none;
-    }
 
-    .fl-right {
-      display: none;
-    }
-
-    .small-illustration {
-      max-width: 30%;
-      display: block;
-      margin: auto;
-
-      img {
-        width: 100%;
-      }
-    }
 
     h1.project-title {
       font-size: 28px;
@@ -184,9 +164,9 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
   }
 
   body.documentation &{
-    min-height: 150px;
-    height: 150px;
-    line-height: 150px;
+    min-height: 200px;
+    height: 200px;
+    line-height: calc(200px + 60px);
     padding: 0;
     background-size: 100%;
     background-position: center right 10vw, center center;
@@ -224,55 +204,19 @@ $css: ".st0{ fill:none; stroke:%23FFF; stroke-miterlimit:10;}";
       }
     }
 
-    .btn {
-      display: none;
 
-    }
-
-    .fl-left {
-      height: 150px;
-      line-height: 150px;
-      padding-top: 0 !important;
-    }
-
-    figure {
-      margin-top: 0;
-      height: 150px;
-    }
-
-    h1.project-title {
-      font-size: 2.6em !important;
-      font-weight: 600;
-      text-transform: none;
-    }
-
-    .tagline {
-      display: none;
-    }
-
-
-    &:before {
-      z-index: -1;
-      transform: translateZ(0);
-    }
-
-    .container,
-    .relative {
-      margin-top: 0;
-    }
-
-    .fl-right,
-    .fl-left {
-      padding-top: 2.5em;
-    }
-
-    .project-logo svg{
-      max-width: 20% !important;
-      top: 0px
-    }
 
     .article-title h1.project-title {
       padding-top: 0.25em;
+    }
+
+
+    @include small-mq {
+      min-height: 240px !important;
+      height: 240px !important;
+      .hero-container {
+        text-align: center !important;
+      }
     }
   }
 }
