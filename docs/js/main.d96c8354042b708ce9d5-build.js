@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/<i></i>nstantsearch-android/";
+/******/ 	__webpack_require__.p = "/instantsearch-android/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -660,4 +660,4 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=main.9f710460d7623647caa5-build.js.map
+//# sourceMappingURL=main.d96c8354042b708ce9d5-build.js.map
