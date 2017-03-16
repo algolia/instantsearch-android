@@ -237,7 +237,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
      *
      * @param emptyView the View you want to display when Hits are empty.
      */
-    public void setEmptyView(View emptyView) {
+    public void setEmptyView(@Nullable View emptyView) {
         this.emptyView = emptyView;
     }
 
