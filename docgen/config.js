@@ -13,7 +13,7 @@ export default {
   docsDist:  docsDist? docsDist :
              prod ? rootPath('docs') : // avoids publishing an `npm start`ed build if running.
              rootPath('docs-preview'),
-  publicPath: prod ? '/<i></i>nstantsearch-android/' :
+  publicPath: prod ? '/instantsearch-android/' :
     '/',
   header: header
 };
