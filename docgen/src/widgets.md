@@ -10,7 +10,7 @@ navWeight: 2
 ## SearchBox
 <img src="assets/img/widget_SearchBox.png" align="right"/>
 
-The **SearchBox** is a specialized `SearchView` which provides some customization options and facility methods. Apart from the existing `SearchView` attributes, it exposes two attributes you can specify in its XML definition:
+The **SearchBox** is a specialized `SearchView` which provides some customization options and facility methods. It supports all existing `SearchView` attributes and two new ones that you can specify in its XML definition:
 
 ```xml
 <com.algolia.instantsearch.views.SearchBox
@@ -27,7 +27,6 @@ The **SearchBox** is a specialized `SearchView` which provides some customizatio
 
 ### Progress indicator
 <img src="assets/img/progress.gif" align="right" />
-<!-- TODO: Move to separate guide -->
 
 A useful pattern to improve your user's experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.
 
@@ -126,7 +125,7 @@ Apart from these ones, any `View` can be used to hold an attribute if it impleme
 
 ### Infinite scroll
 
-An infinite scroll mechanism is built in to load more results as the user scrolls.
+An infinite scroll mechanism is built-in to load more results as the user scrolls.
 Enabled by default, it will watch the state of the Hits to load more results before the user reaches the end of the current page.
 
 As explained [in the attributes description](#hits), you can use the attributes `remainingItemsBeforeLoading` and `disableInfiniteScroll` to control or disable this feature.
@@ -139,7 +138,7 @@ If you add a View to your layout with the id **`@android:id/empty`**, it will be
 ### Highlighting
 <img src="assets/img/highlighting.png" align="right"/>
 
-A [highlighting][blog-highlighting] mechanism is built-in with the `Hits` widget. To highlight a textual attribute, simply add the `highlighted` attribute on its view:
+the `Hits` widget automatically handles [highlighting][explain-highlighting]. To highlight a textual attribute, simply add the `highlighted` attribute on its view:
 
 ```xml
 <TextView
@@ -151,7 +150,7 @@ This will highlight the attribute according to the query term, like you can see 
 
 You can also specify `algolia:highlightingColor='@{"color/appDefinedColor"}'` on a `View` to use a specific color for this one only.
 
-Note that highlighting **only works automatically on TextViews**. if you implement a [custom hit view](#custom-hit-views) or to highlight results received by your [custom widget](#anatomy-of-an-algoliawidget), you should use the `Highlighter`.
+Note that highlighting **only works automatically on TextViews**. if you implement a [custom hit view](#custom-hit-views) or to highlight results received by your [custom widget](#anatomy-of-an-algoliawidget), you should use the [`Highlighter`](javadoc/com/algolia/instantsearch/helpers/Highlighter.html).
 This tool will let you build a highlighted [`Spannable`](https://developer.android.com/reference/android/text/Spannable.html) from a search result and an optional highlight color:
 
 ```java
@@ -183,7 +182,7 @@ Four attributes allow you to configure how it will filter your results:
 
 - **`attribute`** defines which faceted attribute will be used by the widget.
 - **`operator`** can either be `"or"` or `"and"`, to control if the results should match *any* selected value or *all* selected values. (defaults to `"or"`)
-- **`limit`** is the maximum amount of facet values we will display (defaults to 10). If there are more values, we will display the most important ones.
+- **`limit`** is the maximum amount of facet values we will display (defaults to 10). If there are more values, we will display those with the bigger counts.
 - **`sortBy`** controls the sort order of the attributes. You can either specify a single value or an array of values to apply one after another.
 
   This attribute accepts the following values:
@@ -236,5 +235,5 @@ This interface also specifies `setSearcher`, to give a reference to the `Searche
 
 [media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
-[blog-highlighting]: TODO
+[explain-highlighting]: https://www.algolia.com/doc/faq/searching/what-is-the-highlighting/
 [docs-searcher]: /javadoc/com/algolia/instantsearch/helpers/Searcher.html
