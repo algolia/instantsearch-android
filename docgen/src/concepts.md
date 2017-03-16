@@ -2,7 +2,7 @@
 title: Main Concepts
 layout: main.pug
 name: concepts
-category: intro
+category: main
 withHeadings: true
 navWeight: 10
 ---
