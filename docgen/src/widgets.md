@@ -2,7 +2,7 @@
 title: Widgets
 layout: main.pug
 name: widgets
-category: reference
+category: main
 withHeadings: true
 navWeight: 2
 ---

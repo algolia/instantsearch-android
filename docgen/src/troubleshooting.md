@@ -2,7 +2,7 @@
 title: Troubleshooting
 layout: main.pug
 name: troubleshooting
-category: reference
+category: main
 withHeadings: true
 navWeight: 0
 ---
