@@ -23,5 +23,6 @@ Here are the frequent errors and the appropriate solutions:
   You forgot to [enable the DataBinding Library](#data-binding).
 
 ## Only one layout element
-> Error:Only one layout element and one data element are allowed. /Users/pln/Work/ISA/instantsearch-mvp/app/build/intermediates/res/merged/debug/layout/hits_item.xml has 2 
-`<layout>` should have only one child.
+> **Error:Only one layout element and one data element are allowed.** */path/to/your/app/build/intermediates/res/merged/debug/layout/hits_item.xml* has 2 
+
+Your `<layout>` should have only one child: put all current children in a single `<ViewGroup>`.

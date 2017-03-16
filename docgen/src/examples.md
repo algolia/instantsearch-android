@@ -7,7 +7,7 @@ withHeadings: true
 navWeight: 0
 ---
 
-We have built two demo applications to give you an idea of what you can build with InstantSearch Android:
+We made two demo applications to give you an idea of what you can build with InstantSearch Android:
 
 ## [Media application][media-url]
 <img align="right" src="assets/img/media.gif" />
