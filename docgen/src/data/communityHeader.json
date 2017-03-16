@@ -36,7 +36,7 @@
       }
     ]
   },{
-    "name": "<span class='visible-sm-inline'>examples</span>",
+    "name": "<span class='visible-sm-inline'>Examples</span>",
     "url": "/examples.html"
   }],
   "mobileMenu": [{
@@ -59,7 +59,7 @@
     "url": "/troubleshooting.html"
   },
   {
-    "name": "examples",
+    "name": "Examples",
     "url": "/examples.html"
   }],
   "docSearch": {
