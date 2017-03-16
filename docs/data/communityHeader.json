@@ -11,7 +11,7 @@
   },
   "sideMenu": [{
     "name": "<span class='visible-sm-inline'>Getting Started</span>",
-    "url": "/getting-started.html",
+    "url": "getting-started.html",
     "dropdownItems": null
   },{
     "name": "Documentation",
@@ -20,47 +20,47 @@
     "dropdownItems": [
       {
         "name": "Widgets",
-        "url": "/widgets.html"
+        "url": "widgets.html"
       },
       {
         "name": "Concepts",
-        "url": "/concepts.html"
+        "url": "concepts.html"
       },
       {
         "name": "API Reference",
-        "url": "/javadoc/"
+        "url": "javadoc/"
       },
       {
         "name": "Troubleshooting",
-        "url": "/troubleshooting.html"
+        "url": "troubleshooting.html"
       }
     ]
   },{
     "name": "<span class='visible-sm-inline'>Examples</span>",
-    "url": "/examples.html"
+    "url": "examples.html"
   }],
   "mobileMenu": [{
     "name": "Getting Started",
-    "url": "/getting-started.html"
+    "url": "getting-started.html"
   }, {
     "name": "Widgets",
-    "url": "/widgets.html"
+    "url": "widgets.html"
   },
   {
     "name": "Concepts",
-    "url": "/concepts.html"
+    "url": "concepts.html"
   },
   {
     "name": "API Reference",
-    "url": "/javadoc/"
+    "url": "javadoc/"
   },
   {
     "name": "Troubleshooting",
-    "url": "/troubleshooting.html"
+    "url": "troubleshooting.html"
   },
   {
     "name": "Examples",
-    "url": "/examples.html"
+    "url": "examples.html"
   }],
   "docSearch": {
     "input_selector": "searchbox",
