@@ -138,7 +138,9 @@ If you add a View to your layout with the id **`@android:id/empty`**, it will be
 ### Highlighting
 <img src="assets/img/highlighting.png" align="right"/>
 
-the `Hits` widget automatically handles [highlighting][explain-highlighting]. To highlight a textual attribute, simply add the `highlighted` attribute on its view:
+Visually highlighting the search result is [an essential feature of a great search interface][explain-highlighting]. It will help your users understand your results by explaining them why a result is relevant to their query.
+
+The `Hits` widget automatically handles highlighting. To highlight a textual attribute, simply add the `highlighted` attribute on its view:
 
 ```xml
 <TextView
