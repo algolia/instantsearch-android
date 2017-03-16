@@ -20,7 +20,7 @@ The main component of InstantSearch Android is the **Searcher**, which will wrap
 
 The Searcher is responsible of all search requests: when `Searcher#search()` is called, the Searcher will fire a request with the current query, and will forward the search results to its **listeners**.
 
-```
+```java
                                     ┌-> A implements AlgoliaResultsListener
 Searcher.search(query) -> algolia --┤
                                     └-> B implements AlgoliaResultsListener
@@ -31,7 +31,7 @@ Searcher.search(query) -> algolia --┤
 A listener is an object implementing the [`AlgoliaResultsListener`](instantsearch/src/main/java/com/algolia/instantsearch/model/AlgoliaResultsListener.java) interface: this object's `onResults` or `onError` method will be called after each search request returns to let you either process the results or handle the error. You can add a listener to a Searcher by calling `Searcher#registerListener()`.
 
 
-```
+```java
                 ┌→ (error) onError(final Query query, final AlgoliaException error);
 new Search -> -─┤
                 └→ (success) onResults(SearchResults results, boolean isLoadingMore);
@@ -46,7 +46,7 @@ The InstantSearchHelper will use the Searcher to react to changes in your applic
 Linked to a `SearchView`, it will watch its content to send any new query to the `Searcher`. When the query's results arrive, the `InstantSearchHelper` will forward them to its `AlgoliaWidgets`.
 
 
-```
+```java
         SearchView.onQueryTextListener.onQueryTextChange()
                                │
                                ↓
@@ -135,7 +135,7 @@ A useful pattern to improve your user's experience consists in displaying a prog
 By default, the InstantSearchHelper will display an indeterminate [`ProgressBar`](https://developer.android.com/reference/android/widget/ProgressBar.html) in your `SearchView` as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (>= API 14), or after a small delay to avoid blinking.
 You can change this delay by calling `InstantSearchHelper#enableProgressBar(int)` with a delay in milliseconds, or disable this progress indicator with `InstantSearchHelper#disableProgressBar()`.
 
-Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java).  
+Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java).
 Once instantiated, a **SearchProgressController** will inform its [`ProgressListener`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java#L99) when some requests are sent with `onStart()`, and will call `onStop()` when all current requests have returned.
 
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce

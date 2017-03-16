@@ -1,20 +1,27 @@
+
+script(src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js")
+
 section.hero-section.shrink
   .container
-    .hero-container
+    .hero-container.text-left
       if navPath !== 'index.html'
-        .fl-left.article-title.doc-only
-          figure
-            img(src="assets/img/react-instant-search-logo.svg", width="46")
-            figcaption
-              if mainTitle
-                h1
-                  | #{mainTitle + ' > '}
-                  span=title
-              else
-                h1=title
+        figcaption
+          if mainTitle
+            h1
+              | #{mainTitle + ' > '}
+              span=title
+          else
+            h1=title
       else
-        .hero-content
-          h1.project-title=title
+        .hero-content.text-center
           h2.tagline.
-            Widgets and helpers to build instant-search applications on Android
-          a(href="getting-started.html", class="btn btn-cta btn-fat-uc") Get Started
+            <img src="assets/img/instantsearch-logo.svg" width="390px" class="instantsearch-logo"/> for <img src="assets/img/android-logo.svg" class="android-logo"/>
+
+          h3 Lightning-fast search components for Android app developers
+
+
+          a(href="getting-started.html", class="btn btn-static-primary btn-lg btn-shadow-dark").
+            Get Started <i class="icon icon-arrow-right"></i>
+
+        figure.hero-illustration
+          img(src="assets/img/nexus-5-case.svg", width="414", class="nexus-illu hidden-md-down")

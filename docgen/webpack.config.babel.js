@@ -16,7 +16,7 @@ export default {
   module: {
     loaders: [
       {
-        test: /\.json$/, exclude: /node_modules/, loader: 'json',
+        test: /\.json$/, loader: 'json',
       },
       {
         test: /\.js$/, exclude: /node_modules/, loader: 'babel',
@@ -27,6 +27,7 @@ export default {
       },
     ],
   },
+  
   postcss: [autoprefixer()],
   resolve: {
     alias: {

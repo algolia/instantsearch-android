@@ -8,25 +8,6 @@
     }
   }
 
-  .guide-nav {
-    padding: 1em 0;
-    border-top: 1px solid #d8d8d8;
-    border-bottom: 1px solid #d8d8d8;
-  }
-
-  .guide-nav:after {
-    clear: both;
-    content: '';
-    display: block;
-  }
-
-  .guide-nav-left {
-    float: left
-  }
-
-  .guide-nav-right {
-      float: right
-  }
 
   p,
   ul,
@@ -35,8 +16,16 @@
     line-height: 22px;
   }
 
+  ul {
+    margin: 0;
+
+    li {
+      padding: 0;
+    }
+  }
+
   h2 {
-    color: $charcoal-grey;
+    color: $bunting;
     font-size: 28px;
     padding-right: 1em;
     border-bottom: 1px solid #d8d8d8;
@@ -61,14 +50,6 @@
     text-decoration: underline;
   }
 
-  .api-entry {
-    font-weight: bold;
-
-    code {
-      font-size: 100%;
-      font-weight: bold;
-    }
-  }
 
   .api tr td:first-child {
     vertical-align: top;
@@ -88,16 +69,6 @@
   }
 
 
-  .css-class {
-    white-space: nowrap;
-  }
-
-  .chapter-summary {
-    background: $bg-pale-accent;
-    padding: 10px;
-    border-radius: 4px;
-  }
-
   .documentation-container {
     float: left;
     position: relative;
@@ -105,12 +76,15 @@
     width: calc(100% - #{$sidebar-width});
     min-height: 1000px;
     padding-left: 30px;
-    padding-bottom: 200px;
+    padding-bottom: 300px;
     padding-top: 120px;
 
+    p, li {
+      color: darken($logan, 15%);
+      line-height: 2;
+      font-size: 16px;
+    }
 
-
-    p,
     ul,
     ol {
       font-size: 16px;
@@ -127,14 +101,13 @@
         position: relative;
 
         li {
-          height: 26px;
           line-height: 26px;
 
           &:before {
             content: '-';
             float: left;
             margin-right: 6px;
-            color: $greyish
+            color: $logan
           }
         }
       }
@@ -178,269 +151,50 @@
 
     // API tables
     table.api {
-      padding: 0;
-      border-collapse: collapse;
-      border-spacing: 0;
-      width: 100%;
-      display: table;
-      table-layout: fixed;
-      margin: 0;
-
-      tbody {
-        border: 1px solid #ccc;
-
-      }
-
-      tr {
-        background-color: white;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-
-        &:not(:last-child),
-        &:not(:only-child) {
-          border-bottom: 1px solid #ccc;
-        }
-
-        &:nth-child(2n) {
-          background-color: #f8f8f8;
-        }
-
-        th {
-          font-weight: bold;
-          text-align: left;
-          margin: 0;
-          padding: 6px 13px;
-
-          &:first-child {
-            margin-top: 0;
-          }
-
-          &:last-child {
-            margin-bottom: 0;
-          }
-        }
-
-        td {
-          text-align: left;
-          margin: 0;
-          padding: 13px 13px;
-          flex: 1;
-          white-space: normal;
 
 
-          &:first-child {
-            margin-top: 0;
-            flex-grow: 1;
-            min-width: 170px;
-            border-right: 1px solid #CCC;
-            white-space: normal;
-
-            &:only-child {
-              border: none;
-
-            }
-
-            &[colspan] {
-              flex: 100%;
-              border-right: none;
-            }
-          }
-
-          &:nth-child(3) {
-            margin-bottom: 0;
-          }
-
-          &+ td:empty {
-            display: none;
-          }
-          &+ td:nth-child(3):not(:empty) {
-            border-left: 1px solid #CCC;
-          }
-        }
-      }
-      &+ h2,
-      &+ h3 {
-        margin-top: 2em;
-      }
-
-      tr, td {
-        white-space: nowrap;
-      }
-
-      @include small-mq {
-        display: block;
-        float: left;
-        margin-bottom: 2em;
-
-        thead, tbody, th, td, tr {
-          display: block;
-          float: left;
-          width: 100%;
-        }
-        tbody {
-
-        }
-        tr {
-
-
-          border-left: 1px solid #ccc;
-
-          th {
-            border: none;
-
-            &:nth-of-type(2) {
-              border-left: 1px solid #cccccc;
-            }
-          }
-        }
-        tr td  {
-          border: none;
-          overflow: auto;
-
-
-          &:nth-of-type(2) {
-           border-left: 1px solid #cccccc;
-         }
-       }
-
-       th, td {
-        width: 50%;
-        float: left;
-      }
-
-      tr:nth-child(even) {
-        background: #f8f8f8
-      }
     }
-  }
 
 
-  .anchor {
-    margin-left: .2em;
-    display: inline;
-    visibility: hidden;
-  }
-
-  .algolia-places {
-    color: #000000;
-  }
-
-
-  h2, h3, .api-entry {
     .anchor {
-      text-decoration: none;
-    }
-    .anchor:after{
-      content: '#';
-      color: $accent-color;
+      margin-left: .2em;
+      display: inline;
+      visibility: hidden;
     }
 
-    &:hover {
+
+
+    h2, h3 {
       .anchor {
-        visibility: visible;
+        text-decoration: none;
+      }
+      .anchor:after{
+        content: '#';
+        color: $accent-color;
+      }
+
+
+      &:hover {
+        .anchor {
+          visibility: visible;
+        }
+      }
+
+      &:target {
+        .anchor {
+          visibility: visible;
+        }
       }
     }
 
-    &:target {
-      .anchor {
-        visibility: visible;
-      }
+    img {
+      max-width: 50%;
+      margin: 0 25%;
     }
   }
 
-  img {
-    max-width: 50%;
-    margin: 0 25%;
-  }
-}
 
-tr.api-entry-values {
-  .api-entry-type {
-    white-space: nowrap;
-  }
-}
-
-tr.api-entry-description {
-
-}
-
-.DocProps {
-  .Prop,
-  .Type .Entry {
-    padding: 1.2em 0.8em;
-    background-color: #EEE;
-  }
-
-  .Prop:nth-child(even),
-  .Type .Entry:nth-child(even) {
-    background-color: #E5E5E5;
-  }
-
-  .Entry__head {
-    display: flex;
-    align-items: center;
-    padding-bottom: 1em;
-  }
-
-  .Entry__badge {
-    padding: .3em .5em;
-    font-size: 0.8em;
-    background-color: #7FDBFF;
-    margin-right: 0.5em;
-  }
-
-  .Entry__name {
-    font-weight: 700;
-    margin-right: 0.5em;
-  }
-
-  .Entry__description ~ .Entry__default {
-    padding-top: 1em;
-  }
-
-  .Entry__description p {
-    margin: 0;
-  }
-
-  .Entry__link {
-    display: none;
-    margin-left: 0.5em;
-  }
-
-  .Entry__head:hover .Entry__link {
-    display: inline;
-  }
-
-  .Prop__types {
-    padding-top: 1em;
-  }
-
-  .Type__head {
-    padding-bottom: 0.7em;
-  }
-
-  .Type__name {
-    font-weight: 700;
-  }
-
-  .Type__link {
-    display: none;
-  }
-
-  .Type__head:hover .Type__link {
-    display: inline;
-  }
-
-  .Type__entries {
-    font-size: 0.9em;
-    border: 1px solid #BBB;
-  }
-}
-
-@include small-mq {
+  @include small-mq {
     padding-top: 32px;
 
     .container {
@@ -448,7 +202,7 @@ tr.api-entry-description {
       .documentation-container {
         left: 0;
         width: 100%;
-        padding: 32px 0;
+        padding: 32px 1em;
       }
 
       article {
@@ -482,6 +236,160 @@ tr.api-entry-description {
   max-width: 100%;
   max-height: 500px;
   padding-left: 20px;
+}
+
+.documentation-container {
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #d8d8d8;
+  }
+
+  td,th {
+    padding: 0;
+  }
+
+  table,th,td {
+  }
+
+  table {
+    width: 100%;
+    display: table
+  }
+
+  table.bordered>thead>tr,table.bordered>tbody>tr {
+    border-bottom: 1px solid #d0d0d0
+  }
+
+  table.striped>tbody>tr:nth-child(odd) {
+    background-color: #f2f2f2
+  }
+
+  table.striped>tbody>tr>td {
+    border-radius: 0;
+    padding: 0  8px !important;
+  }
+
+  table.highlight>tbody>tr {
+    transition: background-color .25s ease
+  }
+
+  table.highlight>tbody>tr:hover {
+    background-color: #f2f2f2
+  }
+
+  table.centered thead tr th,table.centered tbody tr td {
+    text-align: center
+  }
+
+  thead,
+  tbody>tr:not(:last-child) {
+    border-bottom: 1px solid #d0d0d0
+  }
+
+  td,th {
+    padding: 15px 5px;
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+    border-radius: 2px
+  }
+
+  td,
+  th {
+    padding: 15px 16px;
+    border-left: 1px solid #d0d0d0;
+  }
+
+  @media only screen and (max-width: 992px) {
+    table.responsive-table {
+      width:100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+      display: block;
+      position: relative
+    }
+
+    table.responsive-table td:empty:before {
+      content: '\00a0'
+    }
+
+    table.responsive-table th,table.responsive-table td {
+      margin: 0;
+      vertical-align: top
+    }
+
+    table.responsive-table th {
+      text-align: left
+    }
+
+    table.responsive-table thead {
+      display: block;
+      float: left
+    }
+
+    table.responsive-table thead tr {
+      display: block;
+      padding: 0 10px 0 0
+    }
+
+    table.responsive-table thead tr th::before {
+      content: "\00a0"
+    }
+
+    table.responsive-table tbody {
+      display: block;
+      width: auto;
+      position: relative;
+      overflow-x: auto;
+      white-space: nowrap
+    }
+
+    table.responsive-table tbody tr {
+      display: inline-block;
+      vertical-align: top
+    }
+
+    table.responsive-table th {
+      display: block;
+      text-align: right
+    }
+
+    table.responsive-table td {
+      display: block;
+      min-height: 1.25em;
+      text-align: left
+    }
+
+    table.responsive-table tr {
+      padding: 0 10px
+    }
+
+    table.responsive-table thead {
+      border: 0;
+      border-right: 1px solid #d0d0d0
+    }
+
+    table.responsive-table.bordered th {
+      border-bottom: 0;
+      border-left: 0
+    }
+
+    table.responsive-table.bordered td {
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 0
+    }
+
+    table.responsive-table.bordered tr {
+      border: 0
+    }
+
+    table.responsive-table.bordered tbody tr {
+      border-right: 1px solid #d0d0d0
+    }
+  }
 }
 
 @import "docs/method";

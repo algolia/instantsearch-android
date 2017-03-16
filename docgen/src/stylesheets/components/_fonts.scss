@@ -1,6 +1,6 @@
 p a,
 a {
-  color: #21A4D7;
+  color: $java;
   text-decoration: none;
 }
 
@@ -9,7 +9,7 @@ a {
 h1,h2,h3,h4 {
   padding: 0;
   margin: 0;
-  font-family: 'Raleway', Helvetica Neue, helvetica, sans-serif;
+  font-family: 'Montserrat', Helvetica Neue, helvetica, sans-serif;
 }
 
 h1 {
@@ -18,6 +18,7 @@ h1 {
 
 h3 {
   font-size: 20px;
+  color: $bunting;
 }
 
 h3 {
@@ -27,10 +28,10 @@ h3 {
 /* Paragraphs
 ======================*/
 p {
-  font-family: 'Open Sans', Helvetica Neue, helvetica, sans-serif;
-  font-size: 20px;
-  line-height: 32px;
-  color: $blueish-grey;
+  font-family: 'Montserrat', Helvetica Neue, helvetica, sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+  color: $logan;
 
   @include small-mq {
     font-size: 16px;
@@ -38,32 +39,58 @@ p {
 
   &+ul,
   &+ol {
-    font-size: 20px;
     line-height: 32px;
-    color: $charcoal-grey-75;
+    color: $logan;
+  }
+
+  &.muted {
+    opacity: 0.5;
   }
 }
 
+
+/* Lists
+======================*/
+ul.bullets,
+.bullets {
+  list-style: none;
+
+  li {
+    position: relative;
+
+  }
+  li:before {
+   content: '';
+   position: absolute;
+   width: 13px;
+   height: 13px;
+   background: url('../images/arrow-list-icon.svg') no-repeat center center / 12px;
+   display: block;
+   left: -20px;
+   top: 50%;
+   transform: translateY(-50%)
+  }
+}
 /* Big titles
 ======================*/
 h2.title {
   text-align: center;
   width: 100%;
   font-size: 1.8em;
-  color: $charcoal-greyish;
+  color: $bunting;
   display: block;
   position: relative;
   margin-top: 120px;
   margin-bottom: 80px;
-  font-weight: 300;
-  font-family: 'Open Sans Light', 'Open Sans';
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
 
   &:after {
     content: '';
     position: absolute;
     width: 50px;
     height: 3px;
-    background: $sweet-purple;
+    background: $java;
     top: 2.8em;
     left: 0;
     right: 0;
@@ -91,11 +118,11 @@ h2.title {
 ======================*/
 h3.title {
   font-size: 20px;
-  color: $greyish-brown;
+  color: $bunting;
   margin: 0;
   padding: 0;
   line-height: 1.2em;
-  font-family: 'Open Sans', 'Open Sans', $font-fallback;
+  font-family: 'Montserrat', $font-fallback;
   font-weight: 600;
 
   ~ p {

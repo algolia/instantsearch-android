@@ -1,44 +1,97 @@
-.icon {
-  text-indent: -99999px;
-  color: transparent;
-  transition: background 0.2s ease;
 
-  &-love {
-    background: url($icon-heart)no-repeat center center / contain
-  }
-
-  &-love-dark {
-    background: url($icon-heart-dark)no-repeat center center / contain
-  }
-
-  &-algolia {
-    background: url($icon-algolia-dark)no-repeat center center / contain
-  }
-
-  &-algolia-light {
-    background: url($icon-algolia-light)no-repeat center bottom / contain;
-  }
-
-  &-mail {
-    background: url($icon-mail)no-repeat 8px 7px / 70%
-  }
-
-  &-algolia-small {
-    background: url($icon-algolia-small)no-repeat center center / contain
-  }
-  &-algolia-small_white {
-    background: url($icon-algolia-small_white)no-repeat center center / contain
-  }
+@font-face {
+  font-family: 'algolia-website-iconfont';
+  src:  url('../fonts/algolia-website-iconfont.eot?73kwtz');
+  src:  url('../fonts/algolia-website-iconfont.eot?73kwtz#iefix') format('embedded-opentype'),
+    url('../fonts/algolia-website-iconfont.ttf?73kwtz') format('truetype'),
+    url('../fonts/algolia-website-iconfont.woff?73kwtz') format('woff'),
+    url('../fonts/algolia-website-iconfont.svg?73kwtz#algolia-website-iconfont') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
-// Small css shape
-.ico-triangle {
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: 5px solid $steel;
+.icon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'algolia-website-iconfont' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.icon-arrow-right:before {
   position: relative;
-  display: inline-block;
-  margin-left: 8px;
+  top: 2px;
+}
+
+
+.icon-logout:before {
+  content: "\e914";
+}
+.icon-support:before {
+  content: "\e913";
+}
+.icon-quote-close:before {
+  content: "\e90d";
+}
+.icon-quote-open:before {
+  content: "\e90e";
+}
+.icon-arrow-right:before {
+  content: "\e900";
+}
+.icon-cancel:before {
+  content: "\e901";
+}
+.icon-caret-down:before {
+  content: "\e902";
+}
+.icon-check-mark:before {
+  content: "\e903";
+}
+.icon-dribbble:before {
+  content: "\e904";
+}
+.icon-facebook:before {
+  content: "\e905";
+}
+.icon-github:before {
+  content: "\e906";
+}
+.icon-heart:before {
+  content: "\e907";
+}
+.icon-infinity:before {
+  content: "\e908";
+}
+.icon-instagram:before {
+  content: "\e909";
+}
+.icon-linkedin:before {
+  content: "\e90a";
+}
+.icon-mail:before {
+  content: "\e90b";
+}
+.icon-menu:before {
+  content: "\e90c";
+}
+.icon-search:before {
+  content: "\e90f";
+}
+.icon-star:before {
+  content: "\e910";
+}
+.icon-twitter:before {
+  content: "\e911";
+}
+.icon-youtube:before {
+  content: "\e912";
 }

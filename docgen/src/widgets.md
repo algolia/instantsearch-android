@@ -34,7 +34,7 @@ A useful pattern to improve your user's experience consists in displaying a prog
 By default, the InstantSearchHelper will display an indeterminate [`ProgressBar`](https://developer.android.com/reference/android/widget/ProgressBar.html) in your `SearchView` as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (>= API 14), or after a small delay to avoid blinking.
 You can change this delay by calling `InstantSearchHelper#enableProgressBar(int)` with a delay in milliseconds, or disable this progress indicator with `InstantSearchHelper#disableProgressBar()`.
 
-Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java).  
+Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java).
 Once instantiated, a **SearchProgressController** will inform its [`ProgressListener`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java#L99) when some requests are sent with `onStart()`, and will call `onStop()` when all current requests have returned.
 
 
@@ -105,7 +105,7 @@ You can now create the hit layout. The layout file should use a `<layout></layou
 </layout>
 ```
 
-For each `View` which should receive a result's attribute, you can specify `algolia:attribute='@{"foo"}'` to map the record's `foo` attribute to this View. 
+For each `View` which should receive a result's attribute, you can specify `algolia:attribute='@{"foo"}'` to map the record's `foo` attribute to this View.
 
 Currently, the Hits widget handles natively the following Views and their subclasses:
 
@@ -118,7 +118,7 @@ Currently, the Hits widget handles natively the following Views and their subcla
 |RatingBar  | rating value| setRating(attributeValue)| Parsed as Float
 |ProgressBar| progress value | setProgress(attributeValue)| Parsed as Float and rounded to the nearest Integer
 
-#### Custom hit views
+### Custom hit views
 
 Apart from these ones, any `View` can be used to hold an attribute if it implements the [`AlgoliaHitView`](/instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaHitView.java) interface. In this case, we will call `onUpdateView(JSONObject result)` and the view will be responsible of using the result's JSON to display the hit.
 
@@ -226,7 +226,7 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
 
 ## Custom widgets
 
-If none of these widgets fits your use-case, you can implement your own! 
+If none of these widgets fits your use-case, you can implement your own!
 
 Any `View` implementing the [`AlgoliaResultsListener`](javadoc/com/algolia/instantsearch/model/AlgoliaResultsListener.html) interface will be picked-up by `InstantSearchHelper` at instantiation. You simply need to implement two methods:
 - `onResults` will be called when new results are received

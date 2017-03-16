@@ -1,16 +1,13 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:400,500,600,700|Open+Sans:400,600,700);
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600');
+
 
 * {
   box-sizing: border-box;
-
-  @include isRetina{
-    @include better-fonts();
-  }
 }
 
 :root {
-  font-size: 14px;
-  font-family: "Open Sans", Helvetica Neue, helvetica;
+  font-size: 15px;
+  font-family: "Montserrat", Helvetica Neue, helvetica;
 }
 
 hr {
@@ -20,6 +17,7 @@ hr {
 figure {
   padding: 0;
   margin: 0;
+
   figcaption {
     text-indent: -9999px;
     color: transparent;

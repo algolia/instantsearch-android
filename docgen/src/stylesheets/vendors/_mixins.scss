@@ -73,17 +73,17 @@
   }
 }
 @mixin medium-mq {
-  @media (max-width: $bp-medium){
+  @media (max-width: $screen-md){
     @content
   }
 }
 @mixin small-mq {
-  @media  (max-width: $bp-medium){
+  @media  (max-width: $screen-md){
     @content
   }
 }
 @mixin mobile-mq {
-  @media  (max-width: $bp-small){
+  @media  (max-width: $screen-sm){
     @content
   }
 }

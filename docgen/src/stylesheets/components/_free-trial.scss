@@ -1,0 +1,70 @@
+.cta-free-trial {
+  width: 100%;
+  padding: 0 80px;
+  float: left;
+  position: relative;
+  color: white;
+  background: -webkit-linear-gradient(305deg, #4b2e91 0%, #3369e6 100%);
+  background: linear, 305deg, #4b2e91 0%, #3369e6 100%;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4b2e91', endColorstr='#3369e6', GradientType=0);
+  z-index: 5;
+  height: 240px;
+
+
+  .col-md-6 {
+    width: 50%;
+    float: left;
+  }
+
+  @include mobile-mq {
+    height: auto;
+    padding: 2em 80px;
+
+    .col-md-6 {
+      width: 100%;
+    }
+  }
+}
+
+.cta-free-trial h3 {
+  font-size: 32px;
+  color: white;
+  font-weight: 300;
+}
+
+.cta-free-trial p {
+  font-size: 18px;
+  line-height: 28px;
+  color: white;
+  font-weight: 600;
+}
+
+.cta-free-trial .btn {
+  float: right;
+  clear: both;
+}
+
+.cta-free-trial .link {
+  clear: both;
+  padding: 8px 0 0;
+  float: right;
+  color: rgba(247, 247, 255, 0.8);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.9);
+}
+
+.cta-free-trial .link:hover {
+  text-decoration: none;
+  color: #f7f7ff;
+}
+
+@media (max-width: 992px) {
+  .cta-free-trial {
+    text-align: center;
+  }
+  .cta-free-trial .btn {
+    float: none !important;
+  }
+  .cta-free-trial .link {
+    float: none !important;
+  }
+}
