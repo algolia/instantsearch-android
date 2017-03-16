@@ -176,7 +176,11 @@ Your application displays search results, but for now the user cannot input anyt
 This will be the role of another Widget: the **[`SearchBox`][widgets-searchbox]**.
   
 
+<br />
 <img src="assets/img/widget_SearchBox.png" />
+<br />
+<br />
+<br />
 
 
 
