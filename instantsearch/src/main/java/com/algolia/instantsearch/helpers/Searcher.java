@@ -62,22 +62,22 @@ public class Searcher {
     /** The page number of the last search response propagated by this Searcher. */
     private int lastResponsePage;
 
-    /** The end of the results has been reached for the current {@link Searcher#query}. */
+    /** Whether the end of the results has been reached for the current {@link Searcher#query}. */
     private boolean endReached;
 
-    /** A List of attributes that will be treated as disjunctive facets. */
+    /** The List of attributes that will be treated as disjunctive facets. */
     private final List<String> disjunctiveFacets = new ArrayList<>();
-    /** A Map associating attributes with their respective refinement value(s). */
+    /** The Map associating attributes with their respective refinement value(s). */
     private final Map<String, List<String>> refinementMap = new HashMap<>();
-    /** A Map associating attributes with their respective numeric refinement value(s). */
+    /** The Map associating attributes with their respective numeric refinement value(s). */
     private final Map<String, SparseArray<NumericRefinement>> numericRefinements = new HashMap<>();
-    /** A Map associating attributes with their respective boolean refinement value(s). */
+    /** The Map associating attributes with their respective boolean refinement value(s). */
     private final Map<String, Boolean> booleanFilterMap = new HashMap<>();
 
-    /** A List of attributes that will be used for faceting. */
+    /** The List of attributes that will be used for faceting. */
     private final List<String> facets = new ArrayList<>();
 
-    /** A SparseArray associating pending requests with their {@link Searcher#lastRequestId identifier}. */
+    /** The SparseArray associating pending requests with their {@link Searcher#lastRequestId identifier}. */
     private final SparseArray<Request> pendingRequests = new SparseArray<>();
 
     /**
