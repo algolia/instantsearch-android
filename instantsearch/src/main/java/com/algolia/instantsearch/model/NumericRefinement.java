@@ -52,7 +52,7 @@ public class NumericRefinement {
         }
     }
 
-    private static String getOperatorSymbol(int operatorCode) {
+    static String getOperatorSymbol(int operatorCode) {
         switch (operatorCode) {
             case OPERATOR_LT:
                 return "<";
