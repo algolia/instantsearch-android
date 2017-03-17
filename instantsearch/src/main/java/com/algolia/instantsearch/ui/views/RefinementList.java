@@ -129,12 +129,12 @@ public class RefinementList extends ListView implements AlgoliaWidget {
     }
 
     @Override
-    public void onResults(@Nullable SearchResults results, boolean isLoadingMore) {
+    public void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
         if (isLoadingMore) { // more results of the same request -> facetValues should not change
             return;
         }
 
-        if (results == null) { // no results for query, facet counts should be set to 0
+        if (results.nbHits == 0) { // no results for query, facet counts should be set to 0
             adapter.resetFacetCounts();
             return;
         }

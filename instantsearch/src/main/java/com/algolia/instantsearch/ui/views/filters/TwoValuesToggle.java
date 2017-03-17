@@ -2,6 +2,7 @@ package com.algolia.instantsearch.ui.views.filters;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.CompoundButton;
@@ -49,7 +50,7 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
         };
     }
 
-    @Override protected String applyTemplate(SearchResults results) {
+    @Override protected String applyTemplate(@NonNull SearchResults results) {
         return template
                 .replace("{name}", attributeName)
 //FIXME                    .replace("{count}", String.valueOf(results.facets.get(attributeName).size()))

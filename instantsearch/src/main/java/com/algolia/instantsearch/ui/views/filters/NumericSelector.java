@@ -97,7 +97,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         return attributeName;
     }
 
-    @Override public void onResults(SearchResults results, boolean isLoadingMore) {
+    @Override public void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
         Filters.hideIfShouldHide(this, autoHide, results.nbHits == 0);
     }
 

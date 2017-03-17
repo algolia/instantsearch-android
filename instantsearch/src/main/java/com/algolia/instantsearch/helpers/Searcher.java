@@ -173,8 +173,12 @@ public class Searcher {
                         view.onError(query, error);
                     }
                 } else {
-                    bus.post(new ResultEvent(content, query, currentRequestId));
-                    updateListeners(content, false);
+                    if (content == null) {
+                        Log.e("Algolia|Searcher", "content is null but error is not.");
+                    } else {
+                        bus.post(new ResultEvent(content, query, currentRequestId));
+                        updateListeners(content, false);
+                    }
                 }
             }
         };
@@ -681,7 +685,7 @@ public class Searcher {
         }
     }
 
-    private void updateListeners(@Nullable JSONObject hits, boolean isLoadingMore) {
+    private void updateListeners(@NonNull JSONObject hits, boolean isLoadingMore) {
         for (AlgoliaResultsListener view : resultsListeners) {
             view.onResults(new SearchResults(hits), isLoadingMore);
         }

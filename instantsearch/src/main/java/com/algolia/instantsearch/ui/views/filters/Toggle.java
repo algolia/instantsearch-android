@@ -60,7 +60,7 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
     @Override public final void onReset() {
     }
 
-    @Override public final void onResults(SearchResults results, boolean isLoadingMore) {
+    @Override public final void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
         shouldHide = results.nbHits == 0;
         Filters.hideIfShouldHide(this, autoHide, shouldHide);
         if (template != null) {
@@ -111,7 +111,7 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
     protected abstract OnCheckedChangeListener getOnCheckedChangeListener();
 
     /** Subclasses should apply their templates according to the given results. */
-    protected abstract String applyTemplate(SearchResults results);
+    protected abstract String applyTemplate(@NonNull SearchResults results);
 
     /** Subclasses should update their refinements according to the given name. */
     protected abstract void updateRefinementWithNewName(String newName);

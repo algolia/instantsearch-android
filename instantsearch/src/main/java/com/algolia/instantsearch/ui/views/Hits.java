@@ -217,7 +217,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     }
 
     @Override
-    public void onResults(SearchResults results, boolean isLoadingMore) {
+    public void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
         addHits(results, !isLoadingMore);
     }
 
