@@ -6,7 +6,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
- * A controller which will inform its listener when there are one or several ongoing searches.
+ * Watches events and informs its listener when there are one or several ongoing searches.
  */
 @SuppressWarnings("UnusedParameters") // binding to EventBus events without using the event objects
 public class SearchProgressController {
