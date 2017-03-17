@@ -237,7 +237,7 @@ public class Searcher {
     }
 
     /**
-     * Tells if we should load more hits when reaching the end of the current list of hits.
+     * Checks if we should load more hits when reaching the end of the current list of hits.
      *
      * @return {@code true} unless we reached the end of hits or we already requested a new page.
      */
