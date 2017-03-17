@@ -57,7 +57,6 @@ public class Searcher {
     private final Map<String, Boolean> booleanFilterMap = new HashMap<>();
 
     private final List<String> facets = new ArrayList<>();
-    private final Map<String, FacetStat> facetStats = new HashMap<>();
 
     private final SparseArray<Request> pendingRequests = new SparseArray<>();
 
@@ -155,7 +154,6 @@ public class Searcher {
                 } else {
                     bus.post(new ResultEvent(content, query, currentSearchSeqNumber));
                     updateListeners(content, false);
-                    updateFacetStats(content);
                 }
             }
         };
@@ -210,7 +208,6 @@ public class Searcher {
                     bus.post(new ResultEvent(content, query, currentSearchSeqNumber));
                     if (hasHits(content)) {
                         updateListeners(content, true);
-                        updateFacetStats(content);
                         lastDisplayedPage = lastRequestedPage;
 
                         checkIfLastPage(content);
@@ -535,89 +532,6 @@ public class Searcher {
         booleanFilterMap.remove(attribute);
         rebuildQueryFacetFilters();
         return this;
-    }
-
-    private void updateFacetStats(JSONObject content) {
-        if (content == null) {
-            return;
-        }
-
-        JSONObject facets = content.optJSONObject("facets");
-        JSONObject facets_stats = content.optJSONObject("facets_stats");
-        if (facets != null) {
-            final Iterator<String> keys = facets.keys();
-            while (keys.hasNext()) { // for each faceted attribute
-                updateFacetStat(facets, facets_stats, keys.next());
-            }
-        }
-    }
-
-    private void updateFacetStat(JSONObject facets, JSONObject facets_stats, String attribute) {
-        double min = Double.MAX_VALUE;
-        double max = Double.MIN_VALUE;
-        double sum = 0;
-        double avg;
-
-        if (facets_stats != null) {
-            JSONObject attributeStats = facets_stats.optJSONObject(attribute);
-            if (attributeStats != null) { // Numerical attribute, let's use existing facets_stats
-                try {
-                    min = attributeStats.getDouble("min");
-                    max = attributeStats.getDouble("max");
-                    sum = attributeStats.getDouble("sum");
-                    avg = attributeStats.getDouble("avg");
-                    facetStats.put(attribute, new FacetStat(min, max, avg, sum));
-                    return;
-                } catch (JSONException ignored) {
-                }
-            }
-        }
-
-        JSONObject values = facets.optJSONObject(attribute);
-        final Iterator<String> valueKeys = values.keys();
-        while (valueKeys.hasNext()) { // for each facet value
-            String valueKey = valueKeys.next();
-
-            // if boolean, interpret as int, else continue
-            if (valueKey.equals("true") || valueKey.equals("false")) {
-                int attributeValue = valueKey.equals("false") ? 0 : 1;
-                if (attributeValue < min) {
-                    min = attributeValue;
-                }
-                if (attributeValue > max) {
-                    max = attributeValue;
-                }
-                sum += attributeValue;
-            }
-        }
-        if (min != Double.MAX_VALUE && max != Double.MIN_VALUE) {
-            avg = sum / values.length();
-            facetStats.put(attribute, new FacetStat(min, max, avg, sum));
-        }
-    }
-
-    @Deprecated //DISCUSS: Should we expose this?
-    public
-    @Nullable
-    FacetStat getFacetStat(String attribute) {
-        return facetStats.get(attribute);
-    }
-
-    /**
-     * Update the facet stats, calling {@link Index#search(Query)} without notifying listeners of the result.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void getUpdatedFacetStats() {
-        index.searchAsync(query, new CompletionHandler() {
-            @Override
-            public void requestCompleted(JSONObject content, AlgoliaException error) {
-                if (error == null) {
-                    updateFacetStats(content);
-                } else {
-                    Log.e("Algolia|Searcher", "Error while getting updated facet stats:" + error.getMessage());
-                }
-            }
-        });
     }
 
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
