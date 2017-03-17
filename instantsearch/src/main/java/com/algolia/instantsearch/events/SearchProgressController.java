@@ -56,7 +56,7 @@ public class SearchProgressController {
     }
 
     @Subscribe
-    private void onSearch(SearchEvent event) {
+    public void onSearch(SearchEvent event) {
         if (delay == 0) {
             listener.onStart();
         } else {
@@ -71,17 +71,17 @@ public class SearchProgressController {
     }
 
     @Subscribe
-    private void onError(ErrorEvent event) {
+    public void onError(ErrorEvent event) {
         decrementAndCheckCount();
     }
 
     @Subscribe
-    private void onCancel(CancelEvent event) {
+    public void onCancel(CancelEvent event) {
         decrementAndCheckCount();
     }
 
     @Subscribe
-    private void onResult(ResultEvent event) {
+    public void onResult(ResultEvent event) {
         decrementAndCheckCount();
     }
 
