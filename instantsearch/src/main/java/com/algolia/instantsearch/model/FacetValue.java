@@ -3,15 +3,16 @@ package com.algolia.instantsearch.model;
 import android.support.annotation.NonNull;
 
 /**
- * A facet value and the associated count.
+ * Describes a faceted attribute's value and the associated count.
  */
 public class FacetValue {
     /** A value for a faceted attribute. */
-    final public String value;
+    @NonNull final public String value;
     /** The count of records matching this facet value. */
     public int count;
 
-    public FacetValue(String value, int count) {
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public FacetValue(@NonNull String value, int count) {
         this.value = value;
         this.count = count;
     }
