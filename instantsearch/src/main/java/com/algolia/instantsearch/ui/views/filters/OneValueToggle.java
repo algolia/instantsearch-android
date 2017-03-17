@@ -11,12 +11,19 @@ import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.SearchResults;
 
 /**
- * A widget that toggles between refining and not refining an attribute with a given value.
+ * Toggles between refining and not refining an attribute with a given value.
  */
 public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
     /** The value to apply when the OneValueToggle is checked. */
     public String value;
 
+    /**
+     * Constructs a new OneValueToggle with the given context's theme and the supplied attribute set.
+     *
+     * @param context The Context the view is running in, through which it can
+     *                access the current theme, resources, etc.
+     * @param attrs   The attributes of the XML tag that is inflating the view.
+     */
     public OneValueToggle(Context context, AttributeSet attrs) {
         super(context, attrs);
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.OneValueToggle, 0, 0);
@@ -27,34 +34,8 @@ public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
         }
     }
 
-
-    @Override protected OnCheckedChangeListener getOnCheckedChangeListener() {
-        return new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                searcher.updateFacetRefinement(attributeName, value, isChecked).search();
-            }
-        };
-    }
-
-    @Override protected String applyTemplate(@NonNull SearchResults results) {
-        return template
-                .replace("{name}", attributeName)
-//FIXME                    .replace("{count}", String.valueOf(results.facets.get(attributeName).size()))
-                .replace("{isRefined}", String.valueOf(isChecked()))
-                .replace("{value}", value);
-    }
-
-    @Override public void updateRefinementWithNewName(String newName) {
-        if (isChecked()) { // We need to update facetRefinement's attribute
-            searcher.removeFacetRefinement(attributeName, value)
-                    .addFacetRefinement(newName, value)
-                    .search();
-        }
-    }
-
     /**
-     * Change the OneValueToggle's value, updating facet refinements accordingly.
+     * Changes the OneValueToggle's value, updating facet refinements accordingly.
      *
      * @param newValue the new value to refine with.
      * @param newName  an eventual new attribute name.
@@ -67,6 +48,31 @@ public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
         }
         this.value = newValue;
         applyEventualNewName(newName);
+    }
+
+    @Override public void updateRefinementWithNewName(String newName) {
+        if (isChecked()) { // We need to update facetRefinement's attribute
+            searcher.removeFacetRefinement(attributeName, value)
+                    .addFacetRefinement(newName, value)
+                    .search();
+        }
+    }
+
+    @Override protected OnCheckedChangeListener getOnCheckedChangeListener() {
+        return new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                searcher.updateFacetRefinement(attributeName, value, isChecked).search();
+            }
+        };
+    }
+
+    @Override protected String applyTemplates(@NonNull SearchResults results) {
+        return template
+                .replace("{name}", attributeName)
+//FIXME                    .replace("{count}", String.valueOf(results.facets.get(attributeName).size()))
+                .replace("{isRefined}", String.valueOf(isChecked()))
+                .replace("{value}", value);
     }
 
 }

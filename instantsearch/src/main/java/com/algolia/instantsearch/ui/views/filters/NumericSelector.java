@@ -20,23 +20,36 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/** Displays a dropdown menu to refine a specific attribute with one of several values. */
 public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFilter, AdapterView.OnItemSelectedListener {
     public static final Double DEFAULT_VALUE = null;
 
+    /** Whether the selector should hide on error or when results are empty. */
     private final boolean autoHide;
+    /** The name of this NumericSelector's attribute. */
     private String attributeName;
+    /** The operator to use for refining. */
     private int operator;
+    /** The eventual label for a default option that does not refine the attribute. */
     private String defaultLabel;
+    /** The List of values to refine with */
     private final List<Double> values;
+    /** The currently selected refinement, if any. */
+    private NumericRefinement currentRefinement;
 
     private Searcher searcher;
-    private NumericRefinement currentRefinement;
 
     // TODO: Let developer customize those layouts
     private final int spinnerItemLayout = android.R.layout.simple_spinner_item;
     private final int spinnerDropdownItemLayout = android.R.layout.simple_spinner_dropdown_item;
 
+    /**
+     * Constructs a new NumericSelector with the given context's theme and the supplied attribute set.
+     *
+     * @param context The Context the view is running in, through which it can
+     *                access the current theme, resources, etc.
+     * @param attrs   The attributes of the XML tag that is inflating the view.
+     */
     public NumericSelector(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnItemSelectedListener(this);

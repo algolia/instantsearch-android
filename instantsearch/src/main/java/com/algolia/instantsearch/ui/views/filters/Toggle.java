@@ -28,6 +28,13 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
     protected boolean shouldHide;
     private SearchResults lastResults;
 
+    /**
+     * Constructs a new Toggle with the given context's theme and the supplied attribute set.
+     *
+     * @param context The Context the view is running in, through which it can
+     *                access the current theme, resources, etc.
+     * @param attrs   The attributes of the XML tag that is inflating the view.
+     */
     public Toggle(Context context, AttributeSet attrs) {
         super(context, attrs);
         final TypedArray filterStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Filter, 0, 0);
@@ -40,6 +47,40 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         } finally {
             filterStyledAttributes.recycle();
             toggleStyledAttributes.recycle();
+        }
+    }
+
+    /**
+     * Changes the Toggle's attribute, updating facet refinements accordingly.
+     *
+     * @param newName the attribute's new name.
+     */
+    public final void setAttributeName(@NonNull String newName) {
+        searcher.removeFacet(attributeName).addFacet(newName);
+        updateRefinementWithNewName(newName);
+        attributeName = newName;
+    }
+
+    /**
+     * Changes the Toggle's autoHide setting, hiding it if needed.
+     *
+     * @param autoHide {@code true} if the Toggle should hide on empty results.
+     */
+    public final void setAutoHide(boolean autoHide) {
+        this.autoHide = autoHide;
+        Filters.hideIfShouldHide(this, autoHide, shouldHide);
+    }
+
+    public final void setTemplate(String template) {
+        this.template = template;
+        setText(applyTemplates(lastResults));
+    }
+
+    /** If given a new name, update searcher's facets and attribute. */
+    protected void applyEventualNewName(@Nullable String newName) {
+        if (newName != null) {
+            searcher.removeFacet(attributeName).addFacet(newName);
+            this.attributeName = newName;
         }
     }
 
@@ -64,7 +105,7 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         shouldHide = results.nbHits == 0;
         Filters.hideIfShouldHide(this, autoHide, shouldHide);
         if (template != null) {
-            setText(applyTemplate(results));
+            setText(applyTemplates(results));
         }
         lastResults = results;
     }
@@ -73,46 +114,12 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         Filters.hideIfShouldHide(this, autoHide, shouldHide);
     }
 
-    /**
-     * Change the Toggle's attribute, updating facet refinements accordingly.
-     *
-     * @param newName the attribute's new name.
-     */
-    public final void setAttributeName(@NonNull String newName) {
-        searcher.removeFacet(attributeName).addFacet(newName);
-        updateRefinementWithNewName(newName);
-        attributeName = newName;
-    }
-
-    /**
-     * Change the Toggle's autoHide setting, hiding it if needed.
-     *
-     * @param autoHide {@code true} if the Toggle should hide on empty results.
-     */
-    public final void setAutoHide(boolean autoHide) {
-        this.autoHide = autoHide;
-        Filters.hideIfShouldHide(this, autoHide, shouldHide);
-    }
-
-    public final void setTemplate(String template) {
-        this.template = template;
-        setText(applyTemplate(lastResults));
-    }
-
-    /** If given a new name, update searcher's facets and attribute. */
-    protected void applyEventualNewName(@Nullable String newName) {
-        if (newName != null) {
-            searcher.removeFacet(attributeName).addFacet(newName);
-            this.attributeName = newName;
-        }
-    }
-
-    /** Subclasses should define their OnCheckedChangeListener. */
+    /** Defines what happens when the checked state changes. */
     protected abstract OnCheckedChangeListener getOnCheckedChangeListener();
 
-    /** Subclasses should apply their templates according to the given results. */
-    protected abstract String applyTemplate(@NonNull SearchResults results);
+    /** Applies the text's templates according to the given results. */
+    protected abstract String applyTemplates(@NonNull SearchResults results);
 
-    /** Subclasses should update their refinements according to the given name. */
+    /** Updates the refinements with the given new name. */
     protected abstract void updateRefinementWithNewName(String newName);
 }
