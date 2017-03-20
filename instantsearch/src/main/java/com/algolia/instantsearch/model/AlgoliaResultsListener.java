@@ -13,7 +13,7 @@ public interface AlgoliaResultsListener {
      * Reacts to new hits.
      *
      * @param results       a {@link SearchResults} object containing hits.
-     * @param isLoadingMore true if these hits come from the same query than the previous ones.
+     * @param isLoadingMore {@code true} if these hits come from the same query than the previous ones.
      */
     void onResults(@NonNull final SearchResults results, boolean isLoadingMore);
 
