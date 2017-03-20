@@ -19,7 +19,7 @@ import com.algolia.search.saas.Query;
 public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter {
     /** The attribute to refine on. */
     public String attributeName;
-    /** True if the OneValueToggle should hide when results are empty. */
+    /** Whether the OneValueToggle should hide when results are empty. */
     public boolean autoHide;
     /** A template to use as the OneValueToggle's text. */
     public String template;
