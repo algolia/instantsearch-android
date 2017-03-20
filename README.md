@@ -6,9 +6,6 @@
 **InstantSearch Android** is a library providing widgets and helpers to help you build the best instant-search experience on Android with Algolia.
 It is built on top of Algolia's [Android API Client](https://github.com/algolia/algoliasearch-client-android) to provide you a high-level solution to quickly build various search interfaces.
 
-*InstantSearch Android is still in beta: some features or APIs may change before the final release.  
-__Your feedback is very welcome!__ Don't hesitate to tell us what you think or report issues either [on the issue tracker](https://github.com/algolia/instantsearch-android/issues) or by [e-mailing us](mailto:pln+isa@algolia.com).*
-
 # Demo
 You can see InstantSearch Android in action in our [Examples repository](https://github.com/algolia/instantsearch-android-examples), in which we published two example apps built with InstantSearch:
 
