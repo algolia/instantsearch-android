@@ -34,24 +34,38 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Displays facet values for an attribute and lets the user filter the results using these values.
+ */
 public class RefinementList extends ListView implements AlgoliaWidget {
+    /** The operator for disjunctive faceting (foo OR bar). */
     public static final int OPERATOR_OR = 0;
+    /** The operator for disjunctive faceting (foo AND bar). */
     public static final int OPERATOR_AND = 1;
 
+    /** The value for sorting by increasing counts. */
     public static final String SORT_COUNT_ASC = "count:asc";
+    /** The value for sorting by decreasing counts. */
     public static final String SORT_COUNT_DESC = "count:desc";
+    /** The value for sorting by refined first. */
     public static final String SORT_ISREFINED = "isRefined";
+    /** The value for sorting by name in alphabetical order. */
     public static final String SORT_NAME_ASC = "name:asc";
+    /** The value for sorting by name in reverse alphabetical order. */
     public static final String SORT_NAME_DESC = "name:desc";
 
+    /** The default {@link RefinementList#SORT_COUNT_DESC sorting method}. */
     public static final String DEFAULT_SORT = SORT_COUNT_DESC;
+    /** The default maximum amount of values to display. */
     public static final int DEFAULT_LIMIT = 10;
 
     @NonNull
     private final String attribute;
     private final int operator;
+    /** The current sort order for displaying values. */
     @NonNull
     private final ArrayList<String> sortOrder;
+    /** The current maximum amount of values to display. */
     private int limit;
 
     @NonNull
@@ -60,6 +74,13 @@ public class RefinementList extends ListView implements AlgoliaWidget {
     @NonNull
     private Comparator<? super FacetValue> sortComparator;
 
+    /**
+     * Constructs a new RefinementList with the given context's theme and the supplied attribute set.
+     *
+     * @param context The Context the view is running in, through which it can
+     *                access the current theme, resources, etc.
+     * @param attrs   The attributes of the XML tag that is inflating the view.
+     */
     @SuppressWarnings("ConstantConditions") /* We set to null only if isInEditMode and throw if attribute is null */
     public RefinementList(@NonNull final Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
@@ -124,6 +145,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         };
     }
 
+    @Override
     public void initWithSearcher(@NonNull Searcher searcher) {
         this.searcher = searcher;
     }
@@ -164,12 +186,35 @@ public class RefinementList extends ListView implements AlgoliaWidget {
     }
 
     /**
-     * Replace the default sortComparator by a custom one respecting the {@link Comparator} interface.
+     * Replaces the default sortComparator by a custom one respecting the {@link Comparator} interface.
      *
      * @param sortComparator a new Comparator to use for sorting facetValues.
+     * @see #DEFAULT_SORT
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void setSortComparator(@NonNull Comparator<? super FacetValue> sortComparator) {
         this.sortComparator = sortComparator;
+    }
+
+    /**
+     * Gets the attribute that this RefinementList refines on.
+     *
+     * @return the RefinementList's {@link RefinementList#attribute}.
+     */
+    @NonNull
+    public String getAttribute() {
+        return attribute;
+    }
+
+    /**
+     * Gets the operator used by this RefinementList for filtering.
+     *
+     * @return the RefinementList's {@link RefinementList#operator}.
+     * @see #OPERATOR_AND
+     * @see #OPERATOR_OR
+     */
+    public int getOperator() {
+        return operator;
     }
 
     @Nullable
@@ -221,15 +266,6 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         }
     }
 
-    @NonNull
-    public String getAttribute() {
-        return attribute;
-    }
-
-    public int getOperator() {
-        return operator;
-    }
-
     private class FacetAdapter extends ArrayAdapter<FacetValue> {
         @NonNull
         private final List<FacetValue> facetValues;
@@ -245,7 +281,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
             this.facetValues = new ArrayList<>(facetValues);
         }
 
-        public void clear(boolean clearActiveFacets) {
+        void clear(boolean clearActiveFacets) {
             super.clear();
             if (clearActiveFacets) {
                 activeFacets.clear();

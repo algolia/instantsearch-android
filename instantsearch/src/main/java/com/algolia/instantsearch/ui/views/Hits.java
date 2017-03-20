@@ -64,18 +64,26 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
 
     private static final int MISSING_VALUE = Integer.MIN_VALUE;
 
-    private final Integer hitsPerPage;
-    private final int remainingItemsBeforeLoading; // Minimum number of remaining items before loading more
-    private final HitsScrollListener scrollListener;
+    /** The minimum number of items remaining below the fold before loading more. */
+    private final int remainingItemsBeforeLoading;
 
+    private final Integer hitsPerPage;
     private final int layoutId;
 
     private HitsAdapter adapter;
-
+    private final HitsScrollListener scrollListener;
     private LayoutManager layoutManager;
+
     private View emptyView;
     private Searcher searcher;
 
+    /**
+     * Constructs a new Hits with the given context's theme and the supplied attribute set.
+     *
+     * @param context The Context the view is running in, through which it can
+     *                access the current theme, resources, etc.
+     * @param attrs   The attributes of the XML tag that is inflating the view.
+     */
     public Hits(@NonNull Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
         if (isInEditMode()) {
@@ -129,32 +137,37 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
 
 
     /**
-     * Set a listener for click events on child views.
+     * Sets a listener for click events on child views.
      *
      * @param listener An {@link OnItemClickListener OnItemLongClickListener} which should receive these events.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void setOnItemClickListener(OnItemClickListener listener) {
+        //noinspection deprecation legitimate use
         ItemClickSupport.addTo(this).setOnItemClickListener(listener);
     }
 
     /**
-     * Set a listener for long click events on child views.
+     * Sets a listener for long click events on child views.
      *
      * @param listener An {@link OnItemLongClickListener OnItemLongClickListener} which should receive these events.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        //noinspection deprecation legitimate use
         ItemClickSupport.addTo(this).setOnItemLongClickListener(listener);
     }
 
     /**
-     * Clear the Hits, emptying the underlying data.
+     * Clears the Hits, emptying the underlying data.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void clear() {
         adapter.clear();
     }
 
     /**
-     * Get the hit at a given position.
+     * Gets the hit at a given position.
      *
      * @param position the position to look at.
      * @return a JSONObject representing the hit.
@@ -164,15 +177,15 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     }
 
     /**
-     * Add or replace hits to/in this widget.
+     * Adds or replaces hits to/in this widget.
      *
      * @param results     A {@link JSONObject} containing hits.
-     * @param isReplacing true if the given hits should replace the current hits.
+     * @param isReplacing {@code true} if the given hits should replace the current hits.
      */
     private void addHits(@Nullable SearchResults results, boolean isReplacing) {
         if (results == null) {
             if (isReplacing) {
-                adapter.clear();
+                clear();
                 scrollListener.setCurrentlyLoading(false);
             }
             return;
@@ -335,19 +348,11 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
             this.hits = new ArrayList<>();
         }
 
-        /**
-         * Remove the current hits, notifying observers.
-         */
-        public void clear() {
+        void clear() {
             clear(true);
         }
 
-        /**
-         * Remove the current hits, potentially notifying observers.
-         *
-         * @param shouldNotify true if the adapter should notify observers of removal.
-         */
-        public void clear(boolean shouldNotify) {
+        void clear(boolean shouldNotify) {
             if (shouldNotify) {
                 final int previousItemCount = getItemCount();
                 hits.clear();

@@ -9,8 +9,18 @@ import android.view.inputmethod.EditorInfo;
 
 import com.algolia.instantsearch.R;
 
+/**
+ * Provides a user input for search queries that are directly sent to the Algolia engine.
+ */
 public class SearchBox extends SearchView {
 
+    /**
+     * Constructs a new SearchBox with the given context's theme and the supplied attribute set.
+     *
+     * @param context The Context the view is running in, through which it can
+     *                access the current theme, resources, etc.
+     * @param attrs   The attributes of the XML tag that is inflating the view.
+     */
     public SearchBox(@NonNull Context context, @NonNull AttributeSet attrs) {
         super(context, attrs);
         if (isInEditMode()) {
@@ -39,7 +49,7 @@ public class SearchBox extends SearchView {
     }
 
     /**
-     * Disable fullscreen keyboard display in landscape mode. This only works on {@literal >= 4.1} devices.
+     * Disables fullscreen keyboard display in landscape mode. <b>This only works on {@literal >= 4.1} devices.</b>
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void disableFullScreen() {
@@ -49,7 +59,7 @@ public class SearchBox extends SearchView {
     }
 
     /**
-     * Enable fullscreen keyboard display in landscape mode. This only works on {@literal >= 4.1} devices.
+     * Enables fullscreen keyboard display in landscape mode. <b>This only works on {@literal >= 4.1} devices.</b>
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void enableFullScreen() {

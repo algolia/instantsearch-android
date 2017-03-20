@@ -14,11 +14,19 @@ import com.algolia.search.saas.Query;
 
 public class Stats extends TextView implements AlgoliaWidget {
     // TODO: Autohidecontainer, maybe other useful attrs? https://community.algolia.com/instantsearch.js/documentation/#stats
+    /** The default template, only shown when there is no error. */
     public static final String DEFAULT_TEMPLATE = "{nbHits} results found in {processingTimeMS} ms";
 
     private String resultTemplate;
     private String errorTemplate;
 
+    /**
+     * Constructs a new Stats with the given context's theme and the supplied attribute set.
+     *
+     * @param context The Context the view is running in, through which it can
+     *                access the current theme, resources, etc.
+     * @param attrs   The attributes of the XML tag that is inflating the view.
+     */
     public Stats(Context context, AttributeSet attrs) {
         super(context, attrs);
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, com.algolia.instantsearch.R.styleable.Stats, 0, 0);
