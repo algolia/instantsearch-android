@@ -231,7 +231,7 @@ public class Highlighter {
     private static String getHighlightedAttribute(@NonNull JSONObject result, String attributeName) {
         final JSONObject highlightResult = result.optJSONObject("_highlightResult");
         if (highlightResult != null) {
-            HashMap<String, String> highlightAttribute = JSONUtils.getJSONObjectFromJSONPath(highlightResult, attributeName);
+            HashMap<String, String> highlightAttribute = JSONUtils.getMapFromJSONPath(highlightResult, attributeName);
             if (highlightAttribute != null) {
                 String highlightedValue = highlightAttribute.get("value");
                 if (highlightedValue != null) {
