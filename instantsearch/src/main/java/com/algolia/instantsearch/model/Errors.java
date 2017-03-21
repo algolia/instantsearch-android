@@ -18,6 +18,7 @@ public class Errors {
     public static final String LAYOUT_MISSING_HITS = "You need to add at least one AlgoliaResultsListener.";
     public static final String LAYOUT_MISSING_HITS_ITEMLAYOUT = "To use the Hits widget, you need to specify an item layout with algolia:itemLayout.";
     public static final String LAYOUT_MISSING_SEARCHBOX = "No SearchBox or SearchView was found in your activity.";
+    public static final String LAYOUT_MISSING_ALGOLIAFACETFILTER = "No AlgoliaFacetFilter was found in view %s.";
     public static final String LAYOUT_TOO_MANY_SEARCHVIEWS = "If you have several SearchViews, you need to identify the Algolia one with @id/searchBox.";
     public static final String LAYOUT_TOO_MANY_SEARCHBOXES = "You cannot have more than one SearchBox.";
 

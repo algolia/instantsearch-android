@@ -65,11 +65,12 @@ public class InstantSearch {
     private int progressBarDelay = SearchProgressController.DEFAULT_DELAY;
 
     /**
-     * Create and initialize the helper, then link it to the given Activity.
+     * Constructs the helper, then link it to the given Activity.
      *
      * @param activity an Activity containing at least one {@link AlgoliaWidget} to update with incoming results.
      * @param searcher the Searcher to use with this activity.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public InstantSearch(@NonNull final Activity activity, @NonNull final Searcher searcher) {
         this(searcher);
 
@@ -77,7 +78,7 @@ public class InstantSearch {
     }
 
     /**
-     * Create and initialize the helper, then link it to the given Activity and Menu's searchView.
+     * Constructs the helper, then link it to the given Activity and Menu's searchView.
      *
      * @param activity   an Activity containing at least one {@link AlgoliaWidget} to update with incoming results.
      * @param menu       the Menu which contains your SearchView.
@@ -93,7 +94,7 @@ public class InstantSearch {
     }
 
     /**
-     * Create and initialize the helper, then link it to the given widget.
+     * Constructs the helper, then link it to the given widget.
      *
      * @param widget   an AlgoliaWidget to update with incoming results.
      * @param searcher the Searcher to use with this AlgoliaWidget.
@@ -110,7 +111,7 @@ public class InstantSearch {
     }
 
     /**
-     * Start a new search with the searchView's text.
+     * Triggers a new search with the {@link #searchView}'s text.
      */
     public void search() {
         if (searchView != null) {
@@ -121,10 +122,11 @@ public class InstantSearch {
     }
 
     /**
-     * Start a search if the given intent is an ACTION_SEARCH intent.
+     * Triggers a search if the given intent is an ACTION_SEARCH intent.
      *
      * @param intent an Intent that may contain a search query.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void search(@NonNull Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
@@ -137,19 +139,7 @@ public class InstantSearch {
     }
 
     /**
-     * Resets the search interface and state via {@link Searcher#reset()} and {@link AlgoliaWidget#onReset()}.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void reset() {
-        searcher.reset();
-        for (AlgoliaWidget widget : widgets) {
-            widget.onReset();
-        }
-        EventBus.getDefault().post(new ResetEvent());
-    }
-
-    /**
-     * Register the Search Widget of an Activity's Menu to fire queries on text change.
+     * Registers the Search Widget of an Activity's Menu to trigger search requests on text change.
      *
      * @param activity The searchable Activity, see {@link android.app.SearchableInfo}.
      * @param menu     The Menu that contains a search item.
@@ -164,10 +154,10 @@ public class InstantSearch {
     }
 
     /**
-     * Registers a {@link SearchView} to fire queries on text change.
+     * Registers a {@link SearchView} to trigger search requests on text change.
      *
      * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
-     * @param searchView a SearchView where the query text will be picked up from.
+     * @param searchView a SearchView whose query text will be used.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void registerSearchView(@NonNull final Activity activity, @NonNull final SearchView searchView) {
@@ -175,14 +165,132 @@ public class InstantSearch {
     }
 
     /**
-     * Registers a {@link android.support.v7.widget.SearchView} to fire queries on text change.
+     * Registers a {@link android.support.v7.widget.SearchView} to trigger search requests on text change.
      *
      * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
-     * @param searchView a SearchView where the query text will be picked up from.
+     * @param searchView a SearchView whose query text will be used.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void registerSearchView(@NonNull final Activity activity, @NonNull final android.support.v7.widget.SearchView searchView) {
         registerSearchView(activity, new SearchViewFacade(searchView));
+    }
+
+
+    /**
+     * Resets the search interface and state via {@link Searcher#reset()} and {@link AlgoliaWidget#onReset()}.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void reset() {
+        searcher.reset();
+        for (AlgoliaWidget widget : widgets) {
+            widget.onReset();
+        }
+        EventBus.getDefault().post(new ResetEvent());
+    }
+
+    /**
+     * Enables the display of a spinning {@link android.widget.ProgressBar ProgressBar} in the SearchView when waiting for results.
+     *
+     * @param delay a delay to wait between firing a request and displaying the indicator.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void enableProgressBar(int delay) {
+        enableProgressBar();
+        progressBarDelay = delay;
+    }
+
+    /**
+     * Enables the display of a spinning {@link android.widget.ProgressBar ProgressBar} in the SearchView when waiting for results.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void enableProgressBar() {
+        showProgressBar = true;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            progressBarDelay = DELAY_PROGRESSBAR_NO_ANIMATIONS; // Without animations, a delay is needed to avoid blinking.
+        }
+
+        progressController = new SearchProgressController(new SearchProgressController.ProgressListener() {
+            @Override
+            public void onStart() {
+                updateProgressBar(searchView, true);
+            }
+
+            @Override
+            public void onStop() {
+                updateProgressBar(searchView, false);
+            }
+        }, progressBarDelay);
+    }
+
+    /**
+     * Disables the {@link android.widget.ProgressBar ProgressBar}, removing it if it is already displayed.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void disableProgressBar() {
+        updateProgressBar(searchView, false);
+        progressController.disable();
+    }
+
+    /**
+     * TODO: Ensure developer calls before displaying widget!
+     * Registers your {@link AlgoliaFacetFilter facet filters}, adding them to this InstantSearch's widgets.
+     *
+     * @param rootView a ViewGroup containing one or several {@link AlgoliaFacetFilter AlgoliaFacetFilters}.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void registerFacetFilters(@NonNull ViewGroup rootView) {
+        final List<AlgoliaFacetFilter> filterViews = LayoutViews.findByClass(rootView, AlgoliaFacetFilter.class);
+        if (filterViews.isEmpty()) {
+            throw new IllegalStateException(String.format(Errors.LAYOUT_MISSING_ALGOLIAFACETFILTER, rootView));
+        }
+        registerFacetFilters(filterViews);
+    }
+
+    /**
+     * Registers your facet filters, adding them to this InstantSearch's widgets.
+     *
+     * @param filters a List of facet filters.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void registerFacetFilters(List<AlgoliaFacetFilter> filters) {
+        for (final AlgoliaFacetFilter filter : filters) {
+            searcher.addFacet(filter.getAttributeName());
+            processWidget(filter);
+        }
+    }
+
+    /**
+     * Gets the {@link android.support.annotation.IdRes IdRes} of the item layout registered by a Hits widget.
+     * This method should only be used by the library's internals.
+     *
+     * @return the registered item layout id, if any.
+     * @throws IllegalStateException if no item layout was registered.
+     */
+    public static int getItemLayoutId() {
+        if (itemLayoutId == 0) {
+            throw new IllegalStateException(Errors.HITS_NO_ITEMLAYOUT);
+        }
+        return itemLayoutId;
+    }
+
+    /**
+     * Enables or disables the sending of a search request when the SearchView becomes empty (default is true).
+     *
+     * @param searchOnEmptyString if {@code true}, a request will be fired.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void setSearchOnEmptyString(boolean searchOnEmptyString) {
+        this.searchOnEmptyString = searchOnEmptyString;
+    }
+
+    /**
+     * Tells if an empty string in the {@link #searchView} is a valid search query.
+     *
+     * @return {@code true} if an empty string triggers a search request.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public boolean hasSearchOnEmptyString() {
+        return searchOnEmptyString;
     }
 
     private void registerSearchView(@NonNull final Activity activity, @NonNull final SearchViewFacade searchView) {
@@ -199,7 +307,9 @@ public class InstantSearch {
         }
         if (searchView != null) {
             linkSearchViewToSearcher(searchView);
-            linkSearchViewToActivity(activity, searchView);
+            // Link SearchView to Activity
+            SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
+            searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
         }
 
         // Register any AlgoliaWidget
@@ -250,77 +360,6 @@ public class InstantSearch {
         } else if (widget instanceof ListView) {
             ((ListView) widget).setEmptyView(getEmptyView(rootView));
         }
-    }
-
-    /**
-     * Initialize search from the given activity according to its {@link android.app.SearchableInfo searchable info}.
-     *
-     * @param activity the activity with a {@link SearchView} identified as @+id/searchBox.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void initSearchFrom(@NonNull Activity activity) {
-        final View rootView = activity.getWindow().getDecorView().getRootView();
-        SearchViewFacade searchView = getSearchView(rootView);
-        if (searchView != null) {
-            linkSearchViewToActivity(activity, searchView);
-        }
-    }
-
-    /**
-     * Enable the display of a spinning progressBar in the SearchView when waiting for results.
-     *
-     * @param delay a delay to wait between firing a request and displaying the indicator.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void enableProgressBar(int delay) {
-        enableProgressBar();
-        progressBarDelay = delay;
-    }
-
-    /**
-     * Enable the display of a {@link android.widget.ProgressBar ProgressBar} in the SearchView when waiting for results.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void enableProgressBar() {
-        showProgressBar = true;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            progressBarDelay = DELAY_PROGRESSBAR_NO_ANIMATIONS; // Without animations, a delay is needed to avoid blinking.
-        }
-
-        progressController = new SearchProgressController(new SearchProgressController.ProgressListener() {
-            @Override
-            public void onStart() {
-                updateProgressBar(searchView, true);
-            }
-
-            @Override
-            public void onStop() {
-                updateProgressBar(searchView, false);
-            }
-        }, progressBarDelay);
-    }
-
-    /**
-     * Disable the {@link android.widget.ProgressBar ProgressBar}, removing it if it is already displayed.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void disableProgressBar() {
-        updateProgressBar(searchView, false);
-        progressController.disable();
-    }
-
-    /**
-     * Get the {@link android.support.annotation.IdRes IdRes} of the item layout registered by a Hits widget.
-     * This method should only be used by the library's internals.
-     *
-     * @return the registered item layout id, if any.
-     * @throws IllegalStateException if no item layout was registered.
-     */
-    public static int getItemLayoutId() {
-        if (itemLayoutId == 0) {
-            throw new IllegalStateException(Errors.HITS_NO_ITEMLAYOUT);
-        }
-        return itemLayoutId;
     }
 
     @SuppressLint("InflateParams"/* Giving a root to inflate causes the searchView to break when adding the progressBarView */)
@@ -383,38 +422,6 @@ public class InstantSearch {
         });
     }
 
-    private void linkSearchViewToActivity(@NonNull Activity activity, @NonNull SearchViewFacade searchView) {
-        SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
-        searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
-    }
-
-    /**
-     * TODO: Document and ensure developer calls before displaying widget!!1!
-     * @param rootView
-     */
-    public void registerFacetFilters(@NonNull ViewGroup rootView) {
-        final List<AlgoliaFacetFilter> filterViews = LayoutViews.findByClass(rootView, AlgoliaFacetFilter.class);
-        for (final AlgoliaFacetFilter filter : filterViews) {
-            searcher.addFacet(filter.getAttributeName());
-            processWidget(filter);
-        }
-    }
-
-    /**
-     * Enable or disable the sending of a search request when the SearchView becomes empty (defaults to true).
-     *
-     * @param searchOnEmptyString if true, a request will be fired.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void setSearchOnEmptyString(boolean searchOnEmptyString) {
-        this.searchOnEmptyString = searchOnEmptyString;
-    }
-
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public boolean hasSearchOnEmptyString() {
-        return searchOnEmptyString;
-    }
-
     @Nullable
     private static SearchViewFacade getSearchView(@NonNull View rootView) {
         SearchViewFacade facade = null;
@@ -458,10 +465,11 @@ public class InstantSearch {
     }
 
     /**
-     * Find the empty view in the given rootView.
+     * Finds the empty view in the given rootView.
      *
      * @param rootView the topmost view in the view hierarchy of the Activity.
-     * @return the empty view if it was in the given rootView.
+     * @return the empty view if it was in the rootView.
+     * @throws RuntimeException if the rootView is null.
      */
     @Nullable
     private static View getEmptyView(@Nullable View rootView) {
