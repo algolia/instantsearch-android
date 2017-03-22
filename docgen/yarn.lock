@@ -75,9 +75,9 @@ ajv@^4.7.0, ajv@^4.9.1:
     co "^4.6.0"
     json-stable-stringify "^1.0.1"
 
-algolia-frontend-components@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/algolia-frontend-components/-/algolia-frontend-components-0.0.14.tgz#a95cabe05daa9841d3d72380fa6fc050532f3bc5"
+algolia-frontend-components@^0.0.20:
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/algolia-frontend-components/-/algolia-frontend-components-0.0.20.tgz#537a183f20cbc57454b13b6c830940421f4e82c9"
   dependencies:
     babel-cli "^6.23.0"
     babel-core "^6.23.1"
@@ -3284,13 +3284,9 @@ multimatch@^2.0.0:
     arrify "^1.0.0"
     minimatch "^3.0.0"
 
-mute-stream@0.0.5:
+mute-stream@0.0.5, mute-stream@~0.0.4:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.5.tgz#8fbfabb0a98a253d3184331f9e8deb7372fac6c0"
-
-mute-stream@~0.0.4:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
 
 nan@^2.3.0, nan@^2.3.2:
   version "2.5.1"
