@@ -149,13 +149,6 @@
       }
     }
 
-    // API tables
-    table.api {
-
-
-    }
-
-
     .anchor {
       margin-left: .2em;
       display: inline;
@@ -244,6 +237,7 @@
     border-collapse: collapse;
     border-spacing: 0;
     border: 1px solid #d8d8d8;
+    color: darken($logan, 15%);
   }
 
   td,th {
@@ -259,7 +253,7 @@
   }
 
   table.bordered>thead>tr,table.bordered>tbody>tr {
-    border-bottom: 1px solid #d0d0d0
+    border-bottom: 1px solid #d0d0d0;
   }
 
   table.striped>tbody>tr:nth-child(odd) {
@@ -280,7 +274,7 @@
   }
 
   table.centered thead tr th,table.centered tbody tr td {
-    text-align: center
+    text-align: center;
   }
 
   thead,
@@ -288,6 +282,9 @@
     border-bottom: 1px solid #d0d0d0
   }
 
+  thead th {
+    color: darken($logan, 35%);
+  }
   td,th {
     padding: 15px 5px;
     display: table-cell;
