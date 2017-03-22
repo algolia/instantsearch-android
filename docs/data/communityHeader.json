@@ -19,12 +19,12 @@
     "image": "",
     "dropdownItems": [
       {
-        "name": "Widgets",
-        "url": "widgets.html"
-      },
-      {
         "name": "Concepts",
         "url": "concepts.html"
+      },
+      {
+        "name": "Widgets",
+        "url": "widgets.html"
       },
       {
         "name": "API Reference",
@@ -42,13 +42,14 @@
   "mobileMenu": [{
     "name": "Getting Started",
     "url": "getting-started.html"
-  }, {
-    "name": "Widgets",
-    "url": "widgets.html"
   },
   {
     "name": "Concepts",
     "url": "concepts.html"
+  },
+  {
+    "name": "Widgets",
+    "url": "widgets.html"
   },
   {
     "name": "API Reference",
