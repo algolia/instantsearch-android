@@ -4210,7 +4210,8 @@ nav.sidebar {
 .documentation-container table {
   border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid #d8d8d8; }
+  border: 1px solid #d8d8d8;
+  color: #6f6f9e; }
 
 .documentation-container td, .documentation-container th {
   padding: 0; }
@@ -4242,6 +4243,9 @@ nav.sidebar {
 .documentation-container thead,
 .documentation-container tbody > tr:not(:last-child) {
   border-bottom: 1px solid #d0d0d0; }
+
+.documentation-container thead th {
+  color: #434364; }
 
 .documentation-container td, .documentation-container th {
   padding: 15px 5px;
