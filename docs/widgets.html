@@ -261,7 +261,7 @@
 <li><strong><code>submitButtonEnabled</code></strong>, when <code>true</code>, will display the SearchBox with its submit button. This button is hidden by default: as every keystroke will update the results, it is usually misleading to display a submit button.</li>
 </ul>
 <h3 id="progress-indicator">Progress indicator <a class="anchor" href="widgets.html#progress-indicator" aria-hidden="true"></a></h3>
-<img src="assets/img/progress.gif" />
+<img src="assets/img/progress.gif" class="img-object" />
 <!-- TODO: Move to separate guide -->
 <p>A useful pattern to improve your user’s experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.</p>
 <p>By default, the InstantSearchHelper will display an indeterminate <a href="https://developer.android.com/reference/android/widget/ProgressBar.html"><code>ProgressBar</code></a> in your <code>SearchView</code> as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (&gt;= API 14), or after a small delay to avoid blinking.
@@ -269,7 +269,7 @@ You can change this delay by calling <code>InstantSearchHelper#enableProgressBar
 <p>Alternatively, you can implement your own progress logic by using a <a href="https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java"><code>SearchProgressController</code></a>.
 Once instantiated, a <strong>SearchProgressController</strong> will inform its <a href="https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java#L99"><code>ProgressListener</code></a> when some requests are sent with <code>onStart()</code>, and will call <code>onStop()</code> when all current requests have returned.</p>
 <h2 id="hits">Hits <a class="anchor" href="widgets.html#hits" aria-hidden="true"></a></h2>
-<img src="assets/img/widget_Hits.png" align="right"/>
+<img src="assets/img/widget_Hits.png" class="img-object" align="right"/>
 <p>The <strong>Hits</strong> widget is made to display your search results in a flexible way. Built over a <a href="https://developer.android.com/reference/android/support/v7/widget/RecyclerView.html"><code>RecyclerView</code></a>, it displays a limited window into a large data set of search results.</p>
 <p>This widget exposes a few attributes that you can set in its xml definition:</p>
 <pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.views.Hits</span>
@@ -377,7 +377,7 @@ Enabled by default, it will watch the state of the Hits to load more results bef
 <p>The Hits widget implements an empty view mechanism to display an alternative View if there are no results to display, following the <a href="https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)">AdapterView’s interface</a>.
 If you add a View to your layout with the id <strong><code>@android:id/empty</code></strong>, it will be displayed instead of the Hits when there is no data to display.  You can also set it programmatically using <code>Hits#setEmptyView(View)</code>.</p>
 <h3 id="highlighting">Highlighting <a class="anchor" href="widgets.html#highlighting" aria-hidden="true"></a></h3>
-<img src="assets/img/highlighting.png" align="right"/>
+<img src="assets/img/highlighting.png" class="img-object" align="right"/>
 <p>Visually highlighting the search result is <a href="https://www.algolia.com/doc/faq/searching/what-is-the-highlighting/">an essential feature of a great search interface</a>. It will help your users understand your results by explaining them why a result is relevant to their query.</p>
 <p>The <code>Hits</code> widget automatically handles highlighting. To highlight a textual attribute, simply add the <code>highlighted</code> attribute on its view:</p>
 <pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">TextView</span>
@@ -394,7 +394,7 @@ This tool will let you build a highlighted <a href="https://developer.android.co
 <p>The default Highlighter will highlight anything between <code>&lt;em&gt;</code> and <code>&lt;/em&gt;</code>. You can configure the Highlighter to highlight between any pair of terms with <code>Highlighter.setDefault(newPrefix, newSuffix)</code>, or use a RegExp pattern to highlight any captured part with <code>Highlighter.setDefault(newPattern)</code>.</p>
 <p><em>See for example the <a href="https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce">e-commerce app</a>’s <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java"><code>CategoryOrTypeView</code></a>, a TextView which takes either the <code>category</code> or the <code>type</code> attribute of a record and <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java#L25">highlights it</a> before displaying.</em></p>
 <h2 id="refinementlist">RefinementList <a class="anchor" href="widgets.html#refinementlist" aria-hidden="true"></a></h2>
-<img src="assets/img/widget_RefinementList.png" align="right"/>
+<img src="assets/img/widget_RefinementList.png" class="img-object" align="right"/>
 <p>The <strong>RefinementList</strong> is a filtering widget made to display your <a href="https://www.algolia.com/doc/guides/search/filtering-faceting#faceting">facets</a> and let the user refine the search results.</p>
 <p>Four attributes allow you to configure how it will filter your results:</p>
 <pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.views.RefinementList</span>
@@ -430,7 +430,7 @@ This tool will let you build a highlighted <a href="https://developer.android.co
 </ul>
 <p>In the previous code sample, <code>sortBy=&quot;['isRefined', 'count']&quot;</code> will display the refined facets before the non-refined ones, and will then sort them by decreasing count.</p>
 <h2 id="stats">Stats <a class="anchor" href="widgets.html#stats" aria-hidden="true"></a></h2>
-<img src="assets/img/widget_Stats.png" align="right"/>
+<img src="assets/img/widget_Stats.png" class="img-object" align="right"/>
 <p><strong>Stats</strong> is a widget for displaying statistics about the current search result. You can configure it with two attributes:</p>
 <pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.views.Stats</span>
             <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/stats&quot;</span>
