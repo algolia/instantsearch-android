@@ -7,8 +7,8 @@ withHeadings: true
 navWeight: 2
 ---
 
-## SearchBox
-<img src="assets/img/widget_SearchBox.png" align="right"/>
+## Search-Box
+<img src="assets/img/widget_SearchBox.png"/>
 
 The **SearchBox** is a specialized `SearchView` which provides some customization options and facility methods. It supports all existing `SearchView` attributes and two new ones that you can specify in its XML definition:
 
@@ -26,7 +26,9 @@ The **SearchBox** is a specialized `SearchView` which provides some customizatio
 - **`submitButtonEnabled`**, when `true`, will display the SearchBox with its submit button. This button is hidden by default: as every keystroke will update the results, it is usually misleading to display a submit button.
 
 ### Progress indicator
-<img src="assets/img/progress.gif" align="right" />
+<img src="assets/img/progress.gif" />
+<!-- TODO: Move to separate guide -->
+
 
 A useful pattern to improve your user's experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.
 

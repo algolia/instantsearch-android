@@ -10,27 +10,25 @@ navWeight: 100
 *This guide will walk you through the few steps needed to start a project with InstantSearch Android.
 We will start from an empty Android project, and create from scratch a full search interface!*
 
-<img src="assets/img/mvp/final.png"/>
-
 ## Before we start
 To use InstantSearch Android, you need an Algolia account. You can create one by clicking [here](https://www.algolia.com/users/sign_up), or use the following credentials:
 - APP ID: `latency`
 - Search API Key: `3d9875e51fbd20c7754e65422f7ce5e1`
-- Index name: `bestbuy`  
+- Index name: `bestbuy`
 
 *These credentials will let you use a preloaded dataset of products appropriate for this guide.*
 
 ## Create a new Project and add InstantSearch Android
-In Android Studio, create a new Project: 
+In Android Studio, create a new Project:
 - On the Target screen, select **Phone and Tablet**
 - On the Add an Activity screen, select **Empty Activity**
 
-in your app's `build.gradle`, add the following dependency:  
+in your app's `build.gradle`, add the following dependency:
 ```groovy
 compile 'com.algolia:instantsearch-android:0.5.1'
 ```
 
-## Build the User Interface and display your data: Hits and helpers 
+## Build the User Interface and display your data: Hits and helpers
 
 InstantSearch Android is based on a system of [widgets][widgets] that communicate when an user interacts with your app. The first widget we'll add is **[Hits][widgets-hits]**, which will display your search results.
 
@@ -88,8 +86,8 @@ android {
     //...
 }
 ```
-- To use data binding in your layout, wrap it in a **`<layout>`** root tag.  
-You can then specify which View will hold each record's attribute:  
+- To use data binding in your layout, wrap it in a **`<layout>`** root tag.
+You can then specify which View will hold each record's attribute:
 add **`algolia:attribute='@{"foo"}'`** on a View to bind it to the `foo` attribute of your data:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -121,8 +119,8 @@ add **`algolia:attribute='@{"foo"}'`** on a View to bind it to the `foo` attribu
 ```
 *Beware of the data binding attributes' syntax: **@'{"string"}'**.*
 
-You have now a main activity layout containing your `Hits` widget, and a data-binding layout ready to display your search results. You just miss a search query to display its results!  
-As your application has no input for now, we will trigger the search programmatically.  
+You have now a main activity layout containing your `Hits` widget, and a data-binding layout ready to display your search results. You just miss a search query to display its results!
+As your application has no input for now, we will trigger the search programmatically.
 
 - In your `MainActivity`, create a [`Searcher`][searcher] with your credentials:
 ```java
@@ -160,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
 ----
 
-<img src="assets/img/mvp/step1.png" align="right"/>
+<img src="assets/img/mvp/step1.png" class="img-object" align="right"/>
 
 **Build and run your application: you now have an InstantSearch Android app displaying your data!**
 
@@ -172,9 +170,9 @@ In this part you've learned:
 
 ## Search your data: the SearchBox
 
-Your application displays search results, but for now the user cannot input anything.  
+Your application displays search results, but for now the user cannot input anything.
 This will be the role of another Widget: the **[`SearchBox`][widgets-searchbox]**.
-  
+
 
 <br />
 <img src="assets/img/widget_SearchBox.png" />
@@ -191,12 +189,12 @@ This will be the role of another Widget: the **[`SearchBox`][widgets-searchbox]*
         android:layout_height="wrap_content"/>
 ```
 
-InstantSearch will automatically recognize your SearchBox as a source of search queries.  
+InstantSearch will automatically recognize your SearchBox as a source of search queries.
 Restart your app and tap a few characters: you now have a fully functional search interface!
 
 ## Help the user understand your results: Highlighting
 
-<img src="assets/img/mvp/step2.png" align="right"/>
+<img src="assets/img/mvp/step2.png" class="img-object" align="right"/>
 
 Your application lets the user search and displays results, but doesn't explain _why_ these results match the user's query.
 
@@ -229,9 +227,9 @@ You now know how to:
 
 ## Go further
 
-Your application now displays your data, lets your users enter a query and displays search results as-they-type: you just built an instant-search interface! Congratulations 🎉  
+Your application now displays your data, lets your users enter a query and displays search results as-they-type: you just built an instant-search interface! Congratulations 🎉
 
-This is only an introduction to what you can do with InstantSearch Android: have a look at our [examples][examples] to see more complex examples of applications built with InstantSearch.  
+This is only an introduction to what you can do with InstantSearch Android: have a look at our [examples][examples] to see more complex examples of applications built with InstantSearch.
 You can also head to our [Widgets page][widgets] to see the other components that you could use.
 
 [examples]: examples.html
