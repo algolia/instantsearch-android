@@ -175,7 +175,7 @@ This will be the role of another Widget: the **[`SearchBox`][widgets-searchbox]*
 
 
 <br />
-<img src="assets/img/widget_SearchBox.png" />
+<img src="assets/img/widget_SearchBox.png" class="img-object" />
 <br />
 <br />
 <br />
