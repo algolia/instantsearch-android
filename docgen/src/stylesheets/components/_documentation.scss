@@ -180,10 +180,7 @@
       }
     }
 
-    img {
-      max-width: 50%;
-      margin: 0 25%;
-    }
+
   }
 
 
@@ -223,14 +220,22 @@
   line-height: 120px;
 }
 
-.documentation-container img[align=right] {
+
+.img-object {
+  padding: 6px;
+  border: 1px solid rgba(black, 0.1);
+  float: left;
   margin: 0;
-  float: right;
+  margin-right: 26px;
   max-width: 100%;
   max-height: 500px;
-  padding-left: 20px;
-}
 
+  &[align="right"] {
+    float: right;
+    margin-right: 0;
+    margin-left: 26px;
+  }
+}
 .documentation-container {
 
   table {
