@@ -54,6 +54,9 @@
   text-decoration: none;
   color: white; }
 
+.algc-navigation__brands a:hover {
+  color: white; }
+
 .algc-navigation__brands:hover, .algc-navigation__brands:visited {
   color: white; }
 
@@ -92,7 +95,7 @@
 
 @media (max-width: 576px) {
   .algc-navigation__brands .algc-navigation__li:nth-child(2) {
-    width: 40px;
+    width: 30px;
     overflow: hidden; } }
 
 .algc-navigation__brands a {
@@ -119,13 +122,16 @@
   .algc-navigation__brands .algc-navigation__li--algolia {
     display: none; } }
 
+.algc-navigation__brands .algc-navigation__li--community a {
+  height: 33px; }
+
 .algc-navigation__brands .algc-navigation__li--community .algolia-community-logo {
   width: auto;
   height: 30px; }
 
 .algc-navigation__dropdown-holder {
   position: absolute;
-  top: 46px;
+  top: 42px;
   left: 25px;
   max-width: 490px;
   width: 100%;
@@ -141,7 +147,7 @@
     max-width: 100%; } }
 
 .algc-dropdownroot {
-  top: 5px;
+  top: 8px;
   width: 100%;
   position: absolute;
   opacity: 0;
@@ -200,7 +206,7 @@
 
 .algc-dropdownroot .algc-dropdownroot__dropdownarrow {
   left: 50%;
-  top: 6px;
+  top: 4px;
   background-color: #FFF;
   box-shadow: -3px -3px 5px rgba(82, 95, 127, 0.04);
   will-change: transform, opacity;
@@ -267,7 +273,8 @@
 .algc-dropdownroot__section.active {
   opacity: 1;
   -webkit-transform: translateX(0);
-          transform: translateX(0); }
+          transform: translateX(0);
+  z-index: 10; }
 
 .algc-dropdownroot__section.right {
   -webkit-transform: translateX(150px);
@@ -457,7 +464,7 @@
   height: 100%; }
 
 .algc-navigation__menu .algc-menu__list .algc-glyph {
-  margin-left: .4em;
+  margin-left: 1em;
   font-size: .4em; }
 
 .algc-navigation__menu .algc-menu__list .algc-menu__list__item.algc-menu--hassublist.open .algc-menu__sublist {
@@ -4169,10 +4176,6 @@ nav.sidebar {
   .examples-section .documentation-container h2:target .anchor,
   .examples-section .documentation-container h3:target .anchor {
     visibility: visible; }
-  .documentation-section .documentation-container img,
-  .examples-section .documentation-container img {
-    max-width: 50%;
-    margin: 0 25%; }
 
 @media (max-width: 992px) {
   .documentation-section,
@@ -4200,12 +4203,18 @@ nav.sidebar {
   text-align: center;
   line-height: 120px; }
 
-.documentation-container img[align=right] {
+.img-object {
+  padding: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  float: left;
   margin: 0;
-  float: right;
+  margin-right: 26px;
   max-width: 100%;
-  max-height: 500px;
-  padding-left: 20px; }
+  max-height: 500px; }
+  .img-object[align="right"] {
+    float: right;
+    margin-right: 0;
+    margin-left: 26px; }
 
 .documentation-container table {
   border-collapse: collapse;

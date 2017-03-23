@@ -217,14 +217,10 @@
 	      Y: newTargetCoordinates.realHeight / this.INIT_VAL.HEIGHT
 	    }
 	
-	    if (navItem.center < (menuContainerOffset.center / 2)) {
-	      leftDistance = "calc(50% - 36px)";
-	    } else {
-	      leftDistance = (navItem.center - menuContainerOffset.left) + "px";
-	    }
+	    leftDistance = (navItem.center - menuContainerOffset.left) + "px";
 	
-	    if (window.innerWidth < 576) {
-	      leftDistance = "0"
+	    if(menuContainerOffset.left < 20){
+	      leftDistance = "calc(50% - 36px)"
 	    }
 	
 	    this.navBg.style.cssText = `
@@ -332,12 +328,13 @@
 	    }
 	  }
 	
-	  openSublist(event) {
+	  openSublist(node) {
 	    event.preventDefault();
 	    event.stopPropagation();
-	
+	    const parent = node.parentNode;
 	    this.subListHolders.forEach(holder => {
-	      if (holder === event.target.parentNode && !event.target.parentNode.classList.contains('open')) {
+	      console.log(holder === parent, !parent.classList.contains('open'));
+	      if (holder === parent && !parent.classList.contains('open')) {
 	        holder.classList.add('open');
 	      } else {
 	        holder.classList.remove('open');
@@ -350,8 +347,11 @@
 	  }
 	
 	  bindListeners() {
+	    var that = this;
 	    this.subList.forEach(link => {
-	      link.addEventListener('click', this.openSublist);
+	      link.addEventListener('click', function(event){
+	        that.openSublist(this);
+	      });
 	    });
 	
 	    this.menuTriggers.forEach(item => {
@@ -660,4 +660,4 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=main.d96c8354042b708ce9d5-build.js.map
+//# sourceMappingURL=main.9db9f5476b24d0702260-build.js.map
