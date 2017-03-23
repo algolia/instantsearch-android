@@ -181,6 +181,7 @@ This will be the role of another Widget: the **[`SearchBox`][widgets-searchbox]*
 <br />
 
 
+
 - Add a `SearchBox` to your `main_activity.xml`:
 ```xml
 <com.algolia.instantsearch.ui.views.SearchBox
