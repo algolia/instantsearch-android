@@ -83,6 +83,8 @@
       color: darken($logan, 15%);
       line-height: 2;
       font-size: 16px;
+      font-family: 'Open Sans', Helvetica Neue, helvetica, sans-serif;
+      clear: both;
     }
 
     ul,
@@ -225,7 +227,7 @@
   padding: 6px;
   border: 1px solid rgba(black, 0.1);
   float: left;
-  margin: 0;
+  margin: 16px 0;
   margin-right: 26px;
   max-width: 100%;
   max-height: 500px;
@@ -235,7 +237,18 @@
     margin-right: 0;
     margin-left: 26px;
   }
+
+  &[align="left"] {
+    float: left;
+    margin: 18px 0 16px;
+    margin-right: 26px;
+
+    &+p {
+      clear: none !important
+    }
+  }
 }
+
 .documentation-container {
 
   table {
