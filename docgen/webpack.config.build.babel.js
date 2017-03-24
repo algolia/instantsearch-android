@@ -17,7 +17,7 @@ export default {
     new OccurenceOrderPlugin(), // spelling mistake fixed in webpack 2.0
     new UglifyJsPlugin({
       compress: {
-        warnings: false,
+        warnings: false
       },
     }),
     ...webpackConfig.plugins,
