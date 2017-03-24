@@ -3670,7 +3670,7 @@ h3 {
 /* Paragraphs
 ======================*/
 p {
-  font-family: 'Montserrat', Helvetica Neue, helvetica, sans-serif;
+  font-family: 'Open Sans', Helvetica Neue, helvetica, sans-serif;
   font-size: 15px;
   line-height: 1.8;
   color: #9d9dbd; }
@@ -3917,7 +3917,7 @@ nav.sidebar {
       padding-bottom: 5px; }
     nav.sidebar .sidebar-container ul {
       list-style: none;
-      padding: 1em 0; }
+      padding: 0.25em 0; }
     nav.sidebar .sidebar-container .sidebar-elements .sidebar-element {
       width: 100%;
       line-height: 32px;
@@ -3926,7 +3926,7 @@ nav.sidebar {
         line-height: 24px;
         font-size: 12px;
         padding-left: 12px;
-        font-family: "Open sans"; }
+        font-family: "Open sans", Helvetica Neue, helvetica, sans-serif; }
       nav.sidebar .sidebar-container .sidebar-elements .sidebar-element a {
         text-decoration: none;
         display: block;
@@ -4091,7 +4091,9 @@ nav.sidebar {
   .examples-section .documentation-container li {
     color: #6f6f9e;
     line-height: 2;
-    font-size: 16px; }
+    font-size: 16px;
+    font-family: 'Open Sans', Helvetica Neue, helvetica, sans-serif;
+    clear: both; }
   .documentation-section .documentation-container ul,
   .documentation-section .documentation-container ol,
   .examples-section .documentation-container ul,
@@ -4207,7 +4209,7 @@ nav.sidebar {
   padding: 6px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   float: left;
-  margin: 0;
+  margin: 16px 0;
   margin-right: 26px;
   max-width: 100%;
   max-height: 500px; }
@@ -4215,6 +4217,12 @@ nav.sidebar {
     float: right;
     margin-right: 0;
     margin-left: 26px; }
+  .img-object[align="left"] {
+    float: left;
+    margin: 18px 0 16px;
+    margin-right: 26px; }
+    .img-object[align="left"] + p {
+      clear: none !important; }
 
 .documentation-container table {
   border-collapse: collapse;
@@ -5148,8 +5156,3 @@ body.safari ul.press__tweets {
 
 .fill-royal-blue {
   background-color: #3369e7 !important; }
-
-[debug] {
-  outline: 1px solid; }
-  [debug] * {
-    outline: 1px solid; }
