@@ -189,17 +189,16 @@
 //---------------------------
 @mixin diagonal($rotation, $background, $height, $imp: false, $pos: after) {
   &:#{$pos} {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     width: 100%;
     height: $height;
     background: #{$background};
-    @if $imp == 'true' {
-      transform: skewY($rotation) !important;
-    }
-    @else {
-      transform: skewY($rotation);
+    transform: skewY($rotation);
+    z-index: 0;
+    @media (min-width: $screen-lg) {
+      transform: skewY($rotation / 2);
     }
     @content;
   }

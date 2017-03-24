@@ -20,11 +20,27 @@ body {
 }
 
 .row {
+  margin-left: -15px;
+  margin-right: -15px;
   float: left;
+  width: 100%;
 
   body.example &{
     float: inherit
   }
+}
+
+@media (min-width: 992px) {
+  .col-md-6 {
+    float: left;
+    width: 50%;
+  }
+}
+.col-md-6 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .text-right {
@@ -59,13 +75,13 @@ body:not(.example) section {
 [class*="is-section__"] {
   min-height: inherit;
    // To handle diagonals
-  &.is-section__intro,
-  &.is-section__blocks,
-  &.is-section__relevancy,
-  &.is-section__api,
-  &.is-section__features,
-  &.is-section__offline,
-  &.is-section__modular-widget {
+   &.is-section__intro,
+   &.is-section__blocks,
+   &.is-section__relevancy,
+   &.is-section__api,
+   &.is-section__features,
+   &.is-section__offline,
+   &.is-section__modular-widget {
     z-index: 0;
 
 
@@ -148,19 +164,19 @@ body:not(.example) section {
 
   @include mobile-mq {
    padding: 2em 1em;
-  }
+ }
 
-  @include diagonal(-5deg, #FFF, 200px, 'true', before) {
-    top: -100px;
+ @include diagonal(-5deg, #FFF, 200px, 'true', before) {
+  top: -100px;
+  z-index: 0;
+}
+
+@media (min-width: 2200px) {
+  @include diagonal(-4deg, #FFF, 300px, 'true', before) {
+    top: -130px;
     z-index: 0;
   }
-
-  @media (min-width: 2200px) {
-      @include diagonal(-4deg, #FFF, 300px, 'true', before) {
-      top: -130px;
-      z-index: 0;
-    }
-  }
+}
 }
 
 
@@ -224,7 +240,7 @@ body:not(.example) section {
     stroke-width: 2 !important;
   }
 
-   @include mobile-mq {
+  @include mobile-mq {
 
     padding: 2em 1em;
 
@@ -347,7 +363,7 @@ body:not(.example) section {
       padding-left: 2em;
     }
 
-     &.text-right .content-holder{
+    &.text-right .content-holder{
       padding-right: 2em;
       padding-left: 0;
     }
@@ -436,7 +452,7 @@ body:not(.example) section {
 //
 //---------------------------------------
 .is-section__modular-widgets{
-  background: linear-gradient(to bottom right, $deep-cove, $bunting) ;
+  background: linear-gradient(to bottom, $deep-cove, $bunting) ;
   color: #fff;
   padding-top: 40px;
   padding-bottom: 40px;
@@ -607,109 +623,109 @@ body:not(.example) section {
         }
         &.icon-al {
          fill: #fff
-        }
-      }
-      @include mobile-mq {
+       }
+     }
+     @include mobile-mq {
        text-align: center;
-      }
+     }
+   }
+
+
+   ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: inline-block;
+      width: 100%;
+      color: #9299ad;
+      padding: 1em 0;
+      border-bottom: 1px solid rgba(#ffffff, 0.1);
     }
 
 
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    svg {
+      width: 19px;
+      height: 20px;
+      display: inline-block;
+      float: right;
 
-      li {
-        display: inline-block;
-        width: 100%;
-        color: #9299ad;
-        padding: 1em 0;
-        border-bottom: 1px solid rgba(#ffffff, 0.1);
-      }
-
-
-      svg {
-        width: 19px;
-        height: 20px;
-        display: inline-block;
-        float: right;
-
-        use {
-          fill: $java
-        }
-      }
-    }
-
-    .btn {
-      margin-top: 3em;
-      font-size: 15px;
-      max-width: 300px;
-
-      &:hover {
-        font-size: 15px;
-      }
-
-      @include mobile-mq {
-        margin: 3em auto 0;
-        max-width: 100%;
-        width: 100%;
-      }
-    }
-
-
-    @include mobile-mq {
-      background: linear-gradient(to right, #12161e, #222432), linear-gradient(#30373b, #30373b);
-
-      .btn {
-        width: 100%;
+      use {
+        fill: $java
       }
     }
   }
 
-  .footer__call-to-action {
+  .btn {
+    margin-top: 3em;
+    font-size: 15px;
+    max-width: 300px;
 
-
-    h2 {
-      font-size: 36px;
-      color: #fff;
-      font-weight: 400;
-      margin-bottom: 36px;
-    }
-
-    .btn {
-      display: block;
-      float: left;
-      margin-right: 24px;
-      max-width: inherit;
-      color: #fff;
-      min-width: 160px;
+    &:hover {
       font-size: 15px;
-      max-width: 300px;
-      text-align: center;
-
-
-      &:hover {
-        font-size: 15px;
-      }
-
     }
 
     @include mobile-mq {
-      text-align: center;
-
-      .btn {
-        max-width: 100%;
-        width: 100%;
-        margin-bottom: 2em;
-      }
+      margin: 3em auto 0;
+      max-width: 100%;
+      width: 100%;
     }
   }
 
 
   @include mobile-mq {
-    padding: 0 !important;
+    background: linear-gradient(to right, #12161e, #222432), linear-gradient(#30373b, #30373b);
+
+    .btn {
+      width: 100%;
+    }
   }
+}
+
+.footer__call-to-action {
+
+
+  h2 {
+    font-size: 36px;
+    color: #fff;
+    font-weight: 400;
+    margin-bottom: 36px;
+  }
+
+  .btn {
+    display: block;
+    float: left;
+    margin-right: 24px;
+    max-width: inherit;
+    color: #fff;
+    min-width: 160px;
+    font-size: 15px;
+    max-width: 300px;
+    text-align: center;
+
+
+    &:hover {
+      font-size: 15px;
+    }
+
+  }
+
+  @include mobile-mq {
+    text-align: center;
+
+    .btn {
+      max-width: 100%;
+      width: 100%;
+      margin-bottom: 2em;
+    }
+  }
+}
+
+
+@include mobile-mq {
+  padding: 0 !important;
+}
 }
 
 
