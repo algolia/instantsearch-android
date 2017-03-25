@@ -106,6 +106,7 @@
   position: absolute
 
 
+
 // Text size
 .text-xxl
   font-size: 50px
@@ -440,6 +441,11 @@ sub
   @media (min-width: $screen-sm-max)
     display: inline !important
 
+
+.cb,
+.img-object[align="left"] ~ p.cb
+  clear: both !important
+  display: block
 
 
 // Debug

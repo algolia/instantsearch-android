@@ -1,70 +1,71 @@
-.cta-free-trial {
-  width: 100%;
-  padding: 0 80px;
-  float: left;
+section.pos-rel.h300.w100p.fl-left {
+  min-height: 400px;
+  background: $bunting;
+  z-index: 999;
+  padding-top: 200px;
   position: relative;
-  color: white;
-  background: -webkit-linear-gradient(305deg, #4b2e91 0%, #3369e6 100%);
-  background: linear, 305deg, #4b2e91 0%, #3369e6 100%;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4b2e91', endColorstr='#3369e6', GradientType=0);
-  z-index: 5;
-  height: 240px;
+  top: -40px;
+  margin-bottom: -40px;
+}
+body {
+  overflow-x: hidden;
 
+}
+.cta-free-trial {
+  margin-top: -16px;
+  padding: 60px 0 60px;
+  width: 100%;
+  color: #FFF;
+  background-image: url("../images/algolia-fast-bg.svg");
+  background-size: cover;
+  position: relative;
+  float: left;
+  transform: rotate(-3deg) scale(1.2) translateY(-120px);
+  z-index: 20;
+  margin-bottom: -120px;
 
-  .col-md-6 {
-    width: 50%;
-    float: left;
+  .container {
+    z-index: 10;
+    transform: rotate(3deg) scale(0.8);
   }
 
-  @include mobile-mq {
-    height: auto;
-    padding: 2em 80px;
-
-    .col-md-6 {
-      width: 100%;
+  h3 {
+    font-size: 32px;
+    color: #FFF;
+    font-weight: 300;
+  }
+  p {
+    font-size: 18px;
+    line-height: 28px;
+    color: #FFF;
+    font-weight: 300;
+  }
+  .btn {
+    float: right;
+    clear: both;
+  }
+  .spacer24,
+  .spacer8 {
+    display: inline-block;
+  }
+  .link {
+    clear: both;
+    padding: 8px 0 0;
+    float: right;
+    color: rgba(#FFF, 0.8);
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.6);
+    &:hover {
+      text-decoration: none;
+      color: #FFF;
     }
   }
-}
-
-.cta-free-trial h3 {
-  font-size: 32px;
-  color: white;
-  font-weight: 300;
-}
-
-.cta-free-trial p {
-  font-size: 18px;
-  line-height: 28px;
-  color: white;
-  font-weight: 600;
-}
-
-.cta-free-trial .btn {
-  float: right;
-  clear: both;
-}
-
-.cta-free-trial .link {
-  clear: both;
-  padding: 8px 0 0;
-  float: right;
-  color: rgba(247, 247, 255, 0.8);
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.9);
-}
-
-.cta-free-trial .link:hover {
-  text-decoration: none;
-  color: #f7f7ff;
-}
-
-@media (max-width: 992px) {
-  .cta-free-trial {
+  @media (max-width: 980px) {
     text-align: center;
-  }
-  .cta-free-trial .btn {
-    float: none !important;
-  }
-  .cta-free-trial .link {
-    float: none !important;
+    .btn {
+      float: none !important;
+    }
+    .link {
+      float:none !important
+    }
   }
 }

@@ -158,11 +158,12 @@ public class MainActivity extends AppCompatActivity {
 
 ----
 
-<img src="assets/img/mvp/step1.png" class="img-object" align="right"/>
+<img src="assets/img/mvp/step1.png" class="img-object" align="left"/>
 
 **Build and run your application: you now have an InstantSearch Android app displaying your data!**
 
-In this part you've learned:
+<p class="cb">In this part you've learned:</p>
+
 - How to build your interface with Widgets by adding the `Hits` widget
 - How to create a data-binding `<layout>` for displaying search results
 - How to initialize Algolia with your credentials
@@ -175,7 +176,7 @@ This will be the role of another Widget: the **[`SearchBox`][widgets-searchbox]*
 
 
 <br />
-<img src="assets/img/widget_SearchBox.png" class="img-object" />
+<img src="assets/img/widget_SearchBox.png" class="img-object" align="left"/>
 <br />
 <br />
 <br />
@@ -194,7 +195,7 @@ Restart your app and tap a few characters: you now have a fully functional searc
 
 ## Help the user understand your results: Highlighting
 
-<img src="assets/img/mvp/step2.png" class="img-object" align="right"/>
+<img src="assets/img/mvp/step2.png" class="img-object" align="left"/>
 
 Your application lets the user search and displays results, but doesn't explain _why_ these results match the user's query.
 
