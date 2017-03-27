@@ -21,6 +21,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -67,15 +68,17 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     /** The minimum number of items remaining below the fold before loading more. */
     private final int remainingItemsBeforeLoading;
 
-    private final Integer hitsPerPage;
+    private final @NonNull Integer hitsPerPage;
     private final int layoutId;
 
-    private HitsAdapter adapter;
-    private final HitsScrollListener scrollListener;
-    private LayoutManager layoutManager;
+    private @NonNull HitsAdapter adapter;
+    private @NonNull LayoutManager layoutManager;
+    private @NonNull Searcher searcher;
+    private @NonNull InputMethodManager imeManager;
 
-    private View emptyView;
-    private Searcher searcher;
+    private @Nullable final InfiniteScrollListener infiniteScrollListener;
+    private @Nullable OnScrollListener keyboardListener;
+    private @Nullable View emptyView;
 
     /**
      * Constructs a new Hits with the given context's theme and the supplied attribute set.
@@ -86,11 +89,20 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
      */
     public Hits(@NonNull Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
+
         if (isInEditMode()) {
             hitsPerPage = 0;
             remainingItemsBeforeLoading = 0;
             layoutId = 0;
-            scrollListener = null;
+            infiniteScrollListener = null;
+            //noinspection ConstantConditions Edit mode initialization
+            adapter = null;
+            //noinspection ConstantConditions
+            searcher = null;
+            //noinspection ConstantConditions
+            layoutManager = null;
+            //noinspection ConstantConditions
+            imeManager = null;
             return;
         }
 
@@ -100,6 +112,10 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, DEFAULT_HITS_PER_PAGE);
             layoutId = styledAttributes.getResourceId(R.styleable.Hits_itemLayout, 0);
             infiniteScroll = styledAttributes.getBoolean(R.styleable.Hits_infiniteScroll, true);
+            if (styledAttributes.getBoolean(R.styleable.Hits_autoHideKeyboard, false)) {
+                enableKeyboardAutoHiding();
+            }
+
             int remainingItemsAttribute = styledAttributes.getInt(R.styleable.Hits_remainingItemsBeforeLoading, MISSING_VALUE);
             if (remainingItemsAttribute == MISSING_VALUE) {
                 remainingItemsBeforeLoading = DEFAULT_REMAINING_ITEMS;
@@ -126,12 +142,13 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         });
         setAdapter(adapter);
 
+        imeManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         layoutManager = new LinearLayoutManager(context);
         setLayoutManager(layoutManager);
 
-        scrollListener = infiniteScroll ? new HitsScrollListener() : null;
+        infiniteScrollListener = infiniteScroll ? new InfiniteScrollListener() : null;
         if (infiniteScroll) {
-            addOnScrollListener(scrollListener);
+            addOnScrollListener(infiniteScrollListener);
         }
     }
 
@@ -177,6 +194,34 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     }
 
     /**
+     * Starts closing the keyboard when the hits are scrolled.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void enableKeyboardAutoHiding() {
+        keyboardListener = new OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dx != 0 || dy != 0) {
+                    imeManager.hideSoftInputFromWindow(
+                            Hits.this.getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        };
+        addOnScrollListener(keyboardListener);
+    }
+
+    /**
+     * Stops closing the keyboard when the hits are scrolled.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void disableKeyboardAutoHiding() {
+        removeOnScrollListener(keyboardListener);
+        keyboardListener = null;
+    }
+
+    /**
      * Adds or replaces hits to/in this widget.
      *
      * @param results     A {@link JSONObject} containing hits.
@@ -186,7 +231,9 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         if (results == null) {
             if (isReplacing) {
                 clear();
-                scrollListener.setCurrentlyLoading(false);
+                if (infiniteScrollListener != null) {
+                    infiniteScrollListener.setCurrentlyLoading(false);
+                }
             }
             return;
         }
@@ -207,7 +254,9 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         if (isReplacing) {
             adapter.notifyDataSetChanged();
             smoothScrollToPosition(0);
-            scrollListener.setCurrentlyLoading(false);
+            if (infiniteScrollListener != null) {
+                infiniteScrollListener.setCurrentlyLoading(false);
+            }
         } else {
             adapter.notifyItemRangeInserted(adapter.getItemCount(), hits.length());
         }
@@ -250,7 +299,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
      *
      * @param emptyView the View you want to display when Hits are empty.
      */
-    public void setEmptyView(View emptyView) {
+    public void setEmptyView(@Nullable View emptyView) {
         this.emptyView = emptyView;
     }
 
@@ -259,7 +308,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
      *
      * @return the value of the attribute hitsPerPage if specified, else DEFAULT_HITS_PER_PAGE.
      */
-    public Integer getHitsPerPage() {
+    @NonNull public Integer getHitsPerPage() {
         return hitsPerPage;
     }
 
@@ -272,7 +321,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         return layoutId;
     }
 
-    private class HitsScrollListener extends OnScrollListener {
+    private class InfiniteScrollListener extends OnScrollListener {
         private int lastItemCount = 0; // Item count after last event
         private boolean currentlyLoading = true; // Are we waiting for new results?
 
