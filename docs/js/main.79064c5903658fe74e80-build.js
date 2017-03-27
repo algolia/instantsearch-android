@@ -96,9 +96,8 @@
 	class communityHeader {
 	
 	  constructor(docSearchCredentials, docSearch) {
-	
 	    this.docSearchCredentials = docSearchCredentials;
-	    this.docSearch = docSearch;
+	    this.docSearch = docSearch || null;
 	
 	    this.menuState = {
 	      isOpen: false,
@@ -155,7 +154,6 @@
 	
 	    this.verifyDocSearchParams();
 	    this.shouldInitDocSearch();
-	    this.checkDocSearch();
 	    this.initDocSearchStrategy();
 	    this.bindListeners();
 	  }
@@ -179,18 +177,16 @@
 	  shouldInitDocSearch() {
 	    if (!this.enableDocSearch && this.hasDocSearchRendered) {
 	      throw new Error('You need to pass docSearch: { apiKey, indexName, inputSelector } to communityHeader function in order to initialise docSearch');
-	
-	    } else if (this.enableDocSearch && this.hasDocSearchRendered) {
-	
 	    }
 	  }
 	
 	  checkDocSearch(docSearch = false) {
-	
 	    if (docSearch) return docSearch;
-	
-	    else if (typeof docsearch === "function") {
+	    if (typeof docsearch === "function") {
 	      return docsearch;
+	    }
+	    if(docsearch.default && typeof docsearch.default === "function"){
+	      return docsearch.default;
 	    }
 	  }
 	
@@ -333,7 +329,6 @@
 	    event.stopPropagation();
 	    const parent = node.parentNode;
 	    this.subListHolders.forEach(holder => {
-	      console.log(holder === parent, !parent.classList.contains('open'));
 	      if (holder === parent && !parent.classList.contains('open')) {
 	        holder.classList.add('open');
 	      } else {
@@ -660,4 +655,4 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=main.9db9f5476b24d0702260-build.js.map
+//# sourceMappingURL=main.79064c5903658fe74e80-build.js.map
