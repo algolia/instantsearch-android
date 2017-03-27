@@ -25,14 +25,17 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
     public static final Double DEFAULT_VALUE = null;
 
     /** Whether the selector should hide on error or when results are empty. */
-    private final boolean autoHide;
+    private boolean autoHide;
+
     /** The name of this NumericSelector's attribute. */
     private String attributeName;
     /** The operator to use for refining. */
     private int operator;
     /** The eventual label for a default option that does not refine the attribute. */
     private String defaultLabel;
-    /** The List of values to refine with */
+    /** The List of labels to display. */
+    private List<String> labels;
+    /** The List of values to refine with. */
     private final List<Double> values;
     /** The currently selected refinement, if any. */
     private NumericRefinement currentRefinement;
@@ -65,7 +68,6 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
             String labelString = selectorStyleAttributes.getString(R.styleable.NumericSelector_labels);
             String valueString = selectorStyleAttributes.getString(R.styleable.NumericSelector_values);
 
-            List<String> labels;
             if (!(labelString == null && valueString == null)) {
 
                 if (labelString == null || valueString == null) {
@@ -140,5 +142,49 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
     @Override public void onNothingSelected(AdapterView<?> parent) {
     }
 
-    //TODO: Get/Set properties
+    public boolean isAutoHide() {
+        return autoHide;
+    }
+
+    public void setAutoHide(boolean autoHide) {
+        this.autoHide = autoHide;
+    }
+
+    public void setAttributeName(String attributeName) {
+        this.attributeName = attributeName;
+        updateRefinement(attributeName, operator);
+    }
+
+    public int getOperator() {
+        return operator;
+    }
+
+    public void setOperator(int operator) {
+        this.operator = operator;
+        updateRefinement(attributeName, operator);
+    }
+
+    public void setDefaultLabel(String defaultLabel) {
+        this.defaultLabel = defaultLabel;
+        labels.remove(0);
+        labels.add(0, defaultLabel);
+        ((ArrayAdapter<String>) getAdapter()).notifyDataSetChanged();
+    }
+
+    public void setLabels(List<String> labels) {
+        if (labels.size() != this.labels.size()) {
+            throw new IllegalArgumentException("You need to provide " + this.labels.size() + " labels.");
+        }
+        this.labels = labels;
+        ((ArrayAdapter<String>) getAdapter()).notifyDataSetChanged();
+    }
+
+    private void updateRefinement(String attributeName, int operator) {
+        if (currentRefinement != null) {
+            searcher.removeNumericRefinement(currentRefinement);
+            currentRefinement = new NumericRefinement(attributeName, operator, currentRefinement.value);
+            searcher.addNumericRefinement(currentRefinement);
+            searcher.search();
+        }
+    }
 }
