@@ -234,16 +234,23 @@
 .img-object {
   padding: 6px;
   border: 1px solid rgba(black, 0.1);
-  float: left;
   margin: 16px 0;
   margin-right: 26px;
   max-width: 100%;
   max-height: 500px;
+  margin: auto;
 
   &[align="right"] {
     float: right;
     margin-right: 0;
     margin-left: 26px;
+    &+p:not(.cb) {
+      clear: none !important
+    }
+
+    &~ p:not(.cb) {
+      clear: none !important
+    }
   }
 
   &[align="left"] {
