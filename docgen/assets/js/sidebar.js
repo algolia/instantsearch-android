@@ -124,7 +124,7 @@ function getPositionsKeyElements($sidebar) {
   const title = $sidebar.querySelector('.sidebar-header');
   const bodyBBox = document.body.getBoundingClientRect();
   const sidebarTop = sidebarBBox.top - bodyBBox.top;
-  const footer = document.querySelector('.ac-footer');
+  const footer = document.querySelector('#footer');
   const navigation = document.querySelector('.algc-navigation');
   const menu = document.querySelector('.sidebar-container');
   const height = document.querySelector('html').getBoundingClientRect().height;

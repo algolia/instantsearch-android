@@ -505,6 +505,10 @@ body:not(.example) section {
         }
       }
 
+      &:not(:first-child) img {
+        padding: 6px;
+      }
+
       p {
         margin-top: 0;
       }
