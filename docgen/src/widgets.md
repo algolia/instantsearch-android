@@ -8,7 +8,7 @@ navWeight: 2
 ---
 
 ## Search-Box
-<img src="assets/img/widget_SearchBox.png" class="img-object" align="left" />
+<img src="assets/img/widget_SearchBox.png" class="img-object" align="right" />
 
 The **SearchBox** is a specialized `SearchView` which provides some customization options and facility methods. It supports all existing `SearchView` attributes and two new ones that you can specify in its XML definition:
 
@@ -26,7 +26,7 @@ The **SearchBox** is a specialized `SearchView` which provides some customizatio
 - **`submitButtonEnabled`**, when `true`, will display the SearchBox with its submit button. This button is hidden by default: as every keystroke will update the results, it is usually misleading to display a submit button.
 
 ### Progress indicator
-<img src="assets/img/progress.gif" class="img-object" align="left" />
+<img src="assets/img/progress.gif" class="img-object" align="right" />
 <!-- TODO: Move to separate guide -->
 
 
@@ -40,7 +40,7 @@ Once instantiated, a **SearchProgressController** will inform its [`ProgressList
 
 
 ## Hits
-<img src="assets/img/widget_Hits.png" class="img-object" align="left"/>
+<img src="assets/img/widget_Hits.png" class="img-object" align="right"/>
 
 The **Hits** widget is made to display your search results in a flexible way. Built over a [`RecyclerView`](https://developer.android.com/reference/android/support/v7/widget/RecyclerView.html), it displays a limited window into a large data set of search results.
 
@@ -138,7 +138,7 @@ The Hits widget implements an empty view mechanism to display an alternative Vie
 If you add a View to your layout with the id **`@android:id/empty`**, it will be displayed instead of the Hits when there is no data to display.  You can also set it programmatically using `Hits#setEmptyView(View)`.
 
 ### Highlighting
-<img src="assets/img/highlighting.png" class="img-object" align="left"/>
+<img src="assets/img/highlighting.png" class="img-object" align="right"/>
 
 Visually highlighting the search result is [an essential feature of a great search interface][explain-highlighting]. It will help your users understand your results by explaining them why a result is relevant to their query.
 
@@ -167,7 +167,7 @@ The default Highlighter will highlight anything between `<em>` and `</em>`. You 
 
 
 ## RefinementList
-<img src="assets/img/widget_RefinementList.png" class="img-object" align="left"/>
+<img src="assets/img/widget_RefinementList.png" class="img-object" align="right"/>
 
 The **RefinementList** is a filtering widget made to display your [facets](https://www.algolia.com/doc/guides/search/filtering-faceting#faceting) and let the user refine the search results.
 
@@ -199,7 +199,7 @@ Four attributes allow you to configure how it will filter your results:
 In the previous code sample, `sortBy="['isRefined', 'count']"` will display the refined facets before the non-refined ones, and will then sort them by decreasing count.
 
 ## Stats
-<img src="assets/img/widget_Stats.png" class="img-object" align="left"/>
+<img src="assets/img/widget_Stats.png" class="img-object" align="right"/>
 
 **Stats** is a widget for displaying statistics about the current search result. You can configure it with two attributes:
 

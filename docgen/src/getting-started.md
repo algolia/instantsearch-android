@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
 ----
 
-<img src="assets/img/mvp/step1.png" class="img-object" align="left"/>
+<img src="assets/img/mvp/step1.png" class="img-object" align="right"/>
 
 **Build and run your application: you now have an InstantSearch Android app displaying your data!**
 
@@ -176,7 +176,7 @@ This will be the role of another Widget: the **[`SearchBox`][widgets-searchbox]*
 
 
 <br />
-<img src="assets/img/widget_SearchBox.png" class="img-object" align="left"/>
+<img src="assets/img/widget_SearchBox.png" class="img-object" align="right"/>
 <br />
 <br />
 <br />
@@ -195,7 +195,7 @@ Restart your app and tap a few characters: you now have a fully functional searc
 
 ## Help the user understand your results: Highlighting
 
-<img src="assets/img/mvp/step2.png" class="img-object" align="left"/>
+<img src="assets/img/mvp/step2.png" class="img-object" align="right"/>
 
 Your application lets the user search and displays results, but doesn't explain _why_ these results match the user's query.
 
