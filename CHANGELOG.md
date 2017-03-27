@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.8.0 (2017-03-27)
+
+## Migration notice
+* Rename InstantSearchHelper to InstantSearch ([f8d31b5](https://github.com/algolia/instantsearch-android/commit/f8d31b5))
+
+### Features
+
+* **Hits:** Keyboard Auto-hiding feature ([40815c0](https://github.com/algolia/instantsearch-android/commit/40815c0))
+* **NumericSelector:** Most properties can be updated dynamically ([387d453](https://github.com/algolia/instantsearch-android/commit/387d453))
+
+### Bug Fixes
+
+* **NumericRefinement:** correct error message for checkOperatorIsValid ([8b40e3d](https://github.com/algolia/instantsearch-android/commit/8b40e3d))
+
+
+
 ## 0.7.0 (2017-03-14)
 
 ### Features
