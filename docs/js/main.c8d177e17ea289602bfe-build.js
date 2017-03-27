@@ -325,8 +325,6 @@
 	  }
 	
 	  openSublist(node) {
-	    event.preventDefault();
-	    event.stopPropagation();
 	    const parent = node.parentNode;
 	    this.subListHolders.forEach(holder => {
 	      if (holder === parent && !parent.classList.contains('open')) {
@@ -345,6 +343,8 @@
 	    var that = this;
 	    this.subList.forEach(link => {
 	      link.addEventListener('click', function(event){
+	        event.preventDefault();
+	        event.stopPropagation();
 	        that.openSublist(this);
 	      });
 	    });
@@ -655,4 +655,4 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=main.79064c5903658fe74e80-build.js.map
+//# sourceMappingURL=main.c8d177e17ea289602bfe-build.js.map
