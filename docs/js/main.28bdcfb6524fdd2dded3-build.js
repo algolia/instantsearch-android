@@ -63,8 +63,8 @@
 	var alg = __webpack_require__(2);
 	
 	var docSearch = {
-	  apiKey: '52641df1ce4919ba42eb84595f4825c7',
-	  indexName: 'wordpress_algolia',
+	  apiKey: 'fd5e835f5153cad7d5ec0c3595dfa244',
+	  indexName: 'instantsearch-android',
 	  inputSelector: '#searchbox'
 	};
 	
@@ -325,6 +325,8 @@
 	  }
 	
 	  openSublist(node) {
+	    event.preventDefault();
+	    event.stopPropagation();
 	    const parent = node.parentNode;
 	    this.subListHolders.forEach(holder => {
 	      if (holder === parent && !parent.classList.contains('open')) {
@@ -343,8 +345,6 @@
 	    var that = this;
 	    this.subList.forEach(link => {
 	      link.addEventListener('click', function(event){
-	        event.preventDefault();
-	        event.stopPropagation();
 	        that.openSublist(this);
 	      });
 	    });
@@ -655,4 +655,4 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=main.c8d177e17ea289602bfe-build.js.map
+//# sourceMappingURL=main.28bdcfb6524fdd2dded3-build.js.map
