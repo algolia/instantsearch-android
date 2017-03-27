@@ -17,4 +17,5 @@ public interface AlgoliaFacetFilter extends AlgoliaWidget {
      */
     @NonNull String getAttributeName();
     //DISCUSS: Would you rather have only AlgoliaWidget and document that a filter should call Searcher#set?
+    //TODO: if two widgets are the same, ensure changing one updates the other
 }

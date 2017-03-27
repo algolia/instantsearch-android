@@ -13,7 +13,7 @@ import com.algolia.instantsearch.R;
  * Provides a user input for search queries that are directly sent to the Algolia engine.
  */
 public class SearchBox extends SearchView {
-
+//DISCUSS: Do we impose a PoweredBy? Can we even display it correctly?
     /**
      * Constructs a new SearchBox with the given context's theme and the supplied attribute set.
      *
