@@ -16,50 +16,60 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Results corresponding to a search request.
+ * Describes the results corresponding to a search request.
  */
 @SuppressWarnings("WeakerAccess")
 public class SearchResults {
     /** The received JSON content. */
-    @Nullable
+    @NonNull
     public final JSONObject content;
-    /** Facets that will be treated as disjunctive ({@code OR}). By default, facets are conjunctive ({@code AND}). */
+    /** The facets that will be treated as disjunctive ({@code OR}). By default, facets are conjunctive ({@code AND}). */
     public List<String> disjunctiveFacets;
 
     // Mandatory attributes
-    /** Facets for the last results. */
+    /** The facets for the last results. */
     public Map<String, List<FacetValue>> facets;
-    /** Hits. */
+    /** The response's hits. */
+    @NonNull
     public JSONArray hits;
-    /** Total number of hits. */
+    /** The total number of hits. */
     public int nbHits;
-    /** Query text that produced those results. Should be identical to {@link SearchResults#params params.query}}. */
+    /** The query text that produced those results. Should be identical to {@link SearchResults#params params.query}}. */
+    @NonNull
     public String query;
-    /** Query parameters that produced those results. */
+    /** The query parameters that produced those results. */
+    @NonNull
     public String params;
-    /** Processing time of the last query (in ms). */
+    /** The processing time of the last query (in ms). */
+    @NonNull
     public int processingTimeMS;
-    /** Last returned page. */
+    /** The last returned page. */
+    @NonNull
     public Integer page;
-    /** Total number of pages. */
+    /** The total number of pages. */
+    @NonNull
     public Integer nbPages;
-    /** Number of hits per page. */
+    /** The number of hits per page. */
+    @NonNull
     public Integer hitsPerPage;
 
     // Optional attributes
     /** Whether facet counts are exhaustive. */
+    @NonNull
     public Boolean exhaustiveFacetsCount;
 
-    /** Used to return warnings about the query. Should be null most of the time. */
+    /** The eventual warnings about the query. Should be null most of the time. */
+    @Nullable
     public String message;
 
     /**
-     * A markup text indicating which parts of the original query have been removed
+     * The markup text indicating which parts of the original query have been removed
      * in order to retrieve a non-empty result set.
      * The removed parts are surrounded by {@code <em></em>} tags.
      * <p>
      * Note: Only returned when {@link Query#getRemoveWordsIfNoResults() removeWordsIfNoResults} is {@code true}.
      */
+    @Nullable
     public String queryAfterRemoval;
 
     /**
@@ -75,6 +85,7 @@ public class SearchResults {
      * <p>
      * Note: Only returned for geo queries without an explicitly specified radius (see {@link Query#setAroundRadius}).
      */
+    @Nullable
     public Integer automaticRadius;
 
 
@@ -114,11 +125,8 @@ public class SearchResults {
      * @param content the JSON content to parse.
      * @throws IllegalStateException if the server response misses any mandatory field.
      */
-    public SearchResults(@Nullable JSONObject content) {
+    public SearchResults(@NonNull JSONObject content) {
         this.content = content;
-        if (content == null) {
-            return;
-        }
         // Mandatory attributes, throw if any is missing
         try {
             hits = content.getJSONArray("hits");

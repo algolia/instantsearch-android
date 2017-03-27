@@ -33,36 +33,59 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Handles the state of the search interface, wrapping an {@link Client Algolia API Client} and provide a level of abstraction over it.
+ * <p>
+ * The Searcher is responsible of interacting with the Algolia engine: when {@link Searcher#search()} is called,
+ * the Searcher will fire a request with the current {@link Searcher#query}, and will forward the search results to its {@link AlgoliaResultsListener listeners}.
+ */
 @SuppressWarnings("UnusedReturnValue") // chaining
 public class Searcher {
     private static final List<Searcher> instances = new ArrayList<>();
     private final int id;
 
+    /** The EventBus which will propagate events. */
     private final EventBus bus;
+    /** The {@link Index} targeted by this Searcher. */
     private Index index;
+    /** The {@link Client API Client} used by this Searcher. */
     private final Client client;
+    /** The current state of the search {@link Query}. */
     private Query query;
 
+    /** The {@link AlgoliaResultsListener listeners} that will receive search results. */
     private final List<AlgoliaResultsListener> resultsListeners = new ArrayList<>();
 
-    private static int lastSearchSeqNumber; // Identifier of last fired query
-    private int lastDisplayedSeqNumber; // Identifier of last displayed query
-    private int lastRequestedPage;
-    private int lastDisplayedPage;
+    /** The identifier of the last search request fired by this Searcher. */
+    private static int lastRequestId;
+    /** The identifier of the last search response propagated by this Searcher. */
+    private int lastResponseId; // Identifier of last displayed query
+    /** The page number of the last search request fired by this Searcher. */
+    private int lastRequestPage;
+    /** The page number of the last search response propagated by this Searcher. */
+    private int lastResponsePage;
+
+    /** Whether the end of the results has been reached for the current {@link Searcher#query}. */
     private boolean endReached;
 
+    /** The List of attributes that will be treated as disjunctive facets. */
     private final List<String> disjunctiveFacets = new ArrayList<>();
+    /** The Map associating attributes with their respective refinement value(s). */
     private final Map<String, List<String>> refinementMap = new HashMap<>();
+    /** The Map associating attributes with their respective numeric refinement value(s). */
     private final Map<String, SparseArray<NumericRefinement>> numericRefinements = new HashMap<>();
+    /** The Map associating attributes with their respective boolean refinement value(s). */
     private final Map<String, Boolean> booleanFilterMap = new HashMap<>();
 
+    /** The List of attributes that will be used for faceting. */
     private final List<String> facets = new ArrayList<>();
     private final Map<String, FacetStat> facetStats = new HashMap<>();
 
+    /** The SparseArray associating pending requests with their {@link Searcher#lastRequestId identifier}. */
     private final SparseArray<Request> pendingRequests = new SparseArray<>();
 
     /**
-     * Create and initialize the helper.
+     * Constructs an helper from an existing {@link Index}.
      *
      * @param index an Index initialized and eventually configured.
      */
@@ -78,7 +101,7 @@ public class Searcher {
     }
 
     /**
-     * Create and initialize the helper.
+     * Constructs an helper, creating its {@link Searcher#index} and {@link Searcher#client} with the given parameters.
      *
      * @param appId     Your Algolia Application ID.
      * @param apiKey    A search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
@@ -94,7 +117,7 @@ public class Searcher {
     }
 
     /**
-     * Start a search with the given text.
+     * Starts a search with the given text.
      *
      * @param queryString a String to search on the index.
      */
@@ -111,15 +134,15 @@ public class Searcher {
     @NonNull
     public Searcher search() {
         endReached = false;
-        lastRequestedPage = 0;
-        lastDisplayedPage = -1;
-        final int currentSearchSeqNumber = ++lastSearchSeqNumber;
+        lastRequestPage = 0;
+        lastResponsePage = -1;
+        final int currentRequestId = ++lastRequestId;
 
-        bus.post(new SearchEvent(query, currentSearchSeqNumber));
+        bus.post(new SearchEvent(query, currentRequestId));
         final CompletionHandler searchHandler = new CompletionHandler() {
             @Override
             public void requestCompleted(@Nullable JSONObject content, @Nullable AlgoliaException error) {
-                pendingRequests.remove(currentSearchSeqNumber);
+                pendingRequests.remove(currentRequestId);
                 // NOTE: Canceling any request anterior to the current one.
                 //
                 // Rationale: Although TCP imposes a server to send responses in the same order as
@@ -129,13 +152,14 @@ public class Searcher {
                 for (int i = 0; i < pendingRequests.size(); i++) {
                     int reqId = pendingRequests.keyAt(i);
                     Request request = pendingRequests.valueAt(i);
-                    if (reqId < currentSearchSeqNumber) {
+                    if (reqId < currentRequestId) {
                         cancelRequest(request, reqId);
                     }
                 }
 
-                if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
-                    Log.e("Algolia|Searcher", "We already displayed results for request " + lastDisplayedSeqNumber + ", current request (" + currentSearchSeqNumber + ") should have been canceled");
+                if (currentRequestId <= lastResponseId) {
+                    Log.e("Algolia|Searcher", "We already displayed results for request " + lastResponseId
+                            + ", current request (" + currentRequestId + ") should have been canceled");
                 }
 
                 if (content == null || !hasHits(content)) {
@@ -144,18 +168,22 @@ public class Searcher {
                     checkIfLastPage(content);
                 }
 
-                lastDisplayedSeqNumber = currentSearchSeqNumber;
-                lastDisplayedPage = 0;
+                lastResponseId = currentRequestId;
+                lastResponsePage = 0;
 
                 if (error != null) {
-                    bus.post(new ErrorEvent(error, query, currentSearchSeqNumber));
+                    bus.post(new ErrorEvent(error, query, currentRequestId));
                     for (AlgoliaResultsListener view : resultsListeners) {
                         view.onError(query, error);
                     }
                 } else {
-                    bus.post(new ResultEvent(content, query, currentSearchSeqNumber));
-                    updateListeners(content, false);
-                    updateFacetStats(content);
+                    if (content == null) {
+                        Log.e("Algolia|Searcher", "content is null but error is not.");
+                    } else {
+                        bus.post(new ResultEvent(content, query, currentRequestId));
+                        updateListeners(content, false);
+                        updateFacetStats(content);
+                    }
                 }
             }
         };
@@ -166,22 +194,13 @@ public class Searcher {
         } else {
             searchRequest = index.searchAsync(query, searchHandler);
         }
-        pendingRequests.put(currentSearchSeqNumber, searchRequest);
+        pendingRequests.put(currentRequestId, searchRequest);
         return this;
     }
 
-    private void cancelRequest(Request request, Integer requestSeqNumber) {
-        if (!request.isCancelled()) {
-            request.cancel();
-            bus.post(new CancelEvent(request, requestSeqNumber));
-            pendingRequests.delete(requestSeqNumber);
-        } else {
-            throw new IllegalStateException("cancelRequest was called on a request that was already canceled.");
-        }
-    }
-
     /**
-     * Load more results with the same query.
+     * Loads more results with the same query.
+     * <p>
      * Note that this method won't do anything if {@link Searcher#shouldLoadMore} returns false.
      */
     @NonNull
@@ -190,28 +209,28 @@ public class Searcher {
             return this;
         }
         Query loadMoreQuery = new Query(query);
-        loadMoreQuery.setPage(++lastRequestedPage);
-        final int currentSearchSeqNumber = ++lastSearchSeqNumber;
-        bus.post(new SearchEvent(query, currentSearchSeqNumber));
-        pendingRequests.put(currentSearchSeqNumber, index.searchAsync(loadMoreQuery, new CompletionHandler() {
+        loadMoreQuery.setPage(++lastRequestPage);
+        final int currentRequestId = ++lastRequestId;
+        bus.post(new SearchEvent(query, currentRequestId));
+        pendingRequests.put(currentRequestId, index.searchAsync(loadMoreQuery, new CompletionHandler() {
             @Override
             public void requestCompleted(@NonNull JSONObject content, @Nullable AlgoliaException error) {
-                pendingRequests.remove(currentSearchSeqNumber);
+                pendingRequests.remove(currentRequestId);
                 if (error != null) {
-                    bus.post(new ErrorEvent(error, query, currentSearchSeqNumber));
+                    bus.post(new ErrorEvent(error, query, currentRequestId));
                     for (AlgoliaResultsListener view : resultsListeners) {
                         view.onError(query, error);
                     }
                 } else {
-                    if (currentSearchSeqNumber <= lastDisplayedSeqNumber) {
+                    if (currentRequestId <= lastResponseId) {
                         return; // Hits are for an older query, let's ignore them
                     }
 
-                    bus.post(new ResultEvent(content, query, currentSearchSeqNumber));
+                    bus.post(new ResultEvent(content, query, currentRequestId));
                     if (hasHits(content)) {
                         updateListeners(content, true);
                         updateFacetStats(content);
-                        lastDisplayedPage = lastRequestedPage;
+                        lastResponsePage = lastRequestPage;
 
                         checkIfLastPage(content);
                     } else {
@@ -223,29 +242,24 @@ public class Searcher {
         return this;
     }
 
-    private void checkIfLastPage(@NonNull JSONObject content) {
-        if (content.optInt("nbPages") == content.optInt("page") + 1) {
-            endReached = true;
-        }
-    }
-
     /**
-     * Tell if we should load more hits when reaching the end of an {@link AlgoliaResultsListener}.
+     * Checks if we should load more hits when reaching the end of the current list of hits.
      *
      * @return {@code true} unless we reached the end of hits or we already requested a new page.
      */
+    //TODO: UI-related: move to ISH?
     public boolean shouldLoadMore() {
-        return !(endReached || lastRequestedPage > lastDisplayedPage);
+        return !(endReached || lastRequestPage > lastResponsePage);
     }
 
     /**
-     * Reset the helper's state.
+     * Resets the helper's state.
      */
     @NonNull
     public Searcher reset() {
-        lastDisplayedPage = 0;
-        lastRequestedPage = 0;
-        lastDisplayedSeqNumber = 0;
+        lastResponsePage = 0;
+        lastRequestPage = 0;
+        lastResponseId = 0;
         endReached = false;
         clearFacetRefinements();
         cancelPendingRequests();
@@ -281,7 +295,7 @@ public class Searcher {
     }
 
     /**
-     * Add a facet refinement for the next queries.
+     * Adds a facet refinement for the next queries.
      *
      * @param attributeName      the facet name.
      * @param isDisjunctiveFacet if {@code true}, the facet will be added as a disjunctive facet.
@@ -298,11 +312,11 @@ public class Searcher {
     }
 
     /**
-     * Add or remove this facet according to its enabled status.
+     * Adds or removes this facet refinement for the next queries according to its enabled status.
      *
      * @param attributeName the attribute to facet on.
      * @param value         the value for this attribute.
-     * @param active        {@code true} if this facet value is currently refined on.
+     * @param active        if {@code true}, this facet value is currently refined on.
      */
     @NonNull
     public Searcher updateFacetRefinement(@NonNull String attributeName, @NonNull String value, boolean active) {
@@ -316,8 +330,9 @@ public class Searcher {
 
 
     /**
-     * Add a facet refinement for the next queries.
-     * This method resets the current page to 0.
+     * Adds a facet refinement for the next queries.
+     * <p>
+     * <b>This method resets the current page to 0.</b>
      *
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to refine with.
@@ -325,19 +340,16 @@ public class Searcher {
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addFacetRefinement(@NonNull String attributeName, @NonNull String value) {
-        List<String> attributeRefinements = refinementMap.get(attributeName);
-        if (attributeRefinements == null) {
-            attributeRefinements = new ArrayList<>();
-            refinementMap.put(attributeName, attributeRefinements);
-        }
+        List<String> attributeRefinements = getOrCreateRefinements(attributeName);
         attributeRefinements.add(value);
         rebuildQueryFacetFilters();
         return this;
     }
 
     /**
-     * Remove a facet refinement for the next queries.
-     * This method resets the current page to 0.
+     * Removes a facet refinement for the next queries.
+     * <p>
+     * <b>This method resets the current page to 0.</b>
      *
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to refine with.
@@ -345,19 +357,14 @@ public class Searcher {
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeFacetRefinement(@NonNull String attributeName, @NonNull String value) {
-        List<String> attributeRefinements = refinementMap.get(attributeName);
-        if (attributeRefinements == null) {
-            attributeRefinements = new ArrayList<>();
-            refinementMap.put(attributeName, attributeRefinements);
-        } else {
-            attributeRefinements.remove(value);
-        }
+        List<String> attributeRefinements = getOrCreateRefinements(attributeName);
+        attributeRefinements.remove(value);
         rebuildQueryFacetFilters();
         return this;
     }
 
     /**
-     * Check if a facet refinement is enabled.
+     * Checks if a facet refinement is enabled.
      *
      * @param attributeName the attribute to refine on.
      * @param value         the facet's value to check.
@@ -370,8 +377,9 @@ public class Searcher {
     }
 
     /**
-     * Clear all facet refinements for the next queries.
-     * This method resets the current page to 0.
+     * Clears all facet refinements for the next queries.
+     * <p>
+     * <b>This method resets the current page to 0.</b>
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher clearFacetRefinements() {
@@ -383,8 +391,9 @@ public class Searcher {
 
 
     /**
-     * Clear an attribute's facet refinements for the next queries.
-     * This method resets the current page to 0.
+     * Clears an attribute's facet refinements for the next queries.
+     * <p>
+     * <b>This method resets the current page to 0.</b>
      *
      * @param attribute the attribute's name.
      */
@@ -399,25 +408,6 @@ public class Searcher {
         return this;
     }
 
-    private Searcher rebuildQueryFacetFilters() {
-        JSONArray facetFilters = new JSONArray();
-        for (Map.Entry<String, List<String>> entry : refinementMap.entrySet()) {
-            final List<String> values = entry.getValue();
-            final String attribute = entry.getKey();
-
-            for (String value : values) {
-                facetFilters.put(attribute + ":" + value);
-            }
-        }
-        for (Map.Entry<String, Boolean> entry : booleanFilterMap.entrySet()) {
-            facetFilters.put(entry.getKey() + ":" + entry.getValue());
-        }
-        //noinspection deprecation Deprecated for app developers
-        query.setFacetFilters(facetFilters);
-        query.setPage(0);
-        return this;
-    }
-
     /**
      * Get the current numeric refinement for an attribute and an operator.
      *
@@ -426,14 +416,15 @@ public class Searcher {
      * @return a {@link NumericRefinement} describing the current refinement for these parameters, or {@code null} if there is none.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public @Nullable NumericRefinement getNumericRefinement(@NonNull String attribute, int operator) {
+    public @Nullable
+    NumericRefinement getNumericRefinement(@NonNull String attribute, int operator) {
         NumericRefinement.checkOperatorIsValid(operator);
         final SparseArray<NumericRefinement> attributeRefinements = numericRefinements.get(attribute);
         return attributeRefinements == null ? null : attributeRefinements.get(operator);
     }
 
     /**
-     * Add a numeric refinement.
+     * Adds a numeric refinement for the next queries.
      *
      * @param refinement a {@link NumericRefinement} refining an attribute with a numerical value.
      */
@@ -450,7 +441,7 @@ public class Searcher {
     }
 
     /**
-     * Remove any numeric refinements relative to a specific attribute.
+     * Removes any numeric refinements relative to a specific attribute for the next queries.
      *
      * @param attribute the attribute that may have a refinement.
      */
@@ -463,7 +454,7 @@ public class Searcher {
 
 
     /**
-     * Remove the numeric refinement for a specific attribute and operator.
+     * Removes the numeric refinement relative to an attribute and operator for the next queries.
      *
      * @param attribute an attribute that maybe has some refinements.
      * @param operator  an {@link NumericRefinement#OPERATOR_EQ operator}.
@@ -477,7 +468,7 @@ public class Searcher {
     }
 
     /**
-     * Remove the numeric refinement for a specific attribute and operator.
+     * Removes the given numeric refinement for the next queries.
      *
      * @param refinement a description of the refinement to remove.
      */
@@ -489,20 +480,8 @@ public class Searcher {
         return this;
     }
 
-    private void rebuildQueryNumericFilters() {
-        JSONArray numericFilters = new JSONArray();
-        for (SparseArray<NumericRefinement> refinements : numericRefinements.values()) {
-            for (int i = 0; i < refinements.size(); i++) {
-                numericFilters.put(refinements.valueAt(i).toString());
-            }
-        }
-        query.setNumericFilters(numericFilters);
-        query.setPage(0);
-    }
-
-
     /**
-     * Add a boolean refinement.
+     * Adds a boolean refinement for the next queries.
      *
      * @param attribute the attribute to refine on.
      * @param value     the value to refine with.
@@ -515,7 +494,7 @@ public class Searcher {
     }
 
     /**
-     * Get the current boolean refinement for an attribute.
+     * Gets the current boolean refinement for an attribute.
      *
      * @param attribute the attribute that may have a refinement.
      * @return the refinement value, or {@code null} if there is none.
@@ -526,7 +505,7 @@ public class Searcher {
     }
 
     /**
-     * Remove any boolean refinement for an attribute.
+     * Removes any boolean refinement for an attribute for the next queries.
      *
      * @param attribute the attribute that may have a refinement.
      */
@@ -535,6 +514,120 @@ public class Searcher {
         booleanFilterMap.remove(attribute);
         rebuildQueryFacetFilters();
         return this;
+    }
+
+    /**
+     * Adds one or several attributes to facet on for the next queries.
+     *
+     * @param attributes one or more attribute names.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public Searcher addFacet(String... attributes) {
+        Collections.addAll(facets, attributes);
+        rebuildQueryFacets();
+        return this;
+    }
+
+    /**
+     * Removes one or several faceted attributes for the next queries.
+     *
+     * @param attributes one or more attribute names.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public Searcher removeFacet(String... attributes) {
+        //TODO: Count calls to add() and remove only if last one
+        for (String attribute : attributes) {
+            facets.remove(attribute);
+        }
+        rebuildQueryFacets();
+        return this;
+    }
+
+    @Deprecated //DISCUSS: Refactor to avoid exposing a Deprecated public method?
+    public Searcher registerListener(@NonNull AlgoliaResultsListener resultsListener) {
+        if (!resultsListeners.contains(resultsListener)) {
+            resultsListeners.add(resultsListener);
+        }
+        return this;
+    }
+
+    /**
+     * Checks if a response's json contains at least one hit.
+     *
+     * @param jsonObject the JSONObject to check.
+     * @return {@code true} if it contains a hits array with at least one non null element.
+     */
+    static boolean hasHits(@Nullable JSONObject jsonObject) {
+        if (jsonObject == null) {
+            return false;
+        }
+
+        JSONArray resultHits = jsonObject.optJSONArray("hits");
+        if (resultHits == null) {
+            return false;
+        }
+
+        for (int i = 0; i < resultHits.length(); ++i) {
+            JSONObject hit = resultHits.optJSONObject(i);
+            if (hit != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Gets the current {@link Searcher#query}.
+     *
+     * @return the Searcher's query.
+     */
+    public Query getQuery() {
+        return query;
+    }
+
+    /**
+     * Takes the given query's parameters for following search queries.
+     * <p>
+     * <b>This method resets the current page to 0.</b>
+     *
+     * @param query a {@link Query} object with some parameters set.
+     */
+    @NonNull
+    public Searcher setQuery(@NonNull Query query) {
+        this.query = query;
+        this.query.setPage(0);
+        return this;
+    }
+
+
+    /**
+     * Gets the current {@link Searcher#index}.
+     *
+     * @return the Searcher's index.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public Index getIndex() {
+        return index;
+    }
+
+    /**
+     * Change the targeted index for future queries.
+     * <p>
+     * <b>Be aware that as index ordering may differ, this method will reset the current page to 0.</b>
+     * You may want to use {@link Searcher#reset} to reinitialize the helper to an empty state.
+     *
+     * @param indexName name of the new index.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public @NonNull Searcher setIndex(@NonNull String indexName) {
+        index = client.getIndex(indexName);
+        query.setPage(0);
+        return this;
+    }
+
+    @Deprecated //DISCUSS: Should we expose this?
+    public int getId() {
+        return id;
     }
 
     private void updateFacetStats(JSONObject content) {
@@ -620,21 +713,34 @@ public class Searcher {
         });
     }
 
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Searcher addFacet(String... attributes) {
-        Collections.addAll(facets, attributes);
-        rebuildQueryFacets();
+    private Searcher rebuildQueryFacetFilters() {
+        JSONArray facetFilters = new JSONArray();
+        for (Map.Entry<String, List<String>> entry : refinementMap.entrySet()) {
+            final List<String> values = entry.getValue();
+            final String attribute = entry.getKey();
+
+            for (String value : values) {
+                facetFilters.put(attribute + ":" + value);
+            }
+        }
+        for (Map.Entry<String, Boolean> entry : booleanFilterMap.entrySet()) {
+            facetFilters.put(entry.getKey() + ":" + entry.getValue());
+        }
+        //noinspection deprecation Deprecated for app developers
+        query.setFacetFilters(facetFilters);
+        query.setPage(0);
         return this;
     }
 
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Searcher removeFacet(String... attributes) {
-        //TODO: Count calls to add() and remove only if last one
-        for (String attribute : attributes) {
-            facets.remove(attribute);
+    private void rebuildQueryNumericFilters() {
+        JSONArray numericFilters = new JSONArray();
+        for (SparseArray<NumericRefinement> refinements : numericRefinements.values()) {
+            for (int i = 0; i < refinements.size(); i++) {
+                numericFilters.put(refinements.valueAt(i).toString());
+            }
         }
-        rebuildQueryFacets();
-        return this;
+        query.setNumericFilters(numericFilters);
+        query.setPage(0);
     }
 
     private Searcher rebuildQueryFacets() {
@@ -643,83 +749,35 @@ public class Searcher {
         return this;
     }
 
-    @Deprecated
-    public Searcher registerListener(@NonNull AlgoliaResultsListener resultsListener) {
-        if (!resultsListeners.contains(resultsListener)) {
-            resultsListeners.add(resultsListener);
+    @NonNull private List<String> getOrCreateRefinements(@NonNull String attributeName) {
+        List<String> attributeRefinements = refinementMap.get(attributeName);
+        if (attributeRefinements == null) {
+            attributeRefinements = new ArrayList<>();
+            refinementMap.put(attributeName, attributeRefinements);
         }
-        return this;
+        return attributeRefinements;
     }
 
-    private void updateListeners(@Nullable JSONObject hits, boolean isLoadingMore) {
+    private void cancelRequest(Request request, Integer requestSeqNumber) {
+        if (!request.isCancelled()) {
+            request.cancel();
+            bus.post(new CancelEvent(request, requestSeqNumber));
+            pendingRequests.delete(requestSeqNumber);
+        } else {
+            throw new IllegalStateException("cancelRequest was called on a request that was already canceled.");
+        }
+    }
+
+    private void checkIfLastPage(@NonNull JSONObject content) {
+        if (content.optInt("nbPages") == content.optInt("page") + 1) {
+            endReached = true;
+        }
+    }
+
+    private void updateListeners(@NonNull JSONObject hits, boolean isLoadingMore) {
         for (AlgoliaResultsListener view : resultsListeners) {
             view.onResults(new SearchResults(hits), isLoadingMore);
         }
     }
 
-    /**
-     * Find if a returned json contains at least one hit.
-     *
-     * @param jsonObject the query result.
-     * @return {@code true} if it contains a hits array with at least one non null element.
-     */
-    static boolean hasHits(@Nullable JSONObject jsonObject) {
-        if (jsonObject == null) {
-            return false;
-        }
-
-        JSONArray resultHits = jsonObject.optJSONArray("hits");
-        if (resultHits == null) {
-            return false;
-        }
-
-        for (int i = 0; i < resultHits.length(); ++i) {
-            JSONObject hit = resultHits.optJSONObject(i);
-            if (hit != null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Query getQuery() {
-        return query;
-    }
-
-    /**
-     * Use the given query's parameters for following search queries.
-     *
-     * @param query a {@link Query} object with some parameters set.
-     */
-    @NonNull
-    public Searcher setQuery(@NonNull Query query) {
-        this.query = query;
-        this.query.setPage(0);
-        return this;
-    }
-
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    //TODO: Document every public method
-    public Index getIndex() {
-        return index;
-    }
-
-    /**
-     * Change the targeted index for future queries.
-     * Be aware that as index ordering may differ, this method will reset the current page to 0,
-     * You may want to use {@link Searcher#reset} to reinitialize the helper to an empty state.
-     *
-     * @param indexName name of the new index.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public @NonNull Searcher setIndex(@NonNull String indexName) {
-        index = client.getIndex(indexName);
-        query.setPage(0);
-        return this;
-    }
-
-    @Deprecated //DISCUSS: Should we expose this?
-    public int getId() {
-        return id;
-    }
 }

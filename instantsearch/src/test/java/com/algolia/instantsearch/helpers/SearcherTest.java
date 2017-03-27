@@ -66,7 +66,7 @@ public class SearcherTest extends InstantSearchTest {
         Searcher searcher = initSearcher();
         final AlgoliaResultsListener resultsListener = new AlgoliaResultsListener() {
             @Override
-            public void onResults(SearchResults results, boolean isLoadingMore) {
+            public void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
                 Assert.fail("The request should have been cancelled.");
             }
 

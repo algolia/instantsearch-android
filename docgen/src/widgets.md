@@ -51,12 +51,14 @@ This widget exposes a few attributes that you can set in its xml definition:
     android:id="@+id/hits"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    algolia:autoHideKeyboard="true"
     algolia:hitsPerPage="10"
     algolia:disableInfiniteScroll="false"
     algolia:remainingItemsBeforeLoading="10"
     algolia:itemLayout="@layout/hits_item">
 ```
 
+- **`autoHideKeyboard`**, when `true`, closes the keyboard when the Hits are scrolled. (defaults to `false`)
 - **`hitsPerPage`** controls how many hits are requested and displayed with each search query. (defaults to 20)
 - **`disableInfiniteScroll`**, when `true`, disables the [**Infinite scroll**][infinite-scroll] feature (defaults to `false`)
 - **`remainingItemsBeforeLoading`** sets the minimum number of remaining hits to load the next page: if you set it to 10, the next page will be loaded when there are less than 10 items below the last visible item. (defaults to 5)

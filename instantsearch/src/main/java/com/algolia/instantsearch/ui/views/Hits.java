@@ -21,6 +21,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -32,7 +33,7 @@ import com.algolia.instantsearch.helpers.Highlighter;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
-import com.algolia.instantsearch.ui.InstantSearchHelper;
+import com.algolia.instantsearch.ui.InstantSearch;
 import com.algolia.instantsearch.ui.databinding.BindingHelper;
 import com.algolia.instantsearch.ui.databinding.RenderingHelper;
 import com.algolia.instantsearch.ui.utils.ItemClickSupport;
@@ -64,25 +65,44 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
 
     private static final int MISSING_VALUE = Integer.MIN_VALUE;
 
-    private final Integer hitsPerPage;
-    private final int remainingItemsBeforeLoading; // Minimum number of remaining items before loading more
-    private final HitsScrollListener scrollListener;
+    /** The minimum number of items remaining below the fold before loading more. */
+    private final int remainingItemsBeforeLoading;
 
+    private final @NonNull Integer hitsPerPage;
     private final int layoutId;
 
-    private HitsAdapter adapter;
+    private @NonNull HitsAdapter adapter;
+    private @NonNull LayoutManager layoutManager;
+    private @NonNull Searcher searcher;
+    private @NonNull InputMethodManager imeManager;
 
-    private LayoutManager layoutManager;
-    private View emptyView;
-    private Searcher searcher;
+    private @Nullable final InfiniteScrollListener infiniteScrollListener;
+    private @Nullable OnScrollListener keyboardListener;
+    private @Nullable View emptyView;
 
+    /**
+     * Constructs a new Hits with the given context's theme and the supplied attribute set.
+     *
+     * @param context The Context the view is running in, through which it can
+     *                access the current theme, resources, etc.
+     * @param attrs   The attributes of the XML tag that is inflating the view.
+     */
     public Hits(@NonNull Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
+
         if (isInEditMode()) {
             hitsPerPage = 0;
             remainingItemsBeforeLoading = 0;
             layoutId = 0;
-            scrollListener = null;
+            infiniteScrollListener = null;
+            //noinspection ConstantConditions Edit mode initialization
+            adapter = null;
+            //noinspection ConstantConditions
+            searcher = null;
+            //noinspection ConstantConditions
+            layoutManager = null;
+            //noinspection ConstantConditions
+            imeManager = null;
             return;
         }
 
@@ -92,6 +112,10 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
             hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, DEFAULT_HITS_PER_PAGE);
             layoutId = styledAttributes.getResourceId(R.styleable.Hits_itemLayout, 0);
             infiniteScroll = styledAttributes.getBoolean(R.styleable.Hits_infiniteScroll, true);
+            if (styledAttributes.getBoolean(R.styleable.Hits_autoHideKeyboard, false)) {
+                enableKeyboardAutoHiding();
+            }
+
             int remainingItemsAttribute = styledAttributes.getInt(R.styleable.Hits_remainingItemsBeforeLoading, MISSING_VALUE);
             if (remainingItemsAttribute == MISSING_VALUE) {
                 remainingItemsBeforeLoading = DEFAULT_REMAINING_ITEMS;
@@ -118,43 +142,49 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         });
         setAdapter(adapter);
 
+        imeManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         layoutManager = new LinearLayoutManager(context);
         setLayoutManager(layoutManager);
 
-        scrollListener = infiniteScroll ? new HitsScrollListener() : null;
+        infiniteScrollListener = infiniteScroll ? new InfiniteScrollListener() : null;
         if (infiniteScroll) {
-            addOnScrollListener(scrollListener);
+            addOnScrollListener(infiniteScrollListener);
         }
     }
 
 
     /**
-     * Set a listener for click events on child views.
+     * Sets a listener for click events on child views.
      *
      * @param listener An {@link OnItemClickListener OnItemLongClickListener} which should receive these events.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void setOnItemClickListener(OnItemClickListener listener) {
+        //noinspection deprecation legitimate use
         ItemClickSupport.addTo(this).setOnItemClickListener(listener);
     }
 
     /**
-     * Set a listener for long click events on child views.
+     * Sets a listener for long click events on child views.
      *
      * @param listener An {@link OnItemLongClickListener OnItemLongClickListener} which should receive these events.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        //noinspection deprecation legitimate use
         ItemClickSupport.addTo(this).setOnItemLongClickListener(listener);
     }
 
     /**
-     * Clear the Hits, emptying the underlying data.
+     * Clears the Hits, emptying the underlying data.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void clear() {
         adapter.clear();
     }
 
     /**
-     * Get the hit at a given position.
+     * Gets the hit at a given position.
      *
      * @param position the position to look at.
      * @return a JSONObject representing the hit.
@@ -164,16 +194,46 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     }
 
     /**
-     * Add or replace hits to/in this widget.
+     * Starts closing the keyboard when the hits are scrolled.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void enableKeyboardAutoHiding() {
+        keyboardListener = new OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dx != 0 || dy != 0) {
+                    imeManager.hideSoftInputFromWindow(
+                            Hits.this.getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        };
+        addOnScrollListener(keyboardListener);
+    }
+
+    /**
+     * Stops closing the keyboard when the hits are scrolled.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void disableKeyboardAutoHiding() {
+        removeOnScrollListener(keyboardListener);
+        keyboardListener = null;
+    }
+
+    /**
+     * Adds or replaces hits to/in this widget.
      *
      * @param results     A {@link JSONObject} containing hits.
-     * @param isReplacing true if the given hits should replace the current hits.
+     * @param isReplacing {@code true} if the given hits should replace the current hits.
      */
     private void addHits(@Nullable SearchResults results, boolean isReplacing) {
         if (results == null) {
             if (isReplacing) {
-                adapter.clear();
-                scrollListener.setCurrentlyLoading(false);
+                clear();
+                if (infiniteScrollListener != null) {
+                    infiniteScrollListener.setCurrentlyLoading(false);
+                }
             }
             return;
         }
@@ -194,7 +254,9 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         if (isReplacing) {
             adapter.notifyDataSetChanged();
             smoothScrollToPosition(0);
-            scrollListener.setCurrentlyLoading(false);
+            if (infiniteScrollListener != null) {
+                infiniteScrollListener.setCurrentlyLoading(false);
+            }
         } else {
             adapter.notifyItemRangeInserted(adapter.getItemCount(), hits.length());
         }
@@ -217,7 +279,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
     }
 
     @Override
-    public void onResults(SearchResults results, boolean isLoadingMore) {
+    public void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
         addHits(results, !isLoadingMore);
     }
 
@@ -246,7 +308,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
      *
      * @return the value of the attribute hitsPerPage if specified, else DEFAULT_HITS_PER_PAGE.
      */
-    public Integer getHitsPerPage() {
+    @NonNull public Integer getHitsPerPage() {
         return hitsPerPage;
     }
 
@@ -259,7 +321,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         return layoutId;
     }
 
-    private class HitsScrollListener extends OnScrollListener {
+    private class InfiniteScrollListener extends OnScrollListener {
         private int lastItemCount = 0; // Item count after last event
         private boolean currentlyLoading = true; // Are we waiting for new results?
 
@@ -335,19 +397,11 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
             this.hits = new ArrayList<>();
         }
 
-        /**
-         * Remove the current hits, notifying observers.
-         */
-        public void clear() {
+        void clear() {
             clear(true);
         }
 
-        /**
-         * Remove the current hits, potentially notifying observers.
-         *
-         * @param shouldNotify true if the adapter should notify observers of removal.
-         */
-        public void clear(boolean shouldNotify) {
+        void clear(boolean shouldNotify) {
             if (shouldNotify) {
                 final int previousItemCount = getItemCount();
                 hits.clear();
@@ -369,7 +423,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         @Override
         public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
             ViewDataBinding binding = DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.getContext()), InstantSearchHelper.getItemLayoutId(), parent, false);
+                    LayoutInflater.from(parent.getContext()), InstantSearch.getItemLayoutId(), parent, false);
             binding.executePendingBindings();
             return new ViewHolder(binding.getRoot());
         }
