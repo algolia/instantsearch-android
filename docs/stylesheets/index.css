@@ -3143,6 +3143,8 @@ body:not(.example) section {
         @media (max-width: 992px) {
           .is-section__modular-widgets ul li:nth-child(1), .is-section__modular-widgets ul li:nth-child(4) {
             margin-left: 0; } }
+      .is-section__modular-widgets ul li:not(:first-child) img {
+        padding: 6px; }
       .is-section__modular-widgets ul li p {
         margin-top: 0; }
   @media (max-width: 768px) {
@@ -4092,7 +4094,8 @@ nav.sidebar {
         line-height: 24px;
         font-size: 12px;
         padding-left: 12px;
-        font-family: "Open sans", Helvetica Neue, helvetica, sans-serif; }
+        font-family: "Open sans", Helvetica Neue, helvetica, sans-serif;
+        max-width: calc(100% - 2.2em); }
       nav.sidebar .sidebar-container .sidebar-elements .sidebar-element a {
         text-decoration: none;
         display: block;
@@ -4147,8 +4150,8 @@ nav.sidebar {
   height: 52px;
   width: 52px;
   background: #39b1de;
-  background-image: url(../../../assets/img/open-doc-menu_icon.svg), -webkit-linear-gradient(166deg, #1cc7d0, #2dde98);
-  background-image: url(../../../assets/img/open-doc-menu_icon.svg), linear-gradient(284deg, #1cc7d0, #2dde98);
+  background-image: url(../assets/img/open-doc-menu_icon.svg), -webkit-linear-gradient(166deg, #1cc7d0, #2dde98);
+  background-image: url(../assets/img/open-doc-menu_icon.svg), linear-gradient(284deg, #1cc7d0, #2dde98);
   background-repeat: no-repeat;
   background-position: 65% center, center center;
   background-size: 60%, 100%;
@@ -4174,8 +4177,8 @@ nav.sidebar {
             transform: rotate(-180deg);
     -webkit-transform-origin: center center;
             transform-origin: center center;
-    background-image: url(../../../assets/img/open-doc-menu_icon.svg), -webkit-linear-gradient(166deg, #1cc7d0, #2dde98);
-    background-image: url(../../../assets/img/open-doc-menu_icon.svg), linear-gradient(284deg, #1cc7d0, #2dde98);
+    background-image: url(../assets/img/open-doc-menu_icon.svg), -webkit-linear-gradient(166deg, #1cc7d0, #2dde98);
+    background-image: url(../assets/img/open-doc-menu_icon.svg), linear-gradient(284deg, #1cc7d0, #2dde98);
     left: 340px; }
 
 .documentation-section .container article,
@@ -4380,15 +4383,19 @@ nav.sidebar {
 .img-object {
   padding: 6px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  float: left;
   margin: 16px 0;
   margin-right: 26px;
   max-width: 100%;
-  max-height: 500px; }
+  max-height: 500px;
+  margin: auto; }
   .img-object[align="right"] {
     float: right;
     margin-right: 0;
     margin-left: 26px; }
+    .img-object[align="right"] + p:not(.cb) {
+      clear: none !important; }
+    .img-object[align="right"] ~ p:not(.cb) {
+      clear: none !important; }
   .img-object[align="left"] {
     float: left;
     margin: 18px 0 16px;

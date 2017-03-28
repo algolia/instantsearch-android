@@ -276,12 +276,14 @@ Once instantiated, a <strong>SearchProgressController</strong> will inform its <
     <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/hits&quot;</span>
     <span class="cm-attribute">android:layout_width</span>=<span class="cm-string">&quot;match_parent&quot;</span>
     <span class="cm-attribute">android:layout_height</span>=<span class="cm-string">&quot;match_parent&quot;</span>
+    <span class="cm-attribute">algolia:autoHideKeyboard</span>=<span class="cm-string">&quot;true&quot;</span>
     <span class="cm-attribute">algolia:hitsPerPage</span>=<span class="cm-string">&quot;10&quot;</span>
     <span class="cm-attribute">algolia:disableInfiniteScroll</span>=<span class="cm-string">&quot;false&quot;</span>
     <span class="cm-attribute">algolia:remainingItemsBeforeLoading</span>=<span class="cm-string">&quot;10&quot;</span>
     <span class="cm-attribute">algolia:itemLayout</span>=<span class="cm-string">&quot;@layout/hits_item&quot;</span><span class="cm-tag cm-bracket">&gt;</span>
 </code></pre>
 <ul>
+<li><strong><code>autoHideKeyboard</code></strong>, when <code>true</code>, closes the keyboard when the Hits are scrolled. (defaults to <code>false</code>)</li>
 <li><strong><code>hitsPerPage</code></strong> controls how many hits are requested and displayed with each search query. (defaults to 20)</li>
 <li><strong><code>disableInfiniteScroll</code></strong>, when <code>true</code>, disables the <a href="widgets.html#infinite-scroll"><strong>Infinite scroll</strong></a> feature (defaults to <code>false</code>)</li>
 <li><strong><code>remainingItemsBeforeLoading</code></strong> sets the minimum number of remaining hits to load the next page: if you set it to 10, the next page will be loaded when there are less than 10 items below the last visible item. (defaults to 5)</li>
@@ -469,7 +471,7 @@ This tool will let you build a highlighted <a href="https://developer.android.co
 <li><code>onError</code> will be called when there is an error</li>
 </ul>
 <p>This interface also specifies <code>setSearcher</code>, to give a reference to the <code>Searcher</code> used in your search interface. It will enable your widget to uses the <a href="/javadoc/com/algolia/instantsearch/helpers/Searcher.html">Searcher’s programmatic API</a>.</p>
-</div></div></div></section><div id="footer"><div class="credits"><div class="container pos-rel"><div class="row"><div class="col-md-12 text-center"><a data-no-turbolink="true" href="/"><img width="40" src="https://www.algolia.com/static_assets/images/flat2/algolia/algolia-logo_badge-598a1fe6.svg"></a></div></div><div class="spacer40"></div></div></div></div><script src="/instantsearch-android/js/main.28bdcfb6524fdd2dded3-build.js"></script><script type="text/javascript">var _kmq = _kmq || [];
+</div></div></div></section><div id="footer"><div class="credits"><div class="container pos-rel"><div class="row"><div class="col-md-12 text-center"><a data-no-turbolink="true" href="/"><img width="40" src="https://www.algolia.com/static_assets/images/flat2/algolia/algolia-logo_badge-598a1fe6.svg"></a></div></div><div class="spacer40"></div></div></div></div><script src="/instantsearch-android/js/main.e8b530d06f2d8d8a1824-build.js"></script><script type="text/javascript">var _kmq = _kmq || [];
 var _kmk = _kmk || 'cb5a3adb92e8915a37a36ba1a50f2ce4fae4a1b9';
 function _kms(u){
   setTimeout(function(){

@@ -641,7 +641,7 @@
 	  var title = $sidebar.querySelector('.sidebar-header');
 	  var bodyBBox = document.body.getBoundingClientRect();
 	  var sidebarTop = sidebarBBox.top - bodyBBox.top;
-	  var footer = document.querySelector('.ac-footer');
+	  var footer = document.querySelector('#footer');
 	  var navigation = document.querySelector('.algc-navigation');
 	  var menu = document.querySelector('.sidebar-container');
 	  var height = document.querySelector('html').getBoundingClientRect().height;
@@ -655,4 +655,4 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=main.28bdcfb6524fdd2dded3-build.js.map
+//# sourceMappingURL=main.e8b530d06f2d8d8a1824-build.js.map
