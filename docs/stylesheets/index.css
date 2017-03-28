@@ -148,7 +148,7 @@
     max-width: 100%; } }
 
 .algc-dropdownroot {
-  top: 4px;
+  top: 8px;
   width: 100%;
   position: absolute;
   opacity: 0;
@@ -207,7 +207,7 @@
 
 .algc-dropdownroot .algc-dropdownroot__dropdownarrow {
   left: 50%;
-  top: 6px;
+  top: 4px;
   background-color: #FFF;
   box-shadow: -3px -3px 5px rgba(82, 95, 127, 0.04);
   will-change: transform, opacity;
@@ -303,15 +303,14 @@
   padding: 0;
   width: 450px;
   padding: 0.625em 1.25em;
-  margin: 0;
-  background-color: #F7F7FF; }
+  margin: 0; }
 
 .algc-dropdownroot__widelist li {
   -webkit-box-flex: 50%;
       -ms-flex: 50%;
           flex: 50%;
-  border-radius: 3px;
-  margin: .5em auto; }
+  margin: 0.5em auto;
+  border-radius: 3px; }
 
 .algc-dropdownroot__widelist li a {
   display: -webkit-box;
@@ -326,15 +325,10 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  color: #333333;
-  background-color: #F7F7FF;
-  border-radius: 4px;
-  -webkit-transition: background 160ms ease;
-  transition: background 160ms ease; }
+  color: #333333; }
 
 .algc-dropdownroot__widelist li a:hover {
-  color: #1a1a1a;
-  background-color: #EEF0F7; }
+  color: #1a1a1a; }
 
 .algc-dropdownroot__widelist li h4 {
   text-align: center;
@@ -1516,6 +1510,9 @@ figure {
 
 .h500 {
   height: 500px; }
+
+.h600 {
+  height: 600px; }
 
 .hfull {
   height: 100%; }
@@ -3482,8 +3479,8 @@ pre code {
   float: left;
   width: 100%;
   height: 200px;
+  margin-top: 50px;
   background: #050f2c;
-  margin-top: -60px;
   z-index: 1000; }
   @media (max-width: 992px) {
     #footer {
@@ -3491,11 +3488,30 @@ pre code {
   @media (max-width: 440px) {
     #footer {
       margin-top: 150px; } }
+  #footer:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 200px;
+    background: #050f2c;
+    -webkit-transform: skewY(-3deg);
+            transform: skewY(-3deg);
+    z-index: 0;
+    top: -50px;
+    z-index: 0; }
+    @media (min-width: 1200px) {
+      #footer:before {
+        -webkit-transform: skewY(-1.5deg);
+                transform: skewY(-1.5deg); } }
+  @media (max-width: 768px) {
+    #footer .row {
+      margin: 0; } }
 
 @media (min-width: 1200px) {
   #footer:before {
-    -webkit-transform: skewY(-3deg);
-    transform: skewY(-3deg); } }
+    -webkit-transform: skewY(-2deg);
+    transform: skewY(-2deg); } }
 
 @media (min-width: 1200px) {
   #footer:after {
@@ -3509,94 +3525,6 @@ pre code {
   color: #8995c7;
   z-index: 99;
   line-height: 40px; }
-
-@media (min-width: 1200px) {
-  #footer .credits:before {
-    -webkit-transform: skewY(-1deg);
-    transform: skewY(-1deg); } }
-
-#footer h4 {
-  line-height: 40px;
-  border-bottom: solid 1px rgba(137, 149, 199, 0.5); }
-
-#footer .footer-nav li {
-  line-height: 1.7em; }
-
-#footer .footer-nav li a {
-  color: #8995c7;
-  font-size: .9em; }
-
-#footer .footer-nav li a:hover {
-  color: #00aeff;
-  text-decoration: none; }
-
-#footer .network-links {
-  margin: 0;
-  padding: 0; }
-
-#footer .network-links li {
-  display: inline-block;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-  margin: .5em .2em .5em 0; }
-
-#footer .network-links li .btn {
-  color: #8995c7;
-  width: 38px;
-  line-height: 40px;
-  max-height: 38px;
-  font-size: 24px;
-  padding: 0;
-  border: solid 1px rgba(137, 149, 199, 0.4); }
-
-#footer .network-links li .btn:hover {
-  color: white; }
-
-#footer .newsletter-signup {
-  position: relative; }
-
-#footer .newsletter-signup .mc-signupmessage {
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  position: absolute;
-  z-index: 1;
-  display: none;
-  pointer-events: none;
-  opacity: 0;
-  -webkit-transition: 400ms ease-in-out;
-  transition: 400ms ease-in-out; }
-
-#footer .newsletter-signup .mc-signupmessage svg {
-  width: 15px;
-  margin-left: 4px;
-  vertical-align: middle; }
-
-#footer .newsletter-signup .form-control {
-  border-radius: 20px;
-  line-height: 40px;
-  padding: 0 16px;
-  height: 40px;
-  border: none;
-  width: 230px; }
-
-#footer .newsletter-signup--success .mc-signupmessage {
-  -webkit-animation: fadeIn 200ms ease-in-out forwards;
-  animation: fadeIn 200ms ease-in-out forwards;
-  display: block; }
-
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0; }
-  to {
-    opacity: 1; } }
-
-@keyframes fadeIn {
-  from {
-    opacity: 0; }
-  to {
-    opacity: 1; } }
 
 .cm-large-tiles {
   width: 100%;
@@ -3684,7 +3612,7 @@ nav.sidebar {
       list-style: none;
       padding: 0.25em 0; }
     nav.sidebar .sidebar-container .sidebar-elements .sidebar-element {
-      width: 100%;
+      width: calc(100% - 16px);
       line-height: 32px;
       margin-bottom: 1em; }
       nav.sidebar .sidebar-container .sidebar-elements .sidebar-element.level-h3 {
@@ -3692,7 +3620,7 @@ nav.sidebar {
         font-size: 12px;
         padding-left: 12px;
         font-family: "Open sans", Helvetica Neue, helvetica, sans-serif;
-        max-width: calc(100% - 2.2em); }
+        max-width: 100%; }
       nav.sidebar .sidebar-container .sidebar-elements .sidebar-element a {
         text-decoration: none;
         display: block;
@@ -4798,13 +4726,11 @@ body.safari ul.press__tweets {
             transform: translateX(-10%) rotate(0) !important; } }
 
 section.pos-rel.h300.w100p.fl-left {
-  min-height: 400px;
   background: #182359;
   z-index: 999;
-  padding-top: 200px;
   position: relative;
   top: -40px;
-  margin-bottom: -40px; }
+  min-height: 300px !important; }
   @media (max-width: 992px) {
     section.pos-rel.h300.w100p.fl-left .row {
       float: none;
@@ -4816,20 +4742,19 @@ body {
 .cta-free-trial {
   margin-top: -16px;
   padding: 60px 0 60px;
+  min-height: 400px;
   width: 100%;
   color: #FFF;
   background-image: url("../images/algolia-fast-bg.svg");
   background-size: cover;
   position: relative;
-  float: left;
-  -webkit-transform: rotate(-3deg) scale(1.2) translateY(-120px);
-          transform: rotate(-3deg) scale(1.2) translateY(-120px);
   z-index: 20;
   margin-bottom: -120px; }
+  @media (max-width: 768px) {
+    .cta-free-trial {
+      padding: 20px 0 20px; } }
   .cta-free-trial .container {
-    z-index: 10;
-    -webkit-transform: rotate(3deg) scale(0.8);
-            transform: rotate(3deg) scale(0.8); }
+    z-index: 10; }
   .cta-free-trial h3 {
     font-size: 32px;
     color: #FFF;
