@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Helper to traverse a view hierarchy.
+ * Traverses a view hierarchy, processing each view with its {@link Processor processor}.
  */
-public class LayoutTraverser {
+class LayoutTraverser {
     private final Processor processor;
 
     private LayoutTraverser(Processor processor) {
@@ -23,7 +23,7 @@ public class LayoutTraverser {
         return new LayoutTraverser(processor);
     }
 
-    public void traverse(@NonNull ViewGroup root) {
+    void traverse(@NonNull ViewGroup root) {
         final int childCount = root.getChildCount();
 
         for (int i = 0; i < childCount; ++i) {
@@ -36,7 +36,8 @@ public class LayoutTraverser {
         }
     }
 
-    public interface Processor {
+    /** Processes views with {@link Processor#process(View)}.*/
+    interface Processor {
         void process(View view);
     }
 }

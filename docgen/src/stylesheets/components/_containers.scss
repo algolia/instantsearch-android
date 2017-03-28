@@ -460,8 +460,6 @@ body:not(.example) section {
   z-index: 9;
   overflow: hidden;
 
-
-
   @include mobile-mq {
     overflow: hidden;
   }

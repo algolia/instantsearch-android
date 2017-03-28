@@ -15,18 +15,8 @@ import com.algolia.instantsearch.model.Errors;
 public class BindingHelper {
     private static final SparseArray<String> bindings = new SparseArray<>();
 
-    private static boolean notAlreadyMapped(int id) {
-        return bindings.get(id) == null;
-    }
-
-    private static void mapAttribute(String attributeName, int viewId) {
-        if (viewId == -1) {
-            throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID, attributeName));
-        }
-        bindings.put(viewId, attributeName);
-    }
-
     @SuppressWarnings("unused") // called via Data Binding
+    @Deprecated // Should not be used by library users
     @BindingAdapter({"attribute"})
     public static void bindAttribute(@NonNull View view, String attributeName) {
         final int id = view.getId();
@@ -36,6 +26,7 @@ public class BindingHelper {
     }
 
     @SuppressWarnings({"unused"}) // called via Data Binding
+    @Deprecated // Should not be used by library users
     @BindingAdapter({"attribute", "highlighted"})
     public static void bindHighlighted(@NonNull View view, String attributeName, Boolean isHighlighted) {
         // Bind attribute, enable highlight with default color
@@ -43,6 +34,7 @@ public class BindingHelper {
     }
 
     @SuppressWarnings({"unused"}) // called via Data Binding
+    @Deprecated // Should not be used by library users
     @BindingAdapter({"attribute", "highlightingColor"})
     public static void bindHighlighted(@NonNull View view, String attributeName, @NonNull String colorStr) {
         // Bind attribute, enable highlight with color
@@ -50,6 +42,7 @@ public class BindingHelper {
     }
 
     @SuppressWarnings({"unused"}) // called via Data Binding
+    @Deprecated // Should not be used by library users
     @BindingAdapter({"attribute", "highlighted", "highlightingColor"})
     public static void bindHighlighted(@NonNull View view, String attributeName, Boolean isHighlighted, @NonNull String colorStr) {
         // Bind attribute, enable highlight with color
@@ -57,21 +50,35 @@ public class BindingHelper {
     }
 
     @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding and throws
+    @Deprecated // Should not be used by library users
     @BindingAdapter({"highlighted"})
     public static void bindInvalid(@NonNull View view, Boolean isHighlighted) {
         throwBindingError(view, Errors.BINDING_HIGHLIGHTED_NO_ATTR);
     }
 
     @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding and throws
+    @Deprecated // Should not be used by library users
     @BindingAdapter({"highlightingColor"})
     public static void bindInvalid(@NonNull View view, @ColorRes int color) {
         throwBindingError(view, Errors.BINDING_HIGHLIGHTING_NO_ATTR);
     }
 
     @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding and throws
+    @Deprecated // Should not be used by library users
     @BindingAdapter({"highlighted", "highlightingColor"})
     public static void bindInvalid(@NonNull View view, Boolean isHighlighted, String colorStr) {
         throwBindingError(view, Errors.BINDING_NO_ATTR);
+    }
+
+    private static boolean notAlreadyMapped(int id) {
+        return bindings.get(id) == null;
+    }
+
+    private static void mapAttribute(String attributeName, int viewId) {
+        if (viewId == -1) {
+            throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID, attributeName));
+        }
+        bindings.put(viewId, attributeName);
     }
 
     private static void throwBindingError(@NonNull View view, String message) {
@@ -106,6 +113,7 @@ public class BindingHelper {
         }
     }
 
+    /** Gets the current bindings as a SparseArray mapping each View's id to its attribute name. */
     public static SparseArray<String> getBindings() {
         return bindings;
     }

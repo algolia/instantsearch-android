@@ -28,10 +28,10 @@ ext {
     REPO = WEBSITE + ".git"
     LICENSE = 'MIT'
     LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
-    VERSION = '0.7.0'
+    VERSION = '0.8.0'
     VERSION_DESC = 'Version Beta ' + VERSION
 
-    VERSION_APPCOMPAT = '25.1.1'
+    VERSION_APPCOMPAT = '25.3.0'
 }
 
 group = project.ext.GROUP

@@ -12,12 +12,13 @@ import android.view.View;
 import com.algolia.instantsearch.R;
 
 /**
- * Helper to set onItem[Long]Click listeners on a RecyclerView. //TODO: Document public methods
+ * Sets onItem[Long]Click listeners on a RecyclerView.
  */
 @SuppressWarnings("UnusedReturnValue") //chaining
 public class ItemClickSupport {
     private final RecyclerView mRecyclerView;
 
+    @Nullable
     private OnItemClickListener mOnItemClickListener;
     @Nullable
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -68,6 +69,7 @@ public class ItemClickSupport {
         mRecyclerView.addOnChildAttachStateChangeListener(mAttachListener);
     }
 
+    @Deprecated // Should not be used by library users
     @NonNull public static ItemClickSupport addTo(@NonNull RecyclerView view) {
         ItemClickSupport support = (ItemClickSupport) view.getTag(R.id.item_click_support);
         if (support == null) {
@@ -76,19 +78,21 @@ public class ItemClickSupport {
         return support;
     }
 
-    @Nullable public static ItemClickSupport removeFrom(@NonNull RecyclerView view) {
-        ItemClickSupport support = (ItemClickSupport) view.getTag(R.id.item_click_support);
-        if (support != null) {
-            support.detach(view);
-        }
-        return support;
-    }
-
+    /**
+     * Sets an {@link OnItemClickListener}, eventually replacing the previous one.
+     *
+     * @param listener the listener.
+     */
     @NonNull public ItemClickSupport setOnItemClickListener(OnItemClickListener listener) {
         mOnItemClickListener = listener;
         return this;
     }
 
+    /**
+     * Sets an {@link OnItemLongClickListener}, eventually replacing the previous one.
+     *
+     * @param listener the listener.
+     */
     @NonNull public ItemClickSupport setOnItemLongClickListener(OnItemLongClickListener listener) {
         mOnItemLongClickListener = listener;
         return this;
@@ -100,11 +104,11 @@ public class ItemClickSupport {
     }
 
     /**
-     * Interface definition for a callback to be invoked when an item has been clicked.
+     * Invokes a callback when an item has been clicked.
      */
     public interface OnItemClickListener {
         /**
-         * Callback method to be invoked when an item in this view has been clicked.
+         * Reacts when an item in this view has been clicked.
          *
          * @param recyclerView The {@link RecyclerView} where the click happened.
          * @param v            The view within the RecyclerView that was clicked.
@@ -114,11 +118,11 @@ public class ItemClickSupport {
     }
 
     /**
-     * Interface definition for a callback to be invoked when an item has been clicked and held.
+     * Invokes a callback when an item has been clicked and held.
      */
     public interface OnItemLongClickListener {
         /**
-         * Callback method to be invoked when an item in this view has been clicked and held.
+         * Reacts when an item in this view has been clicked and held.
          *
          * @param recyclerView The {@link RecyclerView} where the click happened.
          * @param v            The view within the RecyclerView that was clicked.

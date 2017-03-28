@@ -50,11 +50,11 @@ import java.util.regex.Pattern;
  */
 public class Highlighter {
     private static Highlighter defaultHighlighter;
-
+    /** The pattern used for matching a part to highlight in a string. */
     private final Pattern pattern;
 
     /**
-     * Get the default highlighter.
+     * Gets the default highlighter.
      *
      * @return an Highlighter matching anything between {@code <em>} and {@code </em>}.
      */
@@ -66,7 +66,7 @@ public class Highlighter {
     }
 
     /**
-     * Set the default highlighter to highlight the captured group of the given RegExp regexp.
+     * Sets the default highlighter to highlight the captured group of the given RegExp regexp.
      *
      * @param regexp a capturing RegExp regexp to find and capture the part to highlight.
      */
@@ -75,40 +75,46 @@ public class Highlighter {
     }
 
     /**
-     * Set the default highlighter to highlight anything between {@code prefixTag} and {@code postfixTag}.
+     * Sets the default highlighter to highlight anything between {@code prefixTag} and {@code postfixTag}.
      *
      * @param prefixTag  the String that is inserted before a highlighted part of a result.
      * @param postfixTag the String that is inserted after a highlighted part of a result.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public static void setDefault(final String prefixTag, final String postfixTag) {
         defaultHighlighter = new Highlighter(prefixTag, postfixTag);
     }
 
     /**
-     * Constructor for a custom highlighter, using a custom regexp.
+     * Constructs a custom highlighter, using a custom regexp.
      *
      * @param regexp a capturing RegExp regexp to find and capture the part to highlight.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Highlighter(String regexp) {
         this.pattern = Pattern.compile(regexp);
     }
 
     /**
-     * Constructor for a custom highlighter, using prefix and postfix tags.
+     * Constructs a custom highlighter, using prefix and postfix tags.
      *
      * @param prefixTag  the String that is inserted before a highlighted part of a result.
      * @param postfixTag the String that is inserted after a highlighted part of a result.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Highlighter(String prefixTag, String postfixTag) {
         this(prefixTag + "(.*?)" + postfixTag);
     }
 
+    /**
+     * Constructs the default highlighter, using {@code <em>} and {@code </em>} tags.
+     */
     private Highlighter() {
         this("<em>", "</em>");
     }
 
     /**
-     * Render a highlighted result's attribute using a color resource.
+     * Renders a highlighted result's attribute using a color resource.
      *
      * @param result        {@link JSONObject} describing a hit.
      * @param attributeName name of the attribute to be highlighted.
@@ -122,7 +128,7 @@ public class Highlighter {
     }
 
     /**
-     * Render a highlighted result's attribute using the default highlighting color resource.
+     * Renders a highlighted result's attribute using the default highlighting color resource.
      *
      * @param result        {@link JSONObject} describing a hit.
      * @param attributeName name of the attribute to be highlighted.
@@ -130,24 +136,26 @@ public class Highlighter {
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Spannable renderHighlightColor(@NonNull JSONObject result, String attributeName, @NonNull Context context) {
         return renderHighlightColor(getHighlightedAttribute(result, attributeName), getColor(context, R.color.colorHighlighting));
     }
 
     /**
-     * Render a highlighted text using the default highlighting color resource.
+     * Renders a highlighted text using the default highlighting color resource.
      *
      * @param markupString a string to highlight.
      * @param context      a {@link Context} to get resources from.
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Spannable renderHighlightColor(String markupString, @NonNull Context context) {
         return renderHighlightColor(markupString, getColor(context, R.color.colorHighlighting));
     }
 
     /**
-     * Render a highlighted text using a color resource.
+     * Renders a highlighted text using a color resource.
      *
      * @param markupString a string to highlight.
      * @param colorId      a resource Id referencing a color.
@@ -155,12 +163,13 @@ public class Highlighter {
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Spannable renderHighlightColor(String markupString, @ColorRes int colorId, @NonNull Context context) {
         return renderHighlightColor(markupString, getColor(context, colorId));
     }
 
     /**
-     * Render a highlighted result's attribute using a packed color int.
+     * Renders a highlighted result's attribute using a packed color int.
      *
      * @param result        {@link JSONObject} describing a hit.
      * @param attributeName name of the attribute to be highlighted.
@@ -168,18 +177,20 @@ public class Highlighter {
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Spannable renderHighlightColor(@NonNull JSONObject result, String attributeName, @ColorInt int color) {
         return renderHighlightColor(getHighlightedAttribute(result, attributeName), color);
     }
 
     /**
-     * Render a highlighted text using a packed color int.
+     * Renders a highlighted text using a packed color int.
      *
      * @param markupString a string to highlight.
      * @param color        a color integer, see {@link android.graphics.Color}.
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Spannable renderHighlightColor(@Nullable String markupString, @ColorInt int color) {
         if (markupString == null) {
             return null;
@@ -211,16 +222,16 @@ public class Highlighter {
     }
 
     /**
-     * Get the highlighted version of an attribute, if there is one.
+     * Gets the highlighted version of an attribute, if there is one.
      *
      * @param result        {@link JSONObject} describing a hit.
      * @param attributeName the name of the attribute to return highlighted.
      * @return the highlighted version of this attribute if there is one, else the raw attribute.
      */
-    public static String getHighlightedAttribute(@NonNull JSONObject result, String attributeName) {
+    private static String getHighlightedAttribute(@NonNull JSONObject result, String attributeName) {
         final JSONObject highlightResult = result.optJSONObject("_highlightResult");
         if (highlightResult != null) {
-            HashMap<String, String> highlightAttribute = JSONUtils.getJSONObjectFromJSONPath(highlightResult, attributeName);
+            HashMap<String, String> highlightAttribute = JSONUtils.getMapFromJSONPath(highlightResult, attributeName);
             if (highlightAttribute != null) {
                 String highlightedValue = highlightAttribute.get("value");
                 if (highlightedValue != null) {

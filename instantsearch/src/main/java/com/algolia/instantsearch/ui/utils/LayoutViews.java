@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Helper to iterate on views in a layout.
+ * Iterates on views in a layout.
  */
 final public class LayoutViews {
     @NonNull public static List<View> findByTag(@NonNull ViewGroup root, Object tag) {
@@ -22,11 +22,25 @@ final public class LayoutViews {
         return finderByTag.getViews();
     }
 
+    /**
+     * Gets a List of Views matching a given class.
+     * @param rootView the root View to traverse.
+     * @param classType the class to find.
+     * @param <T> the class to find.
+     * @return a List of every matching View encountered.
+     */
     @NonNull public static <T> List<T> findByClass(@NonNull View rootView, Class<T> classType) {
         ViewGroup viewGroup = (ViewGroup) rootView.findViewById(android.R.id.content);
         return viewGroup == null ? new ArrayList<T>() : findByClass(viewGroup, classType);
     }
 
+    /**
+     * Gets a List of Views matching a given class.
+     * @param root the root ViewGroup to traverse.
+     * @param classType the class to find.
+     * @param <T> the class to find.
+     * @return a List of every matching View encountered.
+     */
     @NonNull public static <T> List<T> findByClass(@NonNull ViewGroup root, Class<T> classType) {
         FinderByClass<T> finderByClass = new FinderByClass<>(classType);
         LayoutTraverser.build(finderByClass)

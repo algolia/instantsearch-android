@@ -4,8 +4,8 @@ import move from './mover.js';
 var alg = require('algolia-frontend-components/javascripts.js');
 
 const docSearch = {
-  apiKey: '52641df1ce4919ba42eb84595f4825c7',
-  indexName: 'wordpress_algolia',
+  apiKey: 'fd5e835f5153cad7d5ec0c3595dfa244',
+  indexName: 'instantsearch-android',
   inputSelector: '#searchbox'
 }
 

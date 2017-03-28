@@ -14,6 +14,7 @@
         <attr name="hitsPerPage" format="integer"/>
         <attr name="itemLayout" format="reference"/>
         <attr name="remainingItemsBeforeLoading" format="integer"/>
+        <attr name="autoHideKeyboard" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="RefinementList">
         <!-- The operator to refine with. -->

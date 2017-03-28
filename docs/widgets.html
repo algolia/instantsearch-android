@@ -24,7 +24,7 @@
               </a>
             </li>
             <li class='algc-navigation__li algc-navigation__li--community'>
-              <a href='#' data-enabledropdown="true" data-dropdown="integrations">
+              <a href='https://community.algolia.com/' data-enabledropdown="true" data-dropdown="integrations">
                 <svg class="algc-arrowseparator" viewBox="0 0 18 35" xmlns="http://www.w3.org/2000/svg"><g id="Symbols" fill="none" fill-rule="evenodd"><g id="community/header" fill="#3369E6"><g id="Group-13"><g id="Group-2"><path id="Combined-Shape-Copy" d="M1.8537 34.7643l15.5597-17.268L1.8537 0H0l15.5597 17.4964L0 34.7644z"/></g></g></g></g></svg>
                 <svg class="algolia-community-logo" role="img" aria-labelledby="algc-algolia-community-logo" width="143" height="32" viewBox="0 0 143 32" xmlns="http://www.w3.org/2000/svg">
   <title id="algc-algolia-community-logo">algolia community</title>
@@ -51,7 +51,7 @@
        data-dropdown="links" data-enabledropdown="false">
             <svg class="algc-arrowseparator" viewBox="0 0 18 35" xmlns="http://www.w3.org/2000/svg"><g id="Symbols" fill="none" fill-rule="evenodd"><g id="community/header" fill="#3369E6"><g id="Group-13"><g id="Group-2"><path id="Combined-Shape-Copy" d="M1.8537 34.7643l15.5597-17.268L1.8537 0H0l15.5597 17.4964L0 34.7644z"/></g></g></g></g></svg>
             
-            <span>Android InstantSearch</span>
+            <span>InstantSearch Android</span>
       </a>
     </li>
           </ul>
@@ -88,7 +88,7 @@
         
       </li>
       <li class="algc-menu__list__item algc-menu--hassublist">
-        <a href="javascript:void(0)"  class="algc-menu--sublistlink">
+        <a href="#"  class="algc-menu--sublistlink">
           Documentation
           <span class="algc-glyph">▼</span>
         </a>
@@ -113,6 +113,15 @@
       <li class="algc-menu__list__item ">
         <a href="examples.html"  class="">
           <span class='visible-sm-inline'>Examples</span>
+          
+        </a>
+        
+      </li>
+      <li class="algc-menu__list__item ">
+        <a href="https://github.com/algolia/instantsearch-android"
+          
+          class="">
+          <img src='assets/img/github-icon.svg'/>
           
         </a>
         
@@ -190,8 +199,8 @@
     </div>
   </li></ul>
         <div class="algc-dropdownroot__footer">
-          <a href="https://community.algolia.com">
-            <span style="font-weight:bold;text-transform: uppercase;">All community projects</span>
+          <a href="https://discourse.algolia.com/?ref=communityHeader">
+            <span style="font-weight:bold;">Community Forum</span>
           </a>
         </div>
         </div>
@@ -200,8 +209,8 @@
       <div class="algc-dropdownroot__content" data-dropdown-content="links">
       <ul class="algc-dropdownroot__widelist"></ul>
         <div class="algc-dropdownroot__footer">
-          <a href="https://community.algolia.com">
-            <span style="font-weight:bold;text-transform: uppercase;">All community projects</span>
+          <a href="https://discourse.algolia.com/?ref=communityHeader">
+            <span style="font-weight:bold;">Community Forum</span>
           </a>
         </div>
         </div>
@@ -246,7 +255,7 @@
 
     </nav>
     <!-- End community_header --> </div><script src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script><section class="hero-section shrink"><div class="container"><div class="hero-container text-left"><figcaption><h1>Widgets</h1></figcaption></div></div></section><section class="documentation-section"><div class="container"><nav class="sidebar"><div class="sidebar-container"><h2 class="sidebar-header">Widgets</h2><ul class="sidebar-elements"><li class="sidebar-element level-h2 navItem widgets.html"><a href="getting-started.html">Getting started</a><ul></ul></li><li class="sidebar-element level-h2 navItem widgets.html"><a href="concepts.html">Main Concepts</a><ul></ul></li><li class="sidebar-element level-h2 navItem-active widgets.html"><a class="navItem-active" href="widgets.html">Widgets</a><ul><li class="sidebar-element level-h3"><a href="widgets.html#search-box">Search-Box </a></li><li class="sidebar-element level-h3"><a href="widgets.html#hits">Hits </a></li><li class="sidebar-element level-h3"><a href="widgets.html#refinementlist">RefinementList </a></li><li class="sidebar-element level-h3"><a href="widgets.html#stats">Stats </a></li><li class="sidebar-element level-h3"><a href="widgets.html#custom-widgets">Custom widgets </a></li></ul></li><li class="sidebar-element level-h2 navItem widgets.html"><a href="examples.html">Examples</a><ul></ul></li><li class="sidebar-element level-h2 navItem widgets.html"><a href="troubleshooting.html">Troubleshooting</a><ul></ul></li></ul></div></nav><a class="sidebar-opener"></a><div class="documentation-container"><div class="content"><h2 id="search-box">Search-Box <a class="anchor" href="widgets.html#search-box" aria-hidden="true"></a></h2>
-<img src="assets/img/widget_SearchBox.png"/>
+<img src="assets/img/widget_SearchBox.png" class="img-object" align="right" />
 <p>The <strong>SearchBox</strong> is a specialized <code>SearchView</code> which provides some customization options and facility methods. It supports all existing <code>SearchView</code> attributes and two new ones that you can specify in its XML definition:</p>
 <pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.views.SearchBox</span>
     <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/searchBox&quot;</span>
@@ -261,7 +270,7 @@
 <li><strong><code>submitButtonEnabled</code></strong>, when <code>true</code>, will display the SearchBox with its submit button. This button is hidden by default: as every keystroke will update the results, it is usually misleading to display a submit button.</li>
 </ul>
 <h3 id="progress-indicator">Progress indicator <a class="anchor" href="widgets.html#progress-indicator" aria-hidden="true"></a></h3>
-<img src="assets/img/progress.gif" class="img-object" />
+<img src="assets/img/progress.gif" class="img-object" align="right" />
 <!-- TODO: Move to separate guide -->
 <p>A useful pattern to improve your user’s experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.</p>
 <p>By default, the InstantSearchHelper will display an indeterminate <a href="https://developer.android.com/reference/android/widget/ProgressBar.html"><code>ProgressBar</code></a> in your <code>SearchView</code> as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (&gt;= API 14), or after a small delay to avoid blinking.
@@ -276,12 +285,14 @@ Once instantiated, a <strong>SearchProgressController</strong> will inform its <
     <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/hits&quot;</span>
     <span class="cm-attribute">android:layout_width</span>=<span class="cm-string">&quot;match_parent&quot;</span>
     <span class="cm-attribute">android:layout_height</span>=<span class="cm-string">&quot;match_parent&quot;</span>
+    <span class="cm-attribute">algolia:autoHideKeyboard</span>=<span class="cm-string">&quot;true&quot;</span>
     <span class="cm-attribute">algolia:hitsPerPage</span>=<span class="cm-string">&quot;10&quot;</span>
     <span class="cm-attribute">algolia:disableInfiniteScroll</span>=<span class="cm-string">&quot;false&quot;</span>
     <span class="cm-attribute">algolia:remainingItemsBeforeLoading</span>=<span class="cm-string">&quot;10&quot;</span>
     <span class="cm-attribute">algolia:itemLayout</span>=<span class="cm-string">&quot;@layout/hits_item&quot;</span><span class="cm-tag cm-bracket">&gt;</span>
 </code></pre>
 <ul>
+<li><strong><code>autoHideKeyboard</code></strong>, when <code>true</code>, closes the keyboard when the Hits are scrolled. (defaults to <code>false</code>)</li>
 <li><strong><code>hitsPerPage</code></strong> controls how many hits are requested and displayed with each search query. (defaults to 20)</li>
 <li><strong><code>disableInfiniteScroll</code></strong>, when <code>true</code>, disables the <a href="widgets.html#infinite-scroll"><strong>Infinite scroll</strong></a> feature (defaults to <code>false</code>)</li>
 <li><strong><code>remainingItemsBeforeLoading</code></strong> sets the minimum number of remaining hits to load the next page: if you set it to 10, the next page will be loaded when there are less than 10 items below the last visible item. (defaults to 5)</li>
@@ -469,7 +480,7 @@ This tool will let you build a highlighted <a href="https://developer.android.co
 <li><code>onError</code> will be called when there is an error</li>
 </ul>
 <p>This interface also specifies <code>setSearcher</code>, to give a reference to the <code>Searcher</code> used in your search interface. It will enable your widget to uses the <a href="/javadoc/com/algolia/instantsearch/helpers/Searcher.html">Searcher’s programmatic API</a>.</p>
-</div></div></div><div class="ac-footer"></div></section><script src="/instantsearch-android/js/main.9db9f5476b24d0702260-build.js"></script><script type="text/javascript">var _kmq = _kmq || [];
+</div></div></div></section><div id="footer"><div class="credits"><div class="container pos-rel"><div class="row"><div class="col-md-12 text-center"><a data-no-turbolink="true" href="/"><img width="40" src="https://www.algolia.com/static_assets/images/flat2/algolia/algolia-logo_badge-598a1fe6.svg"></a></div></div><div class="spacer40"></div></div></div></div><script src="/instantsearch-android/js/main.e8b530d06f2d8d8a1824-build.js"></script><script type="text/javascript">var _kmq = _kmq || [];
 var _kmk = _kmk || 'cb5a3adb92e8915a37a36ba1a50f2ce4fae4a1b9';
 function _kms(u){
   setTimeout(function(){

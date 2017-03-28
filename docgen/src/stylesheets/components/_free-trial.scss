@@ -6,6 +6,13 @@ section.pos-rel.h300.w100p.fl-left {
   position: relative;
   top: -40px;
   margin-bottom: -40px;
+
+  @include medium-mq {
+    .row {
+      float: none;
+      margin: 0 auto;
+    }
+  }
 }
 body {
   overflow-x: hidden;

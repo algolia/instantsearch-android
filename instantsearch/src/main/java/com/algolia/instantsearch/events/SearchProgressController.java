@@ -6,7 +6,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
- * A controller which will inform its listener of progress events.
+ * Watches events and informs its listener when there are one or several ongoing searches.
  */
 @SuppressWarnings("UnusedParameters") // binding to EventBus events without using the event objects
 public class SearchProgressController {
@@ -18,16 +18,17 @@ public class SearchProgressController {
     private int currentCount;
 
     /**
-     * Create a controller that will report requests immediately.
+     * Constructs a controller that will report requests immediately.
      *
      * @param listener a {@link ProgressListener ProgressListener} to notify of progress events.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public SearchProgressController(ProgressListener listener) {
         this(listener, DEFAULT_DELAY);
     }
 
     /**
-     * Create a controller that will report requests if they don't complete before <code>delay</code>.
+     * Constructs a controller that will report requests if they don't complete before <code>delay</code>.
      *
      * @param listener a {@link ProgressListener ProgressListener} to notify of progress events.
      * @param delay    a duration in milliseconds to wait before calling {@link ProgressListener#onStart() listener.onStart()}.
@@ -39,14 +40,15 @@ public class SearchProgressController {
     }
 
     /**
-     * Enable this controller, informing its <code>listener</code> of future events.
+     * Enables this controller, informing its <code>listener</code> of future events.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void enable() {
         EventBus.getDefault().register(this);
     }
 
     /**
-     * Disable this controller, stopping propagation of events to its <code>listener</code>.
+     * Disables this controller, stopping propagation of events to its <code>listener</code>.
      */
     public void disable() {
         EventBus.getDefault().unregister(this);
