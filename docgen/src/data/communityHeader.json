@@ -38,6 +38,10 @@
   },{
     "name": "<span class='visible-sm-inline'>Examples</span>",
     "url": "examples.html"
+  },{
+    "name": "Github",
+    "image": "<img src='assets/img/github-icon.svg'/>",
+    "url": "https://github.com/algolia/instantsearch-android"
   }],
   "mobileMenu": [{
     "name": "Getting Started",
