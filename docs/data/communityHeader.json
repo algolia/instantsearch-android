@@ -2,7 +2,7 @@
   "menu": {
     "project": {
       "view": "links",
-      "label": "Android InstantSearch",
+      "label": "InstantSearch Android",
       "logo": "",
       "caret": "",
       "url":"https://community.algolia.com/instantsearch-android",
