@@ -28,6 +28,10 @@ body {
   z-index: 20;
   margin-bottom: -120px;
 
+  @media (max-width: $screen-sm) {
+    padding: 20px 0 20px;
+  }
+
   .container {
     z-index: 10;
   }

@@ -21,6 +21,13 @@
         top: -50px;
         z-index: 0;
     }
+
+
+    @media (max-width: $screen-sm) {
+        .row {
+            margin: 0;
+        }
+    }
 }
 
 
