@@ -1,3 +1,4 @@
+@import './../vendors/_variables';
 
 #footer {
     position: relative;
@@ -7,6 +8,14 @@
     background: $deep-cove;
     margin-top: -60px;
     z-index: 1000;
+
+    @media (max-width: $screen-md){
+        margin-top: 60px;
+    }
+
+    @media (max-width: 440px) {
+        margin-top: 150px;
+    }
 }
 
 
