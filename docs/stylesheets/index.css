@@ -3886,6 +3886,10 @@ pre code {
   .algc-navigation__brands .algc-navigation__li:nth-child(2) {
     width: 30px; } }
 
+/* Dimensions
+==================*/
+/* Fonts
+==================*/
 #footer {
   position: relative;
   float: left;
@@ -3894,6 +3898,12 @@ pre code {
   background: #050f2c;
   margin-top: -60px;
   z-index: 1000; }
+  @media (max-width: 992px) {
+    #footer {
+      margin-top: 60px; } }
+  @media (max-width: 440px) {
+    #footer {
+      margin-top: 150px; } }
 
 @media (min-width: 1200px) {
   #footer:before {
@@ -5208,6 +5218,10 @@ section.pos-rel.h300.w100p.fl-left {
   position: relative;
   top: -40px;
   margin-bottom: -40px; }
+  @media (max-width: 992px) {
+    section.pos-rel.h300.w100p.fl-left .row {
+      float: none;
+      margin: 0 auto; } }
 
 body {
   overflow-x: hidden; }
