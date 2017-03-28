@@ -1,11 +1,9 @@
 section.pos-rel.h300.w100p.fl-left {
-  min-height: 400px;
   background: $bunting;
   z-index: 999;
-  padding-top: 200px;
   position: relative;
   top: -40px;
-  margin-bottom: -40px;
+  min-height: 300px !important;
 
   @include medium-mq {
     .row {
@@ -21,19 +19,17 @@ body {
 .cta-free-trial {
   margin-top: -16px;
   padding: 60px 0 60px;
+  min-height: 400px;
   width: 100%;
   color: #FFF;
   background-image: url("../images/algolia-fast-bg.svg");
   background-size: cover;
   position: relative;
-  float: left;
-  transform: rotate(-3deg) scale(1.2) translateY(-120px);
   z-index: 20;
   margin-bottom: -120px;
 
   .container {
     z-index: 10;
-    transform: rotate(3deg) scale(0.8);
   }
 
   h3 {

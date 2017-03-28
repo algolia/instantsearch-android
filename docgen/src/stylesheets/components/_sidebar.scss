@@ -35,7 +35,7 @@ nav.sidebar {
 
     .sidebar-elements {
       .sidebar-element {
-        width: 100%;
+        width: calc(100% - 16px);
         line-height: 32px;
         margin-bottom: 1em;
 
@@ -45,7 +45,7 @@ nav.sidebar {
           font-size: 12px;
           padding-left: 12px;
           font-family: "Open sans", Helvetica Neue, helvetica, sans-serif;
-          max-width: calc(100% - 2.2em)
+          max-width: 100%
         }
 
         a {
