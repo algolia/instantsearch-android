@@ -1,16 +1,7 @@
 #!/usr/bin/env bash
 set -e # exit when error
 
-currentBranch=`git rev-parse --abbrev-ref HEAD`
-if [ $currentBranch != 'master' ]; then
-  printf "Release: You must be on maste§r\n"
-  exit 1
-fi
-
-if [[ -n $(git status --porcelain | grep -v '??') ]]; then
-  printf "Release: Working tree is not clean (git status)\n"
-  exit 1
-fi
+./scripts/validate-status.sh
 
 printf "\n\nRelease: update working tree"
 git pull origin master
