@@ -113,7 +113,8 @@
 	
 	    this.searchIcon = document.querySelector('#search');
 	    this.cancelIcon = document.querySelector('#cancel');
-	    this.searchContainer = document.querySelector('.algc-search__input').parentNode;
+	    this.searchInputContainer = document.querySelector('.algc-search__input');
+	    this.searchContainer = this.searchInputContainer ? this.searchInputContainer.parentNode : null;
 	    this.navRoot = document.querySelector('.algc-dropdownroot');
 	    this.dropdownRoot = document.querySelector('.algc-navigation__dropdown-holder');
 	    this.navItems = document.querySelectorAll('a[data-enabledropdown="true"]');
@@ -182,11 +183,9 @@
 	
 	  checkDocSearch(docSearch = false) {
 	    if (docSearch) return docSearch;
-	    if (typeof docsearch === "function") {
+	
+	    if (typeof window.docsearch === "function" || typeof docsearch === "function") {
 	      return docsearch;
-	    }
-	    if(docsearch.default && typeof docsearch.default === "function"){
-	      return docsearch.default;
 	    }
 	  }
 	
@@ -325,8 +324,6 @@
 	  }
 	
 	  openSublist(node) {
-	    event.preventDefault();
-	    event.stopPropagation();
 	    const parent = node.parentNode;
 	    this.subListHolders.forEach(holder => {
 	      if (holder === parent && !parent.classList.contains('open')) {
@@ -345,6 +342,8 @@
 	    var that = this;
 	    this.subList.forEach(link => {
 	      link.addEventListener('click', function(event){
+	        event.preventDefault();
+	        event.stopPropagation();
 	        that.openSublist(this);
 	      });
 	    });
@@ -655,4 +654,4 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=main.e8b530d06f2d8d8a1824-build.js.map
+//# sourceMappingURL=main.1e33f70bcf43c21e991c-build.js.map
