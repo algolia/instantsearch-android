@@ -174,6 +174,7 @@ The default Highlighter will highlight anything between `<em>` and `</em>`. You 
 The **RefinementList** is a filtering widget made to display your [facets](https://www.algolia.com/doc/guides/search/filtering-faceting#faceting) and let the user refine the search results.
 
 Four attributes allow you to configure how it will filter your results:
+<br /><br /><br /><br /> <!-- Line breaks to avoid code sample being squeezed by the floating image -->
 
 ```xml
 <com.algolia.instantsearch.views.RefinementList
