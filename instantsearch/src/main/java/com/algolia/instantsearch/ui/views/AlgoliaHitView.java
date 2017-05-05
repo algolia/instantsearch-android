@@ -14,5 +14,5 @@ public interface AlgoliaHitView {
      *
      * @param result a {@link JSONObject} describing a hit.
      */
-    void onUpdateView(JSONObject result);
+    void onUpdateView(final JSONObject result);
 }
