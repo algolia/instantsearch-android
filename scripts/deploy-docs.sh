@@ -22,7 +22,18 @@ rm -rf docgen/src/javadoc/
 git add docgen/src/javadoc/
 
 printf "\n\nRelease: build static documentation\n"
-(cd docgen && NODE_ENV=production npm run build)
-git add docs/
+(cd docgen && npm install && NODE_ENV=production npm run build)
+
+tmpdir=`mktemp -d 2>/dev/null || mktemp -d -t 'tmpdir'`
+cp -r docs/* $tmpdir
+git reset HEAD docs docgen
+git checkout -- docs docgen
+git checkout gh-pages
+rm -rf *
+cp -r $tmpdir/* .
+echo "Replaced GH pages with newly generated docs"
+git add .
 git commit -m "chore: Update docs"
-git push origin master
+git push origin gh-pages
+echo "Success! New version of docs has been published on GH Pages."
+git checkout master
