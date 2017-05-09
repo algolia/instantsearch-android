@@ -1,6 +1,0 @@
-{
-  "extends": [
-    "metalab/base",
-    "metalab/node"
-  ]
-}
