@@ -19,15 +19,15 @@ git fetch origin --tags
 printf "\n\nRelease: generate and copy javadoc\n"
 rm -rf docgen/src/javadoc/
 ./gradlew copyJavadoc
-git add docgen/src/javadoc/
 
 printf "\n\nRelease: build static documentation\n"
 (cd docgen && npm install && NODE_ENV=production npm run build)
-
+echo "Built doc."
+ls 
 tmpdir=`mktemp -d 2>/dev/null || mktemp -d -t 'tmpdir'`
 cp -r docs/* $tmpdir
-git reset HEAD docs docgen
-git checkout -- docs docgen
+git reset HEAD .
+git checkout -- .
 git checkout gh-pages
 rm -rf *
 cp -r $tmpdir/* .
