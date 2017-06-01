@@ -15,7 +15,6 @@ public class FacetStat {
     public final double sum;
 
     public FacetStat(double min, double max, double avg, double sum) {
-        //DISCUSS: Store attribute name and value here?
         this.min = min;
         this.max = max;
         this.avg = avg;
