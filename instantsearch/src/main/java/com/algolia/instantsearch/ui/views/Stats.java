@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helpers.Searcher;
@@ -13,7 +12,7 @@ import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
 
-public class Stats extends TextView implements AlgoliaWidget {
+public class Stats extends android.support.v7.widget.AppCompatTextView implements AlgoliaWidget {
     // TODO: Autohidecontainer, maybe other useful attrs? https://community.algolia.com/instantsearch.js/documentation/#stats
     /** The default template, only shown when there is no error. */
     public static final String DEFAULT_TEMPLATE = "{nbHits} results found in {processingTimeMS} ms";
