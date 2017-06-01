@@ -43,7 +43,7 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
             attributeName = filterStyledAttributes.getString(R.styleable.Filter_attributeName);
             Filters.checkAttributeName(attributeName);
             template = toggleStyledAttributes.getString(R.styleable.Toggle_template);
-            autoHide = filterStyledAttributes.getBoolean(R.styleable.Filter_autoHide, false);
+            autoHide = filterStyledAttributes.getBoolean(R.styleable.Widget_autoHide, false);
         } finally {
             filterStyledAttributes.recycle();
             toggleStyledAttributes.recycle();

@@ -61,7 +61,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         try {
             attributeName = filterStyledAttributes.getString(R.styleable.Filter_attributeName);
             Filters.checkAttributeName(attributeName);
-            autoHide = filterStyledAttributes.getBoolean(R.styleable.Filter_autoHide, false);
+            autoHide = filterStyledAttributes.getBoolean(R.styleable.Widget_autoHide, false);
             operator = selectorStyleAttributes.getInt(R.styleable.NumericSelector_operatorName, NumericRefinement.OPERATOR_EQ);
             defaultLabel = selectorStyleAttributes.getString(R.styleable.NumericSelector_defaultLabel);
 

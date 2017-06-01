@@ -5,6 +5,9 @@
         <attr name="highlighted" format="boolean"/>
         <attr name="highlightColor" format="color"/>
     </declare-styleable>
+    <declare-styleable name="Widget">
+        <attr name="autoHide" format="boolean"/>
+    </declare-styleable>
     <declare-styleable name="SearchBox">
         <attr name="autofocus" format="boolean"/>
         <attr name="submitButtonEnabled" format="boolean"/>
@@ -33,7 +36,6 @@
     </declare-styleable>
     <declare-styleable name="Filter">
         <attr name="attributeName" format="string"/>
-        <attr name="autoHide" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="Toggle">
         <attr name="template" format="string"/>

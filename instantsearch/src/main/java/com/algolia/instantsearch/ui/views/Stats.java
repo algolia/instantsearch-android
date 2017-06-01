@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
@@ -19,6 +20,7 @@ public class Stats extends TextView implements AlgoliaWidget {
 
     private String resultTemplate;
     private String errorTemplate;
+    private final boolean autoHide;
 
     /**
      * Constructs a new Stats with the given context's theme and the supplied attribute set.
@@ -29,13 +31,15 @@ public class Stats extends TextView implements AlgoliaWidget {
      */
     public Stats(Context context, AttributeSet attrs) {
         super(context, attrs);
-        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, com.algolia.instantsearch.R.styleable.Stats, 0, 0);
+        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Stats, 0, 0);
+        final TypedArray widgetAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Widget, 0, 0);
         try {
-            resultTemplate = styledAttributes.getString(com.algolia.instantsearch.R.styleable.Stats_resultTemplate);
+            resultTemplate = styledAttributes.getString(R.styleable.Stats_resultTemplate);
             if (resultTemplate == null) {
                 resultTemplate = DEFAULT_TEMPLATE;
             }
-            errorTemplate = styledAttributes.getString(com.algolia.instantsearch.R.styleable.Stats_errorTemplate);
+            errorTemplate = styledAttributes.getString(R.styleable.Stats_errorTemplate);
+            autoHide = widgetAttributes.getBoolean(R.styleable.Widget_autoHide, false);
         } finally {
             styledAttributes.recycle();
         }
@@ -52,8 +56,12 @@ public class Stats extends TextView implements AlgoliaWidget {
 
     @Override
     public void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
-        setVisibility(VISIBLE);
-        setText(applyTemplate(resultTemplate, results));
+        if (autoHide && results.nbHits == 0) {
+            setVisibility(GONE);
+        } else {
+            setVisibility(VISIBLE);
+            setText(applyTemplate(resultTemplate, results));
+        }
     }
 
     private String applyTemplate(@NonNull String template, @NonNull SearchResults results) {

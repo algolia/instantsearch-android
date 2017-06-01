@@ -212,7 +212,8 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             algolia:resultTemplate="{nbHits} results found in {processingTimeMS} ms"
-            algolia:errorTemplate="Error, please try again"/>
+            algolia:errorTemplate="Error, please try again"
+            algolia:autoHide="true"/>
 ```
 - **`resultTemplate`** defines what this widget will display when a search request returns successfully. It takes the form of a templated string where we will replace the following templates:
   - `{nbHits}` will be replaced by the hit count for the current query
@@ -227,6 +228,8 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
 - **`errorTemplate`** defines what this widget will display when a search query returns with an error. It takes the form of a templated string where we will replace the following templates:
   - `{error}` will be replaced by the error message
   - `{query}` will be replaced by the query text
+
+- **`autoHide`** if `true`, this widget will be hidden when there are no results.
 
   If you don't specify an `errorTemplate`, the Stats widget will be hidden when a query returns an error.
 
