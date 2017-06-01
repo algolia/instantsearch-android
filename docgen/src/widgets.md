@@ -7,7 +7,7 @@ withHeadings: true
 navWeight: 2
 ---
 
-## Search-Box
+## SearchBox
 <img src="assets/img/widget_SearchBox.png" class="img-object" align="right" />
 
 The **SearchBox** is a specialized `SearchView` which provides some customization options and facility methods. It supports all existing `SearchView` attributes and two new ones that you can specify in its XML definition:
