@@ -144,4 +144,57 @@ public class SearcherTest extends InstantSearchTest {
         Assert.assertFalse("facetFilters should have no more refinements on attribute", searcher.getQuery().getFacetFilters().toString().contains("attribute"));
         Assert.assertTrue("facetFilters should still contain the other attribute's refinement", searcher.getQuery().getFacetFilters().toString().contains("other:baz"));
     }
+
+    @Test
+    public void addRemoveFacet() {
+        final Searcher searcher = initSearcher();
+
+        // add one facet
+        searcher.addFacet("foo");
+        String[] facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should contain one facet.", 1, facets.length);
+        Assert.assertEquals("The query's facet should be `foo`.", "foo", facets[0]);
+
+        // add a facet twice
+        searcher.addFacet("foo");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should still contain one facet.", 1, facets.length);
+        Assert.assertEquals("The query's facet should still be `foo`.", "foo", facets[0]);
+
+        // remove one facet requested twice
+        searcher.removeFacet("foo");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should still contain one facet.", 1, facets.length);
+        Assert.assertEquals("The query's facet should still be `foo`.", "foo", facets[0]);
+
+        // add a second facet
+        searcher.addFacet("bar");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should contain two facets.", 2, facets.length);
+        Assert.assertEquals("The query's second facet should be `bar`.", "bar", facets[1]);
+
+        // remove a facet
+        searcher.removeFacet("foo");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should now contain one facet.", 1, facets.length);
+        Assert.assertEquals("The query's facet should now be `bar`.", "bar", facets[0]);
+
+
+        // add several facets
+        searcher.addFacet("foo", "baz");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should now contain three facets.", 3, facets.length);
+
+        // remove several facets
+        searcher.removeFacet("foo", "bar", "baz");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should now contain no facets.", 0, facets.length);
+
+        // delete a facet
+        searcher.addFacet("foo").addFacet("foo");
+        searcher.deleteFacet("foo");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should now contain no facets.", 0, facets.length);
+    }
+
 }

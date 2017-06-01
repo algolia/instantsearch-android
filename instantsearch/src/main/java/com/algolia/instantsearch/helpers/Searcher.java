@@ -27,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -79,7 +78,10 @@ public class Searcher {
 
     /** The List of attributes that will be used for faceting. */
     private final List<String> facets = new ArrayList<>();
+    /** A Map of FacetStats updated with every response. */
     private final Map<String, FacetStat> facetStats = new HashMap<>();
+    /** A Map to keep counts of facet additions, so we don't remove them unless we get as much removals. */
+    private final HashMap<String, Integer> facetRequestCount = new HashMap<>();
 
     /** The SparseArray associating pending requests with their {@link Searcher#lastRequestId identifier}. */
     private final SparseArray<Request> pendingRequests = new SparseArray<>();
@@ -523,20 +525,49 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addFacet(String... attributes) {
-        Collections.addAll(facets, attributes);
+        for (String attribute : attributes) {
+            final Integer value = facetRequestCount.get(attribute);
+            facetRequestCount.put(attribute, value == null ? 1 : value + 1);
+            if (value == null || value == 0) {
+                facets.add(attribute);
+            }
+        }
         rebuildQueryFacets();
         return this;
     }
 
     /**
      * Removes one or several faceted attributes for the next queries.
+     * If the facet was added several times, you need to call this method several times too or use {@link #deleteFacet}.
      *
      * @param attributes one or more attribute names.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeFacet(String... attributes) {
-        //TODO: Count calls to add() and remove only if last one
         for (String attribute : attributes) {
+            final Integer value = facetRequestCount.get(attribute);
+            if (value == null) {
+                Log.e("Algolia|Searcher", "removeFacet called for" + attribute + " which was not currently a facet.");
+            } else if (value == 1) {
+                facets.remove(attribute);
+                facetRequestCount.put(attribute, 0);
+            } else {
+                facetRequestCount.put(attribute, value - 1);
+            }
+        }
+        rebuildQueryFacets();
+        return this;
+    }
+
+    /**
+     * Forces removal of one or several faceted attributes for the next queries.
+     *
+     * @param attributes one or more attribute names.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public Searcher deleteFacet(String... attributes) {
+        for (String attribute : attributes) {
+            facetRequestCount.put(attribute, 0);
             facets.remove(attribute);
         }
         rebuildQueryFacets();
