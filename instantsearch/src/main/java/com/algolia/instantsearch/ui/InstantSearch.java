@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -118,23 +117,6 @@ public class InstantSearch {
     }
 
     /**
-     * Triggers a search if the given intent is an ACTION_SEARCH intent.
-     *
-     * @param intent an Intent that may contain a search query.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void search(@NonNull Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            if (searchView != null) {
-                searchView.setQuery(query, false);
-                searchView.clearFocus();
-            }
-            searcher.search(query);
-        }
-    }
-
-    /**
      * Registers the Search Widget of an Activity's Menu to trigger search requests on text change.
      *
      * @param activity The searchable Activity, see {@link android.app.SearchableInfo}.
@@ -173,7 +155,7 @@ public class InstantSearch {
 
 
     /**
-     * Resets the search interface and state via {@link Searcher#reset()} and {@link AlgoliaWidget#onReset()}.
+     * Resets the search interface and state via {@link Searcher#reset()}, broadcasting a {@link ResetEvent}.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void reset() {
