@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.FacetValue;
@@ -23,6 +24,8 @@ import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -143,6 +146,8 @@ public class RefinementList extends ListView implements AlgoliaWidget {
                 return comparisonValue;
             }
         };
+
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -180,8 +185,8 @@ public class RefinementList extends ListView implements AlgoliaWidget {
     public void onError(Query query, @NonNull AlgoliaException error) {
     }
 
-    @Override
-    public void onReset() {
+    @Subscribe
+    public void onReset(ResetEvent event) {
         adapter.clear();
     }
 

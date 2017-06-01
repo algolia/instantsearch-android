@@ -6,10 +6,14 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 
 public class Stats extends android.support.v7.widget.AppCompatTextView implements AlgoliaWidget {
@@ -41,14 +45,16 @@ public class Stats extends android.support.v7.widget.AppCompatTextView implement
         } finally {
             styledAttributes.recycle();
         }
+
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void initWithSearcher(@NonNull Searcher searcher) {
     }
 
-    @Override
-    public void onReset() {
+    @Subscribe
+    public void onReset(ResetEvent event) {
         setVisibility(GONE);
     }
 

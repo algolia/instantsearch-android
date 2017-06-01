@@ -182,9 +182,6 @@ public class InstantSearch {
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void reset() {
         searcher.reset();
-        for (AlgoliaWidget widget : widgets) {
-            widget.onReset();
-        }
         EventBus.getDefault().post(new ResetEvent());
     }
 

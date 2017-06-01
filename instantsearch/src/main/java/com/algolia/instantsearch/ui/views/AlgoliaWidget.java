@@ -18,9 +18,4 @@ public interface AlgoliaWidget extends AlgoliaResultsListener {
      * @param searcher a {@link Searcher} instance.
      */
     void initWithSearcher(@NonNull final Searcher searcher);
-
-    /**
-     * Reacts to reinitialization of search interface.
-     */
-    void onReset();
 }

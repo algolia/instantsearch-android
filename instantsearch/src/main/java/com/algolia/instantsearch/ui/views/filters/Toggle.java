@@ -98,9 +98,6 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         searcher.search();
     }
 
-    @Override public final void onReset() {
-    }
-
     @Override public final void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
         shouldHide = results.nbHits == 0;
         Filters.hideIfShouldHide(this, autoHide, shouldHide);

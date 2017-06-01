@@ -29,6 +29,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.Highlighter;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.Errors;
@@ -45,6 +46,8 @@ import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 import com.bumptech.glide.Glide;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -150,6 +153,8 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         if (infiniteScroll) {
             addOnScrollListener(infiniteScrollListener);
         }
+
+        EventBus.getDefault().register(this);
     }
 
 
@@ -288,8 +293,8 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         Log.e("Algolia|Hits", "Error while searching '" + query.getQuery() + "':" + error.getMessage());
     }
 
-    @Override
-    public void onReset() {
+    @Subscribe
+    public void onReset(ResetEvent event) {
         addHits(null, true);
     }
 

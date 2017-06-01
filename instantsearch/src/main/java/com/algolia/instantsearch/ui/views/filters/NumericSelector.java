@@ -124,9 +124,6 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         this.searcher = searcher;
     }
 
-    @Override public void onReset() {
-    }
-
     @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         final Double selectedValue = values.get(position);
         if (currentRefinement != null) {
