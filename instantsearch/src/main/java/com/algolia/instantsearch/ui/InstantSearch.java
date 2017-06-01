@@ -114,11 +114,7 @@ public class InstantSearch {
      * Triggers a new search with the {@link #searchView}'s text.
      */
     public void search() {
-        if (searchView != null) {
-            searcher.search(searchView.getQuery().toString());
-        } else {
-            searcher.search();
-        }
+        searcher.search();
     }
 
     /**
@@ -413,7 +409,8 @@ public class InstantSearch {
                 if (newText.length() == 0 && searchOnEmptyString) {
                     return true;
                 }
-                searcher.search(searchView.getQuery().toString());
+                searcher.setQuery(searcher.getQuery().setQuery(searchView.getQuery().toString()))
+                        .search();
                 return true;
             }
         });
