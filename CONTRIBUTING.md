@@ -35,12 +35,13 @@ The code for InstantSearch Android is located in [src](instantsearch/src).
 
 We have unit tests written with [JUnit](https://developer.android.com/studio/test/index.html):
 
-To run the tests, set your environment with your Algolia credentials and run the script: 
+To run the tests, set your environment with your Algolia credentials and run the script. **Since the tests are creating and removing indices, DO NOT use your production application.**
 ```sh
 ALGOLIA_APPLICATION_ID=XXXX
 ALGOLIA_API_KEY=XXXX
 ./run_tests.sh
 ```
+
 
 [logo]: ./docgen/assets/img/instant-search-android.png
 [website]: https://community.algolia.com/instantsearch-android
