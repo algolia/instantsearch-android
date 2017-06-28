@@ -139,6 +139,20 @@ As explained [in the attributes description](#hits), you can use the attributes 
 The Hits widget implements an empty view mechanism to display an alternative View if there are no results to display, following the [AdapterView's interface](https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)).
 If you add a View to your layout with the id **`@android:id/empty`**, it will be displayed instead of the Hits when there is no data to display.  You can also set it programmatically using `Hits#setEmptyView(View)`.
 
+### Item Click Listener
+
+As the Hits widget is based on a `RecyclerView`, we use [Hugo Visser's `ItemClickSupport`](http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/) to let you react to clicks on individual hits. To do so, add an [`OnItemClickListener`](https://community.algolia.com/instantsearch-android/javadoc/) to your hits:
+
+```java
+hits.setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+    @Override
+    public void onItemClick(RecyclerView recyclerView, int position, View v) {
+        JSONObject hit = hits.get(position);
+        // Do something with the hit
+    }
+ });
+```
+
 ### Highlighting
 <img src="assets/img/highlighting.png" class="img-object" align="right"/>
 
