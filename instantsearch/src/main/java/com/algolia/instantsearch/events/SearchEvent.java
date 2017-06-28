@@ -12,7 +12,7 @@ public class SearchEvent {
     /** the search request's identifier. */
     public final int requestSeqNumber;
 
-    public SearchEvent(Query query, int requestSeqNumber) {
+    public SearchEvent(final Query query, final int requestSeqNumber) {
         this.query = query;
         this.requestSeqNumber = requestSeqNumber;
     }

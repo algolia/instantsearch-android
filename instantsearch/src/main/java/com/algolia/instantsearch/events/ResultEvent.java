@@ -17,7 +17,7 @@ public class ResultEvent {
     /** the search request's identifier. */
     public final int requestSeqNumber;
 
-    public ResultEvent(JSONObject json, Query query, int requestSeqNumber) {
+    public ResultEvent(final JSONObject json, final Query query, final int requestSeqNumber) {
         this.results = new SearchResults(json);
         this.query = query;
         this.requestSeqNumber = requestSeqNumber;

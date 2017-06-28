@@ -15,7 +15,7 @@ public class ErrorEvent {
     /** the search request's identifier. */
     public final int requestSeqNumber;
 
-    public ErrorEvent(AlgoliaException error, Query query, int requestSeqNumber) {
+    public ErrorEvent(final AlgoliaException error, final Query query, int requestSeqNumber) {
         this.error = error;
         this.query = query;
         this.requestSeqNumber = requestSeqNumber;
