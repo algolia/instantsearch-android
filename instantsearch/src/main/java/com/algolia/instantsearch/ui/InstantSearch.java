@@ -20,7 +20,7 @@ import android.widget.SearchView;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.events.ResetEvent;
-import com.algolia.instantsearch.events.SearchProgressController;
+import com.algolia.instantsearch.helpers.SearchProgressController;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.ui.utils.LayoutViews;
