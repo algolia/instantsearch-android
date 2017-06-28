@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.QueryTextChangeEvent;
+import com.algolia.instantsearch.events.QueryTextSubmitEvent;
 import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.SearchProgressController;
 import com.algolia.instantsearch.helpers.Searcher;
@@ -380,6 +382,7 @@ public class InstantSearch {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
+                EventBus.getDefault().post(new QueryTextSubmitEvent());
                 // Nothing to do: the search has already been performed by `onQueryTextChange()`.
                 // We do try to close the keyboard, though.
                 searchView.clearFocus();
@@ -388,6 +391,8 @@ public class InstantSearch {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                EventBus.getDefault().post(new QueryTextChangeEvent(newText));
+
                 if (newText.length() == 0 && searchOnEmptyString) {
                     return true;
                 }
