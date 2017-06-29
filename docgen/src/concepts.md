@@ -20,22 +20,13 @@ The main component of InstantSearch Android is the **Searcher**, which will wrap
 
 The Searcher is responsible of all search requests: when `Searcher#search()` is called, the Searcher will fire a request with the current query, and will forward the search results to its **listeners**.
 
-```java
-                                    ┌-> A implements AlgoliaResultsListener
-Searcher.search(query) -> algolia --┤
-                                    └-> B implements AlgoliaResultsListener
-```
-
+<img src="assets/img/diagram_searcher.png" align="center" height="400px"/>
 
 ### Listeners
-A listener is an object implementing the [`AlgoliaResultsListener`](instantsearch/src/main/java/com/algolia/instantsearch/model/AlgoliaResultsListener.java) interface: this object's `onResults` or `onError` method will be called after each search request returns to let you either process the results or handle the error. You can add a listener to a Searcher by calling `Searcher#registerListener()`.
+A listener is an object implementing the [`AlgoliaResultsListener`](instantsearch/src/main/java/com/algolia/instantsearch/model/AlgoliaResultsListener.java) interface: this object's `onResults` or `onError` method will be called after each search request returns to let you either process the results or handle the error. You can add a listener to a Searcher by calling `Searcher#registerListener`.
 
 
-```java
-                ┌→ (error) onError(final Query query, final AlgoliaException error);
-new Search -> -─┤
-                └→ (success) onResults(SearchResults results, boolean isLoadingMore);
-```
+<img src="assets/img/diagram_listeners.png" align="center" />
 
 ## InstantSearchHelper
 
@@ -45,17 +36,7 @@ The InstantSearchHelper will use the Searcher to react to changes in your applic
 
 Linked to a `SearchView`, it will watch its content to send any new query to the `Searcher`. When the query's results arrive, the `InstantSearchHelper` will forward them to its `AlgoliaWidgets`.
 
-
-```java
-        SearchView.onQueryTextListener.onQueryTextChange()
-                               │
-                               ↓
-             searcher.search(searchView.getQuery())
-                               │
-            ┌──────────────────┴──────────────────┐
-            ↓                                     ↓
-Widget1.onResults(hits, isLoadingMore) Widget2.onResults(hits, isLoadingMore)
-```
+<img src="assets/img/diagram_instantsearch.png" align="center" height="500px"/>
 
 ## Widgets
 
