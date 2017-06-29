@@ -107,7 +107,7 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         lastResults = results;
     }
 
-    @Override public final void onError(Query query, AlgoliaException error) {
+    @Override public final void onError(@NonNull Query query, AlgoliaException error) {
         Filters.hideIfShouldHide(this, autoHide, shouldHide);
     }
 

@@ -182,7 +182,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
     }
 
     @Override
-    public void onError(Query query, @NonNull AlgoliaException error) {
+    public void onError(@NonNull Query query, @NonNull AlgoliaException error) {
     }
 
     @Subscribe

@@ -23,5 +23,5 @@ public interface AlgoliaResultsListener {
      * @param query the {@link Query} that was used.
      * @param error the resulting {@link AlgoliaException}.
      */
-    void onError(final Query query, final AlgoliaException error);
+    void onError(@NonNull final Query query, @NonNull final AlgoliaException error);
 }

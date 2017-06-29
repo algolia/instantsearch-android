@@ -71,7 +71,7 @@ public class SearcherTest extends InstantSearchTest {
             }
 
             @Override
-            public void onError(Query query, AlgoliaException error) {
+            public void onError(@NonNull Query query, AlgoliaException error) {
                 Assert.fail("The request should have been cancelled.");
             }
         };

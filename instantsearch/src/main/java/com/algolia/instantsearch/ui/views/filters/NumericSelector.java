@@ -116,7 +116,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         Filters.hideIfShouldHide(this, autoHide, results.nbHits == 0);
     }
 
-    @Override public void onError(Query query, AlgoliaException error) {
+    @Override public void onError(@NonNull Query query, AlgoliaException error) {
         Filters.hideIfShouldHide(this, autoHide, true);
     }
 

@@ -85,7 +85,7 @@ public class Stats extends android.support.v7.widget.AppCompatTextView implement
     }
 
     @Override
-    public void onError(Query query, AlgoliaException error) {
+    public void onError(@NonNull Query query, AlgoliaException error) {
         if (errorTemplate == null) {
             setVisibility(GONE);
         } else {
