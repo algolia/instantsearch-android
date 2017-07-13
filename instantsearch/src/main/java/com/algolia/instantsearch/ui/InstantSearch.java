@@ -328,8 +328,6 @@ public class InstantSearch {
                 throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
             }
         } else if (widget instanceof RefinementList) {
-            //noinspection deprecation Deprecated for app developers
-            searcher.registerListener(widget);
             searcher.addFacet(((RefinementList) widget).getAttribute(), ((RefinementList) widget).getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
             if (refinementAttributes != null) {
                 refinementAttributes.add(((RefinementList) widget).getAttribute());
