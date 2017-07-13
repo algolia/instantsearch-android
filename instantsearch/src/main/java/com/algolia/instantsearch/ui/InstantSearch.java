@@ -24,10 +24,12 @@ import com.algolia.instantsearch.events.QueryTextSubmitEvent;
 import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.SearchProgressController;
 import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.ui.utils.LayoutViews;
 import com.algolia.instantsearch.ui.utils.SearchViewFacade;
-import com.algolia.instantsearch.ui.views.AlgoliaWidget;
 import com.algolia.instantsearch.ui.views.Hits;
 import com.algolia.instantsearch.ui.views.RefinementList;
 import com.algolia.instantsearch.ui.views.SearchBox;
@@ -50,8 +52,14 @@ public class InstantSearch {
 
     @Nullable
     private SearchViewFacade searchView;
+
     @NonNull
-    private final Set<AlgoliaWidget> widgets = new HashSet<>();
+    private final Set<View> widgets = new HashSet<>();
+    @NonNull
+    private final Set<AlgoliaResultListener> resultListeners = new HashSet<>();
+    @NonNull
+    private final Set<AlgoliaErrorListener> errorListeners = new HashSet<>();
+
     @NonNull
     private final Searcher searcher;
 
@@ -68,7 +76,7 @@ public class InstantSearch {
     /**
      * Constructs the helper, then link it to the given Activity.
      *
-     * @param activity an Activity containing at least one {@link AlgoliaWidget} to update with incoming results.
+     * @param activity   an Activity containing at least one {@link AlgoliaResultListener} to update with incoming results.
      * @param searcher the Searcher to use with this activity.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
@@ -81,7 +89,7 @@ public class InstantSearch {
     /**
      * Constructs the helper, then link it to the given Activity and Menu's searchView.
      *
-     * @param activity   an Activity containing at least one {@link AlgoliaWidget} to update with incoming results.
+     * @param activity   an Activity containing at least one {@link AlgoliaResultListener} to update with incoming results.
      * @param menu       the Menu which contains your SearchView.
      * @param menuItemId the SearchView item's {@link android.support.annotation.IdRes id} in your Menu.
      * @param searcher   the Searcher to use with this activity.
@@ -92,18 +100,6 @@ public class InstantSearch {
 
         registerSearchView(activity, menu, menuItemId);
         processActivity(activity);
-    }
-
-    /**
-     * Constructs the helper, then link it to the given widget.
-     *
-     * @param widget   an AlgoliaWidget to update with incoming results.
-     * @param searcher the Searcher to use with this AlgoliaWidget.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public InstantSearch(@NonNull final AlgoliaWidget widget, @NonNull final Searcher searcher) {
-        this(searcher);
-        processWidget(((View) widget).getRootView(), widget, null);
     }
 
     private InstantSearch(@NonNull final Searcher searcher) {
@@ -232,7 +228,7 @@ public class InstantSearch {
     public void registerFacetFilters(List<AlgoliaFacetFilter> filters) {
         for (final AlgoliaFacetFilter filter : filters) {
             searcher.addFacet(filter.getAttributeName());
-            processWidget(filter);
+            processView(filter);
         }
     }
 
@@ -289,51 +285,89 @@ public class InstantSearch {
             searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
         }
 
-        // Register any AlgoliaWidget
-        final List<AlgoliaWidget> foundListeners = LayoutViews.findByClass(rootView, AlgoliaWidget.class);
-        if (foundListeners.size() == 0) {
-            throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS);
-        }
         final List<String> refinementAttributes = new ArrayList<>();
-        for (AlgoliaWidget widget : foundListeners) {
-            processWidget(rootView, widget, refinementAttributes);
+
+        // Register any AlgoliaResultListener
+        final List<AlgoliaResultListener> resultListeners = LayoutViews.findByClass(rootView, AlgoliaResultListener.class);
+        if (resultListeners.size() == 0) {
+            throw new IllegalStateException(Errors.LAYOUT_MISSING_RESULT_LISTENER);
         }
+        for (AlgoliaResultListener listener : resultListeners) {
+            processResultListener(rootView, listener, refinementAttributes);
+        }
+
+        // Register any AlgoliaErrorListener
+        final List<AlgoliaErrorListener> errorListeners = LayoutViews.findByClass(rootView, AlgoliaErrorListener.class);
+        for (AlgoliaErrorListener listener : errorListeners) {
+            processErrorListener(rootView, listener, refinementAttributes);
+        }
+
+        // Register any AlgoliaSearcherListener
+        final List<AlgoliaSearcherListener> searcherListeners = LayoutViews.findByClass(rootView, AlgoliaSearcherListener.class);
+        for (AlgoliaSearcherListener listener : searcherListeners) {
+            processSearcherListener(rootView, listener, refinementAttributes);
+        }
+
+
         final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
         if (facets.length > 0) {
             searcher.addFacet(facets);
         }
     }
 
-    private void processWidget(AlgoliaWidget widget) {
-        processWidget(null, widget, null);
+    private void processResultListener(@Nullable View rootView, @NonNull AlgoliaResultListener listener, @Nullable List<String> refinementAttributes) {
+        if (!resultListeners.contains(listener)) {
+            resultListeners.add(listener);
+        }
+        searcher.registerResultListener(listener);
+        processView(rootView, listener, refinementAttributes);
     }
 
-    private void processWidget(@Nullable View rootView, AlgoliaWidget widget, @Nullable List<String> refinementAttributes) {
-        if (!widgets.contains(widget)) {
-            widgets.add(widget);
+    private void processErrorListener(@Nullable View rootView, @NonNull AlgoliaErrorListener listener, @Nullable List<String> refinementAttributes) {
+        if (!errorListeners.contains(listener)) {
+            errorListeners.add(listener);
         }
-        //noinspection deprecation Deprecated for app developers
-        searcher.registerListener(widget);
-        widget.initWithSearcher(searcher);
+        searcher.registerErrorListener(listener);
+        processView(rootView, listener, refinementAttributes);
+    }
 
-        if (widget instanceof Hits) {
-            searcher.getQuery().setHitsPerPage(((Hits) widget).getHitsPerPage());
+    private void processSearcherListener(@Nullable View rootView, @NonNull AlgoliaSearcherListener listener, @Nullable List<String> refinementAttributes) {
+        listener.initWithSearcher(searcher);
+        processView(rootView, listener, refinementAttributes);
+    }
 
-            // Link hits to activity's empty view
-            ((Hits) widget).setEmptyView(getEmptyView(rootView));
+    private void processView(Object listener) {
+        processView(null, listener, null);
+    }
 
-            itemLayoutId = ((Hits) widget).getLayoutId();
+    private void processView(@Nullable View rootView, Object listener, @Nullable List<String> refinementAttributes) {
+        if (listener instanceof View) {
+            processView(rootView, (View) listener, refinementAttributes);
+        }
+    }
 
-            if (itemLayoutId == -42) {
-                throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
+    private void processView(@Nullable View rootView, View widget, @Nullable List<String> refinementAttributes) {
+        if (!widgets.contains(widget)) { // process once each widget
+            widgets.add(widget);
+            if (widget instanceof Hits) {
+                searcher.getQuery().setHitsPerPage(((Hits) widget).getHitsPerPage());
+
+                // Link hits to activity's empty view
+                ((Hits) widget).setEmptyView(getEmptyView(rootView));
+
+                itemLayoutId = ((Hits) widget).getLayoutId();
+
+                if (itemLayoutId == -42) {
+                    throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
+                }
+            } else if (widget instanceof RefinementList) {
+                searcher.addFacet(((RefinementList) widget).getAttribute(), ((RefinementList) widget).getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
+                if (refinementAttributes != null) {
+                    refinementAttributes.add(((RefinementList) widget).getAttribute());
+                }
+            } else if (widget instanceof ListView) {
+                ((ListView) widget).setEmptyView(getEmptyView(rootView));
             }
-        } else if (widget instanceof RefinementList) {
-            searcher.addFacet(((RefinementList) widget).getAttribute(), ((RefinementList) widget).getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
-            if (refinementAttributes != null) {
-                refinementAttributes.add(((RefinementList) widget).getAttribute());
-            }
-        } else if (widget instanceof ListView) {
-            ((ListView) widget).setEmptyView(getEmptyView(rootView));
         }
     }
 

@@ -9,6 +9,9 @@ import android.util.AttributeSet;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
@@ -16,7 +19,7 @@ import com.algolia.search.saas.Query;
 /**
  * A widget that toggles between refining and not refining an attribute with a given value.
  */
-public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter {
+public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
     /** The attribute to refine on. */
     public String attributeName;
     /** Whether the OneValueToggle should hide when results are empty. */
@@ -107,7 +110,7 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         lastResults = results;
     }
 
-    @Override public final void onError(@NonNull Query query, AlgoliaException error) {
+    @Override public final void onError(@NonNull Query query, @NonNull AlgoliaException error) {
         Filters.hideIfShouldHide(this, autoHide, shouldHide);
     }
 

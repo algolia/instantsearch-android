@@ -11,6 +11,9 @@ import android.widget.ArrayAdapter;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
@@ -21,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /** Displays a dropdown menu to refine a specific attribute with one of several values. */
-public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFilter, AdapterView.OnItemSelectedListener {
+public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener, AdapterView.OnItemSelectedListener {
     public static final Double DEFAULT_VALUE = null;
 
     /** Whether the selector should hide on error or when results are empty. */
@@ -116,7 +119,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         Filters.hideIfShouldHide(this, autoHide, results.nbHits == 0);
     }
 
-    @Override public void onError(@NonNull Query query, AlgoliaException error) {
+    @Override public void onError(@NonNull Query query, @NonNull AlgoliaException error) {
         Filters.hideIfShouldHide(this, autoHide, true);
     }
 

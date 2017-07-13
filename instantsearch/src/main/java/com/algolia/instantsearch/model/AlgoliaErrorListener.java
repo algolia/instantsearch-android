@@ -6,17 +6,9 @@ import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
 /**
- * Lets you define a component that will react to search results or errors.
+ * Lets you define a component that will react to search errors.
  */
-public interface AlgoliaResultsListener {
-    /**
-     * Reacts to new hits.
-     *
-     * @param results       a {@link SearchResults} object containing hits.
-     * @param isLoadingMore {@code true} if these hits come from the same query than the previous ones.
-     */
-    void onResults(@NonNull final SearchResults results, boolean isLoadingMore);
-
+public interface AlgoliaErrorListener {
     /**
      * Reacts to potential search errors.
      *
