@@ -10,7 +10,8 @@ import com.algolia.instantsearch.events.CancelEvent;
 import com.algolia.instantsearch.events.ErrorEvent;
 import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
-import com.algolia.instantsearch.model.AlgoliaResultsListener;
+import com.algolia.instantsearch.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.model.AlgoliaResultListener;
 import com.algolia.instantsearch.model.FacetStat;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
@@ -36,7 +37,8 @@ import java.util.Map;
  * Handles the state of the search interface, wrapping an {@link Client Algolia API Client} and provide a level of abstraction over it.
  * <p>
  * The Searcher is responsible of interacting with the Algolia engine: when {@link Searcher#search()} is called,
- * the Searcher will fire a request with the current {@link Searcher#query}, and will forward the search results to its {@link AlgoliaResultsListener listeners}.
+ * the Searcher will fire a request with the current {@link Searcher#query}, and will forward the search results
+ * (or error) to its {@link AlgoliaResultListener result listeners} (or {@link AlgoliaErrorListener error listeners}).
  */
 @SuppressWarnings("UnusedReturnValue") // chaining
 public class Searcher {
@@ -52,8 +54,11 @@ public class Searcher {
     /** The current state of the search {@link Query}. */
     private Query query;
 
-    /** The {@link AlgoliaResultsListener listeners} that will receive search results. */
-    private final List<AlgoliaResultsListener> resultsListeners = new ArrayList<>();
+    /** The {@link AlgoliaResultListener listeners} that will receive search results. */
+    private final List<AlgoliaResultListener> resultListeners = new ArrayList<>();
+
+    /** The {@link AlgoliaErrorListener listeners} that will receive search results. */
+    private final List<AlgoliaErrorListener> errorListeners = new ArrayList<>();
 
     /** The identifier of the last search request fired by this Searcher. */
     private static int lastRequestId;
@@ -175,8 +180,8 @@ public class Searcher {
 
                 if (error != null) {
                     bus.post(new ErrorEvent(error, query, currentRequestId));
-                    for (AlgoliaResultsListener view : resultsListeners) {
-                        view.onError(query, error);
+                    for (AlgoliaErrorListener listener : errorListeners) {
+                        listener.onError(query, error);
                     }
                 } else {
                     if (content == null) {
@@ -220,8 +225,8 @@ public class Searcher {
                 pendingRequests.remove(currentRequestId);
                 if (error != null) {
                     bus.post(new ErrorEvent(error, query, currentRequestId));
-                    for (AlgoliaResultsListener view : resultsListeners) {
-                        view.onError(query, error);
+                    for (AlgoliaErrorListener listener : errorListeners) {
+                        listener.onError(query, error);
                     }
                 } else {
                     if (currentRequestId <= lastResponseId) {
@@ -573,10 +578,16 @@ public class Searcher {
         return this;
     }
 
-    @Deprecated //DISCUSS: Refactor to avoid exposing a Deprecated public method?
-    public Searcher registerListener(@NonNull AlgoliaResultsListener resultsListener) {
-        if (!resultsListeners.contains(resultsListener)) {
-            resultsListeners.add(resultsListener);
+    public Searcher registerResultListener(@NonNull AlgoliaResultListener resultListener) {
+        if (!resultListeners.contains(resultListener)) {
+            resultListeners.add(resultListener);
+        }
+        return this;
+    }
+
+    public Searcher registerErrorListener(@NonNull AlgoliaErrorListener errorListener) {
+        if (!errorListeners.contains(errorListener)) {
+            errorListeners.add(errorListener);
         }
         return this;
     }
@@ -805,8 +816,8 @@ public class Searcher {
     }
 
     private void updateListeners(@NonNull JSONObject hits, boolean isLoadingMore) {
-        for (AlgoliaResultsListener view : resultsListeners) {
-            view.onResults(new SearchResults(hits), isLoadingMore);
+        for (AlgoliaResultListener listener : resultListeners) {
+            listener.onResults(new SearchResults(hits), isLoadingMore);
         }
     }
 

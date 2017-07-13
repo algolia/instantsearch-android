@@ -7,7 +7,8 @@ import android.util.AttributeSet;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.events.ResetEvent;
-import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.model.AlgoliaResultListener;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
@@ -16,7 +17,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 
-public class Stats extends android.support.v7.widget.AppCompatTextView implements AlgoliaWidget {
+public class Stats extends android.support.v7.widget.AppCompatTextView implements AlgoliaResultListener, AlgoliaErrorListener {
     /** The default template, only shown when there is no error. */
     public static final String DEFAULT_TEMPLATE = "{nbHits} results found in {processingTimeMS} ms";
 
@@ -47,10 +48,6 @@ public class Stats extends android.support.v7.widget.AppCompatTextView implement
         }
 
         EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void initWithSearcher(@NonNull Searcher searcher) {
     }
 
     @Subscribe
@@ -85,7 +82,7 @@ public class Stats extends android.support.v7.widget.AppCompatTextView implement
     }
 
     @Override
-    public void onError(@NonNull Query query, AlgoliaException error) {
+    public void onError(@NonNull Query query, @NonNull AlgoliaException error) {
         if (errorTemplate == null) {
             setVisibility(GONE);
         } else {
