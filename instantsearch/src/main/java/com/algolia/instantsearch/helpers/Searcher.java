@@ -203,11 +203,11 @@ public class Searcher {
     /**
      * Loads more results with the same query.
      * <p>
-     * Note that this method won't do anything if {@link Searcher#shouldLoadMore} returns false.
+     * Note that this method won't do anything if {@link Searcher#hasMoreHits} returns false.
      */
     @NonNull
     public Searcher loadMore() {
-        if (!shouldLoadMore()) {
+        if (!hasMoreHits()) {
             return this;
         }
         Query loadMoreQuery = new Query(query);
@@ -249,8 +249,7 @@ public class Searcher {
      *
      * @return {@code true} unless we reached the end of hits or we already requested a new page.
      */
-    //TODO: UI-related: move to ISH?
-    public boolean shouldLoadMore() {
+    public boolean hasMoreHits() {
         return !(endReached || lastRequestPage > lastResponsePage);
     }
 

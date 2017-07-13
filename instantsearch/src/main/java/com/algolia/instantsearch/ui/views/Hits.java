@@ -336,7 +336,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            if (!searcher.shouldLoadMore()) {
+            if (!searcher.hasMoreHits()) {
                 return;
             }
 
