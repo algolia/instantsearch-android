@@ -10,11 +10,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.NumericRefinementEvent;
+import com.algolia.instantsearch.events.RefinementEvent;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +61,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
     public NumericSelector(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnItemSelectedListener(this);
+        EventBus.getDefault().register(this);
         final TypedArray filterStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Filter, 0, 0);
         final TypedArray selectorStyleAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.NumericSelector, 0, 0);
         try {
@@ -182,6 +188,23 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
             currentRefinement = new NumericRefinement(attributeName, operator, currentRefinement.value);
             searcher.addNumericRefinement(currentRefinement);
             searcher.search();
+        }
+    }
+
+    @Subscribe
+    public void onRefinementEvent(NumericRefinementEvent event) {
+        if (event.refinement.attribute.equals(attributeName) && event.refinement.operator == operator) {
+            if (event.operation == RefinementEvent.Operation.REMOVE) {
+                setSelection(0);
+            } else {
+                for (int i = 0; i < values.size(); i++) {
+                    Double valueI = values.get(i);
+                    if (event.refinement.value.equals(valueI)) {
+                        setSelection(i);
+                        break;
+                    }
+                }
+            }
         }
     }
 }
