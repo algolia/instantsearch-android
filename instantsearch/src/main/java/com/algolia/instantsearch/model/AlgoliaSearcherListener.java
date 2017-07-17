@@ -6,7 +6,7 @@ import com.algolia.instantsearch.helpers.Searcher;
 
 public interface AlgoliaSearcherListener {
     /**
-     * Reacts to the initialization of a Searcher.
+     * Reacts to the initialization of the Searcher.
      * This interface allows widgets to update the state of the search interface
      * by giving them a reference to its Searcher.
      * <p>
