@@ -458,7 +458,7 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull String attribute) {
-        return removeNumericRefinement(attribute, null, null);
+        return removeNumericRefinement(attribute, NumericRefinement.OPERATOR_UNKNOWN, NumericRefinement.VALUE_UNKNOWN);
     }
 
 
@@ -479,20 +479,16 @@ public class Searcher {
      * @param operator  an {@link NumericRefinement#OPERATOR_EQ operator}.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Searcher removeNumericRefinement(@NonNull String attribute, @Nullable Integer operator) {
-        return removeNumericRefinement(attribute, operator, null);
+    public Searcher removeNumericRefinement(@NonNull String attribute, @NonNull Integer operator) {
+        return removeNumericRefinement(attribute, operator, NumericRefinement.VALUE_UNKNOWN);
     }
 
-    private Searcher removeNumericRefinement(@NonNull String attribute, @Nullable Integer operator, @Nullable Double value) {
-        if (operator == null) {
-            operator = NumericRefinement.OPERATOR_UNKNOWN;
+    private Searcher removeNumericRefinement(@NonNull String attribute, @NonNull Integer operator, @NonNull Double value) {
+        if (operator == NumericRefinement.OPERATOR_UNKNOWN) {
             numericRefinements.remove(attribute);
         } else {
             NumericRefinement.checkOperatorIsValid(operator);
             numericRefinements.get(attribute).remove(operator);
-        }
-        if (value == null) {
-            value = NumericRefinement.VALUE_UNKNOWN;
         }
         bus.post(new NumericRefinementEvent(Operation.REMOVE, new NumericRefinement(attribute, operator, value)));
         rebuildQueryNumericFilters();
