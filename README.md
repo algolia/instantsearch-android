@@ -1,6 +1,6 @@
 <img src="docgen/assets/img/instant-search-android.png" alt="InstantSearch Android" />
 
-[![Build Status](https://travis-ci.com/algolia/instantsearch-android.svg?token=bgTPqva7dW7pbzDMM6e1&branch=master)](https://travis-ci.com/algolia/instantsearch-android)
+[![Build Status](https://travis-ci.org/algolia/instantsearch-android.svg?token=bgTPqva7dW7pbzDMM6e1&branch=master)](https://travis-ci.org/algolia/instantsearch-android)
 
 
 **InstantSearch Android** is a library providing widgets and helpers to help you build the best instant-search experience on Android with Algolia.
