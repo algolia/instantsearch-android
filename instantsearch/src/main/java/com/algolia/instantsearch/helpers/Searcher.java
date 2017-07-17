@@ -262,6 +262,7 @@ public class Searcher {
      * Resets the helper's state.
      */
     @NonNull
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher reset() {
         lastResponsePage = 0;
         lastRequestPage = 0;
@@ -307,6 +308,7 @@ public class Searcher {
      * @param isDisjunctiveFacet if {@code true}, the facet will be added as a disjunctive facet.
      * @param values             an eventual list of values to refine on.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void addFacet(@NonNull String attributeName, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
         if (isDisjunctiveFacet) {
             disjunctiveFacets.add(attributeName);
