@@ -21,14 +21,14 @@ import com.algolia.search.saas.Query;
  */
 public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
     /** The attribute to refine on. */
-    public String attributeName;
+    String attributeName;
     /** Whether the OneValueToggle should hide when results are empty. */
-    public boolean autoHide;
+    private boolean autoHide;
     /** A template to use as the OneValueToggle's text. */
-    public String template;
+    String template;
 
-    protected Searcher searcher;
-    protected boolean shouldHide;
+    Searcher searcher;
+    private boolean shouldHide;
     private SearchResults lastResults;
 
     /**
@@ -80,7 +80,7 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
     }
 
     /** If given a new name, update searcher's facets and attribute. */
-    protected void applyEventualNewName(@Nullable String newName) {
+    void applyEventualNewName(@Nullable String newName) {
         if (newName != null) {
             searcher.removeFacet(attributeName).addFacet(newName);
             this.attributeName = newName;

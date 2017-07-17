@@ -15,7 +15,7 @@ import com.algolia.instantsearch.model.SearchResults;
  */
 public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
     /** The value to apply when the OneValueToggle is checked. */
-    public String value;
+    private String value;
 
     /**
      * Constructs a new OneValueToggle with the given context's theme and the supplied attribute set.

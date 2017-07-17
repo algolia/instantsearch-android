@@ -578,14 +578,14 @@ public class Searcher {
         return this;
     }
 
-    public Searcher registerResultListener(@NonNull AlgoliaResultListener resultListener) {
+    Searcher registerResultListener(@NonNull AlgoliaResultListener resultListener) {
         if (!resultListeners.contains(resultListener)) {
             resultListeners.add(resultListener);
         }
         return this;
     }
 
-    public Searcher registerErrorListener(@NonNull AlgoliaErrorListener errorListener) {
+    Searcher registerErrorListener(@NonNull AlgoliaErrorListener errorListener) {
         if (!errorListeners.contains(errorListener)) {
             errorListeners.add(errorListener);
         }

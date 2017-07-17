@@ -13,9 +13,9 @@ import com.algolia.instantsearch.model.SearchResults;
 
 public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
     /** The value to apply when the Toggle is checked. */
-    public String valueOn;
+    private String valueOn;
     /** An eventual value to apply when the Toggle is unchecked. */
-    public String valueOff;
+    private String valueOff;
 
     private boolean isRefined;
 

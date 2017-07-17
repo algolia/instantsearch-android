@@ -37,7 +37,7 @@ import com.algolia.instantsearch.model.AlgoliaResultListener;
 import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
-import com.algolia.instantsearch.ui.InstantSearch;
+import com.algolia.instantsearch.helpers.InstantSearch;
 import com.algolia.instantsearch.ui.databinding.BindingHelper;
 import com.algolia.instantsearch.ui.databinding.RenderingHelper;
 import com.algolia.instantsearch.ui.utils.ItemClickSupport;
