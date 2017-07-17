@@ -76,7 +76,7 @@ public class InstantSearch {
     /**
      * Constructs the helper, then link it to the given Activity.
      *
-     * @param activity   an Activity containing at least one {@link AlgoliaResultListener} to update with incoming results.
+     * @param activity an Activity containing at least one {@link AlgoliaResultListener} to update with incoming results.
      * @param searcher the Searcher to use with this activity.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
@@ -285,7 +285,21 @@ public class InstantSearch {
             searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
         }
 
-        final List<String> refinementAttributes = new ArrayList<>();
+        final List<String> refinementAttributes = processAllListeners(rootView);
+        final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
+        if (facets.length > 0) {
+            searcher.addFacet(facets);
+        }
+    }
+
+    /**
+     * Finds the Listeners in the given rootView.
+     *
+     * @param rootView a View to traverse looking for listeners.
+     * @return the list of refinement attributes found on listeners.
+     */
+    private List<String> processAllListeners(View rootView) {
+        List<String> refinementAttributes = new ArrayList<>();
 
         // Register any AlgoliaResultListener
         final List<AlgoliaResultListener> resultListeners = LayoutViews.findByClass(rootView, AlgoliaResultListener.class);
@@ -293,47 +307,31 @@ public class InstantSearch {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_RESULT_LISTENER);
         }
         for (AlgoliaResultListener listener : resultListeners) {
-            processResultListener(rootView, listener, refinementAttributes);
+            if (!this.resultListeners.contains(listener)) {
+                this.resultListeners.add(listener);
+            }
+            searcher.registerResultListener(listener);
+            processView(rootView, listener, refinementAttributes);
         }
 
         // Register any AlgoliaErrorListener
         final List<AlgoliaErrorListener> errorListeners = LayoutViews.findByClass(rootView, AlgoliaErrorListener.class);
         for (AlgoliaErrorListener listener : errorListeners) {
-            processErrorListener(rootView, listener, refinementAttributes);
+            if (!this.errorListeners.contains(listener)) {
+                this.errorListeners.add(listener);
+            }
+            searcher.registerErrorListener(listener);
+            processView(rootView, listener, refinementAttributes);
         }
 
         // Register any AlgoliaSearcherListener
         final List<AlgoliaSearcherListener> searcherListeners = LayoutViews.findByClass(rootView, AlgoliaSearcherListener.class);
         for (AlgoliaSearcherListener listener : searcherListeners) {
-            processSearcherListener(rootView, listener, refinementAttributes);
+            listener.initWithSearcher(searcher);
+            processView(rootView, listener, refinementAttributes);
         }
 
-
-        final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
-        if (facets.length > 0) {
-            searcher.addFacet(facets);
-        }
-    }
-
-    private void processResultListener(@Nullable View rootView, @NonNull AlgoliaResultListener listener, @Nullable List<String> refinementAttributes) {
-        if (!resultListeners.contains(listener)) {
-            resultListeners.add(listener);
-        }
-        searcher.registerResultListener(listener);
-        processView(rootView, listener, refinementAttributes);
-    }
-
-    private void processErrorListener(@Nullable View rootView, @NonNull AlgoliaErrorListener listener, @Nullable List<String> refinementAttributes) {
-        if (!errorListeners.contains(listener)) {
-            errorListeners.add(listener);
-        }
-        searcher.registerErrorListener(listener);
-        processView(rootView, listener, refinementAttributes);
-    }
-
-    private void processSearcherListener(@Nullable View rootView, @NonNull AlgoliaSearcherListener listener, @Nullable List<String> refinementAttributes) {
-        listener.initWithSearcher(searcher);
-        processView(rootView, listener, refinementAttributes);
+        return refinementAttributes;
     }
 
     private void processView(Object listener) {
