@@ -20,6 +20,9 @@ public class NumericRefinement {
     /** The greater than operator {@literal (>)}. */
     public static final int OPERATOR_GT = 5;
 
+    public static final int OPERATOR_UNKNOWN = -42;
+    public static final double VALUE_UNKNOWN = -42;
+
     private static final String ERROR_INVALID_CODE = "operator (%d) should be one of NumericRefinement.OPERATOR_XX.";
     private static final String ERROR_INVALID_NAME = "operator (%s) should be one of 'lt', 'le', 'eq', 'ne', 'ge', 'gt'.";
 
@@ -78,6 +81,7 @@ public class NumericRefinement {
             case OPERATOR_NE:
             case OPERATOR_GE:
             case OPERATOR_GT:
+            case OPERATOR_UNKNOWN:
                 return;
             default:
                 throw new IllegalStateException(String.format(Locale.US, ERROR_INVALID_CODE, operatorCode));

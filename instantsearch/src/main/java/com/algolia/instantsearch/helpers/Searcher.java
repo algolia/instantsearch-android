@@ -451,8 +451,7 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull String attribute) {
-        bus.post(new NumericRefinementEvent(Operation.REMOVE, new NumericRefinement(attribute, -42, -42)));
-        return removeNumericRefinement(attribute, null, false);
+        return removeNumericRefinement(attribute, null, null);
     }
 
 
@@ -463,8 +462,7 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull NumericRefinement refinement) {
-        bus.post(new NumericRefinementEvent(Operation.REMOVE, refinement));
-        return removeNumericRefinement(refinement.attribute, refinement.operator, false);
+        return removeNumericRefinement(refinement.attribute, refinement.operator, refinement.value);
     }
 
     /**
@@ -475,19 +473,21 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull String attribute, @Nullable Integer operator) {
-        return removeNumericRefinement(attribute, operator, true);
+        return removeNumericRefinement(attribute, operator, null);
     }
 
-    private Searcher removeNumericRefinement(@NonNull String attribute, @Nullable Integer operator, boolean sendEvent) {
-        if (sendEvent) {
-            bus.post(new NumericRefinementEvent(Operation.REMOVE, new NumericRefinement(attribute, operator != null ? operator : -42, -42)));
-        }
+    private Searcher removeNumericRefinement(@NonNull String attribute, @Nullable Integer operator, @Nullable Double value) {
         if (operator == null) {
+            operator = NumericRefinement.OPERATOR_UNKNOWN;
             numericRefinements.remove(attribute);
         } else {
             NumericRefinement.checkOperatorIsValid(operator);
             numericRefinements.get(attribute).remove(operator);
         }
+        if (value == null) {
+            value = NumericRefinement.VALUE_UNKNOWN;
+        }
+        bus.post(new NumericRefinementEvent(Operation.REMOVE, new NumericRefinement(attribute, operator, value)));
         rebuildQueryNumericFilters();
         return this;
     }

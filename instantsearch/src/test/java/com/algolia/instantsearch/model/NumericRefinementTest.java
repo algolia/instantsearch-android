@@ -35,7 +35,7 @@ public class NumericRefinementTest {
 
     @Test(expected = IllegalStateException.class)
     public void getOperatorSymbolInvalid() throws Exception {
-        NumericRefinement.getOperatorSymbol(-42);
+        NumericRefinement.getOperatorSymbol(-1);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class NumericRefinementTest {
 
     @Test(expected = IllegalStateException.class)
     public void checkOperatorIsInvalid() throws Exception {
-        int operator = -42;
+        int operator = -1;
         NumericRefinement.checkOperatorIsValid(operator);
     }
 }
