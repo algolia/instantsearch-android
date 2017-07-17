@@ -30,7 +30,3 @@ cache:
 
 script:
   - ./gradlew clean test
-
-branches:
-  only:
-    - master
