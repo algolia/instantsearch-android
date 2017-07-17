@@ -22,11 +22,13 @@ public class Errors {
     public static final String LAYOUT_TOO_MANY_SEARCHVIEWS = "If you have several SearchViews, you need to identify the Algolia one with @id/searchBox.";
     public static final String LAYOUT_TOO_MANY_SEARCHBOXES = "You cannot have more than one SearchBox.";
 
+    public static final String PROGRESS_WITHOUT_SEARCHPLATE = "Could not find a view with id @id/search_plate in SearchView.";
+
     public static final String REFINEMENTS_MISSING_ATTRIBUTE = "You need to specify the attribute to refine on with algolia:attribute.";
     public static final String REFINEMENTS_MISSING_ITEM = "RefinementList has no item at position %d.";
 
+    public static final String SEARCHER_GET_BEFORE_INIT = "You cannot use Searcher#get before having called Searcher#create at least once.";
+
     public static final String SORT_INVALID_VALUE = "invalid sortBy value: %s is none of \"isRefined\"|\"count:asc\"|\"count:desc\"|\"name:asc\"|\"name:desc\".";
     public static final String SORT_INVALID_ARRAY = "invalid sortBy value: %s is not a valid JSONArray.";
-
-    public static final String PROGRESS_WITHOUT_SEARCHPLATE = "Could not find a view with id @id/search_plate in SearchView.";
 }
