@@ -8,6 +8,8 @@ import android.util.SparseArray;
 import com.algolia.instantsearch.BuildConfig;
 import com.algolia.instantsearch.events.CancelEvent;
 import com.algolia.instantsearch.events.ErrorEvent;
+import com.algolia.instantsearch.events.NumericRefinementEvent;
+import com.algolia.instantsearch.events.RefinementEvent.Operation;
 import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
@@ -438,6 +440,7 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addNumericRefinement(@NonNull NumericRefinement refinement) {
+        bus.post(new NumericRefinementEvent(Operation.ADD, refinement));
         SparseArray<NumericRefinement> refinements = numericRefinements.get(refinement.attribute);
         if (refinements == null) {
             refinements = new SparseArray<>();
@@ -455,25 +458,10 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull String attribute) {
-        numericRefinements.remove(attribute);
-        rebuildQueryNumericFilters();
-        return this;
+        bus.post(new NumericRefinementEvent(Operation.REMOVE, new NumericRefinement(attribute, -42, -42)));
+        return removeNumericRefinement(attribute, null, false);
     }
 
-
-    /**
-     * Removes the numeric refinement relative to an attribute and operator for the next queries.
-     *
-     * @param attribute an attribute that maybe has some refinements.
-     * @param operator  an {@link NumericRefinement#OPERATOR_EQ operator}.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Searcher removeNumericRefinement(@NonNull String attribute, int operator) {
-        NumericRefinement.checkOperatorIsValid(operator);
-        numericRefinements.get(attribute).remove(operator);
-        rebuildQueryNumericFilters();
-        return this;
-    }
 
     /**
      * Removes the given numeric refinement for the next queries.
@@ -482,8 +470,31 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull NumericRefinement refinement) {
-        NumericRefinement.checkOperatorIsValid(refinement.operator);
-        numericRefinements.get(refinement.attribute).remove(refinement.operator);
+        bus.post(new NumericRefinementEvent(Operation.REMOVE, refinement));
+        return removeNumericRefinement(refinement.attribute, refinement.operator, false);
+    }
+
+    /**
+     * Removes the numeric refinement relative to an attribute and operator for the next queries.
+     *
+     * @param attribute an attribute that maybe has some refinements.
+     * @param operator  an {@link NumericRefinement#OPERATOR_EQ operator}.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public Searcher removeNumericRefinement(@NonNull String attribute, @Nullable Integer operator) {
+        return removeNumericRefinement(attribute, operator, true);
+    }
+
+    private Searcher removeNumericRefinement(@NonNull String attribute, @Nullable Integer operator, boolean sendEvent) {
+        if (sendEvent) {
+            bus.post(new NumericRefinementEvent(Operation.REMOVE, new NumericRefinement(attribute, operator != null ? operator : -42, -42)));
+        }
+        if (operator == null) {
+            numericRefinements.remove(attribute);
+        } else {
+            NumericRefinement.checkOperatorIsValid(operator);
+            numericRefinements.get(attribute).remove(operator);
+        }
         rebuildQueryNumericFilters();
         return this;
     }
