@@ -17,7 +17,7 @@ public class NumericRefinementEvent extends RefinementEvent {
         return "NumericRefinementEvent{" +
                 "attribute='" + attribute + '\'' +
                 ", operation=" + operation +
-                "refinement=" + refinement +
+                ", refinement=" + refinement +
                 '}';
     }
 }
