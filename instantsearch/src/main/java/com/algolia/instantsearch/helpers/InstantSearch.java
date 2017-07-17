@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.ui;
+package com.algolia.instantsearch.helpers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
