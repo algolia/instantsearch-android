@@ -782,6 +782,7 @@ public class Searcher {
                 numericFilters.put(refinements.valueAt(i).toString());
             }
         }
+        //noinspection deprecation (deprecated for end-users of API Client)
         query.setNumericFilters(numericFilters);
         query.setPage(0);
     }
