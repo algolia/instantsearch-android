@@ -7,7 +7,7 @@ env:
       - ANDROID_ABI=armeabi-v7a
   matrix:
       - ANDROID_TARGET=android-16
-      - ANDROID_TARGET=android-25
+      - ANDROID_TARGET=android-24
 android:
   components:
     - tools
