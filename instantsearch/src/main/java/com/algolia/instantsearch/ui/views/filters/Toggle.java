@@ -40,16 +40,18 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
      */
     public Toggle(Context context, AttributeSet attrs) {
         super(context, attrs);
-        final TypedArray filterStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Filter, 0, 0);
+        final TypedArray viewStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.View, 0, 0);
+        final TypedArray widgetStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Widget, 0, 0);
         final TypedArray toggleStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Toggle, 0, 0);
         try {
-            attribute = filterStyledAttributes.getString(R.styleable.View_attribute);
+            attribute = viewStyledAttributes.getString(R.styleable.View_attribute);
             Filters.checkAttributeName(attribute);
             template = toggleStyledAttributes.getString(R.styleable.Toggle_template);
-            autoHide = filterStyledAttributes.getBoolean(R.styleable.Widget_autoHide, false);
+            autoHide = widgetStyledAttributes.getBoolean(R.styleable.Widget_autoHide, false);
         } finally {
-            filterStyledAttributes.recycle();
+            widgetStyledAttributes.recycle();
             toggleStyledAttributes.recycle();
+            viewStyledAttributes.recycle();
         }
     }
 

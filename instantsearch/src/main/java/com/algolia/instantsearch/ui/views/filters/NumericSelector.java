@@ -65,12 +65,13 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         super(context, attrs);
         setOnItemSelectedListener(this);
         EventBus.getDefault().register(this);
-        final TypedArray filterStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Filter, 0, 0);
+        final TypedArray viewStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.View, 0, 0);
+        final TypedArray widgetStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Widget, 0, 0);
         final TypedArray selectorStyleAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.NumericSelector, 0, 0);
         try {
-            attribute = filterStyledAttributes.getString(R.styleable.View_attribute);
+            attribute = viewStyledAttributes.getString(R.styleable.View_attribute);
             Filters.checkAttributeName(attribute);
-            autoHide = filterStyledAttributes.getBoolean(R.styleable.Widget_autoHide, false);
+            autoHide = widgetStyledAttributes.getBoolean(R.styleable.Widget_autoHide, false);
             operator = selectorStyleAttributes.getInt(R.styleable.NumericSelector_operatorName, NumericRefinement.OPERATOR_EQ);
             defaultLabel = selectorStyleAttributes.getString(R.styleable.NumericSelector_defaultLabel);
 
@@ -112,7 +113,8 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
                 values = new ArrayList<>();
             }
         } finally {
-            filterStyledAttributes.recycle();
+            viewStyledAttributes.recycle();
+            widgetStyledAttributes.recycle();
             selectorStyleAttributes.recycle();
         }
     }
@@ -196,7 +198,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
 
     @Subscribe
     public void onRefinementEvent(NumericRefinementEvent event) {
-        if (event.refinement.attribute.equals(attributeName) && event.refinement.operator == operator) {
+        if (event.refinement.attribute.equals(attribute) && event.refinement.operator == operator) {
             if (event.operation == RefinementEvent.Operation.REMOVE) {
                 setSelection(0);
             } else {
