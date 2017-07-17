@@ -1,23 +1,24 @@
+branches:
+  only:
+    - master
 language: android
+env:
+  global:
+      - ANDROID_ABI=armeabi-v7a
+  matrix:
+      - ANDROID_TARGET=android-16
+      - ANDROID_TARGET=android-25
 android:
   components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
-    - platform-tools
     - tools
-
-    # The BuildTools version used by your project
+    - platform-tools
+    - tools # Fix SDK Tools https://github.com/travis-ci/travis-ci/issues/6122
     - build-tools-25.0.2
-
-    # The SDK version used to compile your project
-    - android-25
-
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    - sys-img-armeabi-v7a-android-19
-
-    # Maven
+    - android-25 # target SDK version
+    - $ANDROID_TARGET
+    - extra-android-support
     - extra-android-m2repository
+    - sys-img-armeabi-v7a-$ANDROID_TARGET
 jdk:
   - oraclejdk8
 # https://docs.travis-ci.com/user/languages/android#Caching
@@ -27,10 +28,10 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-
+before_script:
+    # Avoid useless reupload of cache after every build, see https://docs.travis-ci.com/user/languages/android
+    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+    # Create Android Virtual Device with current config, saying no to custom build
+    - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
 script:
   - ./gradlew clean test
-
-branches:
-  only:
-    - master
