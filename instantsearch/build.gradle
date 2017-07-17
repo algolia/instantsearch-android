@@ -208,9 +208,6 @@ bintray {
 
             gpg {
                 sign = true
-                //DISCUSS: GPG-sign with our own key instead of BinTray's?
-                //This would imply uploading a private/public keypair
-//                //passphrase = System.env.GPG_PASSPHRASE
             }
 
             mavenCentralSync {
