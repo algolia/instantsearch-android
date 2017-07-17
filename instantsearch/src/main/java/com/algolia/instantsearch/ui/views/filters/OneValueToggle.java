@@ -42,8 +42,8 @@ public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
      */
     public void setValue(String newValue, @Nullable String newName) {
         if (isChecked()) {
-            searcher.updateFacetRefinement(this.attributeName, value, false)
-                    .updateFacetRefinement(newName != null ? newName : attributeName, newValue, true)
+            searcher.updateFacetRefinement(this.attribute, value, false)
+                    .updateFacetRefinement(newName != null ? newName : attribute, newValue, true)
                     .search();
         }
         this.value = newValue;
@@ -52,7 +52,7 @@ public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
 
     @Override public void updateRefinementWithNewName(String newName) {
         if (isChecked()) { // We need to update facetRefinement's attribute
-            searcher.removeFacetRefinement(attributeName, value)
+            searcher.removeFacetRefinement(attribute, value)
                     .addFacetRefinement(newName, value)
                     .search();
         }
@@ -62,14 +62,14 @@ public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
         return new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                searcher.updateFacetRefinement(attributeName, value, isChecked).search();
+                searcher.updateFacetRefinement(attribute, value, isChecked).search();
             }
         };
     }
 
     @Override protected String applyTemplates(@NonNull SearchResults results) {
         return template
-                .replace("{name}", attributeName)
+                .replace("{name}", attribute)
 //FIXME                    .replace("{count}", String.valueOf(results.facets.get(attributeName).size()))
                 .replace("{isRefined}", String.valueOf(isChecked()))
                 .replace("{value}", value);

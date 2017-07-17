@@ -306,34 +306,34 @@ public class Searcher {
     /**
      * Adds a facet refinement for the next queries.
      *
-     * @param attributeName      the facet name.
+     * @param attribute          the facet name.
      * @param isDisjunctiveFacet if {@code true}, the facet will be added as a disjunctive facet.
      * @param values             an eventual list of values to refine on.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void addFacet(@NonNull String attributeName, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
+    public void addFacet(@NonNull String attribute, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
         if (isDisjunctiveFacet) {
-            disjunctiveFacets.add(attributeName);
+            disjunctiveFacets.add(attribute);
         }
         if (values == null) {
             values = new ArrayList<>();
         }
-        refinementMap.put(attributeName, values);
+        refinementMap.put(attribute, values);
     }
 
     /**
      * Adds or removes this facet refinement for the next queries according to its enabled status.
      *
-     * @param attributeName the attribute to facet on.
-     * @param value         the value for this attribute.
-     * @param active        if {@code true}, this facet value is currently refined on.
+     * @param attribute the attribute to facet on.
+     * @param value     the value for this attribute.
+     * @param active    if {@code true}, this facet value is currently refined on.
      */
     @NonNull
-    public Searcher updateFacetRefinement(@NonNull String attributeName, @NonNull String value, boolean active) {
+    public Searcher updateFacetRefinement(@NonNull String attribute, @NonNull String value, boolean active) {
         if (active) {
-            addFacetRefinement(attributeName, value);
+            addFacetRefinement(attribute, value);
         } else {
-            removeFacetRefinement(attributeName, value);
+            removeFacetRefinement(attribute, value);
         }
         return this;
     }
@@ -344,13 +344,13 @@ public class Searcher {
      * <p>
      * <b>This method resets the current page to 0.</b>
      *
-     * @param attributeName the attribute to refine on.
-     * @param value         the facet's value to refine with.
+     * @param attribute the attribute to refine on.
+     * @param value     the facet's value to refine with.
      */
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Searcher addFacetRefinement(@NonNull String attributeName, @NonNull String value) {
-        List<String> attributeRefinements = getOrCreateRefinements(attributeName);
+    public Searcher addFacetRefinement(@NonNull String attribute, @NonNull String value) {
+        List<String> attributeRefinements = getOrCreateRefinements(attribute);
         attributeRefinements.add(value);
         rebuildQueryFacetFilters();
         return this;
@@ -361,13 +361,13 @@ public class Searcher {
      * <p>
      * <b>This method resets the current page to 0.</b>
      *
-     * @param attributeName the attribute to refine on.
-     * @param value         the facet's value to refine with.
+     * @param attribute the attribute to refine on.
+     * @param value     the facet's value to refine with.
      */
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Searcher removeFacetRefinement(@NonNull String attributeName, @NonNull String value) {
-        List<String> attributeRefinements = getOrCreateRefinements(attributeName);
+    public Searcher removeFacetRefinement(@NonNull String attribute, @NonNull String value) {
+        List<String> attributeRefinements = getOrCreateRefinements(attribute);
         attributeRefinements.remove(value);
         rebuildQueryFacetFilters();
         return this;
@@ -376,13 +376,13 @@ public class Searcher {
     /**
      * Checks if a facet refinement is enabled.
      *
-     * @param attributeName the attribute to refine on.
-     * @param value         the facet's value to check.
-     * @return {@code true} if {@code attributeName} is being refined with {@code value}.
+     * @param attribute the attribute to refine on.
+     * @param value     the facet's value to check.
+     * @return {@code true} if {@code attribute} is being refined with {@code value}.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public boolean hasFacetRefinement(@NonNull String attributeName, @NonNull String value) {
-        List<String> attributeRefinements = refinementMap.get(attributeName);
+    public boolean hasFacetRefinement(@NonNull String attribute, @NonNull String value) {
+        List<String> attributeRefinements = refinementMap.get(attribute);
         return attributeRefinements != null && attributeRefinements.contains(value);
     }
 
@@ -800,11 +800,11 @@ public class Searcher {
         return this;
     }
 
-    @NonNull private List<String> getOrCreateRefinements(@NonNull String attributeName) {
-        List<String> attributeRefinements = refinementMap.get(attributeName);
+    @NonNull private List<String> getOrCreateRefinements(@NonNull String attribute) {
+        List<String> attributeRefinements = refinementMap.get(attribute);
         if (attributeRefinements == null) {
             attributeRefinements = new ArrayList<>();
-            refinementMap.put(attributeName, attributeRefinements);
+            refinementMap.put(attribute, attributeRefinements);
         }
         return attributeRefinements;
     }

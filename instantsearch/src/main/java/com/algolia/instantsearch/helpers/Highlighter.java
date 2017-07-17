@@ -116,29 +116,29 @@ public class Highlighter {
     /**
      * Renders a highlighted result's attribute using a color resource.
      *
-     * @param result        {@link JSONObject} describing a hit.
-     * @param attributeName name of the attribute to be highlighted.
-     * @param colorId       a resource Id referencing a color.
-     * @param context       a {@link Context} to get resources from.
+     * @param result    {@link JSONObject} describing a hit.
+     * @param attribute name of the attribute to be highlighted.
+     * @param colorId   a resource Id referencing a color.
+     * @param context   a {@link Context} to get resources from.
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
-    public Spannable renderHighlightColor(@NonNull JSONObject result, String attributeName, @ColorRes int colorId, @NonNull Context context) {
-        return renderHighlightColor(getHighlightedAttribute(result, attributeName), colorId, context);
+    public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, @ColorRes int colorId, @NonNull Context context) {
+        return renderHighlightColor(getHighlightedAttribute(result, attribute), colorId, context);
     }
 
     /**
      * Renders a highlighted result's attribute using the default highlighting color resource.
      *
-     * @param result        {@link JSONObject} describing a hit.
-     * @param attributeName name of the attribute to be highlighted.
-     * @param context       a {@link Context} to get resources from.
+     * @param result    {@link JSONObject} describing a hit.
+     * @param attribute name of the attribute to be highlighted.
+     * @param context   a {@link Context} to get resources from.
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Spannable renderHighlightColor(@NonNull JSONObject result, String attributeName, @NonNull Context context) {
-        return renderHighlightColor(getHighlightedAttribute(result, attributeName), getColor(context, R.color.colorHighlighting));
+    public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, @NonNull Context context) {
+        return renderHighlightColor(getHighlightedAttribute(result, attribute), getColor(context, R.color.colorHighlighting));
     }
 
     /**
@@ -171,15 +171,15 @@ public class Highlighter {
     /**
      * Renders a highlighted result's attribute using a packed color int.
      *
-     * @param result        {@link JSONObject} describing a hit.
-     * @param attributeName name of the attribute to be highlighted.
-     * @param color         a color integer, see {@link android.graphics.Color}.
+     * @param result    {@link JSONObject} describing a hit.
+     * @param attribute name of the attribute to be highlighted.
+     * @param color     a color integer, see {@link android.graphics.Color}.
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Spannable renderHighlightColor(@NonNull JSONObject result, String attributeName, @ColorInt int color) {
-        return renderHighlightColor(getHighlightedAttribute(result, attributeName), color);
+    public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, @ColorInt int color) {
+        return renderHighlightColor(getHighlightedAttribute(result, attribute), color);
     }
 
     /**
@@ -224,21 +224,21 @@ public class Highlighter {
     /**
      * Gets the highlighted version of an attribute, if there is one.
      *
-     * @param result        {@link JSONObject} describing a hit.
-     * @param attributeName the name of the attribute to return highlighted.
+     * @param result    {@link JSONObject} describing a hit.
+     * @param attribute the name of the attribute to return highlighted.
      * @return the highlighted version of this attribute if there is one, else the raw attribute.
      */
-    private static String getHighlightedAttribute(@NonNull JSONObject result, String attributeName) {
+    private static String getHighlightedAttribute(@NonNull JSONObject result, String attribute) {
         final JSONObject highlightResult = result.optJSONObject("_highlightResult");
         if (highlightResult != null) {
-            HashMap<String, String> highlightAttribute = JSONUtils.getMapFromJSONPath(highlightResult, attributeName);
+            HashMap<String, String> highlightAttribute = JSONUtils.getMapFromJSONPath(highlightResult, attribute);
             if (highlightAttribute != null) {
                 String highlightedValue = highlightAttribute.get("value");
                 if (highlightedValue != null) {
                     return highlightedValue;
                 }
             } else { //Maybe it is an array?
-                final JSONArray array = highlightResult.optJSONArray(attributeName);
+                final JSONArray array = highlightResult.optJSONArray(attribute);
                 if (array != null) {
                     StringBuilder builder = new StringBuilder();
                     final int length = array.length();
@@ -254,7 +254,7 @@ public class Highlighter {
                 }
             }
         }
-        return JSONUtils.getStringFromJSONPath(result, attributeName);
+        return JSONUtils.getStringFromJSONPath(result, attribute);
     }
 
     private

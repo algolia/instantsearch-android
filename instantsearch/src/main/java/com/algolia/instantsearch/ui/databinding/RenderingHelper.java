@@ -41,12 +41,12 @@ public class RenderingHelper {
     /**
      * Gets the highlighting color for a given attribute.
      *
-     * @param attributeName the attribute's name.
+     * @param attribute the attribute's name.
      * @return the {@link ColorRes} associated with this attribute, or 0 if there is none.
      */
-    public @ColorRes Integer getHighlightColor(String attributeName) {
+    public @ColorRes Integer getHighlightColor(String attribute) {
         try {
-            return attributeColors.get(attributeName);
+            return attributeColors.get(attribute);
         } catch (NullPointerException e) {
             return 0;
         }
@@ -55,31 +55,31 @@ public class RenderingHelper {
     /**
      * Checks if an attribute should be highlighted.
      *
-     * @param attributeName the attribute's name.
+     * @param attribute the attribute's name.
      * @return {@code true} if the attribute was marked for highlighting.
      */
-    public boolean shouldHighlight(String attributeName) {
-        return highlightedAttributes.contains(attributeName);
+    public boolean shouldHighlight(String attribute) {
+        return highlightedAttributes.contains(attribute);
     }
 
     /**
      * Sets a color for this attribute's highlighting.
      *
-     * @param attributeName the attribute to color.
-     * @param colorId       a {@link ColorRes} to associate with this attribute.
+     * @param attribute the attribute to color.
+     * @param colorId   a {@link ColorRes} to associate with this attribute.
      * @return the previous color associated with this attribute or {@code null} if there was none.
      */
-    Integer addColor(String attributeName, @ColorRes int colorId) {
-        return attributeColors.put(attributeName, colorId);
+    Integer addColor(String attribute, @ColorRes int colorId) {
+        return attributeColors.put(attribute, colorId);
     }
 
     /**
      * Enables highlighting for this attribute.
      *
-     * @param attributeName the attribute to color.
+     * @param attribute the attribute to color.
      * @return {@code true} if the attribute was not already highlighted, {@code false} otherwise.
      */
-    boolean addHighlight(String attributeName) {
-        return highlightedAttributes.add(attributeName);
+    boolean addHighlight(String attribute) {
+        return highlightedAttributes.add(attribute);
     }
 }

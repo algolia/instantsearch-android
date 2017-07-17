@@ -36,7 +36,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
     private boolean autoHide;
 
     /** The name of this NumericSelector's attribute. */
-    private String attributeName;
+    private String attribute;
     /** The operator to use for refining. */
     private int operator;
     /** The eventual label for a default option that does not refine the attribute. */
@@ -68,8 +68,8 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         final TypedArray filterStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Filter, 0, 0);
         final TypedArray selectorStyleAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.NumericSelector, 0, 0);
         try {
-            attributeName = filterStyledAttributes.getString(R.styleable.Filter_attributeName);
-            Filters.checkAttributeName(attributeName);
+            attribute = filterStyledAttributes.getString(R.styleable.View_attribute);
+            Filters.checkAttributeName(attribute);
             autoHide = filterStyledAttributes.getBoolean(R.styleable.Widget_autoHide, false);
             operator = selectorStyleAttributes.getInt(R.styleable.NumericSelector_operatorName, NumericRefinement.OPERATOR_EQ);
             defaultLabel = selectorStyleAttributes.getString(R.styleable.NumericSelector_defaultLabel);
@@ -117,8 +117,8 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         }
     }
 
-    @NonNull @Override public String getAttributeName() {
-        return attributeName;
+    @NonNull public String getAttribute() {
+        return attribute;
     }
 
     @Override public void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
@@ -139,7 +139,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
             searcher.removeNumericRefinement(currentRefinement);
         }
         if (selectedValue != null) { // don't refine if user selected the default value
-            currentRefinement = new NumericRefinement(attributeName, operator, selectedValue);
+            currentRefinement = new NumericRefinement(attribute, operator, selectedValue);
             searcher.addNumericRefinement(currentRefinement);
         }
         searcher.search(); //TODO: Conditional if refineNow (window) or not (dialog)
@@ -156,9 +156,9 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         this.autoHide = autoHide;
     }
 
-    public void setAttributeName(String attributeName) {
-        this.attributeName = attributeName;
-        updateRefinement(attributeName, operator);
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+        updateRefinement(attribute, operator);
     }
 
     public int getOperator() {
@@ -167,7 +167,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
 
     public void setOperator(int operator) {
         this.operator = operator;
-        updateRefinement(attributeName, operator);
+        updateRefinement(attribute, operator);
     }
 
     public void setDefaultLabel(String defaultLabel) {
@@ -185,10 +185,10 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         ((ArrayAdapter<String>) getAdapter()).notifyDataSetChanged();
     }
 
-    private void updateRefinement(String attributeName, int operator) {
+    private void updateRefinement(String attribute, int operator) {
         if (currentRefinement != null) {
             searcher.removeNumericRefinement(currentRefinement);
-            currentRefinement = new NumericRefinement(attributeName, operator, currentRefinement.value);
+            currentRefinement = new NumericRefinement(attribute, operator, currentRefinement.value);
             searcher.addNumericRefinement(currentRefinement);
             searcher.search();
         }

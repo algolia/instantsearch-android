@@ -47,8 +47,8 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
      */
     public void setValueOn(String newValue, @Nullable String newName) {
         if (isRefined && isChecked()) { // refining on valueOn: facetRefinement needs an update
-            searcher.updateFacetRefinement(attributeName, valueOn, false)
-                    .updateFacetRefinement(newName != null ? newName : attributeName, newValue, true)
+            searcher.updateFacetRefinement(attribute, valueOn, false)
+                    .updateFacetRefinement(newName != null ? newName : attribute, newValue, true)
                     .search();
         }
         this.valueOn = newValue;
@@ -64,12 +64,12 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
     public void setValueOff(String newValue, @Nullable String newName) {
         if (isRefined) { // we may need to update facets
             if (!isChecked()) { // refining on valueOff: facetRefinement needs an update
-                searcher.updateFacetRefinement(attributeName, valueOff, false)
-                        .updateFacetRefinement(newName != null ? newName : attributeName, newValue, true)
+                searcher.updateFacetRefinement(attribute, valueOff, false)
+                        .updateFacetRefinement(newName != null ? newName : attribute, newValue, true)
                         .search();
             }
         } else { // now we have a valueOff, let's refine with it
-            searcher.updateFacetRefinement(attributeName, newValue, true).search();
+            searcher.updateFacetRefinement(attribute, newValue, true).search();
             isRefined = true;
         }
         this.valueOff = newValue;
@@ -82,11 +82,11 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (valueOff == null) { // Apply valueOn if checked, else no refinement
-                    searcher.updateFacetRefinement(attributeName, valueOn, isChecked).search();
+                    searcher.updateFacetRefinement(attribute, valueOn, isChecked).search();
                     isRefined = isChecked;
                 } else { // Toggle refined values
-                    searcher.updateFacetRefinement(attributeName, isChecked ? valueOn : valueOff, true)
-                            .updateFacetRefinement(attributeName, isChecked ? valueOff : valueOn, false)
+                    searcher.updateFacetRefinement(attribute, isChecked ? valueOn : valueOff, true)
+                            .updateFacetRefinement(attribute, isChecked ? valueOff : valueOn, false)
                             .search();
                 }
             }
@@ -95,7 +95,7 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
 
     @Override protected String applyTemplates(@NonNull SearchResults results) {
         return template
-                .replace("{name}", attributeName)
+                .replace("{name}", attribute)
 //FIXME                    .replace("{count}", String.valueOf(results.facets.get(attributeName).size()))
                 .replace("{isRefined}", String.valueOf(isRefined))
                 .replace("{value}", String.valueOf(isRefined ?
@@ -106,7 +106,7 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
     @Override protected void updateRefinementWithNewName(String newName) {
         if (isRefined) { // We need to update facetRefinement's attribute
             String valueRefined = isChecked() ? valueOn : valueOff;
-            searcher.removeFacetRefinement(attributeName, valueRefined)
+            searcher.removeFacetRefinement(attribute, valueRefined)
                     .addFacetRefinement(newName, valueRefined).search();
         }
     }

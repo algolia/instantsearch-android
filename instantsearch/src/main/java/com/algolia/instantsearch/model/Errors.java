@@ -10,7 +10,7 @@ public class Errors {
     public static final String BINDING_COLOR_INVALID = "algolia:highlightingColor should be an @android:color or @color resource.";
     public static final String BINDING_VIEW_NO_ID = "Your View for attribute %s is missing an android:id.";
 
-    public static final String FILTER_MISSING_ATTRIBUTE = "You must specify an attributeName";
+    public static final String FILTER_MISSING_ATTRIBUTE = "You must specify an attribute";
 
     public static final String HITS_NO_ITEMLAYOUT = "Your Hits widget is missing an algolia:itemLayout attribute to specify the hits item layout.";
     public static final String HITS_INFINITESCROLL = "You specified infiniteScroll=\"false\" and remainingItemsBeforeLoading, but they are mutually exclusive.";

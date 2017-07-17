@@ -227,7 +227,7 @@ public class InstantSearch {
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void registerFacetFilters(List<AlgoliaFacetFilter> filters) {
         for (final AlgoliaFacetFilter filter : filters) {
-            searcher.addFacet(filter.getAttributeName());
+            searcher.addFacet(filter.getAttribute());
             processView(filter);
         }
     }

@@ -13,6 +13,6 @@ public interface AlgoliaFacetFilter {
      *
      * @return The attribute to use for faceting.
      */
-    @NonNull String getAttributeName();
+    @NonNull String getAttribute();
     //DISCUSS: Would you rather have only AlgoliaWidget and document that a filter should call Searcher#set?
 }

@@ -21,7 +21,7 @@ import com.algolia.search.saas.Query;
  */
 public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
     /** The attribute to refine on. */
-    String attributeName;
+    public String attribute;
     /** Whether the OneValueToggle should hide when results are empty. */
     private boolean autoHide;
     /** A template to use as the OneValueToggle's text. */
@@ -43,8 +43,8 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         final TypedArray filterStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Filter, 0, 0);
         final TypedArray toggleStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Toggle, 0, 0);
         try {
-            attributeName = filterStyledAttributes.getString(R.styleable.Filter_attributeName);
-            Filters.checkAttributeName(attributeName);
+            attribute = filterStyledAttributes.getString(R.styleable.View_attribute);
+            Filters.checkAttributeName(attribute);
             template = toggleStyledAttributes.getString(R.styleable.Toggle_template);
             autoHide = filterStyledAttributes.getBoolean(R.styleable.Widget_autoHide, false);
         } finally {
@@ -58,10 +58,10 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
      *
      * @param newName the attribute's new name.
      */
-    public final void setAttributeName(@NonNull String newName) {
-        searcher.removeFacet(attributeName).addFacet(newName);
+    public final void setAttribute(@NonNull String newName) {
+        searcher.removeFacet(attribute).addFacet(newName);
         updateRefinementWithNewName(newName);
-        attributeName = newName;
+        attribute = newName;
     }
 
     /**
@@ -82,13 +82,13 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
     /** If given a new name, update searcher's facets and attribute. */
     void applyEventualNewName(@Nullable String newName) {
         if (newName != null) {
-            searcher.removeFacet(attributeName).addFacet(newName);
-            this.attributeName = newName;
+            searcher.removeFacet(attribute).addFacet(newName);
+            this.attribute = newName;
         }
     }
 
-    @NonNull @Override public final String getAttributeName() {
-        return attributeName;
+    @NonNull public final String getAttribute() {
+        return attribute;
     }
 
     @Override public final void initWithSearcher(@NonNull final Searcher searcher) {

@@ -18,35 +18,35 @@ public class BindingHelper {
     @SuppressWarnings("unused") // called via Data Binding
     @Deprecated // Should not be used by library users
     @BindingAdapter({"attribute"})
-    public static void bindAttribute(@NonNull View view, String attributeName) {
+    public static void bindAttribute(@NonNull View view, String attribute) {
         final int id = view.getId();
         if (notAlreadyMapped(id)) { // only map when you see a view for the first time.
-            mapAttribute(attributeName, id);
+            mapAttribute(attribute, id);
         }
     }
 
     @SuppressWarnings({"unused"}) // called via Data Binding
     @Deprecated // Should not be used by library users
     @BindingAdapter({"attribute", "highlighted"})
-    public static void bindHighlighted(@NonNull View view, String attributeName, Boolean isHighlighted) {
+    public static void bindHighlighted(@NonNull View view, String attribute, Boolean isHighlighted) {
         // Bind attribute, enable highlight with default color
-        bindAndHighlight(view, attributeName, RenderingHelper.DEFAULT_COLOR);
+        bindAndHighlight(view, attribute, RenderingHelper.DEFAULT_COLOR);
     }
 
     @SuppressWarnings({"unused"}) // called via Data Binding
     @Deprecated // Should not be used by library users
     @BindingAdapter({"attribute", "highlightingColor"})
-    public static void bindHighlighted(@NonNull View view, String attributeName, @NonNull String colorStr) {
+    public static void bindHighlighted(@NonNull View view, String attribute, @NonNull String colorStr) {
         // Bind attribute, enable highlight with color
-        bindAndHighlight(view, attributeName, colorStr);
+        bindAndHighlight(view, attribute, colorStr);
     }
 
     @SuppressWarnings({"unused"}) // called via Data Binding
     @Deprecated // Should not be used by library users
     @BindingAdapter({"attribute", "highlighted", "highlightingColor"})
-    public static void bindHighlighted(@NonNull View view, String attributeName, Boolean isHighlighted, @NonNull String colorStr) {
+    public static void bindHighlighted(@NonNull View view, String attribute, Boolean isHighlighted, @NonNull String colorStr) {
         // Bind attribute, enable highlight with color
-        bindAndHighlight(view, attributeName, colorStr);
+        bindAndHighlight(view, attribute, colorStr);
     }
 
     @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding and throws
@@ -74,11 +74,11 @@ public class BindingHelper {
         return bindings.get(id) == null;
     }
 
-    private static void mapAttribute(String attributeName, int viewId) {
+    private static void mapAttribute(String attribute, int viewId) {
         if (viewId == -1) {
-            throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID, attributeName));
+            throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID, attribute));
         }
-        bindings.put(viewId, attributeName);
+        bindings.put(viewId, attribute);
     }
 
     private static void throwBindingError(@NonNull View view, String message) {
@@ -88,7 +88,7 @@ public class BindingHelper {
         throw new IllegalStateException("Cannot bind " + viewName + ": " + message);
     }
 
-    private static void bindAndHighlight(@NonNull View view, String attributeName, @NonNull String colorStr) {
+    private static void bindAndHighlight(@NonNull View view, String attribute, @NonNull String colorStr) {
         if (notAlreadyMapped(view.getId())) {
             final String[] split = colorStr.split("/");
             final String identifierType = split[0];
@@ -106,10 +106,10 @@ public class BindingHelper {
                     throw new IllegalStateException(Errors.BINDING_COLOR_INVALID);
             }
 
-            bindAttribute(view, attributeName);
+            bindAttribute(view, attribute);
             final RenderingHelper renderingHelper = RenderingHelper.getDefault();
-            renderingHelper.addHighlight(attributeName);
-            renderingHelper.addColor(attributeName, colorId);
+            renderingHelper.addHighlight(attribute);
+            renderingHelper.addColor(attribute, colorId);
         }
     }
 

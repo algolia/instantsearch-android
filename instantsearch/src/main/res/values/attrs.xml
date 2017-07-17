@@ -34,9 +34,6 @@
         <attr name="resultTemplate" format="string"/>
         <attr name="errorTemplate" format="string"/>
     </declare-styleable>
-    <declare-styleable name="Filter">
-        <attr name="attributeName" format="string"/>
-    </declare-styleable>
     <declare-styleable name="Toggle">
         <attr name="template" format="string"/>
     </declare-styleable>
