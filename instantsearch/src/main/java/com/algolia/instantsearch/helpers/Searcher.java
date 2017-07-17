@@ -12,6 +12,7 @@ import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
 import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.FacetStat;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
@@ -42,8 +43,7 @@ import java.util.Map;
  */
 @SuppressWarnings("UnusedReturnValue") // chaining
 public class Searcher {
-    private static final List<Searcher> instances = new ArrayList<>();
-    private final int id;
+    private static Searcher instance;
 
     /** The EventBus which will propagate events. */
     private final EventBus bus;
@@ -91,20 +91,24 @@ public class Searcher {
     /** The SparseArray associating pending requests with their {@link Searcher#lastRequestId identifier}. */
     private final SparseArray<Request> pendingRequests = new SparseArray<>();
 
+    public static Searcher get() {
+        if (instance == null) {
+            throw new IllegalStateException(Errors.SEARCHER_GET_BEFORE_INIT);
+        }
+        return instance;
+    }
+
     /**
-     * Constructs an helper from an existing {@link Index}.
+     * Constructs the Searcher from an existing {@link Index}.
      *
      * @param index an Index initialized and eventually configured.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Searcher(@NonNull final Index index) {
-        this.index = index;
-        this.client = index.getClient();
-        query = new Query();
-        client.addUserAgent(new Client.LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME)));
-        bus = EventBus.getDefault();
-        id = instances.size();
-        instances.add(this);
+    public static Searcher create(@NonNull final Index index) {
+        if (instance == null) {
+            instance = new Searcher(index);
+        }
+        return instance;
     }
 
     /**
@@ -114,13 +118,17 @@ public class Searcher {
      * @param apiKey    A search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
      * @param indexName An index to target.
      */
-    public Searcher(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName) {
-        this(new Client(appId, apiKey).getIndex(indexName));
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public static Searcher create(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName) {
+        return create(new Client(appId, apiKey).getIndex(indexName));
     }
 
-    @Deprecated //DISCUSS: Should we expose this?
-    public static Searcher get(int id) {
-        return instances.get(id);
+    private Searcher(@NonNull final Index index) {
+        this.index = index;
+        this.client = index.getClient();
+        query = new Query();
+        client.addUserAgent(new Client.LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME)));
+        bus = EventBus.getDefault();
     }
 
     /**
@@ -666,11 +674,6 @@ public class Searcher {
         index = client.getIndex(indexName);
         query.setPage(0);
         return this;
-    }
-
-    @Deprecated //DISCUSS: Should we expose this?
-    public int getId() {
-        return id;
     }
 
     private void updateFacetStats(JSONObject content) {
