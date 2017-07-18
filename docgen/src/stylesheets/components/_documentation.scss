@@ -114,7 +114,7 @@
           line-height: 26px;
 
           &:before {
-            content: '-';
+            // content: '-'; lis already display with a list-style-type:disc
             float: left;
             margin-right: 6px;
             color: $logan
