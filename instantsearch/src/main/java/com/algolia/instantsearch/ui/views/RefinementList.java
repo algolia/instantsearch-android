@@ -44,10 +44,10 @@ import java.util.Map;
  * Displays facet values for an attribute and lets the user filter the results using these values.
  */
 public class RefinementList extends ListView implements AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
-    /** The operator for disjunctive faceting (foo OR bar). */
-    public static final int OPERATOR_OR = 0;
-    /** The operator for disjunctive faceting (foo AND bar). */
-    public static final int OPERATOR_AND = 1;
+    /** The operation for disjunctive faceting (foo OR bar). */
+    public static final int OPERATION_OR = 0;
+    /** The operation for disjunctive faceting (foo AND bar). */
+    public static final int OPERATION_AND = 1;
 
     /** The value for sorting by increasing counts. */
     public static final String SORT_COUNT_ASC = "count:asc";
@@ -67,7 +67,7 @@ public class RefinementList extends ListView implements AlgoliaResultListener, A
 
     @NonNull
     private final String attribute;
-    private final int operator;
+    private final int operation;
     /** The current sort order for displaying values. */
     @NonNull
     private final ArrayList<String> sortOrder;
@@ -91,7 +91,7 @@ public class RefinementList extends ListView implements AlgoliaResultListener, A
     public RefinementList(@NonNull final Context context, AttributeSet attrs) throws AlgoliaException {
         super(context, attrs);
         if (isInEditMode()) {
-            operator = OPERATOR_AND;
+            operation = OPERATION_AND;
             sortOrder = null;
             sortComparator = null;
             attribute = null;
@@ -106,7 +106,7 @@ public class RefinementList extends ListView implements AlgoliaResultListener, A
                 throw new AlgoliaException(Errors.REFINEMENTS_MISSING_ATTRIBUTE);
             }
 
-            operator = styledAttributes.getInt(R.styleable.RefinementList_operator, OPERATOR_OR);
+            operation = styledAttributes.getInt(R.styleable.RefinementList_operation, OPERATION_OR);
             limit = styledAttributes.getInt(R.styleable.RefinementList_limit, DEFAULT_LIMIT);
 
             ArrayList<String> parsedSortOrder = parseSortOrder(styledAttributes.getString(R.styleable.RefinementList_sortBy));
@@ -215,14 +215,14 @@ public class RefinementList extends ListView implements AlgoliaResultListener, A
     }
 
     /**
-     * Gets the operator used by this RefinementList for filtering.
+     * Gets the operation used by this RefinementList for filtering.
      *
-     * @return the RefinementList's {@link RefinementList#operator}.
-     * @see #OPERATOR_AND
-     * @see #OPERATOR_OR
+     * @return the RefinementList's {@link RefinementList#operation}.
+     * @see #OPERATION_AND
+     * @see #OPERATION_OR
      */
-    public int getOperator() {
-        return operator;
+    public int getOperation() {
+        return operation;
     }
 
     @Nullable

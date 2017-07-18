@@ -21,7 +21,7 @@
     </declare-styleable>
     <declare-styleable name="RefinementList">
         <!-- The operator to refine with. -->
-        <attr name="operator" format="string">
+        <attr name="operation" format="string">
             <!-- Disjunctive faceting (foo || bar)-->
             <enum name="or" value="0"/>
             <!-- Conjunctive faceting (foo && bar)-->
@@ -53,7 +53,7 @@
         <!-- A default label to use as a first option that does not refine on any value. -->
         <attr name="defaultLabel" format="string"/>
         <!-- The operator to use for refining, in the form lt (<), le (<=), eq (=), etc. -->
-        <attr name="operatorName">
+        <attr name="operator">
             <!-- Lower than -->
             <enum name="lt" value="0"/>
             <!-- Lower than or equal to -->
