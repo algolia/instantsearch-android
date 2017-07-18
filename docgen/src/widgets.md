@@ -32,17 +32,17 @@ The **SearchBox** is a specialized `SearchView` which provides some customizatio
 
 A useful pattern to improve your user's experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.
 
-By default, the InstantSearchHelper will display an indeterminate [`ProgressBar`](https://developer.android.com/reference/android/widget/ProgressBar.html) in your `SearchView` as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (>= API 14), or after a small delay to avoid blinking.
+By default, the InstantSearchHelper will display an indeterminate [`ProgressBar`][docs-progressbar] in your `SearchView` as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (>= API 14), or after a small delay to avoid blinking.
 You can change this delay by calling `InstantSearchHelper#enableProgressBar(int)` with a delay in milliseconds, or disable this progress indicator with `InstantSearchHelper#disableProgressBar()`.
 
-Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java).
-Once instantiated, a **SearchProgressController** will inform its [`ProgressListener`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java#L99) when some requests are sent with `onStart()`, and will call `onStop()` when all current requests have returned.
+Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/events/SearchProgressController.java)
+Once instantiated, a **SearchProgressController** will inform its [`ProgressListener`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/events/SearchProgressController.java#L98) when some requests are sent with `onStart()`, and will call `onStop()` when all current requests have returned.
 
 
 ## Hits
 <img src="assets/img/widget_Hits.png" class="img-object" align="right"/>
 
-The **Hits** widget is made to display your search results in a flexible way. Built over a [`RecyclerView`](https://developer.android.com/reference/android/support/v7/widget/RecyclerView.html), it displays a limited window into a large data set of search results.
+The **Hits** widget is made to display your search results in a flexible way. Built over a [`RecyclerView`][docs-recyclerview], it displays a limited window into a large data set of search results.
 
 This widget exposes a few attributes that you can set in its xml definition:
 
@@ -70,7 +70,7 @@ This last attribute should reference a layout file in which you will [describe h
 [guide-layout]: getting-started.html#itemlayout
 ### Data Binding
 
-This binding is done using the [Android DataBinding Library](https://developer.android.com/topic/libraries/data-binding/index.html), which allows to link a layout to an application's data. To enable this feature, add `dataBinding.enabled true` to your app's `build.gradle` under `android`:
+This binding is done using the [Android DataBinding Library][docs-databinding], which allows to link a layout to an application's data. To enable this feature, add `dataBinding.enabled true` to your app's `build.gradle` under `android`:
 ```groovy
 android {
     dataBinding.enabled true
@@ -123,7 +123,7 @@ Currently, the Hits widget handles natively the following Views and their subcla
 
 ### Custom hit views
 
-Apart from these ones, any `View` can be used to hold an attribute if it implements the [`AlgoliaHitView`](/instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaHitView.java) interface. In this case, we will call `onUpdateView(JSONObject result)` and the view will be responsible of using the result's JSON to display the hit.
+Apart from these ones, any `View` can be used to hold an attribute if it implements the [`AlgoliaHitView`][docs-hitview] interface. In this case, we will call `onUpdateView(JSONObject result)` and the view will be responsible of using the result's JSON to display the hit.
 
 *See for example the [media app][media-url]'s [`TimestampHitView`](https://github.com/algolia/instantsearch-android-examples/blob/master/media/src/main/java/com/algolia/instantsearch/examples/media/views/TimestampHitView.java), a TextView which transforms a timestamp attribute to display a human-readable date instead.*
 
@@ -136,12 +136,12 @@ As explained [in the attributes description](#hits), you can use the attributes 
 
 ### Empty View
 
-The Hits widget implements an empty view mechanism to display an alternative View if there are no results to display, following the [AdapterView's interface](https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)).
+The Hits widget implements an empty view mechanism to display an alternative View if there are no results to display, following the [AdapterView's interface][docs-adapterview].
 If you add a View to your layout with the id **`@android:id/empty`**, it will be displayed instead of the Hits when there is no data to display.  You can also set it programmatically using `Hits#setEmptyView(View)`.
 
 ### Item Click Listener
 
-As the Hits widget is based on a `RecyclerView`, we use [Hugo Visser's `ItemClickSupport`](http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/) to let you react to clicks on individual hits. To do so, add an [`OnItemClickListener`](https://community.algolia.com/instantsearch-android/javadoc/) to your hits:
+As the Hits widget is based on a `RecyclerView`, we use [Hugo Visser's `ItemClickSupport`](http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/) to let you react to clicks on individual hits. To do so, add an [`OnItemClickListener`][docs-clicklistener] to your hits:
 
 ```java
 hits.setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
@@ -223,7 +223,7 @@ Note that if you display a `NumericSelector` inside a [`PopupWindow`][docs-popup
 ## RefinementList
 <img src="assets/img/widget_RefinementList.png" class="img-object" align="right"/>
 
-The **RefinementList** is a filtering widget made to display your [facets](https://www.algolia.com/doc/guides/search/filtering-faceting#faceting) and let the user refine the search results.
+The **RefinementList** is a filtering widget made to display your [facets][guide-faceting] and let the user refine the search results.
 
 Four attributes allow you to configure how it will filter your results:
 <br /><br /><br /><br /> <!-- Line breaks to avoid code sample being squeezed by the floating image -->
@@ -298,5 +298,12 @@ This interface also specifies `setSearcher`, to give a reference to the `Searche
 [media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
 [explain-highlighting]: https://www.algolia.com/doc/faq/searching/what-is-the-highlighting/
-[docs-searcher]: /javadoc/com/algolia/instantsearch/helpers/Searcher.html
+[docs-searcher]: javadoc/com/algolia/instantsearch/helpers/Searcher.html
+[docs-hitview]: https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaHitView.java
+[guide-faceting]: https://www.algolia.com/doc/guides/searching/filtering/
+[docs-progressbar]: https://developer.android.com/reference/android/widget/ProgressBar.html
+[docs-recyclerview]: https://developer.android.com/reference/android/support/v7/widget/RecyclerView.html
+[docs-databinding]: https://developer.android.com/topic/libraries/data-binding/index.html
+[docs-adapterview]: https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)
 [docs-popupwindow]: https://developer.android.com/reference/android/widget/PopupWindow.html
+[docs-clicklistener]: javadoc/com/algolia/instantsearch/ui/utils/ItemClickSupport.OnItemClickListener.html
