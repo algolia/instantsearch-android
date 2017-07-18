@@ -22,8 +22,6 @@ import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.events.QueryTextChangeEvent;
 import com.algolia.instantsearch.events.QueryTextSubmitEvent;
 import com.algolia.instantsearch.events.ResetEvent;
-import com.algolia.instantsearch.helpers.SearchProgressController;
-import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
 import com.algolia.instantsearch.model.AlgoliaResultListener;
 import com.algolia.instantsearch.model.AlgoliaSearcherListener;
