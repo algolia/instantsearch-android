@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 /**
  * Lets you define a component that will be used for displaying a facet filter.
+ * <b>Note that every AlgoliaFacetFilter must be a subtype of View.</b>
  */
 public interface AlgoliaFacetFilter {
     /**
