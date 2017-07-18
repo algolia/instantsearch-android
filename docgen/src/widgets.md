@@ -181,6 +181,44 @@ The default Highlighter will highlight anything between `<em>` and `</em>`. You 
 
 *See for example the [e-commerce app][ecommerce-url]'s [`CategoryOrTypeView`](https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java), a TextView which takes either the `category` or the `type` attribute of a record and [highlights it](https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java#L25) before displaying.*
 
+## NumericSelector
+<img src="assets/img/widget_NumericSelector.png" class="img-object" align="right"/>
+
+The **NumericSelector** is a filtering widget made to display some values for a [facet][guide-faceting] and let the user refine the search results by selecting one.
+
+You can configure its behavior with several attributes:
+<br /><br /><br /><br /> <!-- Line breaks to avoid code sample being squeezed by the floating image -->
+
+```xml
+<com.algolia.instantsearch.ui.views.filters.NumericSelector
+        android:id="@+id/selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dialog"
+        algolia:attribute="salePrice"
+        algolia:labels="&lt; 10€, &lt; 100€, &lt; 1000€"
+        algolia:defaultLabel="Any price"
+        algolia:operator="lt"
+        algolia:values="10, 100, 1000"
+        algolia:autoHide="true"/>
+```
+
+- **`attribute`** defines which faceted attribute will be used by the widget.
+- **`operator`** is the comparison operator used for filtering.
+  This attribute accepts the following values:
+  - `"lt"` for **lower than** (`<`)
+  - `"le"` for **lower or equal** (`<=`)
+  - `"eq"` for **equal** (`==`)
+  - `"ne"` for **not equal** (`!=`)
+  - `"ge"` for **greater or equal** (`>=`)
+  - `"gt"` for **greater than** (`>`)
+- **`labels`** should be a list of the labels to display for each choice item.
+- **`values`** should be a list of the values to filter with for each choice item.
+- **`defaultLabel`** is the label for the default option (the first option of the selector does not filter on any value to let the user cancel the filtering)
+- **`autoHide`** if `true`, this widget will be hidden when there are no results.
+
+Note that if you display a `NumericSelector` inside a [`PopupWindow`][docs-popupwindow], you must set its `spinnerMode` to dialog with `android:spinnerMode="dialog"`. Failing to do so will result in a [`BadTokenException`](https://stackoverflow.com/a/18781297/3109189).
+
 
 ## RefinementList
 <img src="assets/img/widget_RefinementList.png" class="img-object" align="right"/>
@@ -261,3 +299,4 @@ This interface also specifies `setSearcher`, to give a reference to the `Searche
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
 [explain-highlighting]: https://www.algolia.com/doc/faq/searching/what-is-the-highlighting/
 [docs-searcher]: /javadoc/com/algolia/instantsearch/helpers/Searcher.html
+[docs-popupwindow]: https://developer.android.com/reference/android/widget/PopupWindow.html
