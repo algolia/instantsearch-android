@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 
 import com.algolia.instantsearch.R;
@@ -21,7 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * A widget that toggles between refining and not refining an attribute with a given value.
  */
-public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
+public abstract class Toggle extends SwitchCompat implements AlgoliaFacetFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
     private final EventBus bus;
     /** The attribute to refine on. */
     public String attribute;
