@@ -32,4 +32,7 @@ public class Errors {
 
     public static final String SORT_INVALID_VALUE = "invalid sortBy value: %s is none of \"isRefined\"|\"count:asc\"|\"count:desc\"|\"name:asc\"|\"name:desc\".";
     public static final String SORT_INVALID_ARRAY = "invalid sortBy value: %s is not a valid JSONArray.";
+
+    public static final String TOGGLE_MISSING_VALUEON = "Your TwoValuesToggle should have a valueOn attribute.";
+    public static final String TOGGLE_MISSING_VALUEOFF = "Your TwoValuesToggle should have a valueOff attribute.";
 }
