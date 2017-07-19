@@ -15,9 +15,13 @@ import com.algolia.instantsearch.model.SearchResults;
 import org.greenrobot.eventbus.Subscribe;
 
 import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
+import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
 
 
 public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
+    //TODO: Either propose a default good UX or document users should customize UX to show
+    // this widget refines no matter if checked or not.
+
     /** The value to apply when the Toggle is checked. */
     private String valueOn;
     /** The value to apply when the Toggle is unchecked. */
@@ -112,5 +116,20 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
 
     @Subscribe
     public void onFacetRefinementEvent(FacetRefinementEvent event) {
+        if (event.attribute.equals(attribute)) {
+            if (event.value.equals(valueOn)) {
+                if (isChecked() && event.operation == REMOVE) { // Stop refining on valueOn -> toggle
+                    setChecked(false);
+                } else if (!isChecked() && event.operation == ADD) { // Start refining on valueOn -> toggle
+                    setChecked(true);
+                }
+            } else if (event.value.equals(valueOff)) {
+                if (!isChecked() && event.operation == REMOVE) { // Stop refining on valueOff -> toggle
+                    setChecked(true);
+                } else if (isChecked() && event.operation == ADD) { // Start refining on valueOff -> toggle
+                    setChecked(false);
+                }
+            }
+        }
     }
 }
