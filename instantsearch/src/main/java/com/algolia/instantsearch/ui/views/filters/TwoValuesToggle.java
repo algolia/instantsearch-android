@@ -52,7 +52,7 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
                     .search();
         }
         this.valueOn = newValue;
-        applyEventualNewName(newName);
+        applyEventualNewAttribute(newName);
     }
 
     /**
@@ -73,7 +73,7 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
             isRefined = true;
         }
         this.valueOff = newValue;
-        applyEventualNewName(newName);
+        applyEventualNewAttribute(newName);
     }
 
     @Override

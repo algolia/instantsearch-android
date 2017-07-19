@@ -58,12 +58,12 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
     /**
      * Changes the Toggle's attribute, updating facet refinements accordingly.
      *
-     * @param newName the attribute's new name.
+     * @param newAttribute the attribute's new name.
      */
-    public final void setAttribute(@NonNull String newName) {
-        searcher.removeFacet(attribute).addFacet(newName);
-        updateRefinementWithNewName(newName);
-        attribute = newName;
+    public final void setAttribute(@NonNull String newAttribute) {
+        searcher.removeFacet(attribute).addFacet(newAttribute);
+        updateRefinementWithNewName(newAttribute);
+        attribute = newAttribute;
     }
 
     /**
@@ -81,11 +81,11 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         setText(applyTemplates(lastResults));
     }
 
-    /** If given a new name, update searcher's facets and attribute. */
-    void applyEventualNewName(@Nullable String newName) {
-        if (newName != null) {
-            searcher.removeFacet(attribute).addFacet(newName);
-            this.attribute = newName;
+    /** If given a new attribute, update searcher's facets and attribute. */
+    void applyEventualNewAttribute(@Nullable String newAttribute) {
+        if (newAttribute != null) {
+            searcher.removeFacet(attribute).addFacet(newAttribute);
+            this.attribute = newAttribute;
         }
     }
 

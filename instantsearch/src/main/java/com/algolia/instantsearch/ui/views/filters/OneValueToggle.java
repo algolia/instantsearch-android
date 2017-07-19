@@ -47,7 +47,7 @@ public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
                     .search();
         }
         this.value = newValue;
-        applyEventualNewName(newName);
+        applyEventualNewAttribute(newName);
     }
 
     @Override public void updateRefinementWithNewName(String newName) {
