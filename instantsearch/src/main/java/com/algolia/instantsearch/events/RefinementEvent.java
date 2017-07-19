@@ -12,18 +12,18 @@ public class RefinementEvent {
         REMOVE
     }
 
-    public final String attribute;
-    public Operation operation;
+    public @NonNull final String attribute;
+    public @NonNull final Operation operation;
 
-    public RefinementEvent(final @NonNull String attribute, Operation operation) {
+    public RefinementEvent(final @NonNull Operation operation, final @NonNull String attribute) {
         this.attribute = attribute;
         this.operation = operation;
     }
 
     @Override public String toString() {
         return "RefinementEvent{" +
-                "attribute='" + attribute + '\'' +
-                ", operation=" + operation +
+                "operation=" + operation +
+                ", attribute='" + attribute + '\'' +
                 '}';
     }
 }

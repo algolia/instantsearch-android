@@ -6,17 +6,17 @@ import com.algolia.instantsearch.model.NumericRefinement;
 
 public class NumericRefinementEvent extends RefinementEvent {
 
-    public final NumericRefinement refinement;
+    public @NonNull final NumericRefinement refinement;
 
-    public NumericRefinementEvent(Operation operation, @NonNull NumericRefinement refinement) {
-        super(refinement.attribute, operation);
+    public NumericRefinementEvent(final @NonNull Operation operation, final @NonNull NumericRefinement refinement) {
+        super(operation, refinement.attribute);
         this.refinement = refinement;
     }
 
     @Override public String toString() {
         return "NumericRefinementEvent{" +
-                "attribute='" + attribute + '\'' +
-                ", operation=" + operation +
+                "operation=" + operation +
+                ", attribute='" + attribute + '\'' +
                 ", refinement=" + refinement +
                 '}';
     }
