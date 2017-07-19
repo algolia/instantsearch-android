@@ -81,6 +81,7 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
 
     @Override
     protected OnCheckedChangeListener getOnCheckedChangeListener() {
+        searcher.updateFacetRefinement(attribute, valueOff, true);
         return new TwoValuesToggle.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -121,7 +121,10 @@ public abstract class Toggle extends SwitchCompat implements AlgoliaFacetFilter,
         Filters.hideIfShouldHide(this, autoHide, shouldHide);
     }
 
-    /** Defines what happens when the checked state changes. */
+    /**
+     * Defines what happens when the checked state changes.
+     * A Toggle subclass can use this method to pass its initial state to the Searcher.
+     */
     protected abstract OnCheckedChangeListener getOnCheckedChangeListener();
 
     /** Applies the text's templates according to the given results. */
