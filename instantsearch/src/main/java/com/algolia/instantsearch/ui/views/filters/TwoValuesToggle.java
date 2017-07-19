@@ -85,13 +85,10 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
         return new TwoValuesToggle.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (valueOff == null) { // Apply valueOn if checked, else no refinement
-                    searcher.updateFacetRefinement(attribute, valueOn, isChecked).search();
-                } else { // Toggle refined values
+                    // Toggle refined values
                     searcher.updateFacetRefinement(attribute, isChecked ? valueOn : valueOff, true)
                             .updateFacetRefinement(attribute, isChecked ? valueOff : valueOn, false)
                             .search();
-                }
             }
         };
     }
