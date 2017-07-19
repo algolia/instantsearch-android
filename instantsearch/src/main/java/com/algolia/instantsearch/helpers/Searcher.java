@@ -8,6 +8,7 @@ import android.util.SparseArray;
 import com.algolia.instantsearch.BuildConfig;
 import com.algolia.instantsearch.events.CancelEvent;
 import com.algolia.instantsearch.events.ErrorEvent;
+import com.algolia.instantsearch.events.FacetRefinementEvent;
 import com.algolia.instantsearch.events.NumericRefinementEvent;
 import com.algolia.instantsearch.events.RefinementEvent.Operation;
 import com.algolia.instantsearch.events.ResultEvent;
@@ -35,6 +36,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
+import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
 
 /**
  * Handles the state of the search interface, wrapping an {@link Client Algolia API Client} and provide a level of abstraction over it.
@@ -358,6 +362,7 @@ public class Searcher {
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addFacetRefinement(@NonNull String attribute, @NonNull String value) {
+        bus.post(new FacetRefinementEvent(ADD, attribute, value));
         List<String> attributeRefinements = getOrCreateRefinements(attribute);
         attributeRefinements.add(value);
         rebuildQueryFacetFilters();
@@ -375,6 +380,7 @@ public class Searcher {
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeFacetRefinement(@NonNull String attribute, @NonNull String value) {
+        bus.post(new FacetRefinementEvent(REMOVE, attribute, value));
         List<String> attributeRefinements = getOrCreateRefinements(attribute);
         attributeRefinements.remove(value);
         rebuildQueryFacetFilters();
@@ -448,7 +454,7 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addNumericRefinement(@NonNull NumericRefinement refinement) {
-        bus.post(new NumericRefinementEvent(Operation.ADD, refinement));
+        bus.post(new NumericRefinementEvent(ADD, refinement));
         SparseArray<NumericRefinement> refinements = numericRefinements.get(refinement.attribute);
         if (refinements == null) {
             refinements = new SparseArray<>();

@@ -8,7 +8,10 @@ import android.util.AttributeSet;
 import android.widget.CompoundButton;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.FacetRefinementEvent;
 import com.algolia.instantsearch.model.SearchResults;
+
+import org.greenrobot.eventbus.Subscribe;
 
 
 public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
@@ -109,5 +112,9 @@ public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
             searcher.removeFacetRefinement(attribute, valueRefined)
                     .addFacetRefinement(newName, valueRefined).search();
         }
+    }
+
+    @Subscribe
+    public void onFacetRefinementEvent(FacetRefinementEvent event) {
     }
 }

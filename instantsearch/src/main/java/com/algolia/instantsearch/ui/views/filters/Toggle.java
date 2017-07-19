@@ -16,10 +16,13 @@ import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * A widget that toggles between refining and not refining an attribute with a given value.
  */
 public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
+    private final EventBus bus;
     /** The attribute to refine on. */
     public String attribute;
     /** Whether the OneValueToggle should hide when results are empty. */
@@ -53,6 +56,8 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
             toggleStyledAttributes.recycle();
             viewStyledAttributes.recycle();
         }
+        bus = EventBus.getDefault();
+        bus.register(this);
     }
 
     /**

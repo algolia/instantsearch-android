@@ -8,7 +8,12 @@ import android.util.AttributeSet;
 import android.widget.CompoundButton;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.FacetRefinementEvent;
 import com.algolia.instantsearch.model.SearchResults;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
 
 /**
  * Toggles between refining and not refining an attribute with a given value.
@@ -73,6 +78,13 @@ public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
 //FIXME                    .replace("{count}", String.valueOf(results.facets.get(attributeName).size()))
                 .replace("{isRefined}", String.valueOf(isChecked()))
                 .replace("{value}", value);
+    }
+
+    @Subscribe
+    public void onFacetRefinementEvent(FacetRefinementEvent event) {
+        if (event.attribute.equals(attribute) && event.value.equals(value)) {
+            setChecked(event.operation == ADD);
+        }
     }
 
 }
