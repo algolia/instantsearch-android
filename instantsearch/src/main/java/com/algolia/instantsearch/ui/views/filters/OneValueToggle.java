@@ -18,7 +18,7 @@ import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
 /**
  * Toggles between refining and not refining an attribute with a given value.
  */
-public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
+public class OneValueToggle extends Toggle implements AlgoliaFilter {
     /** The value to apply when the OneValueToggle is checked. */
     private String value;
 

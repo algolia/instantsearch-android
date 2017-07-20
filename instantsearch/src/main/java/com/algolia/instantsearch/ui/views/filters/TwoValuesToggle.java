@@ -18,7 +18,7 @@ import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
 import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
 
 
-public class TwoValuesToggle extends Toggle implements AlgoliaFacetFilter {
+public class TwoValuesToggle extends Toggle implements AlgoliaFilter {
     //TODO: Either propose a default good UX or document users should customize UX to show
     // this widget refines no matter if checked or not.
 

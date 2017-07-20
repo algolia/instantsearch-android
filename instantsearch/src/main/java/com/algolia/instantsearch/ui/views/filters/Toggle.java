@@ -21,7 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * A widget that toggles between refining and not refining an attribute with a given value.
  */
-public abstract class Toggle extends SwitchCompat implements AlgoliaFacetFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
+public abstract class Toggle extends SwitchCompat implements AlgoliaFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
     private final EventBus bus;
     /** The attribute to refine on. */
     public String attribute;

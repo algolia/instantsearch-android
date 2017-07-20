@@ -31,7 +31,7 @@ import com.algolia.instantsearch.ui.utils.SearchViewFacade;
 import com.algolia.instantsearch.ui.views.Hits;
 import com.algolia.instantsearch.ui.views.RefinementList;
 import com.algolia.instantsearch.ui.views.SearchBox;
-import com.algolia.instantsearch.ui.views.filters.AlgoliaFacetFilter;
+import com.algolia.instantsearch.ui.views.filters.AlgoliaFilter;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -204,17 +204,17 @@ public class InstantSearch {
 
     /**
      * TODO: Ensure developer calls before displaying widget!
-     * Registers your {@link AlgoliaFacetFilter facet filters}, adding them to this InstantSearch's widgets.
+     * Registers your {@link AlgoliaFilter facet filters}, adding them to this InstantSearch's widgets.
      *
-     * @param rootView a ViewGroup containing one or several {@link AlgoliaFacetFilter AlgoliaFacetFilters}.
+     * @param rootView a ViewGroup containing one or several {@link AlgoliaFilter AlgoliaFilters}.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void registerFacetFilters(@NonNull ViewGroup rootView) {
-        final List<AlgoliaFacetFilter> filterViews = LayoutViews.findByClass(rootView, AlgoliaFacetFilter.class);
+    public void registerFilters(@NonNull ViewGroup rootView) {
+        final List<AlgoliaFilter> filterViews = LayoutViews.findByClass(rootView, AlgoliaFilter.class);
         if (filterViews.isEmpty()) {
-            throw new IllegalStateException(String.format(Errors.LAYOUT_MISSING_ALGOLIAFACETFILTER, rootView));
+            throw new IllegalStateException(String.format(Errors.LAYOUT_MISSING_ALGOLIAFILTER, rootView));
         }
-        registerFacetFilters(filterViews);
+        registerFilters(filterViews);
     }
 
     /**
@@ -223,8 +223,8 @@ public class InstantSearch {
      * @param filters a List of facet filters.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void registerFacetFilters(List<AlgoliaFacetFilter> filters) {
-        for (final AlgoliaFacetFilter filter : filters) {
+    public void registerFilters(List<AlgoliaFilter> filters) {
+        for (final AlgoliaFilter filter : filters) {
             searcher.addFacet(filter.getAttribute());
             try {
                 processListener((View) filter);

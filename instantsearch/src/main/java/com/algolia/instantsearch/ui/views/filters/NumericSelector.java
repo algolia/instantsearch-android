@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /** Displays a dropdown menu to refine a specific attribute with one of several values. */
-public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener, AdapterView.OnItemSelectedListener {
+public class NumericSelector extends AppCompatSpinner implements AlgoliaFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener, AdapterView.OnItemSelectedListener {
     public static final Double DEFAULT_VALUE = null;
 
     /** Whether the selector should hide on error or when results are empty. */
