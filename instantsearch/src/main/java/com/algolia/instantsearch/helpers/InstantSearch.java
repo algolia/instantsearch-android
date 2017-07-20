@@ -215,6 +215,7 @@ public class InstantSearch {
             throw new IllegalStateException(String.format(Errors.LAYOUT_MISSING_ALGOLIAFILTER, rootView));
         }
         registerFilters(filterViews);
+        processAllListeners(rootView);
     }
 
     /**
@@ -226,11 +227,6 @@ public class InstantSearch {
     public void registerFilters(List<AlgoliaFilter> filters) {
         for (final AlgoliaFilter filter : filters) {
             searcher.addFacet(filter.getAttribute());
-            try {
-                processListener((View) filter);
-            } catch (ClassCastException e) {
-                throw new IllegalArgumentException(Errors.FILTER_IS_NOT_VIEW);
-            }
         }
     }
 
