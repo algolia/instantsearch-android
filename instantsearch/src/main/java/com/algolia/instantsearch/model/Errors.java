@@ -14,7 +14,7 @@ public class Errors {
     public static final String FILTER_IS_NOT_VIEW = "Every AlgoliaFilter must be a subtype of View.";
 
     public static final String HITS_NO_ITEMLAYOUT = "Your Hits widget is missing an algolia:itemLayout attribute to specify the hits item layout.";
-    public static final String HITS_INFINITESCROLL = "You specified infiniteScroll=\"false\" and remainingItemsBeforeLoading, but they are mutually exclusive.";
+    public static final String HITS_INFINITESCROLL_BUT_REMAINING = "You specified infiniteScroll=\"false\" and remainingItemsBeforeLoading, but they are mutually exclusive.";
 
     public static final String LAYOUT_MISSING_RESULT_LISTENER = "You need to add at least one AlgoliaResultListener.";
     public static final String LAYOUT_MISSING_HITS_ITEMLAYOUT = "To use the Hits widget, you need to specify an item layout with algolia:itemLayout.";

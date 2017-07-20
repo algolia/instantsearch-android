@@ -93,7 +93,7 @@ public class Hits extends RecyclerView implements AlgoliaResultListener, Algolia
      *                access the current theme, resources, etc.
      * @param attrs   The attributes of the XML tag that is inflating the view.
      */
-    public Hits(@NonNull Context context, AttributeSet attrs) throws AlgoliaException {
+    public Hits(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
 
         if (isInEditMode()) {
@@ -128,7 +128,7 @@ public class Hits extends RecyclerView implements AlgoliaResultListener, Algolia
             } else {
                 remainingItemsBeforeLoading = remainingItemsAttribute;
                 if (!infiniteScroll) {
-                    throw new AlgoliaException(Errors.HITS_INFINITESCROLL);
+                    throw new IllegalStateException(Errors.HITS_INFINITESCROLL_BUT_REMAINING);
                 }
             }
 
