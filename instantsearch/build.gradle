@@ -141,6 +141,8 @@ task javadoc(type: Javadoc, dependsOn: assemble) {
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) // dependencies
     failOnError false // Errors about classes `R` and `BuildConfig` should not trigger failure
     options.optionFiles << file('javadoc.options')
+    options.links("http://docs.oracle.com/javase/8/docs/api")
+    options.linksOffline("http://d.android.com/reference", "$System.env.ANDROID_HOME/docs/reference")
     options.encoding('UTF-8')
     options.version(true)
     options.windowTitle(project.ext.NAME)
