@@ -235,12 +235,12 @@ Four attributes allow you to configure how it will filter your results:
             android:layout_height="wrap_content"
             algolia:attribute="city"
             algolia:limit="10"
-            algolia:operator="or"
+            algolia:operation="or"
             algolia:sortBy="['isRefined', 'count:desc']"/>
 ```
 
 - **`attribute`** defines which faceted attribute will be used by the widget.
-- **`operator`** can either be `"or"` or `"and"`, to control if the results should match *any* selected value or *all* selected values. (defaults to `"or"`)
+- **`operation`** can either be `"or"` or `"and"`, to control if the results should match *any* selected value or *all* selected values. (defaults to `"or"`)
 - **`limit`** is the maximum amount of facet values we will display (defaults to 10). If there are more values, we will display those with the bigger counts.
 - **`sortBy`** controls the sort order of the attributes. You can either specify a single value or an array of values to apply one after another.
 
