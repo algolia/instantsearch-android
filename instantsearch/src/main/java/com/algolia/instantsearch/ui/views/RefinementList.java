@@ -101,8 +101,9 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
         }
 
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.RefinementList, 0, 0);
+        final TypedArray viewAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.View, 0, 0);
         try {
-            attribute = styledAttributes.getString(R.styleable.View_attribute);
+            attribute = viewAttributes.getString(R.styleable.View_attribute);
             if (attribute == null) {
                 throw new AlgoliaException(Errors.REFINEMENTS_MISSING_ATTRIBUTE);
             }
@@ -114,6 +115,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
             sortOrder = parsedSortOrder != null ? parsedSortOrder : new ArrayList<>(Collections.singletonList(DEFAULT_SORT));
         } finally {
             styledAttributes.recycle();
+            viewAttributes.recycle();
         }
 
         adapter = new FacetAdapter(context);
