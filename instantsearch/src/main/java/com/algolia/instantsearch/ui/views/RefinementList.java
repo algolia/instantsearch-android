@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.FacetRefinementEvent;
 import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
@@ -40,6 +41,9 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
+import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
+import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
 
 /**
  * Displays facet values for an attribute and lets the user filter the results using these values.
@@ -194,6 +198,16 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
     @Subscribe
     public void onReset(ResetEvent event) {
         adapter.clear();
+    }
+
+    @Subscribe
+    public void onRefinement(FacetRefinementEvent event) {
+        if (event.attribute.equals(attribute)) {
+            if (adapter.hasActive(event.value) && event.operation.equals(REMOVE) || // if (active != ADD)
+                    !adapter.hasActive(event.value) && event.operation.equals(ADD)) {
+                adapter.toggleFacetValue(event.value);
+            }
+        }
     }
 
     /**
@@ -360,12 +374,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
                         throw new IllegalStateException(String.format(Errors.REFINEMENTS_MISSING_ITEM, position));
                     }
 
-                    final boolean wasActive = hasActive(facet.value);
-                    if (wasActive) {
-                        activeFacets.remove(facet.value);
-                    } else {
-                        activeFacets.add(facet.value);
-                    }
+                    toggleFacetValue(facet.value);
                     sort(sortComparator);
                     searcher.updateFacetRefinement(attribute, facet.value, hasActive(facet.value)).search();
                     updateFacetViews(facet, nameView, countView);
@@ -374,11 +383,20 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
             return convertView;
         }
 
+        private void toggleFacetValue(String facetValue) {
+            final boolean wasActive = hasActive(facetValue);
+            if (wasActive) {
+                activeFacets.remove(facetValue);
+            } else {
+                activeFacets.add(facetValue);
+            }
+        }
+
         private boolean hasActive(String facetName) {
             return activeFacets.contains(facetName);
         }
 
-        public void addFacet(FacetValue facetValue) {
+        void addFacet(FacetValue facetValue) {
             facetValues.add(facetValue);
 
             // Add to visible facetValues if we didn't reach the limit
