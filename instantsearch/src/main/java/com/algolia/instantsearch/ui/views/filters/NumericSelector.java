@@ -197,7 +197,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFilter, 
     }
 
     @Subscribe
-    public void onRefinementEvent(NumericRefinementEvent event) {
+    public void onRefinement(NumericRefinementEvent event) {
         if (event.refinement.attribute.equals(attribute) && event.refinement.operator == operator) {
             if (event.operation == RefinementEvent.Operation.REMOVE) {
                 setSelection(0);
