@@ -325,7 +325,7 @@ public class InstantSearch {
         List<String> refinementAttributes = new ArrayList<>();
 
         // Register any AlgoliaResultListener
-        final List<AlgoliaResultListener> resultListeners = LayoutViews.findByClass(rootView, AlgoliaResultListener.class);
+        final List<AlgoliaResultListener> resultListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaResultListener.class);
         if (resultListeners.size() == 0) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_RESULT_LISTENER);
         }
@@ -338,7 +338,7 @@ public class InstantSearch {
         }
 
         // Register any AlgoliaErrorListener
-        final List<AlgoliaErrorListener> errorListeners = LayoutViews.findByClass(rootView, AlgoliaErrorListener.class);
+        final List<AlgoliaErrorListener> errorListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaErrorListener.class);
         for (AlgoliaErrorListener listener : errorListeners) {
             if (!this.errorListeners.contains(listener)) {
                 this.errorListeners.add(listener);
@@ -348,7 +348,7 @@ public class InstantSearch {
         }
 
         // Register any AlgoliaSearcherListener
-        final List<AlgoliaSearcherListener> searcherListeners = LayoutViews.findByClass(rootView, AlgoliaSearcherListener.class);
+        final List<AlgoliaSearcherListener> searcherListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaSearcherListener.class);
         for (AlgoliaSearcherListener listener : searcherListeners) {
             listener.initWithSearcher(searcher);
             prepareWidget(rootView, listener, refinementAttributes);
