@@ -132,7 +132,7 @@ Apart from these ones, any `View` can be used to hold an attribute if it impleme
 An infinite scroll mechanism is built-in to load more results as the user scrolls.
 Enabled by default, it will watch the state of the Hits to load more results before the user reaches the end of the current page.
 
-As explained [in the attributes description](#hits), you can use the attributes `remainingItemsBeforeLoading` and `disableInfiniteScroll` to control or disable this feature.
+As explained [in the attributes description](widgets.html#hits), you can use the attributes `remainingItemsBeforeLoading` and `disableInfiniteScroll` to control or disable this feature.
 
 ### Empty View
 
@@ -170,7 +170,7 @@ This will highlight the attribute according to the query term, like you can see 
 
 You can also specify `algolia:highlightingColor='@{"color/appDefinedColor"}'` on a `View` to use a specific color for this one only.
 
-Note that highlighting **only works automatically on TextViews**. if you implement a [custom hit view](#custom-hit-views) or to highlight results received by your [custom widget](#anatomy-of-an-algoliawidget), you should use the [`Highlighter`](javadoc/com/algolia/instantsearch/helpers/Highlighter.html).
+Note that highlighting **only works automatically on TextViews**. if you implement a [custom hit view](widgets.html#custom-hit-views) or to highlight results received by your [custom widget](widgets.html#anatomy-of-an-algoliawidget), you should use the [`Highlighter`](javadoc/com/algolia/instantsearch/helpers/Highlighter.html).
 This tool will let you build a highlighted [`Spannable`](https://developer.android.com/reference/android/text/Spannable.html) from a search result and an optional highlight color:
 
 ```java
