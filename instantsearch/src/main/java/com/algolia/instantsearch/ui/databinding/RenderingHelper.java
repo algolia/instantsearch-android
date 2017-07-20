@@ -25,7 +25,11 @@ public class RenderingHelper {
     @NonNull
     private final Map<String, Integer> attributeColors;
 
-    /** Gets the {@link RenderingHelper#defaultRenderingHelper default RenderingHelper}. */
+    /**
+     * Gets the {@link RenderingHelper#defaultRenderingHelper default RenderingHelper}.
+     *
+     * @return the RenderingHelper instance, eventually creating it.
+     */
     public static RenderingHelper getDefault() {
         if (defaultRenderingHelper == null) {
             defaultRenderingHelper = new RenderingHelper();

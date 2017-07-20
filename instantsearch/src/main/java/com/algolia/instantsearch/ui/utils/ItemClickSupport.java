@@ -82,6 +82,7 @@ public class ItemClickSupport {
      * Sets an {@link OnItemClickListener}, eventually replacing the previous one.
      *
      * @param listener the listener.
+     * @return this {@link ItemClickSupport} for chaining.
      */
     @NonNull public ItemClickSupport setOnItemClickListener(OnItemClickListener listener) {
         mOnItemClickListener = listener;
@@ -92,6 +93,7 @@ public class ItemClickSupport {
      * Sets an {@link OnItemLongClickListener}, eventually replacing the previous one.
      *
      * @param listener the listener.
+     * @return this {@link ItemClickSupport} for chaining.
      */
     @NonNull public ItemClickSupport setOnItemLongClickListener(OnItemLongClickListener listener) {
         mOnItemLongClickListener = listener;

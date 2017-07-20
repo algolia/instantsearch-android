@@ -93,7 +93,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
      * @param attrs   The attributes of the XML tag that is inflating the view.
      */
     @SuppressWarnings("ConstantConditions") /* We set to null only if isInEditMode and throw if attribute is null */
-    public RefinementList(@NonNull final Context context, AttributeSet attrs) throws AlgoliaException {
+    public RefinementList(@NonNull final Context context, AttributeSet attrs) {
         super(context, attrs);
         if (isInEditMode()) {
             operation = OPERATION_AND;
@@ -109,7 +109,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
         try {
             attribute = viewAttributes.getString(R.styleable.View_attribute);
             if (attribute == null) {
-                throw new AlgoliaException(Errors.REFINEMENTS_MISSING_ATTRIBUTE);
+                throw new IllegalStateException(Errors.REFINEMENTS_MISSING_ATTRIBUTE);
             }
 
             operation = styledAttributes.getInt(R.styleable.RefinementList_operation, OPERATION_OR);

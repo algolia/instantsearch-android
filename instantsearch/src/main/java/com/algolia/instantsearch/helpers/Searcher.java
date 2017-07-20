@@ -108,6 +108,7 @@ public class Searcher {
      * Constructs the Searcher from an existing {@link Index}.
      *
      * @param index an Index initialized and eventually configured.
+     * @return the new instance.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public static Searcher create(@NonNull final Index index) {
@@ -123,6 +124,7 @@ public class Searcher {
      * @param appId     Your Algolia Application ID.
      * @param apiKey    A search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
      * @param indexName An index to target.
+     * @return the new instance.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public static Searcher create(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName) {
@@ -141,6 +143,7 @@ public class Searcher {
      * Starts a search with the given text.
      *
      * @param queryString a String to search on the index.
+     * @return this {@link Searcher} for chaining.
      */
     @NonNull
     public Searcher search(final String queryString) {
@@ -150,7 +153,9 @@ public class Searcher {
     }
 
     /**
-     * Start a search with the current helper's state.
+     * Starts a search with the current helper's state.
+     *
+     * @return this {@link Searcher} for chaining.
      */
     @NonNull
     public Searcher search() {
@@ -223,6 +228,8 @@ public class Searcher {
      * Loads more results with the same query.
      * <p>
      * Note that this method won't do anything if {@link Searcher#hasMoreHits} returns false.
+     *
+     * @return this {@link Searcher} for chaining.
      */
     @NonNull
     public Searcher loadMore() {
@@ -274,6 +281,8 @@ public class Searcher {
 
     /**
      * Resets the helper's state.
+     *
+     * @return this {@link Searcher} for chaining.
      */
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
@@ -300,6 +309,8 @@ public class Searcher {
 
     /**
      * Cancels all requests still waiting for a response.
+     *
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher cancelPendingRequests() {
@@ -339,6 +350,7 @@ public class Searcher {
      * @param attribute the attribute to facet on.
      * @param value     the value for this attribute.
      * @param active    if {@code true}, this facet value is currently refined on.
+     * @return this {@link Searcher} for chaining.
      */
     @NonNull
     public Searcher updateFacetRefinement(@NonNull String attribute, @NonNull String value, boolean active) {
@@ -358,6 +370,7 @@ public class Searcher {
      *
      * @param attribute the attribute to refine on.
      * @param value     the facet's value to refine with.
+     * @return this {@link Searcher} for chaining.
      */
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
@@ -376,6 +389,7 @@ public class Searcher {
      *
      * @param attribute the attribute to refine on.
      * @param value     the facet's value to refine with.
+     * @return this {@link Searcher} for chaining.
      */
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
@@ -404,6 +418,8 @@ public class Searcher {
      * Clears all facet refinements for the next queries.
      * <p>
      * <b>This method resets the current page to 0.</b>
+     *
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher clearFacetRefinements() {
@@ -420,6 +436,7 @@ public class Searcher {
      * <b>This method resets the current page to 0.</b>
      *
      * @param attribute the attribute's name.
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher clearFacetRefinements(@NonNull String attribute) {
@@ -451,6 +468,7 @@ public class Searcher {
      * Adds a numeric refinement for the next queries.
      *
      * @param refinement a {@link NumericRefinement} refining an attribute with a numerical value.
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addNumericRefinement(@NonNull NumericRefinement refinement) {
@@ -469,6 +487,7 @@ public class Searcher {
      * Removes any numeric refinements relative to a specific attribute for the next queries.
      *
      * @param attribute the attribute that may have a refinement.
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull String attribute) {
@@ -480,6 +499,7 @@ public class Searcher {
      * Removes the given numeric refinement for the next queries.
      *
      * @param refinement a description of the refinement to remove.
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull NumericRefinement refinement) {
@@ -491,6 +511,7 @@ public class Searcher {
      *
      * @param attribute an attribute that maybe has some refinements.
      * @param operator  an {@link NumericRefinement#OPERATOR_EQ operator}.
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull String attribute, @NonNull Integer operator) {
@@ -514,6 +535,7 @@ public class Searcher {
      *
      * @param attribute the attribute to refine on.
      * @param value     the value to refine with.
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addBooleanFilter(String attribute, Boolean value) {
@@ -537,6 +559,7 @@ public class Searcher {
      * Removes any boolean refinement for an attribute for the next queries.
      *
      * @param attribute the attribute that may have a refinement.
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeBooleanFilter(String attribute) {
@@ -549,6 +572,7 @@ public class Searcher {
      * Adds one or several attributes to facet on for the next queries.
      *
      * @param attributes one or more attribute names.
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addFacet(String... attributes) {
@@ -568,6 +592,7 @@ public class Searcher {
      * If the facet was added several times, you need to call this method several times too or use {@link #deleteFacet}.
      *
      * @param attributes one or more attribute names.
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeFacet(String... attributes) {
@@ -590,6 +615,7 @@ public class Searcher {
      * Forces removal of one or several faceted attributes for the next queries.
      *
      * @param attributes one or more attribute names.
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher deleteFacet(String... attributes) {
@@ -655,6 +681,7 @@ public class Searcher {
      * <b>This method resets the current page to 0.</b>
      *
      * @param query a {@link Query} object with some parameters set.
+     * @return this {@link Searcher} for chaining.
      */
     @NonNull
     public Searcher setQuery(@NonNull Query query) {
@@ -681,6 +708,7 @@ public class Searcher {
      * You may want to use {@link Searcher#reset} to reinitialize the helper to an empty state.
      *
      * @param indexName name of the new index.
+     * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public @NonNull Searcher setIndex(@NonNull String indexName) {

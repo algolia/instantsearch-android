@@ -113,7 +113,11 @@ public class BindingHelper {
         }
     }
 
-    /** Gets the current bindings as a SparseArray mapping each View's id to its attribute name. */
+    /**
+     * Gets the current bindings.
+     *
+     * @return a SparseArray mapping each View's id to its attribute name.
+     */
     public static SparseArray<String> getBindings() {
         return bindings;
     }
