@@ -24,6 +24,7 @@ import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.FacetValue;
 import com.algolia.instantsearch.model.SearchResults;
+import com.algolia.instantsearch.ui.views.filters.AlgoliaFilter;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
@@ -43,7 +44,7 @@ import java.util.Map;
 /**
  * Displays facet values for an attribute and lets the user filter the results using these values.
  */
-public class RefinementList extends ListView implements AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
+public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
     /** The operation for disjunctive faceting (foo OR bar). */
     public static final int OPERATION_OR = 0;
     /** The operation for disjunctive faceting (foo AND bar). */
@@ -209,8 +210,8 @@ public class RefinementList extends ListView implements AlgoliaResultListener, A
      *
      * @return the RefinementList's {@link RefinementList#attribute}.
      */
-    @NonNull
-    public String getAttribute() {
+    @Override
+    public @NonNull String getAttribute() {
         return attribute;
     }
 
