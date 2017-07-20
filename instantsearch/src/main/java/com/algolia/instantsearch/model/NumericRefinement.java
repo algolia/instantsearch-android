@@ -34,7 +34,11 @@ public class NumericRefinement {
     /** The value used to refine. */
     public final Double value;
 
-    /** Constructs a numeric refinement for the given attribute, operator and value. */
+    /** Constructs a numeric refinement for the given attribute, operator and value.
+     * @param attribute the attribute to refine on.
+     * @param operator a {@link NumericRefinement#OPERATOR_LT comparison operator} to apply.
+     * @param value the value to refine with.
+     */
     public NumericRefinement(@NonNull String attribute, int operator, double value) {
         checkOperatorIsValid(operator);
         this.operator = operator;

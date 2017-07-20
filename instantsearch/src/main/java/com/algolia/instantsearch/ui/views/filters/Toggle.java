@@ -124,12 +124,19 @@ public abstract class Toggle extends SwitchCompat implements AlgoliaFilter, Algo
     /**
      * Defines what happens when the checked state changes.
      * A Toggle subclass can use this method to pass its initial state to the Searcher.
+     * @return a listener that will be called when the Toggle is checked.
      */
     protected abstract OnCheckedChangeListener getOnCheckedChangeListener();
 
-    /** Applies the text's templates according to the given results. */
+    /** Applies the text's templates according to the given results.
+     *
+     * @param results the current SearchResults.
+     * @return the templated string after replacing the placeholders using {@code results}.
+     */
     protected abstract String applyTemplates(@NonNull SearchResults results);
 
-    /** Updates the refinements with the given new name. */
+    /** Updates the refinements with the given new name.
+     * @param newName the new attribute name.
+     */
     protected abstract void updateRefinementWithNewName(String newName);
 }

@@ -17,12 +17,20 @@ public class SearchViewFacade {
     private SearchView searchView;
     private android.support.v7.widget.SearchView supportView;
 
-    /** Constructs a facade from a {@link SearchView android.widget.SearchView}. */
+    /**
+     * Constructs a facade from a {@link SearchView android.widget.SearchView}.
+     *
+     * @param searchView the {@code SearchView} to facade.
+     */
     public SearchViewFacade(SearchView searchView) {
         this.searchView = searchView;
     }
 
-    /** Constructs a facade from a {@link android.support.v7.widget.SearchView}. */
+    /**
+     * Constructs a facade from a {@link android.support.v7.widget.SearchView}.
+     *
+     * @param searchView the {@code SearchView} to facade.
+     */
     public SearchViewFacade(android.support.v7.widget.SearchView searchView) {
         supportView = searchView;
     }
@@ -138,11 +146,10 @@ public class SearchViewFacade {
     }
 
     /**
-     * Sets the default or resting state of the search field. If true, a single search icon is
+     * Sets the default or resting state of the search field. If {@code true}, a single search icon is
      * shown by default and expands to show the text field and other buttons when pressed. Also,
      * if the default state is iconified, then it collapses to that state when the close button
      * is pressed. Changes to this property will take effect immediately.
-     * <p>
      * <p>The default value is true.</p>
      *
      * @param iconified whether the search field should be iconified by default
