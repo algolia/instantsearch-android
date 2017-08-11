@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.model;
 
 /**
- * Statistics relative to a given facet.
+ * Statistics relative to a given faceted attribute.
  */
 @SuppressWarnings("WeakerAccess")
 public class FacetStat {

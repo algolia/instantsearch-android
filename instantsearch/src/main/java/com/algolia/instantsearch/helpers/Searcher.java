@@ -776,7 +776,12 @@ public class Searcher {
         }
     }
 
-    @Deprecated //DISCUSS: Should we expose this?
+    /**
+     * Get the statistics associated with a given facet.
+     *
+     * @param attribute the facet's name.
+     * @return an object describing the min, max, average and sum of the facet's values.
+     */
     public
     @Nullable
     FacetStat getFacetStat(String attribute) {
