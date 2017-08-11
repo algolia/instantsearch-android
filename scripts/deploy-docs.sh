@@ -3,7 +3,7 @@ set -e # exit when error
 
 currentBranch=`git rev-parse --abbrev-ref HEAD`
 if [ $currentBranch != 'master' ]; then
-  printf "Release: You must be on maste§r\n"
+  printf "Release: You must be on master\n"
   exit 1
 fi
 
