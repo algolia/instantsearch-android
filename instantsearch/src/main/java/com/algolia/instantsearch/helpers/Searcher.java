@@ -97,9 +97,14 @@ public class Searcher {
     /** The SparseArray associating pending requests with their {@link Searcher#lastRequestId identifier}. */
     private final SparseArray<Request> pendingRequests = new SparseArray<>();
 
+    /***
+     * Gets the Searcher.
+     * @return the current Searcher instance.
+     * @throws IllegalStateException if no searcher was {@link #create(Index) created} before.
+     */
     public static Searcher get() {
         if (instance == null) {
-            throw new IllegalStateException(Errors.SEARCHER_GET_BEFORE_INIT);
+            throw new IllegalStateException(Errors.SEARCHER_GET_BEFORE_CREATE);
         }
         return instance;
     }
@@ -450,7 +455,7 @@ public class Searcher {
     }
 
     /**
-     * Get the current numeric refinement for an attribute and an operator.
+     * Gets the current numeric refinement for an attribute and an operator.
      *
      * @param attribute the attribute to refine on.
      * @param operator  one of the {@link NumericRefinement#OPERATOR_EQ operators} defined in {@link NumericRefinement}.
@@ -702,7 +707,7 @@ public class Searcher {
     }
 
     /**
-     * Change the targeted index for future queries.
+     * Changes the targeted index for future queries.
      * <p>
      * <b>Be aware that as index ordering may differ, this method will reset the current page to 0.</b>
      * You may want to use {@link Searcher#reset} to reinitialize the helper to an empty state.
@@ -777,7 +782,7 @@ public class Searcher {
     }
 
     /**
-     * Get the statistics associated with a given facet.
+     * Gets the statistics associated with a given facet.
      *
      * @param attribute the facet's name.
      * @return an object describing the min, max, average and sum of the facet's values.
@@ -789,7 +794,7 @@ public class Searcher {
     }
 
     /**
-     * Update the facet stats, calling {@link Index#search(Query)} without notifying listeners of the result.
+     * Updates the facet stats, calling {@link Index#search(Query)} without notifying listeners of the result.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void getUpdatedFacetStats() {
