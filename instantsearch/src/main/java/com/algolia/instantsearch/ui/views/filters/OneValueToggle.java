@@ -8,14 +8,19 @@ import android.util.AttributeSet;
 import android.widget.CompoundButton;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.FacetRefinementEvent;
 import com.algolia.instantsearch.model.SearchResults;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
 
 /**
  * Toggles between refining and not refining an attribute with a given value.
  */
-public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
+public class OneValueToggle extends Toggle implements AlgoliaFilter {
     /** The value to apply when the OneValueToggle is checked. */
-    public String value;
+    private String value;
 
     /**
      * Constructs a new OneValueToggle with the given context's theme and the supplied attribute set.
@@ -42,17 +47,17 @@ public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
      */
     public void setValue(String newValue, @Nullable String newName) {
         if (isChecked()) {
-            searcher.updateFacetRefinement(this.attributeName, value, false)
-                    .updateFacetRefinement(newName != null ? newName : attributeName, newValue, true)
+            searcher.updateFacetRefinement(this.attribute, value, false)
+                    .updateFacetRefinement(newName != null ? newName : attribute, newValue, true)
                     .search();
         }
         this.value = newValue;
-        applyEventualNewName(newName);
+        applyEventualNewAttribute(newName);
     }
 
     @Override public void updateRefinementWithNewName(String newName) {
         if (isChecked()) { // We need to update facetRefinement's attribute
-            searcher.removeFacetRefinement(attributeName, value)
+            searcher.removeFacetRefinement(attribute, value)
                     .addFacetRefinement(newName, value)
                     .search();
         }
@@ -62,17 +67,24 @@ public class OneValueToggle extends Toggle implements AlgoliaFacetFilter {
         return new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                searcher.updateFacetRefinement(attributeName, value, isChecked).search();
+                searcher.updateFacetRefinement(attribute, value, isChecked).search();
             }
         };
     }
 
     @Override protected String applyTemplates(@NonNull SearchResults results) {
         return template
-                .replace("{name}", attributeName)
+                .replace("{name}", attribute)
 //FIXME                    .replace("{count}", String.valueOf(results.facets.get(attributeName).size()))
                 .replace("{isRefined}", String.valueOf(isChecked()))
                 .replace("{value}", value);
+    }
+
+    @Subscribe
+    public void onFacetRefinementEvent(FacetRefinementEvent event) {
+        if (event.attribute.equals(attribute) && event.value.equals(value)) {
+            setChecked(event.operation == ADD);
+        }
     }
 
 }

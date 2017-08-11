@@ -16,13 +16,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.FacetRefinementEvent;
+import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.FacetValue;
 import com.algolia.instantsearch.model.SearchResults;
+import com.algolia.instantsearch.ui.views.filters.AlgoliaFilter;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -34,14 +42,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
+import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
+
 /**
  * Displays facet values for an attribute and lets the user filter the results using these values.
  */
-public class RefinementList extends ListView implements AlgoliaWidget {
-    /** The operator for disjunctive faceting (foo OR bar). */
-    public static final int OPERATOR_OR = 0;
-    /** The operator for disjunctive faceting (foo AND bar). */
-    public static final int OPERATOR_AND = 1;
+public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
+    /** The operation for disjunctive faceting (foo OR bar). */
+    public static final int OPERATION_OR = 0;
+    /** The operation for disjunctive faceting (foo AND bar). */
+    public static final int OPERATION_AND = 1;
 
     /** The value for sorting by increasing counts. */
     public static final String SORT_COUNT_ASC = "count:asc";
@@ -61,7 +72,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
 
     @NonNull
     private final String attribute;
-    private final int operator;
+    private final int operation;
     /** The current sort order for displaying values. */
     @NonNull
     private final ArrayList<String> sortOrder;
@@ -82,10 +93,10 @@ public class RefinementList extends ListView implements AlgoliaWidget {
      * @param attrs   The attributes of the XML tag that is inflating the view.
      */
     @SuppressWarnings("ConstantConditions") /* We set to null only if isInEditMode and throw if attribute is null */
-    public RefinementList(@NonNull final Context context, AttributeSet attrs) throws AlgoliaException {
+    public RefinementList(@NonNull final Context context, AttributeSet attrs) {
         super(context, attrs);
         if (isInEditMode()) {
-            operator = OPERATOR_AND;
+            operation = OPERATION_AND;
             sortOrder = null;
             sortComparator = null;
             attribute = null;
@@ -94,19 +105,21 @@ public class RefinementList extends ListView implements AlgoliaWidget {
         }
 
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.RefinementList, 0, 0);
+        final TypedArray viewAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.View, 0, 0);
         try {
-            attribute = styledAttributes.getString(R.styleable.View_attribute);
+            attribute = viewAttributes.getString(R.styleable.View_attribute);
             if (attribute == null) {
-                throw new AlgoliaException(Errors.REFINEMENTS_MISSING_ATTRIBUTE);
+                throw new IllegalStateException(Errors.REFINEMENTS_MISSING_ATTRIBUTE);
             }
 
-            operator = styledAttributes.getInt(R.styleable.RefinementList_operator, OPERATOR_OR);
+            operation = styledAttributes.getInt(R.styleable.RefinementList_operation, OPERATION_OR);
             limit = styledAttributes.getInt(R.styleable.RefinementList_limit, DEFAULT_LIMIT);
 
             ArrayList<String> parsedSortOrder = parseSortOrder(styledAttributes.getString(R.styleable.RefinementList_sortBy));
             sortOrder = parsedSortOrder != null ? parsedSortOrder : new ArrayList<>(Collections.singletonList(DEFAULT_SORT));
         } finally {
             styledAttributes.recycle();
+            viewAttributes.recycle();
         }
 
         adapter = new FacetAdapter(context);
@@ -143,6 +156,8 @@ public class RefinementList extends ListView implements AlgoliaWidget {
                 return comparisonValue;
             }
         };
+
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -177,12 +192,22 @@ public class RefinementList extends ListView implements AlgoliaWidget {
     }
 
     @Override
-    public void onError(Query query, @NonNull AlgoliaException error) {
+    public void onError(@NonNull Query query, @NonNull AlgoliaException error) {
     }
 
-    @Override
-    public void onReset() {
+    @Subscribe
+    public void onReset(ResetEvent event) {
         adapter.clear();
+    }
+
+    @Subscribe
+    public void onRefinement(FacetRefinementEvent event) {
+        if (event.attribute.equals(attribute)) {
+            if (adapter.hasActive(event.value) && event.operation.equals(REMOVE) || // if (active != ADD)
+                    !adapter.hasActive(event.value) && event.operation.equals(ADD)) {
+                adapter.toggleFacetValue(event.value);
+            }
+        }
     }
 
     /**
@@ -201,20 +226,20 @@ public class RefinementList extends ListView implements AlgoliaWidget {
      *
      * @return the RefinementList's {@link RefinementList#attribute}.
      */
-    @NonNull
-    public String getAttribute() {
+    @Override
+    public @NonNull String getAttribute() {
         return attribute;
     }
 
     /**
-     * Gets the operator used by this RefinementList for filtering.
+     * Gets the operation used by this RefinementList for filtering.
      *
-     * @return the RefinementList's {@link RefinementList#operator}.
-     * @see #OPERATOR_AND
-     * @see #OPERATOR_OR
+     * @return the RefinementList's {@link RefinementList#operation}.
+     * @see #OPERATION_AND
+     * @see #OPERATION_OR
      */
-    public int getOperator() {
-        return operator;
+    public int getOperation() {
+        return operation;
     }
 
     @Nullable
@@ -349,12 +374,7 @@ public class RefinementList extends ListView implements AlgoliaWidget {
                         throw new IllegalStateException(String.format(Errors.REFINEMENTS_MISSING_ITEM, position));
                     }
 
-                    final boolean wasActive = hasActive(facet.value);
-                    if (wasActive) {
-                        activeFacets.remove(facet.value);
-                    } else {
-                        activeFacets.add(facet.value);
-                    }
+                    toggleFacetValue(facet.value);
                     sort(sortComparator);
                     searcher.updateFacetRefinement(attribute, facet.value, hasActive(facet.value)).search();
                     updateFacetViews(facet, nameView, countView);
@@ -363,11 +383,20 @@ public class RefinementList extends ListView implements AlgoliaWidget {
             return convertView;
         }
 
+        private void toggleFacetValue(String facetValue) {
+            final boolean wasActive = hasActive(facetValue);
+            if (wasActive) {
+                activeFacets.remove(facetValue);
+            } else {
+                activeFacets.add(facetValue);
+            }
+        }
+
         private boolean hasActive(String facetName) {
             return activeFacets.contains(facetName);
         }
 
-        public void addFacet(FacetValue facetValue) {
+        void addFacet(FacetValue facetValue) {
             facetValues.add(facetValue);
 
             // Add to visible facetValues if we didn't reach the limit

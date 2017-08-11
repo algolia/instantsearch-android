@@ -197,4 +197,8 @@ public class SearchResults {
         }
         return facetMap;
     }
+
+    @Override public String toString() {
+        return content.toString();
+    }
 }

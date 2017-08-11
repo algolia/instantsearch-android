@@ -10,25 +10,33 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.NumericRefinementEvent;
+import com.algolia.instantsearch.events.RefinementEvent;
 import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /** Displays a dropdown menu to refine a specific attribute with one of several values. */
-public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFilter, AdapterView.OnItemSelectedListener {
+public class NumericSelector extends AppCompatSpinner implements AlgoliaFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener, AdapterView.OnItemSelectedListener {
     public static final Double DEFAULT_VALUE = null;
 
     /** Whether the selector should hide on error or when results are empty. */
     private boolean autoHide;
 
     /** The name of this NumericSelector's attribute. */
-    private String attributeName;
+    private String attribute;
     /** The operator to use for refining. */
     private int operator;
     /** The eventual label for a default option that does not refine the attribute. */
@@ -56,13 +64,15 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
     public NumericSelector(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnItemSelectedListener(this);
-        final TypedArray filterStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Filter, 0, 0);
+        EventBus.getDefault().register(this);
+        final TypedArray viewStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.View, 0, 0);
+        final TypedArray widgetStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Widget, 0, 0);
         final TypedArray selectorStyleAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.NumericSelector, 0, 0);
         try {
-            attributeName = filterStyledAttributes.getString(R.styleable.Filter_attributeName);
-            Filters.checkAttributeName(attributeName);
-            autoHide = filterStyledAttributes.getBoolean(R.styleable.Filter_autoHide, false);
-            operator = selectorStyleAttributes.getInt(R.styleable.NumericSelector_operatorName, NumericRefinement.OPERATOR_EQ);
+            attribute = viewStyledAttributes.getString(R.styleable.View_attribute);
+            Filters.checkAttributeName(attribute);
+            autoHide = widgetStyledAttributes.getBoolean(R.styleable.Widget_autoHide, false);
+            operator = selectorStyleAttributes.getInt(R.styleable.NumericSelector_operator, NumericRefinement.OPERATOR_EQ);
             defaultLabel = selectorStyleAttributes.getString(R.styleable.NumericSelector_defaultLabel);
 
             String labelString = selectorStyleAttributes.getString(R.styleable.NumericSelector_labels);
@@ -103,28 +113,26 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
                 values = new ArrayList<>();
             }
         } finally {
-            filterStyledAttributes.recycle();
+            viewStyledAttributes.recycle();
+            widgetStyledAttributes.recycle();
             selectorStyleAttributes.recycle();
         }
     }
 
-    @NonNull @Override public String getAttributeName() {
-        return attributeName;
+    @NonNull public String getAttribute() {
+        return attribute;
     }
 
     @Override public void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
         Filters.hideIfShouldHide(this, autoHide, results.nbHits == 0);
     }
 
-    @Override public void onError(Query query, AlgoliaException error) {
+    @Override public void onError(@NonNull Query query, @NonNull AlgoliaException error) {
         Filters.hideIfShouldHide(this, autoHide, true);
     }
 
     @Override public void initWithSearcher(@NonNull Searcher searcher) {
         this.searcher = searcher;
-    }
-
-    @Override public void onReset() {
     }
 
     @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -133,7 +141,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
             searcher.removeNumericRefinement(currentRefinement);
         }
         if (selectedValue != null) { // don't refine if user selected the default value
-            currentRefinement = new NumericRefinement(attributeName, operator, selectedValue);
+            currentRefinement = new NumericRefinement(attribute, operator, selectedValue);
             searcher.addNumericRefinement(currentRefinement);
         }
         searcher.search(); //TODO: Conditional if refineNow (window) or not (dialog)
@@ -150,9 +158,9 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         this.autoHide = autoHide;
     }
 
-    public void setAttributeName(String attributeName) {
-        this.attributeName = attributeName;
-        updateRefinement(attributeName, operator);
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+        updateRefinement(attribute, operator);
     }
 
     public int getOperator() {
@@ -161,7 +169,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
 
     public void setOperator(int operator) {
         this.operator = operator;
-        updateRefinement(attributeName, operator);
+        updateRefinement(attribute, operator);
     }
 
     public void setDefaultLabel(String defaultLabel) {
@@ -179,12 +187,29 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFacetFil
         ((ArrayAdapter<String>) getAdapter()).notifyDataSetChanged();
     }
 
-    private void updateRefinement(String attributeName, int operator) {
+    private void updateRefinement(String attribute, int operator) {
         if (currentRefinement != null) {
             searcher.removeNumericRefinement(currentRefinement);
-            currentRefinement = new NumericRefinement(attributeName, operator, currentRefinement.value);
+            currentRefinement = new NumericRefinement(attribute, operator, currentRefinement.value);
             searcher.addNumericRefinement(currentRefinement);
             searcher.search();
+        }
+    }
+
+    @Subscribe
+    public void onRefinement(NumericRefinementEvent event) {
+        if (event.refinement.attribute.equals(attribute) && event.refinement.operator == operator) {
+            if (event.operation == RefinementEvent.Operation.REMOVE) {
+                setSelection(0);
+            } else {
+                for (int i = 0; i < values.size(); i++) {
+                    Double valueI = values.get(i);
+                    if (event.refinement.value.equals(valueI)) {
+                        setSelection(i);
+                        break;
+                    }
+                }
+            }
         }
     }
 }

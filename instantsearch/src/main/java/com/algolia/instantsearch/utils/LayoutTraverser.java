@@ -3,7 +3,7 @@
  * License: "I haven’t applied a licence to it yet. But you are free to use it for any kind of project,
  * open source or commercial. A link to this page in source code would be great, though."
  */
-package com.algolia.instantsearch.ui.utils;
+package com.algolia.instantsearch.utils;
 
 import android.support.annotation.NonNull;
 import android.view.View;

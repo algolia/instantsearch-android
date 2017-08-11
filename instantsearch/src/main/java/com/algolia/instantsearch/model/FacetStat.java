@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.model;
 
 /**
- * Statistics relative to a given facet.
+ * Statistics relative to a given faceted attribute.
  */
 @SuppressWarnings("WeakerAccess")
 public class FacetStat {
@@ -15,7 +15,6 @@ public class FacetStat {
     public final double sum;
 
     public FacetStat(double min, double max, double avg, double sum) {
-        //DISCUSS: Store attribute name and value here?
         this.min = min;
         this.max = max;
         this.avg = avg;

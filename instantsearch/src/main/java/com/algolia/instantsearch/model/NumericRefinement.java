@@ -7,6 +7,7 @@ import java.util.Locale;
 /** Represents a numeric refinement of an {@link NumericRefinement#attribute} with an {@link NumericRefinement#operator} and a {@link NumericRefinement#value}. */
 @SuppressWarnings("WeakerAccess")
 public class NumericRefinement {
+    //DISCUSS: Enum for code clarity/DX
     /** The lower than operator {@literal (<)}. */
     public static final int OPERATOR_LT = 0;
     /** The lower or equal operator {@literal (<=)}. */
@@ -20,6 +21,9 @@ public class NumericRefinement {
     /** The greater than operator {@literal (>)}. */
     public static final int OPERATOR_GT = 5;
 
+    public static final int OPERATOR_UNKNOWN = -42;
+    public static final double VALUE_UNKNOWN = -42;
+
     private static final String ERROR_INVALID_CODE = "operator (%d) should be one of NumericRefinement.OPERATOR_XX.";
     private static final String ERROR_INVALID_NAME = "operator (%s) should be one of 'lt', 'le', 'eq', 'ne', 'ge', 'gt'.";
 
@@ -30,7 +34,11 @@ public class NumericRefinement {
     /** The value used to refine. */
     public final Double value;
 
-    /** Constructs a numeric refinement for the given attribute, operator and value. */
+    /** Constructs a numeric refinement for the given attribute, operator and value.
+     * @param attribute the attribute to refine on.
+     * @param operator a {@link NumericRefinement#OPERATOR_LT comparison operator} to apply.
+     * @param value the value to refine with.
+     */
     public NumericRefinement(@NonNull String attribute, int operator, double value) {
         checkOperatorIsValid(operator);
         this.operator = operator;
@@ -78,6 +86,7 @@ public class NumericRefinement {
             case OPERATOR_NE:
             case OPERATOR_GE:
             case OPERATOR_GT:
+            case OPERATOR_UNKNOWN:
                 return;
             default:
                 throw new IllegalStateException(String.format(Locale.US, ERROR_INVALID_CODE, operatorCode));

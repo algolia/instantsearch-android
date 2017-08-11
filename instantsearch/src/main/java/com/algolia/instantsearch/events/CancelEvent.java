@@ -12,7 +12,7 @@ public class CancelEvent {
     /** the search request's identifier. */
     public final Integer requestSeqNumber;
 
-    public CancelEvent(Request request, Integer requestSeqNumber) {
+    public CancelEvent(final Request request, final Integer requestSeqNumber) {
         this.request = request;
         this.requestSeqNumber = requestSeqNumber;
     }

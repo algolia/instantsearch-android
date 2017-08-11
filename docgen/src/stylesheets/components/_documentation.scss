@@ -114,7 +114,7 @@
           line-height: 26px;
 
           &:before {
-            content: '-';
+            // content: '-'; lis already display with a list-style-type:disc
             float: left;
             margin-right: 6px;
             color: $logan
@@ -266,6 +266,11 @@
       clear: none !important
     }
   }
+}
+
+img[align="center"] {
+    display: block;
+    margin: 0 auto;
 }
 
 .documentation-container {

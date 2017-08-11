@@ -4,21 +4,26 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
-import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.ResetEvent;
+import com.algolia.instantsearch.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.model.AlgoliaResultListener;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-public class Stats extends TextView implements AlgoliaWidget {
-    // TODO: Autohidecontainer, maybe other useful attrs? https://community.algolia.com/instantsearch.js/documentation/#stats
+
+public class Stats extends android.support.v7.widget.AppCompatTextView implements AlgoliaResultListener, AlgoliaErrorListener {
     /** The default template, only shown when there is no error. */
     public static final String DEFAULT_TEMPLATE = "{nbHits} results found in {processingTimeMS} ms";
 
     private String resultTemplate;
     private String errorTemplate;
+    private final boolean autoHide;
 
     /**
      * Constructs a new Stats with the given context's theme and the supplied attribute set.
@@ -29,31 +34,35 @@ public class Stats extends TextView implements AlgoliaWidget {
      */
     public Stats(Context context, AttributeSet attrs) {
         super(context, attrs);
-        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, com.algolia.instantsearch.R.styleable.Stats, 0, 0);
+        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Stats, 0, 0);
+        final TypedArray widgetAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Widget, 0, 0);
         try {
-            resultTemplate = styledAttributes.getString(com.algolia.instantsearch.R.styleable.Stats_resultTemplate);
+            resultTemplate = styledAttributes.getString(R.styleable.Stats_resultTemplate);
             if (resultTemplate == null) {
                 resultTemplate = DEFAULT_TEMPLATE;
             }
-            errorTemplate = styledAttributes.getString(com.algolia.instantsearch.R.styleable.Stats_errorTemplate);
+            errorTemplate = styledAttributes.getString(R.styleable.Stats_errorTemplate);
+            autoHide = widgetAttributes.getBoolean(R.styleable.Widget_autoHide, false);
         } finally {
             styledAttributes.recycle();
         }
+
+        EventBus.getDefault().register(this);
     }
 
-    @Override
-    public void initWithSearcher(@NonNull Searcher searcher) {
-    }
-
-    @Override
-    public void onReset() {
+    @Subscribe
+    public void onReset(ResetEvent event) {
         setVisibility(GONE);
     }
 
     @Override
     public void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
-        setVisibility(VISIBLE);
-        setText(applyTemplate(resultTemplate, results));
+        if (autoHide && results.nbHits == 0) {
+            setVisibility(GONE);
+        } else {
+            setVisibility(VISIBLE);
+            setText(applyTemplate(resultTemplate, results));
+        }
     }
 
     private String applyTemplate(@NonNull String template, @NonNull SearchResults results) {
@@ -73,7 +82,7 @@ public class Stats extends TextView implements AlgoliaWidget {
     }
 
     @Override
-    public void onError(Query query, AlgoliaException error) {
+    public void onError(@NonNull Query query, @NonNull AlgoliaException error) {
         if (errorTemplate == null) {
             setVisibility(GONE);
         } else {

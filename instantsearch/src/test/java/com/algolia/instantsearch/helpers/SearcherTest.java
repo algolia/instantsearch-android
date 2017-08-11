@@ -4,12 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.algolia.instantsearch.Helpers;
 import com.algolia.instantsearch.InstantSearchTest;
-import com.algolia.instantsearch.model.AlgoliaResultsListener;
+import com.algolia.instantsearch.model.AlgoliaResultListener;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
-import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
-import com.algolia.search.saas.Query;
 
 import junit.framework.Assert;
 
@@ -23,7 +21,7 @@ public class SearcherTest extends InstantSearchTest {
     @NonNull
     private Searcher initSearcher() {
         final Client client = new Client(Helpers.app_id, Helpers.api_key);
-        return new Searcher(client.getIndex(Helpers.safeIndexName("test")));
+        return Searcher.create(client.getIndex(Helpers.safeIndexName("test")));
     }
 
     @Test
@@ -64,18 +62,13 @@ public class SearcherTest extends InstantSearchTest {
     @Test
     public void canCancelPendingRequests() {
         Searcher searcher = initSearcher();
-        final AlgoliaResultsListener resultsListener = new AlgoliaResultsListener() {
+        final AlgoliaResultListener resultListener = new AlgoliaResultListener() {
             @Override
             public void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
                 Assert.fail("The request should have been cancelled.");
             }
-
-            @Override
-            public void onError(Query query, AlgoliaException error) {
-                Assert.fail("The request should have been cancelled.");
-            }
         };
-        searcher.registerListener(resultsListener);
+        searcher.registerResultListener(resultListener);
         searcher.search();
         Assert.assertTrue("There should be a pending request", searcher.hasPendingRequests());
         searcher.cancelPendingRequests();
@@ -144,4 +137,57 @@ public class SearcherTest extends InstantSearchTest {
         Assert.assertFalse("facetFilters should have no more refinements on attribute", searcher.getQuery().getFacetFilters().toString().contains("attribute"));
         Assert.assertTrue("facetFilters should still contain the other attribute's refinement", searcher.getQuery().getFacetFilters().toString().contains("other:baz"));
     }
+
+    @Test
+    public void addRemoveFacet() {
+        final Searcher searcher = initSearcher();
+
+        // add one facet
+        searcher.addFacet("foo");
+        String[] facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should contain one facet.", 1, facets.length);
+        Assert.assertEquals("The query's facet should be `foo`.", "foo", facets[0]);
+
+        // add a facet twice
+        searcher.addFacet("foo");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should still contain one facet.", 1, facets.length);
+        Assert.assertEquals("The query's facet should still be `foo`.", "foo", facets[0]);
+
+        // remove one facet requested twice
+        searcher.removeFacet("foo");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should still contain one facet.", 1, facets.length);
+        Assert.assertEquals("The query's facet should still be `foo`.", "foo", facets[0]);
+
+        // add a second facet
+        searcher.addFacet("bar");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should contain two facets.", 2, facets.length);
+        Assert.assertEquals("The query's second facet should be `bar`.", "bar", facets[1]);
+
+        // remove a facet
+        searcher.removeFacet("foo");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should now contain one facet.", 1, facets.length);
+        Assert.assertEquals("The query's facet should now be `bar`.", "bar", facets[0]);
+
+
+        // add several facets
+        searcher.addFacet("foo", "baz");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should now contain three facets.", 3, facets.length);
+
+        // remove several facets
+        searcher.removeFacet("foo", "bar", "baz");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should now contain no facets.", 0, facets.length);
+
+        // delete a facet
+        searcher.addFacet("foo").addFacet("foo");
+        searcher.deleteFacet("foo");
+        facets = searcher.getQuery().getFacets();
+        Assert.assertEquals("The query should now contain no facets.", 0, facets.length);
+    }
+
 }

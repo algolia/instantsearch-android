@@ -29,22 +29,28 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.Highlighter;
 import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
-import com.algolia.instantsearch.ui.InstantSearch;
+import com.algolia.instantsearch.helpers.InstantSearch;
 import com.algolia.instantsearch.ui.databinding.BindingHelper;
 import com.algolia.instantsearch.ui.databinding.RenderingHelper;
-import com.algolia.instantsearch.ui.utils.ItemClickSupport;
-import com.algolia.instantsearch.ui.utils.ItemClickSupport.OnItemClickListener;
-import com.algolia.instantsearch.ui.utils.ItemClickSupport.OnItemLongClickListener;
-import com.algolia.instantsearch.ui.utils.LayoutViews;
+import com.algolia.instantsearch.utils.ItemClickSupport;
+import com.algolia.instantsearch.utils.ItemClickSupport.OnItemClickListener;
+import com.algolia.instantsearch.utils.ItemClickSupport.OnItemLongClickListener;
+import com.algolia.instantsearch.utils.LayoutViews;
 import com.algolia.instantsearch.utils.JSONUtils;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 import com.bumptech.glide.Glide;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -57,7 +63,7 @@ import java.util.Set;
 /**
  * Displays your search results in a flexible way. Built over a {@link RecyclerView}, it displays a limited window into a large data set of search results.
  */
-public class Hits extends RecyclerView implements AlgoliaWidget {
+public class Hits extends RecyclerView implements AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
     /** Default amount of hits fetched with each page */
     public static final int DEFAULT_HITS_PER_PAGE = 20;
     /** Default amount of remaining results to display before loading a new page */
@@ -87,7 +93,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
      *                access the current theme, resources, etc.
      * @param attrs   The attributes of the XML tag that is inflating the view.
      */
-    public Hits(@NonNull Context context, AttributeSet attrs) throws AlgoliaException {
+    public Hits(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
 
         if (isInEditMode()) {
@@ -122,7 +128,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
             } else {
                 remainingItemsBeforeLoading = remainingItemsAttribute;
                 if (!infiniteScroll) {
-                    throw new AlgoliaException(Errors.HITS_INFINITESCROLL);
+                    throw new IllegalStateException(Errors.HITS_INFINITESCROLL_BUT_REMAINING);
                 }
             }
 
@@ -150,6 +156,8 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         if (infiniteScroll) {
             addOnScrollListener(infiniteScrollListener);
         }
+
+        EventBus.getDefault().register(this);
     }
 
 
@@ -288,8 +296,8 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
         Log.e("Algolia|Hits", "Error while searching '" + query.getQuery() + "':" + error.getMessage());
     }
 
-    @Override
-    public void onReset() {
+    @Subscribe
+    public void onReset(ResetEvent event) {
         addHits(null, true);
     }
 
@@ -331,7 +339,7 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            if (!searcher.shouldLoadMore()) {
+            if (!searcher.hasMoreHits()) {
                 return;
             }
 
@@ -484,11 +492,11 @@ public class Hits extends RecyclerView implements AlgoliaWidget {
 
         private
         @Nullable
-        Spannable getHighlightedAttribute(@NonNull JSONObject hit, @NonNull View view, @NonNull String attributeName, @Nullable String attributeValue) {
+        Spannable getHighlightedAttribute(@NonNull JSONObject hit, @NonNull View view, @NonNull String attribute, @Nullable String attributeValue) {
             Spannable attributeText;
-            if (RenderingHelper.getDefault().shouldHighlight(attributeName)) {
-                final int highlightColor = RenderingHelper.getDefault().getHighlightColor(attributeName);
-                attributeText = Highlighter.getDefault().renderHighlightColor(hit, attributeName, highlightColor, view.getContext());
+            if (RenderingHelper.getDefault().shouldHighlight(attribute)) {
+                final int highlightColor = RenderingHelper.getDefault().getHighlightColor(attribute);
+                attributeText = Highlighter.getDefault().renderHighlightColor(hit, attribute, highlightColor, view.getContext());
             } else {
                 attributeText = attributeValue != null ? new SpannableString(attributeValue) : null;
             }

@@ -4,28 +4,34 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * A widget that toggles between refining and not refining an attribute with a given value.
  */
-public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFilter {
+public abstract class Toggle extends SwitchCompat implements AlgoliaFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
+    private final EventBus bus;
     /** The attribute to refine on. */
-    public String attributeName;
+    public String attribute;
     /** Whether the OneValueToggle should hide when results are empty. */
-    public boolean autoHide;
+    private boolean autoHide;
     /** A template to use as the OneValueToggle's text. */
-    public String template;
+    String template;
 
-    protected Searcher searcher;
-    protected boolean shouldHide;
+    Searcher searcher;
+    private boolean shouldHide;
     private SearchResults lastResults;
 
     /**
@@ -37,28 +43,32 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
      */
     public Toggle(Context context, AttributeSet attrs) {
         super(context, attrs);
-        final TypedArray filterStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Filter, 0, 0);
+        final TypedArray viewStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.View, 0, 0);
+        final TypedArray widgetStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Widget, 0, 0);
         final TypedArray toggleStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Toggle, 0, 0);
         try {
-            attributeName = filterStyledAttributes.getString(R.styleable.Filter_attributeName);
-            Filters.checkAttributeName(attributeName);
+            attribute = viewStyledAttributes.getString(R.styleable.View_attribute);
+            Filters.checkAttributeName(attribute);
             template = toggleStyledAttributes.getString(R.styleable.Toggle_template);
-            autoHide = filterStyledAttributes.getBoolean(R.styleable.Filter_autoHide, false);
+            autoHide = widgetStyledAttributes.getBoolean(R.styleable.Widget_autoHide, false);
         } finally {
-            filterStyledAttributes.recycle();
+            widgetStyledAttributes.recycle();
             toggleStyledAttributes.recycle();
+            viewStyledAttributes.recycle();
         }
+        bus = EventBus.getDefault();
+        bus.register(this);
     }
 
     /**
      * Changes the Toggle's attribute, updating facet refinements accordingly.
      *
-     * @param newName the attribute's new name.
+     * @param newAttribute the attribute's new name.
      */
-    public final void setAttributeName(@NonNull String newName) {
-        searcher.removeFacet(attributeName).addFacet(newName);
-        updateRefinementWithNewName(newName);
-        attributeName = newName;
+    public final void setAttribute(@NonNull String newAttribute) {
+        searcher.removeFacet(attribute).addFacet(newAttribute);
+        updateRefinementWithNewName(newAttribute);
+        attribute = newAttribute;
     }
 
     /**
@@ -76,16 +86,16 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         setText(applyTemplates(lastResults));
     }
 
-    /** If given a new name, update searcher's facets and attribute. */
-    protected void applyEventualNewName(@Nullable String newName) {
-        if (newName != null) {
-            searcher.removeFacet(attributeName).addFacet(newName);
-            this.attributeName = newName;
+    /** If given a new attribute, update searcher's facets and attribute. */
+    void applyEventualNewAttribute(@Nullable String newAttribute) {
+        if (newAttribute != null) {
+            searcher.removeFacet(attribute).addFacet(newAttribute);
+            this.attribute = newAttribute;
         }
     }
 
-    @NonNull @Override public final String getAttributeName() {
-        return attributeName;
+    @NonNull public final String getAttribute() {
+        return attribute;
     }
 
     @Override public final void initWithSearcher(@NonNull final Searcher searcher) {
@@ -98,9 +108,6 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         searcher.search();
     }
 
-    @Override public final void onReset() {
-    }
-
     @Override public final void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
         shouldHide = results.nbHits == 0;
         Filters.hideIfShouldHide(this, autoHide, shouldHide);
@@ -110,16 +117,26 @@ public abstract class Toggle extends AppCompatCheckBox implements AlgoliaFacetFi
         lastResults = results;
     }
 
-    @Override public final void onError(Query query, AlgoliaException error) {
+    @Override public final void onError(@NonNull Query query, @NonNull AlgoliaException error) {
         Filters.hideIfShouldHide(this, autoHide, shouldHide);
     }
 
-    /** Defines what happens when the checked state changes. */
+    /**
+     * Defines what happens when the checked state changes.
+     * A Toggle subclass can use this method to pass its initial state to the Searcher.
+     * @return a listener that will be called when the Toggle is checked.
+     */
     protected abstract OnCheckedChangeListener getOnCheckedChangeListener();
 
-    /** Applies the text's templates according to the given results. */
+    /** Applies the text's templates according to the given results.
+     *
+     * @param results the current SearchResults.
+     * @return the templated string after replacing the placeholders using {@code results}.
+     */
     protected abstract String applyTemplates(@NonNull SearchResults results);
 
-    /** Updates the refinements with the given new name. */
+    /** Updates the refinements with the given new name.
+     * @param newName the new attribute name.
+     */
     protected abstract void updateRefinementWithNewName(String newName);
 }

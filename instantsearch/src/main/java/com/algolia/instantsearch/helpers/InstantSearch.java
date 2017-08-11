@@ -1,10 +1,9 @@
-package com.algolia.instantsearch.ui;
+package com.algolia.instantsearch.helpers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -20,17 +19,19 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.QueryTextChangeEvent;
+import com.algolia.instantsearch.events.QueryTextSubmitEvent;
 import com.algolia.instantsearch.events.ResetEvent;
-import com.algolia.instantsearch.events.SearchProgressController;
-import com.algolia.instantsearch.helpers.Searcher;
+import com.algolia.instantsearch.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
-import com.algolia.instantsearch.ui.utils.LayoutViews;
-import com.algolia.instantsearch.ui.utils.SearchViewFacade;
-import com.algolia.instantsearch.ui.views.AlgoliaWidget;
+import com.algolia.instantsearch.utils.LayoutViews;
+import com.algolia.instantsearch.utils.SearchViewFacade;
 import com.algolia.instantsearch.ui.views.Hits;
 import com.algolia.instantsearch.ui.views.RefinementList;
 import com.algolia.instantsearch.ui.views.SearchBox;
-import com.algolia.instantsearch.ui.views.filters.AlgoliaFacetFilter;
+import com.algolia.instantsearch.ui.views.filters.AlgoliaFilter;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -44,14 +45,19 @@ import java.util.Set;
  * You can either use it with a single widget which will receive incoming results, or with several that will interact together in the same activity.
  */
 public class InstantSearch {
-    //TODO: Helper for auto closing keyboard
     /** Delay before displaying progressbar when the current android API does not support animations. {@literal (API < 14)} */
     @SuppressWarnings("WeakerAccess") public static final int DELAY_PROGRESSBAR_NO_ANIMATIONS = 200;
 
     @Nullable
     private SearchViewFacade searchView;
+
     @NonNull
-    private final Set<AlgoliaWidget> widgets = new HashSet<>();
+    private final Set<View> widgets = new HashSet<>();
+    @NonNull
+    private final Set<AlgoliaResultListener> resultListeners = new HashSet<>();
+    @NonNull
+    private final Set<AlgoliaErrorListener> errorListeners = new HashSet<>();
+
     @NonNull
     private final Searcher searcher;
 
@@ -68,7 +74,7 @@ public class InstantSearch {
     /**
      * Constructs the helper, then link it to the given Activity.
      *
-     * @param activity an Activity containing at least one {@link AlgoliaWidget} to update with incoming results.
+     * @param activity an Activity containing at least one {@link AlgoliaResultListener} to update with incoming results.
      * @param searcher the Searcher to use with this activity.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
@@ -81,7 +87,7 @@ public class InstantSearch {
     /**
      * Constructs the helper, then link it to the given Activity and Menu's searchView.
      *
-     * @param activity   an Activity containing at least one {@link AlgoliaWidget} to update with incoming results.
+     * @param activity   an Activity containing at least one {@link AlgoliaResultListener} to update with incoming results.
      * @param menu       the Menu which contains your SearchView.
      * @param menuItemId the SearchView item's {@link android.support.annotation.IdRes id} in your Menu.
      * @param searcher   the Searcher to use with this activity.
@@ -94,18 +100,6 @@ public class InstantSearch {
         processActivity(activity);
     }
 
-    /**
-     * Constructs the helper, then link it to the given widget.
-     *
-     * @param widget   an AlgoliaWidget to update with incoming results.
-     * @param searcher the Searcher to use with this AlgoliaWidget.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public InstantSearch(@NonNull final AlgoliaWidget widget, @NonNull final Searcher searcher) {
-        this(searcher);
-        processWidget(((View) widget).getRootView(), widget, null);
-    }
-
     private InstantSearch(@NonNull final Searcher searcher) {
         this.searcher = searcher;
         enableProgressBar();
@@ -115,28 +109,7 @@ public class InstantSearch {
      * Triggers a new search with the {@link #searchView}'s text.
      */
     public void search() {
-        if (searchView != null) {
-            searcher.search(searchView.getQuery().toString());
-        } else {
-            searcher.search();
-        }
-    }
-
-    /**
-     * Triggers a search if the given intent is an ACTION_SEARCH intent.
-     *
-     * @param intent an Intent that may contain a search query.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void search(@NonNull Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            if (searchView != null) {
-                searchView.setQuery(query, false);
-                searchView.clearFocus();
-            }
-            searcher.search(query);
-        }
+        searcher.search();
     }
 
     /**
@@ -178,14 +151,11 @@ public class InstantSearch {
 
 
     /**
-     * Resets the search interface and state via {@link Searcher#reset()} and {@link AlgoliaWidget#onReset()}.
+     * Resets the search interface and state via {@link Searcher#reset()}, broadcasting a {@link ResetEvent}.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void reset() {
         searcher.reset();
-        for (AlgoliaWidget widget : widgets) {
-            widget.onReset();
-        }
         EventBus.getDefault().post(new ResetEvent());
     }
 
@@ -234,17 +204,18 @@ public class InstantSearch {
 
     /**
      * TODO: Ensure developer calls before displaying widget!
-     * Registers your {@link AlgoliaFacetFilter facet filters}, adding them to this InstantSearch's widgets.
+     * Registers your {@link AlgoliaFilter facet filters}, adding them to this InstantSearch's widgets.
      *
-     * @param rootView a ViewGroup containing one or several {@link AlgoliaFacetFilter AlgoliaFacetFilters}.
+     * @param rootView a ViewGroup containing one or several {@link AlgoliaFilter AlgoliaFilters}.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void registerFacetFilters(@NonNull ViewGroup rootView) {
-        final List<AlgoliaFacetFilter> filterViews = LayoutViews.findByClass(rootView, AlgoliaFacetFilter.class);
+    public void registerFilters(@NonNull ViewGroup rootView) {
+        final List<AlgoliaFilter> filterViews = LayoutViews.findByClass(rootView, AlgoliaFilter.class);
         if (filterViews.isEmpty()) {
-            throw new IllegalStateException(String.format(Errors.LAYOUT_MISSING_ALGOLIAFACETFILTER, rootView));
+            throw new IllegalStateException(String.format(Errors.LAYOUT_MISSING_ALGOLIAFILTER, rootView));
         }
-        registerFacetFilters(filterViews);
+        registerFilters(filterViews);
+        processAllListeners(rootView);
     }
 
     /**
@@ -253,10 +224,9 @@ public class InstantSearch {
      * @param filters a List of facet filters.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void registerFacetFilters(List<AlgoliaFacetFilter> filters) {
-        for (final AlgoliaFacetFilter filter : filters) {
-            searcher.addFacet(filter.getAttributeName());
-            processWidget(filter);
+    public void registerFilters(List<AlgoliaFilter> filters) {
+        for (final AlgoliaFilter filter : filters) {
+            searcher.addFacet(filter.getAttribute());
         }
     }
 
@@ -313,53 +283,120 @@ public class InstantSearch {
             searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
         }
 
-        // Register any AlgoliaWidget
-        final List<AlgoliaWidget> foundListeners = LayoutViews.findByClass(rootView, AlgoliaWidget.class);
-        if (foundListeners.size() == 0) {
-            throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS);
-        }
-        final List<String> refinementAttributes = new ArrayList<>();
-        for (AlgoliaWidget widget : foundListeners) {
-            processWidget(rootView, widget, refinementAttributes);
-        }
+        final List<String> refinementAttributes = processAllListeners(rootView);
         final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
         if (facets.length > 0) {
             searcher.addFacet(facets);
         }
     }
 
-    private void processWidget(AlgoliaWidget widget) {
-        processWidget(null, widget, null);
-    }
+    private void processListener(View widget) {
+        if (widget instanceof AlgoliaResultListener) {
+            AlgoliaResultListener listener = (AlgoliaResultListener) widget;
+            if (!this.resultListeners.contains(listener)) {
+                this.resultListeners.add(listener);
+            }
+            searcher.registerResultListener(listener);
+        }
+        if (widget instanceof AlgoliaErrorListener) {
+            AlgoliaErrorListener listener = (AlgoliaErrorListener) widget;
+            if (!this.errorListeners.contains(listener)) {
+                this.errorListeners.add(listener);
+            }
+            searcher.registerErrorListener(listener);
+        }
+        if (widget instanceof AlgoliaSearcherListener) {
+            AlgoliaSearcherListener listener = (AlgoliaSearcherListener) widget;
+            listener.initWithSearcher(searcher);
+        }
 
-    private void processWidget(@Nullable View rootView, AlgoliaWidget widget, @Nullable List<String> refinementAttributes) {
-        if (!widgets.contains(widget)) {
+        if (!widgets.contains(widget)) { // process once each widget
             widgets.add(widget);
         }
-        //noinspection deprecation Deprecated for app developers
-        searcher.registerListener(widget);
-        widget.initWithSearcher(searcher);
+    }
 
-        if (widget instanceof Hits) {
-            searcher.getQuery().setHitsPerPage(((Hits) widget).getHitsPerPage());
+    /**
+     * Finds and sets up the Listeners in the given rootView.
+     *
+     * @param rootView a View to traverse looking for listeners.
+     * @return the list of refinement attributes found on listeners.
+     */
+    private List<String> processAllListeners(View rootView) {
+        List<String> refinementAttributes = new ArrayList<>();
 
-            // Link hits to activity's empty view
-            ((Hits) widget).setEmptyView(getEmptyView(rootView));
-
-            itemLayoutId = ((Hits) widget).getLayoutId();
-
-            if (itemLayoutId == -42) {
-                throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
+        // Register any AlgoliaResultListener
+        final List<AlgoliaResultListener> resultListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaResultListener.class);
+        if (resultListeners.size() == 0) {
+            throw new IllegalStateException(Errors.LAYOUT_MISSING_RESULT_LISTENER);
+        }
+        for (AlgoliaResultListener listener : resultListeners) {
+            if (!this.resultListeners.contains(listener)) {
+                this.resultListeners.add(listener);
             }
-        } else if (widget instanceof RefinementList) {
-            //noinspection deprecation Deprecated for app developers
-            searcher.registerListener(widget);
-            searcher.addFacet(((RefinementList) widget).getAttribute(), ((RefinementList) widget).getOperator() == RefinementList.OPERATOR_OR, new ArrayList<String>());
-            if (refinementAttributes != null) {
-                refinementAttributes.add(((RefinementList) widget).getAttribute());
+            searcher.registerResultListener(listener);
+            prepareWidget(rootView, listener, refinementAttributes);
+        }
+
+        // Register any AlgoliaErrorListener
+        final List<AlgoliaErrorListener> errorListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaErrorListener.class);
+        for (AlgoliaErrorListener listener : errorListeners) {
+            if (!this.errorListeners.contains(listener)) {
+                this.errorListeners.add(listener);
             }
-        } else if (widget instanceof ListView) {
-            ((ListView) widget).setEmptyView(getEmptyView(rootView));
+            searcher.registerErrorListener(listener);
+            prepareWidget(rootView, listener, refinementAttributes);
+        }
+
+        // Register any AlgoliaSearcherListener
+        final List<AlgoliaSearcherListener> searcherListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaSearcherListener.class);
+        for (AlgoliaSearcherListener listener : searcherListeners) {
+            listener.initWithSearcher(searcher);
+            prepareWidget(rootView, listener, refinementAttributes);
+        }
+
+        return refinementAttributes;
+    }
+
+    private void prepareWidget(Object listener) {
+        prepareWidget(null, listener, null);
+    }
+
+    private void prepareWidget(@Nullable View rootView, Object listener, @Nullable List<String> refinementAttributes) {
+        if (listener instanceof View) {
+            prepareWidget(rootView, (View) listener, refinementAttributes);
+        }
+    }
+
+    /**
+     * Prepares the widget: adding it to widgets, applying its specific settings
+     * and storing its eventual refinement attribute.
+     *
+     * @param rootView             the widget's parent for getting an eventual empty view
+     * @param widget               the widget to prepare.
+     * @param refinementAttributes a List to store the widget's eventual refinement attributes.
+     */
+    private void prepareWidget(@Nullable View rootView, View widget, @Nullable List<String> refinementAttributes) {
+        if (!widgets.contains(widget)) { // process once each widget
+            widgets.add(widget);
+            if (widget instanceof Hits) {
+                searcher.getQuery().setHitsPerPage(((Hits) widget).getHitsPerPage());
+
+                // Link hits to activity's empty view
+                ((Hits) widget).setEmptyView(getEmptyView(rootView));
+
+                itemLayoutId = ((Hits) widget).getLayoutId();
+
+                if (itemLayoutId == -42) {
+                    throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
+                }
+            } else if (widget instanceof RefinementList) {
+                searcher.addFacet(((RefinementList) widget).getAttribute(), ((RefinementList) widget).getOperation() == RefinementList.OPERATION_OR, new ArrayList<String>());
+                if (refinementAttributes != null) {
+                    refinementAttributes.add(((RefinementList) widget).getAttribute());
+                }
+            } else if (widget instanceof ListView) {
+                ((ListView) widget).setEmptyView(getEmptyView(rootView));
+            }
         }
     }
 
@@ -406,6 +443,7 @@ public class InstantSearch {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
+                EventBus.getDefault().post(new QueryTextSubmitEvent());
                 // Nothing to do: the search has already been performed by `onQueryTextChange()`.
                 // We do try to close the keyboard, though.
                 searchView.clearFocus();
@@ -414,10 +452,13 @@ public class InstantSearch {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                EventBus.getDefault().post(new QueryTextChangeEvent(newText));
+
                 if (newText.length() == 0 && searchOnEmptyString) {
                     return true;
                 }
-                searcher.search(searchView.getQuery().toString());
+                searcher.setQuery(searcher.getQuery().setQuery(searchView.getQuery().toString()))
+                        .search();
                 return true;
             }
         });

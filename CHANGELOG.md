@@ -1,5 +1,32 @@
 # Changelog
 
+## 1.0.0 [Changes](https://github.com/algolia/instantsearch-android/compare/0.8.0...1.0.0) (2017-08-11)
+
+## Bug Fixes
+
+* **AlgoliaHitView:** Make result final ([7540f8c](https://github.com/algolia/instantsearch-android/commit/7540f8c))
+* **docs:** Typo ([d30216b](https://github.com/algolia/instantsearch-android/commit/d30216b))
+* **docs:** typo in _hero.scss ([289cc11](https://github.com/algolia/instantsearch-android/commit/289cc11))
+* **InstantSearch:** Process listeners when registering AlgoliaFilters ([29eac00](https://github.com/algolia/instantsearch-android/commit/29eac00))
+* **InstantSearchHelper:** Traverse as ViewGroup rather than View ([44caccb](https://github.com/algolia/instantsearch-android/commit/44caccb))
+* **RefinementList:** Correct attribute obtainment ([a01e1e5](https://github.com/algolia/instantsearch-android/commit/a01e1e5))
+* **Searcher:** Don't remove directly a facet that was requested twice ([5b9a7dd](https://github.com/algolia/instantsearch-android/commit/5b9a7dd))
+* **TwoValuesToggle:** refine on first value before first toggle ([9562f1b](https://github.com/algolia/instantsearch-android/commit/9562f1b))
+
+
+## Features
+
+* **AlgoliaWidget:** Replace onReset method by subscription to ResetEvents ([ab09f84](https://github.com/algolia/instantsearch-android/commit/ab09f84))
+* **events:** Send events on QueryText{Change,Submit} ([75b8b6b](https://github.com/algolia/instantsearch-android/commit/75b8b6b))
+* **Events:** NumericRefinementEvents, enabling NumericSelector syncing ([ec119c2](https://github.com/algolia/instantsearch-android/commit/ec119c2))
+* **FacetRefinementEvent:** Implement and leverage in OneValueToggle ([444f90c](https://github.com/algolia/instantsearch-android/commit/444f90c))
+* **RefinementList:** Leverage FacetRefinementEvent ([669f101](https://github.com/algolia/instantsearch-android/commit/669f101))
+* **ResultEvent:** expose response as typed SearchResults ([6e62fb8](https://github.com/algolia/instantsearch-android/commit/6e62fb8))
+* **scripts:** script for javadoc update ([aafc643](https://github.com/algolia/instantsearch-android/commit/aafc643))
+* **Stats:** autoHide ([be4dcd8](https://github.com/algolia/instantsearch-android/commit/be4dcd8))
+* **Stats:** Use AppCompatTextView ([7a36475](https://github.com/algolia/instantsearch-android/commit/7a36475))
+* **TwoValuesToggle:** Leverage FacetRefinementEvent ([81a7810](https://github.com/algolia/instantsearch-android/commit/81a7810))
+
 ## 0.8.0 (2017-03-27)
 
 ## Migration notice

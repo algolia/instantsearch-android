@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.events;
 
+import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.Query;
 
 import org.json.JSONObject;
@@ -9,16 +10,15 @@ import org.json.JSONObject;
  */
 @SuppressWarnings("WeakerAccess")
 public class ResultEvent {
-    //TODO: provide SearchResults typed object?
-    /** the JSON content containing these results. */
-    public final JSONObject content;
+    /** the search results. */
+    public final SearchResults results;
     /** the Query that was sent with the search request. */
     public final Query query;
     /** the search request's identifier. */
     public final int requestSeqNumber;
 
-    public ResultEvent(JSONObject content, Query query, int requestSeqNumber) {
-        this.content = content;
+    public ResultEvent(final JSONObject json, final Query query, final int requestSeqNumber) {
+        this.results = new SearchResults(json);
         this.query = query;
         this.requestSeqNumber = requestSeqNumber;
     }
@@ -27,7 +27,7 @@ public class ResultEvent {
     public String toString() {
         return "ResultEvent{" +
                 "requestSeqNumber=" + requestSeqNumber +
-                ", content=" + content +
+                ", content=" + results +
                 ", query=" + query +
                 '}';
     }

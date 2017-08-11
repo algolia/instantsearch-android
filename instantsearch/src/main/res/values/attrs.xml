@@ -5,6 +5,9 @@
         <attr name="highlighted" format="boolean"/>
         <attr name="highlightColor" format="color"/>
     </declare-styleable>
+    <declare-styleable name="Widget">
+        <attr name="autoHide" format="boolean"/>
+    </declare-styleable>
     <declare-styleable name="SearchBox">
         <attr name="autofocus" format="boolean"/>
         <attr name="submitButtonEnabled" format="boolean"/>
@@ -18,7 +21,7 @@
     </declare-styleable>
     <declare-styleable name="RefinementList">
         <!-- The operator to refine with. -->
-        <attr name="operator" format="string">
+        <attr name="operation" format="string">
             <!-- Disjunctive faceting (foo || bar)-->
             <enum name="or" value="0"/>
             <!-- Conjunctive faceting (foo && bar)-->
@@ -30,10 +33,6 @@
     <declare-styleable name="Stats">
         <attr name="resultTemplate" format="string"/>
         <attr name="errorTemplate" format="string"/>
-    </declare-styleable>
-    <declare-styleable name="Filter">
-        <attr name="attributeName" format="string"/>
-        <attr name="autoHide" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="Toggle">
         <attr name="template" format="string"/>
@@ -54,7 +53,7 @@
         <!-- A default label to use as a first option that does not refine on any value. -->
         <attr name="defaultLabel" format="string"/>
         <!-- The operator to use for refining, in the form lt (<), le (<=), eq (=), etc. -->
-        <attr name="operatorName">
+        <attr name="operator">
             <!-- Lower than -->
             <enum name="lt" value="0"/>
             <!-- Lower than or equal to -->

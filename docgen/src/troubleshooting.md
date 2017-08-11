@@ -14,13 +14,13 @@ Here are the frequent errors and the appropriate solutions:
 ## No resource type specified
 > Error:(42, 42) **No resource type specified** (at 'attribute' with value '@{"image"}’).
 
-  Either you forgot to [enable the DataBinding Library](#data-binding) or your `itemLayout` does not start with a `<layout>` root tag.
+  Either you forgot to [enable the DataBinding Library](widgets.html#data-binding) or your `itemLayout` does not start with a `<layout>` root tag.
 
 ## NoClassDefFoundError
 > **java.lang.NoClassDefFoundError: Failed resolution of: Landroid/databinding/DataBinderMapper;**
     at android.databinding.DataBindingUtil.<clinit>(DataBindingUtil.java:31)  
 
-  You forgot to [enable the DataBinding Library](#data-binding).
+  You forgot to [enable the DataBinding Library](widgets.html#data-binding).
 
 ## Only one layout element
 > **Error:Only one layout element and one data element are allowed.** */path/to/your/app/build/intermediates/res/merged/debug/layout/hits_item.xml* has 2 
