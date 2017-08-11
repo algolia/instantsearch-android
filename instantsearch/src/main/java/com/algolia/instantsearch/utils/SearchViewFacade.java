@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.ui.utils;
+package com.algolia.instantsearch.utils;
 
 import android.app.SearchableInfo;
 import android.content.Context;
