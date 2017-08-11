@@ -59,3 +59,6 @@ set -e
 # Tag and push on GitHub
 git tag "$VERSION_CODE"
 git push --follow-tags
+
+# Update documentation
+./scripts/deploy-docs.sh
