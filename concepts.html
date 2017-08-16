@@ -248,29 +248,15 @@ It is built on top of Algolia’s <a href="https://github.com/algolia/algoliasea
 <h2 id="searcher">Searcher <a class="anchor" href="concepts.html#searcher" aria-hidden="true"></a></h2>
 <p>The main component of InstantSearch Android is the <strong>Searcher</strong>, which will wrap an <a href="https://github.com/algolia/algoliasearch-client-android/blob/master/algoliasearch/src/main/java/com/algolia/search/saas/Client.java">Algolia API <code>Client</code></a> and provide a level of abstraction over it.</p>
 <p>The Searcher is responsible of all search requests: when <code>Searcher#search()</code> is called, the Searcher will fire a request with the current query, and will forward the search results to its <strong>listeners</strong>.</p>
-<pre class="CodeMirror cm-s-eclipse"><code>                                    <span class="cm-variable">┌</span><span class="cm-operator">-&gt;</span> <span class="cm-variable">A</span> <span class="cm-keyword">implements</span> <span class="cm-variable">AlgoliaResultsListener</span>
-<span class="cm-variable">Searcher</span>.<span class="cm-variable">search</span>(<span class="cm-variable">query</span>) <span class="cm-operator">-&gt;</span> <span class="cm-variable">algolia</span> <span class="cm-operator">--</span><span class="cm-variable">┤</span>
-                                    <span class="cm-variable">└</span><span class="cm-operator">-&gt;</span> <span class="cm-variable">B</span> <span class="cm-keyword">implements</span> <span class="cm-variable">AlgoliaResultsListener</span>
-</code></pre>
+<img src="assets/img/diagram_searcher.png" align="center" height="400px"/>
 <h3 id="listeners">Listeners <a class="anchor" href="concepts.html#listeners" aria-hidden="true"></a></h3>
-<p>A listener is an object implementing the <a href="instantsearch/src/main/java/com/algolia/instantsearch/model/AlgoliaResultsListener.java"><code>AlgoliaResultsListener</code></a> interface: this object’s <code>onResults</code> or <code>onError</code> method will be called after each search request returns to let you either process the results or handle the error. You can add a listener to a Searcher by calling <code>Searcher#registerListener()</code>.</p>
-<pre class="CodeMirror cm-s-eclipse"><code>                <span class="cm-variable">┌→</span> (<span class="cm-variable">error</span>) <span class="cm-variable">onError</span>(<span class="cm-keyword">final</span> <span class="cm-variable">Query</span> <span class="cm-variable">query</span>, <span class="cm-keyword">final</span> <span class="cm-variable">AlgoliaException</span> <span class="cm-variable">error</span>);
-<span class="cm-keyword">new</span> <span class="cm-variable">Search</span> <span class="cm-operator">-&gt;</span> <span class="cm-operator">-</span><span class="cm-variable">─┤</span>
-                <span class="cm-def">└→</span> (<span class="cm-variable">success</span>) <span class="cm-variable">onResults</span>(<span class="cm-variable">SearchResults</span> <span class="cm-variable">results</span>, <span class="cm-variable-3">boolean</span> <span class="cm-variable">isLoadingMore</span>);
-</code></pre>
+<p>A listener is an object implementing the <a href="instantsearch/src/main/java/com/algolia/instantsearch/model/AlgoliaResultsListener.java"><code>AlgoliaResultsListener</code></a> interface: this object’s <code>onResults</code> or <code>onError</code> method will be called after each search request returns to let you either process the results or handle the error. You can add a listener to a Searcher by calling <code>Searcher#registerListener</code>.</p>
+<img src="assets/img/diagram_listeners.png" align="center" />
 <h2 id="instantsearchhelper">InstantSearchHelper <a class="anchor" href="concepts.html#instantsearchhelper" aria-hidden="true"></a></h2>
 <p>The Searcher is UI-agnostic, and only communicates with its listeners. On top of it, we provide you a component which will link it to your user interface: the <strong>InstantSearchHelper</strong>.</p>
 <p>The InstantSearchHelper will use the Searcher to react to changes in your application’s interface, like when your user types a new query or interacts with Widgets.</p>
 <p>Linked to a <code>SearchView</code>, it will watch its content to send any new query to the <code>Searcher</code>. When the query’s results arrive, the <code>InstantSearchHelper</code> will forward them to its <code>AlgoliaWidgets</code>.</p>
-<pre class="CodeMirror cm-s-eclipse"><code>        <span class="cm-variable">SearchView</span>.<span class="cm-variable">onQueryTextListener</span>.<span class="cm-variable">onQueryTextChange</span>()
-                               <span class="cm-variable">│</span>
-                               <span class="cm-variable">↓</span>
-             <span class="cm-variable">searcher</span>.<span class="cm-variable">search</span>(<span class="cm-variable">searchView</span>.<span class="cm-variable">getQuery</span>())
-                               <span class="cm-variable">│</span>
-            <span class="cm-variable">┌──────────────────┴──────────────────┐</span>
-            <span class="cm-variable">↓</span>                                     <span class="cm-variable">↓</span>
-<span class="cm-variable">Widget1</span>.<span class="cm-variable">onResults</span>(<span class="cm-variable">hits</span>, <span class="cm-variable">isLoadingMore</span>) <span class="cm-variable">Widget2</span>.<span class="cm-variable">onResults</span>(<span class="cm-variable">hits</span>, <span class="cm-variable">isLoadingMore</span>)
-</code></pre>
+<img src="assets/img/diagram_instantsearch.png" align="center" height="500px"/>
 <h2 id="widgets">Widgets <a class="anchor" href="concepts.html#widgets" aria-hidden="true"></a></h2>
 <p>Widgets are the UI building blocks of InstantSearch Android, linked together by an <code>InstantSearchHelper</code> to help you build instant-search interfaces. We provide some universal widgets such as the <strong><code>SearchBox</code></strong>, the <strong><code>Hits</code></strong> or the <strong><code>RefinementList</code></strong>, and you can easily create new ones by implementing the <a href="instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaWidget.java"><code>AlgoliaWidget</code></a> interface.</p>
 <h3 id="anatomy-of-an">Anatomy of an <code>AlgoliaWidget</code> <a class="anchor" href="concepts.html#anatomy-of-an" aria-hidden="true"></a></h3>

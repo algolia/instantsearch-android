@@ -3786,7 +3786,6 @@ nav.sidebar {
         .documentation-section .documentation-container ol ul li:before,
         .examples-section .documentation-container ul ul li:before,
         .examples-section .documentation-container ol ul li:before {
-          content: '-';
           float: left;
           margin-right: 6px;
           color: #9d9dbd; }
@@ -3893,6 +3892,10 @@ nav.sidebar {
       clear: none !important; }
     .img-object[align="left"] ~ p {
       clear: none !important; }
+
+img[align="center"] {
+  display: block;
+  margin: 0 auto; }
 
 .documentation-container table {
   border-collapse: collapse;
@@ -4515,6 +4518,10 @@ body.example .btn {
 
 .documentation .hero-container {
   top: 0; }
+
+.instantsearch-logo {
+  width: 90%;
+  max-width: 390px; }
 
 /**
  * Dropdown style starts here

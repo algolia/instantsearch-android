@@ -242,7 +242,7 @@
       </li></ul></div></div>
 
     </nav>
-    <!-- End community_header --> </div><script src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script><section class="hero-section shrink"><div class="container"><div class="hero-container text-left"><figcaption><h1>Widgets</h1></figcaption></div></div></section><section class="documentation-section"><div class="container"><nav class="sidebar"><div class="sidebar-container"><h2 class="sidebar-header">Widgets</h2><ul class="sidebar-elements"><li class="sidebar-element level-h2 navItem widgets.html"><a href="getting-started.html">Getting started</a><ul></ul></li><li class="sidebar-element level-h2 navItem widgets.html"><a href="concepts.html">Main Concepts</a><ul></ul></li><li class="sidebar-element level-h2 navItem-active widgets.html"><a class="navItem-active" href="widgets.html">Widgets</a><ul><li class="sidebar-element level-h3"><a href="widgets.html#search-box">Search-Box </a></li><li class="sidebar-element level-h3"><a href="widgets.html#hits">Hits </a></li><li class="sidebar-element level-h3"><a href="widgets.html#refinementlist">RefinementList </a></li><li class="sidebar-element level-h3"><a href="widgets.html#stats">Stats </a></li><li class="sidebar-element level-h3"><a href="widgets.html#custom-widgets">Custom widgets </a></li></ul></li><li class="sidebar-element level-h2 navItem widgets.html"><a href="examples.html">Examples</a><ul></ul></li><li class="sidebar-element level-h2 navItem widgets.html"><a href="troubleshooting.html">Troubleshooting</a><ul></ul></li></ul></div></nav><a class="sidebar-opener"></a><div class="documentation-container"><div class="content"><h2 id="search-box">Search-Box <a class="anchor" href="widgets.html#search-box" aria-hidden="true"></a></h2>
+    <!-- End community_header --> </div><script src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script><section class="hero-section shrink"><div class="container"><div class="hero-container text-left"><figcaption><h1>Widgets</h1></figcaption></div></div></section><section class="documentation-section"><div class="container"><nav class="sidebar"><div class="sidebar-container"><h2 class="sidebar-header">Widgets</h2><ul class="sidebar-elements"><li class="sidebar-element level-h2 navItem widgets.html"><a href="getting-started.html">Getting started</a><ul></ul></li><li class="sidebar-element level-h2 navItem widgets.html"><a href="concepts.html">Main Concepts</a><ul></ul></li><li class="sidebar-element level-h2 navItem-active widgets.html"><a class="navItem-active" href="widgets.html">Widgets</a><ul><li class="sidebar-element level-h3"><a href="widgets.html#searchbox">SearchBox </a></li><li class="sidebar-element level-h3"><a href="widgets.html#hits">Hits </a></li><li class="sidebar-element level-h3"><a href="widgets.html#numericselector">NumericSelector </a></li><li class="sidebar-element level-h3"><a href="widgets.html#refinementlist">RefinementList </a></li><li class="sidebar-element level-h3"><a href="widgets.html#stats">Stats </a></li><li class="sidebar-element level-h3"><a href="widgets.html#custom-widgets">Custom widgets </a></li></ul></li><li class="sidebar-element level-h2 navItem widgets.html"><a href="examples.html">Examples</a><ul></ul></li><li class="sidebar-element level-h2 navItem widgets.html"><a href="troubleshooting.html">Troubleshooting</a><ul></ul></li></ul></div></nav><a class="sidebar-opener"></a><div class="documentation-container"><div class="content"><h2 id="searchbox">SearchBox <a class="anchor" href="widgets.html#searchbox" aria-hidden="true"></a></h2>
 <img src="assets/img/widget_SearchBox.png" class="img-object" align="right" />
 <p>The <strong>SearchBox</strong> is a specialized <code>SearchView</code> which provides some customization options and facility methods. It supports all existing <code>SearchView</code> attributes and two new ones that you can specify in its XML definition:</p>
 <pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.views.SearchBox</span>
@@ -263,8 +263,8 @@
 <p>A useful pattern to improve your user’s experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.</p>
 <p>By default, the InstantSearchHelper will display an indeterminate <a href="https://developer.android.com/reference/android/widget/ProgressBar.html"><code>ProgressBar</code></a> in your <code>SearchView</code> as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (&gt;= API 14), or after a small delay to avoid blinking.
 You can change this delay by calling <code>InstantSearchHelper#enableProgressBar(int)</code> with a delay in milliseconds, or disable this progress indicator with <code>InstantSearchHelper#disableProgressBar()</code>.</p>
-<p>Alternatively, you can implement your own progress logic by using a <a href="https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java"><code>SearchProgressController</code></a>.
-Once instantiated, a <strong>SearchProgressController</strong> will inform its <a href="https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/SearchProgressController.java#L99"><code>ProgressListener</code></a> when some requests are sent with <code>onStart()</code>, and will call <code>onStop()</code> when all current requests have returned.</p>
+<p>Alternatively, you can implement your own progress logic by using a <a href="https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/events/SearchProgressController.java"><code>SearchProgressController</code></a>
+Once instantiated, a <strong>SearchProgressController</strong> will inform its <a href="https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/events/SearchProgressController.java#L98"><code>ProgressListener</code></a> when some requests are sent with <code>onStart()</code>, and will call <code>onStop()</code> when all current requests have returned.</p>
 <h2 id="hits">Hits <a class="anchor" href="widgets.html#hits" aria-hidden="true"></a></h2>
 <img src="assets/img/widget_Hits.png" class="img-object" align="right"/>
 <p>The <strong>Hits</strong> widget is made to display your search results in a flexible way. Built over a <a href="https://developer.android.com/reference/android/support/v7/widget/RecyclerView.html"><code>RecyclerView</code></a>, it displays a limited window into a large data set of search results.</p>
@@ -366,15 +366,25 @@ Once instantiated, a <strong>SearchProgressController</strong> will inform its <
 </tbody>
 </table>
 <h3 id="custom-hit-views">Custom hit views <a class="anchor" href="widgets.html#custom-hit-views" aria-hidden="true"></a></h3>
-<p>Apart from these ones, any <code>View</code> can be used to hold an attribute if it implements the <a href="/instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaHitView.java"><code>AlgoliaHitView</code></a> interface. In this case, we will call <code>onUpdateView(JSONObject result)</code> and the view will be responsible of using the result’s JSON to display the hit.</p>
+<p>Apart from these ones, any <code>View</code> can be used to hold an attribute if it implements the <a href="https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaHitView.java"><code>AlgoliaHitView</code></a> interface. In this case, we will call <code>onUpdateView(JSONObject result)</code> and the view will be responsible of using the result’s JSON to display the hit.</p>
 <p><em>See for example the <a href="https://github.com/algolia/instantsearch-android-examples/tree/master/media">media app</a>’s <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/media/src/main/java/com/algolia/instantsearch/examples/media/views/TimestampHitView.java"><code>TimestampHitView</code></a>, a TextView which transforms a timestamp attribute to display a human-readable date instead.</em></p>
 <h3 id="infinite-scroll">Infinite scroll <a class="anchor" href="widgets.html#infinite-scroll" aria-hidden="true"></a></h3>
 <p>An infinite scroll mechanism is built-in to load more results as the user scrolls.
 Enabled by default, it will watch the state of the Hits to load more results before the user reaches the end of the current page.</p>
-<p>As explained <a href="#hits">in the attributes description</a>, you can use the attributes <code>remainingItemsBeforeLoading</code> and <code>disableInfiniteScroll</code> to control or disable this feature.</p>
+<p>As explained <a href="widgets.html#hits">in the attributes description</a>, you can use the attributes <code>remainingItemsBeforeLoading</code> and <code>disableInfiniteScroll</code> to control or disable this feature.</p>
 <h3 id="empty-view">Empty View <a class="anchor" href="widgets.html#empty-view" aria-hidden="true"></a></h3>
 <p>The Hits widget implements an empty view mechanism to display an alternative View if there are no results to display, following the <a href="https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)">AdapterView’s interface</a>.
 If you add a View to your layout with the id <strong><code>@android:id/empty</code></strong>, it will be displayed instead of the Hits when there is no data to display.  You can also set it programmatically using <code>Hits#setEmptyView(View)</code>.</p>
+<h3 id="item-click-listener">Item Click Listener <a class="anchor" href="widgets.html#item-click-listener" aria-hidden="true"></a></h3>
+<p>As the Hits widget is based on a <code>RecyclerView</code>, we use <a href="http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/">Hugo Visser’s <code>ItemClickSupport</code></a> to let you react to clicks on individual hits. To do so, add an <a href="javadoc/com/algolia/instantsearch/ui/utils/ItemClickSupport.OnItemClickListener.html"><code>OnItemClickListener</code></a> to your hits:</p>
+<pre class="CodeMirror cm-s-eclipse"><code><span class="cm-variable">hits</span>.<span class="cm-variable">setOnItemClickListener</span>(<span class="cm-keyword">new</span> <span class="cm-variable">ItemClickSupport</span>.<span class="cm-variable">OnItemClickListener</span>() {
+    <span class="cm-meta">@Override</span>
+    <span class="cm-keyword">public</span> <span class="cm-variable-3">void</span> <span class="cm-variable">onItemClick</span>(<span class="cm-variable">RecyclerView</span> <span class="cm-variable">recyclerView</span>, <span class="cm-variable-3">int</span> <span class="cm-variable">position</span>, <span class="cm-variable">View</span> <span class="cm-variable">v</span>) {
+        <span class="cm-variable">JSONObject</span> <span class="cm-variable">hit</span> <span class="cm-operator">=</span> <span class="cm-variable">hits</span>.<span class="cm-variable">get</span>(<span class="cm-variable">position</span>);
+        <span class="cm-comment">// Do something with the hit</span>
+    }
+ });
+</code></pre>
 <h3 id="highlighting">Highlighting <a class="anchor" href="widgets.html#highlighting" aria-hidden="true"></a></h3>
 <img src="assets/img/highlighting.png" class="img-object" align="right"/>
 <p>Visually highlighting the search result is <a href="https://www.algolia.com/doc/faq/searching/what-is-the-highlighting/">an essential feature of a great search interface</a>. It will help your users understand your results by explaining them why a result is relevant to their query.</p>
@@ -386,15 +396,51 @@ If you add a View to your layout with the id <strong><code>@android:id/empty</co
 </code></pre>
 <p>This will highlight the attribute according to the query term, like you can see in the screenshot. The color used by default for highlighting is <code>R.color.colorHighlighting</code>, which you can override in your application.</p>
 <p>You can also specify <code>algolia:highlightingColor='@{&quot;color/appDefinedColor&quot;}'</code> on a <code>View</code> to use a specific color for this one only.</p>
-<p>Note that highlighting <strong>only works automatically on TextViews</strong>. if you implement a <a href="#custom-hit-views">custom hit view</a> or to highlight results received by your <a href="#anatomy-of-an-algoliawidget">custom widget</a>, you should use the <a href="javadoc/com/algolia/instantsearch/helpers/Highlighter.html"><code>Highlighter</code></a>.
+<p>Note that highlighting <strong>only works automatically on TextViews</strong>. if you implement a <a href="widgets.html#custom-hit-views">custom hit view</a> or to highlight results received by your <a href="widgets.html#anatomy-of-an-algoliawidget">custom widget</a>, you should use the <a href="javadoc/com/algolia/instantsearch/helpers/Highlighter.html"><code>Highlighter</code></a>.
 This tool will let you build a highlighted <a href="https://developer.android.com/reference/android/text/Spannable.html"><code>Spannable</code></a> from a search result and an optional highlight color:</p>
 <pre class="CodeMirror cm-s-eclipse"><code><span class="cm-keyword">final</span> <span class="cm-variable">Spannable</span> <span class="cm-variable">highlightedAttribute</span> <span class="cm-operator">=</span> <span class="cm-variable">Highlighter</span>.<span class="cm-variable">getDefault</span>().<span class="cm-variable">renderHighlightColor</span>(<span class="cm-variable">result</span>, <span class="cm-variable">attributeToHighlight</span>, <span class="cm-variable">context</span>);
 </code></pre>
 <p>The default Highlighter will highlight anything between <code>&lt;em&gt;</code> and <code>&lt;/em&gt;</code>. You can configure the Highlighter to highlight between any pair of terms with <code>Highlighter.setDefault(newPrefix, newSuffix)</code>, or use a RegExp pattern to highlight any captured part with <code>Highlighter.setDefault(newPattern)</code>.</p>
 <p><em>See for example the <a href="https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce">e-commerce app</a>’s <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java"><code>CategoryOrTypeView</code></a>, a TextView which takes either the <code>category</code> or the <code>type</code> attribute of a record and <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/ecommerce/src/main/java/com/algolia/instantsearch/examples/ecommerce/views/CategoryOrTypeView.java#L25">highlights it</a> before displaying.</em></p>
+<h2 id="numericselector">NumericSelector <a class="anchor" href="widgets.html#numericselector" aria-hidden="true"></a></h2>
+<img src="assets/img/widget_NumericSelector.png" class="img-object" align="right"/>
+<p>The <strong>NumericSelector</strong> is a filtering widget made to display some values for a <a href="https://www.algolia.com/doc/guides/searching/filtering/">facet</a> and let the user refine the search results by selecting one.</p>
+<p>You can configure its behavior with several attributes:
+<br /><br /><br /><br /> <!-- Line breaks to avoid code sample being squeezed by the floating image --></p>
+<pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.ui.views.filters.NumericSelector</span>
+        <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/selector&quot;</span>
+        <span class="cm-attribute">android:layout_width</span>=<span class="cm-string">&quot;wrap_content&quot;</span>
+        <span class="cm-attribute">android:layout_height</span>=<span class="cm-string">&quot;wrap_content&quot;</span>
+        <span class="cm-attribute">android:spinnerMode</span>=<span class="cm-string">&quot;dialog&quot;</span>
+        <span class="cm-attribute">algolia:attribute</span>=<span class="cm-string">&quot;salePrice&quot;</span>
+        <span class="cm-attribute">algolia:labels</span>=<span class="cm-string">&quot;&amp;lt; 10€, &amp;lt; 100€, &amp;lt; 1000€&quot;</span>
+        <span class="cm-attribute">algolia:defaultLabel</span>=<span class="cm-string">&quot;Any price&quot;</span>
+        <span class="cm-attribute">algolia:operator</span>=<span class="cm-string">&quot;lt&quot;</span>
+        <span class="cm-attribute">algolia:values</span>=<span class="cm-string">&quot;10, 100, 1000&quot;</span>
+        <span class="cm-attribute">algolia:autoHide</span>=<span class="cm-string">&quot;true&quot;</span><span class="cm-tag cm-bracket">/&gt;</span>
+</code></pre>
+<ul>
+<li><strong><code>attribute</code></strong> defines which faceted attribute will be used by the widget.</li>
+<li><strong><code>operator</code></strong> is the comparison operator used for filtering.
+This attribute accepts the following values:
+<ul>
+<li><code>&quot;lt&quot;</code> for <strong>lower than</strong> (<code>&lt;</code>)</li>
+<li><code>&quot;le&quot;</code> for <strong>lower or equal</strong> (<code>&lt;=</code>)</li>
+<li><code>&quot;eq&quot;</code> for <strong>equal</strong> (<code>==</code>)</li>
+<li><code>&quot;ne&quot;</code> for <strong>not equal</strong> (<code>!=</code>)</li>
+<li><code>&quot;ge&quot;</code> for <strong>greater or equal</strong> (<code>&gt;=</code>)</li>
+<li><code>&quot;gt&quot;</code> for <strong>greater than</strong> (<code>&gt;</code>)</li>
+</ul>
+</li>
+<li><strong><code>labels</code></strong> should be a list of the labels to display for each choice item.</li>
+<li><strong><code>values</code></strong> should be a list of the values to filter with for each choice item.</li>
+<li><strong><code>defaultLabel</code></strong> is the label for the default option (the first option of the selector does not filter on any value to let the user cancel the filtering)</li>
+<li><strong><code>autoHide</code></strong> if <code>true</code>, this widget will be hidden when there are no results.</li>
+</ul>
+<p>Note that if you display a <code>NumericSelector</code> inside a <a href="https://developer.android.com/reference/android/widget/PopupWindow.html"><code>PopupWindow</code></a>, you must set its <code>spinnerMode</code> to dialog with <code>android:spinnerMode=&quot;dialog&quot;</code>. Failing to do so will result in a <a href="https://stackoverflow.com/a/18781297/3109189"><code>BadTokenException</code></a>.</p>
 <h2 id="refinementlist">RefinementList <a class="anchor" href="widgets.html#refinementlist" aria-hidden="true"></a></h2>
 <img src="assets/img/widget_RefinementList.png" class="img-object" align="right"/>
-<p>The <strong>RefinementList</strong> is a filtering widget made to display your <a href="https://www.algolia.com/doc/guides/search/filtering-faceting#faceting">facets</a> and let the user refine the search results.</p>
+<p>The <strong>RefinementList</strong> is a filtering widget made to display your <a href="https://www.algolia.com/doc/guides/searching/filtering/">facets</a> and let the user refine the search results.</p>
 <p>Four attributes allow you to configure how it will filter your results:
 <br /><br /><br /><br /> <!-- Line breaks to avoid code sample being squeezed by the floating image --></p>
 <pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.views.RefinementList</span>
@@ -403,7 +449,7 @@ This tool will let you build a highlighted <a href="https://developer.android.co
             <span class="cm-attribute">android:layout_height</span>=<span class="cm-string">&quot;wrap_content&quot;</span>
             <span class="cm-attribute">algolia:attribute</span>=<span class="cm-string">&quot;city&quot;</span>
             <span class="cm-attribute">algolia:limit</span>=<span class="cm-string">&quot;10&quot;</span>
-            <span class="cm-attribute">algolia:operator</span>=<span class="cm-string">&quot;or&quot;</span>
+            <span class="cm-attribute">algolia:operation</span>=<span class="cm-string">&quot;or&quot;</span>
             <span class="cm-attribute">algolia:sortBy</span>=<span class="cm-string">&quot;[&#39;isRefined&#39;, &#39;count:desc&#39;]&quot;</span><span class="cm-tag cm-bracket">/&gt;</span>
 </code></pre>
 <ul>
@@ -411,7 +457,7 @@ This tool will let you build a highlighted <a href="https://developer.android.co
 <p><strong><code>attribute</code></strong> defines which faceted attribute will be used by the widget.</p>
 </li>
 <li>
-<p><strong><code>operator</code></strong> can either be <code>&quot;or&quot;</code> or <code>&quot;and&quot;</code>, to control if the results should match <em>any</em> selected value or <em>all</em> selected values. (defaults to <code>&quot;or&quot;</code>)</p>
+<p><strong><code>operation</code></strong> can either be <code>&quot;or&quot;</code> or <code>&quot;and&quot;</code>, to control if the results should match <em>any</em> selected value or <em>all</em> selected values. (defaults to <code>&quot;or&quot;</code>)</p>
 </li>
 <li>
 <p><strong><code>limit</code></strong> is the maximum amount of facet values we will display (defaults to 10). If there are more values, we will display those with the bigger counts.</p>
@@ -437,7 +483,8 @@ This tool will let you build a highlighted <a href="https://developer.android.co
             <span class="cm-attribute">android:layout_width</span>=<span class="cm-string">&quot;wrap_content&quot;</span>
             <span class="cm-attribute">android:layout_height</span>=<span class="cm-string">&quot;wrap_content&quot;</span>
             <span class="cm-attribute">algolia:resultTemplate</span>=<span class="cm-string">&quot;{nbHits} results found in {processingTimeMS} ms&quot;</span>
-            <span class="cm-attribute">algolia:errorTemplate</span>=<span class="cm-string">&quot;Error, please try again&quot;</span><span class="cm-tag cm-bracket">/&gt;</span>
+            <span class="cm-attribute">algolia:errorTemplate</span>=<span class="cm-string">&quot;Error, please try again&quot;</span>
+            <span class="cm-attribute">algolia:autoHide</span>=<span class="cm-string">&quot;true&quot;</span><span class="cm-tag cm-bracket">/&gt;</span>
 </code></pre>
 <ul>
 <li>
@@ -458,6 +505,9 @@ This tool will let you build a highlighted <a href="https://developer.android.co
 <li><code>{error}</code> will be replaced by the error message</li>
 <li><code>{query}</code> will be replaced by the query text</li>
 </ul>
+</li>
+<li>
+<p><strong><code>autoHide</code></strong> if <code>true</code>, this widget will be hidden when there are no results.</p>
 <p>If you don’t specify an <code>errorTemplate</code>, the Stats widget will be hidden when a query returns an error.</p>
 </li>
 </ul>
@@ -468,7 +518,7 @@ This tool will let you build a highlighted <a href="https://developer.android.co
 <li><code>onResults</code> will be called when new results are received</li>
 <li><code>onError</code> will be called when there is an error</li>
 </ul>
-<p>This interface also specifies <code>setSearcher</code>, to give a reference to the <code>Searcher</code> used in your search interface. It will enable your widget to uses the <a href="/javadoc/com/algolia/instantsearch/helpers/Searcher.html">Searcher’s programmatic API</a>.</p>
+<p>This interface also specifies <code>setSearcher</code>, to give a reference to the <code>Searcher</code> used in your search interface. It will enable your widget to uses the <a href="javadoc/com/algolia/instantsearch/helpers/Searcher.html">Searcher’s programmatic API</a>.</p>
 </div></div></div></section><div id="footer"><div class="credits"><div class="container pos-rel"><div class="row"><div class="col-md-12 text-center"><a data-no-turbolink="true" href="/"><img width="40" src="https://www.algolia.com/static_assets/images/flat2/algolia/algolia-logo_badge-598a1fe6.svg"></a></div></div><div class="spacer40"></div></div></div></div><!--Google Tag Manager-->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-N8JP8G" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N8JP8G');</script>
