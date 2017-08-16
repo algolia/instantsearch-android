@@ -1,8 +1,17 @@
 # Changelog
 
+## 1.0.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.0.0...1.0.1) (2017-08-16)
+
+### Bug Fixes
+
+* **InstantSearch:** Restore constructor for single widget ([96eb97c](https://github.com/algolia/instantsearch-android/commit/96eb97c))
+
+
+
+
 ## 1.0.0 [Changes](https://github.com/algolia/instantsearch-android/compare/0.8.0...1.0.0) (2017-08-11)
 
-## Bug Fixes
+### Bug Fixes
 
 * **AlgoliaHitView:** Make result final ([7540f8c](https://github.com/algolia/instantsearch-android/commit/7540f8c))
 * **docs:** Typo ([d30216b](https://github.com/algolia/instantsearch-android/commit/d30216b))
@@ -14,7 +23,7 @@
 * **TwoValuesToggle:** refine on first value before first toggle ([9562f1b](https://github.com/algolia/instantsearch-android/commit/9562f1b))
 
 
-## Features
+### Features
 
 * **AlgoliaWidget:** Replace onReset method by subscription to ResetEvents ([ab09f84](https://github.com/algolia/instantsearch-android/commit/ab09f84))
 * **events:** Send events on QueryText{Change,Submit} ([75b8b6b](https://github.com/algolia/instantsearch-android/commit/75b8b6b))
@@ -29,7 +38,7 @@
 
 ## 0.8.0 (2017-03-27)
 
-## Migration notice
+### Migration notice
 * Rename InstantSearchHelper to InstantSearch ([f8d31b5](https://github.com/algolia/instantsearch-android/commit/f8d31b5))
 
 ### Features
