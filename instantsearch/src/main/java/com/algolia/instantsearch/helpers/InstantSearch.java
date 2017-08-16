@@ -100,6 +100,11 @@ public class InstantSearch {
         processActivity(activity);
     }
 
+    public InstantSearch(@NonNull final View widget, @NonNull final Searcher searcher) {
+        this(searcher);
+        registerWidget(widget);
+    }
+
     private InstantSearch(@NonNull final Searcher searcher) {
         this.searcher = searcher;
         enableProgressBar();
@@ -290,7 +295,11 @@ public class InstantSearch {
         }
     }
 
-    private void processListener(View widget) {
+    /**
+     * Links the given widget to InstantSearch according to the interfaces it implements.
+     * @param widget a widget implementing ({@link AlgoliaResultListener} || {@link AlgoliaErrorListener} || {@link AlgoliaSearcherListener}).
+     */
+    public void registerWidget(View widget) {
         if (widget instanceof AlgoliaResultListener) {
             AlgoliaResultListener listener = (AlgoliaResultListener) widget;
             if (!this.resultListeners.contains(listener)) {
