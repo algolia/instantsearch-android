@@ -28,24 +28,24 @@ A listener is an object implementing the [`AlgoliaResultsListener`](instantsearc
 
 <img src="assets/img/diagram_listeners.png" align="center" />
 
-## InstantSearchHelper
+## InstantSearch
 
-The Searcher is UI-agnostic, and only communicates with its listeners. On top of it, we provide you a component which will link it to your user interface: the **InstantSearchHelper**.
+The Searcher is UI-agnostic, and only communicates with its listeners. On top of it, we provide you a component which will link it to your user interface: **InstantSearch**.
 
-The InstantSearchHelper will use the Searcher to react to changes in your application's interface, like when your user types a new query or interacts with Widgets.
+InstantSearch will use the Searcher to react to changes in your application's interface, like when your user types a new query or interacts with Widgets.
 
-Linked to a `SearchView`, it will watch its content to send any new query to the `Searcher`. When the query's results arrive, the `InstantSearchHelper` will forward them to its `AlgoliaWidgets`.
+Linked to a `SearchView`, it will watch its content to send any new query to the `Searcher`. When the query's results arrive, `InstantSearch` will forward them to its `AlgoliaWidgets`.
 
 <img src="assets/img/diagram_instantsearch.png" align="center" height="500px"/>
 
 ## Widgets
 
-Widgets are the UI building blocks of InstantSearch Android, linked together by an `InstantSearchHelper` to help you build instant-search interfaces. We provide some universal widgets such as the **`SearchBox`**, the **`Hits`** or the **`RefinementList`**, and you can easily create new ones by implementing the [`AlgoliaWidget`](instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaWidget.java) interface.
+Widgets are the UI building blocks of InstantSearch Android, linked together by an `InstantSearch` to help you build instant-search interfaces. We provide some universal widgets such as the **`SearchBox`**, the **`Hits`** or the **`RefinementList`**, and you can easily create new ones by implementing the [`AlgoliaWidget`](instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaWidget.java) interface.
 
 ### Anatomy of an `AlgoliaWidget`
 
 An **`AlgoliaWidget`** is a specialization of the `AlgoliaResultsListener` interface used by the `Searcher` to notify its listeners of search results.  
-Beyond reacting to search results with `onResults` and to errors in `onError`, an `AlgoliaWidget` exposes an `onReset` method which will be called when the interface is reset (which you can trigger via `InstantSearchHelper#reset()`).
+Beyond reacting to search results with `onResults` and to errors in `onError`, an `AlgoliaWidget` exposes an `onReset` method which will be called when the interface is reset (which you can trigger via `InstantSearch#reset()`).
 When linked to a `Searcher`, the widget's `setSearcher` method will be called to provide it a reference to its Searcher, which is useful to some widgets. For example, the `Hits` widget uses it to load more results as the user scrolls.
 
 ## Events
