@@ -57,7 +57,7 @@ set -e
 ./gradlew clean build bintrayUpload
 
 # Tag and push on GitHub
-git tag "$VERSION_CODE"
+git tag "$VERSION_CODE" -s -m "v$VERSION_CODE"
 git push --follow-tags
 
 # Update documentation
