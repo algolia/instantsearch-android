@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 /**
  * Lets you define a component that will react to search results.
  */
-public interface AlgoliaResultListener {
+public interface AlgoliaResultsListener {
     /**
      * Reacts to new hits.
      *

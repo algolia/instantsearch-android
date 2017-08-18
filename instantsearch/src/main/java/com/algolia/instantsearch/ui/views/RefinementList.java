@@ -20,7 +20,7 @@ import com.algolia.instantsearch.events.FacetRefinementEvent;
 import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
-import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.FacetValue;
@@ -48,7 +48,7 @@ import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
 /**
  * Displays facet values for an attribute and lets the user filter the results using these values.
  */
-public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
+public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaResultsListener, AlgoliaErrorListener, AlgoliaSearcherListener {
     /** The operation for disjunctive faceting (foo OR bar). */
     public static final int OPERATION_OR = 0;
     /** The operation for disjunctive faceting (foo AND bar). */

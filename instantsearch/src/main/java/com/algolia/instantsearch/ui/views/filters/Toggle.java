@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
-import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
@@ -21,7 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * A widget that toggles between refining and not refining an attribute with a given value.
  */
-public abstract class Toggle extends SwitchCompat implements AlgoliaFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
+public abstract class Toggle extends SwitchCompat implements AlgoliaFilter, AlgoliaResultsListener, AlgoliaErrorListener, AlgoliaSearcherListener {
     private final EventBus bus;
     /** The attribute to refine on. */
     public String attribute;

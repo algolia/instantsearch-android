@@ -23,7 +23,7 @@ import com.algolia.instantsearch.events.QueryTextChangeEvent;
 import com.algolia.instantsearch.events.QueryTextSubmitEvent;
 import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
-import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.utils.LayoutViews;
@@ -54,7 +54,7 @@ public class InstantSearch {
     @NonNull
     private final Set<View> widgets = new HashSet<>();
     @NonNull
-    private final Set<AlgoliaResultListener> resultListeners = new HashSet<>();
+    private final Set<AlgoliaResultsListener> resultListeners = new HashSet<>();
     @NonNull
     private final Set<AlgoliaErrorListener> errorListeners = new HashSet<>();
 
@@ -74,7 +74,7 @@ public class InstantSearch {
     /**
      * Constructs the helper, then link it to the given Activity.
      *
-     * @param activity an Activity containing at least one {@link AlgoliaResultListener} to update with incoming results.
+     * @param activity an Activity containing at least one {@link AlgoliaResultsListener} to update with incoming results.
      * @param searcher the Searcher to use with this activity.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
@@ -87,7 +87,7 @@ public class InstantSearch {
     /**
      * Constructs the helper, then link it to the given Activity and Menu's searchView.
      *
-     * @param activity   an Activity containing at least one {@link AlgoliaResultListener} to update with incoming results.
+     * @param activity   an Activity containing at least one {@link AlgoliaResultsListener} to update with incoming results.
      * @param menu       the Menu which contains your SearchView.
      * @param menuItemId the SearchView item's {@link android.support.annotation.IdRes id} in your Menu.
      * @param searcher   the Searcher to use with this activity.
@@ -297,11 +297,11 @@ public class InstantSearch {
 
     /**
      * Links the given widget to InstantSearch according to the interfaces it implements.
-     * @param widget a widget implementing ({@link AlgoliaResultListener} || {@link AlgoliaErrorListener} || {@link AlgoliaSearcherListener}).
+     * @param widget a widget implementing ({@link AlgoliaResultsListener} || {@link AlgoliaErrorListener} || {@link AlgoliaSearcherListener}).
      */
     public void registerWidget(View widget) {
-        if (widget instanceof AlgoliaResultListener) {
-            AlgoliaResultListener listener = (AlgoliaResultListener) widget;
+        if (widget instanceof AlgoliaResultsListener) {
+            AlgoliaResultsListener listener = (AlgoliaResultsListener) widget;
             if (!this.resultListeners.contains(listener)) {
                 this.resultListeners.add(listener);
             }
@@ -333,12 +333,12 @@ public class InstantSearch {
     private List<String> processAllListeners(View rootView) {
         List<String> refinementAttributes = new ArrayList<>();
 
-        // Register any AlgoliaResultListener
-        final List<AlgoliaResultListener> resultListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaResultListener.class);
+        // Register any AlgoliaResultsListener
+        final List<AlgoliaResultsListener> resultListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaResultsListener.class);
         if (resultListeners.size() == 0) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_RESULT_LISTENER);
         }
-        for (AlgoliaResultListener listener : resultListeners) {
+        for (AlgoliaResultsListener listener : resultListeners) {
             if (!this.resultListeners.contains(listener)) {
                 this.resultListeners.add(listener);
             }

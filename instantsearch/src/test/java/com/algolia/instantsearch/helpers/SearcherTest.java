@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.algolia.instantsearch.Helpers;
 import com.algolia.instantsearch.InstantSearchTest;
-import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.Client;
@@ -62,7 +62,7 @@ public class SearcherTest extends InstantSearchTest {
     @Test
     public void canCancelPendingRequests() {
         Searcher searcher = initSearcher();
-        final AlgoliaResultListener resultListener = new AlgoliaResultListener() {
+        final AlgoliaResultsListener resultListener = new AlgoliaResultsListener() {
             @Override
             public void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
                 Assert.fail("The request should have been cancelled.");

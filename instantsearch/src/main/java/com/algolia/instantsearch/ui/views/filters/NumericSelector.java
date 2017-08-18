@@ -14,7 +14,7 @@ import com.algolia.instantsearch.events.NumericRefinementEvent;
 import com.algolia.instantsearch.events.RefinementEvent;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
-import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /** Displays a dropdown menu to refine a specific attribute with one of several values. */
-public class NumericSelector extends AppCompatSpinner implements AlgoliaFilter, AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener, AdapterView.OnItemSelectedListener {
+public class NumericSelector extends AppCompatSpinner implements AlgoliaFilter, AlgoliaResultsListener, AlgoliaErrorListener, AlgoliaSearcherListener, AdapterView.OnItemSelectedListener {
     public static final Double DEFAULT_VALUE = null;
 
     /** Whether the selector should hide on error or when results are empty. */

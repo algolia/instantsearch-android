@@ -33,7 +33,7 @@ import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.Highlighter;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
-import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchResults;
@@ -63,7 +63,7 @@ import java.util.Set;
 /**
  * Displays your search results in a flexible way. Built over a {@link RecyclerView}, it displays a limited window into a large data set of search results.
  */
-public class Hits extends RecyclerView implements AlgoliaResultListener, AlgoliaErrorListener, AlgoliaSearcherListener {
+public class Hits extends RecyclerView implements AlgoliaResultsListener, AlgoliaErrorListener, AlgoliaSearcherListener {
     /** Default amount of hits fetched with each page */
     public static final int DEFAULT_HITS_PER_PAGE = 20;
     /** Default amount of remaining results to display before loading a new page */

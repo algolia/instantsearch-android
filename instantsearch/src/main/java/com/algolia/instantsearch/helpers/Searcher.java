@@ -14,7 +14,7 @@ import com.algolia.instantsearch.events.RefinementEvent.Operation;
 import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
-import com.algolia.instantsearch.model.AlgoliaResultListener;
+import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.FacetStat;
 import com.algolia.instantsearch.model.NumericRefinement;
@@ -45,7 +45,7 @@ import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
  * <p>
  * The Searcher is responsible of interacting with the Algolia engine: when {@link Searcher#search()} is called,
  * the Searcher will fire a request with the current {@link Searcher#query}, and will forward the search results
- * (or error) to its {@link AlgoliaResultListener result listeners} (or {@link AlgoliaErrorListener error listeners}).
+ * (or error) to its {@link AlgoliaResultsListener result listeners} (or {@link AlgoliaErrorListener error listeners}).
  */
 @SuppressWarnings("UnusedReturnValue") // chaining
 public class Searcher {
@@ -60,8 +60,8 @@ public class Searcher {
     /** The current state of the search {@link Query}. */
     private Query query;
 
-    /** The {@link AlgoliaResultListener listeners} that will receive search results. */
-    private final List<AlgoliaResultListener> resultListeners = new ArrayList<>();
+    /** The {@link AlgoliaResultsListener listeners} that will receive search results. */
+    private final List<AlgoliaResultsListener> resultListeners = new ArrayList<>();
 
     /** The {@link AlgoliaErrorListener listeners} that will receive search results. */
     private final List<AlgoliaErrorListener> errorListeners = new ArrayList<>();
@@ -632,7 +632,7 @@ public class Searcher {
         return this;
     }
 
-    Searcher registerResultListener(@NonNull AlgoliaResultListener resultListener) {
+    Searcher registerResultListener(@NonNull AlgoliaResultsListener resultListener) {
         if (!resultListeners.contains(resultListener)) {
             resultListeners.add(resultListener);
         }
@@ -873,7 +873,7 @@ public class Searcher {
     }
 
     private void updateListeners(@NonNull JSONObject hits, boolean isLoadingMore) {
-        for (AlgoliaResultListener listener : resultListeners) {
+        for (AlgoliaResultsListener listener : resultListeners) {
             listener.onResults(new SearchResults(hits), isLoadingMore);
         }
     }
