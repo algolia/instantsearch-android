@@ -117,7 +117,7 @@ add **`algolia:attribute='@{"foo"}'`** on a View to bind it to the `foo` attribu
     </LinearLayout>
 </layout>
 ```
-*Beware of the data binding attributes' syntax: **@'{"string"}'**.*
+**Beware of the data binding attributes' syntax: `@'{"string"}'`.**
 
 You have now a main activity layout containing your `Hits` widget, and a data-binding layout ready to display your search results. You just miss a search query to display its results!
 As your application has no input for now, we will trigger the search programmatically.
@@ -127,12 +127,12 @@ As your application has no input for now, we will trigger the search programmati
 Searcher searcher = new Searcher(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, ALGOLIA_INDEX_NAME);
 ```
 
-- Instantiate an [`InstantSearchHelper`][instantsearchhelper] to link your `Searcher` to your Activity:
+- Initialize [`InstantSearch`][instantsearch] to link your `Searcher` to your Activity:
 ```java
-InstantSearchHelper helper = new InstantSearchHelper(this, searcher);
+InstantSearch helper = new InstantSearchHelper(this, searcher);
 ```
 
-- Now your Activity is connected to Algolia through the Searcher, you can trigger a search using [`InstantSearchHelper#search(String)`][doc-instantsearch-search]:
+- Now your Activity is connected to Algolia through the Searcher, you can trigger a search using [`InstantSearch#search(String)`][doc-instantsearch-search]:
 ```java
 helper.search(); // Search with empty query
 ```
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Searcher searcher = new Searcher(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, ALGOLIA_INDEX_NAME);
-        InstantSearchHelper helper = new InstantSearchHelper(this, searcher);
+        InstantSearch helper = new InstantSearchHelper(this, searcher);
         helper.search();
     }
 }
@@ -239,6 +239,6 @@ You can also head to our [Widgets page][widgets] to see the other components tha
 [widgets-searchbox]: widgets.html#hits
 [dbl]: https://developer.android.com/topic/libraries/data-binding/index.html
 [searcher]: concepts.html#searcher
-[instantsearchhelper]: concepts.html#instantsearchhelper
+[instantsearch]: concepts.html#instantsearch
 [highlighting]: widgets.html#highlighting
-[doc-instantsearch-search]: javadoc/com/algolia/instantsearch/ui/InstantSearchHelper.html#search--
+[doc-instantsearch-search]: javadoc/com/algolia/instantsearch/ui/InstantSearch.html#search--

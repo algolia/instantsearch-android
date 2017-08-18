@@ -23,7 +23,12 @@ The Searcher is responsible of all search requests: when `Searcher#search()` is 
 <img src="assets/img/diagram_searcher.png" align="center" height="400px"/>
 
 ### Listeners
-A listener is an object implementing the [`AlgoliaResultsListener`](instantsearch/src/main/java/com/algolia/instantsearch/model/AlgoliaResultsListener.java) interface: this object's `onResults` or `onError` method will be called after each search request returns to let you either process the results or handle the error. You can add a listener to a Searcher by calling `Searcher#registerListener`.
+A listener is an object implementing one or more of the following interfaces, that will be called after each search request:
+
+- [`AlgoliaResultsListener`][algoliaresultslistener] to process new search results with `onResults`
+- [`AlgoliaErrorListener`][algoliaerrorlistener] to handle search errors with `onError`
+
+You can add a listener to a Searcher by calling `Searcher#register{Results,Error}Listener`.
 
 
 <img src="assets/img/diagram_listeners.png" align="center" />
@@ -34,27 +39,26 @@ The Searcher is UI-agnostic, and only communicates with its listeners. On top of
 
 InstantSearch will use the Searcher to react to changes in your application's interface, like when your user types a new query or interacts with Widgets.
 
-Linked to a `SearchView`, it will watch its content to send any new query to the `Searcher`. When the query's results arrive, `InstantSearch` will forward them to its `AlgoliaWidgets`.
-
+Linked to a `SearchView`, it will watch its content to send any new query to the `Searcher`. When the query's results arrive, `InstantSearch` will forward them to its widgets.
 <img src="assets/img/diagram_instantsearch.png" align="center" height="500px"/>
 
 ## Widgets
 
-Widgets are the UI building blocks of InstantSearch Android, linked together by an `InstantSearch` to help you build instant-search interfaces. We provide some universal widgets such as the **`SearchBox`**, the **`Hits`** or the **`RefinementList`**, and you can easily create new ones by implementing the [`AlgoliaWidget`](instantsearch/src/main/java/com/algolia/instantsearch/ui/views/AlgoliaWidget.java) interface.
+Widgets are the UI building blocks of InstantSearch Android, linked together by an `InstantSearch` to help you build instant-search interfaces. We provide some universal widgets such as the **`SearchBox`**, the **`Hits`** or the **`RefinementList`**, and you can easily create new ones by implementing one or several of the *widget interfaces*:
 
-### Anatomy of an `AlgoliaWidget`
-
-An **`AlgoliaWidget`** is a specialization of the `AlgoliaResultsListener` interface used by the `Searcher` to notify its listeners of search results.  
-Beyond reacting to search results with `onResults` and to errors in `onError`, an `AlgoliaWidget` exposes an `onReset` method which will be called when the interface is reset (which you can trigger via `InstantSearch#reset()`).
-When linked to a `Searcher`, the widget's `setSearcher` method will be called to provide it a reference to its Searcher, which is useful to some widgets. For example, the `Hits` widget uses it to load more results as the user scrolls.
+- [`AlgoliaResultsListener`][algoliaresultslistener] will let your widget react to new search results.
+- [`AlgoliaErrorListener`][algoliaerrorlistener] will let your widget handle search errors.
+- [`AlgoliaSearcherListener`][algoliasearcherlistener] will give your widget a reference to the `Searcher` to let it interact with the state of the search interface: [add new facets][addfacet], [refine on a value][addfacetrefinement], [know if there are more results to load][hasmorehits], ...
 
 ## Events
 
 InstantSearch comes with an event system that lets you react during the lifecycle of a search query:
-- when a query is fired via a `SearchEvent(Query query, int requestSeqNumber)`
-- when its results arrive via a `ResultEvent(JSONObject content, Query query, int requestSeqNumber)`
-- when a query is cancelled via a `CancelEvent(Request request, Integer requestSeqNumber)`
-- when a request errors via a `ErrorEvent(AlgoliaException error, Query query, int requestSeqNumber)`
+- when a **query is fired** via a `SearchEvent(Query query, int requestSeqNumber)`
+- when its **results arrive** via a `ResultEvent(JSONObject content, Query query, int requestSeqNumber)`
+- when a **query is cancelled** via a `CancelEvent(Request request, Integer requestSeqNumber)`
+- when a **request errors** via a `ErrorEvent(AlgoliaException error, Query query, int requestSeqNumber)`
+- when a new **facet refinement** is applied via a `FacetRefinementEvent(Operation operation, NumericRefinement refinement)`
+- when a new **numeric refinement** is applied via a `NumericRefinementEvent(Operation operation, String attribute, String value)`
 
 We use EventBus to dispatch events. You can register an object to the event bus using `EventBus.getDefault().register(this);` after which it will receive events on methods annotated by `@Subscribe`:
 
@@ -76,3 +80,10 @@ public class Logger {
 }
 ```
 
+[algoliaresultslistener]: javadoc/com/algolia/instantsearch/model/AlgoliaResultsListener.html
+[algoliaerrorlistener]: javadoc/com/algolia/instantsearch/model/AlgoliaErrorListener.html
+[algoliasearcherlistener]: javadoc/com/algolia/instantsearch/model/AlgoliaErrorListener.html
+
+[addfacet]: javadoc/com/algolia/instantsearch/helpers/Searcher.html#addFacet-java.lang.String...-
+[addfacetrefinement]: javadoc/com/algolia/instantsearch/helpers/Searcher.html#addFacetRefinement-java.lang.String-java.lang.String-
+[hasmorehits]: javadoc/com/algolia/instantsearch/helpers/Searcher.html#hasMoreHits--

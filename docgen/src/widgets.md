@@ -32,8 +32,8 @@ The **SearchBox** is a specialized `SearchView` which provides some customizatio
 
 A useful pattern to improve your user's experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.
 
-By default, the InstantSearchHelper will display an indeterminate [`ProgressBar`][docs-progressbar] in your `SearchView` as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (>= API 14), or after a small delay to avoid blinking.
-You can change this delay by calling `InstantSearchHelper#enableProgressBar(int)` with a delay in milliseconds, or disable this progress indicator with `InstantSearchHelper#disableProgressBar()`.
+By default, InstantSearch will display an indeterminate [`ProgressBar`][docs-progressbar] in your `SearchView` as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (>= API 14), or after a small delay to avoid blinking.
+You can change this delay by calling `InstantSearch#enableProgressBar(int)` with a delay in milliseconds, or disable this progress indicator with `InstantSearchHelper#disableProgressBar()`.
 
 Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/events/SearchProgressController.java)
 Once instantiated, a **SearchProgressController** will inform its [`ProgressListener`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/events/SearchProgressController.java#L98) when some requests are sent with `onStart()`, and will call `onStop()` when all current requests have returned.
@@ -217,7 +217,7 @@ You can configure its behavior with several attributes:
 - **`defaultLabel`** is the label for the default option (the first option of the selector does not filter on any value to let the user cancel the filtering)
 - **`autoHide`** if `true`, this widget will be hidden when there are no results.
 
-Note that if you display a `NumericSelector` inside a [`PopupWindow`][docs-popupwindow], you must set its `spinnerMode` to dialog with `android:spinnerMode="dialog"`. Failing to do so will result in a [`BadTokenException`](https://stackoverflow.com/a/18781297/3109189).
+**Note that if you display a `NumericSelector` inside a [`PopupWindow`][docs-popupwindow], you must set its `spinnerMode` to dialog with `android:spinnerMode="dialog"`. Failing to do so will result in a [`BadTokenException`](https://stackoverflow.com/a/18781297/3109189).**
 
 
 ## RefinementList
@@ -289,11 +289,11 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
 
 If none of these widgets fits your use-case, you can implement your own!
 
-Any `View` implementing the [`AlgoliaResultsListener`](javadoc/com/algolia/instantsearch/model/AlgoliaResultsListener.html) interface will be picked-up by `InstantSearchHelper` at instantiation. You simply need to implement two methods:
-- `onResults` will be called when new results are received
-- `onError` will be called when there is an error
+Any `View` in your Activity implementing [one or more widget interfaces][interfaces] will be picked-up by `InstantSearch` at instantiation. Most widgets will implement two methods:
+- `onResults` to be called when new results are received
+- `onError` to be called when there is an error
 
-This interface also specifies `setSearcher`, to give a reference to the `Searcher` used in your search interface. It will enable your widget to uses the [Searcher's programmatic API][docs-searcher].
+You can also implement the `AlgoliaSearcherListener` interface to get a reference to the `Searcher` used in your search interface. It will enable your widget to uses the [Searcher's programmatic API][docs-searcher].
 
 [media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
@@ -307,3 +307,5 @@ This interface also specifies `setSearcher`, to give a reference to the `Searche
 [docs-adapterview]: https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)
 [docs-popupwindow]: https://developer.android.com/reference/android/widget/PopupWindow.html
 [docs-clicklistener]: javadoc/com/algolia/instantsearch/ui/utils/ItemClickSupport.OnItemClickListener.html
+
+[interfaces]: http://localhost:3000/concepts.html#widgets
