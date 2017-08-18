@@ -348,7 +348,7 @@ add <strong><code>algolia:attribute='@{&quot;foo&quot;}'</code></strong> on a Vi
     <span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">LinearLayout</span><span class="cm-tag cm-bracket">&gt;</span>
 <span class="cm-tag cm-bracket">&lt;/</span><span class="cm-tag">layout</span><span class="cm-tag cm-bracket">&gt;</span>
 </code></pre>
-<p><em>Beware of the data binding attributes’ syntax: <strong>@’{“string”}’</strong>.</em></p>
+<p><strong>Beware of the data binding attributes’ syntax: <code>@'{&quot;string&quot;}'</code>.</strong></p>
 <p>You have now a main activity layout containing your <code>Hits</code> widget, and a data-binding layout ready to display your search results. You just miss a search query to display its results!
 As your application has no input for now, we will trigger the search programmatically.</p>
 <ul>
@@ -357,27 +357,27 @@ As your application has no input for now, we will trigger the search programmati
 <pre class="CodeMirror cm-s-eclipse"><code><span class="cm-variable">Searcher</span> <span class="cm-variable">searcher</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">Searcher</span>(<span class="cm-variable">ALGOLIA_APP_ID</span>, <span class="cm-variable">ALGOLIA_SEARCH_API_KEY</span>, <span class="cm-variable">ALGOLIA_INDEX_NAME</span>);
 </code></pre>
 <ul>
-<li>Instantiate an <a href="concepts.html#instantsearchhelper"><code>InstantSearchHelper</code></a> to link your <code>Searcher</code> to your Activity:</li>
+<li>Initialize <a href="concepts.html#instantsearch"><code>InstantSearch</code></a> to link your <code>Searcher</code> to your Activity:</li>
 </ul>
-<pre class="CodeMirror cm-s-eclipse"><code><span class="cm-variable">InstantSearchHelper</span> <span class="cm-variable">helper</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">InstantSearchHelper</span>(<span class="cm-keyword">this</span>, <span class="cm-variable">searcher</span>);
+<pre class="CodeMirror cm-s-eclipse"><code><span class="cm-variable">InstantSearch</span> <span class="cm-variable">helper</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">InstantSearchHelper</span>(<span class="cm-keyword">this</span>, <span class="cm-variable">searcher</span>);
 </code></pre>
 <ul>
-<li>Now your Activity is connected to Algolia through the Searcher, you can trigger a search using <a href="javadoc/com/algolia/instantsearch/ui/InstantSearchHelper.html#search--"><code>InstantSearchHelper#search(String)</code></a>:</li>
+<li>Now your Activity is connected to Algolia through the Searcher, you can trigger a search using <a href="javadoc/com/algolia/instantsearch/ui/InstantSearch.html#search--"><code>InstantSearch#search(String)</code></a>:</li>
 </ul>
 <pre class="CodeMirror cm-s-eclipse"><code><span class="cm-variable">helper</span>.<span class="cm-variable">search</span>(); <span class="cm-comment">// Search with empty query</span>
 </code></pre>
 <p>Your activity should now look like this:</p>
 <pre class="CodeMirror cm-s-eclipse"><code><span class="cm-keyword">public</span> <span class="cm-keyword">class</span> <span class="cm-def">MainActivity</span> <span class="cm-keyword">extends</span> <span class="cm-variable">AppCompatActivity</span> {
-    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-type">String</span> <span class="cm-variable">ALGOLIA_APP_ID</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;latency&quot;</span>;
-    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-type">String</span> <span class="cm-variable">ALGOLIA_SEARCH_API_KEY</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;3d9875e51fbd20c7754e65422f7ce5e1&quot;</span>;
-    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-type">String</span> <span class="cm-variable">ALGOLIA_INDEX_NAME</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;bestbuy&quot;</span>;
+    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-variable-3">String</span> <span class="cm-variable">ALGOLIA_APP_ID</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;latency&quot;</span>;
+    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-variable-3">String</span> <span class="cm-variable">ALGOLIA_SEARCH_API_KEY</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;3d9875e51fbd20c7754e65422f7ce5e1&quot;</span>;
+    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-variable-3">String</span> <span class="cm-variable">ALGOLIA_INDEX_NAME</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;bestbuy&quot;</span>;
 
     <span class="cm-meta">@Override</span>
-    <span class="cm-keyword">protected</span> <span class="cm-type">void</span> <span class="cm-variable">onCreate</span>(<span class="cm-variable">Bundle</span> <span class="cm-variable">savedInstanceState</span>) {
+    <span class="cm-keyword">protected</span> <span class="cm-variable-3">void</span> <span class="cm-variable">onCreate</span>(<span class="cm-variable">Bundle</span> <span class="cm-variable">savedInstanceState</span>) {
         <span class="cm-keyword">super</span>.<span class="cm-variable">onCreate</span>(<span class="cm-variable">savedInstanceState</span>);
         <span class="cm-variable">setContentView</span>(<span class="cm-variable">R</span>.<span class="cm-variable">layout</span>.<span class="cm-variable">activity_main</span>);
         <span class="cm-variable">Searcher</span> <span class="cm-variable">searcher</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">Searcher</span>(<span class="cm-variable">ALGOLIA_APP_ID</span>, <span class="cm-variable">ALGOLIA_SEARCH_API_KEY</span>, <span class="cm-variable">ALGOLIA_INDEX_NAME</span>);
-        <span class="cm-variable">InstantSearchHelper</span> <span class="cm-variable">helper</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">InstantSearchHelper</span>(<span class="cm-keyword">this</span>, <span class="cm-variable">searcher</span>);
+        <span class="cm-variable">InstantSearch</span> <span class="cm-variable">helper</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">InstantSearchHelper</span>(<span class="cm-keyword">this</span>, <span class="cm-variable">searcher</span>);
         <span class="cm-variable">helper</span>.<span class="cm-variable">search</span>();
     }
 }

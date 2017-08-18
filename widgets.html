@@ -261,8 +261,8 @@
 <img src="assets/img/progress.gif" class="img-object" align="right" />
 <!-- TODO: Move to separate guide -->
 <p>A useful pattern to improve your user’s experience consists in displaying a progress indicator when there are ongoing requests still waiting to complete.</p>
-<p>By default, the InstantSearchHelper will display an indeterminate <a href="https://developer.android.com/reference/android/widget/ProgressBar.html"><code>ProgressBar</code></a> in your <code>SearchView</code> as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (&gt;= API 14), or after a small delay to avoid blinking.
-You can change this delay by calling <code>InstantSearchHelper#enableProgressBar(int)</code> with a delay in milliseconds, or disable this progress indicator with <code>InstantSearchHelper#disableProgressBar()</code>.</p>
+<p>By default, InstantSearch will display an indeterminate <a href="https://developer.android.com/reference/android/widget/ProgressBar.html"><code>ProgressBar</code></a> in your <code>SearchView</code> as long as some requests are still incomplete. This loader is shown using animations when the target device is recent enough (&gt;= API 14), or after a small delay to avoid blinking.
+You can change this delay by calling <code>InstantSearch#enableProgressBar(int)</code> with a delay in milliseconds, or disable this progress indicator with <code>InstantSearchHelper#disableProgressBar()</code>.</p>
 <p>Alternatively, you can implement your own progress logic by using a <a href="https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/events/SearchProgressController.java"><code>SearchProgressController</code></a>
 Once instantiated, a <strong>SearchProgressController</strong> will inform its <a href="https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/events/SearchProgressController.java#L98"><code>ProgressListener</code></a> when some requests are sent with <code>onStart()</code>, and will call <code>onStop()</code> when all current requests have returned.</p>
 <h2 id="hits">Hits <a class="anchor" href="widgets.html#hits" aria-hidden="true"></a></h2>
@@ -379,7 +379,7 @@ If you add a View to your layout with the id <strong><code>@android:id/empty</co
 <p>As the Hits widget is based on a <code>RecyclerView</code>, we use <a href="http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/">Hugo Visser’s <code>ItemClickSupport</code></a> to let you react to clicks on individual hits. To do so, add an <a href="javadoc/com/algolia/instantsearch/ui/utils/ItemClickSupport.OnItemClickListener.html"><code>OnItemClickListener</code></a> to your hits:</p>
 <pre class="CodeMirror cm-s-eclipse"><code><span class="cm-variable">hits</span>.<span class="cm-variable">setOnItemClickListener</span>(<span class="cm-keyword">new</span> <span class="cm-variable">ItemClickSupport</span>.<span class="cm-variable">OnItemClickListener</span>() {
     <span class="cm-meta">@Override</span>
-    <span class="cm-keyword">public</span> <span class="cm-type">void</span> <span class="cm-variable">onItemClick</span>(<span class="cm-variable">RecyclerView</span> <span class="cm-variable">recyclerView</span>, <span class="cm-type">int</span> <span class="cm-variable">position</span>, <span class="cm-variable">View</span> <span class="cm-variable">v</span>) {
+    <span class="cm-keyword">public</span> <span class="cm-variable-3">void</span> <span class="cm-variable">onItemClick</span>(<span class="cm-variable">RecyclerView</span> <span class="cm-variable">recyclerView</span>, <span class="cm-variable-3">int</span> <span class="cm-variable">position</span>, <span class="cm-variable">View</span> <span class="cm-variable">v</span>) {
         <span class="cm-variable">JSONObject</span> <span class="cm-variable">hit</span> <span class="cm-operator">=</span> <span class="cm-variable">hits</span>.<span class="cm-variable">get</span>(<span class="cm-variable">position</span>);
         <span class="cm-comment">// Do something with the hit</span>
     }
@@ -437,7 +437,7 @@ This attribute accepts the following values:
 <li><strong><code>defaultLabel</code></strong> is the label for the default option (the first option of the selector does not filter on any value to let the user cancel the filtering)</li>
 <li><strong><code>autoHide</code></strong> if <code>true</code>, this widget will be hidden when there are no results.</li>
 </ul>
-<p>Note that if you display a <code>NumericSelector</code> inside a <a href="https://developer.android.com/reference/android/widget/PopupWindow.html"><code>PopupWindow</code></a>, you must set its <code>spinnerMode</code> to dialog with <code>android:spinnerMode=&quot;dialog&quot;</code>. Failing to do so will result in a <a href="https://stackoverflow.com/a/18781297/3109189"><code>BadTokenException</code></a>.</p>
+<p><strong>Note that if you display a <code>NumericSelector</code> inside a <a href="https://developer.android.com/reference/android/widget/PopupWindow.html"><code>PopupWindow</code></a>, you must set its <code>spinnerMode</code> to dialog with <code>android:spinnerMode=&quot;dialog&quot;</code>. Failing to do so will result in a <a href="https://stackoverflow.com/a/18781297/3109189"><code>BadTokenException</code></a>.</strong></p>
 <h2 id="refinementlist">RefinementList <a class="anchor" href="widgets.html#refinementlist" aria-hidden="true"></a></h2>
 <img src="assets/img/widget_RefinementList.png" class="img-object" align="right"/>
 <p>The <strong>RefinementList</strong> is a filtering widget made to display your <a href="https://www.algolia.com/doc/guides/searching/filtering/">facets</a> and let the user refine the search results.</p>
@@ -513,12 +513,12 @@ This attribute accepts the following values:
 </ul>
 <h2 id="custom-widgets">Custom widgets <a class="anchor" href="widgets.html#custom-widgets" aria-hidden="true"></a></h2>
 <p>If none of these widgets fits your use-case, you can implement your own!</p>
-<p>Any <code>View</code> implementing the <a href="javadoc/com/algolia/instantsearch/model/AlgoliaResultsListener.html"><code>AlgoliaResultsListener</code></a> interface will be picked-up by <code>InstantSearchHelper</code> at instantiation. You simply need to implement two methods:</p>
+<p>Any <code>View</code> in your Activity implementing <a href="http://localhost:3000/concepts.html#widgets">one or more widget interfaces</a> will be picked-up by <code>InstantSearch</code> at instantiation. Most widgets will implement two methods:</p>
 <ul>
-<li><code>onResults</code> will be called when new results are received</li>
-<li><code>onError</code> will be called when there is an error</li>
+<li><code>onResults</code> to be called when new results are received</li>
+<li><code>onError</code> to be called when there is an error</li>
 </ul>
-<p>This interface also specifies <code>setSearcher</code>, to give a reference to the <code>Searcher</code> used in your search interface. It will enable your widget to uses the <a href="javadoc/com/algolia/instantsearch/helpers/Searcher.html">Searcher’s programmatic API</a>.</p>
+<p>You can also implement the <code>AlgoliaSearcherListener</code> interface to get a reference to the <code>Searcher</code> used in your search interface. It will enable your widget to uses the <a href="javadoc/com/algolia/instantsearch/helpers/Searcher.html">Searcher’s programmatic API</a>.</p>
 </div></div></div></section><div id="footer"><div class="credits"><div class="container pos-rel"><div class="row"><div class="col-md-12 text-center"><a data-no-turbolink="true" href="/"><img width="40" src="https://www.algolia.com/static_assets/images/flat2/algolia/algolia-logo_badge-598a1fe6.svg"></a></div></div><div class="spacer40"></div></div></div></div><!--Google Tag Manager-->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-N8JP8G" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N8JP8G');</script>
