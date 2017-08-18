@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2 [Changes](https://github.com/algolia/instantsearch-android/compare/1.0.1...1.0.2) (2017-08-18)
+
+### Bug Fixes
+
+* **AlgoliaResultsListener:** Fix typo in class name
+
 ## 1.0.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.0.0...1.0.1) (2017-08-16)
 
 ### Bug Fixes
