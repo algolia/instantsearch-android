@@ -204,10 +204,7 @@ public class Searcher {
                 lastResponsePage = 0;
 
                 if (error != null) {
-                    bus.post(new ErrorEvent(error, query, currentRequestId));
-                    for (AlgoliaErrorListener listener : errorListeners) {
-                        listener.onError(query, error);
-                    }
+                    postError(error, currentRequestId);
                 } else {
                     if (content == null) {
                         Log.e("Algolia|Searcher", "content is null but error too.");
@@ -276,10 +273,7 @@ public class Searcher {
             public void requestCompleted(@NonNull JSONObject content, @Nullable AlgoliaException error) {
                 pendingRequests.remove(currentRequestId);
                 if (error != null) {
-                    bus.post(new ErrorEvent(error, query, currentRequestId));
-                    for (AlgoliaErrorListener listener : errorListeners) {
-                        listener.onError(query, error);
-                    }
+                    postError(error, currentRequestId);
                 } else {
                     if (currentRequestId <= lastResponseId) {
                         return; // Hits are for an older query, let's ignore them
@@ -901,6 +895,13 @@ public class Searcher {
     private void updateListeners(@NonNull JSONObject content, boolean isLoadingMore) {
         for (AlgoliaResultsListener listener : resultListeners) {
             listener.onResults(new SearchResults(content), isLoadingMore);
+        }
+    }
+
+    private void postError(@NonNull AlgoliaException error, int currentRequestId) {
+        bus.post(new ErrorEvent(error, query, currentRequestId));
+        for (AlgoliaErrorListener listener : errorListeners) {
+            listener.onError(query, error);
         }
     }
 
