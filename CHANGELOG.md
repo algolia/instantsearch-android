@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.0.2...1.1.0) (2017-08-30)
+
+### New features
+
+* **Searcher:** Forward from backend ([e9bbb8b](https://github.com/algolia/instantsearch-android/commit/e9bbb8b))
+
 ## 1.0.2 [Changes](https://github.com/algolia/instantsearch-android/compare/1.0.1...1.0.2) (2017-08-18)
 
 ### Bug Fixes
