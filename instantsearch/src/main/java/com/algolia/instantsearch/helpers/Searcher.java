@@ -210,7 +210,7 @@ public class Searcher {
                     }
                 } else {
                     if (content == null) {
-                        Log.e("Algolia|Searcher", "content is null but error is not.");
+                        Log.e("Algolia|Searcher", "content is null but error too.");
                     } else {
                         bus.post(new ResultEvent(content, query, currentRequestId));
                         updateListeners(content, false);
