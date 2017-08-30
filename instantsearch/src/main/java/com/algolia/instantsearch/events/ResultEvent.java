@@ -17,6 +17,8 @@ public class ResultEvent {
     /** the search request's identifier. */
     public final int requestSeqNumber;
 
+    public static final int REQUEST_UNKNOWN = -1;
+
     public ResultEvent(final JSONObject json, final Query query, final int requestSeqNumber) {
         this.results = new SearchResults(json);
         this.query = query;

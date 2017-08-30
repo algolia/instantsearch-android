@@ -39,6 +39,7 @@ import java.util.Map;
 
 import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
 import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
+import static com.algolia.instantsearch.events.ResultEvent.REQUEST_UNKNOWN;
 
 /**
  * Handles the state of the search interface, wrapping an {@link Client Algolia API Client} and provide a level of abstraction over it.
@@ -226,6 +227,31 @@ public class Searcher {
             searchRequest = index.searchAsync(query, searchHandler);
         }
         pendingRequests.put(currentRequestId, searchRequest);
+        return this;
+    }
+
+    /**
+     * Forwards the given algolia response to the {@link Searcher#resultListeners results listeners}.
+     * <p>
+     * <i>This method is useful if you rely on a backend implementation,
+     * but still want to use InstantSearch Android in your frontend application.</i>
+     *
+     * @param response the response sent by the algolia server.
+     * @return this {@link Searcher} for chaining.
+     * @throws IllegalStateException if the given response is malformated.
+     */
+    @NonNull
+    public Searcher forwardBackendSearchResult(@NonNull JSONObject response) {
+        SearchResults results = new SearchResults(response);
+        if (!hasHits(response)) {
+            endReached = true;
+        } else {
+            checkIfLastPage(response);
+        }
+
+        bus.post(new ResultEvent(response, query, REQUEST_UNKNOWN));
+        updateListeners(response, false);
+        updateFacetStats(response);
         return this;
     }
 
