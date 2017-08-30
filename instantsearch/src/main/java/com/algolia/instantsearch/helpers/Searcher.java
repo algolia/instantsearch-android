@@ -898,9 +898,9 @@ public class Searcher {
         }
     }
 
-    private void updateListeners(@NonNull JSONObject hits, boolean isLoadingMore) {
+    private void updateListeners(@NonNull JSONObject content, boolean isLoadingMore) {
         for (AlgoliaResultsListener listener : resultListeners) {
-            listener.onResults(new SearchResults(hits), isLoadingMore);
+            listener.onResults(new SearchResults(content), isLoadingMore);
         }
     }
 
