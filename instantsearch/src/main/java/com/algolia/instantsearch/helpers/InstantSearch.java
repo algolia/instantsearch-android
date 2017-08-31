@@ -26,12 +26,12 @@ import com.algolia.instantsearch.model.AlgoliaErrorListener;
 import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
-import com.algolia.instantsearch.utils.LayoutViews;
-import com.algolia.instantsearch.utils.SearchViewFacade;
 import com.algolia.instantsearch.ui.views.Hits;
 import com.algolia.instantsearch.ui.views.RefinementList;
 import com.algolia.instantsearch.ui.views.SearchBox;
 import com.algolia.instantsearch.ui.views.filters.AlgoliaFilter;
+import com.algolia.instantsearch.utils.LayoutViews;
+import com.algolia.instantsearch.utils.SearchViewFacade;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -185,17 +185,19 @@ public class InstantSearch {
             progressBarDelay = DELAY_PROGRESSBAR_NO_ANIMATIONS; // Without animations, a delay is needed to avoid blinking.
         }
 
-        progressController = new SearchProgressController(new SearchProgressController.ProgressListener() {
-            @Override
-            public void onStart() {
-                updateProgressBar(searchView, true);
-            }
+        if (searchView != null) {
+            progressController = new SearchProgressController(new SearchProgressController.ProgressListener() {
+                @Override
+                public void onStart() {
+                    updateProgressBar(searchView, true);
+                }
 
-            @Override
-            public void onStop() {
-                updateProgressBar(searchView, false);
-            }
-        }, progressBarDelay);
+                @Override
+                public void onStop() {
+                    updateProgressBar(searchView, false);
+                }
+            }, progressBarDelay);
+        }
     }
 
     /**
@@ -297,6 +299,7 @@ public class InstantSearch {
 
     /**
      * Links the given widget to InstantSearch according to the interfaces it implements.
+     *
      * @param widget a widget implementing ({@link AlgoliaResultsListener} || {@link AlgoliaErrorListener} || {@link AlgoliaSearcherListener}).
      */
     public void registerWidget(View widget) {
@@ -487,22 +490,23 @@ public class InstantSearch {
             }
         } else { // Or he uses a standard SearchView
             final List<SearchView> searchViews = LayoutViews.findByClass(rootView, SearchView.class);
+            final View searchBox = rootView.findViewById(R.id.searchBox);
             if (searchViews.size() == 0) { // Or he uses a support SearchView
                 final List<android.support.v7.widget.SearchView> supportViews = LayoutViews.findByClass(rootView, android.support.v7.widget.SearchView.class);
                 if (supportViews.size() == 0) { // We should find at least one
                     Log.e("Algolia|InstantSearch", Errors.LAYOUT_MISSING_SEARCHBOX);
                 } else if (supportViews.size() > 1) { // One of those should have the id @id/searchBox
-                    final SearchView labeledSearchView = (SearchView) rootView.findViewById(R.id.searchBox);
+                    final SearchView labeledSearchView = (SearchView) searchBox;
                     if (labeledSearchView == null) {
                         throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHVIEWS);
                     } else {
-                        facade = new SearchViewFacade((SearchView) rootView.findViewById(R.id.searchBox));
+                        facade = new SearchViewFacade((SearchView) searchBox);
                     }
                 } else {
                     facade = new SearchViewFacade(supportViews.get(0));
                 }
             } else if (searchViews.size() > 1) { // One of those should have the id @id/searchBox
-                final SearchView labeledSearchView = (SearchView) rootView.findViewById(R.id.searchBox);
+                final SearchView labeledSearchView = (SearchView) searchBox;
                 if (labeledSearchView == null) {
                     throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHVIEWS);
                 } else {
