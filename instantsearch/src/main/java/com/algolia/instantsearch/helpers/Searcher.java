@@ -653,9 +653,10 @@ public class Searcher {
     }
 
     /**
-     +     * Links the given listener to Searcher according to the interfaces it implements.
-     +     * @param object implementing ({@link AlgoliaResultsListener}).
-     +     */
+     * Links the given listener to the Searcher, which will forward new search results to it.
+     *
+     * @param resultListener an object implementing {@link AlgoliaResultsListener}.
+     */
     public Searcher registerResultListener(@NonNull AlgoliaResultsListener resultListener) {
         if (!resultListeners.contains(resultListener)) {
             resultListeners.add(resultListener);
@@ -664,9 +665,10 @@ public class Searcher {
     }
 
     /**
-     +     * Links the given listener to Searcher according to the interfaces it implements.
-     +     * @param object implementing ({@link AlgoliaErrorListener}).
-     +     */
+     * Links the given listener to the Searcher, which will forward new search errors to it.
+     *
+     * @param errorListener an object implementing {@link AlgoliaErrorListener}.
+     */
     public Searcher registerErrorListener(@NonNull AlgoliaErrorListener errorListener) {
         if (!errorListeners.contains(errorListener)) {
             errorListeners.add(errorListener);
