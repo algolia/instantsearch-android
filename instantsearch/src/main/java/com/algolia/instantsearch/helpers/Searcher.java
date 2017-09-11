@@ -652,14 +652,22 @@ public class Searcher {
         return this;
     }
 
-    Searcher registerResultListener(@NonNull AlgoliaResultsListener resultListener) {
+    /**
+     +     * Links the given listener to Searcher according to the interfaces it implements.
+     +     * @param object implementing ({@link AlgoliaResultsListener}).
+     +     */
+    public Searcher registerResultListener(@NonNull AlgoliaResultsListener resultListener) {
         if (!resultListeners.contains(resultListener)) {
             resultListeners.add(resultListener);
         }
         return this;
     }
 
-    Searcher registerErrorListener(@NonNull AlgoliaErrorListener errorListener) {
+    /**
+     +     * Links the given listener to Searcher according to the interfaces it implements.
+     +     * @param object implementing ({@link AlgoliaErrorListener}).
+     +     */
+    public Searcher registerErrorListener(@NonNull AlgoliaErrorListener errorListener) {
         if (!errorListeners.contains(errorListener)) {
             errorListeners.add(errorListener);
         }
