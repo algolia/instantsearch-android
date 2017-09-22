@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.1.0...v) (2017-09-22)
+
+### Bug Fixes
+
+* **progressController:** Only setup if searchView registered ([90e3307](https://github.com/algolia/instantsearch-android/commit/90e3307))
+
 ## 1.1.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.0.2...1.1.0) (2017-08-30)
 
 ### New features
