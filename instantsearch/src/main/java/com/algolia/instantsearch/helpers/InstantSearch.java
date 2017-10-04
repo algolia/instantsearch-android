@@ -303,6 +303,8 @@ public class InstantSearch {
      * @param widget a widget implementing ({@link AlgoliaResultsListener} || {@link AlgoliaErrorListener} || {@link AlgoliaSearcherListener}).
      */
     public void registerWidget(View widget) {
+        prepareWidget(widget);
+
         if (widget instanceof AlgoliaResultsListener) {
             AlgoliaResultsListener listener = (AlgoliaResultsListener) widget;
             if (!this.resultListeners.contains(listener)) {
@@ -320,10 +322,6 @@ public class InstantSearch {
         if (widget instanceof AlgoliaSearcherListener) {
             AlgoliaSearcherListener listener = (AlgoliaSearcherListener) widget;
             listener.initWithSearcher(searcher);
-        }
-
-        if (!widgets.contains(widget)) { // process once each widget
-            widgets.add(widget);
         }
     }
 
@@ -369,6 +367,12 @@ public class InstantSearch {
         return refinementAttributes;
     }
 
+    /**
+     * Prepares the widget: adding it to widgets, applying its specific settings
+     * and storing its eventual refinement attribute.
+     *
+     * @param listener the widget to prepare.
+     */
     private void prepareWidget(Object listener) {
         prepareWidget(null, listener, null);
     }
@@ -393,8 +397,8 @@ public class InstantSearch {
             if (widget instanceof Hits) {
                 searcher.getQuery().setHitsPerPage(((Hits) widget).getHitsPerPage());
 
-                // Link hits to activity's empty view
-                ((Hits) widget).setEmptyView(getEmptyView(rootView));
+                // Link hits to activity's empty view //TODO: Remove rootView parameter if getRootView always works
+                ((Hits) widget).setEmptyView(getEmptyView(widget.getRootView()));
 
                 itemLayoutId = ((Hits) widget).getLayoutId();
 
@@ -407,7 +411,7 @@ public class InstantSearch {
                     refinementAttributes.add(((RefinementList) widget).getAttribute());
                 }
             } else if (widget instanceof ListView) {
-                ((ListView) widget).setEmptyView(getEmptyView(rootView));
+                ((ListView) widget).setEmptyView(getEmptyView(widget.getRootView()));
             }
         }
     }
