@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.1.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.1.0...v) (2017-09-22)
+## 1.1.2 [Changes](https://github.com/algolia/instantsearch-android/compare/1.1.1...1.1.2) (2017-10-04)
+
+### Bug Fixes
+
+* **Searcher:** refactor prepareWidget, fixing ResourceNotFound error ([90e3307](https://github.com/algolia/instantsearch-android/commit/de1b5fd7))
+
+## 1.1.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.1.0...1.1.1) (2017-09-22)
 
 ### Bug Fixes
 
