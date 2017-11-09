@@ -52,8 +52,6 @@ import static com.algolia.instantsearch.events.ResultEvent.REQUEST_UNKNOWN;
 public class Searcher {
     private static Searcher instance;
 
-    /** The EventBus which will propagate events. */
-    private final EventBus bus;
     /** The {@link Index} targeted by this Searcher. */
     private Index index;
     /** The {@link Client API Client} used by this Searcher. */
@@ -142,7 +140,6 @@ public class Searcher {
         this.client = index.getClient();
         query = new Query();
         client.addUserAgent(new Client.LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME)));
-        bus = EventBus.getDefault();
     }
 
     /**
@@ -170,7 +167,7 @@ public class Searcher {
         lastResponsePage = -1;
         final int currentRequestId = ++lastRequestId;
 
-        bus.post(new SearchEvent(query, currentRequestId));
+        EventBus.getDefault().post(new SearchEvent(query, currentRequestId));
         final CompletionHandler searchHandler = new CompletionHandler() {
             @Override
             public void requestCompleted(@Nullable JSONObject content, @Nullable AlgoliaException error) {
@@ -209,7 +206,7 @@ public class Searcher {
                     if (content == null) {
                         Log.e("Algolia|Searcher", "content is null but error too.");
                     } else {
-                        bus.post(new ResultEvent(content, query, currentRequestId));
+                        EventBus.getDefault().post(new ResultEvent(content, query, currentRequestId));
                         updateListeners(content, false);
                         updateFacetStats(content);
                     }
@@ -246,7 +243,7 @@ public class Searcher {
             checkIfLastPage(response);
         }
 
-        bus.post(new ResultEvent(response, query, REQUEST_UNKNOWN));
+        EventBus.getDefault().post(new ResultEvent(response, query, REQUEST_UNKNOWN));
         updateListeners(response, false);
         updateFacetStats(response);
         return this;
@@ -267,7 +264,7 @@ public class Searcher {
         Query loadMoreQuery = new Query(query);
         loadMoreQuery.setPage(++lastRequestPage);
         final int currentRequestId = ++lastRequestId;
-        bus.post(new SearchEvent(query, currentRequestId));
+        EventBus.getDefault().post(new SearchEvent(query, currentRequestId));
         pendingRequests.put(currentRequestId, index.searchAsync(loadMoreQuery, new CompletionHandler() {
             @Override
             public void requestCompleted(@NonNull JSONObject content, @Nullable AlgoliaException error) {
@@ -279,7 +276,7 @@ public class Searcher {
                         return; // Hits are for an older query, let's ignore them
                     }
 
-                    bus.post(new ResultEvent(content, query, currentRequestId));
+                    EventBus.getDefault().post(new ResultEvent(content, query, currentRequestId));
                     if (hasHits(content)) {
                         updateListeners(content, true);
                         updateFacetStats(content);
@@ -400,7 +397,7 @@ public class Searcher {
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addFacetRefinement(@NonNull String attribute, @NonNull String value) {
-        bus.post(new FacetRefinementEvent(ADD, attribute, value));
+        EventBus.getDefault().post(new FacetRefinementEvent(ADD, attribute, value));
         List<String> attributeRefinements = getOrCreateRefinements(attribute);
         attributeRefinements.add(value);
         rebuildQueryFacetFilters();
@@ -419,7 +416,7 @@ public class Searcher {
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeFacetRefinement(@NonNull String attribute, @NonNull String value) {
-        bus.post(new FacetRefinementEvent(REMOVE, attribute, value));
+        EventBus.getDefault().post(new FacetRefinementEvent(REMOVE, attribute, value));
         List<String> attributeRefinements = getOrCreateRefinements(attribute);
         attributeRefinements.remove(value);
         rebuildQueryFacetFilters();
@@ -497,7 +494,7 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addNumericRefinement(@NonNull NumericRefinement refinement) {
-        bus.post(new NumericRefinementEvent(ADD, refinement));
+        EventBus.getDefault().post(new NumericRefinementEvent(ADD, refinement));
         SparseArray<NumericRefinement> refinements = numericRefinements.get(refinement.attribute);
         if (refinements == null) {
             refinements = new SparseArray<>();
@@ -550,7 +547,7 @@ public class Searcher {
             NumericRefinement.checkOperatorIsValid(operator);
             numericRefinements.get(attribute).remove(operator);
         }
-        bus.post(new NumericRefinementEvent(Operation.REMOVE, new NumericRefinement(attribute, operator, value)));
+        EventBus.getDefault().post(new NumericRefinementEvent(Operation.REMOVE, new NumericRefinement(attribute, operator, value)));
         rebuildQueryNumericFilters();
         return this;
     }
@@ -752,6 +749,16 @@ public class Searcher {
         return this;
     }
 
+
+    /**
+     * Unregister and clean up the searcher when is no longer needed.
+     *
+     */
+    public void destroy() {
+        errorListeners.clear();
+        resultListeners.clear();
+    }
+
     private void updateFacetStats(JSONObject content) {
         if (content == null) {
             return;
@@ -889,7 +896,7 @@ public class Searcher {
     private void cancelRequest(Request request, Integer requestSeqNumber) {
         if (!request.isCancelled()) {
             request.cancel();
-            bus.post(new CancelEvent(request, requestSeqNumber));
+            EventBus.getDefault().post(new CancelEvent(request, requestSeqNumber));
             pendingRequests.delete(requestSeqNumber);
         } else {
             throw new IllegalStateException("cancelRequest was called on a request that was already canceled.");
@@ -909,7 +916,7 @@ public class Searcher {
     }
 
     private void postError(@NonNull AlgoliaException error, int currentRequestId) {
-        bus.post(new ErrorEvent(error, query, currentRequestId));
+        EventBus.getDefault().post(new ErrorEvent(error, query, currentRequestId));
         for (AlgoliaErrorListener listener : errorListeners) {
             listener.onError(query, error);
         }

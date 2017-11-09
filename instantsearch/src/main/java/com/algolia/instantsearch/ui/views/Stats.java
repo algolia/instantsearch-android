@@ -46,8 +46,6 @@ public class Stats extends android.support.v7.widget.AppCompatTextView implement
         } finally {
             styledAttributes.recycle();
         }
-
-        EventBus.getDefault().register(this);
     }
 
     @Subscribe
@@ -89,5 +87,17 @@ public class Stats extends android.support.v7.widget.AppCompatTextView implement
             setVisibility(VISIBLE);
             setText(applyTemplate(errorTemplate, query, error));
         }
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        EventBus.getDefault().unregister(this);
+        super.onDetachedFromWindow();
     }
 }
