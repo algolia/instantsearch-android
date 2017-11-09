@@ -1,35 +1,42 @@
 # Changelog
 
+
+## 1.1.3 [Changes](https://github.com/algolia/instantsearch-android/compare/1.1.2...1.1.3) (2017-11-09)
+### Bug Fixes
+* **memoryleak:** Fix the memory leak ([3a65982](https://github.com/algolia/instantsearch-android/commit/3a65982))
+
+### Improvements
+* **gradle**: Update plugin to 3.0.0
+
+
 ## 1.1.2 [Changes](https://github.com/algolia/instantsearch-android/compare/1.1.1...1.1.2) (2017-10-04)
 
 ### Bug Fixes
-
 * **Searcher:** refactor prepareWidget, fixing ResourceNotFound error ([90e3307](https://github.com/algolia/instantsearch-android/commit/de1b5fd7))
+
 
 ## 1.1.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.1.0...1.1.1) (2017-09-22)
 
 ### Bug Fixes
-
 * **progressController:** Only setup if searchView registered ([90e3307](https://github.com/algolia/instantsearch-android/commit/90e3307))
+
 
 ## 1.1.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.0.2...1.1.0) (2017-08-30)
 
 ### New features
-
 * **Searcher:** Forward from backend ([e9bbb8b](https://github.com/algolia/instantsearch-android/commit/e9bbb8b))
+
 
 ## 1.0.2 [Changes](https://github.com/algolia/instantsearch-android/compare/1.0.1...1.0.2) (2017-08-18)
 
 ### Bug Fixes
-
 * **AlgoliaResultsListener:** Fix typo in class name
+
 
 ## 1.0.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.0.0...1.0.1) (2017-08-16)
 
 ### Bug Fixes
-
 * **InstantSearch:** Restore constructor for single widget ([96eb97c](https://github.com/algolia/instantsearch-android/commit/96eb97c))
-
 
 
 
