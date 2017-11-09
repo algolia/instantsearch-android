@@ -10,8 +10,8 @@ android:
     - tools
     - platform-tools
     - tools # Fix SDK Tools https://github.com/travis-ci/travis-ci/issues/6122
-    - build-tools-25.0.2
-    - android-25 # target SDK version
+    - build-tools-26.0.2
+    - android-26 # target SDK version
     - $ANDROID_TARGET
     - extra-android-support
     - extra-android-m2repository

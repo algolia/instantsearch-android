@@ -156,8 +156,6 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
                 return comparisonValue;
             }
         };
-
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -193,6 +191,18 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
 
     @Override
     public void onError(@NonNull Query query, @NonNull AlgoliaException error) {
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        EventBus.getDefault().unregister(this);
+        super.onDetachedFromWindow();
     }
 
     @Subscribe

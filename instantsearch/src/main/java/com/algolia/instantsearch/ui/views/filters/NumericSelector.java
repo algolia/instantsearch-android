@@ -64,7 +64,6 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFilter, 
     public NumericSelector(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnItemSelectedListener(this);
-        EventBus.getDefault().register(this);
         final TypedArray viewStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.View, 0, 0);
         final TypedArray widgetStyledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Widget, 0, 0);
         final TypedArray selectorStyleAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.NumericSelector, 0, 0);
@@ -148,6 +147,18 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFilter, 
     }
 
     @Override public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        EventBus.getDefault().unregister(this);
+        super.onDetachedFromWindow();
     }
 
     public boolean isAutoHide() {

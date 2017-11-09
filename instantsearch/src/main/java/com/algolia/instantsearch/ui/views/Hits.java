@@ -156,8 +156,6 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         if (infiniteScroll) {
             addOnScrollListener(infiniteScrollListener);
         }
-
-        EventBus.getDefault().register(this);
     }
 
 
@@ -279,6 +277,18 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         } else {
             emptyView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        EventBus.getDefault().unregister(this);
+        super.onDetachedFromWindow();
     }
 
     @Override
