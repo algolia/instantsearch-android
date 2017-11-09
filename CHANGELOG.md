@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.1.4 (2017-11-09)
+> New release to fix missing artifact in the 1.1.3 release.
 
 ## 1.1.3 [Changes](https://github.com/algolia/instantsearch-android/compare/1.1.2...1.1.3) (2017-11-09)
 ### Bug Fixes
