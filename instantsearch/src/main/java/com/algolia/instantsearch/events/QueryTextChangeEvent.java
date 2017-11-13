@@ -1,14 +1,28 @@
 package com.algolia.instantsearch.events;
 
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 /**
- * An event to let you react to changes in the SearchView's query.
+ * An event to let you react to changes in the search query.
  */
 @SuppressWarnings("WeakerAccess")
 public class QueryTextChangeEvent {
-    public final String newText;
+    /** The new query string. */
+    public final @NonNull String query;
+    /** The origin of the change. */
+    public @Nullable final Object origin;
 
-    public QueryTextChangeEvent(final String newText) {
-        this.newText = newText;
+    public QueryTextChangeEvent(final @NonNull String query, @Nullable Object origin) {
+        this.query = query;
+        this.origin = origin;
+    }
+
+    @Override public String toString() {
+        return "QueryTextChangeEvent{" +
+                "query='" + query + '\'' +
+                ", origin=" + origin +
+                '}';
     }
 }

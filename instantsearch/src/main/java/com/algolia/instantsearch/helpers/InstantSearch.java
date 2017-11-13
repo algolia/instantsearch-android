@@ -468,7 +468,7 @@ public class InstantSearch {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                EventBus.getDefault().post(new QueryTextChangeEvent(newText));
+                EventBus.getDefault().post(new QueryTextChangeEvent(newText, searchView.getSearchView()));
 
                 if (newText.length() == 0 && searchOnEmptyString) {
                     return true;

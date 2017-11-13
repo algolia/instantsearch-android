@@ -44,6 +44,20 @@ public class SearchViewFacade {
     }
 
     /**
+     * Returns the SearchView. (either {@link SearchView android.widget.SearchView} or {@link android.support.v7.widget.SearchView}).
+     *
+     * @return the actual SearchView wrapped by this facade.
+     */
+    public Object getSearchView() {
+        if (searchView != null) {
+            return searchView;
+        } else if (supportView != null) {
+            return supportView;
+        }
+        throw new IllegalStateException(ERROR_NO_SEARCHVIEW);
+    }
+
+    /**
      * Called when this view wants to give up focus. If focus is cleared
      * {@link View#onFocusChanged(boolean, int, android.graphics.Rect)} is called.
      * <p>
