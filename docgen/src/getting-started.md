@@ -25,7 +25,7 @@ In Android Studio, create a new Project:
 
 in your app's `build.gradle`, add the following dependency:
 ```groovy
-compile 'com.algolia:instantsearch-android:1.0.2'
+compile 'com.algolia:instantsearch-android:1.1.4'
 ```
 
 ## Build the User Interface and display your data: Hits and helpers
@@ -124,7 +124,7 @@ As your application has no input for now, we will trigger the search programmati
 
 - In your `MainActivity`, create a [`Searcher`][searcher] with your credentials:
 ```java
-Searcher searcher = new Searcher(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, ALGOLIA_INDEX_NAME);
+Searcher searcher = Searcher.create(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, ALGOLIA_INDEX_NAME);
 ```
 
 - Initialize [`InstantSearch`][instantsearch] to link your `Searcher` to your Activity:
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Searcher searcher = new Searcher(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, ALGOLIA_INDEX_NAME);
+        Searcher searcher = Searcher.create(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, ALGOLIA_INDEX_NAME);
         InstantSearch helper = new InstantSearchHelper(this, searcher);
         helper.search();
     }
