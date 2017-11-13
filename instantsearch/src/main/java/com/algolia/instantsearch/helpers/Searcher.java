@@ -751,7 +751,7 @@ public class Searcher {
 
 
     /**
-     * Unregister and clean up the searcher when is no longer needed.
+     * Unregisters and cleans up the searcher when is no longer needed.
      *
      */
     public void destroy() {
