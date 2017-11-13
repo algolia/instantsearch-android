@@ -8,6 +8,10 @@ import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.events.QueryTextChangeEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Provides a user input for search queries that are directly sent to the Algolia engine.
@@ -66,6 +70,25 @@ public class SearchBox extends SearchView {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
             setImeOptions(getImeOptions() & EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         }
+    }
+
+    @Subscribe
+    public void onQueryEvent(QueryTextChangeEvent event) {
+        if (!this.equals(event.origin)) {
+            setQuery(event.query, false);
+        }
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        EventBus.getDefault().unregister(this);
+        super.onDetachedFromWindow();
     }
 
 }

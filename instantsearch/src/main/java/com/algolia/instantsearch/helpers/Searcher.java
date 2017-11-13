@@ -10,6 +10,7 @@ import com.algolia.instantsearch.events.CancelEvent;
 import com.algolia.instantsearch.events.ErrorEvent;
 import com.algolia.instantsearch.events.FacetRefinementEvent;
 import com.algolia.instantsearch.events.NumericRefinementEvent;
+import com.algolia.instantsearch.events.QueryTextChangeEvent;
 import com.algolia.instantsearch.events.RefinementEvent.Operation;
 import com.algolia.instantsearch.events.ResultEvent;
 import com.algolia.instantsearch.events.SearchEvent;
@@ -143,25 +144,39 @@ public class Searcher {
     }
 
     /**
-     * Starts a search with the given text.
-     *
-     * @param queryString a String to search on the index.
-     * @return this {@link Searcher} for chaining.
-     */
-    @NonNull
-    public Searcher search(final String queryString) {
-        query.setQuery(queryString);
-        search();
-        return this;
-    }
-
-    /**
      * Starts a search with the current helper's state.
      *
      * @return this {@link Searcher} for chaining.
      */
     @NonNull
     public Searcher search() {
+        return search(null, null);
+    }
+
+    /**
+     * Starts a search with the given text.
+     *
+     * @param queryString a String to search on the index.
+     * @return this {@link Searcher} for chaining.
+     */
+    @NonNull
+    public Searcher search(@Nullable final String queryString) {
+        return search(queryString, null);
+    }
+
+    /**
+     * Starts a search with the given text from the given origin.
+     *
+     * @param queryString a String to search on the index.
+     * @param origin      an optional origin to identify the change.
+     * @return this {@link Searcher} for chaining.
+     */
+    @NonNull
+    public Searcher search(@Nullable final String queryString, @Nullable final Object origin) {
+        if (queryString != null) {
+            query.setQuery(queryString);
+            EventBus.getDefault().post(new QueryTextChangeEvent(queryString, origin));
+        }
         endReached = false;
         lastRequestPage = 0;
         lastResponsePage = -1;
@@ -752,7 +767,6 @@ public class Searcher {
 
     /**
      * Unregisters and cleans up the searcher when is no longer needed.
-     *
      */
     public void destroy() {
         errorListeners.clear();
