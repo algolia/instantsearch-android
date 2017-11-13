@@ -256,6 +256,7 @@ It is built on top of Algolia’s <a href="https://github.com/algolia/algoliasea
 <li><a href="javadoc/com/algolia/instantsearch/model/AlgoliaErrorListener.html"><code>AlgoliaErrorListener</code></a> to handle search errors with <code>onError</code></li>
 </ul>
 <p>You can add a listener to a Searcher by calling <code>Searcher#register{Results,Error}Listener</code>.</p>
+<p><em>To avoid leaking memory, you should call <code>Searcher#destroy()</code> in your Activity/Fragment’s <a href="https://developer.android.com/guide/components/activities/activity-lifecycle.html#ondestroy"><code>onDestroy</code></a> method to release existing listeners.</em></p>
 <img src="assets/img/diagram_listeners.png" align="center" />
 <h2 id="instantsearch">InstantSearch <a class="anchor" href="concepts.html#instantsearch" aria-hidden="true"></a></h2>
 <p>The Searcher is UI-agnostic, and only communicates with its listeners. On top of it, we provide you a component which will link it to your user interface: <strong>InstantSearch</strong>.</p>
