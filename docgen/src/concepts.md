@@ -30,6 +30,7 @@ A listener is an object implementing one or more of the following interfaces, th
 
 You can add a listener to a Searcher by calling `Searcher#register{Results,Error}Listener`.
 
+_To avoid leaking memory, you should call `Searcher#destroy()` in your Activity/Fragment's [`onDestroy`](https://developer.android.com/guide/components/activities/activity-lifecycle.html#ondestroy) method to release existing listeners._
 
 <img src="assets/img/diagram_listeners.png" align="center" />
 

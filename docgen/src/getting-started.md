@@ -132,6 +132,15 @@ Searcher searcher = Searcher.create(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, ALGO
 InstantSearch helper = new InstantSearchHelper(this, searcher);
 ```
 
+- As this will register your Activity's [widgets](widgets) on the Searcher, you need to unregister them in `onDestroy` with `Searcher#destroy`:
+```java
+@Override
+protected void onDestroy() {
+    searcher.destroy();
+    super.onDestroy();
+}
+```
+
 - Now your Activity is connected to Algolia through the Searcher, you can trigger a search using [`InstantSearch#search(String)`][doc-instantsearch-search]:
 ```java
 helper.search(); // Search with empty query
