@@ -1,4 +1,12 @@
 # Changelog
+<a name=""></a>
+# 1.2.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.1.4...1.2.0) (2017-11-13)
+
+### Features
+
+* **SearchBox/Searcher:** Apply query text changes to any other SearchBox ([8b5d3eb](https://github.com/algolia/instantsearch-android/commit/8b5d3eb))
+> This enables SearchBoxes to display query text from other sources, such as the voice search dialog.
+
 
 ## 1.1.4 (2017-11-09)
 > New release to fix missing artifact in the 1.1.3 release.
