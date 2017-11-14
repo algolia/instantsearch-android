@@ -365,7 +365,7 @@ As your application has no input for now, we will trigger the search programmati
 <li>As this will register your Activity’s <a href="widgets">widgets</a> on the Searcher, you need to unregister them in <code>onDestroy</code> with <code>Searcher#destroy</code>:</li>
 </ul>
 <pre class="CodeMirror cm-s-eclipse"><code><span class="cm-meta">@Override</span>
-<span class="cm-keyword">protected</span> <span class="cm-variable-3">void</span> <span class="cm-def">onDestroy</span>() {
+<span class="cm-keyword">protected</span> <span class="cm-type">void</span> <span class="cm-def">onDestroy</span>() {
     <span class="cm-variable">searcher</span>.<span class="cm-variable">destroy</span>();
     <span class="cm-keyword">super</span>.<span class="cm-variable">onDestroy</span>();
 }
@@ -377,12 +377,12 @@ As your application has no input for now, we will trigger the search programmati
 </code></pre>
 <p>Your activity should now look like this:</p>
 <pre class="CodeMirror cm-s-eclipse"><code><span class="cm-keyword">public</span> <span class="cm-keyword">class</span> <span class="cm-def">MainActivity</span> <span class="cm-keyword">extends</span> <span class="cm-variable">AppCompatActivity</span> {
-    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-variable-3">String</span> <span class="cm-variable">ALGOLIA_APP_ID</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;latency&quot;</span>;
-    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-variable-3">String</span> <span class="cm-variable">ALGOLIA_SEARCH_API_KEY</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;3d9875e51fbd20c7754e65422f7ce5e1&quot;</span>;
-    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-variable-3">String</span> <span class="cm-variable">ALGOLIA_INDEX_NAME</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;bestbuy&quot;</span>;
+    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-type">String</span> <span class="cm-variable">ALGOLIA_APP_ID</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;latency&quot;</span>;
+    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-type">String</span> <span class="cm-variable">ALGOLIA_SEARCH_API_KEY</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;3d9875e51fbd20c7754e65422f7ce5e1&quot;</span>;
+    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">final</span> <span class="cm-type">String</span> <span class="cm-variable">ALGOLIA_INDEX_NAME</span> <span class="cm-operator">=</span> <span class="cm-string">&quot;bestbuy&quot;</span>;
 
     <span class="cm-meta">@Override</span>
-    <span class="cm-keyword">protected</span> <span class="cm-variable-3">void</span> <span class="cm-variable">onCreate</span>(<span class="cm-variable">Bundle</span> <span class="cm-variable">savedInstanceState</span>) {
+    <span class="cm-keyword">protected</span> <span class="cm-type">void</span> <span class="cm-variable">onCreate</span>(<span class="cm-variable">Bundle</span> <span class="cm-variable">savedInstanceState</span>) {
         <span class="cm-keyword">super</span>.<span class="cm-variable">onCreate</span>(<span class="cm-variable">savedInstanceState</span>);
         <span class="cm-variable">setContentView</span>(<span class="cm-variable">R</span>.<span class="cm-variable">layout</span>.<span class="cm-variable">activity_main</span>);
         <span class="cm-variable">Searcher</span> <span class="cm-variable">searcher</span> <span class="cm-operator">=</span> <span class="cm-variable">Searcher</span>.<span class="cm-variable">create</span>(<span class="cm-variable">ALGOLIA_APP_ID</span>, <span class="cm-variable">ALGOLIA_SEARCH_API_KEY</span>, <span class="cm-variable">ALGOLIA_INDEX_NAME</span>);
