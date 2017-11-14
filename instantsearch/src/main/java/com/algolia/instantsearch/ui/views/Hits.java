@@ -48,6 +48,7 @@ import com.algolia.instantsearch.utils.LayoutViews;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -489,7 +490,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                         placeholder = imageView.getDrawable();
                         placeholders.put(viewId, placeholder);
                     }
-                    Glide.with(activity).load(attributeValue).fitCenter().placeholder(placeholder).into(imageView);
+                    Glide.with(activity).applyDefaultRequestOptions(new RequestOptions().fitCenter().placeholder(placeholder)).load(attributeValue).into(imageView);
                 } else {
                     throw new IllegalStateException(String.format(Errors.ADAPTER_UNKNOWN_VIEW, view.getClass().getCanonicalName()));
                 }
