@@ -1,5 +1,11 @@
 # Changelog
-<a name=""></a>
+
+# 1.2.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.2.0...1.2.1) (2017-11-14)
+
+### Improvements
+
+* **Glide**: Update to 4.3.1 ([94748717](https://github.com/algolia/instantsearch-android/commit/94748717))
+
 # 1.2.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.1.4...1.2.0) (2017-11-13)
 
 ### Features
