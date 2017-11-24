@@ -38,6 +38,7 @@ InstantSearch Android is based on a system of [widgets][widgets] that communicat
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     android:id="@+id/activity_main"
+    xmlns:algolia=“http://schemas.android.com/apk/res-auto”
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
