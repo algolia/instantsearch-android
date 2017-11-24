@@ -201,7 +201,7 @@ This will be the role of another Widget: the **[`SearchBox`][widgets-searchbox]*
 
 
 
-- Add a `SearchBox` to your `main_activity.xml`:
+- Add a `SearchBox` to your `activity_main.xml`:
 ```xml
 <com.algolia.instantsearch.ui.views.SearchBox
         android:layout_width="match_parent"
