@@ -490,7 +490,26 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                         placeholder = imageView.getDrawable();
                         placeholders.put(viewId, placeholder);
                     }
-                    Glide.with(activity).applyDefaultRequestOptions(new RequestOptions().fitCenter().placeholder(placeholder)).load(attributeValue).into(imageView);
+                    final RequestOptions requestOptions = new RequestOptions().placeholder(placeholder);
+                    switch (imageView.getScaleType()) {
+                        case CENTER_CROP:
+                            requestOptions.centerCrop();
+                            break;
+                        case FIT_CENTER:
+                            requestOptions.fitCenter();
+                            break;
+                        case FIT_XY:
+                        case FIT_START:
+                        case FIT_END:
+                        case MATRIX:
+                        case CENTER:
+                            break;
+                        case CENTER_INSIDE:
+                        default:
+                            requestOptions.centerInside();
+                            break;
+                    }
+                    Glide.with(activity).applyDefaultRequestOptions(requestOptions).load(attributeValue).into(imageView);
                 } else {
                     throw new IllegalStateException(String.format(Errors.ADAPTER_UNKNOWN_VIEW, view.getClass().getCanonicalName()));
                 }
