@@ -1,12 +1,20 @@
 # Changelog
 
-# 1.2.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.2.0...1.2.1) (2017-11-14)
+## 1.2.3 [Changes](https://github.com/algolia/instantsearch-android/compare/1.2.1...1.2.3) (2017-11-24)
+
+### Bug Fixes
+
+* **Hits:** Use scaleType if set ([6d4c92b](https://github.com/algolia/instantsearch-android/commit/6d4c92b))
+* **scripts.serve:** update before serving ([8830d13](https://github.com/algolia/instantsearch-android/commit/8830d13))
+
+
+## 1.2.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.2.0...1.2.1) (2017-11-14)
 
 ### Improvements
 
 * **Glide**: Update to 4.3.1 ([94748717](https://github.com/algolia/instantsearch-android/commit/94748717))
 
-# 1.2.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.1.4...1.2.0) (2017-11-13)
+## 1.2.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.1.4...1.2.0) (2017-11-13)
 
 ### Features
 
