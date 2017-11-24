@@ -163,6 +163,13 @@ public class MainActivity extends AppCompatActivity {
         InstantSearch helper = new InstantSearchHelper(this, searcher);
         helper.search();
     }
+
+    @Override
+        protected void onDestroy() {
+          searcher.destroy();
+          super.onDestroy();
+        }
+    }
 }
 ```
 
