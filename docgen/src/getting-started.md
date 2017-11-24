@@ -66,9 +66,11 @@ The `itemLayout` attribute references a layout that will be used to display each
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/product_image"/>
+        android:id="@+id/product_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:scaleType="fitCenter"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,8 +103,10 @@ add **`algolia:attribute='@{"foo"}'`** on a View to bind it to the `foo` attribu
 
         <ImageView
             android:id="@+id/product_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:scaleType="fitCenter"
             algolia:attribute='@{"image"}'/>
 
         <TextView
