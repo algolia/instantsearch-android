@@ -115,7 +115,7 @@ add **`algolia:attribute='@{"foo"}'`** on a View to bind it to the `foo` attribu
             android:id="@+id/product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            algolia:attribute='@{"price"}'/>
+            algolia:attribute='@{"salePrice"}'/>
     </LinearLayout>
 </layout>
 ```
