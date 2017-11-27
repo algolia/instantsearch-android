@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.helpers;
 
+import android.app.SearchManager;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -162,6 +164,22 @@ public class Searcher {
     @NonNull
     public Searcher search(@Nullable final String queryString) {
         return search(queryString, null);
+    }
+
+    /**
+     * Starts a search, with the given intent's query if it is a {@link Intent#ACTION_SEARCH search intent}.
+     *
+     * @param intent an Intent that could contain a {@link SearchManager#QUERY QUERY}.
+     * @return this {@link Searcher} for chaining.
+     */
+    @NonNull
+    public Searcher search(@Nullable final Intent intent) {
+        String query = null;
+        if (intent != null && Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            query = intent.getStringExtra(SearchManager.QUERY);
+            EventBus.getDefault().post(new QueryTextChangeEvent(query, intent));
+        }
+        return search(query);
     }
 
     /**
