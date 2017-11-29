@@ -175,11 +175,12 @@ public class Searcher {
     @NonNull
     public Searcher search(@Nullable final Intent intent) {
         String query = null;
+        Object origin = null;
         if (intent != null && Intent.ACTION_SEARCH.equals(intent.getAction())) {
             query = intent.getStringExtra(SearchManager.QUERY);
-            EventBus.getDefault().post(new QueryTextChangeEvent(query, intent));
+            origin = intent;
         }
-        return search(query);
+        return search(query, origin);
     }
 
     /**
