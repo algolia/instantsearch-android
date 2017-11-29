@@ -3,6 +3,7 @@ package com.algolia.instantsearch.ui.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
@@ -17,7 +18,17 @@ import org.greenrobot.eventbus.Subscribe;
  * Provides a user input for search queries that are directly sent to the Algolia engine.
  */
 public class SearchBox extends SearchView {
-//DISCUSS: Do we impose a PoweredBy? Can we even display it correctly?
+    /**
+     * Constructs a new SearchBox with the given context's theme.
+     *
+     * @param context The Context the view is running in, through which it can
+     *                access the current theme, resources, etc.
+     */
+    public SearchBox(Context context) {
+        super(context);
+        init(context, null);
+    }
+
     /**
      * Constructs a new SearchBox with the given context's theme and the supplied attribute set.
      *
@@ -27,28 +38,34 @@ public class SearchBox extends SearchView {
      */
     public SearchBox(@NonNull Context context, @NonNull AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
+    }
+
+    private void init(@NonNull Context context, @Nullable AttributeSet attrs) {
         if (isInEditMode()) {
             return;
         }
 
-        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SearchBox, 0, 0);
+        if (attrs != null) {
+            final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SearchBox, 0, 0);
 
-        try {
-            setIconifiedByDefault(false); // By default, don't collapse SearchBox
-            for (int i = 0; i < attrs.getAttributeCount(); i++) {
-                if ("iconifiedByDefault".equals(attrs.getAttributeName(i))) {
-                    setIconifiedByDefault(attrs.getAttributeBooleanValue(i, false)); // Unless iconifiedByDefault is set
+            try {
+                setIconifiedByDefault(false); // By default, don't collapse SearchBox
+                for (int i = 0; i < attrs.getAttributeCount(); i++) {
+                    if ("iconifiedByDefault".equals(attrs.getAttributeName(i))) {
+                        setIconifiedByDefault(attrs.getAttributeBooleanValue(i, false)); // Unless iconifiedByDefault is set
+                    }
                 }
-            }
 
-            if (styledAttributes.getBoolean(R.styleable.SearchBox_autofocus, false)) {
-                setFocusable(true);
-                setIconified(false);
-                requestFocusFromTouch();
+                if (styledAttributes.getBoolean(R.styleable.SearchBox_autofocus, false)) {
+                    setFocusable(true);
+                    setIconified(false);
+                    requestFocusFromTouch();
+                }
+                setSubmitButtonEnabled(styledAttributes.getBoolean(R.styleable.SearchBox_submitButtonEnabled, false));
+            } finally {
+                styledAttributes.recycle();
             }
-            setSubmitButtonEnabled(styledAttributes.getBoolean(R.styleable.SearchBox_submitButtonEnabled, false));
-        } finally {
-            styledAttributes.recycle();
         }
     }
 
