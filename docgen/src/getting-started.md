@@ -26,7 +26,7 @@ In Android Studio, create a new Project:
 in your app's `build.gradle`, add the following dependency:
 ```groovy
 compile 'com.algolia:instantsearch-android:1.+'
-// This will automatically update to the altest v1 release when you build.
+// This will automatically update to the latest v1 release when you build.
 ```
 
 ## Build the User Interface and display your data: Hits and helpers
