@@ -46,6 +46,8 @@ public class SearchBox extends SearchView {
             return;
         }
 
+        EventBus.getDefault().register(this); // SearchBox needs to react to QueryTextChangeEvent before being attached
+
         if (attrs != null) {
             final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SearchBox, 0, 0);
 
@@ -99,7 +101,9 @@ public class SearchBox extends SearchView {
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
