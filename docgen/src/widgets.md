@@ -40,8 +40,10 @@ Alternatively, you can implement your own progress logic by using a [`SearchProg
 Once instantiated, a **SearchProgressController** will inform its [`ProgressListener`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/events/SearchProgressController.java#L98) when some requests are sent with `onStart()`, and will call `onStop()` when all current requests have returned.
 
 ### Voice search
+<img src="assets/img/voice.gif" class="img-object" align="right" />
 
-First of all, you need to follow some required steps of the Android Documentation's Search guide:
+Voice search is a great way for your users to express their queries with almost no friction. You can add it in a few minutes in your InstantSearch interface:  
+
 - [Create a Searchable Configuration](https://developer.android.com/guide/topics/search/search-dialog.html#SearchableConfiguration) (`searchable.xml`)
 - Declare your InstantSearch activity as a [Searchable Activity](https://developer.android.com/guide/topics/search/search-dialog.html#DeclaringSearchableActivity) 
 
