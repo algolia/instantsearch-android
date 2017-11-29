@@ -9,6 +9,7 @@ navWeight: 2
 
 ## SearchBox
 <img src="assets/img/widget_SearchBox.png" class="img-object" align="right" />
+<!-- TODO: Document SearchBox in menu, using SearchableConfiguration -->
 
 The **SearchBox** is a specialized `SearchView` which provides some customization options and facility methods. It supports all existing `SearchView` attributes and two new ones that you can specify in its XML definition:
 
@@ -38,6 +39,24 @@ You can change this delay by calling `InstantSearch#enableProgressBar(int)` with
 Alternatively, you can implement your own progress logic by using a [`SearchProgressController`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/events/SearchProgressController.java)
 Once instantiated, a **SearchProgressController** will inform its [`ProgressListener`](https://github.com/algolia/instantsearch-android/blob/master/instantsearch/src/main/java/com/algolia/instantsearch/events/SearchProgressController.java#L98) when some requests are sent with `onStart()`, and will call `onStop()` when all current requests have returned.
 
+### Voice search
+
+First of all, you need to follow some required steps of the Android Documentation's Search guide:
+- [Create a Searchable Configuration](https://developer.android.com/guide/topics/search/search-dialog.html#SearchableConfiguration) (`searchable.xml`)
+- Declare your InstantSearch activity as a [Searchable Activity](https://developer.android.com/guide/topics/search/search-dialog.html#DeclaringSearchableActivity) 
+
+_Performing a search_ is then handled by InstantSearch. You just need to use the eventual search intent in your Activity's `onCreate` (or `onCreateOptionsMenu` if your `SearchBox` is in a menu):
+```java
+searcher.search(getIntent()); // Show results for empty query (on app launch) / voice query (from intent)
+```
+
+*If your activity's [launchMode](https://developer.android.com/guide/topics/manifest/activity-element.html#lmode) is not `standard`, you need to handle the intent in `onNewIntent` as well:*
+```java
+@Override protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    searcher.search(intent); // Show results for voice query (from intent)
+}
+```
 
 ## Hits
 <img src="assets/img/widget_Hits.png" class="img-object" align="right"/>
