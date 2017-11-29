@@ -1,5 +1,18 @@
 # Changelog
 
+<a name=""></a>
+# 1.3.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.2.3...v) (2017-11-29)
+This release adds **Voice Search** capabilities to the SearchBox. See the associated [guide](https://community.algolia.com/instantsearch-android/widgets.html#voice-search).
+
+### Bug Fixes
+
+* **Searcher:** Send single event on search from intent ([64db885](https://github.com/algolia/instantsearch-android/commit/64db885))
+
+### Features
+
+* **Searcher:** search with intent (e.g. voice search) (#52) ([b17578b](https://github.com/algolia/instantsearch-android/commit/b17578b))
+
+
 ## 1.2.3 [Changes](https://github.com/algolia/instantsearch-android/compare/1.2.1...1.2.3) (2017-11-24)
 
 ### Bug Fixes
