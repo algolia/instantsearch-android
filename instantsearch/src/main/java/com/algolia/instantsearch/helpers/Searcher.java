@@ -388,8 +388,10 @@ public class Searcher {
      * @param attribute          the facet name.
      * @param isDisjunctiveFacet if {@code true}, the facet will be added as a disjunctive facet.
      * @param values             an eventual list of values to refine on.
+     * @deprecated this will be removed in v2.0, use {@link #addFacetRefinement(String, ArrayList, boolean)} instead.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    @Deprecated
     public void addFacet(@NonNull String attribute, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
         if (isDisjunctiveFacet) {
             disjunctiveFacets.add(attribute);
@@ -416,6 +418,24 @@ public class Searcher {
             removeFacetRefinement(attribute, value);
         }
         return this;
+    }
+
+    /**
+     * Adds a facet refinement for the next queries.
+     *
+     * @param attribute          the facet name.
+     * @param values             an eventual list of values to refine on.
+     * @param isDisjunctiveFacet if {@code true}, the facet will be added as a disjunctive facet.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void addFacetRefinement(@NonNull String attribute, @Nullable ArrayList<String> values, boolean isDisjunctiveFacet) {
+        if (isDisjunctiveFacet) {
+            disjunctiveFacets.add(attribute);
+        }
+        if (values == null) {
+            values = new ArrayList<>();
+        }
+        refinementMap.put(attribute, values);
     }
 
 

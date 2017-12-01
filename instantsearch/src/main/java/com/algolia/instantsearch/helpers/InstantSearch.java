@@ -406,7 +406,8 @@ public class InstantSearch {
                     throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
                 }
             } else if (widget instanceof RefinementList) {
-                searcher.addFacet(((RefinementList) widget).getAttribute(), ((RefinementList) widget).getOperation() == RefinementList.OPERATION_OR, new ArrayList<String>());
+                searcher.addFacetRefinement(((RefinementList) widget).getAttribute(), null,
+                        ((RefinementList) widget).getOperation() == RefinementList.OPERATION_OR);
                 if (refinementAttributes != null) {
                     refinementAttributes.add(((RefinementList) widget).getAttribute());
                 }
