@@ -460,6 +460,24 @@ public class Searcher {
     }
 
     /**
+     * Adds or removes this facet refinement for the next queries according to its enabled status.
+     *
+     * @param attribute the attribute to facet on.
+     * @param value     the value for this attribute.
+     * @param active    if {@code true}, this facet value is currently refined on.
+     * @return this {@link Searcher} for chaining.
+     */
+    @NonNull
+    public Searcher updateFacetRefinement(@NonNull String attribute, @NonNull String value, boolean active) {
+        if (active) {
+            addFacetRefinement(attribute, value);
+        } else {
+            removeFacetRefinement(attribute, value);
+        }
+        return this;
+    }
+
+    /**
      * Checks if a facet refinement is enabled.
      *
      * @param attribute the attribute to refine on.
