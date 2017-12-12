@@ -572,20 +572,9 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull String attribute) {
-        return removeNumericRefinement(attribute, NumericRefinement.OPERATOR_UNKNOWN, NumericRefinement.VALUE_UNKNOWN);
+        return removeNumericRefinement(new NumericRefinement(attribute, NumericRefinement.OPERATOR_UNKNOWN, NumericRefinement.VALUE_UNKNOWN));
     }
 
-
-    /**
-     * Removes the given numeric refinement for the next queries.
-     *
-     * @param refinement a description of the refinement to remove.
-     * @return this {@link Searcher} for chaining.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Searcher removeNumericRefinement(@NonNull NumericRefinement refinement) {
-        return removeNumericRefinement(refinement.attribute, refinement.operator, refinement.value);
-    }
 
     /**
      * Removes the numeric refinement relative to an attribute and operator for the next queries.
@@ -596,17 +585,24 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeNumericRefinement(@NonNull String attribute, @NonNull Integer operator) {
-        return removeNumericRefinement(attribute, operator, NumericRefinement.VALUE_UNKNOWN);
+        return removeNumericRefinement(new NumericRefinement(attribute, operator, NumericRefinement.VALUE_UNKNOWN));
     }
 
-    private Searcher removeNumericRefinement(@NonNull String attribute, @NonNull Integer operator, @NonNull Double value) {
-        if (operator == NumericRefinement.OPERATOR_UNKNOWN) {
-            numericRefinements.remove(attribute);
+    /**
+     * Removes the given numeric refinement for the next queries.
+     *
+     * @param refinement a description of the refinement to remove.
+     * @return this {@link Searcher} for chaining.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public Searcher removeNumericRefinement(@NonNull NumericRefinement refinement) {
+        if (refinement.operator == NumericRefinement.OPERATOR_UNKNOWN) {
+            numericRefinements.remove(refinement.attribute);
         } else {
-            NumericRefinement.checkOperatorIsValid(operator);
-            numericRefinements.get(attribute).remove(operator);
+            NumericRefinement.checkOperatorIsValid(refinement.operator);
+            numericRefinements.get(refinement.attribute).remove(refinement.operator);
         }
-        EventBus.getDefault().post(new NumericRefinementEvent(Operation.REMOVE, new NumericRefinement(attribute, operator, value)));
+        EventBus.getDefault().post(new NumericRefinementEvent(Operation.REMOVE, refinement));
         rebuildQueryNumericFilters();
         return this;
     }
