@@ -173,7 +173,8 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
         }
 
         // else build updated facet list
-        final Map<String, List<FacetValue>> facets = results.facets;
+        final Map<String, List<FacetValue>> facets = (operation == OPERATION_OR) ?
+                results.disjunctiveFacets : results.facets;
         List<FacetValue> refinementFacets = facets.get(attribute);
 
         // If we have new facetValues we should use them, and else set count=0 to old ones
@@ -347,8 +348,11 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
 
         @Override
         public void sort(@NonNull Comparator<? super FacetValue> comparator) {
-            super.sort(comparator);
             Collections.sort(facetValues, comparator);
+            super.clear();
+            for (int i = 0; i < limit; i++) {
+                super.add(facetValues.get(i));
+            }
         }
 
         @SuppressLint("DefaultLocale") // Formats are for exception messages
