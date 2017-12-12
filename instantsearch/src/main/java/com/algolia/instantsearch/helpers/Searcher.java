@@ -249,11 +249,7 @@ public class Searcher {
         };
 
         final Request searchRequest;
-        if (disjunctiveFacets.size() != 0) {
-            searchRequest = index.searchDisjunctiveFacetingAsync(query, disjunctiveFacets, refinementMap, searchHandler);
-        } else {
-            searchRequest = index.searchAsync(query, searchHandler);
-        }
+        searchRequest = triggerSearch(searchHandler);
         pendingRequests.put(currentRequestId, searchRequest);
         return this;
     }
@@ -295,11 +291,10 @@ public class Searcher {
         if (!hasMoreHits()) {
             return this;
         }
-        Query loadMoreQuery = new Query(query);
-        loadMoreQuery.setPage(++lastRequestPage);
+        query.setPage(++lastRequestPage);
         final int currentRequestId = ++lastRequestId;
         EventBus.getDefault().post(new SearchEvent(query, currentRequestId));
-        pendingRequests.put(currentRequestId, index.searchAsync(loadMoreQuery, new CompletionHandler() {
+        pendingRequests.put(currentRequestId, triggerSearch(new CompletionHandler() {
             @Override
             public void requestCompleted(@NonNull JSONObject content, @Nullable AlgoliaException error) {
                 pendingRequests.remove(currentRequestId);
@@ -324,6 +319,16 @@ public class Searcher {
             }
         }));
         return this;
+    }
+
+    private Request triggerSearch(CompletionHandler searchHandler) {
+        Request searchRequest;
+        if (disjunctiveFacets.size() != 0) {
+            searchRequest = index.searchDisjunctiveFacetingAsync(query, disjunctiveFacets, refinementMap, searchHandler);
+        } else {
+            searchRequest = index.searchAsync(query, searchHandler);
+        }
+        return searchRequest;
     }
 
     /**
