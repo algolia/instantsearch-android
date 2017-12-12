@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -63,7 +64,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
     public static final String SORT_NAME_DESC = "name:desc";
 
     /** The default {@link RefinementList#SORT_COUNT_DESC sorting method}. */
-    public static final String DEFAULT_SORT = SORT_COUNT_DESC;
+    public static final List<String> DEFAULT_SORT = Arrays.asList(SORT_ISREFINED, SORT_COUNT_DESC);
     /** The default maximum amount of values to display. */
     public static final int DEFAULT_LIMIT = 10;
 
@@ -72,7 +73,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
     private final int operation;
     /** The current sort order for displaying values. */
     @NonNull
-    private final ArrayList<String> sortOrder;
+    private final List<String> sortOrder;
     /** The current maximum amount of values to display. */
     private int limit;
 
@@ -113,7 +114,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
             limit = styledAttributes.getInt(R.styleable.RefinementList_limit, DEFAULT_LIMIT);
 
             ArrayList<String> parsedSortOrder = parseSortOrder(styledAttributes.getString(R.styleable.RefinementList_sortBy));
-            sortOrder = parsedSortOrder != null ? parsedSortOrder : new ArrayList<>(Collections.singletonList(DEFAULT_SORT));
+            sortOrder = parsedSortOrder != null ? parsedSortOrder : DEFAULT_SORT;
         } finally {
             styledAttributes.recycle();
             viewAttributes.recycle();
