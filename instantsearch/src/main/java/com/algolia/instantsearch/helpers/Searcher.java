@@ -500,7 +500,6 @@ public class Searcher {
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher clearFacetRefinements() {
         refinementMap.clear();
-        disjunctiveFacets.clear();
         rebuildQueryFacetFilters();
         return this;
     }
@@ -520,7 +519,6 @@ public class Searcher {
         if (stringList != null) {
             stringList.clear();
         }
-        disjunctiveFacets.remove(attribute);
         rebuildQueryFacetFilters();
         return this;
     }
