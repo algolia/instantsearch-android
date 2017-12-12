@@ -19,15 +19,12 @@ import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.events.FacetRefinementEvent;
 import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.Searcher;
-import com.algolia.instantsearch.model.AlgoliaErrorListener;
 import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.FacetValue;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.instantsearch.ui.views.filters.AlgoliaFilter;
-import com.algolia.search.saas.AlgoliaException;
-import com.algolia.search.saas.Query;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,7 +45,7 @@ import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
 /**
  * Displays facet values for an attribute and lets the user filter the results using these values.
  */
-public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaResultsListener, AlgoliaErrorListener, AlgoliaSearcherListener {
+public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaResultsListener, AlgoliaSearcherListener {
     /** The operation for disjunctive faceting (foo OR bar). */
     public static final int OPERATION_OR = 0;
     /** The operation for disjunctive faceting (foo AND bar). */
@@ -187,10 +184,6 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
             adapter.resetFacetCounts();
         }
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onError(@NonNull Query query, @NonNull AlgoliaException error) {
     }
 
     @Override
