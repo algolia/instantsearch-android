@@ -396,33 +396,9 @@ public class Searcher {
      * @deprecated this will be removed in v2.0, use {@link #addFacetRefinement(String, ArrayList, boolean)} instead.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    @Deprecated
+    @Deprecated // TODO Remove in 2.0
     public void addFacet(@NonNull String attribute, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
-        if (isDisjunctiveFacet) {
-            disjunctiveFacets.add(attribute);
-        }
-        if (values == null) {
-            values = new ArrayList<>();
-        }
-        refinementMap.put(attribute, values);
-    }
-
-    /**
-     * Adds or removes this facet refinement for the next queries according to its enabled status.
-     *
-     * @param attribute the attribute to facet on.
-     * @param value     the value for this attribute.
-     * @param active    if {@code true}, this facet value is currently refined on.
-     * @return this {@link Searcher} for chaining.
-     */
-    @NonNull
-    public Searcher updateFacetRefinement(@NonNull String attribute, @NonNull String value, boolean active) {
-        if (active) {
-            addFacetRefinement(attribute, value);
-        } else {
-            removeFacetRefinement(attribute, value);
-        }
-        return this;
+        addFacetRefinement(attribute, values, isDisjunctiveFacet);
     }
 
     /**
