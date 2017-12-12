@@ -387,6 +387,7 @@ public class Searcher {
         return this;
     }
 
+    //region Facet Refinements
     /**
      * Adds a facet refinement for the next queries.
      *
@@ -419,7 +420,6 @@ public class Searcher {
         refinementMap.put(attribute, values);
     }
 
-
     /**
      * Adds a facet refinement for the next queries.
      * <p>
@@ -438,6 +438,7 @@ public class Searcher {
         rebuildQueryFacetFilters();
         return this;
     }
+
 
     /**
      * Removes a facet refinement for the next queries.
@@ -503,7 +504,9 @@ public class Searcher {
         rebuildQueryFacetFilters();
         return this;
     }
+    //endregion
 
+    //region Numeric Refinements
     /**
      * Gets the current numeric refinement for an attribute and an operator.
      *
@@ -584,7 +587,9 @@ public class Searcher {
         rebuildQueryNumericFilters();
         return this;
     }
+    //endregion
 
+    //region Boolean Refinements
     /**
      * Adds a boolean refinement for the next queries.
      *
@@ -622,7 +627,9 @@ public class Searcher {
         rebuildQueryFacetFilters();
         return this;
     }
+    //endregion
 
+    //region Facets
     /**
      * Adds one or several attributes to facet on for the next queries.
      *
@@ -681,6 +688,7 @@ public class Searcher {
         rebuildQueryFacets();
         return this;
     }
+    //endregion
 
     /**
      * Links the given listener to the Searcher, which will forward new search results to it.
@@ -706,6 +714,7 @@ public class Searcher {
         return this;
     }
 
+    //TODO REORGANIZE
     /**
      * Checks if a response's json contains at least one hit.
      *
