@@ -35,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -388,36 +389,19 @@ public class Searcher {
     }
 
     //region Facet Refinements
-    /**
-     * Adds a facet refinement for the next queries.
-     *
-     * @param attribute          the facet name.
-     * @param isDisjunctiveFacet if {@code true}, the facet will be added as a disjunctive facet.
-     * @param values             an eventual list of values to refine on.
-     * @deprecated this will be removed in v2.0, use {@link #addFacetRefinement(String, ArrayList, boolean)} instead.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    @Deprecated // TODO Remove in 2.0
-    public void addFacet(@NonNull String attribute, boolean isDisjunctiveFacet, @Nullable ArrayList<String> values) {
-        addFacetRefinement(attribute, values, isDisjunctiveFacet);
-    }
 
     /**
      * Adds a facet refinement for the next queries.
      *
-     * @param attribute          the facet name.
-     * @param values             an eventual list of values to refine on.
-     * @param isDisjunctiveFacet if {@code true}, the facet will be added as a disjunctive facet.
+     * @param attribute     the facet name.
+     * @param isDisjunctive if {@code true}, the facet will be added as a disjunctive facet.
+     * @param values        an eventual list of values to refine on.
+     * @deprecated this will be removed in v2.0, use {@link #addFacetRefinement(String, List, boolean)} instead.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void addFacetRefinement(@NonNull String attribute, @Nullable ArrayList<String> values, boolean isDisjunctiveFacet) {
-        if (isDisjunctiveFacet) {
-            disjunctiveFacets.add(attribute);
-        }
-        if (values == null) {
-            values = new ArrayList<>();
-        }
-        refinementMap.put(attribute, values);
+    @Deprecated // TODO Remove in 2.0
+    public void addFacet(@NonNull String attribute, boolean isDisjunctive, @Nullable List<String> values) {
+        addFacetRefinement(attribute, values, isDisjunctive);
     }
 
     /**
@@ -432,9 +416,30 @@ public class Searcher {
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher addFacetRefinement(@NonNull String attribute, @NonNull String value) {
-        EventBus.getDefault().post(new FacetRefinementEvent(ADD, attribute, value));
+        return addFacetRefinement(attribute, Collections.singletonList(value), disjunctiveFacets.contains(attribute));
+    }
+
+    /**
+     * Adds a facet refinement for the next queries.
+     * <p>
+     * <b>This method resets the current page to 0.</b>
+     *  @param attribute     the facet name.
+     * @param values        an eventual list of values to refine on.
+     * @param isDisjunctive if {@code true}, the facet will be added as a disjunctive facet.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public Searcher addFacetRefinement(@NonNull String attribute, @Nullable List<String> values, boolean isDisjunctive) {
+        if (values == null) {
+            values = new ArrayList<>();
+        }
+        for (String value : values) {
+            EventBus.getDefault().post(new FacetRefinementEvent(ADD, attribute, value, isDisjunctive));
+        }
+        if (isDisjunctive) {
+            disjunctiveFacets.add(attribute);
+        }
         List<String> attributeRefinements = getOrCreateRefinements(attribute);
-        attributeRefinements.add(value);
+        attributeRefinements.addAll(values);
         rebuildQueryFacetFilters();
         return this;
     }
@@ -484,7 +489,7 @@ public class Searcher {
      * @param value     the facet's value to check.
      * @return {@code true} if {@code attribute} is being refined with {@code value}.
      */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"}) // For library users
     public boolean hasFacetRefinement(@NonNull String attribute, @NonNull String value) {
         List<String> attributeRefinements = refinementMap.get(attribute);
         return attributeRefinements != null && attributeRefinements.contains(value);
