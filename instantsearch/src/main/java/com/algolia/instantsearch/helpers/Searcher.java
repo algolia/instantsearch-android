@@ -495,7 +495,7 @@ public class Searcher {
      * @param attribute the attribute's name.
      * @return this {@link Searcher} for chaining.
      */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"}) // For library users
     public Searcher clearFacetRefinements(@NonNull String attribute) {
         final List<String> stringList = refinementMap.get(attribute);
         if (stringList != null) {
