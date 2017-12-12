@@ -457,7 +457,7 @@ public class Searcher {
     @NonNull
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher removeFacetRefinement(@NonNull String attribute, @NonNull String value) {
-        EventBus.getDefault().post(new FacetRefinementEvent(REMOVE, attribute, value));
+        EventBus.getDefault().post(new FacetRefinementEvent(REMOVE, attribute, value, disjunctiveFacets.contains(attribute)));
         List<String> attributeRefinements = getOrCreateRefinements(attribute);
         attributeRefinements.remove(value);
         rebuildQueryFacetFilters();
