@@ -24,7 +24,7 @@ public class SearchResults {
     @NonNull
     public final JSONObject content;
     /** The facets that will be treated as disjunctive ({@code OR}). By default, facets are conjunctive ({@code AND}). */
-    public List<String> disjunctiveFacets;
+    public Map<String, List<FacetValue>> disjunctiveFacets;
 
     // Mandatory attributes
     /** The facets for the last results. */
@@ -144,7 +144,7 @@ public class SearchResults {
         serverUsed = content.optString("serverUsed", null);
         parsedQuery = content.optString("parsedQuery", null);
         facets = parseFacets(content.optJSONObject("facets"));
-        disjunctiveFacets = parseDisjunctiveFacets(content.optJSONObject("disjunctiveFacets"));
+        disjunctiveFacets = parseFacets(content.optJSONObject("disjunctiveFacets"));
         page = content.optInt("page");
         nbPages = content.optInt("nbPages");
         hitsPerPage = content.optInt("hitsPerPage");
@@ -158,19 +158,6 @@ public class SearchResults {
             timeoutHits = content.getBoolean("timeoutHits");
         } catch (JSONException ignored) {
         }
-    }
-
-    @NonNull
-    private List<String> parseDisjunctiveFacets(JSONObject disjunctiveFacets) {
-        List<String> disjunctiveFacetList = new ArrayList<>();
-
-        if (disjunctiveFacets != null) {
-            final Iterator<String> iterator = disjunctiveFacets.keys();
-            while (iterator.hasNext()) {
-                disjunctiveFacetList.add(iterator.next());
-            }
-        }
-        return disjunctiveFacetList;
     }
 
     @NonNull
