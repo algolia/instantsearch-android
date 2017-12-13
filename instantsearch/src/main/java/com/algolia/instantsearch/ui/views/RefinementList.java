@@ -300,8 +300,10 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
     private class FacetAdapter extends ArrayAdapter<FacetValue> {
         @NonNull
         private final List<FacetValue> facetValues;
+        //TODO: Migrate in Searcher, e.g. to keep display on orientation change + no network
 
         private final HashSet<String> activeFacets = new HashSet<>();
+        private Class<? extends View> layoutViewGroupClass;
 
         FacetAdapter(Context context) {
             this(context, new ArrayList<FacetValue>());
@@ -360,9 +362,18 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
         @NonNull
         @Override
         public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent) {
-            if (convertView == null) {
-                convertView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+            View inflatedView = null;
+            // Get once the layoutView class for comparison
+            if (layoutViewGroupClass == null) {
+                inflatedView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                         .inflate(R.layout.refinement_row, parent, false);
+                layoutViewGroupClass = inflatedView.getClass();
+            }
+            // If we have no convertView or not of right class, let's inflate (or reuse inflated)
+            if (convertView == null || !layoutViewGroupClass.isInstance(convertView)) {
+                convertView = inflatedView != null ? inflatedView :
+                        ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                                .inflate(R.layout.refinement_row, parent, false);
             }
 
             final FacetValue facet = getItem(position);
@@ -370,8 +381,8 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
                 throw new IllegalStateException(String.format(Errors.REFINEMENTS_MISSING_ITEM, position));
             }
 
-            final TextView nameView = (TextView) convertView.findViewById(R.id.refinementName);
-            final TextView countView = (TextView) convertView.findViewById(R.id.refinementCount);
+            final TextView nameView = convertView.findViewById(R.id.refinementName);
+            final TextView countView = convertView.findViewById(R.id.refinementCount);
             nameView.setText(facet.value);
             countView.setText(String.valueOf(facet.count));
             updateFacetViews(facet, nameView, countView);
