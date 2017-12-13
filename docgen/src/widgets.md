@@ -311,10 +311,10 @@ In the previous code sample, `sortBy="['isRefined', 'count']"` will display the 
 If none of these widgets fits your use-case, you can implement your own!
 
 Any `View` in your Activity implementing [one or more widget interfaces][interfaces] will be picked-up by `InstantSearch` at instantiation. Most widgets will implement two methods:
-- `onResults` to be called when new results are received
-- `onError` to be called when there is an error
+- [AlgoliaResultsListener](javadoc/com/algolia/instantsearch/model/AlgoliaResultsListener.html)'s `onResults` to be called when new results are received
+- [AlgoliaErrorListener](javadoc/com/algolia/instantsearch/model/AlgoliaErrorListener.html)'s `onError` to be called when there is an error
 
-You can also implement the `AlgoliaSearcherListener` interface to get a reference to the `Searcher` used in your search interface. It will enable your widget to uses the [Searcher's programmatic API][docs-searcher].
+You can also implement the [`AlgoliaSearcherListener`](javadoc/com/algolia/instantsearch/model/AlgoliaSearcherListener.html) interface to get a reference to the `Searcher` used in your search interface. It will enable your widget to uses the [Searcher's programmatic API][docs-searcher].
 
 [media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
@@ -328,5 +328,4 @@ You can also implement the `AlgoliaSearcherListener` interface to get a referenc
 [docs-adapterview]: https://developer.android.com/reference/android/widget/AdapterView.html#setEmptyView(android.view.View)
 [docs-popupwindow]: https://developer.android.com/reference/android/widget/PopupWindow.html
 [docs-clicklistener]: javadoc/com/algolia/instantsearch/ui/utils/ItemClickSupport.OnItemClickListener.html
-
-[interfaces]: http://localhost:3000/concepts.html#widgets
+[interfaces]: javadoc/com/algolia/instantsearch/model/package-frame.html
