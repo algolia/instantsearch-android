@@ -159,6 +159,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
     @Override
     public void initWithSearcher(@NonNull Searcher searcher) {
         this.searcher = searcher;
+        this.adapter.activeFacets.addAll(searcher.getFacetRefinements(attribute));
     }
 
     @Override
