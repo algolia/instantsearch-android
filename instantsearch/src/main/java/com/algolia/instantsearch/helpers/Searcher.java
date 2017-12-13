@@ -28,6 +28,7 @@ import com.algolia.search.saas.CompletionHandler;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
 import com.algolia.search.saas.Request;
+import com.algolia.search.saas.RequestOptions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -423,7 +424,8 @@ public class Searcher {
      * Adds a facet refinement for the next queries.
      * <p>
      * <b>This method resets the current page to 0.</b>
-     *  @param attribute     the facet name.
+     *
+     * @param attribute     the facet name.
      * @param values        an eventual list of values to refine on.
      * @param isDisjunctive if {@code true}, the facet will be added as a disjunctive facet.
      */
@@ -496,6 +498,17 @@ public class Searcher {
     }
 
     /**
+     * Gets the refinement values for a faceted attribute.
+     *
+     * @param attribute the attribute refined on.
+     * @return the refinements enabled for the given attribute, or {@code null} if there is none.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"}) // For library users
+    public @Nullable List<String> getFacetRefinements(@NonNull String attribute) {
+        return refinementMap.get(attribute);
+    }
+
+    /**
      * Clears all facet refinements for the next queries.
      * <p>
      * <b>This method resets the current page to 0.</b>
@@ -530,6 +543,7 @@ public class Searcher {
     //endregion
 
     //region Numeric Refinements
+
     /**
      * Gets the current numeric refinement for an attribute and an operator.
      *
@@ -609,6 +623,7 @@ public class Searcher {
     //endregion
 
     //region Boolean Refinements
+
     /**
      * Adds a boolean refinement for the next queries.
      *
@@ -649,6 +664,7 @@ public class Searcher {
     //endregion
 
     //region Facets
+
     /**
      * Adds one or several attributes to facet on for the next queries.
      *
@@ -734,6 +750,7 @@ public class Searcher {
     }
 
     //TODO REORGANIZE
+
     /**
      * Checks if a response's json contains at least one hit.
      *
