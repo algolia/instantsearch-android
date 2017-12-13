@@ -1,6 +1,22 @@
 # Changelog
 
-<a name=""></a>
+# 1.4.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.3.0...v) (2017-12-13)
+
+### Bug Fixes
+
+* **Searcher.clearFacetRefinements:** Don't reset disjunctiveness of facets ([e654523](https://github.com/algolia/instantsearch-android/commit/e654523))
+* **RefinementList:** Also check for convertView's class ([cdf8f15](https://github.com/algolia/instantsearch-android/commit/cdf8f15))
+* **RefinementList:** Fix sorting of disjunctive refinements ([bfcd3d1](https://github.com/algolia/instantsearch-android/commit/bfcd3d1))
+* **RefinementList:** Retain active facets on configuration change ([864c1bb](https://github.com/algolia/instantsearch-android/commit/864c1bb))
+* **SearchResults:** Store disjunctiveFacets as map, fixes #54 ([3648a11](https://github.com/algolia/instantsearch-android/commit/3648a11)), closes [#54](https://github.com/algolia/instantsearch-android/issues/54)
+
+
+### Features
+
+* **FacetRefinementEvent:** Add disjunctiveness ([2ded719](https://github.com/algolia/instantsearch-android/commit/2ded719))
+* **Searcher:** Implement getFacetRefinements ([8711c1c](https://github.com/algolia/instantsearch-android/commit/8711c1c))
+
+
 # 1.3.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.2.3...v) (2017-11-29)
 This release adds **Voice Search** capabilities to the SearchBox. See the associated [guide](https://community.algolia.com/instantsearch-android/widgets.html#voice-search).
 
