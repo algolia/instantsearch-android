@@ -68,7 +68,7 @@ public class InstantSearch {
     private boolean showProgressBar;
     private SearchProgressController progressController;
 
-    private boolean searchOnEmptyString;
+    private boolean searchOnEmptyString = true;
     private int progressBarDelay = SearchProgressController.DEFAULT_DELAY;
 
     /**
@@ -471,7 +471,7 @@ public class InstantSearch {
             public boolean onQueryTextChange(String newText) {
                 EventBus.getDefault().post(new QueryTextChangeEvent(newText, searchView.getSearchView()));
 
-                if (newText.length() == 0 && searchOnEmptyString) {
+                if (newText.length() == 0 && !searchOnEmptyString) {
                     return true;
                 }
                 searcher.setQuery(searcher.getQuery().setQuery(searchView.getQuery().toString()))
