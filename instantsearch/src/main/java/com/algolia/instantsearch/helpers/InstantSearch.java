@@ -285,10 +285,7 @@ public class InstantSearch {
             searchView = getSearchView(rootView);
         }
         if (searchView != null) {
-            linkSearchViewToSearcher(searchView);
-            // Link SearchView to Activity
-            SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
-            searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
+            registerSearchView(activity, searchView);
         }
 
         final List<String> refinementAttributes = processAllListeners(rootView);
