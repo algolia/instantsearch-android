@@ -36,7 +36,7 @@ public class SearchBox extends SearchView {
      *                access the current theme, resources, etc.
      * @param attrs   The attributes of the XML tag that is inflating the view.
      */
-    public SearchBox(@NonNull Context context, @NonNull AttributeSet attrs) {
+    public SearchBox(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
