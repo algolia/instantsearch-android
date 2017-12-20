@@ -154,6 +154,14 @@ public class InstantSearch {
         registerSearchView(activity, new SearchViewFacade(searchView));
     }
 
+    private void registerSearchView(@NonNull final Activity activity, @NonNull final SearchViewFacade searchView) {
+        this.searchView = searchView;
+        final SearchManager searchManager = (SearchManager) searchView.getContext().getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
+        searchView.setIconifiedByDefault(false);
+        linkSearchViewToSearcher(searchView);
+    }
+
 
     /**
      * Resets the search interface and state via {@link Searcher#reset()}, broadcasting a {@link ResetEvent}.
@@ -269,13 +277,6 @@ public class InstantSearch {
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public boolean hasSearchOnEmptyString() {
         return searchOnEmptyString;
-    }
-
-    private void registerSearchView(@NonNull final Activity activity, @NonNull final SearchViewFacade searchView) {
-        this.searchView = searchView;
-        searchView.setSearchableInfo(((SearchManager) activity.getSystemService(Context.SEARCH_SERVICE)).getSearchableInfo(activity.getComponentName()));
-        searchView.setIconifiedByDefault(false);
-        linkSearchViewToSearcher(searchView);
     }
 
     private void processActivity(@NonNull final Activity activity) {
