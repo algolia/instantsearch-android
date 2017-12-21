@@ -30,7 +30,11 @@ public class BindingHelper {
     @BindingAdapter({"attribute", "highlighted"})
     public static void bindHighlighted(@NonNull View view, String attribute, Boolean isHighlighted) {
         // Bind attribute, enable highlight with default color
-        bindAndHighlight(view, attribute, RenderingHelper.DEFAULT_COLOR);
+        if (isHighlighted) {
+            bindAndHighlight(view, attribute, RenderingHelper.DEFAULT_COLOR);
+        } else {
+            bindAttribute(view, attribute);
+        }
     }
 
     @SuppressWarnings({"unused"}) // called via Data Binding
