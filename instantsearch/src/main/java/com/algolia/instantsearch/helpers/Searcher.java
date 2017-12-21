@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.Pair;
 import android.util.SparseArray;
 
 import com.algolia.instantsearch.BuildConfig;
@@ -36,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,7 +57,8 @@ import static com.algolia.instantsearch.events.ResultEvent.REQUEST_UNKNOWN;
  */
 @SuppressWarnings("UnusedReturnValue") // chaining
 public class Searcher {
-    private static Searcher instance;
+    private static Map<Pair<String, String>, Searcher> instances = new HashMap<>();
+    public static final String VARIANT_DEFAULT = null;
 
     /** The {@link Index} targeted by this Searcher. */
     private Index index;
@@ -102,15 +105,55 @@ public class Searcher {
     private final SparseArray<Request> pendingRequests = new SparseArray<>();
 
     /***
-     * Gets the Searcher.
-     * @return the current Searcher instance.
-     * @throws IllegalStateException if no searcher was {@link #create(Index) created} before.
+     * Gets the Searcher for a given index.
+     * @param indexName the index to target.
+     * @return the existing Searcher instance.
+     * @throws IllegalStateException if no searcher was {@link #create(Index) created} before for this {@code indexName}.
      */
-    public static Searcher get() {
-        if (instance == null) {
+    public static Searcher get(String indexName) {
+        return get(indexName, VARIANT_DEFAULT);
+    }
+
+    /***
+     * Gets the Searcher for a given index and variant.
+     * @param indexName the name of the index to target.
+     * @param variant an identifier to differentiate this Searcher from eventual others using the same index.
+     * @return the existing Searcher instance.
+     * @throws IllegalStateException if no searcher was {@link #create(Index) created} before for this {@code indexName}.
+     */
+    public static Searcher get(String indexName, String variant) {
+        final Searcher searcher = instances.get(new Pair<>(variant, indexName));
+        if (searcher == null) {
             throw new IllegalStateException(Errors.SEARCHER_GET_BEFORE_CREATE);
         }
-        return instance;
+        return searcher;
+    }
+
+    /**
+     * Constructs an helper, creating its {@link Searcher#index} and {@link Searcher#client} with the given parameters.
+     *
+     * @param appId     your Algolia Application ID.
+     * @param apiKey    a search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
+     * @param indexName the name of the index to target.
+     * @return the new instance.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public static Searcher create(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName) {
+        return create(new Client(appId, apiKey).getIndex(indexName), VARIANT_DEFAULT);
+    }
+
+    /**
+     * Constructs an helper, creating its {@link Searcher#index} and {@link Searcher#client} with the given parameters.
+     *
+     * @param appId     your Algolia Application ID.
+     * @param apiKey    a search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
+     * @param indexName the name of the index to target.
+     * @param variant   an identifier to differentiate this Searcher from eventual others using the same index.
+     * @return the new instance.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public static Searcher create(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName, @NonNull String variant) {
+        return create(new Client(appId, apiKey).getIndex(indexName), variant);
     }
 
     /**
@@ -121,23 +164,31 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public static Searcher create(@NonNull final Index index) {
+        final Pair<String, String> key = new Pair<>(VARIANT_DEFAULT, index.getIndexName());
+        Searcher instance = instances.get(key);
         if (instance == null) {
             instance = new Searcher(index);
+            instances.put(key, instance);
         }
         return instance;
     }
 
     /**
-     * Constructs an helper, creating its {@link Searcher#index} and {@link Searcher#client} with the given parameters.
+     * Constructs the Searcher from an existing {@link Index}.
      *
-     * @param appId     Your Algolia Application ID.
-     * @param apiKey    A search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
-     * @param indexName An index to target.
+     * @param variant an identifier to differentiate this Searcher from eventual others using the same index.
+     * @param index   an Index initialized and eventually configured.
      * @return the new instance.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public static Searcher create(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName) {
-        return create(new Client(appId, apiKey).getIndex(indexName));
+    public static Searcher create(@NonNull final Index index, String variant) {
+        final Pair<String, String> key = new Pair<>(variant, index.getIndexName());
+        Searcher instance = instances.get(key);
+        if (instance == null) {
+            instance = new Searcher(index);
+            instances.put(key, instance);
+        }
+        return instance;
     }
 
     private Searcher(@NonNull final Index index) {

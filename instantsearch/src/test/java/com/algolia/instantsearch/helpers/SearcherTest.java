@@ -18,10 +18,38 @@ import org.junit.Test;
 import java.util.Locale;
 
 public class SearcherTest extends InstantSearchTest {
+    @NonNull private Client initClient() {
+        return new Client(Helpers.app_id, Helpers.api_key);
+    }
+
     @NonNull
     private Searcher initSearcher() {
-        final Client client = new Client(Helpers.app_id, Helpers.api_key);
+        final Client client = initClient();
         return Searcher.create(client.getIndex(Helpers.safeIndexName("test")));
+    }
+
+    @Test public void instantiatesAccordingToIndexAndVariant() {
+        final String indexName = "asd";
+        final Client client = initClient();
+        Searcher searcher = Searcher.create(client.getIndex(indexName));
+        Searcher searcher2 = Searcher.create(client.getIndex(indexName));
+        Assert.assertSame("Two searchers with the same indexName and no variants should be the same instance.", searcher, searcher2);
+
+        searcher = Searcher.create(client.getIndex(indexName));
+        searcher2 = Searcher.create(client.getIndex(indexName + "_foo"));
+        Assert.assertNotSame("Two searchers with different indexNames and no variants should be different instance.", searcher, searcher2);
+
+        searcher = Searcher.create(client.getIndex(indexName), "variant");
+        searcher2 = Searcher.create(client.getIndex("bar"), "variant");
+        Assert.assertNotSame("Two searchers with different indexNames and same variants should be different instance.", searcher, searcher2);
+
+        searcher = Searcher.create(client.getIndex(indexName), "variant1");
+        searcher2 = Searcher.create(client.getIndex(indexName), "variant2");
+        Assert.assertNotSame("Two searchers with the same indexName but different variants should be different instances.", searcher, searcher2);
+
+        searcher = Searcher.create(client.getIndex(indexName), "variant1");
+        searcher2 = Searcher.create(client.getIndex("bar"), "variant2");
+        Assert.assertNotSame("Two searchers with different indexNames and variants should be different instances.", searcher, searcher2);
     }
 
     @Test
