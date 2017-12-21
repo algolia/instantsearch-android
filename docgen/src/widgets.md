@@ -189,7 +189,8 @@ The `Hits` widget automatically handles highlighting. To highlight a textual att
 ```
 This will highlight the attribute according to the query term, like you can see in the screenshot. The color used by default for highlighting is `R.color.colorHighlighting`, which you can override in your application.
 
-You can also specify `algolia:highlightingColor='@{"color/appDefinedColor"}'` on a `View` to use a specific color for this one only.
+You can also specify `algolia:highlightingColor='@{R.color.color_foo}'` on a `View` to use a specific color for this one only.
+
 
 Note that highlighting **only works automatically on TextViews**. if you implement a [custom hit view](widgets.html#custom-hit-views) or to highlight results received by your [custom widget](widgets.html#anatomy-of-an-algoliawidget), you should use the [`Highlighter`](javadoc/com/algolia/instantsearch/helpers/Highlighter.html).
 This tool will let you build a highlighted [`Spannable`](https://developer.android.com/reference/android/text/Spannable.html) from a search result and an optional highlight color:
