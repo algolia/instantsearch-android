@@ -63,7 +63,6 @@ public class InstantSearch {
 
     private Menu searchMenu;
     private int searchMenuId;
-    private static int itemLayoutId = -42;
 
     private boolean showProgressBar;
     private SearchProgressController progressController;
@@ -256,20 +255,6 @@ public class InstantSearch {
     }
 
     /**
-     * Gets the {@link android.support.annotation.IdRes IdRes} of the item layout registered by a Hits widget.
-     * This method should only be used by the library's internals.
-     *
-     * @return the registered item layout id, if any.
-     * @throws IllegalStateException if no item layout was registered.
-     */
-    public static int getItemLayoutId() {
-        if (itemLayoutId == 0) {
-            throw new IllegalStateException(Errors.HITS_NO_ITEMLAYOUT);
-        }
-        return itemLayoutId;
-    }
-
-    /**
      * Enables or disables the sending of a search request when the SearchView becomes empty (default is true).
      *
      * @param searchOnEmptyString if {@code true}, a request will be fired.
@@ -401,9 +386,9 @@ public class InstantSearch {
                 // Link hits to activity's empty view //TODO: Remove rootView parameter if getRootView always works
                 ((Hits) widget).setEmptyView(getEmptyView(widget.getRootView()));
 
-                itemLayoutId = ((Hits) widget).getLayoutId();
+                int itemLayoutId = ((Hits) widget).getLayoutId();
 
-                if (itemLayoutId == -42) {
+                if (itemLayoutId == 0) {
                     throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
                 }
             } else if (widget instanceof RefinementList) {

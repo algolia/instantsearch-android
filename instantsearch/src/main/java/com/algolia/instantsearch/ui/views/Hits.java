@@ -32,7 +32,6 @@ import android.widget.TextView;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.Highlighter;
-import com.algolia.instantsearch.helpers.InstantSearch;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
 import com.algolia.instantsearch.model.AlgoliaResultsListener;
@@ -443,7 +442,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         @Override
         public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
             ViewDataBinding binding = DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.getContext()), InstantSearch.getItemLayoutId(), parent, false);
+                    LayoutInflater.from(parent.getContext()), layoutId, parent, false);
             binding.executePendingBindings();
             return new ViewHolder(binding.getRoot());
         }
