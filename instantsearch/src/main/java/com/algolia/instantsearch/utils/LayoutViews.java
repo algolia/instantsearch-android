@@ -24,9 +24,10 @@ final public class LayoutViews {
 
     /**
      * Gets a List of Views matching a given class.
-     * @param rootView the root View to traverse.
+     *
+     * @param rootView  the root View to traverse.
      * @param classType the class to find.
-     * @param <T> the class to find.
+     * @param <T>       the class to find.
      * @return a List of every matching View encountered.
      */
     @NonNull public static <T> List<T> findByClass(@NonNull View rootView, Class<T> classType) {
@@ -36,9 +37,10 @@ final public class LayoutViews {
 
     /**
      * Gets a List of Views matching a given class.
-     * @param root the root ViewGroup to traverse.
+     *
+     * @param root      the root ViewGroup to traverse.
      * @param classType the class to find.
-     * @param <T> the class to find.
+     * @param <T>       the class to find.
      * @return a List of every matching View encountered.
      */
     @NonNull public static <T> List<T> findByClass(@NonNull ViewGroup root, Class<T> classType) {
@@ -46,6 +48,19 @@ final public class LayoutViews {
         LayoutTraverser.build(finderByClass)
                 .traverse(root);
         return finderByClass.getViews();
+    }
+
+    /**
+     * Gets a List of Views from a ViewGroup.
+     *
+     * @param root      the root ViewGroup to traverse.
+     * @return a List of every View encountered.
+     */
+    @NonNull public static List<View> findAny(@NonNull ViewGroup root) {
+        FinderAny finder = new FinderAny();
+        LayoutTraverser.build(finder)
+                .traverse(root);
+        return finder.getViews();
     }
 
     private static class FinderByTag implements LayoutTraverser.Processor {
@@ -89,6 +104,25 @@ final public class LayoutViews {
         }
 
         @NonNull public List<T> getViews() {
+            return views;
+        }
+    }
+
+    private static class FinderAny implements LayoutTraverser.Processor {
+        @NonNull
+        private final List<View> views;
+
+        private FinderAny() {
+            views = new ArrayList<>();
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public void process(@NonNull View view) {
+            views.add(view);
+        }
+
+        @NonNull public List<View> getViews() {
             return views;
         }
     }
