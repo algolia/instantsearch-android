@@ -154,6 +154,16 @@ public class InstantSearch {
         registerSearchView(activity, new SearchViewFacade(searchView));
     }
 
+    private void registerSearchView(@NonNull Activity activity) {
+        View rootView = activity.getWindow().getDecorView().getRootView();
+        if (searchView == null) {
+            searchView = getSearchView(rootView);
+        }
+        if (searchView != null) {
+            registerSearchView(activity, searchView);
+        }
+    }
+
     private void registerSearchView(@NonNull final Activity activity, @NonNull final SearchViewFacade searchView) {
         this.searchView = searchView;
         final SearchManager searchManager = (SearchManager) searchView.getContext().getSystemService(Context.SEARCH_SERVICE);
@@ -280,15 +290,8 @@ public class InstantSearch {
     }
 
     private void processActivity(@NonNull final Activity activity) {
-        View rootView = activity.getWindow().getDecorView().getRootView();
-        if (searchView == null) {
-            searchView = getSearchView(rootView);
-        }
-        if (searchView != null) {
-            registerSearchView(activity, searchView);
-        }
-
-        final List<String> refinementAttributes = processAllListeners(rootView);
+        registerSearchView(activity);
+        final List<String> refinementAttributes = processAllListeners(activity.getWindow().getDecorView().getRootView());
         final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
         if (facets.length > 0) {
             searcher.addFacet(facets);
