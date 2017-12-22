@@ -17,6 +17,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Pair;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -406,7 +407,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         }
     }
 
-    private static class HitsAdapter extends Adapter<HitsAdapter.ViewHolder> {
+    private class HitsAdapter extends Adapter<HitsAdapter.ViewHolder> {
 
         @NonNull
         private List<JSONObject> hits = new ArrayList<>();
@@ -524,8 +525,8 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         @Nullable
         Spannable getHighlightedAttribute(@NonNull JSONObject hit, @NonNull View view, @NonNull String attribute, @Nullable String attributeValue) {
             Spannable attributeText;
-            if (RenderingHelper.getDefault().shouldHighlight(attribute)) {
-                final int highlightColor = RenderingHelper.getDefault().getHighlightColor(attribute);
+            if (RenderingHelper.getDefault().shouldHighlight(view, attribute)) {
+                final int highlightColor = RenderingHelper.getDefault().getHighlightColor(view, attribute);
                 attributeText = Highlighter.getDefault().renderHighlightColor(hit, attribute, highlightColor, view.getContext());
             } else {
                 attributeText = attributeValue != null ? new SpannableString(attributeValue) : null;
@@ -551,17 +552,34 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            final Map<View, String> viewMap = new HashMap<>();
+            private final Map<View, String> viewMap = new HashMap<>();
+            // needed to differentiate initial key value from Pair{null,null} which is legitimate
+            private final String defaultValue = "ADefaultValueForHitsIndexVariant";
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
-                // Store every annotated view with its attribute name
-                final SparseArray<String> attributes = BindingHelper.getBindings();
-                for (int i = 0; i < attributes.size(); i++) {
-                    viewMap.put(itemView.findViewById(attributes.keyAt(i)), attributes.valueAt(i));
+
+                Pair<String, String> indexVariant = new Pair<>(defaultValue, defaultValue);
+
+                // Get the index and variant for this layout
+                final List<View> views = LayoutViews.findAny((ViewGroup) itemView);
+                for (View view : views) {
+                    if (view instanceof AlgoliaHitView) {
+                        continue;
+                    }
+                    Pair<String, String> viewIndexVariant = BindingHelper.getIndexVariantForView(view);
+                    if (!defaultValue.equals(indexVariant.first) && !viewIndexVariant.equals(indexVariant)) {
+                        throw new IllegalStateException("Hits found two conflicting indices/variants:" + indexVariant.toString() + " / " + viewIndexVariant.toString());
+                    }
+                    indexVariant = viewIndexVariant;
+                }
+
+                // Store every annotated view for indexVariant with its attribute name
+                final HashMap<Integer, String> attributes = BindingHelper.getBindings(indexVariant);
+                for (Map.Entry<Integer, String> entry : attributes.entrySet()) {
+                    viewMap.put(itemView.findViewById(entry.getKey()), entry.getValue());
                 }
             }
-
         }
     }
 }
