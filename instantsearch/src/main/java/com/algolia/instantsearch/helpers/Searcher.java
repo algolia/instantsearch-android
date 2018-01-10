@@ -319,7 +319,6 @@ public class Searcher {
      */
     @NonNull
     public Searcher forwardBackendSearchResult(@NonNull JSONObject response) {
-        SearchResults results = new SearchResults(response);
         if (!hasHits(response)) {
             endReached = true;
         } else {
