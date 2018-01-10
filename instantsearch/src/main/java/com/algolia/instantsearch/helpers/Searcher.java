@@ -128,7 +128,7 @@ public class Searcher {
     }
 
     /**
-     * Constructs an helper, creating its {@link Searcher#index} and {@link Searcher#client} with the given parameters.
+     * Constructs a Searcher, creating its {@link Searcher#index} and {@link Searcher#client} with the given parameters.
      *
      * @param appId     your Algolia Application ID.
      * @param apiKey    a search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
@@ -155,7 +155,7 @@ public class Searcher {
     }
 
     /**
-     * Constructs the Searcher from an existing {@link Index}.
+     * Constructs a Searcher from an existing {@link Index}.
      *
      * @param index an Index initialized and eventually configured.
      * @return the new instance.
