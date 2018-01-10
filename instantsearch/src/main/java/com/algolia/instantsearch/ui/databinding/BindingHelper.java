@@ -6,7 +6,6 @@ import android.databinding.BindingAdapter;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Pair;
 import android.view.View;
 
 import com.algolia.instantsearch.model.Errors;
@@ -18,22 +17,22 @@ import java.util.Map;
  * Contains the {@link BindingAdapter} used for gathering {@link BindingHelper#bindings bound attributes}.
  */
 public class BindingHelper {
-    private static final HashMap<Pair<String, String>, HashMap<Integer, String>> bindings = new HashMap<>();
+    private static final HashMap<String, HashMap<Integer, String>> bindings = new HashMap<>();
 
     /**
      * @deprecated This should only be used internally by InstantSearch.
      */
     @SuppressWarnings("unused") // called via Data Binding
     @Deprecated // Should not be used by library users
-    @BindingAdapter(value = {"attribute", "highlighted", "highlightingColor", "index", "variant"}, requireAll = false)
+    @BindingAdapter(value = {"attribute", "highlighted", "highlightingColor", "variant"}, requireAll = false)
     public static void bindAttribute(@NonNull View view, @Nullable String attribute,
                                      @Nullable Boolean highlighted,
                                      @Nullable @ColorRes Integer color,
-                                     @Nullable String index, @Nullable String variant) {
+                                     @Nullable String variant) {
         if (attribute == null) {
             throwBindingError(view, Errors.BINDING_NO_ATTRIBUTE);
         } else {
-            bindAttribute(view, attribute, index, variant);
+            bindAttribute(view, attribute, variant);
         }
 
         if ((highlighted != null && highlighted) // either highlighted == true
@@ -47,10 +46,10 @@ public class BindingHelper {
      * @deprecated This should only be used internally by InstantSearch.
      */
     @Deprecated // Should not be used by library users
-    public static void bindAttribute(@NonNull View view, @NonNull String attribute, @Nullable String index, @Nullable String variant) {
+    public static void bindAttribute(@NonNull View view, @NonNull String attribute, @Nullable String variant) {
         final int id = view.getId();
-        if (notAlreadyMapped(id, index, variant)) { // only map when you see a view for the first time.
-            mapAttribute(attribute, id, index, variant);
+        if (notAlreadyMapped(id, variant)) { // only map when you see a view for the first time.
+            mapAttribute(attribute, id, variant);
         }
     }
 
@@ -59,19 +58,19 @@ public class BindingHelper {
      *
      * @return a SparseArray mapping each View's id to its attribute name.
      */
-    public static HashMap<Integer, String> getBindings(Pair<String, String> indexVariant) {
+    public static HashMap<Integer, String> getBindings(String indexVariant) {
         return bindings.get(indexVariant);
     }
 
     /**
-     * Returns the index name and variant associated with the view.
+     * Returns the variant associated with the view.
      *
      * @param view a View that is associated to an index through databinding.
-     * @return a Pair containing the index name and the variant name (both being {@code null} if unspecified).
+     * @return the variant name or {@code null} if unspecified.
      * @throws IllegalArgumentException if the view is not part of a databinding layout.
      */
-    public static @NonNull Pair<String, String> getIndexVariantForView(View view) {
-        for (Map.Entry<Pair<String, String>, HashMap<Integer, String>> entry : bindings.entrySet()) {
+    public static @NonNull String getVariantForView(View view) {
+        for (Map.Entry<String, HashMap<Integer, String>> entry : bindings.entrySet()) {
             if (entry.getValue().containsKey(view.getId())) {
                 return entry.getKey();
             }
@@ -79,17 +78,17 @@ public class BindingHelper {
         throw new IllegalArgumentException("View " + getViewName(view) + " was not bound to any data.");
     }
 
-    private static boolean notAlreadyMapped(int id, @Nullable String index, @Nullable String variant) {
-        final HashMap<Integer, String> indexMap = bindings.get(new Pair<>(index, variant));
+    private static boolean notAlreadyMapped(int id, @Nullable String variant) {
+        final HashMap<Integer, String> indexMap = bindings.get(variant);
         return indexMap == null || indexMap.get(id) == null;
     }
 
-    @SuppressLint("UseSparseArrays") // Using HashMap for O(1) containsKey in getIndexVariantForView
-    private static void mapAttribute(String attribute, int viewId, @Nullable String index, @Nullable String variant) {
+    @SuppressLint("UseSparseArrays") // Using HashMap for O(1) containsKey in getVariantForView
+    private static void mapAttribute(String attribute, int viewId, @Nullable String variant) {
         if (viewId == -1) {
             throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID, attribute));
         }
-        final Pair<String, String> key = new Pair<>(index, variant);
+        final String key = variant;
         HashMap<Integer, String> indexMap = bindings.get(key);
         if (indexMap == null) {
             indexMap = new HashMap<>();

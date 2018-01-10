@@ -13,6 +13,7 @@ import junit.framework.Assert;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Test;
 
 import java.util.Locale;
@@ -28,20 +29,23 @@ public class SearcherTest extends InstantSearchTest {
         return Searcher.create(client.getIndex(Helpers.safeIndexName("test")));
     }
 
-    @Test public void instantiatesAccordingToIndexAndVariant() {
+    @After
+    public void tearDown() {
+        Searcher.destroyAll();
+    }
+
+    @Test public void instantiatesAccordingToVariant() {
         final String indexName = "asd";
         final Client client = initClient();
         Searcher searcher = Searcher.create(client.getIndex(indexName));
-        Searcher searcher2 = Searcher.create(client.getIndex(indexName));
-        Assert.assertSame("Two searchers with the same indexName and no variants should be the same instance.", searcher, searcher2);
-
-        searcher = Searcher.create(client.getIndex(indexName));
-        searcher2 = Searcher.create(client.getIndex(indexName + "_foo"));
+        Searcher searcher2 = Searcher.create(client.getIndex(indexName + "_foo"));
         Assert.assertNotSame("Two searchers with different indexNames and no variants should be different instance.", searcher, searcher2);
 
         searcher = Searcher.create(client.getIndex(indexName), "variant");
         searcher2 = Searcher.create(client.getIndex("bar"), "variant");
         Assert.assertNotSame("Two searchers with different indexNames and same variants should be different instance.", searcher, searcher2);
+        Assert.assertSame("A second searcher with the same variant should replace the first one", searcher2, Searcher.get("variant"));
+
 
         searcher = Searcher.create(client.getIndex(indexName), "variant1");
         searcher2 = Searcher.create(client.getIndex(indexName), "variant2");
@@ -50,6 +54,15 @@ public class SearcherTest extends InstantSearchTest {
         searcher = Searcher.create(client.getIndex(indexName), "variant1");
         searcher2 = Searcher.create(client.getIndex("bar"), "variant2");
         Assert.assertNotSame("Two searchers with different indexNames and variants should be different instances.", searcher, searcher2);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void instantiatesMissingVariant() {
+        final String indexName = "asd";
+        final Client client = initClient();
+        Searcher.create(client.getIndex(indexName));
+        Searcher.create(client.getIndex(indexName));
+        Assert.fail("Instantiating two searchers with the same indexName and no variants should throw.");
     }
 
     @Test
@@ -132,7 +145,8 @@ public class SearcherTest extends InstantSearchTest {
         Assert.assertEquals("The numeric refinement for this attribute but other operator should have been kept", r2, searcher.getNumericRefinement(r2.attribute, r2.operator));
     }
 
-    @SuppressWarnings("deprecation") // deprecated facetFilters are used on purpose for filters managed programmatically
+    @SuppressWarnings("deprecation")
+    // deprecated facetFilters are used on purpose for filters managed programmatically
     @Test
     public void facetRefinements() {
         final Searcher searcher = initSearcher();

@@ -17,7 +17,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.Pair;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -553,12 +552,12 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         class ViewHolder extends RecyclerView.ViewHolder {
             private final Map<View, String> viewMap = new HashMap<>();
             // needed to differentiate initial key value from Pair{null,null} which is legitimate
-            private final String defaultValue = "ADefaultValueForHitsIndexVariant";
+            private final String defaultValue = "ADefaultValueForHitsVariant";
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
-                Pair<String, String> indexVariant = new Pair<>(defaultValue, defaultValue);
+                String indexVariant = defaultValue;
 
                 // Get the index and variant for this layout
                 final List<View> views = LayoutViews.findAny((ViewGroup) itemView);
@@ -566,9 +565,9 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                     if (view instanceof AlgoliaHitView) {
                         continue;
                     }
-                    Pair<String, String> viewIndexVariant = BindingHelper.getIndexVariantForView(view);
-                    if (!defaultValue.equals(indexVariant.first) && !viewIndexVariant.equals(indexVariant)) {
-                        throw new IllegalStateException("Hits found two conflicting indices/variants:" + indexVariant.toString() + " / " + viewIndexVariant.toString());
+                    String viewIndexVariant = BindingHelper.getVariantForView(view);
+                    if (!defaultValue.equals(indexVariant) && !viewIndexVariant.equals(indexVariant)) {
+                        throw new IllegalStateException("Hits found two conflicting indices/variants:" + indexVariant + " / " + viewIndexVariant);
                     }
                     indexVariant = viewIndexVariant;
                 }
