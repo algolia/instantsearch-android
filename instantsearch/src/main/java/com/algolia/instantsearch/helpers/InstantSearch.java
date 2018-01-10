@@ -2,6 +2,7 @@ package com.algolia.instantsearch.helpers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Build;
@@ -71,9 +72,9 @@ public class InstantSearch {
     private int progressBarDelay = SearchProgressController.DEFAULT_DELAY;
 
     /**
-     * Constructs the helper, then link it to the given Activity.
+     * Constructs the helper, then link it to the given Activity and register its Widgets.
      *
-     * @param activity an Activity containing at least one {@link AlgoliaResultsListener} to update with incoming results.
+     * @param activity a searchable Activity containing at least one {@link AlgoliaResultsListener} to update with incoming results.
      * @param searcher the Searcher to use with this activity.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
@@ -84,9 +85,9 @@ public class InstantSearch {
     }
 
     /**
-     * Constructs the helper, then link it to the given Activity and Menu's searchView.
+     * Constructs the helper, then link it to the given Activity and register its Widgets / its Menu's searchView.
      *
-     * @param activity   an Activity containing at least one {@link AlgoliaResultsListener} to update with incoming results.
+     * @param activity   a searchable Activity containing at least one {@link AlgoliaResultsListener} to update with incoming results.
      * @param menu       the Menu which contains your SearchView.
      * @param menuItemId the SearchView item's {@link android.support.annotation.IdRes id} in your Menu.
      * @param searcher   the Searcher to use with this activity.
@@ -99,12 +100,55 @@ public class InstantSearch {
         processActivity(activity);
     }
 
+    /**
+     * Constructs the helper, then link it to the given Activity and register its fragment's Widgets.
+     *
+     * @param activity a searchable Activity.
+     * @param fragment a Fragment containing at least one {@link AlgoliaResultsListener} to update with incoming results.
+     * @param searcher the Searcher to use with this activity.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public InstantSearch(@NonNull final Activity activity, @NonNull final Searcher searcher, @NonNull Fragment fragment) {
+        this(searcher);
+
+        registerSearchView(activity);
+        processAllListeners(fragment.getView());
+    }
+
+    /**
+     * Constructs the helper, then link it to the given Activity and register its fragment's Widgets.
+     *
+     * @param activity a searchable Activity.
+     * @param fragment a Fragment containing at least one {@link AlgoliaResultsListener} to update with incoming results.
+     * @param searcher the Searcher to use with this activity.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public InstantSearch(@NonNull final Activity activity, @NonNull final Searcher searcher, @NonNull android.support.v4.app.Fragment fragment) {
+        this(searcher);
+
+        registerSearchView(activity);
+        processAllListeners(fragment.getView());
+    }
+
+
+    /**
+     * Constructs the helper, then link it to the given Widget.
+     *
+     * @param widget   a Widget to register as listener.
+     * @param searcher the Searcher to use with this InstantSearch.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public InstantSearch(@NonNull final View widget, @NonNull final Searcher searcher) {
         this(searcher);
         registerWidget(widget);
     }
 
-    private InstantSearch(@NonNull final Searcher searcher) {
+    /**
+     * Constructs the helper.
+     *
+     * @param searcher the Searcher to use with this InstantSearch.
+     */
+    public InstantSearch(@NonNull final Searcher searcher) {
         this.searcher = searcher;
         enableProgressBar();
     }
