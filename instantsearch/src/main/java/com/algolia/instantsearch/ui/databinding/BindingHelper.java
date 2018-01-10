@@ -24,11 +24,12 @@ public class BindingHelper {
      */
     @SuppressWarnings("unused") // called via Data Binding
     @Deprecated // Should not be used by library users
-    @BindingAdapter(value = {"attribute", "highlighted", "highlightingColor", "variant"}, requireAll = false)
+    @BindingAdapter(value = {"attribute", "highlighted", "highlightingColor", "variant", "prefix", "suffix"}, requireAll = false)
     public static void bindAttribute(@NonNull View view, @Nullable String attribute,
                                      @Nullable Boolean highlighted,
                                      @Nullable @ColorRes Integer color,
-                                     @Nullable String variant) {
+                                     @Nullable String variant,
+                                     @Nullable String prefix, @Nullable String suffix) {
         if (attribute == null) {
             throwBindingError(view, Errors.BINDING_NO_ATTRIBUTE);
         } else {
@@ -88,11 +89,10 @@ public class BindingHelper {
         if (viewId == -1) {
             throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID, attribute));
         }
-        final String key = variant;
-        HashMap<Integer, String> indexMap = bindings.get(key);
+        HashMap<Integer, String> indexMap = bindings.get(variant);
         if (indexMap == null) {
             indexMap = new HashMap<>();
-            bindings.put(key, indexMap);
+            bindings.put(variant, indexMap);
         }
         indexMap.put(viewId, attribute);
     }
