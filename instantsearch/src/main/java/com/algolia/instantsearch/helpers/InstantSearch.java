@@ -20,13 +20,12 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.events.QueryTextChangeEvent;
-import com.algolia.instantsearch.events.QueryTextSubmitEvent;
 import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
 import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
+import com.algolia.instantsearch.model.SearchBoxViewModel;
 import com.algolia.instantsearch.ui.views.Hits;
 import com.algolia.instantsearch.ui.views.RefinementList;
 import com.algolia.instantsearch.ui.views.SearchBox;
@@ -51,7 +50,7 @@ public class InstantSearch {
     @SuppressWarnings("WeakerAccess") public static final int DELAY_PROGRESSBAR_NO_ANIMATIONS = 200;
 
     @Nullable
-    private SearchViewFacade searchView;
+    private SearchBoxViewModel searchBoxViewModel;
 
     @NonNull
     private final Set<View> widgets = new HashSet<>();
@@ -94,6 +93,7 @@ public class InstantSearch {
      * @param searcher   the Searcher to use with this activity.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    //TODO: Move searcher as 2nd parameter
     public InstantSearch(@NonNull final Activity activity, @NonNull Menu menu, @IdRes int menuItemId, @NonNull final Searcher searcher) {
         this(searcher);
 
@@ -149,20 +149,32 @@ public class InstantSearch {
      *
      * @param searcher the Searcher to use with this InstantSearch.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public InstantSearch(@NonNull final Searcher searcher) {
         this.searcher = searcher;
         enableProgressBar();
     }
 
     /**
-     * Triggers a new search with the {@link #searchView}'s text.
+     * Triggers a new search with the {@link #searchBoxViewModel SearchView}'s text.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void search() {
         searcher.search();
     }
 
     /**
-     * Registers the Search Widget of an Activity's Menu to trigger search requests on text change.
+     * Triggers a new search with the given text.
+     *
+     * @param query the text to search for.
+     */
+    public void search(String query) {
+        searcher.setQuery(searcher.getQuery().setQuery(query)).search();
+    }
+
+
+    /**
+     * Registers the Search Widget of an Activity's Menu to trigger search requests on text change, replacing the current one if any.
      *
      * @param activity The searchable Activity, see {@link android.app.SearchableInfo}.
      * @param menu     The Menu that contains a search item.
@@ -177,7 +189,7 @@ public class InstantSearch {
     }
 
     /**
-     * Registers a {@link SearchView} to trigger search requests on text change.
+     * Registers a {@link SearchView} to trigger search requests on text change, replacing the current one if any.
      *
      * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
      * @param searchView a SearchView whose query text will be used.
@@ -188,7 +200,7 @@ public class InstantSearch {
     }
 
     /**
-     * Registers a {@link android.support.v7.widget.SearchView} to trigger search requests on text change.
+     * Registers a {@link android.support.v7.widget.SearchView} to trigger search requests on text change, replacing the current one if any.
      *
      * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
      * @param searchView a SearchView whose query text will be used.
@@ -200,20 +212,35 @@ public class InstantSearch {
 
     private void registerSearchView(@NonNull Activity activity) {
         View rootView = activity.getWindow().getDecorView().getRootView();
-        if (searchView == null) {
-            searchView = getSearchView(rootView);
+        final SearchViewFacade searchView = getSearchView(rootView);
+        if (searchBoxViewModel == null && searchView != null) {
+            searchBoxViewModel = new SearchBoxViewModel(searchView);
         }
-        if (searchView != null) {
-            registerSearchView(activity, searchView);
+        if (searchBoxViewModel != null) {
+            registerSearchView(activity, searchBoxViewModel);
         }
     }
 
+
     private void registerSearchView(@NonNull final Activity activity, @NonNull final SearchViewFacade searchView) {
-        this.searchView = searchView;
+        this.searchBoxViewModel = new SearchBoxViewModel(searchView);
+        registerSearchView(activity, this.searchBoxViewModel);
+    }
+
+    /**
+     * Registers a SearchViewModel to trigger search requests on text change, replacing the current one if any.
+     *
+     * @param activity           The searchable activity, see {@link android.app.SearchableInfo}.
+     * @param searchBoxViewModel a SearchBoxViewModel which SearchView's query text will be used.
+     */
+    public void registerSearchView(@NonNull Activity activity, SearchBoxViewModel searchBoxViewModel) {
+        this.searchBoxViewModel = searchBoxViewModel;
+        final SearchViewFacade searchView = searchBoxViewModel.getSearchView();
         final SearchManager searchManager = (SearchManager) searchView.getContext().getSystemService(Context.SEARCH_SERVICE);
+        //noinspection ConstantConditions: Context.SEARCH_SERVICE must be a valid System service name
         searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
         searchView.setIconifiedByDefault(false);
-        linkSearchViewToSearcher(searchView);
+        searchBoxViewModel.addListener(this);
     }
 
 
@@ -243,20 +270,17 @@ public class InstantSearch {
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void enableProgressBar() {
         showProgressBar = true;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            progressBarDelay = DELAY_PROGRESSBAR_NO_ANIMATIONS; // Without animations, a delay is needed to avoid blinking.
-        }
 
-        if (searchView != null) {
+        if (searchBoxViewModel != null) {
             progressController = new SearchProgressController(new SearchProgressController.ProgressListener() {
                 @Override
                 public void onStart() {
-                    updateProgressBar(searchView, true);
+                    updateProgressBar(searchBoxViewModel, true);
                 }
 
                 @Override
                 public void onStop() {
-                    updateProgressBar(searchView, false);
+                    updateProgressBar(searchBoxViewModel, false);
                 }
             }, progressBarDelay);
         }
@@ -267,7 +291,7 @@ public class InstantSearch {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void disableProgressBar() {
-        updateProgressBar(searchView, false);
+        updateProgressBar(searchBoxViewModel, false);
         progressController.disable();
     }
 
@@ -310,7 +334,7 @@ public class InstantSearch {
     }
 
     /**
-     * Tells if an empty string in the {@link #searchView} is a valid search query.
+     * Tells if an empty string in the {@link #searchBoxViewModel} is a valid search query.
      *
      * @return {@code true} if an empty string triggers a search request.
      */
@@ -333,6 +357,7 @@ public class InstantSearch {
      *
      * @param widget a widget implementing ({@link AlgoliaResultsListener} || {@link AlgoliaErrorListener} || {@link AlgoliaSearcherListener}).
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void registerWidget(View widget) {
         prepareWidget(widget);
 
@@ -448,18 +473,17 @@ public class InstantSearch {
     }
 
     @SuppressLint("InflateParams"/* Giving a root to inflate causes the searchView to break when adding the progressBarView */)
-    private void updateProgressBar(@Nullable SearchViewFacade searchView, boolean showProgress) {
+    private void updateProgressBar(@Nullable SearchBoxViewModel searchBoxViewModel, boolean showProgress) {
         if (!showProgressBar) {
             return;
         }
 
-        if (searchView == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                searchView = new SearchViewFacade(searchMenu, searchMenuId);
-            }
+        if (searchBoxViewModel == null) {
+            this.searchBoxViewModel = new SearchBoxViewModel(new SearchViewFacade(searchMenu, searchMenuId));
         }
 
-        if (searchView != null) {
+        if (this.searchBoxViewModel != null) {
+            final SearchViewFacade searchView = this.searchBoxViewModel.getSearchView();
             int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
             LinearLayout searchPlate = (LinearLayout) searchView.findViewById(searchPlateId);
             if (searchPlate == null) { // Maybe it is an appcompat SearchView?
@@ -482,33 +506,6 @@ public class InstantSearch {
                 searchPlate.addView(LayoutInflater.from(searchView.getContext()).inflate(R.layout.loading_icon, null), 1);
             }
         }
-    }
-
-    private void linkSearchViewToSearcher(@NonNull final SearchViewFacade searchView) {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // SearchView.OnQueryTextListener
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                EventBus.getDefault().post(new QueryTextSubmitEvent());
-                // Nothing to do: the search has already been performed by `onQueryTextChange()`.
-                // We do try to close the keyboard, though.
-                searchView.clearFocus();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                EventBus.getDefault().post(new QueryTextChangeEvent(newText, searchView.getSearchView()));
-
-                if (newText.length() == 0 && !searchOnEmptyString) {
-                    return true;
-                }
-                searcher.setQuery(searcher.getQuery().setQuery(searchView.getQuery().toString()))
-                        .search();
-                return true;
-            }
-        });
     }
 
     @Nullable
