@@ -6,6 +6,7 @@ import android.databinding.BindingAdapter;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.SparseArray;
 import android.view.View;
 
 import com.algolia.instantsearch.model.Errors;
@@ -18,6 +19,8 @@ import java.util.Map;
  */
 public class BindingHelper {
     private static final HashMap<String, HashMap<Integer, String>> bindings = new HashMap<>();
+    private static final SparseArray<String> prefixes = new SparseArray<>();
+    private static final SparseArray<String> suffixes = new SparseArray<>();
 
     /**
      * @deprecated This should only be used internally by InstantSearch.
@@ -40,6 +43,13 @@ public class BindingHelper {
                 || (color != null && (highlighted == null || !highlighted))) // or color && highlighted != false
         {
             highlight(view, attribute, color != null ? color : RenderingHelper.DEFAULT_COLOR);
+        }
+
+        if (prefix != null) {
+            prefixes.put(view.getId(), prefix);
+        }
+        if (suffix != null) {
+            suffixes.put(view.getId(), suffix);
         }
     }
 
@@ -110,5 +120,27 @@ public class BindingHelper {
 
     private static void highlight(@NonNull View view, String attribute, @ColorRes int color) {
         RenderingHelper.getDefault().addHighlight(view, attribute, color);
+    }
+
+    /**
+     * Gets the full version of an attribute, with its eventual prefix and suffix.
+     *
+     * @param view         the view mapped to this attribute.
+     * @param rawAttribute the raw value of the attribute.
+     * @return the attribute value, prefixed and suffixed if any was specified on the view.
+     */
+    public static String getFullAttribute(View view, String rawAttribute) {
+        String attribute = "";
+        final int id = view.getId();
+        final String prefix = prefixes.get(id);
+        final String suffix = suffixes.get(id);
+        if (prefix != null) {
+            attribute = prefix;
+        }
+        attribute += rawAttribute;
+        if (suffix != null) {
+            attribute = prefix;
+        }
+        return attribute;
     }
 }

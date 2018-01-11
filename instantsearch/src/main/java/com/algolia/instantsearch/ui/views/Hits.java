@@ -465,7 +465,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
             for (Map.Entry<View, String> entry : holder.viewMap.entrySet()) {
                 final View view = entry.getKey();
                 final String attributeName = entry.getValue();
-                final String attributeValue = JSONUtils.getStringFromJSONPath(hit, attributeName);
+                final String attributeValue = BindingHelper.getFullAttribute(view, JSONUtils.getStringFromJSONPath(hit, attributeName));
                 if (view instanceof AlgoliaHitView) {
                     ((AlgoliaHitView) view).onUpdateView(hit);
                 } else if (view instanceof EditText) {

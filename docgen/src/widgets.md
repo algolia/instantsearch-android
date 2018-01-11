@@ -174,6 +174,21 @@ hits.setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
  });
 ```
 
+### Prefixing and suffixing attributes
+You might need to apply a prefix or suffix to a View's attribute value. A common use case is image attributes having only a relative path like `foo.png`, and requiring a prefix like `https://example.com/files/` to get the full image path.
+
+To achieve this, you can add either or both `prefix` / `suffix` attributes to your view. For example, if your attribute value is `foo` but you want the full value to be `https://example.com/files/foo.png`:
+```xml
+<ImageView
+    android:id="@+id/name"
+    algolia:attribute='@{"image"}'
+    algolia:prefix='@{"https://example.com/files/"}'
+    algolia:suffix='@{".png"}'/>
+```
+
+
+
+
 ### Highlighting
 <img src="assets/img/highlighting.png" class="img-object" align="right"/>
 
