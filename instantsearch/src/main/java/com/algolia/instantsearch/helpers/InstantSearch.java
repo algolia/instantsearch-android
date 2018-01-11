@@ -375,7 +375,7 @@ public class InstantSearch {
                 this.resultListeners.add(listener);
             }
             searcher.registerResultListener(listener);
-            prepareWidget(rootView, listener, refinementAttributes);
+            prepareWidget(listener, refinementAttributes);
         }
 
         // Register any AlgoliaErrorListener
@@ -385,14 +385,14 @@ public class InstantSearch {
                 this.errorListeners.add(listener);
             }
             searcher.registerErrorListener(listener);
-            prepareWidget(rootView, listener, refinementAttributes);
+            prepareWidget(listener, refinementAttributes);
         }
 
         // Register any AlgoliaSearcherListener
         final List<AlgoliaSearcherListener> searcherListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaSearcherListener.class);
         for (AlgoliaSearcherListener listener : searcherListeners) {
             listener.initWithSearcher(searcher);
-            prepareWidget(rootView, listener, refinementAttributes);
+            prepareWidget(listener, refinementAttributes);
         }
 
         return refinementAttributes;
@@ -405,12 +405,12 @@ public class InstantSearch {
      * @param listener the widget to prepare.
      */
     private void prepareWidget(Object listener) {
-        prepareWidget(null, listener, null);
+        prepareWidget(listener, null);
     }
 
-    private void prepareWidget(@Nullable View rootView, Object listener, @Nullable List<String> refinementAttributes) {
+    private void prepareWidget(Object listener, @Nullable List<String> refinementAttributes) {
         if (listener instanceof View) {
-            prepareWidget(rootView, (View) listener, refinementAttributes);
+            prepareWidget((View) listener, refinementAttributes);
         }
     }
 
@@ -418,11 +418,10 @@ public class InstantSearch {
      * Prepares the widget: adding it to widgets, applying its specific settings
      * and storing its eventual refinement attribute.
      *
-     * @param rootView             the widget's parent for getting an eventual empty view
      * @param widget               the widget to prepare.
      * @param refinementAttributes a List to store the widget's eventual refinement attributes.
      */
-    private void prepareWidget(@Nullable View rootView, View widget, @Nullable List<String> refinementAttributes) {
+    private void prepareWidget(View widget, @Nullable List<String> refinementAttributes) {
         if (!widgets.contains(widget)) { // process once each widget
             widgets.add(widget);
             if (widget instanceof Hits) {
