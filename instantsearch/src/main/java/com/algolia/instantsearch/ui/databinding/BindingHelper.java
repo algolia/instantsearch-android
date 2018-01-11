@@ -80,7 +80,7 @@ public class BindingHelper {
      * @return the variant name or {@code null} if unspecified.
      * @throws IllegalArgumentException if the view is not part of a databinding layout.
      */
-    public static @NonNull String getVariantForView(View view) {
+    public static @Nullable String getVariantForView(View view) {
         for (Map.Entry<String, HashMap<Integer, String>> entry : bindings.entrySet()) {
             if (entry.getValue().containsKey(view.getId())) {
                 return entry.getKey();
