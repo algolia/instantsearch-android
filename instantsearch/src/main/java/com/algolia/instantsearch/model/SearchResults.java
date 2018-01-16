@@ -11,9 +11,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Describes the results corresponding to a search request.
@@ -27,6 +29,8 @@ public class SearchResults {
     public Map<String, List<FacetValue>> disjunctiveFacets;
 
     // Mandatory attributes
+    /** Declarations of all hierarchical facets. */
+    private Map<String, List<String>> hierarchicalFacetDeclarations = new HashMap<>();
     /** The facets for the last results. */
     public Map<String, List<FacetValue>> facets;
     /** The response's hits. */
@@ -158,6 +162,49 @@ public class SearchResults {
             timeoutHits = content.getBoolean("timeoutHits");
         } catch (JSONException ignored) {
         }
+    }
+
+    public SearchResults(@NonNull JSONObject content, Map<String, List<String>> hierarchicalFacetDeclarations) {
+        this(content);
+        this.hierarchicalFacetDeclarations = hierarchicalFacetDeclarations;
+    }
+
+    @NonNull public List<HierarchicalFacetValue> getHierarchicalFacet(@NonNull String name) {
+        final String separator = " > ";
+        List<String> attributes = hierarchicalFacetDeclarations.get(name);
+        if (attributes == null || attributes.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<HierarchicalFacetValue> rootLevel = new ArrayList<>();
+        for (FacetValue facetValue : disjunctiveFacets.get(attributes.get(0))) {
+            rootLevel.add(new HierarchicalFacetValue(facetValue.value, facetValue.value, facetValue.count, null));
+        }
+        if (attributes.size() == 1) {
+            return rootLevel;
+        }
+        List<HierarchicalFacetValue> parentLevel = rootLevel;
+        for (int lvl = 1; lvl < attributes.size(); lvl++) {
+            String key = attributes.get(lvl);
+            Set<FacetValue> rests = new HashSet<>(disjunctiveFacets.get(key));
+            List<HierarchicalFacetValue> newLevel = new ArrayList<>();
+            for (HierarchicalFacetValue parent : parentLevel) {
+                Set<FacetValue> exclusions = new HashSet<>();
+                for (FacetValue facetValue : rests) {
+                    String[] components = facetValue.value.split(separator);
+                    if (!parent.displayValue.equals(components[lvl - 1])) {
+                        continue;
+                    }
+                    String displayValue = components[lvl];
+                    HierarchicalFacetValue facet = new HierarchicalFacetValue(facetValue.value, displayValue, facetValue.count, null);
+                    parent.children.add(facet);
+                    newLevel.add(facet);
+                    exclusions.add(facetValue);
+                }
+                rests.removeAll(exclusions);
+            }
+            parentLevel = newLevel;
+        }
+        return rootLevel;
     }
 
     @NonNull

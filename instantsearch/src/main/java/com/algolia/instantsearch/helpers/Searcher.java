@@ -86,6 +86,8 @@ public class Searcher {
 
     /** The List of attributes that will be treated as disjunctive facets. */
     private final List<String> disjunctiveFacets = new ArrayList<>();
+    /** The List of attributes that will be treated as hierarchical facets. */
+    private final Map<String, List<String>> hierarchicalFacets = new HashMap<>();
     /** The Map associating attributes with their respective refinement value(s). */
     private final Map<String, List<String>> refinementMap = new HashMap<>();
     /** The Map associating attributes with their respective numeric refinement value(s). */
@@ -246,7 +248,8 @@ public class Searcher {
                     if (content == null) {
                         Log.e("Algolia|Searcher", "content is null but error too.");
                     } else {
-                        EventBus.getDefault().post(new ResultEvent(content, query, currentRequestId));
+                        SearchResults results = new SearchResults(content, hierarchicalFacets);
+                        EventBus.getDefault().post(new ResultEvent(results, query, currentRequestId));
                         updateListeners(content, false);
                         updateFacetStats(content);
                     }
@@ -273,7 +276,6 @@ public class Searcher {
      */
     @NonNull
     public Searcher forwardBackendSearchResult(@NonNull JSONObject response) {
-        SearchResults results = new SearchResults(response);
         if (!hasHits(response)) {
             endReached = true;
         } else {
@@ -282,7 +284,8 @@ public class Searcher {
 
         updateListeners(response, false);
         updateFacetStats(response);
-        EventBus.getDefault().post(new ResultEvent(response, query, REQUEST_UNKNOWN));
+        SearchResults results = new SearchResults(response, hierarchicalFacets);
+        EventBus.getDefault().post(new ResultEvent(results, query, REQUEST_UNKNOWN));
         return this;
     }
 
@@ -321,7 +324,8 @@ public class Searcher {
                     } else {
                         endReached = true;
                     }
-                    EventBus.getDefault().post(new ResultEvent(content, query, currentRequestId));
+                    SearchResults results = new SearchResults(content, hierarchicalFacets);
+                    EventBus.getDefault().post(new ResultEvent(results, query, currentRequestId));
                 }
             }
         }));
@@ -451,6 +455,20 @@ public class Searcher {
         return this;
     }
 
+    /**
+     * Register given facets as hierarchical facets.
+     *
+     * @param name          facet name
+     * @param attributes    attribute names for different levels
+     * */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public Searcher addHierarchicalFacet(@NonNull String name, @NonNull List<String> attributes) {
+        hierarchicalFacets.put(name, attributes);
+        for (String attribute : attributes) {
+            addFacetRefinement(attribute, new ArrayList<String>(), true);
+        }
+        return this;
+    }
 
     /**
      * Removes a facet refinement for the next queries.
@@ -993,7 +1011,7 @@ public class Searcher {
 
     private void updateListeners(@NonNull JSONObject content, boolean isLoadingMore) {
         for (AlgoliaResultsListener listener : resultListeners) {
-            listener.onResults(new SearchResults(content), isLoadingMore);
+            listener.onResults(new SearchResults(content, hierarchicalFacets), isLoadingMore);
         }
     }
 
