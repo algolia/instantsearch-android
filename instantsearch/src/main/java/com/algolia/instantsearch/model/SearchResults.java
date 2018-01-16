@@ -170,7 +170,10 @@ public class SearchResults {
     }
 
     @NonNull public List<HierarchicalFacetValue> getHierarchicalFacet(@NonNull String name) {
-        final String separator = " > ";
+        return getHierarchicalFacet(name, " > ");
+    }
+
+    @NonNull public List<HierarchicalFacetValue> getHierarchicalFacet(@NonNull String name, @NonNull final String separator) {
         List<String> attributes = hierarchicalFacetDeclarations.get(name);
         if (attributes == null || attributes.isEmpty()) {
             return new ArrayList<>();
