@@ -1,17 +1,34 @@
 package com.algolia.instantsearch.ui.views;
 
 import com.algolia.instantsearch.InstantSearchTest;
+import com.algolia.instantsearch.model.FacetValue;
 
-import junit.framework.Assert;
-
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.Robolectric;
+import org.robolectric.android.controller.ActivityController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings("ConstantConditions") // NPE will count as failure
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
 public class RefinementListTest extends InstantSearchTest {
+    private RefinementList mRefinementList;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        ActivityController<TestActivity> activityController = Robolectric.buildActivity(TestActivity.class).create().start();
+        mRefinementList = activityController.get().getRefinementList();
+    }
+
     @Test(expected = IllegalStateException.class)
     public void shouldParseEmptyThrow() {
         String input = "";
@@ -64,5 +81,28 @@ public class RefinementListTest extends InstantSearchTest {
     public void shouldParseInvalidArrayThrow() throws IllegalStateException {
         final String input = "[foo, bar]";
         RefinementList.parseSortOrder(input);
+    }
+
+    @Test
+    public void shouldSortWithLessValuesThanLimit() {
+        //Given one facet value, and a RefinementList with limit=10
+        final RefinementList.FacetAdapter facetAdapter = (RefinementList.FacetAdapter) mRefinementList.getAdapter();
+        facetAdapter.addAll(Collections.singletonList(new FacetValue("foo", 1)));
+
+        // Expect successful sort and one facet stored
+        facetAdapter.sort(mRefinementList.getSortComparator());
+        assertThat(facetAdapter.getCount(), is(1));
+    }
+
+    @Test
+    public void shouldSortWithMoreValuesThanLimit() {
+        //Given two facet value, and a RefinementList with limit=1
+        final RefinementList.FacetAdapter facetAdapter = (RefinementList.FacetAdapter) mRefinementList.getAdapter();
+        facetAdapter.addAll(Arrays.asList(new FacetValue("foo", 1), new FacetValue("bar", 2)));
+        mRefinementList.setLimit(1);
+
+        // Expect successful sort and one facet stored
+        facetAdapter.sort(mRefinementList.getSortComparator());
+        assertThat(facetAdapter.getCount(), is(1));
     }
 }
