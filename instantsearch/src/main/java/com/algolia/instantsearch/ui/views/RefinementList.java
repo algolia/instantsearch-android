@@ -320,7 +320,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
      * @param limit any strictly positive integer.
      */
     public void setLimit(int limit) {
-        if (limit >= 0) {
+        if (limit <= 0) {
             throw new IllegalArgumentException("RefinementList's limit should be strictly positive.");
         }
         this.limit = limit;
