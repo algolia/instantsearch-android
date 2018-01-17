@@ -84,8 +84,10 @@ dependencies {
     compile "com.android.support:appcompat-v7:$VERSION_APPCOMPAT"
     compile "com.android.support:recyclerview-v7:$VERSION_APPCOMPAT"
 
+    // Unit tests
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:robolectric:3.4.2"
+    testCompile 'org.mockito:mockito-core:1.10.19'
 }
 
 task writeNewPom {
