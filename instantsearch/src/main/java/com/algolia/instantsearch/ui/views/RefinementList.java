@@ -69,19 +69,30 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
     public static final int DEFAULT_LIMIT = 10;
 
     @NonNull
-    private final String attribute;
-    private final int operation;
+    private String attribute;
+    private int operation = OPERATION_AND;
     /** The current sort order for displaying values. */
     @NonNull
-    private final List<String> sortOrder;
+    private List<String> sortOrder = DEFAULT_SORT;
     /** The current maximum amount of values to display. */
-    private int limit;
+    private int limit = DEFAULT_LIMIT;
 
     @NonNull
-    private final FacetAdapter adapter;
+    private FacetAdapter adapter;
     private Searcher searcher;
     @NonNull
     private Comparator<? super FacetValue> sortComparator;
+
+    /**
+     * Constructs a new RefinementList with the given context.
+     *
+     * @param context The Context the view is running in, through which it can
+     *                access the current theme, resources, etc.
+     */
+    public RefinementList(Context context) {
+        super(context);
+        initView(context, null);
+    }
 
     /**
      * Constructs a new RefinementList with the given context's theme and the supplied attribute set.
@@ -90,34 +101,36 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
      *                access the current theme, resources, etc.
      * @param attrs   The attributes of the XML tag that is inflating the view.
      */
-    @SuppressWarnings("ConstantConditions") /* We set to null only if isInEditMode and throw if attribute is null */
     public RefinementList(@NonNull final Context context, AttributeSet attrs) {
         super(context, attrs);
+        initView(context, attrs);
+    }
+
+    @SuppressWarnings("ConstantConditions") /* We set to null only if isInEditMode and throw if attribute is null */
+    private void initView(@NonNull Context context, @Nullable AttributeSet attrs) {
         if (isInEditMode()) {
-            operation = OPERATION_AND;
-            sortOrder = null;
-            sortComparator = null;
-            attribute = null;
-            adapter = null;
             return;
         }
 
-        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.RefinementList, 0, 0);
-        final TypedArray viewAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.View, 0, 0);
-        try {
-            attribute = viewAttributes.getString(R.styleable.View_attribute);
-            if (attribute == null) {
-                throw new IllegalStateException(Errors.REFINEMENTS_MISSING_ATTRIBUTE);
+        if (attrs != null) {
+            final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.RefinementList, 0, 0);
+            final TypedArray viewAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.View, 0, 0);
+            try {
+                //noinspection ConstantConditions if null, we'll throw on next line
+                attribute = viewAttributes.getString(R.styleable.View_attribute);
+                if (attribute == null) {
+                    throw new IllegalStateException(Errors.REFINEMENTS_MISSING_ATTRIBUTE);
+                }
+
+                operation = styledAttributes.getInt(R.styleable.RefinementList_operation, OPERATION_OR);
+                limit = styledAttributes.getInt(R.styleable.RefinementList_limit, DEFAULT_LIMIT);
+
+                ArrayList<String> parsedSortOrder = parseSortOrder(styledAttributes.getString(R.styleable.RefinementList_sortBy));
+                sortOrder = parsedSortOrder != null ? parsedSortOrder : DEFAULT_SORT;
+            } finally {
+                styledAttributes.recycle();
+                viewAttributes.recycle();
             }
-
-            operation = styledAttributes.getInt(R.styleable.RefinementList_operation, OPERATION_OR);
-            limit = styledAttributes.getInt(R.styleable.RefinementList_limit, DEFAULT_LIMIT);
-
-            ArrayList<String> parsedSortOrder = parseSortOrder(styledAttributes.getString(R.styleable.RefinementList_sortBy));
-            sortOrder = parsedSortOrder != null ? parsedSortOrder : DEFAULT_SORT;
-        } finally {
-            styledAttributes.recycle();
-            viewAttributes.recycle();
         }
 
         adapter = new FacetAdapter(context);
@@ -216,38 +229,6 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
         }
     }
 
-    /**
-     * Replaces the default sortComparator by a custom one respecting the {@link Comparator} interface.
-     *
-     * @param sortComparator a new Comparator to use for sorting facetValues.
-     * @see #DEFAULT_SORT
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void setSortComparator(@NonNull Comparator<? super FacetValue> sortComparator) {
-        this.sortComparator = sortComparator;
-    }
-
-    /**
-     * Gets the attribute that this RefinementList refines on.
-     *
-     * @return the RefinementList's {@link RefinementList#attribute}.
-     */
-    @Override
-    public @NonNull String getAttribute() {
-        return attribute;
-    }
-
-    /**
-     * Gets the operation used by this RefinementList for filtering.
-     *
-     * @return the RefinementList's {@link RefinementList#operation}.
-     * @see #OPERATION_AND
-     * @see #OPERATION_OR
-     */
-    public int getOperation() {
-        return operation;
-    }
-
     @Nullable
     static ArrayList<String> parseSortOrder(@Nullable String attribute) {
         if (attribute == null) {
@@ -297,7 +278,55 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
         }
     }
 
-    private class FacetAdapter extends ArrayAdapter<FacetValue> {
+    /**
+     * Gets the attribute that this RefinementList refines on.
+     *
+     * @return the RefinementList's {@link RefinementList#attribute}.
+     */
+    @Override
+    public @NonNull String getAttribute() {
+        return attribute;
+    }
+
+    /**
+     * Gets the operation used by this RefinementList for filtering.
+     *
+     * @return the RefinementList's {@link RefinementList#operation}.
+     * @see #OPERATION_AND
+     * @see #OPERATION_OR
+     */
+    public int getOperation() {
+        return operation;
+    }
+
+    @NonNull public Comparator<? super FacetValue> getSortComparator() {
+        return sortComparator;
+    }
+
+    /**
+     * Replaces the default sortComparator by a custom one respecting the {@link Comparator} interface.
+     *
+     * @param sortComparator a new Comparator to use for sorting facetValues.
+     * @see #DEFAULT_SORT
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void setSortComparator(@NonNull Comparator<? super FacetValue> sortComparator) {
+        this.sortComparator = sortComparator;
+    }
+
+    /**
+     * Sets the maximum amount of values to display.
+     *
+     * @param limit any strictly positive integer.
+     */
+    public void setLimit(int limit) {
+        if (limit >= 0) {
+            throw new IllegalArgumentException("RefinementList's limit should be strictly positive.");
+        }
+        this.limit = limit;
+    }
+
+    class FacetAdapter extends ArrayAdapter<FacetValue> {
         @NonNull
         private final List<FacetValue> facetValues;
         //TODO: Migrate in Searcher, e.g. to keep display on orientation change + no network
