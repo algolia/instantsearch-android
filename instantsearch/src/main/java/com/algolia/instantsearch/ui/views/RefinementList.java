@@ -353,7 +353,8 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
         public void sort(@NonNull Comparator<? super FacetValue> comparator) {
             Collections.sort(facetValues, comparator);
             super.clear();
-            for (int i = 0; i < limit; i++) {
+            final int max = Math.min(limit, facetValues.size());
+            for (int i = 0; i < max; i++) {
                 super.add(facetValues.get(i));
             }
         }
