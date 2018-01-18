@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Describes a faceted attribute's value and the associated count.
+ * Describes a faceted attribute's value with its children.
  */
 public class HierarchicalFacetValue extends FacetValue {
 
+    /** Value to be displayed. */
     @NonNull final public String displayValue;
+
+    /** Children facet values. */
     public List<HierarchicalFacetValue> children;
 
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
