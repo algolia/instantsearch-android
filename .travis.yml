@@ -33,6 +33,9 @@ before_script:
     # Avoid useless reupload of cache after every build, see https://docs.travis-ci.com/user/languages/android
     - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
     # Create Android Virtual Device with current config, saying no to custom build
-    - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+    #- echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+    #- emulator -avd test -no-audio -no-window &
+    #- android-wait-for-emulator
+
 script:
   - ./gradlew clean test
