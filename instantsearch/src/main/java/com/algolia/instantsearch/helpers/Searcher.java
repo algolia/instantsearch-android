@@ -40,9 +40,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
 import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
@@ -85,7 +87,7 @@ public class Searcher {
     private boolean endReached;
 
     /** The List of attributes that will be treated as disjunctive facets. */
-    private final List<String> disjunctiveFacets = new ArrayList<>();
+    private final Set<String> disjunctiveFacets = new HashSet<>();
     /** The List of attributes that will be treated as hierarchical facets. */
     private final Map<String, List<String>> hierarchicalFacets = new HashMap<>();
     /** The Map associating attributes with their respective refinement value(s). */
@@ -335,7 +337,7 @@ public class Searcher {
     private Request triggerSearch(CompletionHandler searchHandler) {
         Request searchRequest;
         if (disjunctiveFacets.size() != 0) {
-            searchRequest = index.searchDisjunctiveFacetingAsync(query, disjunctiveFacets, refinementMap, searchHandler);
+            searchRequest = index.searchDisjunctiveFacetingAsync(query, new ArrayList<>(disjunctiveFacets), refinementMap, searchHandler);
         } else {
             searchRequest = index.searchAsync(query, searchHandler);
         }
