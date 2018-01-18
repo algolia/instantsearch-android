@@ -1,3 +1,4 @@
+group: travis_latest
 language: android
 env:
   global:
