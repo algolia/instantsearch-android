@@ -2,6 +2,7 @@ package com.algolia.instantsearch.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.algolia.search.saas.Query;
 
@@ -10,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -164,37 +166,57 @@ public class SearchResults {
         }
     }
 
+    /**
+     * Build a SearchResult object from a raw JSON response, and pass the declarations of hierarchical facets.
+     *
+     * @param content the JSON content to parse.
+     * @param hierarchicalFacetDeclarations declarations of hierarchical facets.
+     */
     public SearchResults(@NonNull JSONObject content, Map<String, List<String>> hierarchicalFacetDeclarations) {
         this(content);
         this.hierarchicalFacetDeclarations = hierarchicalFacetDeclarations;
     }
 
-    @NonNull public List<HierarchicalFacetValue> getHierarchicalFacet(@NonNull String name) {
+    /**
+     * Fetch hierarchical facet values by name, with the default separator " > ".
+     *
+     * @param name hierarchical facet name.
+     */
+    @Nullable public List<HierarchicalFacetValue> getHierarchicalFacet(@NonNull String name) {
         return getHierarchicalFacet(name, " > ");
     }
 
-    @NonNull public List<HierarchicalFacetValue> getHierarchicalFacet(@NonNull String name, @NonNull final String separator) {
+    /**
+     * Fetch hierarchical facet values by name, with a custom separator.
+     *
+     * @param name hierarchical facet name.
+     * @param separator separator.
+     */
+    @Nullable public List<HierarchicalFacetValue> getHierarchicalFacet(@NonNull String name, @NonNull final String separator) {
         List<String> attributes = hierarchicalFacetDeclarations.get(name);
         if (attributes == null || attributes.isEmpty()) {
-            return new ArrayList<>();
+            return null;
         }
-        List<HierarchicalFacetValue> rootLevel = new ArrayList<>();
-        for (FacetValue facetValue : disjunctiveFacets.get(attributes.get(0))) {
-            rootLevel.add(new HierarchicalFacetValue(facetValue.value, facetValue.value, facetValue.count, null));
-        }
-        if (attributes.size() == 1) {
-            return rootLevel;
-        }
-        List<HierarchicalFacetValue> parentLevel = rootLevel;
-        for (int lvl = 1; lvl < attributes.size(); lvl++) {
+        HierarchicalFacetValue rootNode = new HierarchicalFacetValue("", "", 0, null);
+        List<HierarchicalFacetValue> parentLevel = Collections.singletonList(rootNode);
+        for (int lvl = 0; lvl < attributes.size(); lvl++) {
             String key = attributes.get(lvl);
-            Set<FacetValue> rests = new HashSet<>(disjunctiveFacets.get(key));
+            List<FacetValue> values = disjunctiveFacets.get(key);
+            if (values == null) {
+                Log.e("Algolia|SearchResults", "cannot find facet values for " + key);
+                return null;
+            }
+            // Remaining values for level `lvl`
+            Set<FacetValue> rests = new HashSet<>(values);
+            // All hierarchical facet value objects for level `lvl+1`
             List<HierarchicalFacetValue> newLevel = new ArrayList<>();
             for (HierarchicalFacetValue parent : parentLevel) {
+                // Found facet values, to be excluded for next iteration
                 Set<FacetValue> exclusions = new HashSet<>();
+                // Find children for `parent`
                 for (FacetValue facetValue : rests) {
                     String[] components = facetValue.value.split(separator);
-                    if (!parent.displayValue.equals(components[lvl - 1])) {
+                    if (lvl > 0 && !parent.displayValue.equals(components[lvl - 1])) {
                         continue;
                     }
                     String displayValue = components[lvl];
@@ -207,7 +229,7 @@ public class SearchResults {
             }
             parentLevel = newLevel;
         }
-        return rootLevel;
+        return rootNode.children;
     }
 
     @NonNull
