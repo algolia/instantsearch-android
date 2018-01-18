@@ -13,7 +13,7 @@ android:
   components:
     - tools
     - platform-tools
-    - tools # Fix SDK Tools https://github.com/travis-ci/travis-ci/issues/6122
+    - tools # Get newest SDK tools (https://docs.travis-ci.com/user/languages/android)
     - build-tools-26.0.2
     - android-26 # target SDK version
     - $ANDROID_TARGET
