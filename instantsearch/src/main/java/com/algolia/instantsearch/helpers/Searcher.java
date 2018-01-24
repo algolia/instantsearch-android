@@ -303,7 +303,7 @@ public class Searcher {
                     if (content == null) {
                         Log.e("Algolia|Searcher", "content is null but error too.");
                     } else {
-                        EventBus.getDefault().post(new ResultEvent(content, query, currentRequestId));
+                        EventBus.getDefault().post(new ResultEvent(Searcher.this, content, query, currentRequestId));
                         updateListeners(content, false);
                         updateFacetStats(content);
                     }
@@ -313,7 +313,7 @@ public class Searcher {
 
         final Request searchRequest;
         searchRequest = triggerSearch(searchHandler);
-        EventBus.getDefault().post(new SearchEvent(query, currentRequestId));
+        EventBus.getDefault().post(new SearchEvent(this, query, currentRequestId));
         pendingRequests.put(currentRequestId, searchRequest);
         return this;
     }
@@ -338,7 +338,7 @@ public class Searcher {
 
         updateListeners(response, false);
         updateFacetStats(response);
-        EventBus.getDefault().post(new ResultEvent(response, query, REQUEST_UNKNOWN));
+        EventBus.getDefault().post(new ResultEvent(this, response, query, REQUEST_UNKNOWN));
         return this;
     }
 
@@ -356,7 +356,7 @@ public class Searcher {
         }
         query.setPage(++lastRequestPage);
         final int currentRequestId = ++lastRequestId;
-        EventBus.getDefault().post(new SearchEvent(query, currentRequestId));
+        EventBus.getDefault().post(new SearchEvent(this, query, currentRequestId));
         pendingRequests.put(currentRequestId, triggerSearch(new CompletionHandler() {
             @Override
             public void requestCompleted(@NonNull JSONObject content, @Nullable AlgoliaException error) {
@@ -377,7 +377,7 @@ public class Searcher {
                     } else {
                         endReached = true;
                     }
-                    EventBus.getDefault().post(new ResultEvent(content, query, currentRequestId));
+                    EventBus.getDefault().post(new ResultEvent(Searcher.this, content, query, currentRequestId));
                 }
             }
         }));
@@ -502,7 +502,7 @@ public class Searcher {
         attributeRefinements.addAll(values);
         rebuildQueryFacetFilters();
         for (String value : values) {
-            EventBus.getDefault().post(new FacetRefinementEvent(ADD, attribute, value, isDisjunctive));
+            EventBus.getDefault().post(new FacetRefinementEvent(this, ADD, attribute, value, isDisjunctive));
         }
         return this;
     }
@@ -523,7 +523,7 @@ public class Searcher {
         List<String> attributeRefinements = getOrCreateRefinements(attribute);
         attributeRefinements.remove(value);
         rebuildQueryFacetFilters();
-        EventBus.getDefault().post(new FacetRefinementEvent(REMOVE, attribute, value, disjunctiveFacets.contains(attribute)));
+        EventBus.getDefault().post(new FacetRefinementEvent(this, REMOVE, attribute, value, disjunctiveFacets.contains(attribute)));
         return this;
     }
 
@@ -635,7 +635,7 @@ public class Searcher {
         refinements.put(refinement.operator, refinement);
         numericRefinements.put(refinement.attribute, refinements);
         rebuildQueryNumericFilters();
-        EventBus.getDefault().post(new NumericRefinementEvent(ADD, refinement));
+        EventBus.getDefault().post(new NumericRefinementEvent(this, ADD, refinement));
         return this;
     }
 
@@ -678,7 +678,7 @@ public class Searcher {
             numericRefinements.get(refinement.attribute).remove(refinement.operator);
         }
         rebuildQueryNumericFilters();
-        EventBus.getDefault().post(new NumericRefinementEvent(Operation.REMOVE, refinement));
+        EventBus.getDefault().post(new NumericRefinementEvent(this, Operation.REMOVE, refinement));
         return this;
     }
     //endregion
@@ -985,6 +985,17 @@ public class Searcher {
         });
     }
 
+    @Override public String toString() {
+        String key = null;
+        for (Map.Entry<String, Searcher> entry : instances.entrySet()) {
+            if (this.equals(entry.getValue())) {
+                key = entry.getKey();
+                break;
+            }
+        }
+        return "Searcher{" + (key != null ? key : "") + "}";
+    }
+
     private Searcher rebuildQueryFacetFilters() {
         JSONArray facetFilters = new JSONArray();
         for (Map.Entry<String, List<String>> entry : refinementMap.entrySet()) {
@@ -1031,11 +1042,11 @@ public class Searcher {
         return attributeRefinements;
     }
 
-    private void cancelRequest(Request request, Integer requestSeqNumber) {
+    private void cancelRequest(Request request, int requestSeqNumber) {
         if (!request.isCancelled()) {
             request.cancel();
             pendingRequests.delete(requestSeqNumber);
-            EventBus.getDefault().post(new CancelEvent(request, requestSeqNumber));
+            EventBus.getDefault().post(new CancelEvent(this, request, requestSeqNumber));
         } else {
             throw new IllegalStateException("cancelRequest was called on a request that was already canceled.");
         }
@@ -1057,7 +1068,7 @@ public class Searcher {
         for (AlgoliaErrorListener listener : errorListeners) {
             listener.onError(query, error);
         }
-        EventBus.getDefault().post(new ErrorEvent(error, query, currentRequestId));
+        EventBus.getDefault().post(new ErrorEvent(this, error, query, currentRequestId));
     }
 
 }

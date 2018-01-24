@@ -1,18 +1,24 @@
 package com.algolia.instantsearch.events;
 
+import android.support.annotation.NonNull;
+
+import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.search.saas.Request;
 
 /**
  * An event to let you react to cancellation of search requests.
  */
 @SuppressWarnings("WeakerAccess")
-public class CancelEvent {
+public class CancelEvent extends SearcherEvent {
     /** The request that has been cancelled.*/
-    public final Request request;
+    @NonNull public final Request request;
     /** the search request's identifier. */
-    public final Integer requestSeqNumber;
+    public final int requestSeqNumber;
 
-    public CancelEvent(final Request request, final Integer requestSeqNumber) {
+    public CancelEvent(@NonNull final Searcher searcher,
+                       @NonNull final Request request,
+                       int requestSeqNumber) {
+        super(searcher);
         this.request = request;
         this.requestSeqNumber = requestSeqNumber;
     }

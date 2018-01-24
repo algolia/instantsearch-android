@@ -10,9 +10,9 @@ import android.support.annotation.Nullable;
 @SuppressWarnings("WeakerAccess")
 public class QueryTextChangeEvent {
     /** The new query string. */
-    public final @NonNull String query;
+    @NonNull public final String query;
     /** The origin of the change. Can be a SearchView, an Intent, or a Searcher. */
-    public @Nullable final Object origin;
+    @Nullable public final Object origin;
 
     public QueryTextChangeEvent(final @NonNull String query, @Nullable Object origin) {
         this.query = query;
