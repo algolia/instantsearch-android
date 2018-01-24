@@ -258,7 +258,7 @@ public class Searcher {
     public Searcher search(@Nullable final String queryString, @Nullable final Object origin) {
         if (queryString != null) {
             query.setQuery(queryString);
-            EventBus.getDefault().post(new QueryTextChangeEvent(queryString, origin));
+            EventBus.getDefault().post(new QueryTextChangeEvent(queryString, origin == null ? this : origin));
         }
         endReached = false;
         lastRequestPage = 0;

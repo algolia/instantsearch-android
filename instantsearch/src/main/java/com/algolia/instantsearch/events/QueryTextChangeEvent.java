@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 public class QueryTextChangeEvent {
     /** The new query string. */
     public final @NonNull String query;
-    /** The origin of the change. */
+    /** The origin of the change. Can be a SearchView, an Intent, or a Searcher. */
     public @Nullable final Object origin;
 
     public QueryTextChangeEvent(final @NonNull String query, @Nullable Object origin) {
