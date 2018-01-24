@@ -77,14 +77,14 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
     private final @NonNull Integer hitsPerPage;
     private final int layoutId;
 
-    private @NonNull HitsAdapter adapter;
-    private @NonNull LayoutManager layoutManager;
-    private @NonNull Searcher searcher;
-    private @NonNull InputMethodManager imeManager;
+    @NonNull private HitsAdapter adapter;
+    @NonNull private LayoutManager layoutManager;
+    @NonNull private Searcher searcher;
+    @NonNull private InputMethodManager imeManager;
 
-    private @Nullable final InfiniteScrollListener infiniteScrollListener;
-    private @Nullable OnScrollListener keyboardListener;
-    private @Nullable View emptyView;
+    @Nullable private final InfiniteScrollListener infiniteScrollListener;
+    @Nullable private OnScrollListener keyboardListener;
+    @Nullable private View emptyView;
 
     /**
      * Constructs a new Hits with the given context's theme and the supplied attribute set.

@@ -233,7 +233,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
      * @return the RefinementList's {@link RefinementList#attribute}.
      */
     @Override
-    public @NonNull String getAttribute() {
+    @NonNull public String getAttribute() {
         return attribute;
     }
 

@@ -56,7 +56,6 @@ import static com.algolia.instantsearch.events.ResultEvent.REQUEST_UNKNOWN;
 @SuppressWarnings("UnusedReturnValue") // chaining
 public class Searcher {
     private static Map<String, Searcher> instances = new HashMap<>();
-    public static final String VARIANT_DEFAULT = null;
 
     /** The {@link Index} targeted by this Searcher. */
     private Index index;
@@ -565,7 +564,7 @@ public class Searcher {
      * @return the refinements enabled for the given attribute, or {@code null} if there is none.
      */
     @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"}) // For library users
-    public @Nullable List<String> getFacetRefinements(@NonNull String attribute) {
+    @Nullable public List<String> getFacetRefinements(@NonNull String attribute) {
         return refinementMap.get(attribute);
     }
 
@@ -706,7 +705,7 @@ public class Searcher {
      * @return the refinement value, or {@code null} if there is none.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public @Nullable Boolean getBooleanFilter(String attribute) {
+    @Nullable public Boolean getBooleanFilter(String attribute) {
         return booleanFilterMap.get(attribute);
     }
 
@@ -882,7 +881,7 @@ public class Searcher {
      * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public @NonNull Searcher setIndex(@NonNull String indexName) {
+    @NonNull public Searcher setIndex(@NonNull String indexName) {
         index = client.getIndex(indexName);
         query.setPage(0);
         return this;
