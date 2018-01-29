@@ -40,9 +40,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
 import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
@@ -85,7 +87,9 @@ public class Searcher {
     private boolean endReached;
 
     /** The List of attributes that will be treated as disjunctive facets. */
-    private final List<String> disjunctiveFacets = new ArrayList<>();
+    private final Set<String> disjunctiveFacets = new HashSet<>();
+    /** The List of attributes that will be treated as hierarchical facets. */
+    private final Map<String, List<String>> hierarchicalFacets = new HashMap<>();
     /** The Map associating attributes with their respective refinement value(s). */
     private final Map<String, List<String>> refinementMap = new HashMap<>();
     /** The Map associating attributes with their respective numeric refinement value(s). */
@@ -142,7 +146,7 @@ public class Searcher {
         return create(new Client(appId, apiKey).getIndex(indexName));
     }
 
-    private Searcher(@NonNull final Index index) {
+    public Searcher(@NonNull final Index index) {
         this.index = index;
         this.client = index.getClient();
         query = new Query();
@@ -246,7 +250,8 @@ public class Searcher {
                     if (content == null) {
                         Log.e("Algolia|Searcher", "content is null but error too.");
                     } else {
-                        EventBus.getDefault().post(new ResultEvent(content, query, currentRequestId));
+                        SearchResults results = new SearchResults(content, hierarchicalFacets);
+                        EventBus.getDefault().post(new ResultEvent(results, query, currentRequestId));
                         updateListeners(content, false);
                         updateFacetStats(content);
                     }
@@ -273,7 +278,6 @@ public class Searcher {
      */
     @NonNull
     public Searcher forwardBackendSearchResult(@NonNull JSONObject response) {
-        SearchResults results = new SearchResults(response);
         if (!hasHits(response)) {
             endReached = true;
         } else {
@@ -282,7 +286,8 @@ public class Searcher {
 
         updateListeners(response, false);
         updateFacetStats(response);
-        EventBus.getDefault().post(new ResultEvent(response, query, REQUEST_UNKNOWN));
+        SearchResults results = new SearchResults(response, hierarchicalFacets);
+        EventBus.getDefault().post(new ResultEvent(results, query, REQUEST_UNKNOWN));
         return this;
     }
 
@@ -321,7 +326,8 @@ public class Searcher {
                     } else {
                         endReached = true;
                     }
-                    EventBus.getDefault().post(new ResultEvent(content, query, currentRequestId));
+                    SearchResults results = new SearchResults(content, hierarchicalFacets);
+                    EventBus.getDefault().post(new ResultEvent(results, query, currentRequestId));
                 }
             }
         }));
@@ -331,7 +337,7 @@ public class Searcher {
     private Request triggerSearch(CompletionHandler searchHandler) {
         Request searchRequest;
         if (disjunctiveFacets.size() != 0) {
-            searchRequest = index.searchDisjunctiveFacetingAsync(query, disjunctiveFacets, refinementMap, searchHandler);
+            searchRequest = index.searchDisjunctiveFacetingAsync(query, new ArrayList<>(disjunctiveFacets), refinementMap, searchHandler);
         } else {
             searchRequest = index.searchAsync(query, searchHandler);
         }
@@ -451,6 +457,20 @@ public class Searcher {
         return this;
     }
 
+    /**
+     * Register given facets as hierarchical facets.
+     *
+     * @param name          facet name
+     * @param attributes    attribute names for different levels
+     * */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public Searcher addHierarchicalFacet(@NonNull String name, @NonNull List<String> attributes) {
+        hierarchicalFacets.put(name, attributes);
+        for (String attribute : attributes) {
+            addFacetRefinement(attribute, new ArrayList<String>(), true);
+        }
+        return this;
+    }
 
     /**
      * Removes a facet refinement for the next queries.
@@ -754,6 +774,24 @@ public class Searcher {
         return this;
     }
 
+    /**
+     * Unregister result listener.
+     *
+     * @param resultListener the result listener to be deleted
+     */
+    public void unregisterResultListenenr(@NonNull AlgoliaResultsListener resultListener) {
+        resultListeners.remove(resultListener);
+    }
+
+    /**
+     * Unregister error listener.
+     *
+     * @param errorListener the error listener to be deleted
+     */
+    public void unregisterErrorListener(@NonNull AlgoliaErrorListener errorListener) {
+        errorListeners.remove(errorListener);
+    }
+
     //TODO REORGANIZE
 
     /**
@@ -993,7 +1031,7 @@ public class Searcher {
 
     private void updateListeners(@NonNull JSONObject content, boolean isLoadingMore) {
         for (AlgoliaResultsListener listener : resultListeners) {
-            listener.onResults(new SearchResults(content), isLoadingMore);
+            listener.onResults(new SearchResults(content, hierarchicalFacets), isLoadingMore);
         }
     }
 

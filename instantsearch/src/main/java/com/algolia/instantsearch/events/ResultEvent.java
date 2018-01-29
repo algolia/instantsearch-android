@@ -3,8 +3,6 @@ package com.algolia.instantsearch.events;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.Query;
 
-import org.json.JSONObject;
-
 /**
  * An event to let you react to new search results.
  */
@@ -19,8 +17,8 @@ public class ResultEvent {
 
     public static final int REQUEST_UNKNOWN = -1;
 
-    public ResultEvent(final JSONObject json, final Query query, final int requestSeqNumber) {
-        this.results = new SearchResults(json);
+    public ResultEvent(final SearchResults results, final Query query, final int requestSeqNumber) {
+        this.results = results;
         this.query = query;
         this.requestSeqNumber = requestSeqNumber;
     }

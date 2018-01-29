@@ -20,6 +20,6 @@ public class FacetValue {
     @NonNull
     @Override
     public String toString() {
-        return "FacetValue{" + "value='" + value + ", count=" + count + '}';
+        return "FacetValue{" + "value='" + value + "', count=" + count + '}';
     }
 }

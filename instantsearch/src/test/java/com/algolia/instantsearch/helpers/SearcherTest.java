@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.algolia.instantsearch.Helpers;
 import com.algolia.instantsearch.InstantSearchTest;
 import com.algolia.instantsearch.model.AlgoliaResultsListener;
+import com.algolia.instantsearch.model.HierarchicalFacetValue;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.Client;
@@ -15,7 +16,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class SearcherTest extends InstantSearchTest {
     @NonNull
@@ -190,4 +195,32 @@ public class SearcherTest extends InstantSearchTest {
         Assert.assertEquals("The query should now contain no facets.", 0, facets.length);
     }
 
+    @Test
+    public void testHierarchicalFacets() throws Exception {
+        JSONObject content = new JSONObject("{\"hits\":[],\"nbHits\":0,\"page\":0,\"nbPages\":0,\"hitsPerPage\":10,\"processingTimeMS\":1,\"facets\":{},\"exhaustiveFacetsCount\":true,\"exhaustiveNbHits\":true,\"query\":\"\",\"params\":\"\",\"index\":\"\",\"serverUsed\":\"b1-fr-1.algolia.net\",\"parsedQuery\":\"\",\"timeoutCounts\":false,\"timeoutHits\":false,\"disjunctiveFacets\":{\"number.lvl0\":{\"one\":11,\"two\":5,\"three\":5},\"number.lvl1\":{\"one > ten\":4,\"one > eleven\":1,\"three > thirty\":3,\"three > thirty one\":2},\"number.lvl2\":{\"one > ten > hundred\":6}}}");
+        Map<String, List<String>> declarations = new HashMap<>();
+        declarations.put("number", Arrays.asList("number.lvl0", "number.lvl1", "number.lvl2"));
+        SearchResults results = new SearchResults(content, declarations);
+        List<HierarchicalFacetValue> menu = results.getHierarchicalFacet("number");
+        System.out.println(menu);
+        HierarchicalFacetValue one = null;
+        for (HierarchicalFacetValue facetValue : menu) {
+            if ("one".equals(facetValue.displayValue)) {
+                one = facetValue;
+                break;
+            }
+        }
+        Assert.assertNotNull(one);
+        HierarchicalFacetValue ten = null;
+        for (HierarchicalFacetValue facetValue : one.children) {
+            if ("ten".equals(facetValue.displayValue)) {
+                ten = facetValue;
+                break;
+            }
+        }
+        Assert.assertNotNull(ten);
+        HierarchicalFacetValue hundred = ten.children.get(0);
+        Assert.assertEquals("hundred", hundred.displayValue);
+        Assert.assertEquals("one > ten > hundred", hundred.value);
+    }
 }
