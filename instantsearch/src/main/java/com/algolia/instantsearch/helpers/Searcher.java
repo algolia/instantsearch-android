@@ -142,7 +142,7 @@ public class Searcher {
         return create(new Client(appId, apiKey).getIndex(indexName));
     }
 
-    private Searcher(@NonNull final Index index) {
+    public Searcher(@NonNull final Index index) {
         this.index = index;
         this.client = index.getClient();
         query = new Query();
