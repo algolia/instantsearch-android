@@ -63,6 +63,9 @@ public class Searcher {
     private final Client client;
     /** The current state of the search {@link Query}. */
     private Query query;
+    /** The variant identifying this Searcher. */
+    @SuppressWarnings("WeakerAccess") // For library users
+    public final String variant;
 
     /** The {@link AlgoliaResultsListener listeners} that will receive search results. */
     private final List<AlgoliaResultsListener> resultListeners = new ArrayList<>();
@@ -164,7 +167,7 @@ public class Searcher {
         final String key = index.getIndexName();
         Searcher instance = instances.get(key);
         if (instance == null) {
-            instance = new Searcher(index);
+            instance = new Searcher(index, key);
             instances.put(key, instance);
         } else {
             throw new IllegalStateException("There is already a Searcher for index " + key + ", you must specify a variant.");
@@ -175,27 +178,28 @@ public class Searcher {
     /**
      * Constructs the Searcher from an existing {@link Index}, eventually replacing the existing searcher for {@code variant}.
      *
-     * @param variant an identifier to differentiate this Searcher from eventual others using the same index.
+     * @param variant an identifier to differentiate this Searcher from eventual others using the same index. Defaults to the index's name.
      * @param index   an Index initialized and eventually configured.
      * @return the new instance.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public static Searcher create(@NonNull final Index index, String variant) {
+    public static Searcher create(@NonNull final Index index, @NonNull String variant) {
         boolean shouldReplace = false;
         Searcher instance = instances.get(variant);
         if (instance != null) {
             shouldReplace = instance.getIndex() != index;
         }
         if (instance == null || shouldReplace) {
-            instance = new Searcher(index);
+            instance = new Searcher(index, variant);
             instances.put(variant, instance);
         }
         return instance;
     }
 
-    private Searcher(@NonNull final Index index) {
+    private Searcher(@NonNull final Index index, @NonNull String variant) {
         this.index = index;
         this.client = index.getClient();
+        this.variant = variant;
         query = new Query();
         client.addUserAgent(new Client.LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME)));
     }

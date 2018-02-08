@@ -132,6 +132,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                 }
             }
 
+            BindingHelper.setVariantForView(this, attrs);
         } finally {
             styledAttributes.recycle();
         }

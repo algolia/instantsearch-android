@@ -26,6 +26,7 @@ import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.SearchBoxViewModel;
+import com.algolia.instantsearch.ui.databinding.BindingHelper;
 import com.algolia.instantsearch.ui.views.Hits;
 import com.algolia.instantsearch.ui.views.RefinementList;
 import com.algolia.instantsearch.ui.views.SearchBox;
@@ -389,34 +390,44 @@ public class InstantSearch {
     private List<String> processAllListeners(View rootView) {
         List<String> refinementAttributes = new ArrayList<>();
 
-        // Register any AlgoliaResultsListener
+        // Register any AlgoliaResultsListener (unless it has a different variant than searcher)
         final List<AlgoliaResultsListener> resultListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaResultsListener.class);
         if (resultListeners.size() == 0) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_RESULT_LISTENER);
         }
         for (AlgoliaResultsListener listener : resultListeners) {
             if (!this.resultListeners.contains(listener)) {
-                this.resultListeners.add(listener);
+                final String variant = BindingHelper.getVariantForView((View) listener);
+                if (variant == null || searcher.variant.equals(variant)) {
+                    this.resultListeners.add(listener);
+                    searcher.registerResultListener(listener);
+                    prepareWidget(listener, refinementAttributes);
+                }
             }
-            searcher.registerResultListener(listener);
-            prepareWidget(listener, refinementAttributes);
+
         }
 
-        // Register any AlgoliaErrorListener
+        // Register any AlgoliaErrorListener (unless it has a different variant than searcher)
         final List<AlgoliaErrorListener> errorListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaErrorListener.class);
         for (AlgoliaErrorListener listener : errorListeners) {
             if (!this.errorListeners.contains(listener)) {
-                this.errorListeners.add(listener);
+                final String variant = BindingHelper.getVariantForView((View) listener);
+                if (variant == null || searcher.variant.equals(variant)) {
+                    this.errorListeners.add(listener);
+                }
             }
             searcher.registerErrorListener(listener);
             prepareWidget(listener, refinementAttributes);
         }
 
-        // Register any AlgoliaSearcherListener
+        // Register any AlgoliaSearcherListener (unless it has a different variant than searcher)
         final List<AlgoliaSearcherListener> searcherListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaSearcherListener.class);
         for (AlgoliaSearcherListener listener : searcherListeners) {
-            listener.initWithSearcher(searcher);
-            prepareWidget(listener, refinementAttributes);
+            final String variant = BindingHelper.getVariantForView((View) listener);
+            if (variant == null || searcher.variant.equals(variant)) {
+                listener.initWithSearcher(searcher);
+                prepareWidget(listener, refinementAttributes);
+            }
         }
 
         return refinementAttributes;

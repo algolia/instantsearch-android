@@ -34,11 +34,23 @@ public class SearcherTest extends InstantSearchTest {
         Searcher.destroyAll();
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void instantiatesDuplicateNoVariantThrows() {
+        final String indexName = "asd";
+        final Client client = initClient();
+        Searcher.create(client.getIndex(indexName));
+        Searcher.create(client.getIndex(indexName));
+    }
+
     @Test public void instantiatesAccordingToVariant() {
         final String indexName = "asd";
         final Client client = initClient();
-        Searcher searcher = Searcher.create(client.getIndex(indexName));
-        Searcher searcher2 = Searcher.create(client.getIndex(indexName + "_foo"));
+        Searcher searcher = Searcher.create(client.getIndex(indexName), "foo");
+        Searcher searcher2 = Searcher.create(client.getIndex(indexName), "foo");
+        Assert.assertSame("Two searchers with same indexNames and variants should be the same instance.", searcher, searcher2);
+
+        searcher = Searcher.create(client.getIndex(indexName));
+        searcher2 = Searcher.create(client.getIndex(indexName + "_foo"));
         Assert.assertNotSame("Two searchers with different indexNames and no variants should be different instance.", searcher, searcher2);
 
         searcher = Searcher.create(client.getIndex(indexName), "variant");

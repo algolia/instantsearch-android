@@ -2,13 +2,16 @@ package com.algolia.instantsearch.ui.databinding;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
 
+import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
 
 import java.util.HashMap;
@@ -18,6 +21,7 @@ import java.util.Map;
  * Contains the {@link BindingAdapter} used for gathering {@link BindingHelper#bindings bound attributes}.
  */
 public class BindingHelper {
+    /** Associates a variant with its bindings (associating each databound view's id to its attribute). */
     private static final HashMap<String, HashMap<Integer, String>> bindings = new HashMap<>();
     private static final SparseArray<String> prefixes = new SparseArray<>();
     private static final SparseArray<String> suffixes = new SparseArray<>();
@@ -74,6 +78,49 @@ public class BindingHelper {
     }
 
     /**
+     * Associates programmatically a view with its variant, taking it from its `variant` layout attribute.
+     *
+     * @param view  any existing view.
+     * @param attrs the view's AttributeSet.
+     * @return the previous variant for this view, if any.
+     */
+    @Nullable
+    public static String setVariantForView(@NonNull View view, @NonNull AttributeSet attrs) {
+        String previousVariant;
+        final TypedArray styledAttributes = view.getContext().getTheme()
+                .obtainStyledAttributes(attrs, R.styleable.View, 0, 0);
+        try {
+            previousVariant = setVariantForView(view, styledAttributes
+                    .getString(R.styleable.View_variant));
+        } finally {
+            styledAttributes.recycle();
+        }
+
+        return previousVariant;
+    }
+
+    /**
+     * Associates programmatically a view with a variant.
+     *
+     * @param view any existing view.
+     * @return the previous variant for this view, if any.
+     */
+    @Nullable public static String setVariantForView(@NonNull View view, @Nullable String variant) {
+        String previousVariant = null;
+        String previousAttribute = null;
+        for (Map.Entry<String, HashMap<Integer, String>> entry : bindings.entrySet()) {
+            if (entry.getValue().containsKey(view.getId())) {
+                previousVariant = entry.getKey();
+                previousAttribute = entry.getValue().get(view.getId());
+                bindings.remove(previousVariant);
+                break;
+            }
+        }
+        mapAttribute(previousAttribute, view.getId(), variant);
+        return previousVariant;
+    }
+
+    /**
      * Returns the variant associated with the view.
      *
      * @param view a View that is associated to an index through databinding.
@@ -99,12 +146,12 @@ public class BindingHelper {
         if (viewId == -1) {
             throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID, attribute));
         }
-        HashMap<Integer, String> indexMap = bindings.get(variant);
-        if (indexMap == null) {
-            indexMap = new HashMap<>();
-            bindings.put(variant, indexMap);
+        HashMap<Integer, String> variantMap = bindings.get(variant);
+        if (variantMap == null) {
+            variantMap = new HashMap<>();
+            bindings.put(variant, variantMap);
         }
-        indexMap.put(viewId, attribute);
+        variantMap.put(viewId, attribute);
     }
 
     private static void throwBindingError(@NonNull View view, String message) {
