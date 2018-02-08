@@ -223,8 +223,7 @@ public class InstantSearch {
 
 
     private void registerSearchView(@NonNull final Activity activity, @NonNull final SearchViewFacade searchView) {
-        this.searchBoxViewModel = new SearchBoxViewModel(searchView);
-        registerSearchView(activity, this.searchBoxViewModel);
+        registerSearchView(activity, new SearchBoxViewModel(searchView));
     }
 
     /**
