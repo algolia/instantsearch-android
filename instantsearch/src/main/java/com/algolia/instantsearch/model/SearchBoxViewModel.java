@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.model;
 
 import android.support.annotation.NonNull;
+import android.widget.SearchView;
 
 import com.algolia.instantsearch.events.QueryTextChangeEvent;
 import com.algolia.instantsearch.events.QueryTextSubmitEvent;
@@ -21,12 +22,23 @@ public class SearchBoxViewModel {
     private List<InstantSearch> listeners = new ArrayList<>();
 
     /**
-     * Constructs a {@link SearchBoxViewModel} from an algolia SearchBox.
+     * Constructs a {@link SearchBoxViewModel} from an algolia SearchBox or a support SearchView.
      *
-     * @param searchBox a SearchBox to wrap.
+     * @param searchView a SearchView to wrap.
      */
-    public SearchBoxViewModel(android.support.v7.widget.SearchView searchBox) {
-        this.searchViewFacade = new SearchViewFacade(searchBox);
+    @SuppressWarnings("unused") // For library users
+    public SearchBoxViewModel(@NonNull android.support.v7.widget.SearchView searchView) {
+        this.searchViewFacade = new SearchViewFacade(searchView);
+    }
+
+    /**
+     * Constructs a {@link SearchBoxViewModel} from a SearchView.
+     *
+     * @param searchView a SearchView to wrap.
+     */
+    @SuppressWarnings("unused") // For library users
+    public SearchBoxViewModel(@NonNull SearchView searchView) {
+        this.searchViewFacade = new SearchViewFacade(searchView);
     }
 
     /**
