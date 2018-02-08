@@ -74,7 +74,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
     /** The minimum number of items remaining below the fold before loading more. */
     private final int remainingItemsBeforeLoading;
 
-    private final @NonNull Integer hitsPerPage;
+    @NonNull private final Integer hitsPerPage;
     private final int layoutId;
 
     @NonNull private HitsAdapter adapter;

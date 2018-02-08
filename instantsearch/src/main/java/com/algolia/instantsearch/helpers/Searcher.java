@@ -206,7 +206,6 @@ public class Searcher {
 
     /**
      * Destroys all Searcher instances.
-     *
      */
     public static void destroyAll() {
         instances.clear();
@@ -616,8 +615,8 @@ public class Searcher {
      * @return a {@link NumericRefinement} describing the current refinement for these parameters, or {@code null} if there is none.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public @Nullable
-    NumericRefinement getNumericRefinement(@NonNull String attribute, int operator) {
+    @Nullable
+    public NumericRefinement getNumericRefinement(@NonNull String attribute, int operator) {
         NumericRefinement.checkOperatorIsValid(operator);
         final SparseArray<NumericRefinement> attributeRefinements = numericRefinements.get(attribute);
         return attributeRefinements == null ? null : attributeRefinements.get(operator);
