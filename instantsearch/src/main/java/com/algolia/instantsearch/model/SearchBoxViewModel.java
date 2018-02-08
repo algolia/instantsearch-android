@@ -79,10 +79,11 @@ public class SearchBoxViewModel {
             @Override
             public boolean onQueryTextChange(String newText) {
                 EventBus.getDefault().post(new QueryTextChangeEvent(newText, searchViewFacade.getSearchView()));
+                final String query = searchViewFacade.getQuery().toString();
 
                 for (InstantSearch instantSearch : listeners) {
                     if (newText.length() != 0 || instantSearch.hasSearchOnEmptyString()) {
-                        instantSearch.search(searchViewFacade.getQuery().toString());
+                        instantSearch.search(query);
                     }
                 }
                 return true;
