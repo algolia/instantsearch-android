@@ -466,6 +466,10 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
             for (Map.Entry<View, String> entry : holder.viewMap.entrySet()) {
                 final View view = entry.getKey();
                 final String attributeName = entry.getValue();
+                if (attributeName == null) {
+                    Log.d("Hits", "View " + view.toString() + " is bound to null attribute, skipping");
+                    continue;
+                }
                 final String attributeValue = BindingHelper.getFullAttribute(view, JSONUtils.getStringFromJSONPath(hit, attributeName));
                 if (view instanceof AlgoliaHitView) {
                     ((AlgoliaHitView) view).onUpdateView(hit);
@@ -577,7 +581,9 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                 // Store every annotated view for indexVariant with its attribute name
                 final HashMap<Integer, String> attributes = BindingHelper.getBindings(indexVariant);
                 for (Map.Entry<Integer, String> entry : attributes.entrySet()) {
-                    viewMap.put(itemView.findViewById(entry.getKey()), entry.getValue());
+                    if (entry.getValue() != null) { // attribute can be null e.g. if view is a Hits
+                        viewMap.put(itemView.findViewById(entry.getKey()), entry.getValue());
+                    }
                 }
             }
         }
