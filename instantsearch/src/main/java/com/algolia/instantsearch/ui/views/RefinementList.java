@@ -229,38 +229,6 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
         }
     }
 
-    /**
-     * Replaces the default sortComparator by a custom one respecting the {@link Comparator} interface.
-     *
-     * @param sortComparator a new Comparator to use for sorting facetValues.
-     * @see #DEFAULT_SORT
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void setSortComparator(@NonNull Comparator<? super FacetValue> sortComparator) {
-        this.sortComparator = sortComparator;
-    }
-
-    /**
-     * Gets the attribute that this RefinementList refines on.
-     *
-     * @return the RefinementList's {@link RefinementList#attribute}.
-     */
-    @Override
-    @NonNull public String getAttribute() {
-        return attribute;
-    }
-
-    /**
-     * Gets the operation used by this RefinementList for filtering.
-     *
-     * @return the RefinementList's {@link RefinementList#operation}.
-     * @see #OPERATION_AND
-     * @see #OPERATION_OR
-     */
-    public int getOperation() {
-        return operation;
-    }
-
     @Nullable
     static ArrayList<String> parseSortOrder(@Nullable String attribute) {
         if (attribute == null) {
