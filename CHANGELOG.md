@@ -1,6 +1,18 @@
 # Changelog
 
-# 1.4.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.3.0...v) (2017-12-13)
+<a name=""></a>
+# 1.4.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.4.0...1.4.1) (2018-01-17)
+
+### Bug Fixes
+
+* **BindingAdapter:** Don't highlight when highlighted=false ([7c7467d](https://github.com/algolia/instantsearch-android/commit/7c7467d))
+* **SearchBox:** Don't require NonNull attrs ([8bcfd25](https://github.com/algolia/instantsearch-android/commit/8bcfd25))
+* **Searcher:** Only add LibraryVersion once to any client ([3efa187](https://github.com/algolia/instantsearch-android/commit/3efa187))
+* **Searcher:** Restore missing import ([3acbe49](https://github.com/algolia/instantsearch-android/commit/3acbe49))
+* **Searcher:** searchOnEmptyString was inverted ([6c55602](https://github.com/algolia/instantsearch-android/commit/6c55602))
+
+
+# 1.4.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.3.0...1.4.0) (2017-12-13)
 
 ### Bug Fixes
 
@@ -17,7 +29,7 @@
 * **Searcher:** Implement getFacetRefinements ([8711c1c](https://github.com/algolia/instantsearch-android/commit/8711c1c))
 
 
-# 1.3.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.2.3...v) (2017-11-29)
+# 1.3.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.2.3...1.3.0) (2017-11-29)
 This release adds **Voice Search** capabilities to the SearchBox. See the associated [guide](https://community.algolia.com/instantsearch-android/widgets.html#voice-search).
 
 ### Bug Fixes

@@ -22,6 +22,7 @@ import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.model.FacetStat;
 import com.algolia.instantsearch.model.NumericRefinement;
 import com.algolia.instantsearch.model.SearchResults;
+import com.algolia.search.saas.AbstractClient.LibraryVersion;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.CompletionHandler;
@@ -36,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -201,7 +203,10 @@ public class Searcher {
         this.client = index.getClient();
         this.variant = variant;
         query = new Query();
-        client.addUserAgent(new Client.LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME)));
+        final LibraryVersion version = new LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME));
+        if (!Arrays.asList(client.getUserAgents()).contains(version)) {
+            client.addUserAgent(version);
+        }
     }
 
     /**

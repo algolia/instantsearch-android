@@ -1,17 +1,34 @@
 package com.algolia.instantsearch.ui.views;
 
 import com.algolia.instantsearch.InstantSearchTest;
+import com.algolia.instantsearch.model.FacetValue;
 
-import junit.framework.Assert;
-
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.Robolectric;
+import org.robolectric.android.controller.ActivityController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings("ConstantConditions") // NPE will count as failure
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
 public class RefinementListTest extends InstantSearchTest {
+    private RefinementList mRefinementList;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        ActivityController<TestActivity> activityController = Robolectric.buildActivity(TestActivity.class).create().start();
+        mRefinementList = activityController.get().getRefinementList();
+    }
+
     @Test(expected = IllegalStateException.class)
     public void shouldParseEmptyThrow() {
         String input = "";
@@ -22,7 +39,7 @@ public class RefinementListTest extends InstantSearchTest {
     public void shouldParseNullToNull() {
         final ArrayList<String> output = RefinementList.parseSortOrder(null);
         //noinspection ConstantConditions warning means test passes for IDE ;)
-        Assert.assertEquals("Parsing a null string should result in a null List.", null, output);
+        assertThat("Parsing a null string should result in a null List.", output, nullValue());
     }
 
     @Test
@@ -35,8 +52,8 @@ public class RefinementListTest extends InstantSearchTest {
                 RefinementList.SORT_COUNT_DESC);
         for (String input : inputs) {
             ArrayList<String> output = RefinementList.parseSortOrder(input);
-            Assert.assertEquals(String.format("Parsing a single valid value %s should result in a singletonList.", input), 1, output.size());
-            Assert.assertTrue("The resulting list should contain the given sortOrder.", input.equals(output.get(0)));
+            assertThat(String.format("Parsing a single valid value %s should result in a singletonList.", input), output, hasSize(1));
+            assertThat("The resulting list should contain the given sortOrder.", output.get(0), is(input));
         }
     }
 
@@ -49,20 +66,43 @@ public class RefinementListTest extends InstantSearchTest {
     @Test
     public void shouldParseEmptyArrayToEmpty() {
         final ArrayList<String> output = RefinementList.parseSortOrder("[]");
-        Assert.assertEquals("Parsing an empty array should result in an empty List.", 0, output.size());
+        assertThat("Parsing an empty array should result in an empty List.", output, hasSize(0));
     }
 
     @Test
     public void shouldParseValidArray() {
         final ArrayList<String> output = RefinementList.parseSortOrder("['count:asc', 'name:asc']");
-        Assert.assertEquals("Parsing an array with two valid sortOrders should result in a List of two values.", 2, output.size());
-        Assert.assertTrue("The output's first value should be 'count:asc'.", "count:asc".equals(output.get(0)));
-        Assert.assertTrue("The output's second value should be 'name:asc'.", "name:asc".equals(output.get(1)));
+        assertThat("Parsing an array with two valid sortOrders should result in a List of two values.", output, hasSize(2));
+        assertThat("The output's first value should be 'count:asc'.", output.get(0), is("count:asc"));
+        assertThat("The output's second value should be 'name:asc'.", output.get(1), is("name:asc"));
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldParseInvalidArrayThrow() throws IllegalStateException {
         final String input = "[foo, bar]";
         RefinementList.parseSortOrder(input);
+    }
+
+    @Test
+    public void shouldSortWithLessValuesThanLimit() {
+        //Given one facet value, and a RefinementList with limit=10
+        final RefinementList.FacetAdapter facetAdapter = (RefinementList.FacetAdapter) mRefinementList.getAdapter();
+        facetAdapter.addAll(Collections.singletonList(new FacetValue("foo", 1)));
+
+        // Expect successful sort and one facet stored
+        facetAdapter.sort(mRefinementList.getSortComparator());
+        assertThat(facetAdapter.getCount(), is(1));
+    }
+
+    @Test
+    public void shouldSortWithMoreValuesThanLimit() {
+        //Given two facet value, and a RefinementList with limit=1
+        final RefinementList.FacetAdapter facetAdapter = (RefinementList.FacetAdapter) mRefinementList.getAdapter();
+        facetAdapter.addAll(Arrays.asList(new FacetValue("foo", 1), new FacetValue("bar", 2)));
+        mRefinementList.setLimit(1);
+
+        // Expect successful sort and one facet stored
+        facetAdapter.sort(mRefinementList.getSortComparator());
+        assertThat(facetAdapter.getCount(), is(1));
     }
 }
