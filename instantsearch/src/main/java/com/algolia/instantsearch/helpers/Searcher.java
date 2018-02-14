@@ -142,7 +142,7 @@ public class Searcher {
         return create(new Client(appId, apiKey).getIndex(indexName));
     }
 
-    private Searcher(@NonNull final Index index) {
+    public Searcher(@NonNull final Index index) {
         this.index = index;
         this.client = index.getClient();
         query = new Query();
@@ -752,6 +752,24 @@ public class Searcher {
             errorListeners.add(errorListener);
         }
         return this;
+    }
+
+    /**
+     * Unregister result listener.
+     *
+     * @param resultListener the result listener to be deleted
+     */
+    public void unregisterResultListenenr(@NonNull AlgoliaResultsListener resultListener) {
+        resultListeners.remove(resultListener);
+    }
+
+    /**
+     * Unregister error listener.
+     *
+     * @param errorListener the error listener to be deleted
+     */
+    public void unregisterErrorListener(@NonNull AlgoliaErrorListener errorListener) {
+        errorListeners.remove(errorListener);
     }
 
     //TODO REORGANIZE
