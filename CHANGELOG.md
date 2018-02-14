@@ -1,5 +1,11 @@
 # Changelog
 
+# 1.4.2 [Changes](https://github.com/algolia/instantsearch-android/compare/1.4.1...v1.4.0) (2018-02-14)
+
+### Bug fixes
+
+* **RefinementList**: Iterate until min(limit, values.size)
+
 <a name=""></a>
 # 1.4.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.4.0...1.4.1) (2018-01-17)
 
