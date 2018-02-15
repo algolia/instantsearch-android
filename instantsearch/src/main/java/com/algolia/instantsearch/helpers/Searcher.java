@@ -186,12 +186,8 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public static Searcher create(@NonNull final Index index, @NonNull String variant) {
-        boolean shouldReplace = false;
         Searcher instance = instances.get(variant);
-        if (instance != null) {
-            shouldReplace = instance.getIndex() != index;
-        }
-        if (instance == null || shouldReplace) {
+        if (instance == null || instance.getIndex() != index) {
             instance = new Searcher(index, variant);
             instances.put(variant, instance);
         }
