@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.ui.databinding;
 
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.util.Pair;
@@ -17,14 +18,14 @@ import java.util.Set;
  */
 @SuppressWarnings("UnusedReturnValue")
 public class RenderingHelper {
-    final static int DEFAULT_COLOR = R.color.colorHighlighting;
+    @ColorRes final static int DEFAULT_COLOR = R.color.colorHighlighting;
 
     /** The default RenderingHelper, highlighting with the {@link RenderingHelper#DEFAULT_COLOR default color}. */
     private static RenderingHelper defaultRenderingHelper;
 
     /** The Set of view/attribute pairs to highlight. */
     @NonNull private final Set<Pair<View, String>> highlightedAttributes;
-    /** A Map associating view/attribute pairs with their respective highlighting {@link ColorRes color}. */
+    /** A Map associating view/attribute pairs with their respective highlighting {@link ColorInt color}. */
     @NonNull private final Map<Pair<View, String>, Integer> attributeColors;
 
     /**
@@ -49,9 +50,9 @@ public class RenderingHelper {
      *
      * @param view      the view using this attribute.
      * @param attribute the attribute's name.
-     * @return the {@link ColorRes} associated with this view/attribute pair, or 0 if there is none.
+     * @return the {@link ColorInt} associated with this view/attribute pair, or 0 if there is none.
      */
-    public @ColorRes Integer getHighlightColor(View view, String attribute) {
+    public @ColorInt Integer getHighlightColor(View view, String attribute) {
         try {
             return attributeColors.get(new Pair<>(view, attribute));
         } catch (NullPointerException e) {
@@ -74,10 +75,10 @@ public class RenderingHelper {
      * Enables highlighting for this view/attribute pair.
      *
      * @param attribute the attribute to color.
-     * @param colorId   a {@link ColorRes} to associate with this attribute.
+     * @param colorId   a {@link ColorInt} to associate with this attribute.
      * @return the previous color associated with this attribute or {@code null} if there was none.
      */
-    Integer addHighlight(View view, String attribute, @ColorRes int colorId) {
+    Integer addHighlight(View view, String attribute, @ColorInt int colorId) {
         final Pair<View, String> pair = new Pair<>(view, attribute);
         highlightedAttributes.add(pair);
         return attributeColors.put(pair, colorId);

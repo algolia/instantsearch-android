@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
-import android.support.annotation.ColorRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -34,7 +34,7 @@ public class BindingHelper {
     @BindingAdapter(value = {"attribute", "highlighted", "highlightingColor", "variant", "prefix", "suffix"}, requireAll = false)
     public static void bindAttribute(@NonNull View view, @Nullable String attribute,
                                      @Nullable Boolean highlighted,
-                                     @Nullable @ColorRes Integer color,
+                                     @Nullable @ColorInt Integer color,
                                      @Nullable String variant,
                                      @Nullable String prefix, @Nullable String suffix) {
         if (attribute == null) {
@@ -133,7 +133,7 @@ public class BindingHelper {
                 return entry.getKey();
             }
         }
-        throw new IllegalArgumentException("View " + getViewName(view) + " was not bound to any data.");
+        return null;
     }
 
     private static boolean notAlreadyMapped(int id, @Nullable String variant) {
@@ -165,7 +165,7 @@ public class BindingHelper {
         return r.getResourcePackageName(id) + ":" + r.getResourceTypeName(id) + "/" + r.getResourceEntryName(id);
     }
 
-    private static void highlight(@NonNull View view, String attribute, @ColorRes int color) {
+    private static void highlight(@NonNull View view, String attribute, @ColorInt int color) {
         RenderingHelper.getDefault().addHighlight(view, attribute, color);
     }
 
