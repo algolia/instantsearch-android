@@ -389,7 +389,7 @@ public class Searcher {
 
     private Request triggerSearch(CompletionHandler searchHandler) {
         Request searchRequest;
-        if (disjunctiveFacets.size() != 0) {
+        if (!disjunctiveFacets.isEmpty()) {
             searchRequest = index.searchDisjunctiveFacetingAsync(query, disjunctiveFacets, refinementMap, searchHandler);
         } else {
             searchRequest = index.searchAsync(query, searchHandler);
@@ -990,7 +990,7 @@ public class Searcher {
 
     @Override public String toString() {
         String key = null;
-        for (Map.Entry<String, Searcher> entry : instances.entrySet()) {
+        for (Map.Entry<String, Searcher> entry : instances.entrySet()) { //TODO: Refact with BiMap
             if (this.equals(entry.getValue())) {
                 key = entry.getKey();
                 break;

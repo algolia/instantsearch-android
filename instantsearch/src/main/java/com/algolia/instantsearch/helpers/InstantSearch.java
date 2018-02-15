@@ -392,7 +392,7 @@ public class InstantSearch {
 
         // Register any AlgoliaResultsListener (unless it has a different variant than searcher)
         final List<AlgoliaResultsListener> resultListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaResultsListener.class);
-        if (resultListeners.size() == 0) {
+        if (resultListeners.isEmpty()) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_RESULT_LISTENER);
         }
         for (AlgoliaResultsListener listener : resultListeners) {
@@ -524,7 +524,7 @@ public class InstantSearch {
 
         // Either the developer uses our SearchBox
         final List<SearchBox> searchBoxes = LayoutViews.findByClass(rootView, SearchBox.class);
-        if (searchBoxes.size() != 0) {
+        if (!searchBoxes.isEmpty()) {
             if (searchBoxes.size() == 1) {
                 facade = new SearchViewFacade(searchBoxes.get(0));
             } else { // We should not find more than one SearchBox
@@ -533,11 +533,11 @@ public class InstantSearch {
         } else { // Or he uses a standard SearchView
             final List<SearchView> searchViews = LayoutViews.findByClass(rootView, SearchView.class);
             final View searchBox = rootView.findViewById(R.id.searchBox);
-            if (searchViews.size() == 0) { // Or he uses a support SearchView
+            if (searchViews.isEmpty()) { // Or he uses a support SearchView
                 final List<android.support.v7.widget.SearchView> supportViews = LayoutViews.findByClass(rootView, android.support.v7.widget.SearchView.class);
-                if (supportViews.size() == 0) { // We should find at least one
+                if (supportViews.isEmpty()) { // We should find at least one
                     Log.e("Algolia|InstantSearch", Errors.LAYOUT_MISSING_SEARCHBOX);
-                } else if (supportViews.size() > 1) { // One of those should have the id @id/searchBox
+                } else if (!supportViews.isEmpty()) { // One of those should have the id @id/searchBox
                     final SearchView labeledSearchView = (SearchView) searchBox;
                     if (labeledSearchView == null) {
                         throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHVIEWS);
@@ -547,7 +547,7 @@ public class InstantSearch {
                 } else {
                     facade = new SearchViewFacade(supportViews.get(0));
                 }
-            } else if (searchViews.size() > 1) { // One of those should have the id @id/searchBox
+            } else if (!searchViews.isEmpty()) { // One of those should have the id @id/searchBox
                 final SearchView labeledSearchView = (SearchView) searchBox;
                 if (labeledSearchView == null) {
                     throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHVIEWS);

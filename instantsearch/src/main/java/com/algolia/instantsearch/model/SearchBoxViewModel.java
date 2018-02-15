@@ -82,7 +82,7 @@ public class SearchBoxViewModel {
                 final String query = searchViewFacade.getQuery().toString();
 
                 for (InstantSearch instantSearch : listeners) {
-                    if (newText.length() != 0 || instantSearch.hasSearchOnEmptyString()) {
+                    if (!newText.isEmpty() || instantSearch.hasSearchOnEmptyString()) {
                         instantSearch.search(query);
                     }
                 }
