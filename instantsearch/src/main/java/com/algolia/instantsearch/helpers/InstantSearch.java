@@ -33,6 +33,7 @@ import com.algolia.instantsearch.ui.views.SearchBox;
 import com.algolia.instantsearch.ui.views.filters.AlgoliaFilter;
 import com.algolia.instantsearch.utils.LayoutViews;
 import com.algolia.instantsearch.utils.SearchViewFacade;
+import com.algolia.search.saas.Query;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -170,7 +171,8 @@ public class InstantSearch {
      * @param query the text to search for.
      */
     public void search(String query) {
-        searcher.setQuery(searcher.getQuery().setQuery(query)).search();
+        final Query newQuery = searcher.getQuery().setQuery(query);
+        searcher.setQuery(newQuery).search();
     }
 
 
