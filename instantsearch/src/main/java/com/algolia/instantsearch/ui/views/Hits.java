@@ -571,8 +571,9 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                         continue;
                     }
                     String viewIndexVariant = BindingHelper.getVariantForView(view);
-                    final boolean isDifferentVariant = !(viewIndexVariant == null ? indexVariant == null : viewIndexVariant.equals(indexVariant));
-                    if (!defaultValue.equals(indexVariant) && isDifferentVariant) {
+                    final boolean isSameVariant = viewIndexVariant == null ?
+                            indexVariant == null : viewIndexVariant.equals(indexVariant);
+                    if (!defaultValue.equals(indexVariant) && !isSameVariant) {
                         throw new IllegalStateException("Hits found two conflicting variants within its views: " + indexVariant + " / " + viewIndexVariant + ".");
                     }
                     indexVariant = viewIndexVariant;
