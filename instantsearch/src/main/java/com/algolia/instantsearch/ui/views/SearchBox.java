@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.events.QueryTextChangeEvent;
+import com.algolia.instantsearch.ui.databinding.BindingHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,6 +69,7 @@ public class SearchBox extends SearchView {
             } finally {
                 styledAttributes.recycle();
             }
+            BindingHelper.setVariantForView(this, attrs);
         }
     }
 

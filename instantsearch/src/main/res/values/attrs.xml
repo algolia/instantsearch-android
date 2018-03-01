@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="View">
         <attr name="attribute" format="string"/>
+        <attr name="variant" format="string"/>
         <attr name="highlighted" format="boolean"/>
         <attr name="highlightColor" format="color"/>
     </declare-styleable>

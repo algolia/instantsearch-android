@@ -118,13 +118,14 @@ public class Highlighter {
      *
      * @param result    {@link JSONObject} describing a hit.
      * @param attribute name of the attribute to be highlighted.
-     * @param colorId   a resource Id referencing a color.
+     * @param colorRes   a resource Id referencing a color.
      * @param context   a {@link Context} to get resources from.
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
-    public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, @ColorRes int colorId, @NonNull Context context) {
-        return renderHighlightColor(getHighlightedAttribute(result, attribute), colorId, context);
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, @ColorRes int colorRes, @NonNull Context context) {
+        return renderHighlightColor(getHighlightedAttribute(result, attribute), getColor(context, colorRes));
     }
 
     /**
@@ -164,8 +165,8 @@ public class Highlighter {
      */
     @Nullable
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Spannable renderHighlightColor(String markupString, @ColorRes int colorId, @NonNull Context context) {
-        return renderHighlightColor(markupString, getColor(context, colorId));
+    public Spannable renderHighlightColor(String markupString, @ColorInt int colorId, @NonNull Context context) {
+        return renderHighlightColor(markupString, colorId);
     }
 
     /**
@@ -257,9 +258,8 @@ public class Highlighter {
         return JSONUtils.getStringFromJSONPath(result, attribute);
     }
 
-    private
     @ColorInt
-    int getColor(@NonNull Context context, @ColorRes int colorId) {
+    private int getColor(@NonNull Context context, @ColorRes int colorId) {
         final int colorHighlighting;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             colorHighlighting = context.getResources().getColor(colorId, context.getTheme());

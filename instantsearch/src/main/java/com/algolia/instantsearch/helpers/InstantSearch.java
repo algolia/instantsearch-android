@@ -2,6 +2,7 @@ package com.algolia.instantsearch.helpers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Build;
@@ -19,19 +20,20 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.events.QueryTextChangeEvent;
-import com.algolia.instantsearch.events.QueryTextSubmitEvent;
 import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
 import com.algolia.instantsearch.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.model.Errors;
+import com.algolia.instantsearch.model.SearchBoxViewModel;
+import com.algolia.instantsearch.ui.databinding.BindingHelper;
 import com.algolia.instantsearch.ui.views.Hits;
 import com.algolia.instantsearch.ui.views.RefinementList;
 import com.algolia.instantsearch.ui.views.SearchBox;
 import com.algolia.instantsearch.ui.views.filters.AlgoliaFilter;
 import com.algolia.instantsearch.utils.LayoutViews;
 import com.algolia.instantsearch.utils.SearchViewFacade;
+import com.algolia.search.saas.Query;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -45,11 +47,12 @@ import java.util.Set;
  * You can either use it with a single widget which will receive incoming results, or with several that will interact together in the same activity.
  */
 public class InstantSearch {
+    //TODO: migrate return void -> return Searcher for chaining methods
     /** Delay before displaying progressbar when the current android API does not support animations. {@literal (API < 14)} */
     @SuppressWarnings("WeakerAccess") public static final int DELAY_PROGRESSBAR_NO_ANIMATIONS = 200;
 
     @Nullable
-    private SearchViewFacade searchView;
+    private SearchBoxViewModel searchBoxViewModel;
 
     @NonNull
     private final Set<View> widgets = new HashSet<>();
@@ -63,7 +66,6 @@ public class InstantSearch {
 
     private Menu searchMenu;
     private int searchMenuId;
-    private static int itemLayoutId = -42;
 
     private boolean showProgressBar;
     private SearchProgressController progressController;
@@ -72,9 +74,9 @@ public class InstantSearch {
     private int progressBarDelay = SearchProgressController.DEFAULT_DELAY;
 
     /**
-     * Constructs the helper, then link it to the given Activity.
+     * Constructs the helper, then link it to the given Activity and register its Widgets.
      *
-     * @param activity an Activity containing at least one {@link AlgoliaResultsListener} to update with incoming results.
+     * @param activity a searchable Activity containing at least one {@link AlgoliaResultsListener} to update with incoming results.
      * @param searcher the Searcher to use with this activity.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
@@ -85,14 +87,15 @@ public class InstantSearch {
     }
 
     /**
-     * Constructs the helper, then link it to the given Activity and Menu's searchView.
+     * Constructs the helper, then link it to the given Activity and register its Widgets / its Menu's searchView.
      *
-     * @param activity   an Activity containing at least one {@link AlgoliaResultsListener} to update with incoming results.
+     * @param activity   a searchable Activity containing at least one {@link AlgoliaResultsListener} to update with incoming results.
      * @param menu       the Menu which contains your SearchView.
      * @param menuItemId the SearchView item's {@link android.support.annotation.IdRes id} in your Menu.
      * @param searcher   the Searcher to use with this activity.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    //TODO: Move searcher as 2nd parameter
     public InstantSearch(@NonNull final Activity activity, @NonNull Menu menu, @IdRes int menuItemId, @NonNull final Searcher searcher) {
         this(searcher);
 
@@ -100,25 +103,81 @@ public class InstantSearch {
         processActivity(activity);
     }
 
+    /**
+     * Constructs the helper, then link it to the given Activity and register its fragment's Widgets.
+     *
+     * @param activity a searchable Activity.
+     * @param fragment a Fragment containing at least one {@link AlgoliaResultsListener} to update with incoming results.
+     * @param searcher the Searcher to use with this activity.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public InstantSearch(@NonNull final Activity activity, @NonNull final Searcher searcher, @NonNull Fragment fragment) {
+        this(searcher);
+
+        registerSearchView(activity);
+        processAllListeners(fragment.getView());
+    }
+
+    /**
+     * Constructs the helper, then link it to the given Activity and register its fragment's Widgets.
+     *
+     * @param activity a searchable Activity.
+     * @param fragment a Fragment containing at least one {@link AlgoliaResultsListener} to update with incoming results.
+     * @param searcher the Searcher to use with this activity.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public InstantSearch(@NonNull final Activity activity, @NonNull final Searcher searcher, @NonNull android.support.v4.app.Fragment fragment) {
+        this(searcher);
+
+        registerSearchView(activity);
+        processAllListeners(fragment.getView());
+    }
+
+
+    /**
+     * Constructs the helper, then link it to the given Widget.
+     *
+     * @param widget   a Widget to register as listener.
+     * @param searcher the Searcher to use with this InstantSearch.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public InstantSearch(@NonNull final View widget, @NonNull final Searcher searcher) {
         this(searcher);
         registerWidget(widget);
     }
 
-    private InstantSearch(@NonNull final Searcher searcher) {
+    /**
+     * Constructs the helper.
+     *
+     * @param searcher the Searcher to use with this InstantSearch.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public InstantSearch(@NonNull final Searcher searcher) {
         this.searcher = searcher;
         enableProgressBar();
     }
 
     /**
-     * Triggers a new search with the {@link #searchView}'s text.
+     * Triggers a new search with the {@link #searchBoxViewModel SearchView}'s text.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void search() {
         searcher.search();
     }
 
     /**
-     * Registers the Search Widget of an Activity's Menu to trigger search requests on text change.
+     * Triggers a new search with the given text.
+     *
+     * @param query the text to search for.
+     */
+    public void search(String query) {
+        final Query newQuery = searcher.getQuery().setQuery(query);
+        searcher.setQuery(newQuery).search();
+    }
+
+
+    /**
+     * Registers the Search Widget of an Activity's Menu to trigger search requests on text change, replacing the current one if any.
      *
      * @param activity The searchable Activity, see {@link android.app.SearchableInfo}.
      * @param menu     The Menu that contains a search item.
@@ -133,7 +192,7 @@ public class InstantSearch {
     }
 
     /**
-     * Registers a {@link SearchView} to trigger search requests on text change.
+     * Registers a {@link SearchView} to trigger search requests on text change, replacing the current one if any.
      *
      * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
      * @param searchView a SearchView whose query text will be used.
@@ -144,7 +203,7 @@ public class InstantSearch {
     }
 
     /**
-     * Registers a {@link android.support.v7.widget.SearchView} to trigger search requests on text change.
+     * Registers a {@link android.support.v7.widget.SearchView} to trigger search requests on text change, replacing the current one if any.
      *
      * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
      * @param searchView a SearchView whose query text will be used.
@@ -154,12 +213,36 @@ public class InstantSearch {
         registerSearchView(activity, new SearchViewFacade(searchView));
     }
 
+    private void registerSearchView(@NonNull Activity activity) {
+        View rootView = activity.getWindow().getDecorView().getRootView();
+        final SearchViewFacade searchView = getSearchView(rootView);
+        if (searchBoxViewModel == null && searchView != null) {
+            searchBoxViewModel = new SearchBoxViewModel(searchView);
+        }
+        if (searchBoxViewModel != null) {
+            registerSearchView(activity, searchBoxViewModel);
+        }
+    }
+
+
     private void registerSearchView(@NonNull final Activity activity, @NonNull final SearchViewFacade searchView) {
-        this.searchView = searchView;
+        registerSearchView(activity, new SearchBoxViewModel(searchView));
+    }
+
+    /**
+     * Registers a SearchViewModel to trigger search requests on text change, replacing the current one if any.
+     *
+     * @param activity           The searchable activity, see {@link android.app.SearchableInfo}.
+     * @param searchBoxViewModel a SearchBoxViewModel which SearchView's query text will be used.
+     */
+    public void registerSearchView(@NonNull Activity activity, SearchBoxViewModel searchBoxViewModel) {
+        this.searchBoxViewModel = searchBoxViewModel;
+        final SearchViewFacade searchView = searchBoxViewModel.getSearchView();
         final SearchManager searchManager = (SearchManager) searchView.getContext().getSystemService(Context.SEARCH_SERVICE);
+        //noinspection ConstantConditions: Context.SEARCH_SERVICE must be a valid System service name
         searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
         searchView.setIconifiedByDefault(false);
-        linkSearchViewToSearcher(searchView);
+        searchBoxViewModel.addListener(this);
     }
 
 
@@ -169,7 +252,7 @@ public class InstantSearch {
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void reset() {
         searcher.reset();
-        EventBus.getDefault().post(new ResetEvent());
+        EventBus.getDefault().post(new ResetEvent(searcher));
     }
 
     /**
@@ -189,20 +272,17 @@ public class InstantSearch {
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void enableProgressBar() {
         showProgressBar = true;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            progressBarDelay = DELAY_PROGRESSBAR_NO_ANIMATIONS; // Without animations, a delay is needed to avoid blinking.
-        }
 
-        if (searchView != null) {
+        if (searchBoxViewModel != null) {
             progressController = new SearchProgressController(new SearchProgressController.ProgressListener() {
                 @Override
                 public void onStart() {
-                    updateProgressBar(searchView, true);
+                    updateProgressBar(searchBoxViewModel, true);
                 }
 
                 @Override
                 public void onStop() {
-                    updateProgressBar(searchView, false);
+                    updateProgressBar(searchBoxViewModel, false);
                 }
             }, progressBarDelay);
         }
@@ -213,7 +293,7 @@ public class InstantSearch {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void disableProgressBar() {
-        updateProgressBar(searchView, false);
+        updateProgressBar(searchBoxViewModel, false);
         progressController.disable();
     }
 
@@ -246,20 +326,6 @@ public class InstantSearch {
     }
 
     /**
-     * Gets the {@link android.support.annotation.IdRes IdRes} of the item layout registered by a Hits widget.
-     * This method should only be used by the library's internals.
-     *
-     * @return the registered item layout id, if any.
-     * @throws IllegalStateException if no item layout was registered.
-     */
-    public static int getItemLayoutId() {
-        if (itemLayoutId == 0) {
-            throw new IllegalStateException(Errors.HITS_NO_ITEMLAYOUT);
-        }
-        return itemLayoutId;
-    }
-
-    /**
      * Enables or disables the sending of a search request when the SearchView becomes empty (default is true).
      *
      * @param searchOnEmptyString if {@code true}, a request will be fired.
@@ -270,7 +336,7 @@ public class InstantSearch {
     }
 
     /**
-     * Tells if an empty string in the {@link #searchView} is a valid search query.
+     * Tells if an empty string in the {@link #searchBoxViewModel} is a valid search query.
      *
      * @return {@code true} if an empty string triggers a search request.
      */
@@ -280,15 +346,8 @@ public class InstantSearch {
     }
 
     private void processActivity(@NonNull final Activity activity) {
-        View rootView = activity.getWindow().getDecorView().getRootView();
-        if (searchView == null) {
-            searchView = getSearchView(rootView);
-        }
-        if (searchView != null) {
-            registerSearchView(activity, searchView);
-        }
-
-        final List<String> refinementAttributes = processAllListeners(rootView);
+        registerSearchView(activity);
+        final List<String> refinementAttributes = processAllListeners(activity.getWindow().getDecorView().getRootView());
         final String[] facets = refinementAttributes.toArray(new String[refinementAttributes.size()]);
         if (facets.length > 0) {
             searcher.addFacet(facets);
@@ -300,6 +359,7 @@ public class InstantSearch {
      *
      * @param widget a widget implementing ({@link AlgoliaResultsListener} || {@link AlgoliaErrorListener} || {@link AlgoliaSearcherListener}).
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void registerWidget(View widget) {
         prepareWidget(widget);
 
@@ -332,34 +392,44 @@ public class InstantSearch {
     private List<String> processAllListeners(View rootView) {
         List<String> refinementAttributes = new ArrayList<>();
 
-        // Register any AlgoliaResultsListener
+        // Register any AlgoliaResultsListener (unless it has a different variant than searcher)
         final List<AlgoliaResultsListener> resultListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaResultsListener.class);
-        if (resultListeners.size() == 0) {
+        if (resultListeners.isEmpty()) {
             throw new IllegalStateException(Errors.LAYOUT_MISSING_RESULT_LISTENER);
         }
         for (AlgoliaResultsListener listener : resultListeners) {
             if (!this.resultListeners.contains(listener)) {
-                this.resultListeners.add(listener);
+                final String variant = BindingHelper.getVariantForView((View) listener);
+                if (variant == null || searcher.variant.equals(variant)) {
+                    this.resultListeners.add(listener);
+                    searcher.registerResultListener(listener);
+                    prepareWidget(listener, refinementAttributes);
+                }
             }
-            searcher.registerResultListener(listener);
-            prepareWidget(rootView, listener, refinementAttributes);
+
         }
 
-        // Register any AlgoliaErrorListener
+        // Register any AlgoliaErrorListener (unless it has a different variant than searcher)
         final List<AlgoliaErrorListener> errorListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaErrorListener.class);
         for (AlgoliaErrorListener listener : errorListeners) {
             if (!this.errorListeners.contains(listener)) {
-                this.errorListeners.add(listener);
+                final String variant = BindingHelper.getVariantForView((View) listener);
+                if (variant == null || searcher.variant.equals(variant)) {
+                    this.errorListeners.add(listener);
+                }
             }
             searcher.registerErrorListener(listener);
-            prepareWidget(rootView, listener, refinementAttributes);
+            prepareWidget(listener, refinementAttributes);
         }
 
-        // Register any AlgoliaSearcherListener
+        // Register any AlgoliaSearcherListener (unless it has a different variant than searcher)
         final List<AlgoliaSearcherListener> searcherListeners = LayoutViews.findByClass((ViewGroup) rootView, AlgoliaSearcherListener.class);
         for (AlgoliaSearcherListener listener : searcherListeners) {
-            listener.initWithSearcher(searcher);
-            prepareWidget(rootView, listener, refinementAttributes);
+            final String variant = BindingHelper.getVariantForView((View) listener);
+            if (variant == null || searcher.variant.equals(variant)) {
+                listener.initWithSearcher(searcher);
+                prepareWidget(listener, refinementAttributes);
+            }
         }
 
         return refinementAttributes;
@@ -372,12 +442,12 @@ public class InstantSearch {
      * @param listener the widget to prepare.
      */
     private void prepareWidget(Object listener) {
-        prepareWidget(null, listener, null);
+        prepareWidget(listener, null);
     }
 
-    private void prepareWidget(@Nullable View rootView, Object listener, @Nullable List<String> refinementAttributes) {
+    private void prepareWidget(Object listener, @Nullable List<String> refinementAttributes) {
         if (listener instanceof View) {
-            prepareWidget(rootView, (View) listener, refinementAttributes);
+            prepareWidget((View) listener, refinementAttributes);
         }
     }
 
@@ -385,11 +455,10 @@ public class InstantSearch {
      * Prepares the widget: adding it to widgets, applying its specific settings
      * and storing its eventual refinement attribute.
      *
-     * @param rootView             the widget's parent for getting an eventual empty view
      * @param widget               the widget to prepare.
      * @param refinementAttributes a List to store the widget's eventual refinement attributes.
      */
-    private void prepareWidget(@Nullable View rootView, View widget, @Nullable List<String> refinementAttributes) {
+    private void prepareWidget(View widget, @Nullable List<String> refinementAttributes) {
         if (!widgets.contains(widget)) { // process once each widget
             widgets.add(widget);
             if (widget instanceof Hits) {
@@ -398,9 +467,9 @@ public class InstantSearch {
                 // Link hits to activity's empty view //TODO: Remove rootView parameter if getRootView always works
                 ((Hits) widget).setEmptyView(getEmptyView(widget.getRootView()));
 
-                itemLayoutId = ((Hits) widget).getLayoutId();
+                int itemLayoutId = ((Hits) widget).getLayoutId();
 
-                if (itemLayoutId == -42) {
+                if (itemLayoutId == 0) {
                     throw new IllegalStateException(Errors.LAYOUT_MISSING_HITS_ITEMLAYOUT);
                 }
             } else if (widget instanceof RefinementList) {
@@ -416,18 +485,17 @@ public class InstantSearch {
     }
 
     @SuppressLint("InflateParams"/* Giving a root to inflate causes the searchView to break when adding the progressBarView */)
-    private void updateProgressBar(@Nullable SearchViewFacade searchView, boolean showProgress) {
+    private void updateProgressBar(@Nullable SearchBoxViewModel searchBoxViewModel, boolean showProgress) {
         if (!showProgressBar) {
             return;
         }
 
-        if (searchView == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                searchView = new SearchViewFacade(searchMenu, searchMenuId);
-            }
+        if (searchBoxViewModel == null) {
+            this.searchBoxViewModel = new SearchBoxViewModel(new SearchViewFacade(searchMenu, searchMenuId));
         }
 
-        if (searchView != null) {
+        if (this.searchBoxViewModel != null) {
+            final SearchViewFacade searchView = this.searchBoxViewModel.getSearchView();
             int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
             LinearLayout searchPlate = (LinearLayout) searchView.findViewById(searchPlateId);
             if (searchPlate == null) { // Maybe it is an appcompat SearchView?
@@ -452,40 +520,13 @@ public class InstantSearch {
         }
     }
 
-    private void linkSearchViewToSearcher(@NonNull final SearchViewFacade searchView) {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // SearchView.OnQueryTextListener
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                EventBus.getDefault().post(new QueryTextSubmitEvent());
-                // Nothing to do: the search has already been performed by `onQueryTextChange()`.
-                // We do try to close the keyboard, though.
-                searchView.clearFocus();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                EventBus.getDefault().post(new QueryTextChangeEvent(newText, searchView.getSearchView()));
-
-                if (newText.length() == 0 && !searchOnEmptyString) {
-                    return true;
-                }
-                searcher.setQuery(searcher.getQuery().setQuery(searchView.getQuery().toString()))
-                        .search();
-                return true;
-            }
-        });
-    }
-
     @Nullable
     private static SearchViewFacade getSearchView(@NonNull View rootView) {
         SearchViewFacade facade = null;
 
         // Either the developer uses our SearchBox
         final List<SearchBox> searchBoxes = LayoutViews.findByClass(rootView, SearchBox.class);
-        if (searchBoxes.size() != 0) {
+        if (!searchBoxes.isEmpty()) {
             if (searchBoxes.size() == 1) {
                 facade = new SearchViewFacade(searchBoxes.get(0));
             } else { // We should not find more than one SearchBox
@@ -494,11 +535,11 @@ public class InstantSearch {
         } else { // Or he uses a standard SearchView
             final List<SearchView> searchViews = LayoutViews.findByClass(rootView, SearchView.class);
             final View searchBox = rootView.findViewById(R.id.searchBox);
-            if (searchViews.size() == 0) { // Or he uses a support SearchView
+            if (searchViews.isEmpty()) { // Or he uses a support SearchView
                 final List<android.support.v7.widget.SearchView> supportViews = LayoutViews.findByClass(rootView, android.support.v7.widget.SearchView.class);
-                if (supportViews.size() == 0) { // We should find at least one
+                if (supportViews.isEmpty()) { // We should find at least one
                     Log.e("Algolia|InstantSearch", Errors.LAYOUT_MISSING_SEARCHBOX);
-                } else if (supportViews.size() > 1) { // One of those should have the id @id/searchBox
+                } else if (!supportViews.isEmpty()) { // One of those should have the id @id/searchBox
                     final SearchView labeledSearchView = (SearchView) searchBox;
                     if (labeledSearchView == null) {
                         throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHVIEWS);
@@ -508,7 +549,7 @@ public class InstantSearch {
                 } else {
                     facade = new SearchViewFacade(supportViews.get(0));
                 }
-            } else if (searchViews.size() > 1) { // One of those should have the id @id/searchBox
+            } else if (!searchViews.isEmpty()) { // One of those should have the id @id/searchBox
                 final SearchView labeledSearchView = (SearchView) searchBox;
                 if (labeledSearchView == null) {
                     throw new IllegalStateException(Errors.LAYOUT_TOO_MANY_SEARCHVIEWS);

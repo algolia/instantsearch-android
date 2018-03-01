@@ -31,7 +31,6 @@ import android.widget.TextView;
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.events.ResetEvent;
 import com.algolia.instantsearch.helpers.Highlighter;
-import com.algolia.instantsearch.helpers.InstantSearch;
 import com.algolia.instantsearch.helpers.Searcher;
 import com.algolia.instantsearch.model.AlgoliaErrorListener;
 import com.algolia.instantsearch.model.AlgoliaResultsListener;
@@ -75,17 +74,17 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
     /** The minimum number of items remaining below the fold before loading more. */
     private final int remainingItemsBeforeLoading;
 
-    private final @NonNull Integer hitsPerPage;
+    @NonNull private final Integer hitsPerPage;
     private final int layoutId;
 
-    private @NonNull HitsAdapter adapter;
-    private @NonNull LayoutManager layoutManager;
-    private @NonNull Searcher searcher;
-    private @NonNull InputMethodManager imeManager;
+    @NonNull private HitsAdapter adapter;
+    @NonNull private LayoutManager layoutManager;
+    @NonNull private Searcher searcher;
+    @NonNull private InputMethodManager imeManager;
 
-    private @Nullable final InfiniteScrollListener infiniteScrollListener;
-    private @Nullable OnScrollListener keyboardListener;
-    private @Nullable View emptyView;
+    @Nullable private final InfiniteScrollListener infiniteScrollListener;
+    @Nullable private OnScrollListener keyboardListener;
+    @Nullable private View emptyView;
 
     /**
      * Constructs a new Hits with the given context's theme and the supplied attribute set.
@@ -133,6 +132,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                 }
             }
 
+            BindingHelper.setVariantForView(this, attrs);
         } finally {
             styledAttributes.recycle();
         }
@@ -406,7 +406,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         }
     }
 
-    private static class HitsAdapter extends Adapter<HitsAdapter.ViewHolder> {
+    private class HitsAdapter extends Adapter<HitsAdapter.ViewHolder> {
 
         @NonNull
         private List<JSONObject> hits = new ArrayList<>();
@@ -442,7 +442,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         @Override
         public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
             ViewDataBinding binding = DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.getContext()), InstantSearch.getItemLayoutId(), parent, false);
+                    LayoutInflater.from(parent.getContext()), layoutId, parent, false);
             binding.executePendingBindings();
             return new ViewHolder(binding.getRoot());
         }
@@ -466,7 +466,11 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
             for (Map.Entry<View, String> entry : holder.viewMap.entrySet()) {
                 final View view = entry.getKey();
                 final String attributeName = entry.getValue();
-                final String attributeValue = JSONUtils.getStringFromJSONPath(hit, attributeName);
+                if (attributeName == null) {
+                    Log.d("Hits", "View " + view.toString() + " is bound to null attribute, skipping");
+                    continue;
+                }
+                final String attributeValue = BindingHelper.getFullAttribute(view, JSONUtils.getStringFromJSONPath(hit, attributeName));
                 if (view instanceof AlgoliaHitView) {
                     ((AlgoliaHitView) view).onUpdateView(hit);
                 } else if (view instanceof EditText) {
@@ -524,9 +528,9 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         @Nullable
         Spannable getHighlightedAttribute(@NonNull JSONObject hit, @NonNull View view, @NonNull String attribute, @Nullable String attributeValue) {
             Spannable attributeText;
-            if (RenderingHelper.getDefault().shouldHighlight(attribute)) {
-                final int highlightColor = RenderingHelper.getDefault().getHighlightColor(attribute);
-                attributeText = Highlighter.getDefault().renderHighlightColor(hit, attribute, highlightColor, view.getContext());
+            if (RenderingHelper.getDefault().shouldHighlight(view, attribute)) {
+                final int highlightColor = RenderingHelper.getDefault().getHighlightColor(view, attribute);
+                attributeText = Highlighter.getDefault().renderHighlightColor(hit, attribute, highlightColor);
             } else {
                 attributeText = attributeValue != null ? new SpannableString(attributeValue) : null;
             }
@@ -551,17 +555,38 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            final Map<View, String> viewMap = new HashMap<>();
+            private final Map<View, String> viewMap = new HashMap<>();
+            // needed to differentiate initial key value from Pair{null,null} which is legitimate
+            private final String defaultValue = "ADefaultValueForHitsVariant";
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
-                // Store every annotated view with its attribute name
-                final SparseArray<String> attributes = BindingHelper.getBindings();
-                for (int i = 0; i < attributes.size(); i++) {
-                    viewMap.put(itemView.findViewById(attributes.keyAt(i)), attributes.valueAt(i));
+
+                String indexVariant = defaultValue;
+
+                // Get the index and variant for this layout
+                final List<View> views = LayoutViews.findAny((ViewGroup) itemView);
+                for (View view : views) {
+                    if (view instanceof AlgoliaHitView) {
+                        continue;
+                    }
+                    String viewIndexVariant = BindingHelper.getVariantForView(view);
+                    final boolean isSameVariant = viewIndexVariant == null ?
+                            indexVariant == null : viewIndexVariant.equals(indexVariant);
+                    if (!defaultValue.equals(indexVariant) && !isSameVariant) {
+                        throw new IllegalStateException("Hits found two conflicting variants within its views: " + indexVariant + " / " + viewIndexVariant + ".");
+                    }
+                    indexVariant = viewIndexVariant;
+                }
+
+                // Store every annotated view for indexVariant with its attribute name
+                final HashMap<Integer, String> attributes = BindingHelper.getBindings(indexVariant);
+                for (Map.Entry<Integer, String> entry : attributes.entrySet()) {
+                    if (entry.getValue() != null) { // attribute can be null e.g. if view is a Hits
+                        viewMap.put(itemView.findViewById(entry.getKey()), entry.getValue());
+                    }
                 }
             }
-
         }
     }
 }

@@ -192,7 +192,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
         List<FacetValue> refinementFacets = facets.get(attribute);
 
         // If we have new facetValues we should use them, and else set count=0 to old ones
-        if (refinementFacets != null && refinementFacets.size() > 0) {
+        if (refinementFacets != null && !refinementFacets.isEmpty()) {
             adapter.clear(false);
             adapter.addAll(refinementFacets);
             adapter.sort(sortComparator);

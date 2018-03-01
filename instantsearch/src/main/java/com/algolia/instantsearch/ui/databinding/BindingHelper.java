@@ -1,119 +1,70 @@
 package com.algolia.instantsearch.ui.databinding;
 
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
-import android.support.annotation.ColorRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
 
+import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.model.Errors;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * Contains every {@link BindingAdapter} used for binding record attributes to Views.
+ * Contains the {@link BindingAdapter} used for gathering {@link BindingHelper#bindings bound attributes}.
  */
 public class BindingHelper {
-    private static final SparseArray<String> bindings = new SparseArray<>();
+    /** Associates a variant with its bindings (associating each databound view's id to its attribute). */
+    private static final HashMap<String, HashMap<Integer, String>> bindings = new HashMap<>();
+    private static final SparseArray<String> prefixes = new SparseArray<>();
+    private static final SparseArray<String> suffixes = new SparseArray<>();
 
+    /**
+     * @deprecated This should only be used internally by InstantSearch.
+     */
     @SuppressWarnings("unused") // called via Data Binding
     @Deprecated // Should not be used by library users
-    @BindingAdapter({"attribute"})
-    public static void bindAttribute(@NonNull View view, String attribute) {
-        final int id = view.getId();
-        if (notAlreadyMapped(id)) { // only map when you see a view for the first time.
-            mapAttribute(attribute, id);
-        }
-    }
-
-    @SuppressWarnings({"unused"}) // called via Data Binding
-    @Deprecated // Should not be used by library users
-    @BindingAdapter({"attribute", "highlighted"})
-    public static void bindHighlighted(@NonNull View view, String attribute, Boolean isHighlighted) {
-        // Bind attribute, enable highlight with default color
-        if (isHighlighted) {
-            bindAndHighlight(view, attribute, RenderingHelper.DEFAULT_COLOR);
+    @BindingAdapter(value = {"attribute", "highlighted", "highlightingColor", "variant", "prefix", "suffix"}, requireAll = false)
+    public static void bindAttribute(@NonNull View view, @Nullable String attribute,
+                                     @Nullable Boolean highlighted,
+                                     @Nullable @ColorInt Integer color,
+                                     @Nullable String variant,
+                                     @Nullable String prefix, @Nullable String suffix) {
+        if (attribute == null) {
+            throwBindingError(view, Errors.BINDING_NO_ATTRIBUTE);
         } else {
-            bindAttribute(view, attribute);
+            bindAttribute(view, attribute, variant);
+        }
+
+        if ((highlighted != null && highlighted) // either highlighted == true
+                || (color != null && (highlighted == null || !highlighted))) // or color && highlighted != false
+        {
+            highlight(view, attribute, color != null ? color : RenderingHelper.DEFAULT_COLOR);
+        }
+
+        if (prefix != null) {
+            prefixes.put(view.getId(), prefix);
+        }
+        if (suffix != null) {
+            suffixes.put(view.getId(), suffix);
         }
     }
 
-    @SuppressWarnings({"unused"}) // called via Data Binding
+    /**
+     * @deprecated This should only be used internally by InstantSearch.
+     */
     @Deprecated // Should not be used by library users
-    @BindingAdapter({"attribute", "highlightingColor"})
-    public static void bindHighlighted(@NonNull View view, String attribute, @NonNull String colorStr) {
-        // Bind attribute, enable highlight with color
-        bindAndHighlight(view, attribute, colorStr);
-    }
-
-    @SuppressWarnings({"unused"}) // called via Data Binding
-    @Deprecated // Should not be used by library users
-    @BindingAdapter({"attribute", "highlighted", "highlightingColor"})
-    public static void bindHighlighted(@NonNull View view, String attribute, Boolean isHighlighted, @NonNull String colorStr) {
-        // Bind attribute, enable highlight with color
-        bindAndHighlight(view, attribute, colorStr);
-    }
-
-    @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding and throws
-    @Deprecated // Should not be used by library users
-    @BindingAdapter({"highlighted"})
-    public static void bindInvalid(@NonNull View view, Boolean isHighlighted) {
-        throwBindingError(view, Errors.BINDING_HIGHLIGHTED_NO_ATTR);
-    }
-
-    @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding and throws
-    @Deprecated // Should not be used by library users
-    @BindingAdapter({"highlightingColor"})
-    public static void bindInvalid(@NonNull View view, @ColorRes int color) {
-        throwBindingError(view, Errors.BINDING_HIGHLIGHTING_NO_ATTR);
-    }
-
-    @SuppressWarnings({"unused", "UnusedParameters"}) // called via Data Binding and throws
-    @Deprecated // Should not be used by library users
-    @BindingAdapter({"highlighted", "highlightingColor"})
-    public static void bindInvalid(@NonNull View view, Boolean isHighlighted, String colorStr) {
-        throwBindingError(view, Errors.BINDING_NO_ATTR);
-    }
-
-    private static boolean notAlreadyMapped(int id) {
-        return bindings.get(id) == null;
-    }
-
-    private static void mapAttribute(String attribute, int viewId) {
-        if (viewId == -1) {
-            throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID, attribute));
-        }
-        bindings.put(viewId, attribute);
-    }
-
-    private static void throwBindingError(@NonNull View view, String message) {
-        final Resources r = view.getContext().getResources();
-        int id = view.getId();
-        String viewName = r.getResourcePackageName(id) + ":" + r.getResourceTypeName(id) + "/" + r.getResourceEntryName(id);
-        throw new IllegalStateException("Cannot bind " + viewName + ": " + message);
-    }
-
-    private static void bindAndHighlight(@NonNull View view, String attribute, @NonNull String colorStr) {
-        if (notAlreadyMapped(view.getId())) {
-            final String[] split = colorStr.split("/");
-            final String identifierType = split[0];
-            final String colorName = split[1];
-
-            final int colorId;
-            switch (identifierType) {
-                case "@android:color":
-                    colorId = Resources.getSystem().getIdentifier(colorName, "color", "android");
-                    break;
-                case "@color":
-                    colorId = view.getResources().getIdentifier(colorName, "color", view.getContext().getPackageName());
-                    break;
-                default:
-                    throw new IllegalStateException(Errors.BINDING_COLOR_INVALID);
-            }
-
-            bindAttribute(view, attribute);
-            final RenderingHelper renderingHelper = RenderingHelper.getDefault();
-            renderingHelper.addHighlight(attribute);
-            renderingHelper.addColor(attribute, colorId);
+    public static void bindAttribute(@NonNull View view, @NonNull String attribute, @Nullable String variant) {
+        final int id = view.getId();
+        if (notAlreadyMapped(id, variant)) { // only map when you see a view for the first time.
+            mapAttribute(attribute, id, variant);
         }
     }
 
@@ -122,7 +73,121 @@ public class BindingHelper {
      *
      * @return a SparseArray mapping each View's id to its attribute name.
      */
-    public static SparseArray<String> getBindings() {
-        return bindings;
+    public static HashMap<Integer, String> getBindings(String indexVariant) {
+        return bindings.get(indexVariant);
+    }
+
+    /**
+     * Associates programmatically a view with its variant, taking it from its `variant` layout attribute.
+     *
+     * @param view  any existing view.
+     * @param attrs the view's AttributeSet.
+     * @return the previous variant for this view, if any.
+     */
+    @Nullable
+    public static String setVariantForView(@NonNull View view, @NonNull AttributeSet attrs) {
+        String previousVariant;
+        final TypedArray styledAttributes = view.getContext().getTheme()
+                .obtainStyledAttributes(attrs, R.styleable.View, 0, 0);
+        try {
+            previousVariant = setVariantForView(view, styledAttributes
+                    .getString(R.styleable.View_variant));
+        } finally {
+            styledAttributes.recycle();
+        }
+
+        return previousVariant;
+    }
+
+    /**
+     * Associates programmatically a view with a variant.
+     *
+     * @param view any existing view.
+     * @return the previous variant for this view, if any.
+     */
+    @Nullable public static String setVariantForView(@NonNull View view, @Nullable String variant) {
+        String previousVariant = null;
+        String previousAttribute = null;
+        for (Map.Entry<String, HashMap<Integer, String>> entry : bindings.entrySet()) {
+            if (entry.getValue().containsKey(view.getId())) {
+                previousVariant = entry.getKey();
+                previousAttribute = entry.getValue().get(view.getId());
+                bindings.remove(previousVariant);
+                break;
+            }
+        }
+        mapAttribute(previousAttribute, view.getId(), variant);
+        return previousVariant;
+    }
+
+    /**
+     * Returns the variant associated with the view.
+     *
+     * @param view a View that is associated to an index through databinding.
+     * @return the variant name or {@code null} if unspecified.
+     * @throws IllegalArgumentException if the view is not part of a databinding layout.
+     */
+    @Nullable public static String getVariantForView(@NonNull View view) {
+        for (Map.Entry<String, HashMap<Integer, String>> entry : bindings.entrySet()) {
+            if (entry.getValue().containsKey(view.getId())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    private static boolean notAlreadyMapped(int id, @Nullable String variant) {
+        final HashMap<Integer, String> indexMap = bindings.get(variant);
+        return indexMap == null || indexMap.get(id) == null;
+    }
+
+    @SuppressLint("UseSparseArrays") // Using HashMap for O(1) containsKey in getVariantForView
+    private static void mapAttribute(String attribute, int viewId, @Nullable String variant) {
+        if (viewId == -1) {
+            throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID, attribute));
+        }
+        HashMap<Integer, String> variantMap = bindings.get(variant);
+        if (variantMap == null) {
+            variantMap = new HashMap<>();
+            bindings.put(variant, variantMap);
+        }
+        variantMap.put(viewId, attribute);
+    }
+
+    private static void throwBindingError(@NonNull View view, String message) {
+        String viewName = getViewName(view);
+        throw new IllegalStateException("Cannot bind " + viewName + ": " + message);
+    }
+
+    @NonNull private static String getViewName(@NonNull View view) {
+        final Resources r = view.getContext().getResources();
+        int id = view.getId();
+        return r.getResourcePackageName(id) + ":" + r.getResourceTypeName(id) + "/" + r.getResourceEntryName(id);
+    }
+
+    private static void highlight(@NonNull View view, String attribute, @ColorInt int color) {
+        RenderingHelper.getDefault().addHighlight(view, attribute, color);
+    }
+
+    /**
+     * Gets the full version of an attribute, with its eventual prefix and suffix.
+     *
+     * @param view         the view mapped to this attribute.
+     * @param rawAttribute the raw value of the attribute.
+     * @return the attribute value, prefixed and suffixed if any was specified on the view.
+     */
+    public static String getFullAttribute(View view, String rawAttribute) {
+        String attribute = "";
+        final int id = view.getId();
+        final String prefix = prefixes.get(id);
+        final String suffix = suffixes.get(id);
+        if (prefix != null) {
+            attribute = prefix;
+        }
+        attribute += rawAttribute;
+        if (suffix != null) {
+            attribute = prefix;
+        }
+        return attribute;
     }
 }

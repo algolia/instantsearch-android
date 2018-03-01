@@ -57,7 +57,7 @@ import static com.algolia.instantsearch.events.ResultEvent.REQUEST_UNKNOWN;
  */
 @SuppressWarnings("UnusedReturnValue") // chaining
 public class Searcher {
-    private static Searcher instance;
+    private static Map<String, Searcher> instances = new HashMap<>();
 
     /** The {@link Index} targeted by this Searcher. */
     private Index index;
@@ -65,6 +65,9 @@ public class Searcher {
     private final Client client;
     /** The current state of the search {@link Query}. */
     private Query query;
+    /** The variant identifying this Searcher. */
+    @SuppressWarnings("WeakerAccess") // For library users
+    public final String variant;
 
     /** The {@link AlgoliaResultsListener listeners} that will receive search results. */
     private final List<AlgoliaResultsListener> resultListeners = new ArrayList<>();
@@ -103,53 +106,110 @@ public class Searcher {
     /** The SparseArray associating pending requests with their {@link Searcher#lastRequestId identifier}. */
     private final SparseArray<Request> pendingRequests = new SparseArray<>();
 
-    /***
-     * Gets the Searcher.
-     * @return the current Searcher instance.
+    /**
+     * Gets the default Searcher.
+     *
+     * @return the only (or alternatively the first) Searcher instance.
      * @throws IllegalStateException if no searcher was {@link #create(Index) created} before.
      */
     public static Searcher get() {
-        if (instance == null) {
-            throw new IllegalStateException(Errors.SEARCHER_GET_BEFORE_CREATE);
-        }
-        return instance;
+        return instances.get(instances.keySet().iterator().next());
     }
 
     /**
-     * Constructs the Searcher from an existing {@link Index}.
+     * Gets the Searcher for a given variant.
+     *
+     * @param variant an identifier to differentiate this Searcher from eventual others.
+     * @return the corresponding Searcher instance.
+     * @throws IllegalStateException if no searcher was {@link #create(Index) created} before for this {@code variant}.
+     */
+    public static Searcher get(String variant) {
+        final Searcher searcher = instances.get(variant);
+        if (searcher == null) {
+            throw new IllegalStateException(Errors.SEARCHER_GET_BEFORE_CREATE);
+        }
+        return searcher;
+    }
+
+    /**
+     * Constructs a Searcher, creating its {@link Searcher#index} and {@link Searcher#client} with the given parameters.
+     *
+     * @param appId     your Algolia Application ID.
+     * @param apiKey    a search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
+     * @param indexName the name of the index to target.
+     * @return the new instance.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public static Searcher create(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName) {
+        return create(new Client(appId, apiKey).getIndex(indexName), indexName);
+    }
+
+    /**
+     * Constructs a Searcher, creating its {@link Searcher#index} and {@link Searcher#client} with the given parameters.
+     *
+     * @param appId     your Algolia Application ID.
+     * @param apiKey    a search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
+     * @param indexName the name of the index to target.
+     * @param variant   an identifier to differentiate this Searcher from eventual others.
+     * @return the new instance.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public static Searcher create(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName, @NonNull String variant) {
+        return create(new Client(appId, apiKey).getIndex(indexName), variant);
+    }
+
+    /**
+     * Constructs a Searcher from an existing {@link Index}.
      *
      * @param index an Index initialized and eventually configured.
      * @return the new instance.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public static Searcher create(@NonNull final Index index) {
+        final String key = index.getIndexName();
+        Searcher instance = instances.get(key);
         if (instance == null) {
-            instance = new Searcher(index);
+            instance = new Searcher(index, key);
+            instances.put(key, instance);
+        } else {
+            throw new IllegalStateException("There is already a Searcher for index " + key + ", you must specify a variant.");
         }
         return instance;
     }
 
     /**
-     * Constructs an helper, creating its {@link Searcher#index} and {@link Searcher#client} with the given parameters.
+     * Constructs the Searcher from an existing {@link Index}, eventually replacing the existing searcher for {@code variant}.
      *
-     * @param appId     Your Algolia Application ID.
-     * @param apiKey    A search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
-     * @param indexName An index to target.
+     * @param variant an identifier to differentiate this Searcher from eventual others using the same index. Defaults to the index's name.
+     * @param index   an Index initialized and eventually configured.
      * @return the new instance.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public static Searcher create(@NonNull final String appId, @NonNull final String apiKey, @NonNull final String indexName) {
-        return create(new Client(appId, apiKey).getIndex(indexName));
+    public static Searcher create(@NonNull final Index index, @NonNull String variant) {
+        Searcher instance = instances.get(variant);
+        if (instance == null || instance.getIndex() != index) {
+            instance = new Searcher(index, variant);
+            instances.put(variant, instance);
+        }
+        return instance;
     }
 
-    private Searcher(@NonNull final Index index) {
+    private Searcher(@NonNull final Index index, @NonNull String variant) {
         this.index = index;
         this.client = index.getClient();
+        this.variant = variant;
         query = new Query();
         final LibraryVersion version = new LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME));
         if (!Arrays.asList(client.getUserAgents()).contains(version)) {
             client.addUserAgent(version);
         }
+    }
+
+    /**
+     * Destroys all Searcher instances.
+     */
+    public static void destroyAll() {
+        instances.clear();
     }
 
     /**
@@ -201,7 +261,7 @@ public class Searcher {
     public Searcher search(@Nullable final String queryString, @Nullable final Object origin) {
         if (queryString != null) {
             query.setQuery(queryString);
-            EventBus.getDefault().post(new QueryTextChangeEvent(queryString, origin));
+            EventBus.getDefault().post(new QueryTextChangeEvent(queryString, origin == null ? this : origin));
         }
         endReached = false;
         lastRequestPage = 0;
@@ -246,7 +306,7 @@ public class Searcher {
                     if (content == null) {
                         Log.e("Algolia|Searcher", "content is null but error too.");
                     } else {
-                        EventBus.getDefault().post(new ResultEvent(content, query, currentRequestId));
+                        EventBus.getDefault().post(new ResultEvent(Searcher.this, content, query, currentRequestId));
                         updateListeners(content, false);
                         updateFacetStats(content);
                     }
@@ -256,7 +316,7 @@ public class Searcher {
 
         final Request searchRequest;
         searchRequest = triggerSearch(searchHandler);
-        EventBus.getDefault().post(new SearchEvent(query, currentRequestId));
+        EventBus.getDefault().post(new SearchEvent(this, query, currentRequestId));
         pendingRequests.put(currentRequestId, searchRequest);
         return this;
     }
@@ -273,7 +333,6 @@ public class Searcher {
      */
     @NonNull
     public Searcher forwardBackendSearchResult(@NonNull JSONObject response) {
-        SearchResults results = new SearchResults(response);
         if (!hasHits(response)) {
             endReached = true;
         } else {
@@ -282,7 +341,7 @@ public class Searcher {
 
         updateListeners(response, false);
         updateFacetStats(response);
-        EventBus.getDefault().post(new ResultEvent(response, query, REQUEST_UNKNOWN));
+        EventBus.getDefault().post(new ResultEvent(this, response, query, REQUEST_UNKNOWN));
         return this;
     }
 
@@ -300,7 +359,7 @@ public class Searcher {
         }
         query.setPage(++lastRequestPage);
         final int currentRequestId = ++lastRequestId;
-        EventBus.getDefault().post(new SearchEvent(query, currentRequestId));
+        EventBus.getDefault().post(new SearchEvent(this, query, currentRequestId));
         pendingRequests.put(currentRequestId, triggerSearch(new CompletionHandler() {
             @Override
             public void requestCompleted(@NonNull JSONObject content, @Nullable AlgoliaException error) {
@@ -321,7 +380,7 @@ public class Searcher {
                     } else {
                         endReached = true;
                     }
-                    EventBus.getDefault().post(new ResultEvent(content, query, currentRequestId));
+                    EventBus.getDefault().post(new ResultEvent(Searcher.this, content, query, currentRequestId));
                 }
             }
         }));
@@ -330,7 +389,7 @@ public class Searcher {
 
     private Request triggerSearch(CompletionHandler searchHandler) {
         Request searchRequest;
-        if (disjunctiveFacets.size() != 0) {
+        if (!disjunctiveFacets.isEmpty()) {
             searchRequest = index.searchDisjunctiveFacetingAsync(query, disjunctiveFacets, refinementMap, searchHandler);
         } else {
             searchRequest = index.searchAsync(query, searchHandler);
@@ -446,7 +505,7 @@ public class Searcher {
         attributeRefinements.addAll(values);
         rebuildQueryFacetFilters();
         for (String value : values) {
-            EventBus.getDefault().post(new FacetRefinementEvent(ADD, attribute, value, isDisjunctive));
+            EventBus.getDefault().post(new FacetRefinementEvent(this, ADD, attribute, value, isDisjunctive));
         }
         return this;
     }
@@ -467,7 +526,7 @@ public class Searcher {
         List<String> attributeRefinements = getOrCreateRefinements(attribute);
         attributeRefinements.remove(value);
         rebuildQueryFacetFilters();
-        EventBus.getDefault().post(new FacetRefinementEvent(REMOVE, attribute, value, disjunctiveFacets.contains(attribute)));
+        EventBus.getDefault().post(new FacetRefinementEvent(this, REMOVE, attribute, value, disjunctiveFacets.contains(attribute)));
         return this;
     }
 
@@ -509,7 +568,7 @@ public class Searcher {
      * @return the refinements enabled for the given attribute, or {@code null} if there is none.
      */
     @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"}) // For library users
-    public @Nullable List<String> getFacetRefinements(@NonNull String attribute) {
+    @Nullable public List<String> getFacetRefinements(@NonNull String attribute) {
         return refinementMap.get(attribute);
     }
 
@@ -557,8 +616,8 @@ public class Searcher {
      * @return a {@link NumericRefinement} describing the current refinement for these parameters, or {@code null} if there is none.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public @Nullable
-    NumericRefinement getNumericRefinement(@NonNull String attribute, int operator) {
+    @Nullable
+    public NumericRefinement getNumericRefinement(@NonNull String attribute, int operator) {
         NumericRefinement.checkOperatorIsValid(operator);
         final SparseArray<NumericRefinement> attributeRefinements = numericRefinements.get(attribute);
         return attributeRefinements == null ? null : attributeRefinements.get(operator);
@@ -579,7 +638,7 @@ public class Searcher {
         refinements.put(refinement.operator, refinement);
         numericRefinements.put(refinement.attribute, refinements);
         rebuildQueryNumericFilters();
-        EventBus.getDefault().post(new NumericRefinementEvent(ADD, refinement));
+        EventBus.getDefault().post(new NumericRefinementEvent(this, ADD, refinement));
         return this;
     }
 
@@ -622,7 +681,7 @@ public class Searcher {
             numericRefinements.get(refinement.attribute).remove(refinement.operator);
         }
         rebuildQueryNumericFilters();
-        EventBus.getDefault().post(new NumericRefinementEvent(Operation.REMOVE, refinement));
+        EventBus.getDefault().post(new NumericRefinementEvent(this, Operation.REMOVE, refinement));
         return this;
     }
     //endregion
@@ -650,7 +709,7 @@ public class Searcher {
      * @return the refinement value, or {@code null} if there is none.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public @Nullable Boolean getBooleanFilter(String attribute) {
+    @Nullable public Boolean getBooleanFilter(String attribute) {
         return booleanFilterMap.get(attribute);
     }
 
@@ -826,7 +885,7 @@ public class Searcher {
      * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public @NonNull Searcher setIndex(@NonNull String indexName) {
+    @NonNull public Searcher setIndex(@NonNull String indexName) {
         index = client.getIndex(indexName);
         query.setPage(0);
         return this;
@@ -929,6 +988,17 @@ public class Searcher {
         });
     }
 
+    @Override public String toString() {
+        String key = null;
+        for (Map.Entry<String, Searcher> entry : instances.entrySet()) { //TODO: Refact with BiMap
+            if (this.equals(entry.getValue())) {
+                key = entry.getKey();
+                break;
+            }
+        }
+        return "Searcher{" + (key != null ? key : "") + "}";
+    }
+
     private Searcher rebuildQueryFacetFilters() {
         JSONArray facetFilters = new JSONArray();
         for (Map.Entry<String, List<String>> entry : refinementMap.entrySet()) {
@@ -975,11 +1045,11 @@ public class Searcher {
         return attributeRefinements;
     }
 
-    private void cancelRequest(Request request, Integer requestSeqNumber) {
+    private void cancelRequest(Request request, int requestSeqNumber) {
         if (!request.isCancelled()) {
             request.cancel();
             pendingRequests.delete(requestSeqNumber);
-            EventBus.getDefault().post(new CancelEvent(request, requestSeqNumber));
+            EventBus.getDefault().post(new CancelEvent(this, request, requestSeqNumber));
         } else {
             throw new IllegalStateException("cancelRequest was called on a request that was already canceled.");
         }
@@ -1001,7 +1071,7 @@ public class Searcher {
         for (AlgoliaErrorListener listener : errorListeners) {
             listener.onError(query, error);
         }
-        EventBus.getDefault().post(new ErrorEvent(error, query, currentRequestId));
+        EventBus.getDefault().post(new ErrorEvent(this, error, query, currentRequestId));
     }
 
 }
