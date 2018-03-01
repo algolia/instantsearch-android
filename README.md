@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/algolia/instantsearch-android.svg?branch=master)](https://travis-ci.org/algolia/instantsearch-android)
 
-InstantSearch family: **InstantSearch Android** | [InstantSearch iOS][instantsearch-ios-github] | [React InstantSearch][react-instantsearch-github] | [InstantSearch.js][instantsearch-js-github].
+InstantSearch family: **InstantSearch Android** | [InstantSearch iOS][instantsearch-ios-github] | [React InstantSearch][react-instantsearch-github] | [InstantSearch.js][instantsearch-js-github] | [Angular InstantSearch][instantsearch-angular-github] | [Vue InstantSearch][instantsearch-vue-github].
 
 
 **InstantSearch Android** is a library providing widgets and helpers to help you build the best instant-search experience on Android with Algolia.
@@ -38,3 +38,6 @@ InstantSearch Android is [MIT licensed](LICENSE.md).
 [react-instantsearch-github]: https://github.com/algolia/react-instantsearch/
 [instantsearch-ios-github]: https://github.com/algolia/instantsearch-ios
 [instantsearch-js-github]: https://github.com/algolia/instantsearch.js
+[instantsearch-vue-github]: https://github.com/algolia/vue-instantsearch
+[instantsearch-angular-github]: https://github.com/algolia/angular-instantsearch
+
