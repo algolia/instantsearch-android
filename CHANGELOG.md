@@ -1,5 +1,24 @@
 # Changelog
 
+# 1.5.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.4.1...v1.4.0) (2018-02-14)
+This release adds **Multi-index Search** capabilities. See the associated [movies example](https://community.algolia.com/instantsearch-android/examples.html#movies-application).
+
+### Bug fixes
+
+* **BindingHelper:** Correct use of `DEFAULT_COLOR` ([1fa0b68](https://github.com/algolia/instantsearch-android/commit/1fa0b68))
+* **BindingHelper:** databound color becomes ColorRes ([f16892b](https://github.com/algolia/instantsearch-android/commit/f16892b))
+* **Hits:** Handle null variant as well ([a781c33](https://github.com/algolia/instantsearch-android/commit/a781c33))
+* **Hits:** Ignore any view with null attribute ([611418b](https://github.com/algolia/instantsearch-android/commit/611418b))
+* **RefinementList:** remove duplicates from merge ([2acd1cc](https://github.com/algolia/instantsearch-android/commit/2acd1cc))
+
+### Features
+
+* **BindingHelper:** Prefix/Suffix databinding attributes ([e4aacb0](https://github.com/algolia/instantsearch-android/commit/e4aacb0))
+* **InstantSearch:** register widgets from fragment ([4a84999](https://github.com/algolia/instantsearch-android/commit/4a84999))
+* **LayoutViews:** Implement findAny ([7768e9c](https://github.com/algolia/instantsearch-android/commit/7768e9c))
+* **Searcher:** Multiple searchers identified by indexName/variant ([554013d](https://github.com/algolia/instantsearch-android/commit/554013d))
+
+
 # 1.4.2 [Changes](https://github.com/algolia/instantsearch-android/compare/1.4.1...v1.4.0) (2018-02-14)
 
 ### Bug fixes
