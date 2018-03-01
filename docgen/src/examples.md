@@ -42,5 +42,12 @@ This example imitates a product search interface like well-known e-commerce appl
 
 <a href="https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce" class="btn btn-static-primary">See example <i class="icon icon-arrow-right"></i></a>
 
-[media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
-[ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
+## Movies application
+<img src="assets/img/movies.gif" class="img-object" align="right"/>
+
+This example showcases multi-index search, presented either as [tabs](https://github.com/algolia/instantsearch-android-examples/blob/master/movies/src/main/java/com/algolia/instantsearch/examples/movies/MoviesTabsActivity.java) or as [sections](https://github.com/algolia/instantsearch-android-examples/blob/master/movies/src/main/java/com/algolia/instantsearch/examples/movies/MoviesSectionsActivity.java).
+
+- Search in the **movie's title**, **movie's actors**, and **actor's name**
+- Filter by *number of views*, *rating*, *video quality* or *captioning*
+
+<a href="https://github.com/algolia/instantsearch-android-examples/tree/master/movies" class="btn btn-static-primary">See example <i class="icon icon-arrow-right"></i></a>
