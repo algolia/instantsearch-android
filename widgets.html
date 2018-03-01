@@ -278,7 +278,7 @@ Once instantiated, a <strong>SearchProgressController</strong> will inform its <
 <pre class="CodeMirror cm-s-eclipse"><code><span class="cm-variable">searcher</span>.<span class="cm-variable">search</span>(<span class="cm-variable">getIntent</span>()); <span class="cm-comment">// Show results for empty query (on app launch) / voice query (from intent)</span>
 </code></pre>
 <p><em>If your activity’s <a href="https://developer.android.com/guide/topics/manifest/activity-element.html#lmode">launchMode</a> is not <code>standard</code>, you need to handle the intent in <code>onNewIntent</code> as well:</em></p>
-<pre class="CodeMirror cm-s-eclipse"><code><span class="cm-meta">@Override</span> <span class="cm-keyword">protected</span> <span class="cm-type">void</span> <span class="cm-def">onNewIntent</span>(<span class="cm-variable">Intent</span> <span class="cm-variable">intent</span>) {
+<pre class="CodeMirror cm-s-eclipse"><code><span class="cm-meta">@Override</span> <span class="cm-keyword">protected</span> <span class="cm-variable-3">void</span> <span class="cm-def">onNewIntent</span>(<span class="cm-variable">Intent</span> <span class="cm-variable">intent</span>) {
     <span class="cm-keyword">super</span>.<span class="cm-variable">onNewIntent</span>(<span class="cm-variable">intent</span>);
     <span class="cm-variable">searcher</span>.<span class="cm-variable">search</span>(<span class="cm-variable">intent</span>); <span class="cm-comment">// Show results for voice query (from intent)</span>
 }
@@ -397,11 +397,20 @@ If you add a View to your layout with the id <strong><code>@android:id/empty</co
 <p>As the Hits widget is based on a <code>RecyclerView</code>, we use <a href="http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/">Hugo Visser’s <code>ItemClickSupport</code></a> to let you react to clicks on individual hits. To do so, add an <a href="javadoc/com/algolia/instantsearch/ui/utils/ItemClickSupport.OnItemClickListener.html"><code>OnItemClickListener</code></a> to your hits:</p>
 <pre class="CodeMirror cm-s-eclipse"><code><span class="cm-variable">hits</span>.<span class="cm-variable">setOnItemClickListener</span>(<span class="cm-keyword">new</span> <span class="cm-variable">ItemClickSupport</span>.<span class="cm-variable">OnItemClickListener</span>() {
     <span class="cm-meta">@Override</span>
-    <span class="cm-keyword">public</span> <span class="cm-type">void</span> <span class="cm-variable">onItemClick</span>(<span class="cm-variable">RecyclerView</span> <span class="cm-variable">recyclerView</span>, <span class="cm-type">int</span> <span class="cm-variable">position</span>, <span class="cm-variable">View</span> <span class="cm-variable">v</span>) {
+    <span class="cm-keyword">public</span> <span class="cm-variable-3">void</span> <span class="cm-variable">onItemClick</span>(<span class="cm-variable">RecyclerView</span> <span class="cm-variable">recyclerView</span>, <span class="cm-variable-3">int</span> <span class="cm-variable">position</span>, <span class="cm-variable">View</span> <span class="cm-variable">v</span>) {
         <span class="cm-variable">JSONObject</span> <span class="cm-variable">hit</span> <span class="cm-operator">=</span> <span class="cm-variable">hits</span>.<span class="cm-variable">get</span>(<span class="cm-variable">position</span>);
         <span class="cm-comment">// Do something with the hit</span>
     }
  });
+</code></pre>
+<h3 id="prefixing-and-suffixing-attributes">Prefixing and suffixing attributes <a class="anchor" href="widgets.html#prefixing-and-suffixing-attributes" aria-hidden="true"></a></h3>
+<p>You might need to apply a prefix or suffix to a View’s attribute value. A common use case is image attributes having only a relative path like <code>foo.png</code>, and requiring a prefix like <code>https://example.com/files/</code> to get the full image path.</p>
+<p>To achieve this, you can add either or both <code>prefix</code> / <code>suffix</code> attributes to your view. For example, if your attribute value is <code>foo</code> but you want the full value to be <code>https://example.com/files/foo.png</code>:</p>
+<pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">ImageView</span>
+    <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/name&quot;</span>
+    <span class="cm-attribute">algolia:attribute</span>=<span class="cm-string">&#39;@{&quot;image&quot;}&#39;</span>
+    <span class="cm-attribute">algolia:prefix</span>=<span class="cm-string">&#39;@{&quot;https://example.com/files/&quot;}&#39;</span>
+    <span class="cm-attribute">algolia:suffix</span>=<span class="cm-string">&#39;@{&quot;.png&quot;}&#39;</span><span class="cm-tag cm-bracket">/&gt;</span>
 </code></pre>
 <h3 id="highlighting">Highlighting <a class="anchor" href="widgets.html#highlighting" aria-hidden="true"></a></h3>
 <img src="assets/img/highlighting.png" class="img-object" align="right"/>
@@ -413,7 +422,7 @@ If you add a View to your layout with the id <strong><code>@android:id/empty</co
     <span class="cm-attribute">algolia:highlighted</span>=<span class="cm-string">&quot;@{true}&quot;</span><span class="cm-tag cm-bracket">/&gt;</span>
 </code></pre>
 <p>This will highlight the attribute according to the query term, like you can see in the screenshot. The color used by default for highlighting is <code>R.color.colorHighlighting</code>, which you can override in your application.</p>
-<p>You can also specify <code>algolia:highlightingColor='@{&quot;color/appDefinedColor&quot;}'</code> on a <code>View</code> to use a specific color for this one only.</p>
+<p>You can also specify <code>algolia:highlightingColor='@{R.color.color_foo}'</code> on a <code>View</code> to use a specific color for this one only.</p>
 <p>Note that highlighting <strong>only works automatically on TextViews</strong>. if you implement a <a href="widgets.html#custom-hit-views">custom hit view</a> or to highlight results received by your <a href="widgets.html#anatomy-of-an-algoliawidget">custom widget</a>, you should use the <a href="javadoc/com/algolia/instantsearch/helpers/Highlighter.html"><code>Highlighter</code></a>.
 This tool will let you build a highlighted <a href="https://developer.android.com/reference/android/text/Spannable.html"><code>Spannable</code></a> from a search result and an optional highlight color:</p>
 <pre class="CodeMirror cm-s-eclipse"><code><span class="cm-keyword">final</span> <span class="cm-variable">Spannable</span> <span class="cm-variable">highlightedAttribute</span> <span class="cm-operator">=</span> <span class="cm-variable">Highlighter</span>.<span class="cm-variable">getDefault</span>().<span class="cm-variable">renderHighlightColor</span>(<span class="cm-variable">result</span>, <span class="cm-variable">attributeToHighlight</span>, <span class="cm-variable">context</span>);
