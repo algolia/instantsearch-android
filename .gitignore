@@ -25,3 +25,5 @@ preview.zip
 
 # Logs
 npm-debug.log
+fastlane/README.md
+fastlane/report.xml
