@@ -14,12 +14,10 @@ default_platform(:android)
 platform :android do
   desc "Runs all the tests"
   lane :test do
-    gradle(task: "test")
+    gradle(task: "test", build_type: "Release")
   end
-
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+  desc "Deploy to BinTray. Usage: deploy VERSION"
+  lane :deploy do |options|
+    sh("./release.sh #{options[:version]}")
   end
 end
