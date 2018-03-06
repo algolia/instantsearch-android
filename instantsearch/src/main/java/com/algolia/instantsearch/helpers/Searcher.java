@@ -813,6 +813,24 @@ public class Searcher {
         return this;
     }
 
+    /**
+     * Unlinks the given listener to the Searcher, which will stop forwarding new search results to it.
+     *
+     * @param resultListener the {@link AlgoliaResultsListener result listener} to be removed.
+     */
+    public void unregisterResultListener(@NonNull AlgoliaResultsListener resultListener) {
+        resultListeners.remove(resultListener);
+    }
+
+    /**
+     * Unlinks the given listener to the Searcher, which will stop forwarding new search errors to it.
+     *
+     * @param errorListener the {@link AlgoliaErrorListener error listener} to be removed.
+     */
+    public void unregisterErrorListener(@NonNull AlgoliaErrorListener errorListener) {
+        errorListeners.remove(errorListener);
+    }
+
     //TODO REORGANIZE
 
     /**

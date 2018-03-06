@@ -26,6 +26,13 @@ fi
 
 VERSION_CODE=$1
 
+# Only release from master
+currentBranch=`git rev-parse --abbrev-ref HEAD`
+if [ $currentBranch != 'master' ]; then
+  printf "Release: You must be on master\n"
+  exit 1
+fi
+
 # Check that the working repository is clean (without any changes, neither staged nor unstaged).
 # An exception is the change log, which should have been edited, but not necessarily committed (we usually commit it
 # along with the version number).

@@ -1,0 +1,27 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test", build_type: "Release")
+  end
+  desc "Deploy to BinTray. Usage: deploy VERSION"
+  lane :deploy do |options|
+    Dir.chdir("..") do
+      # code here runs in the parent directory
+    puts "Options: #{options}"
+    sh("./release.sh #{options[:version]}")
+    end
+  end
+end
