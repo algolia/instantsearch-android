@@ -1,11 +1,12 @@
-include ../common/meta.pug
-body.documentation
-  include ../common/header.pug
-  include ../common/hero.pug
+extends ../common/meta.pug
 
-  section.examples-section
-    .container
-      block content
-  include ../common/footer.pug
-  script(src=webpack.assets['js/main.js'])
-</html>
+block body
+  body.documentation
+    include ../common/header.pug
+    include ../common/hero.pug
+
+    section.examples-section
+      .container
+        block content
+    include ../common/footer.pug
+    script(src=webpack.assets['js/main.js'])
