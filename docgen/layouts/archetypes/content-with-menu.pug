@@ -1,16 +1,16 @@
-include ../common/meta.pug
-body.documentation
-  include ../common/header.pug
-  include ../common/hero.pug
+extends ../common/meta.pug
+block body
+  body.documentation
+    include ../common/header.pug
+    include ../common/hero.pug
 
-  section.documentation-section
-    .container
-      nav.sidebar
-        block navigation
-      a.sidebar-opener
-      .documentation-container
-        block content
+    section.documentation-section
+      .container
+        nav.sidebar
+          block navigation
+        a.sidebar-opener
+        .documentation-container
+          block content
 
-  include ../common/footer.pug
-  script(src=webpack.assets['js/main.js'])
-</html>
+    include ../common/footer.pug
+    script(src=webpack.assets['js/main.js'])
