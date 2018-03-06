@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.6.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.6.0...1.6.1) (2018-03-06)
+> Shallow release to fix missing javadoc jar
+
 ## 1.6.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.5.0...1.6.0) (2018-03-06)
 
 ### Features
