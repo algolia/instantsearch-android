@@ -1,6 +1,13 @@
 # Changelog
 
-# 1.5.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.4.1...v1.4.0) (2018-02-14)
+## 1.6.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.5.0...1.6.0) (2018-03-06)
+
+### Features
+
+* **Searcher:** Unregister listeners ([886658f](https://github.com/algolia/instantsearch-android/commit/886658f))
+
+
+## 1.5.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.4.1...v1.4.0) (2018-02-14)
 This release adds **Multi-index Search** capabilities. See the associated [movies example](https://community.algolia.com/instantsearch-android/examples.html#movies-application).
 
 ### Bug fixes
@@ -19,14 +26,13 @@ This release adds **Multi-index Search** capabilities. See the associated [movie
 * **Searcher:** Multiple searchers identified by indexName/variant ([554013d](https://github.com/algolia/instantsearch-android/commit/554013d))
 
 
-# 1.4.2 [Changes](https://github.com/algolia/instantsearch-android/compare/1.4.1...v1.4.0) (2018-02-14)
+## 1.4.2 [Changes](https://github.com/algolia/instantsearch-android/compare/1.4.1...v1.4.0) (2018-02-14)
 
 ### Bug fixes
 
 * **RefinementList**: Iterate until min(limit, values.size)
 
-<a name=""></a>
-# 1.4.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.4.0...1.4.1) (2018-01-17)
+## 1.4.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.4.0...1.4.1) (2018-01-17)
 
 ### Bug Fixes
 
@@ -37,7 +43,7 @@ This release adds **Multi-index Search** capabilities. See the associated [movie
 * **Searcher:** searchOnEmptyString was inverted ([6c55602](https://github.com/algolia/instantsearch-android/commit/6c55602))
 
 
-# 1.4.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.3.0...1.4.0) (2017-12-13)
+## 1.4.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.3.0...1.4.0) (2017-12-13)
 
 ### Bug Fixes
 
@@ -54,7 +60,7 @@ This release adds **Multi-index Search** capabilities. See the associated [movie
 * **Searcher:** Implement getFacetRefinements ([8711c1c](https://github.com/algolia/instantsearch-android/commit/8711c1c))
 
 
-# 1.3.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.2.3...1.3.0) (2017-11-29)
+## 1.3.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.2.3...1.3.0) (2017-11-29)
 This release adds **Voice Search** capabilities to the SearchBox. See the associated [guide](https://community.algolia.com/instantsearch-android/widgets.html#voice-search).
 
 ### Bug Fixes
