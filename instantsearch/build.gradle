@@ -180,7 +180,7 @@ publishing.publications {
 
         artifact "${project.buildDir}/outputs/aar/${project.name}-release.aar"
         artifact sourcesJar
-        artifact javadocJar
+        artifact "${project.buildDir}/libs/instantsearch-${project.ext.VERSION}-javadoc.jar"
         artifact "${project.buildDir}/${project.ext.BASENAME}-${project.ext.VERSION}.pom"
     }
 }
