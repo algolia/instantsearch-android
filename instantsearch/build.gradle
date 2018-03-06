@@ -25,7 +25,7 @@ ext {
     LICENSE = 'MIT'
     LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
     VERSION = '1.5.0'
-    VERSION_DESC = 'Version Beta ' + VERSION
+    VERSION_DESC = 'Version ' + VERSION
 
     VERSION_APPCOMPAT = '26.1.0'
 }
