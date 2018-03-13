@@ -14,6 +14,7 @@ default_platform(:android)
 platform :android do
   desc "Runs all the tests"
   lane :test do
+    update_deps_to_use_commit_hash_if_workflow_triggered_by_client()
     gradle(task: "test", build_type: "Release")
   end
   desc "Deploy to BinTray. Usage: deploy VERSION"
@@ -25,3 +26,30 @@ platform :android do
     end
   end
 end
+
+def update_deps_to_use_commit_hash_if_workflow_triggered_by_client()
+    if ENV['GIT_DEPENDENT_COMMIT_HASH']
+        file_name = "../instantsearch/build.gradle"
+        replacement = "    compile 'com.github.algolia:algoliasearch-client-android:#{ENV["GIT_DEPENDENT_COMMIT_HASH"]}'"
+        client_regex = /^.*com.algolia:algoliasearch-android:.*$/m
+        file_edit(file_name, client_regex, replacement)
+        puts "Changed gradle script to build with algolia/algoliasearch-client-android with commit #{ENV["GIT_DEPENDENT_COMMIT_HASH"]}"
+    else
+      puts "No specific dependencies to test, proceeding with latest release of API Client."
+    end
+end
+
+def file_edit(filename, regexp, replacement)
+  Tempfile.open(".#{File.basename(filename)}", File.dirname(filename)) do |tempfile|
+    File.open(filename).each do |line|
+      tempfile.puts line.gsub(regexp, replacement)
+    end
+    tempfile.fdatasync
+    tempfile.close
+    stat = File.stat(filename)
+    FileUtils.chown stat.uid, stat.gid, tempfile.path
+    FileUtils.chmod stat.mode, tempfile.path
+    FileUtils.mv tempfile.path, filename
+  end
+end
+
