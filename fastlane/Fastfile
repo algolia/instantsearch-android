@@ -1,13 +1,4 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
+fastlane_require "increment_semver"
 
 default_platform(:android)
 
@@ -17,13 +8,29 @@ platform :android do
     update_deps_to_use_commit_hash_if_workflow_triggered_by_client()
     gradle(task: "test", build_type: "Release")
   end
-  desc "Deploy to BinTray. Usage: deploy VERSION"
+
+  desc "Deploy the library. Available options: type:major|minor|patch optional: notest:true|false (default false)"
   lane :deploy do |options|
-    Dir.chdir("..") do
-      # code here runs in the parent directory
-    puts "Options: #{options}"
-    sh("./release.sh #{options[:version]}")
+    notest = options[:notest] || false
+    type = options[:type]
+    UI.user_error!("You need to specify a type.") unless type != nil
+    UI.user_error!("Type #{type} is not a valid type (patch/minor/major") unless ["major","minor","patch"].include? type
+
+    # Version handling
+    current_version = get_version_name(
+      gradle_file_path:"instantsearch/build.gradle",
+      ext_constant_name:"VERSION"
+    ).tr("'", "")
+    puts "Current version: #{current_version}"
+    version_number = increment_semver(current_version, type)
+    puts "New version: #{version_number}"
+
+    # Tests / deployment
+    if notest == false
+        test()
     end
+    prepare_git(branch, false)
+    sh("cd .. && ./release.sh #{version_number}")
   end
 end
 
