@@ -27,9 +27,9 @@ fi
 VERSION_CODE=$1
 
 # Only release from master
-currentBranch=`git rev-parse --abbrev-ref HEAD`
-if [ $currentBranch != 'master' ]; then
-  printf "Release: You must be on master\n"
+currentBranch=$(git rev-parse --abbrev-ref HEAD)
+if [ "$currentBranch" != 'master' ]; then
+  printf "Release: You must be on master\\n"
   exit 1
 fi
 
