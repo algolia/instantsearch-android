@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.2 [Changes](https://github.com/algolia/instantsearch-android/compare/1.6.1...1.6.2) (2018-03-16)
+
+### Features
+* **fastlane:** Build client at a specific commit if specified ([e1321ab](https://github.com/algolia/instantsearch-android/commit/e1321ab))
+
 ## 1.6.1 [Changes](https://github.com/algolia/instantsearch-android/compare/1.6.0...1.6.1) (2018-03-06)
 > Shallow release to fix missing javadoc jar
 
