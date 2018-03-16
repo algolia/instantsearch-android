@@ -26,26 +26,42 @@ platform :android do
     version_number = increment_semver(current_version, type)
     puts "New version: #{version_number}"
 
+    # Changelog handling
+    changes = sh("conventional-changelog --preset angular --output-unreleased", log:false)
+    changes_lines = changes.split(/\n+/)[2..-1] # Remove header
+    changes_lines[0].gsub!(/^#.*(\([^v]+)v(.*)$/, "## #{version_number} \[Changes\]\\1#{version_number}\\2\n")
+    changes = changes_lines.join("\n")
+    puts "Changes: #{changes}"
+    file_edit("../CHANGELOG.md", /^(# Changelog\n+)/, "\\1\n#{changes}\n")
+
     # Tests / deployment
     if notest == false
-        test()
+      test()
     end
+    # Pull recent changes, stashing the changelog
     ensure_git_branch(branch:"master")
+    stash_name = "release-#{version_number}-changelog"
+    sh("git stash push -m #{stash_name}" "../CHANGELOG.md")
     git_pull
+    has_stash = sh("git stash list")
+    if has_stash.include? version_number
+      sh("git stash pop")
+    end
+
     sh("cd .. && ./release.sh #{version_number}")
   end
 end
 
 def update_deps_to_use_commit_hash_if_workflow_triggered_by_client()
-    if ENV['GIT_DEPENDENT_COMMIT_HASH']
-        file_name = "../instantsearch/build.gradle"
-        replacement = "    compile 'com.github.algolia:algoliasearch-client-android:#{ENV["GIT_DEPENDENT_COMMIT_HASH"]}'"
-        client_regex = /^.*com.algolia:algoliasearch-android:.*$/m
-        file_edit(file_name, client_regex, replacement)
-        puts "Changed gradle script to build with algolia/algoliasearch-client-android with commit #{ENV["GIT_DEPENDENT_COMMIT_HASH"]}"
-    else
-      puts "No specific dependencies to test, proceeding with latest release of API Client."
-    end
+  if ENV['GIT_DEPENDENT_COMMIT_HASH']
+    file_name = "../instantsearch/build.gradle"
+    replacement = "    compile 'com.github.algolia:algoliasearch-client-android:#{ENV["GIT_DEPENDENT_COMMIT_HASH"]}'"
+    client_regex = /^.*com.algolia:algoliasearch-android:.*$/m
+    file_edit(file_name, client_regex, replacement)
+    puts "Changed gradle script to build with algolia/algoliasearch-client-android with commit #{ENV["GIT_DEPENDENT_COMMIT_HASH"]}"
+  else
+    puts "No specific dependencies to test, proceeding with latest release of API Client."
+  end
 end
 
 def file_edit(filename, regexp, replacement)
