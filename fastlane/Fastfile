@@ -30,7 +30,8 @@ platform :android do
     if notest == false
         test()
     end
-    prepare_git(branch, false)
+    ensure_git_branch(branch:"master")
+    git_pull
     sh("cd .. && ./release.sh #{version_number}")
   end
 end
