@@ -34,6 +34,9 @@ platform :android do
     puts "Changes: #{changes}"
     file_edit("../CHANGELOG.md", /^(# Changelog\n+)/, "\\1\n#{changes}\n")
 
+    release_github(version_number, changes)
+    exit
+
     # Tests / deployment
     if notest == false
       test()
@@ -49,6 +52,8 @@ platform :android do
     end
 
     sh("cd .. && ./release.sh #{version_number}")
+
+    post_github_release(version_number, changes)
   end
 end
 
@@ -78,3 +83,8 @@ def file_edit(filename, regexp, replacement)
   end
 end
 
+def post_github_release(version, changes, token=ENV['GITHUB_TOKEN'])
+  release_changes = changes.gsub(/^## #{version} /m, "## ").gsub("\n", "\\n")
+  json=%Q[{"tag_name": "#{version}","target_commitish": "master","name": "#{version}","body": "#{release_changes}","draft": false,"prerelease": false}]
+  sh(%{curl --data '#{json}' https://api.github.com/repos/algolia/instantsearch-android/releases?access_token=#{token}})
+end
