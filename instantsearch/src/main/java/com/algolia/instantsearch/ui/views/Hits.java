@@ -76,7 +76,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
 
     @NonNull private HitsAdapter adapter;
     @NonNull private LayoutManager layoutManager;
-    @NonNull private Searcher searcher;
+    @SuppressWarnings("NullableProblems" /* late init*/) @NonNull private Searcher searcher;
     @NonNull private InputMethodManager imeManager;
 
     @Nullable private final InfiniteScrollListener infiniteScrollListener;
@@ -346,7 +346,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                 lastItemCount = totalItemCount;
                 if (totalItemCount == 0) {
                     // the list is empty -> do nothing until we get more results.
-                    currentlyLoading = true;
+                    setCurrentlyLoading(true);
                     return;
                 }
             }
@@ -354,7 +354,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
             if (currentlyLoading) {
                 if (totalItemCount > lastItemCount) {
                     // the data changed, loading is finished
-                    currentlyLoading = false;
+                    setCurrentlyLoading(false);
                     lastItemCount = totalItemCount;
                 }
             } else {
@@ -363,7 +363,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                 if ((lastVisiblePosition + remainingItemsBeforeLoading > totalItemCount)) {
                     // we are under the loading threshold, let's load more data
                     searcher.loadMore();
-                    currentlyLoading = true;
+                    setCurrentlyLoading(true);
                 }
             }
         }
