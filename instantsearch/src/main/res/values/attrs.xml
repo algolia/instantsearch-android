@@ -17,7 +17,6 @@
     </declare-styleable>
     <declare-styleable name="Hits">
         <attr name="infiniteScroll" format="boolean"/>
-        <attr name="hitsPerPage" format="integer"/>
         <attr name="itemLayout" format="reference"/>
         <attr name="remainingItemsBeforeLoading" format="integer"/>
         <attr name="autoHideKeyboard" format="boolean"/>
