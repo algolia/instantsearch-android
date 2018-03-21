@@ -406,7 +406,6 @@ public class InstantSearch {
                     prepareWidget(listener, refinementAttributes);
                 }
             }
-
         }
 
         // Register any AlgoliaErrorListener (unless it has a different variant than searcher)
