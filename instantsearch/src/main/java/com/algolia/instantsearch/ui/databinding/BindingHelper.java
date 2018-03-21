@@ -16,6 +16,7 @@ import com.algolia.instantsearch.model.Errors;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Contains the {@link BindingAdapter} used for gathering {@link BindingHelper#bindings bound attributes}.
@@ -139,6 +140,16 @@ public class BindingHelper {
     private static boolean notAlreadyMapped(int id, @Nullable String variant) {
         final HashMap<Integer, String> indexMap = bindings.get(variant);
         return indexMap == null || indexMap.get(id) == null;
+    }
+
+    public static boolean isBound(int viewId) {
+        final Set<Map.Entry<String, HashMap<Integer, String>>> allVariants = bindings.entrySet();
+        for (Map.Entry<String, HashMap<Integer, String>> variantMap : allVariants) {
+            if (variantMap.getValue().keySet().contains(viewId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @SuppressLint("UseSparseArrays") // Using HashMap for O(1) containsKey in getVariantForView

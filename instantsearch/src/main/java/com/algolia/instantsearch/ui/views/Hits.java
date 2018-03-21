@@ -132,7 +132,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                 }
             }
 
-            BindingHelper.setVariantForView(this, attrs);
+            BindingHelper.setVariantForView(this, attrs); //TODO: Can I use this as default variant for all subviews?
         } finally {
             styledAttributes.recycle();
         }
@@ -567,12 +567,15 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                 // Get the index and variant for this layout
                 final List<View> views = LayoutViews.findAny((ViewGroup) itemView);
                 for (View view : views) {
-                    if (view instanceof AlgoliaHitView) {
+                    if (!BindingHelper.isBound(view.getId())) {
+                        continue; // If the view is not bound, we can skip it
+                    }
+                    if (view instanceof AlgoliaHitView) { //TODO: Test variants + AlgoliaHitView
                         continue;
                     }
+
                     String viewIndexVariant = BindingHelper.getVariantForView(view);
-                    final boolean isSameVariant = viewIndexVariant == null ?
-                            indexVariant == null : viewIndexVariant.equals(indexVariant);
+                    final boolean isSameVariant = viewIndexVariant == null ? indexVariant == null : viewIndexVariant.equals(indexVariant);
                     if (!defaultValue.equals(indexVariant) && !isSameVariant) {
                         throw new IllegalStateException("Hits found two conflicting variants within its views: " + indexVariant + " / " + viewIndexVariant + ".");
                     }
