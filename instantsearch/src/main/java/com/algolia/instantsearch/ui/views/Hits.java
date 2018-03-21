@@ -64,8 +64,6 @@ import java.util.Set;
  * Displays your search results in a flexible way. Built over a {@link RecyclerView}, it displays a limited window into a large data set of search results.
  */
 public class Hits extends RecyclerView implements AlgoliaResultsListener, AlgoliaErrorListener, AlgoliaSearcherListener {
-    /** Default amount of hits fetched with each page */
-    public static final int DEFAULT_HITS_PER_PAGE = 20;
     /** Default amount of remaining results to display before loading a new page */
     public static final int DEFAULT_REMAINING_ITEMS = 5;
 
@@ -74,7 +72,6 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
     /** The minimum number of items remaining below the fold before loading more. */
     private final int remainingItemsBeforeLoading;
 
-    @NonNull private final Integer hitsPerPage;
     private final int layoutId;
 
     @NonNull private HitsAdapter adapter;
@@ -97,7 +94,6 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         super(context, attrs);
 
         if (isInEditMode()) {
-            hitsPerPage = 0;
             remainingItemsBeforeLoading = 0;
             layoutId = 0;
             infiniteScrollListener = null;
@@ -115,7 +111,6 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         boolean infiniteScroll;
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Hits, 0, 0);
         try {
-            hitsPerPage = styledAttributes.getInt(R.styleable.Hits_hitsPerPage, DEFAULT_HITS_PER_PAGE);
             layoutId = styledAttributes.getResourceId(R.styleable.Hits_itemLayout, 0);
             infiniteScroll = styledAttributes.getBoolean(R.styleable.Hits_infiniteScroll, true);
             if (styledAttributes.getBoolean(R.styleable.Hits_autoHideKeyboard, false)) {
@@ -320,15 +315,6 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
      */
     public void setEmptyView(@Nullable View emptyView) {
         this.emptyView = emptyView;
-    }
-
-    /**
-     * Get the current hitsPerPage settings.
-     *
-     * @return the value of the attribute hitsPerPage if specified, else DEFAULT_HITS_PER_PAGE.
-     */
-    @NonNull public Integer getHitsPerPage() {
-        return hitsPerPage;
     }
 
     /**

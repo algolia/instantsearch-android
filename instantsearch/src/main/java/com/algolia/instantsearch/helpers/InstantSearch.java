@@ -461,8 +461,6 @@ public class InstantSearch {
         if (!widgets.contains(widget)) { // process once each widget
             widgets.add(widget);
             if (widget instanceof Hits) {
-                searcher.getQuery().setHitsPerPage(((Hits) widget).getHitsPerPage());
-
                 // Link hits to activity's empty view //TODO: Remove rootView parameter if getRootView always works
                 ((Hits) widget).setEmptyView(getEmptyView(widget.getRootView()));
 
