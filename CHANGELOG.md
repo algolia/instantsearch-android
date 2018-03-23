@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.3 [Changes](https://github.com/algolia/instantsearch-android/compare/1.6.2...1.6.3) (2018-03-23)
+
+### Bug Fixes
+* **attrs.xml:** Expose prefix/suffix attributes ([f351758](https://github.com/algolia/instantsearch-android/commit/f351758))
+
 ## 1.6.2 [Changes](https://github.com/algolia/instantsearch-android/compare/1.6.1...1.6.2) (2018-03-16)
 
 ### Features
