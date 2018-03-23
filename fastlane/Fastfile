@@ -34,7 +34,7 @@ platform :android do
     puts "Changes: #{changes}"
     file_edit("../CHANGELOG.md", /^(# Changelog\n+)/, "\\1\n#{changes}\n")
 
-    release_github(version_number, changes)
+    post_github_release(version_number, changes)
     exit
 
     # Tests / deployment
