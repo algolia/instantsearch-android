@@ -38,6 +38,7 @@ fi
 # along with the version number).
 if [[ ! -z $(git status --porcelain | grep -v "$CHANGELOG" | grep -v "^?? ") ]]; then
     echo "ERROR: Working copy not clean! Aborting." 1>&2
+    echo "Changes: $(git status)"
     echo "Please revert or commit any pending changes before releasing." 1>&2
     exit 1
 fi
