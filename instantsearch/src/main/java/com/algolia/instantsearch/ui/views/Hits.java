@@ -264,6 +264,19 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         }
     }
 
+    protected
+    @Nullable
+    Spannable getHighlightedAttribute(@NonNull JSONObject hit, @NonNull View view, @NonNull String attribute, @Nullable String attributeValue) {
+        Spannable attributeText;
+        if (RenderingHelper.getDefault().shouldHighlight(view, attribute)) {
+            final int highlightColor = RenderingHelper.getDefault().getHighlightColor(view, attribute);
+            attributeText = Highlighter.getDefault().renderHighlightColor(hit, attribute, false, highlightColor);
+        } else {
+            attributeText = attributeValue != null ? new SpannableString(attributeValue) : null;
+        }
+        return attributeText;
+    }
+
     private void updateEmptyView() {
         if (emptyView == null) {
             return;
@@ -508,19 +521,6 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
 
         private float getFloatValue(String attributeValue) {
             return attributeValue != null ? Float.parseFloat(attributeValue) : 0;
-        }
-
-        private
-        @Nullable
-        Spannable getHighlightedAttribute(@NonNull JSONObject hit, @NonNull View view, @NonNull String attribute, @Nullable String attributeValue) {
-            Spannable attributeText;
-            if (RenderingHelper.getDefault().shouldHighlight(view, attribute)) {
-                final int highlightColor = RenderingHelper.getDefault().getHighlightColor(view, attribute);
-                attributeText = Highlighter.getDefault().renderHighlightColor(hit, attribute, highlightColor);
-            } else {
-                attributeText = attributeValue != null ? new SpannableString(attributeValue) : null;
-            }
-            return attributeText;
         }
 
         @Override

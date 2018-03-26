@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorHighlighting">#fffbb8</color>
+    <color name="colorSuggestions">#fff9c4</color>
     <color name="colorRefinementCount">#3F51B5</color>
     <color name="colorRefinementName">@android:color/primary_text_light</color>
     <color name="colorFilterBackground">#e0e0e0</color>
