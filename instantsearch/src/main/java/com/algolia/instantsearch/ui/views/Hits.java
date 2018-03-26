@@ -72,14 +72,14 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
     /** The minimum number of items remaining below the fold before loading more. */
     private final int remainingItemsBeforeLoading;
 
-    private final int layoutId;
+    protected int layoutId;
 
-    @NonNull private HitsAdapter adapter;
+    @NonNull protected HitsAdapter adapter;
     @NonNull private LayoutManager layoutManager;
     @SuppressWarnings("NullableProblems" /* late init*/) @NonNull private Searcher searcher;
     @NonNull private InputMethodManager imeManager;
 
-    @Nullable private final InfiniteScrollListener infiniteScrollListener;
+    @Nullable protected final InfiniteScrollListener infiniteScrollListener;
     @Nullable private OnScrollListener keyboardListener;
     @Nullable private View emptyView;
 
@@ -229,7 +229,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
      * @param results     A {@link JSONObject} containing hits.
      * @param isReplacing {@code true} if the given hits should replace the current hits.
      */
-    private void addHits(@Nullable SearchResults results, boolean isReplacing) {
+    protected void addHits(@Nullable SearchResults results, boolean isReplacing) {
         if (results == null) {
             if (isReplacing) {
                 clear();

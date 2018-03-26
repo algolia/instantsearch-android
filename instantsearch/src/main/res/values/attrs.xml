@@ -21,6 +21,10 @@
         <attr name="remainingItemsBeforeLoading" format="integer"/>
         <attr name="autoHideKeyboard" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="QuerySuggestions">
+        <attr name="highlighting" format="boolean"/>
+        <attr name="count" format="integer"/>
+    </declare-styleable>
     <declare-styleable name="RefinementList">
         <!-- The operator to refine with. -->
         <attr name="operation" format="string">
