@@ -50,8 +50,13 @@ import java.util.regex.Pattern;
  */
 public class Highlighter {
     private static Highlighter defaultHighlighter;
+
     /** The pattern used for matching a part to highlight in a string. */
     private final Pattern pattern;
+    /** The prefixTag used, if any. */
+    private final String prefixTag;
+    /** The postfixTag used, if any. */
+    private final String postfixTag;
 
     /**
      * Gets the default highlighter.
@@ -93,6 +98,9 @@ public class Highlighter {
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Highlighter(String regexp) {
         this.pattern = Pattern.compile(regexp);
+        final String[] splits = regexp.split("[()]");
+        prefixTag = splits.length > 0 ? splits[0] : null;
+        postfixTag = splits.length > 0 ? splits[splits.length - 1] : null;
     }
 
     /**
@@ -113,19 +121,20 @@ public class Highlighter {
         this("<em>", "</em>");
     }
 
+    // TODO: Render( ) with Builder pattern
     /**
      * Renders a highlighted result's attribute using a color resource.
      *
      * @param result    {@link JSONObject} describing a hit.
      * @param attribute name of the attribute to be highlighted.
-     * @param colorRes   a resource Id referencing a color.
+     * @param colorRes  a resource Id referencing a color.
      * @param context   a {@link Context} to get resources from.
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, @ColorRes int colorRes, @NonNull Context context) {
-        return renderHighlightColor(getHighlightedAttribute(result, attribute), getColor(context, colorRes));
+        return renderHighlightColor(getHighlightedAttribute(result, attribute, false), getColor(context, colorRes));
     }
 
     /**
@@ -139,7 +148,7 @@ public class Highlighter {
     @Nullable
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, @NonNull Context context) {
-        return renderHighlightColor(getHighlightedAttribute(result, attribute), getColor(context, R.color.colorHighlighting));
+        return renderHighlightColor(getHighlightedAttribute(result, attribute, false), getColor(context, R.color.colorHighlighting));
     }
 
     /**
@@ -174,13 +183,28 @@ public class Highlighter {
      *
      * @param result    {@link JSONObject} describing a hit.
      * @param attribute name of the attribute to be highlighted.
+     * @param inverted  if true, highlights what the pattern does not match.
+     * @param color     a color integer, see {@link android.graphics.Color}.
+     * @return a {@link Spannable} with the highlighted text.
+     */
+    @Nullable
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, boolean inverted, @ColorInt int color) {
+        return renderHighlightColor(getHighlightedAttribute(result, attribute, inverted), color);
+    }
+
+    /**
+     * Renders a highlighted result's attribute using a packed color int, inverting it if necessary.
+     *
+     * @param result    {@link JSONObject} describing a hit.
+     * @param attribute name of the attribute to be highlighted.
      * @param color     a color integer, see {@link android.graphics.Color}.
      * @return a {@link Spannable} with the highlighted text.
      */
     @Nullable
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, @ColorInt int color) {
-        return renderHighlightColor(getHighlightedAttribute(result, attribute), color);
+        return renderHighlightColor(getHighlightedAttribute(result, attribute, false), color);
     }
 
     /**
@@ -222,6 +246,50 @@ public class Highlighter {
         return result;
     }
 
+    @Nullable
+    public String inverseHighlight(@Nullable String text) {
+        if (text == null) {
+            return null;
+        }
+        StringBuilder result = new StringBuilder();
+        Matcher matcher = pattern.matcher(text);
+        final Pattern spaces = Pattern.compile("\\s");
+        int posIn = 0; // current position in input string
+
+        // <em>foo</em> bar <em>baz</em>
+        //<em> </em>
+
+        // For each highlight:
+        while (matcher.find()) {
+            String match = matcher.group(1);
+            final String before = text.substring(posIn, matcher.start());
+            posIn = matcher.end();
+            final Matcher spacesBefore = spaces.matcher(before);
+
+            if (spacesBefore.matches()) {
+
+                // Append text before, highlighted.
+                result.append(prefixTag);
+                result.append(before);
+                result.append(postfixTag);
+            } else {
+                // Append text before, highlighted.
+                result.append(prefixTag);
+                result.append(before);
+                result.append(postfixTag);
+            }
+
+            // Append matched text, without highlight.
+            result.append(match);
+        }
+        // Append text after, highlighted.
+        result.append(prefixTag);
+        final String after = text.substring(posIn);
+        result.append(after);
+        result.append(postfixTag);
+        return result.toString().replace(prefixTag + postfixTag, "");
+    }
+
     /**
      * Gets the highlighted version of an attribute, if there is one.
      *
@@ -229,12 +297,15 @@ public class Highlighter {
      * @param attribute the name of the attribute to return highlighted.
      * @return the highlighted version of this attribute if there is one, else the raw attribute.
      */
-    private static String getHighlightedAttribute(@NonNull JSONObject result, String attribute) {
+    private String getHighlightedAttribute(@NonNull JSONObject result, String attribute, boolean inverted) {
         final JSONObject highlightResult = result.optJSONObject("_highlightResult");
         if (highlightResult != null) {
             HashMap<String, String> highlightAttribute = JSONUtils.getMapFromJSONPath(highlightResult, attribute);
             if (highlightAttribute != null) {
                 String highlightedValue = highlightAttribute.get("value");
+                if (inverted) {
+                    highlightedValue = inverseHighlight(highlightedValue);
+                }
                 if (highlightedValue != null) {
                     return highlightedValue;
                 }
