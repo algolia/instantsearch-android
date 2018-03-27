@@ -471,17 +471,22 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                     Log.d("Hits", "View " + view.toString() + " is bound to null attribute, skipping");
                     continue;
                 }
-                final String attributeValue = BindingHelper.getFullAttribute(view, JSONUtils.getStringFromJSONPath(hit, attributeName));
+                final String attributeValue = JSONUtils.getStringFromJSONPath(hit, attributeName);
+                if (attributeValue == null) {
+                    Log.d("Hits", "View " + view.toString() + " is bound to attribute " + attributeName + " missing in JSON, skipping");
+                    continue;
+                }
+                final String fullAttribute = BindingHelper.getFullAttribute(view, attributeValue);
                 if (view instanceof AlgoliaHitView) {
                     ((AlgoliaHitView) view).onUpdateView(hit);
                 } else if (view instanceof EditText) {
-                    ((EditText) view).setHint(getHighlightedAttribute(hit, view, attributeName, attributeValue));
+                    ((EditText) view).setHint(getHighlightedAttribute(hit, view, attributeName, fullAttribute));
                 } else if (view instanceof RatingBar) {
-                    ((RatingBar) view).setRating(getFloatValue(attributeValue));
+                    ((RatingBar) view).setRating(getFloatValue(fullAttribute));
                 } else if (view instanceof ProgressBar) {
-                    ((ProgressBar) view).setProgress(Math.round(getFloatValue(attributeValue)));
+                    ((ProgressBar) view).setProgress(Math.round(getFloatValue(fullAttribute)));
                 } else if (view instanceof TextView) {
-                    ((TextView) view).setText(getHighlightedAttribute(hit, view, attributeName, attributeValue));
+                    ((TextView) view).setText(getHighlightedAttribute(hit, view, attributeName, fullAttribute));
                 } else if (view instanceof ImageView) {
                     final Activity activity = getActivity(view);
                     if (activity == null || Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed()) {
@@ -514,7 +519,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                             requestOptions.centerInside();
                             break;
                     }
-                    Glide.with(activity).applyDefaultRequestOptions(requestOptions).load(attributeValue).into(imageView);
+                    Glide.with(activity).applyDefaultRequestOptions(requestOptions).load(fullAttribute).into(imageView);
                 } else {
                     throw new IllegalStateException(String.format(Errors.ADAPTER_UNKNOWN_VIEW, view.getClass().getCanonicalName()));
                 }
