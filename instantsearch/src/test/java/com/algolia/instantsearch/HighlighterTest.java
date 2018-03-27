@@ -42,8 +42,7 @@ public class HighlighterTest {
         String inverseHighlight = highlighter.inverseHighlight(highlightString);
         assertTrue("Should not highlight begin", inverseHighlight.startsWith("Foo"));
         assertTrue("Should not highlight end", inverseHighlight.endsWith("Baz"));
-        assertTrue("Should not highlight spaces", inverseHighlight.contains(" Baz"));
-        assertTrue("Should highlight Bar", inverseHighlight.contains("<em>Bar</em>"));
+        assertTrue("Should highlight Bar", inverseHighlight.contains("<em>Bar </em>"));
     }
 
 }

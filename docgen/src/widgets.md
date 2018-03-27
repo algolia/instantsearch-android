@@ -209,7 +209,13 @@ Note that highlighting **only works automatically on TextViews**. if you impleme
 This tool will let you build a highlighted [`Spannable`](https://developer.android.com/reference/android/text/Spannable.html) from a search result and an optional highlight color:
 
 ```java
-final Spannable highlightedAttribute = Highlighter.getDefault().renderHighlightColor(result, attributeToHighlight, context);
+final Spannable highlightedAttribute = Highlighter.getDefault()
+                                                  .setInput(result, attributeToHighlight)       // EITHER using Algolia's _highlightResult
+                                                  .setInput("My <em> highlighted</em> string")  // OR using a raw markup string
+                                                  .setColor(context)                  // EITHER using the default R.color.colorHighlighting
+                                                  .setColor(Color.RED)                // OR using a system Color int
+                                                  .setColor(R.color.myColor, context) // OR using a ColorRes
+                                                  .render();
 ```
 
 The default Highlighter will highlight anything between `<em>` and `</em>`. You can configure the Highlighter to highlight between any pair of terms with `Highlighter.setDefault(newPrefix, newSuffix)`, or use a RegExp pattern to highlight any captured part with `Highlighter.setDefault(newPattern)`.
