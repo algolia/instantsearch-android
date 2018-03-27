@@ -267,12 +267,14 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
     protected
     @Nullable
     Spannable getHighlightedAttribute(@NonNull JSONObject hit, @NonNull View view, @NonNull String attribute, @Nullable String attributeValue) {
-        Spannable attributeText;
-        if (RenderingHelper.getDefault().shouldHighlight(view, attribute)) {
-            final int highlightColor = RenderingHelper.getDefault().getHighlightColor(view, attribute);
-            attributeText = Highlighter.getDefault().renderHighlightColor(hit, attribute, false, highlightColor);
-        } else {
-            attributeText = attributeValue != null ? new SpannableString(attributeValue) : null;
+        Spannable attributeText = null;
+        if (attributeValue != null) {
+            if (RenderingHelper.getDefault().shouldHighlight(view, attribute)) {
+                final int highlightColor = RenderingHelper.getDefault().getHighlightColor(view, attribute);
+                attributeText = Highlighter.getDefault().setInput(hit, attribute, false).setColor(highlightColor).render();
+            } else {
+                attributeText = new SpannableString(attributeValue);
+            }
         }
         return attributeText;
     }
