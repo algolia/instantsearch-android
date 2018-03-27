@@ -24,15 +24,18 @@
 package com.algolia.instantsearch.helpers;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.ParcelableSpan;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.StyleSpan;
 
 import com.algolia.instantsearch.R;
 import com.algolia.instantsearch.utils.JSONUtils;
@@ -57,6 +60,13 @@ public class Highlighter {
     private final String prefixTag;
     /** The postfixTag used, if any. */
     private final String postfixTag;
+
+    /** The color which will be used for highlighting. */
+    private @ColorInt int color;
+    /** The input that will be highlighted on {@link #render() render}. */
+    private String markupString;
+    /** The input that will be highlighted on {@link #render() render}. */
+    private boolean bold;
 
     /**
      * Gets the default highlighter.
@@ -115,137 +125,89 @@ public class Highlighter {
     }
 
     /**
-     * Constructs the default highlighter, using {@code <em>} and {@code </em>} tags.
-     */
-    private Highlighter() {
-        this("<em>", "</em>");
-    }
-
-    // TODO: Render( ) with Builder pattern
-    /**
-     * Renders a highlighted result's attribute using a color resource.
+     * Sets the input to highlight.
      *
-     * @param result    {@link JSONObject} describing a hit.
-     * @param attribute name of the attribute to be highlighted.
-     * @param colorRes  a resource Id referencing a color.
-     * @param context   a {@link Context} to get resources from.
-     * @return a {@link Spannable} with the highlighted text.
+     * @param result    a JSONObject containing our attribute.
+     * @param attribute the attribute to highlight.
+     * @return the Highlighter for chaining.
      */
-    @Nullable
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, @ColorRes int colorRes, @NonNull Context context) {
-        return renderHighlightColor(getHighlightedAttribute(result, attribute, false), getColor(context, colorRes));
+    public Highlighter setInput(JSONObject result, String attribute) {
+        return setInput(result, attribute, false);
     }
 
     /**
-     * Renders a highlighted result's attribute using the default highlighting color resource.
+     * Sets the input to highlight.
      *
-     * @param result    {@link JSONObject} describing a hit.
-     * @param attribute name of the attribute to be highlighted.
-     * @param context   a {@link Context} to get resources from.
-     * @return a {@link Spannable} with the highlighted text.
+     * @param result    a {@link JSONObject} describing a hit.
+     * @param attribute the attribute to highlight.
+     * @param inverted  if {@code true}, the highlighting will be inverted.
+     * @return the Highlighter for chaining.
      */
-    @Nullable
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, @NonNull Context context) {
-        return renderHighlightColor(getHighlightedAttribute(result, attribute, false), getColor(context, R.color.colorHighlighting));
+    public Highlighter setInput(JSONObject result, String attribute, boolean inverted) {
+        return setInput(getHighlightedAttribute(result, attribute, inverted));
     }
 
     /**
-     * Renders a highlighted text using the default highlighting color resource.
+     * Sets the input to highlight.
      *
-     * @param markupString a string to highlight.
-     * @param context      a {@link Context} to get resources from.
-     * @return a {@link Spannable} with the highlighted text.
+     * @param markupString a String to highlight according to this highlighter's {@link #pattern}.
+     * @return the Highlighter for chaining.
      */
-    @Nullable
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Spannable renderHighlightColor(String markupString, @NonNull Context context) {
-        return renderHighlightColor(markupString, getColor(context, R.color.colorHighlighting));
+    public Highlighter setInput(@NonNull String markupString) {
+        this.markupString = markupString;
+        return this;
     }
 
     /**
-     * Renders a highlighted text using a color resource.
+     * Sets the color for rendering, using the {@link com.algolia.instantsearch.R.color#colorHighlighting default color}.
      *
-     * @param markupString a string to highlight.
-     * @param colorId      a resource Id referencing a color.
-     * @param context      a {@link Context} to get resources from.
-     * @return a {@link Spannable} with the highlighted text.
+     * @param context a Context to get the color from.
+     * @return the Highlighter for chaining.
      */
-    @Nullable
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Spannable renderHighlightColor(String markupString, @ColorInt int colorId, @NonNull Context context) {
-        return renderHighlightColor(markupString, colorId);
+    public Highlighter setColor(@NonNull Context context) {
+        return setColor(getColor(context, R.color.colorHighlighting));
     }
 
     /**
-     * Renders a highlighted result's attribute using a packed color int.
+     * Sets the color for rendering, using a color resource.
      *
-     * @param result    {@link JSONObject} describing a hit.
-     * @param attribute name of the attribute to be highlighted.
-     * @param inverted  if true, highlights what the pattern does not match.
-     * @param color     a color integer, see {@link android.graphics.Color}.
-     * @return a {@link Spannable} with the highlighted text.
+     * @param colorRes a {@link ColorRes color resource}.
+     * @param context  a Context to get the color from.
+     * @return the Highlighter for chaining.
      */
-    @Nullable
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, boolean inverted, @ColorInt int color) {
-        return renderHighlightColor(getHighlightedAttribute(result, attribute, inverted), color);
+    public Highlighter setColor(@ColorRes int colorRes, Context context) {
+        return setColor(getColor(context, colorRes));
     }
 
     /**
-     * Renders a highlighted result's attribute using a packed color int, inverting it if necessary.
+     * Sets the color for rendering, using a packed color int.
      *
-     * @param result    {@link JSONObject} describing a hit.
-     * @param attribute name of the attribute to be highlighted.
-     * @param color     a color integer, see {@link android.graphics.Color}.
-     * @return a {@link Spannable} with the highlighted text.
+     * @param colorInt a {@link ColorRes packed color int}.
+     * @return the Highlighter for chaining.
      */
-    @Nullable
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Spannable renderHighlightColor(@NonNull JSONObject result, String attribute, @ColorInt int color) {
-        return renderHighlightColor(getHighlightedAttribute(result, attribute, false), color);
+    public Highlighter setColor(@ColorInt int colorInt) {
+        color = colorInt;
+        bold = false;
+        return this;
     }
 
     /**
-     * Renders a highlighted text using a packed color int.
+     * Wether to use bold to highlight instead of a color.
      *
-     * @param markupString a string to highlight.
-     * @param color        a color integer, see {@link android.graphics.Color}.
-     * @return a {@link Spannable} with the highlighted text.
+     * @param active if {@code true}, the highlight will be applied using {@link Typeface#BOLD}.
+     * @return the Highlighter for chaining.
      */
-    @Nullable
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Spannable renderHighlightColor(@Nullable String markupString, @ColorInt int color) {
-        if (markupString == null) {
-            return null;
-        }
-
-        SpannableStringBuilder result = new SpannableStringBuilder();
-        Matcher matcher = pattern.matcher(markupString);
-        int posIn = 0; // current position in input string
-        int posOut = 0; // current position in output string
-
-        // For each highlight:
-        while (matcher.find()) {
-            // Append text before.
-            result.append(markupString.substring(posIn, matcher.start()));
-            posOut += matcher.start() - posIn;
-
-            // Append highlighted text.
-            String highlightString = matcher.group(1);
-            result.append(highlightString);
-            final BackgroundColorSpan span;
-            span = new BackgroundColorSpan(color);
-            result.setSpan(span, posOut, posOut + highlightString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            posOut += highlightString.length();
-            posIn = matcher.end();
-        }
-        // Append text after.
-        result.append(markupString.substring(posIn));
-        return result;
+    public Highlighter setBold(boolean active) {
+        bold = active;
+        return this;
     }
 
+    /**
+     * Inverts the highlighting for a given string.
+     *
+     * @param text a String matching this highlighter's {@link #pattern}.
+     * @return the input, with highlights inverted.
+     */
     @Nullable
     public String inverseHighlight(@Nullable String text) {
         if (text == null) {
@@ -255,9 +217,6 @@ public class Highlighter {
         Matcher matcher = pattern.matcher(text);
         final Pattern spaces = Pattern.compile("\\s");
         int posIn = 0; // current position in input string
-
-        // <em>foo</em> bar <em>baz</em>
-        //<em> </em>
 
         // For each highlight:
         while (matcher.find()) {
@@ -288,6 +247,62 @@ public class Highlighter {
         result.append(after);
         result.append(postfixTag);
         return result.toString().replace(prefixTag + postfixTag, "");
+    }
+
+    /**
+     * Renders the highlight.
+     *
+     * @return a Spannable highlighted with the appropriate {@link ParcelableSpan span}.
+     */
+    @NonNull
+    public Spannable render() {
+        if (bold) {
+            return renderHighlightBold(markupString);
+        } else {
+            return renderHighlightColor(markupString, color);
+        }
+    }
+
+    /**
+     * Constructs the default highlighter, using {@code <em>} and {@code </em>} tags.
+     */
+    private Highlighter() {
+        this("<em>", "</em>");
+    }
+
+    @NonNull
+    private Spannable renderHighlightColor(@NonNull String markupString, @ColorInt int color) {
+        return renderHighlight(markupString, new BackgroundColorSpan(color));
+    }
+
+    @NonNull
+    private Spannable renderHighlightBold(@NonNull String markupString) {
+        return renderHighlight(markupString, new StyleSpan(Typeface.BOLD));
+    }
+
+    @NonNull
+    private Spannable renderHighlight(@NonNull String markupString, @NonNull ParcelableSpan span) {
+        SpannableStringBuilder result = new SpannableStringBuilder();
+        Matcher matcher = pattern.matcher(markupString);
+        int posIn = 0; // current position in input string
+        int posOut = 0; // current position in output string
+
+        // For each highlight:
+        while (matcher.find()) {
+            // Append text before.
+            result.append(markupString.substring(posIn, matcher.start()));
+            posOut += matcher.start() - posIn;
+
+            // Append highlighted text.
+            String highlightString = matcher.group(1);
+            result.append(highlightString);
+            result.setSpan(span, posOut, posOut + highlightString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            posOut += highlightString.length();
+            posIn = matcher.end();
+        }
+        // Append text after.
+        result.append(markupString.substring(posIn));
+        return result;
     }
 
     /**
