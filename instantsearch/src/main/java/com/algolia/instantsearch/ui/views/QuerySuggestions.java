@@ -24,7 +24,7 @@ public class QuerySuggestions extends Hits {
     /** If true, the suggestions will use inverted highlighting to highlight individual differences. */
     private boolean highlighting;
     /** Maximum amount of suggestions to display. */
-    private int count = DEFAULT_COUNT;
+    private int count;
     /** The query for the current suggestion. */
     private String query;
 
