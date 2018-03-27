@@ -23,8 +23,11 @@ import java.util.Set;
  */
 public class BindingHelper {
     /** Associates a variant with its bindings (associating each databound view's id to its attribute). */
+    @NonNull
     private static final HashMap<String, HashMap<Integer, String>> bindings = new HashMap<>();
+    @NonNull
     private static final SparseArray<String> prefixes = new SparseArray<>();
+    @NonNull
     private static final SparseArray<String> suffixes = new SparseArray<>();
 
     /**
@@ -187,8 +190,8 @@ public class BindingHelper {
      * @param rawAttribute the raw value of the attribute.
      * @return the attribute value, prefixed and suffixed if any was specified on the view.
      */
-    public static String getFullAttribute(View view, String rawAttribute) {
-        //TODO: Unit tests
+    @NonNull
+    public static String getFullAttribute(View view, @Nullable String rawAttribute) {
         String attribute = "";
         final int id = view.getId();
         final String prefix = prefixes.get(id);
