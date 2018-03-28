@@ -166,7 +166,7 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public static Searcher create(@NonNull final Index index) {
-        final String key = index.getIndexName();
+        final String key = index.getRawIndexName();
         Searcher instance = instances.get(key);
         if (instance == null) {
             instance = new Searcher(index, key);
