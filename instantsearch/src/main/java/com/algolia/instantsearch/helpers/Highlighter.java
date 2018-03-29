@@ -38,6 +38,7 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.StyleSpan;
 
 import com.algolia.instantsearch.R;
+import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.utils.JSONUtils;
 
 import org.json.JSONArray;
@@ -125,12 +126,20 @@ public class Highlighter {
     }
 
     /**
+     * Constructs the default highlighter, using {@code <em>} and {@code </em>} tags.
+     */
+    private Highlighter() {
+        this("<em>", "</em>");
+    }
+
+    /**
      * Sets the input to highlight.
      *
      * @param result    a JSONObject containing our attribute.
      * @param attribute the attribute to highlight.
      * @return the Highlighter for chaining.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Highlighter setInput(JSONObject result, String attribute) {
         return setInput(result, attribute, false);
     }
@@ -143,6 +152,7 @@ public class Highlighter {
      * @param inverted  if {@code true}, the highlighting will be inverted.
      * @return the Highlighter for chaining.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Highlighter setInput(JSONObject result, String attribute, boolean inverted) {
         return setInput(getHighlightedAttribute(result, attribute, inverted));
     }
@@ -153,6 +163,7 @@ public class Highlighter {
      * @param markupString a String to highlight according to this highlighter's {@link #pattern}.
      * @return the Highlighter for chaining.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Highlighter setInput(@NonNull String markupString) {
         this.markupString = markupString;
         return this;
@@ -164,6 +175,7 @@ public class Highlighter {
      * @param context a Context to get the color from.
      * @return the Highlighter for chaining.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Highlighter setColor(@NonNull Context context) {
         return setColor(getColor(context, R.color.colorHighlighting));
     }
@@ -175,6 +187,7 @@ public class Highlighter {
      * @param context  a Context to get the color from.
      * @return the Highlighter for chaining.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Highlighter setColor(@ColorRes int colorRes, Context context) {
         return setColor(getColor(context, colorRes));
     }
@@ -185,6 +198,7 @@ public class Highlighter {
      * @param colorInt a {@link ColorRes packed color int}.
      * @return the Highlighter for chaining.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Highlighter setColor(@ColorInt int colorInt) {
         color = colorInt;
         bold = false;
@@ -197,6 +211,7 @@ public class Highlighter {
      * @param active if {@code true}, the highlight will be applied using {@link Typeface#BOLD}.
      * @return the Highlighter for chaining.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Highlighter setBold(boolean active) {
         bold = active;
         return this;
@@ -250,38 +265,17 @@ public class Highlighter {
     }
 
     /**
-     * Renders the highlight.
+     * Renders the highlight, resetting the {@link Highlighter#color}/{@link Highlighter#bold boldness} and the {@link Highlighter#markupString}.
      *
      * @return a Spannable highlighted with the appropriate {@link ParcelableSpan span}.
      */
     @NonNull
     public Spannable render() {
-        if (bold) {
-            return renderHighlightBold(markupString);
-        } else {
-            return renderHighlightColor(markupString, color);
+        if (!bold && color == 0) {
+            throw new IllegalStateException(Errors.HIGHLIGHTER_RENDER_WITHOUT_STYLE);
+        } else if (markupString == null) {
+            throw new IllegalStateException(Errors.HIGHLIGHTER_RENDER_WITHOUT_MARKUP);
         }
-    }
-
-    /**
-     * Constructs the default highlighter, using {@code <em>} and {@code </em>} tags.
-     */
-    private Highlighter() {
-        this("<em>", "</em>");
-    }
-
-    @NonNull
-    private Spannable renderHighlightColor(@NonNull String markupString, @ColorInt int color) {
-        return renderHighlight(markupString, new BackgroundColorSpan(color));
-    }
-
-    @NonNull
-    private Spannable renderHighlightBold(@NonNull String markupString) {
-        return renderHighlight(markupString, new StyleSpan(Typeface.BOLD));
-    }
-
-    @NonNull
-    private Spannable renderHighlight(@NonNull String markupString, @NonNull ParcelableSpan span) {
         SpannableStringBuilder result = new SpannableStringBuilder();
         Matcher matcher = pattern.matcher(markupString);
         int posIn = 0; // current position in input string
@@ -296,12 +290,18 @@ public class Highlighter {
             // Append highlighted text.
             String highlightString = matcher.group(1);
             result.append(highlightString);
-            result.setSpan(span, posOut, posOut + highlightString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ParcelableSpan span = bold ? new StyleSpan(Typeface.BOLD) : new BackgroundColorSpan(color);
+            result.setSpan(span, posOut, posOut + highlightString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //FIXME: New span for every highlight
             posOut += highlightString.length();
             posIn = matcher.end();
         }
         // Append text after.
         result.append(markupString.substring(posIn));
+
+        // Reset highlighting type/content: let's avoid implicitly reusing which would be error prone.
+        bold = false;
+        color = 0;
+        markupString = null;
         return result;
     }
 
