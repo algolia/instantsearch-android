@@ -9,7 +9,9 @@ public class Errors {
 
     public static final String FILTER_MISSING_ATTRIBUTE = "You must specify an attribute";
 
-    public static final String HITS_NO_ITEMLAYOUT = "Your Hits widget is missing an algolia:itemLayout attribute to specify the hits item layout.";
+    public static final String HIGHLIGHTER_RENDER_WITHOUT_STYLE = "You need to setColor() or setBold() on the Highlighter before calling render().";
+    public static final String HIGHLIGHTER_RENDER_WITHOUT_MARKUP = "You need to setInput() on the Highlighter before calling render().";
+
     public static final String HITS_INFINITESCROLL_BUT_REMAINING = "You specified infiniteScroll=\"false\" and remainingItemsBeforeLoading, but they are mutually exclusive.";
 
     public static final String LAYOUT_MISSING_RESULT_LISTENER = "You need to add at least one AlgoliaResultsListener.";
