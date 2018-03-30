@@ -30,6 +30,7 @@ import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
 import com.algolia.search.saas.Request;
 import com.algolia.search.saas.RequestOptions;
+import com.algolia.search.saas.Searchable;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -60,7 +61,8 @@ public class Searcher {
     private static Map<String, Searcher> instances = new HashMap<>();
 
     /** The {@link Index} targeted by this Searcher. */
-    private Index index;
+    private Searchable index;
+
     /** The {@link Client API Client} used by this Searcher. */
     private final Client client;
     /** The current state of the search {@link Query}. */
@@ -110,7 +112,7 @@ public class Searcher {
      * Gets the default Searcher.
      *
      * @return the only (or alternatively the first) Searcher instance.
-     * @throws IllegalStateException if no searcher was {@link #create(Index) created} before.
+     * @throws IllegalStateException if no searcher was {@link #create(Searchable) created} before.
      */
     public static Searcher get() {
         return instances.get(instances.keySet().iterator().next());
@@ -121,7 +123,7 @@ public class Searcher {
      *
      * @param variant an identifier to differentiate this Searcher from eventual others.
      * @return the corresponding Searcher instance.
-     * @throws IllegalStateException if no searcher was {@link #create(Index) created} before for this {@code variant}.
+     * @throws IllegalStateException if no searcher was {@link #create(Searchable) created} before for this {@code variant}.
      */
     public static Searcher get(String variant) {
         final Searcher searcher = instances.get(variant);
@@ -165,8 +167,8 @@ public class Searcher {
      * @return the new instance.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public static Searcher create(@NonNull final Index index) {
-        final String key = index.getRawIndexName();
+    public static Searcher create(@NonNull final Searchable index) {
+        final String key = index.toString();
         Searcher instance = instances.get(key);
         if (instance == null) {
             instance = new Searcher(index, key);
@@ -185,7 +187,7 @@ public class Searcher {
      * @return the new instance.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public static Searcher create(@NonNull final Index index, @NonNull String variant) {
+    public static Searcher create(@NonNull final Searchable index, @NonNull String variant) {
         Searcher instance = instances.get(variant);
         if (instance == null || instance.getIndex() != index) {
             instance = new Searcher(index, variant);
@@ -194,14 +196,18 @@ public class Searcher {
         return instance;
     }
 
-    private Searcher(@NonNull final Index index, @NonNull String variant) {
+    private Searcher(@NonNull final Searchable index, @NonNull String variant) {
         this.index = index;
-        this.client = index.getClient();
         this.variant = variant;
         query = new Query();
-        final LibraryVersion version = new LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME));
-        if (!Arrays.asList(client.getUserAgents()).contains(version)) {
-            client.addUserAgent(version);
+        if (index instanceof Index) {
+            this.client = ((Index) index).getClient();
+            final LibraryVersion version = new LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME));
+            if (!Arrays.asList(client.getUserAgents()).contains(version)) {
+                client.addUserAgent(version);
+            }
+        } else {
+            this.client = null;
         }
     }
 
@@ -390,7 +396,7 @@ public class Searcher {
     private Request triggerSearch(CompletionHandler searchHandler) {
         Request searchRequest;
         if (!disjunctiveFacets.isEmpty()) {
-            searchRequest = index.searchDisjunctiveFacetingAsync(query, disjunctiveFacets, refinementMap, searchHandler);
+            searchRequest = index.searchDisjunctiveFacetingAsync(query, disjunctiveFacets, refinementMap, null, searchHandler);
         } else {
             searchRequest = index.searchAsync(query, searchHandler);
         }
@@ -889,7 +895,7 @@ public class Searcher {
      * @return the Searcher's index.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Index getIndex() {
+    public Searchable getIndex() {
         return index;
     }
 
@@ -904,6 +910,9 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     @NonNull public Searcher setIndex(@NonNull String indexName) {
+        if (client == null) {
+            throw new IllegalStateException("This method requires an Algolia Index and not a custom Searchable");
+        }
         index = client.getIndex(indexName);
         query.setPage(0);
         return this;
