@@ -900,6 +900,18 @@ public class Searcher {
     }
 
     /**
+     * Gets the current {@link Searcher#searchable} as an Index.
+     * @throws IllegalStateException if {@link Searcher#searchable} if not an instance of {@link Index}
+     * @return the Searcher's index.
+     */
+    @Deprecated
+    public Index getIndex() {
+        if (searchable instanceof Index) {
+            return (Index) searchable;
+        }
+        throw new IllegalStateException("This method requires an Algolia Index and not a custom Searchable");
+    }
+    /**
      * Changes the targeted index for future queries.
      * <p>
      * <b>Be aware that as index ordering may differ, this method will reset the current page to 0.</b>
