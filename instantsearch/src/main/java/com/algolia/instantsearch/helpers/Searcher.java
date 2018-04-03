@@ -30,6 +30,7 @@ import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
 import com.algolia.search.saas.Request;
 import com.algolia.search.saas.RequestOptions;
+import com.algolia.search.saas.Searchable;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -59,8 +60,9 @@ import static com.algolia.instantsearch.events.ResultEvent.REQUEST_UNKNOWN;
 public class Searcher {
     private static Map<String, Searcher> instances = new HashMap<>();
 
-    /** The {@link Index} targeted by this Searcher. */
-    private Index index;
+    /** The {@link Searchable} targeted by this Searcher. */
+    private Searchable searchable;
+
     /** The {@link Client API Client} used by this Searcher. */
     private final Client client;
     /** The current state of the search {@link Query}. */
@@ -110,7 +112,7 @@ public class Searcher {
      * Gets the default Searcher.
      *
      * @return the only (or alternatively the first) Searcher instance.
-     * @throws IllegalStateException if no searcher was {@link #create(Index) created} before.
+     * @throws IllegalStateException if no searcher was {@link #create(Searchable) created} before.
      */
     public static Searcher get() {
         return instances.get(instances.keySet().iterator().next());
@@ -121,7 +123,7 @@ public class Searcher {
      *
      * @param variant an identifier to differentiate this Searcher from eventual others.
      * @return the corresponding Searcher instance.
-     * @throws IllegalStateException if no searcher was {@link #create(Index) created} before for this {@code variant}.
+     * @throws IllegalStateException if no searcher was {@link #create(Searchable) created} before for this {@code variant}.
      */
     public static Searcher get(String variant) {
         final Searcher searcher = instances.get(variant);
@@ -132,11 +134,11 @@ public class Searcher {
     }
 
     /**
-     * Constructs a Searcher, creating its {@link Searcher#index} and {@link Searcher#client} with the given parameters.
+     * Constructs a Searcher, creating its {@link Searcher#searchable} and {@link Searcher#client} with the given parameters.
      *
      * @param appId     your Algolia Application ID.
      * @param apiKey    a search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
-     * @param indexName the name of the index to target.
+     * @param indexName the name of the searchable to target.
      * @return the new instance.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
@@ -145,11 +147,11 @@ public class Searcher {
     }
 
     /**
-     * Constructs a Searcher, creating its {@link Searcher#index} and {@link Searcher#client} with the given parameters.
+     * Constructs a Searcher, creating its {@link Searcher#searchable} and {@link Searcher#client} with the given parameters.
      *
      * @param appId     your Algolia Application ID.
      * @param apiKey    a search-only API Key. (never use API keys that could modify your records! see https://www.algolia.com/doc/guides/security/api-keys)
-     * @param indexName the name of the index to target.
+     * @param indexName the name of the searchable to target.
      * @param variant   an identifier to differentiate this Searcher from eventual others.
      * @return the new instance.
      */
@@ -159,17 +161,17 @@ public class Searcher {
     }
 
     /**
-     * Constructs a Searcher from an existing {@link Index}.
+     * Constructs a Searcher from an existing {@link Searchable}.
      *
-     * @param index an Index initialized and eventually configured.
+     * @param searchable an Index initialized and eventually configured.
      * @return the new instance.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public static Searcher create(@NonNull final Index index) {
-        final String key = index.getRawIndexName();
+    public static Searcher create(@NonNull final Searchable searchable) {
+        final String key = searchable.toString();
         Searcher instance = instances.get(key);
         if (instance == null) {
-            instance = new Searcher(index, key);
+            instance = new Searcher(searchable, key);
             instances.put(key, instance);
         } else {
             throw new IllegalStateException("There is already a Searcher for index " + key + ", you must specify a variant.");
@@ -185,23 +187,27 @@ public class Searcher {
      * @return the new instance.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public static Searcher create(@NonNull final Index index, @NonNull String variant) {
+    public static Searcher create(@NonNull final Searchable index, @NonNull String variant) {
         Searcher instance = instances.get(variant);
-        if (instance == null || instance.getIndex() != index) {
+        if (instance == null || instance.getSearchable() != index) {
             instance = new Searcher(index, variant);
             instances.put(variant, instance);
         }
         return instance;
     }
 
-    private Searcher(@NonNull final Index index, @NonNull String variant) {
-        this.index = index;
-        this.client = index.getClient();
+    private Searcher(@NonNull final Searchable searchable, @NonNull String variant) {
+        this.searchable = searchable;
         this.variant = variant;
         query = new Query();
-        final LibraryVersion version = new LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME));
-        if (!Arrays.asList(client.getUserAgents()).contains(version)) {
-            client.addUserAgent(version);
+        if (searchable instanceof Index) {
+            this.client = ((Index) searchable).getClient();
+            final LibraryVersion version = new LibraryVersion("InstantSearch Android", String.valueOf(BuildConfig.VERSION_NAME));
+            if (!Arrays.asList(client.getUserAgents()).contains(version)) {
+                client.addUserAgent(version);
+            }
+        } else {
+            this.client = null;
         }
     }
 
@@ -390,9 +396,9 @@ public class Searcher {
     private Request triggerSearch(CompletionHandler searchHandler) {
         Request searchRequest;
         if (!disjunctiveFacets.isEmpty()) {
-            searchRequest = index.searchDisjunctiveFacetingAsync(query, disjunctiveFacets, refinementMap, searchHandler);
+            searchRequest = searchable.searchDisjunctiveFacetingAsync(query, disjunctiveFacets, refinementMap, null, searchHandler);
         } else {
-            searchRequest = index.searchAsync(query, searchHandler);
+            searchRequest = searchable.searchAsync(query, searchHandler);
         }
         return searchRequest;
     }
@@ -884,15 +890,27 @@ public class Searcher {
 
 
     /**
-     * Gets the current {@link Searcher#index}.
+     * Gets the current {@link Searcher#searchable}.
      *
      * @return the Searcher's index.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Index getIndex() {
-        return index;
+    public Searchable getSearchable() {
+        return searchable;
     }
 
+    /**
+     * Gets the current {@link Searcher#searchable} as an Index.
+     * @throws IllegalStateException if {@link Searcher#searchable} if not an instance of {@link Index}
+     * @return the Searcher's index.
+     */
+    @Deprecated
+    public Index getIndex() {
+        if (searchable instanceof Index) {
+            return (Index) searchable;
+        }
+        throw new IllegalStateException("This method requires an Algolia Index and not a custom Searchable");
+    }
     /**
      * Changes the targeted index for future queries.
      * <p>
@@ -904,7 +922,10 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     @NonNull public Searcher setIndex(@NonNull String indexName) {
-        index = client.getIndex(indexName);
+        if (client == null) {
+            throw new IllegalStateException("This method requires an Algolia Index and not a custom Searchable");
+        }
+        searchable = client.getIndex(indexName);
         query.setPage(0);
         return this;
     }
@@ -994,7 +1015,7 @@ public class Searcher {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void getUpdatedFacetStats() {
-        index.searchAsync(query, new CompletionHandler() {
+        searchable.searchAsync(query, new CompletionHandler() {
             @Override
             public void requestCompleted(JSONObject content, AlgoliaException error) {
                 if (error == null) {
