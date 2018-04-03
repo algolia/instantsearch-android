@@ -46,7 +46,7 @@ import java.util.Map;
  * {@link SearchTransformer#map(Query)}
  * {@link SearchTransformer#map(Object)}
  */
-public class SearchTransformer<Parameters, Results> extends Searchable implements Transformable<Parameters, Results> {
+public abstract class SearchTransformer<Parameters, Results> extends Searchable implements Transformable<Parameters, Results> {
 
     @Override
     public void search(@Nullable Parameters query, @Nullable SearchResultsHandler<Results> completionHandler) {
@@ -55,17 +55,17 @@ public class SearchTransformer<Parameters, Results> extends Searchable implement
 
     @Override
     public Parameters map(@NonNull Query query) {
-        throw new UnsupportedOperationException("Not needed for now");
+        throw new UnsupportedOperationException("This method was not implemented yet; override it if you need it");
     }
 
     @Override
     public Parameters map(@NonNull Query query, @NonNull Collection<String> disjunctiveFacets, @NonNull Map<String, ? extends Collection<String>> refinements) {
-        throw new UnsupportedOperationException("Not needed for now");
+        throw new UnsupportedOperationException("This method was not implemented yet; override it if you need it");
     }
 
     @Override
     public JSONObject map(@NonNull Results results) {
-        throw new UnsupportedOperationException("Not needed for now");
+        throw new UnsupportedOperationException("This method was not implemented yet; override it if you need it");
     }
 
     @Override
@@ -80,6 +80,6 @@ public class SearchTransformer<Parameters, Results> extends Searchable implement
 
     @Override
     public Request searchAsync(@Nullable Query query, @Nullable RequestOptions requestOptions, @Nullable CompletionHandler completionHandler) {
-        throw new UnsupportedOperationException("Not needed for now");
+        throw new UnsupportedOperationException("This method was not implemented yet; override it if you need it");
     }
 }

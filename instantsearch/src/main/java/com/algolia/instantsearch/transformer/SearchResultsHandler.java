@@ -36,8 +36,8 @@ public interface SearchResultsHandler<Results> {
      * NOTE: One and only one of either <code>content</code> or <code>error</code> is guaranteed to be not null.
      * </p>
      *
-     * @param content
-     * @param error
+     * @param content Content that was returned by the API (in case of success).
+     * @param error Error that was encountered (in case of failure).
      */
     void requestCompleted(Results content, Exception error);
 }

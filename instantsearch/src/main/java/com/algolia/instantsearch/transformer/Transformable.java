@@ -37,55 +37,55 @@ import java.util.Map;
 public interface Transformable<Parameters, Results> {
 
     /***
-     * Search operation
+     * Performs a search for the given Parameters, returning Results or Error
      *
-     * @param query
-     * @param completionHandler
+     * @param query Search parameters. May be null to use an empty query.
+     * @param completionHandler The listener that will be notified of the request's outcome.
      */
     void search(@Nullable Parameters query, @Nullable SearchResultsHandler<Results> completionHandler);
 
     /***
      * Transforms the Algolia params to custom backend params.
      *
-     * @param query
-     * @return
+     * @param query Search parameters. May be an empty query.
+     * @return The search parameters with the custom format required by the custom back-end implementation
      */
     Parameters map(@NonNull Query query);
 
     /***
      * Transforms the Algolia params + disjunctive refinements to custom backend params.
      *
-     * @param query
-     * @param disjunctiveFacets
-     * @param refinements
-     * @return
+     * @param query Search parameters. May be null to use an empty query.
+     * @param disjunctiveFacets List of disjunctive facets.
+     * @param refinements The current refinements, mapping facet names to a list of values.
+     * @return The search parameters with the custom format required by the custom back-end implementation
      */
     Parameters map(@NonNull Query query, @NonNull final Collection<String> disjunctiveFacets, @NonNull final Map<String, ? extends Collection<String>> refinements);
 
     /***
-     * Transforms the custom backend result to an Algolia result.
+     * Transforms the custom backend result to Algolia results.
      *
-     * @param results
-     * @return
+     * @param results Content that was returned by your custom API (in case of success).
+     * @return json object from your custom results. It has to match the parameters defined in {@link SearchResults#SearchResults(JSONObject)}
      */
     JSONObject map(@NonNull Results results);
 
 
     /***
-     * Search for facet value operation
+     * Performs a search in the values for a given facet
      *
-     * @param query
-     * @param completionHandler
+     * @param query Search parameters. May be null to use an empty query.
+     * @param completionHandler The listener that will be notified of the request's outcome.
      */
     void searchForFacetValues(@NonNull Parameters query, @Nullable SearchResultsHandler<Results> completionHandler);
 
 
     /***
      * Transforms the Algolia facet value params to custom backend params.
-     * @param query
-     * @param facetName
-     * @param matchingText
-     * @return
+     * @param query Search parameters. May be null to use an empty query.
+     * @param facetName The name of the facet to search.
+     * @param matchingText The text to search for in the facet's values.
+     * @return The search parameters with the custom format required by the custom back-end implementation
      */
     Parameters map(@Nullable Query query, @NonNull String facetName, @NonNull String matchingText);
 }
