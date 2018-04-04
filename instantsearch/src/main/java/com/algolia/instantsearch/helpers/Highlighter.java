@@ -38,7 +38,6 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.StyleSpan;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.model.Errors;
 import com.algolia.instantsearch.utils.JSONUtils;
 
 import org.json.JSONArray;
@@ -61,13 +60,6 @@ public class Highlighter {
     private final String prefixTag;
     /** The postfixTag used, if any. */
     private final String postfixTag;
-
-    /** The color which will be used for highlighting. */
-    private @ColorInt int color;
-    /** The input that will be highlighted on {@link #render() render}. */
-    private String markupString;
-    /** The input that will be highlighted on {@link #render() render}. */
-    private boolean bold;
 
     /**
      * Gets the default highlighter.
@@ -137,10 +129,10 @@ public class Highlighter {
      *
      * @param result    a JSONObject containing our attribute.
      * @param attribute the attribute to highlight.
-     * @return the Highlighter for chaining.
+     * @return a {@link Styler} to specify the style before rendering.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Highlighter setInput(JSONObject result, String attribute) {
+    public Styler setInput(@NonNull JSONObject result, @NonNull String attribute) {
         return setInput(result, attribute, false);
     }
 
@@ -150,10 +142,10 @@ public class Highlighter {
      * @param result    a {@link JSONObject} describing a hit.
      * @param attribute the attribute to highlight.
      * @param inverted  if {@code true}, the highlighting will be inverted.
-     * @return the Highlighter for chaining.
+     * @return a {@link Styler} to specify the style before rendering.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Highlighter setInput(JSONObject result, String attribute, boolean inverted) {
+    public Styler setInput(@NonNull JSONObject result, @NonNull String attribute, boolean inverted) {
         return setInput(getHighlightedAttribute(result, attribute, inverted));
     }
 
@@ -161,60 +153,118 @@ public class Highlighter {
      * Sets the input to highlight.
      *
      * @param markupString a String to highlight according to this highlighter's {@link #pattern}.
-     * @return the Highlighter for chaining.
+     * @return a {@link Styler} to specify the style before rendering.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Highlighter setInput(@NonNull String markupString) {
-        this.markupString = markupString;
-        return this;
+    public Styler setInput(@NonNull String markupString) {
+        return new Styler(markupString);
     }
 
-    /**
-     * Sets the color for rendering, using the {@link com.algolia.instantsearch.R.color#colorHighlighting default color}.
-     *
-     * @param context a Context to get the color from.
-     * @return the Highlighter for chaining.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Highlighter setColor(@NonNull Context context) {
-        return setColor(getColor(context, R.color.colorHighlighting));
+    /** Lets you specify a highlighting style. You will get a Styler by calling setInput on your Highlighter. */
+    public class Styler {
+        /** The input that will be highlighted on {@link Renderer#render() render}. */
+        @NonNull
+        private String markupString;
+
+        public Styler(@NonNull String markupString) {
+            this.markupString = markupString;
+        }
+
+        /**
+         * Sets the color for rendering, using the {@link com.algolia.instantsearch.R.color#colorHighlighting default color}.
+         *
+         * @param context a Context to get the color from.
+         * @return a {@link Renderer} that can render the highlight.
+         */
+        @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+        public Renderer setStyle(@NonNull Context context) {
+            return setStyle(getColor(context, R.color.colorHighlighting));
+        }
+
+        /**
+         * Sets the color for rendering, using a color resource.
+         *
+         * @param colorRes a {@link ColorRes color resource}.
+         * @param context  a Context to get the color from.
+         * @return a {@link Renderer} that can render the highlight.
+         */
+        @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+        public Renderer setStyle(@ColorRes int colorRes, Context context) {
+            return setStyle(getColor(context, colorRes));
+        }
+
+        /**
+         * Sets the color for rendering, using a packed color int.
+         *
+         * @param colorInt a {@link ColorRes packed color int}.
+         * @return a {@link Renderer} that can render the highlight.
+         */
+        @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+        public Renderer setStyle(@ColorInt int colorInt) {
+            return new Renderer(markupString, false, colorInt);
+        }
+
+        /**
+         * Wether to use bold to highlight instead of a color.
+         *
+         * @param isBold if {@code true}, the highlight will be applied using {@link Typeface#BOLD}.
+         * @return a {@link Renderer} that can render the highlight.
+         */
+        @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+        public Renderer setStyle(boolean isBold) {
+            return new Renderer(markupString, true, 0);
+        }
+
     }
 
-    /**
-     * Sets the color for rendering, using a color resource.
-     *
-     * @param colorRes a {@link ColorRes color resource}.
-     * @param context  a Context to get the color from.
-     * @return the Highlighter for chaining.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Highlighter setColor(@ColorRes int colorRes, Context context) {
-        return setColor(getColor(context, colorRes));
-    }
+    /** Renders the highlight. You will get a Styler by calling setInput then setStyle on your Highlighter. */
+    public class Renderer {
+        /** The color which will be used for highlighting. */
+        private @ColorInt int color;
+        /** The input that will be highlighted on {@link Renderer#render() render}. */
+        @NonNull
+        private final String markupString;
+        /** If {@code true}, highlighting will be done using bold. */
+        private boolean bold;
 
-    /**
-     * Sets the color for rendering, using a packed color int.
-     *
-     * @param colorInt a {@link ColorRes packed color int}.
-     * @return the Highlighter for chaining.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Highlighter setColor(@ColorInt int colorInt) {
-        color = colorInt;
-        bold = false;
-        return this;
-    }
+        Renderer(@NonNull String markupString, boolean bold, int colorInt) {
+            this.markupString = markupString;
+            this.bold = bold;
+            this.color = colorInt;
+        }
 
-    /**
-     * Wether to use bold to highlight instead of a color.
-     *
-     * @param active if {@code true}, the highlight will be applied using {@link Typeface#BOLD}.
-     * @return the Highlighter for chaining.
-     */
-    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public Highlighter setBold(boolean active) {
-        bold = active;
-        return this;
+        /**
+         * Renders the highlight, resetting the {@link #color}/{@link #bold boldness} and the {@link Styler#markupString}.
+         *
+         * @return a Spannable highlighted with the appropriate {@link ParcelableSpan spans}.
+         */
+        @NonNull
+        public Spannable render() {
+            SpannableStringBuilder result = new SpannableStringBuilder();
+            Matcher matcher = pattern.matcher(markupString);
+            int posIn = 0; // current position in input string
+            int posOut = 0; // current position in output string
+
+            // For each highlight:
+            while (matcher.find()) {
+                // Append text before.
+                result.append(markupString.substring(posIn, matcher.start()));
+                posOut += matcher.start() - posIn;
+
+                // Append highlighted text.
+                String highlightString = matcher.group(1);
+                result.append(highlightString);
+                ParcelableSpan span = bold ? new StyleSpan(Typeface.BOLD) :
+                        color != 0 ? new BackgroundColorSpan(color) : new StyleSpan(Typeface.NORMAL);
+                result.setSpan(span, posOut, posOut + highlightString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                posOut += highlightString.length();
+                posIn = matcher.end();
+            }
+            // Append text after.
+            result.append(markupString.substring(posIn));
+            return result;
+        }
+
     }
 
     /**
@@ -262,47 +312,6 @@ public class Highlighter {
         result.append(after);
         result.append(postfixTag);
         return result.toString().replace(prefixTag + postfixTag, "");
-    }
-
-    /**
-     * Renders the highlight, resetting the {@link Highlighter#color}/{@link Highlighter#bold boldness} and the {@link Highlighter#markupString}.
-     *
-     * @return a Spannable highlighted with the appropriate {@link ParcelableSpan span}.
-     */
-    @NonNull
-    public Spannable render() {
-        if (!bold && color == 0) {
-            throw new IllegalStateException(Errors.HIGHLIGHTER_RENDER_WITHOUT_STYLE);
-        } else if (markupString == null) {
-            throw new IllegalStateException(Errors.HIGHLIGHTER_RENDER_WITHOUT_MARKUP);
-        }
-        SpannableStringBuilder result = new SpannableStringBuilder();
-        Matcher matcher = pattern.matcher(markupString);
-        int posIn = 0; // current position in input string
-        int posOut = 0; // current position in output string
-
-        // For each highlight:
-        while (matcher.find()) {
-            // Append text before.
-            result.append(markupString.substring(posIn, matcher.start()));
-            posOut += matcher.start() - posIn;
-
-            // Append highlighted text.
-            String highlightString = matcher.group(1);
-            result.append(highlightString);
-            ParcelableSpan span = bold ? new StyleSpan(Typeface.BOLD) : new BackgroundColorSpan(color);
-            result.setSpan(span, posOut, posOut + highlightString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //FIXME: New span for every highlight
-            posOut += highlightString.length();
-            posIn = matcher.end();
-        }
-        // Append text after.
-        result.append(markupString.substring(posIn));
-
-        // Reset highlighting type/content: let's avoid implicitly reusing which would be error prone.
-        bold = false;
-        color = 0;
-        markupString = null;
-        return result;
     }
 
     /**
