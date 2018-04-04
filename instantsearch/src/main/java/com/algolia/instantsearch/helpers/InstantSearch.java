@@ -175,7 +175,7 @@ public class InstantSearch {
         searcher.setQuery(newQuery).search();
     }
 
-
+    //TODO: Implement unregisterSearchView
     /**
      * Registers the Search Widget of an Activity's Menu to trigger search requests on text change, replacing the current one if any.
      *
