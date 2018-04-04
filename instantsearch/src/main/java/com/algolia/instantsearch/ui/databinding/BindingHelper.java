@@ -177,6 +177,7 @@ public class BindingHelper {
      * @return the attribute value, prefixed and suffixed if any was specified on the view.
      */
     public static String getFullAttribute(View view, String rawAttribute) {
+        //TODO: Unit tests
         String attribute = "";
         final int id = view.getId();
         final String prefix = prefixes.get(id);
@@ -186,7 +187,7 @@ public class BindingHelper {
         }
         attribute += rawAttribute;
         if (suffix != null) {
-            attribute = prefix;
+            attribute += suffix;
         }
         return attribute;
     }
