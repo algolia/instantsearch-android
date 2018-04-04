@@ -78,7 +78,7 @@ public class QuerySuggestions extends Hits {
     @Nullable @Override
     protected Spannable getHighlightedAttribute(@NonNull JSONObject hit, @NonNull View view, @NonNull String attribute, @Nullable String attributeValue) {
         if (highlighting) {
-            return Highlighter.getDefault().setInput(hit, attribute, query.length() > 0).setBold(true).render();
+            return Highlighter.getDefault().setInput(hit, attribute, query.length() > 0).setStyle(true).render();
         } else {
             return new SpannableString(attributeValue);
         }
