@@ -41,7 +41,7 @@ platform :android do
     # Pull recent changes, stashing the changelog
     ensure_git_branch(branch:"master")
     stash_name = "release-#{version_number}-changelog"
-    sh("git stash push -m #{stash_name}" "../CHANGELOG.md")
+    sh("git stash push -m #{stash_name} ../CHANGELOG.md")
     git_pull
     has_stash = sh("git stash list")
     if has_stash.include? version_number
