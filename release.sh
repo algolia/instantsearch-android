@@ -2,41 +2,30 @@
 
 set -eo pipefail
 
-SELF_ROOT=$(cd "$(dirname "$0")" && pwd)
-FILE_BUILD_GRADLE="$SELF_ROOT/instantsearch/build.gradle"
-CHANGELOG="CHANGELOG.md"
-
-function call_sed(){
-PATTERN="$1"
-FILENAME="$2"
-
-# Mac needs a space between sed's inplace flag and extension
-if [ "$(uname)" == "Darwin" ]; then
-    sed -E -i '' "$PATTERN" "$FILENAME"
-else
-    sed -E -i "$PATTERN" "$FILENAME"
-fi
-}
-
 if [ $# -ne 1 ]; then
     echo "$0 | A script to release new versions automatically"
     echo "Usage: $0 VERSION_CODE"
     exit -1
 fi
 
+SELF_ROOT=$(cd "$(dirname "$0")" && pwd)
+FILE_BUILD_GRADLE="$SELF_ROOT/instantsearch/build.gradle"
 VERSION_CODE=$1
+CHANGELOG="CHANGELOG.md"
 
-# Only release from master
-currentBranch=$(git rev-parse --abbrev-ref HEAD)
-if [ "$currentBranch" != 'master' ]; then
-  printf "Release: You must be on master\\n"
-  exit 1
+set +eo pipefail
+COUNT_DOTS=$(grep -o "\." <<< $VERSION_CODE | wc -l)
+set -eo pipefail
+
+if [ $COUNT_DOTS -ne 2 ]; then
+    echo "$VERSION_CODE is not a valid version code, please use the form X.Y.Z (e.g. v1 = 1.0.0)"
+    exit -1
 fi
 
 # Check that the working repository is clean (without any changes, neither staged nor unstaged).
 # An exception is the change log, which should have been edited, but not necessarily committed (we usually commit it
 # along with the version number).
-if [[ ! -z $(git status --porcelain | grep -v "$CHANGELOG" | grep -v "^?? ") ]]; then
+if [[ ! -z $(git status --porcelain | grep -v "$CHANGELOG") ]]; then
     echo "ERROR: Working copy not clean! Aborting." 1>&2
     echo "Changes: $(git status)"
     echo "Please revert or commit any pending changes before releasing." 1>&2
@@ -52,12 +41,31 @@ if [[ -z $version_in_change_log ]]; then
     exit 2
 fi
 
+# Only release on master (for manual runs, cannot happen through fastlane)
+currentBranch=$(git rev-parse --abbrev-ref HEAD)
+if [ "$currentBranch" != 'master' ]; then
+  printf "Release: You must be on master\\n"
+  exit 1
+fi
+
+function call_sed(){
+PATTERN="$1"
+FILENAME="$2"
+
+# Mac needs a space between sed's inplace flag and extension
+if [ "$(uname)" == "Darwin" ]; then
+    sed -E -i '' "$PATTERN" "$FILENAME"
+else
+    sed -E -i "$PATTERN" "$FILENAME"
+fi
+}
+
 echo "Updating version number to $VERSION_CODE..."
 call_sed "s/VERSION = '.*'/VERSION = '$VERSION_CODE'/" "$FILE_BUILD_GRADLE"
 
 # Commit to git
 set +e # don\'t crash if already committed
-git add $CHANGELOG "$FILE_BUILD_GRADLE"
+git add .
 git commit -m "chore(release): Version $VERSION_CODE [ci skip]"
 set -e
 
@@ -66,8 +74,7 @@ set -e
 
 # Tag and push on GitHub
 git tag "$VERSION_CODE" -s -m "v$VERSION_CODE"
-git push origin $VERSION_CODE
-git push origin HEAD
+git push origin $VERSION_CODE HEAD
 
 # Update documentation
 ./scripts/deploy-docs.sh
