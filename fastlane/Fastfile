@@ -12,12 +12,13 @@ platform :android do
 
   desc "Deploy the library. Available options: type:major|minor|patch optional: notest:true|false (default false)"
   lane :deploy do |options|
+    # Arguments handling
     notest = options[:notest] || false
     type = options[:type]
     UI.user_error!("You need to specify a type.") unless type != nil
     UI.user_error!("Type #{type} is not a valid type (patch/minor/major") unless ["major","minor","patch"].include? type
 
-    # Version handling
+    # Compute next version number
     current_version = get_version_name(
       gradle_file_path:"instantsearch/build.gradle",
       ext_constant_name:"VERSION"
@@ -25,6 +26,11 @@ platform :android do
     puts "Current version: #{current_version}"
     version_number = increment_semver(current_version, type)
     puts "New version: #{version_number}"
+
+    # Checkout master
+    ensure_git_status_clean(show_uncommitted_changes:true)
+    ensure_git_branch(branch:"master")
+    git_pull
 
     # Changelog handling
     changes = sh("conventional-changelog --preset angular --output-unreleased", log:false)
@@ -38,19 +44,13 @@ platform :android do
     if notest == false
       test()
     end
-    # Pull recent changes, stashing the changelog
-    ensure_git_branch(branch:"master")
-    stash_name = "release-#{version_number}-changelog"
-    sh("git stash push -m #{stash_name} ../CHANGELOG.md")
-    git_pull
-    has_stash = sh("git stash list")
-    if has_stash.include? version_number
-      sh("git stash pop")
-    end
 
     sh("cd .. && ./release.sh #{version_number}")
 
     post_github_release(version_number, changes)
+    # Remove temporary version tags
+    sh("git tag --delete minor major patch | true")
+    sh("git push origin :refs/tag/patch :refs/tag/minor :refs/tag/major")
   end
 end
 
