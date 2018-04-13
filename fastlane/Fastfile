@@ -64,7 +64,7 @@ def update_deps_to_use_commit_hash_if_workflow_triggered_by_client()
   end
 end
 
-def prepare_git(branch, ensure_clean=true)
+def prepare_git(ensure_clean=true)
   masterHash = sh("git rev-parse origin/master")
   headHash = sh("git rev-parse HEAD")
 
