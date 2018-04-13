@@ -32,8 +32,9 @@ platform :android do
 
     # Generate changelog updates
     changes = sh("conventional-changelog --preset angular --output-unreleased", log:false)
-    changes_lines = changes.split(/\n+/)[2..-1] # Remove header
-    changes_lines[0].gsub!(/^#.*(\([^v]+)v(.*)$/, "## #{version_number} \[Changes\]\\1#{version_number}\\2\n")
+    changes_lines = changes.split(/\n+/)[1..-1] # Remove header
+    changes_lines[0] = "## #{version_number}"
+    puts "after regex lines: #{changes_lines.join("\n")}"
     changes = changes_lines.join("\n")
     puts "Changes: #{changes}"
     file_edit("../CHANGELOG.md", /^(# Changelog\n+)/, "\\1\n#{changes}\n")
