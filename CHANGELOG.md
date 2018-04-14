@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.7.3
+### Bug Fixes
+* **gradle:** Add auto-minor version instead of fix ([523feaa](https://github.com/algolia/instantsearch-android/commit/523feaa))
+* **release:** Add extra space in the fastfile changelog ([fc8d48b](https://github.com/algolia/instantsearch-android/commit/fc8d48b))
+* **searcher:** Fix naming for index.getName() ([a020631](https://github.com/algolia/instantsearch-android/commit/a020631))
+### Features
+* **custombackend:** Change the Searcher to use a searchable index instead of concrete implementation ([#73](https://github.com/algolia/instantsearch-android/issues/73)) ([b070ad1](https://github.com/algolia/instantsearch-android/commit/b070ad1))
+
 ## 1.6.3 [Changes](https://github.com/algolia/instantsearch-android/compare/1.6.2...1.6.3) (2018-03-23)
 
 ### Bug Fixes
