@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.7.6
+### Bug Fixes
+* **BindingHelper:** suffix handling ([2984fc7](https://github.com/algolia/instantsearch-android/commit/2984fc7))
+* **BindingHelper:** suffix handling ([#75](https://github.com/algolia/instantsearch-android/issues/75)) ([7221b69](https://github.com/algolia/instantsearch-android/commit/7221b69))
+* **dependencies:** Expose eventbus and glide apis ([cc49150](https://github.com/algolia/instantsearch-android/commit/cc49150))
+* **gradle:** Add auto-minor version instead of fix ([523feaa](https://github.com/algolia/instantsearch-android/commit/523feaa))
+* **release:** Add extra space in the fastfile changelog ([fc8d48b](https://github.com/algolia/instantsearch-android/commit/fc8d48b))
+* **searcher:** Fix naming for index.getName() ([a020631](https://github.com/algolia/instantsearch-android/commit/a020631))
+### Features
+* **custombackend:** Change the Searcher to use a searchable index instead of concrete implementation ([#73](https://github.com/algolia/instantsearch-android/issues/73)) ([b070ad1](https://github.com/algolia/instantsearch-android/commit/b070ad1))
+
 ## 1.7.5
 ### Bug Fixes
 * **BindingHelper:** suffix handling ([2984fc7](https://github.com/algolia/instantsearch-android/commit/2984fc7))
