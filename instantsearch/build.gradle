@@ -182,36 +182,6 @@ artifacts {
             builtBy: "writeNewPom"
 }
 
-def pomConfig = {
-        groupId project.ext.GROUP
-        artifactId project.ext.BASENAME
-
-        name project.ext.CODENAME
-        description project.ext.DESC
-        url project.ext.WEBSITE
-
-        licenses {
-            license {
-                name project.ext.LICENSE
-                url project.ext.LICENSE_URL
-                distribution "repo"
-            }
-        }
-        developers {
-            developer {
-                id "algolia"
-                name "The Algolia Team"
-                email "hey@algolia.com"
-            }
-        }
-        scm {
-            connection project.ext.REPO
-            developerConnection project.ext.REPO
-            url project.ext.WEBSITE
-
-        }
-}
-
 publishing.publications {
     BinTrayPublication(MavenPublication) {
         artifact sourcesJar
@@ -223,8 +193,6 @@ publishing.publications {
         version project.ext.VERSION
 
         pom.withXml {
-            def root = asNode()
-            root.children().last() + pomConfig
 
 //            configurations.implementation.allDependencies.each {
 //                def dependencyNode = dependenciesNode.appendNode('dependency')
