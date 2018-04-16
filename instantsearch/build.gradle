@@ -27,7 +27,7 @@ ext {
     VERSION = '1.6.3'
     VERSION_DESC = 'Version ' + VERSION
 
-    VERSION_APPCOMPAT = '26.1.0'
+    VERSION_APPCOMPAT = '27.1.1'
 }
 
 group = project.ext.GROUP
@@ -38,12 +38,12 @@ android {
         enabled true
     }
 
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName project.ext.VERSION
         consumerProguardFiles "proguard-rules.pro"
@@ -73,21 +73,22 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.algolia:algoliasearch-android:3.+'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.github.bumptech.glide:glide:4.3.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.algolia:algoliasearch-android:3.+'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.3.1'
     compile('com.jayway.jsonpath:json-path:2.3.0') {
         exclude module: 'asm'
     }
 
-    compile "com.android.support:appcompat-v7:$VERSION_APPCOMPAT"
-    compile "com.android.support:recyclerview-v7:$VERSION_APPCOMPAT"
+    implementation "com.android.support:appcompat-v7:$VERSION_APPCOMPAT"
+    implementation "com.android.support:support-v4:$VERSION_APPCOMPAT"
+    implementation "com.android.support:recyclerview-v7:$VERSION_APPCOMPAT"
 
     // Unit tests
-    testCompile 'junit:junit:4.12'
-    testCompile "org.robolectric:robolectric:3.4.2"
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.robolectric:robolectric:3.4.2"
+    testImplementation 'org.mockito:mockito-core:1.10.19'
 }
 
 task writeNewPom {
