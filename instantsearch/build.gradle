@@ -183,7 +183,6 @@ artifacts {
 }
 
 def pomConfig = {
-        packaging 'aar'
         groupId project.ext.GROUP
         artifactId project.ext.BASENAME
 
