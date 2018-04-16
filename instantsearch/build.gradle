@@ -24,7 +24,7 @@ ext {
     REPO = WEBSITE + ".git"
     LICENSE = 'MIT'
     LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
-    VERSION = '1.6.3'
+    VERSION = '1.7.3'
     VERSION_DESC = 'Version ' + VERSION
 
     VERSION_APPCOMPAT = '27.1.1'
@@ -77,7 +77,7 @@ dependencies {
     implementation 'com.algolia:algoliasearch-android:3.+'
     implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.github.bumptech.glide:glide:4.3.1'
-    compile('com.jayway.jsonpath:json-path:2.3.0') {
+    implementation('com.jayway.jsonpath:json-path:2.3.0') {
         exclude module: 'asm'
     }
 
@@ -152,7 +152,7 @@ task javadoc(type: Javadoc, dependsOn: assemble) {
 afterEvaluate {
     // we need this as javadoc task's body is called before android.libraryVariants is filled. http://stackoverflow.com/a/34572606/3109189
     javadoc.classpath += files(android.libraryVariants.collect { variant ->
-        variant.javaCompile.classpath.files
+        variant.getJavaCompiler().classpath.files
     })
 }
 

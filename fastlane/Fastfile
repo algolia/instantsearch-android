@@ -12,12 +12,13 @@ platform :android do
 
   desc "Deploy the library. Available options: type:major|minor|patch optional: notest:true|false (default false)"
   lane :deploy do |options|
+    # Arguments handling
     notest = options[:notest] || false
     type = options[:type]
     UI.user_error!("You need to specify a type.") unless type != nil
     UI.user_error!("Type #{type} is not a valid type (patch/minor/major") unless ["major","minor","patch"].include? type
 
-    # Version handling
+    # Compute next version number
     current_version = get_version_name(
       gradle_file_path:"instantsearch/build.gradle",
       ext_constant_name:"VERSION"
@@ -26,10 +27,14 @@ platform :android do
     version_number = increment_semver(current_version, type)
     puts "New version: #{version_number}"
 
-    # Changelog handling
+    # Ensure branch is master & WC clean, then pull changes
+    prepare_git()
+
+    # Generate changelog updates
     changes = sh("conventional-changelog --preset angular --output-unreleased", log:false)
-    changes_lines = changes.split(/\n+/)[2..-1] # Remove header
-    changes_lines[0].gsub!(/^#.*(\([^v]+)v(.*)$/, "## #{version_number} \[Changes\]\\1#{version_number}\\2\n")
+    changes_lines = changes.split(/\n+/)[1..-1] # Remove header
+    changes_lines[0] = "## #{version_number}"
+    puts "after regex lines: #{changes_lines.join("\n")}"
     changes = changes_lines.join("\n")
     puts "Changes: #{changes}"
     file_edit("../CHANGELOG.md", /^(# Changelog\n+)/, "\\1\n#{changes}\n")
@@ -38,19 +43,13 @@ platform :android do
     if notest == false
       test()
     end
-    # Pull recent changes, stashing the changelog
-    ensure_git_branch(branch:"master")
-    stash_name = "release-#{version_number}-changelog"
-    sh("git stash push -m #{stash_name}" "../CHANGELOG.md")
-    git_pull
-    has_stash = sh("git stash list")
-    if has_stash.include? version_number
-      sh("git stash pop")
-    end
 
     sh("cd .. && ./release.sh #{version_number}")
 
     post_github_release(version_number, changes)
+    # Remove temporary version tags
+    sh("git tag --delete minor major patch | true")
+    sh("git push origin :refs/tag/patch :refs/tag/minor :refs/tag/major")
   end
 end
 
@@ -63,6 +62,22 @@ def update_deps_to_use_commit_hash_if_workflow_triggered_by_client()
     puts "Changed gradle script to build with algolia/algoliasearch-client-android with commit #{ENV["GIT_DEPENDENT_COMMIT_HASH"]}"
   else
     puts "No specific dependencies to test, proceeding with latest release of API Client."
+  end
+end
+
+def prepare_git(ensure_clean=true)
+  masterHash = sh("git rev-parse origin/master")
+  headHash = sh("git rev-parse HEAD")
+
+  if masterHash != headHash
+    raise "Error: Master and Head Hashes do not match, meaning that we are probably not on Master and therefore can't deploy"
+    #TODO: Does it make sense to checkout master if we raise error when HEAD != master?
+  end
+  sh("git checkout master")
+
+  git_pull
+  if ensure_clean
+    ensure_git_status_clean(show_uncommitted_changes:true)
   end
 end
 
