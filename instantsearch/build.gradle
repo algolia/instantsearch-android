@@ -179,7 +179,7 @@ artifacts {
     archives file: new File("${project.buildDir}/outputs/aar/${project.name}-release.aar"),
             name: "${project.name}-release.aar",
             type: "aar",
-            builtBy: "assembleRelease"
+            builtBy: "writeNewPom"
 }
 
 def pomConfig = {
