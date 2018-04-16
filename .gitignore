@@ -27,3 +27,6 @@ preview.zip
 npm-debug.log
 fastlane/README.md
 fastlane/report.xml
+
+# Bitrise
+bitrise.yml
