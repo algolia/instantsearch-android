@@ -212,8 +212,8 @@ bintray {
 
             mavenCentralSync {
                 sync = true
-                user = System.getenv('OSS_USER')
-                password = System.getenv('OSS_PASS')
+                user = System.getenv('NEXUS_USERNAME')
+                password = System.getenv('NEXUS_PASSWORD')
                 close = '1'
                 //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
             }
