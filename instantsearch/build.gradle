@@ -218,6 +218,7 @@ publishing.publications {
         groupId project.ext.GROUP
         artifactId project.ext.BASENAME
         version project.ext.VERSION
+        description project.ext.DESC
 
         pom.withXml {
             def root = asNode()
