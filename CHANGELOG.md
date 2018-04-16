@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.7.4
+### Bug Fixes
+* **BindingHelper:** suffix handling ([2984fc7](https://github.com/algolia/instantsearch-android/commit/2984fc7))
+* **BindingHelper:** suffix handling ([#75](https://github.com/algolia/instantsearch-android/issues/75)) ([7221b69](https://github.com/algolia/instantsearch-android/commit/7221b69))
+
 ## 1.7.3
 ### Bug Fixes
 * **gradle:** Add auto-minor version instead of fix ([523feaa](https://github.com/algolia/instantsearch-android/commit/523feaa))
