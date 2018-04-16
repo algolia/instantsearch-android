@@ -110,6 +110,7 @@ task writeNewPom {
                     license {
                         name project.ext.LICENSE
                         url project.ext.LICENSE_URL
+                        distribution "repo"
                     }
                 }
                 developers {
@@ -130,12 +131,8 @@ task writeNewPom {
                 .writeTo("${project.buildDir}/publications/BinTrayPublication/pom-default.xml")
     }
 }
-task sourcesJar(type: Jar, dependsOn: writeNewPom) {
-    classifier "sources"
-    from android.sourceSets.main.java.srcDirs
-}
 
-task javadoc(type: Javadoc, dependsOn: assemble) {
+task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.sourceFiles
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) // dependencies
     failOnError false // Errors about classes `R` and `BuildConfig` should not trigger failure
@@ -156,11 +153,6 @@ afterEvaluate {
     })
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier "javadoc"
-    from javadoc.destinationDir
-}
-
 task copyJavaDoc(type: Copy, dependsOn: javadoc) {
     def sources = "../docgen/src/"
     inputs.file sources
@@ -168,21 +160,80 @@ task copyJavaDoc(type: Copy, dependsOn: javadoc) {
     from("./build/docs/")
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier "javadoc"
+    from javadoc.destinationDir
+}
+
+task sourcesJar(type: Jar, dependsOn: writeNewPom) {
+    dependsOn "assembleRelease"
+    classifier "sources"
+    from android.sourceSets.main.java.srcDirs
+}
+
+
 // add sources jar tasks as artifacts
 artifacts {
     archives sourcesJar
+    archives javadocJar
+    archives file: new File("${project.buildDir}/outputs/aar/${project.name}-release.aar"),
+            name: "${project.name}-release.aar",
+            type: "aar",
+            builtBy: "assembleRelease"
+}
+
+def pomConfig = {
+        packaging 'aar'
+        groupId project.ext.GROUP
+        artifactId project.ext.BASENAME
+
+        name project.ext.CODENAME
+        description project.ext.DESC
+        url project.ext.WEBSITE
+
+        licenses {
+            license {
+                name project.ext.LICENSE
+                url project.ext.LICENSE_URL
+                distribution "repo"
+            }
+        }
+        developers {
+            developer {
+                id "algolia"
+                name "The Algolia Team"
+                email "hey@algolia.com"
+            }
+        }
+        scm {
+            connection project.ext.REPO
+            developerConnection project.ext.REPO
+            url project.ext.WEBSITE
+
+        }
 }
 
 publishing.publications {
     BinTrayPublication(MavenPublication) {
+        artifact sourcesJar
+        artifact javadocJar
+        artifact "${project.buildDir}/outputs/aar/${project.name}-release.aar"
+
         groupId project.ext.GROUP
         artifactId project.ext.BASENAME
         version project.ext.VERSION
 
-        artifact "${project.buildDir}/outputs/aar/${project.name}-release.aar"
-        artifact sourcesJar
-        artifact "${project.buildDir}/libs/instantsearch-${project.ext.VERSION}-javadoc.jar"
-        artifact "${project.buildDir}/${project.ext.BASENAME}-${project.ext.VERSION}.pom"
+        pom.withXml {
+            def root = asNode()
+            root.children().last() + pomConfig
+
+//            configurations.implementation.allDependencies.each {
+//                def dependencyNode = dependenciesNode.appendNode('dependency')
+//                dependencyNode.appendNode('groupId', it.group)
+//                dependencyNode.appendNode('artifactId', it.name)
+//                dependencyNode.appendNode('version', it.version)
+//            }
+        }
     }
 }
 
