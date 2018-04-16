@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.7.8
+
 ## 1.7.7
 ### Bug Fixes
 * **BindingHelper:** suffix handling ([2984fc7](https://github.com/algolia/instantsearch-android/commit/2984fc7))
