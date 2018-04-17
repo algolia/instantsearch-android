@@ -221,7 +221,6 @@ publishing.publications {
         description project.ext.DESC
 
         pom.withXml {
-            println "Begin withXml, let's handle dependencies!"
             def root = asNode()
             root.children().last() + pomConfig
 
@@ -229,11 +228,10 @@ publishing.publications {
             println "Adding dependencies node"
 
             ext.addDependency = { Dependency dep, String scope ->
-                if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
-                    println "Ignoring invalid dependency $dep.name"
+                if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified") {
                     return // ignore invalid dependencies
-
-                println "Adding dependency $dep.name"
+                }
+                println "Adding dependency $dep.name ($scope) to pom.xml"
                 final dependencyNode = dependenciesNode.appendNode('dependency')
                 dependencyNode.appendNode('groupId', dep.group)
                 dependencyNode.appendNode('artifactId', dep.name)
