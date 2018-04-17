@@ -91,46 +91,46 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:1.10.19'
 }
 
-task writeNewPom {
-    doLast {
-        apply plugin: 'maven'
-        description "Generates pom.xml"
-
-        pom {
-            project {
-                packaging 'aar'
-                groupId project.ext.GROUP
-                artifactId project.ext.BASENAME
-
-                name project.ext.CODENAME
-                description project.ext.DESC
-                url project.ext.WEBSITE
-
-                licenses {
-                    license {
-                        name project.ext.LICENSE
-                        url project.ext.LICENSE_URL
-                        distribution "repo"
-                    }
-                }
-                developers {
-                    developer {
-                        id "algolia"
-                        name "The Algolia Team"
-                        email "hey@algolia.com"
-                    }
-                }
-                scm {
-                    connection project.ext.REPO
-                    developerConnection project.ext.REPO
-                    url project.ext.WEBSITE
-
-                }
-            }
-        }.writeTo("${project.buildDir}/${project.ext.BASENAME}-${project.ext.VERSION}.pom")
-                .writeTo("${project.buildDir}/publications/BinTrayPublication/pom-default.xml")
-    }
-}
+//task writeNewPom {
+//    doLast {
+//        apply plugin: 'maven'
+//        description "Generates pom.xml"
+//
+//        pom {
+//            project {
+//                packaging 'aar'
+//                groupId project.ext.GROUP
+//                artifactId project.ext.BASENAME
+//
+//                name project.ext.CODENAME
+//                description project.ext.DESC
+//                url project.ext.WEBSITE
+//
+//                licenses {
+//                    license {
+//                        name project.ext.LICENSE
+//                        url project.ext.LICENSE_URL
+//                        distribution "repo"
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id "algolia"
+//                        name "The Algolia Team"
+//                        email "hey@algolia.com"
+//                    }
+//                }
+//                scm {
+//                    connection project.ext.REPO
+//                    developerConnection project.ext.REPO
+//                    url project.ext.WEBSITE
+//
+//                }
+//            }
+//        }.writeTo("${project.buildDir}/${project.ext.BASENAME}-${project.ext.VERSION}.pom")
+//                .writeTo("${project.buildDir}/publications/BinTrayPublication/pom-default.xml")
+//    }
+//}
 
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.sourceFiles
@@ -165,7 +165,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-task sourcesJar(type: Jar, dependsOn: writeNewPom) {
+task sourcesJar(type: Jar) {
     dependsOn "assembleRelease"
     classifier "sources"
     from android.sourceSets.main.java.srcDirs
@@ -214,6 +214,7 @@ publishing.publications {
         artifact sourcesJar
         artifact javadocJar
         artifact "${project.buildDir}/outputs/aar/${project.name}-release.aar"
+        artifact "${project.buildDir}/publications/BinTrayPublication/pom-default.xml"
 
         groupId project.ext.GROUP
         artifactId project.ext.BASENAME
