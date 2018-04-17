@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.7.16
+
 ## 1.7.15
 ### Bug Fixes
 * **dependencies:** make client an api ([c1200e0](https://github.com/algolia/instantsearch-android/commit/c1200e0))
