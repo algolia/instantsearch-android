@@ -70,7 +70,7 @@ git commit -m "chore(release): Version $VERSION_CODE [ci skip]"
 set -e
 
 # Release on Bintray
-./gradlew clean bintrayUpload --info
+./gradlew clean bintrayUpload
 
 # Tag and push on GitHub
 git tag "$VERSION_CODE" -s -m "v$VERSION_CODE"
