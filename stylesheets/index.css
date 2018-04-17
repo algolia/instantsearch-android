@@ -1737,7 +1737,8 @@ figure {
   top: 50%;
   transform: translateY(-50%); }
 
-sub, sup {
+sub,
+sup {
   font-size: 50%;
   line-height: 0;
   position: relative;
@@ -1923,7 +1924,7 @@ sub {
 .aa-cursor .algolia-docsearch-suggestion--content {
   color: #1dbb7c !important; }
 
-.algolia-autocomplete .ds-dropdown-menu [class^="ds-dataset-"] {
+.algolia-autocomplete .ds-dropdown-menu [class^=ds-dataset-] {
   max-height: 550px; }
 
 /* For bigger screens, when displaying results in two columns */
@@ -3749,8 +3750,7 @@ img[align="center"] {
   vertical-align: middle;
   border-radius: 2px; }
 
-.documentation-container td,
-.documentation-container th {
+.documentation-container td, .documentation-container th {
   padding: 15px 16px;
   border-left: 1px solid #d0d0d0; }
 
