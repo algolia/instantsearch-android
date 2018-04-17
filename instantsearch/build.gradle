@@ -225,6 +225,9 @@ publishing.publications {
             root.children().last() + pomConfig
 
             def dependenciesNode = root.getAt("dependencies")[0]
+            if (dependenciesNode == null) {
+                dependenciesNode = root.appendNode("dependencies")
+            }
             //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
             configurations.api.allDependencies.each {
                 def dependencyNode = dependenciesNode.appendNode('dependency')
