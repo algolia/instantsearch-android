@@ -91,47 +91,6 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:1.10.19'
 }
 
-//task writeNewPom {
-//    doLast {
-//        apply plugin: 'maven'
-//        description "Generates pom.xml"
-//
-//        pom {
-//            project {
-//                packaging 'aar'
-//                groupId project.ext.GROUP
-//                artifactId project.ext.BASENAME
-//
-//                name project.ext.CODENAME
-//                description project.ext.DESC
-//                url project.ext.WEBSITE
-//
-//                licenses {
-//                    license {
-//                        name project.ext.LICENSE
-//                        url project.ext.LICENSE_URL
-//                        distribution "repo"
-//                    }
-//                }
-//                developers {
-//                    developer {
-//                        id "algolia"
-//                        name "The Algolia Team"
-//                        email "hey@algolia.com"
-//                    }
-//                }
-//                scm {
-//                    connection project.ext.REPO
-//                    developerConnection project.ext.REPO
-//                    url project.ext.WEBSITE
-//
-//                }
-//            }
-//        }.writeTo("${project.buildDir}/${project.ext.BASENAME}-${project.ext.VERSION}.pom")
-//                .writeTo("${project.buildDir}/publications/BinTrayPublication/pom-default.xml")
-//    }
-//}
-
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.sourceFiles
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) // dependencies
@@ -214,7 +173,6 @@ publishing.publications {
         artifact sourcesJar
         artifact javadocJar
         artifact "${project.buildDir}/outputs/aar/${project.name}-release.aar"
-        artifact "${project.buildDir}/publications/BinTrayPublication/pom-default.xml"
 
         groupId project.ext.GROUP
         artifactId project.ext.BASENAME
@@ -224,6 +182,7 @@ publishing.publications {
         pom.withXml {
             def root = asNode()
             root.children().last() + pomConfig
+            root.appendNode("description", project.ext.DESC) //TODO Find why description is missing from pom.xml
 
             final dependenciesNode = asNode().appendNode('dependencies')
             println "Adding dependencies node"
