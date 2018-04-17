@@ -44,7 +44,9 @@ platform :android do
       test()
     end
 
-    sh("cd .. && ./release.sh #{version_number}")
+    chdir ".." do
+      sh("./release.sh #{version_number}")
+    end
 
     post_github_release(version_number, changes)
     # Remove temporary version tags
