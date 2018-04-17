@@ -49,7 +49,7 @@ platform :android do
     post_github_release(version_number, changes)
     # Remove temporary version tags
     sh("git tag --delete minor major patch | true")
-    sh("git push origin :refs/tag/patch :refs/tag/minor :refs/tag/major")
+    sh("GIT_TRACE=1 git push origin :refs/tag/patch :refs/tag/minor :refs/tag/major")
   end
 end
 
