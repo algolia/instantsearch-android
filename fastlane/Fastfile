@@ -44,7 +44,7 @@ platform :android do
       test()
     end
 
-    chdir ".." do
+    Dir.chdir ".." do
       sh("./release.sh #{version_number}")
     end
 
