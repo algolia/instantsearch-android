@@ -64,10 +64,8 @@ echo "Updating version number to $VERSION_CODE..."
 call_sed "s/VERSION = '.*'/VERSION = '$VERSION_CODE'/" "$FILE_BUILD_GRADLE"
 
 # Commit to git
-set +e # don\'t crash if already committed
 git add .
 git commit -m "chore(release): Version $VERSION_CODE [ci skip]"
-set -e
 
 # Release on Bintray
 ./gradlew clean bintrayUpload
