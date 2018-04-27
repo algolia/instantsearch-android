@@ -27,8 +27,8 @@ public class SearchBoxViewModel {
      * @param searchView a SearchView to wrap.
      */
     @SuppressWarnings("unused") // For library users
-    public SearchBoxViewModel(@NonNull android.support.v7.widget.SearchView searchView) {
-        this.searchViewFacade = new SearchViewFacade(searchView);
+    public SearchBoxViewModel(@NonNull final android.support.v7.widget.SearchView searchView) {
+        this(new SearchViewFacade(searchView));
     }
 
     /**
@@ -37,8 +37,8 @@ public class SearchBoxViewModel {
      * @param searchView a SearchView to wrap.
      */
     @SuppressWarnings("unused") // For library users
-    public SearchBoxViewModel(@NonNull SearchView searchView) {
-        this.searchViewFacade = new SearchViewFacade(searchView);
+    public SearchBoxViewModel(@NonNull final SearchView searchView) {
+        this(new SearchViewFacade(searchView));
     }
 
     /**
@@ -46,7 +46,7 @@ public class SearchBoxViewModel {
      *
      * @param searchViewFacade a SearchViewFacade to wrap.
      */
-    public SearchBoxViewModel(@NonNull SearchViewFacade searchViewFacade) {
+    public SearchBoxViewModel(@NonNull final SearchViewFacade searchViewFacade) {
         this.searchViewFacade = searchViewFacade;
     }
 
