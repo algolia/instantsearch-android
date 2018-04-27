@@ -59,7 +59,7 @@
         <!-- A default label to use as a first option that does not refine on any value. -->
         <attr name="defaultLabel" format="string"/>
         <!-- The operator to use for refining, in the form lt (<), le (<=), eq (=), etc. -->
-        <attr name="operator">
+        <attr name="operator" format="enum">
             <!-- Lower than -->
             <enum name="lt" value="0"/>
             <!-- Lower than or equal to -->
