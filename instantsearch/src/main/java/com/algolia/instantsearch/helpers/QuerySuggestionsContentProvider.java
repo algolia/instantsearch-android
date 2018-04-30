@@ -41,17 +41,17 @@ public abstract class QuerySuggestionsContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        Log.e("QSCP", "query called with uri " + uri);
         MatrixCursor cursor = new MatrixCursor(COLUMN_NAMES);
+        final String query = uri.getLastPathSegment().toLowerCase();
 
         try {
-            SearchResults results = new SearchResults(getIndex().searchSync(new Query(uri.getLastPathSegment().toLowerCase()).setHitsPerPage(getLimit())));
-            final int nbHits = results.hits.length();
-            Log.e("QSCP", "query found " + nbHits + " hits.");
-            for (int i = 0; i < nbHits; i++) {
+            SearchResults results = new SearchResults(getIndex().searchSync(new Query(query).setHitsPerPage(getLimit())));
+            for (int i = 0; i < results.hits.length(); i++) {
                 JSONObject hit = results.hits.getJSONObject(i);
-                final String hitQuery = hit.getString("query");
-                cursor.addRow(new Object[]{hit.getString("objectID").hashCode(), hitQuery, hitQuery});
+                final String suggestion = hit.getString("query");
+                if (!suggestion.equalsIgnoreCase(query)) {
+                    cursor.addRow(new Object[]{hit.getString("objectID").hashCode(), suggestion, suggestion});
+                }
             }
             return cursor;
         } catch (AlgoliaException e) {
