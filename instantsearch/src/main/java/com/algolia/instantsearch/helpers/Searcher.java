@@ -287,9 +287,12 @@ public class Searcher {
     public Searcher search(@Nullable final Intent intent) {
         String query = null;
         Object origin = null;
-        if (intent != null && Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            query = intent.getStringExtra(SearchManager.QUERY);
-            origin = intent;
+        if (intent != null) {
+            if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+                query = intent.hasExtra(SearchManager.QUERY) ?
+                        intent.getStringExtra(SearchManager.QUERY) : intent.getDataString();
+                origin = intent;
+            }
         }
         return search(query, origin);
     }
