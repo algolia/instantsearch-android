@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
@@ -19,6 +18,12 @@ import com.algolia.search.saas.Query;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Provides Search Suggestions through a ContentProvider.
+ * <p>
+ * Your subclass must provide
+ * {@link QuerySuggestionsContentProvider#getIndex() an index} and specify {@link QuerySuggestionsContentProvider#getLimit() a limit}.
+ */
 public abstract class QuerySuggestionsContentProvider extends ContentProvider {
 
     public static final String[] COLUMN_NAMES = {
@@ -26,10 +31,13 @@ public abstract class QuerySuggestionsContentProvider extends ContentProvider {
             SearchManager.SUGGEST_COLUMN_TEXT_1,
             SearchManager.SUGGEST_COLUMN_INTENT_DATA};
 
+    /**
+     * Returns an Index to search suggestions within.
+     */
     protected abstract Index getIndex();
 
     /**
-     * Returns the maximum number of usggestions to display.
+     * Returns the maximum number of suggestions to display.
      */
     protected abstract int getLimit();
 
