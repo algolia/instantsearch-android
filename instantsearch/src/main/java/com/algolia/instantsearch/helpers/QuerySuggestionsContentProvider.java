@@ -32,6 +32,7 @@ public abstract class QuerySuggestionsContentProvider extends ContentProvider {
             SearchManager.SUGGEST_COLUMN_INTENT_DATA};
 
     private Index index;
+    private boolean shouldReturnHighlightResult;
 
     /**
      * Returns an Index to search suggestions within.
@@ -43,9 +44,18 @@ public abstract class QuerySuggestionsContentProvider extends ContentProvider {
      */
     protected abstract int getLimit();
 
+    /**
+     * If {@code true}, the suggestion will return the highlighting output to be used at display in your custom {@code suggestionRowLayout}.
+     * This value will be sent to its TextView identified as <b>{@code @android:id/text1}</b> through {@link android.widget.TextView#setText(CharSequence) setText}.
+     */
+    protected boolean shouldReturnHighlightResult() {
+        return false;
+    }
+
     @Override
     public boolean onCreate() {
         index = initIndex();
+        shouldReturnHighlightResult = shouldReturnHighlightResult();
         return true;
     }
 
@@ -56,12 +66,18 @@ public abstract class QuerySuggestionsContentProvider extends ContentProvider {
         final String query = uri.getLastPathSegment().toLowerCase();
 
         try {
-            SearchResults results = new SearchResults(index.searchSync(new Query(query).setHitsPerPage(getLimit())));
+            SearchResults results = new SearchResults(index.searchSync(new Query(query).setHitsPerPage(getLimit()).setAttributesToHighlight("query")));
             for (int i = 0; i < results.hits.length(); i++) {
                 JSONObject hit = results.hits.getJSONObject(i);
                 final String suggestion = hit.getString("query");
+                String displaySuggestion = suggestion;
                 if (!suggestion.equalsIgnoreCase(query)) {
-                    cursor.addRow(new Object[]{hit.getString("objectID").hashCode(), suggestion, suggestion});
+                    if (shouldReturnHighlightResult) {
+                        final String highlightResult = hit.getJSONObject("_highlightResult").getJSONObject("query").getString("value");
+                        displaySuggestion = Highlighter.getDefault().inverseHighlight(highlightResult)
+                                .replace("<em>", "<b>").replace("</em>", "</b>");
+                    }
+                    cursor.addRow(new Object[]{hit.getString("objectID").hashCode(), displaySuggestion, suggestion});
                 }
             }
             return cursor;
