@@ -22,7 +22,7 @@ import org.json.JSONObject;
  * Provides Search Suggestions through a ContentProvider.
  * <p>
  * Your subclass must provide
- * {@link QuerySuggestionsContentProvider#getIndex() an index} and specify {@link QuerySuggestionsContentProvider#getLimit() a limit}.
+ * {@link QuerySuggestionsContentProvider#initIndex()}  an index} and specify {@link QuerySuggestionsContentProvider#getLimit() a limit}.
  */
 public abstract class QuerySuggestionsContentProvider extends ContentProvider {
 
@@ -31,10 +31,12 @@ public abstract class QuerySuggestionsContentProvider extends ContentProvider {
             SearchManager.SUGGEST_COLUMN_TEXT_1,
             SearchManager.SUGGEST_COLUMN_INTENT_DATA};
 
+    private Index index;
+
     /**
      * Returns an Index to search suggestions within.
      */
-    protected abstract Index getIndex();
+    protected abstract Index initIndex();
 
     /**
      * Returns the maximum number of suggestions to display.
@@ -43,7 +45,8 @@ public abstract class QuerySuggestionsContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        return false;
+        index = initIndex();
+        return true;
     }
 
     @Nullable
@@ -53,7 +56,7 @@ public abstract class QuerySuggestionsContentProvider extends ContentProvider {
         final String query = uri.getLastPathSegment().toLowerCase();
 
         try {
-            SearchResults results = new SearchResults(getIndex().searchSync(new Query(query).setHitsPerPage(getLimit())));
+            SearchResults results = new SearchResults(index.searchSync(new Query(query).setHitsPerPage(getLimit())));
             for (int i = 0; i < results.hits.length(); i++) {
                 JSONObject hit = results.hits.getJSONObject(i);
                 final String suggestion = hit.getString("query");
