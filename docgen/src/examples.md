@@ -51,3 +51,29 @@ This example showcases multi-index search, presented either as [tabs](https://gi
 - Filter by *number of views*, *rating*, *video quality* or *captioning*
 
 <a href="https://github.com/algolia/instantsearch-android-examples/tree/master/movies" class="btn btn-static-primary">See example <i class="icon icon-arrow-right"></i></a>
+
+
+## Query Suggestions demo
+<img src="assets/img/query_suggestions.gif" class="img-object" align="right"/>
+
+This example demonstrates product search with query suggestions.
+
+- Search in the **product's name**, **seller's name**, and **category**
+- **Query suggestions** as you type
+
+The implementation of search suggestions requires a few steps:
+
+- Create a `ContentProvider` by subclassing `QuerySuggestionsContentProvider` to
+  provide [an `Index`](#TODOIndex) and [a limit](#TODOLimit)
+- In your [searchable configuration](#TODOSearchable), mention your implementation and the action
+  `intent.action.SEARCH`:
+  ```xml
+  android:searchSuggestIntentAction="android.intent.action.SEARCH"
+  android:searchSuggestAuthority="com.algolia.instantsearch.examples.querysuggestions.QSContentProvider"
+  ```
+- In your AndroidManifest.xml, declare this [`<provider>`](#TODOProviderExample) and the [`<intent-filter>` for the receiving activity](#TODOIntentFilter)
+- In that activity, [use new intents to search](#TODOSearchIntent)
+
+- Optionally, customize the suggestion layout by specifying a
+  [`searchViewStyle`](#TODOSearchViewStyle) with a custom
+  [`suggestionRowLayout`](#TODOrowLayout)
