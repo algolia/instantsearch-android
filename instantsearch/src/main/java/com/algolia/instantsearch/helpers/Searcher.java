@@ -60,52 +60,90 @@ import static com.algolia.instantsearch.events.ResultEvent.REQUEST_UNKNOWN;
 public class Searcher {
     private static Map<String, Searcher> instances = new HashMap<>();
 
-    /** The {@link Searchable} targeted by this Searcher. */
+    /**
+     * The {@link Searchable} targeted by this Searcher.
+     */
     private Searchable searchable;
 
-    /** The {@link Client API Client} used by this Searcher. */
+    /**
+     * The {@link Client API Client} used by this Searcher.
+     */
     private final Client client;
-    /** The current state of the search {@link Query}. */
+    /**
+     * The current state of the search {@link Query}.
+     */
     private Query query;
-    /** The variant identifying this Searcher. */
+    /**
+     * The variant identifying this Searcher.
+     */
     @SuppressWarnings("WeakerAccess") // For library users
     public final String variant;
 
-    /** The {@link AlgoliaResultsListener listeners} that will receive search results. */
+    /**
+     * The {@link AlgoliaResultsListener listeners} that will receive search results.
+     */
     private final List<AlgoliaResultsListener> resultListeners = new ArrayList<>();
 
-    /** The {@link AlgoliaErrorListener listeners} that will receive search results. */
+    /**
+     * The {@link AlgoliaErrorListener listeners} that will receive search results.
+     */
     private final List<AlgoliaErrorListener> errorListeners = new ArrayList<>();
 
-    /** The identifier of the last search request fired by this Searcher. */
+    /**
+     * The identifier of the last search request fired by this Searcher.
+     */
     private static int lastRequestId;
-    /** The identifier of the last search response propagated by this Searcher. */
+    /**
+     * The identifier of the last search response propagated by this Searcher.
+     */
     private int lastResponseId; // Identifier of last displayed query
-    /** The page number of the last search request fired by this Searcher. */
+    /**
+     * The page number of the last search request fired by this Searcher.
+     */
     private int lastRequestPage;
-    /** The page number of the last search response propagated by this Searcher. */
+    /**
+     * The page number of the last search response propagated by this Searcher.
+     */
     private int lastResponsePage;
 
-    /** Whether the end of the results has been reached for the current {@link Searcher#query}. */
+    /**
+     * Whether the end of the results has been reached for the current {@link Searcher#query}.
+     */
     private boolean endReached;
 
-    /** The List of attributes that will be treated as disjunctive facets. */
+    /**
+     * The List of attributes that will be treated as disjunctive facets.
+     */
     private final List<String> disjunctiveFacets = new ArrayList<>();
-    /** The Map associating attributes with their respective refinement value(s). */
+    /**
+     * The Map associating attributes with their respective refinement value(s).
+     */
     private final Map<String, List<String>> refinementMap = new HashMap<>();
-    /** The Map associating attributes with their respective numeric refinement value(s). */
+    /**
+     * The Map associating attributes with their respective numeric refinement value(s).
+     */
     private final Map<String, SparseArray<NumericRefinement>> numericRefinements = new HashMap<>();
-    /** The Map associating attributes with their respective boolean refinement value(s). */
+    /**
+     * The Map associating attributes with their respective boolean refinement value(s).
+     */
     private final Map<String, Boolean> booleanFilterMap = new HashMap<>();
 
-    /** The List of attributes that will be used for faceting. */
+    /**
+     * The List of attributes that will be used for faceting.
+     */
     private final List<String> facets = new ArrayList<>();
-    /** A Map of FacetStats updated with every response. */
+    /**
+     * A Map of FacetStats updated with every response.
+     */
     private final Map<String, FacetStat> facetStats = new HashMap<>();
-    /** A Map to keep counts of facet additions, so we don't remove them unless we get as much removals. */
+    /**
+     * A Map to keep counts of facet additions, so we don't remove them unless we get as much removals.
+     */
     private final HashMap<String, Integer> facetRequestCount = new HashMap<>();
 
-    /** The SparseArray associating pending requests with their {@link Searcher#lastRequestId identifier}. */
+    /**
+     * The SparseArray associating pending requests with their {@link Searcher#lastRequestId identifier}.
+     */
     private final SparseArray<Request> pendingRequests = new SparseArray<>();
 
     /**
@@ -577,7 +615,8 @@ public class Searcher {
      * @return the refinements enabled for the given attribute, or {@code null} if there is none.
      */
     @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"}) // For library users
-    @Nullable public List<String> getFacetRefinements(@NonNull String attribute) {
+    @Nullable
+    public List<String> getFacetRefinements(@NonNull String attribute) {
         return refinementMap.get(attribute);
     }
 
@@ -718,7 +757,8 @@ public class Searcher {
      * @return the refinement value, or {@code null} if there is none.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    @Nullable public Boolean getBooleanFilter(String attribute) {
+    @Nullable
+    public Boolean getBooleanFilter(String attribute) {
         return booleanFilterMap.get(attribute);
     }
 
@@ -904,8 +944,9 @@ public class Searcher {
 
     /**
      * Gets the current {@link Searcher#searchable} as an Index.
-     * @throws IllegalStateException if {@link Searcher#searchable} if not an instance of {@link Index}
+     *
      * @return the Searcher's index.
+     * @throws IllegalStateException if {@link Searcher#searchable} if not an instance of {@link Index}
      */
     @Deprecated
     public Index getIndex() {
@@ -914,6 +955,7 @@ public class Searcher {
         }
         throw new IllegalStateException("This method requires an Algolia Index and not a custom Searchable");
     }
+
     /**
      * Changes the targeted index for future queries.
      * <p>
@@ -924,7 +966,8 @@ public class Searcher {
      * @return this {@link Searcher} for chaining.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    @NonNull public Searcher setIndex(@NonNull String indexName) {
+    @NonNull
+    public Searcher setIndex(@NonNull String indexName) {
         if (client == null) {
             throw new IllegalStateException("This method requires an Algolia Index and not a custom Searchable");
         }
@@ -1030,7 +1073,8 @@ public class Searcher {
         });
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         String key = null;
         for (Map.Entry<String, Searcher> entry : instances.entrySet()) { //TODO: Refact with BiMap
             if (this.equals(entry.getValue())) {
@@ -1078,7 +1122,8 @@ public class Searcher {
         return this;
     }
 
-    @NonNull private List<String> getOrCreateRefinements(@NonNull String attribute) {
+    @NonNull
+    private List<String> getOrCreateRefinements(@NonNull String attribute) {
         List<String> attributeRefinements = refinementMap.get(attribute);
         if (attributeRefinements == null) {
             attributeRefinements = new ArrayList<>();
