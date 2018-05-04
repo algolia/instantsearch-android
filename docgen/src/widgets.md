@@ -4,7 +4,7 @@ layout: main.pug
 name: widgets
 category: main
 withHeadings: true
-navWeight: 2
+navWeight: 5
 ---
 
 ## SearchBox
@@ -42,10 +42,10 @@ Once instantiated, a **SearchProgressController** will inform its [`ProgressList
 ### Voice search
 <img src="assets/img/voice.gif" class="img-object" align="right" />
 
-Voice search is a great way for your users to express their queries with almost no friction. You can add it in a few minutes in your InstantSearch interface:  
+Voice search is a great way for your users to express their queries with almost no friction. You can add it in a few minutes in your InstantSearch interface:
 
 - [Create a Searchable Configuration](https://developer.android.com/guide/topics/search/search-dialog.html#SearchableConfiguration) (`searchable.xml`)
-- Declare your InstantSearch activity as a [Searchable Activity](https://developer.android.com/guide/topics/search/search-dialog.html#DeclaringSearchableActivity) 
+- Declare your InstantSearch activity as a [Searchable Activity](https://developer.android.com/guide/topics/search/search-dialog.html#DeclaringSearchableActivity)
 
 _Performing a search_ is then handled by InstantSearch. You just need to use the eventual search intent in your Activity's `onCreate` (or `onCreateOptionsMenu` if your `SearchBox` is in a menu):
 ```java
