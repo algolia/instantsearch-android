@@ -4,7 +4,7 @@ layout: examples.pug
 name: examples
 category: main
 withHeadings: true
-navWeight: 0
+navWeight: 1
 ---
 
 We made two demo applications to give you an idea of what you can build with InstantSearch Android:
