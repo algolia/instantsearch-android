@@ -4,7 +4,7 @@ layout: main.pug
 name: concepts
 category: main
 withHeadings: true
-navWeight: 10
+navWeight: 9
 ---
 
 **InstantSearch Android** is a library providing widgets and helpers to help you build the best instant-search experience on Android with Algolia.
