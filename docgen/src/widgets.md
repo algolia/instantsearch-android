@@ -4,7 +4,7 @@ layout: main.pug
 name: widgets
 category: main
 withHeadings: true
-navWeight: 5
+navWeight: 8
 ---
 
 ## SearchBox

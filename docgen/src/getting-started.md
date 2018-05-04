@@ -4,7 +4,7 @@ layout: main.pug
 name: getting-started
 category: main
 withHeadings: true
-navWeight: 100
+navWeight: 10
 ---
 
 *This guide will walk you through the few steps needed to start a project with InstantSearch Android.
