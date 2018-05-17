@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.8.0
+### Bug Fixes
+* **attrs:** Specify operator as enum for autocompletion ([67e57a5](https://github.com/algolia/instantsearch-android/commit/67e57a5))
+* **Highlighter:** Restore highlighting several parts, better error handling ([b19ddd4](https://github.com/algolia/instantsearch-android/commit/b19ddd4))
+* **Hits:** skip binding of attributes when the value is missing ([a371009](https://github.com/algolia/instantsearch-android/commit/a371009))
+* **Hits:** Skip views that are not databound ([3d24f23](https://github.com/algolia/instantsearch-android/commit/3d24f23))
+* **QuerySuggestionsContentProvider:** Don't suggest same query ([6e40984](https://github.com/algolia/instantsearch-android/commit/6e40984))
+### Features
+* **Highlighter:** highlighting with Bold ([d9161f3](https://github.com/algolia/instantsearch-android/commit/d9161f3))
+* **Highlighter:** Inverted highlighting ([88874a2](https://github.com/algolia/instantsearch-android/commit/88874a2))
+* **QSCP:** Highlighting through shouldReturnHighlightResult ([d7e6efa](https://github.com/algolia/instantsearch-android/commit/d7e6efa))
+* **QuerySuggestions:** Inverted highlighting of results ([59efd20](https://github.com/algolia/instantsearch-android/commit/59efd20))
+* **QuerySuggestionsContentProvider:** First draft ([24cb399](https://github.com/algolia/instantsearch-android/commit/24cb399))
+* **views:** QuerySuggestions widget ([302c8ea](https://github.com/algolia/instantsearch-android/commit/302c8ea))
+
 ## 1.7.25
 
 ## 1.7.24
