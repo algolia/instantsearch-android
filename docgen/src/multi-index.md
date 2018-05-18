@@ -139,15 +139,15 @@ while you will display suggestions as the user types from your [Query Suggestion
 To display the suggestions in your Android app, follow these steps:
 
 - Create a `ContentProvider` by subclassing `QuerySuggestionsContentProvider` to
-  provide [an `Index`](https://github.com/algolia/instantsearch-android-examples/blob/e472789b178204bbfe84a24a6639b9ef55f7ac6c/querysuggestions/src/main/java/com/algolia/instantsearch/examples/querysuggestions/QSContentProvider.kt#L13) and [a limit](https://github.com/algolia/instantsearch-android-examples/blob/e472789b178204bbfe84a24a6639b9ef55f7ac6c/querysuggestions/src/main/java/com/algolia/instantsearch/examples/querysuggestions/QSContentProvider.kt#L9)
-- In your [searchable configuration](https://github.com/algolia/instantsearch-android-examples/blob/e472789b178204bbfe84a24a6639b9ef55f7ac6c/querysuggestions/src/main/res/xml/searchable.xml), mention your implementation and the action
+  provide [an `Index`](https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/java/com/algolia/instantsearch/examples/querysuggestions/QSContentProvider.kt#L13) and [a limit](https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/java/com/algolia/instantsearch/examples/querysuggestions/QSContentProvider.kt#L9)
+- In your [searchable configuration](https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/res/xml/searchable.xml), mention your implementation and the action
   `intent.action.SEARCH`:
   ```xml
   android:searchSuggestIntentAction="android.intent.action.SEARCH"
   android:searchSuggestAuthority="com.algolia.instantsearch.examples.querysuggestions.QSContentProvider"
   ```
-- In your AndroidManifest.xml, declare this [`<provider>`](https://github.com/algolia/instantsearch-android-examples/blob/e472789b178204bbfe84a24a6639b9ef55f7ac6c/querysuggestions/src/main/AndroidManifest.xml#L31) and the [`<intent-filter>` for the receiving activity](https://github.com/algolia/instantsearch-android-examples/blob/e472789b178204bbfe84a24a6639b9ef55f7ac6c/querysuggestions/src/main/AndroidManifest.xml#L22)
-- In that activity, [use new intents to search](https://github.com/algolia/instantsearch-android-examples/blob/e472789b178204bbfe84a24a6639b9ef55f7ac6c/querysuggestions/src/main/java/com/algolia/instantsearch/examples/querysuggestions/QuerySuggestionsActivity.kt#L25)
+- In your AndroidManifest.xml, declare this [`<provider>`](https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/AndroidManifest.xml#L31) and the [`<intent-filter>` for the receiving activity](https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/AndroidManifest.xml#L22)
+- In that activity, [use new intents to search](https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/java/com/algolia/instantsearch/examples/querysuggestions/QuerySuggestionsActivity.kt#L25)
 
-- Optionally, customize the suggestion layout by specifying a [`searchViewStyle`](https://github.com/algolia/instantsearch-android-examples/blob/e472789b178204bbfe84a24a6639b9ef55f7ac6c/querysuggestions/src/main/res/values/styles.xml#L9) with a custom [`suggestionRowLayout`](https://github.com/algolia/instantsearch-android-examples/blob/e472789b178204bbfe84a24a6639b9ef55f7ac6c/querysuggestions/src/main/res/layout/layout_suggestion.xml).
+- Optionally, customize the suggestion layout by specifying a [`searchViewStyle`](https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/res/values/styles.xml#L9) with a custom [`suggestionRowLayout`](https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/res/layout/layout_suggestion.xml).
   Your custom layout, **must include a `TextView` with id `edit_query` and an `ImageView` with id `text1`.**

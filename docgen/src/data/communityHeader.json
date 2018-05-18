@@ -52,6 +52,10 @@
         "url": "widgets.html"
       },
       {
+        "name": "Guides",
+        "url": "multi-index.html"
+      },
+      {
         "name": "API Reference",
         "url": "javadoc/"
       },
@@ -79,6 +83,10 @@
   {
     "name": "Widgets",
     "url": "widgets.html"
+  },
+  {
+    "name": "Guides",
+    "url": "multi-index.html"
   },
   {
     "name": "API Reference",
