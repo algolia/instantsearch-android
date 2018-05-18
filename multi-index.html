@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><base href="/instantsearch-android/"><meta content="IE=edge" http-equiv="X-UA-Compatible"><meta charset="utf-8"><meta content="width=device-width, initial-scale=1" name="viewport"><link rel="icon" href="assets/img/instantsearch-android-favicon.png"><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"><meta content="InstantSearch Android - Widgets and helpers to build instant-search applications on Android" name="description"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><!-- / Twitter card--><meta content="summary_large_image" name="twitter:card"><meta content="https://community.algolia.com/instantsearch-android/" name="twitter:site"><meta content="Algolia" name="twitter:creator"><meta content="InstantSearch Android" name="twitter:title"><meta content="Widgets and helpers to build instant-search applications on Android" name="twitter:description"><meta content="http://i.imgur.com/N3nbIx6.png" name="twitter:image"><!-- / OG meta--><meta content="https://community.algolia.com/instantsearch-android/" property="og:url"><meta content="InstantSearch Android" property="og:title"><meta content="http://i.imgur.com/N3nbIx6.png" property="og:image"><meta content="website" property="og:type"><meta content="Widgets and helpers to build instant-search applications on Android" property="og:description"><meta content="InstantSearch Android" property="og:site_name"><title>InstantSearch Android | Main Concepts</title><link rel="stylesheet" href="stylesheets/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css"></head><body class="documentation"><div><!-- Start community header -->
+<!DOCTYPE html><html lang="en"><head><base href="/instantsearch-android/"><meta content="IE=edge" http-equiv="X-UA-Compatible"><meta charset="utf-8"><meta content="width=device-width, initial-scale=1" name="viewport"><link rel="icon" href="assets/img/instantsearch-android-favicon.png"><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"><meta content="InstantSearch Android - Widgets and helpers to build instant-search applications on Android" name="description"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><!-- / Twitter card--><meta content="summary_large_image" name="twitter:card"><meta content="https://community.algolia.com/instantsearch-android/" name="twitter:site"><meta content="Algolia" name="twitter:creator"><meta content="InstantSearch Android" name="twitter:title"><meta content="Widgets and helpers to build instant-search applications on Android" name="twitter:description"><meta content="http://i.imgur.com/N3nbIx6.png" name="twitter:image"><!-- / OG meta--><meta content="https://community.algolia.com/instantsearch-android/" property="og:url"><meta content="InstantSearch Android" property="og:title"><meta content="http://i.imgur.com/N3nbIx6.png" property="og:image"><meta content="website" property="og:type"><meta content="Widgets and helpers to build instant-search applications on Android" property="og:description"><meta content="InstantSearch Android" property="og:site_name"><title>InstantSearch Android | Multi Index</title><link rel="stylesheet" href="stylesheets/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css"></head><body class="documentation"><div><!-- Start community header -->
     <nav class='algc-navigation'>
       <div class='algc-navigation__container'>
         <div class='algc-mainmenu'>
@@ -251,61 +251,133 @@
       </li></ul></div></div>
 
     </nav>
-    <!-- End community_header --> </div><script src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script><section class="hero-section shrink"><div class="container"><div class="hero-container text-left"><figcaption><h1>Main Concepts</h1></figcaption></div></div></section><section class="documentation-section"><div class="container"><nav class="sidebar"><div class="sidebar-container"><h2 class="sidebar-header">Main Concepts</h2><ul class="sidebar-elements"><li class="sidebar-element level-h2 navItem concepts.html"><a href="getting-started.html">Getting started</a><ul></ul></li><li class="sidebar-element level-h2 navItem-active concepts.html"><a class="navItem-active" href="concepts.html">Main Concepts</a><ul><li class="sidebar-element level-h3"><a href="concepts.html#searcher">Searcher </a></li><li class="sidebar-element level-h3"><a href="concepts.html#instantsearch">InstantSearch </a></li><li class="sidebar-element level-h3"><a href="concepts.html#widgets">Widgets </a></li><li class="sidebar-element level-h3"><a href="concepts.html#events">Events </a></li></ul></li><li class="sidebar-element level-h2 navItem concepts.html"><a href="widgets.html">Widgets</a><ul></ul></li><li class="sidebar-element level-h2 navItem concepts.html"><a href="multi-index.html">Multi Index</a><ul></ul></li><li class="sidebar-element level-h2 navItem concepts.html"><a href="examples.html">Examples</a><ul></ul></li><li class="sidebar-element level-h2 navItem concepts.html"><a href="troubleshooting.html">Troubleshooting</a><ul></ul></li></ul></div></nav><a class="sidebar-opener"></a><div class="documentation-container"><div class="content"><p><strong>InstantSearch Android</strong> is a library providing widgets and helpers to help you build the best instant-search experience on Android with Algolia.
-It is built on top of Algolia’s <a href="https://github.com/algolia/algoliasearch-client-android">Android API Client</a> to provide you a high-level solution to quickly build various search interfaces.</p>
-<p>In this guide, you will learn the key concepts of InstantSearch Android.</p>
-<h2 id="searcher">Searcher <a class="anchor" href="concepts.html#searcher" aria-hidden="true"></a></h2>
-<p>The main component of InstantSearch Android is the <strong>Searcher</strong>, which will wrap an <a href="https://github.com/algolia/algoliasearch-client-android/blob/master/algoliasearch/src/main/java/com/algolia/search/saas/Client.java">Algolia API <code>Client</code></a> and provide a level of abstraction over it.</p>
-<p>The Searcher is responsible of all search requests: when <code>Searcher#search()</code> is called, the Searcher will fire a request with the current query, and will forward the search results to its <strong>listeners</strong>.</p>
-<img src="assets/img/diagram_searcher.png" align="center" height="400px"/>
-<h3 id="listeners">Listeners <a class="anchor" href="concepts.html#listeners" aria-hidden="true"></a></h3>
-<p>A listener is an object implementing one or more of the following interfaces, that will be called after each search request:</p>
+    <!-- End community_header --> </div><script src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script><section class="hero-section shrink"><div class="container"><div class="hero-container text-left"><figcaption><h1>Multi Index</h1></figcaption></div></div></section><section class="documentation-section"><div class="container"><nav class="sidebar"><div class="sidebar-container"><h2 class="sidebar-header">Multi Index</h2><ul class="sidebar-elements"><li class="sidebar-element level-h2 navItem multi-index.html"><a href="getting-started.html">Getting started</a><ul></ul></li><li class="sidebar-element level-h2 navItem multi-index.html"><a href="concepts.html">Main Concepts</a><ul></ul></li><li class="sidebar-element level-h2 navItem multi-index.html"><a href="widgets.html">Widgets</a><ul></ul></li><li class="sidebar-element level-h2 navItem-active multi-index.html"><a class="navItem-active" href="multi-index.html">Multi Index</a><ul><li class="sidebar-element level-h3"><a href="multi-index.html#principles">Principles </a></li><li class="sidebar-element level-h3"><a href="multi-index.html#usage">Usage </a></li></ul></li><li class="sidebar-element level-h2 navItem multi-index.html"><a href="examples.html">Examples</a><ul></ul></li><li class="sidebar-element level-h2 navItem multi-index.html"><a href="troubleshooting.html">Troubleshooting</a><ul></ul></li></ul></div></nav><a class="sidebar-opener"></a><div class="documentation-container"><div class="content"><p>Sometimes a single search interface is not enough to fit your use case. Maybe
+you want to display a <strong>single search bar</strong>, but search in <strong>multiple indices</strong> at the
+same time. Maybe you just want to show a minimal search interface <em>on your home page</em>, and a <em>more detailed view</em> in a second screen.</p>
+<p>For all those use-cases where a single interface would not work, we provide a
+feature: <strong>Multi-Index</strong>.</p>
+<h2 id="principles">Principles <a class="anchor" href="multi-index.html#principles" aria-hidden="true"></a></h2>
+<p>A multi-index project consists in several search interfaces that are meant to
+work independently. It consists in two or more sets of:</p>
 <ul>
-<li><a href="javadoc/com/algolia/instantsearch/model/AlgoliaResultsListener.html"><code>AlgoliaResultsListener</code></a> to process new search results with <code>onResults</code></li>
-<li><a href="javadoc/com/algolia/instantsearch/model/AlgoliaErrorListener.html"><code>AlgoliaErrorListener</code></a> to handle search errors with <code>onError</code></li>
+<li>a <code>Searcher</code></li>
+<li>an <code>InstantSearch</code></li>
+<li>a group of <a href="widgets.html">Widgets</a></li>
 </ul>
-<p>You can add a listener to a Searcher by calling <code>Searcher#register{Results,Error}Listener</code>.</p>
-<p><em>To avoid leaking memory, you should call <code>Searcher#destroy()</code> in your Activity/Fragment’s <a href="https://developer.android.com/guide/components/activities/activity-lifecycle.html#ondestroy"><code>onDestroy</code></a> method to release existing listeners.</em></p>
-<img src="assets/img/diagram_listeners.png" align="center" />
-<h2 id="instantsearch">InstantSearch <a class="anchor" href="concepts.html#instantsearch" aria-hidden="true"></a></h2>
-<p>The Searcher is UI-agnostic, and only communicates with its listeners. On top of it, we provide you a component which will link it to your user interface: <strong>InstantSearch</strong>.</p>
-<p>InstantSearch will use the Searcher to react to changes in your application’s interface, like when your user types a new query or interacts with Widgets.</p>
-<p>Linked to a <code>SearchView</code>, it will watch its content to send any new query to the <code>Searcher</code>. When the query’s results arrive, <code>InstantSearch</code> will forward them to its widgets.
-<img src="assets/img/diagram_instantsearch.png" align="center" height="500px"/></p>
-<h2 id="widgets">Widgets <a class="anchor" href="concepts.html#widgets" aria-hidden="true"></a></h2>
-<p>Widgets are the UI building blocks of InstantSearch Android, linked together by an <code>InstantSearch</code> to help you build instant-search interfaces. We provide some universal widgets such as the <strong><code>SearchBox</code></strong>, the <strong><code>Hits</code></strong> or the <strong><code>RefinementList</code></strong>, and you can easily create new ones by implementing one or several of the <em>widget interfaces</em>:</p>
-<ul>
-<li><a href="javadoc/com/algolia/instantsearch/model/AlgoliaResultsListener.html"><code>AlgoliaResultsListener</code></a> will let your widget react to new search results.</li>
-<li><a href="javadoc/com/algolia/instantsearch/model/AlgoliaErrorListener.html"><code>AlgoliaErrorListener</code></a> will let your widget handle search errors.</li>
-<li><a href="javadoc/com/algolia/instantsearch/model/AlgoliaErrorListener.html"><code>AlgoliaSearcherListener</code></a> will give your widget a reference to the <code>Searcher</code> to let it interact with the state of the search interface: <a href="javadoc/com/algolia/instantsearch/helpers/Searcher.html#addFacet-java.lang.String...-">add new facets</a>, <a href="javadoc/com/algolia/instantsearch/helpers/Searcher.html#addFacetRefinement-java.lang.String-java.lang.String-">refine on a value</a>, <a href="javadoc/com/algolia/instantsearch/helpers/Searcher.html#hasMoreHits--">know if there are more results to load</a>, …</li>
-</ul>
-<h2 id="events">Events <a class="anchor" href="concepts.html#events" aria-hidden="true"></a></h2>
-<p>InstantSearch comes with an event system that lets you react during the lifecycle of a search query:</p>
-<ul>
-<li>when a <strong>query is fired</strong> via a <code>SearchEvent(Query query, int requestSeqNumber)</code></li>
-<li>when its <strong>results arrive</strong> via a <code>ResultEvent(JSONObject content, Query query, int requestSeqNumber)</code></li>
-<li>when a <strong>query is cancelled</strong> via a <code>CancelEvent(Request request, Integer requestSeqNumber)</code></li>
-<li>when a <strong>request errors</strong> via a <code>ErrorEvent(AlgoliaException error, Query query, int requestSeqNumber)</code></li>
-<li>when a new <strong>facet refinement</strong> is applied via a <code>FacetRefinementEvent(Operation operation, NumericRefinement refinement)</code></li>
-<li>when a new <strong>numeric refinement</strong> is applied via a <code>NumericRefinementEvent(Operation operation, String attribute, String value)</code></li>
-</ul>
-<p>We use EventBus to dispatch events. You can register an object to the event bus using <code>EventBus.getDefault().register(this);</code> after which it will receive events on methods annotated by <code>@Subscribe</code>:</p>
-<pre class="CodeMirror cm-s-eclipse"><code><span class="cm-keyword">public</span> <span class="cm-keyword">class</span> <span class="cm-def">Logger</span> {
-    <span class="cm-variable">Logger</span>() {
-        <span class="cm-variable">EventBus</span>.<span class="cm-variable">getDefault</span>().<span class="cm-variable">register</span>(<span class="cm-keyword">this</span>);
-    }
-
-    <span class="cm-meta">@Subscribe</span>
-    <span class="cm-variable">onSearchEvent</span>(<span class="cm-variable">SearchEvent</span> <span class="cm-variable">e</span>) {
-        <span class="cm-variable">Log</span>.<span class="cm-variable">d</span>(<span class="cm-string">&quot;Logger&quot;</span>, <span class="cm-string">&quot;Search:&quot;</span> <span class="cm-operator">+</span> <span class="cm-variable">e</span>.<span class="cm-variable">query</span>);
-    }
-
-    <span class="cm-meta">@Subscribe</span>
-    <span class="cm-variable">onResultEvent</span>(<span class="cm-variable">ResultEvent</span> <span class="cm-variable">e</span>) {
-        <span class="cm-variable">Log</span>.<span class="cm-variable">d</span>(<span class="cm-string">&quot;Logger&quot;</span>, <span class="cm-string">&quot;Result:&quot;</span> <span class="cm-operator">+</span> <span class="cm-variable">e</span>.<span class="cm-variable">query</span>);
-    }
-}
+<h3 id="variant">Variant <a class="anchor" href="multi-index.html#variant" aria-hidden="true"></a></h3>
+<p>To associate the widgets to the Searcher, we provide a <code>variant</code> attribute that you can set on widgets:</p>
+<pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">MyWidget</span>
+    <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/myWidget&quot;</span>
+    <span class="cm-attribute">...</span>
+    <span class="cm-attribute">algolia:variant</span>=<span class="cm-string">&quot;products&quot;</span> <span class="cm-tag cm-bracket">/&gt;</span>
 </code></pre>
+<p><em>By default each Searcher will use its index name as a variant, but you can <a href="https://community.algolia.com/instantsearch-android/javadoc/com/algolia/instantsearch/helpers/Searcher.html#create-java.lang.String-java.lang.String-java.lang.String-java.lang.String-">choose your own</a>.</em></p>
+<h2 id="usage">Usage <a class="anchor" href="multi-index.html#usage" aria-hidden="true"></a></h2>
+<h3 id="one-searchbox-multiple-indices">One SearchBox, Multiple Indices <a class="anchor" href="multi-index.html#one-searchbox-multiple-indices" aria-hidden="true"></a></h3>
+<img src="assets/img/movies.gif" class="img-object" align="right"/>
+<p>This is the typical multi index use case: you want to show results from several
+sources in a single interface.</p>
+<p>To do so, you need to instantiate two Searchers, link each to its widgets via an
+InstantSearch, then connect them to the same SearchBox through a
+<code>SearchBoxViewModel</code>:</p>
+<p><br /><br /><br /><br /><br /><br /><br /></p>
+<pre class="CodeMirror cm-s-eclipse"><code><span class="cm-variable">searcherMovies</span> <span class="cm-operator">=</span> <span class="cm-variable">Searcher</span>.<span class="cm-variable">create</span>(<span class="cm-variable">ALGOLIA_APP_ID</span>, <span class="cm-variable">ALGOLIA_API_KEY</span>, <span class="cm-string">&quot;movies&quot;</span>);
+<span class="cm-variable">searcherActors</span> <span class="cm-operator">=</span> <span class="cm-variable">Searcher</span>.<span class="cm-variable">create</span>(<span class="cm-variable">ALGOLIA_APP_ID</span>, <span class="cm-variable">ALGOLIA_API_KEY</span>, <span class="cm-string">&quot;actors&quot;</span>);
+
+<span class="cm-comment">// Create a SearchBoxViewModel with your SearchBox</span>
+<span class="cm-variable">searchBoxViewModel</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">SearchBoxViewModel</span>(<span class="cm-keyword">this</span>.<span class="cm-variable">findViewById</span>(<span class="cm-variable">R</span>.<span class="cm-variable">id</span>.<span class="cm-variable">include_searchbox</span>););
+<span class="cm-comment">// Link it to your Activity&#39;s widgets</span>
+<span class="cm-keyword">new</span> <span class="cm-variable">InstantSearch</span>(<span class="cm-keyword">this</span>, <span class="cm-variable">searcherMovies</span>).<span class="cm-variable">registerSearchView</span>(<span class="cm-keyword">this</span>, <span class="cm-variable">searchBoxViewModel</span>);
+<span class="cm-keyword">new</span> <span class="cm-variable">InstantSearch</span>(<span class="cm-keyword">this</span>, <span class="cm-variable">searcherActors</span>).<span class="cm-variable">registerSearchView</span>(<span class="cm-keyword">this</span>, <span class="cm-variable">searchBoxViewModel</span>);
+</code></pre>
+<p>Each <code>InstantSearch</code> helper will know which widgets it should handle thanks to its <a href="multi-index.html#variant"><strong>variant</strong></a>.
+You must set a variant on each widget to connect it to the right <code>Searcher</code>:</p>
+<pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-meta">&lt;?xml</span> <span class="cm-meta">version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="cm-comment">&lt;!-- ... --&gt;</span>
+    <span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.ui.views.Hits</span>
+        <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/hitsMovies&quot;</span>
+        <span class="cm-attribute">...</span>
+        <span class="cm-attribute">algolia:itemLayout</span>=<span class="cm-string">&quot;@layout/item_movie&quot;</span>
+        <span class="cm-attribute">algolia:variant</span>=<span class="cm-string">&quot;movies&quot;</span> <span class="cm-tag cm-bracket">/&gt;</span>
+
+    <span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.ui.views.Hits</span>
+        <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/hitsActors&quot;</span>
+        <span class="cm-attribute">...</span>
+        <span class="cm-attribute">algolia:itemLayout</span>=<span class="cm-string">&quot;@layout/item_actor&quot;</span>
+        <span class="cm-attribute">algolia:variant</span>=<span class="cm-string">&quot;actors&quot;</span> <span class="cm-tag cm-bracket">/&gt;</span>
+</code></pre>
+<p><strong>You can check the <a href="https://github.com/algolia/instantsearch-android-examples/tree/master/movies">Movies app</a></strong>, which demonstrates such a pattern both displayed <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/movies/src/main/java/com/algolia/instantsearch/examples/movies/MoviesSectionsActivity.java"><strong>as sections</strong></a> and <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/movies/src/main/java/com/algolia/instantsearch/examples/movies/MoviesTabsActivity.java"><strong>as tabs</strong></a>.</p>
+<h3 id="several-independant-interfaces">Several independant interfaces <a class="anchor" href="multi-index.html#several-independant-interfaces" aria-hidden="true"></a></h3>
+<p>This fits the more generic use-cases where you want to have several independent search interfaces in your app:</p>
+<ul>
+<li>Showcasing popular results in your app’s homepage, then offering a full-fledged search interface</li>
+<li>Displaying two search interfaces alongside, each one searching a different dataset with different widgets</li>
+<li>…</li>
+</ul>
+<p>To do so, you will create two (or more) independent groups of widgets and helpers:</p>
+<pre class="CodeMirror cm-s-eclipse"><code><span class="cm-variable">searcherMain</span> <span class="cm-operator">=</span> <span class="cm-variable">Searcher</span>.<span class="cm-variable">create</span>(<span class="cm-variable">ALGOLIA_APP_ID</span>, <span class="cm-variable">ALGOLIA_API_KEY</span>, <span class="cm-variable">ALGOLIA_INDEX_MAIN</span>);
+<span class="cm-variable">searcherOther</span> <span class="cm-operator">=</span> <span class="cm-variable">Searcher</span>.<span class="cm-variable">create</span>(<span class="cm-variable">ALGOLIA_APP_ID</span>, <span class="cm-variable">ALGOLIA_API_KEY</span>, <span class="cm-variable">ALGOLIA_INDEX_OTHER</span>);
+
+<span class="cm-comment">// In your first interface&#39;s Activity, link the first searcher to its widgets:</span>
+<span class="cm-keyword">new</span> <span class="cm-variable">InstantSearch</span>(<span class="cm-keyword">this</span>, <span class="cm-variable">searcherMain</span>);
+
+<span class="cm-comment">// Likewise in your second interface&#39;s Activity:</span>
+<span class="cm-keyword">new</span> <span class="cm-variable">InstantSearch</span>(<span class="cm-keyword">this</span>, <span class="cm-variable">searcherOther</span>);
+</code></pre>
+<p>If both groups of widgets are embedded in the same layout, you need to specify a <a href="multi-index.html#variant">variant</a> on each widget to specify to which Searcher it belongs:</p>
+<pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-meta">&lt;?xml</span> <span class="cm-meta">version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="cm-comment">&lt;!-- ... --&gt;</span>
+    <span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.ui.views.SearchBox</span>
+        <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/searchBoxMain&quot;</span>
+        <span class="cm-attribute">...</span>
+        <span class="cm-attribute">algolia:variant</span>=<span class="cm-string">&quot;main&quot;</span> <span class="cm-tag cm-bracket">/&gt;</span>
+
+    <span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.ui.views.SearchBox</span>
+        <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/searchBoxOther&quot;</span>
+        <span class="cm-attribute">...</span>
+        <span class="cm-attribute">algolia:variant</span>=<span class="cm-string">&quot;other&quot;</span> <span class="cm-tag cm-bracket">/&gt;</span>
+
+    <span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.ui.views.Hits</span>
+        <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/hitsMain&quot;</span>
+        <span class="cm-attribute">...</span>
+        <span class="cm-attribute">algolia:itemLayout</span>=<span class="cm-string">&quot;@layout/item_movie&quot;</span>
+        <span class="cm-attribute">algolia:variant</span>=<span class="cm-string">&quot;main&quot;</span> <span class="cm-tag cm-bracket">/&gt;</span>
+
+    <span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.ui.views.Hits</span>
+        <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/hitsOther&quot;</span>
+        <span class="cm-attribute">...</span>
+        <span class="cm-attribute">algolia:itemLayout</span>=<span class="cm-string">&quot;@layout/item_actor&quot;</span>
+        <span class="cm-attribute">algolia:variant</span>=<span class="cm-string">&quot;other&quot;</span> <span class="cm-tag cm-bracket">/&gt;</span>
+</code></pre>
+<h3 id="query-suggestions">Query suggestions <a class="anchor" href="multi-index.html#query-suggestions" aria-hidden="true"></a></h3>
+<img src="assets/img/query_suggestions.gif" class="img-object" align="right"/>
+<p>When your user interacts with a SearchBox, you can help them discover what they could search for by providing <strong>Query suggestions</strong>.</p>
+<p>This is a specific kind of multi-index interface: your main search interface will be using a regular index,
+while you will display suggestions as the user types from your <a href="https://www.algolia.com/doc/guides/analytics/query-suggestions/?language=php#getting-started-with-query-suggestions">Query Suggestions index</a>.</p>
+<p>To display the suggestions in your Android app, follow these steps:</p>
+<ul>
+<li>
+<p>Create a <code>ContentProvider</code> by subclassing <code>QuerySuggestionsContentProvider</code> to
+provide <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/java/com/algolia/instantsearch/examples/querysuggestions/QSContentProvider.kt#L13">an <code>Index</code></a> and <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/java/com/algolia/instantsearch/examples/querysuggestions/QSContentProvider.kt#L9">a limit</a></p>
+</li>
+<li>
+<p>In your <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/res/xml/searchable.xml">searchable configuration</a>, mention your implementation and the action
+<code>intent.action.SEARCH</code>:</p>
+<pre class="CodeMirror cm-s-mdn-like"><code>android:searchSuggestIntentAction=&quot;android.intent.action.SEARCH&quot;
+android:searchSuggestAuthority=&quot;com.algolia.instantsearch.examples.querysuggestions.QSContentProvider&quot;
+</code></pre>
+</li>
+<li>
+<p>In your AndroidManifest.xml, declare this <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/AndroidManifest.xml#L31"><code>&lt;provider&gt;</code></a> and the <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/AndroidManifest.xml#L22"><code>&lt;intent-filter&gt;</code> for the receiving activity</a></p>
+</li>
+<li>
+<p>In that activity, <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/java/com/algolia/instantsearch/examples/querysuggestions/QuerySuggestionsActivity.kt#L25">use new intents to search</a></p>
+</li>
+<li>
+<p>Optionally, customize the suggestion layout by specifying a <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/res/values/styles.xml#L9"><code>searchViewStyle</code></a> with a custom <a href="https://github.com/algolia/instantsearch-android-examples/blob/master/querysuggestions/src/main/res/layout/layout_suggestion.xml"><code>suggestionRowLayout</code></a>.
+Your custom layout, <strong>must include a <code>TextView</code> with id <code>edit_query</code> and an <code>ImageView</code> with id <code>text1</code>.</strong></p>
+</li>
+</ul>
 </div></div></div></section><div id="footer"><div class="credits"><div class="container pos-rel"><div class="row"><div class="col-md-12 text-center"><a data-no-turbolink="true" href="/"><img width="40" src="https://www.algolia.com/static_assets/images/flat2/algolia/algolia-logo_badge-598a1fe6.svg"></a></div></div><div class="spacer40"></div></div></div></div><!--Google Tag Manager-->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-N8JP8G" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N8JP8G');</script>
