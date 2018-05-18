@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 gem "fastlane"
+gem "httparty"
 gem "increment_semver"
 
 plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')

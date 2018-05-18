@@ -108,4 +108,4 @@ def post_github_release(version, changes, token=ENV['GITHUB_TOKEN'])
     :body => release_changes,
     :draft => false,
     :prerelease => false}.to_json)
-  puts "Result: #{result}."
+  puts "Release posted: #{result}."
