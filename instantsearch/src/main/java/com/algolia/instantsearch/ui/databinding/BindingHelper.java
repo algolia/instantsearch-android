@@ -35,7 +35,7 @@ public class BindingHelper {
      */
     @SuppressWarnings("unused") // called via Data Binding
     @Deprecated // Should not be used by library users
-    @BindingAdapter(value = {"attribute", "highlighted", "highlightingColor", "variant", "prefix", "suffix"}, requireAll = false)
+    @BindingAdapter(value = {"attribute", "highlighted", "highlightColor", "variant", "prefix", "suffix"}, requireAll = false)
     public static void bindAttribute(@NonNull View view, @Nullable String attribute,
                                      @Nullable Boolean highlighted,
                                      @Nullable @ColorInt Integer color,
