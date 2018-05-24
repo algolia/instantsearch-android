@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.1
+### Bug Fixes
+* **highlightColor:** typo in BindingAdapter ([69e8756](https://github.com/algolia/instantsearch-android/commit/69e8756))
+
 ## 1.8.0
 ### Bug Fixes
 * **attrs:** Specify operator as enum for autocompletion ([67e57a5](https://github.com/algolia/instantsearch-android/commit/67e57a5))
