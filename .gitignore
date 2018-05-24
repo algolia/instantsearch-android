@@ -30,3 +30,6 @@ fastlane/report.xml
 
 # Bitrise
 bitrise.yml
+
+# Fastlane
+vendor/
