@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
-        android:text="@string/placeholder_facet_name"
+        tools:text="City"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorRefinementName"/>
 
@@ -23,7 +23,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="10dp"
-        android:text="@string/placeholder_facet_value"
+        tools:text="10"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/colorRefinementCount"
         tools:ignore="RelativeOverlap"/>
