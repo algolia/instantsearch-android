@@ -75,8 +75,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api 'com.algolia:algoliasearch-android:3.20.11' // MavenCentral rejects X.+ notation
-    api 'org.greenrobot:eventbus:3.1.1'
-    api 'com.github.bumptech.glide:glide:4.3.1'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.github.bumptech.glide:glide:4.3.1'
     implementation('com.jayway.jsonpath:json-path:2.3.0') {
         exclude module: 'asm'
     }
