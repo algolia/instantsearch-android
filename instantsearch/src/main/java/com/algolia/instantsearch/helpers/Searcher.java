@@ -517,6 +517,21 @@ public class Searcher {
     }
 
     /**
+     * Set a given facet as disjunctive or conjunctive.
+     *
+     * @param attribute The facet's name.
+     * @param isDisjunctive true to treat this facet as disjunctive (`OR`), false to treat it as conjunctive (`AND`, the default).
+     * */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public void setFacet(@NonNull String attribute, boolean isDisjunctive) {
+        if (isDisjunctive && disjunctiveFacets.contains(attribute)) {
+            disjunctiveFacets.add(attribute);
+        } else {
+            disjunctiveFacets.remove(attribute);
+        }
+    }
+
+    /**
      * Adds a facet refinement for the next queries.
      * <p>
      * <b>This method resets the current page to 0.</b>
