@@ -521,14 +521,16 @@ public class Searcher {
      *
      * @param attribute The facet's name.
      * @param isDisjunctive true to treat this facet as disjunctive (`OR`), false to treat it as conjunctive (`AND`, the default).
+     * @return this {@link Searcher} for chaining.
      * */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void setFacet(@NonNull String attribute, boolean isDisjunctive) {
+    public Searcher setFacet(@NonNull String attribute, boolean isDisjunctive) {
         if (isDisjunctive && disjunctiveFacets.contains(attribute)) {
             disjunctiveFacets.add(attribute);
         } else {
             disjunctiveFacets.remove(attribute);
         }
+        return this;
     }
 
     /**
