@@ -10,14 +10,22 @@ import java.util.concurrent.TimeUnit
 
 class Insights internal constructor(
     context: Context,
-    private val credentials: Credentials
+    private val credentials: Credentials,
+    private val configuration: Configuration
 ) {
+
+    internal class Configuration(
+        val environment: NetworkManager.Environment,
+        val uploadIntervalInMinutes: Long,
+        val connectTimeout: Int,
+        val readTimeout: Int
+    )
 
     private val preferences = context.sharedPreferences(credentials.indexName)
 
     init {
-        PeriodicWorkRequestBuilder<WorkerEvent>(10, TimeUnit.MINUTES).also {
-            val inputData = WorkerEvent.buildInputData(credentials)
+        PeriodicWorkRequestBuilder<WorkerEvent>(configuration.uploadIntervalInMinutes, TimeUnit.MINUTES).also {
+            val inputData = WorkerEvent.buildInputData(credentials, configuration)
             val constraints = Constraints().also {
                 it.requiredNetworkType = NetworkType.CONNECTED
             }
@@ -47,7 +55,7 @@ class Insights internal constructor(
 
         preferences.events = ConverterEventToString.convert(events).toSet()
         OneTimeWorkRequestBuilder<WorkerEvent>().also {
-            val inputData = WorkerEvent.buildInputData(credentials)
+            val inputData = WorkerEvent.buildInputData(credentials, configuration)
             it.setInputData(inputData)
         }.build()
     }
@@ -63,7 +71,13 @@ class Insights internal constructor(
                 apiKey = apiKey,
                 indexName = indexName
             )
-            val insights = Insights(context, credentials)
+            val configuration = Configuration(
+                connectTimeout = 5000,
+                readTimeout = 5000,
+                uploadIntervalInMinutes = 2L,
+                environment = NetworkManager.Environment.Prod
+            )
+            val insights = Insights(context, credentials, configuration)
 
             insightsMap[indexName] = insights
             return insights
