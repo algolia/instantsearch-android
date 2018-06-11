@@ -19,7 +19,7 @@ class InsightsTests {
     private val indexName = "support_rmogos"
     private val eventParametersA get() = eventParameters("EventA")
     private val eventParametersB get() = eventParameters("EventB")
-    private val networkManager get() = NetworkManager(appId, apiKey)
+    private val networkManager get() = NetworkManager(appId, apiKey, NetworkManager.Environment.Prod)
 
     private fun eventParameters(name: String): EventParameters {
         return mapOf(

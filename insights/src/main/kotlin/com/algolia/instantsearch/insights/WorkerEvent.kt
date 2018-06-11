@@ -37,7 +37,7 @@ internal class WorkerEvent : Worker() {
         return try {
             val (appId, apiKey, indexName) = inputData.getInputData()
             val preferences = applicationContext.sharedPreferences(indexName)
-            val networkManager = NetworkManager(appId, apiKey)
+            val networkManager = NetworkManager(appId, apiKey, NetworkManager.Environment.Prod)
             val failedEvents = preferences.consumeEvents(networkManager.eventConsumer())
 
             if (failedEvents.isEmpty()) WorkerResult.SUCCESS else WorkerResult.RETRY
