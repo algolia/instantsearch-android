@@ -20,14 +20,13 @@ class InsightsTests {
     private val eventParametersA get() = eventParameters("EventA")
     private val eventParametersB get() = eventParameters("EventB")
     private val configuration = Insights.Configuration(
-        environment = NetworkManager.Environment.Prod,
-        uploadIntervalInMinutes = 1L,
-        connectTimeout = 2000,
-        readTimeout = 2000
+        uploadIntervalInSeconds = 30L,
+        connectTimeoutInMilliseconds = 5000,
+        readTimeoutInMilliseconds = 5000
     )
-    private val networkManager get() = NetworkManager(appId, apiKey, configuration)
+    private val networkManager get() = NetworkManager(appId, apiKey, NetworkManager.Environment.Prod, configuration)
 
-    private fun eventParameters(name: String): EventParameters {
+    private fun eventParameters(name: String): Map<String, Any> {
         return mapOf(
             "eventName" to name,
             "queryID" to "6de2f7eaa537fa93d8f8f05b927953b1",
@@ -49,7 +48,7 @@ class InsightsTests {
 
     @Test
     fun testInitShouldWork() {
-        val insights = Insights.register(context, "testApp", "testKey", "index")
+        val insights = Insights.register(context, "testApp", "testKey", "index", configuration)
         val insightsShared = Insights.shared("index")
 
         assertEquals(insights, insightsShared)

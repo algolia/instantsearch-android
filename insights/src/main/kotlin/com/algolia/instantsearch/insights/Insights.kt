@@ -11,21 +11,21 @@ import java.util.concurrent.TimeUnit
 class Insights internal constructor(
     context: Context,
     private val credentials: Credentials,
-    private val configuration: Configuration
+    private val configuration: Configuration,
+    private val environment: NetworkManager.Environment
 ) {
 
-    internal class Configuration(
-        val environment: NetworkManager.Environment,
-        val uploadIntervalInMinutes: Long,
-        val connectTimeout: Int,
-        val readTimeout: Int
+    class Configuration(
+        val uploadIntervalInSeconds: Long,
+        val connectTimeoutInMilliseconds: Int,
+        val readTimeoutInMilliseconds: Int
     )
 
     private val preferences = context.sharedPreferences(credentials.indexName)
 
     init {
-        PeriodicWorkRequestBuilder<WorkerEvent>(configuration.uploadIntervalInMinutes, TimeUnit.MINUTES).also {
-            val inputData = WorkerEvent.buildInputData(credentials, configuration)
+        PeriodicWorkRequestBuilder<WorkerEvent>(configuration.uploadIntervalInSeconds, TimeUnit.SECONDS).also {
+            val inputData = WorkerEvent.buildInputData(credentials, configuration, environment)
             val constraints = Constraints().also {
                 it.requiredNetworkType = NetworkType.CONNECTED
             }
@@ -35,15 +35,15 @@ class Insights internal constructor(
         }.build()
     }
 
-    fun click(params: EventParameters) {
+    fun click(params: Map<String, Any>) {
         process(Event.Click(params))
     }
 
-    fun view(params: EventParameters) {
+    fun view(params: Map<String, Any>) {
         process(Event.View(params))
     }
 
-    fun conversion(params: EventParameters) {
+    fun conversion(params: Map<String, Any>) {
         process(Event.Conversion(params))
     }
 
@@ -55,7 +55,7 @@ class Insights internal constructor(
 
         preferences.events = ConverterEventToString.convert(events).toSet()
         OneTimeWorkRequestBuilder<WorkerEvent>().also {
-            val inputData = WorkerEvent.buildInputData(credentials, configuration)
+            val inputData = WorkerEvent.buildInputData(credentials, configuration, environment)
             it.setInputData(inputData)
         }.build()
     }
@@ -65,19 +65,19 @@ class Insights internal constructor(
         private val insightsMap = mutableMapOf<String, Insights>()
 
         @JvmStatic
-        fun register(context: Context, appId: String, apiKey: String, indexName: String): Insights {
+        fun register(
+            context: Context,
+            appId: String,
+            apiKey: String,
+            indexName: String,
+            configuration: Configuration
+        ): Insights {
             val credentials = Credentials(
                 appId = appId,
                 apiKey = apiKey,
                 indexName = indexName
             )
-            val configuration = Configuration(
-                connectTimeout = 5000,
-                readTimeout = 5000,
-                uploadIntervalInMinutes = 2L,
-                environment = NetworkManager.Environment.Prod
-            )
-            val insights = Insights(context, credentials, configuration)
+            val insights = Insights(context, credentials, configuration, NetworkManager.Environment.Prod)
 
             insightsMap[indexName] = insights
             return insights

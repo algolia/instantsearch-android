@@ -7,6 +7,7 @@ import java.net.URL
 internal class NetworkManager(
     private val appId: String,
     private val apiKey: String,
+    private val environment: Environment,
     private val configuration: Insights.Configuration
 ) {
 
@@ -26,7 +27,7 @@ internal class NetworkManager(
             is Event.Conversion -> EventType.Conversion
         }
         val string = ConverterParameterToString.convert(event.params)
-        val url = URL(configuration.environment.buildUrl(eventType))
+        val url = URL(environment.buildUrl(eventType))
         val connection = (url.openConnection() as HttpURLConnection).also {
             it.setRequestProperty("Content-Type", "application/json; charset=UTF-8")
             it.setRequestProperty("Accept", "application/json")
@@ -34,8 +35,8 @@ internal class NetworkManager(
             it.setRequestProperty("X-Algolia-API-Key", apiKey)
             it.setRequestProperty("Content-Length", string.length.toString())
             it.requestMethod = "POST"
-            it.connectTimeout = configuration.connectTimeout
-            it.readTimeout = configuration.readTimeout
+            it.connectTimeout = configuration.connectTimeoutInMilliseconds
+            it.readTimeout = configuration.readTimeoutInMilliseconds
             it.doOutput = true
             it.useCaches = false
         }

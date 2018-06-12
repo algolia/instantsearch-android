@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 public class InsightsTestsJava {
 
     private Context context = InstrumentationRegistry.getContext();
+    private Insights.Configuration configuration = new Insights.Configuration(30L, 5000, 5000);
 
     @Test
     public void testInitShouldFail() {
@@ -32,7 +33,7 @@ public class InsightsTestsJava {
 
     @Test
     public void testInitShouldWork() {
-        Insights insights = Insights.register(context, "testApp", "testKey", "index");
+        Insights insights = Insights.register(context, "testApp", "testKey", "index", configuration);
         Insights insightsShared = Insights.shared("index");
         Map<String, ?> map = Collections.emptyMap();
 

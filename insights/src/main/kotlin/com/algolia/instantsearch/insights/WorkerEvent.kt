@@ -18,41 +18,41 @@ internal class WorkerEvent : Worker() {
 
     companion object {
 
-        fun buildInputData(credentials: Credentials, configuration: Insights.Configuration): Data {
+        fun buildInputData(credentials: Credentials, configuration: Insights.Configuration, environment: NetworkManager.Environment): Data {
             return Data.Builder().putAll(
                 mapOf(
                     Keys.AppId.name to credentials.appId,
                     Keys.ApiKey.name to credentials.apiKey,
                     Keys.Index.name to credentials.indexName,
-                    Keys.Environment.name to configuration.environment.name,
-                    Keys.ConnectTimeout.name to configuration.connectTimeout,
-                    Keys.ReadTimeout.name to configuration.readTimeout,
-                    Keys.UploadInterval.name to configuration.uploadIntervalInMinutes
+                    Keys.Environment.name to environment.name,
+                    Keys.ConnectTimeout.name to configuration.connectTimeoutInMilliseconds,
+                    Keys.ReadTimeout.name to configuration.readTimeoutInMilliseconds,
+                    Keys.UploadInterval.name to configuration.uploadIntervalInSeconds
                 )
             ).build()
         }
 
-        fun Data.getInputData(): Pair<Credentials, Insights.Configuration> {
+        fun Data.getInputData(): Triple<Credentials, Insights.Configuration, NetworkManager.Environment> {
             val credentials = Credentials(
                 appId = getString(Keys.AppId.name, null),
                 apiKey = getString(Keys.ApiKey.name, null),
                 indexName = getString(Keys.Index.name, null)
             )
             val configuration = Insights.Configuration(
-                environment = NetworkManager.Environment.valueOf(getString(Keys.Environment.name, null)),
-                readTimeout = getInt(Keys.ReadTimeout.name, 5000),
-                connectTimeout = getInt(Keys.ConnectTimeout.name, 5000),
-                uploadIntervalInMinutes = getLong(Keys.UploadInterval.name, 2L)
+                readTimeoutInMilliseconds = getInt(Keys.ReadTimeout.name, 5000),
+                connectTimeoutInMilliseconds = getInt(Keys.ConnectTimeout.name, 5000),
+                uploadIntervalInSeconds = getLong(Keys.UploadInterval.name, 2L)
             )
-            return credentials to configuration
+            val environment = NetworkManager.Environment.valueOf(getString(Keys.Environment.name, null))
+            return Triple(credentials, configuration, environment)
         }
     }
 
     override fun doWork(): WorkerResult {
         return try {
-            val (credentials, configuration) = inputData.getInputData()
+            val (credentials, configuration, environment) = inputData.getInputData()
             val preferences = applicationContext.sharedPreferences(credentials.indexName)
-            val networkManager = NetworkManager(credentials.appId, credentials.apiKey, configuration)
+            val networkManager = NetworkManager(credentials.appId, credentials.apiKey, environment, configuration)
             val failedEvents = preferences.consumeEvents(networkManager.eventConsumer())
 
             if (failedEvents.isEmpty()) WorkerResult.SUCCESS else WorkerResult.RETRY
