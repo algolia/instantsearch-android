@@ -41,7 +41,7 @@ internal class WorkerEvent : Worker() {
             val configuration = Insights.Configuration(
                 readTimeoutInMilliseconds = getInt(Keys.ReadTimeout.name, 5000),
                 connectTimeoutInMilliseconds = getInt(Keys.ConnectTimeout.name, 5000),
-                uploadIntervalInSeconds = getLong(Keys.UploadInterval.name, 2L)
+                uploadIntervalInSeconds = getLong(Keys.UploadInterval.name, 30L)
             )
             val environment = NetworkManager.Environment.valueOf(getString(Keys.Environment.name, null))
             return Triple(credentials, configuration, environment)
@@ -49,15 +49,17 @@ internal class WorkerEvent : Worker() {
     }
 
     override fun doWork(): WorkerResult {
+        val (credentials, configuration, environment) = inputData.getInputData()
         return try {
-            val (credentials, configuration, environment) = inputData.getInputData()
             val preferences = applicationContext.sharedPreferences(credentials.indexName)
             val networkManager = NetworkManager(credentials.appId, credentials.apiKey, environment, configuration)
-            val failedEvents = preferences.consumeEvents(networkManager.eventConsumer())
+            val failedEvents = preferences.consumeEvents(networkManager.eventConsumer(credentials.indexName))
 
-            if (failedEvents.isEmpty()) WorkerResult.SUCCESS else WorkerResult.RETRY
+            Logger.log(credentials.indexName, "Flushing remaining events.")
+            if (failedEvents.isEmpty()) WorkerResult.SUCCESS else WorkerResult.FAILURE
         } catch (exception: Exception) {
-            WorkerResult.RETRY
+            Logger.log(credentials.indexName, "Error syncing event: ${exception.localizedMessage}.")
+            WorkerResult.FAILURE
         }
     }
 }

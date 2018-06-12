@@ -23,6 +23,12 @@ class Insights internal constructor(
 
     private val preferences = context.sharedPreferences(credentials.indexName)
 
+    var loggingEnabled: Boolean = false
+        set(value) {
+            field = value
+            Logger.enabled = value
+        }
+
     init {
         PeriodicWorkRequestBuilder<WorkerEvent>(configuration.uploadIntervalInSeconds, TimeUnit.SECONDS).also {
             val inputData = WorkerEvent.buildInputData(credentials, configuration, environment)

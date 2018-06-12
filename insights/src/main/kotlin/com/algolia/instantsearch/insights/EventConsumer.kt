@@ -13,10 +13,12 @@ internal fun SharedPreferences.consumeEvents(
     return failedEvents
 }
 
-internal fun NetworkManager.eventConsumer(): (List<String>) -> List<NetworkResponse> {
+internal fun NetworkManager.eventConsumer(indexName: String): (List<String>) -> List<NetworkResponse> {
     return { serializedEvents ->
         serializedEvents.map {
             val event = ConverterStringToEvent.convert(it)
+
+            Logger.log(indexName, "Syncing $event.")
             NetworkResponse(
                 code = sendEvent(event),
                 serializedEvent = it
