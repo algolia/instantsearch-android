@@ -577,9 +577,11 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
 
                 // Store every annotated view for indexVariant with its attribute name
                 final HashMap<Integer, String> attributes = BindingHelper.getBindings(indexVariant);
-                for (Map.Entry<Integer, String> entry : attributes.entrySet()) {
-                    if (entry.getValue() != null) { // attribute can be null e.g. if view is a Hits
-                        viewMap.put(itemView.findViewById(entry.getKey()), entry.getValue());
+                if (attributes != null) { // Ensure we have at least some bindings
+                    for (Map.Entry<Integer, String> entry : attributes.entrySet()) {
+                        if (entry.getValue() != null) { // attribute can be null e.g. if view is a Hits
+                            viewMap.put(itemView.findViewById(entry.getKey()), entry.getValue());
+                        }
                     }
                 }
             }
