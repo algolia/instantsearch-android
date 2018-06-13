@@ -30,7 +30,7 @@ platform :android do
     puts "New version: #{version_number}"
 
     # Ensure branch is master & WC clean, then pull changes
-    git checkout Gemfile.lock # Ignore different bundle version changing Gemfile https://discuss.bitrise.io/t/5176/5
+    sh("git checkout Gemfile.lock") # Ignore different bundle version changing Gemfile https://discuss.bitrise.io/t/5176/5
     prepare_git()
 
     # Generate changelog updates
