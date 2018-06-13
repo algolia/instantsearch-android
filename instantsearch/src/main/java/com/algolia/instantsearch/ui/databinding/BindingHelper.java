@@ -17,6 +17,7 @@ import com.algolia.instantsearch.model.Errors;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import com.algolia.instantsearch.R;
 
 /**
  * Contains the {@link BindingAdapter} used for gathering {@link BindingHelper#bindings bound attributes}.

@@ -64,24 +64,36 @@ import java.util.Set;
  * Displays your search results in a flexible way. Built over a {@link RecyclerView}, it displays a limited window into a large data set of search results.
  */
 public class Hits extends RecyclerView implements AlgoliaResultsListener, AlgoliaErrorListener, AlgoliaSearcherListener {
-    /** Default amount of remaining results to display before loading a new page */
+    /**
+     * Default amount of remaining results to display before loading a new page
+     */
     public static final int DEFAULT_REMAINING_ITEMS = 5;
 
     private static final int MISSING_VALUE = Integer.MIN_VALUE;
 
-    /** The minimum number of items remaining below the fold before loading more. */
+    /**
+     * The minimum number of items remaining below the fold before loading more.
+     */
     private final int remainingItemsBeforeLoading;
 
     protected int layoutId;
 
-    @NonNull protected HitsAdapter adapter;
-    @NonNull private LayoutManager layoutManager;
-    @SuppressWarnings("NullableProblems" /* late init*/) @NonNull private Searcher searcher;
-    @NonNull private InputMethodManager imeManager;
+    @NonNull
+    protected HitsAdapter adapter;
+    @NonNull
+    private LayoutManager layoutManager;
+    @SuppressWarnings("NullableProblems" /* late init*/)
+    @NonNull
+    private Searcher searcher;
+    @NonNull
+    private InputMethodManager imeManager;
 
-    @Nullable protected final InfiniteScrollListener infiniteScrollListener;
-    @Nullable private OnScrollListener keyboardListener;
-    @Nullable private View emptyView;
+    @Nullable
+    protected final InfiniteScrollListener infiniteScrollListener;
+    @Nullable
+    private OnScrollListener keyboardListener;
+    @Nullable
+    private View emptyView;
 
     /**
      * Constructs a new Hits with the given context's theme and the supplied attribute set.
