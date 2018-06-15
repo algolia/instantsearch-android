@@ -517,10 +517,10 @@ public class Searcher {
     }
 
     /**
-     * Set a given facet as disjunctive or conjunctive.
+     * Sets a given facet as disjunctive or conjunctive.
      *
      * @param attribute The facet's name.
-     * @param isDisjunctive true to treat this facet as disjunctive (`OR`), false to treat it as conjunctive (`AND`, the default).
+     * @param isDisjunctive {@code true} to treat this facet as disjunctive (`OR`), false to treat it as conjunctive (`AND`, the default).
      * @return this {@link Searcher} for chaining.
      * */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
