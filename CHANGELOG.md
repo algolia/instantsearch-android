@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.9.0
+### Bug Fixes
+* **Hits:** don't process bindings when they are none ([dc3b11f](https://github.com/algolia/instantsearch-android/commit/dc3b11f))
+
 ## 1.8.2
 
 ## 1.8.1
