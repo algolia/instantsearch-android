@@ -1,8 +1,16 @@
 # Changelog
 
 ## 1.9.0
+### New features
+* **Searcher:** setFacet to change facet disjunctiveness
+  ([979156b](https://github.com/algolia/instantsearch-android/commit/979156b))
+
 ### Bug Fixes
-* **Hits:** don't process bindings when they are none ([dc3b11f](https://github.com/algolia/instantsearch-android/commit/dc3b11f))
+
+* **DataBinding:** update to v2
+  ([77da772](https://github.com/algolia/instantsearch-android/commit/77da772))
+  * **Hits:** don't process bindings when they are none
+    ([dc3b11f](https://github.com/algolia/instantsearch-android/commit/dc3b11f))
 
 ## 1.8.2
 
