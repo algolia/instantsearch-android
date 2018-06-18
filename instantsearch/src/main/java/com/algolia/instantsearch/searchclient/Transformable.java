@@ -21,13 +21,14 @@
  * THE SOFTWARE.
  */
 
-package com.algolia.instantsearch.transformer;
+package com.algolia.instantsearch.searchclient;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.algolia.instantsearch.model.SearchResults;
 import com.algolia.search.saas.Query;
+import com.algolia.search.saas.Request;
 
 import org.json.JSONObject;
 
@@ -42,7 +43,7 @@ public interface Transformable<Parameters, Results> {
      * @param query Search parameters. May be null to use an empty query.
      * @param completionHandler The listener that will be notified of the request's outcome.
      */
-    void search(@Nullable Parameters query, @Nullable SearchResultsHandler<Results> completionHandler);
+    Request search(@Nullable Parameters query, @Nullable SearchResultsHandler<Results> completionHandler);
 
     /***
      * Transforms the Algolia params to custom backend params.
