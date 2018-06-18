@@ -23,11 +23,13 @@
  *
  */
 
-package com.algolia.instantsearch.transformer;
+package com.algolia.instantsearch.searchclient;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.algolia.instantsearch.model.SearchResults;
+import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.CompletionHandler;
 import com.algolia.search.saas.Query;
 import com.algolia.search.saas.Request;
@@ -42,15 +44,15 @@ import java.util.Map;
 /***
  * Base class used to implement a custom backend with Algolia
  * You need to make sure to implement the following method:
- * {@link SearchTransformer#search(Object, SearchResultsHandler)}
- * {@link SearchTransformer#map(Query)}
- * {@link SearchTransformer#map(Object)}
+ * {@link SearchClient#search(Object, SearchResultsHandler)}
+ * {@link SearchClient#map(Query)}
+ * {@link SearchClient#map(Object)}
  */
-public abstract class SearchTransformer<Parameters, Results> extends Searchable implements Transformable<Parameters, Results> {
+public abstract class SearchClient<Parameters, Results> extends Searchable implements Transformable<Parameters, Results> {
 
     @Override
-    public void search(@Nullable Parameters query, @Nullable SearchResultsHandler<Results> completionHandler) {
-
+    public Request search(@Nullable Parameters query, @Nullable SearchResultsHandler<Results> completionHandler) {
+        throw new UnsupportedOperationException("This method was not implemented yet; override it if you need it");
     }
 
     @Override
@@ -79,7 +81,22 @@ public abstract class SearchTransformer<Parameters, Results> extends Searchable 
     }
 
     @Override
-    public Request searchAsync(@Nullable Query query, @Nullable RequestOptions requestOptions, @Nullable CompletionHandler completionHandler) {
-        throw new UnsupportedOperationException("This method was not implemented yet; override it if you need it");
+    public Request searchAsync(@Nullable Query query, @Nullable RequestOptions requestOptions, @Nullable final CompletionHandler completionHandler) {
+        Parameters params = this.map(query);
+
+        Request request = search(params, new SearchResultsHandler<Results>() {
+            @Override
+            public void requestCompleted(final Results content, final Exception error) {
+                if (error != null) {
+                    completionHandler.requestCompleted(null, new AlgoliaException((error.getMessage())));
+                } else {
+                    JSONObject jsonObject = map(content);
+                    completionHandler.requestCompleted(jsonObject, null);
+                }
+            }
+        });
+
+        return request;
     }
 }
+

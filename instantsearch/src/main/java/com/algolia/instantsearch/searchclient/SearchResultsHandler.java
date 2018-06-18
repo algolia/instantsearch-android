@@ -23,7 +23,7 @@
  *
  */
 
-package com.algolia.instantsearch.transformer;
+package com.algolia.instantsearch.searchclient;
 
 /**
  * Handles completion of a custom back-end API request.
