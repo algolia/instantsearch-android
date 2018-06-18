@@ -78,7 +78,7 @@ public interface Transformable<Parameters, Results> {
      * @param query Search parameters. May be null to use an empty query.
      * @param completionHandler The listener that will be notified of the request's outcome.
      */
-    void searchForFacetValues(@NonNull Parameters query, @Nullable SearchResultsHandler<Results> completionHandler);
+    Request searchForFacetValues(@NonNull Parameters query, @Nullable SearchResultsHandler<Results> completionHandler);
 
 
     /***

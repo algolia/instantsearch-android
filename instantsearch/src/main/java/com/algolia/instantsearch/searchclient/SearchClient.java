@@ -56,6 +56,12 @@ public abstract class SearchClient<Parameters, Results> extends Searchable imple
     }
 
     @Override
+    public Request searchForFacetValues(@NonNull Parameters query, @Nullable SearchResultsHandler<Results> completionHandler) {
+        return search(query, completionHandler);
+    }
+
+
+    @Override
     public Parameters map(@NonNull Query query) {
         throw new UnsupportedOperationException("This method was not implemented yet; override it if you need it");
     }
@@ -71,11 +77,6 @@ public abstract class SearchClient<Parameters, Results> extends Searchable imple
     }
 
     @Override
-    public void searchForFacetValues(@NonNull Parameters query, @Nullable SearchResultsHandler<Results> completionHandler) {
-        search(query, completionHandler);
-    }
-
-    @Override
     public Parameters map(@Nullable Query query, @NonNull String facetName, @NonNull String matchingText) {
         return null;
     }
@@ -85,6 +86,44 @@ public abstract class SearchClient<Parameters, Results> extends Searchable imple
         Parameters params = this.map(query);
 
         Request request = search(params, new SearchResultsHandler<Results>() {
+            @Override
+            public void requestCompleted(final Results content, final Exception error) {
+                if (error != null) {
+                    completionHandler.requestCompleted(null, new AlgoliaException((error.getMessage())));
+                } else {
+                    JSONObject jsonObject = map(content);
+                    completionHandler.requestCompleted(jsonObject, null);
+                }
+            }
+        });
+
+        return request;
+    }
+
+    @Override
+    public Request searchDisjunctiveFacetingAsync(@NonNull Query query, @NonNull Collection<String> disjunctiveFacets, @NonNull Map<String, ? extends Collection<String>> refinements, @Nullable RequestOptions requestOptions, @NonNull final CompletionHandler completionHandler) {
+        Parameters params = this.map(query, disjunctiveFacets, refinements);
+
+        Request request = search(params, new SearchResultsHandler<Results>() {
+            @Override
+            public void requestCompleted(final Results content, final Exception error) {
+                if (error != null) {
+                    completionHandler.requestCompleted(null, new AlgoliaException((error.getMessage())));
+                } else {
+                    JSONObject jsonObject = map(content);
+                    completionHandler.requestCompleted(jsonObject, null);
+                }
+            }
+        });
+
+        return request;
+    }
+
+    @Override
+    public Request searchForFacetValuesAsync(@NonNull String facetName, @NonNull String facetText, @Nullable Query query, @Nullable RequestOptions requestOptions, @NonNull final CompletionHandler completionHandler) {
+        Parameters params = this.map(query, facetName, facetText);
+
+        Request request = searchForFacetValues(params, new SearchResultsHandler<Results>() {
             @Override
             public void requestCompleted(final Results content, final Exception error) {
                 if (error != null) {
