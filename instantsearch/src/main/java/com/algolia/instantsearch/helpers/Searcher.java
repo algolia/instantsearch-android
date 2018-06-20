@@ -525,7 +525,7 @@ public class Searcher {
      * */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher setFacet(@NonNull String attribute, boolean isDisjunctive) {
-        if (isDisjunctive && disjunctiveFacets.contains(attribute)) {
+        if (isDisjunctive && !disjunctiveFacets.contains(attribute)) {
             disjunctiveFacets.add(attribute);
         } else {
             disjunctiveFacets.remove(attribute);
