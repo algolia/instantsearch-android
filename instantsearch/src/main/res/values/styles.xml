@@ -10,11 +10,11 @@
         <item name="algolia_voiceOverlaySuggestionsTextAppearance">
             @style/TextAppearance.Algolia.VoiceOverlay.Suggestions
         </item>
-        <item name="algolia_voiceOverlayTitleTextSize">18dp</item>
+        <item name="algolia_voiceOverlayTitleTextSize">24dp</item>
         <item name="algolia_voiceOverlayHintTextColor">@android:color/secondary_text_dark</item>
         <item name="algolia_voiceOverlaySuggestionsTextColor">@android:color/primary_text_dark
         </item>
-        <item name="algolia_voiceOverlaySuggestionsTextSize">16sp</item>
+        <item name="algolia_voiceOverlaySuggestionsTextSize">18sp</item>
         <item name="algolia_voiceOverlayFeedbackColor">@color/colorVoiceFeedback</item>
         <item name="algolia_voiceOverlayMicButtonBackground">@drawable/ic_mic</item>
         <item name="algolia_voiceOverlayCloseButtonBackground">
