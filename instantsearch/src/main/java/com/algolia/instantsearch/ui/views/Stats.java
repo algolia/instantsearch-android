@@ -2,7 +2,10 @@ package com.algolia.instantsearch.ui.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.AttributeSet;
 
 import com.algolia.instantsearch.R;
@@ -18,7 +21,9 @@ import org.greenrobot.eventbus.Subscribe;
 
 
 public class Stats extends android.support.v7.widget.AppCompatTextView implements AlgoliaResultsListener, AlgoliaErrorListener {
-    /** The default template, only shown when there is no error. */
+    /**
+     * The default template, only shown when there is no error.
+     */
     public static final String DEFAULT_TEMPLATE = "{nbHits} results found in {processingTimeMS} ms";
 
     private String resultTemplate;
@@ -48,6 +53,7 @@ public class Stats extends android.support.v7.widget.AppCompatTextView implement
         }
     }
 
+    // region Lifecycle
     @Subscribe
     public void onReset(ResetEvent event) {
         setVisibility(GONE);
@@ -55,28 +61,13 @@ public class Stats extends android.support.v7.widget.AppCompatTextView implement
 
     @Override
     public void onResults(@NonNull SearchResults results, boolean isLoadingMore) {
-        if (autoHide && results.nbHits == 0) {
-            setVisibility(GONE);
+        if (isEmptyView()) {
+            if (results.nbHits != 0) setVisibility(GONE);
+            else showResultTemplate(results);
         } else {
-            setVisibility(VISIBLE);
-            setText(applyTemplate(resultTemplate, results));
+            if (autoHide && results.nbHits == 0) setVisibility(GONE);
+            else showResultTemplate(results);
         }
-    }
-
-    private String applyTemplate(@NonNull String template, @NonNull SearchResults results) {
-        return template
-                .replace("{hitsPerPage}", String.valueOf(results.hitsPerPage))
-                .replace("{processingTimeMS}", String.valueOf(results.processingTimeMS))
-                .replace("{nbHits}", String.valueOf(results.nbHits))
-                .replace("{nbPages}", String.valueOf(results.nbPages))
-                .replace("{page}", String.valueOf(results.page))
-                .replace("{query}", String.valueOf(results.query));
-    }
-
-    private String applyTemplate(@NonNull String template, @NonNull Query query, @NonNull AlgoliaException error) {
-        return template
-                .replace("{query}", String.valueOf((query.getQuery())))
-                .replace("{error}", String.valueOf((error.getLocalizedMessage())));
     }
 
     @Override
@@ -100,4 +91,43 @@ public class Stats extends android.support.v7.widget.AppCompatTextView implement
         EventBus.getDefault().unregister(this);
         super.onDetachedFromWindow();
     }
+    // endregion Lifecycle
+
+    // region Helpers
+    private void showResultTemplate(@NonNull SearchResults results) {
+        setVisibility(VISIBLE);
+        setText(applyTemplate(resultTemplate, results));
+    }
+
+    private Spanned applyTemplate(@NonNull String template, @NonNull SearchResults results) {
+        final String templated = template
+                .replace("{hitsPerPage}", String.valueOf(results.hitsPerPage))
+                .replace("{processingTimeMS}", String.valueOf(results.processingTimeMS))
+                .replace("{nbHits}", String.valueOf(results.nbHits))
+                .replace("{nbPages}", String.valueOf(results.nbPages))
+                .replace("{page}", String.valueOf(results.page))
+                .replace("{query}", String.valueOf(results.query));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(templated, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(templated);
+        }
+    }
+
+    private Spanned applyTemplate(@NonNull String template, @NonNull Query query, @NonNull AlgoliaException error) {
+        final String templated = template
+                .replace("{query}", String.valueOf((query.getQuery())))
+                .replace("{error}", String.valueOf((error.getLocalizedMessage())));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(templated, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(templated);
+        }
+    }
+
+    private boolean isEmptyView() {
+        return getId() == android.R.id.empty;
+    }
+
+    // endregion
 }
