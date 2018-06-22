@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.10.0
+### Bug Fixes
+* **RenderingHelper:** Solve memory leak by only keeping view IDs ([88af006](https://github.com/algolia/instantsearch-android/commit/88af006))
+* **Searcher:** setFacet logic error ([42828de](https://github.com/algolia/instantsearch-android/commit/42828de))
+### Features
+* **Stats:** Accept HTML markup, handle empty view usage ([dd9ae9f](https://github.com/algolia/instantsearch-android/commit/dd9ae9f))
+
 ## 1.9.0
 ### New features
 * **Searcher:** setFacet to change facet disjunctiveness
