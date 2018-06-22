@@ -23,10 +23,10 @@ public class RenderingHelper {
     /** The default RenderingHelper, highlighting with the {@link RenderingHelper#DEFAULT_COLOR default color}. */
     private static RenderingHelper defaultRenderingHelper;
 
-    /** The Set of view/attribute pairs to highlight. */
-    @NonNull private final Set<Pair<View, String>> highlightedAttributes;
-    /** A Map associating view/attribute pairs with their respective highlighting {@link ColorInt color}. */
-    @NonNull private final Map<Pair<View, String>, Integer> attributeColors;
+    /** The Set of view IDs/attribute pairs to highlight. */
+    @NonNull private final Set<Pair<Integer, String>> highlightedAttributes;
+    /** A Map associating view IDs/attribute pairs with their respective highlighting {@link ColorInt color}. */
+    @NonNull private final Map<Pair<Integer, String>, Integer> attributeColors;
 
     /**
      * Gets the {@link RenderingHelper#defaultRenderingHelper default RenderingHelper}.
@@ -54,7 +54,7 @@ public class RenderingHelper {
      */
     public @ColorInt Integer getHighlightColor(View view, String attribute) {
         try {
-            return attributeColors.get(new Pair<>(view, attribute));
+            return attributeColors.get(new Pair<>(view.getId(), attribute));
         } catch (NullPointerException e) {
             return 0;
         }
@@ -68,7 +68,7 @@ public class RenderingHelper {
      * @return {@code true} if the attribute was marked for highlighting.
      */
     public boolean shouldHighlight(View view, String attribute) {
-        return highlightedAttributes.contains(new Pair<>(view, attribute));
+        return highlightedAttributes.contains(new Pair<>(view.getId(), attribute));
     }
 
     /**
@@ -79,7 +79,7 @@ public class RenderingHelper {
      * @return the previous color associated with this attribute or {@code null} if there was none.
      */
     Integer addHighlight(View view, String attribute, @ColorInt int colorId) {
-        final Pair<View, String> pair = new Pair<>(view, attribute);
+        final Pair<Integer, String> pair = new Pair<>(view.getId(), attribute);
         highlightedAttributes.add(pair);
         return attributeColors.put(pair, colorId);
     }
