@@ -146,7 +146,25 @@ public class Highlighter {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Styler setInput(@NonNull JSONObject result, @NonNull String attribute, boolean inverted) {
-        return setInput(getHighlightedAttribute(result, attribute, inverted));
+        final String highlightedAttribute = getHighlightedAttribute(result, attribute, inverted);
+        return setInput(highlightedAttribute);
+    }
+
+    /**
+     * Sets the input to highlight.
+     *
+     * @param result    a {@link JSONObject} describing a hit.
+     * @param attribute the attribute to highlight.
+     * @param inverted  if {@code true}, the highlighting will be inverted.
+     * @return a {@link Styler} to specify the style before rendering.
+     */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
+    public Styler setInput(@NonNull JSONObject result, @NonNull String attribute,
+                           @Nullable String prefix, @Nullable String suffix, boolean inverted) {
+        final String highlightedAttribute = getHighlightedAttribute(result, attribute, inverted);
+        prefix = prefix == null ? "" : prefix;
+        suffix = suffix == null ? "" : suffix;
+        return setInput(prefix + highlightedAttribute + suffix);
     }
 
     /**

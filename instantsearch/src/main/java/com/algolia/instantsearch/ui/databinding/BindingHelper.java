@@ -198,9 +198,8 @@ public class BindingHelper {
     @NonNull
     public static String getFullAttribute(@NonNull View view, @Nullable String rawAttributeValue) {
         String attribute = "";
-        final int id = view.getId();
-        final String prefix = prefixes.get(id);
-        final String suffix = suffixes.get(id);
+        final String prefix = getPrefix(view);
+        final String suffix = getSuffix(view);
         if (prefix != null) {
             attribute = prefix;
         }
@@ -209,5 +208,27 @@ public class BindingHelper {
             attribute += suffix;
         }
         return attribute;
+    }
+
+    /**
+     * Gets the prefix for a given view, if any.
+     *
+     * @param view a view mapped to an attribute.
+     * @return the prefix for this view, or {@code null} if none was set.
+     */
+    public static @Nullable
+    String getSuffix(@NonNull View view) {
+        return suffixes.get(view.getId());
+    }
+
+    /**
+     * Gets the suffix for a given view, if any.
+     *
+     * @param view a view mapped to an attribute.
+     * @return the suffix for this view, or {@code null} if none was set.
+     */
+    public static @Nullable
+    String getPrefix(@NonNull View view) {
+        return prefixes.get(view.getId());
     }
 }

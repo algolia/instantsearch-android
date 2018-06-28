@@ -271,7 +271,9 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         if (attributeValue != null) {
             if (RenderingHelper.getDefault().shouldHighlight(view, attribute)) {
                 final int highlightColor = RenderingHelper.getDefault().getHighlightColor(view, attribute);
-                attributeText = Highlighter.getDefault().setInput(hit, attribute, false).setStyle(highlightColor).render();
+                attributeText = Highlighter.getDefault()
+                        .setInput(hit, attribute, BindingHelper.getPrefix(view), BindingHelper.getSuffix(view), false)
+                        .setStyle(highlightColor).render();
             } else {
                 attributeText = new SpannableString(attributeValue);
             }
