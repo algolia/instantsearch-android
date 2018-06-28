@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><base href="/instantsearch-android/"><meta content="IE=edge" http-equiv="X-UA-Compatible"><meta charset="utf-8"><meta content="width=device-width, initial-scale=1" name="viewport"><link rel="icon" href="assets/img/instantsearch-android-favicon.png"><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"><meta content="InstantSearch Android - Widgets and helpers to build instant-search applications on Android" name="description"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><!-- / Twitter card--><meta content="summary_large_image" name="twitter:card"><meta content="https://community.algolia.com/instantsearch-android/" name="twitter:site"><meta content="Algolia" name="twitter:creator"><meta content="InstantSearch Android" name="twitter:title"><meta content="Widgets and helpers to build instant-search applications on Android" name="twitter:description"><meta content="http://i.imgur.com/N3nbIx6.png" name="twitter:image"><!-- / OG meta--><meta content="https://community.algolia.com/instantsearch-android/" property="og:url"><meta content="InstantSearch Android" property="og:title"><meta content="http://i.imgur.com/N3nbIx6.png" property="og:image"><meta content="website" property="og:type"><meta content="Widgets and helpers to build instant-search applications on Android" property="og:description"><meta content="InstantSearch Android" property="og:site_name"><title>InstantSearch Android | Troubleshooting</title><link rel="stylesheet" href="stylesheets/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css"></head><body class="documentation"><div><!-- Start community header -->
+<!DOCTYPE html><html lang="en"><head><base href="/instantsearch-android/"><meta content="IE=edge" http-equiv="X-UA-Compatible"><meta charset="utf-8"><meta content="width=device-width, initial-scale=1" name="viewport"><link rel="icon" href="assets/img/instantsearch-android-favicon.png"><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"><meta content="InstantSearch Android - Widgets and helpers to build instant-search applications on Android" name="description"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><!-- / Twitter card--><meta content="summary_large_image" name="twitter:card"><meta content="https://community.algolia.com/instantsearch-android/" name="twitter:site"><meta content="Algolia" name="twitter:creator"><meta content="InstantSearch Android" name="twitter:title"><meta content="Widgets and helpers to build instant-search applications on Android" name="twitter:description"><meta content="http://i.imgur.com/N3nbIx6.png" name="twitter:image"><!-- / OG meta--><meta content="https://community.algolia.com/instantsearch-android/" property="og:url"><meta content="InstantSearch Android" property="og:title"><meta content="http://i.imgur.com/N3nbIx6.png" property="og:image"><meta content="website" property="og:type"><meta content="Widgets and helpers to build instant-search applications on Android" property="og:description"><meta content="InstantSearch Android" property="og:site_name"><title>InstantSearch Android | InstantSearch from the backend</title><link rel="stylesheet" href="stylesheets/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css"></head><body class="documentation"><div><!-- Start community header -->
     <nav class='algc-navigation'>
       <div class='algc-navigation__container'>
         <div class='algc-mainmenu'>
@@ -251,24 +251,136 @@
       </li></ul></div></div>
 
     </nav>
-    <!-- End community_header --> </div><script src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script><section class="hero-section shrink"><div class="container"><div class="hero-container text-left"><figcaption><h1>Troubleshooting</h1></figcaption></div></div></section><section class="documentation-section"><div class="container"><nav class="sidebar"><div class="sidebar-container"><h2 class="sidebar-header">Troubleshooting</h2><ul class="sidebar-elements"><li class="sidebar-element level-h2 navItem troubleshooting.html"><a href="getting-started.html">Getting started</a><ul></ul></li><li class="sidebar-element level-h2 navItem troubleshooting.html"><a href="concepts.html">Main Concepts</a><ul></ul></li><li class="sidebar-element level-h2 navItem troubleshooting.html"><a href="widgets.html">Widgets</a><ul></ul></li><li class="sidebar-element level-h2 navItem troubleshooting.html"><a href="custom-backend.html">InstantSearch from the backend</a><ul></ul></li><li class="sidebar-element level-h2 navItem troubleshooting.html"><a href="multi-index.html">Multi Index</a><ul></ul></li><li class="sidebar-element level-h2 navItem troubleshooting.html"><a href="examples.html">Examples</a><ul></ul></li><li class="sidebar-element level-h2 navItem-active troubleshooting.html"><a class="navItem-active" href="troubleshooting.html">Troubleshooting</a><ul><li class="sidebar-element level-h3"><a href="troubleshooting.html#no-resource-type-specified">No resource type specified </a></li><li class="sidebar-element level-h3"><a href="troubleshooting.html#noclassdeffounderror">NoClassDefFoundError </a></li><li class="sidebar-element level-h3"><a href="troubleshooting.html#only-one-layout-element">Only one layout element </a></li></ul></li></ul></div></nav><a class="sidebar-opener"></a><div class="documentation-container"><div class="content"><p>There are a few errors that you may encounter if your setup is not correct.
-Here are the frequent errors and the appropriate solutions:</p>
-<h2 id="no-resource-type-specified">No resource type specified <a class="anchor" href="troubleshooting.html#no-resource-type-specified" aria-hidden="true"></a></h2>
-<blockquote>
-<p>Error:(42, 42) <strong>No resource type specified</strong> (at ‘attribute’ with value '@{“image”}’).</p>
-</blockquote>
-<p>Either you forgot to <a href="widgets.html#data-binding">enable the DataBinding Library</a> or your <code>itemLayout</code> does not start with a <code>&lt;layout&gt;</code> root tag.</p>
-<h2 id="noclassdeffounderror">NoClassDefFoundError <a class="anchor" href="troubleshooting.html#noclassdeffounderror" aria-hidden="true"></a></h2>
-<blockquote>
-<p><strong>java.lang.NoClassDefFoundError: Failed resolution of: Landroid/databinding/DataBinderMapper;</strong>
-at android.databinding.DataBindingUtil.<clinit>(DataBindingUtil.java:31)</p>
-</blockquote>
-<p>You forgot to <a href="widgets.html#data-binding">enable the DataBinding Library</a>.</p>
-<h2 id="only-one-layout-element">Only one layout element <a class="anchor" href="troubleshooting.html#only-one-layout-element" aria-hidden="true"></a></h2>
-<blockquote>
-<p><strong>Error:Only one layout element and one data element are allowed.</strong> <em>/path/to/your/app/build/intermediates/res/merged/debug/layout/hits_item.xml</em> has 2</p>
-</blockquote>
-<p>Your <code>&lt;layout&gt;</code> should have only one child: put all current children in a single <code>&lt;ViewGroup&gt;</code>.</p>
+    <!-- End community_header --> </div><script src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script><section class="hero-section shrink"><div class="container"><div class="hero-container text-left"><figcaption><h1>InstantSearch from the backend</h1></figcaption></div></div></section><section class="documentation-section"><div class="container"><nav class="sidebar"><div class="sidebar-container"><h2 class="sidebar-header">InstantSearch from the backend</h2><ul class="sidebar-elements"><li class="sidebar-element level-h2 navItem custom-backend.html"><a href="getting-started.html">Getting started</a><ul></ul></li><li class="sidebar-element level-h2 navItem custom-backend.html"><a href="concepts.html">Main Concepts</a><ul></ul></li><li class="sidebar-element level-h2 navItem custom-backend.html"><a href="widgets.html">Widgets</a><ul></ul></li><li class="sidebar-element level-h2 navItem-active custom-backend.html"><a class="navItem-active" href="custom-backend.html">InstantSearch from the backend</a><ul><li class="sidebar-element level-h3"><a href="custom-backend.html#who-should-use-this-guide">Who should use this guide </a></li><li class="sidebar-element level-h3"><a href="custom-backend.html#a-quick-overview-on-how-instantsearch-works">A quick overview on how InstantSearch works </a></li><li class="sidebar-element level-h3"><a href="custom-backend.html#basic-implementation-of-using-a-custom-backend">Basic implementation of using a custom backend </a></li><li class="sidebar-element level-h3"><a href="custom-backend.html#advanced-implementation-of-using-a-custom-backend">Advanced implementation of using a custom backend </a></li></ul></li><li class="sidebar-element level-h2 navItem custom-backend.html"><a href="multi-index.html">Multi Index</a><ul></ul></li><li class="sidebar-element level-h2 navItem custom-backend.html"><a href="examples.html">Examples</a><ul></ul></li><li class="sidebar-element level-h2 navItem custom-backend.html"><a href="troubleshooting.html">Troubleshooting</a><ul></ul></li></ul></div></nav><a class="sidebar-opener"></a><div class="documentation-container"><div class="content"><h2 id="who-should-use-this-guide">Who should use this guide <a class="anchor" href="custom-backend.html#who-should-use-this-guide" aria-hidden="true"></a></h2>
+<p>Advanced InstantSearch users may have the need to query Algolia’s servers from their backend instead of the frontend, while still being able to reuse InstantSearch widgets. Possible motivations could be for security restrictions, for SEO purposes or to enrich the data sent by the custom server (i.e. fetch Algolia data and data from their own servers). If this sounds appealing to you, feel free to follow this guide. Keep in mind though that we, at Algolia, recommend doing frontend search for performance and high availability reasons.</p>
+<p>By the end of this guide, you will have learned how to leverage InstantSearch with your own backend architecture to query Algolia. Even if you’re not using Algolia on your backend and still want to benefit from using InstantSearch, then this guide is also for you.</p>
+<h2 id="a-quick-overview-on-how-instantsearch-works">A quick overview on how InstantSearch works <a class="anchor" href="custom-backend.html#a-quick-overview-on-how-instantsearch-works" aria-hidden="true"></a></h2>
+<p>InstantSearch, as you probably know, offers reactive UI widgets that automatically update when new search events occur. Internally, it uses a <code>Searchable</code> interface that takes care of making network calls to get search results. The most important method of that <code>Searchable</code> is a simple <code>search()</code> function that takes in a parameter that contains all the search query parameters, and then expects a callback to be called with the search results that you get from your backend. Let’s see how this works in action</p>
+<h2 id="basic-implementation-of-using-a-custom-backend">Basic implementation of using a custom backend <a class="anchor" href="custom-backend.html#basic-implementation-of-using-a-custom-backend" aria-hidden="true"></a></h2>
+<p>The most basic implementation of using a custom backend uses the <code>DefaultSearchClient</code> and requires you to implement just one method: <code>search(query:searchResultsHandler:)</code>. In this function, you use the query passed to you, make a network request to your backend server, transform the response into a <code>SearchResults</code> instance, and then finally call the <code>searchResultsHandler</code> callback with the searchResults. In case of error, you call the callback with the error. Here is an example using the Alamofire networking library.</p>
+<pre class="CodeMirror cm-s-eclipse"><code><span class="cm-keyword">public</span> <span class="cm-keyword">class</span> <span class="cm-def">DefaultCustomClient</span> <span class="cm-keyword">extends</span> <span class="cm-variable">DefaultSearchClient</span> {
+
+    <span class="cm-comment">// 1</span>
+    <span class="cm-keyword">public</span> <span class="cm-keyword">static</span> <span class="cm-keyword">class</span> <span class="cm-def">AsyncRequest</span> <span class="cm-keyword">extends</span> <span class="cm-variable">AsyncTask</span><span class="cm-operator">&lt;</span><span class="cm-variable">Query</span>, <span class="cm-type">Boolean</span>, <span class="cm-variable">JSONObject</span><span class="cm-operator">&gt;</span> <span class="cm-keyword">implements</span> <span class="cm-variable">Request</span> {
+      <span class="cm-comment">// Implement your AsyncRequest to make the request to your backend.</span>
+    }
+
+    <span class="cm-meta">@Override</span>
+    <span class="cm-keyword">public</span> <span class="cm-variable">Request</span> <span class="cm-variable">search</span>(<span class="cm-meta">@Nullable</span> <span class="cm-variable">Query</span> <span class="cm-variable">query</span>, <span class="cm-meta">@Nullable</span> <span class="cm-keyword">final</span> <span class="cm-variable">SearchResultsHandler</span><span class="cm-operator">&lt;</span><span class="cm-variable">JSONObject</span><span class="cm-operator">&gt;</span> <span class="cm-variable">completionHandler</span>) {
+        <span class="cm-comment">// 2</span>
+        <span class="cm-variable">AsyncRequest</span> <span class="cm-variable">request</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">AsyncRequest</span>(<span class="cm-keyword">new</span> <span class="cm-variable">SearchResultsHandler</span><span class="cm-operator">&lt;</span><span class="cm-variable">JSONObject</span><span class="cm-operator">&gt;</span>() {
+            <span class="cm-meta">@Override</span>
+            <span class="cm-keyword">public</span> <span class="cm-type">void</span> <span class="cm-variable">requestCompleted</span>(<span class="cm-keyword">final</span> <span class="cm-variable">JSONObject</span> <span class="cm-variable">content</span>, <span class="cm-keyword">final</span> <span class="cm-variable">Exception</span> <span class="cm-variable">error</span>) {
+
+                <span class="cm-variable">Handler</span> <span class="cm-variable">h</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">Handler</span>(<span class="cm-variable">Looper</span>.<span class="cm-variable">getMainLooper</span>());
+                <span class="cm-variable">Runnable</span> <span class="cm-variable">r</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">Runnable</span>() {
+                    <span class="cm-meta">@Override</span>
+                    <span class="cm-keyword">public</span> <span class="cm-type">void</span> <span class="cm-variable">run</span>() {
+                        <span class="cm-keyword">if</span> (<span class="cm-variable">error</span> <span class="cm-operator">!=</span> <span class="cm-atom">null</span>) {
+                          <span class="cm-comment">// 3</span>
+                            <span class="cm-variable">completionHandler</span>.<span class="cm-variable">requestCompleted</span>(<span class="cm-atom">null</span>, <span class="cm-keyword">new</span> <span class="cm-variable">AlgoliaException</span>((<span class="cm-variable">error</span>.<span class="cm-variable">getMessage</span>())));
+                        } <span class="cm-keyword">else</span> {
+                          <span class="cm-comment">// 3</span>
+                            <span class="cm-variable">completionHandler</span>.<span class="cm-variable">requestCompleted</span>(<span class="cm-variable">content</span>, <span class="cm-atom">null</span>);
+                        }
+                    }
+                };
+                <span class="cm-variable">h</span>.<span class="cm-variable">post</span>(<span class="cm-variable">r</span>);
+
+            }
+        });
+        <span class="cm-variable">request</span>.<span class="cm-variable">execute</span>(<span class="cm-variable">query</span>);
+        <span class="cm-keyword">return</span> <span class="cm-variable">request</span>;
+    }
+}
+</code></pre>
+<p>This is the simplest example and will work only if on your backend, you’re calling Algolia and then just forwarding your result to the mobile app without doing any modification to the json data.</p>
+<p>1- Get the query text from the Query parameter and do your request to the backend.</p>
+<p>2- Make your request to your backend using the queryText parse in step 1.</p>
+<p>3- Call the <code>requestCompleted</code> function in order to instruct InstantSearch about the new search event, in this case the arrival of new search results, or an error.</p>
+<h2 id="advanced-implementation-of-using-a-custom-backend">Advanced implementation of using a custom backend <a class="anchor" href="custom-backend.html#advanced-implementation-of-using-a-custom-backend" aria-hidden="true"></a></h2>
+<p>The above snippet only covers the case of doing a basic search of hits, with conjunctive (contrary to disjunctive) filtering. Here, we’ll take a look at improving the structure of our custom backend class, as well as supporting disjunctive faceting.</p>
+<p>Let’s start with the code snippet:</p>
+<pre class="CodeMirror cm-s-eclipse"><code>
+<span class="cm-keyword">public</span> <span class="cm-keyword">class</span> <span class="cm-def">CustomClient</span> <span class="cm-keyword">extends</span> <span class="cm-variable">SearchClient</span><span class="cm-operator">&lt;</span><span class="cm-variable">JSONObject</span>, <span class="cm-variable">JSONObject</span><span class="cm-operator">&gt;</span> {
+    <span class="cm-comment">// 1</span>
+    <span class="cm-meta">@Override</span>
+    <span class="cm-keyword">public</span> <span class="cm-variable">JSONObject</span> <span class="cm-variable">map</span>(<span class="cm-meta">@NonNull</span> <span class="cm-variable">Query</span> <span class="cm-variable">query</span>) {
+      <span class="cm-comment">// map from query to your JSONObject that your backend expects. What is returned here will be used as a parameter when doing the request.</span>
+    }
+
+    <span class="cm-comment">// 2</span>
+    <span class="cm-meta">@Override</span>
+    <span class="cm-keyword">public</span> <span class="cm-variable">JSONObject</span> <span class="cm-variable">map</span>(<span class="cm-meta">@NonNull</span> <span class="cm-variable">Query</span> <span class="cm-variable">query</span>, <span class="cm-meta">@NonNull</span> <span class="cm-variable">Collection</span><span class="cm-operator">&lt;</span><span class="cm-type">String</span><span class="cm-operator">&gt;</span> <span class="cm-variable">disjunctiveFacets</span>, <span class="cm-meta">@NonNull</span> <span class="cm-variable">Map</span><span class="cm-operator">&lt;</span><span class="cm-type">String</span>, <span class="cm-operator">?</span> <span class="cm-keyword">extends</span> <span class="cm-variable">Collection</span><span class="cm-operator">&lt;</span><span class="cm-type">String</span><span class="cm-operator">&gt;&gt;</span> <span class="cm-variable">refinements</span>) {
+        <span class="cm-comment">// map from query+disjunctiveFacets+refinements to your JSONObject that your backend expects. What is returned here will be used as a parameter when doing the request.</span>
+    }
+
+    <span class="cm-comment">// 3</span>
+    <span class="cm-meta">@Override</span>
+    <span class="cm-keyword">public</span> <span class="cm-variable">JSONObject</span> <span class="cm-variable">map</span>(<span class="cm-meta">@NonNull</span> <span class="cm-variable">JSONObject</span> <span class="cm-variable">customSearchResults</span>) {
+        <span class="cm-comment">// map from your result from your custom backend to the JSONObject that InstantSearch expects</span>
+
+        <span class="cm-keyword">if</span> (<span class="cm-variable">customSearchResults</span> <span class="cm-operator">==</span> <span class="cm-atom">null</span>) {
+            <span class="cm-keyword">return</span> <span class="cm-atom">null</span>;
+        }
+        <span class="cm-variable">JSONObject</span> <span class="cm-variable">hitsContent</span> <span class="cm-operator">=</span> <span class="cm-variable">customSearchResults</span>.<span class="cm-variable">optJSONObject</span>(<span class="cm-string">&quot;hits&quot;</span>);
+        <span class="cm-keyword">if</span> (<span class="cm-variable">hitsContent</span> <span class="cm-operator">==</span> <span class="cm-atom">null</span>) {
+            <span class="cm-keyword">return</span> <span class="cm-atom">null</span>;
+        }
+
+        <span class="cm-variable">JSONObject</span> <span class="cm-variable">obj</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">JSONObject</span>();
+        <span class="cm-keyword">try</span> {
+            <span class="cm-variable">obj</span>.<span class="cm-variable">putOpt</span>(<span class="cm-string">&quot;hits&quot;</span>, <span class="cm-variable">hitsContent</span>.<span class="cm-variable">optJSONArray</span>(<span class="cm-string">&quot;hits&quot;</span>)); <span class="cm-comment">// Required</span>
+            <span class="cm-variable">obj</span>.<span class="cm-variable">putOpt</span>(<span class="cm-string">&quot;nbHits&quot;</span>, <span class="cm-variable">hitsContent</span>.<span class="cm-variable">optInt</span>(<span class="cm-string">&quot;total&quot;</span>)); <span class="cm-comment">// Required</span>
+            <span class="cm-variable">obj</span>.<span class="cm-variable">putOpt</span>(<span class="cm-string">&quot;query&quot;</span>, <span class="cm-string">&quot;test&quot;</span>);
+            <span class="cm-variable">obj</span>.<span class="cm-variable">putOpt</span>(<span class="cm-string">&quot;params&quot;</span>, <span class="cm-string">&quot;testparams&quot;</span>);
+            <span class="cm-variable">obj</span>.<span class="cm-variable">putOpt</span>(<span class="cm-string">&quot;processingTimeMS&quot;</span>, <span class="cm-variable">customSearchResults</span>.<span class="cm-variable">optInt</span>(<span class="cm-string">&quot;took&quot;</span>));
+        } <span class="cm-keyword">catch</span> (<span class="cm-variable">Exception</span> <span class="cm-variable">e</span>) {
+            <span class="cm-keyword">return</span> <span class="cm-atom">null</span>;
+        }
+        <span class="cm-keyword">return</span> <span class="cm-variable">obj</span>;
+    }
+
+    <span class="cm-comment">// 4</span>
+    <span class="cm-keyword">public</span> <span class="cm-keyword">static</span> <span class="cm-keyword">class</span> <span class="cm-def">AsyncRequest</span> <span class="cm-keyword">extends</span> <span class="cm-variable">AsyncTask</span><span class="cm-operator">&lt;</span><span class="cm-variable">Query</span>, <span class="cm-type">Boolean</span>, <span class="cm-variable">JSONObject</span><span class="cm-operator">&gt;</span> <span class="cm-keyword">implements</span> <span class="cm-variable">Request</span> {
+      <span class="cm-comment">// Implement your AsyncRequest to make the request to your backend.</span>
+    }
+
+    <span class="cm-comment">// 5</span>
+    <span class="cm-meta">@Override</span>
+    <span class="cm-keyword">public</span> <span class="cm-variable">Request</span> <span class="cm-variable">search</span>(<span class="cm-meta">@Nullable</span> <span class="cm-variable">JSONObject</span> <span class="cm-variable">query</span>, <span class="cm-meta">@Nullable</span> <span class="cm-keyword">final</span> <span class="cm-variable">SearchResultsHandler</span><span class="cm-operator">&lt;</span><span class="cm-variable">JSONObject</span><span class="cm-operator">&gt;</span> <span class="cm-variable">completionHandler</span>) {
+        <span class="cm-variable">AsyncRequest</span> <span class="cm-variable">request</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">AsyncRequest</span>(<span class="cm-keyword">new</span> <span class="cm-variable">SearchResultsHandler</span><span class="cm-operator">&lt;</span><span class="cm-variable">JSONObject</span><span class="cm-operator">&gt;</span>() {
+            <span class="cm-meta">@Override</span>
+            <span class="cm-keyword">public</span> <span class="cm-type">void</span> <span class="cm-variable">requestCompleted</span>(<span class="cm-keyword">final</span> <span class="cm-variable">JSONObject</span> <span class="cm-variable">content</span>, <span class="cm-keyword">final</span> <span class="cm-variable">Exception</span> <span class="cm-variable">error</span>) {
+
+                <span class="cm-variable">Handler</span> <span class="cm-variable">h</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">Handler</span>(<span class="cm-variable">Looper</span>.<span class="cm-variable">getMainLooper</span>());
+                <span class="cm-variable">Runnable</span> <span class="cm-variable">r</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">Runnable</span>() {
+                    <span class="cm-meta">@Override</span>
+                    <span class="cm-keyword">public</span> <span class="cm-type">void</span> <span class="cm-variable">run</span>() {
+                        <span class="cm-keyword">if</span> (<span class="cm-variable">error</span> <span class="cm-operator">!=</span> <span class="cm-atom">null</span>) {
+                            <span class="cm-comment">// 6</span>
+                            <span class="cm-variable">completionHandler</span>.<span class="cm-variable">requestCompleted</span>(<span class="cm-atom">null</span>, <span class="cm-keyword">new</span> <span class="cm-variable">AlgoliaException</span>((<span class="cm-variable">error</span>.<span class="cm-variable">getMessage</span>())));
+                        } <span class="cm-keyword">else</span> {
+                            <span class="cm-comment">// 6</span>
+                            <span class="cm-variable">completionHandler</span>.<span class="cm-variable">requestCompleted</span>(<span class="cm-variable">content</span>, <span class="cm-atom">null</span>);
+                        }
+                    }
+                };
+                <span class="cm-variable">h</span>.<span class="cm-variable">post</span>(<span class="cm-variable">r</span>);
+
+            }
+        });
+        <span class="cm-variable">request</span>.<span class="cm-variable">execute</span>(<span class="cm-variable">query</span>);
+        <span class="cm-keyword">return</span> <span class="cm-variable">request</span>;
+    }
+}
+</code></pre>
+<p>1- Implement the basic param mapper function that converts a query to your parameter model. Make sure to take all the fields you need from the query parameter.</p>
+<p>2- Implement the advanced param mapper function. It is the same as 3, but with 2 more parameters that you can use for your call: <code>disjunctiveFacets</code> and <code>refinements</code>.</p>
+<p>3- Implement the result mapper function that converts your result model back to an Algolia <code>JSONObject</code> that can be understood by InstantSearch.</p>
+<p>4- Make your request to your backend using the <code>JSONObject</code> provided in step 1 and 2.</p>
+<p>5- Implement the search method, same idea as the basic implementation. The only difference is that now it provides your custom parameter model as its parameter.</p>
+<p>6- Call the <code>requestCompleted</code> function in order to instruct InstantSearch about the new search event, in this case the arrival of new search results, or an error.</p>
 </div></div></div></section><div id="footer"><div class="credits"><div class="container pos-rel"><div class="row"><div class="col-md-12 text-center"><a data-no-turbolink="true" href="/"><img width="40" src="https://www.algolia.com/static_assets/images/flat2/algolia/algolia-logo_badge-598a1fe6.svg"></a></div></div><div class="spacer40"></div></div></div></div><!--Google Tag Manager-->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-N8JP8G" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N8JP8G');</script>
