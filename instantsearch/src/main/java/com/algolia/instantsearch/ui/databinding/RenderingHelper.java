@@ -52,7 +52,7 @@ public class RenderingHelper {
      * @param attribute the attribute's name.
      * @return the {@link ColorInt} associated with this view/attribute pair, or 0 if there is none.
      */
-    public @ColorInt Integer getHighlightColor(View view, String attribute) {
+    public @ColorInt Integer getHighlightColor(@NonNull View view, @NonNull String attribute) {
         try {
             return attributeColors.get(new Pair<>(view.getId(), attribute));
         } catch (NullPointerException e) {
@@ -67,7 +67,7 @@ public class RenderingHelper {
      * @param attribute the attribute's name.
      * @return {@code true} if the attribute was marked for highlighting.
      */
-    public boolean shouldHighlight(View view, String attribute) {
+    public boolean shouldHighlight(@NonNull View view, @NonNull String attribute) {
         return highlightedAttributes.contains(new Pair<>(view.getId(), attribute));
     }
 
@@ -78,7 +78,7 @@ public class RenderingHelper {
      * @param colorId   a {@link ColorInt} to associate with this attribute.
      * @return the previous color associated with this attribute or {@code null} if there was none.
      */
-    Integer addHighlight(View view, String attribute, @ColorInt int colorId) {
+    Integer addHighlight(@NonNull View view, @NonNull String attribute, @ColorInt int colorId) {
         final Pair<Integer, String> pair = new Pair<>(view.getId(), attribute);
         highlightedAttributes.add(pair);
         return attributeColors.put(pair, colorId);

@@ -22,7 +22,9 @@ import java.util.Set;
  * Contains the {@link BindingAdapter} used for gathering {@link BindingHelper#bindings bound attributes}.
  */
 public class BindingHelper {
-    /** Associates a variant with its bindings (associating each databound view's id to its attribute). */
+    /**
+     * Associates a variant with its bindings (associating each databound view's id to its attribute).
+     */
     @NonNull
     private static final HashMap<String, HashMap<Integer, String>> bindings = new HashMap<>();
     @NonNull
@@ -109,7 +111,8 @@ public class BindingHelper {
      * @param view any existing view.
      * @return the previous variant for this view, if any.
      */
-    @Nullable public static String setVariantForView(@NonNull View view, @Nullable String variant) {
+    @Nullable
+    public static String setVariantForView(@NonNull View view, @Nullable String variant) {
         String previousVariant = null;
         String previousAttribute = null;
         for (Map.Entry<String, HashMap<Integer, String>> entry : bindings.entrySet()) {
@@ -131,7 +134,8 @@ public class BindingHelper {
      * @return the variant name or {@code null} if unspecified.
      * @throws IllegalArgumentException if the view is not part of a databinding layout.
      */
-    @Nullable public static String getVariantForView(@NonNull View view) {
+    @Nullable
+    public static String getVariantForView(@NonNull View view) {
         for (Map.Entry<String, HashMap<Integer, String>> entry : bindings.entrySet()) {
             if (entry.getValue().containsKey(view.getId())) {
                 return entry.getKey();
@@ -173,7 +177,8 @@ public class BindingHelper {
         throw new IllegalStateException("Cannot bind " + viewName + ": " + message);
     }
 
-    @NonNull private static String getViewName(@NonNull View view) {
+    @NonNull
+    private static String getViewName(@NonNull View view) {
         final Resources r = view.getContext().getResources();
         int id = view.getId();
         return r.getResourcePackageName(id) + ":" + r.getResourceTypeName(id) + "/" + r.getResourceEntryName(id);
@@ -186,12 +191,12 @@ public class BindingHelper {
     /**
      * Gets the full version of an attribute, with its eventual prefix and suffix.
      *
-     * @param view         the view mapped to this attribute.
-     * @param rawAttribute the raw value of the attribute.
+     * @param view              the view mapped to this attribute.
+     * @param rawAttributeValue the raw value of the attribute.
      * @return the attribute value, prefixed and suffixed if any was specified on the view.
      */
     @NonNull
-    public static String getFullAttribute(View view, @Nullable String rawAttribute) {
+    public static String getFullAttribute(@NonNull View view, @Nullable String rawAttributeValue) {
         String attribute = "";
         final int id = view.getId();
         final String prefix = prefixes.get(id);
@@ -199,7 +204,7 @@ public class BindingHelper {
         if (prefix != null) {
             attribute = prefix;
         }
-        attribute += rawAttribute;
+        attribute += rawAttributeValue;
         if (suffix != null) {
             attribute += suffix;
         }
