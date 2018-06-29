@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.0
+### Bug Fixes
+* **Hits:** Use {pre,suf}fixes when highlighting attributes ([89e5333](https://github.com/algolia/instantsearch-android/commit/89e5333))
+
 ## 1.10.0
 ### Bug Fixes
 * **RenderingHelper:** Solve memory leak by only keeping view IDs ([88af006](https://github.com/algolia/instantsearch-android/commit/88af006))
