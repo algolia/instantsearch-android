@@ -24,7 +24,7 @@ ext {
     REPO = WEBSITE + ".git"
     LICENSE = 'MIT'
     LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
-    VERSION = '1.11.0'
+    VERSION = '1.12.0'
     VERSION_DESC = 'Version ' + VERSION
 
     VERSION_APPCOMPAT = '27.1.1'

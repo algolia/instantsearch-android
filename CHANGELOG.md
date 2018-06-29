@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.12.0
+### Features
+* **searchclient:** add searchDisjunctiveFaceting and searchForFacetValues ([80df479](https://github.com/algolia/instantsearch-android/commit/80df479))
+* **searchclient:** Improve the searchClient by abstracting away the map functions. ([fc3eb25](https://github.com/algolia/instantsearch-android/commit/fc3eb25))
+
 ## 1.11.0
 ### Bug Fixes
 * **Hits:** Use {pre,suf}fixes when highlighting attributes ([89e5333](https://github.com/algolia/instantsearch-android/commit/89e5333))
