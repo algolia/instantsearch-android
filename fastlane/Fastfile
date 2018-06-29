@@ -103,7 +103,7 @@ def file_edit(filename, regexp, replacement)
 end
 
 def post_github_release(version, changes, token=ENV['GITHUB_TOKEN'])
-  release_changes = changes.gsub(/^## #{version} /m, "## ").gsub("\n", "\\n")
+  release_changes = changes.gsub(/^## #{version} /m, "## ")
   url = "https://api.github.com/repos/algolia/instantsearch-android/releases?access_token=#{token}"
   result = HTTParty.post(url, :body => {
     :tag_name => version,
