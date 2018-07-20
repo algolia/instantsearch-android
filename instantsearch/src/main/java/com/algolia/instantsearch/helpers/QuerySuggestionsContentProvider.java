@@ -70,13 +70,8 @@ public abstract class QuerySuggestionsContentProvider extends ContentProvider {
             for (int i = 0; i < results.hits.length(); i++) {
                 JSONObject hit = results.hits.getJSONObject(i);
                 final String suggestion = hit.getString("query");
-                String displaySuggestion = suggestion;
                 if (!suggestion.equalsIgnoreCase(query)) {
-                    if (shouldReturnHighlightResult) {
-                        final String highlightResult = hit.getJSONObject("_highlightResult").getJSONObject("query").getString("value");
-                        displaySuggestion = Highlighter.getDefault().inverseHighlight(highlightResult)
-                                .replace("<em>", "<b>").replace("</em>", "</b>");
-                    }
+                    String displaySuggestion = shouldReturnHighlightResult ? getHighlightedSuggestion(hit) : suggestion;
                     cursor.addRow(new Object[]{hit.getString("objectID").hashCode(), displaySuggestion, suggestion});
                 }
             }
@@ -88,6 +83,15 @@ public abstract class QuerySuggestionsContentProvider extends ContentProvider {
         }
     }
 
+    private String getHighlightedSuggestion(JSONObject hit) throws JSONException {
+        String displaySuggestion;
+        final String highlightResult = hit.getJSONObject("_highlightResult").getJSONObject("query").getString("value");
+        displaySuggestion = Highlighter.getDefault().inverseHighlight(highlightResult)
+                .replace("<em>", "<b>").replace("</em>", "</b>");
+        return displaySuggestion;
+    }
+
+    // region ContentProvider Stubs
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
@@ -109,4 +113,5 @@ public abstract class QuerySuggestionsContentProvider extends ContentProvider {
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         return 0;
     }
+    //endregion
 }
