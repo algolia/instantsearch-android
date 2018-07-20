@@ -962,6 +962,7 @@ public class Searcher {
     /**
      * Gets the current {@link Searcher#searchable} as an Index.
      *
+     * @deprecated use {@link #getSearchable()} to get the Searcher's {@link #searchable} regardless of its implementation.
      * @return the Searcher's index.
      * @throws IllegalStateException if {@link Searcher#searchable} if not an instance of {@link Index}
      */
