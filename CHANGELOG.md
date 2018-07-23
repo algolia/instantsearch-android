@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.1
+### Features
+* **VoiceUI:** migrate to library ([eaa7a43](https://github.com/algolia/instantsearch-android/commit/eaa7a43))
+
 ## 1.12.0
 ### Features
 * **searchclient:** add searchDisjunctiveFaceting and searchForFacetValues ([80df479](https://github.com/algolia/instantsearch-android/commit/80df479))
