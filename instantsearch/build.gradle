@@ -19,7 +19,7 @@ ext {
     REPO = WEBSITE + ".git"
     LICENSE = 'MIT'
     LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
-    VERSION = '1.12.0'
+    VERSION = '1.12.1'
     VERSION_DESC = 'Version ' + VERSION
 
     VERSION_APPCOMPAT = '27.1.1'
@@ -70,7 +70,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api 'com.algolia:algoliasearch-android:3.23.13' // MavenCentral rejects X.+ notation
-    implementation 'org.greenrobot:eventbus:3.1.1'
+    api 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation('com.jayway.jsonpath:json-path:2.4.0') {
         exclude module: 'asm'
