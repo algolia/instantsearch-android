@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.0
+### Bug Fixes
+* **gradle:** Expose EventBus ([#93](https://github.com/algolia/instantsearch-android/issues/93)) ([9541eb1](https://github.com/algolia/instantsearch-android/commit/9541eb1))
+
 ## 1.12.1
 ### Features
 * **VoiceUI:** migrate to library ([eaa7a43](https://github.com/algolia/instantsearch-android/commit/eaa7a43))
