@@ -223,7 +223,7 @@ public class Highlighter {
         }
 
         /**
-         * Wether to use bold to highlight instead of a color.
+         * Whether to use bold to highlight instead of a color.
          *
          * @param isBold if {@code true}, the highlight will be applied using {@link Typeface#BOLD}.
          * @return a {@link Renderer} that can render the highlight.

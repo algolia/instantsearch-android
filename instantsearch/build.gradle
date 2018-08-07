@@ -1,3 +1,7 @@
+plugins {
+    id "com.github.ben-manes.versions" version "0.20.0" // exposes dependencyUpdates task
+}
+
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
@@ -46,11 +50,11 @@ android {
         }
     }
 
-    // Disable automatic throwing on system method calls.
-    // Rationale: We don't want to mock system methods (for example JSONArray.length),
-    // but rather ensure we use them correctly.
     testOptions {
         unitTests {
+            // Disable automatic throwing on system method calls.
+            // Rationale: We don't want to mock system methods (for example JSONArray.length),
+            // but rather ensure we use them correctly.
             returnDefaultValues = true
             all {
                 testLogging {
@@ -65,10 +69,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.algolia:algoliasearch-android:3.20.11' // MavenCentral rejects X.+ notation
+    api 'com.algolia:algoliasearch-android:3.23.13' // MavenCentral rejects X.+ notation
     api 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.github.bumptech.glide:glide:4.3.1'
-    implementation('com.jayway.jsonpath:json-path:2.3.0') {
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation('com.jayway.jsonpath:json-path:2.4.0') {
         exclude module: 'asm'
     }
 
@@ -80,7 +84,7 @@ dependencies {
     // Unit tests
     testImplementation 'junit:junit:4.12'
     testImplementation "org.robolectric:robolectric:3.7.1"
-    testImplementation 'org.mockito:mockito-core:1.10.19'
+    testImplementation 'org.mockito:mockito-core:1.10.19' // TODO: Update to v2 after test refact, see backlog
 }
 
 task javadoc(type: Javadoc) {
