@@ -41,9 +41,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
 import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
@@ -114,7 +116,7 @@ public class Searcher {
     /**
      * The List of attributes that will be treated as disjunctive facets.
      */
-    private final List<String> disjunctiveFacets = new ArrayList<>();
+    private final Set<String> disjunctiveFacets = new HashSet<>();
     /**
      * The Map associating attributes with their respective refinement value(s).
      */
@@ -525,7 +527,7 @@ public class Searcher {
      * */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher setFacet(@NonNull String attribute, boolean isDisjunctive) {
-        if (isDisjunctive && !disjunctiveFacets.contains(attribute)) {
+        if (isDisjunctive) {
             disjunctiveFacets.add(attribute);
         } else {
             disjunctiveFacets.remove(attribute);
