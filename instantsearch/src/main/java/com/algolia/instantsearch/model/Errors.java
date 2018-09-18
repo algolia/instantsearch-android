@@ -1,16 +1,20 @@
 package com.algolia.instantsearch.model;
 
-/** Contains the error message for every potential runtime errors. */
+/**
+ * Contains the error message for every potential runtime errors.
+ */
 public class Errors {
+    // region Core
+    public static final String SEARCHER_GET_BEFORE_CREATE = "You cannot use Searcher#get before having called Searcher#create at least once.";
+    // endregion
+
+    // region UI
     public static final String ADAPTER_UNKNOWN_VIEW = "Unrecognized view class (%s): Your view should either use/extend a system view or implement AlgoliaHitView.";
 
     public static final String BINDING_NO_ATTRIBUTE = "Your view lacks an algolia:attribute.";
     public static final String BINDING_VIEW_NO_ID = "Your View for attribute %s must have an android:id.";
 
     public static final String FILTER_MISSING_ATTRIBUTE = "You must specify an attribute";
-
-    public static final String HIGHLIGHTER_RENDER_WITHOUT_STYLE = "You need to setColor() or setBold() on the Highlighter before calling render().";
-    public static final String HIGHLIGHTER_RENDER_WITHOUT_MARKUP = "You need to setInput() on the Highlighter before calling render().";
 
     public static final String HITS_INFINITESCROLL_BUT_REMAINING = "You specified infiniteScroll=\"false\" and remainingItemsBeforeLoading, but they are mutually exclusive.";
 
@@ -26,11 +30,10 @@ public class Errors {
     public static final String REFINEMENTS_MISSING_ATTRIBUTE = "You need to specify the attribute to refine on with algolia:attribute.";
     public static final String REFINEMENTS_MISSING_ITEM = "RefinementList has no item at position %d.";
 
-    public static final String SEARCHER_GET_BEFORE_CREATE = "You cannot use Searcher#get before having called Searcher#create at least once.";
-
     public static final String SORT_INVALID_VALUE = "invalid sortBy value: %s is none of \"isRefined\"|\"count:asc\"|\"count:desc\"|\"name:asc\"|\"name:desc\".";
     public static final String SORT_INVALID_ARRAY = "invalid sortBy value: %s is not a valid JSONArray.";
 
     public static final String TOGGLE_MISSING_VALUEON = "Your TwoValuesToggle should have a valueOn attribute.";
     public static final String TOGGLE_MISSING_VALUEOFF = "Your TwoValuesToggle should have a valueOff attribute.";
+    // endregion
 }
