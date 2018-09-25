@@ -2,6 +2,7 @@
  * Initially made by Hugo Visser: http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/
  * See (un)license at unlicense.org
  */
+// Useless comment
 package com.algolia.instantsearch.utils;
 
 import android.support.annotation.NonNull;
