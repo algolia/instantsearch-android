@@ -64,7 +64,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
     public static final String SORT_NAME_DESC = "name:desc";
 
     /** The default {@link RefinementList#SORT_COUNT_DESC sorting method}. */
-    public static final List<String> DEFAULT_SORT = Arrays.asList(SORT_ISREFINED, SORT_COUNT_DESC);
+    public static final List<String> DEFAULT_SORT = Arrays.asList(SORT_ISREFINED, SORT_COUNT_DESC, SORT_NAME_ASC);
     /** The default maximum amount of values to display. */
     public static final int DEFAULT_LIMIT = 10;
 
