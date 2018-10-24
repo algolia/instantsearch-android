@@ -190,6 +190,7 @@ public class NumericSelector extends AppCompatSpinner implements AlgoliaFilter, 
         ((ArrayAdapter<String>) getAdapter()).notifyDataSetChanged();
     }
 
+    //TODO: Add setValues as well, or iterate on API
     public void setLabels(List<String> labels) {
         if (labels.size() != this.labels.size()) {
             throw new IllegalArgumentException("You need to provide " + this.labels.size() + " labels.");
