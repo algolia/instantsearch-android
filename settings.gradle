@@ -1,1 +1,1 @@
-include ':instantsearch'
+include ':ui', ':core'
