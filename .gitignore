@@ -9,6 +9,7 @@ projectFilesBackup
 /.idea/workspace.xml
 /.idea/libraries
 /build
+build/
 /captures
 .bintray.json
 
