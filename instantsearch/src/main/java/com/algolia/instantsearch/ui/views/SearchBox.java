@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.events.QueryTextChangeEvent;
+import com.algolia.instantsearch.core.events.QueryTextChangeEvent;
 import com.algolia.instantsearch.ui.databinding.BindingHelper;
 
 import org.greenrobot.eventbus.EventBus;

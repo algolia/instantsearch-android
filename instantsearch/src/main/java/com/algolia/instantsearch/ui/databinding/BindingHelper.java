@@ -12,7 +12,7 @@ import android.util.SparseArray;
 import android.view.View;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.model.Errors;
+import com.algolia.instantsearch.core.model.Errors;
 
 import java.util.HashMap;
 import java.util.Map;

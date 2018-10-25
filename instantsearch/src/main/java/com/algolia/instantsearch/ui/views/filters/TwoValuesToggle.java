@@ -8,14 +8,14 @@ import android.util.AttributeSet;
 import android.widget.CompoundButton;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.events.FacetRefinementEvent;
-import com.algolia.instantsearch.model.Errors;
-import com.algolia.instantsearch.model.SearchResults;
+import com.algolia.instantsearch.core.events.FacetRefinementEvent;
+import com.algolia.instantsearch.core.model.Errors;
+import com.algolia.instantsearch.core.model.SearchResults;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
-import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
+import static com.algolia.instantsearch.core.events.RefinementEvent.Operation.ADD;
+import static com.algolia.instantsearch.core.events.RefinementEvent.Operation.REMOVE;
 
 
 public class TwoValuesToggle extends Toggle implements AlgoliaFilter {

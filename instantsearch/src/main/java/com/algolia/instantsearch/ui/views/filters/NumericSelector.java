@@ -10,14 +10,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.events.NumericRefinementEvent;
-import com.algolia.instantsearch.events.RefinementEvent;
-import com.algolia.instantsearch.helpers.Searcher;
-import com.algolia.instantsearch.model.AlgoliaErrorListener;
-import com.algolia.instantsearch.model.AlgoliaResultsListener;
-import com.algolia.instantsearch.model.AlgoliaSearcherListener;
-import com.algolia.instantsearch.model.NumericRefinement;
-import com.algolia.instantsearch.model.SearchResults;
+import com.algolia.instantsearch.core.events.NumericRefinementEvent;
+import com.algolia.instantsearch.core.events.RefinementEvent;
+import com.algolia.instantsearch.core.helpers.Searcher;
+import com.algolia.instantsearch.core.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.core.model.AlgoliaResultsListener;
+import com.algolia.instantsearch.core.model.AlgoliaSearcherListener;
+import com.algolia.instantsearch.core.model.NumericRefinement;
+import com.algolia.instantsearch.core.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 

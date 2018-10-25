@@ -9,10 +9,10 @@ import android.text.Spanned;
 import android.util.AttributeSet;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.events.ResetEvent;
-import com.algolia.instantsearch.model.AlgoliaErrorListener;
-import com.algolia.instantsearch.model.AlgoliaResultsListener;
-import com.algolia.instantsearch.model.SearchResults;
+import com.algolia.instantsearch.core.events.ResetEvent;
+import com.algolia.instantsearch.core.model.AlgoliaErrorListener;
+import com.algolia.instantsearch.core.model.AlgoliaResultsListener;
+import com.algolia.instantsearch.core.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 

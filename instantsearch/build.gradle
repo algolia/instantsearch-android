@@ -65,6 +65,10 @@ android {
             }
         }
     }
+
+    sourceSets.main.java {
+        exclude 'docgen'
+    }
 }
 
 dependencies {

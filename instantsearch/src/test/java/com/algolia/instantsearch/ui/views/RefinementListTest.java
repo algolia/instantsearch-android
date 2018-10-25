@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.ui.views;
 
 import com.algolia.instantsearch.InstantSearchTest;
-import com.algolia.instantsearch.model.FacetValue;
+import com.algolia.instantsearch.core.model.FacetValue;
 
 import org.junit.Before;
 import org.junit.Test;

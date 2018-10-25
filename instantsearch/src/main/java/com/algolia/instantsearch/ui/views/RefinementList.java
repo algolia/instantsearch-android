@@ -16,14 +16,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.events.FacetRefinementEvent;
-import com.algolia.instantsearch.events.ResetEvent;
-import com.algolia.instantsearch.helpers.Searcher;
-import com.algolia.instantsearch.model.AlgoliaResultsListener;
-import com.algolia.instantsearch.model.AlgoliaSearcherListener;
-import com.algolia.instantsearch.model.Errors;
-import com.algolia.instantsearch.model.FacetValue;
-import com.algolia.instantsearch.model.SearchResults;
+import com.algolia.instantsearch.core.events.FacetRefinementEvent;
+import com.algolia.instantsearch.core.events.ResetEvent;
+import com.algolia.instantsearch.core.helpers.Searcher;
+import com.algolia.instantsearch.core.model.AlgoliaResultsListener;
+import com.algolia.instantsearch.core.model.AlgoliaSearcherListener;
+import com.algolia.instantsearch.core.model.Errors;
+import com.algolia.instantsearch.core.model.FacetValue;
+import com.algolia.instantsearch.core.model.SearchResults;
 import com.algolia.instantsearch.ui.views.filters.AlgoliaFilter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,8 +40,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static com.algolia.instantsearch.events.RefinementEvent.Operation.ADD;
-import static com.algolia.instantsearch.events.RefinementEvent.Operation.REMOVE;
+import static com.algolia.instantsearch.core.events.RefinementEvent.Operation.ADD;
+import static com.algolia.instantsearch.core.events.RefinementEvent.Operation.REMOVE;
 
 /**
  * Displays facet values for an attribute and lets the user filter the results using these values.

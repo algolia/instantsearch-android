@@ -2,7 +2,7 @@ package com.algolia.instantsearch.ui.views.filters;
 
 import android.view.View;
 
-import com.algolia.instantsearch.model.Errors;
+import com.algolia.instantsearch.core.model.Errors;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
