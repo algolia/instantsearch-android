@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.ui.views;
 
+import com.algolia.instantsearch.InstantSearchTest;
 import com.algolia.instantsearch.core.model.FacetValue;
 
 import org.junit.Before;
@@ -18,7 +19,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class RefinementListTest {
+public class RefinementListTest extends InstantSearchTest {
     private RefinementList mRefinementList;
 
     @Before
