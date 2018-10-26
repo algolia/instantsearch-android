@@ -46,6 +46,62 @@ allprojects {
     }
 }
 
+subprojects {
+    apply plugin: 'com.android.library'
+    apply plugin: 'com.jfrog.bintray'
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.github.dcendents.android-maven'
+
+    android {
+        compileSdkVersion COMPILE_SDK_VERSION
+        buildToolsVersion BUILD_TOOLS_VERSION
+
+        defaultConfig {
+            minSdkVersion MIN_SDK_VERSION
+            targetSdkVersion TARGET_SDK_VERSION
+            versionCode VERSION_CODE
+            versionName VERSION
+            consumerProguardFiles "proguard-rules.pro"
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
+
+        testOptions {
+            unitTests {
+                // Disable automatic throwing on system method calls.
+                // Rationale: We don't want to mock system methods (for example JSONArray.length),
+                // but rather ensure we use them correctly.
+                returnDefaultValues = true
+
+                // Required by Robolectric http://robolectric.org/getting-started/
+                includeAndroidResources = true
+
+                all {
+                    testLogging {
+                        events "skipped", "failed", "standardOut", "standardError"
+                        exceptionFormat "full"
+                        outputs.upToDateWhen { false }
+                    }
+                }
+            }
+        }
+    }
+
+    dependencies {
+        testImplementation libraries.junit
+        testImplementation libraries.robolectric
+        testImplementation libraries.mockito
+    }
+
+    apply from: '../release.gradle'
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

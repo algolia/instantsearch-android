@@ -1,0 +1,168 @@
+/*
+ * Tasks related to releasing InstantSearch.
+ * */
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) // dependencies
+    failOnError false // Errors about classes `R` and `BuildConfig` should not trigger failure
+    options.optionFiles << file('javadoc.options')
+    options.links("http://docs.oracle.com/javase/8/docs/api")
+    options.linksOffline("http://d.android.com/reference", "$System.env.ANDROID_HOME/docs/reference")
+    options.encoding('UTF-8')
+    options.version(true)
+    options.windowTitle(NAME)
+    options.docTitle(NAME)
+    options.footer(NAME + ": " + DESC)
+}
+
+afterEvaluate {
+    // we need this as javadoc task's body is called before android.libraryVariants is filled. http://stackoverflow.com/a/34572606/3109189
+    javadoc.classpath += files(android.libraryVariants.collect { variant ->
+        variant.getJavaCompiler().classpath.files
+    })
+}
+
+task copyJavaDoc(type: Copy, dependsOn: javadoc) {
+    def sources = "../docgen/src/"
+    inputs.file sources
+    into(sources)
+    from("./build/docs/")
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier "javadoc"
+    from javadoc.destinationDir
+}
+
+task sourcesJar(type: Jar) {
+    dependsOn "assembleRelease"
+    classifier "sources"
+    from android.sourceSets.main.java.srcDirs
+}
+
+
+// add sources jar tasks as artifacts
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+    archives file: new File("${project.buildDir}/outputs/aar/${project.name}-release.aar"),
+            name: "${project.name}-release.aar",
+            type: "aar"
+}
+
+def pomConfig = {
+    name CODENAME
+    description DESC
+    url WEBSITE
+
+    licenses {
+        license {
+            name LICENSE
+            url LICENSE_URL
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "algolia"
+            name "The Algolia Team"
+            email "hey@algolia.com"
+        }
+    }
+    scm {
+        connection REPO
+        developerConnection REPO
+        url WEBSITE
+
+    }
+}
+
+publishing.publications {
+    BinTrayPublication(MavenPublication) {
+        artifact sourcesJar
+        artifact javadocJar
+        artifact "${project.buildDir}/outputs/aar/${project.name}-release.aar"
+
+        groupId GROUP
+        artifactId BASENAME
+        version VERSION
+        description DESC
+
+        pom.withXml {
+            def root = asNode()
+            root.children().last() + pomConfig
+            root.appendNode("description", DESC) //TODO Find why description is missing from pom.xml
+
+            final dependenciesNode = asNode().appendNode('dependencies')
+            println "Adding dependencies node"
+
+            ext.addDependency = { Dependency dep, String scope ->
+                if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified") {
+                    return // ignore invalid dependencies
+                }
+                println "Adding dependency $dep.name ($scope) to pom.xml"
+                final dependencyNode = dependenciesNode.appendNode('dependency')
+                dependencyNode.appendNode('groupId', dep.group)
+                dependencyNode.appendNode('artifactId', dep.name)
+                dependencyNode.appendNode('version', dep.version)
+                dependencyNode.appendNode('scope', scope)
+
+                if (!dep.transitive) {
+                    // If this dependency is transitive, we should force exclude all its dependencies them from the POM
+                    final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                    exclusionNode.appendNode('groupId', '*')
+                    exclusionNode.appendNode('artifactId', '*')
+                } else if (!dep.properties.excludeRules.empty) {
+                    // Otherwise add specified exclude rules
+                    final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                    dep.properties.excludeRules.each { ExcludeRule rule ->
+                        exclusionNode.appendNode('groupId', rule.group ?: '*')
+                        exclusionNode.appendNode('artifactId', rule.module ?: '*')
+                    }
+                }
+            }
+
+            // List all "compile" dependencies (for old Gradle)
+            configurations.compile.getAllDependencies().each { dep -> addDependency(dep, "compile") }
+            // List all "api" dependencies (for new Gradle) as "compile" dependencies
+            configurations.api.getAllDependencies().each { dep -> addDependency(dep, "compile") }
+            // List all "implementation" dependencies (for new Gradle) as "runtime" dependencies
+            configurations.implementation.getAllDependencies().each { dep -> addDependency(dep, "runtime") }
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['BinTrayPublication']
+    publish = true // auto publish after upload
+    pkg {
+        repo = 'maven'
+        name = CODENAME
+        licenses = [LICENSE]
+        vcsUrl = REPO
+
+        githubRepo = GITHUB
+        githubReleaseNotesFile = 'README.md'
+
+        version {
+            name = VERSION
+            desc = VERSION_DESC
+            released = new Date()
+            vcsTag = VERSION
+
+            gpg {
+                sign = true
+            }
+
+            mavenCentralSync {
+                sync = true
+                user = System.getenv('NEXUS_USERNAME')
+                password = System.getenv('NEXUS_PASSWORD')
+                close = '1'
+                //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
+            }
+        }
+    }
+}
