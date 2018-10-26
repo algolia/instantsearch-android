@@ -24,7 +24,7 @@ public class NumericRefinementTest {
     }
 
     @Test
-    public void getOperatorSymbolValid() throws Exception {
+    public void getOperatorSymbolValid() {
         Assert.assertEquals("<", NumericRefinement.getOperatorSymbol(NumericRefinement.OPERATOR_LT));
         Assert.assertEquals("<=", NumericRefinement.getOperatorSymbol(NumericRefinement.OPERATOR_LE));
         Assert.assertEquals("=", NumericRefinement.getOperatorSymbol(NumericRefinement.OPERATOR_EQ));
@@ -34,12 +34,12 @@ public class NumericRefinementTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void getOperatorSymbolInvalid() throws Exception {
+    public void getOperatorSymbolInvalid() {
         NumericRefinement.getOperatorSymbol(-1);
     }
 
     @Test
-    public void checkOperatorIsValid() throws Exception {
+    public void checkOperatorIsValid() {
         try {
             int operator = NumericRefinement.OPERATOR_LT;
             NumericRefinement.checkOperatorIsValid(operator);
@@ -59,7 +59,7 @@ public class NumericRefinementTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void checkOperatorIsInvalid() throws Exception {
+    public void checkOperatorIsInvalid() {
         int operator = -1;
         NumericRefinement.checkOperatorIsValid(operator);
     }
