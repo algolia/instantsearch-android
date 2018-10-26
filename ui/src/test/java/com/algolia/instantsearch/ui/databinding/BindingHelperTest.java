@@ -3,6 +3,7 @@ package com.algolia.instantsearch.ui.databinding;
 import android.app.Activity;
 import android.view.View;
 
+import com.algolia.instantsearch.InstantSearchTest;
 import com.algolia.instantsearch.ui.views.TestActivity;
 
 import junit.framework.Assert;
@@ -14,7 +15,7 @@ import org.robolectric.Robolectric;
 import java.util.HashMap;
 
 @SuppressWarnings("deprecation") //Testing internal public methods (marked deprecated for lib users)
-public class BindingHelperTest {
+public class BindingHelperTest extends InstantSearchTest {
     private Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().get();
     private View view = new View(activity);
     private String attr = "foo";
