@@ -4,7 +4,6 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import static com.algolia.instantsearch.core.R.attr.operator;
 import static junit.framework.Assert.fail;
 
 public class NumericRefinementTest {
@@ -40,8 +39,8 @@ public class NumericRefinementTest {
 
     @Test
     public void checkOperatorIsValid() {
+        int operator = NumericRefinement.OPERATOR_LT;
         try {
-            int operator = NumericRefinement.OPERATOR_LT;
             NumericRefinement.checkOperatorIsValid(operator);
             operator = NumericRefinement.OPERATOR_LE;
             NumericRefinement.checkOperatorIsValid(operator);
