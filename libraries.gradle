@@ -1,3 +1,6 @@
+/*
+ * Libraries that can be used by any submodule.
+ * */
 ext {
     VERSION_APPCOMPAT = '27.1.1'
 
