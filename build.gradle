@@ -2,7 +2,6 @@
 
 buildscript {
     apply from: 'libraries.gradle'
-    System.properties['com.android.build.gradle.overrideVersionCheck'] = 'true'
     repositories {
         google()
         jcenter()
