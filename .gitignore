@@ -23,6 +23,7 @@ build/
 docs-dev/
 docs-preview/
 preview.zip
+docgen/.history/
 
 # Logs
 npm-debug.log
