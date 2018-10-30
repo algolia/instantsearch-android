@@ -18,7 +18,7 @@ ext {
             "constraint_layout": 'com.android.support.constraint:constraint-layout:1.1.2',
             // Testing
             "junit"            : "junit:junit:4.12",
-            "robolectric"      : "org.robolectric:robolectric:3.8",
+            "robolectric"      : "org.robolectric:robolectric:4.0",
             "mockito"          : "org.mockito:mockito-core:1.10.19"
     ]
 }
