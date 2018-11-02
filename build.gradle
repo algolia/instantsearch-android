@@ -8,6 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.0-alpha02'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
     ext.with {
         VERSION = '1.13.0'
@@ -28,7 +29,6 @@ buildscript {
 plugins {
     id "com.github.ben-manes.versions" version "0.20.0" // exposes dependencyUpdates task
     id 'com.github.dcendents.android-maven' version "2.1" // adds support for deploying to Mvn repos.
-    id "com.jfrog.bintray" version "1.8.4" // exposes bintray closure
 }
 
 allprojects {
@@ -43,6 +43,7 @@ subprojects {
     apply plugin: 'com.android.library'
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
+    apply plugin: "com.jfrog.bintray"
 
     android {
         compileSdkVersion 28
