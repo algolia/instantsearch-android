@@ -320,9 +320,7 @@
 .algc-dropdownroot__footer {
   text-align: center;
   font-size: 0.75em;
-  transition: opacity 0.2s ease, -webkit-filter 0.2s ease;
   transition: filter 0.2s ease, opacity 0.2s ease;
-  transition: filter 0.2s ease, opacity 0.2s ease, -webkit-filter 0.2s ease;
   will-change: filter, opacity; }
 
 .algc-dropdownroot__footer a {
