@@ -10,6 +10,7 @@ fi
 
 SELF_ROOT=$(cd "$(dirname "$0")" && pwd)
 FILE_BUILD_GRADLE="$SELF_ROOT/instantsearch/build.gradle"
+FILE_GETTING_STARTED="$SELF_ROOT/docgen/src/getting-started.md"
 VERSION_CODE=$1
 CHANGELOG="CHANGELOG.md"
 
@@ -21,6 +22,7 @@ if [ $COUNT_DOTS -ne 2 ]; then
     echo "$VERSION_CODE is not a valid version code, please use the form X.Y.Z (e.g. v1 = 1.0.0)"
     exit -1
 fi
+
 
 # Check that the working repository is clean (without any changes, neither staged nor unstaged).
 # An exception is the change log, which should have been edited, but not necessarily committed (we usually commit it
@@ -61,7 +63,8 @@ fi
 }
 
 echo "Updating version number to $VERSION_CODE..."
-call_sed "s/VERSION = '.*'/VERSION = '$VERSION_CODE'/" "$FILE_BUILD_GRADLE"
+call_sed "s/VERSION = '.*'/VERSION = '$VERSION_CODE'/"              "$FILE_BUILD_GRADLE"
+call_sed "s/^(implementation '[^[:digit:]]+).*$/\1$VERSION_CODE'/"  "$FILE_GETTING_STARTED"
 
 # Commit to git
 git add .
