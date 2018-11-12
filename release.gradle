@@ -169,9 +169,7 @@ bintray {
             released = new Date()
             vcsTag = VERSION
 
-            gpg {
-                sign = true
-            }
+            gpg.sign = true
 
             mavenCentralSync {
                 sync = true
