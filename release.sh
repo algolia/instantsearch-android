@@ -9,8 +9,9 @@ if [ $# -ne 1 ]; then
 fi
 
 SELF_ROOT=$(cd "$(dirname "$0")" && pwd)
-FILE_BUILD_GRADLE="$SELF_ROOT/instantsearch/build.gradle"
+FILE_GRADLE_PROPERTIES="$SELF_ROOT/properties.gradle"
 FILE_GETTING_STARTED="$SELF_ROOT/docgen/src/getting-started.md"
+FILE_README="$SELF_ROOT/README.md"
 VERSION_CODE=$1
 CHANGELOG="CHANGELOG.md"
 
@@ -63,8 +64,9 @@ fi
 }
 
 echo "Updating version number to $VERSION_CODE..."
-call_sed "s/VERSION = '.*'/VERSION = '$VERSION_CODE'/"              "$FILE_BUILD_GRADLE"
+call_sed "s/VERSION = '.*'/VERSION = '$VERSION_CODE'/"              "$FILE_GRADLE_PROPERTIES"
 call_sed "s/^(implementation '[^[:digit:]]+).*$/\1$VERSION_CODE'/"  "$FILE_GETTING_STARTED"
+call_sed "s/^(implementation '[^[:digit:]]+).*$/\1$VERSION_CODE'/gm"  "$FILE_README"
 
 # Commit to git
 git add .
