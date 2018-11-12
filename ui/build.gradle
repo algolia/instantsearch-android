@@ -1,8 +1,7 @@
 //apply from: "../standalone.gradle" // Uncomment to use module in another project
 
 ext {
-    DESC = "A library and widgets to build instant-search applicattions on Android."
-    BASENAME = 'instantsearch-android-ui'
+    DESC = "A library and widgets to build instant-search applications on Android."
     if (project.hasProperty("LABELS")) {
         LABELS += "data-binding"
     }
