@@ -1,11 +1,16 @@
-/*
- * Tasks related to releasing InstantSearch.
- * */
+/**
+ * Tasks related to releasing InstantSearch modules.
+ * <b>Don't forget to adapt Extra properties for each module before applying this script!</b>
+ */
+ext {
+    CODENAME = GROUP + ":" + BASENAME
+}
+
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.sourceFiles
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) // dependencies
     failOnError false // Errors about classes `R` and `BuildConfig` should not trigger failure
-    options.optionFiles << file('javadoc.options')
+    options.optionFiles << file('../javadoc.options')
     options.links("http://docs.oracle.com/javase/8/docs/api")
     options.linksOffline("http://d.android.com/reference", "$System.env.ANDROID_HOME/docs/reference")
     options.encoding('UTF-8')
@@ -39,7 +44,6 @@ task sourcesJar(type: Jar) {
     classifier "sources"
     from android.sourceSets.main.java.srcDirs
 }
-
 
 // add sources jar tasks as artifacts
 artifacts {
@@ -94,16 +98,21 @@ publishing.publications {
             root.appendNode("description", DESC) //TODO Find why description is missing from pom.xml
 
             final dependenciesNode = asNode().appendNode('dependencies')
-            println "Adding dependencies node"
-
             ext.addDependency = { Dependency dep, String scope ->
                 if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified") {
                     return // ignore invalid dependencies
                 }
-                println "Adding dependency $dep.name ($scope) to pom.xml"
+
+                // Add InstantSearch prefix to our modules when releasing
+                //TODO: Find a way to avoid listing modules manually
+                final moduleNames = ["core", "ui"]
+                final depFinalName = dep.group == "com.algolia" && moduleNames.contains(dep.name) ?
+                        "instantsearch-android-$dep.name" : dep.name
+                println "Adding dependency $depFinalName ($scope) to pom.xml"
+
                 final dependencyNode = dependenciesNode.appendNode('dependency')
                 dependencyNode.appendNode('groupId', dep.group)
-                dependencyNode.appendNode('artifactId', dep.name)
+                dependencyNode.appendNode('artifactId', depFinalName)
                 dependencyNode.appendNode('version', dep.version)
                 dependencyNode.appendNode('scope', scope)
 
@@ -132,6 +141,9 @@ publishing.publications {
     }
 }
 
+group = GROUP
+version = VERSION
+
 bintray {
     user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
@@ -140,8 +152,13 @@ bintray {
     pkg {
         repo = 'maven'
         name = CODENAME
-        licenses = [LICENSE]
+        desc = DESC
+        websiteUrl = WEBSITE
+        issueTrackerUrl = WEBSITE + "/issues/"
         vcsUrl = REPO
+        licenses = [LICENSE]
+        labels = LABELS
+        publicDownloadNumbers = true
 
         githubRepo = GITHUB
         githubReleaseNotesFile = 'README.md'

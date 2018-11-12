@@ -1,4 +1,4 @@
-/*
+/**
  * Libraries that can be used by any submodule.
  * */
 ext {

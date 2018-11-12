@@ -8,7 +8,7 @@ navWeight: 0
 ---
 
 
-There are a few errors that you may encounter if your setup is not correct. 
+There are a few errors that you may encounter if your setup is not correct.
 Here are the frequent errors and the appropriate solutions:
 
 ## No resource type specified
