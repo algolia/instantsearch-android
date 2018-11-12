@@ -21,7 +21,17 @@ You can see InstantSearch Android in action in our [Examples repository](https:/
 [media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
 
-# Documentation
+# Usage
+
+You can add InstantSearch to your Android application by adding the following to your `build.gradle`'s dependencies:
+```groovy
+implementation 'com.algolia:instantsearch-android:1.13.0'
+```
+
+To use InstantSearch's Core without the UI components and helpers, you should use this instead:
+```groovy
+implementation 'com.algolia:instantsearch-android-core:1.13.0'
+```
 
 See the [dedicated documentation website](https://community.algolia.com/instantsearch-android).
 
