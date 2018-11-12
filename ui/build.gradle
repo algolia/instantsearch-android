@@ -1,18 +1,22 @@
-ext {
-    DESC = "A library and widgets to build instant-search applications on Android."
-    BASENAME = 'instantsearch-android'
-}
+//apply from: "../standalone.gradle" // Uncomment to use module in another project
 
-group = GROUP
-version = VERSION
+ext {
+    DESC = "A library and widgets to build instant-search applicattions on Android."
+    BASENAME = 'instantsearch-android-ui'
+    if (project.hasProperty("LABELS")) {
+        LABELS += "data-binding"
+    }
+}
 
 android.dataBinding.enabled true
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':core')
+    api project(':core')
 
     implementation libraries.glide
     implementation libraries.recyclerview
     implementation libraries.constraint_layout
 }
+
+apply from: '../release.gradle'

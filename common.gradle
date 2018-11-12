@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: "com.jfrog.bintray"
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 28
+        versionCode 1
+        versionName VERSION
+        consumerProguardFiles "proguard-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests {
+            // Disable automatic throwing on system method calls.
+            // Rationale: We don't want to mock system methods (for example JSONArray.length),
+            // but rather ensure we use them correctly.
+            returnDefaultValues = true
+
+            // Required by Robolectric http://robolectric.org/getting-started/
+            includeAndroidResources = true
+
+            all {
+                testLogging {
+                    events "skipped", "failed", "standardOut", "standardError"
+                    exceptionFormat "full"
+                    outputs.upToDateWhen { false }
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation libraries.junit
+    testImplementation libraries.robolectric
+    testImplementation libraries.mockito
+}
