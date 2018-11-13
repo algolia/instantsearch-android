@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.core.model;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Describes a faceted attribute's value and the associated count.

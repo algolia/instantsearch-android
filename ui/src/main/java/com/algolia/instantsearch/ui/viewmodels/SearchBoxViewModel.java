@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.ui.viewmodels;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.SearchView;
 
 import com.algolia.instantsearch.core.events.QueryTextChangeEvent;
@@ -27,7 +27,7 @@ public class SearchBoxViewModel {
      * @param searchView a SearchView to wrap.
      */
     @SuppressWarnings("unused") // For library users
-    public SearchBoxViewModel(@NonNull final android.support.v7.widget.SearchView searchView) {
+    public SearchBoxViewModel(@NonNull final androidx.appcompat.widget.SearchView searchView) {
         this(new SearchViewFacade(searchView));
     }
 

@@ -1,14 +1,15 @@
 apply from: "../common.gradle"
 
 ext {
-    BASENAME = 'instantsearch-android-core'
+    BASENAME = 'instantsearch-androidx-core'
 }
 
 dependencies {
     api libraries.eventbus
     api libraries.algolia
 
-    implementation libraries.support
+    implementation libraries.appcompatX
+
     implementation(libraries.json_path) {
         exclude module: 'asm'
     }

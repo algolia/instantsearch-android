@@ -1,7 +1,7 @@
 apply from: "../common.gradle"
 
 ext {
-    BASENAME = 'instantsearch-android'
+    BASENAME = 'instantsearch-androidx'
     DESC = "A library and widgets to build instant-search applications on Android."
     if (project.hasProperty("LABELS")) {
         LABELS += "data-binding"
@@ -14,7 +14,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':core')
 
-    implementation libraries.appcompat
+    implementation libraries.appcompatX
+    implementation libraries.material
+
     implementation libraries.glide
     implementation libraries.recyclerview
 }
