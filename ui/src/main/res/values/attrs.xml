@@ -10,65 +10,65 @@
         <attr name="highlightColor" format="color"/>
     </declare-styleable>
     <declare-styleable name="Widget">
-        <attr name="autoHide" format="boolean"/>
+        <attr name="autoHide" format="boolean" />
     </declare-styleable>
     <declare-styleable name="SearchBox">
-        <attr name="autofocus" format="boolean"/>
-        <attr name="submitButtonEnabled" format="boolean"/>
+        <attr name="autofocus" format="boolean" />
+        <attr name="submitButtonEnabled" format="boolean" />
     </declare-styleable>
     <declare-styleable name="Hits">
-        <attr name="infiniteScroll" format="boolean"/>
-        <attr name="itemLayout" format="reference"/>
-        <attr name="remainingItemsBeforeLoading" format="integer"/>
-        <attr name="autoHideKeyboard" format="boolean"/>
+        <attr name="infiniteScroll" format="boolean" />
+        <attr name="itemLayout" format="reference" />
+        <attr name="remainingItemsBeforeLoading" format="integer" />
+        <attr name="autoHideKeyboard" format="boolean" />
     </declare-styleable>
     <declare-styleable name="RefinementList">
         <!-- The operator to refine with. -->
         <attr name="operation" format="string">
             <!-- Disjunctive faceting (foo || bar)-->
-            <enum name="or" value="0"/>
+            <enum name="or" value="0" />
             <!-- Conjunctive faceting (foo && bar)-->
-            <enum name="and" value="1"/>
+            <enum name="and" value="1" />
         </attr>
-        <attr name="sortBy" format="string"/>
-        <attr name="limit" format="integer"/>
+        <attr name="sortBy" format="string" />
+        <attr name="limit" format="integer" />
     </declare-styleable>
     <declare-styleable name="Stats">
-        <attr name="resultTemplate" format="string"/>
-        <attr name="errorTemplate" format="string"/>
+        <attr name="resultTemplate" format="string" />
+        <attr name="errorTemplate" format="string" />
     </declare-styleable>
     <declare-styleable name="Toggle">
-        <attr name="template" format="string"/>
+        <attr name="template" format="string" />
     </declare-styleable>
     <declare-styleable name="TwoValuesToggle">
-        <attr name="valueOn" format="string"/>
-        <attr name="valueOff" format="string"/>
+        <attr name="valueOn" format="string" />
+        <attr name="valueOff" format="string" />
     </declare-styleable>
     <declare-styleable name="OneValueToggle">
         <!-- The value to refine with. -->
-        <attr name="value" format="string"/>
+        <attr name="value" format="string" />
     </declare-styleable>
     <declare-styleable name="NumericSelector">
         <!-- The labels to display for each choice item. -->
-        <attr name="labels" format="string"/>
+        <attr name="labels" format="string" />
         <!-- The values to refine with for each choice item. -->
-        <attr name="values" format="string"/>
+        <attr name="values" format="string" />
         <!-- A default label to use as a first option that does not refine on any value. -->
-        <attr name="defaultLabel" format="string"/>
+        <attr name="defaultLabel" format="string" />
         <!-- The operator to use for refining, in the form lt (<), le (<=), eq (=), etc. -->
         <attr name="operator" format="enum">
             <!-- Lower than -->
-            <enum name="lt" value="0"/>
+            <enum name="lt" value="0" />
             <!-- Lower than or equal to -->
-            <enum name="le" value="1"/>
+            <enum name="le" value="1" />
             <!-- Equal to -->
-            <enum name="eq" value="2"/>
+            <enum name="eq" value="2" />
             <!-- Not equal to -->
-            <enum name="ne" value="3"/>
+            <enum name="ne" value="3" />
             <!-- Greater than -->
-            <enum name="ge" value="4"/>
+            <enum name="ge" value="4" />
             <!-- Greater than or equal to -->
-            <enum name="gt" value="5"/>
+            <enum name="gt" value="5" />
         </attr>
     </declare-styleable>
 </resources>

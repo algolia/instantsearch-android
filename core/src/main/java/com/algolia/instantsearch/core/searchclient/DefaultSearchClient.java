@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.core.searchclient;
 
-import android.support.annotation.NonNull;
-
 import com.algolia.search.saas.Query;
 
 import org.json.JSONObject;
+
+import androidx.annotation.NonNull;
 
 public class DefaultSearchClient extends SearchClient<Query, JSONObject> {
 

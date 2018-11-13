@@ -2,8 +2,6 @@ package com.algolia.instantsearch.core.helpers;
 
 import android.app.SearchManager;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -44,6 +42,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import static com.algolia.instantsearch.core.events.RefinementEvent.Operation.ADD;
 import static com.algolia.instantsearch.core.events.RefinementEvent.Operation.REMOVE;
@@ -519,10 +520,10 @@ public class Searcher {
     /**
      * Sets a given facet as disjunctive or conjunctive.
      *
-     * @param attribute The facet's name.
+     * @param attribute     The facet's name.
      * @param isDisjunctive {@code true} to treat this facet as disjunctive (`OR`), false to treat it as conjunctive (`AND`, the default).
      * @return this {@link Searcher} for chaining.
-     * */
+     */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher setFacet(@NonNull String attribute, boolean isDisjunctive) {
         if (isDisjunctive && !disjunctiveFacets.contains(attribute)) {
@@ -962,9 +963,9 @@ public class Searcher {
     /**
      * Gets the current {@link Searcher#searchable} as an Index.
      *
-     * @deprecated use {@link #getSearchable()} to get the Searcher's {@link #searchable} regardless of its implementation.
      * @return the Searcher's index.
      * @throws IllegalStateException if {@link Searcher#searchable} if not an instance of {@link Index}
+     * @deprecated use {@link #getSearchable()} to get the Searcher's {@link #searchable} regardless of its implementation.
      */
     @Deprecated
     public Index getIndex() {

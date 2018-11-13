@@ -4,15 +4,15 @@
 ext {
     VERSION = '1.14.2'
     GROUP = 'com.algolia'
-    NAME = 'InstantSearch Android'
-    DESC = "A library to build instant-search applications on Android."
+    NAME = 'InstantSearch AndroidX'
+    DESC = "A library to build instant-search applications on Android with AndroidX."
     GITHUB = "algolia/instantsearch-android"
     WEBSITE = "https://github.com/" + GITHUB
     REPO = WEBSITE + ".git"
     LICENSE = 'MIT'
     LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
 
-    LABELS = ["android", "android-library",
+    LABELS = ["android", "android-library", "androidX",
               "algolia", "search", "instant-search", "search-interface",
               "faceted-search", "search-synonyms", "geo-search", "search-engine",
               "widgets", "custom-widgets", "interface-builder",

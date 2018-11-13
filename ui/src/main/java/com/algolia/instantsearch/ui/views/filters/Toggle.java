@@ -2,9 +2,6 @@ package com.algolia.instantsearch.ui.views.filters;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 
 import com.algolia.instantsearch.R;
@@ -17,6 +14,10 @@ import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
 
 import org.greenrobot.eventbus.EventBus;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 
 /**
  * A widget that toggles between refining and not refining an attribute with a given value.

@@ -2,8 +2,9 @@ package com.algolia.instantsearch.ui.views.filters;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatSpinner;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatSpinner;
+
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;

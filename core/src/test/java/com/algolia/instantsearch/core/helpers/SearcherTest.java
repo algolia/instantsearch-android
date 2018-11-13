@@ -1,7 +1,5 @@
 package com.algolia.instantsearch.core.helpers;
 
-import android.support.annotation.NonNull;
-
 import com.algolia.instantsearch.Helpers;
 import com.algolia.instantsearch.InstantSearchTest;
 import com.algolia.instantsearch.core.model.AlgoliaResultsListener;
@@ -17,6 +15,8 @@ import org.junit.After;
 import org.junit.Test;
 
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
 
 public class SearcherTest extends InstantSearchTest {
     @NonNull private Client initClient() {

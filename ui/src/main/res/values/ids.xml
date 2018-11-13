@@ -1,4 +1,4 @@
 <resources>
-    <item name="searchBox" type="id"/>
-    <item name="item_click_support" type="id"/>
+    <item name="searchBox" type="id" />
+    <item name="item_click_support" type="id" />
 </resources>

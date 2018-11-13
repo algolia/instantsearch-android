@@ -1,10 +1,12 @@
 package com.algolia.instantsearch.core.model;
 
-import android.support.annotation.NonNull;
-
 import java.util.Locale;
 
-/** Represents a numeric refinement of an {@link NumericRefinement#attribute} with an {@link NumericRefinement#operator} and a {@link NumericRefinement#value}. */
+import androidx.annotation.NonNull;
+
+/**
+ * Represents a numeric refinement of an {@link NumericRefinement#attribute} with an {@link NumericRefinement#operator} and a {@link NumericRefinement#value}.
+ */
 @SuppressWarnings("WeakerAccess")
 public class NumericRefinement {
     //DISCUSS: Enum for code clarity/DX
