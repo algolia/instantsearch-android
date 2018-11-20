@@ -1100,6 +1100,7 @@ public class Searcher {
         });
     }
 
+    @NonNull
     @Override
     public String toString() {
         String key = null;
@@ -1144,7 +1145,7 @@ public class Searcher {
     }
 
     private Searcher rebuildQueryFacets() {
-        final String[] facetArray = this.facets.toArray(new String[this.facets.size()]);
+        final String[] facetArray = this.facets.toArray(new String[0]);
         query.setFacets(facetArray);
         return this;
     }
