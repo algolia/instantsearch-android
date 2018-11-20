@@ -252,6 +252,7 @@ public class Searcher {
     /**
      * Destroys all Searcher instances.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public static void destroyAll() {
         instances.clear();
     }
@@ -379,6 +380,7 @@ public class Searcher {
      * @throws IllegalStateException if the given response is malformated.
      */
     @NonNull
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Searcher forwardBackendSearchResult(@NonNull JSONObject response) {
         if (!hasHits(response)) {
             endReached = true;
@@ -884,6 +886,7 @@ public class Searcher {
      *
      * @param resultListener the {@link AlgoliaResultsListener result listener} to be removed.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void unregisterResultListener(@NonNull AlgoliaResultsListener resultListener) {
         resultListeners.remove(resultListener);
     }
@@ -893,6 +896,7 @@ public class Searcher {
      *
      * @param errorListener the {@link AlgoliaErrorListener error listener} to be removed.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void unregisterErrorListener(@NonNull AlgoliaErrorListener errorListener) {
         errorListeners.remove(errorListener);
     }
@@ -998,6 +1002,7 @@ public class Searcher {
     /**
      * Unregisters and cleans up the searcher when is no longer needed.
      */
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public void destroy() {
         errorListeners.clear();
         resultListeners.clear();
@@ -1070,6 +1075,7 @@ public class Searcher {
      */
     public
     @Nullable
+    @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     FacetStat getFacetStat(String attribute) {
         return facetStats.get(attribute);
     }
