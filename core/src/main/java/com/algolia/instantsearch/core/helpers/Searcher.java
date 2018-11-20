@@ -339,7 +339,7 @@ public class Searcher {
                             + ", current request (" + currentRequestId + ") should have been canceled");
                 }
 
-                if (content == null || !hasHits(content)) {
+                if (!hasHits(content)) {
                     endReached = true;
                 } else {
                     checkIfLastPage(content);
