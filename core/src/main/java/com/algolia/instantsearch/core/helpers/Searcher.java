@@ -745,7 +745,10 @@ public class Searcher {
             numericRefinements.remove(refinement.attribute);
         } else {
             NumericRefinement.checkOperatorIsValid(refinement.operator);
-            numericRefinements.get(refinement.attribute).remove(refinement.operator);
+            final SparseArray<NumericRefinement> attributeRefinements = numericRefinements.get(refinement.attribute);
+            if (attributeRefinements != null) {
+                attributeRefinements.remove(refinement.operator);
+            }
         }
         rebuildQueryNumericFilters();
         EventBus.getDefault().post(new NumericRefinementEvent(this, Operation.REMOVE, refinement));
