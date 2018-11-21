@@ -11,7 +11,6 @@ ext {
     REPO = WEBSITE + ".git"
     LICENSE = 'MIT'
     LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
-    VERSION_DESC = 'Version ' + VERSION
 
     LABELS = ["android", "android-library",
               "algolia", "search", "instant-search", "search-interface",
