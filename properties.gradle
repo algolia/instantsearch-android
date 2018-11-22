@@ -8,7 +8,7 @@ ext {
     DESC = "A library to build instant-search applications on Android."
     GITHUB = "algolia/instantsearch-android"
     WEBSITE = "https://github.com/" + GITHUB
-    REPO = WEBSITE + ".git"
+    REPO = "git@github.com:" + GITHUB + ".git"
     LICENSE = 'MIT'
     LICENSE_URL = "http://www.opensource.org/licenses/mit-license.php"
 
