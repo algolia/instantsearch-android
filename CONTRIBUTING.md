@@ -27,6 +27,25 @@ cd instantsearch-android-examples
 gradle installDebug
 ```
 
+### Using your local version of an IS module (core/ui) in a project
+
+To use your local codebase instead of a published version:
+
+- In your application `build.gradle`'s `dependencies`, replace the instantsearch line by:
+  ```groovy
+  implementation project(":is")
+  ```
+- In your project's `settings.gradle`, add the following (adapt the path if needed):
+  ```groovy
+  include ':is'
+  project(':is').projectDir = new File(settingsDir, "../instantsearch-android/ui/")
+  ```
+
+- In the IS module's build.gradle, uncomment the first line to `apply from: "../standalone.gradle`
+
+You're good to go, build your app and it will use your local version of InstantSearch!
+_If you want to only work with the `core` module, apply the same steps with `/core/` instead of `/ui/`!_
+
 ## Code
 
 The code for InstantSearch Android is located in [src](instantsearch/src).
