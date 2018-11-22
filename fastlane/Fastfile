@@ -2,7 +2,7 @@ fastlane_require "increment_semver"
 fastlane_require "json"
 fastlane_require "httparty"
 
-fastlane_version "2.61.0"
+fastlane_version "2.108.0"
 default_platform(:android)
 
 platform :android do
