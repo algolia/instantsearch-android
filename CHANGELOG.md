@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.14.0
+* **Fastfile:** Adapt for new changes ([0294bc4](https://github.com/algolia/instantsearch-android/commit/0294bc4))
+* **javadoc:** Stop using deprecated API ([be0787f](https://github.com/algolia/instantsearch-android/commit/be0787f))
+* **NumericRefinementTest:** use right operator ([67bbefe](https://github.com/algolia/instantsearch-android/commit/67bbefe))
+* **release.sh:** Update version in readme ([f5a40a3](https://github.com/algolia/instantsearch-android/commit/f5a40a3))
+* **ui:** Add missing BASENAME ([3f3c88d](https://github.com/algolia/instantsearch-android/commit/3f3c88d))
+* **UI:** tests extending base class ([25bea08](https://github.com/algolia/instantsearch-android/commit/25bea08))
+### Features
+* **gradle:** multi-module release, split logic into ext/libraries/release/standalone ([a858eec](https://github.com/algolia/instantsearch-android/commit/a858eec))
+* **RefinementList:** When tied, sort ascending alpha ([7e3a88d](https://github.com/algolia/instantsearch-android/commit/7e3a88d))
+* **release:** Update version in getting started ([8ea3d35](https://github.com/algolia/instantsearch-android/commit/8ea3d35))
+
 ## 1.13.0
 ### Bug Fixes
 * **gradle:** Expose EventBus ([#93](https://github.com/algolia/instantsearch-android/issues/93)) ([9541eb1](https://github.com/algolia/instantsearch-android/commit/9541eb1))
