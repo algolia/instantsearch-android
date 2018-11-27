@@ -12,7 +12,8 @@ public class Errors {
     public static final String ADAPTER_UNKNOWN_VIEW = "Unrecognized view class (%s): Your view should either use/extend a system view or implement AlgoliaHitView.";
 
     public static final String BINDING_NO_ATTRIBUTE = "Your view lacks an algolia:attribute.";
-    public static final String BINDING_VIEW_NO_ID = "Your View for attribute %s must have an android:id.";
+    public static final String BINDING_VIEW_NO_ID = "Your View (%s) for attribute %s must have an android:id.";
+    public static final String BINDING_VIEW_NO_ID_NOR_ATTR = "Your View (%s) must have an android:id.";
 
     public static final String FILTER_MISSING_ATTRIBUTE = "You must specify an attribute";
 
