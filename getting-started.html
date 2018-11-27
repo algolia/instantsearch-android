@@ -290,6 +290,7 @@ We will start from an empty Android project, and create from scratch a full sear
 <li>You can then add the <code>Hits</code> widget to your layout:</li>
 </ul>
 <pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.ui.views.Hits</span>
+        <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/hits&quot;</span>
         <span class="cm-attribute">android:layout_width</span>=<span class="cm-string">&quot;match_parent&quot;</span>
         <span class="cm-attribute">android:layout_height</span>=<span class="cm-string">&quot;wrap_content&quot;</span>
         <span class="cm-attribute">algolia:itemLayout</span>=<span class="cm-string">&quot;@layout/hits_item&quot;</span><span class="cm-tag cm-bracket">/&gt;</span>
@@ -434,6 +435,7 @@ This will be the role of another Widget: the <strong><a href="widgets.html#hits"
 <li>Add a <code>SearchBox</code> to your <code>activity_main.xml</code>:</li>
 </ul>
 <pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">com.algolia.instantsearch.ui.views.SearchBox</span>
+        <span class="cm-attribute">android:id</span>=<span class="cm-string">&quot;@+id/searchBox&quot;</span>
         <span class="cm-attribute">android:layout_width</span>=<span class="cm-string">&quot;match_parent&quot;</span>
         <span class="cm-attribute">android:layout_height</span>=<span class="cm-string">&quot;wrap_content&quot;</span><span class="cm-tag cm-bracket">/&gt;</span>
 </code></pre>
