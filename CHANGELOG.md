@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.14.1
+### Bug Fixes
+* **README:** use 1.13.0 until core is in Jcenter ([f4cbf0e](https://github.com/algolia/instantsearch-android/commit/f4cbf0e))
+* **release:** Use SSH format for REPO url [ci skip] ([6679e69](https://github.com/algolia/instantsearch-android/commit/6679e69))
+* Downgrade gradle to last stable ([2017436](https://github.com/algolia/instantsearch-android/commit/2017436))
+### Features
+* **release:** Release AndroidX artifacts too ([0faa709](https://github.com/algolia/instantsearch-android/commit/0faa709))
+
 ## 1.14.0
 * **Fastfile:** Adapt for new changes ([0294bc4](https://github.com/algolia/instantsearch-android/commit/0294bc4))
 * **javadoc:** Stop using deprecated API ([be0787f](https://github.com/algolia/instantsearch-android/commit/be0787f))
