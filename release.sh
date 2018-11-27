@@ -81,3 +81,6 @@ git push origin $VERSION_CODE HEAD
 
 # Update documentation
 ./scripts/deploy-docs.sh
+
+# Update AndroidX artifacts
+./scripts/release-androidx.sh
