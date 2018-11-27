@@ -70,7 +70,7 @@ public class BindingHelper {
     public static void bindAttribute(@NonNull View view, @NonNull String attribute, @Nullable String variant) {
         final int id = view.getId();
         if (notAlreadyMapped(id, variant)) { // only map when you see a view for the first time.
-            mapAttribute(attribute, id, variant);
+            mapAttribute(attribute, id, variant, view.getClass().getSimpleName());
         }
     }
 
@@ -123,7 +123,7 @@ public class BindingHelper {
                 break;
             }
         }
-        mapAttribute(previousAttribute, view.getId(), variant);
+        mapAttribute(previousAttribute, view.getId(), variant, view.getClass().getSimpleName());
         return previousVariant;
     }
 
@@ -150,7 +150,7 @@ public class BindingHelper {
     }
 
     public static boolean isBound(int viewId) {
-        final Set<Map.Entry<String, HashMap<Integer, String>>> allVariants = bindings.entrySet();
+    final Set<Map.Entry<String, HashMap<Integer, String>>> allVariants = bindings.entrySet();
         for (Map.Entry<String, HashMap<Integer, String>> variantMap : allVariants) {
             if (variantMap.getValue().keySet().contains(viewId)) {
                 return true;
@@ -160,9 +160,12 @@ public class BindingHelper {
     }
 
     @SuppressLint("UseSparseArrays") // Using HashMap for O(1) containsKey in getVariantForView
-    private static void mapAttribute(String attribute, int viewId, @Nullable String variant) {
+    private static void mapAttribute(String attribute, int viewId, @Nullable String variant, @Nullable String viewClassName) {
         if (viewId == -1) {
-            throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID, attribute));
+            if (attribute == null)
+                throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID_NOR_ATTR, viewClassName));
+            else
+                throw new IllegalStateException(String.format(Errors.BINDING_VIEW_NO_ID, viewClassName, attribute));
         }
         HashMap<Integer, String> variantMap = bindings.get(variant);
         if (variantMap == null) {
