@@ -24,6 +24,6 @@ git rebase master
 printf "\n\nRelease: uploading androidX artifacts\n"
 ./gradlew bintrayUpload
 
-git push origin androidX
+git push origin androidX --force
 echo "Success! New version of androidx artifacts has been released."
 git checkout master
