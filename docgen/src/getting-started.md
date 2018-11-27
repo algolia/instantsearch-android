@@ -51,6 +51,7 @@ InstantSearch Android is based on a system of [widgets][widgets] that communicat
 - You can then add the `Hits` widget to your layout:
 ```xml
 <com.algolia.instantsearch.ui.views.Hits
+        android:id="@+id/hits"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         algolia:itemLayout="@layout/hits_item"/>
@@ -207,6 +208,7 @@ This will be the role of another Widget: the **[`SearchBox`][widgets-searchbox]*
 - Add a `SearchBox` to your `activity_main.xml`:
 ```xml
 <com.algolia.instantsearch.ui.views.SearchBox
+        android:id="@+id/searchBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 ```
