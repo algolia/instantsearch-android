@@ -26,6 +26,7 @@ In Android Studio, create a new Project:
 in your app's `build.gradle`, add the following dependency:
 ```groovy
 implementation 'com.algolia:instantsearch-android:1.14.2'
+// If you want to use AndroidX, target `instantsearch-androidx` instead
 ```
 
 ## Build the User Interface and display your data: Hits and helpers
