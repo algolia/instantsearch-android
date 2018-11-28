@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.2
+* **release:** Force push androidX Release ([5fb6e23](https://github.com/algolia/instantsearch-android/commit/5fb6e23))
+
 ## 1.14.1
 ### Bug Fixes
 * **README:** use 1.13.0 until core is in Jcenter ([f4cbf0e](https://github.com/algolia/instantsearch-android/commit/f4cbf0e))
