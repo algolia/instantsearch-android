@@ -45,19 +45,19 @@
 
               </a>
             </li>
-            
+
     <li class="algc-navigation__li">
       <a class='algc-badge algc-navigation__navitem' href='https://community.algolia.com/instantsearch-android '
        data-dropdown="links" data-enabledropdown="false">
             <svg class="algc-arrowseparator" viewBox="0 0 18 35" xmlns="http://www.w3.org/2000/svg"><g id="Symbols" fill="none" fill-rule="evenodd"><g id="community/header" fill="#3369E6"><g id="Group-13"><g id="Group-2"><path id="Combined-Shape-Copy" d="M1.8537 34.7643l15.5597-17.268L1.8537 0H0l15.5597 17.4964L0 34.7644z"/></g></g></g></g></svg>
-            
+
             <span>InstantSearch Android</span>
       </a>
     </li>
           </ul>
 
           <div class='algc-navigation__menu'>
-            
+
     <div class='algc-menu__search'>
       <div class='algc-menu__search--holder'>
         <div class='algc-search__input algc-search__input--docsearch'>
@@ -83,9 +83,9 @@
       <li class="algc-menu__list__item ">
         <a href="getting-started.html"  class="">
           <span class='visible-sm-inline'>Getting Started</span>
-          
+
         </a>
-        
+
       </li>
       <li class="algc-menu__list__item algc-menu--hassublist">
         <a href="#"  class="algc-menu--sublistlink">
@@ -96,19 +96,19 @@
     <li>
       <a href="concepts.html" >Concepts</a>
     </li>
-  
+
     <li>
       <a href="widgets.html" >Widgets</a>
     </li>
-  
+
     <li>
       <a href="multi-index.html" >Guides</a>
     </li>
-  
+
     <li>
       <a href="javadoc/" >API Reference</a>
     </li>
-  
+
     <li>
       <a href="troubleshooting.html" >Troubleshooting</a>
     </li>
@@ -117,28 +117,28 @@
       <li class="algc-menu__list__item ">
         <a href="examples.html"  class="">
           <span class='visible-sm-inline'>Examples</span>
-          
+
         </a>
-        
+
       </li>
       <li class="algc-menu__list__item ">
         <a href="https://github.com/algolia/instantsearch-android"
-          
+
           class="">
           <img src='assets/img/github-icon.svg'/>
-          
+
         </a>
-        
+
       </li></ul>
             <button class='algc-openmobile'><span></span></button>
           </div>
-          
+
           <div class='algc-navigation__dropdown-holder'>
             <div class='algc-dropdownroot notransition'>
               <div class='algc-dropdownroot__dropdownbg'></div>
               <div class='algc-dropdownroot__dropdownarrow'></div>
               <div class='algc-dropdownroot__dropdowncontainer'>
-                
+
     <div class="algc-dropdownroot__section">
       <div class="algc-dropdownroot__content" data-dropdown-content="integrations">
       <ul class="algc-dropdownroot__widelist">
@@ -269,6 +269,7 @@ We will start from an empty Android project, and create from scratch a full sear
 </ul>
 <p>in your app’s <code>build.gradle</code>, add the following dependency:</p>
 <pre class="CodeMirror cm-s-mdn-like"><code><span class="cm-variable">implementation</span> <span class="cm-string">&#39;com.algolia:instantsearch-android:1.14.2&#39;</span>
+<span class="cm-comment">// If you want to use AndroidX, target `instantsearch-androidx` instead</span>
 </code></pre>
 <h2 id="build-the-user-interface-and-display-your-data-hits-and-helpers">Build the User Interface and display your data: Hits and helpers <a class="anchor" href="getting-started.html#build-the-user-interface-and-display-your-data-hits-and-helpers" aria-hidden="true"></a></h2>
 <p>InstantSearch Android is based on a system of <a href="widgets.html">widgets</a> that communicate when an user interacts with your app. The first widget we’ll add is <strong><a href="widgets.html#hits">Hits</a></strong>, which will display your search results.</p>
