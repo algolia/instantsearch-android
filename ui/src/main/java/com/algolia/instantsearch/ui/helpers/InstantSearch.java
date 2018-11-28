@@ -463,7 +463,7 @@ public class InstantSearch {
         if (!widgets.contains(widget)) { // process once each widget
             widgets.add(widget);
             if (widget instanceof Hits) {
-                // Link hits to activity's empty view //TODO: Remove rootView parameter if getRootView always works
+                // Link hits to activity's empty view
                 ((Hits) widget).setEmptyView(getEmptyView(widget.getRootView()));
 
                 int itemLayoutId = ((Hits) widget).getLayoutId();
