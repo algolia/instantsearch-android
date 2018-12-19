@@ -17,9 +17,6 @@ gradle/
 .DS_Store
 
 # Specific to gh-pages
-## Ignore code
-core/
-ui/
 ## Ignore release script
 fastlane/
 vendor/
