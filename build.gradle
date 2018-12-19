@@ -29,32 +29,6 @@ allprojects {
 subprojects {
     apply from: "../common.gradle"
 }
-//
-//task aggregatedJavadocs(type: Javadoc, description: 'Generate javadocs from all child projects as if it was a single project', group: 'Documentation') {
-//    destinationDir = file("$buildDir/docs/javadoc")
-//    title = "$project.name $version API"
-//    println("Aggregating Javadocs into $destinationDir")
-//    options.author true
-//    options.links("http://docs.oracle.com/javase/8/docs/api")
-//    options.linksOffline("http://d.android.com/reference", "$System.env.ANDROID_HOME/docs/reference")
-////    options.addStringOption 'Xdoclint:none', '-quiet'
-//
-//    subprojects.each { proj ->
-//        println("Processing $proj.name's Javadoc (${proj.tasks.collect().size()} tasks)...")
-//        println("Sources: ${proj.sourceSets.size()}")
-//        proj.tasks.each { javadocTask ->
-//            println("Found $javadocTask.name!")
-//            source subprojects.collect { it.sourceSets }
-////            classpath = files(subprojects.collect { it.sourceSets.compileClasspath })
-////            if (javadocTask.withType(Javadoc)) {
-////                source += javadocTask.source
-////                classpath += javadocTask.classpath
-////                excludes += javadocTask.excludes
-////                includes += javadocTask.includes
-////            }
-//        }
-//    }
-//}
 
 // Multi-module Javadoc aggregation, see https://stackoverflow.com/a/34445816/3109189
 class JavadocAggregationPlugin implements Plugin<Project> {
@@ -87,7 +61,7 @@ class JavadocAggregationPlugin implements Plugin<Project> {
 apply plugin: JavadocAggregationPlugin
 
 task copyJavaDoc(type: Copy, dependsOn: "aggregateJavadocs") {
-    def sources = "../docgen/src/"
+    def sources = "docgen/src/"
     inputs.file sources
     into(sources)
     from("./build/docs/")
