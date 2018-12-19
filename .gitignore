@@ -24,6 +24,7 @@ docs-dev/
 docs-preview/
 preview.zip
 docgen/.history/
+docgen/src/javadoc/
 
 # Logs
 npm-debug.log
