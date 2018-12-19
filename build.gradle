@@ -85,3 +85,10 @@ class JavadocAggregationPlugin implements Plugin<Project> {
 }
 
 apply plugin: JavadocAggregationPlugin
+
+task copyJavaDoc(type: Copy, dependsOn: "aggregateJavadocs") {
+    def sources = "../docgen/src/"
+    inputs.file sources
+    into(sources)
+    from("./build/docs/")
+}

@@ -27,13 +27,6 @@ afterEvaluate {
     })
 }
 
-task copyJavaDoc(type: Copy, dependsOn: javadoc) {
-    def sources = "../docgen/src/"
-    inputs.file sources
-    into(sources)
-    from("./build/docs/")
-}
-
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier "javadoc"
     from javadoc.destinationDir
