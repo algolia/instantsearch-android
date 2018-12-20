@@ -45,6 +45,7 @@ import static com.algolia.instantsearch.core.events.RefinementEvent.Operation.RE
 
 /**
  * Displays facet values for an attribute and lets the user filter the results using these values.
+ * Adding this widget will automatically add its {@link #attribute} to the <a href="https://www.algolia.com/doc/api-reference/api-parameters/facets/">facets</a>}.
  */
 public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaResultsListener, AlgoliaSearcherListener {
     /** The operation for disjunctive faceting (foo OR bar). */
@@ -172,6 +173,7 @@ public class RefinementList extends ListView implements AlgoliaFilter, AlgoliaRe
     @Override
     public void initWithSearcher(@NonNull Searcher searcher) {
         this.searcher = searcher;
+        this.searcher.addFacet(attribute);
         this.adapter.activeFacets.addAll(searcher.getFacetRefinements(attribute));
     }
 
