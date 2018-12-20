@@ -1,14 +1,18 @@
 package com.algolia.instantsearch.ui.views;
 
 import com.algolia.instantsearch.InstantSearchTest;
+import com.algolia.instantsearch.core.helpers.Searcher;
 import com.algolia.instantsearch.core.model.FacetValue;
+import com.algolia.instantsearch.ui.helpers.InstantSearch;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -107,5 +111,14 @@ public class RefinementListTest extends InstantSearchTest {
         // Expect successful sort and one facet stored
         facetAdapter.sort(mRefinementList.getSortComparator());
         assertThat(facetAdapter.getCount(), is(1));
+    }
+
+    @Test
+    public void shouldAddFacetToSearcher() {
+        final Searcher mockSearcher = Mockito.mock(Searcher.class);
+        final InstantSearch instantSearch = new InstantSearch(mockSearcher);
+        instantSearch.registerWidget(mRefinementList);
+
+        Mockito.verify(mockSearcher).addFacet(mRefinementList.getAttribute());
     }
 }
