@@ -29,3 +29,40 @@ allprojects {
 subprojects {
     apply from: "../common.gradle"
 }
+
+// Multi-module Javadoc aggregation, see https://stackoverflow.com/a/34445816/3109189
+class JavadocAggregationPlugin implements Plugin<Project> {
+    static final String AGGREGATE_JAVADOCS_TASK_NAME = 'aggregateJavadocs'
+
+    @Override
+    void apply(Project project) {
+        Project rootProject = project.rootProject
+        rootProject.gradle.projectsEvaluated {
+            Set<Project> librarySubprojects = getLibraryProjects(rootProject)
+            if (!librarySubprojects.isEmpty()) {
+                rootProject.task(AGGREGATE_JAVADOCS_TASK_NAME, type: Javadoc) {
+                    description = 'Aggregates Javadoc API documentation of all subprojects.'
+                    group = JavaBasePlugin.DOCUMENTATION_GROUP
+                    dependsOn librarySubprojects.javadoc //please note that javadoc is the name of the separate Javadoc task in each library module
+
+                    source librarySubprojects.javadoc.source
+                    destinationDir rootProject.file("$rootProject.buildDir/docs/javadoc") //Javadoc destination directory
+                    classpath = rootProject.files(librarySubprojects.javadoc.classpath)
+                }
+            }
+        }
+    }
+
+    private Set<Project> getLibraryProjects(Project rootProject) {
+        rootProject.subprojects.findAll { subproject -> subproject.plugins.findPlugin("com.android.library") } //In this case every library module is selected
+    }
+}
+
+apply plugin: JavadocAggregationPlugin
+
+task copyJavaDoc(type: Copy, dependsOn: "aggregateJavadocs") {
+    def sources = "docgen/src/"
+    inputs.file sources
+    into(sources)
+    from("./build/docs/")
+}
