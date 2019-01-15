@@ -42,5 +42,4 @@ public class HighlighterTest {
         assertTrue("Should not highlight end", inverseHighlight.endsWith("Baz"));
         assertTrue("Should highlight Bar", inverseHighlight.contains("<em>Bar </em>"));
     }
-
 }

@@ -6,6 +6,7 @@
         <attr name="prefix" format="string"/>
         <attr name="suffix" format="string"/>
         <attr name="highlighted" format="boolean"/>
+        <attr name="snippetted" format="boolean"/>
         <attr name="highlightColor" format="color"/>
     </declare-styleable>
     <declare-styleable name="Widget">

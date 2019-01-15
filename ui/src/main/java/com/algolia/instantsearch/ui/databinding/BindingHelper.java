@@ -37,8 +37,9 @@ public class BindingHelper {
      */
     @SuppressWarnings("unused") // called via Data Binding
     @Deprecated // Should not be used by library users
-    @BindingAdapter(value = {"attribute", "highlighted", "highlightColor", "variant", "prefix", "suffix"}, requireAll = false)
+    @BindingAdapter(value = {"attribute", "snippetted", "highlighted", "highlightColor", "variant", "prefix", "suffix"}, requireAll = false)
     public static void bindAttribute(@NonNull View view, @Nullable String attribute,
+                                     @Nullable Boolean snippetted,
                                      @Nullable Boolean highlighted,
                                      @Nullable @ColorInt Integer color,
                                      @Nullable String variant,
@@ -53,6 +54,10 @@ public class BindingHelper {
                 || (color != null && (highlighted == null || !highlighted))) // or color && highlighted != false
         {
             highlight(view, attribute, color != null ? color : view.getResources().getColor(RenderingHelper.DEFAULT_COLOR));
+        }
+
+        if (snippetted != null && snippetted) {
+            snippet(view, attribute);
         }
 
         if (prefix != null) {
@@ -189,6 +194,10 @@ public class BindingHelper {
 
     private static void highlight(@NonNull View view, String attribute, @ColorInt int color) {
         RenderingHelper.getDefault().addHighlight(view, attribute, color);
+    }
+
+    private static void snippet(@NonNull View view, String attribute) {
+        RenderingHelper.getDefault().setSnippet(view, attribute);
     }
 
     /**
