@@ -51,7 +51,7 @@ public class BindingHelper {
         }
 
         if ((highlighted != null && highlighted) // either highlighted == true
-                || (color != null && (highlighted == null || !highlighted))) // or color && highlighted != false
+                || (color != null && (highlighted == null || highlighted))) // or color && highlighted != false
         {
             highlight(view, attribute, color != null ? color : view.getResources().getColor(RenderingHelper.DEFAULT_COLOR));
         }
