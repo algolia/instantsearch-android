@@ -26,10 +26,6 @@ allprojects {
     }
 }
 
-subprojects {
-    apply from: "../common.gradle"
-}
-
 // Multi-module Javadoc aggregation, see https://stackoverflow.com/a/34445816/3109189
 class JavadocAggregationPlugin implements Plugin<Project> {
     static final String AGGREGATE_JAVADOCS_TASK_NAME = 'aggregateJavadocs'

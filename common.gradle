@@ -3,6 +3,9 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: "com.jfrog.bintray"
 
+apply from: '../libraries.gradle'
+apply from: "../properties.gradle"
+
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
