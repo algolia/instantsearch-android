@@ -54,11 +54,17 @@ import java.util.regex.Pattern;
 public class Highlighter {
     private static Highlighter defaultHighlighter;
 
-    /** The pattern used for matching a part to highlight in a string. */
+    /**
+     * The pattern used for matching a part to highlight in a string.
+     */
     private final Pattern pattern;
-    /** The prefixTag used, if any. */
+    /**
+     * The prefixTag used, if any.
+     */
     private final String prefixTag;
-    /** The postfixTag used, if any. */
+    /**
+     * The postfixTag used, if any.
+     */
     private final String postfixTag;
 
     /**
@@ -146,7 +152,7 @@ public class Highlighter {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Styler setInput(@NonNull JSONObject result, @NonNull String attribute, boolean inverted) {
-        final String highlightedAttribute = getHighlightedAttribute(result, attribute, inverted);
+        final String highlightedAttribute = getHighlightedAttribute(result, attribute, inverted, false);
         return setInput(highlightedAttribute);
     }
 
@@ -160,8 +166,9 @@ public class Highlighter {
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
     public Styler setInput(@NonNull JSONObject result, @NonNull String attribute,
-                           @Nullable String prefix, @Nullable String suffix, boolean inverted) {
-        final String highlightedAttribute = getHighlightedAttribute(result, attribute, inverted);
+                           @Nullable String prefix, @Nullable String suffix,
+                           boolean inverted, boolean snippetted) {
+        final String highlightedAttribute = getHighlightedAttribute(result, attribute, inverted, snippetted);
         prefix = prefix == null ? "" : prefix;
         suffix = suffix == null ? "" : suffix;
         return setInput(prefix + highlightedAttribute + suffix);
@@ -178,9 +185,13 @@ public class Highlighter {
         return new Styler(markupString);
     }
 
-    /** Lets you specify a highlighting style. You will get a Styler by calling setInput on your Highlighter. */
+    /**
+     * Lets you specify a highlighting style. You will get a Styler by calling setInput on your Highlighter.
+     */
     public class Styler {
-        /** The input that will be highlighted on {@link Renderer#render() render}. */
+        /**
+         * The input that will be highlighted on {@link Renderer#render() render}.
+         */
         @NonNull
         private String markupString;
 
@@ -235,14 +246,23 @@ public class Highlighter {
 
     }
 
-    /** Renders the highlight. You will get a Styler by calling setInput then setStyle on your Highlighter. */
+    /**
+     * Renders the highlight. You will get a Styler by calling setInput then setStyle on your Highlighter.
+     */
     public class Renderer {
-        /** The color which will be used for highlighting. */
-        private @ColorInt int color;
-        /** The input that will be highlighted on {@link Renderer#render() render}. */
+        /**
+         * The color which will be used for highlighting.
+         */
+        private @ColorInt
+        int color;
+        /**
+         * The input that will be highlighted on {@link Renderer#render() render}.
+         */
         @NonNull
         private final String markupString;
-        /** If {@code true}, highlighting will be done using bold. */
+        /**
+         * If {@code true}, highlighting will be done using bold.
+         */
         private boolean bold;
 
         Renderer(@NonNull String markupString, boolean bold, int colorInt) {
@@ -335,12 +355,15 @@ public class Highlighter {
     /**
      * Gets the highlighted version of an attribute, if there is one.
      *
-     * @param result    {@link JSONObject} describing a hit.
-     * @param attribute the name of the attribute to return highlighted.
+     * @param result     {@link JSONObject} describing a hit.
+     * @param attribute  the name of the attribute to return highlighted.
+     * @param inverted   if {@code true}, the highlighting will be inverted.
+     * @param snippetted if {@code true}, the snippetted value of the attribute will be used for highlighting.
      * @return the highlighted version of this attribute if there is one, else the raw attribute.
      */
-    private String getHighlightedAttribute(@NonNull JSONObject result, String attribute, boolean inverted) {
-        final JSONObject highlightResult = result.optJSONObject("_highlightResult");
+    private String getHighlightedAttribute(@NonNull JSONObject result, String attribute,
+                                           boolean inverted, boolean snippetted) {
+        final JSONObject highlightResult = result.optJSONObject((snippetted ? "_snippet" : "_highlight") + "Result");
         if (highlightResult != null) {
             HashMap<String, String> highlightAttribute = JSONUtils.getMapFromJSONPath(highlightResult, attribute);
             if (highlightAttribute != null) {

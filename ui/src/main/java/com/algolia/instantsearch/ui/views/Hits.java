@@ -37,12 +37,12 @@ import com.algolia.instantsearch.core.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.core.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.core.model.Errors;
 import com.algolia.instantsearch.core.model.SearchResults;
+import com.algolia.instantsearch.core.utils.JSONUtils;
 import com.algolia.instantsearch.ui.databinding.BindingHelper;
 import com.algolia.instantsearch.ui.databinding.RenderingHelper;
 import com.algolia.instantsearch.ui.utils.ItemClickSupport;
 import com.algolia.instantsearch.ui.utils.ItemClickSupport.OnItemClickListener;
 import com.algolia.instantsearch.ui.utils.ItemClickSupport.OnItemLongClickListener;
-import com.algolia.instantsearch.core.utils.JSONUtils;
 import com.algolia.instantsearch.ui.utils.LayoutViews;
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
@@ -276,15 +276,20 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         }
     }
 
+    /**
+     * Returns the attribute's value, {@link RenderingHelper#shouldHighlight(View, String) highlighted} and {@link RenderingHelper#shouldSnippet(View, String)  snippetted} if required to.
+     */
     protected
     @Nullable
-    Spannable getHighlightedAttribute(@NonNull JSONObject hit, @NonNull View view, @NonNull String attribute, @Nullable String attributeValue) {
+    Spannable getFinalAttributeValue(@NonNull JSONObject hit, @NonNull View view, @NonNull String attribute, @Nullable String attributeValue) {
         Spannable attributeText = null;
         if (attributeValue != null) {
             if (RenderingHelper.getDefault().shouldHighlight(view, attribute)) {
                 final int highlightColor = RenderingHelper.getDefault().getHighlightColor(view, attribute);
-                attributeText = Highlighter.getDefault()
-                        .setInput(hit, attribute, BindingHelper.getPrefix(view), BindingHelper.getSuffix(view), false)
+                final String prefix = BindingHelper.getPrefix(view);
+                final String suffix = BindingHelper.getSuffix(view);
+                final boolean snippetted = RenderingHelper.getDefault().shouldSnippet(view, attribute);
+                attributeText = Highlighter.getDefault().setInput(hit, attribute, prefix, suffix, false, snippetted)
                         .setStyle(highlightColor).render();
             } else {
                 attributeText = new SpannableString(attributeValue);
@@ -493,14 +498,14 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                 final String fullAttribute = BindingHelper.getFullAttribute(view, attributeValue);
                 if (view instanceof AlgoliaHitView) {
                     ((AlgoliaHitView) view).onUpdateView(hit);
-                } else if (view instanceof EditText) {
-                    ((EditText) view).setHint(getHighlightedAttribute(hit, view, attributeName, fullAttribute));
                 } else if (view instanceof RatingBar) {
                     ((RatingBar) view).setRating(getFloatValue(fullAttribute));
                 } else if (view instanceof ProgressBar) {
                     ((ProgressBar) view).setProgress(Math.round(getFloatValue(fullAttribute)));
+                } else if (view instanceof EditText) {
+                    ((EditText) view).setHint(getFinalAttributeValue(hit, view, attributeName, fullAttribute));
                 } else if (view instanceof TextView) {
-                    ((TextView) view).setText(getHighlightedAttribute(hit, view, attributeName, fullAttribute));
+                    ((TextView) view).setText(getFinalAttributeValue(hit, view, attributeName, fullAttribute));
                 } else if (view instanceof ImageView) {
                     final Activity activity = getActivity(view);
                     if (activity == null || Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed()) {

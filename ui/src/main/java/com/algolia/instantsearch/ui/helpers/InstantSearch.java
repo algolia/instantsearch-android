@@ -27,6 +27,7 @@ import com.algolia.instantsearch.core.model.AlgoliaErrorListener;
 import com.algolia.instantsearch.core.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.core.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.core.model.Errors;
+import com.algolia.instantsearch.ui.databinding.RenderingHelper;
 import com.algolia.instantsearch.ui.viewmodels.SearchBoxViewModel;
 import com.algolia.instantsearch.ui.databinding.BindingHelper;
 import com.algolia.instantsearch.ui.views.Hits;

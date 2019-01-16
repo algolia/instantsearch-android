@@ -26,7 +26,7 @@ public class BindingHelperTest extends InstantSearchTest {
     @Before
     public void setUp() {
         view.setId(42);
-        BindingHelper.bindAttribute(view, attr, null, null, null, prefix, suffix);
+        BindingHelper.bindAttribute(view, attr, null, null, null, null, prefix, suffix);
     }
 
     @Test

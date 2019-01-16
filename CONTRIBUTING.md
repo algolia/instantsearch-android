@@ -31,26 +31,22 @@ gradle installDebug
 
 To use your local codebase instead of a published version:
 
-- In your application `build.gradle`'s `dependencies`, replace the instantsearch line by:
-  ```groovy
-  implementation project(":is")
-  ```
-- In your project's `settings.gradle`, add the following (adapt the path if needed):
-  ```groovy
-  include ':is'
-  project(':is').projectDir = new File(settingsDir, "../instantsearch-android/ui/")
-  ```
+1. In your app project, add the following to `settings.gradle`:
+```groovy
+include ':is'
+project(':is').projectDir = new File(settingsDir, "../instantsearch-android/ui")
+include ':core'
+project(':core').projectDir = new File(settingsDir, "../instantsearch-android/core")
+```
+2. In your app's **`build.gradle`**, add `implementation project(":is")` (remove your existing dependency on a released version of IS if any)
 
-- In the IS module's build.gradle, uncomment the first line to `apply from: "../standalone.gradle`
-
-You're good to go, build your app and it will use your local version of InstantSearch!
-_If you want to only work with the `core` module, apply the same steps with `/core/` instead of `/ui/`!_
+**You should now be able to build your application with the local source of IS.**
 
 ## Code
 
-The code for InstantSearch Android is located in [src](instantsearch/src).
+The code for InstantSearch Android is located in [core.src](core/src) and [ui.src](ui/src).
 
-## Test
+## Tests
 
 We have unit tests written with [JUnit](https://developer.android.com/studio/test/index.html):
 
