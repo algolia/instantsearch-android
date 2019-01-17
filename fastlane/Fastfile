@@ -54,7 +54,9 @@ platform :android do
     if masterHash != headHash
       raise "Error: Master and Head Hashes do not match, meaning that we are probably not on Master and therefore can't deploy"
     end
+    sh("git checkout master") # Checkout master so we can pull latest changes
     git_pull
+    ensure_git_status_clean(show_uncommitted_changes:true, show_diff:true)
 
     # Generate changelog updates
     changes = sh("conventional-changelog --preset angular --output-unreleased", log:false)
