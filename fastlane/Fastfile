@@ -60,7 +60,7 @@ platform :android do
     changes = sh("conventional-changelog --preset angular --output-unreleased", log:false)
     changes_lines = changes.split(/\n+/)[1..-1] # Remove header
     changes_lines[0] = "## #{version_number}"
-    puts "after regex lines: #{changes_lines.join("\n")}"
+    puts "after regex lines: #{changes_lines.join("\n")}" #TODO: Use UI.message instead
     changes = changes_lines.join("\n")
     puts "Changes: #{changes}"
     file_edit("../CHANGELOG.md", /^(# Changelog\n+)/, "\\1\n#{changes}\n")
@@ -91,6 +91,17 @@ platform :android do
     # Add git tag and push to GitHub
     add_git_tag(tag: version_number)
     push_git_tags
+
+    # Send PR
+    pull_request_url = create_pull_request(
+      api_token: ENV["GITHUB_TOKEN"],
+      repo: "algolia/instantsearch-android",
+      title: "Deploying new #{options[:type]} version #{new_build_number}",
+      head: "version-#{new_build_number}",       # optional, defaults to current branch name
+      base: "master", # optional, defaults to "master"
+      body: "Please check the files before merging in case I've overidden something accidentally."
+    )
+    # TODO environment_variable(set: pull_request_url) to mention PR on Slack
 
     # Remove temporary version tags
     sh("git tag --delete minor major patch | true")
