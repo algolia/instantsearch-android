@@ -14,6 +14,17 @@ platform :android do
 
   desc "Deploy the library. Available options: type:major|minor|patch optional: notest:true|false (default false)"
   lane :deploy do |options|
+    ## OUTLINE
+    # Args handling
+    # Compute next version number
+    # Ensure branch is master & WC clean
+    # Prepare git: git pull, ensure_git_status_clean
+    # Generate changelog updates
+    # Run tests
+    # Actual release, see release.sh
+    # Post on GitHub
+    # Remove temporary version tags
+
     # Arguments handling
     notest = options[:notest] || false
     type = options[:type]
@@ -27,36 +38,92 @@ platform :android do
     ).tr("'", "")
     puts "Current version: #{current_version}"
     version_number = increment_semver(current_version, type)
+    if version_number.scan(/(?=\.)/).count != 2
+      raise "Error: version #{version_number} is not a valid version code"
+    end
     puts "New version: #{version_number}"
 
     # Ensure branch is master & WC clean, then pull changes
+    ensure_git_status_clean(show_uncommitted_changes:true)
     Dir.chdir ".." do
       sh("git checkout Gemfile.lock") # Ignore different bundle version changing Gemfile https://discuss.bitrise.io/t/5176/5
     end
-    prepare_git()
+    masterHash = sh("git rev-parse origin/master")
+    headHash = sh("git rev-parse HEAD")
+
+    if masterHash != headHash
+      raise "Error: Master and Head Hashes do not match, meaning that we are probably not on Master and therefore can't deploy"
+    end
+    git_pull
 
     # Generate changelog updates
     changes = sh("conventional-changelog --preset angular --output-unreleased", log:false)
     changes_lines = changes.split(/\n+/)[1..-1] # Remove header
     changes_lines[0] = "## #{version_number}"
-    puts "after regex lines: #{changes_lines.join("\n")}"
+    puts "after regex lines: #{changes_lines.join("\n")}" #TODO: Use UI.message instead
     changes = changes_lines.join("\n")
     puts "Changes: #{changes}"
     file_edit("../CHANGELOG.md", /^(# Changelog\n+)/, "\\1\n#{changes}\n")
+
+    # Check changelog contains version
+    if not changes.include? version_number
+      raise "Error: New version #{version_number} not present in changelog"
+    end
 
     # Tests / deployment
     if notest == false
       test()
     end
 
-    Dir.chdir ".." do
-      sh("./release.sh #{version_number}")
-    end
+    # Update version in code
+    file_edit("../properties.gradle", /(VERSION = )'.*'/, "\\1'#{version_number}'\n")
+    file_edit("../README.md", /(implementation '[^[:digit:]]+).*$/, "\\1'#{version_number}'\n")
 
-    post_github_release(version_number, changes)
+    # Commit to Git
+    git_commit(
+      path: ["../CHANGELOG.md", "../README.md" ,"../properties.gradle"],
+      message: "chore(release): Version #{version_number} [ci skip]"
+    )
+
+    # Release on Bintray
+    gradle(task: "clean bintrayUpload", build_type: "Release")
+
+    # Add git tag and push to GitHub
+    add_git_tag(tag: version_number)
+    push_git_tags
+
+    # Send PR
+    pull_request_url = create_pull_request(
+      api_token: ENV["GITHUB_TOKEN"],
+      repo: "algolia/instantsearch-android",
+      title: "Deploying new #{options[:type]} version #{new_build_number}",
+      head: "version-#{new_build_number}",       # optional, defaults to current branch name
+      base: "master", # optional, defaults to "master"
+      body: "Please check the files before merging in case I've overidden something accidentally."
+    )
+    # TODO environment_variable(set: pull_request_url) to mention PR on Slack
+
     # Remove temporary version tags
     sh("git tag --delete minor major patch | true")
     sh("git push origin :refs/tag/patch :refs/tag/minor :refs/tag/major")
+    # Update documentation and AndroidX artifacts
+    Dir.chdir ".." do
+      sh("./scripts/deploy-docs.sh")
+      sh("./scripts/release-androidx.sh")
+    end
+
+    # Post release on GitHub
+    release_changes = changes.gsub(/^## #{version} /m, "## ")
+    url = "https://api.github.com/repos/algolia/instantsearch-android/releases?access_token=#{token}"
+    result = HTTParty.post(url, :body => {
+      :tag_name => version,
+      :target_commitish => "master",
+      :name => version,
+      :body => release_changes,
+      :draft => false,
+      :prerelease => false}.to_json)
+    puts "Release posted: #{result}."
+
   end
 end
 
@@ -72,22 +139,6 @@ def update_deps_to_use_commit_hash_if_workflow_triggered_by_client()
   end
 end
 
-def prepare_git(ensure_clean=true)
-  masterHash = sh("git rev-parse origin/master")
-  headHash = sh("git rev-parse HEAD")
-
-  if masterHash != headHash
-    raise "Error: Master and Head Hashes do not match, meaning that we are probably not on Master and therefore can't deploy"
-    #TODO: Does it make sense to checkout master if we raise error when HEAD != master?
-  end
-  sh("git checkout master")
-
-  git_pull
-  if ensure_clean
-    ensure_git_status_clean(show_uncommitted_changes:true)
-  end
-end
-
 def file_edit(filename, regexp, replacement)
   Tempfile.open(".#{File.basename(filename)}", File.dirname(filename)) do |tempfile|
     File.open(filename).each do |line|
@@ -100,17 +151,4 @@ def file_edit(filename, regexp, replacement)
     FileUtils.chmod stat.mode, tempfile.path
     FileUtils.mv tempfile.path, filename
   end
-end
-
-def post_github_release(version, changes, token=ENV['GITHUB_TOKEN'])
-  release_changes = changes.gsub(/^## #{version} /m, "## ")
-  url = "https://api.github.com/repos/algolia/instantsearch-android/releases?access_token=#{token}"
-  result = HTTParty.post(url, :body => {
-    :tag_name => version,
-    :target_commitish => "master",
-    :name => version,
-    :body => release_changes,
-    :draft => false,
-    :prerelease => false}.to_json)
-  puts "Release posted: #{result}."
 end
