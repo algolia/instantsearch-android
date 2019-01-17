@@ -77,7 +77,18 @@ platform :android do
       sh("./release.sh #{version_number}")
     end
 
-    post_github_release(version_number, changes)
+    # Post release on GitHub
+    release_changes = changes.gsub(/^## #{version} /m, "## ")
+    url = "https://api.github.com/repos/algolia/instantsearch-android/releases?access_token=#{token}"
+    result = HTTParty.post(url, :body => {
+      :tag_name => version,
+      :target_commitish => "master",
+      :name => version,
+      :body => release_changes,
+      :draft => false,
+      :prerelease => false}.to_json)
+    puts "Release posted: #{result}."
+
     # Remove temporary version tags
     sh("git tag --delete minor major patch | true")
     sh("git push origin :refs/tag/patch :refs/tag/minor :refs/tag/major")
@@ -108,17 +119,4 @@ def file_edit(filename, regexp, replacement)
     FileUtils.chmod stat.mode, tempfile.path
     FileUtils.mv tempfile.path, filename
   end
-end
-
-def post_github_release(version, changes, token=ENV['GITHUB_TOKEN'])
-  release_changes = changes.gsub(/^## #{version} /m, "## ")
-  url = "https://api.github.com/repos/algolia/instantsearch-android/releases?access_token=#{token}"
-  result = HTTParty.post(url, :body => {
-    :tag_name => version,
-    :target_commitish => "master",
-    :name => version,
-    :body => release_changes,
-    :draft => false,
-    :prerelease => false}.to_json)
-  puts "Release posted: #{result}."
 end
