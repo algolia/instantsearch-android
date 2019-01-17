@@ -88,7 +88,7 @@ platform :android do
     )
 
     # Release on Bintray
-    gradle(task: "clean bintrayUpload", build_type: "Release")
+    gradle(task: "clean bintrayUpload")
 
     # Add git tag and push to GitHub
     add_git_tag(tag: version_number)
