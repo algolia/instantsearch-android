@@ -83,7 +83,7 @@ platform :android do
 
     # Commit to Git
     git_commit(
-      path: ["../CHANGELOG.md", "../README.md" ,"../properties.gradle"],
+      path: ["CHANGELOG.md", "README.md" ,"properties.gradle"],
       message: "chore(release): Version #{version_number} [ci skip]"
     )
 
