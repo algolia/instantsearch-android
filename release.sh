@@ -1,4 +1,20 @@
 #!/usr/bin/env bash
+## OUTLINE
+
+# Handle erroneous calls to script
+# Fail if any error
+
+# Check VERSION_CODE matches X.Y.Z
+# Check working repo is clean
+# Check changelog contains version
+# Check we are on master
+
+# Update version number in both files
+# Commit to git
+# Release on Bintray
+# Tag and push on GitHub
+# Update documentation
+# Update AndroidX artifacts
 
 set -eo pipefail
 

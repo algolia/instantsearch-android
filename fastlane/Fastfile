@@ -14,6 +14,17 @@ platform :android do
 
   desc "Deploy the library. Available options: type:major|minor|patch optional: notest:true|false (default false)"
   lane :deploy do |options|
+    ## OUTLINE
+    # Args handling
+    # Compute next version number
+    # Ensure branch is master & WC clean
+    # Prepare git: git pull, ensure_git_status_clean
+    # Generate changelog updates
+    # Run tests
+    # Actual release, see release.sh
+    # Post on GitHub
+    # Remove temporary version tags
+
     # Arguments handling
     notest = options[:notest] || false
     type = options[:type]
@@ -49,6 +60,7 @@ platform :android do
       test()
     end
 
+    # Actual release
     Dir.chdir ".." do
       sh("./release.sh #{version_number}")
     end
