@@ -92,7 +92,7 @@ platform :android do
 
     # Add git tag and push to GitHub
     add_git_tag(tag: version_number, force: true)
-    push_git_tags
+    push_git_tags(force: true)
 
     # Send PR
     pull_request_url = create_pull_request(
