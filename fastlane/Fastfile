@@ -91,7 +91,7 @@ platform :android do
     gradle(task: "clean bintrayUpload")
 
     # Add git tag and push to GitHub
-    add_git_tag(tag: version_number)
+    add_git_tag(tag: version_number; force: true)
     push_git_tags
 
     # Send PR
