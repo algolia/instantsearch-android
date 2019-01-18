@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.ui.databinding;
 
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.NonNull;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import android.util.Pair;
 import android.view.View;
 

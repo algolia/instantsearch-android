@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.core.model;
 
-import android.support.annotation.NonNull;
-
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Query;
+
+import androidx.annotation.NonNull;
 
 /**
  * Lets you define a component that will react to search errors.

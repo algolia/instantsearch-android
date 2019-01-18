@@ -2,20 +2,21 @@ package com.algolia.instantsearch.ui.utils;
 
 import android.app.SearchableInfo;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import android.view.Menu;
 import android.view.View;
 import android.widget.SearchView;
 
 /**
- * A facade to handle both {@link SearchView android.widget.SearchView} and {@link android.support.v7.widget.SearchView} transparently.
+ * A facade to handle both {@link SearchView android.widget.SearchView} and {@link androidx.appcompat.widget.SearchView} transparently.
  */
+@SuppressWarnings({"WeakerAccess", "unused"}) // For library users
 public class SearchViewFacade {
     private static final String ERROR_NO_SEARCHVIEW = "A SearchViewFacade should have at least one SearchView reference.";
     private SearchView searchView;
-    private android.support.v7.widget.SearchView supportView;
+    private androidx.appcompat.widget.SearchView supportView;
 
     /**
      * Constructs a facade from a {@link SearchView android.widget.SearchView}.
@@ -27,11 +28,11 @@ public class SearchViewFacade {
     }
 
     /**
-     * Constructs a facade from a {@link android.support.v7.widget.SearchView}.
+     * Constructs a facade from a {@link androidx.appcompat.widget.SearchView}.
      *
      * @param searchView the {@code SearchView} to facade.
      */
-    public SearchViewFacade(android.support.v7.widget.SearchView searchView) {
+    public SearchViewFacade(androidx.appcompat.widget.SearchView searchView) {
         supportView = searchView;
     }
 
@@ -39,12 +40,12 @@ public class SearchViewFacade {
         try {
             searchView = (SearchView) menu.findItem(id).getActionView();
         } catch (ClassCastException e) {
-            supportView = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(menu.findItem(id));
+            supportView = (androidx.appcompat.widget.SearchView) MenuItemCompat.getActionView(menu.findItem(id));
         }
     }
 
     /**
-     * Returns the SearchView. (either {@link SearchView android.widget.SearchView} or {@link android.support.v7.widget.SearchView}).
+     * Returns the SearchView. (either {@link SearchView android.widget.SearchView} or {@link androidx.appcompat.widget.SearchView}).
      *
      * @return the actual SearchView wrapped by this facade.
      */
@@ -188,7 +189,7 @@ public class SearchViewFacade {
         if (searchView != null) {
             searchView.setOnQueryTextListener(listener);
         } else if (supportView != null) {
-            supportView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+            supportView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
                 @Override public boolean onQueryTextSubmit(String query) {
                     return listener.onQueryTextSubmit(query);
                 }
@@ -208,7 +209,7 @@ public class SearchViewFacade {
      * @param listener the listener object that receives callbacks when the user performs
      *                 actions in the SearchView such as clicking on buttons or typing a query.
      */
-    public void setOnQueryTextListener(@NonNull final android.support.v7.widget.SearchView.OnQueryTextListener listener) {
+    public void setOnQueryTextListener(@NonNull final androidx.appcompat.widget.SearchView.OnQueryTextListener listener) {
         if (searchView != null) {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override public boolean onQueryTextSubmit(String query) {
@@ -235,7 +236,7 @@ public class SearchViewFacade {
         if (searchView != null) {
             searchView.setOnCloseListener(listener);
         } else if (supportView != null) {
-            supportView.setOnCloseListener(new android.support.v7.widget.SearchView.OnCloseListener() {
+            supportView.setOnCloseListener(new androidx.appcompat.widget.SearchView.OnCloseListener() {
                 @Override public boolean onClose() {
                     return listener.onClose();
                 }
@@ -250,7 +251,7 @@ public class SearchViewFacade {
      *
      * @param listener the listener to call when the user closes the SearchView.
      */
-    public void setOnCloseListener(@NonNull final android.support.v7.widget.SearchView.OnCloseListener listener) {
+    public void setOnCloseListener(@NonNull final androidx.appcompat.widget.SearchView.OnCloseListener listener) {
         if (searchView != null) {
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                 @Override public boolean onClose() {

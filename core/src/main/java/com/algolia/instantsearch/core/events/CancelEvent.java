@@ -1,9 +1,10 @@
 package com.algolia.instantsearch.core.events;
 
-import android.support.annotation.NonNull;
 
 import com.algolia.instantsearch.core.helpers.Searcher;
 import com.algolia.search.saas.Request;
+
+import androidx.annotation.NonNull;
 
 /**
  * An event to let you react to cancellation of search requests.

@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.ui.views.filters;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Lets you define a component that will be used for displaying a facet filter.

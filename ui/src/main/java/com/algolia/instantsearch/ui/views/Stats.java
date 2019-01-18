@@ -3,7 +3,9 @@ package com.algolia.instantsearch.ui.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
+
 import android.text.Html;
 import android.text.Spanned;
 import android.util.AttributeSet;
@@ -20,7 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 
-public class Stats extends android.support.v7.widget.AppCompatTextView implements AlgoliaResultsListener, AlgoliaErrorListener {
+public class Stats extends AppCompatTextView implements AlgoliaResultsListener, AlgoliaErrorListener {
     /**
      * The default template, only shown when there is no error.
      */
