@@ -428,7 +428,7 @@ If you add a View to your layout with the id <strong><code>@android:id/empty</co
     <span class="cm-attribute">algolia:highlighted</span>=<span class="cm-string">&quot;@{true}&quot;</span><span class="cm-tag cm-bracket">/&gt;</span>
 </code></pre>
 <p>This will highlight the attribute according to the query term, like you can see in the screenshot. The color used by default for highlighting is <code>R.color.colorHighlighting</code>, which you can override in your application.</p>
-<p>You can also specify <code>algolia:highlightColor='@{R.color.color_foo}'</code> on a <code>View</code> to use a specific color for this one only.</p>
+<p>You can also specify <code>algolia:highlightColor='@{@color/color_foo}'</code> on a <code>View</code> to use a specific color for this one only.</p>
 <p>Note that highlighting <strong>only works automatically on TextViews</strong>. if you implement a <a href="widgets.html#custom-hit-views">custom hit view</a> or to highlight results received by your <a href="widgets.html#anatomy-of-an-algoliawidget">custom widget</a>, you should use the <a href="javadoc/com/algolia/instantsearch/helpers/Highlighter.html"><code>Highlighter</code></a>.
 This tool will let you build a highlighted <a href="https://developer.android.com/reference/android/text/Spannable.html"><code>Spannable</code></a> from a search result and an optional highlight color:</p>
 <pre class="CodeMirror cm-s-eclipse"><code><span class="cm-keyword">final</span> <span class="cm-variable">Spannable</span> <span class="cm-variable">highlightedAttribute</span> <span class="cm-operator">=</span> <span class="cm-variable">Highlighter</span>.<span class="cm-variable">getDefault</span>()
