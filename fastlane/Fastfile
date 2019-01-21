@@ -25,9 +25,6 @@ platform :android do
     # Post on GitHub
     # Remove temporary version tags
 
-    token = ENV["GITHUB_TOKEN"]
-    branchName = "version-#{version_number}"
-
 
     # Arguments handling
     notest = options[:notest] || false
@@ -46,6 +43,7 @@ platform :android do
       raise "Error: version #{version_number} is not a valid version code"
     end
     puts "New version: #{version_number}"
+
 
     # Ensure branch is master & WC clean, then pull changes
     ensure_git_status_clean(show_uncommitted_changes:true)
@@ -90,6 +88,7 @@ platform :android do
 
 
     # Commit to Git on release branch
+    branchName = "version-#{version_number}"
     sh("git checkout -b #{branchName}")
     git_commit(
       path: ["CHANGELOG.md", "README.md" ,"properties.gradle"],
@@ -102,6 +101,7 @@ platform :android do
     push_git_tags(force: true)
 
     # Send PR
+    token = ENV["GITHUB_TOKEN"]
     pull_request_url = create_pull_request(
       api_token: token,
       repo: "algolia/instantsearch-android",
