@@ -94,12 +94,15 @@ platform :android do
     add_git_tag(tag: version_number, force: true)
     push_git_tags(force: true)
 
+
+    branchName = "version-#{version_number}"
+    sh("git checkout -b #{branchName}")
     # Send PR
     pull_request_url = create_pull_request(
       api_token: ENV["GITHUB_TOKEN"],
       repo: "algolia/instantsearch-android",
       title: "Deploying new #{options[:type]} version #{version_number}",
-      head: "version-#{version_number}",
+      head: "#{branchName}",
       base: "master",
       body: "Please check the files before merging in case I've overidden something accidentally."
     )
