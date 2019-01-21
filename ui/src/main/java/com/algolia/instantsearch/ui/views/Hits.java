@@ -80,8 +80,6 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
 
     @NonNull
     protected HitsAdapter adapter;
-    @NonNull
-    private LayoutManager layoutManager;
     @SuppressWarnings("NullableProblems" /* late init*/)
     @NonNull
     private Searcher searcher;
@@ -114,7 +112,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
             //noinspection ConstantConditions
             searcher = null;
             //noinspection ConstantConditions
-            layoutManager = null;
+            this.setLayoutManager(null);
             //noinspection ConstantConditions
             imeManager = null;
             return;
@@ -157,8 +155,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
         setAdapter(adapter);
 
         imeManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        layoutManager = new LinearLayoutManager(context);
-        setLayoutManager(layoutManager);
+        setLayoutManager(new LinearLayoutManager(context));
 
         infiniteScrollListener = infiniteScroll ? new InfiniteScrollListener() : null;
         if (infiniteScroll) {
@@ -374,7 +371,7 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                 return;
             }
 
-            int totalItemCount = layoutManager.getItemCount();
+            int totalItemCount = getLayoutManager().getItemCount();
             if (totalItemCount < lastItemCount) {
                 // we have less elements than before, the count should be reset
                 lastItemCount = totalItemCount;
@@ -409,8 +406,8 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
          */
         private int getLastVisibleItemPosition() {
             int lastVisiblePosition = 0;
-            if (layoutManager instanceof StaggeredGridLayoutManager) {
-                int[] lastVisibleItemPositions = ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(null);
+            if (getLayoutManager() instanceof StaggeredGridLayoutManager) {
+                int[] lastVisibleItemPositions = ((StaggeredGridLayoutManager) getLayoutManager()).findLastVisibleItemPositions(null);
                 // last position = biggest value within the list of positions
                 int maxSize = lastVisibleItemPositions[0];
                 for (int lastVisibleItemPosition : lastVisibleItemPositions) {
@@ -419,8 +416,8 @@ public class Hits extends RecyclerView implements AlgoliaResultsListener, Algoli
                     }
                 }
                 lastVisiblePosition = maxSize;
-            } else if (layoutManager instanceof LinearLayoutManager) {
-                lastVisiblePosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+            } else if (getLayoutManager() instanceof LinearLayoutManager) {
+                lastVisiblePosition = ((LinearLayoutManager) getLayoutManager()).findLastVisibleItemPosition();
             }
             return lastVisiblePosition;
         }
