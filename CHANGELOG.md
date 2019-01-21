@@ -37,6 +37,12 @@
 * **Hits:** implement snippeting attribute ([#112](https://github.com/algolia/instantsearch-android/issues/112)) ([6edcb29](https://github.com/algolia/instantsearch-android/commit/6edcb29)), closes [#111](https://github.com/algolia/instantsearch-android/issues/111)
 * **RefinementList:** add facet ([#109](https://github.com/algolia/instantsearch-android/issues/109)) ([cca39a4](https://github.com/algolia/instantsearch-android/commit/cca39a4))
 
+### CD
+* **Fastfile:** fix git_commit files path ([#115](https://github.com/algolia/instantsearch-android/issues/115)) ([3fe3b31](https://github.com/algolia/instantsearch-android/commit/3fe3b31)), closes [#113](https://github.com/algolia/instantsearch-android/issues/113)
+* **Fastfile:** Force add_git_tag ([#117](https://github.com/algolia/instantsearch-android/issues/117)) ([817543b](https://github.com/algolia/instantsearch-android/commit/817543b))
+* **Fastfile:** Force push_git_tags ([#118](https://github.com/algolia/instantsearch-android/issues/118)) ([2c272f4](https://github.com/algolia/instantsearch-android/commit/2c272f4))
+* **Fastfile:** Use right variable ([#119](https://github.com/algolia/instantsearch-android/issues/119)) ([4882686](https://github.com/algolia/instantsearch-android/commit/4882686))
+
 ## 1.14.2
 * **release:** Force push androidX Release ([5fb6e23](https://github.com/algolia/instantsearch-android/commit/5fb6e23))
 
