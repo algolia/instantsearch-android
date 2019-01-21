@@ -23,6 +23,9 @@
 
 package com.algolia.instantsearch.core.searchclient;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.algolia.instantsearch.core.model.SearchResults;
 import com.algolia.search.saas.Query;
 import com.algolia.search.saas.Request;
@@ -31,9 +34,6 @@ import org.json.JSONObject;
 
 import java.util.Collection;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 public interface Transformable<Parameters, Results> {
 

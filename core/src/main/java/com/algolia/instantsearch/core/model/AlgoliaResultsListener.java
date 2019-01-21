@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.core.model;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 /**
  * Lets you define a component that will react to search results.
