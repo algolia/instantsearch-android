@@ -98,16 +98,15 @@ platform :android do
     end
 
     # Post release on GitHub
-    release_changes = changes.gsub(/^## #{version_number} /m, "## ")
-    url = "https://api.github.com/repos/algolia/instantsearch-android/releases?access_token=#{token}"
-    result = HTTParty.post(url, :body => {
-      :tag_name => version_number,
-      :target_commitish => "master",
-      :name => version_number,
-      :body => release_changes,
-      :draft => false,
-      :prerelease => false}.to_json)
-    puts "Release posted: #{result}."
+    github_release = set_github_release(
+      repository_name: "algolia/instantsearch-android",
+      api_token: token,
+      name: version_number,
+      tag_name: version_number,
+      description: changes.gsub(/^## #{version_number} /m, "## "),
+      commitish: "master"
+    )
+    puts "Release posted: #{github_release}."
   end
 end
 
