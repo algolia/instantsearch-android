@@ -25,6 +25,10 @@ platform :android do
     # Post on GitHub
     # Remove temporary version tags
 
+    token = ENV["GITHUB_TOKEN"]
+    branchName = "version-#{version_number}"
+
+
     # Arguments handling
     notest = options[:notest] || false
     type = options[:type]
@@ -81,22 +85,22 @@ platform :android do
     file_edit("../properties.gradle", /(VERSION = )'.*'/, "\\1'#{version_number}'\n")
     file_edit("../README.md", /(implementation '[^[:digit:]]+).*$/, "\\1'#{version_number}'\n")
 
-    # Commit to Git
+    # Release on Bintray
+    gradle(task: "clean bintrayUpload")
+
+
+    # Commit to Git on release branch
+    sh("git checkout -b #{branchName}")
     git_commit(
       path: ["CHANGELOG.md", "README.md" ,"properties.gradle"],
       message: "chore(release): Version #{version_number} [ci skip]"
     )
-
-    # Release on Bintray
-    gradle(task: "clean bintrayUpload")
+    sh("git push origin #{branchName}")
 
     # Add git tag and push to GitHub
     add_git_tag(tag: version_number, force: true)
     push_git_tags(force: true)
 
-    token = ENV["GITHUB_TOKEN"]
-    branchName = "version-#{version_number}"
-    sh("git checkout -b #{branchName}")
     # Send PR
     pull_request_url = create_pull_request(
       api_token: token,
@@ -111,6 +115,7 @@ platform :android do
     # Remove temporary version tags
     sh("git tag --delete minor major patch | true")
     sh("git push origin :refs/tag/patch :refs/tag/minor :refs/tag/major")
+
     # Update documentation and AndroidX artifacts
     Dir.chdir ".." do
       sh("./scripts/deploy-docs.sh")
