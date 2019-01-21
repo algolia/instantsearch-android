@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.15.0
+
+* **Hits:** implement snippeting attribute ([#112](https://github.com/algolia/instantsearch-android/issues/112)) ([6edcb29](https://github.com/algolia/instantsearch-android/commit/6edcb29)), closes [#111](https://github.com/algolia/instantsearch-android/issues/111)
+* **RefinementList:** add facet ([#109](https://github.com/algolia/instantsearch-android/issues/109)) ([cca39a4](https://github.com/algolia/instantsearch-android/commit/cca39a4))
+
 ## 1.14.2
 * **release:** Force push androidX Release ([5fb6e23](https://github.com/algolia/instantsearch-android/commit/5fb6e23))
 
