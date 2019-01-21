@@ -6,7 +6,7 @@ fastlane_version "2.108.0"
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
+  desc "Runs all the tests."
   lane :test do
     update_deps_to_use_commit_hash_if_workflow_triggered_by_client()
     gradle(task: "clean test", build_type: "Release")
@@ -14,23 +14,11 @@ platform :android do
 
   desc "Deploy the library. Available options: type:major|minor|patch optional: notest:true|false (default false)"
   lane :deploy do |options|
-    ## OUTLINE
-    # Args handling
-    # Compute next version number
-    # Ensure branch is master & WC clean
-    # Prepare git: git pull, ensure_git_status_clean
-    # Generate changelog updates
-    # Run tests
-    # Actual release, see release.sh
-    # Post on GitHub
-    # Remove temporary version tags
-
-
     # Arguments handling
     notest = options[:notest] || false
     type = options[:type]
-    UI.user_error!("You need to specify a type.") unless type != nil
-    UI.user_error!("Type #{type} is not a valid type (patch/minor/major") unless ["major","minor","patch"].include? type
+    type != nil or UI.user_error!("You need to specify a type.")
+    ["major","minor","patch"].include? type or UI.user_error!("Type #{type} is not a valid type (patch/minor/major")
 
     # Compute next version number
     current_version = get_version_name(
@@ -39,23 +27,13 @@ platform :android do
     ).tr("'", "")
     puts "Current version: #{current_version}"
     version_number = increment_semver(current_version, type)
-    if version_number.scan(/(?=\.)/).count != 2
-      raise "Error: version #{version_number} is not a valid version code"
-    end
+    version_number.scan(/(?=\.)/).count == 2 or UI.user_error!("version #{version_number} is not a valid version code")
     puts "New version: #{version_number}"
-
 
     # Ensure branch is master & WC clean, then pull changes
     ensure_git_status_clean(show_uncommitted_changes:true)
-    Dir.chdir ".." do
-      sh("git checkout Gemfile.lock") # Ignore different bundle version changing Gemfile https://discuss.bitrise.io/t/5176/5
-    end
-    masterHash = sh("git rev-parse origin/master")
-    headHash = sh("git rev-parse HEAD")
-
-    if masterHash != headHash
-      raise "Error: Master and Head Hashes do not match, meaning that we are probably not on Master and therefore can't deploy"
-    end
+    sh("git checkout ../Gemfile.lock") # Ignore different bundle version changing Gemfile https://discuss.bitrise.io/t/5176/5
+    sh("git rev-parse origin/master") == sh("git rev-parse HEAD") or UI.user_error!("origin/master and HEAD Hashes differ -> we are probably not on master and therefore can't deploy")
     sh("git checkout master") # Checkout master so we can pull latest changes
     git_pull
     ensure_git_status_clean(show_uncommitted_changes:true, show_diff:true)
@@ -70,14 +48,10 @@ platform :android do
     file_edit("../CHANGELOG.md", /^(# Changelog\n+)/, "\\1\n#{changes}\n")
 
     # Check changelog contains version
-    if not changes.include? version_number
-      raise "Error: New version #{version_number} not present in changelog"
-    end
+    changes.include? version_number or UI.user_error!("Error: New version #{version_number} not present in changelog")
 
     # Tests / deployment
-    if notest == false
-      test()
-    end
+    notest == false or test()
 
     # Update version in code
     file_edit("../properties.gradle", /(VERSION = )'.*'/, "\\1'#{version_number}'\n")
@@ -105,16 +79,17 @@ platform :android do
     pull_request_url = create_pull_request(
       api_token: token,
       repo: "algolia/instantsearch-android",
-      title: "Deploying new #{options[:type]} version #{version_number}",
+      title: "chore(release): Version #{version_number} [ci skip]",
       head: "#{branchName}",
       base: "master",
       body: "Please check the files before merging in case I've overidden something accidentally."
     )
     # TODO environment_variable(set: pull_request_url) to mention PR on Slack
 
-    # Remove temporary version tags
+    # Remove temporary version tags and switch back from branch
     sh("git tag --delete minor major patch | true")
     sh("git push origin :refs/tag/patch :refs/tag/minor :refs/tag/major")
+    sh("git checkout master")
 
     # Update documentation and AndroidX artifacts
     Dir.chdir ".." do
@@ -133,7 +108,6 @@ platform :android do
       :draft => false,
       :prerelease => false}.to_json)
     puts "Release posted: #{result}."
-
   end
 end
 
