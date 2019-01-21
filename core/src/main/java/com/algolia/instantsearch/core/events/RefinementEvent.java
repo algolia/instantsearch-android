@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.core.events;
 
-import com.algolia.instantsearch.core.helpers.Searcher;
+import android.support.annotation.NonNull;
 
-import androidx.annotation.NonNull;
+import com.algolia.instantsearch.core.helpers.Searcher;
 
 /**
  * An event to let you react to refinement of the search parameters.

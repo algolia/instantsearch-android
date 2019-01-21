@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.core.model;
 
-import com.algolia.instantsearch.core.helpers.Searcher;
+import android.support.annotation.NonNull;
 
-import androidx.annotation.NonNull;
+import com.algolia.instantsearch.core.helpers.Searcher;
 
 public interface AlgoliaSearcherListener {
     /**

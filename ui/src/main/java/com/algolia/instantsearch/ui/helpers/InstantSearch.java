@@ -2,9 +2,13 @@ package com.algolia.instantsearch.ui.helpers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,23 +17,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.algolia.instantsearch.R;
-import com.algolia.instantsearch.core.events.ResetEvent;
 import com.algolia.instantsearch.core.helpers.SearchProgressController;
 import com.algolia.instantsearch.core.helpers.Searcher;
+import com.algolia.instantsearch.core.events.ResetEvent;
 import com.algolia.instantsearch.core.model.AlgoliaErrorListener;
 import com.algolia.instantsearch.core.model.AlgoliaResultsListener;
 import com.algolia.instantsearch.core.model.AlgoliaSearcherListener;
 import com.algolia.instantsearch.core.model.Errors;
+import com.algolia.instantsearch.ui.databinding.RenderingHelper;
 import com.algolia.instantsearch.ui.viewmodels.SearchBoxViewModel;
 import com.algolia.instantsearch.ui.databinding.BindingHelper;
-import com.algolia.instantsearch.ui.utils.LayoutViews;
-import com.algolia.instantsearch.ui.utils.SearchViewFacade;
 import com.algolia.instantsearch.ui.views.Hits;
 import com.algolia.instantsearch.ui.views.RefinementList;
 import com.algolia.instantsearch.ui.views.SearchBox;
 import com.algolia.instantsearch.ui.views.filters.AlgoliaFilter;
+import com.algolia.instantsearch.ui.utils.LayoutViews;
+import com.algolia.instantsearch.ui.utils.SearchViewFacade;
 import com.algolia.search.saas.Query;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,12 +44,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
 
 /**
  * Uses the {@link Searcher} to react to changes in your application's interface, like when your user types a new query or interacts with Widgets.
@@ -94,7 +94,7 @@ public class InstantSearch {
      *
      * @param activity   a searchable Activity containing at least one {@link AlgoliaResultsListener} to update with incoming results.
      * @param menu       the Menu which contains your SearchView.
-     * @param menuItemId the SearchView item's {@link IdRes id} in your Menu.
+     * @param menuItemId the SearchView item's {@link android.support.annotation.IdRes id} in your Menu.
      * @param searcher   the Searcher to use with this activity.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
@@ -114,7 +114,7 @@ public class InstantSearch {
      * @param searcher the Searcher to use with this activity.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public InstantSearch(@NonNull final Activity activity, @NonNull final Searcher searcher, @NonNull android.app.Fragment fragment) {
+    public InstantSearch(@NonNull final Activity activity, @NonNull final Searcher searcher, @NonNull Fragment fragment) {
         this(searcher);
 
         registerSearchView(activity);
@@ -129,7 +129,7 @@ public class InstantSearch {
      * @param searcher the Searcher to use with this activity.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public InstantSearch(@NonNull final Activity activity, @NonNull final Searcher searcher, @NonNull Fragment fragment) {
+    public InstantSearch(@NonNull final Activity activity, @NonNull final Searcher searcher, @NonNull android.support.v4.app.Fragment fragment) {
         this(searcher);
 
         registerSearchView(activity);
@@ -206,13 +206,13 @@ public class InstantSearch {
     }
 
     /**
-     * Registers a {@link android.widget.SearchView} to trigger search requests on text change, replacing the current one if any.
+     * Registers a {@link android.support.v7.widget.SearchView} to trigger search requests on text change, replacing the current one if any.
      *
      * @param activity   The searchable activity, see {@link android.app.SearchableInfo}.
      * @param searchView a SearchView whose query text will be used.
      */
     @SuppressWarnings({"WeakerAccess", "unused"}) // For library users
-    public void registerSearchView(@NonNull final Activity activity, @NonNull final android.widget.SearchView searchView) {
+    public void registerSearchView(@NonNull final Activity activity, @NonNull final android.support.v7.widget.SearchView searchView) {
         registerSearchView(activity, new SearchViewFacade(searchView));
     }
 
@@ -499,7 +499,7 @@ public class InstantSearch {
             int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
             LinearLayout searchPlate = (LinearLayout) searchView.findViewById(searchPlateId);
             if (searchPlate == null) { // Maybe it is an appcompat SearchView?
-                searchPlate = (LinearLayout) searchView.findViewById(androidx.appcompat.R.id.search_plate);
+                searchPlate = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
                 if (searchPlate == null) {
                     Log.e("Algolia|InstantSearch", Errors.PROGRESS_WITHOUT_SEARCHPLATE);
                     return;
@@ -536,7 +536,7 @@ public class InstantSearch {
             final List<SearchView> searchViews = LayoutViews.findByClass(rootView, SearchView.class);
             final View searchBox = rootView.findViewById(R.id.searchBox);
             if (searchViews.isEmpty()) { // Or he uses a support SearchView
-                final List<androidx.appcompat.widget.SearchView> supportViews = LayoutViews.findByClass(rootView, androidx.appcompat.widget.SearchView.class);
+                final List<android.support.v7.widget.SearchView> supportViews = LayoutViews.findByClass(rootView, android.support.v7.widget.SearchView.class);
                 if (supportViews.isEmpty()) { // We should find at least one
                     Log.e("Algolia|InstantSearch", Errors.LAYOUT_MISSING_SEARCHBOX);
                 } else if (!supportViews.isEmpty()) { // One of those should have the id @id/searchBox

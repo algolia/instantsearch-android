@@ -25,6 +25,9 @@
 
 package com.algolia.instantsearch.core.searchclient;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.CompletionHandler;
 import com.algolia.search.saas.Query;
@@ -36,9 +39,6 @@ import org.json.JSONObject;
 
 import java.util.Collection;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 /***
  * Base class used to implement a custom backend with Algolia

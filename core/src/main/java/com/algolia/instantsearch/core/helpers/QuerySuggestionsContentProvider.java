@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.algolia.instantsearch.core.model.SearchResults;
 import com.algolia.search.saas.AlgoliaException;
@@ -15,9 +17,6 @@ import com.algolia.search.saas.Query;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 /**
  * Provides Search Suggestions through a ContentProvider.
