@@ -33,7 +33,9 @@ platform :android do
     # Ensure branch is master & WC clean, then pull changes
     ensure_git_status_clean(show_uncommitted_changes: true)
     sh("git checkout ../Gemfile.lock") # Ignore different bundle version changing Gemfile https://discuss.bitrise.io/t/5176/5
-    sh("git rev-parse origin/master") == sh("git rev-parse HEAD") or UI.user_error!("origin/master and HEAD Hashes differ -> we are probably not on master and therefore can't deploy")
+    if sh("git rev-parse origin/master") != sh("git rev-parse HEAD")
+      UI.user_error!("origin/master and HEAD Hashes differ -> we are probably not on master and therefore can't deploy")
+    end
     sh("git checkout master") # Checkout master so we can pull latest changes
     git_pull
     ensure_git_status_clean(show_uncommitted_changes: true, show_diff: true)
@@ -51,7 +53,7 @@ platform :android do
     changes.include? version_number or UI.user_error!("Error: New version #{version_number} not present in changelog")
 
     # Tests / deployment
-    notest == false or test
+    notest == true or test
 
     # Update version in code
     file_edit("../properties.gradle", /(VERSION = )'.*'/, "\\1'#{version_number}'\n")
@@ -83,15 +85,18 @@ platform :android do
       base: "master",
       body: "Please check the files before merging in case I've overidden something accidentally."
     )
-    # TODO: environment_variable(set: pull_request_url) to mention PR on Slack
+    puts "PR opened: #{pull_request_url}"
+    ENV["PR_URL"] = pull_request_url
 
     # Remove temporary version tags and switch back from branch
     sh("git tag --delete minor major patch | true")
     sh("git push origin :refs/tag/patch :refs/tag/minor :refs/tag/major")
     sh("git checkout master")
+    puts("Tags removed, switching back to master branch")
 
     # Update documentation and AndroidX artifacts
     Dir.chdir ".." do
+    puts "Now in #{Dir.pwd}, ready to deploy docs/AndroidX..."
       sh("./scripts/deploy-docs.sh")
       sh("./scripts/release-androidx.sh")
     end
@@ -105,7 +110,7 @@ platform :android do
       description: changes.gsub(/^## #{version_number} /m, "## "),
       commitish: "master"
     )
-    puts "Release posted: #{github_release}."
+    puts "Release posted: #{github_release['html_url']}."
   end
 end
 
