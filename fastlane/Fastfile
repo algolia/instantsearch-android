@@ -51,7 +51,7 @@ platform :android do
     changes.include? version_number or UI.user_error!("Error: New version #{version_number} not present in changelog")
 
     # Tests / deployment
-    notest == false or test
+    notest == true or test
 
     # Update version in code
     file_edit("../properties.gradle", /(VERSION = )'.*'/, "\\1'#{version_number}'\n")
