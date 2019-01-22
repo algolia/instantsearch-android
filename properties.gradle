@@ -2,7 +2,8 @@
  * Extra properties applied by default to all modules.
  */
 ext {
-    VERSION = '1.15.0'
+    VERSION = '1.15.1'
+
 
     GROUP = 'com.algolia'
     NAME = 'InstantSearch Android'
