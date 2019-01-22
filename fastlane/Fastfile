@@ -85,7 +85,7 @@ platform :android do
       body: "Please check the files before merging in case I've overidden something accidentally."
     )
     puts "PR opened: #{pull_request_url}"
-    ENV["PR_URL"] = pull_request_url
+    sh("envman add --key GITHUB_PR_URL --value #{pull_request_url}")
 
     # Remove temporary version tags and switch back from branch
     sh("git tag --delete minor major patch | true")
