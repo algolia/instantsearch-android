@@ -42,10 +42,9 @@ platform :android do
 
     # Generate changelog updates
     changes = sh("conventional-changelog --preset angular --output-unreleased", log: false)
-    changes_lines = changes.split(/\n+/)[1..-1] # Remove header
+    changes_lines = changes.lines[1..-1] # Remove header
     changes_lines[0] = "## #{version_number}"
-    puts "after regex lines: #{changes_lines.join("\n")}" # TODO: Use UI.message instead
-    changes = changes_lines.join("\n")
+    changes = changes_lines.join
     puts "Changes: #{changes}"
     file_edit("../CHANGELOG.md", /^(# Changelog\n+)/, "\\1\n#{changes}\n")
 
@@ -86,7 +85,7 @@ platform :android do
       body: "Please check the files before merging in case I've overidden something accidentally."
     )
     puts "PR opened: #{pull_request_url}"
-    ENV["PR_URL"] = pull_request_url
+    sh("envman add --key GITHUB_PR_URL --value #{pull_request_url}")
 
     # Remove temporary version tags and switch back from branch
     sh("git tag --delete minor major patch | true")
@@ -107,7 +106,7 @@ platform :android do
       api_token: token,
       name: version_number,
       tag_name: version_number,
-      description: changes.gsub(/^## #{version_number} /m, "## "),
+      description: changes.lines[2..-1].join,
       commitish: "master"
     )
     puts "Release posted: #{github_release['html_url']}."
