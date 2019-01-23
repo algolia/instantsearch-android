@@ -118,8 +118,8 @@ def update_deps_to_use_commit_hash_if_workflow_triggered_by_client
   hash = ENV['GIT_DEPENDENT_COMMIT_HASH']
   if hash
     file_edit("../libraries.gradle", /^.*com.algolia:algoliasearch-android:.*$/m,
-    "            \"algolia\"          : \"com.algolia:algoliasearch-android:#{hash}\",")
-    puts "Changed gradle libraries to build with algoliasearch-client-android with commit #{hash}"
+    "            \"algolia\"          : \"com.github.algolia:algoliasearch-client-android:#{hash}\",")
+    puts "Changed gradle libraries to build with algoliasearch-client-android with commit #{hash}."
   else
     puts "No specific dependencies to test, proceeding with latest release of API Client."
   end
