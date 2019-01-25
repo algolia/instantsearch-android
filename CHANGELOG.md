@@ -190,7 +190,7 @@
 
 
 ## 1.5.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.4.1...v1.4.0) (2018-02-14)
-This release adds **Multi-index Search** capabilities. See the associated [movies example](https://community.algolia.com/instantsearch-android/examples.html#movies-application).
+This release adds **Multi-index Search** capabilities. See the associated [movies example](https://github.com/algolia/instantsearch-android-examples/blob/master/movies/).
 
 ### Bug fixes
 
@@ -243,7 +243,7 @@ This release adds **Multi-index Search** capabilities. See the associated [movie
 
 
 ## 1.3.0 [Changes](https://github.com/algolia/instantsearch-android/compare/1.2.3...1.3.0) (2017-11-29)
-This release adds **Voice Search** capabilities to the SearchBox. See the associated [guide](https://community.algolia.com/instantsearch-android/widgets.html#voice-search).
+This release adds **Voice Search** capabilities to the SearchBox. See the associated [guide](https://www.algolia.com/doc/guides/building-search-ui/widgets/showcase/android/#voice-search).
 
 ### Bug Fixes
 

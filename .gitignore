@@ -3,6 +3,7 @@
 .idea
 projectFilesBackup
 .gradletasknamecache
+.history/
 
 # Build
 .gradle
@@ -23,7 +24,6 @@ build/
 docs-dev/
 docs-preview/
 preview.zip
-docgen/.history/
 docgen/src/javadoc/
 
 # Logs
