@@ -36,7 +36,7 @@
   },
   "sideMenu": [{
     "name": "<span class='visible-sm-inline'>Getting Started</span>",
-    "url": "getting-started.html",
+    "url": "https://www.algolia.com/doc/guides/building-search-ui/getting-started/android/",
     "dropdownItems": null
   },{
     "name": "Documentation",
@@ -45,28 +45,24 @@
     "dropdownItems": [
       {
         "name": "Concepts",
-        "url": "concepts.html"
+        "url": "https://www.algolia.com/doc/guides/building-search-ui/what-is-instantsearch/android/"
       },
       {
         "name": "Widgets",
-        "url": "widgets.html"
+        "url": "https://www.algolia.com/doc/guides/building-search-ui/widgets/showcase/android/"
       },
       {
         "name": "Guides",
-        "url": "multi-index.html"
+        "url": "https://www.algolia.com/doc/guides/building-search-ui/going-further/conditional-display/android/"
       },
       {
         "name": "API Reference",
         "url": "javadoc/"
-      },
-      {
-        "name": "Troubleshooting",
-        "url": "troubleshooting.html"
       }
     ]
   },{
     "name": "<span class='visible-sm-inline'>Examples</span>",
-    "url": "examples.html"
+    "url": "https://www.algolia.com/doc/guides/building-search-ui/resources/demos/android/"
   },{
     "name": "Github",
     "image": "<img src='assets/img/github-icon.svg'/>",
@@ -74,31 +70,27 @@
   }],
   "mobileMenu": [{
     "name": "Getting Started",
-    "url": "getting-started.html"
+    "url": "https://www.algolia.com/doc/guides/building-search-ui/getting-started/android/"
   },
   {
     "name": "Concepts",
-    "url": "concepts.html"
+    "url": "https://www.algolia.com/doc/guides/building-search-ui/what-is-instantsearch/android/"
   },
   {
     "name": "Widgets",
-    "url": "widgets.html"
+    "url": "https://www.algolia.com/doc/guides/building-search-ui/widgets/showcase/android/"
   },
   {
     "name": "Guides",
-    "url": "multi-index.html"
+    "url": "https://www.algolia.com/doc/guides/building-search-ui/resources/ui-and-ux-patterns/android/"
   },
   {
     "name": "API Reference",
     "url": "javadoc/"
   },
   {
-    "name": "Troubleshooting",
-    "url": "troubleshooting.html"
-  },
-  {
     "name": "Examples",
-    "url": "examples.html"
+    "url": "https://www.algolia.com/doc/guides/building-search-ui/resources/demos/android/"
   }],
   "docSearch": {
     "input_selector": "searchbox",
