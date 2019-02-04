@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.15.2
+### Bug Fixes
+
+* **Hits:** Remove local LayoutManager, fixes [#110](https://github.com/algolia/instantsearch-android/issues/110) ([#129](https://github.com/algolia/instantsearch-android/issues/129)) ([2ab4b34](https://github.com/algolia/instantsearch-android/commit/2ab4b34))
+* **Searcher:** Add missing annotation, optimize array creation ([332482d](https://github.com/algolia/instantsearch-android/commit/332482d))
+* **Searcher:** Prevent potential NPE ([3a5cd0d](https://github.com/algolia/instantsearch-android/commit/3a5cd0d))
+
+
+
+
+
 ## 1.15.1
 
 ### Bug Fixes
