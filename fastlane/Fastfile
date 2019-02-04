@@ -56,7 +56,7 @@ platform :android do
 
     # Update version in code
     file_edit("../properties.gradle", /(VERSION = )'.*'/, "\\1'#{version_number}'\n")
-    file_edit("../README.md", /(implementation '[^[:digit:]]+).*$/, "\\1'#{version_number}'\n")
+    file_edit("../README.md", /(implementation '[^[:digit:]]+).*$/, "\\1#{version_number}'\n")
 
     # Release on Bintray
     gradle(task: "clean bintrayUpload")
