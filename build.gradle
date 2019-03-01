@@ -5,6 +5,7 @@ apply plugin: 'maven-publish'
 
 allprojects {
     repositories {
+        mavenLocal()
         google()
         maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
         mavenCentral()

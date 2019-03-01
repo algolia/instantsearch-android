@@ -12,6 +12,8 @@ kotlin {
         commonMain {
             dependencies {
                 implementation project(':core')
+                implementation "com.algolia.algoliasearch:algoliasearch-client-kotlin-metadata:1.0.0"
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0'
                 implementation kotlin('stdlib-common')
             }
         }
@@ -23,6 +25,7 @@ kotlin {
         }
         jvmMain {
             dependencies {
+                implementation "com.algolia.algoliasearch:algoliasearch-client-kotlin-jvm:1.0.0"
                 implementation kotlin('stdlib-jdk8')
             }
         }
