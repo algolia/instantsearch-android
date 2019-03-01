@@ -4,12 +4,14 @@ import helper.Converter
 import searcher.Searcher
 
 
-fun <T> RefinementModel<T>.connectViews(views: List<RefinementView<T>>) {
-    views.forEach(::connectView)
-}
-
 fun <T> RefinementModel<T>.connectSearcher(searcher: Searcher) {
     selectedListeners += { searcher.search() }
+}
+
+fun <T> RefinementModel<T>.connectView(view: RefinementView<T>) {
+    refinementListeners += (view::setRefinements)
+    selectedListeners += (view::setSelected)
+    view.onClickRefinement(::onSelectedRefinement.get())
 }
 
 fun <T, R> RefinementModel<T>.connectView(view: RefinementView<R>, converter: Converter<T, R>) {
@@ -20,8 +22,11 @@ fun <T, R> RefinementModel<T>.connectView(view: RefinementView<R>, converter: Co
     }
 }
 
-fun <T> RefinementModel<T>.connectView(view: RefinementView<T>) {
-    refinementListeners += (view::setRefinements)
-    selectedListeners += (view::setSelected)
-    view.onClickRefinement(::onSelectedRefinement.get())
+fun <T> RefinementModel<T>.connectViews(views: List<RefinementView<T>>) {
+    views.forEach(::connectView)
 }
+
+fun <T, R> RefinementModel<T>.connectViews(views: List<RefinementView<R>>, converter: Converter<T, R>) {
+    views.forEach { connectView(it, converter) }
+}
+
