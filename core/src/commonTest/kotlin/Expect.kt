@@ -1,3 +1,4 @@
+import kotlin.reflect.KClass
 import kotlin.test.*
 
 
@@ -39,4 +40,12 @@ internal fun <T> Collection<T>.shouldBeEmpty() {
 
 internal fun <T> Collection<T>.shouldNotBeEmpty() {
     this.isNotEmpty().shouldBeTrue()
+}
+
+internal infix fun <T : Throwable> KClass<T>.shouldFailWith(block: suspend () -> Unit): T {
+    return assertFailsWith(this, null) {
+        blocking {
+            block()
+        }
+    }
 }
