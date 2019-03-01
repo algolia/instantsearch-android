@@ -6,10 +6,8 @@ import com.algolia.search.model.search.Facet
 import com.algolia.search.model.search.Query
 import com.algolia.search.query.setFacets
 import index
-import searcher.SearcherSingleQuery
-import searcher.connectSearcher
+import searcher.*
 import shouldBeEmpty
-import shouldBeTrue
 import shouldEqual
 import shouldNotBeEmpty
 import kotlin.test.Test
@@ -39,7 +37,7 @@ class TestRefinement {
     }
 
     @Test
-    fun refinement() {
+    fun searcherSingleQuery() {
         blocking {
             val attribute = Attribute("brand")
             val query = Query().apply { setFacets(attribute) }
@@ -48,7 +46,7 @@ class TestRefinement {
             val view = MockView()
 
             model.connectView(view)
-            model.connectSearcher(searcher, attribute)
+            model.connectSearcherSingleQuery(searcher, attribute)
             searcher.search()
             searcher.completed?.await()
             model.refinements.size shouldEqual 2
@@ -57,6 +55,26 @@ class TestRefinement {
             searcher.completed?.await()
             query.filterBuilder.get().shouldNotBeEmpty()
             model.refinements.size shouldEqual 1
+        }
+    }
+
+    @Test
+    fun searcherForFacetValue() {
+        blocking {
+            val attribute = Attribute("name")
+            val searcher = SearcherForFacetValue(index, attribute)
+
+            val model = RefinementModel<Facet>()
+            val view = MockView()
+
+            model.connectView(view)
+            model.connectSearcherForFacetValue(searcher)
+            searcher.search()
+            searcher.completed?.await()
+            model.refinements.size shouldEqual 2
+            view.click(model.refinements.first())
+            searcher.completed?.await()
+            model.refinements.size shouldEqual 2
         }
     }
 }
