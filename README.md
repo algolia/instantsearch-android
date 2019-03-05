@@ -36,7 +36,6 @@ implementation 'com.algolia:instantsearch-androidx:1.15.2'
 
 To use InstantSearch's Core without the UI components and helpers, you should use this instead:
 ```groovy
-<<<<<<< HEAD
 implementation 'com.algolia:instantsearch-android-core:1.15.2'
 
 
