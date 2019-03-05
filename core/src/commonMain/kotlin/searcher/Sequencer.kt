@@ -22,7 +22,7 @@ class Sequencer(val maxOperations: Int) {
         operations.add(operation)
         if (operations.size > maxOperations) {
             operations.first().cancel()
-            operations.removeAt(0)
+            operations.removeAt(0).cancel()
         }
     }
 
