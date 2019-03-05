@@ -73,7 +73,6 @@ class TestRefinement {
 
     private fun multiple(model: RefinementModel<Facet>, views: List<MockView>, searcher: MockSearcher) {
         setup(model, views, searcher)
-        model.refinements shouldEqual facets
         views.forEach {
             it.data shouldEqual facets
         }
