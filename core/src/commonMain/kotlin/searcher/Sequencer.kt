@@ -31,7 +31,7 @@ class Sequencer(val maxOperations: Int) {
     }
 
     /**
-     * When an operation completes, we cancel and remove operations operations from the queue that are older.
+     * When an operation completes, we cancel and remove operations from the queue that are older.
      */
     fun operationCompleted(operation: CoroutineContext) {
         val index = operations.indexOf(operation)
