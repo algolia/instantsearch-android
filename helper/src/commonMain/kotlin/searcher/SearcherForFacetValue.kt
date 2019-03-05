@@ -33,7 +33,6 @@ class SearcherForFacetValue(
             sequencer.addOperation(this)
             val response = index.searchForFacetValue(attribute, facetQuery, query, maxFacetHits, requestOptions)
 
-            println(response)
             listeners.forEach { it(response) }
             completed?.complete(response)
             sequencer.operationCompleted(this)
