@@ -12,3 +12,4 @@ internal expect fun blocking(block: suspend CoroutineScope.() -> Unit)
 
 internal val algolia get() = ClientSearch(applicationID, apiKey)
 internal val index get() = algolia.initIndex(IndexName("products_android_demo"))
+internal val index2 get() = algolia.initIndex(IndexName("products_android_demo_name_asc"))
