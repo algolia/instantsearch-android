@@ -30,6 +30,7 @@ version '0.0.1'
 apply plugin: 'maven-publish'
 
 kotlin {
+    android()
     jvm {
         compilations.main.kotlinOptions {
             jvmTarget = "1.8"
