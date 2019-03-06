@@ -36,7 +36,6 @@ class Sequencer(val maxOperations: Int) {
         val index = operations.indexOf(operation)
 
         (0 until index).forEach {
-            operations[it].cancel()
             operations.removeAt(it).cancel()
         }
     }
