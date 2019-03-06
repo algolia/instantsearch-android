@@ -21,7 +21,6 @@ class Sequencer(val maxOperations: Int) {
     fun addOperation(operation: CoroutineContext) {
         operations.add(operation)
         if (operations.size > maxOperations) {
-            operations.first().cancel()
             operations.removeAt(0).cancel()
         }
     }
