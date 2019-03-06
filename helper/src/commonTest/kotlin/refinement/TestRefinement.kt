@@ -2,11 +2,11 @@ package refinement
 
 import algolia
 import blocking
+import com.algolia.search.filter.setFacets
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.search.Facet
 import com.algolia.search.model.search.Query
-import com.algolia.search.query.setFacets
 import index
 import index2
 import searcher.*

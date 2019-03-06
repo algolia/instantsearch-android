@@ -1,12 +1,12 @@
 package searcher
 
+import com.algolia.search.filter.FilterFacet
+import com.algolia.search.filter.GroupOr
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.response.ResponseSearchForFacetValue
 import com.algolia.search.model.response.ResponseSearches
 import com.algolia.search.model.search.Facet
-import com.algolia.search.query.FilterFacet
-import com.algolia.search.query.GroupOr
 import model.Variant
 import refinement.RefinementModel
 
