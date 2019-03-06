@@ -13,11 +13,11 @@ class TestSequencer {
 
             Sequencer(5).apply {
                 operations.forEach(::addOperation)
-                operations.size shouldEqual maxOperations
+                this.operations.size shouldEqual maxOperations
                 operationCompleted(operations[8])
-                operations.size shouldEqual 2
+                this.operations.size shouldEqual 2
                 cancelAll()
-                operations.shouldBeEmpty()
+                this.operations.shouldBeEmpty()
             }
         }
     }
