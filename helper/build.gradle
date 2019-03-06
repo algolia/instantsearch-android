@@ -8,12 +8,19 @@ apply plugin: 'maven-publish'
 
 kotlin {
     jvm()
+    jvm {
+        compilations.main.kotlinOptions {
+            jvmTarget = "1.8"
+        }
+        compilations.test.kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
     sourceSets {
         commonMain {
             dependencies {
                 implementation project(':core')
                 implementation "com.algolia.algoliasearch:algoliasearch-client-kotlin-metadata:1.0.0"
-                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0'
                 implementation kotlin('stdlib-common')
             }
         }
