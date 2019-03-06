@@ -3,3 +3,5 @@
 .gradle
 .DS_STORE
 *.iml
+
+local.properties
