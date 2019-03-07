@@ -49,8 +49,8 @@ fun RefinementModel<Facet>.connectSearcherMultiQuery(
         }
     }
     selectedListeners += { refinements ->
-        searcher.indexQueries.forEach {
-            it.query.filterBuilder.apply {
+        searcher.indexQueries.forEach { indexQuery ->
+            indexQuery.query.filterBuilder.apply {
                 group.clear(attribute)
                 group += refinements.map { FilterFacet(attribute, it.name) }
             }
