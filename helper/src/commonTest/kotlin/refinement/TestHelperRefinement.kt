@@ -40,15 +40,15 @@ class TestHelperRefinement {
     }
 
     @Test
-    fun searcherSingleQuery() {
+    fun searcherSingleIndex() {
         blocking {
             val attribute = Attribute("brand")
             val query = Query().apply { setFacets(attribute) }
-            val searcher = SearcherSingleQuery(index, query)
+            val searcher = SearcherSingleIndex(index, query)
             val model = RefinementModel<Facet>()
             val view = MockView()
             model.connectView(view)
-            model.connectSearcherSingleQuery(searcher, attribute)
+            model.connectSearcherSingleIndex(searcher, attribute)
 
             searcher.search()
             searcher.completed?.await()

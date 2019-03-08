@@ -5,14 +5,13 @@ import com.algolia.search.filter.GroupOr
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.response.ResponseSearchForFacetValue
-import com.algolia.search.model.response.ResponseSearches
 import com.algolia.search.model.search.Facet
 import model.Variant
 import refinement.RefinementModel
 
 
-fun RefinementModel<Facet>.connectSearcherSingleQuery(
-    searcher: SearcherSingleQuery,
+fun RefinementModel<Facet>.connectSearcherSingleIndex(
+    searcher: SearcherSingleIndex,
     attribute: Attribute,
     variant: String = attribute.raw
 ) {
