@@ -40,7 +40,7 @@ kotlin {
     }
     sourceSets {
         commonMain.dependencies {
-                implementation project(':core')
+                api project(':core') // Needed to expose interfaces to apps
                 implementation "com.algolia.algoliasearch:algoliasearch-client-kotlin-metadata:1.0.0"
                 implementation kotlin('stdlib-common')
         }
@@ -60,7 +60,7 @@ kotlin {
             implementation fileTree(dir: 'libs', include: ['*.jar'])
             implementation 'com.android.support:appcompat-v7:28.0.0'
             implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
-            implementation "com.algolia.algoliasearch:algoliasearch-client-kotlin-jvm:1.0.0"
+            api "com.algolia.algoliasearch:algoliasearch-client-kotlin-jvm:1.0.0"
         }
         androidTest.dependencies {
             implementation 'junit:junit:4.12'
