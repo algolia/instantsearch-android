@@ -13,9 +13,9 @@ import refinement.RefinementModel
 fun RefinementModel<Facet>.connectSearcherSingleIndex(
     searcher: SearcherSingleIndex,
     attribute: Attribute,
-    variant: String = attribute.raw
+    variant: Variant = Variant(attribute.raw)
 ) {
-    val group = GroupOr(variant)
+    val group = GroupOr(variant.name)
 
     searcher.listeners += { response: ResponseSearch ->
         response.facets[attribute]?.let {

@@ -2,13 +2,10 @@ package model
 
 import com.algolia.search.exception.EmptyStringException
 
-public data class Variant(/*override */val raw: String) /*: Raw<String> */{
-
+data class Variant(val name: String) {
     init {
-        if (raw.isEmpty()) throw EmptyStringException("Variant")
+        if (name.isEmpty()) throw EmptyStringException("Variant")
     }
 
-    override fun toString(): String {
-        return raw
-    }
+    override fun toString(): String = name
 }
