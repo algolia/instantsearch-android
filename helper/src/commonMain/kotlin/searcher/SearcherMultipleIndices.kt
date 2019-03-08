@@ -7,7 +7,7 @@ import com.algolia.search.model.response.ResponseSearches
 import kotlinx.coroutines.*
 
 
-class SearcherMultiQuery(
+class SearcherMultipleIndices(
     val client: ClientSearch,
     val indexQueries: List<IndexQuery>,
     val requestOptions: RequestOptions? = null

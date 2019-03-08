@@ -13,7 +13,6 @@ import searcher.*
 import shouldBeEmpty
 import shouldEqual
 import shouldNotBeEmpty
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 
@@ -38,11 +37,6 @@ class TestHelperRefinement {
                 onClick(refinement)
             }
         }
-    }
-
-    @BeforeTest
-    fun beforeTest() {
-        println("Ready to test!")
     }
 
     @Test
@@ -70,132 +64,23 @@ class TestHelperRefinement {
 
 
     @Test
-    fun searcherMultiQuerySingleQuery() {
+    fun searcherMultipleIndices() {
         blocking {
             val attribute1 = Attribute("brand")
             val attribute2 = Attribute("color")
             val query = Query().apply { setFacets(attribute1, attribute2) }
-            val indexQuery1 = IndexQuery(index.indexName, query)
-            val indexQuery2 = IndexQuery(index2.indexName, query)
-            val searcher = SearcherMultiQuery(algolia, listOf(indexQuery1, indexQuery2))
-            val model1 = RefinementModel<Facet>()
-            val model2 = RefinementModel<Facet>()
-            val view1 = MockView()
-            val view2 = MockView()
-
-            model1.connectView(view1)
-            model1.connectSearcherMultiQuery(searcher, attribute1)
-            model2.connectView(view2)
-            model2.connectSearcherMultiQuery(searcher, attribute2)
+            val indexQuery0 = IndexQuery(index.indexName, query)
+            val indexQuery1 = IndexQuery(index2.indexName, query)
+            val searcher = SearcherMultipleIndices(algolia, listOf(indexQuery0, indexQuery1))
+            searcher.listeners += {
+                it.results[0].facets.keys.size shouldEqual 2
+                it.results[1].facets.keys.size shouldEqual 2
+                it.results[0].indexName shouldEqual indexQuery0.indexName
+                it.results[1].indexName shouldEqual indexQuery1.indexName
+            }
 
             searcher.search()
             searcher.completed?.await()
-
-            model1.refinements.size shouldEqual 2
-            model2.refinements.size shouldEqual 2
-            query.filterBuilder.get().shouldBeEmpty()
-
-            view1.click(model1.refinements.first())
-            searcher.completed?.await()
-
-            query.filterBuilder.get().shouldNotBeEmpty()
-            model1.refinements.size shouldEqual 1
-            model2.refinements.size shouldEqual 1
-
-            view1.click(model1.refinements.first())
-            view2.click(model2.refinements.first())
-            searcher.completed?.await()
-
-            query.filterBuilder.get().shouldNotBeEmpty()
-            model1.refinements.size shouldEqual 1
-            model2.refinements.size shouldEqual 1
-
-            view2.click(model2.refinements.first())
-            searcher.completed?.await()
-
-            query.filterBuilder.get().shouldBeEmpty()
-            model1.refinements.size shouldEqual 2
-            model2.refinements.size shouldEqual 2
-        }
-    }
-
-    @Test
-    fun searcherMultiQuery() {
-        blocking {
-            // Query1-> index1, Query2 -> index2
-            // -> test widget1 displays refinements for 1, widget2 displays refinements for 2
-
-            // GIVEN QUERIES MATCHING TWO RECORDS
-            val attribute1 = Attribute("brand")
-            val attribute2 = Attribute("color")
-            val query1 = Query().apply { setFacets(attribute1) }
-            val query2 = Query().apply { setFacets(attribute2) }
-            val indexQuery1 = IndexQuery(index.indexName, query1)
-            val indexQuery2 = IndexQuery(index2.indexName, query2)
-            val searcher = SearcherMultiQuery(algolia, listOf(indexQuery1, indexQuery2))
-            val model1 = RefinementModel<Facet>()
-            val model2 = RefinementModel<Facet>()
-            val view1 = MockView()
-            val view2 = MockView()
-
-            // GIVEN A MODEL1 CONNECTED TO A VIEW1 AND A SEARCHER
-            // GIVEN A MODEL2 CONNECTED TO A VIEW2 AND A SEARCHER
-            model1.connectView(view1)
-            model1.connectSearcherMultiQuery(searcher, attribute1)
-            model2.connectView(view2)
-            model2.connectSearcherMultiQuery(searcher, attribute2)
-
-            // WHEN THE SEARCHER SEARCHES
-            searcher.search()
-            searcher.completed?.await()
-
-            // EXPECT THE MODEL1 TO HAVE 2 REFINEMENTS
-            // EXPECT THE MODEL2 TO HAVE 2 REFINEMENTS
-            // EXPECT THE QUERY TO HAVE NO FILTERS
-//            model1.refinements.size shouldEqual 2
-//            model2.refinements.size shouldEqual 2
-//            query1.filterBuilder.get().shouldBeEmpty()
-//            query2.filterBuilder.get().shouldBeEmpty()
-
-            // WHEN THE VIEW1 CLICKED (Selecting refinement)
-            view1.click(model1.refinements.first())
-            searcher.completed?.await()
-
-            // EXPECT THE QUERY TO HAVE FILTERS
-            // EXPECT THE MODEL1 TO HAVE 1 REFINEMENT
-            // EXPECT THE MODEL2 TO HAVE 2 REFINEMENT
-//            query1.filterBuilder.get().shouldNotBeEmpty()
-//            query2.filterBuilder.get().shouldBeEmpty()
-//            model1.refinements.size shouldEqual 1
-//            model2.refinements.size shouldEqual 1
-
-            // WHEN THE VIEW1 IS CLICKED (Deselecting its refinement)
-            // THEN THE VIEW2 IS CLICKED (Selecting its refinement)
-            view1.click(model1.refinements.first())
-            view2.click(model2.refinements.first())
-            searcher.completed?.await()
-
-            // EXPECT THE QUERY TO HAVE FILTERS
-            // EXPECT THE MODEL1 TO HAVE 2 REFINEMENT
-            // EXPECT THE MODEL2 TO HAVE 1 REFINEMENT
-//            query1.filterBuilder.get().shouldBeEmpty()
-//            query2.filterBuilder.get().shouldNotBeEmpty()
-//            model1.refinements.size shouldEqual 2
-//            model2.refinements.size shouldEqual 1
-
-            // WHEN THE VIEW2 IS CLICKED (Deselecting its refinement)
-            view2.click(model2.refinements.first())
-            searcher.completed?.await()
-
-            // EXPECT THE QUERY TO HAVE NO FILTERS
-            // EXPECT THE MODEL1 TO HAVE 2 REFINEMENT
-            // EXPECT THE MODEL2 TO HAVE 1 REFINEMENT
-//            query1.filterBuilder.get().shouldBeEmpty()
-//            query2.filterBuilder.get().shouldBeEmpty()
-//            model1.refinements.size shouldEqual 2
-//            model2.refinements.size shouldEqual 2
-
-
         }
     }
 

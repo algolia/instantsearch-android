@@ -32,33 +32,6 @@ fun RefinementModel<Facet>.connectSearcherSingleQuery(
     }
 }
 
-fun RefinementModel<Facet>.connectSearcherMultiQuery(
-    searcher: SearcherMultiQuery,
-    attribute: Attribute,
-    variant: Variant = Variant(attribute.raw)
-) {
-    val group = GroupOr(variant.raw)
-
-    searcher.listeners += { responses: ResponseSearches ->
-        responses.results.forEach { response ->
-            response.facets[attribute]?.let {
-                //TODO: What about response ordering? Doesn't it make the refinements non-deterministic?
-                //EG: Response1(facets[attr]= "foo"), Response2(facets[attr]= "bar")
-                refinements = it
-            }
-        }
-    }
-    selectedListeners += { refinements ->
-        searcher.indexQueries.forEach { indexQuery ->
-            indexQuery.query.filterBuilder.apply {
-                group.clear(attribute)
-                group += refinements.map { FilterFacet(attribute, it.name) }
-            }
-        }
-        searcher.search()
-    }
-}
-
 fun RefinementModel<Facet>.connectSearcherForFacetValue(
     searcher: SearcherForFacetValue
 ) {
