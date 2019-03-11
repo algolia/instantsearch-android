@@ -38,3 +38,5 @@ fun RefinementModel<Facet>.connectSearcherForFacetValue(
         refinements = response.facets
     }
 }
+
+//TODO HierarchicalModel.connectSearcherSingleQuery()
