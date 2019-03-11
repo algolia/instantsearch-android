@@ -24,15 +24,15 @@ class TestSearcherMultipleIndices {
             val indexQuery0 = IndexQuery(index.indexName, query)
             val indexQuery1 = IndexQuery(index2.indexName, query)
             val searcher = SearcherMultipleIndices(algolia, listOf(indexQuery0, indexQuery1))
-            searcher.listeners += {
+
+            searcher.search()
+
+            searcher.completed!!.await().let {
                 it.results[0].facets.keys.size shouldEqual 2
                 it.results[1].facets.keys.size shouldEqual 2
                 it.results[0].indexName shouldEqual indexQuery0.indexName
                 it.results[1].indexName shouldEqual indexQuery1.indexName
             }
-
-            searcher.search()
-            searcher.completed?.await()
         }
     }
 }
