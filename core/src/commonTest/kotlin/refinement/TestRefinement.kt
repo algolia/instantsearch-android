@@ -45,7 +45,11 @@ class TestRefinement {
         searcher.count shouldEqual facets.size
     }
 
-    private fun multiple(model: RefinementModel<Facet>, views: List<MockView>, searcher: MockSearcher) {
+    private fun multiple(
+        model: RefinementModel<Facet>,
+        views: List<MockView> = getViews(),
+        searcher: MockSearcher = MockSearcher()
+    ) {
         setup(model, views, searcher)
         views.forEach {
             it.data shouldEqual facets
@@ -58,7 +62,9 @@ class TestRefinement {
         }
     }
 
-    private fun single(model: RefinementModel<Facet>, views: List<MockView>, searcher: MockSearcher) {
+    private fun single(model: RefinementModel<Facet>,
+                       views: List<MockView> = getViews(),
+                       searcher: MockSearcher = MockSearcher()) {
         setup(model, views, searcher)
         model.selected shouldEqual listOf(facets.last())
         views.forEach {
@@ -74,28 +80,16 @@ class TestRefinement {
 
     @Test
     fun disjunctive() {
-        val model = RefinementModel<Facet>(RefinementModel.Mode.Disjunctive)
-        val views = getViews()
-        val searcher = MockSearcher()
-
-        multiple(model, views, searcher)
+        multiple(RefinementModel(RefinementModel.Mode.Disjunctive))
     }
 
     @Test
     fun conjunctiveMultipleChoice() {
-        val model = RefinementModel<Facet>(RefinementModel.Mode.ConjunctiveMultipleChoice)
-        val views = getViews()
-        val searcher = MockSearcher()
-
-        multiple(model, views, searcher)
+        multiple(RefinementModel(RefinementModel.Mode.ConjunctiveMultipleChoice))
     }
 
     @Test
     fun conjunctiveSingleChoice() {
-        val model = RefinementModel<Facet>(RefinementModel.Mode.ConjunctiveSingleChoice)
-        val views = getViews()
-        val searcher = MockSearcher()
-
-        single(model, views, searcher)
+        single(RefinementModel(RefinementModel.Mode.ConjunctiveSingleChoice))
     }
 }
