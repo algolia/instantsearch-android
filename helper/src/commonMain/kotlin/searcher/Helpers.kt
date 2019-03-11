@@ -1,20 +1,21 @@
 package searcher
 
+import com.algolia.search.filter.FilterFacet
+import com.algolia.search.filter.GroupOr
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.response.ResponseSearchForFacetValue
 import com.algolia.search.model.search.Facet
-import com.algolia.search.query.FilterFacet
-import com.algolia.search.query.GroupOr
+import model.Variant
 import refinement.RefinementModel
 
 
-fun RefinementModel<Facet>.connectSearcherSingleQuery(
-    searcher: SearcherSingleQuery,
+fun RefinementModel<Facet>.connectSearcherSingleIndex(
+    searcher: SearcherSingleIndex,
     attribute: Attribute,
-    variant: String = attribute.raw
+    variant: Variant = Variant(attribute.raw)
 ) {
-    val group = GroupOr(variant)
+    val group = GroupOr(variant.name)
 
     searcher.listeners += { response: ResponseSearch ->
         response.facets[attribute]?.let {

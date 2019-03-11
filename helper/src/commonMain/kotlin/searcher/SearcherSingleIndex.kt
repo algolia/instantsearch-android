@@ -7,7 +7,7 @@ import com.algolia.search.model.search.Query
 import kotlinx.coroutines.*
 
 
-class SearcherSingleQuery(
+class SearcherSingleIndex(
     val index: Index,
     val query: Query,
     val requestOptions: RequestOptions? = null

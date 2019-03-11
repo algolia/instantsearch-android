@@ -1,19 +1,22 @@
 package refinement
 
 import blocking
+import com.algolia.search.filter.setFacets
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import com.algolia.search.model.search.Query
-import com.algolia.search.query.setFacets
-import index
-import searcher.*
+import indexA
+import searcher.SearcherForFacetValue
+import searcher.SearcherSingleIndex
+import searcher.connectSearcherForFacetValue
+import searcher.connectSearcherSingleIndex
 import shouldBeEmpty
 import shouldEqual
 import shouldNotBeEmpty
 import kotlin.test.Test
 
 
-class TestRefinement {
+class TestHelperRefinement {
 
     private class MockView : RefinementView<Facet> {
 
@@ -37,20 +40,21 @@ class TestRefinement {
     }
 
     @Test
-    fun searcherSingleQuery() {
+    fun withSearcherSingleIndex() {
         blocking {
             val attribute = Attribute("brand")
             val query = Query().apply { setFacets(attribute) }
-            val searcher = SearcherSingleQuery(index, query)
+            val searcher = SearcherSingleIndex(indexA, query)
             val model = RefinementModel<Facet>()
             val view = MockView()
-
             model.connectView(view)
-            model.connectSearcherSingleQuery(searcher, attribute)
+            model.connectSearcherSingleIndex(searcher, attribute)
+
             searcher.search()
             searcher.completed?.await()
             model.refinements.size shouldEqual 2
             query.filterBuilder.get().shouldBeEmpty()
+
             view.click(model.refinements.first())
             searcher.completed?.await()
             query.filterBuilder.get().shouldNotBeEmpty()
@@ -59,10 +63,10 @@ class TestRefinement {
     }
 
     @Test
-    fun searcherForFacetValue() {
+    fun withSearcherForFacetValue() {
         blocking {
             val attribute = Attribute("name")
-            val searcher = SearcherForFacetValue(index, attribute)
+            val searcher = SearcherForFacetValue(indexA, attribute)
 
             val model = RefinementModel<Facet>()
             val view = MockView()
