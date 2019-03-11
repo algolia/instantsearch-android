@@ -11,7 +11,7 @@ import kotlinx.coroutines.*
 class SearcherMultipleIndices(
     val client: ClientSearch,
     val indexQueries: List<IndexQuery>,
-    val strategy: MultipleQueriesStrategy,
+    val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
