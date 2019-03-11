@@ -10,6 +10,7 @@ import kotlin.test.Test
 
 class TestRefinement {
     private class MockView : RefinementView<Facet> {
+
         lateinit var click: (Facet) -> Unit
         var data = listOf<Facet>()
         var dataSelected = listOf<Facet>()
