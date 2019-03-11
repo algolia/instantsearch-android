@@ -6,8 +6,8 @@ import com.algolia.search.filter.setFacets
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.search.Query
-import index
-import index2
+import indexA
+import indexB
 import searcher.SearcherMultipleIndices
 import shouldEqual
 import kotlin.test.Test
@@ -21,8 +21,8 @@ class TestSearcherMultipleIndices {
             val attribute1 = Attribute("brand")
             val attribute2 = Attribute("color")
             val query = Query().apply { setFacets(attribute1, attribute2) }
-            val indexQuery0 = IndexQuery(index.indexName, query)
-            val indexQuery1 = IndexQuery(index2.indexName, query)
+            val indexQuery0 = IndexQuery(indexA.indexName, query)
+            val indexQuery1 = IndexQuery(indexB.indexName, query)
             val searcher = SearcherMultipleIndices(algolia, listOf(indexQuery0, indexQuery1))
 
             searcher.search()

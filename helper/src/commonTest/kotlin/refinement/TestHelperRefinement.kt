@@ -5,7 +5,7 @@ import com.algolia.search.filter.setFacets
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import com.algolia.search.model.search.Query
-import index
+import indexA
 import searcher.SearcherForFacetValue
 import searcher.SearcherSingleIndex
 import searcher.connectSearcherForFacetValue
@@ -44,7 +44,7 @@ class TestHelperRefinement {
         blocking {
             val attribute = Attribute("brand")
             val query = Query().apply { setFacets(attribute) }
-            val searcher = SearcherSingleIndex(index, query)
+            val searcher = SearcherSingleIndex(indexA, query)
             val model = RefinementModel<Facet>()
             val view = MockView()
             model.connectView(view)
@@ -66,7 +66,7 @@ class TestHelperRefinement {
     fun withSearcherForFacetValue() {
         blocking {
             val attribute = Attribute("name")
-            val searcher = SearcherForFacetValue(index, attribute)
+            val searcher = SearcherForFacetValue(indexA, attribute)
 
             val model = RefinementModel<Facet>()
             val view = MockView()
