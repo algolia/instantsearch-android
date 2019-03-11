@@ -3,6 +3,7 @@ package searcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.client.RequestOptions
 import com.algolia.search.model.multipleindex.IndexQuery
+import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.response.ResponseSearches
 import kotlinx.coroutines.*
 
@@ -10,6 +11,7 @@ import kotlinx.coroutines.*
 class SearcherMultipleIndices(
     val client: ClientSearch,
     val indexQueries: List<IndexQuery>,
+    val strategy: MultipleQueriesStrategy,
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
@@ -25,7 +27,7 @@ class SearcherMultipleIndices(
         completed = CompletableDeferred()
         launch {
             sequencer.addOperation(this)
-            val response = client.multipleQueries(indexQueries, requestOptions = requestOptions)
+            val response = client.multipleQueries(indexQueries, strategy, requestOptions)
 
             listeners.forEach { it(response) }
             completed?.complete(response)
