@@ -1,5 +1,6 @@
 package refinement
 
+import helper.RefinementsListener
 import kotlin.properties.Delegates
 
 
@@ -37,6 +38,6 @@ open class RefinementModel<T>(val mode: Mode = Mode.Disjunctive) {
         }
         selectedListeners.forEach { it(selected) }
     }
-    val refinementListeners = mutableListOf<RefinementListener<T>>()
-    val selectedListeners = mutableListOf<RefinementListener<T>>()
+    val refinementListeners = mutableListOf<RefinementsListener<T>>()
+    val selectedListeners = mutableListOf<RefinementsListener<T>>()
 }
