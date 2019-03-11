@@ -1,8 +1,5 @@
 package helper
 
-import refinement.RefinementModel
-import refinement.RefinementView
-
 
 interface Converter<I, O> {
 

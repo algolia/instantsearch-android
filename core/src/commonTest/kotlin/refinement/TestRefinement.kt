@@ -1,27 +1,14 @@
 package refinement
 
-import searcher.Searcher
+import Facet
+import MockSearcher
+import facets
+import otherFacets
 import shouldEqual
 import kotlin.test.Test
 
 
 class TestRefinement {
-
-    private data class Facet(
-        val attribute: String,
-        val count: Int
-    )
-
-    private val facets = listOf(
-        Facet("Blue", 1),
-        Facet("Red", 2),
-        Facet("Green", 3)
-    )
-    private val otherFacets = listOf(
-        Facet("Blue", 1),
-        Facet("Red", 2)
-    )
-
     private class MockView : RefinementView<Facet> {
 
         lateinit var click: (Facet) -> Unit
@@ -40,19 +27,6 @@ class TestRefinement {
             click = { refinement: Facet ->
                 onClick(refinement)
             }
-        }
-    }
-
-    private class MockSearcher : Searcher {
-
-        var count = 0
-
-        override fun search() {
-            count++
-        }
-
-        override fun cancel() {
-
         }
     }
 
