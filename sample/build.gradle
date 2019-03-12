@@ -35,8 +35,7 @@ android {
     }
 
     packagingOptions {
-        //FIXME: These issues are likely coming from a deeper issue:
-        // More than one file was found with OS independent path 'META-INF/kotlinx-io.kotlin_module'
+        // FIXME: Solve these "More than one file was found with OS independent path 'META-INF/*' in the lib via Proguard
         exclude 'META-INF/ktor-http.kotlin_module'
         exclude 'META-INF/kotlinx-io.kotlin_module'
         exclude 'META-INF/atomicfu.kotlin_module'
