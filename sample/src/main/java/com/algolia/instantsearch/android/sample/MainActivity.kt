@@ -10,7 +10,7 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
-import searcher.SearcherSingleQuery
+import searcher.SearcherSingleIndex
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         val stats = StatsWidget(view)
         val client = ClientSearch(ApplicationID("***REMOVED***"), APIKey("26b270849a0b8189838581c341ff3b06"))
         val index = client.initIndex(IndexName("test"))
-        val searcher = SearcherSingleQuery(index, Query(""))
+        val searcher = SearcherSingleIndex(index, Query(""))
         searcher.listeners += {
             stats.updateView(it)
             Toast(view.context).setText(it.toString())
