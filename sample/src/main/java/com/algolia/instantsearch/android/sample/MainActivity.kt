@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         val view = findViewById<TextView>(R.id.text)
         val stats = StatsWidget(view)
         val client = ClientSearch(ApplicationID("latency"), APIKey("3cfd1f8bfa88c7709f6bacf8203194e8"))
-        val index = client.initIndex(IndexName("test"))
+        val index = client.initIndex(IndexName("products_android_demo"))
         val searcher = SearcherSingleIndex(index, Query(""))
         searcher.listeners += {
             stats.updateView(it)
