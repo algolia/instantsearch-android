@@ -10,6 +10,7 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
+import android.widget.Toast.LENGTH_LONG
 import searcher.SearcherSingleIndex
 
 class MainActivity : AppCompatActivity() {
@@ -20,12 +21,12 @@ class MainActivity : AppCompatActivity() {
 
         val view = findViewById<TextView>(R.id.text)
         val stats = StatsWidget(view)
-        val client = ClientSearch(ApplicationID("***REMOVED***"), APIKey("26b270849a0b8189838581c341ff3b06"))
+        val client = ClientSearch(ApplicationID("latency"), APIKey("3cfd1f8bfa88c7709f6bacf8203194e8"))
         val index = client.initIndex(IndexName("test"))
         val searcher = SearcherSingleIndex(index, Query(""))
         searcher.listeners += {
             stats.updateView(it)
-            Toast(view.context).setText(it.toString())
+            this@MainActivity.runOnUiThread { Toast.makeText(this, it.toString(), LENGTH_LONG).show() }
         }
         searcher.search()
     }
