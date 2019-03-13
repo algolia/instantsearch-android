@@ -34,3 +34,7 @@ kotlin {
             }
     }
 }
+
+configurations {
+    compileClasspath  //FIXME: Workaround for https://youtrack.jetbrains.com/issue/KT-27170
+}
