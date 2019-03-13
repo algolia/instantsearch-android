@@ -5,6 +5,6 @@ import com.algolia.search.model.response.ResponseSearch
 
 class StatsWidget(private val view: TextView) {
     fun updateView(res: ResponseSearch){
-        view.text = res.nbHits.toString()
+        view.post { view.text = res.nbHits.toString() }
     }
 }
