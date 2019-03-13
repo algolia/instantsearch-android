@@ -24,9 +24,7 @@ class TestHierarchicalMenu {
         }
 
         override fun onClickRefinement(onClick: (Facet) -> Unit) {
-            click = { refinement: Facet ->
-                onClick(refinement)
-            }
+            click = { onClick(it) }
         }
     }
 
@@ -43,13 +41,9 @@ class TestHierarchicalMenu {
         model.connectViews(views)
         model.connectSearcher(searcher)
         model.hierarchicalRefinements = facetsHierarchy
-        facets.forEach {
-            views.first().click(it)
-        }
+        facets.forEach { views.first().click(it) }
         model.hierarchicalRefinements shouldEqual facetsHierarchy
-        views.forEach {
-            it.data shouldEqual facetsHierarchy
-        }
+        views.forEach { it.data shouldEqual facetsHierarchy }
         searcher.count shouldEqual facets.size
     }
 

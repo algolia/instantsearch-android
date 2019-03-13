@@ -23,9 +23,7 @@ class TestRefinement {
         }
 
         override fun onClickRefinement(onClick: (Facet) -> Unit) {
-            click = { refinement: Facet ->
-                onClick(refinement)
-            }
+            click = { onClick(it) }
         }
     }
 
@@ -35,13 +33,9 @@ class TestRefinement {
         model.connectViews(views)
         model.connectSearcher(searcher)
         model.refinements = facets
-        facets.forEach {
-            views.first().click(it)
-        }
+        facets.forEach { views.first().click(it) }
         model.refinements shouldEqual facets
-        views.forEach {
-            it.data shouldEqual facets
-        }
+        views.forEach { it.data shouldEqual facets }
         searcher.count shouldEqual facets.size
     }
 
@@ -51,9 +45,7 @@ class TestRefinement {
         searcher: MockSearcher = MockSearcher()
     ) {
         setup(model, views, searcher)
-        views.forEach {
-            it.data shouldEqual facets
-        }
+        views.forEach { it.data shouldEqual facets }
         model.refinements = otherFacets
         model.selected shouldEqual otherFacets
         views.forEach {
