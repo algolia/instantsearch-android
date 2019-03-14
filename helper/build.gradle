@@ -57,21 +57,21 @@ kotlin {
     }
     sourceSets {
         commonMain.dependencies {
-                api project(':core') // Needed to expose interfaces to apps
-                implementation "com.algolia.algoliasearch:algoliasearch-client-kotlin-metadata:1.0.0"
-                implementation kotlin('stdlib-common')
+            api project(':core')
+            implementation "com.algolia.algoliasearch:algoliasearch-client-kotlin-metadata:1.0.0"
+            implementation kotlin('stdlib-common')
         }
         commonTest.dependencies {
-                implementation kotlin('test-common')
-                implementation kotlin('test-annotations-common')
+            implementation kotlin('test-common')
+            implementation kotlin('test-annotations-common')
         }
         jvmMain.dependencies {
-                implementation "com.algolia.algoliasearch:algoliasearch-client-kotlin-jvm:1.0.0"
-                implementation kotlin('stdlib-jdk8')
+            implementation "com.algolia.algoliasearch:algoliasearch-client-kotlin-jvm:1.0.0"
+            implementation kotlin('stdlib-jdk8')
         }
         jvmTest.dependencies {
-                implementation kotlin('test')
-                implementation kotlin('test-junit')
+            implementation kotlin('test')
+            implementation kotlin('test-junit')
         }
         androidMain.dependencies {
             implementation fileTree(dir: 'libs', include: ['*.jar'])
