@@ -22,7 +22,7 @@ fun RefinementModel<Facet>.connectSearcherSingleIndex(
             refinements = it
         }
     }
-    selectedListeners += { refinements ->
+    selectionListeners += { refinements ->
         searcher.query.filterBuilder.apply {
             group.clear(attribute)
             group += refinements.map { FilterFacet(attribute, it.name) }

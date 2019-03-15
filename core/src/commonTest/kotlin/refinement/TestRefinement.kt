@@ -96,7 +96,7 @@ class TestRefinement {
         model.refinements = facets
         model.onSelectedRefinement(facets[2])
         assertFailsWith<CancellationException> {
-            model.selectedListeners += {
+            model.selectionListeners += {
                 throw CancellationException("The selectedlistener was called as selection becomes obsolete")
             }
             model.refinements = otherFacets

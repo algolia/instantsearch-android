@@ -16,7 +16,7 @@ open class RefinementModel<T>(val mode: Mode = Mode.Disjunctive) {
         oldValue.forEach {
             if (it !in newValue) {
                 selected -= it
-                selectedListeners.forEach { it(selected) }
+                selectionListeners.forEach { it(selected) }
             }
         }
         if (oldValue != newValue) {
@@ -37,8 +37,8 @@ open class RefinementModel<T>(val mode: Mode = Mode.Disjunctive) {
                 }
             }
         }
-        selectedListeners.forEach { it(selected) }
+        selectionListeners.forEach { it(selected) }
     }
     val refinementListeners = mutableListOf<RefinementsListener<T>>()
-    val selectedListeners = mutableListOf<RefinementsListener<T>>()
+    val selectionListeners = mutableListOf<RefinementsListener<T>>()
 }

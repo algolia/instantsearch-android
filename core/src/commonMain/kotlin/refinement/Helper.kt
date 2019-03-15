@@ -5,18 +5,18 @@ import searcher.Searcher
 
 
 fun <T> RefinementModel<T>.connectSearcher(searcher: Searcher) {
-    selectedListeners += { searcher.search() }
+    selectionListeners += { searcher.search() }
 }
 
 fun <T> RefinementModel<T>.connectView(view: RefinementView<T>) {
     refinementListeners += (view::setRefinements)
-    selectedListeners += (view::setSelected)
+    selectionListeners += (view::setSelected)
     view.onClickRefinement(::onSelectedRefinement.get())
 }
 
 fun <T, R> RefinementModel<T>.connectView(view: RefinementView<R>, converter: Converter<T, R>) {
     refinementListeners += { view.setRefinements(converter.convertIn(it)) }
-    selectedListeners += { view.setSelected(converter.convertIn(it)) }
+    selectionListeners += { view.setSelected(converter.convertIn(it)) }
     view.onClickRefinement {
         onSelectedRefinement(converter.convertOut(it))
     }
