@@ -3,9 +3,12 @@ package refinement
 import Facet
 import MockSearcher
 import facets
+import kotlinx.coroutines.CancellationException
 import otherFacets
+import shouldContain
 import shouldEqual
 import kotlin.test.Test
+import kotlin.test.assertFailsWith
 
 
 class TestRefinement {
@@ -68,6 +71,35 @@ class TestRefinement {
         views.forEach {
             it.data shouldEqual otherFacets
             it.dataSelected shouldEqual listOf()
+        }
+
+    }
+
+    @Test
+    fun `selected refinement stays selected when new refinements still contain it`() {
+        val model = RefinementModel<Facet>()
+        val views = getViews()
+        val searcher = MockSearcher()
+        setup(model, views, searcher)
+
+        model.refinements = facets
+        views.first().click(facets[0])
+        model.refinements = otherFacets
+        views.forEach {
+            it.dataSelected shouldContain facets[0]
+        }
+    }
+
+    @Test
+    fun `selected listener gets updated on new refinement if the selection is removed`() {
+        val model = RefinementModel<Facet>()
+        model.refinements = facets
+        model.onSelectedRefinement(facets[2])
+        assertFailsWith<CancellationException> {
+            model.selectedListeners += {
+                throw CancellationException("The selectedlistener was called as selection becomes obsolete")
+            }
+            model.refinements = otherFacets
         }
     }
 

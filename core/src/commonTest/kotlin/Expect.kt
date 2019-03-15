@@ -42,6 +42,10 @@ internal fun <T> Collection<T>.shouldNotBeEmpty() {
     this.isNotEmpty().shouldBeTrue()
 }
 
+internal infix fun <T> Collection<T>.shouldContain(element: T) {
+    this.contains(element)
+}
+
 internal infix fun <T : Throwable> KClass<T>.shouldFailWith(block: suspend () -> Unit): T {
     return assertFailsWith(this, null) {
         blocking {

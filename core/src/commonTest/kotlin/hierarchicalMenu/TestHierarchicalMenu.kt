@@ -4,9 +4,11 @@ import Facet
 import MockSearcher
 import facets
 import helper.Hierarchy
+import kotlinx.coroutines.CancellationException
 import otherFacets
 import shouldEqual
 import kotlin.test.Test
+import kotlin.test.assertFailsWith
 
 
 class TestHierarchicalMenu {
@@ -63,4 +65,19 @@ class TestHierarchicalMenu {
             it.dataSelected shouldEqual null
         }
     }
+
+
+    @Test
+    fun `selected listener gets updated on new refinement if the selection is removed`() {
+        val model = HierarchicalMenuModel<Facet>()
+        model.hierarchicalRefinements = facetsHierarchy
+        model.onSelectedRefinement(facets[2])
+        assertFailsWith<CancellationException> {
+            model.selectionListeners += {
+                throw CancellationException("The selectedlistener was called as selection becomes obsolete")
+            }
+            model.hierarchicalRefinements = otherFacetsHierarchy
+        }
+    }
+
 }

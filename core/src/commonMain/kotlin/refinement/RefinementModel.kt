@@ -16,6 +16,7 @@ open class RefinementModel<T>(val mode: Mode = Mode.Disjunctive) {
         oldValue.forEach {
             if (it !in newValue) {
                 selected -= it
+                selectedListeners.forEach { it(selected) }
             }
         }
         if (oldValue != newValue) {
