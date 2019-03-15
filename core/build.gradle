@@ -1,13 +1,12 @@
 plugins {
     id 'kotlin-multiplatform' version '1.3.21'
 }
-group 'com.example'
+group 'com.algolia'
 version '0.0.1'
 
 apply plugin: 'maven-publish'
 
 kotlin {
-    jvm()
     jvm {
         compilations.main.kotlinOptions {
             jvmTarget = "1.8"
@@ -17,28 +16,24 @@ kotlin {
         }
     }
     sourceSets {
-        commonMain {
-            dependencies {
+        commonMain.dependencies {
                 implementation kotlin('stdlib-common')
                 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
             }
-        }
-        commonTest {
-            dependencies {
+        commonTest.dependencies {
                 implementation kotlin('test-common')
                 implementation kotlin('test-annotations-common')
             }
-        }
-        jvmMain {
-            dependencies {
+        jvmMain.dependencies {
                 implementation kotlin('stdlib-jdk8')
             }
-        }
-        jvmTest {
-            dependencies {
+        jvmTest.dependencies {
                 implementation kotlin('test')
                 implementation kotlin('test-junit')
             }
-        }
     }
+}
+
+configurations {
+    compileClasspath  //FIXME: Workaround for https://youtrack.jetbrains.com/issue/KT-27170
 }

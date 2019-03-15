@@ -9,7 +9,5 @@ data class Variant(val name: String) {
         if (name.isEmpty()) throw EmptyStringException("Variant")
     }
 
-    override fun toString(): String {
-        return name
-    }
+    override fun toString(): String = name
 }
