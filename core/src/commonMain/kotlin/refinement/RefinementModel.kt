@@ -1,5 +1,6 @@
 package refinement
 
+import helper.RefinementsListener
 import kotlin.properties.Delegates
 
 
@@ -13,8 +14,8 @@ open class RefinementModel<T>(val mode: Mode = Mode.Disjunctive) {
 
     var refinements by Delegates.observable(listOf<T>()) { _, oldValue, newValue ->
         oldValue.forEach {
-            if (!newValue.contains(it)) {
-                selected.remove(it)
+            if (it !in newValue) {
+                selected -= it
             }
         }
         if (oldValue != newValue) {
@@ -37,6 +38,6 @@ open class RefinementModel<T>(val mode: Mode = Mode.Disjunctive) {
         }
         selectedListeners.forEach { it(selected) }
     }
-    val refinementListeners = mutableListOf<RefinementListener<T>>()
-    val selectedListeners = mutableListOf<RefinementListener<T>>()
+    val refinementListeners = mutableListOf<RefinementsListener<T>>()
+    val selectedListeners = mutableListOf<RefinementsListener<T>>()
 }
