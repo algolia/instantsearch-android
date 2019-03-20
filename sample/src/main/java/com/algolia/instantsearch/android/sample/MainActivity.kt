@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         // Setup and trigger search
-        searcher.listeners += {
+        searcher.responseListeners += {
             stats.updateView(it)
             hits.clear()
             hits.addAll(it.hits)

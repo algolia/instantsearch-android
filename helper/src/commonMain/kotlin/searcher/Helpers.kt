@@ -17,7 +17,7 @@ fun RefinementListViewModel<Facet>.connectSearcherSingleIndex(
 ) {
     val group = GroupOr(variant.name)
 
-    searcher.listeners += { response: ResponseSearch ->
+    searcher.responseListeners += { response: ResponseSearch ->
         response.facets[attribute]?.let {
             refinements = it
         }
