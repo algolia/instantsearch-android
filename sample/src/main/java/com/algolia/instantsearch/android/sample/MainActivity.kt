@@ -17,6 +17,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearch.Hit
 import com.algolia.search.model.search.Query
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.hit_item.view.*
 import kotlinx.serialization.json.content
@@ -98,12 +99,19 @@ class HitViewHolder(private var view: View) : RecyclerView.ViewHolder(view), Vie
 
     fun bind(hit: Hit) {
         view.nameView.text = hit.json["name"].content
-        view.brandView.text = hit.json["brand"].content
-        view.priceView.text = "$ " + hit.json["price"].content
+        view.brandView.text = view.context.getString(R.string.brand_template).format(hit.json["brand"].content)
+        view.priceView.text = view.context.getString(R.string.price_template).format(hit.json["price"].primitive.int)
         view.materialView.text = hit.json["material"].content
         view.colorView.text = hit.json["color"].content
-        view.categoryView.text = hit.getHierarchy(Attribute("categories")).getValue("lvl1").reduce { acc, category ->
-            acc + category.replace("products >", "")
-        }
+
+        view.categoryView.text = hit.getHierarchy(Attribute("categories"))
+            .getValue("lvl1")
+            .joinToString(" | ") { it.replace("products > ", "") }
+
+        Glide.with(view.context)
+            .load(hit.json["image"].content)
+            .placeholder(android.R.drawable.ic_menu_help)
+            .error(android.R.color.holo_red_light)
+            .into(view.imageView)
     }
 }
