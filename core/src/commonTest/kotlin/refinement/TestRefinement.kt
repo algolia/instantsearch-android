@@ -105,16 +105,11 @@ class TestRefinement {
 
     @Test
     fun disjunctive() {
-        multiple(RefinementListViewModel(RefinementListViewModel.Mode.Disjunctive))
+        multiple(RefinementListViewModel(RefinementListViewModel.Mode.MultipleChoices))
     }
 
     @Test
-    fun conjunctiveMultipleChoice() {
-        multiple(RefinementListViewModel(RefinementListViewModel.Mode.ConjunctiveMultipleChoice))
-    }
-
-    @Test
-    fun conjunctiveSingleChoice() {
-        single(RefinementListViewModel(RefinementListViewModel.Mode.ConjunctiveSingleChoice))
+    fun singleChoice() {
+        single(RefinementListViewModel(RefinementListViewModel.Mode.SingleChoice))
     }
 }
