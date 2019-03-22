@@ -33,7 +33,7 @@ class TestRefinement {
 
     private fun getViews() = listOf(MockView(), MockView(), MockView())
 
-    private fun setup(model: RefinementModel<Facet>, views: List<MockView>, searcher: MockSearcher) {
+    private fun setup(model: RefinementListViewModel<Facet>, views: List<MockView>, searcher: MockSearcher) {
         model.connectViews(views)
         model.connectSearcher(searcher)
         model.refinements = facets
@@ -44,7 +44,7 @@ class TestRefinement {
     }
 
     private fun multiple(
-        model: RefinementModel<Facet>,
+        model: RefinementListViewModel<Facet>,
         views: List<MockView> = getViews(),
         searcher: MockSearcher = MockSearcher()
     ) {
@@ -58,7 +58,7 @@ class TestRefinement {
         }
     }
 
-    private fun single(model: RefinementModel<Facet>,
+    private fun single(model: RefinementListViewModel<Facet>,
                        views: List<MockView> = getViews(),
                        searcher: MockSearcher = MockSearcher()) {
         setup(model, views, searcher)
@@ -77,7 +77,7 @@ class TestRefinement {
 
     @Test
     fun `selected refinement stays selected when new refinements still contain it`() {
-        val model = RefinementModel<Facet>()
+        val model = RefinementListViewModel<Facet>()
         val views = getViews()
         val searcher = MockSearcher()
         setup(model, views, searcher)
@@ -92,7 +92,7 @@ class TestRefinement {
 
     @Test
     fun `selected listener gets updated on new refinement if the selection is removed`() {
-        val model = RefinementModel<Facet>()
+        val model = RefinementListViewModel<Facet>()
         model.refinements = facets
         model.onSelectedRefinement(facets[2])
         assertFailsWith<CancellationException> {
@@ -105,16 +105,16 @@ class TestRefinement {
 
     @Test
     fun disjunctive() {
-        multiple(RefinementModel(RefinementModel.Mode.Disjunctive))
+        multiple(RefinementListViewModel(RefinementListViewModel.Mode.Disjunctive))
     }
 
     @Test
     fun conjunctiveMultipleChoice() {
-        multiple(RefinementModel(RefinementModel.Mode.ConjunctiveMultipleChoice))
+        multiple(RefinementListViewModel(RefinementListViewModel.Mode.ConjunctiveMultipleChoice))
     }
 
     @Test
     fun conjunctiveSingleChoice() {
-        single(RefinementModel(RefinementModel.Mode.ConjunctiveSingleChoice))
+        single(RefinementListViewModel(RefinementListViewModel.Mode.ConjunctiveSingleChoice))
     }
 }
