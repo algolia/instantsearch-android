@@ -1,13 +1,11 @@
 package searcher
 
 import com.algolia.search.client.Index
-import com.algolia.search.client.RequestOptions
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.response.ResponseSearchForFacetValue
 import com.algolia.search.model.search.Query
+import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
 
 
 class SearcherForFacetValue(
@@ -31,7 +29,7 @@ class SearcherForFacetValue(
         completed = CompletableDeferred()
         launch {
             sequencer.addOperation(this)
-            val response = index.searchForFacetValue(attribute, facetQuery, query, maxFacetHits, requestOptions)
+            val response = index.searchForFacetValues(attribute, facetQuery, query, requestOptions)
 
             listeners.forEach { it(response) }
             completed?.complete(response)

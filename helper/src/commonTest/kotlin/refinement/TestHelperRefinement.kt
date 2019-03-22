@@ -53,11 +53,11 @@ class TestHelperRefinement {
             searcher.search()
             searcher.completed?.await()
             model.refinements.size shouldEqual 2
-            query.filterBuilder.get().shouldBeEmpty()
+            searcher.filterBuilder.get().shouldBeEmpty()
 
             view.click(model.refinements.first())
             searcher.completed?.await()
-            query.filterBuilder.get().shouldNotBeEmpty()
+            searcher.filterBuilder.get().shouldNotBeEmpty()
             model.refinements.size shouldEqual 1
         }
     }

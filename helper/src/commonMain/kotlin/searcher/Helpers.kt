@@ -23,7 +23,7 @@ fun RefinementListViewModel<Facet>.connectSearcherSingleIndex(
         }
     }
     selectionListeners += { refinements ->
-        searcher.query.filterBuilder.apply {
+        searcher.filterBuilder.apply {
             group.clear(attribute)
             group += refinements.map { FilterFacet(attribute, it.name) }
         }

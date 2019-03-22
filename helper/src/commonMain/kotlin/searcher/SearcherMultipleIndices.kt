@@ -1,10 +1,10 @@
 package searcher
 
 import com.algolia.search.client.ClientSearch
-import com.algolia.search.client.RequestOptions
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.response.ResponseSearches
+import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
 
 
