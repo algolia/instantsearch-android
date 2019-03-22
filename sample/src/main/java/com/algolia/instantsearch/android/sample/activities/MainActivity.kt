@@ -5,14 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.android.Stats
 import com.algolia.instantsearch.android.sample.views.Hits
 import com.algolia.instantsearch.android.sample.views.SearchBox
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.search.Query
 import kotlinx.android.synthetic.main.activity_main.*
-import searcher.SearcherSingleIndex
-
+import com.algolia.instantsearch.android.sample.R
 
 class MainActivity : AppCompatActivity() {
     //TODO: SingleIndexActivity, MultiIndexActivity, RefinementActivity
