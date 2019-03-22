@@ -18,6 +18,7 @@ open class RefinementListViewModel<T>(val mode: Mode = Mode.SingleChoice) {
     var refinements by Delegates.observable(listOf<T>()) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             refinementListeners.forEach { it(newValue) }
+            selected = selected.filter { it in newValue }
         }
     }
 
