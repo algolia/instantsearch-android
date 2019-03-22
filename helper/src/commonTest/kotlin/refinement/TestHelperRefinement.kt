@@ -32,7 +32,7 @@ class TestHelperRefinement {
             dataSelected = refinements
         }
 
-        override fun onClickRefinement(onClick: (Facet) -> Unit) {
+        override fun setOnClickRefinement(onClick: (Facet) -> Unit) {
             click = { refinement: Facet ->
                 onClick(refinement)
             }
@@ -45,7 +45,7 @@ class TestHelperRefinement {
             val attribute = Attribute("brand")
             val query = Query().apply { setFacets(attribute) }
             val searcher = SearcherSingleIndex(indexA, query)
-            val model = RefinementModel<Facet>()
+            val model = RefinementListViewModel<Facet>()
             val view = MockView()
             model.connectView(view)
             model.connectSearcherSingleIndex(searcher, attribute)
@@ -68,7 +68,7 @@ class TestHelperRefinement {
             val attribute = Attribute("name")
             val searcher = SearcherForFacetValue(indexA, attribute)
 
-            val model = RefinementModel<Facet>()
+            val model = RefinementListViewModel<Facet>()
             val view = MockView()
 
             model.connectView(view)

@@ -1,7 +1,7 @@
 package numericControl
 
 import helper.RefinementListener
-import helper.RefinementsListener
+import helper.RefinementListListener
 import searcher.Searcher
 import kotlin.properties.Delegates
 
@@ -23,7 +23,7 @@ class NumericControlModel<T> {
         }
     }
 
-    val refinementsListeners = mutableListOf<RefinementsListener<T>>()
+    val refinementsListeners = mutableListOf<RefinementListListener<T>>()
     val selectionListeners = mutableListOf<RefinementListener<T?>>()
 }
 

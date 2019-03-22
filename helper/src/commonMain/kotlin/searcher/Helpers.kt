@@ -7,17 +7,17 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.response.ResponseSearchForFacetValue
 import com.algolia.search.model.search.Facet
 import model.Variant
-import refinement.RefinementModel
+import refinement.RefinementListViewModel
 
 
-fun RefinementModel<Facet>.connectSearcherSingleIndex(
+fun RefinementListViewModel<Facet>.connectSearcherSingleIndex(
     searcher: SearcherSingleIndex,
     attribute: Attribute,
     variant: Variant = Variant(attribute.raw)
 ) {
     val group = GroupOr(variant.name)
 
-    searcher.listeners += { response: ResponseSearch ->
+    searcher.responseListeners += { response: ResponseSearch ->
         response.facets[attribute]?.let {
             refinements = it
         }
@@ -31,7 +31,7 @@ fun RefinementModel<Facet>.connectSearcherSingleIndex(
     }
 }
 
-fun RefinementModel<Facet>.connectSearcherForFacetValue(
+fun RefinementListViewModel<Facet>.connectSearcherForFacetValue(
     searcher: SearcherForFacetValue
 ) {
     searcher.listeners += { response: ResponseSearchForFacetValue ->
