@@ -16,12 +16,16 @@ import searcher.SearcherSingleIndex
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+<<<<<<< HEAD
 import com.algolia.instantsearch.android.StatsWidget
 =======
 import com.algolia.instantsearch.android.Stats
 import com.algolia.instantsearch.android.sample.views.Hits
 import com.algolia.instantsearch.android.sample.views.SearchBox
 >>>>>>> 67bf6b4... fixup! refactor(MainActivity): Extract HitsAdapter
+=======
+import com.algolia.instantsearch.android.Stats
+>>>>>>> 5f05d38... refactor(StatsWidget): Rename to Stats
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
