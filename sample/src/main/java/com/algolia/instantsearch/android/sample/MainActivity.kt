@@ -44,9 +44,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Setup algolia
-        val client = ClientSearch(ApplicationID("latency"), APIKey("3cfd1f8bfa88c7709f6bacf8203194e8"))
-        val index = client.initIndex(IndexName("products_android_demo"))
-        val searcher = SearcherSingleIndex(index, Query(""))
+        val searcher = SearcherSingleIndex(
+            ClientSearch(
+                ApplicationID("latency"),
+                APIKey("3cfd1f8bfa88c7709f6bacf8203194e8")
+            ).initIndex(IndexName("products_android_demo")),
+            Query()
+        )
 
         // Prepare widgets
         val hitsWidget = Hits(hitsView)
