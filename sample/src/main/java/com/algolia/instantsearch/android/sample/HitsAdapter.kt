@@ -32,7 +32,6 @@ class HitsAdapter(
 
     inner class ViewHolder(private var view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-
         override fun onClick(v: View?) {
             Log.d("HVH", "click!")
         }
@@ -42,18 +41,19 @@ class HitsAdapter(
         }
 
         fun bind(hit: ResponseSearch.Hit) {
-            view.nameView.text = hit.json["name"].content
-            view.brandView.text = view.context.getString(R.string.brand_template).format(hit.json["brand"].content)
-            view.priceView.text = view.context.getString(R.string.price_template).format(hit.json["price"].primitive.int)
-            view.materialView.text = hit.json["material"].content
-            view.colorView.text = hit.json["color"].content
+            view.nameView.text = hit.getValue("name").content
+            view.brandView.text = view.context.getString(R.string.brand_template).format(hit.getValue("brand").content)
+            view.priceView.text =
+                view.context.getString(R.string.price_template).format(hit.getValue("price").primitive.int)
+            view.materialView.text = hit.getValue("material").content
+            view.colorView.text = hit.getValue("color").content
 
             view.categoryView.text = hit.getHierarchy(Attribute("categories"))
                 .getValue("lvl1")
                 .joinToString(" | ") { it.replace("products > ", "") }
 
             Glide.with(view.context)
-                .load(hit.json["image"].content)
+                .load(hit.getValue("image").content)
                 .placeholder(android.R.drawable.ic_menu_help)
                 .error(android.R.color.holo_red_light)
                 .into(view.imageView)
