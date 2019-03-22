@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.android.sample
+package com.algolia.instantsearch.android.sample.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -23,12 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Setup algolia
-        val searcher = SearcherSingleIndex(
-            ClientSearch(
-                ApplicationID("latency"),
-                APIKey("3cfd1f8bfa88c7709f6bacf8203194e8")
-            ).initIndex(IndexName("products_android_demo")), Query()
-        )
+        val searcher = initSearcherSingleIndex()
 
         // Prepare widgets
         val hitsWidget = Hits(hitsView)
@@ -38,6 +33,9 @@ class MainActivity : AppCompatActivity() {
             searcher.search()
         }
 
+//        val model = RefinementListViewModel<Facet>(RefinementListViewModel.Mode.SingleChoice)
+//        model.connectSearcherSingleIndex(searcher, Attribute("brand"))
+
         // Setup and trigger search
         searcher.responseListeners += {
             stats.updateView(it)
@@ -45,4 +43,5 @@ class MainActivity : AppCompatActivity() {
         }
         searcher.search()
     }
+
 }
