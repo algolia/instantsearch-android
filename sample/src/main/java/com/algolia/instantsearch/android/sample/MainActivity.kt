@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.android.StatsWidget
 import com.algolia.instantsearch.android.sample.views.Hits
+import com.algolia.instantsearch.android.sample.views.SearchBox
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
