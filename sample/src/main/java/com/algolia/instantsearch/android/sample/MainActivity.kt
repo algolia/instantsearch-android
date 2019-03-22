@@ -27,15 +27,13 @@ class MainActivity : AppCompatActivity() {
             ClientSearch(
                 ApplicationID("latency"),
                 APIKey("3cfd1f8bfa88c7709f6bacf8203194e8")
-            ).initIndex(IndexName("products_android_demo")),
-            Query()
+            ).initIndex(IndexName("products_android_demo")), Query()
         )
 
         // Prepare widgets
         val hitsWidget = Hits(hitsView)
         val stats = Stats(statsView)
-        val searchBox = SearchBox.Support(searchView)
-        searchBox.onQueryTextChangeListener = {
+        val searchBox = SearchBox.Support(searchView) {
             searcher.query.query = it
             searcher.search()
         }

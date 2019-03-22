@@ -2,11 +2,14 @@ package com.algolia.instantsearch.android.sample.views
 
 import androidx.appcompat.widget.SearchView
 
-sealed class SearchBox {
-    // TODO: AutoFocus
-    var onQueryTextChangeListener: (String?) -> Unit = {}
+typealias QueryTextChangeListener = ((String?) -> Unit)?
 
-    class System(private val searchView: android.widget.SearchView) : SearchBox() {
+sealed class SearchBox(var onQueryTextChangeListener: QueryTextChangeListener) {
+    // TODO: AutoFocus
+
+
+    class System(searchView: android.widget.SearchView, listener: QueryTextChangeListener = null) :
+        SearchBox(listener) {
         init {
             searchView.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
@@ -14,14 +17,15 @@ sealed class SearchBox {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    onQueryTextChangeListener(newText)
+                    onQueryTextChangeListener?.invoke(newText)
                     return true
                 }
             })
         }
     }
 
-    class Support(private val searchView: SearchView) : SearchBox() {
+    class Support(searchView: SearchView, listener: QueryTextChangeListener = null) :
+        SearchBox(listener) {
         init {
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
@@ -29,7 +33,7 @@ sealed class SearchBox {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    onQueryTextChangeListener(newText)
+                    onQueryTextChangeListener?.invoke(newText)
                     return true
                 }
             })
