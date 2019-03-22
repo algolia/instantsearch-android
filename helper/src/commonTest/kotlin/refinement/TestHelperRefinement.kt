@@ -39,7 +39,7 @@ class TestHelperRefinement {
     }
 
     @Test
-    fun withSearcherSingleIndex() {
+    fun withSearcherSingleIndexConjunctive() {
         blocking {
             val attribute = Attribute("brand")
             val query = Query().apply { setFacets(attribute) }
@@ -58,6 +58,31 @@ class TestHelperRefinement {
             searcher.completed?.await()
             searcher.filterBuilder.get() shouldEqual setOf(FilterFacet(attribute, model.refinements.first().name))
             model.refinements.size shouldEqual 1
+        }
+    }
+
+    @Test
+    fun withSearcherSingleIndexDisjunctive() {
+        blocking {
+            val attribute = Attribute("brand")
+            val query = Query().apply { setFacets(attribute) }
+            val searcher = SearcherSingleIndex(indexA, query)
+            val model = RefinementListViewModel<Facet>(RefinementListViewModel.Mode.MultipleChoices)
+            val view = MockView()
+            val view2 = MockView()
+            model.connectViews(listOf(view, view2))
+            model.connectSearcherSingleIndex(searcher, attribute, RefinementMode.Disjunctive)
+
+            searcher.search()
+            searcher.completed?.await()
+            model.refinements.size shouldEqual 2
+            query.filterBuilder.get().shouldBeEmpty()
+
+            view.click(model.refinements.first())
+            view2.click(model.refinements.last())
+            searcher.completed?.await()
+            query.filterBuilder.get().shouldNotBeEmpty()
+            model.refinements.size shouldEqual 2
         }
     }
 
