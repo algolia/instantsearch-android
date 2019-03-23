@@ -8,8 +8,6 @@ import com.algolia.search.model.search.Query
 import indexA
 import searcher.SearcherForFacetValue
 import searcher.SearcherSingleIndex
-import searcher.connectSearcherForFacetValue
-import searcher.connectSearcherSingleIndex
 import shouldBeEmpty
 import shouldEqual
 import shouldNotBeEmpty

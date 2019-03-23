@@ -1,22 +1,21 @@
-package searcher
+package refinement
 
 import com.algolia.search.filter.FilterFacet
-import com.algolia.search.filter.GroupOr
+import com.algolia.search.filter.Group
+import com.algolia.search.filter.GroupAnd
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.response.ResponseSearchForFacetValue
 import com.algolia.search.model.search.Facet
-import model.Variant
-import refinement.RefinementListViewModel
+import searcher.SearcherForFacetValue
+import searcher.SearcherSingleIndex
 
 
 fun RefinementListViewModel<Facet>.connectSearcherSingleIndex(
     searcher: SearcherSingleIndex,
     attribute: Attribute,
-    variant: Variant = Variant(attribute.raw)
+    group: Group = GroupAnd(attribute.raw)
 ) {
-    val group = GroupOr(variant.name)
-
     searcher.responseListeners += { response: ResponseSearch ->
         response.facets[attribute]?.let {
             refinements = it
@@ -38,5 +37,3 @@ fun RefinementListViewModel<Facet>.connectSearcherForFacetValue(
         refinements = response.facets
     }
 }
-
-//TODO HierarchicalModel.connectSearcherSingleQuery()
