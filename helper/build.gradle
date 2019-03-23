@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.library'
-    id 'kotlin-multiplatform' version '1.3.21'
+    id 'kotlin-multiplatform' version '1.3.30-eap-45'
 }
 
 android {
@@ -40,11 +40,6 @@ configurations {
     compileClasspath //FIXME: Workaround for https://youtrack.jetbrains.com/issue/KT-27170
 }
 
-group 'com.algolia'
-version '0.0.1'
-
-apply plugin: 'maven-publish'
-
 kotlin {
     android()
     jvm {
@@ -79,8 +74,8 @@ kotlin {
             api "com.algolia.algoliasearch:algoliasearch-client-kotlin-jvm:1.0.0"
         }
         androidTest.dependencies {
-            api project(":core")
-            api "com.algolia.algoliasearch:algoliasearch-client-kotlin-jvm:1.0.0"
+            implementation project(":core")
+            implementation "com.algolia.algoliasearch:algoliasearch-client-kotlin-jvm:1.0.0"
             implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.21'
             implementation 'org.jetbrains.kotlin:kotlin-test-junit:1.3.21'
             implementation 'junit:junit:4.12'
