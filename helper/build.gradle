@@ -53,7 +53,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api project(':core')
-            implementation "com.algolia.algoliasearch:algoliasearch-client-kotlin-metadata:1.0.0"
+            implementation "com.algolia.algoliasearch:algoliasearch-client-kotlin-common:1.0.0"
             implementation kotlin('stdlib-common')
         }
         commonTest.dependencies {
