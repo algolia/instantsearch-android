@@ -33,7 +33,7 @@ fun RefinementListViewModel<Facet>.connectSearcherSingleIndex(
 fun RefinementListViewModel<Facet>.connectSearcherForFacetValue(
     searcher: SearcherForFacetValue
 ) {
-    searcher.listeners += { response: ResponseSearchForFacetValue ->
+    searcher.responseListeners += { response: ResponseSearchForFacetValue ->
         refinements = response.facets
     }
 }

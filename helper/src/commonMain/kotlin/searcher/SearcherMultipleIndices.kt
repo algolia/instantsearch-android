@@ -21,7 +21,7 @@ class SearcherMultipleIndices(
 
     internal var completed: CompletableDeferred<ResponseSearches>? = null
 
-    val listeners = mutableListOf<(ResponseSearches) -> Unit>()
+    val responseListeners = mutableListOf<(ResponseSearches) -> Unit>()
     val errorListeners = mutableListOf<(Exception) -> Unit>()
 
     override fun search() {
@@ -31,7 +31,7 @@ class SearcherMultipleIndices(
             try {
                 val response = client.multipleQueries(indexQueries, strategy, requestOptions)
 
-                listeners.forEach { it(response) }
+                responseListeners.forEach { it(response) }
                 completed?.complete(response)
             } catch (exception: Exception) {
                 errorListeners.forEach { it(exception) }

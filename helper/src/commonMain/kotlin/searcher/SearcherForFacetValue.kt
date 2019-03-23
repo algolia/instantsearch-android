@@ -24,7 +24,7 @@ class SearcherForFacetValue(
 
     internal var completed: CompletableDeferred<ResponseSearchForFacetValue>? = null
 
-    val listeners = mutableListOf<(ResponseSearchForFacetValue) -> Unit>()
+    val responseListeners = mutableListOf<(ResponseSearchForFacetValue) -> Unit>()
     val errorListeners = mutableListOf<(Exception) -> Unit>()
 
     override fun search() {
@@ -35,7 +35,7 @@ class SearcherForFacetValue(
             try {
                 val response = index.searchForFacetValues(attribute, facetQuery, query, requestOptions)
 
-                listeners.forEach { it(response) }
+                responseListeners.forEach { it(response) }
                 completed?.complete(response)
             } catch (exception: Exception) {
                 errorListeners.forEach { it(exception) }
