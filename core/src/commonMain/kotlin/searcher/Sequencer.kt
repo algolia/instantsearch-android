@@ -15,7 +15,7 @@ class Sequencer(val maxOperations: Int) {
     internal val operations = mutableListOf<CoroutineContext>()
 
     /**
-     * When an operation is added, and the maxOperations count is reached, the oldest job in the queue will be canceled
+     * When an operation is added, and the maxOperations count is reached, the oldest job in the queue is canceled
      * and removed from the queue.
      */
     fun addOperation(operation: CoroutineContext) {
@@ -30,7 +30,7 @@ class Sequencer(val maxOperations: Int) {
     }
 
     /**
-     * When an operation completes, we cancel and remove operations from the queue that are older.
+     * When an operation completes, cancel and remove operations from the queue that are older.
      */
     fun operationCompleted(operation: CoroutineContext) {
         val index = operations.indexOf(operation)
@@ -45,7 +45,7 @@ class Sequencer(val maxOperations: Int) {
     }
 
     /**
-     * We cancel and clear all operations from the queue.
+     * Cancel and clear all operations from the queue.
      */
     fun cancelAll() {
         operations.forEach { it.cancel() }
