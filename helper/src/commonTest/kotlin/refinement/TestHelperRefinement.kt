@@ -1,6 +1,7 @@
 package refinement
 
 import blocking
+import com.algolia.search.filter.FilterFacet
 import com.algolia.search.filter.setFacets
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
@@ -55,7 +56,7 @@ class TestHelperRefinement {
 
             view.click(model.refinements.first())
             searcher.completed?.await()
-            searcher.filterBuilder.get().shouldNotBeEmpty()
+            searcher.filterBuilder.get() shouldEqual setOf(FilterFacet(attribute, model.refinements.first().name))
             model.refinements.size shouldEqual 1
         }
     }
@@ -70,12 +71,14 @@ class TestHelperRefinement {
             val view = MockView()
 
             model.connectView(view)
-            model.connectSearcherForFacetValue(searcher)
+            model.connectSearcherForFacetValue(searcher, attribute)
             searcher.search()
             searcher.completed?.await()
             model.refinements.size shouldEqual 2
+
             view.click(model.refinements.first())
             searcher.completed?.await()
+            searcher.filterBuilder.get() shouldEqual setOf(FilterFacet(attribute, model.refinements.first().name))
             model.refinements.size shouldEqual 2
         }
     }
