@@ -11,7 +11,7 @@ import kotlinx.coroutines.*
 class SearcherMultipleIndices(
     val client: ClientSearch,
     val indexQueries: List<IndexQuery>,
-    val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
+    val strategy: MultipleQueriesStrategy? = null,
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
@@ -22,15 +22,20 @@ class SearcherMultipleIndices(
     internal var completed: CompletableDeferred<ResponseSearches>? = null
 
     val listeners = mutableListOf<(ResponseSearches) -> Unit>()
+    val errorListeners = mutableListOf<(Exception) -> Unit>()
 
     override fun search() {
         completed = CompletableDeferred()
         launch {
             sequencer.addOperation(this)
-            val response = client.multipleQueries(indexQueries, strategy, requestOptions)
+            try {
+                val response = client.multipleQueries(indexQueries, strategy, requestOptions)
 
-            listeners.forEach { it(response) }
-            completed?.complete(response)
+                listeners.forEach { it(response) }
+                completed?.complete(response)
+            } catch (exception: Exception) {
+                errorListeners.forEach { it(exception) }
+            }
             sequencer.operationCompleted(this)
         }
     }

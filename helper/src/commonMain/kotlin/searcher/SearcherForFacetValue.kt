@@ -1,6 +1,7 @@
 package searcher
 
 import com.algolia.search.client.Index
+import com.algolia.search.filter.FilterBuilder
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearchForFacetValue
 import com.algolia.search.model.search.Query
@@ -13,7 +14,7 @@ class SearcherForFacetValue(
     val attribute: Attribute,
     var facetQuery: String? = null,
     val query: Query? = null,
-    var maxFacetHits: Int? = null,
+    val filterBuilder: FilterBuilder = FilterBuilder(),
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
@@ -24,15 +25,21 @@ class SearcherForFacetValue(
     internal var completed: CompletableDeferred<ResponseSearchForFacetValue>? = null
 
     val listeners = mutableListOf<(ResponseSearchForFacetValue) -> Unit>()
+    val errorListeners = mutableListOf<(Exception) -> Unit>()
 
     override fun search() {
         completed = CompletableDeferred()
+        query?.filters = filterBuilder.build()
         launch {
             sequencer.addOperation(this)
-            val response = index.searchForFacetValues(attribute, facetQuery, query, requestOptions)
+            try {
+                val response = index.searchForFacetValues(attribute, facetQuery, query, requestOptions)
 
-            listeners.forEach { it(response) }
-            completed?.complete(response)
+                listeners.forEach { it(response) }
+                completed?.complete(response)
+            } catch (exception: Exception) {
+                errorListeners.forEach { it(exception) }
+            }
             sequencer.operationCompleted(this)
         }
     }

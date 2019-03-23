@@ -5,7 +5,6 @@ import com.algolia.search.filter.FilterBuilder
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
-import io.ktor.client.features.ResponseException
 import kotlinx.coroutines.*
 
 
@@ -23,7 +22,7 @@ class SearcherSingleIndex(
     internal var completed: CompletableDeferred<ResponseSearch>? = null
 
     val responseListeners = mutableListOf<(ResponseSearch) -> Unit>()
-    val errorListeners = mutableListOf<(ResponseException) -> Unit>()
+    val errorListeners = mutableListOf<(Exception) -> Unit>()
 
     override fun search() {
         completed = CompletableDeferred()
@@ -34,8 +33,8 @@ class SearcherSingleIndex(
                 val response = index.search(query, requestOptions)
                 responseListeners.forEach { it(response) }
                 completed?.complete(response)
-            } catch (error: ResponseException) {
-                errorListeners.forEach { it(error) }
+            } catch (exception: Exception) {
+                errorListeners.forEach { it(exception) }
             }
             sequencer.operationCompleted(this)
         }
