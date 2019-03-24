@@ -3,10 +3,12 @@ package searcher
 import com.algolia.search.client.Index
 import com.algolia.search.filter.FilterBuilder
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.response.ResponseSearchForFacetValue
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
+import kotlin.properties.Delegates
 
 
 class SearcherForFacetValue(
@@ -27,16 +29,22 @@ class SearcherForFacetValue(
     val responseListeners = mutableListOf<(ResponseSearchForFacetValue) -> Unit>()
     val errorListeners = mutableListOf<(Exception) -> Unit>()
 
+    var response by Delegates.observable<ResponseSearchForFacetValue?>(null) { _, _, newValue ->
+        if (newValue != null) {
+            responseListeners.forEach { it(newValue) }
+        }
+    }
+
     override fun search() {
         completed = CompletableDeferred()
         query?.filters = filterBuilder.build()
         launch {
             sequencer.addOperation(this)
             try {
-                val response = index.searchForFacetValues(attribute, facetQuery, query, requestOptions)
+                val responseSearch = index.searchForFacetValues(attribute, facetQuery, query, requestOptions)
 
-                responseListeners.forEach { it(response) }
-                completed?.complete(response)
+                response = responseSearch
+                completed?.complete(responseSearch)
             } catch (exception: Exception) {
                 errorListeners.forEach { it(exception) }
             }

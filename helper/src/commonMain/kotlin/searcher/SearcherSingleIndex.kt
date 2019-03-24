@@ -6,6 +6,7 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
+import kotlin.properties.Delegates
 
 
 class SearcherSingleIndex(
@@ -23,6 +24,11 @@ class SearcherSingleIndex(
 
     val responseListeners = mutableListOf<(ResponseSearch) -> Unit>()
     val errorListeners = mutableListOf<(Exception) -> Unit>()
+    var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
+        if (newValue != null) {
+            responseListeners.forEach { it(newValue) }
+        }
+    }
 
     override fun search() {
         completed = CompletableDeferred()
@@ -30,9 +36,10 @@ class SearcherSingleIndex(
         launch {
             sequencer.addOperation(this)
             try {
-                val response = index.search(query, requestOptions)
-                responseListeners.forEach { it(response) }
-                completed?.complete(response)
+                val responseSearch = index.search(query, requestOptions)
+
+                response = responseSearch
+                completed?.complete(responseSearch)
             } catch (exception: Exception) {
                 errorListeners.forEach { it(exception) }
             }

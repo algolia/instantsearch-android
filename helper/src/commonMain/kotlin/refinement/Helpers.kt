@@ -20,13 +20,18 @@ internal fun List<Facet>.filter(
     }
 }
 
+internal fun RefinementListViewModel<Facet>.setRefinements(facets: List<Facet>?) {
+    if (facets != null) refinements = facets
+}
+
 fun RefinementListViewModel<Facet>.connectSearcherSingleIndex(
     searcher: SearcherSingleIndex,
     attribute: Attribute,
     group: Group = GroupAnd(attribute.raw)
 ) {
+    setRefinements(searcher.response?.facets?.get(attribute))
     searcher.responseListeners += { response ->
-        response.facets[attribute]?.let { refinements = it }
+        setRefinements(response.facets[attribute])
     }
     selectionListeners += { refinements ->
         refinements.filter(searcher.filterBuilder, attribute, group)
@@ -39,7 +44,8 @@ fun RefinementListViewModel<Facet>.connectSearcherForFacetValue(
     attribute: Attribute,
     group: Group = GroupAnd(attribute.raw)
 ) {
-    searcher.responseListeners += { response -> refinements = response.facets }
+    setRefinements(searcher.response?.facets)
+    searcher.responseListeners += { response -> setRefinements(response.facets) }
     selectionListeners += { refinements ->
         refinements.filter(searcher.filterBuilder, attribute, group)
         searcher.search()

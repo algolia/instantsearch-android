@@ -12,14 +12,16 @@ fun <T> RefinementListViewModel<T>.connectView(view: RefinementView<T>) {
     refinementListeners += (view::setRefinements)
     selectionListeners += (view::setSelected)
     view.setOnClickRefinement(::onSelectedRefinement.get())
+    view.setRefinements(refinements)
+    view.setSelected(selected)
 }
 
 fun <T, R> RefinementListViewModel<T>.connectView(view: RefinementView<R>, converter: Converter<T, R>) {
     refinementListeners += { view.setRefinements(converter.convertIn(it)) }
     selectionListeners += { view.setSelected(converter.convertIn(it)) }
-    view.setOnClickRefinement {
-        onSelectedRefinement(converter.convertOut(it))
-    }
+    view.setOnClickRefinement { onSelectedRefinement(converter.convertOut(it)) }
+    view.setRefinements(converter.convertIn(refinements))
+    view.setSelected(converter.convertIn(selected))
 }
 
 fun <T> RefinementListViewModel<T>.connectViews(views: List<RefinementView<T>>) {
