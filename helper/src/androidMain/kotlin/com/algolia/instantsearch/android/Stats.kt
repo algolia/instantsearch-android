@@ -5,6 +5,6 @@ import com.algolia.search.model.response.ResponseSearch
 
 class Stats(private val view: TextView) {
     fun updateView(res: ResponseSearch){
-        view.post { view.text = "%d hits in %d ms".format(res.nbHits, res.processingTimeMS) }
+        view.text = "%d hits in %d ms".format(res.nbHits, res.processingTimeMS)
     }
 }

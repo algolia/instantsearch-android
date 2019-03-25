@@ -1,6 +1,8 @@
 package com.algolia.instantsearch.android.sample.activities
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.android.Stats
 import com.algolia.instantsearch.android.sample.views.Hits
@@ -26,9 +28,6 @@ class MainActivity : AppCompatActivity() {
             searcher.query.query = it
             searcher.search()
         }
-
-//        val model = RefinementListViewModel<Facet>(RefinementListViewModel.Mode.SingleChoice)
-//        model.connectSearcherSingleIndex(searcher, Attribute("brand"))
 
         // Setup and trigger search
         searcher.responseListeners += {
