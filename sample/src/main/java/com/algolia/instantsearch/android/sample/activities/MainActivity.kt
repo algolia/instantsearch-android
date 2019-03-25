@@ -3,10 +3,10 @@ package com.algolia.instantsearch.android.sample.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.android.Stats
+import com.algolia.instantsearch.android.sample.R
 import com.algolia.instantsearch.android.sample.views.Hits
 import com.algolia.instantsearch.android.sample.views.SearchBox
 import kotlinx.android.synthetic.main.activity_main.*
-import com.algolia.instantsearch.android.sample.R
 
 class MainActivity : AppCompatActivity() {
     //TODO: SingleIndexActivity, MultiIndexActivity, RefinementActivity
