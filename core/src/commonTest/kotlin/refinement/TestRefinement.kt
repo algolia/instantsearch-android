@@ -26,7 +26,7 @@ class TestRefinement {
             dataSelected = refinements
         }
 
-        override fun setOnClickRefinement(onClick: (Facet) -> Unit) {
+        override fun setOnClickRefinement(onClick: (Facet?) -> Unit) {
             click = { onClick(it) }
         }
     }

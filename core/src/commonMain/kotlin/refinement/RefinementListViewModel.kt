@@ -1,6 +1,7 @@
 package refinement
 
 import helper.RefinementListListener
+import helper.RefinementListener
 import kotlin.properties.Delegates
 
 
@@ -27,8 +28,10 @@ open class RefinementListViewModel<T>(val mode: Mode = Mode.SingleChoice) {
         }
     }
 
-    val onSelectedRefinement = { refinement: T ->
-        selected = when (mode) {
+    val onSelectedRefinement = { refinement: T? ->
+        if (refinement == null) {
+            if (mode == Mode.SingleChoice) selected = listOf()
+        } else selected = when (mode) {
             Mode.SingleChoice -> listOf(refinement)
             Mode.MultipleChoices -> if (refinement in selected) selected - refinement else selected + refinement
         }
