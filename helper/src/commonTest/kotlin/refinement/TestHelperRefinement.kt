@@ -10,8 +10,9 @@ import indexA
 import searcher.SearcherForFacetValue
 import searcher.SearcherSingleIndex
 import shouldBeEmpty
+import shouldBeNull
 import shouldEqual
-import shouldNotBeEmpty
+import shouldNotBeNull
 import kotlin.test.Test
 
 
@@ -76,12 +77,12 @@ class TestHelperRefinement {
             searcher.search()
             searcher.completed?.await()
             model.refinements.size shouldEqual 2
-            query.filterBuilder.get().shouldBeEmpty()
+            query.filters.shouldBeNull()
 
             view.click(model.refinements.first())
             view2.click(model.refinements.last())
             searcher.completed?.await()
-            query.filterBuilder.get().shouldNotBeEmpty()
+            query.filters.shouldNotBeNull()
             model.refinements.size shouldEqual 2
         }
     }
