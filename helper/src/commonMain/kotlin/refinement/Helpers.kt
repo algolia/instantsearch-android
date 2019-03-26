@@ -1,9 +1,6 @@
 package refinement
 
-import com.algolia.search.filter.FilterBuilder
-import com.algolia.search.filter.FilterFacet
-import com.algolia.search.filter.Group
-import com.algolia.search.filter.GroupAnd
+import com.algolia.search.filter.*
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import searcher.SearcherForFacetValue
@@ -27,9 +24,10 @@ internal fun RefinementListViewModel<Facet>.setRefinements(facets: List<Facet>?)
 fun RefinementListViewModel<Facet>.connectSearcherSingleIndex(
     searcher: SearcherSingleIndex,
     attribute: Attribute,
-    group: Group = GroupAnd(attribute.raw)
+    refinementMode: RefinementMode = RefinementMode.Conjunctive,
+    groupKey: String = attribute.raw
 ) {
-    setRefinements(searcher.response?.facets?.get(attribute))
+    val group = if (refinementMode == RefinementMode.Conjunctive) GroupAnd(groupKey) else GroupOr(groupKey)
     searcher.responseListeners += { response ->
         setRefinements(response.facets[attribute])
     }
