@@ -22,18 +22,16 @@ class MainActivity : AppCompatActivity() {
         val searcher = initSearcherSingleIndex()
 
         // Prepare widgets
-        val hitsWidget = Hits(hitsView)
+        val hits = Hits(hitsView)
         val stats = Stats(statsView)
         val searchBox = SearchBox.Support(searchView) {
             searcher.query.query = it
             searcher.search()
         }
+        stats.connectWithSearcher(searcher)
+        hits.connectWithSearcher(searcher)
 
-        // Setup and trigger search
-        searcher.responseListeners += {
-            stats.updateView(it)
-            hitsWidget.updateHits(it.hits)
-        }
+        // Trigger search
         searcher.search()
     }
 

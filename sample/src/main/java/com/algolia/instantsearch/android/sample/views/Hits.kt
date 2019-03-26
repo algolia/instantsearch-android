@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.android.sample.HitsAdapter
 import com.algolia.search.model.response.ResponseSearch.Hit
+import searcher.SearcherSingleIndex
 
 class Hits(view: RecyclerView) {
     private val adapter = HitsAdapter(listOf())
@@ -20,5 +21,11 @@ class Hits(view: RecyclerView) {
     fun updateHits(newValue: List<Hit>) {
         adapter.hits = newValue
         adapter.notifyDataSetChanged()
+    }
+
+    fun connectWithSearcher(searcher: SearcherSingleIndex) {
+        searcher.responseListeners += {
+            updateHits(it.hits)
+        }
     }
 }
