@@ -1,8 +1,6 @@
 package com.algolia.instantsearch.android.sample.activities
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.android.Stats
 import com.algolia.instantsearch.android.sample.views.Hits

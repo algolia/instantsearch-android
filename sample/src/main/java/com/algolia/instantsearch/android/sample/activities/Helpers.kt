@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.android.sample.activities
 
+import android.content.Context
+import android.widget.Toast
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -16,3 +18,5 @@ internal fun initSearcherSingleIndex(): SearcherSingleIndex {
         ).initIndex(IndexName("products_android_demo")), Query()
     )
 }
+
+fun Context.toast(text: String) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()
