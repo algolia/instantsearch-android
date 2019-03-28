@@ -4,6 +4,7 @@ import helper.RefinementListListener
 import helper.RefinementListener
 import kotlin.properties.Delegates
 
+typealias SelectionListListener<T> = (List<T>, List<T>) -> Unit
 
 open class RefinementListViewModel<T>(val mode: Mode = Mode.SingleChoice) {
 
@@ -12,19 +13,19 @@ open class RefinementListViewModel<T>(val mode: Mode = Mode.SingleChoice) {
         MultipleChoices
     }
 
-    val refinementListeners = mutableListOf<RefinementListListener<T>>()
-    val selectionListeners = mutableListOf<RefinementListListener<T>>()
+    val dataListeners = mutableListOf<RefinementListListener<T>>()
+    val selectionListeners = mutableListOf<SelectionListListener<T>>()
 
-    var refinements by Delegates.observable(listOf<T>()) { _, oldValue, newValue ->
+    var data by Delegates.observable(listOf<T>()) { _, oldValue, newValue ->
         if (oldValue != newValue) {
-            refinementListeners.forEach { it(newValue) }
+            dataListeners.forEach { it(newValue) }
             selected = selected.filter { it in newValue }
         }
     }
 
     var selected by Delegates.observable(listOf<T>()) { _, oldValue, newValue ->
         if (oldValue != newValue) {
-            selectionListeners.forEach { it(newValue) }
+            selectionListeners.forEach { it(oldValue, newValue) }
         }
     }
 
