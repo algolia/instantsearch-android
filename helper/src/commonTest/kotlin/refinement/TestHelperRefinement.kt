@@ -20,7 +20,7 @@ class TestHelperRefinement {
 
     private class MockView : RefinementView<Facet> {
 
-        lateinit var click: (Facet) -> Unit
+        lateinit var click: (Facet, Boolean) -> Unit
         var data = listOf<Facet>()
         var dataSelected = listOf<Facet>()
 
@@ -32,9 +32,9 @@ class TestHelperRefinement {
             dataSelected = refinements
         }
 
-        override fun setOnClickRefinement(onClick: (Facet?) -> Unit) {
-            click = { refinement: Facet ->
-                onClick(refinement)
+        override fun setOnClickRefinement(onClick: (Facet, Boolean) -> Unit) {
+            click = { refinement: Facet, isActive: Boolean ->
+                onClick(refinement, isActive)
             }
         }
     }

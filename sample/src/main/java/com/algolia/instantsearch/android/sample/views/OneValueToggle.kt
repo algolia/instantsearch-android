@@ -6,65 +6,58 @@ import android.text.SpannedString
 import android.widget.CheckedTextView
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import com.algolia.instantsearch.android.sample.activities.toast
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import refinement.RefinementView
 
 class OneValueToggle constructor(
     val view: CheckedTextView,
-    val attribute: Attribute, val value: String
+    val attribute: Attribute,
+    var value: String
 ) : RefinementView<Facet> {
-
-    private var facet: Facet? = null
+    private var data = Facet(value, 0)
 
     private var displayAttribute = false
 
     private val checkedDrawable: Drawable = view.checkMarkDrawable
-
     init {
         view.post {
             updateView()
         }
     }
 
-
-    override fun setOnClickRefinement(onClick: (Facet?) -> Unit) {
+    override fun setOnClickRefinement(onClick: (Facet, Boolean) -> Unit) {
         view.setOnClickListener {
-            if (facet != null) facet = null else facet = Facet(value, 0)
+            view.toggle()
             updateView()
-            onClick(facet)
+            onClick(data, view.isChecked)
         }
     }
 
     override fun setRefinements(refinements: List<Facet>) {
-        facet = refinements.find { it.name == value }
-
+        data = refinements.find { it.name == value } ?: Facet(value, 0)
         updateView()
     }
 
     override fun setSelected(refinements: List<Facet>) {
-        facet = refinements.firstOrNull { it.name == value }
+        data = refinements.firstOrNull { it.name == value } ?: Facet(value, 0)
         updateView()
     }
 
-    private fun updateView(facet: Facet? = this.facet) {
-        view.isChecked = if (facet != null) {
+    private fun updateView() {
+        if (view.isChecked) {
             view.checkMarkDrawable = checkedDrawable
-            true
         } else {
             view.checkMarkDrawable = view.context.getDrawable(R.drawable.checkbox_off_background)
-            false
         }
-        view.isChecked = (facet != null)
         view.text = buildText()
     }
 
-    private fun buildText(facet: Facet? = this.facet): SpannedString {
+    private fun buildText(facet: Facet = this.data): SpannedString {
         return buildSpannedString {
             if (displayAttribute) append("${attribute.raw}: ")
             append(value)
-            if (facet != null) {
+            if (facet.count != 0) {
                 append(" ")
                 bold { "${facet.count}" }
             }

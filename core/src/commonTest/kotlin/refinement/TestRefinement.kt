@@ -26,8 +26,8 @@ class TestRefinement {
             dataSelected = refinements
         }
 
-        override fun setOnClickRefinement(onClick: (Facet?) -> Unit) {
-            click = { onClick(it) }
+        override fun setOnClickRefinement(onClick: (Facet, Boolean) -> Unit) {
+            click = { onClick(it, true) }
         }
     }
 
@@ -94,7 +94,7 @@ class TestRefinement {
     fun `selected listener gets updated on new refinement if the selection is removed`() {
         val model = RefinementListViewModel<Facet>()
         model.data = facets
-        model.onSelectedRefinement(facets[2])
+        model.onSelectedRefinement(facets[2], true)
         assertFailsWith<CancellationException> {
             model.selectionListeners += { _, _ ->
                 throw CancellationException("The selectedlistener was called as selection becomes obsolete")
