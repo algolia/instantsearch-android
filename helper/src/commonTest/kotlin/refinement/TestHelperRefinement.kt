@@ -46,19 +46,22 @@ class TestHelperRefinement {
             val query = Query().apply { setFacets(attribute) }
             val searcher = SearcherSingleIndex(indexA, query)
             val model = RefinementListViewModel<Facet>()
+            val filterState = SearchFilterState()
             val view = MockView()
             model.connectView(view)
             model.connectSearcherSingleIndex(searcher, attribute)
+            filterState.connectRefinementModel(model, attribute)
+            filterState.connectSearcherSingleIndex(searcher)
 
             searcher.search()
             searcher.completed?.await()
-            model.refinements.size shouldEqual 2
-            searcher.filterBuilder.get().shouldBeEmpty()
+            model.data.size shouldEqual 2
+            filterState.filterBuilder.get().shouldBeEmpty()
 
-            view.click(model.refinements.first())
+            view.click(model.data.first(), true)
             searcher.completed?.await()
-            searcher.filterBuilder.get() shouldEqual setOf(FilterFacet(attribute, model.refinements.first().name))
-            model.refinements.size shouldEqual 1
+            filterState.filterBuilder.get() shouldEqual setOf(FilterFacet(attribute, model.data.first().name))
+            model.data.size shouldEqual 1
         }
     }
 
@@ -72,18 +75,18 @@ class TestHelperRefinement {
             val view = MockView()
             val view2 = MockView()
             model.connectViews(listOf(view, view2))
-            model.connectSearcherSingleIndex(searcher, attribute, RefinementMode.Disjunctive)
+            model.connectSearcherSingleIndex(searcher, attribute)
 
             searcher.search()
             searcher.completed?.await()
-            model.refinements.size shouldEqual 2
-            query.filters?.length ?: -1 shouldEqual 0
+            model.data.size shouldEqual 2
+            query.filters.shouldBeNull()
 
-            view.click(model.refinements.first())
-            view2.click(model.refinements.last())
+            view.click(model.data.first(), true)
+            view2.click(model.data.last(), true)
             searcher.completed?.await()
             query.filters.shouldNotBeNull()
-            model.refinements.size shouldEqual 2
+            model.data.size shouldEqual 2
         }
     }
 
@@ -94,18 +97,22 @@ class TestHelperRefinement {
             val searcher = SearcherForFacetValue(indexA, attribute)
 
             val model = RefinementListViewModel<Facet>()
+            val filterState = SearchFilterState()
             val view = MockView()
 
             model.connectView(view)
             model.connectSearcherForFacetValue(searcher, attribute)
+            filterState.connectSearcherForFacetValue(searcher)
+            filterState.connectRefinementModel(model, attribute)
+
             searcher.search()
             searcher.completed?.await()
-            model.refinements.size shouldEqual 2
+            model.data.size shouldEqual 2
 
-            view.click(model.refinements.first())
+            view.click(model.data.first(), true)
             searcher.completed?.await()
-            searcher.filterBuilder.get() shouldEqual setOf(FilterFacet(attribute, model.refinements.first().name))
-            model.refinements.size shouldEqual 2
+            filterState.filterBuilder.get() shouldEqual setOf(FilterFacet(attribute, model.data.first().name))
+            model.data.size shouldEqual 2
         }
     }
 }

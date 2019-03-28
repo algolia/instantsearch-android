@@ -1,7 +1,6 @@
 package searcher
 
 import com.algolia.search.client.Index
-import com.algolia.search.filter.FilterBuilder
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
@@ -12,8 +11,7 @@ import kotlin.properties.Delegates
 
 class SearcherSingleIndex(
     val index: Index,
-    val query: Query,
-    val filterBuilder: FilterBuilder = FilterBuilder(),
+    val query: Query = Query(),
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
@@ -34,7 +32,6 @@ class SearcherSingleIndex(
 
     override fun search() {
         completed = CompletableDeferred()
-        query.filters = filterBuilder.build()
         launch {
             sequencer.addOperation(this)
             try {

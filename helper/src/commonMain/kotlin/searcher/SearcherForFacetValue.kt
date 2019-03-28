@@ -37,7 +37,6 @@ class SearcherForFacetValue(
 
     override fun search() {
         completed = CompletableDeferred()
-        query?.filters = filterBuilder.build()
         launch {
             sequencer.addOperation(this)
             try {
