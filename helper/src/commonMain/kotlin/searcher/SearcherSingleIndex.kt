@@ -27,11 +27,7 @@ class SearcherSingleIndex(
 
     var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
         if (newValue != null) {
-            launch {
-                withContext(Dispatchers.Main) {
-                    responseListeners.forEach { it(newValue) }
-                }
-            }
+            responseListeners.forEach { it(newValue) }
         }
     }
 
@@ -42,7 +38,9 @@ class SearcherSingleIndex(
             sequencer.addOperation(this)
             try {
                 val responseSearch = index.search(query, requestOptions) //TODO ask Q: Why the temp var?
-                response = responseSearch
+                withContext(Dispatchers.Main) {
+                    response = responseSearch
+                }
                 completed?.complete(responseSearch)
             } catch (exception: Exception) {
                 withContext(Dispatchers.Main) {
