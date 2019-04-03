@@ -12,7 +12,7 @@ fun <T> RefinementListViewModel<T>.connectView(view: RefinementView<T>) {
     dataListeners += (view::setRefinements)
     selectionListeners += { _, newList -> view.setSelected(newList) }
     view.setOnClickRefinement(::onSelectedRefinement.get())
-    view.setRefinements(refinements)
+    view.setRefinements(data)
     view.setSelected(selected)
 }
 
