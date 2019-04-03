@@ -6,6 +6,7 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
+import mainDispatcher
 import kotlin.properties.Delegates
 
 
@@ -38,12 +39,12 @@ class SearcherSingleIndex(
             sequencer.addOperation(this)
             try {
                 val responseSearch = index.search(query, requestOptions) //TODO ask Q: Why the temp var?
-                withContext(Dispatchers.Main) {
+                withContext(mainDispatcher) {
                     response = responseSearch
                 }
                 completed?.complete(responseSearch)
             } catch (exception: Exception) {
-                withContext(Dispatchers.Main) {
+                withContext(mainDispatcher) {
                     errorListeners.forEach { it(exception) }
                 }
             }
