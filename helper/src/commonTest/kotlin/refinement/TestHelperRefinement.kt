@@ -77,7 +77,7 @@ class TestHelperRefinement {
             searcher.search()
             searcher.completed?.await()
             model.refinements.size shouldEqual 2
-            query.filters.shouldBeNull()
+            query.filters?.length ?: -1 shouldEqual 0
 
             view.click(model.refinements.first())
             view2.click(model.refinements.last())
