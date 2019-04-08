@@ -2,4 +2,5 @@
     <string name="app_name">InstantSearch Android Sample</string>
     <string name="price_template">"$ %d"</string>
     <string name="brand_template">"by %s"</string>
+    <string name="title_activity_refinement">RefinementActivity</string>
 </resources>
