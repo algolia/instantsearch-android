@@ -35,7 +35,7 @@ class SearcherSingleIndex(
         launch {
             sequencer.addOperation(this)
             try {
-                val responseSearch = index.search(query, requestOptions) //TODO ask Q: Why the temp var?
+                val responseSearch = index.search(query, requestOptions)
                 withContext(mainDispatcher) {
                     response = responseSearch
                 }

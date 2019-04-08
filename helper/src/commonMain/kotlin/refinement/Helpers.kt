@@ -40,7 +40,7 @@ fun RefinementListViewModel<Facet>.connectSearcherForFacetValue(
     selectionListeners += { _, refinements ->
         val filterBuilder = FilterBuilder()
         refinements.filter(filterBuilder, attribute, group)
-        searcher.query?.filters = filterBuilder.build()
+        searcher.query.filters = filterBuilder.build()
         searcher.search()
     }
 }
