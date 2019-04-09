@@ -5,17 +5,21 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.android.Stats
 import com.algolia.instantsearch.android.sample.R
 import com.algolia.instantsearch.android.sample.views.OneValueToggle
+import com.algolia.instantsearch.android.sample.views.RefinementList
 import com.algolia.search.model.Attribute
-import kotlinx.android.synthetic.main.activity_toggle.*
+import kotlinx.android.synthetic.main.activity_refinements.*
 
-class ToggleActivity : AppCompatActivity() {
+open class RefinementsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_toggle)
+        setContentView(R.layout.activity_refinements)
 
         val searcher = initSearcherSingleIndex()
         addDebugListeners(searcher)
+
+//        val list = RefinementList(recyclerView)
+//        list.connectWithSearcher(searcher, Attribute("brand"))
 
         prepareWidgets(
             searcher, listOf(OneValueToggle(checkedTextView, Attribute("brand"), "Chanel"), Stats(statsView))

@@ -2,8 +2,6 @@ package com.algolia.instantsearch.android.sample.views
 
 import androidx.appcompat.widget.SearchView
 
-typealias QueryTextChangeListener = ((String?) -> Unit)?
-
 sealed class SearchBox(var onQueryTextChangeListener: QueryTextChangeListener) {
     // TODO: AutoFocus
 
