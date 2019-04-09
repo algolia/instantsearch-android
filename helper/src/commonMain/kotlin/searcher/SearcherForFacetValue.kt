@@ -15,7 +15,7 @@ class SearcherForFacetValue(
     val index: Index,
     val attribute: Attribute,
     var facetQuery: FacetValuesQuery = FacetValuesQuery(),
-    val query: Query? = null,
+    val query: Query = Query(),
     val filterBuilder: FilterBuilder = FilterBuilder(),
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
@@ -37,7 +37,6 @@ class SearcherForFacetValue(
 
     override fun search() {
         completed = CompletableDeferred()
-        query?.filters = filterBuilder.build()
         launch {
             sequencer.addOperation(this)
             try {

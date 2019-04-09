@@ -1,6 +1,9 @@
 package refinement
 
-import com.algolia.search.filter.*
+import com.algolia.search.filter.FilterBuilder
+import com.algolia.search.filter.FilterFacet
+import com.algolia.search.filter.Group
+import com.algolia.search.filter.GroupAnd
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import searcher.SearcherForFacetValue
@@ -17,23 +20,14 @@ internal fun List<Facet>.filter(
     }
 }
 
-internal fun RefinementListViewModel<Facet>.setRefinements(facets: List<Facet>?) {
-    if (facets != null) refinements = facets
-}
 
+// Links model to searcher, updating model -> view on new results
 fun RefinementListViewModel<Facet>.connectSearcherSingleIndex(
     searcher: SearcherSingleIndex,
-    attribute: Attribute,
-    refinementMode: RefinementMode = RefinementMode.Conjunctive,
-    groupKey: String = attribute.raw
+    attribute: Attribute
 ) {
-    val group = if (refinementMode == RefinementMode.Conjunctive) GroupAnd(groupKey) else GroupOr(groupKey)
-    searcher.responseListeners += { response ->
-        setRefinements(response.facets[attribute])
-    }
-    selectionListeners += { refinements ->
-        refinements.filter(searcher.filterBuilder, attribute, group)
-        searcher.search()
+    searcher.responseListeners += {response ->
+        response.facetsOrNull?.get(attribute)?.let { data = it }
     }
 }
 
@@ -42,10 +36,11 @@ fun RefinementListViewModel<Facet>.connectSearcherForFacetValue(
     attribute: Attribute,
     group: Group = GroupAnd(attribute.raw)
 ) {
-    setRefinements(searcher.response?.facets)
-    searcher.responseListeners += { response -> setRefinements(response.facets) }
-    selectionListeners += { refinements ->
-        refinements.filter(searcher.filterBuilder, attribute, group)
+    searcher.responseListeners += { response -> data = response.facets }
+    selectionListeners += { _, refinements ->
+        val filterBuilder = FilterBuilder()
+        refinements.filter(filterBuilder, attribute, group)
+        searcher.query?.filters = filterBuilder.build()
         searcher.search()
     }
 }

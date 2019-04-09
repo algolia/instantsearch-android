@@ -5,22 +5,22 @@ import searcher.Searcher
 
 
 fun <T> RefinementListViewModel<T>.connectSearcher(searcher: Searcher) {
-    selectionListeners += { searcher.search() }
+    selectionListeners += { _, _ -> searcher.search() }
 }
 
 fun <T> RefinementListViewModel<T>.connectView(view: RefinementView<T>) {
-    refinementListeners += (view::setRefinements)
-    selectionListeners += (view::setSelected)
+    dataListeners += (view::setRefinements)
+    selectionListeners += { _, newList -> view.setSelected(newList) }
     view.setOnClickRefinement(::onSelectedRefinement.get())
-    view.setRefinements(refinements)
+    view.setRefinements(data)
     view.setSelected(selected)
 }
 
 fun <T, R> RefinementListViewModel<T>.connectView(view: RefinementView<R>, converter: Converter<T, R>) {
-    refinementListeners += { view.setRefinements(converter.convertIn(it)) }
-    selectionListeners += { view.setSelected(converter.convertIn(it)) }
-    view.setOnClickRefinement {
-        onSelectedRefinement(if (it == null) it else converter.convertOut(it))
+    dataListeners += { view.setRefinements(converter.convertIn(it)) }
+    selectionListeners += { _, newList -> view.setSelected(converter.convertIn(newList)) }
+    view.setOnClickRefinement { refinement, isActive ->
+        onSelectedRefinement(converter.convertOut(refinement), isActive)
     }
 }
 

@@ -26,8 +26,8 @@ class TestRefinement {
             dataSelected = refinements
         }
 
-        override fun setOnClickRefinement(onClick: (Facet?) -> Unit) {
-            click = { onClick(it) }
+        override fun setOnClickRefinement(onClick: (Facet, Boolean) -> Unit) {
+            click = { onClick(it, true) }
         }
     }
 
@@ -36,9 +36,9 @@ class TestRefinement {
     private fun setup(model: RefinementListViewModel<Facet>, views: List<MockView>, searcher: MockSearcher) {
         model.connectViews(views)
         model.connectSearcher(searcher)
-        model.refinements = facets
+        model.data = facets
         facets.forEach { views.first().click(it) }
-        model.refinements shouldEqual facets
+        model.data shouldEqual facets
         views.forEach { it.data shouldEqual facets }
         searcher.count shouldEqual facets.size
     }
@@ -50,7 +50,7 @@ class TestRefinement {
     ) {
         setup(model, views, searcher)
         views.forEach { it.data shouldEqual facets }
-        model.refinements = otherFacets
+        model.data = otherFacets
         model.selected shouldEqual otherFacets
         views.forEach {
             it.data shouldEqual otherFacets
@@ -66,7 +66,7 @@ class TestRefinement {
         views.forEach {
             it.dataSelected shouldEqual listOf(facets.last())
         }
-        model.refinements = otherFacets
+        model.data = otherFacets
         model.selected shouldEqual listOf()
         views.forEach {
             it.data shouldEqual otherFacets
@@ -82,9 +82,9 @@ class TestRefinement {
         val searcher = MockSearcher()
         setup(model, views, searcher)
 
-        model.refinements = facets
+        model.data = facets
         views.first().click(facets[0])
-        model.refinements = otherFacets
+        model.data = otherFacets
         views.forEach {
             it.dataSelected shouldContain facets[0]
         }
@@ -93,13 +93,13 @@ class TestRefinement {
     @Test
     fun `selected listener gets updated on new refinement if the selection is removed`() {
         val model = RefinementListViewModel<Facet>()
-        model.refinements = facets
-        model.onSelectedRefinement(facets[2])
+        model.data = facets
+        model.onSelectedRefinement(facets[2], true)
         assertFailsWith<CancellationException> {
-            model.selectionListeners += {
+            model.selectionListeners += { _, _ ->
                 throw CancellationException("The selectedlistener was called as selection becomes obsolete")
             }
-            model.refinements = otherFacets
+            model.data = otherFacets
         }
     }
 
