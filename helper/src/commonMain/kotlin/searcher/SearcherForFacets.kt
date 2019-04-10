@@ -1,17 +1,19 @@
 package searcher
 
 import com.algolia.search.client.Index
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.Query
+import com.algolia.search.model.Attribute
+import com.algolia.search.model.response.ResponseSearchForFacets
+import com.algolia.search.model.search.FacetQuery
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
 import MainDispatcher
 import kotlin.properties.Delegates
 
 
-class SearcherSingleIndex(
+class SearcherForFacets(
     val index: Index,
-    val query: Query = Query(),
+    val attribute: Attribute,
+    var facetQuery: FacetQuery = FacetQuery(),
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
@@ -19,39 +21,31 @@ class SearcherSingleIndex(
 
     private val sequencer = Sequencer()
 
-    internal var completed: CompletableDeferred<ResponseSearch>? = null
+    internal var completed: CompletableDeferred<ResponseSearchForFacets>? = null
 
-    val responseListeners = mutableListOf<(ResponseSearch) -> Unit>()
+    val responseListeners = mutableListOf<(ResponseSearchForFacets) -> Unit>()
     val errorListeners = mutableListOf<(Exception) -> Unit>()
-
-    var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
-        if (newValue != null) {
-            responseListeners.forEach { it(newValue) }
-        }
-    }
 
     override fun search() {
         completed = CompletableDeferred()
         launch {
             sequencer.addOperation(this)
             try {
-                val responseSearch = index.search(query, requestOptions)
+                val response = index.searchForFacets(attribute, facetQuery, requestOptions)
+
                 withContext(MainDispatcher) {
-                    response = responseSearch
+                    responseListeners.forEach { it(response) }
                 }
-                completed?.complete(responseSearch)
+                completed?.complete(response)
             } catch (exception: Exception) {
-                withContext(MainDispatcher) {
-                    errorListeners.forEach { it(exception) }
-                }
+                errorListeners.forEach { it(exception) }
             }
             sequencer.operationCompleted(this)
         }
     }
 
     override fun cancel() {
-        sequencer.cancelAll()
         coroutineContext.cancelChildren()
+        sequencer.cancelAll()
     }
 }
-

@@ -1,5 +1,6 @@
 package searcher
 
+import MainDispatcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
@@ -31,7 +32,9 @@ class SearcherMultipleIndices(
             try {
                 val response = client.multipleQueries(indexQueries, strategy, requestOptions)
 
-                responseListeners.forEach { it(response) }
+                withContext(MainDispatcher) {
+                    responseListeners.forEach { it(response) }
+                }
                 completed?.complete(response)
             } catch (exception: Exception) {
                 errorListeners.forEach { it(exception) }

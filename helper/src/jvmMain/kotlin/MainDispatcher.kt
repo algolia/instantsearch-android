@@ -1,5 +1,4 @@
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Dispatchers
 
-internal actual val mainDispatcher: CoroutineDispatcher
-    get() = Default
+internal actual val MainDispatcher: CoroutineDispatcher = Dispatchers.Default
