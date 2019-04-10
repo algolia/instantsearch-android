@@ -1,15 +1,14 @@
 package search
 
+import MainDispatcher
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.FacetQuery
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
-import MainDispatcher
 import searcher.Searcher
 import searcher.Sequencer
-import kotlin.properties.Delegates
 
 
 class SearcherForFacets(

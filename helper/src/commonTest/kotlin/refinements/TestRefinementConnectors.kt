@@ -7,12 +7,13 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockHttpResponse
+import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.headersOf
 import kotlinx.coroutines.io.ByteReadChannel
 import kotlinx.serialization.json.Json
 import refinement.RefinementListViewModel
@@ -26,33 +27,36 @@ import shouldBeEmpty
 import shouldEqual
 import kotlin.test.Test
 
+
 class TestRefinementConnectors {
 
-    val color = Attribute("color")
-    val facets = listOf(
+    private val color = Attribute("color")
+    private val facets = listOf(
         Facet("blue", 1),
         Facet("red", 2),
         Facet("green", 3)
     )
-
-    val mockClient = ClientSearch(
+    private val responseSearch = ResponseSearch(
+        hitsOrNull = listOf(),
+        facetsOrNull = mapOf(color to facets)
+    )
+    private val string = Json(encodeDefaults = false).stringify(ResponseSearch.serializer(), responseSearch)
+    private val mockEngine = MockEngine {
+        MockHttpResponse(
+            it.call,
+            HttpStatusCode.OK,
+            headers = headersOf("Content-Type", listOf(ContentType.Application.Json.toString())),
+            content = ByteReadChannel(string)
+        )
+    }
+    private val mockClient = ClientSearch(
         ConfigurationSearch(
             ApplicationID("A"),
             APIKey("B"),
-            engine = MockEngine {
-                MockHttpResponse(
-                    it.call,
-                    HttpStatusCode.OK,
-                    content = ByteReadChannel(
-                        Json.stringify(
-                            ResponseSearch.serializer(),
-                            ResponseSearch(facetsOrNull = mapOf(color to facets))
-                        )
-                    )
-                )
-            })
+            engine = mockEngine
+        )
     )
-    val mockIndex = mockClient.initIndex(IndexName("foo"))
+    private val mockIndex = mockClient.initIndex(IndexName("index"))
 
     @Test
     fun connectWithSSI() {
@@ -60,6 +64,7 @@ class TestRefinementConnectors {
             val searcher = SearcherSingleIndex(mockIndex)
             val model = RefinementListViewModel<Facet>()
             val searchFilterState = SearchFilterState()
+            val selection = facets.first()
 
             model.connectWith(
                 searcher,
@@ -67,18 +72,13 @@ class TestRefinementConnectors {
                 RefinementMode.Conjunctive,
                 color
             )
-            // WHEN
             searcher.search()
             searcher.completed?.await()
-            // EXPECT
-            model.refinements shouldEqual facets
+            model.refinements.toSet() shouldEqual facets.toSet()
             model.selected.shouldBeEmpty()
-
-            // WHEN
-            model.select(facets[0])
-
-            searchFilterState.get().getValue(Group.And.Facet(color.raw)) shouldEqual setOf(facets[0].toFilter(color))
-
+            model.select(selection)
+            model.selected shouldEqual listOf(selection)
+            searchFilterState.get().getValue(Group.And.Facet(color.raw)) shouldEqual setOf(selection.toFilter(color))
         }
     }
 }

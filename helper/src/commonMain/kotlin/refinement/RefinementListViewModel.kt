@@ -1,6 +1,7 @@
 package refinement
 
-import refinement.RefinementListViewModel.Mode.*
+import refinement.RefinementListViewModel.Mode.MultipleChoice
+import refinement.RefinementListViewModel.Mode.SingleChoice
 import kotlin.properties.Delegates
 
 
