@@ -18,8 +18,10 @@ class RefinementListViewModel<T>(
      * Note that if [selected] refinements are present when new [refinements] are set, they always will be kept.
      */
     var persistentSelection: Boolean = false
+
     val refinementListeners: MutableList<(List<T>) -> Unit> = mutableListOf()
     val selectionListeners: MutableList<(List<T>) -> Unit> = mutableListOf()
+
     var refinements: List<T> by Delegates.observable(listOf()) { _, oldValue, newValue ->
         if (newValue != oldValue) {
             refinementListeners.forEach { it(newValue) }

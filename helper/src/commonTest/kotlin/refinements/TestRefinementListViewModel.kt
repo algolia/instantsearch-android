@@ -46,6 +46,7 @@ class TestRefinementListViewModel {
     @Test
     fun persistentSelectionOff() {
         RefinementListViewModel<String>().apply {
+            persistentSelection = false
             refinements = listOf(
                 refinementA,
                 refinementB,

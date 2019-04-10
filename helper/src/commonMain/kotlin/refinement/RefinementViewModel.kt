@@ -5,9 +5,11 @@ import kotlin.properties.Delegates
 
 class RefinementViewModel<T> {
 
+    var persistentSelection: Boolean = false
+
     val refinementListeners: MutableList<(T?) -> Unit> = mutableListOf()
     val selectionListeners: MutableList<(T?) -> Unit> = mutableListOf()
-    var persistentSelection: Boolean = false
+
     var refinement: T? by Delegates.observable<T?>(null) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             if (!persistentSelection && refinement != selected) {

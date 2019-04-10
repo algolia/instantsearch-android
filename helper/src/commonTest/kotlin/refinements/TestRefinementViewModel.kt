@@ -20,4 +20,26 @@ class TestRefinementViewModel {
             selected shouldEqual null
         }
     }
+
+    @Test
+    fun persistentSelectionOff() {
+        RefinementViewModel<String>().apply {
+            persistentSelection = false
+            refinement = valueA
+            select(valueA)
+            refinement = valueB
+            selected shouldEqual null
+        }
+    }
+
+    @Test
+    fun persistentSelectionOn() {
+        RefinementViewModel<String>().apply {
+            persistentSelection = true
+            refinement = valueA
+            select(valueA)
+            refinement = valueB
+            selected shouldEqual valueA
+        }
+    }
 }

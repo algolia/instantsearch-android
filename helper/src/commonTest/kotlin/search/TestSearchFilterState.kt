@@ -2,7 +2,6 @@ package search
 
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.filter.FilterGroupConverter
 import shouldBeFalse
 import shouldBeTrue
 import shouldEqual
