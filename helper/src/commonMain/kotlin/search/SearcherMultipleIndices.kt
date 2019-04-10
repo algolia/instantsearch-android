@@ -1,19 +1,20 @@
-package searcher
+package search
 
-import com.algolia.search.client.Index
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.response.ResponseSearchForFacets
-import com.algolia.search.model.search.FacetQuery
+import MainDispatcher
+import com.algolia.search.client.ClientSearch
+import com.algolia.search.model.multipleindex.IndexQuery
+import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
+import com.algolia.search.model.response.ResponseSearches
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
-import MainDispatcher
-import kotlin.properties.Delegates
+import searcher.Searcher
+import searcher.Sequencer
 
 
-class SearcherForFacets(
-    val index: Index,
-    val attribute: Attribute,
-    var facetQuery: FacetQuery = FacetQuery(),
+class SearcherMultipleIndices(
+    val client: ClientSearch,
+    val indexQueries: List<IndexQuery>,
+    val strategy: MultipleQueriesStrategy? = null,
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
@@ -21,9 +22,9 @@ class SearcherForFacets(
 
     private val sequencer = Sequencer()
 
-    internal var completed: CompletableDeferred<ResponseSearchForFacets>? = null
+    internal var completed: CompletableDeferred<ResponseSearches>? = null
 
-    val responseListeners = mutableListOf<(ResponseSearchForFacets) -> Unit>()
+    val responseListeners = mutableListOf<(ResponseSearches) -> Unit>()
     val errorListeners = mutableListOf<(Exception) -> Unit>()
 
     override fun search() {
@@ -31,7 +32,7 @@ class SearcherForFacets(
         launch {
             sequencer.addOperation(this)
             try {
-                val response = index.searchForFacets(attribute, facetQuery, requestOptions)
+                val response = client.multipleQueries(indexQueries, strategy, requestOptions)
 
                 withContext(MainDispatcher) {
                     responseListeners.forEach { it(response) }
@@ -45,7 +46,7 @@ class SearcherForFacets(
     }
 
     override fun cancel() {
-        coroutineContext.cancelChildren()
         sequencer.cancelAll()
+        coroutineContext.cancelChildren()
     }
 }

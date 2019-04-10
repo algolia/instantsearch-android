@@ -1,4 +1,4 @@
-package searcher
+package search
 
 import com.algolia.search.client.Index
 import com.algolia.search.model.response.ResponseSearch
@@ -6,6 +6,8 @@ import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
 import MainDispatcher
+import searcher.Searcher
+import searcher.Sequencer
 import kotlin.properties.Delegates
 
 
