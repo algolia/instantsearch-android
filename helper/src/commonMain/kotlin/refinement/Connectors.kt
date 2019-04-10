@@ -16,7 +16,6 @@ enum class RefinementMode {
 
 fun RefinementListViewModel<Facet>.connectWith(
     searcher: SearcherSingleIndex,
-    searchFilterState: SearchFilterState,
     mode: RefinementMode,
     attribute: Attribute,
     groupName: String = attribute.raw
@@ -32,7 +31,7 @@ fun RefinementListViewModel<Facet>.connectWith(
         }
         val filters = facets.map { it.toFilter(attribute) }.toSet()
 
-        searchFilterState.replace(group, filters)
+        searcher.filterState.replace(group, filters)
     }
 }
 

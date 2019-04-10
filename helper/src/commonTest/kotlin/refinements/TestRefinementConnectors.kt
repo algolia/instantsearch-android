@@ -7,6 +7,7 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
+import com.algolia.search.model.filter.FilterConverter
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 import io.ktor.client.engine.mock.MockEngine
@@ -63,12 +64,11 @@ class TestRefinementConnectors {
         blocking {
             val searcher = SearcherSingleIndex(mockIndex)
             val model = RefinementListViewModel<Facet>()
-            val searchFilterState = SearchFilterState()
             val selection = facets.first()
+            val selectedFilter = selection.toFilter(color)
 
             model.connectWith(
                 searcher,
-                searchFilterState,
                 RefinementMode.Conjunctive,
                 color
             )
@@ -78,7 +78,8 @@ class TestRefinementConnectors {
             model.selected.shouldBeEmpty()
             model.select(selection)
             model.selected shouldEqual listOf(selection)
-            searchFilterState.get().getValue(Group.And.Facet(color.raw)) shouldEqual setOf(selection.toFilter(color))
+            searcher.query.filters = FilterConverter.SQL(selectedFilter)
+            searcher.filterState.get().getValue(Group.And.Facet(color.raw)) shouldEqual setOf(selectedFilter)
         }
     }
 }
