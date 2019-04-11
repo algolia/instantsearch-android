@@ -1,18 +1,32 @@
 package refinement
 
 import com.algolia.search.model.search.Facet
+import refinement.RefinementPresenterFacets.SortCriterium.*
+import kotlin.properties.Delegates
 
 
 class RefinementPresenterFacets : RefinementPresenter<Facet>() {
 
-    override val sortComparator = Comparator<RefinedData<Facet>> { (facetA, isSelectedA), (facetB, isSelectedB) ->
+    enum class SortCriterium {
+        IsRefined,
+        CountAsc,
+        CountDesc,
+        AlphabeticalAsc,
+        AlphabeticalDesc
+    }
+
+    var sortCriteria by Delegates.observable(setOf(IsRefined, CountDesc)) { _, _, _ ->
+        data = data
+    }
+
+    override val comparator = Comparator<RefinedData<Facet>> { (facetA, isSelectedA), (facetB, isSelectedB) ->
         sortCriteria.asSequence().map {
             when (it) {
-                SortCriterium.CountAsc -> facetA.count.compareTo(facetB.count)
-                SortCriterium.CountDesc -> facetB.count.compareTo(facetA.count)
-                SortCriterium.AlphabeticalAsc -> facetA.value.compareTo(facetB.value)
-                SortCriterium.AlphabeticalDesc -> facetB.value.compareTo(facetA.value)
-                SortCriterium.IsRefined -> isSelectedB.compareTo(isSelectedA)
+                CountAsc -> facetA.count.compareTo(facetB.count)
+                CountDesc -> facetB.count.compareTo(facetA.count)
+                AlphabeticalAsc -> facetA.value.compareTo(facetB.value)
+                AlphabeticalDesc -> facetB.value.compareTo(facetA.value)
+                IsRefined -> isSelectedB.compareTo(isSelectedA)
             }
         }.first { it != 0 }
     }
