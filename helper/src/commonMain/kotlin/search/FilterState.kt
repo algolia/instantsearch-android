@@ -14,3 +14,8 @@ internal fun SearchFilterState.toFilterGroups(): List<FilterGroup<*>> {
         }
     }
 }
+
+@Suppress("UNCHECKED_CAST")
+fun <T : Filter> FilterState.getFilters(group: Group<T>): Set<T>? {
+    return this[group] as? Set<T>
+}

@@ -7,11 +7,8 @@ import refinement.RefinementMode.And
 import refinement.RefinementMode.Or
 import search.Group
 import search.SearcherSingleIndex
+import search.getFilters
 
-enum class RefinementMode {
-    And,
-    Or
-}
 
 fun RefinementListViewModel<Facet>.connectWith(
     searcher: SearcherSingleIndex,
@@ -28,7 +25,7 @@ fun RefinementListViewModel<Facet>.connectWith(
         response.facets[attribute]?.let { refinements = it }
     }
     searcher.filterState.stateListeners += { state ->
-        val filters = state[group].orEmpty().filterIsInstance<Filter.Facet>().map { it.value }
+        val filters = state.getFilters(group).orEmpty().map { it.value }
 
         selected = refinements.filter { refinement -> filters.any { it.raw == refinement.value } }
     }
