@@ -1,12 +1,13 @@
 package refinement
 
-import refinement.RefinementPresenter.SortCriteria.CountDesc
-import refinement.RefinementPresenter.SortCriteria.IsRefined
+import refinement.RefinementPresenter.SortCriterium.CountDesc
+import refinement.RefinementPresenter.SortCriterium.IsRefined
+import kotlin.properties.Delegates
 
 
 abstract class RefinementPresenter<T> {
 
-    enum class SortCriteria {
+    enum class SortCriterium {
         IsRefined,
         CountAsc,
         CountDesc,
@@ -14,18 +15,23 @@ abstract class RefinementPresenter<T> {
         AlphabeticalDesc
     }
 
-    val limit: Int = 10
-    val persistentSelection: Boolean = false
-    val sortOrder: List<SortCriteria> = listOf(IsRefined, CountDesc)
-    val selectionMode: SelectionMode = SelectionMode.SingleChoice
+    private var data: List<Pair<T, Boolean>> = listOf()
 
-    var data: List<Pair<T, Boolean>> = listOf()
-        set(values) {
-            field = sortData(values)
-        }
+    protected abstract val sortComparator: Comparator<RefinedData<T>>
+
     val dataListeners: MutableList<(List<RefinedData<T>>) -> Unit> = mutableListOf()
+    var limit by Delegates.observable(10) { _, _, _ ->
+        setData(data)
+    }
+    val sortCriteria by Delegates.observable(setOf(IsRefined, CountDesc)) { _, _, _ ->
+        setData(data)
+    }
 
-    abstract val sortComparator: Comparator<RefinedData<T>>
+    var mode by Delegates.observable(SelectionMode.SingleChoice) { _, _, _ ->
+        setData(data)
+    }
 
-    abstract fun sortData(data: List<RefinedData<T>>): List<RefinedData<T>>
+    fun setData(data: List<RefinedData<T>>) {
+        this.data = data.sortedWith(sortComparator).take(limit)
+    }
 }
