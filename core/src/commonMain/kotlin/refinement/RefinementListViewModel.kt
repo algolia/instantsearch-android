@@ -1,18 +1,11 @@
 package refinement
 
-import refinement.RefinementListViewModel.Mode.MultipleChoice
-import refinement.RefinementListViewModel.Mode.SingleChoice
+import refinement.SelectionMode.MultipleChoice
+import refinement.SelectionMode.SingleChoice
 import kotlin.properties.Delegates
 
 
-class RefinementListViewModel<T>(
-    val mode: Mode = SingleChoice
-) {
-
-    enum class Mode {
-        SingleChoice,
-        MultipleChoice
-    }
+class RefinementListViewModel<T>(val mode: SelectionMode = SingleChoice) {
 
     /**
      * When `true`, the [selected] refinements are kept even when they are not present in [refinements] anymore.

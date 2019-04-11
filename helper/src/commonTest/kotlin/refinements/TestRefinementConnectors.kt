@@ -79,7 +79,7 @@ class TestRefinementConnectors {
     }
 
     @Test
-    fun synchronization() {
+    fun modelReactsToFilterStateChanges() {
         blocking {
             val searcher = SearcherSingleIndex(mockIndex)
             val model = RefinementListViewModel<Facet>()
