@@ -20,15 +20,20 @@ fun RefinementListViewModel<Facet>.connectWith(
     attribute: Attribute,
     groupName: String = attribute.raw
 ) {
+    val group = when (mode) {
+        Conjunctive -> Group.And.Facet(groupName)
+        Disjunctive -> Group.Or.Facet(groupName)
+    }
+
     searcher.responseListeners += { response ->
         response.facets[attribute]?.let { refinements = it }
     }
+    searcher.filterState.stateListeners += { state ->
+        val filters = state[group].orEmpty().filterIsInstance<Filter.Facet>().map { it.value }
 
+        selected = refinements.filter { refinement -> filters.any { it.raw == refinement.value } }
+    }
     selectionListeners += { facets ->
-        val group = when (mode) {
-            Conjunctive -> Group.And.Facet(groupName)
-            Disjunctive -> Group.Or.Facet(groupName)
-        }
         val filters = facets.map { it.toFilter(attribute) }.toSet()
 
         searcher.filterState.replace(group, filters)
