@@ -1,6 +1,5 @@
-package refinements
+package refinement
 
-import refinement.RefinementViewModel
 import shouldEqual
 import kotlin.test.Test
 

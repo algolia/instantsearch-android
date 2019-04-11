@@ -1,6 +1,5 @@
-package refinements
+package refinement
 
-import refinement.RefinementListViewModel
 import shouldEqual
 import kotlin.test.Test
 
@@ -13,7 +12,7 @@ class TestRefinementListViewModel {
 
     @Test
     fun singleChoice() {
-        RefinementListViewModel<String>(RefinementListViewModel.Mode.SingleChoice).apply {
+        RefinementListViewModel<String>(SelectionMode.SingleChoice).apply {
             refinements = listOf(
                 refinementA,
                 refinementB
@@ -29,7 +28,7 @@ class TestRefinementListViewModel {
 
     @Test
     fun multipleChoice() {
-        RefinementListViewModel<String>(RefinementListViewModel.Mode.MultipleChoice).apply {
+        RefinementListViewModel<String>(SelectionMode.MultipleChoice).apply {
             refinements = listOf(
                 refinementA,
                 refinementB
