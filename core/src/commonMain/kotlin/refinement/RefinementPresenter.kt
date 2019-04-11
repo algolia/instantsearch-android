@@ -25,7 +25,7 @@ abstract class RefinementPresenter<T> {
         }
     val dataListeners: MutableList<(List<RefinedData<T>>) -> Unit> = mutableListOf()
 
-    abstract val sortComparator: Comparator<Pair<T, Boolean>>
+    abstract val sortComparator: Comparator<RefinedData<T>>
 
-    abstract fun sortData(data: List<Pair<T, Boolean>>): List<Pair<T, Boolean>>
+    abstract fun sortData(data: List<RefinedData<T>>): List<RefinedData<T>>
 }
