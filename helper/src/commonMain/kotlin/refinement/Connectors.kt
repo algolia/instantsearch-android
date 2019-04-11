@@ -3,15 +3,14 @@ package refinement
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.search.Facet
-import refinement.RefinementMode.Conjunctive
-import refinement.RefinementMode.Disjunctive
+import refinement.RefinementMode.And
+import refinement.RefinementMode.Or
 import search.Group
-import search.SearchFilterState
 import search.SearcherSingleIndex
 
 enum class RefinementMode {
-    Conjunctive,
-    Disjunctive
+    And,
+    Or
 }
 
 fun RefinementListViewModel<Facet>.connectWith(
@@ -21,8 +20,8 @@ fun RefinementListViewModel<Facet>.connectWith(
     groupName: String = attribute.raw
 ) {
     val group = when (mode) {
-        Conjunctive -> Group.And.Facet(groupName)
-        Disjunctive -> Group.Or.Facet(groupName)
+        And -> Group.And.Facet(groupName)
+        Or -> Group.Or.Facet(groupName)
     }
 
     searcher.responseListeners += { response ->

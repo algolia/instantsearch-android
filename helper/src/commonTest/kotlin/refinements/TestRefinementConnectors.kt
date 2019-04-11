@@ -22,7 +22,6 @@ import refinement.RefinementMode
 import refinement.connectWith
 import refinement.toFilter
 import search.Group
-import search.SearchFilterState
 import search.SearcherSingleIndex
 import shouldBeEmpty
 import shouldEqual
@@ -67,7 +66,7 @@ class TestRefinementConnectors {
             val selection = facets.first()
             val selectedFilter = selection.toFilter(color)
 
-            model.connectWith(searcher, RefinementMode.Conjunctive, color)
+            model.connectWith(searcher, RefinementMode.And, color)
             searcher.search()
             searcher.completed?.await()
             model.refinements.toSet() shouldEqual facets.toSet()
@@ -86,7 +85,7 @@ class TestRefinementConnectors {
             val model = RefinementListViewModel<Facet>()
             val selection = facets.first()
 
-            model.connectWith(searcher, RefinementMode.Conjunctive, color)
+            model.connectWith(searcher, RefinementMode.And, color)
             searcher.search()
             searcher.completed?.await()
             model.selected.shouldBeEmpty()
