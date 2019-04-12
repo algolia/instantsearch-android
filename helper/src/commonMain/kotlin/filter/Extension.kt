@@ -1,7 +1,9 @@
 package filter
 
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup
+import com.algolia.search.model.search.Facet
 import search.GroupID
 
 
@@ -50,4 +52,8 @@ internal fun <T : Filter> Map<GroupID, Set<T>>.clear(groupID: GroupID): Map<Grou
     return toMutableMap().apply {
         remove(groupID)
     }
+}
+
+internal fun Facet.toFilter(attribute: Attribute): Filter.Facet {
+    return Filter.Facet(attribute, value)
 }

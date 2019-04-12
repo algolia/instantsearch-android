@@ -5,7 +5,7 @@ import search.GroupID
 import kotlin.properties.Delegates
 
 
-class MutableFilterState {
+public class MutableFilterState {
 
     private var state by Delegates.observable(FilterState()) { _, oldValue, newValue ->
         if (newValue != oldValue) {
@@ -15,9 +15,9 @@ class MutableFilterState {
         }
     }
 
-    val listeners: MutableList<(FilterState) -> Unit> = mutableListOf()
+    public val listeners: MutableList<(FilterState) -> Unit> = mutableListOf()
 
-    fun <T : Filter> add(groupID: GroupID, vararg filters: T) {
+    public fun <T : Filter> add(groupID: GroupID, vararg filters: T) {
         val facet = state.facet.toMutableMap()
         val tag = state.tag.toMutableMap()
         val numeric = state.numeric.toMutableMap()
@@ -33,11 +33,11 @@ class MutableFilterState {
         state = state.copy(facet = facet, tag = tag, numeric = numeric)
     }
 
-    inline fun <reified T : Filter> add(groupID: GroupID, filters: Set<T>) {
+    public inline fun <reified T : Filter> add(groupID: GroupID, filters: Set<T>) {
         return add(groupID, *filters.toTypedArray())
     }
 
-    fun <T : Filter> remove(groupID: GroupID, vararg filters: T) {
+    public fun <T : Filter> remove(groupID: GroupID, vararg filters: T) {
         val facet = state.facet.toMutableMap()
         val tag = state.tag.toMutableMap()
         val numeric = state.numeric.toMutableMap()
@@ -53,7 +53,7 @@ class MutableFilterState {
         state = state.copy(facet = facet, tag = tag, numeric = numeric)
     }
 
-    fun <T : Filter> contains(groupID: GroupID, filter: T): Boolean {
+    public fun <T : Filter> contains(groupID: GroupID, filter: T): Boolean {
         return when (filter) {
             is Filter.Facet -> state.facet[groupID]?.contains(filter)
             is Filter.Tag -> state.tag[groupID]?.contains(filter)
@@ -62,11 +62,11 @@ class MutableFilterState {
         } ?: false
     }
 
-    fun <T : Filter> toggle(groupID: GroupID, filter: T) {
+    public fun <T : Filter> toggle(groupID: GroupID, filter: T) {
         return if (contains(groupID, filter)) remove(groupID, filter) else add(groupID, filter)
     }
 
-    fun clear(groupID: GroupID? = null) {
+    public fun clear(groupID: GroupID? = null) {
         state = if (groupID != null) {
             state.copy(
                 facet = state.facet.clear(groupID),
@@ -78,7 +78,7 @@ class MutableFilterState {
         }
     }
 
-    fun get(): FilterState {
+    public fun get(): FilterState {
         return state
     }
 }

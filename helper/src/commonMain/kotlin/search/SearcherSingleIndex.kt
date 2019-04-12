@@ -14,23 +14,21 @@ import searcher.Sequencer
 import kotlin.properties.Delegates
 
 
-class SearcherSingleIndex(
-    val index: Index,
-    val query: Query = Query(),
-    val filterState: MutableFilterState = MutableFilterState(),
-    val requestOptions: RequestOptions? = null
+public class SearcherSingleIndex(
+    public val index: Index,
+    public val query: Query = Query(),
+    public val filterState: MutableFilterState = MutableFilterState(),
+    public val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
+    internal var completed: CompletableDeferred<ResponseSearch>? = null
+    private val sequencer = Sequencer()
     override val coroutineContext = Job()
 
-    private val sequencer = Sequencer()
+    public val responseListeners = mutableListOf<(ResponseSearch) -> Unit>()
+    public val errorListeners = mutableListOf<(Exception) -> Unit>()
 
-    internal var completed: CompletableDeferred<ResponseSearch>? = null
-
-    val responseListeners = mutableListOf<(ResponseSearch) -> Unit>()
-    val errorListeners = mutableListOf<(Exception) -> Unit>()
-
-    var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
+    public var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
         if (newValue != null) {
             responseListeners.forEach { it(newValue) }
         }

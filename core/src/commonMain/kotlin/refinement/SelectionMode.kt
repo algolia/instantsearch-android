@@ -1,6 +1,6 @@
 package refinement
 
-enum class SelectionMode {
+public enum class SelectionMode {
     SingleChoice,
     MultipleChoice
 }

@@ -1,4 +1,4 @@
 package refinement
 
 
-typealias RefinedData<T> = Pair<T, Boolean>
+public typealias RefinedData<T> = Pair<T, Boolean>

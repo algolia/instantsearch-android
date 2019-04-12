@@ -5,9 +5,9 @@ import refinement.SortCriterium.*
 import kotlin.properties.Delegates
 
 
-class RefinementPresenterFacets : RefinementPresenter<Facet>() {
+public class RefinementPresenterFacets : RefinementPresenter<Facet>() {
 
-    var sortCriteria by Delegates.observable(listOf(IsRefined, CountDesc)) { _, _, _ ->
+    public var sortCriteria by Delegates.observable(listOf(IsRefined, CountDesc)) { _, _, _ ->
         data = data
     }
 

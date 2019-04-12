@@ -1,7 +1,7 @@
 package refinement
 
 
-enum class RefinementMode {
+public enum class RefinementMode {
     And,
     Or
 }

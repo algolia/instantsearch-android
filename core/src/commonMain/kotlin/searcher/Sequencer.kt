@@ -5,7 +5,7 @@ import kotlinx.coroutines.cancel
 import kotlin.coroutines.CoroutineContext
 
 
-class Sequencer(val maxOperations: Int = 5) {
+public class Sequencer(val maxOperations: Int = 5) {
 
     init {
         if (maxOperations <= 0)

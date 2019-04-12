@@ -1,7 +1,7 @@
 package search
 
 
-sealed class GroupID {
+public sealed class GroupID {
 
     abstract val name: String
 

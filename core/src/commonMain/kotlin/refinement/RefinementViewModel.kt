@@ -3,14 +3,14 @@ package refinement
 import kotlin.properties.Delegates
 
 
-class RefinementViewModel<T> {
+public class RefinementViewModel<T> {
 
-    var persistentSelection: Boolean = false
+    public var persistentSelection: Boolean = false
 
-    val refinementListeners: MutableList<(T?) -> Unit> = mutableListOf()
-    val selectionListeners: MutableList<(T?) -> Unit> = mutableListOf()
+    public val refinementListeners: MutableList<(T?) -> Unit> = mutableListOf()
+    public val selectionListeners: MutableList<(T?) -> Unit> = mutableListOf()
 
-    var refinement: T? by Delegates.observable<T?>(null) { _, oldValue, newValue ->
+    public var refinement: T? by Delegates.observable<T?>(null) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             if (!persistentSelection && refinement != selected) {
                 selected = null
@@ -18,13 +18,13 @@ class RefinementViewModel<T> {
             refinementListeners.forEach { it(newValue) }
         }
     }
-    var selected: T? by Delegates.observable<T?>(null) { _, oldValue, newValue ->
+    public var selected: T? by Delegates.observable<T?>(null) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             selectionListeners.forEach { it(newValue) }
         }
     }
 
-    fun select(refinement: T?) {
+    public fun select(refinement: T?) {
         selected = if (selected == refinement) null else refinement
     }
 }

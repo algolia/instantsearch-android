@@ -20,7 +20,6 @@ import kotlinx.serialization.json.Json
 import refinement.RefinementListViewModel
 import refinement.RefinementMode
 import refinement.connectWith
-import refinement.toFilter
 import search.GroupID
 import search.SearcherSingleIndex
 import shouldBeEmpty

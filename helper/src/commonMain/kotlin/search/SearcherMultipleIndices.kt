@@ -9,37 +9,44 @@ import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
 import searcher.Searcher
 import searcher.Sequencer
+import kotlin.properties.Delegates
 
 
-class SearcherMultipleIndices(
-    val client: ClientSearch,
-    val indexQueries: List<IndexQuery>,
-    val strategy: MultipleQueriesStrategy? = null,
-    val requestOptions: RequestOptions? = null
+public class SearcherMultipleIndices(
+    public val client: ClientSearch,
+    public val indexQueries: List<IndexQuery>,
+    public val strategy: MultipleQueriesStrategy? = null,
+    public val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
+    internal var completed: CompletableDeferred<ResponseSearches>? = null
+    private val sequencer = Sequencer()
     override val coroutineContext = Job()
 
-    private val sequencer = Sequencer()
+    public val responseListeners = mutableListOf<(ResponseSearches) -> Unit>()
+    public val errorListeners = mutableListOf<(Exception) -> Unit>()
 
-    internal var completed: CompletableDeferred<ResponseSearches>? = null
-
-    val responseListeners = mutableListOf<(ResponseSearches) -> Unit>()
-    val errorListeners = mutableListOf<(Exception) -> Unit>()
+    public var response by Delegates.observable<ResponseSearches?>(null) { _, _, newValue ->
+        if (newValue != null) {
+            responseListeners.forEach { it(newValue) }
+        }
+    }
 
     override fun search() {
         completed = CompletableDeferred()
         launch {
             sequencer.addOperation(this)
             try {
-                val response = client.multipleQueries(indexQueries, strategy, requestOptions)
+                val responseSearches = client.multipleQueries(indexQueries, strategy, requestOptions)
 
                 withContext(MainDispatcher) {
-                    responseListeners.forEach { it(response) }
+                    response = responseSearches
                 }
-                completed?.complete(response)
+                completed?.complete(responseSearches)
             } catch (exception: Exception) {
-                errorListeners.forEach { it(exception) }
+                withContext(MainDispatcher) {
+                    errorListeners.forEach { it(exception) }
+                }
             }
             sequencer.operationCompleted(this)
         }

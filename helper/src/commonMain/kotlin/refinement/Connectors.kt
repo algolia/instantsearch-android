@@ -1,8 +1,8 @@
 package refinement
 
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.search.Facet
+import filter.toFilter
 import refinement.RefinementMode.And
 import refinement.RefinementMode.Or
 import search.GroupID
@@ -11,7 +11,7 @@ import search.SearcherSingleIndex
 
 typealias RefinementFacetsViewModel = RefinementListViewModel<Facet>
 
-fun RefinementFacetsViewModel.connectWith(
+public fun RefinementFacetsViewModel.connectWith(
     searcher: SearcherSingleIndex,
     mode: RefinementMode,
     attribute: Attribute,
@@ -36,7 +36,5 @@ fun RefinementFacetsViewModel.connectWith(
         searcher.filterState.add(groupID, filters)
     }
 }
-
-fun Facet.toFilter(attribute: Attribute): Filter.Facet = Filter.Facet(attribute, this.value)
 
 

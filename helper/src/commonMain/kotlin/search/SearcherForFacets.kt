@@ -3,43 +3,56 @@ package search
 import MainDispatcher
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.filter.FilterGroupConverter
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.FacetQuery
+import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
+import filter.MutableFilterState
+import filter.toFilterGroups
 import kotlinx.coroutines.*
 import searcher.Searcher
 import searcher.Sequencer
+import kotlin.properties.Delegates
 
 
-class SearcherForFacets(
-    val index: Index,
-    val attribute: Attribute,
-    var facetQuery: FacetQuery = FacetQuery(),
-    val requestOptions: RequestOptions? = null
+public class SearcherForFacets(
+    public val index: Index,
+    public val attribute: Attribute,
+    public var facetQuery: FacetQuery = FacetQuery(query = Query()),
+    public val filterState: MutableFilterState = MutableFilterState(),
+    public val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
+    internal var completable: CompletableDeferred<ResponseSearchForFacets>? = null
+    private val sequencer = Sequencer()
     override val coroutineContext = Job()
 
-    private val sequencer = Sequencer()
+    public val responseListeners = mutableListOf<(ResponseSearchForFacets) -> Unit>()
+    public val errorListeners = mutableListOf<(Exception) -> Unit>()
 
-    internal var completed: CompletableDeferred<ResponseSearchForFacets>? = null
-
-    val responseListeners = mutableListOf<(ResponseSearchForFacets) -> Unit>()
-    val errorListeners = mutableListOf<(Exception) -> Unit>()
+    public var response by Delegates.observable<ResponseSearchForFacets?>(null) { _, _, newValue ->
+        if (newValue != null) {
+            responseListeners.forEach { it(newValue) }
+        }
+    }
 
     override fun search() {
-        completed = CompletableDeferred()
+        completable = CompletableDeferred()
+        facetQuery.query.filters = FilterGroupConverter.SQL(filterState.get().toFilterGroups())
         launch {
             sequencer.addOperation(this)
             try {
-                val response = index.searchForFacets(attribute, facetQuery, requestOptions)
+                val responseSearchForFacets = index.searchForFacets(attribute, facetQuery, requestOptions)
 
                 withContext(MainDispatcher) {
-                    responseListeners.forEach { it(response) }
+                    response = responseSearchForFacets
                 }
-                completed?.complete(response)
+                completable?.complete(responseSearchForFacets)
             } catch (exception: Exception) {
-                errorListeners.forEach { it(exception) }
+                withContext(MainDispatcher) {
+                    errorListeners.forEach { it(exception) }
+                }
             }
             sequencer.operationCompleted(this)
         }

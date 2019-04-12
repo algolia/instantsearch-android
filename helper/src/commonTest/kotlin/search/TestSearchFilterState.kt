@@ -3,7 +3,6 @@ package search
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.personalization.FacetScoring
 import filter.FilterState
 import filter.MutableFilterState
 import filter.toFilterGroups
