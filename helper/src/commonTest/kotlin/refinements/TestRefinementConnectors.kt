@@ -10,6 +10,7 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterConverter
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
+import filter.toFilter
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockHttpResponse
 import io.ktor.http.ContentType
