@@ -21,7 +21,7 @@ import refinement.RefinementListViewModel
 import refinement.RefinementMode
 import refinement.connectWith
 import refinement.toFilter
-import search.Group
+import search.GroupID
 import search.SearcherSingleIndex
 import shouldBeEmpty
 import shouldEqual
@@ -74,7 +74,7 @@ class TestRefinementConnectors {
             model.select(selection)
             model.selected shouldEqual listOf(selection)
             searcher.query.filters = FilterConverter.SQL(selectedFilter)
-            searcher.filterState.get().getValue(Group.And.Facet(color.raw)) shouldEqual setOf(selectedFilter)
+            searcher.filterState.get().facet.getValue(GroupID.And(color.raw)) shouldEqual setOf(selectedFilter)
         }
     }
 
@@ -89,7 +89,7 @@ class TestRefinementConnectors {
             searcher.search()
             searcher.completed?.await()
             model.selected.shouldBeEmpty()
-            searcher.filterState.add(Group.And.Facet(color.raw), selection.toFilter(color))
+            searcher.filterState.add(GroupID.And(color.raw), selection.toFilter(color))
             model.selected shouldEqual listOf(selection)
         }
     }

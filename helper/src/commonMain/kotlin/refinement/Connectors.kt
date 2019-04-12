@@ -5,9 +5,8 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.search.Facet
 import refinement.RefinementMode.And
 import refinement.RefinementMode.Or
-import search.Group
+import search.GroupID
 import search.SearcherSingleIndex
-import search.getFilters
 
 
 typealias RefinementFacetsViewModel = RefinementListViewModel<Facet>
@@ -18,23 +17,23 @@ fun RefinementFacetsViewModel.connectWith(
     attribute: Attribute,
     groupName: String = attribute.raw
 ) {
-    val group = when (mode) {
-        And -> Group.And.Facet(groupName)
-        Or -> Group.Or.Facet(groupName)
+    val groupID = when (mode) {
+        And -> GroupID.And(groupName)
+        Or -> GroupID.Or(groupName)
     }
 
     searcher.responseListeners += { response ->
         response.facets[attribute]?.let { refinements = it }
     }
-    searcher.filterState.stateListeners += { state ->
-        val filters = state.getFilters(group).orEmpty().map { it.value }
+    searcher.filterState.listeners += { state ->
+        val filters = state.facet[groupID].orEmpty().map { it.value }
 
         selected = refinements.filter { refinement -> filters.any { it.raw == refinement.value } }
     }
     selectionListeners += { facets ->
         val filters = facets.map { it.toFilter(attribute) }.toSet()
 
-        searcher.filterState.replace(group, filters)
+        searcher.filterState.add(groupID, filters)
     }
 }
 
