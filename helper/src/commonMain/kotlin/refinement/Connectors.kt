@@ -10,7 +10,9 @@ import search.SearcherSingleIndex
 import search.getFilters
 
 
-fun RefinementListViewModel<Facet>.connectWith(
+typealias RefinementFacetsViewModel = RefinementListViewModel<Facet>
+
+fun RefinementFacetsViewModel.connectWith(
     searcher: SearcherSingleIndex,
     mode: RefinementMode,
     attribute: Attribute,
