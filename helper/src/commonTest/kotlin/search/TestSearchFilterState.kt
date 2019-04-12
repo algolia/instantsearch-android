@@ -3,6 +3,7 @@ package search
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup
+import com.algolia.search.model.personalization.FacetScoring
 import filter.FilterState
 import filter.MutableFilterState
 import filter.toFilterGroups
@@ -148,5 +149,27 @@ class TestSearchFilterState {
             FilterGroup.And.Facet(facetA),
             FilterGroup.And.Facet(facetB)
         )
+    }
+
+    @Test
+    fun contains() {
+        MutableFilterState().apply {
+            add(groupA, facetA)
+            contains(groupA, facetA).shouldBeTrue()
+            contains(groupA, facetB).shouldBeFalse()
+            contains(groupB, facetA).shouldBeFalse()
+        }
+    }
+
+    @Test
+    fun toggle() {
+        MutableFilterState().apply {
+            toggle(groupA, facetA)
+            get() shouldEqual FilterState(
+                mapOf(groupA to setOf(facetA))
+            )
+            toggle(groupA, facetA)
+            get() shouldEqual FilterState()
+        }
     }
 }

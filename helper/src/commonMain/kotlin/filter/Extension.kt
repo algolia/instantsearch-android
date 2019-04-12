@@ -35,7 +35,7 @@ internal fun <T : Filter> MutableMap<GroupID, Set<T>>.modify(
 ) {
     val set = getOrDefault(groupID).operator(filter)
 
-    if (set.isNotEmpty()) this[groupID] = set
+    if (set.isNotEmpty()) this[groupID] = set else remove(groupID)
 }
 
 internal fun <T : Filter> MutableMap<GroupID, Set<T>>.add(groupID: GroupID, filter: T) {

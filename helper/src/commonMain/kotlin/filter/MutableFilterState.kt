@@ -30,14 +30,10 @@ class MutableFilterState {
             }
         }
 
-        state = state.copy(
-            facet = facet,
-            tag = tag,
-            numeric = numeric
-        )
+        state = state.copy(facet = facet, tag = tag, numeric = numeric)
     }
 
-    inline fun <reified T: Filter> add(groupID: GroupID, filters: Set<T>) {
+    inline fun <reified T : Filter> add(groupID: GroupID, filters: Set<T>) {
         return add(groupID, *filters.toTypedArray())
     }
 
@@ -54,11 +50,7 @@ class MutableFilterState {
             }
         }
 
-        state = state.copy(
-            facet = facet,
-            tag = tag,
-            numeric = numeric
-        )
+        state = state.copy(facet = facet, tag = tag, numeric = numeric)
     }
 
     fun <T : Filter> contains(groupID: GroupID, filter: T): Boolean {
