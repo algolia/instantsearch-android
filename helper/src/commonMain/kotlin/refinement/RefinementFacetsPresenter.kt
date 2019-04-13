@@ -5,13 +5,16 @@ import refinement.SortCriterium.*
 import kotlin.properties.Delegates
 
 
-public class RefinementPresenterFacets : RefinementPresenter<Facet>() {
+public class RefinementFacetsPresenter(
+    sortCriteria: List<SortCriterium> = listOf(AlphabeticalAsc),
+    limit: Int = 10
+) : RefinementListPresenter<Facet>(limit) {
 
-    public var sortCriteria by Delegates.observable(listOf(IsRefined, CountDesc)) { _, _, _ ->
-        data = data
+    public var sortCriteria by Delegates.observable(sortCriteria) { _, _, _ ->
+        refinements = refinements
     }
 
-    override val comparator = Comparator<RefinedData<Facet>> { (facetA, isSelectedA), (facetB, isSelectedB) ->
+    override val comparator = Comparator<SelectedRefinement<Facet>> { (facetA, isSelectedA), (facetB, isSelectedB) ->
         sortCriteria.asSequence().distinct().map {
             when (it) {
                 CountAsc -> facetA.count.compareTo(facetB.count)

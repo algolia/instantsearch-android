@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -27,6 +29,7 @@ android {
 
     packagingOptions {
         // FIXME: Solve these "More than one file was found with OS independent path 'META-INF/*' in the lib via Proguard
+        exclude("META-INF/kotlinx-coroutines-core.kotlin_module")
         exclude("META-INF/ktor-http.kotlin_module")
         exclude("META-INF/kotlinx-io.kotlin_module")
         exclude("META-INF/atomicfu.kotlin_module")
@@ -37,6 +40,9 @@ android {
         exclude("META-INF/ktor-client-logging.kotlin_module")
         exclude("META-INF/algoliasearch-client-kotlin.kotlin_module")
         exclude("META-INF/ktor-client-core.kotlin_module")
+    }
+    (kotlinOptions as KotlinJvmOptions).apply {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 

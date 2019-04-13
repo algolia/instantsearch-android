@@ -18,11 +18,11 @@ class TestRefinementListViewModel {
                 refinementB
             )
             select(refinementA)
-            selected shouldEqual listOf(refinementA)
+            selections shouldEqual listOf(refinementA)
             select(refinementB)
-            selected shouldEqual listOf(refinementB)
+            selections shouldEqual listOf(refinementB)
             select(refinementB)
-            selected shouldEqual listOf()
+            selections shouldEqual listOf()
         }
     }
 
@@ -34,11 +34,11 @@ class TestRefinementListViewModel {
                 refinementB
             )
             select(refinementA)
-            selected shouldEqual listOf(refinementA)
+            selections shouldEqual listOf(refinementA)
             select(refinementB)
-            selected shouldEqual listOf(refinementA, refinementB)
+            selections shouldEqual listOf(refinementA, refinementB)
             select(refinementB)
-            selected shouldEqual listOf(refinementA)
+            selections shouldEqual listOf(refinementA)
         }
     }
 
@@ -56,7 +56,7 @@ class TestRefinementListViewModel {
                 refinementA,
                 refinementB
             )
-            selected shouldEqual listOf()
+            selections shouldEqual listOf()
         }
     }
 
@@ -74,7 +74,7 @@ class TestRefinementListViewModel {
                 refinementA,
                 refinementB
             )
-            selected shouldEqual listOf(refinementC)
+            selections shouldEqual listOf(refinementC)
         }
     }
 }

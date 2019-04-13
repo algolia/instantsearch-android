@@ -66,13 +66,13 @@ class TestRefinementConnectors {
             val selection = facets.first()
             val selectedFilter = selection.toFilter(color)
 
-            model.connectWith(searcher, RefinementMode.And, color)
+            model.connectWith(searcher, color, RefinementMode.And)
             searcher.search()
             searcher.completed?.await()
             model.refinements.toSet() shouldEqual facets.toSet()
-            model.selected.shouldBeEmpty()
+            model.selections.shouldBeEmpty()
             model.select(selection)
-            model.selected shouldEqual listOf(selection)
+            model.selections shouldEqual listOf(selection)
             searcher.query.filters = FilterConverter.SQL(selectedFilter)
             searcher.filterState.get().facet.getValue(GroupID.And(color.raw)) shouldEqual setOf(selectedFilter)
         }
@@ -85,12 +85,12 @@ class TestRefinementConnectors {
             val model = RefinementListViewModel<Facet>()
             val selection = facets.first()
 
-            model.connectWith(searcher, RefinementMode.And, color)
+            model.connectWith(searcher, color, RefinementMode.And)
             searcher.search()
             searcher.completed?.await()
-            model.selected.shouldBeEmpty()
+            model.selections.shouldBeEmpty()
             searcher.filterState.add(GroupID.And(color.raw), selection.toFilter(color))
-            model.selected shouldEqual listOf(selection)
+            model.selections shouldEqual listOf(selection)
         }
     }
 }

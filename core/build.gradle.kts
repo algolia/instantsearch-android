@@ -14,7 +14,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-                implementation(Coroutines("core"))
+                implementation(Coroutines("core-common"))
             }
         }
         val commonTest by getting {
@@ -26,6 +26,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
+                implementation(Coroutines("core"))
             }
         }
         val jvmTest by getting {

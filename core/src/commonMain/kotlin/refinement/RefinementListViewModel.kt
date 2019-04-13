@@ -10,8 +10,8 @@ public class RefinementListViewModel<T>(
 ) {
 
     /**
-     * When `true`, the [selected] refinements are kept even when they are not present in [refinements] anymore.
-     * Note that if [selected] refinements are present when new [refinements] are set, they always will be kept.
+     * When `true`, the [selections] refinements are kept even when they are not present in [refinements] anymore.
+     * Note that if [selections] refinements are present when new [refinements] are set, they always will be kept.
      */
     public var persistentSelection: Boolean = false
 
@@ -22,20 +22,20 @@ public class RefinementListViewModel<T>(
         if (newValue != oldValue) {
             refinementListeners.forEach { it(newValue) }
             if (!persistentSelection) {
-                selected = selected.filter { it in newValue }
+                selections = selections.filter { it in newValue }
             }
         }
     }
-    public var selected by Delegates.observable(listOf<T>()) { _, oldValue, newValue ->
+    public var selections by Delegates.observable(listOf<T>()) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             selectionListeners.forEach { it(newValue) }
         }
     }
 
     public fun select(refinement: T) {
-        selected = when (mode) {
-            SingleChoice -> if (refinement in selected) listOf() else listOf(refinement)
-            MultipleChoice -> if (refinement in selected) selected - refinement else selected + refinement
+        selections = when (mode) {
+            SingleChoice -> if (refinement in selections) listOf() else listOf(refinement)
+            MultipleChoice -> if (refinement in selections) selections - refinement else selections + refinement
         }
     }
 }

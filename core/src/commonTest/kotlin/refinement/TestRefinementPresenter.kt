@@ -6,14 +6,14 @@ import kotlin.test.Test
 
 class TestRefinementPresenter {
 
-    private class MockRefinementPresenter : RefinementPresenter<String>() {
+    private class MockRefinementListPresenter : RefinementListPresenter<String>() {
 
-        override val comparator = Comparator<RefinedData<String>> { a, b ->
+        override val comparator = Comparator<SelectedRefinement<String>> { a, b ->
             b.first.compareTo(a.first)
         }
     }
 
-    private val refinements = listOf(
+    private val list = listOf(
         "a" to false,
         "b" to true,
         "c" to false,
@@ -23,18 +23,18 @@ class TestRefinementPresenter {
 
     @Test
     fun comparator() {
-        MockRefinementPresenter().apply {
-            data = refinements
-            data shouldEqual data.sortedByDescending { it.first }
+        MockRefinementListPresenter().apply {
+            refinements = list
+            refinements shouldEqual list.sortedByDescending { it.first }
         }
     }
 
     @Test
     fun limit() {
-        MockRefinementPresenter().apply {
-            data = refinements
+        MockRefinementListPresenter().apply {
+            refinements = list
             limit = 1
-            data shouldEqual listOf(refinements.last())
+            refinements shouldEqual listOf(list.last())
         }
     }
 }

@@ -13,8 +13,8 @@ typealias RefinementFacetsViewModel = RefinementListViewModel<Facet>
 
 public fun RefinementFacetsViewModel.connectWith(
     searcher: SearcherSingleIndex,
-    mode: RefinementMode,
     attribute: Attribute,
+    mode: RefinementMode = And,
     groupName: String = attribute.raw
 ) {
     val groupID = when (mode) {
@@ -28,12 +28,21 @@ public fun RefinementFacetsViewModel.connectWith(
     searcher.filterState.listeners += { state ->
         val filters = state.facet[groupID].orEmpty().map { it.value }
 
-        selected = refinements.filter { refinement -> filters.any { it.raw == refinement.value } }
+        selections = refinements.filter { refinement -> filters.any { it.raw == refinement.value } }
     }
     selectionListeners += { facets ->
         val filters = facets.map { it.toFilter(attribute) }.toSet()
 
         searcher.filterState.add(groupID, filters)
+    }
+}
+
+public fun RefinementFacetsViewModel.connectWith(presenter: RefinementFacetsPresenter) {
+    refinementListeners += { refinements ->
+        presenter.refinements = refinements.map { it to selections.contains(it) }
+    }
+    selectionListeners += { selections ->
+        presenter.refinements = refinements.map { it to selections.contains(it) }
     }
 }
 

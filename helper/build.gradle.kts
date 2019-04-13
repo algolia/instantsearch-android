@@ -38,6 +38,11 @@ android {
 kotlin {
     android {
         publishLibraryVariants("release")
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
     }
     jvm {
         compilations.all {
@@ -50,8 +55,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":core"))
-                implementation(AlgoliaClient())
                 implementation(kotlin("stdlib-common"))
+                implementation(AlgoliaClient())
             }
         }
         val commonTest by getting {
@@ -73,14 +78,15 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
                 implementation(SL4J("simple"))
-                implementation(Ktor("mock-jvm"))
+                implementation(Ktor("client-mock-jvm"))
             }
         }
         val androidMain by getting {
             dependencies {
+                implementation(kotlin("stdlib-jdk8"))
                 implementation(AppCompat())
-                implementation(Coroutines("android"))
                 implementation(RecyclerView())
+                implementation(Coroutines("android"))
                 api(AlgoliaClient("jvm"))
                 api(Ktor("client-okhttp"))
             }
@@ -90,7 +96,7 @@ kotlin {
                 implementation(project(":core"))
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation(AlgoliaClient("jvm"))
+                implementation(Ktor("client-mock-jvm"))
                 implementation(AndroidTest())
                 implementation(Espresso("core"))
             }
