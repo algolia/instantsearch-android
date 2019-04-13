@@ -64,8 +64,8 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation(Ktor("client-okhttp"))
                 implementation(kotlin("stdlib-jdk8"))
+                api(Ktor("client-okhttp"))
                 api(AlgoliaClient("jvm"))
             }
         }
@@ -79,9 +79,10 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("com.android.support:appcompat-v7:28.0.0")
+                implementation(AppCompat())
                 implementation(Coroutines("android"))
                 api(AlgoliaClient("jvm"))
+                api(Ktor("client-okhttp"))
             }
         }
         val androidTest by getting {
@@ -90,8 +91,8 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
                 implementation(AlgoliaClient("jvm"))
-                implementation("com.android.support.test:runner:1.0.2")
-                implementation("com.android.support.test.espresso:espresso-core:3.0.2")
+                implementation(AndroidTest())
+                implementation(Espresso("core"))
             }
         }
     }
