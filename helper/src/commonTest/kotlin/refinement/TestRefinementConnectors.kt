@@ -65,8 +65,7 @@ class TestRefinementConnectors {
             val selectedFilter = selection.toFilter(color)
 
             model.connectWith(searcher, color, RefinementMode.And)
-            searcher.search()
-            searcher.completable?.await()
+            searcher.search().join()
             model.refinements.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
             model.select(selection)
@@ -84,8 +83,7 @@ class TestRefinementConnectors {
             val selection = facets.first()
 
             model.connectWith(searcher, color, RefinementMode.And)
-            searcher.search()
-            searcher.completable?.await()
+            searcher.search().join()
             model.selections.shouldBeEmpty()
             searcher.filterState.add(GroupID.And(color.raw), selection.toFilter(color))
             model.selections shouldEqual listOf(selection)

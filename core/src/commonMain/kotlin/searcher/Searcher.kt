@@ -1,8 +1,10 @@
 package searcher
 
+import kotlinx.coroutines.Job
+
 
 public interface Searcher {
 
-    fun search()
+    fun search(): Job
     fun cancel()
 }

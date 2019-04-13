@@ -19,12 +19,10 @@ public class SearcherMultipleIndices(
     public val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
-    internal var completable: CompletableDeferred<ResponseSearches>? = null
     private val sequencer = Sequencer()
     override val coroutineContext = Job()
 
     public val responseListeners = mutableListOf<(ResponseSearches) -> Unit>()
-    public val errorListeners = mutableListOf<(Exception) -> Unit>()
 
     public var response by Delegates.observable<ResponseSearches?>(null) { _, _, newValue ->
         if (newValue != null) {
@@ -32,24 +30,15 @@ public class SearcherMultipleIndices(
         }
     }
 
-    override fun search() {
-        completable = CompletableDeferred()
-        launch {
-            sequencer.addOperation(this)
-            try {
-                val responseSearches = client.multipleQueries(indexQueries, strategy, requestOptions)
+    override fun search(): Job {
+        val job = launch {
+            val responseSearches = client.multipleQueries(indexQueries, strategy, requestOptions)
 
-                withContext(MainDispatcher) {
-                    response = responseSearches
-                }
-                completable?.complete(responseSearches)
-            } catch (exception: Exception) {
-                withContext(MainDispatcher) {
-                    errorListeners.forEach { it(exception) }
-                }
-            }
-            sequencer.operationCompleted(this)
+            withContext(MainDispatcher) { response = responseSearches }
         }
+        sequencer.addOperation(job)
+        job.invokeOnCompletion { sequencer.operationCompleted(this) }
+        return job
     }
 
     override fun cancel() {

@@ -24,12 +24,10 @@ public class SearcherForFacets(
     public val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
-    internal var completable: CompletableDeferred<ResponseSearchForFacets>? = null
     private val sequencer = Sequencer()
     override val coroutineContext = Job()
 
     public val responseListeners = mutableListOf<(ResponseSearchForFacets) -> Unit>()
-    public val errorListeners = mutableListOf<(Exception) -> Unit>()
 
     public var response by Delegates.observable<ResponseSearchForFacets?>(null) { _, _, newValue ->
         if (newValue != null) {
@@ -37,25 +35,16 @@ public class SearcherForFacets(
         }
     }
 
-    override fun search() {
-        completable = CompletableDeferred()
+    override fun search(): Job {
         facetQuery.query.filters = FilterGroupConverter.SQL(filterState.get().toFilterGroups())
-        launch {
-            sequencer.addOperation(this)
-            try {
-                val responseSearchForFacets = index.searchForFacets(attribute, facetQuery, requestOptions)
+        val job = launch {
+            val responseSearchForFacets = index.searchForFacets(attribute, facetQuery, requestOptions)
 
-                withContext(MainDispatcher) {
-                    response = responseSearchForFacets
-                }
-                completable?.complete(responseSearchForFacets)
-            } catch (exception: Exception) {
-                withContext(MainDispatcher) {
-                    errorListeners.forEach { it(exception) }
-                }
-            }
-            sequencer.operationCompleted(this)
+            withContext(MainDispatcher) { response = responseSearchForFacets }
         }
+        sequencer.addOperation(job)
+        job.invokeOnCompletion { sequencer.operationCompleted(this) }
+        return job
     }
 
     override fun cancel() {
