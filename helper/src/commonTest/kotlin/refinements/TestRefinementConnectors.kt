@@ -68,7 +68,6 @@ class TestRefinementConnectors {
 
             model.connectWith(searcher, color, RefinementMode.And)
             searcher.search()
-            searcher.completed?.await()
             model.refinements.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
             model.select(selection)
@@ -87,7 +86,6 @@ class TestRefinementConnectors {
 
             model.connectWith(searcher, color, RefinementMode.And)
             searcher.search()
-            searcher.completed?.await()
             model.selections.shouldBeEmpty()
             searcher.filterState.add(GroupID.And(color.raw), selection.toFilter(color))
             model.selections shouldEqual listOf(selection)

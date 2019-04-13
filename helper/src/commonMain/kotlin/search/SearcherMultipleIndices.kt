@@ -19,7 +19,7 @@ public class SearcherMultipleIndices(
     public val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
-    internal var completed: CompletableDeferred<ResponseSearches>? = null
+    internal var completable: CompletableDeferred<ResponseSearches>? = null
     private val sequencer = Sequencer()
     override val coroutineContext = Job()
 
@@ -33,7 +33,7 @@ public class SearcherMultipleIndices(
     }
 
     override fun search() {
-        completed = CompletableDeferred()
+        completable = CompletableDeferred()
         launch {
             sequencer.addOperation(this)
             try {
@@ -42,7 +42,7 @@ public class SearcherMultipleIndices(
                 withContext(MainDispatcher) {
                     response = responseSearches
                 }
-                completed?.complete(responseSearches)
+                completable?.complete(responseSearches)
             } catch (exception: Exception) {
                 withContext(MainDispatcher) {
                     errorListeners.forEach { it(exception) }

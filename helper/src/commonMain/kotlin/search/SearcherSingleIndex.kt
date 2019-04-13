@@ -21,7 +21,7 @@ public class SearcherSingleIndex(
     public val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
-    internal var completed: CompletableDeferred<ResponseSearch>? = null
+    internal var completable: CompletableDeferred<ResponseSearch>? = null
     private val sequencer = Sequencer()
     override val coroutineContext = Job()
 
@@ -35,7 +35,7 @@ public class SearcherSingleIndex(
     }
 
     override fun search() {
-        completed = CompletableDeferred()
+        completable = CompletableDeferred()
         query.filters = FilterGroupConverter.SQL(filterState.get().toFilterGroups())
         launch {
             sequencer.addOperation(this)
@@ -45,7 +45,7 @@ public class SearcherSingleIndex(
                 withContext(MainDispatcher) {
                     response = responseSearch
                 }
-                completed?.complete(responseSearch)
+                completable?.complete(responseSearch)
             } catch (exception: Exception) {
                 withContext(MainDispatcher) {
                     errorListeners.forEach { it(exception) }
