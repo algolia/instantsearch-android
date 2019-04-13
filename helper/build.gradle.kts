@@ -49,7 +49,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":core"))
+                api(project(":core"))
                 implementation(AlgoliaClient())
                 implementation(kotlin("stdlib-common"))
             }
