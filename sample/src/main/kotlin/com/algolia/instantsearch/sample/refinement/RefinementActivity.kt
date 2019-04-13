@@ -16,7 +16,10 @@ import io.ktor.client.features.logging.LogLevel
 import kotlinx.android.synthetic.main.list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import refinement.*
+import refinement.RefinementFacetsPresenter
+import refinement.RefinementFacetsViewModel
+import refinement.SelectionMode
+import refinement.connectWith
 import search.SearcherSingleIndex
 
 
