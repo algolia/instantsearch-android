@@ -1,6 +1,6 @@
 plugins {
     id("com.android.library")
-    id("kotlin-multiplatform") version "1.3.30"
+    id("kotlin-multiplatform")
 }
 
 android {
@@ -64,9 +64,9 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation(AlgoliaClient("jvm"))
                 implementation(Ktor("client-okhttp"))
                 implementation(kotlin("stdlib-jdk8"))
+                api(AlgoliaClient("jvm"))
             }
         }
         val jvmTest by getting {
