@@ -13,7 +13,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -36,10 +35,10 @@ android {
     }
 }
 
-configurations.create("compileClasspath") //FIXME: Workaround for https://youtrack.jetbrains.com/issue/KT-27170
-
 kotlin {
-    android()
+    android {
+        publishLibraryVariants("release")
+    }
     jvm {
         compilations.all {
             kotlinOptions {
@@ -50,8 +49,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":core"))
-                implementation(AlgoliaClient("common"))
+                implementation(project(":core"))
+                implementation(AlgoliaClient())
                 implementation(kotlin("stdlib-common"))
             }
         }
@@ -65,8 +64,8 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                api(Ktor("client-okhttp"))
                 api(AlgoliaClient("jvm"))
+                api(Ktor("client-okhttp"))
             }
         }
         val jvmTest by getting {
@@ -81,6 +80,7 @@ kotlin {
             dependencies {
                 implementation(AppCompat())
                 implementation(Coroutines("android"))
+                implementation(RecyclerView())
                 api(AlgoliaClient("jvm"))
                 api(Ktor("client-okhttp"))
             }
@@ -97,3 +97,5 @@ kotlin {
         }
     }
 }
+
+configurations.create("compileClasspath") //FIXME: Workaround for https://youtrack.jetbrains.com/issue/KT-27170

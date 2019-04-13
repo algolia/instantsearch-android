@@ -39,16 +39,16 @@ android {
         exclude("META-INF/ktor-client-core.kotlin_module")
     }
 }
-//
+
 dependencies {
     implementation(project(":helper"))
     implementation(kotlin("stdlib-jdk8"))
 
-    // AndroidX
     implementation(AppCompat())
     implementation(Glide())
     implementation(ContraintLayout())
     implementation(RecyclerView())
+    implementation(MaterialDesign())
     implementation(AndroidCore("ktx"))
 
     androidTestImplementation(AndroidTest())
