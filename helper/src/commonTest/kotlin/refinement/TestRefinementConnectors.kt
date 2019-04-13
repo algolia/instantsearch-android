@@ -1,4 +1,4 @@
-package refinements
+package refinement
 
 import blocking
 import com.algolia.search.client.ClientSearch
@@ -16,11 +16,9 @@ import io.ktor.client.engine.mock.MockHttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.io.ByteReadChannel
 import kotlinx.serialization.json.Json
-import refinement.RefinementListViewModel
-import refinement.RefinementMode
-import refinement.connectWith
 import search.GroupID
 import search.SearcherSingleIndex
 import shouldBeEmpty
@@ -68,6 +66,7 @@ class TestRefinementConnectors {
 
             model.connectWith(searcher, color, RefinementMode.And)
             searcher.search()
+            searcher.completable?.await()
             model.refinements.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
             model.select(selection)
@@ -86,6 +85,7 @@ class TestRefinementConnectors {
 
             model.connectWith(searcher, color, RefinementMode.And)
             searcher.search()
+            searcher.completable?.await()
             model.selections.shouldBeEmpty()
             searcher.filterState.add(GroupID.And(color.raw), selection.toFilter(color))
             model.selections shouldEqual listOf(selection)
