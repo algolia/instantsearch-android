@@ -37,7 +37,6 @@ android {
 
 kotlin {
     android {
-        publishLibraryVariants("release")
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
@@ -64,6 +63,7 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation(Ktor("client-mock"))
+                implementation(AlgoliaClient())
             }
         }
         val jvmMain by getting {
@@ -78,6 +78,7 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
                 implementation(SL4J("simple"))
+                implementation(AlgoliaClient("jvm"))
                 implementation(Ktor("client-mock-jvm"))
             }
         }
@@ -96,9 +97,10 @@ kotlin {
                 implementation(project(":core"))
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation(Ktor("client-mock-jvm"))
+                implementation(AlgoliaClient("jvm"))
                 implementation(AndroidTest())
                 implementation(Espresso("core"))
+                implementation(Ktor("client-mock-jvm"))
             }
         }
     }
