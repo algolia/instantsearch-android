@@ -1,5 +1,9 @@
 import java.net.URI
 
+plugins {
+    id("java-library-convention")
+}
+
 buildscript {
     repositories {
         google()
