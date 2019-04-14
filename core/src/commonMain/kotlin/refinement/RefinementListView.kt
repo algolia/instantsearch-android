@@ -1,7 +1,7 @@
 package refinement
 
 
-interface RefinementListView<T> {
+public interface RefinementListView<T> {
 
     fun setRefinements(refinements: List<Pair<T, Boolean>>)
 

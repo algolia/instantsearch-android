@@ -13,10 +13,10 @@ import kotlin.properties.Delegates
 
 
 public class SearcherMultipleIndices(
-    public val client: ClientSearch,
-    public val indexQueries: List<IndexQuery>,
-    public val strategy: MultipleQueriesStrategy? = null,
-    public val requestOptions: RequestOptions? = null
+    val client: ClientSearch,
+    val indexQueries: List<IndexQuery>,
+    val strategy: MultipleQueriesStrategy? = null,
+    val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
     private val sequencer = Sequencer()

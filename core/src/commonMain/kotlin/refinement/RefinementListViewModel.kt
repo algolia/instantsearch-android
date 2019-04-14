@@ -6,7 +6,7 @@ import kotlin.properties.Delegates
 
 
 public class RefinementListViewModel<T>(
-    public val mode: SelectionMode = SingleChoice
+    val selectionMode: SelectionMode = SingleChoice
 ) {
 
     /**
@@ -15,12 +15,12 @@ public class RefinementListViewModel<T>(
      */
     public var persistentSelection: Boolean = false
 
-    public val refinementListeners: MutableList<(List<T>) -> Unit> = mutableListOf()
-    public val selectionListeners: MutableList<(List<T>) -> Unit> = mutableListOf()
+    public val refinementsListeners: MutableList<(List<T>) -> Unit> = mutableListOf()
+    public val selectionsListeners: MutableList<(List<T>) -> Unit> = mutableListOf()
 
     public var refinements: List<T> by Delegates.observable(listOf()) { _, oldValue, newValue ->
         if (newValue != oldValue) {
-            refinementListeners.forEach { it(newValue) }
+            refinementsListeners.forEach { it(newValue) }
             if (!persistentSelection) {
                 selections = selections.filter { it in newValue }
             }
@@ -28,14 +28,15 @@ public class RefinementListViewModel<T>(
     }
     public var selections by Delegates.observable(listOf<T>()) { _, oldValue, newValue ->
         if (oldValue != newValue) {
-            selectionListeners.forEach { it(newValue) }
+            selectionsListeners.forEach { it(newValue) }
         }
     }
 
-    public fun select(refinement: T) {
-        selections = when (mode) {
+    public fun select(refinement: T): List<T> {
+        selections = when (selectionMode) {
             SingleChoice -> if (refinement in selections) listOf() else listOf(refinement)
             MultipleChoice -> if (refinement in selections) selections - refinement else selections + refinement
         }
+        return selections
     }
 }

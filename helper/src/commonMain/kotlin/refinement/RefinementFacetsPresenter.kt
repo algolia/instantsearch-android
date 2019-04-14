@@ -1,12 +1,12 @@
 package refinement
 
 import com.algolia.search.model.search.Facet
-import refinement.SortCriterium.*
+import refinement.SortCriterion.*
 import kotlin.properties.Delegates
 
 
 public class RefinementFacetsPresenter(
-    sortCriteria: List<SortCriterium> = listOf(AlphabeticalAsc),
+    sortCriteria: List<SortCriterion> = listOf(AlphabeticalAsc),
     limit: Int = 10
 ) : RefinementListPresenter<Facet>(limit) {
 

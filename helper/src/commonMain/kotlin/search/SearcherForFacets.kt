@@ -17,11 +17,11 @@ import kotlin.properties.Delegates
 
 
 public class SearcherForFacets(
-    public val index: Index,
-    public val attribute: Attribute,
-    public var facetQuery: FacetQuery = FacetQuery(query = Query()),
-    public val filterState: MutableFilterState = MutableFilterState(),
-    public val requestOptions: RequestOptions? = null
+    val index: Index,
+    val attribute: Attribute,
+    var facetQuery: FacetQuery = FacetQuery(query = Query()),
+    val filterState: MutableFilterState = MutableFilterState(),
+    val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
     private val sequencer = Sequencer()

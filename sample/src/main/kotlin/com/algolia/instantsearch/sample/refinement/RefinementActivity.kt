@@ -1,8 +1,11 @@
 package com.algolia.instantsearch.sample.refinement
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.sample.R
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
@@ -12,37 +15,47 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import io.ktor.client.features.logging.LogLevel
-import kotlinx.android.synthetic.main.list.*
+import com.algolia.search.model.filter.FilterGroupConverter
+import filter.toFilterGroups
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.MockHttpResponse
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.headersOf
+import kotlinx.android.synthetic.main.refinement_activity.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import refinement.RefinementFacetsPresenter
-import refinement.RefinementFacetsViewModel
-import refinement.SelectionMode
-import refinement.connectWith
+import kotlinx.coroutines.io.ByteReadChannel
+import refinement.*
 import search.SearcherSingleIndex
 
 
 class RefinementActivity : AppCompatActivity(), CoroutineScope {
 
+    private val mockEngine = MockEngine {
+        MockHttpResponse(
+            it.call,
+            HttpStatusCode.OK,
+            headers = headersOf("Content-Type", listOf(ContentType.Application.Json.toString())),
+            content = ByteReadChannel(responseSerialized)
+        )
+    }
     private val client = ClientSearch(
         ConfigurationSearch(
-            ApplicationID("latency"),
-            APIKey("03cd233a16e1f5e874ddaff30504bb5a"),
-            logLevel = LogLevel.ALL
+            ApplicationID("mock"),
+            APIKey("mock"),
+            engine = mockEngine
         )
     )
-    private val index = client.initIndex(IndexName("mobile_demo_refinement"))
-    private val attribute = Attribute("color")
+    private val index = client.initIndex(IndexName("mock"))
     private val query = query {
         facets {
-            +attribute
+            +color
+            +promotion
+            +category
         }
     }
     private val searcher = SearcherSingleIndex(index, query)
-    private val model = RefinementFacetsViewModel(SelectionMode.MultipleChoice)
-    private val presenter = RefinementFacetsPresenter()
-    private val adapter = RefinementAdapter()
 
     override val coroutineContext = Job()
 
@@ -50,15 +63,88 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.refinement_activity)
 
-        model.connectWith(searcher, attribute)
-        model.connectWith(presenter)
-        model.connectWith(adapter)
-        presenter.connectWith(adapter)
+        val modelColors = RefinementFacetsViewModel(SelectionMode.SingleChoice)
 
-        list.layoutManager = LinearLayoutManager(this)
-        list.adapter = adapter
-        list.itemAnimator = null
+        searcher.filterState.listeners += {
+            val span = it.toFilterGroups().highlight(
+                FilterGroupConverter.SQLUnquoted,
+                listOf(
+                    ContextCompat.getColor(this, android.R.color.holo_red_dark),
+                    ContextCompat.getColor(this, android.R.color.holo_blue_dark),
+                    ContextCompat.getColor(this, android.R.color.holo_green_dark)
+                )
+            )
+            filtersTextView.text = span
+        }
+
+        refinementWidget(
+            view = listA as RecyclerView,
+            title = listATitle,
+            model = modelColors,
+            presenter = RefinementFacetsPresenter(
+                listOf(SortCriterion.IsRefined, SortCriterion.AlphabeticalAsc),
+                limit = 5
+            ),
+            attribute = color,
+            refinementMode = RefinementMode.And
+        )
+
+        refinementWidget(
+            view = listB as RecyclerView,
+            title = listBTitle,
+            model = modelColors,
+            presenter = RefinementFacetsPresenter(
+                sortCriteria = listOf(SortCriterion.AlphabeticalDesc),
+                limit = 3
+            ),
+            attribute = color,
+            refinementMode = RefinementMode.And
+        )
+
+        refinementWidget(
+            view = listC as RecyclerView,
+            title = listCTitle,
+            model = RefinementFacetsViewModel(SelectionMode.MultipleChoice),
+            presenter = RefinementFacetsPresenter(
+                sortCriteria = listOf(SortCriterion.CountDesc),
+                limit = 5
+            ),
+            attribute = promotion,
+            refinementMode = RefinementMode.And
+        )
+
+        refinementWidget(
+            view = listD as RecyclerView,
+            title = listDTitle,
+            model = RefinementFacetsViewModel(SelectionMode.MultipleChoice),
+            presenter = RefinementFacetsPresenter(
+                sortCriteria = listOf(SortCriterion.CountDesc, SortCriterion.AlphabeticalAsc),
+                limit = 5
+            ),
+            attribute = category,
+            refinementMode = RefinementMode.Or
+        )
 
         searcher.search()
+    }
+
+    private fun refinementWidget(
+        view: RecyclerView,
+        title: TextView,
+        model: RefinementFacetsViewModel,
+        presenter: RefinementFacetsPresenter,
+        attribute: Attribute,
+        refinementMode: RefinementMode
+    ) {
+        val adapter = RefinementAdapter()
+
+        model.connectWith(searcher, attribute, refinementMode, adapter)
+        model.connectWith(presenter)
+        presenter.connectWith(adapter)
+
+        view.layoutManager = LinearLayoutManager(this)
+        view.adapter = adapter
+        view.itemAnimator = null
+        title.text = formatTitle(presenter, refinementMode)
     }
 }

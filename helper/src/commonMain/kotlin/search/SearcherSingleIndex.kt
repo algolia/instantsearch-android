@@ -15,10 +15,10 @@ import kotlin.properties.Delegates
 
 
 public class SearcherSingleIndex(
-    public val index: Index,
-    public val query: Query = Query(),
-    public val filterState: MutableFilterState = MutableFilterState(),
-    public val requestOptions: RequestOptions? = null
+    val index: Index,
+    val query: Query = Query(),
+    val filterState: MutableFilterState = MutableFilterState(),
+    val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
     private val sequencer = Sequencer()

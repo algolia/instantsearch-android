@@ -62,8 +62,11 @@ public class MutableFilterState {
         } ?: false
     }
 
-    public fun <T : Filter> toggle(groupID: GroupID, filter: T) {
-        return if (contains(groupID, filter)) remove(groupID, filter) else add(groupID, filter)
+
+    public fun <T : Filter> toggle(groupID: GroupID, vararg filters: T) {
+        filters.forEach { filter ->
+            if (contains(groupID, filter)) remove(groupID, filter) else add(groupID, filter)
+        }
     }
 
     public fun clear(groupID: GroupID? = null) {

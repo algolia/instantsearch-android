@@ -3,9 +3,9 @@ package search
 
 public sealed class GroupID {
 
-    abstract val name: String
+    public abstract val name: String
 
-    data class And(override val name: String) : GroupID()
+    public data class And(override val name: String) : GroupID()
 
-    data class Or(override val name: String) : GroupID()
+    public data class Or(override val name: String) : GroupID()
 }

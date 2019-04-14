@@ -56,7 +56,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
     implementation(project(":helper"))
     implementation(kotlin("stdlib-jdk8"))
 

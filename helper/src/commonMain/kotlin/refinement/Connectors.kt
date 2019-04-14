@@ -9,12 +9,14 @@ import search.GroupID
 import search.SearcherSingleIndex
 
 
-typealias RefinementFacetsViewModel = RefinementListViewModel<Facet>
+public typealias RefinementFacetsViewModel = RefinementListViewModel<Facet>
+public typealias RefinementFacetsView = RefinementListView<Facet>
 
 public fun RefinementFacetsViewModel.connectWith(
     searcher: SearcherSingleIndex,
     attribute: Attribute,
     mode: RefinementMode = And,
+    view: RefinementFacetsView? = null,
     groupName: String = attribute.raw
 ) {
     val groupID = when (mode) {
@@ -30,20 +32,20 @@ public fun RefinementFacetsViewModel.connectWith(
 
         selections = refinements.filter { refinement -> filters.any { it.raw == refinement.value } }
     }
-    selectionListeners += { facets ->
-        val filters = facets.map { it.toFilter(attribute) }.toSet()
+    view?.onClickRefinement { facet ->
+        val filters = select(facet).map { it.toFilter(attribute) }.toSet()
 
+        searcher.filterState.clear(groupID)
         searcher.filterState.add(groupID, filters)
+        searcher.search()
     }
 }
 
 public fun RefinementFacetsViewModel.connectWith(presenter: RefinementFacetsPresenter) {
-    refinementListeners += { refinements ->
+    refinementsListeners += { refinements ->
         presenter.refinements = refinements.map { it to selections.contains(it) }
     }
-    selectionListeners += { selections ->
+    selectionsListeners += { selections ->
         presenter.refinements = refinements.map { it to selections.contains(it) }
     }
 }
-
-

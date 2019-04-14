@@ -1,7 +1,7 @@
 package refinement
 
 
-public enum class SortCriterium {
+public enum class SortCriterion {
     IsRefined,
     CountAsc,
     CountDesc,

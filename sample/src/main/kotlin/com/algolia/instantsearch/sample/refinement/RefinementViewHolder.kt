@@ -11,6 +11,8 @@ class RefinementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     fun bind(refinement: Facet, selected: Boolean, onClickListener: View.OnClickListener) {
         view.setOnClickListener(onClickListener)
         view.refinementSelectableName.text = refinement.value
+        view.refinementSelectableSubtitle.text = refinement.count.toString()
+        view.refinementSelectableSubtitle.visibility = View.VISIBLE
         view.refinementSelectableIcon.visibility = if (selected) View.VISIBLE else View.INVISIBLE
     }
 }

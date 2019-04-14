@@ -7,7 +7,7 @@ import com.algolia.search.model.search.Facet
 import search.GroupID
 
 
-internal fun FilterState.toFilterGroups(): List<FilterGroup<*>> {
+public fun FilterState.toFilterGroups(): List<FilterGroup<*>> {
     return facet.map { (key, value) ->
         when (key) {
             is GroupID.And -> FilterGroup.And.Facet(value)
