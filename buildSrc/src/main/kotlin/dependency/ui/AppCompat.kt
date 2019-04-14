@@ -1,3 +1,7 @@
+package dependency.ui
+
+import dependency.Dependency
+
 object AppCompat : Dependency {
 
     override val group = "androidx.appcompat"

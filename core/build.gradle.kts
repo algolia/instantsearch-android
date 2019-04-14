@@ -1,3 +1,5 @@
+import dependency.network.Coroutines
+
 plugins {
     id("kotlin-multiplatform")
 }

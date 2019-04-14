@@ -1,3 +1,7 @@
+package dependency.ui
+
+import dependency.Dependency
+
 object RecyclerView : Dependency {
 
     override val group = "androidx.recyclerview"

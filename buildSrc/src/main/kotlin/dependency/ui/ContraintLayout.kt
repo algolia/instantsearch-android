@@ -1,3 +1,7 @@
+package dependency.ui
+
+import dependency.Dependency
+
 object ContraintLayout : Dependency {
 
     override val group = "androidx.constraintlayout"

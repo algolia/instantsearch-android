@@ -1,3 +1,7 @@
+package dependency.ui
+
+import dependency.Dependency
+
 object CardView : Dependency {
 
     override val group = "androidx.cardview"

@@ -1,3 +1,5 @@
+package dependency
+
 interface Dependency {
 
     val group: String

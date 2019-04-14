@@ -1,3 +1,12 @@
+import dependency.test.AndroidTest
+import dependency.test.Espresso
+import dependency.ui.AndroidCore
+import dependency.ui.AppCompat
+import dependency.ui.ContraintLayout
+import dependency.ui.Glide
+import dependency.ui.MaterialDesign
+import dependency.ui.RecyclerView
+import dependency.network.Ktor
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 plugins {
@@ -47,6 +56,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(project(":helper"))
     implementation(kotlin("stdlib-jdk8"))
 
@@ -56,6 +66,7 @@ dependencies {
     implementation(RecyclerView())
     implementation(MaterialDesign())
     implementation(AndroidCore("ktx"))
+    implementation(Ktor("client-mock-jvm"))
 
     androidTestImplementation(AndroidTest())
     androidTestImplementation(Espresso("core"))

@@ -1,3 +1,7 @@
+package dependency.ui
+
+import dependency.Dependency
+
 object Glide : Dependency {
 
     override val group: String = "com.github.bumptech.glide"

@@ -1,3 +1,7 @@
+package dependency.ui
+
+import dependency.Dependency
+
 object MaterialDesign : Dependency {
 
     override val group = "com.google.android.material"

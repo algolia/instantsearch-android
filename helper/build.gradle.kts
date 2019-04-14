@@ -1,3 +1,12 @@
+import dependency.network.AlgoliaClient
+import dependency.network.Ktor
+import dependency.test.AndroidTest
+import dependency.test.Espresso
+import dependency.test.SL4J
+import dependency.ui.AppCompat
+import dependency.ui.RecyclerView
+import dependency.network.*
+
 plugins {
     id("com.android.library")
     id("kotlin-multiplatform")
@@ -53,7 +62,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":core"))
+                implementation(project(":core"))
                 implementation(kotlin("stdlib-common"))
                 implementation(AlgoliaClient())
             }

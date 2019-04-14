@@ -1,3 +1,7 @@
+package dependency.network
+
+import dependency.Dependency
+
 object Ktor : Dependency {
 
     override val group = "io.ktor"

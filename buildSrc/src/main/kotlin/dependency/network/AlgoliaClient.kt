@@ -1,3 +1,7 @@
+package dependency.network
+
+import dependency.Dependency
+
 object AlgoliaClient : Dependency {
 
     override val group = "com.algolia"

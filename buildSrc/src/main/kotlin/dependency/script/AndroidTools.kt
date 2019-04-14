@@ -1,3 +1,7 @@
+package dependency.script
+
+import dependency.Dependency
+
 object AndroidTools : Dependency {
 
     override val group = "com.android.tools.build"

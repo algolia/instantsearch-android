@@ -1,3 +1,7 @@
+package dependency.ui
+
+import dependency.Dependency
+
 object AndroidCore : Dependency {
 
     override val group: String = "androidx.core"

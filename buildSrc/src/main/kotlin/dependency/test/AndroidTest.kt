@@ -1,3 +1,7 @@
+package dependency.test
+
+import dependency.Dependency
+
 object AndroidTest: Dependency {
 
     override val group = "androidx.test"

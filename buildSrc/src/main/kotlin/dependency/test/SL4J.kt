@@ -1,3 +1,7 @@
+package dependency.test
+
+import dependency.Dependency
+
 object SL4J : Dependency {
 
     override val group = "org.slf4j"
