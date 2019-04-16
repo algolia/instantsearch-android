@@ -6,11 +6,13 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.filter.FilterGroupsConverter
 import refinement.RefinementFacetsPresenter
 import refinement.SortCriterion
 import refinement.RefinementMode
+import search.GroupID
 
 
 fun SortCriterion.format(): String {
@@ -30,20 +32,24 @@ fun formatTitle(presenter: RefinementFacetsPresenter, refinementMode: Refinement
 }
 
 
-fun List<FilterGroup<*>>.highlight(
+fun Map<GroupID, Set<Filter.Facet>>.highlight(
     converter: FilterGroupsConverter<List<FilterGroup<*>>, String?>,
-    colors: List<Int> = listOf()
+    colors: Map<String, Int> = mapOf()
 ): SpannableStringBuilder {
     return SpannableStringBuilder().also {
         var begin = 0
 
-        forEachIndexed { index, group ->
-            val color = colors.getOrElse(index) { Color.BLACK }
+        entries.forEachIndexed { index, (key, value) ->
+            val color = colors.getOrElse(key.name) { Color.BLACK }
+            val group =  when (key) {
+                is GroupID.And -> FilterGroup.And.Facet(value)
+                is GroupID.Or -> FilterGroup.Or.Facet(value)
+            }
             val string = converter(listOf(group))
 
             it.append(string)
             it.setSpan(ForegroundColorSpan(color), begin, it.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            if (index < lastIndex) {
+            if (index < entries.size - 1) {
                 begin = it.length
                 it.append(" AND ")
                 it.setSpan(StyleSpan(Typeface.BOLD), begin, it.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)

@@ -2,7 +2,6 @@ package com.algolia.instantsearch.sample.refinement
 
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +13,6 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterGroupsConverter
-import filter.toFilterGroups
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockHttpResponse
 import io.ktor.http.ContentType
@@ -99,12 +97,12 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
         listDTitle.text = formatTitle(presenterD, RefinementMode.Or)
 
         searcher.filterState.listeners += {
-            val span = it.toFilterGroups().highlight(
+            val span = it.facet.highlight(
                 FilterGroupsConverter.SQL.Unquoted,
-                listOf(
-                    ContextCompat.getColor(this, android.R.color.holo_red_dark),
-                    ContextCompat.getColor(this, android.R.color.holo_blue_dark),
-                    ContextCompat.getColor(this, android.R.color.holo_green_dark)
+                mapOf(
+                    color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
+                    promotion.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
+                    category.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
                 )
             )
             filtersTextView.text = span
