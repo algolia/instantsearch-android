@@ -33,10 +33,9 @@ public class RefinementListViewModel<T>(
     }
 
     public fun select(refinement: T): List<T> {
-        selections = when (selectionMode) {
+        return when (selectionMode) {
             SingleChoice -> if (refinement in selections) listOf() else listOf(refinement)
             MultipleChoice -> if (refinement in selections) selections - refinement else selections + refinement
         }
-        return selections
     }
 }

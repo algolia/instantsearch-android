@@ -17,7 +17,7 @@ import kotlin.properties.Delegates
 public class SearcherSingleIndex(
     val index: Index,
     val query: Query = Query(),
-    val filterState: MutableFilterState = MutableFilterState(),
+    val filterState: MutableFilterState,
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 

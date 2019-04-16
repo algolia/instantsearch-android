@@ -15,7 +15,8 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.FilterGroupConverter
+import com.algolia.search.model.filter.FilterGroupsConverter
+import filter.MutableFilterState
 import filter.toFilterGroups
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockHttpResponse
@@ -55,7 +56,8 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
             +category
         }
     }
-    private val searcher = SearcherSingleIndex(index, query)
+    private val filterState = MutableFilterState()
+    private val searcher = SearcherSingleIndex(index, query, filterState)
 
     override val coroutineContext = Job()
 
@@ -63,11 +65,10 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.refinement_activity)
 
-        val modelColors = RefinementFacetsViewModel(SelectionMode.SingleChoice)
 
         searcher.filterState.listeners += {
             val span = it.toFilterGroups().highlight(
-                FilterGroupConverter.SQLUnquoted,
+                FilterGroupsConverter.SQL.Unquoted,
                 listOf(
                     ContextCompat.getColor(this, android.R.color.holo_red_dark),
                     ContextCompat.getColor(this, android.R.color.holo_blue_dark),
@@ -76,6 +77,7 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
             )
             filtersTextView.text = span
         }
+        val modelColors = RefinementFacetsViewModel(SelectionMode.SingleChoice)
 
         refinementWidget(
             view = listA as RecyclerView,
@@ -138,9 +140,7 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
     ) {
         val adapter = RefinementAdapter()
 
-        model.connectWith(searcher, attribute, refinementMode, adapter)
-        model.connectWith(presenter)
-        presenter.connectWith(adapter)
+        widget(attribute, searcher, model, presenter, adapter, refinementMode)
 
         view.layoutManager = LinearLayoutManager(this)
         view.adapter = adapter
