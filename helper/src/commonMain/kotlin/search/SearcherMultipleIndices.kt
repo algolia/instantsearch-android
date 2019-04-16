@@ -12,6 +12,7 @@ import searcher.Sequencer
 import kotlin.properties.Delegates
 
 
+//TODO: FilterState
 public class SearcherMultipleIndices(
     val client: ClientSearch,
     val indexQueries: List<IndexQuery>,

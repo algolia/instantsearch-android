@@ -20,7 +20,7 @@ public class SearcherForFacets(
     val index: Index,
     val attribute: Attribute,
     var facetQuery: FacetQuery = FacetQuery(query = Query()),
-    val filterState: MutableFilterState,
+    val filterState: MutableFilterState = MutableFilterState(),
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
