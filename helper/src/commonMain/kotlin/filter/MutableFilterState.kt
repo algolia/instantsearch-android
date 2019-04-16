@@ -34,7 +34,11 @@ public class MutableFilterState {
     }
 
     public inline fun <reified T : Filter> add(groupID: GroupID, filters: Set<T>) {
-        return add(groupID, *filters.toTypedArray())
+        add(groupID, *filters.toTypedArray())
+    }
+
+    public inline fun <reified T : Filter> remove(groupID: GroupID, filters: Set<T>) {
+        remove(groupID, *filters.toTypedArray())
     }
 
     public fun <T : Filter> remove(groupID: GroupID, vararg filters: T) {

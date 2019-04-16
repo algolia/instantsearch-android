@@ -63,7 +63,7 @@ class TestRefinementConnectors {
             val selection = facets.first()
             val selectedFilter = selection.toFilter(color)
 
-            widgetRefinement(color, searcher, model)
+            model.connect(color, searcher)
             searcher.search().join()
             model.refinements.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
@@ -81,7 +81,7 @@ class TestRefinementConnectors {
             val model = RefinementListViewModel<Facet>()
             val selection = facets.first()
 
-            widgetRefinement(color, searcher, model)
+            model.connect(color, searcher)
             searcher.search().join()
             model.selections.shouldBeEmpty()
             searcher.filterState.add(GroupID.And(color.raw), selection.toFilter(color))

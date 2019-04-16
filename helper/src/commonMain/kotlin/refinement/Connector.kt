@@ -13,12 +13,9 @@ public typealias RefinementFacetsViewModel = RefinementListViewModel<Facet>
 public typealias RefinementFacetsView = RefinementListView<Facet>
 
 
-public fun widgetRefinement(
+public fun RefinementFacetsViewModel.connect(
     attribute: Attribute,
     searcher: SearcherSingleIndex,
-    model: RefinementFacetsViewModel,
-    presenter: RefinementFacetsPresenter? = null,
-    view: RefinementFacetsView? = null,
     mode: RefinementMode = And,
     groupName: String = attribute.raw
 ) {
@@ -28,27 +25,37 @@ public fun widgetRefinement(
     }
 
     searcher.responseListeners += { response ->
-        response.facets[attribute]?.let { model.refinements = it }
+        response.facets[attribute]?.let { refinements = it }
     }
     searcher.filterState.listeners += { state ->
         val filters = state.facet[groupID].orEmpty().map { it.value }
 
-        model.selections = model.refinements.filter { refinement -> filters.any { it.raw == refinement.value } }
-    }
-    view?.onClickRefinement { facet ->
-        val filters = model.select(facet).map { it.toFilter(attribute) }.toSet()
 
-        searcher.filterState.clear(groupID)
+        selections = refinements.filter { refinement -> filters.any { it.raw == refinement.value } }
+    }
+    selectedListeners += { facets ->
+        val currentFilters = selections.map { it.toFilter(attribute) }.toSet()
+        val filters = facets.map { it.toFilter(attribute) }.toSet()
+
+        searcher.filterState.remove(groupID, currentFilters)
         searcher.filterState.add(groupID, filters)
         searcher.search()
     }
-    presenter?.apply {
-        model.refinementsListeners += { refinements ->
-            this.refinements = refinements.map { it to model.selections.contains(it) }
-        }
-        model.selectionsListeners += { selections ->
-            refinements = model.refinements.map { it to selections.contains(it) }
-        }
-        if (view != null) listeners += { view.setRefinements(it) }
+}
+
+fun RefinementFacetsViewModel.connect(presenter: RefinementFacetsPresenter) {
+    refinementsListeners += { refinements ->
+        presenter.refinements = refinements.map { it to selections.contains(it) }
     }
+    selectionsListeners += { selections ->
+        presenter.refinements = refinements.map { it to selections.contains(it) }
+    }
+}
+
+fun RefinementFacetsViewModel.connect(view: RefinementFacetsView) {
+    view.onClickRefinement(::select)
+}
+
+fun RefinementFacetsPresenter.connect(view: RefinementFacetsView) {
+    listeners += { view.setRefinements(it) }
 }

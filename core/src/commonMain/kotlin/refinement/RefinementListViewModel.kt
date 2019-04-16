@@ -17,6 +17,7 @@ public class RefinementListViewModel<T>(
 
     public val refinementsListeners: MutableList<(List<T>) -> Unit> = mutableListOf()
     public val selectionsListeners: MutableList<(List<T>) -> Unit> = mutableListOf()
+    public val selectedListeners: MutableList<(List<T>) -> Unit> = mutableListOf()
 
     public var refinements: List<T> by Delegates.observable(listOf()) { _, oldValue, newValue ->
         if (newValue != oldValue) {
@@ -32,10 +33,12 @@ public class RefinementListViewModel<T>(
         }
     }
 
-    public fun select(refinement: T): List<T> {
-        return when (selectionMode) {
+    public fun select(refinement: T) {
+        val selections = when (selectionMode) {
             SingleChoice -> if (refinement in selections) listOf() else listOf(refinement)
             MultipleChoice -> if (refinement in selections) selections - refinement else selections + refinement
         }
+
+        selectedListeners.forEach { it(selections) }
     }
 }

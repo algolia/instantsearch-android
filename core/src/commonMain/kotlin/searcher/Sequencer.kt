@@ -2,6 +2,7 @@ package searcher
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
 import kotlin.coroutines.CoroutineContext
 
 
@@ -36,7 +37,9 @@ public class Sequencer(val maxOperations: Int = 5) {
         val index = operations.indexOf(operation)
 
         (0 until index).forEach {
-            operations.removeAt(it).cancel()
+            operations.removeAt(it).apply {
+                if (isActive) cancel()
+            }
         }
     }
 

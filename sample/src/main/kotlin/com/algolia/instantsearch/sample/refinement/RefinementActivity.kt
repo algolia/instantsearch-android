@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.sample.refinement
 
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -9,14 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.sample.R
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.dsl.facets
-import com.algolia.search.dsl.query
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterGroupsConverter
-import filter.MutableFilterState
 import filter.toFilterGroups
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockHttpResponse
@@ -49,15 +46,7 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
         )
     )
     private val index = client.initIndex(IndexName("mock"))
-    private val query = query {
-        facets {
-            +color
-            +promotion
-            +category
-        }
-    }
-    private val filterState = MutableFilterState()
-    private val searcher = SearcherSingleIndex(index, query, filterState)
+    private val searcher = SearcherSingleIndex(index)
 
     override val coroutineContext = Job()
 
@@ -65,6 +54,49 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.refinement_activity)
 
+        val viewModelA = RefinementFacetsViewModel(SelectionMode.SingleChoice)
+        val viewA = RefinementAdapter()
+        val presenterA = RefinementFacetsPresenter(listOf(SortCriterion.IsRefined, SortCriterion.AlphabeticalAsc))
+
+        viewModelA.connect(color, searcher, RefinementMode.And)
+        viewModelA.connect(presenterA)
+        viewModelA.connect(viewA)
+        presenterA.connect(viewA)
+
+        val viewB = RefinementAdapter()
+        val presenterB = RefinementFacetsPresenter(listOf(SortCriterion.AlphabeticalDesc), 3)
+
+        viewModelA.connect(color, searcher, RefinementMode.And)
+        viewModelA.connect(presenterB)
+        viewModelA.connect(viewB)
+        presenterB.connect(viewB)
+
+        val viewModelC = RefinementFacetsViewModel(SelectionMode.MultipleChoice)
+        val viewC = RefinementAdapter()
+        val presenterC = RefinementFacetsPresenter(listOf(SortCriterion.CountDesc))
+
+        viewModelC.connect(promotion, searcher, RefinementMode.And)
+        viewModelC.connect(presenterC)
+        viewModelC.connect(viewC)
+        presenterC.connect(viewC)
+
+        val viewModelD = RefinementFacetsViewModel(SelectionMode.MultipleChoice)
+        val viewD = RefinementAdapter()
+        val presenterD = RefinementFacetsPresenter(listOf(SortCriterion.CountDesc, SortCriterion.AlphabeticalAsc))
+
+        viewModelD.connect(category, searcher, RefinementMode.Or)
+        viewModelD.connect(presenterD)
+        viewModelD.connect(viewD)
+        presenterD.connect(viewD)
+
+        configureRecyclerView(listA, viewA)
+        configureRecyclerView(listB, viewB)
+        configureRecyclerView(listC, viewC)
+        configureRecyclerView(listD, viewD)
+        listATitle.text = formatTitle(presenterA, RefinementMode.And)
+        listBTitle.text = formatTitle(presenterB, RefinementMode.And)
+        listCTitle.text = formatTitle(presenterC, RefinementMode.And)
+        listDTitle.text = formatTitle(presenterD, RefinementMode.Or)
 
         searcher.filterState.listeners += {
             val span = it.toFilterGroups().highlight(
@@ -77,74 +109,17 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
             )
             filtersTextView.text = span
         }
-        val modelColors = RefinementFacetsViewModel(SelectionMode.SingleChoice)
-
-        demo(
-            view = listA as RecyclerView,
-            title = listATitle,
-            model = modelColors,
-            presenter = RefinementFacetsPresenter(
-                listOf(SortCriterion.IsRefined, SortCriterion.AlphabeticalAsc),
-                limit = 5
-            ),
-            attribute = color,
-            refinementMode = RefinementMode.And
-        )
-
-        demo(
-            view = listB as RecyclerView,
-            title = listBTitle,
-            model = modelColors,
-            presenter = RefinementFacetsPresenter(
-                sortCriteria = listOf(SortCriterion.AlphabeticalDesc),
-                limit = 3
-            ),
-            attribute = color,
-            refinementMode = RefinementMode.And
-        )
-
-        demo(
-            view = listC as RecyclerView,
-            title = listCTitle,
-            model = RefinementFacetsViewModel(SelectionMode.MultipleChoice),
-            presenter = RefinementFacetsPresenter(
-                sortCriteria = listOf(SortCriterion.CountDesc),
-                limit = 5
-            ),
-            attribute = promotion,
-            refinementMode = RefinementMode.And
-        )
-
-        demo(
-            view = listD as RecyclerView,
-            title = listDTitle,
-            model = RefinementFacetsViewModel(SelectionMode.MultipleChoice),
-            presenter = RefinementFacetsPresenter(
-                sortCriteria = listOf(SortCriterion.CountDesc, SortCriterion.AlphabeticalAsc),
-                limit = 5
-            ),
-            attribute = category,
-            refinementMode = RefinementMode.Or
-        )
-
         searcher.search()
     }
 
-    private fun demo(
-        view: RecyclerView,
-        title: TextView,
-        model: RefinementFacetsViewModel,
-        presenter: RefinementFacetsPresenter,
-        attribute: Attribute,
-        refinementMode: RefinementMode
+    private fun configureRecyclerView(
+        recyclerView: View,
+        view: RefinementAdapter
     ) {
-        val adapter = RefinementAdapter()
-
-        widgetRefinement(attribute, searcher, model, presenter, adapter, refinementMode)
-
-        view.layoutManager = LinearLayoutManager(this)
-        view.adapter = adapter
-        view.itemAnimator = null
-        title.text = formatTitle(presenter, refinementMode)
+        (recyclerView as RecyclerView).let {
+            it.layoutManager = LinearLayoutManager(this)
+            it.adapter = view
+            it.itemAnimator = null
+        }
     }
 }

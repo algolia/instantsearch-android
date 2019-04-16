@@ -17,6 +17,7 @@ class TestRefinementListViewModel {
                 refinementA,
                 refinementB
             )
+            selectedListeners += { selections = it }
             select(refinementA)
             selections shouldEqual listOf(refinementA)
             select(refinementB)
@@ -33,6 +34,7 @@ class TestRefinementListViewModel {
                 refinementA,
                 refinementB
             )
+            selectedListeners += { selections = it }
             select(refinementA)
             selections shouldEqual listOf(refinementA)
             select(refinementB)
@@ -51,6 +53,7 @@ class TestRefinementListViewModel {
                 refinementB,
                 refinementC
             )
+            selectedListeners += { selections = it }
             select(refinementC)
             refinements = listOf(
                 refinementA,
@@ -63,6 +66,7 @@ class TestRefinementListViewModel {
     @Test
     fun persistentSelectionOn() {
         RefinementListViewModel<String>().apply {
+            selectedListeners += { selections = it }
             persistentSelection = true
             refinements = listOf(
                 refinementA,
