@@ -2,7 +2,7 @@ package search
 
 import MainDispatcher
 import com.algolia.search.client.Index
-import com.algolia.search.model.filter.FilterGroupConverter
+import com.algolia.search.model.filter.FilterGroupsConverter
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
@@ -33,7 +33,7 @@ public class SearcherSingleIndex(
     }
 
     override fun search(): Job {
-        query.filters = FilterGroupConverter.SQL(filterState.get().toFilterGroups())
+        query.filters = FilterGroupsConverter.SQL(filterState.get().toFilterGroups())
         val job = launch {
             val responseSearch = index.search(query, requestOptions)
 

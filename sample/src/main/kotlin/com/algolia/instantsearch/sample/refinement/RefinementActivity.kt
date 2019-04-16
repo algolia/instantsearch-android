@@ -79,7 +79,7 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
         }
         val modelColors = RefinementFacetsViewModel(SelectionMode.SingleChoice)
 
-        refinementWidget(
+        demo(
             view = listA as RecyclerView,
             title = listATitle,
             model = modelColors,
@@ -91,7 +91,7 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
             refinementMode = RefinementMode.And
         )
 
-        refinementWidget(
+        demo(
             view = listB as RecyclerView,
             title = listBTitle,
             model = modelColors,
@@ -103,7 +103,7 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
             refinementMode = RefinementMode.And
         )
 
-        refinementWidget(
+        demo(
             view = listC as RecyclerView,
             title = listCTitle,
             model = RefinementFacetsViewModel(SelectionMode.MultipleChoice),
@@ -115,7 +115,7 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
             refinementMode = RefinementMode.And
         )
 
-        refinementWidget(
+        demo(
             view = listD as RecyclerView,
             title = listDTitle,
             model = RefinementFacetsViewModel(SelectionMode.MultipleChoice),
@@ -130,7 +130,7 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
         searcher.search()
     }
 
-    private fun refinementWidget(
+    private fun demo(
         view: RecyclerView,
         title: TextView,
         model: RefinementFacetsViewModel,
@@ -140,7 +140,7 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
     ) {
         val adapter = RefinementAdapter()
 
-        widget(attribute, searcher, model, presenter, adapter, refinementMode)
+        widgetRefinement(attribute, searcher, model, presenter, adapter, refinementMode)
 
         view.layoutManager = LinearLayoutManager(this)
         view.adapter = adapter

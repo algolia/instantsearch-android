@@ -3,7 +3,7 @@ package search
 import MainDispatcher
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.FilterGroupConverter
+import com.algolia.search.model.filter.FilterGroupsConverter
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.FacetQuery
 import com.algolia.search.model.search.Query
@@ -20,7 +20,7 @@ public class SearcherForFacets(
     val index: Index,
     val attribute: Attribute,
     var facetQuery: FacetQuery = FacetQuery(query = Query()),
-    val filterState: MutableFilterState = MutableFilterState(),
+    val filterState: MutableFilterState,
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
@@ -36,7 +36,7 @@ public class SearcherForFacets(
     }
 
     override fun search(): Job {
-        facetQuery.query.filters = FilterGroupConverter.SQL(filterState.get().toFilterGroups())
+        facetQuery.query.filters = FilterGroupsConverter.SQL(filterState.get().toFilterGroups())
         val job = launch {
             val responseSearchForFacets = index.searchForFacets(attribute, facetQuery, requestOptions)
 

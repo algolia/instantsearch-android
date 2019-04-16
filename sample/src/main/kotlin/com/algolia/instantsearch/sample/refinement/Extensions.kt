@@ -7,7 +7,7 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.filter.FilterGroupConverter
+import com.algolia.search.model.filter.FilterGroupsConverter
 import refinement.RefinementFacetsPresenter
 import refinement.SortCriterion
 import refinement.RefinementMode
@@ -31,7 +31,7 @@ fun formatTitle(presenter: RefinementFacetsPresenter, refinementMode: Refinement
 
 
 fun List<FilterGroup<*>>.highlight(
-    converter: FilterGroupConverter<List<FilterGroup<*>>, String>,
+    converter: FilterGroupsConverter<List<FilterGroup<*>>, String?>,
     colors: List<Int> = listOf()
 ): SpannableStringBuilder {
     return SpannableStringBuilder().also {
