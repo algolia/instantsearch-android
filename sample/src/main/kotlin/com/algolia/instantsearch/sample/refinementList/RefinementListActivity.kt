@@ -90,6 +90,11 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
         searcher.search()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        searcher.cancel()
+    }
+
     private val colors
         get() = mapOf(
             color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),

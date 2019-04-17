@@ -51,7 +51,7 @@ public class Sequencer(val maxOperations: Int = 5) {
      * Cancel and clear all operations from the queue.
      */
     fun cancelAll() {
-        operations.forEach { it.cancel() }
+        operations.forEach { if (it.isActive) it.cancel() }
         operations.clear()
     }
 }
