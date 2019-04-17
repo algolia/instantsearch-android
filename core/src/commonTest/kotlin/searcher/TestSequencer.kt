@@ -1,4 +1,5 @@
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import searcher.Sequencer
 import kotlin.random.Random
@@ -15,12 +16,11 @@ class TestSequencer {
                 val job = launch { delay(Long.MAX_VALUE) }
 
                 sequencer.addOperation(job)
-                job.invokeOnCompletion { sequencer.operationCompleted(job) }
                 job
             }
 
             sequencer.operations.size shouldEqual sequencer.maxOperations
-            sequencer.operationCompleted(operations[8])
+            sequencer.operationCompleted(operations[7])
             sequencer.operations.size shouldEqual 2
             sequencer.cancelAll()
             sequencer.operations.shouldBeEmpty()
@@ -32,12 +32,14 @@ class TestSequencer {
         blocking {
             val sequencer = Sequencer(5)
 
-            for (index in 0..100000) {
+            val operations = (0..100000).map {
                 val job = launch { delay(Random.nextLong(500, 5000)) }
 
                 sequencer.addOperation(job)
-                job.invokeOnCompletion { sequencer.operationCompleted(job) }
+                job
             }
+            operations.joinAll()
+            sequencer.operations.shouldBeEmpty()
         }
     }
 

@@ -21,6 +21,7 @@ public class Sequencer(val maxOperations: Int = 5) {
         if (operations.size > maxOperations) {
             operations.removeAt(0).cancel()
         }
+        operation.invokeOnCompletion { operationCompleted(operation) }
     }
 
     /**
@@ -30,7 +31,7 @@ public class Sequencer(val maxOperations: Int = 5) {
         val index = operations.indexOf(operation)
 
         if (index >= 0) {
-            val jobs = operations.take(index)
+            val jobs = operations.take(index + 1)
 
             jobs.forEach { it.cancel() }
             operations.removeAll(jobs)

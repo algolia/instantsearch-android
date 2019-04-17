@@ -43,7 +43,6 @@ public class SearcherForFacets(
             withContext(MainDispatcher) { response = responseSearchForFacets }
         }
         sequencer.addOperation(job)
-        job.invokeOnCompletion { sequencer.operationCompleted(job) }
         return job
     }
 

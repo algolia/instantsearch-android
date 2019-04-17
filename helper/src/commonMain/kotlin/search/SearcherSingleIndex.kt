@@ -40,7 +40,6 @@ public class SearcherSingleIndex(
             withContext(MainDispatcher) { response = responseSearch }
         }
         sequencer.addOperation(job)
-        job.invokeOnCompletion { sequencer.operationCompleted(job) }
         return job
     }
 
