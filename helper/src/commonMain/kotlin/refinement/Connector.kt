@@ -36,7 +36,7 @@ public fun RefinementFacetsViewModel.connect(
         val currentFilters = selections.map { it.toFilter(attribute) }.toSet()
         val filters = facets.map { it.toFilter(attribute) }.toSet()
 
-        searcher.filterState.transaction {
+        searcher.filterState.notify {
             remove(groupID, currentFilters)
             add(groupID, filters)
         }

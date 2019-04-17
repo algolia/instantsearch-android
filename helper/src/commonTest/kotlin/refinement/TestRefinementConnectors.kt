@@ -84,7 +84,7 @@ class TestRefinementConnectors {
             model.connect(color, searcher)
             searcher.search().join()
             model.selections.shouldBeEmpty()
-            searcher.filterState.transaction {
+            searcher.filterState.notify {
                 add(GroupID.And(color.raw), selection.toFilter(color))
             }
             model.selections shouldEqual listOf(selection)

@@ -12,12 +12,12 @@ public data class FilterState(
 
     public val listeners: MutableList<(FilterState) -> Unit> = mutableListOf()
 
-    public fun transaction(block: FilterState.() -> Unit) {
+    public fun notify(block: FilterState.() -> Unit) {
         block(this)
         listeners.forEach { it(this) }
     }
 
-    fun triggerListeners() {
+    fun notifyListeners() {
         listeners.forEach { it(this) }
     }
 
