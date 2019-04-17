@@ -34,10 +34,10 @@ public class SearcherSingleIndex(
 
     override fun search(): Job {
         query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
-        val job = launch {
-            val responseSearch = index.search(query, requestOptions)
+        val job = launch(MainDispatcher) {
+            val responseSearch = withContext(Dispatchers.Default) { index.search(query, requestOptions) }
 
-            withContext(MainDispatcher) { response = responseSearch }
+            response = responseSearch
         }
         sequencer.addOperation(job)
         return job

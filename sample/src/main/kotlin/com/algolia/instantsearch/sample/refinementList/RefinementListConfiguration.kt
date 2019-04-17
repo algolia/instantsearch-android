@@ -2,8 +2,6 @@ package com.algolia.instantsearch.sample.refinementList
 
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.dsl.all
-import com.algolia.search.dsl.attributesToRetrieve
 import com.algolia.search.dsl.facets
 import com.algolia.search.dsl.query
 import com.algolia.search.model.APIKey
@@ -13,7 +11,6 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockHttpResponse
-import io.ktor.client.features.logging.LogLevel
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
@@ -74,8 +71,7 @@ class RefinementListConfiguration {
     val client = ClientSearch(
         ConfigurationSearch(
             ApplicationID("latency"),
-            APIKey("03cd233a16e1f5e874ddaff30504bb5a"),
-            logLevel = LogLevel.ALL
+            APIKey("03cd233a16e1f5e874ddaff30504bb5a")
         )
     )
 }

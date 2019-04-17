@@ -26,15 +26,14 @@ public fun RefinementFacetsViewModel.connect(
     filterStateListener(searcher.filterState)
     searcher.filterState.listeners += filterStateListener
     searcher.responseListeners += { response ->
-        response.facetsOrNull?.get(attribute)?.let { refinements = it }
+        refinements = response.facetsOrNull.orEmpty()[attribute].orEmpty()
     }
-    selectedListeners += { newSelections ->
-        val currentFilters = selections.map { Filter.Facet(attribute, it) }.toSet()
-        val newFilters = newSelections.map { Filter.Facet(attribute, it) }.toSet()
+    selectedListeners += { selections ->
+        val filters = selections.map { Filter.Facet(attribute, it) }.toSet()
 
         searcher.filterState.notify {
-            remove(groupID, currentFilters)
-            add(groupID, newFilters)
+            clear(groupID)
+            add(groupID, filters)
         }
         searcher.search()
     }
@@ -50,7 +49,7 @@ fun RefinementFacetsViewModel.connect(presenter: RefinementFacetsPresenter) {
 }
 
 fun RefinementFacetsViewModel.connect(view: RefinementFacetsView) {
-    view.onClickRefinement { select(it.value) }
+    view.onClickRefinement { facet -> select(facet.value) }
 }
 
 fun RefinementFacetsPresenter.connect(view: RefinementFacetsView) {
