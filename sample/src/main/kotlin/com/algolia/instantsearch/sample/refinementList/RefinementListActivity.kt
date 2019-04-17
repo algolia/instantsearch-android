@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.refinement
+package com.algolia.instantsearch.sample.refinementList
 
 import android.os.Bundle
 import android.view.View
@@ -7,42 +7,23 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.sample.R
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.FilterGroupsConverter
-import io.ktor.client.engine.mock.MockEngine
-import io.ktor.client.engine.mock.MockHttpResponse
-import io.ktor.http.ContentType
-import io.ktor.http.HttpStatusCode
-import io.ktor.http.headersOf
+import filter.toFilterGroups
+import highlight
 import kotlinx.android.synthetic.main.refinement_activity.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.io.ByteReadChannel
 import refinement.*
 import search.SearcherSingleIndex
 
 
-class RefinementActivity : AppCompatActivity(), CoroutineScope {
+class RefinementListActivity : AppCompatActivity(), CoroutineScope {
 
-    private val mockEngine = MockEngine {
-        MockHttpResponse(
-            it.call,
-            HttpStatusCode.OK,
-            headers = headersOf("Content-Type", listOf(ContentType.Application.Json.toString())),
-            content = ByteReadChannel(responseSerialized)
-        )
-    }
-    private val client = ClientSearch(
-        ConfigurationSearch(
-            ApplicationID("mock"),
-            APIKey("mock"),
-            engine = mockEngine
-        )
-    )
+    private val color = Attribute("color")
+    private val promotion = Attribute("promotion")
+    private val category = Attribute("category")
+    private val client = RefinementListClient(color, promotion, category).client
     private val index = client.initIndex(IndexName("mock"))
     private val searcher = SearcherSingleIndex(index)
 
@@ -53,15 +34,15 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
         setContentView(R.layout.refinement_activity)
 
         val viewModelA = RefinementFacetsViewModel(SelectionMode.SingleChoice)
-        val viewA = RefinementAdapter()
-        val presenterA = RefinementFacetsPresenter(listOf(SortCriterion.IsRefined, SortCriterion.AlphabeticalAsc))
+        val viewA = RefinementListAdapter()
+        val presenterA = RefinementFacetsPresenter(listOf(SortCriterion.IsRefined, SortCriterion.AlphabeticalAsc), 5)
 
         viewModelA.connect(color, searcher, RefinementMode.And)
         viewModelA.connect(presenterA)
         viewModelA.connect(viewA)
         presenterA.connect(viewA)
 
-        val viewB = RefinementAdapter()
+        val viewB = RefinementListAdapter()
         val presenterB = RefinementFacetsPresenter(listOf(SortCriterion.AlphabeticalDesc), 3)
 
         viewModelA.connect(color, searcher, RefinementMode.And)
@@ -70,8 +51,8 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
         presenterB.connect(viewB)
 
         val viewModelC = RefinementFacetsViewModel(SelectionMode.MultipleChoice)
-        val viewC = RefinementAdapter()
-        val presenterC = RefinementFacetsPresenter(listOf(SortCriterion.CountDesc))
+        val viewC = RefinementListAdapter()
+        val presenterC = RefinementFacetsPresenter(listOf(SortCriterion.CountDesc), 5)
 
         viewModelC.connect(promotion, searcher, RefinementMode.And)
         viewModelC.connect(presenterC)
@@ -79,8 +60,8 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
         presenterC.connect(viewC)
 
         val viewModelD = RefinementFacetsViewModel(SelectionMode.MultipleChoice)
-        val viewD = RefinementAdapter()
-        val presenterD = RefinementFacetsPresenter(listOf(SortCriterion.CountDesc, SortCriterion.AlphabeticalAsc))
+        val viewD = RefinementListAdapter()
+        val presenterD = RefinementFacetsPresenter(listOf(SortCriterion.CountDesc, SortCriterion.AlphabeticalAsc), 5)
 
         viewModelD.connect(category, searcher, RefinementMode.Or)
         viewModelD.connect(presenterD)
@@ -97,27 +78,42 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
         listDTitle.text = formatTitle(presenterD, RefinementMode.Or)
 
         searcher.filterState.listeners += {
-            val span = it.getFacets().highlight(
-                FilterGroupsConverter.SQL.Unquoted,
-                mapOf(
-                    color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
-                    promotion.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
-                    category.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
-                )
-            )
-            filtersTextView.text = span
+            filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
         }
         searcher.search()
     }
 
+    private val colors
+        get() = mapOf(
+            color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
+            promotion.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
+            category.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
+        )
+
     private fun configureRecyclerView(
         recyclerView: View,
-        view: RefinementAdapter
+        view: RefinementListAdapter
     ) {
         (recyclerView as RecyclerView).let {
             it.layoutManager = LinearLayoutManager(this)
             it.adapter = view
             it.itemAnimator = null
         }
+    }
+
+    private fun SortCriterion.format(): String {
+        return when (this) {
+            SortCriterion.IsRefined -> name
+            SortCriterion.CountAsc -> name
+            SortCriterion.CountDesc -> name
+            SortCriterion.AlphabeticalAsc -> "AlphaAsc"
+            SortCriterion.AlphabeticalDesc -> "Alphadesc"
+        }
+    }
+
+    private fun formatTitle(presenter: RefinementFacetsPresenter, refinementMode: RefinementMode): String {
+        val criteria = presenter.sortCriteria.joinToString("-") { it.format() }
+
+        return "$refinementMode, $criteria, l=${presenter.limit}"
     }
 }

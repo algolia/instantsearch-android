@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.refinement
+package com.algolia.instantsearch.sample.refinementList
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,19 +11,19 @@ import refinement.RefinementListView
 import refinement.SelectedRefinement
 
 
-class RefinementAdapter :
-    ListAdapter<SelectedRefinement<Facet>, RefinementViewHolder>(diffUtil),
+class RefinementListAdapter :
+    ListAdapter<SelectedRefinement<Facet>, RefinementListViewHolder>(diffUtil),
     RefinementListView<Facet> {
 
     private lateinit var onClick: (Facet) -> Unit
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RefinementViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RefinementListViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.refinement_item, parent, false)
 
-        return RefinementViewHolder(view)
+        return RefinementListViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RefinementViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RefinementListViewHolder, position: Int) {
         val (facet, selected) = getItem(position)
 
         holder.bind(facet, selected, View.OnClickListener { onClick(facet) })

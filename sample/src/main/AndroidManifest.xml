@@ -14,7 +14,7 @@
             android:theme="@style/InstantSearchDemo"
             tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".refinement.RefinementActivity">
+        <activity android:name=".refinementList.RefinementListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

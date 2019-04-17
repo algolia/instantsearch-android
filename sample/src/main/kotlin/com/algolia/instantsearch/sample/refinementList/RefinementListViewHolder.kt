@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.refinement
+package com.algolia.instantsearch.sample.refinementList
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -6,7 +6,7 @@ import com.algolia.search.model.search.Facet
 import kotlinx.android.synthetic.main.refinement_item.view.*
 
 
-class RefinementViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+class RefinementListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(refinement: Facet, selected: Boolean, onClickListener: View.OnClickListener) {
         view.setOnClickListener(onClickListener)

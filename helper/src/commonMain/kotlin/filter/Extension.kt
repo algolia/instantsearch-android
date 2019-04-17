@@ -10,18 +10,18 @@ import search.GroupID
 public fun FilterState.toFilterGroups(): List<FilterGroup<*>> {
     return getFacets().map { (key, value) ->
         when (key) {
-            is GroupID.And -> FilterGroup.And.Facet(value)
-            is GroupID.Or -> FilterGroup.Or.Facet(value)
+            is GroupID.And -> FilterGroup.And.Facet(value, key.name)
+            is GroupID.Or -> FilterGroup.Or.Facet(value, key.name)
         }
     } + getTags().map { (key, value) ->
         when (key) {
-            is GroupID.And -> FilterGroup.And.Tag(value)
-            is GroupID.Or -> FilterGroup.Or.Tag(value)
+            is GroupID.And -> FilterGroup.And.Tag(value, key.name)
+            is GroupID.Or -> FilterGroup.Or.Tag(value, key.name)
         }
     } + getNumerics().map { (key, value) ->
         when (key) {
-            is GroupID.And -> FilterGroup.And.Numeric(value)
-            is GroupID.Or -> FilterGroup.Or.Numeric(value)
+            is GroupID.And -> FilterGroup.And.Numeric(value, key.name)
+            is GroupID.Or -> FilterGroup.Or.Numeric(value, key.name)
         }
     }
 }
