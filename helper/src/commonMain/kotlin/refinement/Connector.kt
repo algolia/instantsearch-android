@@ -32,13 +32,13 @@ public fun RefinementFacetsViewModel.connect(
 
         selections = refinements.filter { refinement -> filters.any { it.raw == refinement.value } }
     }
-    selectedListeners += { facets ->
+    selectedListeners += { newSelections ->
         val currentFilters = selections.map { it.toFilter(attribute) }.toSet()
-        val filters = facets.map { it.toFilter(attribute) }.toSet()
+        val newFilters = newSelections.map { it.toFilter(attribute) }.toSet()
 
         searcher.filterState.notify {
             remove(groupID, currentFilters)
-            add(groupID, filters)
+            add(groupID, newFilters)
         }
         searcher.search()
     }

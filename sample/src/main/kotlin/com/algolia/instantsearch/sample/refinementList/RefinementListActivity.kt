@@ -9,12 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.sample.R
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
+import com.algolia.search.model.filter.Filter
+import filter.FilterState
 import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.refinement_activity.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import refinement.*
+import search.GroupID
 import search.SearcherSingleIndex
 
 
@@ -25,7 +28,10 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
     private val category = Attribute("category")
     private val client = RefinementListClient(color, promotion, category).client
     private val index = client.initIndex(IndexName("mock"))
-    private val searcher = SearcherSingleIndex(index)
+    private val filterState = FilterState(
+        facets = mutableMapOf(GroupID.And(color.raw) to setOf(Filter.Facet(color, "green")))
+    )
+    private val searcher = SearcherSingleIndex(index, filterState = filterState)
 
     override val coroutineContext = Job()
 
