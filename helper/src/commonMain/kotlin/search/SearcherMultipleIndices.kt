@@ -38,7 +38,7 @@ public class SearcherMultipleIndices(
             withContext(MainDispatcher) { response = responseSearches }
         }
         sequencer.addOperation(job)
-        job.invokeOnCompletion { sequencer.operationCompleted(this) }
+        job.invokeOnCompletion { sequencer.operationCompleted(job) }
         return job
     }
 
