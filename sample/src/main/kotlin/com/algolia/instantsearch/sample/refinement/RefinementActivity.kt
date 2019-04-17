@@ -97,7 +97,7 @@ class RefinementActivity : AppCompatActivity(), CoroutineScope {
         listDTitle.text = formatTitle(presenterD, RefinementMode.Or)
 
         searcher.filterState.listeners += {
-            val span = it.facet.highlight(
+            val span = it.getFacets().highlight(
                 FilterGroupsConverter.SQL.Unquoted,
                 mapOf(
                     color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),

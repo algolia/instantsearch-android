@@ -28,8 +28,7 @@ public fun RefinementFacetsViewModel.connect(
         response.facets[attribute]?.let { refinements = it }
     }
     searcher.filterState.listeners += { state ->
-        val filters = state.facet[groupID].orEmpty().map { it.value }
-
+        val filters = state.getFacets(groupID).orEmpty().map { it.value }
 
         selections = refinements.filter { refinement -> filters.any { it.raw == refinement.value } }
     }
@@ -37,8 +36,10 @@ public fun RefinementFacetsViewModel.connect(
         val currentFilters = selections.map { it.toFilter(attribute) }.toSet()
         val filters = facets.map { it.toFilter(attribute) }.toSet()
 
-        searcher.filterState.remove(groupID, currentFilters)
-        searcher.filterState.add(groupID, filters)
+        searcher.filterState.transaction {
+            remove(groupID, currentFilters)
+            add(groupID, filters)
+        }
         searcher.search()
     }
 }

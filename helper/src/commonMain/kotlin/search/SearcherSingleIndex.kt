@@ -6,7 +6,7 @@ import com.algolia.search.model.filter.FilterGroupsConverter
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
-import filter.MutableFilterState
+import filter.FilterState
 import filter.toFilterGroups
 import kotlinx.coroutines.*
 import searcher.Searcher
@@ -17,7 +17,7 @@ import kotlin.properties.Delegates
 public class SearcherSingleIndex(
     val index: Index,
     val query: Query = Query(),
-    val filterState: MutableFilterState = MutableFilterState(),
+    val filterState: FilterState = FilterState(),
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
@@ -33,7 +33,7 @@ public class SearcherSingleIndex(
     }
 
     override fun search(): Job {
-        query.filters = FilterGroupsConverter.SQL(filterState.get().toFilterGroups())
+        query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
         val job = launch {
             val responseSearch = index.search(query, requestOptions)
 

@@ -42,6 +42,14 @@ internal fun <T> Collection<T>.shouldNotBeEmpty() {
     this.isNotEmpty().shouldBeTrue()
 }
 
+internal fun <K, V> Map<K, V>.shouldBeEmpty() {
+    this.isEmpty().shouldBeTrue()
+}
+
+internal fun <K, V> Map<K, V>.shouldNotBeEmpty() {
+    this.isNotEmpty().shouldBeTrue()
+}
+
 internal infix fun <T : Throwable> KClass<T>.shouldFailWith(block: suspend () -> Unit): T {
     return assertFailsWith(this, null) {
         blocking {

@@ -8,17 +8,17 @@ import search.GroupID
 
 
 public fun FilterState.toFilterGroups(): List<FilterGroup<*>> {
-    return facet.map { (key, value) ->
+    return getFacets().map { (key, value) ->
         when (key) {
             is GroupID.And -> FilterGroup.And.Facet(value)
             is GroupID.Or -> FilterGroup.Or.Facet(value)
         }
-    } + tag.map { (key, value) ->
+    } + getTags().map { (key, value) ->
         when (key) {
             is GroupID.And -> FilterGroup.And.Tag(value)
             is GroupID.Or -> FilterGroup.Or.Tag(value)
         }
-    } + numeric.map { (key, value) ->
+    } + getNumerics().map { (key, value) ->
         when (key) {
             is GroupID.And -> FilterGroup.And.Numeric(value)
             is GroupID.Or -> FilterGroup.Or.Numeric(value)
@@ -48,10 +48,8 @@ internal fun <T : Filter> MutableMap<GroupID, Set<T>>.remove(groupID: GroupID, f
     modify(groupID, filter, { minus(it) })
 }
 
-internal fun <T : Filter> Map<GroupID, Set<T>>.clear(groupID: GroupID): Map<GroupID, Set<T>> {
-    return toMutableMap().apply {
-        remove(groupID)
-    }
+internal fun <T : Filter> MutableMap<GroupID, Set<T>>.clear(groupID: GroupID) {
+    remove(groupID)
 }
 
 internal fun Facet.toFilter(attribute: Attribute): Filter.Facet {

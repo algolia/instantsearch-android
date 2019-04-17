@@ -8,7 +8,7 @@ import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.FacetQuery
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
-import filter.MutableFilterState
+import filter.FilterState
 import filter.toFilterGroups
 import kotlinx.coroutines.*
 import searcher.Searcher
@@ -20,7 +20,7 @@ public class SearcherForFacets(
     val index: Index,
     val attribute: Attribute,
     var facetQuery: FacetQuery = FacetQuery(query = Query()),
-    val filterState: MutableFilterState = MutableFilterState(),
+    val filterState: FilterState = FilterState(),
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
@@ -36,7 +36,7 @@ public class SearcherForFacets(
     }
 
     override fun search(): Job {
-        facetQuery.query.filters = FilterGroupsConverter.SQL(filterState.get().toFilterGroups())
+        facetQuery.query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
         val job = launch {
             val responseSearchForFacets = index.searchForFacets(attribute, facetQuery, requestOptions)
 

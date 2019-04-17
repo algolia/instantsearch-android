@@ -4,8 +4,8 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup
 import filter.FilterState
-import filter.MutableFilterState
 import filter.toFilterGroups
+import shouldBeEmpty
 import shouldBeFalse
 import shouldBeTrue
 import shouldEqual
@@ -27,122 +27,113 @@ class TestSearchFilterState {
 
     @Test
     fun addToSameGroup() {
-
-        MutableFilterState().apply {
+        FilterState().apply {
             add(groupA, facetA)
             add(groupA, facetB)
 
-            get() shouldEqual FilterState(
-                mapOf(groupA to setOf(facetA, facetB))
-            )
+            getFacets() shouldEqual mapOf(groupA to setOf(facetA, facetB))
         }
     }
 
     @Test
     fun addToDifferentGroup() {
-        MutableFilterState().apply {
+        FilterState().apply {
             add(groupA, facetA)
             add(groupB, facetA)
 
-            get() shouldEqual FilterState(
-                mapOf(
-                    groupA to setOf(facetA),
-                    groupB to setOf(facetA)
-                )
+            getFacets() shouldEqual mapOf(
+                groupA to setOf(facetA),
+                groupB to setOf(facetA)
             )
         }
     }
 
     @Test
     fun addDifferentTypesToSameGroup() {
-        MutableFilterState().apply {
+        FilterState().apply {
             add(groupA, facetA)
             add(groupA, numeric)
 
-            get() shouldEqual FilterState(
-                facet = mapOf(groupA to setOf(facetA)),
-                numeric = mapOf(groupA to setOf(numeric))
-            )
+            getFacets() shouldEqual mapOf(groupA to setOf(facetA))
+            getNumerics() shouldEqual mapOf(groupA to setOf(numeric))
         }
     }
 
     @Test
     fun addDifferentTypesToDifferentGroup() {
-        MutableFilterState().apply {
+        FilterState().apply {
             add(groupA, facetA)
             add(groupB, numeric)
 
-            get() shouldEqual FilterState(
-                facet = mapOf(groupA to setOf(facetA)),
-                numeric = mapOf(groupB to setOf(numeric))
-            )
+            getFacets() shouldEqual mapOf(groupA to setOf(facetA))
+            getNumerics() shouldEqual mapOf(groupB to setOf(numeric))
         }
     }
 
     @Test
     fun removeHits() {
-        MutableFilterState().apply {
+        FilterState().apply {
             add(groupA, facetA)
             add(groupA, facetB)
             remove(groupA, facetA)
 
-            get() shouldEqual FilterState(
-                mapOf(groupA to setOf(facetB))
-            )
+            getFacets() shouldEqual mapOf(groupA to setOf(facetB))
         }
     }
 
     @Test
     fun removeEmptyMisses() {
-        MutableFilterState().apply {
+        FilterState().apply {
             remove(groupA, facetA)
 
-            get() shouldEqual FilterState()
+            getFacets().shouldBeEmpty()
+            getTags().shouldBeEmpty()
+            getNumerics().shouldBeEmpty()
         }
     }
 
     @Test
     fun removeMisses() {
-        MutableFilterState().apply {
+        FilterState().apply {
             add(groupA, facetA)
             remove(groupA, facetB)
 
-            get() shouldEqual FilterState(
-                mapOf(groupA to setOf(facetA))
-            )
+            getFacets() shouldEqual mapOf(groupA to setOf(facetA))
         }
     }
 
     @Test
     fun clearGroup() {
-        MutableFilterState().apply {
+        FilterState().apply {
             add(groupA, facetA)
             add(groupB, facetB)
             clear(groupB)
 
-            get() shouldEqual FilterState(
-                mapOf(groupA to setOf(facetA))
-            )
+            getFacets() shouldEqual mapOf(groupA to setOf(facetA))
         }
     }
 
     @Test
     fun clear() {
-        MutableFilterState().apply {
+        FilterState().apply {
             add(groupA, facetA)
             add(groupB, facetB)
+            add(groupA, numeric)
+            add(groupA, tag)
             clear()
 
-            get() shouldEqual FilterState()
+            getFacets().shouldBeEmpty()
+            getTags().shouldBeEmpty()
+            getNumerics().shouldBeEmpty()
         }
     }
 
     @Test
     fun transform() {
-        val filterGroups = MutableFilterState().apply {
+        val filterGroups = FilterState().apply {
             add(groupA, facetA)
             add(groupB, facetB)
-        }.get().toFilterGroups()
+        }.toFilterGroups()
 
         filterGroups shouldEqual listOf(
             FilterGroup.And.Facet(facetA),
@@ -152,7 +143,7 @@ class TestSearchFilterState {
 
     @Test
     fun contains() {
-        MutableFilterState().apply {
+        FilterState().apply {
             add(groupA, facetA)
             contains(groupA, facetA).shouldBeTrue()
             contains(groupA, facetB).shouldBeFalse()
@@ -162,13 +153,11 @@ class TestSearchFilterState {
 
     @Test
     fun toggle() {
-        MutableFilterState().apply {
+        FilterState().apply {
             toggle(groupA, facetA)
-            get() shouldEqual FilterState(
-                mapOf(groupA to setOf(facetA))
-            )
+            getFacets() shouldEqual mapOf(groupA to setOf(facetA))
             toggle(groupA, facetA)
-            get() shouldEqual FilterState()
+            getFacets().shouldBeEmpty()
         }
     }
 }

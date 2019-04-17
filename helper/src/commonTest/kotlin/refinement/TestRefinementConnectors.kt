@@ -70,7 +70,7 @@ class TestRefinementConnectors {
             model.select(selection)
             model.selections shouldEqual listOf(selection)
             searcher.query.filters = FilterConverter.SQL(selectedFilter)
-            searcher.filterState.get().facet.getValue(GroupID.And(color.raw)) shouldEqual setOf(selectedFilter)
+            searcher.filterState.getFacets(GroupID.And(color.raw))!! shouldEqual setOf(selectedFilter)
         }
     }
 
@@ -84,7 +84,9 @@ class TestRefinementConnectors {
             model.connect(color, searcher)
             searcher.search().join()
             model.selections.shouldBeEmpty()
-            searcher.filterState.add(GroupID.And(color.raw), selection.toFilter(color))
+            searcher.filterState.transaction {
+                add(GroupID.And(color.raw), selection.toFilter(color))
+            }
             model.selections shouldEqual listOf(selection)
         }
     }
