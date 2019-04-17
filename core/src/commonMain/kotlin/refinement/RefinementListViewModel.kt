@@ -5,8 +5,8 @@ import refinement.SelectionMode.SingleChoice
 import kotlin.properties.Delegates
 
 
-public class RefinementListViewModel<T>(
-    val selectionMode: SelectionMode = SingleChoice
+public abstract class RefinementListViewModel<K, V>(
+    val selectionMode: SelectionMode
 ) {
 
     /**
@@ -15,30 +15,32 @@ public class RefinementListViewModel<T>(
      */
     public var persistentSelection: Boolean = false
 
-    public val refinementsListeners: MutableList<(List<T>) -> Unit> = mutableListOf()
-    public val selectionsListeners: MutableList<(List<T>) -> Unit> = mutableListOf()
-    public val selectedListeners: MutableList<(List<T>) -> Unit> = mutableListOf()
+    public val refinementsListeners: MutableList<(List<V>) -> Unit> = mutableListOf()
+    public val selectionsListeners: MutableList<(List<K>) -> Unit> = mutableListOf()
+    public val selectedListeners: MutableList<(List<K>) -> Unit> = mutableListOf()
 
-    public var refinements: List<T> by Delegates.observable(listOf()) { _, oldValue, newValue ->
+    public var refinements: List<V> by Delegates.observable(listOf()) { _, oldValue, newValue ->
         if (newValue != oldValue) {
             refinementsListeners.forEach { it(newValue) }
             if (!persistentSelection) {
-                selections = selections.filter { it in newValue }
+                selections = selections.filter { selection -> newValue.any { it.match(selection) } }
             }
         }
     }
-    public var selections by Delegates.observable(listOf<T>()) { _, oldValue, newValue ->
+    public var selections by Delegates.observable(listOf<K>()) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             selectionsListeners.forEach { it(newValue) }
         }
     }
 
-    public fun select(refinement: T) {
+    public fun select(key: K) {
         val selections = when (selectionMode) {
-            SingleChoice -> if (refinement in selections) listOf() else listOf(refinement)
-            MultipleChoice -> if (refinement in selections) selections - refinement else selections + refinement
+            SingleChoice -> if (key in selections) listOf() else listOf(key)
+            MultipleChoice -> if (key in selections) selections - key else selections + key
         }
 
         selectedListeners.forEach { it(selections) }
     }
+
+    public abstract fun V.match(key: K): Boolean
 }

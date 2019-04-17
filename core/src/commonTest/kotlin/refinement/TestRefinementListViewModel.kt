@@ -10,9 +10,18 @@ class TestRefinementListViewModel {
     private val refinementB = "valueB"
     private val refinementC = "valueC"
 
+    class MockRefinementListViewModel(
+        selectionMode: SelectionMode
+    ) : RefinementListViewModel<String, String>(selectionMode) {
+
+        override fun String.match(key: String): Boolean {
+            return this == key
+        }
+    }
+
     @Test
     fun singleChoice() {
-        RefinementListViewModel<String>(SelectionMode.SingleChoice).apply {
+        MockRefinementListViewModel(SelectionMode.SingleChoice).apply {
             refinements = listOf(
                 refinementA,
                 refinementB
@@ -29,7 +38,7 @@ class TestRefinementListViewModel {
 
     @Test
     fun multipleChoice() {
-        RefinementListViewModel<String>(SelectionMode.MultipleChoice).apply {
+        MockRefinementListViewModel(SelectionMode.MultipleChoice).apply {
             refinements = listOf(
                 refinementA,
                 refinementB
@@ -46,7 +55,7 @@ class TestRefinementListViewModel {
 
     @Test
     fun persistentSelectionOff() {
-        RefinementListViewModel<String>().apply {
+        MockRefinementListViewModel(SelectionMode.SingleChoice).apply {
             persistentSelection = false
             refinements = listOf(
                 refinementA,
@@ -65,7 +74,7 @@ class TestRefinementListViewModel {
 
     @Test
     fun persistentSelectionOn() {
-        RefinementListViewModel<String>().apply {
+        MockRefinementListViewModel(SelectionMode.SingleChoice).apply {
             selectedListeners += { selections = it }
             persistentSelection = true
             refinements = listOf(

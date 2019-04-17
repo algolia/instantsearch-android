@@ -136,8 +136,8 @@ class TestSearchFilterState {
         }.toFilterGroups()
 
         filterGroups shouldEqual listOf(
-            FilterGroup.And.Facet(facetA),
-            FilterGroup.And.Facet(facetB)
+            FilterGroup.And.Facet(facetA, name = groupA.name),
+            FilterGroup.And.Facet(facetB, name = groupB.name)
         )
     }
 
