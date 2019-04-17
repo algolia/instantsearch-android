@@ -26,7 +26,7 @@ public fun RefinementFacetsViewModel.connect(
     filterStateListener(searcher.filterState)
     searcher.filterState.listeners += filterStateListener
     searcher.responseListeners += { response ->
-        response.facets[attribute]?.let { refinements = it }
+        response.facetsOrNull?.get(attribute)?.let { refinements = it }
     }
     selectedListeners += { newSelections ->
         val currentFilters = selections.map { Filter.Facet(attribute, it) }.toSet()

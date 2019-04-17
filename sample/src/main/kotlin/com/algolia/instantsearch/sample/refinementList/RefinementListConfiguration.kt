@@ -2,6 +2,10 @@ package com.algolia.instantsearch.sample.refinementList
 
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
+import com.algolia.search.dsl.all
+import com.algolia.search.dsl.attributesToRetrieve
+import com.algolia.search.dsl.facets
+import com.algolia.search.dsl.query
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
@@ -9,6 +13,7 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockHttpResponse
+import io.ktor.client.features.logging.LogLevel
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
@@ -16,11 +21,19 @@ import kotlinx.coroutines.io.ByteReadChannel
 import kotlinx.serialization.json.Json
 
 
-class RefinementListClient(
-    private val color: Attribute,
-    private val promotion: Attribute,
-    private val category: Attribute
-) {
+class RefinementListConfiguration {
+
+    val color = Attribute("color")
+    val promotion = Attribute("promotion")
+    val category = Attribute("category")
+
+    val query = query {
+        facets {
+            +color
+            +promotion
+            +category
+        }
+    }
 
     private val colors = listOf(
         Facet("red", 1),
@@ -60,9 +73,9 @@ class RefinementListClient(
 
     val client = ClientSearch(
         ConfigurationSearch(
-            ApplicationID("mock"),
-            APIKey("mock"),
-            engine = mockEngine
+            ApplicationID("latency"),
+            APIKey("03cd233a16e1f5e874ddaff30504bb5a"),
+            logLevel = LogLevel.ALL
         )
     )
 }
