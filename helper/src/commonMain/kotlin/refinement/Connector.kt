@@ -2,7 +2,8 @@ package refinement
 
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
-import filter.FilterState
+import filter.Filters
+import filter.add
 import refinement.RefinementMode.And
 import refinement.RefinementMode.Or
 import search.GroupID
@@ -19,7 +20,7 @@ public fun RefinementFacetsViewModel.connect(
         And -> GroupID.And(groupName)
         Or -> GroupID.Or(groupName)
     }
-    val filterStateListener: (FilterState) -> Unit = { state ->
+    val filterStateListener: (Filters) -> Unit = { state ->
         selections = state.getFacets(groupID).orEmpty().map { it.value.raw as String }
     }
 

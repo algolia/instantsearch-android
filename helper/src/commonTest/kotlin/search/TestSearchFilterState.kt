@@ -3,12 +3,6 @@ package search
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup
-import filter.FilterState
-import filter.toFilterGroups
-import shouldBeEmpty
-import shouldBeFalse
-import shouldBeTrue
-import shouldEqual
 import kotlin.test.Test
 
 

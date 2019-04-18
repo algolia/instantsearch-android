@@ -7,7 +7,7 @@ import com.algolia.search.model.search.Facet
 import search.GroupID
 
 
-public fun FilterState.toFilterGroups(): List<FilterGroup<*>> {
+public fun Filters.toFilterGroups(): List<FilterGroup<*>> {
     return getFacets().map { (key, value) ->
         when (key) {
             is GroupID.And -> FilterGroup.And.Facet(value, key.name)
@@ -26,30 +26,12 @@ public fun FilterState.toFilterGroups(): List<FilterGroup<*>> {
     }
 }
 
-internal fun <T : Filter> Map<GroupID, Set<T>>.getOrDefault(groupID: GroupID): Set<T> {
-    return getOrElse(groupID, { setOf() })
+public inline fun <reified T : Filter> MutableFilters.add(groupID: GroupID, filters: Set<T>) {
+    add(groupID, *filters.toTypedArray())
 }
 
-internal fun <T : Filter> MutableMap<GroupID, Set<T>>.modify(
-    groupID: GroupID,
-    filter: T,
-    operator: Set<T>.(T) -> Set<T>
-) {
-    val set = getOrDefault(groupID).operator(filter)
-
-    if (set.isNotEmpty()) this[groupID] = set else remove(groupID)
-}
-
-internal fun <T : Filter> MutableMap<GroupID, Set<T>>.add(groupID: GroupID, filter: T) {
-    modify(groupID, filter, { plus(it) })
-}
-
-internal fun <T : Filter> MutableMap<GroupID, Set<T>>.remove(groupID: GroupID, filter: T) {
-    modify(groupID, filter, { minus(it) })
-}
-
-internal fun <T : Filter> MutableMap<GroupID, Set<T>>.clear(groupID: GroupID) {
-    remove(groupID)
+public inline fun <reified T : Filter> MutableFilters.remove(groupID: GroupID, filters: Set<T>) {
+    remove(groupID, *filters.toTypedArray())
 }
 
 internal fun Facet.toFilter(attribute: Attribute): Filter.Facet {
