@@ -64,6 +64,7 @@ class TestRefinementListViewModel {
             )
             selectedListeners += { selections = it }
             select(refinementC)
+            selections shouldEqual listOf(refinementC)
             refinements = listOf(
                 refinementA,
                 refinementB
@@ -83,6 +84,7 @@ class TestRefinementListViewModel {
                 refinementC
             )
             select(refinementC)
+            selections shouldEqual listOf(refinementC)
             refinements = listOf(
                 refinementA,
                 refinementB
