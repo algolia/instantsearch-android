@@ -1,22 +1,21 @@
 package filter
 
 import com.algolia.search.model.filter.Filter
-import search.GroupID
 
 
 public interface Filters {
 
-    fun getFacets(groupID: GroupID): Set<Filter.Facet>?
+    fun getFacets(groupID: FilterGroupID): Set<Filter.Facet>?
 
-    fun getTags(groupID: GroupID): Set<Filter.Tag>?
+    fun getTags(groupID: FilterGroupID): Set<Filter.Tag>?
 
-    fun getNumerics(groupID: GroupID): Set<Filter.Numeric>?
+    fun getNumerics(groupID: FilterGroupID): Set<Filter.Numeric>?
 
-    fun getFacets(): Map<GroupID, Set<Filter.Facet>>
+    fun getFacets(): Map<FilterGroupID, Set<Filter.Facet>>
 
-    fun getTags(): Map<GroupID, Set<Filter.Tag>>
+    fun getTags(): Map<FilterGroupID, Set<Filter.Tag>>
 
-    fun getNumerics(): Map<GroupID, Set<Filter.Numeric>>
+    fun getNumerics(): Map<FilterGroupID, Set<Filter.Numeric>>
 
-    fun <T : Filter> contains(groupID: GroupID, filter: T): Boolean
+    fun <T : Filter> contains(groupID: FilterGroupID, filter: T): Boolean
 }

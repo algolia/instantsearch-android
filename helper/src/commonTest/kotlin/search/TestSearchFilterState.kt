@@ -3,6 +3,13 @@ package search
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup
+import filter.FilterGroupID
+import filter.FilterState
+import filter.toFilterGroups
+import shouldBeEmpty
+import shouldBeFalse
+import shouldBeTrue
+import shouldEqual
 import kotlin.test.Test
 
 
@@ -10,8 +17,8 @@ class TestSearchFilterState {
 
     private val nameA = "nameA"
     private val nameB = "nameB"
-    private val groupA = GroupID.And(nameA)
-    private val groupB = GroupID.And(nameB)
+    private val groupA = FilterGroupID.And(nameA)
+    private val groupB = FilterGroupID.And(nameB)
     private val attributeA = Attribute(nameA)
     private val attributeB = Attribute(nameB)
     private val facetA = Filter.Facet(attributeA, 0)

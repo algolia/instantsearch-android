@@ -2,35 +2,35 @@ package refinement
 
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
+import filter.FilterGroupID
 import filter.Filters
 import filter.add
-import refinement.RefinementMode.And
-import refinement.RefinementMode.Or
-import search.GroupID
+import refinement.RefinementOperator.And
+import refinement.RefinementOperator.Or
 import search.SearcherSingleIndex
 
 
 public fun RefinementFacetsViewModel.connect(
     attribute: Attribute,
     searcher: SearcherSingleIndex,
-    mode: RefinementMode = And,
+    operator: RefinementOperator = And,
     groupName: String = attribute.raw
 ) {
-    val groupID = when (mode) {
-        And -> GroupID.And(groupName)
-        Or -> GroupID.Or(groupName)
+    val groupID = when (operator) {
+        And -> FilterGroupID.And(groupName)
+        Or -> FilterGroupID.Or(groupName)
     }
-    val filterStateListener: (Filters) -> Unit = { state ->
-        selections = state.getFacets(groupID).orEmpty().map { it.value.raw as String }
+    val onFilterStateChange: (Filters) -> Unit = { filters ->
+        selections = filters.getFacets(groupID).orEmpty().mapNotNull { it.value.raw as? String }
         searcher.search()
     }
 
-    filterStateListener(searcher.filterState)
-    searcher.filterState.listeners += filterStateListener
-    searcher.responseListeners += { response ->
+    onFilterStateChange(searcher.filterState)
+    searcher.filterState.onStateChange += onFilterStateChange
+    searcher.onResponseChange += { response ->
         values = response.facetsOrNull.orEmpty()[attribute].orEmpty()
     }
-    selectedListeners += { selections ->
+    onSelectedChange += { selections ->
         val filters = selections.map { Filter.Facet(attribute, it) }.toSet()
 
         searcher.filterState.notify {
@@ -41,18 +41,18 @@ public fun RefinementFacetsViewModel.connect(
 }
 
 fun RefinementFacetsViewModel.connect(presenter: RefinementFacetsPresenter) {
-    refinementsListeners += { refinements ->
-        presenter.refinements = refinements.map { it to selections.contains(it.value) }
+    onValuesChange += { facets ->
+        presenter.values = facets.map { it to selections.contains(it.value) }
     }
-    selectionsListeners += { selections ->
-        presenter.refinements = values.map { it to selections.contains(it.value) }
+    onSelectionsChange += { selections ->
+        presenter.values = values.map { it to selections.contains(it.value) }
     }
 }
 
 fun RefinementFacetsViewModel.connect(view: RefinementFacetsView) {
-    view.onClickRefinement { facet -> select(facet.value) }
+    view.onClickItem { facet -> select(facet.value) }
 }
 
 fun RefinementFacetsPresenter.connect(view: RefinementFacetsView) {
-    listeners += { view.setRefinements(it) }
+    onValuesChange += { view.setSelectableItems(it) }
 }

@@ -1,8 +1,7 @@
 package refinement
 
 import com.algolia.search.model.search.Facet
+import selection.SelectionListViewModel
 
 
-public class RefinementFacetsViewModel(
-    selectionMode: SelectionMode = SelectionMode.SingleChoice
-) : RefinementListViewModel<String, Facet>(selectionMode)
+typealias RefinementFacetsViewModel = SelectionListViewModel<String, Facet>

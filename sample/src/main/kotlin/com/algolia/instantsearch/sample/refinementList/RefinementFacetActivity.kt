@@ -16,6 +16,7 @@ import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
+import filter.FilterGroupID
 import filter.FilterState
 import filter.toFilterGroups
 import highlight
@@ -23,11 +24,11 @@ import kotlinx.android.synthetic.main.refinement_activity.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import refinement.*
-import search.GroupID
 import search.SearcherSingleIndex
+import selection.SelectionMode
 
 
-class RefinementListActivity : AppCompatActivity(), CoroutineScope {
+class RefinementFacetActivity : AppCompatActivity(), CoroutineScope {
 
     private val color = Attribute("color")
     private val promotion = Attribute("promotion")
@@ -51,7 +52,7 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
     private val index = client.initIndex(IndexName("mobile_demo_refinement"))
     private val filterState = FilterState(
         facets = mutableMapOf(
-            GroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
+            FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
         )
     )
     private val searcher = SearcherSingleIndex(index, query, filterState)
@@ -62,37 +63,37 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.refinement_activity)
 
-        val viewModelA = RefinementFacetsViewModel(SelectionMode.SingleChoice)
-        val viewA = RefinementListAdapter()
-        val presenterA = RefinementFacetsPresenter(listOf(SortCriterion.IsRefined, SortCriterion.AlphabeticalAsc), 5)
+        val viewModelA = RefinementFacetsViewModel(SelectionMode.Single)
+        val viewA = SelectionListAdapter()
+        val presenterA = RefinementFacetsPresenter(listOf(SortCriterion.IsRefined, SortCriterion.AlphabeticalAscending), 5)
 
-        viewModelA.connect(color, searcher, RefinementMode.And)
+        viewModelA.connect(color, searcher, RefinementOperator.And)
         viewModelA.connect(presenterA)
         viewModelA.connect(viewA)
         presenterA.connect(viewA)
 
-        val viewB = RefinementListAdapter()
-        val presenterB = RefinementFacetsPresenter(listOf(SortCriterion.AlphabeticalDesc), 3)
+        val viewB = SelectionListAdapter()
+        val presenterB = RefinementFacetsPresenter(listOf(SortCriterion.AlphabeticalDescending), 3)
 
-        viewModelA.connect(color, searcher, RefinementMode.And)
+        viewModelA.connect(color, searcher, RefinementOperator.And)
         viewModelA.connect(presenterB)
         viewModelA.connect(viewB)
         presenterB.connect(viewB)
 
-        val viewModelC = RefinementFacetsViewModel(SelectionMode.MultipleChoice)
-        val viewC = RefinementListAdapter()
-        val presenterC = RefinementFacetsPresenter(listOf(SortCriterion.CountDesc), 5)
+        val viewModelC = RefinementFacetsViewModel(SelectionMode.Multiple)
+        val viewC = SelectionListAdapter()
+        val presenterC = RefinementFacetsPresenter(listOf(SortCriterion.CountDescending), 5)
 
-        viewModelC.connect(promotion, searcher, RefinementMode.And)
+        viewModelC.connect(promotion, searcher, RefinementOperator.And)
         viewModelC.connect(presenterC)
         viewModelC.connect(viewC)
         presenterC.connect(viewC)
 
-        val viewModelD = RefinementFacetsViewModel(SelectionMode.MultipleChoice)
-        val viewD = RefinementListAdapter()
-        val presenterD = RefinementFacetsPresenter(listOf(SortCriterion.CountDesc, SortCriterion.AlphabeticalAsc), 5)
+        val viewModelD = RefinementFacetsViewModel(SelectionMode.Multiple)
+        val viewD = SelectionListAdapter()
+        val presenterD = RefinementFacetsPresenter(listOf(SortCriterion.CountDescending, SortCriterion.AlphabeticalAscending), 5)
 
-        viewModelD.connect(category, searcher, RefinementMode.Or)
+        viewModelD.connect(category, searcher, RefinementOperator.Or)
         viewModelD.connect(presenterD)
         viewModelD.connect(viewD)
         presenterD.connect(viewD)
@@ -101,12 +102,12 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
         configureRecyclerView(listB, viewB)
         configureRecyclerView(listC, viewC)
         configureRecyclerView(listD, viewD)
-        listATitle.text = formatTitle(presenterA, RefinementMode.And)
-        listBTitle.text = formatTitle(presenterB, RefinementMode.And)
-        listCTitle.text = formatTitle(presenterC, RefinementMode.And)
-        listDTitle.text = formatTitle(presenterD, RefinementMode.Or)
+        listATitle.text = formatTitle(presenterA, RefinementOperator.And)
+        listBTitle.text = formatTitle(presenterB, RefinementOperator.And)
+        listCTitle.text = formatTitle(presenterC, RefinementOperator.And)
+        listDTitle.text = formatTitle(presenterD, RefinementOperator.Or)
 
-        searcher.filterState.listeners += {
+        searcher.filterState.onStateChange += {
             filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
         }
 
@@ -133,7 +134,7 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
 
     private fun configureRecyclerView(
         recyclerView: View,
-        view: RefinementListAdapter
+        view: SelectionListAdapter
     ) {
         (recyclerView as RecyclerView).let {
             it.layoutManager = LinearLayoutManager(this)
@@ -145,15 +146,15 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
     private fun SortCriterion.format(): String {
         return when (this) {
             SortCriterion.IsRefined -> name
-            SortCriterion.CountAsc -> name
-            SortCriterion.CountDesc -> name
-            SortCriterion.AlphabeticalAsc -> "AlphaAsc"
-            SortCriterion.AlphabeticalDesc -> "Alphadesc"
+            SortCriterion.CountAscending -> name
+            SortCriterion.CountDescending -> name
+            SortCriterion.AlphabeticalAscending -> "AlphaAsc"
+            SortCriterion.AlphabeticalDescending -> "AlphaDesc"
         }
     }
 
-    private fun formatTitle(presenter: RefinementFacetsPresenter, refinementMode: RefinementMode): String {
-        val criteria = presenter.sortCriteria.joinToString("-") { it.format() }
+    private fun formatTitle(presenter: RefinementFacetsPresenter, refinementMode: RefinementOperator): String {
+        val criteria = presenter.sortBy.joinToString("-") { it.format() }
 
         return "$refinementMode, $criteria, l=${presenter.limit}"
     }

@@ -1,12 +1,12 @@
-package refinement
+package selection
 
 import shouldEqual
 import kotlin.test.Test
 
 
-class TestRefinementPresenter {
+class TestSelectionListPresenter {
 
-    private class MockRefinementListPresenter : RefinementListPresenter<String>() {
+    private class MockSelectionListPresenter : SelectionListPresenter<String>() {
 
         override val comparator = Comparator<SelectableItem<String>> { a, b ->
             b.first.compareTo(a.first)
@@ -23,18 +23,18 @@ class TestRefinementPresenter {
 
     @Test
     fun comparator() {
-        MockRefinementListPresenter().apply {
-            refinements = list
-            refinements shouldEqual list.sortedByDescending { it.first }
+        MockSelectionListPresenter().apply {
+            values = list
+            values shouldEqual list.sortedByDescending { it.first }
         }
     }
 
     @Test
     fun limit() {
-        MockRefinementListPresenter().apply {
-            refinements = list
+        MockSelectionListPresenter().apply {
+            values = list
             limit = 1
-            refinements shouldEqual listOf(list.last())
+            values shouldEqual listOf(list.last())
         }
     }
 }

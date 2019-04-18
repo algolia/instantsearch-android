@@ -24,11 +24,11 @@ public class SearcherSingleIndex(
     private val sequencer = Sequencer()
     override val coroutineContext = Job()
 
-    public val responseListeners = mutableListOf<(ResponseSearch) -> Unit>()
+    public val onResponseChange = mutableListOf<(ResponseSearch) -> Unit>()
 
     public var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
         if (newValue != null) {
-            responseListeners.forEach { it(newValue) }
+            onResponseChange.forEach { it(newValue) }
         }
     }
 

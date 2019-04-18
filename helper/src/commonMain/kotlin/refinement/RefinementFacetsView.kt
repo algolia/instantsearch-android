@@ -1,6 +1,7 @@
 package refinement
 
 import com.algolia.search.model.search.Facet
+import selection.SelectionListView
 
 
-public typealias RefinementFacetsView = RefinementListView<Facet>
+public typealias RefinementFacetsView = SelectionListView<Facet>

@@ -7,33 +7,33 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.sample.R
 import com.algolia.search.model.search.Facet
-import refinement.RefinementListView
-import refinement.SelectableItem
+import selection.SelectableItem
+import selection.SelectionListView
 
 
-class RefinementListAdapter :
-    ListAdapter<SelectableItem<Facet>, RefinementListViewHolder>(diffUtil),
-    RefinementListView<Facet> {
+class SelectionListAdapter :
+    ListAdapter<SelectableItem<Facet>, RefinementFacetViewHolder>(diffUtil),
+    SelectionListView<Facet> {
 
     private lateinit var onClick: (Facet) -> Unit
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RefinementListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RefinementFacetViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.refinement_item, parent, false)
 
-        return RefinementListViewHolder(view)
+        return RefinementFacetViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RefinementListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RefinementFacetViewHolder, position: Int) {
         val (facet, selected) = getItem(position)
 
         holder.bind(facet, selected, View.OnClickListener { onClick(facet) })
     }
 
-    override fun setRefinements(refinements: List<Pair<Facet, Boolean>>) {
-        submitList(refinements)
+    override fun setSelectableItems(selectableItems: List<SelectableItem<Facet>>) {
+        submitList(selectableItems)
     }
 
-    override fun onClickRefinement(onClick: (Facet) -> Unit) {
+    override fun onClickItem(onClick: (Facet) -> Unit) {
         this.onClick = onClick
     }
 

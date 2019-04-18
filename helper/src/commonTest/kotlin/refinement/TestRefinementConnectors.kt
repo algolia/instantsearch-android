@@ -10,6 +10,7 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterConverter
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
+import filter.FilterGroupID
 import filter.toFilter
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockHttpResponse
@@ -18,7 +19,6 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import kotlinx.coroutines.io.ByteReadChannel
 import kotlinx.serialization.json.Json
-import search.GroupID
 import search.SearcherSingleIndex
 import shouldBeEmpty
 import shouldEqual
@@ -60,17 +60,17 @@ class TestRefinementConnectors {
         blocking {
             val searcher = SearcherSingleIndex(mockIndex)
             val model = RefinementFacetsViewModel()
-            val selection = facets.first()
-            val selectedFilter = selection.toFilter(color)
+            val facet = facets.first()
+            val filter = facet.toFilter(color)
 
             model.connect(color, searcher)
             searcher.search().join()
             model.values.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
-            model.select(selection.value)
-            model.selections shouldEqual listOf(selection.value)
-            searcher.query.filters = FilterConverter.SQL(selectedFilter)
-            searcher.filterState.getFacets(GroupID.And(color.raw))!! shouldEqual setOf(selectedFilter)
+            model.select(facet.value)
+            model.selections shouldEqual listOf(facet.value)
+            searcher.query.filters = FilterConverter.SQL(filter)
+            searcher.filterState.getFacets(FilterGroupID.And(color.raw))!! shouldEqual setOf(filter)
         }
     }
 
@@ -79,15 +79,15 @@ class TestRefinementConnectors {
         blocking {
             val searcher = SearcherSingleIndex(mockIndex)
             val model = RefinementFacetsViewModel()
-            val selection = facets.first()
+            val facet = facets.first()
 
             model.connect(color, searcher)
             searcher.search().join()
             model.selections.shouldBeEmpty()
             searcher.filterState.notify {
-                add(GroupID.And(color.raw), selection.toFilter(color))
+                add(FilterGroupID.And(color.raw), facet.toFilter(color))
             }
-            model.selections shouldEqual listOf(selection.value)
+            model.selections shouldEqual listOf(facet.value)
         }
     }
 }

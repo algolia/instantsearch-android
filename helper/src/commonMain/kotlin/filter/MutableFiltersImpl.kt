@@ -1,21 +1,20 @@
 package filter
 
 import com.algolia.search.model.filter.Filter
-import search.GroupID
 
 
 internal class MutableFiltersImpl(
-    private val facets: MutableMap<GroupID, Set<Filter.Facet>> = mutableMapOf(),
-    private val tags: MutableMap<GroupID, Set<Filter.Tag>> = mutableMapOf(),
-    private val numerics: MutableMap<GroupID, Set<Filter.Numeric>> = mutableMapOf()
+    private val facets: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(),
+    private val tags: MutableMap<FilterGroupID, Set<Filter.Tag>> = mutableMapOf(),
+    private val numerics: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf()
 ) : MutableFilters, Filters by FiltersImpl(facets, tags, numerics) {
 
-    private fun <T : Filter> Map<GroupID, Set<T>>.getOrDefault(groupID: GroupID): Set<T> {
+    private fun <T : Filter> Map<FilterGroupID, Set<T>>.getOrDefault(groupID: FilterGroupID): Set<T> {
         return getOrElse(groupID, { setOf() })
     }
 
-    private fun <T : Filter> MutableMap<GroupID, Set<T>>.modify(
-        groupID: GroupID,
+    private fun <T : Filter> MutableMap<FilterGroupID, Set<T>>.modify(
+        groupID: FilterGroupID,
         filter: T,
         operator: Set<T>.(T) -> Set<T>
     ) {
@@ -24,19 +23,19 @@ internal class MutableFiltersImpl(
         if (set.isNotEmpty()) this[groupID] = set else remove(groupID)
     }
 
-    private fun <T : Filter> MutableMap<GroupID, Set<T>>.add(groupID: GroupID, filter: T) {
+    private fun <T : Filter> MutableMap<FilterGroupID, Set<T>>.add(groupID: FilterGroupID, filter: T) {
         modify(groupID, filter, { plus(it) })
     }
 
-    private fun <T : Filter> MutableMap<GroupID, Set<T>>.remove(groupID: GroupID, filter: T) {
+    private fun <T : Filter> MutableMap<FilterGroupID, Set<T>>.remove(groupID: FilterGroupID, filter: T) {
         modify(groupID, filter, { minus(it) })
     }
 
-    private fun <T : Filter> MutableMap<GroupID, Set<T>>.clear(groupID: GroupID) {
+    private fun <T : Filter> MutableMap<FilterGroupID, Set<T>>.clear(groupID: FilterGroupID) {
         remove(groupID)
     }
 
-    override fun <T : Filter> add(groupID: GroupID, vararg filters: T) {
+    override fun <T : Filter> add(groupID: FilterGroupID, vararg filters: T) {
         filters.forEach { filter ->
             when (filter) {
                 is Filter.Facet -> facets.add(groupID, filter)
@@ -46,7 +45,7 @@ internal class MutableFiltersImpl(
         }
     }
 
-    override fun <T : Filter> remove(groupID: GroupID, vararg filters: T) {
+    override fun <T : Filter> remove(groupID: FilterGroupID, vararg filters: T) {
         filters.forEach { filter ->
             when (filter) {
                 is Filter.Facet -> facets.remove(groupID, filter)
@@ -56,11 +55,11 @@ internal class MutableFiltersImpl(
         }
     }
 
-    override fun <T : Filter> toggle(groupID: GroupID, filter: T) {
+    override fun <T : Filter> toggle(groupID: FilterGroupID, filter: T) {
         if (contains(groupID, filter)) remove(groupID, filter) else add(groupID, filter)
     }
 
-    override fun clear(groupID: GroupID?) {
+    override fun clear(groupID: FilterGroupID?) {
         if (groupID != null) {
             facets.clear(groupID)
             numerics.clear(groupID)
