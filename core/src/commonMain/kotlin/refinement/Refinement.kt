@@ -1,4 +1,4 @@
 package refinement
 
 
-public typealias SelectedRefinement<T> = Pair<T, Boolean>
+public typealias SelectableItem<T> = Pair<T, Boolean>

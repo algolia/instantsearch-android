@@ -8,7 +8,7 @@ class TestRefinementPresenter {
 
     private class MockRefinementListPresenter : RefinementListPresenter<String>() {
 
-        override val comparator = Comparator<SelectedRefinement<String>> { a, b ->
+        override val comparator = Comparator<SelectableItem<String>> { a, b ->
             b.first.compareTo(a.first)
         }
     }

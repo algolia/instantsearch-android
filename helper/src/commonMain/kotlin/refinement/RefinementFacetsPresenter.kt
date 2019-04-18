@@ -14,7 +14,7 @@ public class RefinementFacetsPresenter(
         refinements = refinements
     }
 
-    override val comparator = Comparator<SelectedRefinement<Facet>> { (facetA, isSelectedA), (facetB, isSelectedB) ->
+    override val comparator = Comparator<SelectableItem<Facet>> { (facetA, isSelectedA), (facetB, isSelectedB) ->
         sortCriteria.asSequence().distinct().map {
             when (it) {
                 CountAsc -> facetA.count.compareTo(facetB.count)

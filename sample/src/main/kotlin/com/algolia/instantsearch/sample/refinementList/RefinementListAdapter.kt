@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.sample.R
 import com.algolia.search.model.search.Facet
 import refinement.RefinementListView
-import refinement.SelectedRefinement
+import refinement.SelectableItem
 
 
 class RefinementListAdapter :
-    ListAdapter<SelectedRefinement<Facet>, RefinementListViewHolder>(diffUtil),
+    ListAdapter<SelectableItem<Facet>, RefinementListViewHolder>(diffUtil),
     RefinementListView<Facet> {
 
     private lateinit var onClick: (Facet) -> Unit
@@ -39,18 +39,18 @@ class RefinementListAdapter :
 
     companion object {
 
-        private val diffUtil = object : DiffUtil.ItemCallback<SelectedRefinement<Facet>>() {
+        private val diffUtil = object : DiffUtil.ItemCallback<SelectableItem<Facet>>() {
 
             override fun areItemsTheSame(
-                oldItem: SelectedRefinement<Facet>,
-                newItem: SelectedRefinement<Facet>
+                oldItem: SelectableItem<Facet>,
+                newItem: SelectableItem<Facet>
             ): Boolean {
                 return oldItem::class == newItem::class
             }
 
             override fun areContentsTheSame(
-                oldItem: SelectedRefinement<Facet>,
-                newItem: SelectedRefinement<Facet>
+                oldItem: SelectableItem<Facet>,
+                newItem: SelectableItem<Facet>
             ): Boolean {
                 return oldItem == newItem
             }
