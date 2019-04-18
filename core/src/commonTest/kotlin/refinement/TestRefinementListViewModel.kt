@@ -22,7 +22,7 @@ class TestRefinementListViewModel {
     @Test
     fun singleChoice() {
         MockRefinementListViewModel(SelectionMode.SingleChoice).apply {
-            refinements = listOf(
+            values = listOf(
                 refinementA,
                 refinementB
             )
@@ -39,7 +39,7 @@ class TestRefinementListViewModel {
     @Test
     fun multipleChoice() {
         MockRefinementListViewModel(SelectionMode.MultipleChoice).apply {
-            refinements = listOf(
+            values = listOf(
                 refinementA,
                 refinementB
             )
@@ -57,7 +57,7 @@ class TestRefinementListViewModel {
     fun persistentSelectionOff() {
         MockRefinementListViewModel(SelectionMode.SingleChoice).apply {
             persistentSelection = false
-            refinements = listOf(
+            values = listOf(
                 refinementA,
                 refinementB,
                 refinementC
@@ -65,7 +65,7 @@ class TestRefinementListViewModel {
             selectedListeners += { selections = it }
             select(refinementC)
             selections shouldEqual listOf(refinementC)
-            refinements = listOf(
+            values = listOf(
                 refinementA,
                 refinementB
             )
@@ -78,14 +78,14 @@ class TestRefinementListViewModel {
         MockRefinementListViewModel(SelectionMode.SingleChoice).apply {
             selectedListeners += { selections = it }
             persistentSelection = true
-            refinements = listOf(
+            values = listOf(
                 refinementA,
                 refinementB,
                 refinementC
             )
             select(refinementC)
             selections shouldEqual listOf(refinementC)
-            refinements = listOf(
+            values = listOf(
                 refinementA,
                 refinementB
             )

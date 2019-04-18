@@ -28,7 +28,7 @@ public fun RefinementFacetsViewModel.connect(
     filterStateListener(searcher.filterState)
     searcher.filterState.listeners += filterStateListener
     searcher.responseListeners += { response ->
-        refinements = response.facetsOrNull.orEmpty()[attribute].orEmpty()
+        values = response.facetsOrNull.orEmpty()[attribute].orEmpty()
     }
     selectedListeners += { selections ->
         val filters = selections.map { Filter.Facet(attribute, it) }.toSet()
@@ -45,7 +45,7 @@ fun RefinementFacetsViewModel.connect(presenter: RefinementFacetsPresenter) {
         presenter.refinements = refinements.map { it to selections.contains(it.value) }
     }
     selectionsListeners += { selections ->
-        presenter.refinements = refinements.map { it to selections.contains(it.value) }
+        presenter.refinements = values.map { it to selections.contains(it.value) }
     }
 }
 
