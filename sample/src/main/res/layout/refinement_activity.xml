@@ -18,6 +18,8 @@
             android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -51,6 +53,24 @@
                     android:minLines="4"
                     tools:text="@tools:sample/lorem/random"
                     android:textAppearance="?attr/textAppearanceBody2"/>
+
+            <ImageView
+                    android:id="@+id/filtersClearAll"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="Clear all"
+                    android:src="@drawable/ic_delete"
+                    app:layout_constraintVertical_bias="0"
+                    android:layout_marginEnd="8dp"
+                    android:padding="8dp"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

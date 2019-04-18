@@ -109,6 +109,12 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
         searcher.filterState.listeners += {
             filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
         }
+
+        filtersClearAll.setOnClickListener {
+            searcher.filterState.notify {
+                clear()
+            }
+        }
         filtersTextView.text = searcher.filterState.toFilterGroups().highlight(colors = colors)
         searcher.search()
     }

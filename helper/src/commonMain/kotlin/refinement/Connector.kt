@@ -22,6 +22,7 @@ public fun RefinementFacetsViewModel.connect(
     }
     val filterStateListener: (Filters) -> Unit = { state ->
         selections = state.getFacets(groupID).orEmpty().map { it.value.raw as String }
+        searcher.search()
     }
 
     filterStateListener(searcher.filterState)
@@ -36,7 +37,6 @@ public fun RefinementFacetsViewModel.connect(
             clear(groupID)
             add(groupID, filters)
         }
-        searcher.search()
     }
 }
 
