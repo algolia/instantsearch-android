@@ -7,6 +7,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.sample.R
+import com.algolia.search.client.ClientSearch
+import com.algolia.search.configuration.ConfigurationSearch
+import com.algolia.search.dsl.facets
+import com.algolia.search.dsl.query
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import filter.FilterState
@@ -22,15 +29,32 @@ import search.SearcherSingleIndex
 
 class RefinementListActivity : AppCompatActivity(), CoroutineScope {
 
+    private val color = Attribute("color")
+    private val promotion = Attribute("promotion")
+    private val category = Attribute("category")
 
-    private val configuration = RefinementListConfiguration()
-    private val index = configuration.client.initIndex(IndexName("mobile_demo_refinement"))
-    private val filterState = FilterState(
-        facets = mutableMapOf(
-            GroupID.And(configuration.color.raw) to setOf(Filter.Facet(configuration.color, "green"))
+    private val query = query {
+        facets {
+            +color
+            +promotion
+            +category
+        }
+    }
+
+    private val client = ClientSearch(
+        ConfigurationSearch(
+            ApplicationID("latency"),
+            APIKey("03cd233a16e1f5e874ddaff30504bb5a")
         )
     )
-    private val searcher = SearcherSingleIndex(index, configuration.query, filterState)
+
+    private val index = client.initIndex(IndexName("mobile_demo_refinement"))
+    private val filterState = FilterState(
+        facets = mutableMapOf(
+            GroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
+        )
+    )
+    private val searcher = SearcherSingleIndex(index, query, filterState)
 
     override val coroutineContext = Job()
 
@@ -42,7 +66,7 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
         val viewA = RefinementListAdapter()
         val presenterA = RefinementFacetsPresenter(listOf(SortCriterion.IsRefined, SortCriterion.AlphabeticalAsc), 5)
 
-        viewModelA.connect(configuration.color, searcher, RefinementMode.And)
+        viewModelA.connect(color, searcher, RefinementMode.And)
         viewModelA.connect(presenterA)
         viewModelA.connect(viewA)
         presenterA.connect(viewA)
@@ -50,7 +74,7 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
         val viewB = RefinementListAdapter()
         val presenterB = RefinementFacetsPresenter(listOf(SortCriterion.AlphabeticalDesc), 3)
 
-        viewModelA.connect(configuration.color, searcher, RefinementMode.And)
+        viewModelA.connect(color, searcher, RefinementMode.And)
         viewModelA.connect(presenterB)
         viewModelA.connect(viewB)
         presenterB.connect(viewB)
@@ -59,7 +83,7 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
         val viewC = RefinementListAdapter()
         val presenterC = RefinementFacetsPresenter(listOf(SortCriterion.CountDesc), 5)
 
-        viewModelC.connect(configuration.promotion, searcher, RefinementMode.And)
+        viewModelC.connect(promotion, searcher, RefinementMode.And)
         viewModelC.connect(presenterC)
         viewModelC.connect(viewC)
         presenterC.connect(viewC)
@@ -68,7 +92,7 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
         val viewD = RefinementListAdapter()
         val presenterD = RefinementFacetsPresenter(listOf(SortCriterion.CountDesc, SortCriterion.AlphabeticalAsc), 5)
 
-        viewModelD.connect(configuration.category, searcher, RefinementMode.Or)
+        viewModelD.connect(category, searcher, RefinementMode.Or)
         viewModelD.connect(presenterD)
         viewModelD.connect(viewD)
         presenterD.connect(viewD)
@@ -96,9 +120,9 @@ class RefinementListActivity : AppCompatActivity(), CoroutineScope {
 
     private val colors
         get() = mapOf(
-            configuration.color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
-            configuration.promotion.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
-            configuration.category.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
+            color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
+            promotion.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
+            category.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
         )
 
     private fun configureRecyclerView(
