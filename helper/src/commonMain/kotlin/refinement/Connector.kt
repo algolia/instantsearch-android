@@ -31,7 +31,7 @@ public fun RefinementFacetsViewModel.connect(
     searcher.onResponseChange += { response ->
         items = response.facetsOrNull.orEmpty()[attribute].orEmpty()
     }
-    onSelectedChanged += { selections ->
+    onSelectionsComputed += { selections ->
         val filters = selections.map { Filter.Facet(attribute, it) }.toSet()
 
         searcher.filterState.notify {

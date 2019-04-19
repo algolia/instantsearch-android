@@ -13,7 +13,7 @@ class TestSelectionListViewModel {
     fun singleChoice() {
         SelectionListViewModel<String, String>(SelectionMode.Single).apply {
             items = listOf(valueA, valueB)
-            onSelectedChanged += { selections = it }
+            onSelectionsComputed += { selections = it }
             select(valueA)
             selections shouldEqual setOf(valueA)
             select(valueB)
@@ -27,7 +27,7 @@ class TestSelectionListViewModel {
     fun multipleChoice() {
         SelectionListViewModel<String, String>(SelectionMode.Multiple).apply {
             items = listOf(valueA, valueB)
-            onSelectedChanged += { selections = it }
+            onSelectionsComputed += { selections = it }
             select(valueA)
             selections shouldEqual setOf(valueA)
             select(valueB)
