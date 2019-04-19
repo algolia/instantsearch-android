@@ -2,12 +2,14 @@ package refinement
 
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
+import com.algolia.search.model.search.Facet
 import filter.FilterGroupID
 import filter.Filters
 import filter.add
 import refinement.RefinementOperator.And
 import refinement.RefinementOperator.Or
 import search.SearcherSingleIndex
+import selection.SelectableItem
 
 
 public fun RefinementFacetsViewModel.connect(
@@ -40,19 +42,19 @@ public fun RefinementFacetsViewModel.connect(
     }
 }
 
-fun RefinementFacetsViewModel.connect(presenter: RefinementFacetsPresenter) {
-    onValuesChange += { facets ->
-        presenter.values = facets.map { it to selections.contains(it.value) }
-    }
-    onSelectionsChange += { selections ->
-        presenter.values = values.map { it to selections.contains(it.value) }
-    }
-}
+fun RefinementFacetsViewModel.connect(
+    view: RefinementFacetsView,
+    transform: ((List<SelectableItem<Facet>>) -> List<SelectableItem<Facet>>)? = null
+) {
 
-fun RefinementFacetsViewModel.connect(view: RefinementFacetsView) {
+    fun compute(facets: List<Facet>, selections: Set<String>) {
+        val selectableItems = facets.map { it to selections.contains(it.value) }
+
+        view.setSelectableItems(transform?.invoke(selectableItems) ?: selectableItems)
+    }
+
     view.onClickItem { facet -> select(facet.value) }
-}
-
-fun RefinementFacetsPresenter.connect(view: RefinementFacetsView) {
-    onValuesChange += { view.setSelectableItems(it) }
+    compute(values, selections)
+    onValuesChange += { facets -> compute(facets, selections) }
+    onSelectionsChange += { selections -> compute(values, selections) }
 }

@@ -18,8 +18,7 @@ class TestRefinementPresenterFacets {
     @Test
     fun alphaAsc() {
         RefinementFacetsPresenter(listOf(SortCriterion.AlphabeticalAscending)).apply {
-            values = facets
-            values shouldEqual listOf(
+            invoke(facets) shouldEqual listOf(
                 Facet("a", 4) to false,
                 Facet("b", 3) to true,
                 Facet("c", 0) to false,
@@ -32,8 +31,7 @@ class TestRefinementPresenterFacets {
     @Test
     fun alphaDesc() {
         RefinementFacetsPresenter(listOf(SortCriterion.AlphabeticalDescending)).apply {
-            values = facets
-            values shouldEqual listOf(
+            invoke(facets) shouldEqual listOf(
                 Facet("e", 3) to false,
                 Facet("d", 1) to true,
                 Facet("c", 0) to false,
@@ -46,8 +44,7 @@ class TestRefinementPresenterFacets {
     @Test
     fun countAsc() {
         RefinementFacetsPresenter(listOf(SortCriterion.CountAscending)).apply {
-            values = facets
-            values shouldEqual listOf(
+            invoke(facets) shouldEqual listOf(
                 Facet("c", 0) to false,
                 Facet("d", 1) to true,
                 Facet("e", 3) to false,
@@ -60,8 +57,7 @@ class TestRefinementPresenterFacets {
     @Test
     fun countDesc() {
         RefinementFacetsPresenter(listOf(SortCriterion.CountDescending)).apply {
-            values = facets
-            values shouldEqual listOf(
+            invoke(facets) shouldEqual listOf(
                 Facet("a", 4) to false,
                 Facet("e", 3) to false,
                 Facet("b", 3) to true,
@@ -74,8 +70,7 @@ class TestRefinementPresenterFacets {
     @Test
     fun isRefined() {
         RefinementFacetsPresenter(listOf(SortCriterion.IsRefined)).apply {
-            values = facets
-            values shouldEqual listOf(
+            invoke(facets) shouldEqual listOf(
                 Facet("d", 1) to true,
                 Facet("b", 3) to true,
                 Facet("c", 0) to false,
@@ -88,8 +83,7 @@ class TestRefinementPresenterFacets {
     @Test
     fun isRefinedThenAlphaAsc() {
         RefinementFacetsPresenter(listOf(SortCriterion.IsRefined, SortCriterion.AlphabeticalAscending)).apply {
-            values = facets
-            values shouldEqual listOf(
+            invoke(facets) shouldEqual listOf(
                 Facet("b", 3) to true,
                 Facet("d", 1) to true,
                 Facet("a", 4) to false,
@@ -102,8 +96,7 @@ class TestRefinementPresenterFacets {
     @Test
     fun countDescThenIsRefined() {
         RefinementFacetsPresenter(listOf(SortCriterion.CountDescending, SortCriterion.IsRefined)).apply {
-            values = facets
-            values shouldEqual listOf(
+            invoke(facets) shouldEqual listOf(
                 Facet("a", 4) to false,
                 Facet("b", 3) to true,
                 Facet("e", 3) to false,
@@ -116,8 +109,7 @@ class TestRefinementPresenterFacets {
     @Test
     fun firstAlphaIsFinal() {
         RefinementFacetsPresenter(listOf(SortCriterion.AlphabeticalAscending, SortCriterion.AlphabeticalDescending)).apply {
-            values = facets
-            values shouldEqual listOf(
+            invoke(facets) shouldEqual listOf(
                 Facet("a", 4) to false,
                 Facet("b", 3) to true,
                 Facet("c", 0) to false,

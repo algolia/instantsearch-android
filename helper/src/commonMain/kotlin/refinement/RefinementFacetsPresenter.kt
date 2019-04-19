@@ -3,20 +3,14 @@ package refinement
 import com.algolia.search.model.search.Facet
 import refinement.SortCriterion.*
 import selection.SelectableItem
-import selection.SelectionListPresenter
-import kotlin.properties.Delegates
 
 
-public class RefinementFacetsPresenter(
-    sortBy: List<SortCriterion> = listOf(CountDescending),
-    limit: Int = 10
-) : SelectionListPresenter<Facet>(limit) {
+class RefinementFacetsPresenter(
+    val sortBy: List<SortCriterion> = listOf(CountDescending),
+    val limit: Int = 5
+) : (List<SelectableItem<Facet>>) -> (List<SelectableItem<Facet>>) {
 
-    public var sortBy by Delegates.observable(sortBy) { _, _, _ ->
-        values = computeValues(values)
-    }
-
-    override val comparator = Comparator<SelectableItem<Facet>> { (facetA, isSelectedA), (facetB, isSelectedB) ->
+    private val comparator = Comparator<SelectableItem<Facet>> { (facetA, isSelectedA), (facetB, isSelectedB) ->
         sortBy.asSequence().distinct().map {
             when (it) {
                 CountAscending -> facetA.count.compareTo(facetB.count)
@@ -26,5 +20,9 @@ public class RefinementFacetsPresenter(
                 IsRefined -> isSelectedB.compareTo(isSelectedA)
             }
         }.firstOrNull { it != 0 } ?: 0
+    }
+
+    override fun invoke(selectableItems: List<SelectableItem<Facet>>): List<SelectableItem<Facet>> {
+        return selectableItems.sortedWith(comparator).take(limit)
     }
 }

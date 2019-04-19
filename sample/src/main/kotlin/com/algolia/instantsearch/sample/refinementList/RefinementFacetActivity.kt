@@ -64,35 +64,27 @@ class RefinementFacetActivity : AppCompatActivity() {
         val presenterA = RefinementFacetsPresenter(listOf(SortCriterion.IsRefined, SortCriterion.AlphabeticalAscending), 5)
 
         viewModelA.connect(color, searcher, RefinementOperator.And)
-        viewModelA.connect(presenterA)
-        viewModelA.connect(viewA)
-        presenterA.connect(viewA)
+        viewModelA.connect(viewA, presenterA)
 
         val viewB = SelectionListAdapter()
         val presenterB = RefinementFacetsPresenter(listOf(SortCriterion.AlphabeticalDescending), 3)
 
         viewModelA.connect(color, searcher, RefinementOperator.And)
-        viewModelA.connect(presenterB)
-        viewModelA.connect(viewB)
-        presenterB.connect(viewB)
+        viewModelA.connect(viewB, presenterB)
 
         val viewModelC = RefinementFacetsViewModel(SelectionMode.Multiple)
         val viewC = SelectionListAdapter()
         val presenterC = RefinementFacetsPresenter(listOf(SortCriterion.CountDescending), 5)
 
         viewModelC.connect(promotion, searcher, RefinementOperator.And)
-        viewModelC.connect(presenterC)
-        viewModelC.connect(viewC)
-        presenterC.connect(viewC)
+        viewModelC.connect(viewC, presenterC)
 
         val viewModelD = RefinementFacetsViewModel(SelectionMode.Multiple)
         val viewD = SelectionListAdapter()
         val presenterD = RefinementFacetsPresenter(listOf(SortCriterion.CountDescending, SortCriterion.AlphabeticalAscending), 5)
 
         viewModelD.connect(category, searcher, RefinementOperator.Or)
-        viewModelD.connect(presenterD)
-        viewModelD.connect(viewD)
-        presenterD.connect(viewD)
+        viewModelD.connect(viewD, presenterD)
 
         configureRecyclerView(listA, viewA)
         configureRecyclerView(listB, viewB)
