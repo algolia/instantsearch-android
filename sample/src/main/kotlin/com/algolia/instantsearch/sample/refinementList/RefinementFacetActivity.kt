@@ -21,14 +21,12 @@ import filter.FilterState
 import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.refinement_activity.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import refinement.*
 import search.SearcherSingleIndex
 import selection.SelectionMode
 
 
-class RefinementFacetActivity : AppCompatActivity(), CoroutineScope {
+class RefinementFacetActivity : AppCompatActivity() {
 
     private val color = Attribute("color")
     private val promotion = Attribute("promotion")
@@ -56,8 +54,6 @@ class RefinementFacetActivity : AppCompatActivity(), CoroutineScope {
         )
     )
     private val searcher = SearcherSingleIndex(index, query, filterState)
-
-    override val coroutineContext = Job()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
