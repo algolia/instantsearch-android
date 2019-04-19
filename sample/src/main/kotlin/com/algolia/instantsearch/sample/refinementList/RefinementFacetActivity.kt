@@ -95,7 +95,7 @@ class RefinementFacetActivity : AppCompatActivity() {
         listCTitle.text = formatTitle(presenterC, RefinementOperator.And)
         listDTitle.text = formatTitle(presenterD, RefinementOperator.Or)
 
-        searcher.filterState.onStateChange += {
+        searcher.filterState.onStateChanged += {
             filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
         }
 

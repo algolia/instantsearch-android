@@ -1,16 +1,14 @@
 package refinement
 
-import com.algolia.search.model.search.Facet
 import refinement.SortCriterion.*
-import selection.SelectableItem
 
 
 class RefinementFacetsPresenter(
     val sortBy: List<SortCriterion> = listOf(CountDescending),
     val limit: Int = 5
-) : (List<SelectableItem<Facet>>) -> (List<SelectableItem<Facet>>) {
+) : (List<RefinementFacet>) -> (List<RefinementFacet>) {
 
-    private val comparator = Comparator<SelectableItem<Facet>> { (facetA, isSelectedA), (facetB, isSelectedB) ->
+    private val comparator = Comparator<RefinementFacet> { (facetA, isSelectedA), (facetB, isSelectedB) ->
         sortBy.asSequence().distinct().map {
             when (it) {
                 CountAscending -> facetA.count.compareTo(facetB.count)
@@ -22,7 +20,7 @@ class RefinementFacetsPresenter(
         }.firstOrNull { it != 0 } ?: 0
     }
 
-    override fun invoke(selectableItems: List<SelectableItem<Facet>>): List<SelectableItem<Facet>> {
+    override fun invoke(selectableItems: List<RefinementFacet>): List<RefinementFacet> {
         return selectableItems.sortedWith(comparator).take(limit)
     }
 }

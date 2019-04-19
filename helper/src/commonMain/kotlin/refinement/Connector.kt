@@ -9,7 +9,6 @@ import filter.add
 import refinement.RefinementOperator.And
 import refinement.RefinementOperator.Or
 import search.SearcherSingleIndex
-import selection.SelectableItem
 
 
 public fun RefinementFacetsViewModel.connect(
@@ -28,11 +27,11 @@ public fun RefinementFacetsViewModel.connect(
     }
 
     onFilterStateChange(searcher.filterState)
-    searcher.filterState.onStateChange += onFilterStateChange
+    searcher.filterState.onStateChanged += onFilterStateChange
     searcher.onResponseChange += { response ->
         values = response.facetsOrNull.orEmpty()[attribute].orEmpty()
     }
-    onSelectedChange += { selections ->
+    onSelectedChanged += { selections ->
         val filters = selections.map { Filter.Facet(attribute, it) }.toSet()
 
         searcher.filterState.notify {
@@ -44,7 +43,7 @@ public fun RefinementFacetsViewModel.connect(
 
 fun RefinementFacetsViewModel.connect(
     view: RefinementFacetsView,
-    transform: ((List<SelectableItem<Facet>>) -> List<SelectableItem<Facet>>)? = null
+    transform: ((List<RefinementFacet>) -> List<RefinementFacet>)? = null
 ) {
 
     fun compute(facets: List<Facet>, selections: Set<String>) {
@@ -55,6 +54,6 @@ fun RefinementFacetsViewModel.connect(
 
     view.onClickItem { facet -> select(facet.value) }
     compute(values, selections)
-    onValuesChange += { facets -> compute(facets, selections) }
-    onSelectionsChange += { selections -> compute(values, selections) }
+    onValuesChanged += { facets -> compute(facets, selections) }
+    onSelectionsChanged += { selections -> compute(values, selections) }
 }

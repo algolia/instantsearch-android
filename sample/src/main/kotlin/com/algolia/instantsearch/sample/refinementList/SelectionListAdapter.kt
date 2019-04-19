@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.sample.R
 import com.algolia.search.model.search.Facet
-import selection.SelectableItem
+import refinement.RefinementFacet
 import selection.SelectionListView
 
 
 class SelectionListAdapter :
-    ListAdapter<SelectableItem<Facet>, RefinementFacetViewHolder>(diffUtil),
+    ListAdapter<RefinementFacet, RefinementFacetViewHolder>(diffUtil),
     SelectionListView<Facet> {
 
     private lateinit var onClick: (Facet) -> Unit
@@ -29,7 +29,7 @@ class SelectionListAdapter :
         holder.bind(facet, selected, View.OnClickListener { onClick(facet) })
     }
 
-    override fun setSelectableItems(selectableItems: List<SelectableItem<Facet>>) {
+    override fun setSelectableItems(selectableItems: List<RefinementFacet>) {
         submitList(selectableItems)
     }
 
@@ -39,18 +39,18 @@ class SelectionListAdapter :
 
     companion object {
 
-        private val diffUtil = object : DiffUtil.ItemCallback<SelectableItem<Facet>>() {
+        private val diffUtil = object : DiffUtil.ItemCallback<RefinementFacet>() {
 
             override fun areItemsTheSame(
-                oldItem: SelectableItem<Facet>,
-                newItem: SelectableItem<Facet>
+                oldItem: RefinementFacet,
+                newItem: RefinementFacet
             ): Boolean {
                 return oldItem::class == newItem::class
             }
 
             override fun areContentsTheSame(
-                oldItem: SelectableItem<Facet>,
-                newItem: SelectableItem<Facet>
+                oldItem: RefinementFacet,
+                newItem: RefinementFacet
             ): Boolean {
                 return oldItem == newItem
             }
