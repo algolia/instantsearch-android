@@ -29,7 +29,7 @@ public fun RefinementFacetsViewModel.connect(
     onFilterStateChange(searcher.filterState)
     searcher.filterState.onStateChanged += onFilterStateChange
     searcher.onResponseChange += { response ->
-        values = response.facetsOrNull.orEmpty()[attribute].orEmpty()
+        items = response.facetsOrNull.orEmpty()[attribute].orEmpty()
     }
     onSelectedChanged += { selections ->
         val filters = selections.map { Filter.Facet(attribute, it) }.toSet()
@@ -53,7 +53,7 @@ fun RefinementFacetsViewModel.connect(
     }
 
     view.onClickItem { facet -> select(facet.value) }
-    compute(values, selections)
+    compute(items, selections)
     onValuesChanged += { facets -> compute(facets, selections) }
-    onSelectionsChanged += { selections -> compute(values, selections) }
+    onSelectionsChanged += { selections -> compute(items, selections) }
 }

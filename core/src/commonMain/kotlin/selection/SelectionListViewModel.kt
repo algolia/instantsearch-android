@@ -13,7 +13,7 @@ public class SelectionListViewModel<K, V>(
     public val onSelectionsChanged: MutableList<(Set<K>) -> Unit> = mutableListOf()
     public val onSelectedChanged: MutableList<(Set<K>) -> Unit> = mutableListOf()
 
-    public var values: List<V> by Delegates.observable(listOf()) { _, oldValue, newValue ->
+    public var items: List<V> by Delegates.observable(listOf()) { _, oldValue, newValue ->
         if (newValue != oldValue) {
             onValuesChanged.forEach { it(newValue) }
         }

@@ -65,7 +65,7 @@ class TestRefinementConnectors {
 
             model.connect(color, searcher)
             searcher.search().join()
-            model.values.toSet() shouldEqual facets.toSet()
+            model.items.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
             model.select(facet.value)
             model.selections shouldEqual setOf(facet.value)
