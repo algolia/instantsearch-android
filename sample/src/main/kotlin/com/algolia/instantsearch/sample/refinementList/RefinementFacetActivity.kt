@@ -134,8 +134,8 @@ class RefinementFacetActivity : AppCompatActivity() {
     private fun SortCriterion.format(): String {
         return when (this) {
             SortCriterion.IsRefined -> name
-            SortCriterion.CountAscending -> name
-            SortCriterion.CountDescending -> name
+            SortCriterion.CountAscending -> "CountAsc"
+            SortCriterion.CountDescending -> "CountDesc"
             SortCriterion.AlphabeticalAscending -> "AlphaAsc"
             SortCriterion.AlphabeticalDescending -> "AlphaDesc"
         }
