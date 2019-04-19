@@ -1,7 +1,7 @@
 package refinement
 
 
-public enum class SortCriterion {
+public enum class FacetSortCriterion {
     IsRefined,
     CountAscending,
     CountDescending,

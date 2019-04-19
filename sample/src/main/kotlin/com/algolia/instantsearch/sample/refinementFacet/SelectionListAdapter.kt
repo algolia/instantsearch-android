@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.refinementList
+package com.algolia.instantsearch.sample.refinementFacet
 
 import android.view.LayoutInflater
 import android.view.View

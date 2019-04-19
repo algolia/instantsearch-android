@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.refinementList
+package com.algolia.instantsearch.sample.refinementFacet
 
 import android.os.Bundle
 import android.view.View
