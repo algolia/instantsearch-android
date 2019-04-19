@@ -68,7 +68,7 @@ class TestRefinementConnectors {
             model.values.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
             model.select(facet.value)
-            model.selections shouldEqual listOf(facet.value)
+            model.selections shouldEqual setOf(facet.value)
             searcher.query.filters = FilterConverter.SQL(filter)
             searcher.filterState.getFacets(FilterGroupID.And(color.raw))!! shouldEqual setOf(filter)
         }
@@ -87,7 +87,7 @@ class TestRefinementConnectors {
             searcher.filterState.notify {
                 add(FilterGroupID.And(color.raw), facet.toFilter(color))
             }
-            model.selections shouldEqual listOf(facet.value)
+            model.selections shouldEqual setOf(facet.value)
         }
     }
 }

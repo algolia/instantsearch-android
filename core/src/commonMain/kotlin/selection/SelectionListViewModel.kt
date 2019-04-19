@@ -10,15 +10,15 @@ public class SelectionListViewModel<K, V>(
 ) {
 
     public val onValuesChange: MutableList<(List<V>) -> Unit> = mutableListOf()
-    public val onSelectionsChange: MutableList<(List<K>) -> Unit> = mutableListOf()
-    public val onSelectedChange: MutableList<(List<K>) -> Unit> = mutableListOf()
+    public val onSelectionsChange: MutableList<(Set<K>) -> Unit> = mutableListOf()
+    public val onSelectedChange: MutableList<(Set<K>) -> Unit> = mutableListOf()
 
     public var values: List<V> by Delegates.observable(listOf()) { _, oldValue, newValue ->
         if (newValue != oldValue) {
             onValuesChange.forEach { it(newValue) }
         }
     }
-    public var selections by Delegates.observable(listOf<K>()) { _, oldValue, newValue ->
+    public var selections by Delegates.observable(setOf<K>()) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             onSelectionsChange.forEach { it(newValue) }
         }
@@ -26,7 +26,7 @@ public class SelectionListViewModel<K, V>(
 
     public fun select(key: K) {
         val selections = when (selectionMode) {
-            Single -> if (key in selections) listOf() else listOf(key)
+            Single -> if (key in selections) setOf() else setOf(key)
             Multiple -> if (key in selections) selections - key else selections + key
         }
 

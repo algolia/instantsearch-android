@@ -15,11 +15,11 @@ class TestSelectionListViewModel {
             values = listOf(valueA, valueB)
             onSelectedChange += { selections = it }
             select(valueA)
-            selections shouldEqual listOf(valueA)
+            selections shouldEqual setOf(valueA)
             select(valueB)
-            selections shouldEqual listOf(valueB)
+            selections shouldEqual setOf(valueB)
             select(valueB)
-            selections shouldEqual listOf()
+            selections shouldEqual setOf()
         }
     }
 
@@ -29,11 +29,11 @@ class TestSelectionListViewModel {
             values = listOf(valueA, valueB)
             onSelectedChange += { selections = it }
             select(valueA)
-            selections shouldEqual listOf(valueA)
+            selections shouldEqual setOf(valueA)
             select(valueB)
-            selections shouldEqual listOf(valueA, valueB)
+            selections shouldEqual setOf(valueA, valueB)
             select(valueB)
-            selections shouldEqual listOf(valueA)
+            selections shouldEqual setOf(valueA)
         }
     }
 }
