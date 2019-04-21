@@ -22,6 +22,7 @@ import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.refinement_activity.*
 import refinement.*
+import refinement.FacetSortCriterion.*
 import search.SearcherSingleIndex
 import selection.SelectionMode
 
@@ -61,27 +62,27 @@ class RefinementFacetActivity : AppCompatActivity() {
 
         val viewModelA = RefinementFacetsViewModel(SelectionMode.Single)
         val viewA = SelectionListAdapter()
-        val presenterA = RefinementFacetsPresenter(listOf(SortCriterion.IsRefined, SortCriterion.AlphabeticalAscending), 5)
+        val presenterA = RefinementFacetsPresenter(listOf(IsRefined, AlphabeticalAscending), 5)
 
         viewModelA.connect(color, searcher, RefinementOperator.And)
         viewModelA.connect(viewA, presenterA)
 
         val viewB = SelectionListAdapter()
-        val presenterB = RefinementFacetsPresenter(listOf(SortCriterion.AlphabeticalDescending), 3)
+        val presenterB = RefinementFacetsPresenter(listOf(AlphabeticalDescending), 3)
 
         viewModelA.connect(color, searcher, RefinementOperator.And)
         viewModelA.connect(viewB, presenterB)
 
         val viewModelC = RefinementFacetsViewModel(SelectionMode.Multiple)
         val viewC = SelectionListAdapter()
-        val presenterC = RefinementFacetsPresenter(listOf(SortCriterion.CountDescending), 5)
+        val presenterC = RefinementFacetsPresenter(listOf(CountDescending), 5)
 
         viewModelC.connect(promotion, searcher, RefinementOperator.And)
         viewModelC.connect(viewC, presenterC)
 
         val viewModelD = RefinementFacetsViewModel(SelectionMode.Multiple)
         val viewD = SelectionListAdapter()
-        val presenterD = RefinementFacetsPresenter(listOf(SortCriterion.CountDescending, SortCriterion.AlphabeticalAscending), 5)
+        val presenterD = RefinementFacetsPresenter(listOf(CountDescending, AlphabeticalAscending), 5)
 
         viewModelD.connect(category, searcher, RefinementOperator.Or)
         viewModelD.connect(viewD, presenterD)
