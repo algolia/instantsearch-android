@@ -1,5 +1,6 @@
 package searcher
 
+import kotlinx.atomicfu.atomicArrayOfNulls
 import kotlinx.coroutines.Job
 
 
@@ -10,44 +11,56 @@ public class Sequencer(val maxOperations: Int = 5) {
             throw IllegalArgumentException("Sequencer maxOperations should be higher than 0.")
     }
 
-    private val operations = mutableListOf<Job>()
+    internal val operations = atomicArrayOfNulls<Job>(maxOperations)
 
-    public val currentOperation get() = operations.last()
+    public val currentOperation: Job?
+        get() {
+            val index = (0 until maxOperations).findLast { operations[it].value != null }
+
+            return index?.let { operations[it].value }
+        }
 
     /**
      * When an operation is added, and the maxOperations count is reached, the oldest job in the queue is canceled
      * and removed from the queue.
      */
     fun addOperation(operation: Job) {
-        operations.add(operation)
-        if (operations.size > maxOperations) {
-            operations.removeAt(0).cancel()
+        val index = (0 until maxOperations).find { operations[it].value == null }
+
+        if (index != null) {
+            operations[index].compareAndSet(null, operation)
+        } else {
+            repeat(maxOperations) {
+                if (it == 0) operations[it].value!!.cancel()
+
+                operations[it].value = if (it == maxOperations - 1) operation else operations[it + 1].value
+            }
         }
-        operation.invokeOnCompletion {
-            operationCompleted(operation)
-        }
+        operation.invokeOnCompletion { operationCompleted(operation) }
     }
 
     /**
      * When an operation completes, cancel and remove operations from the queue that are older.
      */
     private fun operationCompleted(operation: Job) {
-        val index = operations.indexOf(operation)
+        val index = (0 until maxOperations).find { operations[it].value == operation }
 
-        if (index > 0) {
-            val jobs = operations.take(index)
+        if (index != null) {
+            repeat(maxOperations) {
+                val afterIndex = index + it + 1
 
-            jobs.forEach { it.cancel() }
-            operations.removeAll(jobs)
+                if (it < index) operations[it].value!!.cancel()
+                operations[it].value = if (afterIndex < maxOperations) operations[afterIndex].value else null
+            }
         }
-        operations.remove(operation)
     }
 
     /**
      * Cancel and clear all operations from the queue.
      */
     fun cancelAll() {
-        operations.forEach { it.cancel() }
-        operations.clear()
+        repeat(maxOperations) {
+            operations[it].getAndSet(null)?.cancel()
+        }
     }
 }
