@@ -1,11 +1,12 @@
+
 import dependency.network.AlgoliaClient
+import dependency.network.Coroutines
 import dependency.network.Ktor
 import dependency.test.AndroidTest
 import dependency.test.Espresso
 import dependency.test.SL4J
 import dependency.ui.AppCompat
 import dependency.ui.RecyclerView
-import dependency.network.*
 
 plugins {
     id("com.android.library")
@@ -41,6 +42,11 @@ android {
             java.srcDirs("src/androidTest/kotlin")
             res.srcDirs("src/androidTest/res")
         }
+    }
+
+    compileOptions {
+        sourceCompatibility  = JavaVersion.VERSION_1_8
+        targetCompatibility  = JavaVersion.VERSION_1_8
     }
 }
 
