@@ -64,10 +64,11 @@ class TestRefinementConnectors {
             val filter = facet.toFilter(color)
 
             model.connect(color, searcher)
-            searcher.search().join()
+            searcher.supervisor.children.forEach { it.join() }
             model.items.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
             model.select(facet.value)
+            searcher.supervisor.children.forEach { it.join() }
             model.selections shouldEqual setOf(facet.value)
             searcher.query.filters = FilterConverter.SQL(filter)
             searcher.filterState.getFacets(FilterGroupID.And(color.raw))!! shouldEqual setOf(filter)
@@ -82,7 +83,7 @@ class TestRefinementConnectors {
             val facet = facets.first()
 
             model.connect(color, searcher)
-            searcher.search().join()
+            searcher.supervisor.children.forEach { it.join() }
             model.selections.shouldBeEmpty()
             searcher.filterState.notify {
                 add(FilterGroupID.And(color.raw), facet.toFilter(color))

@@ -22,7 +22,9 @@ public class SearcherSingleIndex(
 ) : Searcher, CoroutineScope {
 
     private val sequencer = Sequencer()
-    override val coroutineContext = Job()
+    internal val supervisor = SupervisorJob()
+
+    override val coroutineContext = supervisor
 
     public val onResponseChange = mutableListOf<(ResponseSearch) -> Unit>()
 
@@ -32,7 +34,7 @@ public class SearcherSingleIndex(
         }
     }
 
-    override fun search(): Job {
+    override fun search() {
         query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
         val job = launch(MainDispatcher) {
             val responseSearch = withContext(Dispatchers.Default) { index.search(query, requestOptions) }
@@ -40,7 +42,6 @@ public class SearcherSingleIndex(
             response = responseSearch
         }
         sequencer.addOperation(job)
-        return job
     }
 
     override fun cancel() {

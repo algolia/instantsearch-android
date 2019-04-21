@@ -21,21 +21,23 @@ public class Sequencer(val maxOperations: Int = 5) {
         if (operations.size > maxOperations) {
             operations.removeAt(0).cancel()
         }
-        operation.invokeOnCompletion { operationCompleted(operation) }
+        operation.invokeOnCompletion {
+            operationCompleted(operation) }
     }
 
     /**
      * When an operation completes, cancel and remove operations from the queue that are older.
      */
-    fun operationCompleted(operation: Job) {
+    private fun operationCompleted(operation: Job) {
         val index = operations.indexOf(operation)
 
-        if (index >= 0) {
-            val jobs = operations.take(index + 1)
+        if (index > 0) {
+            val jobs = operations.take(index)
 
             jobs.forEach { it.cancel() }
             operations.removeAll(jobs)
         }
+        operations.remove(operation)
     }
 
     /**

@@ -1,3 +1,5 @@
+
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
@@ -9,19 +11,65 @@ import kotlin.test.Test
 class TestSequencer {
 
     @Test
-    fun sequencer() {
+    fun cancelFirst() {
         blocking {
             val sequencer = Sequencer(5)
             val operations = (0 until 10).map {
-                val job = launch { delay(Long.MAX_VALUE) }
-
-                sequencer.addOperation(job)
-                job
+                launch { delay(Long.MAX_VALUE) }
             }
 
+            operations.forEach(sequencer::addOperation)
             sequencer.operations.size shouldEqual sequencer.maxOperations
-            sequencer.operationCompleted(operations[7])
-            sequencer.operations.size shouldEqual 2
+            sequencer.operations shouldEqual operations.subList(5, 10)
+            sequencer.operations[0].cancelAndJoin()
+            sequencer.operations shouldEqual operations.subList(6, 10)
+            sequencer.cancelAll()
+        }
+    }
+
+    @Test
+    fun cancelLast() {
+        blocking {
+            val sequencer = Sequencer(5)
+            val operations = (0 until 10).map {
+                launch { delay(Long.MAX_VALUE) }
+            }
+
+            operations.forEach(sequencer::addOperation)
+            sequencer.operations.size shouldEqual sequencer.maxOperations
+            sequencer.operations shouldEqual operations.subList(5, 10)
+            sequencer.operations[4].cancelAndJoin()
+            sequencer.operations.shouldBeEmpty()
+            sequencer.cancelAll()
+        }
+    }
+
+    @Test
+    fun cancelThird() {
+        blocking {
+            val sequencer = Sequencer(5)
+            val operations = (0 until 10).map {
+                launch { delay(Long.MAX_VALUE) }
+            }
+
+            operations.forEach(sequencer::addOperation)
+            sequencer.operations.size shouldEqual sequencer.maxOperations
+            sequencer.operations shouldEqual operations.subList(5, 10)
+            sequencer.operations[2].cancelAndJoin()
+            sequencer.operations shouldEqual operations.subList(8, 10)
+            sequencer.cancelAll()
+        }
+    }
+
+    @Test
+    fun cancelAll() {
+        blocking {
+            val sequencer = Sequencer(5)
+            val operations = (0 until 10).map {
+                launch { delay(Long.MAX_VALUE) }
+            }
+
+            operations.forEach(sequencer::addOperation)
             sequencer.cancelAll()
             sequencer.operations.shouldBeEmpty()
         }
@@ -33,11 +81,10 @@ class TestSequencer {
             val sequencer = Sequencer(5)
 
             val operations = (0..100000).map {
-                val job = launch { delay(Random.nextLong(500, 5000)) }
-
-                sequencer.addOperation(job)
-                job
+                launch { delay(Random.nextLong(50, 500)) }
             }
+
+            operations.forEach(sequencer::addOperation)
             operations.joinAll()
             sequencer.operations.shouldBeEmpty()
         }
