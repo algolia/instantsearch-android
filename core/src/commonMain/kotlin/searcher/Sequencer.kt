@@ -10,7 +10,9 @@ public class Sequencer(val maxOperations: Int = 5) {
             throw IllegalArgumentException("Sequencer maxOperations should be higher than 0.")
     }
 
-    internal val operations = mutableListOf<Job>()
+    private val operations = mutableListOf<Job>()
+
+    public val currentOperation get() = operations.last()
 
     /**
      * When an operation is added, and the maxOperations count is reached, the oldest job in the queue is canceled
@@ -22,7 +24,8 @@ public class Sequencer(val maxOperations: Int = 5) {
             operations.removeAt(0).cancel()
         }
         operation.invokeOnCompletion {
-            operationCompleted(operation) }
+            operationCompleted(operation)
+        }
     }
 
     /**

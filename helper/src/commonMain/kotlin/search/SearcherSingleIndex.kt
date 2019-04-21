@@ -21,10 +21,9 @@ public class SearcherSingleIndex(
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 
-    private val sequencer = Sequencer()
-    internal val supervisor = SupervisorJob()
+    internal val sequencer = Sequencer()
 
-    override val coroutineContext = supervisor
+    override val coroutineContext = SupervisorJob()
 
     public val onResponseChange = mutableListOf<(ResponseSearch) -> Unit>()
 
@@ -46,7 +45,6 @@ public class SearcherSingleIndex(
 
     override fun cancel() {
         sequencer.cancelAll()
-        coroutineContext.cancelChildren()
     }
 }
 
