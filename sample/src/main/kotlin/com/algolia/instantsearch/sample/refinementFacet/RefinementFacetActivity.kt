@@ -132,13 +132,13 @@ class RefinementFacetActivity : AppCompatActivity() {
         }
     }
 
-    private fun SortCriterion.format(): String {
+    private fun FacetSortCriterion.format(): String {
         return when (this) {
-            SortCriterion.IsRefined -> name
-            SortCriterion.CountAscending -> "CountAsc"
-            SortCriterion.CountDescending -> "CountDesc"
-            SortCriterion.AlphabeticalAscending -> "AlphaAsc"
-            SortCriterion.AlphabeticalDescending -> "AlphaDesc"
+            IsRefined -> name
+            CountAscending -> "CountAsc"
+            CountDescending -> "CountDesc"
+            AlphabeticalAscending -> "AlphaAsc"
+            AlphabeticalDescending -> "AlphaDesc"
         }
     }
 
