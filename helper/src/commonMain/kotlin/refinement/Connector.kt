@@ -11,10 +11,10 @@ import refinement.RefinementOperator.Or
 import search.SearcherSingleIndex
 
 
-public fun RefinementFacetsViewModel.connect(
+public fun RefinementFacetsViewModel.connectSearcher(
     attribute: Attribute,
     searcher: SearcherSingleIndex,
-    operator: RefinementOperator = And,
+    operator: RefinementOperator = Or,
     groupName: String = attribute.raw
 ) {
     val groupID = when (operator) {
@@ -43,7 +43,7 @@ public fun RefinementFacetsViewModel.connect(
     }
 }
 
-fun RefinementFacetsViewModel.connect(
+fun RefinementFacetsViewModel.connectView(
     view: RefinementFacetsView,
     presenter: ((List<RefinementFacet>) -> List<RefinementFacet>)? = null
 ) {
