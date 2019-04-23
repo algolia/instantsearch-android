@@ -44,7 +44,7 @@ class RefinementFacetActivity : AppCompatActivity() {
     private val client = ClientSearch(
         ConfigurationSearch(
             ApplicationID("latency"),
-            APIKey("03cd233a16e1f5e874ddaff30504bb5a")
+            APIKey("1f6fd3a6fb973cb08419fe7d288fa4db")
         )
     )
 
