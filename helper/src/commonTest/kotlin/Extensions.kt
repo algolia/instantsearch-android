@@ -26,12 +26,12 @@ internal fun Boolean.shouldBeFalse() {
     assertFalse(this)
 }
 
-internal infix fun <T> Collection<T>.shouldEqual(collection: Collection<T>) {
-    assertEquals(this, collection)
+internal infix fun <T> Collection<T>.shouldEqual(expected: Collection<T>) {
+    assertEquals(expected, this)
 }
 
-internal infix fun <T> Collection<T>.shouldNotEqual(collection: Collection<T>) {
-    assertNotEquals(this, collection)
+internal infix fun <T> Collection<T>.shouldNotEqual(expected: Collection<T>) {
+    assertNotEquals(expected, this)
 }
 
 internal fun <T> Collection<T>.shouldBeEmpty() {

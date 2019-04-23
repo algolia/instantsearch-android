@@ -19,6 +19,8 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import kotlinx.coroutines.io.ByteReadChannel
 import kotlinx.serialization.json.Json
+import refinement.facet.RefinementFacetsViewModel
+import refinement.facet.connectSearcher
 import search.SearcherSingleIndex
 import shouldBeEmpty
 import shouldEqual
@@ -63,7 +65,7 @@ class TestRefinementConnectors {
             val facet = facets.first()
             val filter = facet.toFilter(color)
 
-            model.connectSearcher(color, searcher)
+            model.connectSearcher(color, searcher, RefinementOperator.And)
             searcher.sequencer.currentOperation!!.join()
             model.items.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
@@ -82,7 +84,7 @@ class TestRefinementConnectors {
             val model = RefinementFacetsViewModel()
             val facet = facets.first()
 
-            model.connectSearcher(color, searcher)
+            model.connectSearcher(color, searcher, RefinementOperator.And)
             searcher.sequencer.currentOperation!!.join()
             model.selections.shouldBeEmpty()
             searcher.filterState.notify {

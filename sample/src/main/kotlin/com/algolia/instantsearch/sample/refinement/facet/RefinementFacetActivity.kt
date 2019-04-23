@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.refinementFacet
+package com.algolia.instantsearch.sample.refinement.facet
 
 import android.os.Bundle
 import android.view.View
@@ -21,8 +21,9 @@ import filter.FilterState
 import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.refinement_activity.*
-import refinement.*
-import refinement.FacetSortCriterion.*
+import refinement.facet.*
+import refinement.RefinementOperator
+import refinement.facet.FacetSortCriterion.*
 import search.SearcherSingleIndex
 import selection.SelectionMode
 

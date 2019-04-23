@@ -1,6 +1,6 @@
-package refinement
+package refinement.facet
 
-import refinement.FacetSortCriterion.*
+import refinement.facet.FacetSortCriterion.*
 
 
 class RefinementFacetsPresenter(

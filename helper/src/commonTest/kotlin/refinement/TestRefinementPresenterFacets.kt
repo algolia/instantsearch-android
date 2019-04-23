@@ -1,6 +1,8 @@
 package refinement
 
 import com.algolia.search.model.search.Facet
+import refinement.facet.FacetSortCriterion
+import refinement.facet.RefinementFacetsPresenter
 import shouldEqual
 import kotlin.test.Test
 
