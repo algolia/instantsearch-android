@@ -6,6 +6,7 @@ import com.algolia.search.model.filter.FilterGroupsConverter
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
+import filter.FilterGroupID
 import filter.FilterState
 import filter.toFilterGroups
 import kotlinx.coroutines.*
@@ -34,9 +35,21 @@ public class SearcherSingleIndex(
     }
 
     override fun search() {
+        val facets = filterState.getFacets()
+        val filters = facets.flatMap { it.value }
+        val disjunctiveAttributes = facets
+            .filter { it.key is FilterGroupID.Or }
+            .flatMap { group -> group.value.map { it.attribute } }
+
         query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
         val job = launch(MainDispatcher) {
-            val responseSearch = withContext(Dispatchers.Default) { index.search(query, requestOptions) }
+            val responseSearch = withContext(Dispatchers.Default) {
+                if (disjunctiveAttributes.isEmpty()) {
+                    index.search(query, requestOptions)
+                } else {
+                    index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters)
+                }
+            }
 
             response = responseSearch
         }

@@ -29,7 +29,9 @@ public fun RefinementFacetsViewModel.connect(
     onFilterStateChange(searcher.filterState)
     searcher.filterState.onStateChanged += onFilterStateChange
     searcher.onResponseChange += { response ->
-        items = response.facetsOrNull.orEmpty()[attribute].orEmpty()
+        val disjunctiveFacets = response.disjunctiveFacetsOrNull?.get(attribute)
+
+        items = disjunctiveFacets ?: response.facetsOrNull.orEmpty()[attribute].orEmpty()
     }
     onSelectionsComputed += { selections ->
         val filters = selections.map { Filter.Facet(attribute, it) }.toSet()
