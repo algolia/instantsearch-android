@@ -63,7 +63,7 @@ class TestRefinementConnectors {
             val facet = facets.first()
             val filter = facet.toFilter(color)
 
-            model.connect(color, searcher)
+            model.connectSearcher(color, searcher)
             searcher.sequencer.currentOperation!!.join()
             model.items.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
@@ -82,7 +82,7 @@ class TestRefinementConnectors {
             val model = RefinementFacetsViewModel()
             val facet = facets.first()
 
-            model.connect(color, searcher)
+            model.connectSearcher(color, searcher)
             searcher.sequencer.currentOperation!!.join()
             model.selections.shouldBeEmpty()
             searcher.filterState.notify {
