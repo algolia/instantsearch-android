@@ -2,6 +2,9 @@ package refinement.facet
 
 import com.algolia.search.model.search.Facet
 import selection.SelectionListViewModel
+import selection.SelectionMode
 
 
-typealias RefinementFacetsViewModel = SelectionListViewModel<String, Facet>
+class RefinementFacetsViewModel(
+    selectionMode: SelectionMode = SelectionMode.Multiple
+) : SelectionListViewModel<String, Facet>(selectionMode)

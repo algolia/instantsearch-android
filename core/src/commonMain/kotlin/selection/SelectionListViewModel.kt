@@ -5,8 +5,8 @@ import selection.SelectionMode.Single
 import kotlin.properties.Delegates
 
 
-public class SelectionListViewModel<K, V>(
-    val selectionMode: SelectionMode = Multiple
+public open class SelectionListViewModel<K, V>(
+    val selectionMode: SelectionMode
 ) {
 
     public val onValuesChanged: MutableList<(List<V>) -> Unit> = mutableListOf()
