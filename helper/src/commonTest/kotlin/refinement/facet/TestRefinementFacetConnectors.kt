@@ -1,4 +1,4 @@
-package refinement
+package refinement.facet
 
 import blocking
 import com.algolia.search.client.ClientSearch
@@ -19,15 +19,14 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import kotlinx.coroutines.io.ByteReadChannel
 import kotlinx.serialization.json.Json
-import refinement.facet.RefinementFacetsViewModel
-import refinement.facet.connectSearcher
+import refinement.RefinementOperator
 import search.SearcherSingleIndex
 import shouldBeEmpty
 import shouldEqual
 import kotlin.test.Test
 
 
-class TestRefinementConnectors {
+class TestRefinementFacetConnectors {
 
     private val color = Attribute("color")
     private val facets = listOf(
