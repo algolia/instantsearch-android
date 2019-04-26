@@ -67,8 +67,6 @@ class RefinementFacetActivity : AppCompatActivity() {
 
         colorAViewModel.connectSearcher(color, searcher, RefinementOperator.And)
         colorAViewModel.connectView(colorAAdapter, colorAPresenter)
-        configureRecyclerView(listTopLeft, colorAAdapter)
-        titleTopLeft.text = formatTitle(colorAPresenter, RefinementOperator.And)
 
         val colorBViewModel = RefinementFacetsViewModel(SelectionMode.Single)
         val colorBPresenter = RefinementFacetsPresenter(listOf(AlphabeticalDescending), 3)
@@ -76,8 +74,6 @@ class RefinementFacetActivity : AppCompatActivity() {
 
         colorBViewModel.connectSearcher(color, searcher, RefinementOperator.And)
         colorBViewModel.connectView(colorBAdapter, colorBPresenter)
-        configureRecyclerView(listTopRight, colorBAdapter)
-        titleTopRight.text = formatTitle(colorBPresenter, RefinementOperator.And)
 
         val promotionViewModel = RefinementFacetsViewModel(SelectionMode.Multiple)
         val promotionPresenter = RefinementFacetsPresenter(listOf(CountDescending), 5)
@@ -85,8 +81,6 @@ class RefinementFacetActivity : AppCompatActivity() {
 
         promotionViewModel.connectSearcher(promotion, searcher, RefinementOperator.And)
         promotionViewModel.connectView(promotionAdapter, promotionPresenter)
-        configureRecyclerView(listBottomLeft, promotionAdapter)
-        titleBottomLeft.text = formatTitle(promotionPresenter, RefinementOperator.And)
 
         val categoryViewModel = RefinementFacetsViewModel(SelectionMode.Multiple)
         val categoryPresenter = RefinementFacetsPresenter(listOf(CountDescending, AlphabeticalAscending), 5)
@@ -94,16 +88,27 @@ class RefinementFacetActivity : AppCompatActivity() {
 
         categoryViewModel.connectSearcher(category, searcher, RefinementOperator.Or)
         categoryViewModel.connectView(categoryAdapter, categoryPresenter)
-        configureRecyclerView(listBottomRight, categoryAdapter)
-        titleBottomRight.text = formatTitle(categoryPresenter, RefinementOperator.Or)
 
+        configureRecyclerView(listTopLeft, colorAAdapter)
+        configureRecyclerView(listTopRight, colorBAdapter)
+        configureRecyclerView(listBottomLeft, promotionAdapter)
+        configureRecyclerView(listBottomRight, categoryAdapter)
+
+        titleTopLeft.text = formatTitle(colorAPresenter, RefinementOperator.And)
+        titleTopRight.text = formatTitle(colorBPresenter, RefinementOperator.And)
+        titleBottomLeft.text = formatTitle(promotionPresenter, RefinementOperator.And)
+        titleBottomRight.text = formatTitle(categoryPresenter, RefinementOperator.Or)
 
         searcher.filterState.onStateChanged += {
             filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
         }
-        searcher.errorListeners +=  { filtersTextView.text = it.localizedMessage }
+        searcher.errorListeners +=  {
+            filtersTextView.text = it.localizedMessage
+        }
         filtersClearAll.setOnClickListener {
-            searcher.filterState.notify { clear() }
+            searcher.filterState.notify {
+                clear()
+            }
         }
         filtersTextView.text = searcher.filterState.toFilterGroups().highlight(colors = colors)
         searcher.search()
