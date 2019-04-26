@@ -61,52 +61,49 @@ class RefinementFacetActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.refinement_list_activity)
 
-        val colorViewModel = RefinementFacetsViewModel(SelectionMode.Single)
-        val colorAView = RefinementFacetsAdapter()
+        val colorAViewModel = RefinementFacetsViewModel(SelectionMode.Single)
         val colorAPresenter = RefinementFacetsPresenter(listOf(IsRefined, AlphabeticalAscending), 5)
+        val colorAAdapter = RefinementFacetsAdapter()
 
-        colorViewModel.connectSearcher(color, searcher, RefinementOperator.And)
-        colorViewModel.connectView(colorAView, colorAPresenter)
+        colorAViewModel.connectSearcher(color, searcher, RefinementOperator.And)
+        colorAViewModel.connectView(colorAAdapter, colorAPresenter)
+        configureRecyclerView(listTopLeft, colorAAdapter)
+        titleTopLeft.text = formatTitle(colorAPresenter, RefinementOperator.And)
 
-        val colorBView = RefinementFacetsAdapter()
+        val colorBViewModel = RefinementFacetsViewModel(SelectionMode.Single)
         val colorBPresenter = RefinementFacetsPresenter(listOf(AlphabeticalDescending), 3)
+        val colorBAdapter = RefinementFacetsAdapter()
 
-        colorViewModel.connectView(colorBView, colorBPresenter)
+        colorBViewModel.connectSearcher(color, searcher, RefinementOperator.And)
+        colorBViewModel.connectView(colorBAdapter, colorBPresenter)
+        configureRecyclerView(listTopRight, colorBAdapter)
+        titleTopRight.text = formatTitle(colorBPresenter, RefinementOperator.And)
 
         val promotionViewModel = RefinementFacetsViewModel(SelectionMode.Multiple)
-        val promotionView = RefinementFacetsAdapter()
         val promotionPresenter = RefinementFacetsPresenter(listOf(CountDescending), 5)
+        val promotionAdapter = RefinementFacetsAdapter()
 
         promotionViewModel.connectSearcher(promotion, searcher, RefinementOperator.And)
-        promotionViewModel.connectView(promotionView, promotionPresenter)
+        promotionViewModel.connectView(promotionAdapter, promotionPresenter)
+        configureRecyclerView(listBottomLeft, promotionAdapter)
+        titleBottomLeft.text = formatTitle(promotionPresenter, RefinementOperator.And)
 
         val categoryViewModel = RefinementFacetsViewModel(SelectionMode.Multiple)
-        val categoryView = RefinementFacetsAdapter()
         val categoryPresenter = RefinementFacetsPresenter(listOf(CountDescending, AlphabeticalAscending), 5)
+        val categoryAdapter = RefinementFacetsAdapter()
 
         categoryViewModel.connectSearcher(category, searcher, RefinementOperator.Or)
-        categoryViewModel.connectView(categoryView, categoryPresenter)
-
-        configureRecyclerView(listTopLeft, colorAView)
-        configureRecyclerView(listTopRight, colorBView)
-        configureRecyclerView(listBottomLeft, promotionView)
-        configureRecyclerView(listBottomRight, categoryView)
-
-        titleTopLeft.text = formatTitle(colorAPresenter, RefinementOperator.And)
-        titleTopRight.text = formatTitle(colorBPresenter, RefinementOperator.And)
-        titleBottomLeft.text = formatTitle(promotionPresenter, RefinementOperator.And)
+        categoryViewModel.connectView(categoryAdapter, categoryPresenter)
+        configureRecyclerView(listBottomRight, categoryAdapter)
         titleBottomRight.text = formatTitle(categoryPresenter, RefinementOperator.Or)
+
 
         searcher.filterState.onStateChanged += {
             filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
         }
-        searcher.errorListeners +=  {
-            filtersTextView.text = it.localizedMessage
-        }
+        searcher.errorListeners +=  { filtersTextView.text = it.localizedMessage }
         filtersClearAll.setOnClickListener {
-            searcher.filterState.notify {
-                clear()
-            }
+            searcher.filterState.notify { clear() }
         }
         filtersTextView.text = searcher.filterState.toFilterGroups().highlight(colors = colors)
         searcher.search()
