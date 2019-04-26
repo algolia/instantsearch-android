@@ -48,15 +48,18 @@ fun RefinementFacetsViewModel.connectView(
     view: RefinementFacetsView,
     presenter: ((List<RefinementFacet>) -> List<RefinementFacet>)? = null
 ) {
+    fun List<Facet>.toRefinementFacets(selections: Set<String>): List<RefinementFacet> {
+        return map { Pair(it, selections.contains(it.value)) }
+    }
 
-    fun setSelectableItems(facets: List<Facet>, selections: Set<String>) {
-        val selectableItems = facets.map { Pair(it, selections.contains(it.value)) }
+    fun assignSelectableItems(facets: List<Facet>, selections: Set<String>) {
+        val selectableItems = facets.toRefinementFacets(selections)
 
         view.setSelectableItems(presenter?.invoke(selectableItems) ?: selectableItems)
     }
 
-    setSelectableItems(items, selections)
+    assignSelectableItems(items, selections)
     view.onClickItem { facet -> select(facet.value) }
-    onValuesChanged += { items -> setSelectableItems(items, selections) }
-    onSelectionsChanged += { selections -> setSelectableItems(items, selections) }
+    onItemsChanged += { items -> assignSelectableItems(items, selections) }
+    onSelectionsChanged += { selections -> assignSelectableItems(items, selections) }
 }

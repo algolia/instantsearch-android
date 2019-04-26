@@ -1,7 +1,7 @@
 package selection
 
 
-public interface SelectionListView<T> {
+public interface SelectableListView<T> {
 
     fun setSelectableItems(selectableItems: List<SelectableItem<T>>)
 

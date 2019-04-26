@@ -4,14 +4,14 @@ import shouldEqual
 import kotlin.test.Test
 
 
-class TestSelectionListViewModel {
+class TestSelectableListViewModel {
 
     private val valueA = "valueA"
     private val valueB = "valueB"
 
     @Test
     fun singleChoice() {
-        SelectionListViewModel<String, String>(SelectionMode.Single).apply {
+        SelectableListViewModel<String, String>(SelectionMode.Single).apply {
             items = listOf(valueA, valueB)
             onSelectionsComputed += { selections = it }
             select(valueA)
@@ -25,7 +25,7 @@ class TestSelectionListViewModel {
 
     @Test
     fun multipleChoice() {
-        SelectionListViewModel<String, String>(SelectionMode.Multiple).apply {
+        SelectableListViewModel<String, String>(SelectionMode.Multiple).apply {
             items = listOf(valueA, valueB)
             onSelectionsComputed += { selections = it }
             select(valueA)

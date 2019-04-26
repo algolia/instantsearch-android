@@ -5,17 +5,17 @@ import selection.SelectionMode.Single
 import kotlin.properties.Delegates
 
 
-public open class SelectionListViewModel<K, V>(
+public open class SelectableListViewModel<K, V>(
     val selectionMode: SelectionMode
 ) {
 
-    public val onValuesChanged: MutableList<(List<V>) -> Unit> = mutableListOf()
+    public val onItemsChanged: MutableList<(List<V>) -> Unit> = mutableListOf()
     public val onSelectionsChanged: MutableList<(Set<K>) -> Unit> = mutableListOf()
     public val onSelectionsComputed: MutableList<(Set<K>) -> Unit> = mutableListOf()
 
     public var items: List<V> by Delegates.observable(listOf()) { _, oldValue, newValue ->
         if (newValue != oldValue) {
-            onValuesChanged.forEach { it(newValue) }
+            onItemsChanged.forEach { it(newValue) }
         }
     }
     public var selections by Delegates.observable(setOf<K>()) { _, oldValue, newValue ->
