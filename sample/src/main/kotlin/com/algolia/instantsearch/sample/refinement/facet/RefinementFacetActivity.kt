@@ -62,26 +62,26 @@ class RefinementFacetActivity : AppCompatActivity() {
         setContentView(R.layout.refinement_list_activity)
 
         val colorViewModel = RefinementFacetsViewModel(SelectionMode.Single)
-        val colorAView = SelectionListAdapter()
+        val colorAView = RefinementFacetsAdapter()
         val colorAPresenter = RefinementFacetsPresenter(listOf(IsRefined, AlphabeticalAscending), 5)
 
         colorViewModel.connectSearcher(color, searcher, RefinementOperator.And)
         colorViewModel.connectView(colorAView, colorAPresenter)
 
-        val colorBView = SelectionListAdapter()
+        val colorBView = RefinementFacetsAdapter()
         val colorBPresenter = RefinementFacetsPresenter(listOf(AlphabeticalDescending), 3)
 
         colorViewModel.connectView(colorBView, colorBPresenter)
 
         val promotionViewModel = RefinementFacetsViewModel(SelectionMode.Multiple)
-        val promotionView = SelectionListAdapter()
+        val promotionView = RefinementFacetsAdapter()
         val promotionPresenter = RefinementFacetsPresenter(listOf(CountDescending), 5)
 
         promotionViewModel.connectSearcher(promotion, searcher, RefinementOperator.And)
         promotionViewModel.connectView(promotionView, promotionPresenter)
 
         val categoryViewModel = RefinementFacetsViewModel(SelectionMode.Multiple)
-        val categoryView = SelectionListAdapter()
+        val categoryView = RefinementFacetsAdapter()
         val categoryPresenter = RefinementFacetsPresenter(listOf(CountDescending, AlphabeticalAscending), 5)
 
         categoryViewModel.connectSearcher(category, searcher, RefinementOperator.Or)
@@ -126,7 +126,7 @@ class RefinementFacetActivity : AppCompatActivity() {
 
     private fun configureRecyclerView(
         recyclerView: View,
-        view: SelectionListAdapter
+        view: RefinementFacetsAdapter
     ) {
         (recyclerView as RecyclerView).let {
             it.layoutManager = LinearLayoutManager(this)

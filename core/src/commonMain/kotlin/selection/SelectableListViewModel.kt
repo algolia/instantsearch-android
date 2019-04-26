@@ -24,7 +24,7 @@ public open class SelectableListViewModel<K, V>(
         }
     }
 
-    public fun select(key: K) {
+    public fun selectItem(key: K) {
         val selections = when (selectionMode) {
             Single -> if (key in selections) setOf() else setOf(key)
             Multiple -> if (key in selections) selections - key else selections + key

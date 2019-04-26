@@ -68,7 +68,7 @@ class TestRefinementFacetConnectors {
             searcher.sequencer.currentOperation!!.join()
             model.items.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
-            model.select(facet.value)
+            model.selectItem(facet.value)
             searcher.sequencer.currentOperation!!.join()
             model.selections shouldEqual setOf(facet.value)
             searcher.query.filters = FilterConverter.SQL(filter)

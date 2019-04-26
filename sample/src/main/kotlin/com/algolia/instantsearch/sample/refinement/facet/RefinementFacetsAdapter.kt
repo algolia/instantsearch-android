@@ -11,11 +11,11 @@ import refinement.facet.RefinementFacet
 import refinement.facet.RefinementFacetsView
 
 
-class SelectionListAdapter :
+class RefinementFacetsAdapter :
     ListAdapter<RefinementFacet, RefinementFacetViewHolder>(diffUtil),
     RefinementFacetsView {
 
-    private lateinit var onClick: (Facet) -> Unit
+    override var onClick: ((Facet) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RefinementFacetViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.refinement_item, parent, false)
@@ -26,15 +26,11 @@ class SelectionListAdapter :
     override fun onBindViewHolder(holder: RefinementFacetViewHolder, position: Int) {
         val (facet, selected) = getItem(position)
 
-        holder.bind(facet, selected, View.OnClickListener { onClick(facet) })
+        holder.bind(facet, selected, View.OnClickListener { onClick?.invoke(facet) })
     }
 
     override fun setSelectableItems(selectableItems: List<RefinementFacet>) {
         submitList(selectableItems)
-    }
-
-    override fun onClickItem(onClick: (Facet) -> Unit) {
-        this.onClick = onClick
     }
 
     companion object {
