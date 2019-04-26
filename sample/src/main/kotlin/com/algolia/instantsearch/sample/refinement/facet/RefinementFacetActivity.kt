@@ -21,8 +21,8 @@ import filter.FilterState
 import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.refinement_activity.*
-import refinement.facet.*
 import refinement.RefinementOperator
+import refinement.facet.*
 import refinement.facet.FacetSortCriterion.*
 import search.SearcherSingleIndex
 import selection.SelectionMode
@@ -98,6 +98,9 @@ class RefinementFacetActivity : AppCompatActivity() {
 
         searcher.filterState.onStateChanged += {
             filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
+        }
+        searcher.errorListeners +=  {
+            filtersTextView.text = it.localizedMessage
         }
 
         filtersClearAll.setOnClickListener {

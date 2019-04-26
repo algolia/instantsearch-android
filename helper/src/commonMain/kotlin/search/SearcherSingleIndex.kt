@@ -27,11 +27,15 @@ public class SearcherSingleIndex(
     override val coroutineContext = SupervisorJob()
 
     public val onResponseChange = mutableListOf<(ResponseSearch) -> Unit>()
+    public val errorListeners = mutableListOf<(Throwable) -> Unit>()
 
     public var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
         if (newValue != null) {
             onResponseChange.forEach { it(newValue) }
         }
+    }
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        errorListeners.forEach { it(throwable) }
     }
 
     override fun search() {
@@ -42,7 +46,7 @@ public class SearcherSingleIndex(
             .flatMap { group -> group.value.map { it.attribute } }
 
         query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
-        val job = launch(MainDispatcher) {
+        val job = launch(MainDispatcher + exceptionHandler) {
             val responseSearch = withContext(Dispatchers.Default) {
                 if (disjunctiveAttributes.isEmpty()) {
                     index.search(query, requestOptions)
