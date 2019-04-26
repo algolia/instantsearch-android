@@ -61,6 +61,8 @@ class RefinementFacetActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.refinement_list_activity)
 
+        searcher.search()
+
         val colorAViewModel = RefinementFacetsViewModel(SelectionMode.Single)
         val colorAPresenter = RefinementFacetsPresenter(listOf(IsRefined, AlphabeticalAscending), 5)
         val colorAAdapter = RefinementFacetsAdapter()
@@ -106,12 +108,9 @@ class RefinementFacetActivity : AppCompatActivity() {
             filtersTextView.text = it.localizedMessage
         }
         filtersClearAll.setOnClickListener {
-            searcher.filterState.notify {
-                clear()
-            }
+            searcher.filterState.notify { clear() }
         }
         filtersTextView.text = searcher.filterState.toFilterGroups().highlight(colors = colors)
-        searcher.search()
     }
 
     override fun onDestroy() {

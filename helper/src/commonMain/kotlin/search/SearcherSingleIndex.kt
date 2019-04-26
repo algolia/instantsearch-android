@@ -38,6 +38,10 @@ public class SearcherSingleIndex(
         errorListeners.forEach { it(throwable) }
     }
 
+    init {
+        filterState.onStateChanged += { search() }
+    }
+
     override fun search() {
         val facets = filterState.getFacets()
         val filters = facets.flatMap { it.value }
@@ -47,15 +51,13 @@ public class SearcherSingleIndex(
 
         query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
         val job = launch(MainDispatcher + exceptionHandler) {
-            val responseSearch = withContext(Dispatchers.Default) {
+            response = withContext(Dispatchers.Default) {
                 if (disjunctiveAttributes.isEmpty()) {
                     index.search(query, requestOptions)
                 } else {
                     index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters)
                 }
             }
-
-            response = responseSearch
         }
         sequencer.addOperation(job)
     }
