@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.sample.R
 import com.algolia.search.model.search.Facet
 import refinement.facet.RefinementFacet
-import selection.SelectionListView
+import refinement.facet.RefinementFacetsView
 
 
 class SelectionListAdapter :
     ListAdapter<RefinementFacet, RefinementFacetViewHolder>(diffUtil),
-    SelectionListView<Facet> {
+    RefinementFacetsView {
 
     private lateinit var onClick: (Facet) -> Unit
 

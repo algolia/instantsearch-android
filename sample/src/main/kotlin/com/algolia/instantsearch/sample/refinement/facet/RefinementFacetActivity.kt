@@ -20,7 +20,7 @@ import filter.FilterGroupID
 import filter.FilterState
 import filter.toFilterGroups
 import highlight
-import kotlinx.android.synthetic.main.refinement_activity.*
+import kotlinx.android.synthetic.main.refinement_list_activity.*
 import refinement.RefinementOperator
 import refinement.facet.*
 import refinement.facet.FacetSortCriterion.*
@@ -59,42 +59,43 @@ class RefinementFacetActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.refinement_activity)
+        setContentView(R.layout.refinement_list_activity)
 
-        val viewModelA = RefinementFacetsViewModel(SelectionMode.Single)
-        val viewA = SelectionListAdapter()
-        val presenterA = RefinementFacetsPresenter(listOf(IsRefined, AlphabeticalAscending), 5)
+        val colorViewModel = RefinementFacetsViewModel(SelectionMode.Single)
+        val colorAView = SelectionListAdapter()
+        val colorAPresenter = RefinementFacetsPresenter(listOf(IsRefined, AlphabeticalAscending), 5)
 
-        viewModelA.connectSearcher(color, searcher, RefinementOperator.And)
-        viewModelA.connectView(viewA, presenterA)
+        colorViewModel.connectSearcher(color, searcher, RefinementOperator.And)
+        colorViewModel.connectView(colorAView, colorAPresenter)
 
-        val viewB = SelectionListAdapter()
-        val presenterB = RefinementFacetsPresenter(listOf(AlphabeticalDescending), 3)
+        val colorBView = SelectionListAdapter()
+        val colorBPresenter = RefinementFacetsPresenter(listOf(AlphabeticalDescending), 3)
 
-        viewModelA.connectView(viewB, presenterB)
+        colorViewModel.connectView(colorBView, colorBPresenter)
 
-        val viewModelC = RefinementFacetsViewModel(SelectionMode.Multiple)
-        val viewC = SelectionListAdapter()
-        val presenterC = RefinementFacetsPresenter(listOf(CountDescending), 5)
+        val promotionViewModel = RefinementFacetsViewModel(SelectionMode.Multiple)
+        val promotionView = SelectionListAdapter()
+        val promotionPresenter = RefinementFacetsPresenter(listOf(CountDescending), 5)
 
-        viewModelC.connectSearcher(promotion, searcher, RefinementOperator.And)
-        viewModelC.connectView(viewC, presenterC)
+        promotionViewModel.connectSearcher(promotion, searcher, RefinementOperator.And)
+        promotionViewModel.connectView(promotionView, promotionPresenter)
 
-        val viewModelD = RefinementFacetsViewModel(SelectionMode.Multiple)
-        val viewD = SelectionListAdapter()
-        val presenterD = RefinementFacetsPresenter(listOf(CountDescending, AlphabeticalAscending), 5)
+        val categoryViewModel = RefinementFacetsViewModel(SelectionMode.Multiple)
+        val categoryView = SelectionListAdapter()
+        val categoryPresenter = RefinementFacetsPresenter(listOf(CountDescending, AlphabeticalAscending), 5)
 
-        viewModelD.connectSearcher(category, searcher, RefinementOperator.Or)
-        viewModelD.connectView(viewD, presenterD)
+        categoryViewModel.connectSearcher(category, searcher, RefinementOperator.Or)
+        categoryViewModel.connectView(categoryView, categoryPresenter)
 
-        configureRecyclerView(listA, viewA)
-        configureRecyclerView(listB, viewB)
-        configureRecyclerView(listC, viewC)
-        configureRecyclerView(listD, viewD)
-        listATitle.text = formatTitle(presenterA, RefinementOperator.And)
-        listBTitle.text = formatTitle(presenterB, RefinementOperator.And)
-        listCTitle.text = formatTitle(presenterC, RefinementOperator.And)
-        listDTitle.text = formatTitle(presenterD, RefinementOperator.Or)
+        configureRecyclerView(listTopLeft, colorAView)
+        configureRecyclerView(listTopRight, colorBView)
+        configureRecyclerView(listBottomLeft, promotionView)
+        configureRecyclerView(listBottomRight, categoryView)
+
+        titleTopLeft.text = formatTitle(colorAPresenter, RefinementOperator.And)
+        titleTopRight.text = formatTitle(colorBPresenter, RefinementOperator.And)
+        titleBottomLeft.text = formatTitle(promotionPresenter, RefinementOperator.And)
+        titleBottomRight.text = formatTitle(categoryPresenter, RefinementOperator.Or)
 
         searcher.filterState.onStateChanged += {
             filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
@@ -102,7 +103,6 @@ class RefinementFacetActivity : AppCompatActivity() {
         searcher.errorListeners +=  {
             filtersTextView.text = it.localizedMessage
         }
-
         filtersClearAll.setOnClickListener {
             searcher.filterState.notify {
                 clear()
