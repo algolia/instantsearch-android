@@ -9,9 +9,9 @@ buildscript {
         google()
         jcenter()
     }
-    dependencies{
+    dependencies {
         classpath(dependency.script.AndroidTools())
-        classpath(kotlin("gradle-plugin", version = "1.3.30"))
+        classpath(kotlin("gradle-plugin", version = "1.3.31"))
     }
 }
 

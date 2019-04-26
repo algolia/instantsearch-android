@@ -1,4 +1,5 @@
 import dependency.network.Coroutines
+import dependency.script.AtomicFu
 
 plugins {
     id("kotlin-multiplatform")
@@ -17,6 +18,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-common"))
                 implementation(Coroutines("core-common"))
+                implementation(AtomicFu("common"))
             }
         }
         val commonTest by getting {
@@ -29,6 +31,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(Coroutines("core"))
+                implementation(AtomicFu())
             }
         }
         val jvmTest by getting {
