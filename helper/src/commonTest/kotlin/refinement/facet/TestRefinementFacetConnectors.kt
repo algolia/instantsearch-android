@@ -19,6 +19,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import kotlinx.coroutines.io.ByteReadChannel
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
 import refinement.RefinementOperator
 import search.SearcherSingleIndex
 import shouldBeEmpty
@@ -38,7 +39,7 @@ class TestRefinementFacetConnectors {
         hitsOrNull = listOf(),
         facetsOrNull = mapOf(color to facets)
     )
-    private val string = Json(encodeDefaults = false).stringify(ResponseSearch.serializer(), responseSearch)
+    private val string = Json(JsonConfiguration.Stable.copy(encodeDefaults = false)).stringify(ResponseSearch.serializer(), responseSearch)
     private val mockEngine = MockEngine {
         MockHttpResponse(
             it.call,
