@@ -20,8 +20,8 @@ import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.refinement_list_activity.*
 import refinement.RefinementOperator
-import refinement.facet.*
-import refinement.facet.FacetSortCriterion.*
+import refinement.facet.list.*
+import refinement.facet.list.FacetSortCriterion.*
 import search.SearcherSingleIndex
 import selection.SelectionMode
 

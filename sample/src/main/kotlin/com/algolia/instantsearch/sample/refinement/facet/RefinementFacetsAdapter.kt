@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.sample.R
 import com.algolia.search.model.search.Facet
 import refinement.facet.RefinementFacet
-import refinement.facet.RefinementFacetsView
+import refinement.facet.list.RefinementFacetsView
 
 
 class RefinementFacetsAdapter :
