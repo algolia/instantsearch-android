@@ -13,10 +13,14 @@ public class FilterState(
         numerics: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf()
     ) : this(MutableFiltersImpl(facets, tags, numerics))
 
-    public val onStateChanged: MutableList<(Filters) -> Unit> = mutableListOf()
+    public val onChange: MutableList<(Filters) -> Unit> = mutableListOf()
 
     public fun notify(block: MutableFilters.() -> Unit) {
         block(filters)
-        onStateChanged.forEach { it(filters) }
+        notify()
+    }
+
+    public fun notify() {
+        onChange.forEach { it(filters) }
     }
 }

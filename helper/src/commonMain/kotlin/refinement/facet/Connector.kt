@@ -18,29 +18,43 @@ public fun RefinementFacetsViewModel.connectSearcher(
     operator: RefinementOperator = Or,
     groupName: String = attribute.raw
 ) {
+
+    fun whenSelectionsComputedThenUpdateFilterState(groupID: FilterGroupID) {
+        onSelectionsComputed += { selections ->
+            val filters = selections.map { Filter.Facet(attribute, it) }.toSet()
+
+            searcher.filterState.notify {
+                clear(groupID)
+                add(groupID, filters)
+            }
+        }
+    }
+
+    fun whenFilterStateChangedThenUpdateSelections(groupID: FilterGroupID) {
+        val onChange: (Filters) -> Unit = { filters ->
+            selections = filters.getFacets(groupID).orEmpty().mapNotNull { it.value.raw as? String }.toSet()
+        }
+
+        onChange(searcher.filterState)
+        searcher.filterState.onChange += onChange
+    }
+
+    fun whenOnResponseChangedThenUpdateItems() {
+        searcher.onResponseChanged += { response ->
+            val disjunctiveFacets = response.disjunctiveFacetsOrNull?.get(attribute)
+
+            items = disjunctiveFacets ?: response.facetsOrNull.orEmpty()[attribute].orEmpty()
+        }
+    }
+
     val groupID = when (operator) {
         And -> FilterGroupID.And(groupName)
         Or -> FilterGroupID.Or(groupName)
     }
-    val onFilterStateChange: (Filters) -> Unit = { filters ->
-        selections = filters.getFacets(groupID).orEmpty().mapNotNull { it.value.raw as? String }.toSet()
-    }
 
-    onFilterStateChange(searcher.filterState)
-    searcher.filterState.onStateChanged += onFilterStateChange
-    searcher.onResponseChange += { response ->
-        val disjunctiveFacets = response.disjunctiveFacetsOrNull?.get(attribute)
-
-        items = disjunctiveFacets ?: response.facetsOrNull.orEmpty()[attribute].orEmpty()
-    }
-    onSelectionsComputed += { selections ->
-        val filters = selections.map { Filter.Facet(attribute, it) }.toSet()
-
-        searcher.filterState.notify {
-            clear(groupID)
-            add(groupID, filters)
-        }
-    }
+    whenSelectionsComputedThenUpdateFilterState(groupID)
+    whenFilterStateChangedThenUpdateSelections(groupID)
+    whenOnResponseChangedThenUpdateItems()
 }
 
 // TODO Demo persistent selection
