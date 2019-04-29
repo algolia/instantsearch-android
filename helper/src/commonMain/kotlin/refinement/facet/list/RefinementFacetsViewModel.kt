@@ -1,10 +1,10 @@
-package refinement.facet
+package refinement.facet.list
 
 import com.algolia.search.model.search.Facet
 import selection.SelectableListViewModel
 import selection.SelectionMode
 
 
-class RefinementFacetsViewModel(
+class RefinementFacetsViewModel (
     selectionMode: SelectionMode = SelectionMode.Multiple
 ) : SelectableListViewModel<String, Facet>(selectionMode)

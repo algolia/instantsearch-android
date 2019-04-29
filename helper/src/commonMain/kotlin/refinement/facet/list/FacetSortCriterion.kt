@@ -1,4 +1,4 @@
-package refinement.facet
+package refinement.facet.list
 
 
 public enum class FacetSortCriterion {
