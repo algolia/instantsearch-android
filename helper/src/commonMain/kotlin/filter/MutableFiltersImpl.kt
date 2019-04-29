@@ -4,10 +4,10 @@ import com.algolia.search.model.filter.Filter
 
 
 internal class MutableFiltersImpl(
-    private val facets: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(),
-    private val tags: MutableMap<FilterGroupID, Set<Filter.Tag>> = mutableMapOf(),
-    private val numerics: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf()
-) : MutableFilters, Filters by FiltersImpl(facets, tags, numerics) {
+    private val facetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(),
+    private val tagGroups: MutableMap<FilterGroupID, Set<Filter.Tag>> = mutableMapOf(),
+    private val numericGroups: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf()
+) : MutableFilters, Filters by FiltersImpl(facetGroups, tagGroups, numericGroups) {
 
     private fun <T : Filter> Map<FilterGroupID, Set<T>>.getOrDefault(groupID: FilterGroupID): Set<T> {
         return getOrElse(groupID, { setOf() })
@@ -38,9 +38,9 @@ internal class MutableFiltersImpl(
     override fun <T : Filter> add(groupID: FilterGroupID, vararg filters: T) {
         filters.forEach { filter ->
             when (filter) {
-                is Filter.Facet -> facets.add(groupID, filter)
-                is Filter.Tag -> tags.add(groupID, filter)
-                is Filter.Numeric -> numerics.add(groupID, filter)
+                is Filter.Facet -> facetGroups.add(groupID, filter)
+                is Filter.Tag -> tagGroups.add(groupID, filter)
+                is Filter.Numeric -> numericGroups.add(groupID, filter)
             }
         }
     }
@@ -48,9 +48,9 @@ internal class MutableFiltersImpl(
     override fun <T : Filter> remove(groupID: FilterGroupID, vararg filters: T) {
         filters.forEach { filter ->
             when (filter) {
-                is Filter.Facet -> facets.remove(groupID, filter)
-                is Filter.Tag -> tags.remove(groupID, filter)
-                is Filter.Numeric -> numerics.remove(groupID, filter)
+                is Filter.Facet -> facetGroups.remove(groupID, filter)
+                is Filter.Tag -> tagGroups.remove(groupID, filter)
+                is Filter.Numeric -> numericGroups.remove(groupID, filter)
             }
         }
     }
@@ -61,13 +61,13 @@ internal class MutableFiltersImpl(
 
     override fun clear(groupID: FilterGroupID?) {
         if (groupID != null) {
-            facets.clear(groupID)
-            numerics.clear(groupID)
-            tags.clear(groupID)
+            facetGroups.clear(groupID)
+            numericGroups.clear(groupID)
+            tagGroups.clear(groupID)
         } else {
-            facets.clear()
-            numerics.clear()
-            tags.clear()
+            facetGroups.clear()
+            numericGroups.clear()
+            tagGroups.clear()
         }
     }
 }

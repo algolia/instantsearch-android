@@ -51,7 +51,7 @@ class RefinementFacetActivity : AppCompatActivity() {
 
     private val index = client.initIndex(IndexName("mobile_demo_refinement_facet"))
     private val filterState = FilterState(
-        facets = mutableMapOf(
+        facetGroups = mutableMapOf(
             FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
         )
     )
