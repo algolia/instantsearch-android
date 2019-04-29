@@ -19,6 +19,12 @@ public fun RefinementFacetsViewModel.connectSearcher(
     groupName: String = attribute.raw
 ) {
 
+    fun updateQueryFacets() {
+        searcher.query.facets = searcher.query.facets.orEmpty().toMutableSet().also {
+            it += attribute
+        }
+    }
+
     fun whenSelectionsComputedThenUpdateFilterState(groupID: FilterGroupID) {
         onSelectionsComputed += { selections ->
             val filters = selections.map { Filter.Facet(attribute, it) }.toSet()
@@ -52,6 +58,7 @@ public fun RefinementFacetsViewModel.connectSearcher(
         Or -> FilterGroupID.Or(groupName)
     }
 
+    updateQueryFacets()
     whenSelectionsComputedThenUpdateFilterState(groupID)
     whenFilterStateChangedThenUpdateSelections(groupID)
     whenOnResponseChangedThenUpdateItems()

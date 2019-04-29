@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.sample.R
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.dsl.facets
-import com.algolia.search.dsl.query
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
@@ -34,14 +32,6 @@ class RefinementFacetActivity : AppCompatActivity() {
     private val promotion = Attribute("promotion")
     private val category = Attribute("category")
 
-    private val query = query {
-        facets {
-            +color
-            +promotion
-            +category
-        }
-    }
-
     private val client = ClientSearch(
         ConfigurationSearch(
             ApplicationID("latency"),
@@ -55,13 +45,11 @@ class RefinementFacetActivity : AppCompatActivity() {
             FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
         )
     )
-    private val searcher = SearcherSingleIndex(index, query, filterState)
+    private val searcher = SearcherSingleIndex(index, filterState = filterState)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.refinement_list_activity)
-
-        searcher.search()
 
         val colorAViewModel = RefinementFacetsViewModel(SelectionMode.Single)
         val colorAPresenter = RefinementFacetsPresenter(listOf(IsRefined, AlphabeticalAscending), 5)
@@ -111,6 +99,8 @@ class RefinementFacetActivity : AppCompatActivity() {
             searcher.filterState.notify { clear() }
         }
         filtersTextView.text = searcher.filterState.toFilterGroups().highlight(colors = colors)
+
+        searcher.search()
     }
 
     override fun onDestroy() {
