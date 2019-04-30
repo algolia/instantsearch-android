@@ -17,5 +17,7 @@ public interface Filters {
 
     fun getNumerics(): Map<FilterGroupID, Set<Filter.Numeric>>
 
+    fun getFilters(groupID: FilterGroupID): Set<Filter>
+
     fun <T : Filter> contains(groupID: FilterGroupID, filter: T): Boolean
 }

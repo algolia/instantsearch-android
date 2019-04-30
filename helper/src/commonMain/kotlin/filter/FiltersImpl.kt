@@ -33,6 +33,14 @@ internal class FiltersImpl(
         return numerics
     }
 
+    override fun getFilters(groupID: FilterGroupID): Set<Filter> {
+        return mutableSetOf<Filter>().apply {
+            getFacets(groupID)?.let { this += it }
+            getTags(groupID)?.let { this += it }
+            getNumerics(groupID)?.let { this += it }
+        }
+    }
+
     override fun <T : Filter> contains(groupID: FilterGroupID, filter: T): Boolean {
         return when (filter) {
             is Filter.Facet -> facets[groupID]?.contains(filter)
