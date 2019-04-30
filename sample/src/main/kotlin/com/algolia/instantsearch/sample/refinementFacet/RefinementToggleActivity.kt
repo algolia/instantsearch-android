@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.sample.refinementFacet
 
-import refinement.facet.list.FacetSortCriterion.*
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -10,10 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.instantsearch.sample.R
 import com.algolia.instantsearch.sample.refinement.facet.RefinementFacetsAdapter
 import com.algolia.instantsearch.sample.refinementToggle.CheckBoxFacetRefinement
-// import com.algolia.instantsearch.sample.R
-import com.algolia.instantsearch.sample.R
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.dsl.facets
@@ -23,21 +21,18 @@ import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.search.Facet
 import filter.FilterGroupID
 import filter.FilterState
 import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.refinement_toggle_activity.*
 import refinement.RefinementOperator
-import refinement.facet.RefinementFacetViewModel
-import refinement.facet.list.RefinementFacetsViewModel
+import refinement.facet.RefinementFilterViewModel
 import refinement.facet.connectSearcher
 import refinement.facet.connectView
-import refinement.facet.list.connectSearcher
-import refinement.facet.list.connectView
-import refinement.facet.list.FacetSortCriterion
-import refinement.facet.list.RefinementFacetsPresenter
+import refinement.facet.list.*
+import refinement.facet.list.FacetSortCriterion.AlphabeticalAscending
+import refinement.facet.list.FacetSortCriterion.IsRefined
 import search.SearcherSingleIndex
 import selection.SelectionMode
 
@@ -76,18 +71,16 @@ class RefinementToggleActivity : AppCompatActivity() {
 
 
         // CheckBox | color: red
-        val viewModelA = RefinementFacetViewModel()
-        val facetA = Facet("red", 0)
+        val viewModelA = RefinementFilterViewModel(Filter.Facet(color, "red"))
         val viewRed = CheckBoxFacetRefinement(toggleA)
 
         // CheckBox | color: green
-        val viewModelB = RefinementFacetViewModel()
-        val facetB = Facet("green", 0)
+        val viewModelB = RefinementFilterViewModel(Filter.Facet(color, "green"))
         val viewGreen = CheckBoxFacetRefinement(toggleB)
 
-        viewModelA.connectSearcher(color, searcher, facetA)
+        viewModelA.connectSearcher(searcher)
         viewModelA.connectView(viewRed)
-        viewModelB.connectSearcher(color, searcher, facetB)
+        viewModelB.connectSearcher(searcher)
         viewModelB.connectView(viewGreen)
 
         // Chip | size: 42
@@ -98,7 +91,7 @@ class RefinementToggleActivity : AppCompatActivity() {
 
         // region FiltersText / FiltersClearAll / Trigger search
         //TODO: Factorize with RefinementFacetActivity
-        searcher.filterState.onStateChanged += {
+        searcher.filterState.onChange += {
             filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
         }
 

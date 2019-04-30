@@ -3,7 +3,7 @@ package selection
 
 public interface SelectableView<T> {
 
-    var onClick: ((T?) -> Unit)?
+    var onClick: (() -> Unit)?
 
-    fun setSelectableItem(selectableItem: SelectableItem<T>?)
+    fun setSelectableItem(selectableItem: SelectableItem<T>)
 }

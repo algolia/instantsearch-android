@@ -9,8 +9,7 @@ class TestSelectableViewModel {
 
     @Test
     fun selection() {
-        SelectableViewModel<String>().apply {
-            item = valueA
+        SelectableViewModel(valueA).apply {
             onSelectionComputed += { selected = it }
             assertEquals(false, selected)
 

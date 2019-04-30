@@ -1,8 +1,7 @@
 package refinement.facet
 
-import com.algolia.search.model.search.Facet
+import com.algolia.search.model.filter.Filter
 import selection.SelectableView
 
 
-//TODO: Try with SelectableView<Filter.*> and see down the route
-public typealias RefinementFacetView = SelectableView<Facet>
+public typealias RefinementFilterView = SelectableView<Filter>

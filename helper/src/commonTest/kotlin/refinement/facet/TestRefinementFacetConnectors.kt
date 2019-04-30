@@ -61,19 +61,19 @@ class TestRefinementFacetConnectors {
     fun connectWithSSI() {
         blocking {
             val searcher = SearcherSingleIndex(mockIndex)
-            val model = RefinementFacetViewModel()
             val facet = facets.first()
             val filter = facet.toFilter(color)
+            val model = RefinementFilterViewModel(filter)
 
-            model.connectSearcher(color, searcher, facet, RefinementOperator.And)
+            model.connectSearcher(searcher, RefinementOperator.And)
             searcher.search()
             searcher.sequencer.currentOperation.join()
-            model.item shouldEqual facet
+            model.item shouldEqual filter
             model.selected shouldEqual false
 
             model.toggleSelection()
             searcher.sequencer.currentOperation.join()
-            model.selected shouldEqual facet.value
+            model.selected shouldEqual true
             searcher.query.filters = FilterConverter.SQL(filter)
             searcher.filterState.getFacets(FilterGroupID.And(color))!! shouldEqual setOf(filter)
         }
@@ -83,10 +83,11 @@ class TestRefinementFacetConnectors {
     fun modelReactsToFilterStateChanges() {
         blocking {
             val searcher = SearcherSingleIndex(mockIndex)
-            val model = RefinementFacetViewModel()
             val facet = facets.first()
+            val filter = facet.toFilter(color)
+            val model = RefinementFilterViewModel(filter)
 
-            model.connectSearcher(color, searcher, facet, RefinementOperator.And)
+            model.connectSearcher(searcher, RefinementOperator.And)
             searcher.search()
             searcher.sequencer.currentOperation.join()
             model.selected shouldEqual false
