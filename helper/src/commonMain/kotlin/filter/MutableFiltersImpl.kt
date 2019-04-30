@@ -70,4 +70,8 @@ internal class MutableFiltersImpl(
             tagGroups.clear()
         }
     }
+
+    override fun toString(): String {
+        return "MutableFiltersImpl(facets=$facets, tags=$tags, numerics=$numerics)"
+    }
 }

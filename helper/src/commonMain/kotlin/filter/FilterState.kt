@@ -23,4 +23,7 @@ public class FilterState(
     public fun notifyChange() {
         onChange.forEach { it(filters) }
     }
+
+    override fun toString(): String =
+        "FilterState(filters=$filters, onStateChanged=${onStateChanged.size} listener${if (onStateChanged.size > 1) "s" else ""})"
 }

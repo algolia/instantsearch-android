@@ -49,4 +49,8 @@ internal class FiltersImpl(
             else -> null
         } ?: false
     }
+
+    override fun toString(): String {
+        return "FiltersImpl(facets=$facets, tags=$tags, numerics=$numerics)"
+    }
 }
