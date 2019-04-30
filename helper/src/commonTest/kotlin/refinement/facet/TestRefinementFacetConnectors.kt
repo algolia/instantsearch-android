@@ -67,11 +67,11 @@ class TestRefinementFacetConnectors {
 
             model.connectSearcher(color, searcher, RefinementOperator.And)
             searcher.search()
-            searcher.sequencer.currentOperation!!.join()
+            searcher.sequencer.currentOperation.join()
             model.items.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
             model.selectItem(facet.value)
-            searcher.sequencer.currentOperation!!.join()
+            searcher.sequencer.currentOperation.join()
             model.selections shouldEqual setOf(facet.value)
             searcher.query.filters = FilterConverter.SQL(filter)
             searcher.filterState.getFacets(FilterGroupID.And(color.raw))!! shouldEqual setOf(filter)
@@ -87,7 +87,7 @@ class TestRefinementFacetConnectors {
 
             model.connectSearcher(color, searcher, RefinementOperator.And)
             searcher.search()
-            searcher.sequencer.currentOperation!!.join()
+            searcher.sequencer.currentOperation.join()
             model.selections.shouldBeEmpty()
             searcher.filterState.notify {
                 add(FilterGroupID.And(color.raw), facet.toFilter(color))

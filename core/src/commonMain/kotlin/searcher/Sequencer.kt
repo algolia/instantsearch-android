@@ -13,12 +13,14 @@ public class Sequencer(val maxOperations: Int = 5) {
 
     internal val operations = atomicArrayOfNulls<Job>(maxOperations)
 
-    public val currentOperation: Job?
+    public val currentOperationOrNull: Job?
         get() {
             val index = (0 until maxOperations).findLast { operations[it].value != null }
 
             return index?.let { operations[it].value }
         }
+
+    public val currentOperation: Job get() = currentOperationOrNull!!
 
     /**
      * When an operation is added, and the maxOperations count is reached, the oldest job in the queue is canceled
