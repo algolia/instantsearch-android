@@ -2,50 +2,16 @@ package com.algolia.instantsearch.sample.refinement.facet
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.sample.R
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.Filter
-import filter.FilterGroupID
-import filter.FilterState
-import filter.toFilterGroups
-import highlight
 import kotlinx.android.synthetic.main.refinement_list_activity.*
 import refinement.RefinementOperator
 import refinement.facet.list.*
 import refinement.facet.list.FacetSortCriterion.*
-import search.SearcherSingleIndex
 import selection.SelectionMode
 
-
-class RefinementFacetActivity : AppCompatActivity() {
-
-    private val color = Attribute("color")
-    private val promotion = Attribute("promotion")
-    private val category = Attribute("category")
-
-    private val client = ClientSearch(
-        ConfigurationSearch(
-            ApplicationID("latency"),
-            APIKey("1f6fd3a6fb973cb08419fe7d288fa4db")
-        )
-    )
-
-    private val index = client.initIndex(IndexName("mobile_demo_refinement_facet"))
-    private val filterState = FilterState(
-        facetGroups = mutableMapOf(
-            FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
-        )
-    )
-    private val searcher = SearcherSingleIndex(index, filterState = filterState)
+class RefinementFacetActivity : RefinementActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,31 +55,20 @@ class RefinementFacetActivity : AppCompatActivity() {
         titleBottomLeft.text = formatTitle(promotionPresenter, RefinementOperator.And)
         titleBottomRight.text = formatTitle(categoryPresenter, RefinementOperator.Or)
 
-        searcher.filterState.onChange += {
-            filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
-        }
-        searcher.errorListeners +=  {
-            filtersTextView.text = it.localizedMessage
-        }
-        filtersClearAll.setOnClickListener {
-            searcher.filterState.notify { clear() }
-        }
-        filtersTextView.text = searcher.filterState.toFilterGroups().highlight(colors = colors)
+        onChangeThenUpdateFiltersText(filtersTextView)
+        onErrorThenUpdateFiltersText(filtersTextView)
+        onClearAllThenClearFilters(filtersClearAll)
+        updateFiltersTextFromState(filtersTextView)
 
         searcher.search()
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
     }
 
-    private val colors
-        get() = mapOf(
-            color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
-            promotion.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
-            category.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
-        )
 
     private fun configureRecyclerView(
         recyclerView: View,
