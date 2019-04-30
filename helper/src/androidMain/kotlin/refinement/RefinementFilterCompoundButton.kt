@@ -1,27 +1,29 @@
 package refinement
 
-import android.widget.CheckBox
+import android.widget.CompoundButton
 import com.algolia.search.model.filter.Filter
 
 
-class RefinementFilterCheckBox(private val view: CheckBox) : RefinementFilterView {
+class RefinementFilterCompoundButton(
+    val view: CompoundButton
+) : RefinementFilterView {
 
-    override var onClick: (() -> Unit)? = null
+    override var onClick: ((Boolean) -> Unit)? = null
 
     init {
-        view.setOnClickListener { onClick?.invoke() }
+        setOnCheckedChangeListener()
     }
 
     override fun setSelectableItem(selectableItem: RefinementFilter) {
         val (filter, isSelected) = selectableItem
+
         view.text = when (filter) {
             is Filter.Facet -> {
-                val valueString = when (val value = filter.value) {
+                when (val value = filter.value) {
                     is Filter.Facet.Value.String -> value.raw
                     is Filter.Facet.Value.Number -> value.raw.toString()
                     is Filter.Facet.Value.Boolean -> value.raw.toString()
                 }
-                "${filter.attribute} : $valueString"
             }
             is Filter.Tag -> filter.value
             is Filter.Numeric -> when (val value = filter.value) {
@@ -29,6 +31,14 @@ class RefinementFilterCheckBox(private val view: CheckBox) : RefinementFilterVie
                 is Filter.Numeric.Value.Range -> "${filter.attribute} ${value.lowerBound} to ${value.upperBound}"
             }
         }
+        view.setOnCheckedChangeListener(null)
         view.isChecked = isSelected
+        setOnCheckedChangeListener()
+    }
+
+    private fun setOnCheckedChangeListener() {
+        view.setOnCheckedChangeListener { _, isChecked ->
+            onClick?.invoke(isChecked)
+        }
     }
 }

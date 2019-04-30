@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.sample.R
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.dsl.facets
-import com.algolia.search.dsl.query
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
@@ -34,13 +32,6 @@ class RefinementFacetsActivity : AppCompatActivity() {
     private val promotion = Attribute("promotion")
     private val category = Attribute("category")
 
-    private val query = query {
-        facets {
-            +color
-            +promotion
-            +category
-        }
-    }
     private val client = ClientSearch(
         ConfigurationSearch(
             ApplicationID("latency"),
@@ -53,7 +44,7 @@ class RefinementFacetsActivity : AppCompatActivity() {
             FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
         )
     )
-    private val searcher = SearcherSingleIndex(index, query, filterState = filterState)
+    private val searcher = SearcherSingleIndex(index, filterState = filterState)
 
     private val colors
         get() = mapOf(

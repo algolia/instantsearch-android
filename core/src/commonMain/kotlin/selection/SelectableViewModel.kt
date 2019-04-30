@@ -2,6 +2,7 @@ package selection
 
 import kotlin.properties.Delegates
 
+
 public open class SelectableViewModel<V>(public val item: V) {
 
     val onSelectedChanged: MutableList<(Boolean) -> Unit> = mutableListOf()
@@ -13,8 +14,8 @@ public open class SelectableViewModel<V>(public val item: V) {
         }
     }
 
-    public fun toggleSelection() {
-        selected = !selected
-        onSelectedComputed.forEach { it(selected) }
+    public fun setSelection(isSelected: Boolean) {
+        selected = isSelected
+        onSelectedComputed.forEach { it(isSelected) }
     }
 }

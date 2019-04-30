@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.sample.R
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.dsl.facets
-import com.algolia.search.dsl.query
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
@@ -34,13 +32,6 @@ class RefinementActivity : AppCompatActivity() {
     private val promotion = Attribute("promotion")
     private val category = Attribute("category")
 
-    private val query = query {
-        facets {
-            +color
-            +promotion
-            +category
-        }
-    }
     private val client = ClientSearch(
         ConfigurationSearch(
             ApplicationID("latency"),
@@ -49,12 +40,13 @@ class RefinementActivity : AppCompatActivity() {
     )
     private val index = client.initIndex(IndexName("mobile_demo_refinement_facet"))
     private val filterFacetRed = Filter.Facet(color, "red")
+    private val filterFacetGreen = Filter.Facet(color, "green")
     private val filterState = FilterState(
         facetGroups = mutableMapOf(
             FilterGroupID.Or(color.raw) to setOf(filterFacetRed)
         )
     )
-    private val searcher = SearcherSingleIndex(index, query, filterState = filterState)
+    private val searcher = SearcherSingleIndex(index, filterState = filterState)
 
     private val colors
         get() = mapOf(
@@ -68,10 +60,16 @@ class RefinementActivity : AppCompatActivity() {
         setContentView(R.layout.activity_refinement)
 
         val viewModelColorRed = RefinementFilterViewModel(filterFacetRed)
-        val viewColorRed = RefinementFilterCheckBox(filterCheckBoxRed)
+        val viewColorRed = RefinementFilterCompoundButton(filterRed)
 
         viewModelColorRed.connectSearcher(searcher, RefinementOperator.Or)
         viewModelColorRed.connectView(viewColorRed)
+
+        val viewModelColorGreen = RefinementFilterViewModel(filterFacetGreen)
+        val viewColorGreen = RefinementFilterCompoundButton(filterGreen)
+
+        viewModelColorGreen.connectSearcher(searcher, RefinementOperator.Or)
+        viewModelColorGreen.connectView(viewColorGreen)
 
         // TODO Chip | size: 42
         // TODO Toggle | popular: true/false

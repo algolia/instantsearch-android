@@ -77,26 +77,41 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <CheckBox
-            android:id="@+id/filterCheckBoxRed"
+    <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/filterRed"
             app:layout_constraintTop_toBottomOf="@id/filtersCard"
             app:layout_constraintEnd_toStartOf="@id/list"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_width="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="Red"/>
+            android:layout_marginEnd="16dp"
+            tools:text="red"/>
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/filterGreen"
+            app:layout_constraintTop_toBottomOf="@id/filterRed"
+            app:layout_constraintEnd_toStartOf="@id/list"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            tools:text="green"/>
 
     <include
             android:id="@+id/list"
             android:background="@android:color/holo_red_dark"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintTop_toBottomOf="@id/filtersCard"
-            app:layout_constraintStart_toEndOf="@id/filterCheckBoxRed"
+            app:layout_constraintStart_toEndOf="@id/filterRed"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"

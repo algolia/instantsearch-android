@@ -29,7 +29,7 @@ public fun RefinementFilterViewModel.connectSearcher(
         }
     }
 
-    fun whenFilterStateChangedThenUpdateSelectied(groupID: FilterGroupID) {
+    fun whenFilterStateChangedThenUpdateSelected(groupID: FilterGroupID) {
         val onChange: (Filters) -> Unit = { filters ->
             selected = filters.contains(groupID, filter)
         }
@@ -45,7 +45,7 @@ public fun RefinementFilterViewModel.connectSearcher(
 
     updateQueryFacets()
     whenSelectedComputedThenUpdateFilterState(groupID)
-    whenFilterStateChangedThenUpdateSelectied(groupID)
+    whenFilterStateChangedThenUpdateSelected(groupID)
 }
 
 fun RefinementFilterViewModel.connectView(
@@ -56,6 +56,6 @@ fun RefinementFilterViewModel.connectView(
     }
 
     assignSelectableItem(item, selected)
-    view.onClick = { toggleSelection() }
+    view.onClick = (::setSelection)
     onSelectedChanged += { selection -> assignSelectableItem(item, selection) }
 }
