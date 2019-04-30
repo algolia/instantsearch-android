@@ -11,8 +11,10 @@ import refinement.RefinementOperator.And
 import refinement.RefinementOperator.Or
 import search.SearcherSingleIndex
 
+//TODO: Remove logs
 //FIXME: Synchronize a RefinementFacet widget(color, red, OR) with a FacetState having a Refinement(color, red, AND)
-// -> Maybe we should expose a `getFacets(groupName)` that returns all facets for that groupName, used for syncing related views?
+// -> Maybe we should expose a `getFacets(groupName)` that returns all facets for that groupName,
+// used for syncing related views?
 public fun RefinementFacetViewModel.connectSearcher(
     attribute: Attribute,
     searcher: SearcherSingleIndex,
@@ -20,6 +22,7 @@ public fun RefinementFacetViewModel.connectSearcher(
     operator: RefinementOperator = Or,
     groupName: String = attribute.raw
 ) {
+    item = refinement // We need to set item now, otherwise as selection is boolean we won't know what gets selected
     val groupID = when (operator) {
         And -> FilterGroupID.And(groupName)
         Or -> FilterGroupID.Or(groupName)
@@ -29,18 +32,13 @@ public fun RefinementFacetViewModel.connectSearcher(
             .any { it.value.raw?.equals(item?.value) ?: false }
     }
 
-    item = refinement // We need to set item now, otherwise as selection is boolean we won't know what gets selected
     onFilterStateChange(searcher.filterState)
     searcher.filterState.onChange += onFilterStateChange
     searcher.onResponseChanged += { response ->
-        debugLog("New response: let's update the item according to the response's facets")
-        val facets = response.disjunctiveFacetsOrNull?.get(attribute)
-            ?: response.facetsOrNull?.get(attribute)
-        item = facets?.firstOrNull { it.value.equals(selection) }
-        debugLog("Computed new item: $item")
+        val facets = response.disjunctiveFacetsOrNull?.get(attribute) ?: response.facetsOrNull?.get(attribute)
+        facets?.find { it.value == item?.value }?.let { item = it }
     }
     onSelectionComputed += { selection ->
-        debugLog("New selection $selection: let's update filterState")
         searcher.filterState.notify {
             clear(groupID)
             item?.let {
