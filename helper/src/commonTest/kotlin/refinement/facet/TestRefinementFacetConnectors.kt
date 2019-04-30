@@ -42,7 +42,7 @@ class TestRefinementFacetConnectors {
     private val string = Json(JsonConfiguration.Stable.copy(encodeDefaults = false)).stringify(ResponseSearch.serializer(), responseSearch)
     private val mockEngine = MockEngine {
         MockHttpResponse(
-            it.call,
+            call,
             HttpStatusCode.OK,
             headers = headersOf("Content-Type", listOf(ContentType.Application.Json.toString())),
             content = ByteReadChannel(string)
@@ -66,6 +66,7 @@ class TestRefinementFacetConnectors {
             val filter = facet.toFilter(color)
 
             model.connectSearcher(color, searcher, RefinementOperator.And)
+            searcher.search()
             searcher.sequencer.currentOperation!!.join()
             model.items.toSet() shouldEqual facets.toSet()
             model.selections.shouldBeEmpty()
@@ -85,6 +86,7 @@ class TestRefinementFacetConnectors {
             val facet = facets.first()
 
             model.connectSearcher(color, searcher, RefinementOperator.And)
+            searcher.search()
             searcher.sequencer.currentOperation!!.join()
             model.selections.shouldBeEmpty()
             searcher.filterState.notify {
