@@ -1,4 +1,4 @@
-package refinement.facet.list
+package refinement
 
 import com.algolia.search.model.search.Facet
 import selection.SelectableListView

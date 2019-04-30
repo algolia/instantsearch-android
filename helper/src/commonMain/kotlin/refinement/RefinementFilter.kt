@@ -1,4 +1,4 @@
-package refinement.facet
+package refinement
 
 import com.algolia.search.model.filter.Filter
 import selection.SelectableItem

@@ -14,7 +14,7 @@
             android:theme="@style/InstantSearchDemo"
             tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".refinement.facet.RefinementFacetActivity">
+        <activity android:name=".refinement.RefinementFacetsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".refinementFacet.RefinementToggleActivity">
+        <activity android:name=".refinement.RefinementActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

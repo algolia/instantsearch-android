@@ -10,7 +10,7 @@ class TestSelectableViewModel {
     @Test
     fun selection() {
         SelectableViewModel(valueA).apply {
-            onSelectionComputed += { selected = it }
+            onSelectedComputed += { selected = it }
             assertEquals(false, selected)
 
             toggleSelection()

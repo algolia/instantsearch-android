@@ -1,11 +1,13 @@
-package refinement.facet.list
+package refinement.list
 
 import blocking
 import com.algolia.search.model.filter.FilterConverter
 import filter.FilterGroupID
 import filter.toFilter
+import refinement.RefinementFacetsViewModel
 import refinement.RefinementOperator
 import refinement.TestRefinementConnectors
+import refinement.connectSearcher
 import search.SearcherSingleIndex
 import shouldBeEmpty
 import shouldEqual

@@ -1,4 +1,4 @@
-package refinement.facet.list
+package refinement
 
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -6,10 +6,8 @@ import com.algolia.search.model.search.Facet
 import filter.FilterGroupID
 import filter.Filters
 import filter.add
-import refinement.RefinementOperator
 import refinement.RefinementOperator.And
 import refinement.RefinementOperator.Or
-import refinement.facet.RefinementFacet
 import search.SearcherSingleIndex
 
 

@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.refinement.facet
+package com.algolia.instantsearch.sample.refinement
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

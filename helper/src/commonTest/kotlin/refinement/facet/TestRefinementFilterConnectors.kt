@@ -4,8 +4,10 @@ import blocking
 import com.algolia.search.model.filter.FilterConverter
 import filter.FilterGroupID
 import filter.toFilter
+import refinement.RefinementFilterViewModel
 import refinement.RefinementOperator
 import refinement.TestRefinementConnectors
+import refinement.connectSearcher
 import search.SearcherSingleIndex
 import shouldEqual
 import kotlin.test.Test
@@ -30,7 +32,7 @@ class TestRefinementFilterConnectors : TestRefinementConnectors() {
             searcher.sequencer.currentOperation.join()
             model.selected shouldEqual true
             searcher.query.filters = FilterConverter.SQL(filter)
-            searcher.filterState.getFacets(FilterGroupID.And(color))!! shouldEqual setOf(filter)
+            searcher.filterState.getFacetFilters(FilterGroupID.And(color))!! shouldEqual setOf(filter)
         }
     }
 
