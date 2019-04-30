@@ -7,17 +7,17 @@ import com.algolia.search.model.search.Facet
 
 
 public fun Filters.toFilterGroups(): List<FilterGroup<*>> {
-    return getFacets().map { (key, value) ->
+    return getFacetGroups().map { (key, value) ->
         when (key) {
             is FilterGroupID.And -> FilterGroup.And.Facet(value, key.name)
             is FilterGroupID.Or -> FilterGroup.Or.Facet(value, key.name)
         }
-    } + getTags().map { (key, value) ->
+    } + getTagGroups().map { (key, value) ->
         when (key) {
             is FilterGroupID.And -> FilterGroup.And.Tag(value, key.name)
             is FilterGroupID.Or -> FilterGroup.Or.Tag(value, key.name)
         }
-    } + getNumerics().map { (key, value) ->
+    } + getNumericGroups().map { (key, value) ->
         when (key) {
             is FilterGroupID.And -> FilterGroup.And.Numeric(value, key.name)
             is FilterGroupID.Or -> FilterGroup.Or.Numeric(value, key.name)

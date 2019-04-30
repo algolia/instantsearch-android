@@ -43,7 +43,7 @@ public class SearcherSingleIndex(
     }
 
     override fun search() {
-        val facets = filterState.getFacets()
+        val facets = filterState.getFacetGroups()
         val filters = facets.flatMap { it.value }
         val disjunctiveAttributes = facets
             .filter { it.key is FilterGroupID.Or }

@@ -38,7 +38,7 @@ public fun RefinementFacetsViewModel.connectSearcher(
 
     fun whenFilterStateChangedThenUpdateSelections(groupID: FilterGroupID) {
         val onChange: (Filters) -> Unit = { filters ->
-            selections = filters.getFacets(groupID).orEmpty().mapNotNull { it.value.raw as? String }.toSet()
+            selections = filters.getFacetFilters(groupID).orEmpty().mapNotNull { it.value.raw as? String }.toSet()
         }
 
         onChange(searcher.filterState)

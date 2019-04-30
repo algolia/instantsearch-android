@@ -9,35 +9,35 @@ internal class FiltersImpl(
     private val numerics: Map<FilterGroupID, Set<Filter.Numeric>>
 ) : Filters {
 
-    override fun getFacets(groupID: FilterGroupID): Set<Filter.Facet>? {
+    override fun getFacetFilters(groupID: FilterGroupID): Set<Filter.Facet>? {
         return facets[groupID]
     }
 
-    override fun getTags(groupID: FilterGroupID): Set<Filter.Tag>? {
+    override fun getTagFilters(groupID: FilterGroupID): Set<Filter.Tag>? {
         return tags[groupID]
     }
 
-    override fun getNumerics(groupID: FilterGroupID): Set<Filter.Numeric>? {
+    override fun getNumericFilters(groupID: FilterGroupID): Set<Filter.Numeric>? {
         return numerics[groupID]
     }
 
-    override fun getFacets(): Map<FilterGroupID, Set<Filter.Facet>> {
+    override fun getFacetGroups(): Map<FilterGroupID, Set<Filter.Facet>> {
         return facets
     }
 
-    override fun getTags(): Map<FilterGroupID, Set<Filter.Tag>> {
+    override fun getTagGroups(): Map<FilterGroupID, Set<Filter.Tag>> {
         return tags
     }
 
-    override fun getNumerics(): Map<FilterGroupID, Set<Filter.Numeric>> {
+    override fun getNumericGroups(): Map<FilterGroupID, Set<Filter.Numeric>> {
         return numerics
     }
 
     override fun getFilters(groupID: FilterGroupID): Set<Filter> {
         return mutableSetOf<Filter>().apply {
-            getFacets(groupID)?.let { this += it }
-            getTags(groupID)?.let { this += it }
-            getNumerics(groupID)?.let { this += it }
+            getFacetFilters(groupID)?.let { this += it }
+            getTagFilters(groupID)?.let { this += it }
+            getNumericFilters(groupID)?.let { this += it }
         }
     }
 

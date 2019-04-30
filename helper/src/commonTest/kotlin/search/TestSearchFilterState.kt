@@ -32,7 +32,7 @@ class TestSearchFilterState {
             add(groupA, facetA)
             add(groupA, facetB)
 
-            getFacets() shouldEqual mapOf(groupA to setOf(facetA, facetB))
+            getFacetGroups() shouldEqual mapOf(groupA to setOf(facetA, facetB))
         }
     }
 
@@ -42,7 +42,7 @@ class TestSearchFilterState {
             add(groupA, facetA)
             add(groupB, facetA)
 
-            getFacets() shouldEqual mapOf(
+            getFacetGroups() shouldEqual mapOf(
                 groupA to setOf(facetA),
                 groupB to setOf(facetA)
             )
@@ -55,8 +55,8 @@ class TestSearchFilterState {
             add(groupA, facetA)
             add(groupA, numeric)
 
-            getFacets() shouldEqual mapOf(groupA to setOf(facetA))
-            getNumerics() shouldEqual mapOf(groupA to setOf(numeric))
+            getFacetGroups() shouldEqual mapOf(groupA to setOf(facetA))
+            getNumericGroups() shouldEqual mapOf(groupA to setOf(numeric))
         }
     }
 
@@ -66,8 +66,8 @@ class TestSearchFilterState {
             add(groupA, facetA)
             add(groupB, numeric)
 
-            getFacets() shouldEqual mapOf(groupA to setOf(facetA))
-            getNumerics() shouldEqual mapOf(groupB to setOf(numeric))
+            getFacetGroups() shouldEqual mapOf(groupA to setOf(facetA))
+            getNumericGroups() shouldEqual mapOf(groupB to setOf(numeric))
         }
     }
 
@@ -78,7 +78,7 @@ class TestSearchFilterState {
             add(groupA, facetB)
             remove(groupA, facetA)
 
-            getFacets() shouldEqual mapOf(groupA to setOf(facetB))
+            getFacetGroups() shouldEqual mapOf(groupA to setOf(facetB))
         }
     }
 
@@ -87,9 +87,9 @@ class TestSearchFilterState {
         FilterState().apply {
             remove(groupA, facetA)
 
-            getFacets().shouldBeEmpty()
-            getTags().shouldBeEmpty()
-            getNumerics().shouldBeEmpty()
+            getFacetGroups().shouldBeEmpty()
+            getTagGroups().shouldBeEmpty()
+            getNumericGroups().shouldBeEmpty()
         }
     }
 
@@ -99,7 +99,7 @@ class TestSearchFilterState {
             add(groupA, facetA)
             remove(groupA, facetB)
 
-            getFacets() shouldEqual mapOf(groupA to setOf(facetA))
+            getFacetGroups() shouldEqual mapOf(groupA to setOf(facetA))
         }
     }
 
@@ -110,7 +110,7 @@ class TestSearchFilterState {
             add(groupB, facetB)
             clear(groupB)
 
-            getFacets() shouldEqual mapOf(groupA to setOf(facetA))
+            getFacetGroups() shouldEqual mapOf(groupA to setOf(facetA))
         }
     }
 
@@ -123,9 +123,9 @@ class TestSearchFilterState {
             add(groupA, tag)
             clear()
 
-            getFacets().shouldBeEmpty()
-            getTags().shouldBeEmpty()
-            getNumerics().shouldBeEmpty()
+            getFacetGroups().shouldBeEmpty()
+            getTagGroups().shouldBeEmpty()
+            getNumericGroups().shouldBeEmpty()
         }
     }
 
@@ -156,9 +156,9 @@ class TestSearchFilterState {
     fun toggle() {
         FilterState().apply {
             toggle(groupA, facetA)
-            getFacets() shouldEqual mapOf(groupA to setOf(facetA))
+            getFacetGroups() shouldEqual mapOf(groupA to setOf(facetA))
             toggle(groupA, facetA)
-            getFacets().shouldBeEmpty()
+            getFacetGroups().shouldBeEmpty()
         }
     }
 }

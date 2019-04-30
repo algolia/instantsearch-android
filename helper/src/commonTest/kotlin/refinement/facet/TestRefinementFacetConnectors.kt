@@ -74,7 +74,7 @@ class TestRefinementFacetConnectors {
             searcher.sequencer.currentOperation.join()
             model.selections shouldEqual setOf(facet.value)
             searcher.query.filters = FilterConverter.SQL(filter)
-            searcher.filterState.getFacets(FilterGroupID.And(color.raw))!! shouldEqual setOf(filter)
+            searcher.filterState.getFacetFilters(FilterGroupID.And(color.raw))!! shouldEqual setOf(filter)
         }
     }
 
