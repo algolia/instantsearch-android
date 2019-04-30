@@ -72,6 +72,6 @@ internal class MutableFiltersImpl(
     }
 
     override fun toString(): String {
-        return "MutableFiltersImpl(facets=$facets, tags=$tags, numerics=$numerics)"
+        return "MutableFiltersImpl(facets=$facetGroups, tags=$tagGroups, numerics=$numericGroups)"
     }
 }

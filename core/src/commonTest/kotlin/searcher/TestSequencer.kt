@@ -112,7 +112,7 @@ class TestSequencer {
             val operationA = launch { delay(Long.MAX_VALUE) }
             val operationB = launch { delay(Long.MAX_VALUE) }
 
-            sequencer.currentOperation shouldEqual null
+            sequencer.currentOperationOrNull shouldEqual null
             sequencer.addOperation(operationA)
             sequencer.currentOperation shouldEqual operationA
             sequencer.addOperation(operationB)

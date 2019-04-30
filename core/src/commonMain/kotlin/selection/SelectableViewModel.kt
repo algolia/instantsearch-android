@@ -4,8 +4,8 @@ import kotlin.properties.Delegates
 
 public open class SelectableViewModel<V> {
     val onItemChanged: MutableList<(V?) -> Unit> = mutableListOf()
-    var onSelectionChanged: List<(Boolean) -> Unit> = mutableListOf()
-    var onSelectionComputed: List<(Boolean) -> Unit> = mutableListOf()
+    val onSelectionChanged: MutableList<(Boolean) -> Unit> = mutableListOf()
+    val onSelectionComputed: MutableList<(Boolean) -> Unit> = mutableListOf()
 
     public var item by Delegates.observable<V?>(null) { _, oldValue, newValue ->
         if (oldValue != newValue) onItemChanged.forEach { it(newValue) }

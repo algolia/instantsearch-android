@@ -66,7 +66,7 @@ class RefinementToggleActivity : AppCompatActivity() {
     private val index = client.initIndex(IndexName("mobile_demo_refinement_facet")) //TODO: Separate index
     private val searcher = SearcherSingleIndex(
         index, query, FilterState(
-            facets = mutableMapOf(FilterGroupID.Or(color) to setOf(Filter.Facet(color, "green")))
+            facetGroups = mutableMapOf(FilterGroupID.Or(color) to setOf(Filter.Facet(color, "green")))
         )
     )
 

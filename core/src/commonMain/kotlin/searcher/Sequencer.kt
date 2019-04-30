@@ -65,8 +65,4 @@ public class Sequencer(val maxOperations: Int = 5) {
             operations[it].getAndSet(null)?.cancel()
         }
     }
-
-    suspend fun joinOrThrow() {
-        currentOperation!!.join()
-    }
 }

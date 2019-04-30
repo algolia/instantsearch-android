@@ -12,8 +12,6 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 import filter.FilterGroupID
 import filter.toFilter
-import refinement.facet.list.RefinementFacetsViewModel
-import refinement.facet.list.connectSearcher
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockHttpResponse
 import io.ktor.http.ContentType
@@ -24,11 +22,8 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import refinement.RefinementOperator
 import search.SearcherSingleIndex
-import shouldBeEmpty
 import shouldEqual
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 
 
 //TODO: Factorize with other Test*Connectors
@@ -47,7 +42,7 @@ class TestRefinementFacetConnectors {
     private val string = Json(JsonConfiguration.Stable.copy( encodeDefaults = false)).stringify(ResponseSearch.serializer(), responseSearch)
     private val mockEngine = MockEngine {
         MockHttpResponse(
-            it.call,
+            call,
             HttpStatusCode.OK,
             headers = headersOf("Content-Type", listOf(ContentType.Application.Json.toString())),
             content = ByteReadChannel(string)
@@ -71,12 +66,13 @@ class TestRefinementFacetConnectors {
             val filter = facet.toFilter(color)
 
             model.connectSearcher(color, searcher, facet, RefinementOperator.And)
-            searcher.sequencer.joinOrThrow()
+            searcher.search()
+            searcher.sequencer.currentOperation.join()
             model.item shouldEqual facet
             model.selection shouldEqual false
 
             model.toggleSelection()
-            searcher.sequencer.joinOrThrow()
+            searcher.sequencer.currentOperation.join()
             model.selection shouldEqual facet.value
             searcher.query.filters = FilterConverter.SQL(filter)
             searcher.filterState.getFacets(FilterGroupID.And(color))!! shouldEqual setOf(filter)
@@ -91,7 +87,8 @@ class TestRefinementFacetConnectors {
             val facet = facets.first()
 
             model.connectSearcher(color, searcher, facet, RefinementOperator.And)
-            searcher.sequencer.joinOrThrow()
+            searcher.search()
+            searcher.sequencer.currentOperation.join()
             model.selection shouldEqual false
             searcher.filterState.notify {
                 add(FilterGroupID.And(color), facet.toFilter(color))

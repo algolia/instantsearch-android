@@ -31,10 +31,10 @@ public fun RefinementFacetViewModel.connectSearcher(
 
     item = refinement // We need to set item now, otherwise as selection is boolean we won't know what gets selected
     onFilterStateChange(searcher.filterState)
-    searcher.filterState.onStateChanged += onFilterStateChange
-    searcher.onResponseChange += { response ->
+    searcher.filterState.onChange += onFilterStateChange
+    searcher.onResponseChanged += { response ->
         debugLog("New response: let's update the item according to the response's facets")
-        var facets = response.disjunctiveFacetsOrNull?.get(attribute)
+        val facets = response.disjunctiveFacetsOrNull?.get(attribute)
             ?: response.facetsOrNull?.get(attribute)
         item = facets?.firstOrNull { it.value.equals(selection) }
         debugLog("Computed new item: $item")

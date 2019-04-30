@@ -1,4 +1,4 @@
-package refinement.facet
+package refinement.facet.list
 
 import blocking
 import com.algolia.search.client.ClientSearch
@@ -12,8 +12,6 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 import filter.FilterGroupID
 import filter.toFilter
-import refinement.facet.list.RefinementFacetsViewModel
-import refinement.facet.list.connectSearcher
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockHttpResponse
 import io.ktor.http.ContentType

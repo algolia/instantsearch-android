@@ -25,5 +25,5 @@ public class FilterState(
     }
 
     override fun toString(): String =
-        "FilterState(filters=$filters, onStateChanged=${onStateChanged.size} listener${if (onStateChanged.size > 1) "s" else ""})"
+        "FilterState(filters=$filters, onStateChanged=${onChange.size} listener${if (onChange.size > 1) "s" else ""})"
 }
