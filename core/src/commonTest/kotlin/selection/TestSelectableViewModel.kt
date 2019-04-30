@@ -6,7 +6,6 @@ import kotlin.test.assertEquals
 class TestSelectableViewModel {
 
     private val valueA = "valueA"
-    private val valueB = "valueB"
 
     @Test
     fun selection() {
@@ -14,8 +13,10 @@ class TestSelectableViewModel {
             item = valueA
             onSelectionComputed += { selection = it }
             assertEquals(false, selection)
+
             toggleSelection()
             assertEquals(true, selection)
+
             toggleSelection()
             assertEquals(false, selection)
         }
