@@ -11,14 +11,14 @@ public open class SelectableViewModel<V> {
         if (oldValue != newValue) onItemChanged.forEach { it(newValue) }
     }
     //TODO: Rename as selected
-    public var selection by Delegates.observable(false) { _, oldValue, newValue ->
+    public var selected by Delegates.observable(false) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             onSelectionChanged.forEach { it(newValue) }
         }
     }
 
     public fun toggleSelection() {
-        selection = !selection
-        onSelectionComputed.forEach { it(selection) }
+        selected = !selected
+        onSelectionComputed.forEach { it(selected) }
     }
 }

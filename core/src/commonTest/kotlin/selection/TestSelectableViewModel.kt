@@ -11,14 +11,14 @@ class TestSelectableViewModel {
     fun selection() {
         SelectableViewModel<String>().apply {
             item = valueA
-            onSelectionComputed += { selection = it }
-            assertEquals(false, selection)
+            onSelectionComputed += { selected = it }
+            assertEquals(false, selected)
 
             toggleSelection()
-            assertEquals(true, selection)
+            assertEquals(true, selected)
 
             toggleSelection()
-            assertEquals(false, selection)
+            assertEquals(false, selected)
         }
     }
 }

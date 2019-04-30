@@ -22,13 +22,13 @@ public fun RefinementFacetViewModel.connectSearcher(
     operator: RefinementOperator = Or,
     groupName: String = attribute.raw
 ) {
-    item = refinement // We need to set item now, otherwise as selection is boolean we won't know what gets selected
+    item = refinement // We need to set item now, otherwise as selected is boolean we won't know what gets selected
     val groupID = when (operator) {
         And -> FilterGroupID.And(groupName)
         Or -> FilterGroupID.Or(groupName)
     }
     val onFilterStateChange: (Filters) -> Unit = { filters ->
-        selection = filters.getFacets(groupID).orEmpty()
+        selected = filters.getFacets(groupID).orEmpty()
             .any { it.value.raw?.equals(item?.value) ?: false }
     }
 
@@ -55,21 +55,21 @@ fun RefinementFacetViewModel.connectView(
     view: RefinementFacetView
 ) {
     fun assignSelectableItem(facet: Facet?, selected: Boolean) {
-        debugLog("Assigning item: $facet, selection=$selected")
+        debugLog("Assigning item: $facet, selected=$selected")
         view.setSelectableItem(facet?.let { RefinementFacet(facet, selected) })
     }
 
-    assignSelectableItem(item, selection)
+    assignSelectableItem(item, selected)
     view.onClick = { facet ->
         debugLog("view.onClick -> let's select/deselect the clicked facet $facet!")
         toggleSelection()
     }
     onItemChanged += { item ->
-        debugLog("VM.onItemChanged -> let's assign the new item $item with current selection $selection!")
-        assignSelectableItem(item, selection)
+        debugLog("VM.onItemChanged -> let's assign the new item $item with current selected $selected!")
+        assignSelectableItem(item, selected)
     }
     onSelectionChanged += { selection ->
-        debugLog("VM.onSelectionChanged -> let's assign the new selection $selection with current item $item!")
+        debugLog("VM.onSelectionChanged -> let's assign the new selected $selection with current item $item!")
         assignSelectableItem(item, selection)
     }
 }

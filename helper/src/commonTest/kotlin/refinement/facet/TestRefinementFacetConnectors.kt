@@ -69,11 +69,11 @@ class TestRefinementFacetConnectors {
             searcher.search()
             searcher.sequencer.currentOperation.join()
             model.item shouldEqual facet
-            model.selection shouldEqual false
+            model.selected shouldEqual false
 
             model.toggleSelection()
             searcher.sequencer.currentOperation.join()
-            model.selection shouldEqual facet.value
+            model.selected shouldEqual facet.value
             searcher.query.filters = FilterConverter.SQL(filter)
             searcher.filterState.getFacets(FilterGroupID.And(color))!! shouldEqual setOf(filter)
         }
@@ -89,11 +89,11 @@ class TestRefinementFacetConnectors {
             model.connectSearcher(color, searcher, facet, RefinementOperator.And)
             searcher.search()
             searcher.sequencer.currentOperation.join()
-            model.selection shouldEqual false
+            model.selected shouldEqual false
             searcher.filterState.notify {
                 add(FilterGroupID.And(color), facet.toFilter(color))
             }
-            model.selection shouldEqual true
+            model.selected shouldEqual true
         }
     }
 }
