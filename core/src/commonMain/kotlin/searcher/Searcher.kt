@@ -1,7 +1,7 @@
 package searcher
 
 
-interface Searcher {
+public interface Searcher {
 
     fun search()
     fun cancel()

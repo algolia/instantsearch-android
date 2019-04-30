@@ -1,2 +1,2 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.algolia.instantsearch.android"/>
+<manifest
+        package="com.algolia.instantsearch.android"/>

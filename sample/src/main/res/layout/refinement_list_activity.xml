@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.card.MaterialCardView
+            android:id="@+id/filtersCard"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/filtersTitle"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Filters"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:layout_width="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/filtersTextView"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/filtersTextView"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/filtersTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="0dp"
+                    android:minLines="4"
+                    tools:text="@tools:sample/lorem/random"
+                    android:textAppearance="?attr/textAppearanceBody2"/>
+
+            <ImageView
+                    android:id="@+id/filtersClearAll"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="Clear all"
+                    android:src="@drawable/ic_delete"
+                    app:layout_constraintVertical_bias="0"
+                    android:layout_marginEnd="8dp"
+                    android:padding="8dp"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+            app:layout_constraintTop_toBottomOf="@id/filtersCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/listTopLeft"
+            app:layout_constraintEnd_toStartOf="@id/titleTopRight"
+            android:textColor="@android:color/holo_red_dark"
+            android:id="@+id/titleTopLeft"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            tools:text="@tools:sample/lorem"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+    <include
+            android:id="@+id/listTopLeft"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleTopLeft"
+            app:layout_constraintEnd_toStartOf="@id/listTopRight"
+            app:layout_constraintBottom_toTopOf="@id/titleBottomLeft"
+            layout="@layout/list"/>
+
+    <TextView
+            app:layout_constraintTop_toBottomOf="@id/filtersCard"
+            app:layout_constraintStart_toEndOf="@id/titleTopLeft"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/listTopRight"
+            android:id="@+id/titleTopRight"
+            android:textColor="@android:color/holo_red_dark"
+            android:gravity="center"
+            tools:text="@tools:sample/lorem"
+            android:layout_margin="16dp"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+    <include
+            android:id="@+id/listTopRight"
+            app:layout_constraintStart_toEndOf="@id/listTopLeft"
+            app:layout_constraintTop_toBottomOf="@id/titleTopRight"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/titleBottomRight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            layout="@layout/list"/>
+
+    <TextView
+            app:layout_constraintTop_toBottomOf="@id/listTopLeft"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/listBottomLeft"
+            app:layout_constraintEnd_toStartOf="@id/titleBottomRight"
+            android:textColor="@android:color/holo_blue_dark"
+            android:id="@+id/titleBottomLeft"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            tools:text="@tools:sample/lorem"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+    <include
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:id="@+id/listBottomLeft"
+            android:layout_width="0dp"
+            app:layout_constraintTop_toBottomOf="@id/titleBottomLeft"
+            app:layout_constraintEnd_toStartOf="@id/listBottomRight"
+            android:layout_height="0dp"
+            layout="@layout/list"/>
+
+    <TextView
+            app:layout_constraintTop_toBottomOf="@id/listTopRight"
+            app:layout_constraintStart_toEndOf="@id/titleBottomLeft"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/listBottomRight"
+            android:textColor="@android:color/holo_green_dark"
+            android:id="@+id/titleBottomRight"
+            android:gravity="center"
+            tools:text="@tools:sample/lorem"
+            android:layout_margin="16dp"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+    <include
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleBottomRight"
+            app:layout_constraintStart_toEndOf="@id/listBottomLeft"
+            android:id="@+id/listBottomRight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            layout="@layout/list"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

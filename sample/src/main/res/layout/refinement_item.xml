@@ -1,0 +1,68 @@
+<com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        app:cardCornerRadius="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/listPreferredItemHeightSmall"
+        tools:layout_height="50dp"
+        android:layout_marginBottom="0.5dp"
+        android:foreground="?attr/selectableItemBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/refinementSelectableName"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/refinementSelectableSubtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@tools:sample/lorem/random"/>
+
+        <TextView
+                android:id="@+id/refinementSelectableSubtitle"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@tools:sample/lorem"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/grey_light"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constrainedWidth="true"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintEnd_toStartOf="@id/refinementSelectableIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <ImageView
+                android:id="@+id/refinementSelectableIcon"
+                style="@style/Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constrainedWidth="true"
+                app:layout_constrainedHeight="true"
+                android:layout_marginEnd="12dp"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                android:tint="?attr/colorAccent"
+                android:src="@drawable/ic_check"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
