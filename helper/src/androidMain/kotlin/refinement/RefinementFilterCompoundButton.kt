@@ -11,7 +11,7 @@ class RefinementFilterCompoundButton(
     override var onClick: ((Boolean) -> Unit)? = null
 
     init {
-        setOnCheckedChangeListener()
+        view.setOnClickListener { onClick?.invoke(view.isChecked) }
     }
 
     override fun setSelectableItem(selectableItem: RefinementFilter) {
@@ -31,14 +31,6 @@ class RefinementFilterCompoundButton(
                 is Filter.Numeric.Value.Range -> "${filter.attribute} ${value.lowerBound} to ${value.upperBound}"
             }
         }
-        view.setOnCheckedChangeListener(null)
         view.isChecked = isSelected
-        setOnCheckedChangeListener()
-    }
-
-    private fun setOnCheckedChangeListener() {
-        view.setOnCheckedChangeListener { _, isChecked ->
-            onClick?.invoke(isChecked)
-        }
     }
 }
