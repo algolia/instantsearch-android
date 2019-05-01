@@ -23,7 +23,6 @@ public fun RefinementFilterViewModel.connectSearcher(
     fun whenSelectedComputedThenUpdateFilterState(groupID: FilterGroupID) {
         onSelectedComputed += { selection ->
             searcher.filterState.notify {
-                clear(groupID)
                 if (selection) add(groupID, filter) else remove(groupID, filter)
             }
         }
