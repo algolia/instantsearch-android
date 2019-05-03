@@ -1,38 +1,38 @@
-package refinement.facet
+package selection.list
 
 import blocking
 import com.algolia.search.model.filter.FilterConverter
 import filter.FilterGroupID
 import filter.toFilter
-import refinement.RefinementFilterViewModel
+import refinement.facet.RefinementFacetsViewModel
 import refinement.RefinementOperator
-import refinement.TestRefinementConnectors
-import refinement.connectSearcher
+import selection.TestRefinementConnectors
+import refinement.facet.connectSearcher
 import search.SearcherSingleIndex
+import shouldBeEmpty
 import shouldEqual
 import kotlin.test.Test
 
-class TestRefinementFilterConnectors : TestRefinementConnectors() {
 
+class TestRefinementFacetsConnectors : TestRefinementConnectors() {
     @Test
     fun connectWithSSI() {
         blocking {
             val searcher = SearcherSingleIndex(mockIndex)
+            val model = RefinementFacetsViewModel()
             val facet = facets.first()
             val filter = facet.toFilter(color)
-            val model = RefinementFilterViewModel(filter)
 
-            model.connectSearcher(searcher, RefinementOperator.And)
+            model.connectSearcher(color, searcher, RefinementOperator.And)
             searcher.search()
             searcher.sequencer.currentOperation.join()
-            model.item shouldEqual filter
-            model.isSelected shouldEqual false
-
-            model.toggleSelection()
+            model.items.toSet() shouldEqual facets.toSet()
+            model.selections.shouldBeEmpty()
+            model.selectItem(facet.value)
             searcher.sequencer.currentOperation.join()
-            model.isSelected shouldEqual true
+            model.selections shouldEqual setOf(facet.value)
             searcher.query.filters = FilterConverter.SQL(filter)
-            searcher.filterState.getFacetFilters(FilterGroupID.And(color))!! shouldEqual setOf(filter)
+            searcher.filterState.getFacetFilters(FilterGroupID.And(color.raw))!! shouldEqual setOf(filter)
         }
     }
 
@@ -40,19 +40,17 @@ class TestRefinementFilterConnectors : TestRefinementConnectors() {
     fun modelReactsToFilterStateChanges() {
         blocking {
             val searcher = SearcherSingleIndex(mockIndex)
+            val model = RefinementFacetsViewModel()
             val facet = facets.first()
-            val filter = facet.toFilter(color)
-            val model = RefinementFilterViewModel(filter)
 
-            model.connectSearcher(searcher, RefinementOperator.And)
+            model.connectSearcher(color, searcher, RefinementOperator.And)
             searcher.search()
             searcher.sequencer.currentOperation.join()
-            model.isSelected shouldEqual false
+            model.selections.shouldBeEmpty()
             searcher.filterState.notify {
-                add(FilterGroupID.And(color), facet.toFilter(color))
+                add(FilterGroupID.And(color.raw), facet.toFilter(color))
             }
-            model.isSelected shouldEqual true
+            model.selections shouldEqual setOf(facet.value)
         }
     }
 }
-

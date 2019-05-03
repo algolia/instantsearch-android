@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.refinement
+package com.algolia.instantsearch.sample.refinement.filter
 
 import android.os.Bundle
 import android.view.View
@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.sample.R
+import com.algolia.instantsearch.sample.refinement.facet.RefinementFacetsAdapter
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
@@ -17,13 +18,19 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import filter.toFilterGroups
 import highlight
-import kotlinx.android.synthetic.main.activity_refinement_filter.*
-import refinement.*
-import refinement.FacetSortCriterion.AlphabeticalAscending
+import kotlinx.android.synthetic.main.refinement_filter_demo.*
+import refinement.RefinementOperator
+import refinement.facet.RefinementFacetsViewModel
+import refinement.facet.connectSearcher
+import refinement.facet.connectView
+import refinement.filter.RefinementFilterViewModel
+import refinement.filter.connectSearcher
+import refinement.filter.connectView
 import search.SearcherSingleIndex
+import selection.SelectableCompoundButton
 
 
-class RefinementFilterActivity : AppCompatActivity() {
+class RefinementFilterDemo : AppCompatActivity() {
 
     private val popular = Attribute("color")
     private val promotions = Attribute("promotions")
@@ -48,26 +55,25 @@ class RefinementFilterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_refinement_filter)
+        setContentView(R.layout.refinement_filter_demo)
 
         val viewModelFreeShipping = RefinementFilterViewModel(Filter.Facet(promotions, "free shipping"))
-        val viewFreeShipping = RefinementFilterCompoundButton(checkBoxFreeShipping)
+        val viewFreeShipping = SelectableCompoundButton(checkBoxFreeShipping)
 
         viewModelFreeShipping.connectSearcher(searcher, RefinementOperator.Or)
         viewModelFreeShipping.connectView(viewFreeShipping)
 
         val viewModelCoupon = RefinementFilterViewModel(Filter.Facet(promotions, "coupon"))
-        val viewCoupon = RefinementFilterCompoundButton(checkBoxCoupon)
+        val viewCoupon = SelectableCompoundButton(switchCoupon)
 
         viewModelCoupon.connectSearcher(searcher, RefinementOperator.Or)
         viewModelCoupon.connectView(viewCoupon)
         
         val viewModelList = RefinementFacetsViewModel()
         val viewList = RefinementFacetsAdapter()
-        val presenterList = RefinementFacetsPresenter(listOf(AlphabeticalAscending), 5)
 
         viewModelList.connectSearcher(promotions, searcher, RefinementOperator.Or)
-        viewModelList.connectView(viewList, presenterList)
+        viewModelList.connectView(viewList)
         configureRecyclerView(list, viewList)
 
         onChangeThenUpdateFiltersText(filtersTextView)

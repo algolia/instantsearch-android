@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.refinement
+package com.algolia.instantsearch.sample.refinement.facet
 
 import android.os.Bundle
 import android.view.View
@@ -19,14 +19,15 @@ import filter.FilterGroupID
 import filter.FilterState
 import filter.toFilterGroups
 import highlight
-import kotlinx.android.synthetic.main.activity_refinement_facets.*
-import refinement.*
-import refinement.FacetSortCriterion.*
+import kotlinx.android.synthetic.main.refinement_facets_demo.*
+import refinement.RefinementOperator
+import refinement.facet.*
+import refinement.facet.RefinementFacetSortCriterion.*
 import search.SearcherSingleIndex
-import selection.SelectionMode
+import selection.list.SelectionMode
 
 
-class RefinementFacetsActivity : AppCompatActivity() {
+class RefinementFacetsDemo : AppCompatActivity() {
 
     private val color = Attribute("color")
     private val promotion = Attribute("promotion")
@@ -55,7 +56,7 @@ class RefinementFacetsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_refinement_facets)
+        setContentView(R.layout.refinement_facets_demo)
 
         val colorAViewModel = RefinementFacetsViewModel()
         val colorAPresenter = RefinementFacetsPresenter(listOf(IsRefined, AlphabeticalAscending), 5)
@@ -142,7 +143,7 @@ class RefinementFacetsActivity : AppCompatActivity() {
         }
     }
 
-    private fun FacetSortCriterion.format(): String {
+    private fun RefinementFacetSortCriterion.format(): String {
         return when (this) {
             IsRefined -> name
             CountAscending -> "CountAsc"

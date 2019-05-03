@@ -1,4 +1,4 @@
-package refinement
+package refinement.filter
 
 import com.algolia.search.model.filter.Filter
 

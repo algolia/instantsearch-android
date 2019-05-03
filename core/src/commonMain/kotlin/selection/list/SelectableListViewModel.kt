@@ -1,7 +1,7 @@
-package selection
+package selection.list
 
-import selection.SelectionMode.Multiple
-import selection.SelectionMode.Single
+import selection.list.SelectionMode.Multiple
+import selection.list.SelectionMode.Single
 import kotlin.properties.Delegates
 
 

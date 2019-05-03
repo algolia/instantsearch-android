@@ -1,5 +1,7 @@
 package selection
 
+import selection.list.SelectableListViewModel
+import selection.list.SelectionMode
 import shouldEqual
 import kotlin.test.Test
 

@@ -1,8 +1,8 @@
-package refinement
+package refinement.facet
 
 import com.algolia.search.model.search.Facet
-import selection.SelectableListViewModel
-import selection.SelectionMode
+import selection.list.SelectableListViewModel
+import selection.list.SelectionMode
 
 
 class RefinementFacetsViewModel(

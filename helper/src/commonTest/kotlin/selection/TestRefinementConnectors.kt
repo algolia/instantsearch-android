@@ -1,4 +1,4 @@
-package refinement
+package selection
 
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch

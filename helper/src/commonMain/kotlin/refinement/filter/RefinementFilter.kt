@@ -1,7 +1,7 @@
-package refinement
+package refinement.filter
 
 import com.algolia.search.model.filter.Filter
-import selection.SelectableItem
+import selection.list.SelectableItem
 
 
 typealias RefinementFilter = SelectableItem<Filter>

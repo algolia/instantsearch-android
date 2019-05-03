@@ -1,4 +1,4 @@
-package refinement
+package refinement.facet
 
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -6,9 +6,11 @@ import com.algolia.search.model.search.Facet
 import filter.FilterGroupID
 import filter.Filters
 import filter.add
-import refinement.RefinementOperator.And
+import refinement.RefinementOperator
 import refinement.RefinementOperator.Or
+import refinement.toGroupID
 import search.SearcherSingleIndex
+import search.addFacet
 
 
 public fun RefinementFacetsViewModel.connectSearcher(
@@ -17,13 +19,6 @@ public fun RefinementFacetsViewModel.connectSearcher(
     operator: RefinementOperator = Or,
     groupName: String = attribute.raw
 ) {
-
-    fun updateQueryFacets() {
-        searcher.query.facets = searcher.query.facets.orEmpty().toMutableSet().also {
-            it += attribute
-        }
-    }
-
     fun whenSelectionsComputedThenUpdateFilterState(groupID: FilterGroupID) {
         onSelectionsComputed += { selections ->
             val filters = selections.map { Filter.Facet(attribute, it) }.toSet()
@@ -39,9 +34,13 @@ public fun RefinementFacetsViewModel.connectSearcher(
         val onChange: (Filters) -> Unit = { filters ->
             selections = filters.getFacetFilters(groupID)
                 .orEmpty()
-                .map { it.value }
-                .filterIsInstance<Filter.Facet.Value.String>()
-                .map { it.raw }
+                .map {
+                    when (val value = it.value) {
+                        is Filter.Facet.Value.String -> value.raw
+                        is Filter.Facet.Value.Boolean -> value.raw.toString()
+                        is Filter.Facet.Value.Number -> value.raw.toString()
+                    }
+                }
                 .toSet()
         }
 
@@ -57,12 +56,9 @@ public fun RefinementFacetsViewModel.connectSearcher(
         }
     }
 
-    val groupID = when (operator) {
-        And -> FilterGroupID.And(groupName)
-        Or -> FilterGroupID.Or(groupName)
-    }
+    val groupID = operator.toGroupID(groupName)
 
-    updateQueryFacets()
+    searcher.query.addFacet(attribute)
     whenSelectionsComputedThenUpdateFilterState(groupID)
     whenFilterStateChangedThenUpdateSelections(groupID)
     whenOnResponseChangedThenUpdateItems()
@@ -71,7 +67,7 @@ public fun RefinementFacetsViewModel.connectSearcher(
 // TODO Demo persistent selection
 fun RefinementFacetsViewModel.connectView(
     view: RefinementFacetsView,
-   //  persistentSelection: Boolean = true,
+    //  persistentSelection: Boolean = true,
     presenter: ((List<RefinementFacet>) -> List<RefinementFacet>)? = null
 ) {
     fun List<Facet>.toRefinementFacets(selections: Set<String>): List<RefinementFacet> {

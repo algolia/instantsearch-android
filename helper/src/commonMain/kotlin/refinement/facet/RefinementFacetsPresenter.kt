@@ -1,10 +1,10 @@
-package refinement
+package refinement.facet
 
-import refinement.FacetSortCriterion.*
+import refinement.facet.RefinementFacetSortCriterion.*
 
 
 class RefinementFacetsPresenter(
-    val sortBy: List<FacetSortCriterion> = listOf(CountDescending),
+    val sortBy: List<RefinementFacetSortCriterion> = listOf(CountDescending),
     val limit: Int = 5
 ) : (List<RefinementFacet>) -> (List<RefinementFacet>) {
 

@@ -1,10 +1,12 @@
-package refinement
+package refinement.filter
 
 import filter.FilterGroupID
 import filter.Filters
-import refinement.RefinementOperator.And
+import refinement.RefinementOperator
 import refinement.RefinementOperator.Or
+import refinement.toGroupID
 import search.SearcherSingleIndex
+import search.addFacet
 import selection.SelectableView
 
 
@@ -13,13 +15,6 @@ public fun RefinementFilterViewModel.connectSearcher(
     operator: RefinementOperator = Or,
     groupName: String = item.attribute.raw
 ) {
-
-    fun updateQueryFacets() {
-        searcher.query.facets = searcher.query.facets.orEmpty().toMutableSet().also {
-            it += item.attribute
-        }
-    }
-
     fun whenSelectedComputedThenUpdateFilterState(groupID: FilterGroupID) {
         onSelectedComputed += { selected ->
             searcher.filterState.notify {
@@ -37,12 +32,9 @@ public fun RefinementFilterViewModel.connectSearcher(
         searcher.filterState.onChange += onChange
     }
 
-    val groupID = when (operator) {
-        And -> FilterGroupID.And(groupName)
-        Or -> FilterGroupID.Or(groupName)
-    }
+    val groupID = operator.toGroupID(groupName)
 
-    updateQueryFacets()
+    searcher.query.addFacet(item.attribute)
     whenSelectedComputedThenUpdateFilterState(groupID)
     whenFilterStateChangedThenUpdateSelected(groupID)
 }

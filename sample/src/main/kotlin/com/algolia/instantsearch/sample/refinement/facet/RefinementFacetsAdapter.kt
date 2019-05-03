@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.refinement
+package com.algolia.instantsearch.sample.refinement.facet
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.sample.R
 import com.algolia.search.model.search.Facet
-import refinement.RefinementFacet
-import refinement.RefinementFacetsView
+import refinement.facet.RefinementFacet
+import refinement.facet.RefinementFacetsView
 
 
 class RefinementFacetsAdapter :

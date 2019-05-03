@@ -1,12 +1,7 @@
+import dependency.network.Ktor
 import dependency.test.AndroidTest
 import dependency.test.Espresso
-import dependency.ui.AndroidCore
-import dependency.ui.AppCompat
-import dependency.ui.ContraintLayout
-import dependency.ui.Glide
-import dependency.ui.MaterialDesign
-import dependency.ui.RecyclerView
-import dependency.network.Ktor
+import dependency.ui.*
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 plugins {

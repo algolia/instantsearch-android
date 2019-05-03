@@ -1,17 +1,16 @@
-package refinement
+package selection
 
 import android.widget.CompoundButton
-import selection.SelectableView
 
 
-class RefinementFilterCompoundButton(
+class SelectableCompoundButton(
     val view: CompoundButton
 ) : SelectableView {
 
     override var onClick: ((Boolean) -> Unit)? = null
 
     init {
-        view.setOnClickListener { onClick?.invoke(view.isChecked) }
+        setOnCheckedChangeListener()
     }
 
     override fun setText(text: String) {
@@ -19,6 +18,12 @@ class RefinementFilterCompoundButton(
     }
 
     override fun setSelected(isSelected: Boolean) {
+        view.setOnCheckedChangeListener(null)
         view.isChecked = isSelected
+        setOnCheckedChangeListener()
+    }
+
+    private fun setOnCheckedChangeListener() {
+        view.setOnCheckedChangeListener { _, isChecked -> onClick?.invoke(isChecked) }
     }
 }

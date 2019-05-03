@@ -1,4 +1,4 @@
-package selection
+package selection.list
 
 
 public interface SelectableListView<T> {
