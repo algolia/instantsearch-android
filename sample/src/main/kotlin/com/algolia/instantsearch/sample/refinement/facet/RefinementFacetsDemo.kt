@@ -30,7 +30,7 @@ import selection.list.SelectionMode
 class RefinementFacetsDemo : AppCompatActivity() {
 
     private val color = Attribute("color")
-    private val promotion = Attribute("promotion")
+    private val promotion = Attribute("promotions")
     private val category = Attribute("category")
 
     private val client = ClientSearch(
@@ -39,7 +39,7 @@ class RefinementFacetsDemo : AppCompatActivity() {
             APIKey("1f6fd3a6fb973cb08419fe7d288fa4db")
         )
     )
-    private val index = client.initIndex(IndexName("mobile_demo_refinement_facet"))
+    private val index = client.initIndex(IndexName("mobile_demo_refinement_facets"))
     private val filterState = FilterState(
         facetGroups = mutableMapOf(
             FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
