@@ -4,10 +4,10 @@ import blocking
 import com.algolia.search.model.filter.FilterConverter
 import filter.FilterGroupID
 import filter.toFilter
-import refinement.filter.RefinementFilterViewModel
 import refinement.RefinementOperator
-import selection.TestRefinementConnectors
+import refinement.filter.RefinementFilterViewModel
 import search.SearcherSingleIndex
+import selection.TestRefinementConnectors
 import shouldEqual
 import kotlin.test.Test
 

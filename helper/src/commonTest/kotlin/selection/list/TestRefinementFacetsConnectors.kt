@@ -4,11 +4,11 @@ import blocking
 import com.algolia.search.model.filter.FilterConverter
 import filter.FilterGroupID
 import filter.toFilter
-import refinement.facet.RefinementFacetsViewModel
 import refinement.RefinementOperator
-import selection.TestRefinementConnectors
+import refinement.facet.RefinementFacetsViewModel
 import refinement.facet.connectSearcher
 import search.SearcherSingleIndex
+import selection.TestRefinementConnectors
 import shouldBeEmpty
 import shouldEqual
 import kotlin.test.Test
