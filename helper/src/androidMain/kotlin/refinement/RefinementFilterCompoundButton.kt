@@ -1,12 +1,12 @@
 package refinement
 
 import android.widget.CompoundButton
-import com.algolia.search.model.filter.Filter
+import selection.SelectableView
 
 
 class RefinementFilterCompoundButton(
     val view: CompoundButton
-) : RefinementFilterView {
+) : SelectableView {
 
     override var onClick: ((Boolean) -> Unit)? = null
 
@@ -14,23 +14,11 @@ class RefinementFilterCompoundButton(
         view.setOnClickListener { onClick?.invoke(view.isChecked) }
     }
 
-    override fun setSelectableItem(selectableItem: RefinementFilter) {
-        val (filter, isSelected) = selectableItem
+    override fun setText(text: String) {
+        view.text = text
+    }
 
-        view.text = when (filter) {
-            is Filter.Facet -> {
-                when (val value = filter.value) {
-                    is Filter.Facet.Value.String -> value.raw
-                    is Filter.Facet.Value.Number -> value.raw.toString()
-                    is Filter.Facet.Value.Boolean -> value.raw.toString()
-                }
-            }
-            is Filter.Tag -> filter.value
-            is Filter.Numeric -> when (val value = filter.value) {
-                is Filter.Numeric.Value.Comparison -> "${filter.attribute} ${value.operator} ${value.number}"
-                is Filter.Numeric.Value.Range -> "${filter.attribute} ${value.lowerBound} to ${value.upperBound}"
-            }
-        }
+    override fun setSelected(isSelected: Boolean) {
         view.isChecked = isSelected
     }
 }

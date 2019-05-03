@@ -57,7 +57,7 @@ class RefinementFacetsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_refinement_facets)
 
-        val colorAViewModel = RefinementFacetsViewModel(SelectionMode.Single)
+        val colorAViewModel = RefinementFacetsViewModel()
         val colorAPresenter = RefinementFacetsPresenter(listOf(IsRefined, AlphabeticalAscending), 5)
         val colorAAdapter = RefinementFacetsAdapter()
 

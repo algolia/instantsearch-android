@@ -15,22 +15,19 @@ import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
-import filter.FilterGroupID
-import filter.FilterState
 import filter.toFilterGroups
 import highlight
-import kotlinx.android.synthetic.main.activity_refinement.*
+import kotlinx.android.synthetic.main.activity_refinement_filter.*
 import refinement.*
 import refinement.FacetSortCriterion.AlphabeticalAscending
 import search.SearcherSingleIndex
-import selection.SelectionMode
 
 
-class RefinementActivity : AppCompatActivity() {
+class RefinementFilterActivity : AppCompatActivity() {
 
-    private val color = Attribute("color")
-    private val promotion = Attribute("promotion")
-    private val category = Attribute("category")
+    private val popular = Attribute("color")
+    private val promotions = Attribute("promotions")
+    private val size = Attribute("size")
 
     private val client = ClientSearch(
         ConfigurationSearch(
@@ -38,47 +35,38 @@ class RefinementActivity : AppCompatActivity() {
             APIKey("1f6fd3a6fb973cb08419fe7d288fa4db")
         )
     )
-    private val index = client.initIndex(IndexName("mobile_demo_refinement_facet"))
-    private val filterFacetRed = Filter.Facet(color, "red")
-    private val filterFacetGreen = Filter.Facet(color, "green")
-    private val filterState = FilterState(
-        facetGroups = mutableMapOf(
-            FilterGroupID.Or(color.raw) to setOf(filterFacetRed)
-        )
-    )
-    private val searcher = SearcherSingleIndex(index, filterState = filterState)
+    private val index = client.initIndex(IndexName("mobile_demo_refinement_filter"))
+
+    private val searcher = SearcherSingleIndex(index)
 
     private val colors
         get() = mapOf(
-            color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
-            promotion.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
-            category.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
+            popular.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
+            promotions.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
+            size.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
         )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_refinement)
+        setContentView(R.layout.activity_refinement_filter)
 
-        val viewModelColorRed = RefinementFilterViewModel(filterFacetRed)
-        val viewColorRed = RefinementFilterCompoundButton(filterRed)
+        val viewModelFreeShipping = RefinementFilterViewModel(Filter.Facet(promotions, "free shipping"))
+        val viewFreeShipping = RefinementFilterCompoundButton(checkBoxFreeShipping)
 
-        viewModelColorRed.connectSearcher(searcher, RefinementOperator.Or)
-        viewModelColorRed.connectView(viewColorRed)
+        viewModelFreeShipping.connectSearcher(searcher, RefinementOperator.Or)
+        viewModelFreeShipping.connectView(viewFreeShipping)
 
-        val viewModelColorGreen = RefinementFilterViewModel(filterFacetGreen)
-        val viewColorGreen = RefinementFilterCompoundButton(filterGreen)
+        val viewModelCoupon = RefinementFilterViewModel(Filter.Facet(promotions, "coupon"))
+        val viewCoupon = RefinementFilterCompoundButton(checkBoxCoupon)
 
-        viewModelColorGreen.connectSearcher(searcher, RefinementOperator.Or)
-        viewModelColorGreen.connectView(viewColorGreen)
-
-        // TODO Chip | size: 42
-        // TODO Toggle | popular: true/false
-
-        val viewModelList = RefinementFacetsViewModel(SelectionMode.Single)
+        viewModelCoupon.connectSearcher(searcher, RefinementOperator.Or)
+        viewModelCoupon.connectView(viewCoupon)
+        
+        val viewModelList = RefinementFacetsViewModel()
         val viewList = RefinementFacetsAdapter()
         val presenterList = RefinementFacetsPresenter(listOf(AlphabeticalAscending), 5)
 
-        viewModelList.connectSearcher(color, searcher, RefinementOperator.Or)
+        viewModelList.connectSearcher(promotions, searcher, RefinementOperator.Or)
         viewModelList.connectView(viewList, presenterList)
         configureRecyclerView(list, viewList)
 

@@ -3,19 +3,18 @@ package selection
 import kotlin.properties.Delegates
 
 
-public open class SelectableViewModel<V>(public val item: V) {
+public open class SelectableViewModel<V>(val item: V) {
 
     val onSelectedChanged: MutableList<(Boolean) -> Unit> = mutableListOf()
     val onSelectedComputed: MutableList<(Boolean) -> Unit> = mutableListOf()
 
-    public var selected by Delegates.observable(false) { _, oldValue, newValue ->
+    public var isSelected by Delegates.observable(false) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             onSelectedChanged.forEach { it(newValue) }
         }
     }
 
-    public fun setSelection(isSelected: Boolean) {
-        selected = isSelected
+    public fun setIsSelected(isSelected: Boolean) {
         onSelectedComputed.forEach { it(isSelected) }
     }
 }

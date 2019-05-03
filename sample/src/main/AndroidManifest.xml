@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".refinement.RefinementActivity">
+        <activity android:name=".refinement.RefinementFilterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
