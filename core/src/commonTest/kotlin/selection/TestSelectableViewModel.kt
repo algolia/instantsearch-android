@@ -13,10 +13,10 @@ class TestSelectableViewModel {
             onSelectedComputed += { isSelected = it }
             assertEquals(false, isSelected)
 
-            setSelected(true)
+            setIsSelected(true)
             assertEquals(true, isSelected)
 
-            setSelected(false)
+            setIsSelected(false)
             assertEquals(false, isSelected)
         }
     }

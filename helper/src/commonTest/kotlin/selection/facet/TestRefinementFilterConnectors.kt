@@ -6,6 +6,7 @@ import filter.FilterGroupID
 import filter.toFilter
 import refinement.RefinementOperator
 import refinement.filter.RefinementFilterViewModel
+import refinement.filter.connectSearcher
 import search.SearcherSingleIndex
 import selection.TestRefinementConnectors
 import shouldEqual
@@ -27,7 +28,7 @@ class TestRefinementFilterConnectors : TestRefinementConnectors() {
             model.item shouldEqual filter
             model.isSelected shouldEqual false
 
-            model.toggleSelection()
+            model.setIsSelected(true)
             searcher.sequencer.currentOperation.join()
             model.isSelected shouldEqual true
             searcher.query.filters = FilterConverter.SQL(filter)
