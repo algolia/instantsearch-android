@@ -28,7 +28,7 @@ class TestRefinementFilterConnectors : TestRefinementConnectors() {
             model.item shouldEqual filter
             model.isSelected shouldEqual false
 
-            model.setIsSelected(true)
+            model.computeIsSelected(true)
             searcher.sequencer.currentOperation.join()
             model.isSelected shouldEqual true
             searcher.query.filters = FilterConverter.SQL(filter)

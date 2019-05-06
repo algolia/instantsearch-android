@@ -15,15 +15,15 @@ public fun RefinementFilterViewModel.connectSearcher(
     operator: RefinementOperator = Or,
     groupName: String = item.attribute.raw
 ) {
-    fun whenSelectedComputedThenUpdateFilterState(groupID: FilterGroupID) {
-        onSelectedComputed += { selected ->
+    fun whenIsSelectedComputedThenUpdateFilterState(groupID: FilterGroupID) {
+        onIsSelectedComputed += { isSelected ->
             searcher.filterState.notify {
-                if (selected) add(groupID, item) else remove(groupID, item)
+                if (isSelected) add(groupID, item) else remove(groupID, item)
             }
         }
     }
 
-    fun whenFilterStateChangedThenUpdateSelected(groupID: FilterGroupID) {
+    fun whenFilterStateChangedThenUpdateIsSelected(groupID: FilterGroupID) {
         val onChange: (Filters) -> Unit = { filters ->
             isSelected = filters.contains(groupID, item)
         }
@@ -35,8 +35,8 @@ public fun RefinementFilterViewModel.connectSearcher(
     val groupID = operator.toGroupID(groupName)
 
     searcher.query.addFacet(item.attribute)
-    whenSelectedComputedThenUpdateFilterState(groupID)
-    whenFilterStateChangedThenUpdateSelected(groupID)
+    whenIsSelectedComputedThenUpdateFilterState(groupID)
+    whenFilterStateChangedThenUpdateIsSelected(groupID)
 }
 
 fun RefinementFilterViewModel.connectView(
@@ -44,7 +44,7 @@ fun RefinementFilterViewModel.connectView(
     presenter: RefinementFilterPresenter = RefinementFilterPresenter()
 ) {
     view.setText(presenter(item))
-    view.setSelected(isSelected)
-    view.onClick = (::setIsSelected)
-    onSelectedChanged += { isSelected -> view.setSelected(isSelected) }
+    view.setIsSelected(isSelected)
+    view.onClick = (::computeIsSelected)
+    onIsSelectedChanged += (view::setIsSelected)
 }

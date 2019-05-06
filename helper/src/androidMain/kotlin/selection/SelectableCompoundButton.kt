@@ -17,7 +17,7 @@ class SelectableCompoundButton(
         view.text = text
     }
 
-    override fun setSelected(isSelected: Boolean) {
+    override fun setIsSelected(isSelected: Boolean) {
         view.setOnCheckedChangeListener(null)
         view.isChecked = isSelected
         setOnCheckedChangeListener()

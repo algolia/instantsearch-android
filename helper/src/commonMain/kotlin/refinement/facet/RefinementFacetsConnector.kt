@@ -87,7 +87,7 @@ fun RefinementFacetsViewModel.connectView(
     }
 
     assignSelectableItems(items, selections)
-    view.onClick = { facet -> selectItem(facet.value) }
+    view.onClick = { facet -> computeSelections(facet.value) }
     onItemsChanged += { items -> assignSelectableItems(items, selections) }
     onSelectionsChanged += { selections -> assignSelectableItems(items, selections) }
 }

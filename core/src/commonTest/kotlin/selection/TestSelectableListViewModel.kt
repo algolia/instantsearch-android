@@ -16,11 +16,11 @@ class TestSelectableListViewModel {
         SelectableListViewModel<String, String>(SelectionMode.Single).apply {
             items = listOf(valueA, valueB)
             onSelectionsComputed += { selections = it }
-            selectItem(valueA)
+            computeSelections(valueA)
             selections shouldEqual setOf(valueA)
-            selectItem(valueB)
+            computeSelections(valueB)
             selections shouldEqual setOf(valueB)
-            selectItem(valueB)
+            computeSelections(valueB)
             selections shouldEqual setOf()
         }
     }
@@ -30,11 +30,11 @@ class TestSelectableListViewModel {
         SelectableListViewModel<String, String>(SelectionMode.Multiple).apply {
             items = listOf(valueA, valueB)
             onSelectionsComputed += { selections = it }
-            selectItem(valueA)
+            computeSelections(valueA)
             selections shouldEqual setOf(valueA)
-            selectItem(valueB)
+            computeSelections(valueB)
             selections shouldEqual setOf(valueA, valueB)
-            selectItem(valueB)
+            computeSelections(valueB)
             selections shouldEqual setOf(valueA)
         }
     }
