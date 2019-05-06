@@ -16,6 +16,7 @@ import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
+import com.algolia.search.model.filter.NumericOperator
 import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.refinement_filter_demo.*
@@ -35,6 +36,7 @@ class RefinementFilterDemo : AppCompatActivity() {
     private val popular = Attribute("color")
     private val promotions = Attribute("promotions")
     private val size = Attribute("size")
+    private val gender = Attribute("gender")
 
     private val client = ClientSearch(
         ConfigurationSearch(
@@ -50,7 +52,8 @@ class RefinementFilterDemo : AppCompatActivity() {
         get() = mapOf(
             popular.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
             promotions.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
-            size.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
+            size.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark),
+            "_tags" to ContextCompat.getColor(this, android.R.color.holo_purple)
         )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +71,19 @@ class RefinementFilterDemo : AppCompatActivity() {
 
         viewModelCoupon.connectSearcher(searcher, RefinementOperator.Or)
         viewModelCoupon.connectView(viewCoupon)
-        
+
+        val viewModelSize = RefinementFilterViewModel(Filter.Numeric(size, NumericOperator.Greater, 40))
+        val viewSize = SelectableCompoundButton(checkBoxSize)
+
+        viewModelSize.connectSearcher(searcher, RefinementOperator.Or)
+        viewModelSize.connectView(viewSize)
+
+        val viewModelVintage = RefinementFilterViewModel(Filter.Tag("vintage"))
+        val viewVintage = SelectableCompoundButton(checkBoxVintage)
+
+        viewModelVintage.connectSearcher(searcher, RefinementOperator.Or)
+        viewModelVintage.connectView(viewVintage)
+
         val viewModelList = RefinementFacetsViewModel()
         val viewList = RefinementFacetsAdapter()
 
@@ -80,6 +95,7 @@ class RefinementFilterDemo : AppCompatActivity() {
         onErrorThenUpdateFiltersText(filtersTextView)
         onClearAllThenClearFilters(filtersClearAll)
         updateFiltersTextFromState(filtersTextView)
+        onResponseChangedThenUpdateStats()
 
         searcher.search()
     }
@@ -103,6 +119,12 @@ class RefinementFilterDemo : AppCompatActivity() {
     private fun onErrorThenUpdateFiltersText(filtersTextView: TextView) {
         searcher.errorListeners += {
             filtersTextView.text = it.localizedMessage
+        }
+    }
+
+    private fun onResponseChangedThenUpdateStats() {
+        searcher.onResponseChanged += {
+            stats.text = "hits: ${it.nbHits}"
         }
     }
 
