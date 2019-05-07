@@ -25,10 +25,12 @@ import refinement.facet.RefinementFacetsViewModel
 import refinement.facet.connectSearcher
 import refinement.facet.connectView
 import refinement.filter.RefinementFilterViewModel
+import refinement.filter.RefinementFiltersViewModel
 import refinement.filter.connectSearcher
 import refinement.filter.connectView
 import search.SearcherSingleIndex
 import selection.SelectableCompoundButton
+import selection.SelectableRadioGroup
 
 
 class RefinementFilterDemo : AppCompatActivity() {
@@ -53,7 +55,8 @@ class RefinementFilterDemo : AppCompatActivity() {
             popular.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
             promotions.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
             size.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark),
-            "_tags" to ContextCompat.getColor(this, android.R.color.holo_purple)
+            "_tags" to ContextCompat.getColor(this, android.R.color.holo_purple),
+            gender.raw to ContextCompat.getColor(this, android.R.color.holo_orange_light)
         )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +86,18 @@ class RefinementFilterDemo : AppCompatActivity() {
 
         viewModelVintage.connectSearcher(searcher, RefinementOperator.Or)
         viewModelVintage.connectView(viewVintage)
+
+        val viewModelGender = RefinementFiltersViewModel(
+            mapOf(
+                R.id.male to Filter.Facet(gender, "male"),
+                R.id.female to Filter.Facet(gender, "female")
+            ),
+            R.id.male
+        )
+        val viewGender = SelectableRadioGroup(radioGroupGender)
+
+        viewModelGender.connectSearcher(gender, searcher, RefinementOperator.Or)
+        viewModelGender.connectView(viewGender)
 
         val viewModelList = RefinementFacetsViewModel()
         val viewList = RefinementFacetsAdapter()

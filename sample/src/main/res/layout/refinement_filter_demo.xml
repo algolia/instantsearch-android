@@ -100,7 +100,8 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
+            android:textAppearance="?attr/textAppearanceBody1"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             tools:text="free shipping"/>
@@ -113,8 +114,9 @@
             android:layout_width="0dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:textAppearance="?attr/textAppearanceBody1"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             tools:text="coupon"/>
@@ -125,10 +127,11 @@
             app:layout_constraintEnd_toStartOf="@id/list"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_width="0dp"
+            android:textAppearance="?attr/textAppearanceBody1"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             tools:text="size > 40"/>
@@ -139,13 +142,45 @@
             app:layout_constraintEnd_toStartOf="@id/list"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_width="0dp"
+            android:textAppearance="?attr/textAppearanceBody1"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             tools:text="vintage"/>
+
+    <RadioGroup
+            android:id="@+id/radioGroupGender"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxVintage"
+            app:layout_constraintEnd_toStartOf="@id/list"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+        <RadioButton
+                android:id="@+id/male"
+                android:paddingStart="8dp"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:paddingEnd="8dp"
+                tools:text="male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <RadioButton
+                android:id="@+id/female"
+                tools:text="female"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </RadioGroup>
 
     <include
             android:id="@+id/list"
