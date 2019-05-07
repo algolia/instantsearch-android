@@ -1,10 +1,11 @@
-package refinement.filter
+package refinement.filters
 
 import com.algolia.search.model.Attribute
 import filter.FilterGroupID
 import filter.Filters
 import refinement.RefinementOperator
 import refinement.RefinementOperator.Or
+import refinement.filter.RefinementFilterPresenter
 import refinement.toGroupID
 import search.SearcherSingleIndex
 import search.addFacet

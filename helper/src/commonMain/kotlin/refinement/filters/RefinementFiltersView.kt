@@ -1,4 +1,4 @@
-package refinement.filter
+package refinement.filters
 
 import selection.map.SelectableMapView
 
