@@ -12,6 +12,7 @@ import selection.TestRefinementConnectors
 import shouldEqual
 import kotlin.test.Test
 
+
 class TestRefinementFilterConnectors : TestRefinementConnectors() {
 
     @Test
