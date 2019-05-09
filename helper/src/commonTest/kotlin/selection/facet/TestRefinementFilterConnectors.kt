@@ -6,6 +6,7 @@ import filter.FilterGroupID
 import filter.toFilter
 import refinement.RefinementOperator
 import refinement.filter.RefinementFilterViewModel
+import refinement.filter.connectSearcher
 import search.SearcherSingleIndex
 import selection.TestRefinementConnectors
 import shouldEqual

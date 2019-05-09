@@ -25,9 +25,11 @@ import refinement.facet.RefinementFacetsViewModel
 import refinement.facet.connectSearcher
 import refinement.facet.connectView
 import refinement.filter.RefinementFilterViewModel
-import refinement.filter.RefinementFiltersViewModel
 import refinement.filter.connectSearcher
 import refinement.filter.connectView
+import refinement.filters.RefinementFiltersViewModel
+import refinement.filters.connectSearcher
+import refinement.filters.connectView
 import search.SearcherSingleIndex
 import selection.SelectableCompoundButton
 import selection.SelectableRadioGroup

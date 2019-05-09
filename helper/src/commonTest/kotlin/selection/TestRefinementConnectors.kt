@@ -10,6 +10,7 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.MockHttpResponse
+import io.ktor.client.features.logging.LogLevel
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
@@ -52,7 +53,8 @@ abstract class TestRefinementConnectors {
         ConfigurationSearch(
             ApplicationID("A"),
             APIKey("B"),
-            engine = mockEngine
+            engine = mockEngine,
+            logLevel = LogLevel.ALL
         )
     )
     protected val mockIndex = mockClient.initIndex(IndexName("index"))
