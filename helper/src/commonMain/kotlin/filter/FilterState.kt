@@ -4,7 +4,7 @@ import com.algolia.search.model.filter.Filter
 
 
 public class FilterState(
-    private val filters: MutableFilters = MutableFiltersImpl()
+    internal val filters: MutableFilters = MutableFiltersImpl()
 ) : MutableFilters by filters {
 
     public constructor(

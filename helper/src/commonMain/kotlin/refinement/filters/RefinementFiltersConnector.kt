@@ -1,23 +1,20 @@
 package refinement.filters
 
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.filter.Filter
 import filter.FilterGroupID
 import filter.Filters
-import refinement.RefinementOperator
-import refinement.RefinementOperator.Or
 import refinement.filter.RefinementFilterPresenter
-import refinement.toGroupID
 import search.SearcherSingleIndex
 import search.addFacet
 
 
-fun RefinementFiltersViewModel.connectSearcher(
+public fun RefinementFiltersViewModel.connectSearcher(
     attribute: Attribute,
     searcher: SearcherSingleIndex,
-    operator: RefinementOperator = Or,
-    groupName: String = attribute.raw
+    groupID: FilterGroupID = FilterGroupID.Or(attribute)
 ) {
-    fun whenSelectedComputedThenUpdateFilterState(groupID: FilterGroupID) {
+    fun whenSelectedComputedThenUpdateFilterState() {
         onSelectedComputed += { computed ->
             searcher.filterState.notify {
                 items[selected]?.let { remove(groupID, it) }
@@ -26,7 +23,7 @@ fun RefinementFiltersViewModel.connectSearcher(
         }
     }
 
-    fun whenFilterStateChangedThenUpdateSelected(groupID: FilterGroupID) {
+    fun whenFilterStateChangedThenUpdateSelected() {
         val onChange: (Filters) -> Unit = { filters ->
             selected = items.entries.find { it.value == filters.getFilters(groupID).firstOrNull() }?.key
         }
@@ -35,16 +32,14 @@ fun RefinementFiltersViewModel.connectSearcher(
         searcher.filterState.onChange += onChange
     }
 
-    val groupID = operator.toGroupID(groupName)
-
     searcher.query.addFacet(attribute)
-    whenSelectedComputedThenUpdateFilterState(groupID)
-    whenFilterStateChangedThenUpdateSelected(groupID)
+    whenSelectedComputedThenUpdateFilterState()
+    whenFilterStateChangedThenUpdateSelected()
 }
 
-fun RefinementFiltersViewModel.connectView(
+public fun RefinementFiltersViewModel.connectView(
     view: RefinementFiltersView,
-    presenter: RefinementFilterPresenter = RefinementFilterPresenter()
+    presenter: (Filter) -> String = RefinementFilterPresenter
 ) {
     view.setItems(items.map { it.key to presenter(it.value) }.toMap())
     view.setSelected(selected)

@@ -20,7 +20,6 @@ import com.algolia.search.model.filter.NumericOperator
 import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.refinement_filter_demo.*
-import refinement.RefinementOperator
 import refinement.facet.RefinementFacetsViewModel
 import refinement.facet.connectSearcher
 import refinement.facet.connectView
@@ -37,10 +36,10 @@ import selection.SelectableRadioGroup
 
 class RefinementFilterDemo : AppCompatActivity() {
 
-    private val popular = Attribute("color")
     private val promotions = Attribute("promotions")
     private val size = Attribute("size")
     private val gender = Attribute("gender")
+    private val tags = "_tags"
 
     private val client = ClientSearch(
         ConfigurationSearch(
@@ -54,10 +53,9 @@ class RefinementFilterDemo : AppCompatActivity() {
 
     private val colors
         get() = mapOf(
-            popular.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
             promotions.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
             size.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark),
-            "_tags" to ContextCompat.getColor(this, android.R.color.holo_purple),
+            tags to ContextCompat.getColor(this, android.R.color.holo_purple),
             gender.raw to ContextCompat.getColor(this, android.R.color.holo_orange_light)
         )
 
@@ -68,43 +66,43 @@ class RefinementFilterDemo : AppCompatActivity() {
         val viewModelFreeShipping = RefinementFilterViewModel(Filter.Facet(promotions, "free shipping"))
         val viewFreeShipping = SelectableCompoundButton(checkBoxFreeShipping)
 
-        viewModelFreeShipping.connectSearcher(searcher, RefinementOperator.Or)
+        viewModelFreeShipping.connectSearcher(searcher)
         viewModelFreeShipping.connectView(viewFreeShipping)
 
         val viewModelCoupon = RefinementFilterViewModel(Filter.Facet(promotions, "coupon"))
         val viewCoupon = SelectableCompoundButton(switchCoupon)
 
-        viewModelCoupon.connectSearcher(searcher, RefinementOperator.Or)
+        viewModelCoupon.connectSearcher(searcher)
         viewModelCoupon.connectView(viewCoupon)
 
         val viewModelSize = RefinementFilterViewModel(Filter.Numeric(size, NumericOperator.Greater, 40))
         val viewSize = SelectableCompoundButton(checkBoxSize)
 
-        viewModelSize.connectSearcher(searcher, RefinementOperator.Or)
+        viewModelSize.connectSearcher(searcher)
         viewModelSize.connectView(viewSize)
 
         val viewModelVintage = RefinementFilterViewModel(Filter.Tag("vintage"))
         val viewVintage = SelectableCompoundButton(checkBoxVintage)
 
-        viewModelVintage.connectSearcher(searcher, RefinementOperator.Or)
+        viewModelVintage.connectSearcher(searcher)
         viewModelVintage.connectView(viewVintage)
 
         val viewModelGender = RefinementFiltersViewModel(
-            mapOf(
+            items = mapOf(
                 R.id.male to Filter.Facet(gender, "male"),
                 R.id.female to Filter.Facet(gender, "female")
             ),
-            R.id.male
+            selected = R.id.male
         )
         val viewGender = SelectableRadioGroup(radioGroupGender)
 
-        viewModelGender.connectSearcher(gender, searcher, RefinementOperator.Or)
+        viewModelGender.connectSearcher(gender, searcher)
         viewModelGender.connectView(viewGender)
 
         val viewModelList = RefinementFacetsViewModel()
         val viewList = RefinementFacetsAdapter()
 
-        viewModelList.connectSearcher(promotions, searcher, RefinementOperator.Or)
+        viewModelList.connectSearcher(promotions, searcher)
         viewModelList.connectView(viewList)
         configureRecyclerView(list, viewList)
 

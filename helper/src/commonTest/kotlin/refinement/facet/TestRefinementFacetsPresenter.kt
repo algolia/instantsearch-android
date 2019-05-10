@@ -1,13 +1,12 @@
-package selection.list
+package refinement.facet
 
 import com.algolia.search.model.search.Facet
 import refinement.facet.RefinementFacetSortCriterion.*
-import refinement.facet.RefinementFacetsPresenter
 import shouldEqual
 import kotlin.test.Test
 
 
-class TestRefinementFacetPresenter {
+class TestRefinementFacetsPresenter {
 
     private val facets = listOf(
         Facet("c", 0) to false,

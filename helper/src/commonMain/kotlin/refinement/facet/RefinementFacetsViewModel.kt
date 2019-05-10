@@ -5,6 +5,8 @@ import selection.list.SelectableListViewModel
 import selection.list.SelectionMode
 
 
-class RefinementFacetsViewModel(
+public class RefinementFacetsViewModel(
+    items: List<Facet> = listOf(),
+    selections: Set<String> = setOf(),
     selectionMode: SelectionMode = SelectionMode.Multiple
-) : SelectableListViewModel<String, Facet>(selectionMode)
+) : SelectableListViewModel<String, Facet>(items, selections, selectionMode)

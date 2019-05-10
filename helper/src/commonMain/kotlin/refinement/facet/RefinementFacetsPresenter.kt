@@ -3,7 +3,7 @@ package refinement.facet
 import refinement.facet.RefinementFacetSortCriterion.*
 
 
-class RefinementFacetsPresenter(
+public class RefinementFacetsPresenter(
     val sortBy: List<RefinementFacetSortCriterion> = listOf(CountDescending),
     val limit: Int = 5
 ) : (List<RefinementFacet>) -> (List<RefinementFacet>) {

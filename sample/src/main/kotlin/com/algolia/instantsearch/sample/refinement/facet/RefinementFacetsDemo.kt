@@ -20,7 +20,6 @@ import filter.FilterState
 import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.refinement_facets_demo.*
-import refinement.RefinementOperator
 import refinement.facet.*
 import refinement.facet.RefinementFacetSortCriterion.*
 import search.SearcherSingleIndex
@@ -30,7 +29,7 @@ import selection.list.SelectionMode
 class RefinementFacetsDemo : AppCompatActivity() {
 
     private val color = Attribute("color")
-    private val promotion = Attribute("promotions")
+    private val promotions = Attribute("promotions")
     private val category = Attribute("category")
 
     private val client = ClientSearch(
@@ -50,9 +49,13 @@ class RefinementFacetsDemo : AppCompatActivity() {
     private val colors
         get() = mapOf(
             color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
-            promotion.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
+            promotions.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
             category.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
         )
+
+    private val groupIDColor = FilterGroupID.And(color)
+    private val groupIDPromotions = FilterGroupID.And(promotions)
+    private val groupIDCategory = FilterGroupID.Or(category)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,28 +65,28 @@ class RefinementFacetsDemo : AppCompatActivity() {
         val colorAPresenter = RefinementFacetsPresenter(listOf(IsRefined, AlphabeticalAscending), 5)
         val colorAAdapter = RefinementFacetsAdapter()
 
-        colorAViewModel.connectSearcher(color, searcher, RefinementOperator.And)
+        colorAViewModel.connectSearcher(color, searcher, groupIDColor)
         colorAViewModel.connectView(colorAAdapter, colorAPresenter)
 
-        val colorBViewModel = RefinementFacetsViewModel(SelectionMode.Single)
+        val colorBViewModel = RefinementFacetsViewModel(selectionMode = SelectionMode.Single)
         val colorBPresenter = RefinementFacetsPresenter(listOf(AlphabeticalDescending), 3)
         val colorBAdapter = RefinementFacetsAdapter()
 
-        colorBViewModel.connectSearcher(color, searcher, RefinementOperator.And)
+        colorBViewModel.connectSearcher(color, searcher, groupIDColor)
         colorBViewModel.connectView(colorBAdapter, colorBPresenter)
 
-        val promotionViewModel = RefinementFacetsViewModel(SelectionMode.Multiple)
+        val promotionViewModel = RefinementFacetsViewModel(selectionMode = SelectionMode.Multiple)
         val promotionPresenter = RefinementFacetsPresenter(listOf(CountDescending), 5)
         val promotionAdapter = RefinementFacetsAdapter()
 
-        promotionViewModel.connectSearcher(promotion, searcher, RefinementOperator.And)
+        promotionViewModel.connectSearcher(promotions, searcher, groupIDPromotions)
         promotionViewModel.connectView(promotionAdapter, promotionPresenter)
 
-        val categoryViewModel = RefinementFacetsViewModel(SelectionMode.Multiple)
+        val categoryViewModel = RefinementFacetsViewModel(selectionMode = SelectionMode.Multiple)
         val categoryPresenter = RefinementFacetsPresenter(listOf(CountDescending, AlphabeticalAscending), 5)
         val categoryAdapter = RefinementFacetsAdapter()
 
-        categoryViewModel.connectSearcher(category, searcher, RefinementOperator.Or)
+        categoryViewModel.connectSearcher(category, searcher, groupIDCategory)
         categoryViewModel.connectView(categoryAdapter, categoryPresenter)
 
         configureRecyclerView(listTopLeft, colorAAdapter)
@@ -91,10 +94,10 @@ class RefinementFacetsDemo : AppCompatActivity() {
         configureRecyclerView(listBottomLeft, promotionAdapter)
         configureRecyclerView(listBottomRight, categoryAdapter)
 
-        titleTopLeft.text = formatTitle(colorAPresenter, RefinementOperator.And)
-        titleTopRight.text = formatTitle(colorBPresenter, RefinementOperator.And)
-        titleBottomLeft.text = formatTitle(promotionPresenter, RefinementOperator.And)
-        titleBottomRight.text = formatTitle(categoryPresenter, RefinementOperator.Or)
+        titleTopLeft.text = formatTitle(colorAPresenter, groupIDColor)
+        titleTopRight.text = formatTitle(colorBPresenter, groupIDColor)
+        titleBottomLeft.text = formatTitle(promotionPresenter, groupIDPromotions)
+        titleBottomRight.text = formatTitle(categoryPresenter, groupIDCategory)
 
         onChangeThenUpdateFiltersText(filtersTextView)
         onErrorThenUpdateFiltersText(filtersTextView)
@@ -153,8 +156,12 @@ class RefinementFacetsDemo : AppCompatActivity() {
         }
     }
 
-    private fun formatTitle(presenter: RefinementFacetsPresenter, refinementMode: RefinementOperator): String {
+    private fun formatTitle(presenter: RefinementFacetsPresenter, filterGroupID: FilterGroupID): String {
         val criteria = presenter.sortBy.joinToString("-") { it.format() }
+        val refinementMode = when (filterGroupID) {
+            is FilterGroupID.And -> "And"
+            is FilterGroupID.Or -> "Or"
+        }
 
         return "$refinementMode, $criteria, l=${presenter.limit}"
     }

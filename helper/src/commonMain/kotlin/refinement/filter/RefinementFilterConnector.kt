@@ -1,10 +1,8 @@
 package refinement.filter
 
+import com.algolia.search.model.filter.Filter
 import filter.FilterGroupID
 import filter.Filters
-import refinement.RefinementOperator
-import refinement.RefinementOperator.Or
-import refinement.toGroupID
 import search.SearcherSingleIndex
 import search.addFacet
 import selection.SelectableView
@@ -12,10 +10,9 @@ import selection.SelectableView
 
 public fun RefinementFilterViewModel.connectSearcher(
     searcher: SearcherSingleIndex,
-    operator: RefinementOperator = Or,
-    groupName: String = item.attribute.raw
+    groupID: FilterGroupID = FilterGroupID.Or(item.attribute)
 ) {
-    fun whenIsSelectedComputedThenUpdateFilterState(groupID: FilterGroupID) {
+    fun whenIsSelectedComputedThenUpdateFilterState() {
         onIsSelectedComputed += { isSelected ->
             searcher.filterState.notify {
                 if (isSelected) add(groupID, item) else remove(groupID, item)
@@ -23,7 +20,7 @@ public fun RefinementFilterViewModel.connectSearcher(
         }
     }
 
-    fun whenFilterStateChangedThenUpdateIsSelected(groupID: FilterGroupID) {
+    fun whenFilterStateChangedThenUpdateIsSelected() {
         val onChange: (Filters) -> Unit = { filters ->
             isSelected = filters.contains(groupID, item)
         }
@@ -32,16 +29,14 @@ public fun RefinementFilterViewModel.connectSearcher(
         searcher.filterState.onChange += onChange
     }
 
-    val groupID = operator.toGroupID(groupName)
-
     searcher.query.addFacet(item.attribute)
-    whenIsSelectedComputedThenUpdateFilterState(groupID)
-    whenFilterStateChangedThenUpdateIsSelected(groupID)
+    whenIsSelectedComputedThenUpdateFilterState()
+    whenFilterStateChangedThenUpdateIsSelected()
 }
 
 fun RefinementFilterViewModel.connectView(
     view: SelectableView,
-    presenter: RefinementFilterPresenter = RefinementFilterPresenter()
+    presenter: (Filter) -> String = RefinementFilterPresenter
 ) {
     view.setText(presenter(item))
     view.setIsSelected(isSelected)
