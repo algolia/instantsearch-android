@@ -19,5 +19,7 @@ public interface Filters {
 
     fun getFilters(groupID: FilterGroupID): Set<Filter>
 
+    fun getFilters(): Set<Filter>
+
     fun <T : Filter> contains(groupID: FilterGroupID, filter: T): Boolean
 }

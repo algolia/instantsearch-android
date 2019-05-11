@@ -19,7 +19,8 @@ public class SearcherSingleIndex(
     val index: Index,
     val query: Query = Query(),
     val filterState: FilterState = FilterState(),
-    val requestOptions: RequestOptions? = null
+    val requestOptions: RequestOptions? = null,
+    val disjunctiveFacetingEnabled: Boolean = true
 ) : Searcher, CoroutineScope {
 
     internal val sequencer = Sequencer()
@@ -43,19 +44,17 @@ public class SearcherSingleIndex(
     }
 
     override fun search() {
-        val facets = filterState.getFacetGroups()
-        val filters = facets.flatMap { it.value }
-        val disjunctiveAttributes = facets
+        val disjunctiveAttributes = filterState.getFacetGroups()
             .filter { it.key is FilterGroupID.Or }
             .flatMap { group -> group.value.map { it.attribute } }
 
         query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
         val job = launch(MainDispatcher + exceptionHandler) {
             response = withContext(Dispatchers.Default) {
-                if (disjunctiveAttributes.isEmpty()) {
+                if (disjunctiveAttributes.isEmpty() || !disjunctiveFacetingEnabled) {
                     index.search(query, requestOptions)
                 } else {
-                    index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters)
+                    index.searchDisjunctiveFacets(query, disjunctiveAttributes, filterState.getFilters())
                 }
             }
         }

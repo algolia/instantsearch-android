@@ -161,4 +161,16 @@ class TestSearchFilterState {
             getFacetGroups().shouldBeEmpty()
         }
     }
+
+    @Test
+    fun getFilters() {
+        FilterState().apply {
+            add(groupA, facetA)
+            add(groupB, facetB)
+            add(groupA, numeric)
+            add(groupA, tag)
+
+            getFilters() shouldEqual setOf(facetA, facetB, numeric, tag)
+        }
+    }
 }
