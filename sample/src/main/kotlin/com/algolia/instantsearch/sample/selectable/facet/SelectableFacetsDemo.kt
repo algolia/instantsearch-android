@@ -20,6 +20,7 @@ import filter.FilterState
 import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.selectable_facets_demo.*
+import kotlinx.android.synthetic.main.selectable_header.*
 import search.SearcherSingleIndex
 import selectable.facet.*
 import selectable.facet.FacetSortCriterion.*
@@ -103,10 +104,10 @@ class SelectableFacetsDemo : AppCompatActivity() {
         onErrorThenUpdateFiltersText(filtersTextView)
         onClearAllThenClearFilters(filtersClearAll)
         updateFiltersTextFromState(filtersTextView)
+        onResponseChangedThenUpdateStats()
 
         searcher.search()
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -132,6 +133,12 @@ class SelectableFacetsDemo : AppCompatActivity() {
     private fun onErrorThenUpdateFiltersText(filtersTextView: TextView) {
         searcher.errorListeners += {
             filtersTextView.text = it.localizedMessage
+        }
+    }
+
+    private fun onResponseChangedThenUpdateStats() {
+        searcher.onResponseChanged += {
+            nbHits.text = getString(R.string.nb_hits, it.nbHits)
         }
     }
 

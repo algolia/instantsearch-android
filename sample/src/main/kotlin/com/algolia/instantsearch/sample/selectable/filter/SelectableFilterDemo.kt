@@ -20,6 +20,7 @@ import com.algolia.search.model.filter.NumericOperator
 import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.selectable_filter_demo.*
+import kotlinx.android.synthetic.main.selectable_header.*
 import search.SearcherSingleIndex
 import selectable.SelectableCompoundButton
 import selectable.SelectableRadioGroup
@@ -104,8 +105,8 @@ class SelectableFilterDemo : AppCompatActivity() {
 
         viewModelList.connectSearcher(promotions, searcher)
         viewModelList.connectView(viewList)
-        configureRecyclerView(list, viewList)
 
+        configureRecyclerView(list, viewList)
         onChangeThenUpdateFiltersText(filtersTextView)
         onErrorThenUpdateFiltersText(filtersTextView)
         onClearAllThenClearFilters(filtersClearAll)
@@ -139,7 +140,7 @@ class SelectableFilterDemo : AppCompatActivity() {
 
     private fun onResponseChangedThenUpdateStats() {
         searcher.onResponseChanged += {
-            stats.text = "hits: ${it.nbHits}"
+            nbHits.text = getString(R.string.nb_hits, it.nbHits)
         }
     }
 
