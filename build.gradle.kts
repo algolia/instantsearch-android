@@ -12,6 +12,7 @@ buildscript {
     dependencies {
         classpath(dependency.script.AndroidTools())
         classpath(kotlin("gradle-plugin", version = "1.3.31"))
+        classpath(kotlin("serialization",  version = "1.3.31"))
     }
 }
 

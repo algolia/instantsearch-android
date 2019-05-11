@@ -8,20 +8,17 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.sample.R
+import com.algolia.instantsearch.sample.client
 import com.algolia.instantsearch.sample.selectable.facet.SelectableFacetsAdapter
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 import filter.toFilterGroups
 import highlight
-import kotlinx.android.synthetic.main.selectable_filter_demo.*
+import kotlinx.android.synthetic.main.selectable_filters_demo.*
 import kotlinx.android.synthetic.main.selectable_header.*
-import search.SearcherSingleIndex
+import searcher.SearcherSingleIndex
 import selectable.SelectableCompoundButton
 import selectable.SelectableRadioGroup
 import selectable.facet.SelectableFacetsViewModel
@@ -35,23 +32,12 @@ import selectable.filters.connectSearcher
 import selectable.filters.connectView
 
 
-class SelectableFilterDemo : AppCompatActivity() {
+class SelectableFiltersDemo : AppCompatActivity() {
 
     private val promotions = Attribute("promotions")
     private val size = Attribute("size")
     private val gender = Attribute("gender")
     private val tags = "_tags"
-
-    private val client = ClientSearch(
-        ConfigurationSearch(
-            ApplicationID("latency"),
-            APIKey("1f6fd3a6fb973cb08419fe7d288fa4db")
-        )
-    )
-    private val index = client.initIndex(IndexName("mobile_demo_selectable_filter"))
-
-    private val searcher = SearcherSingleIndex(index)
-
     private val colors
         get() = mapOf(
             promotions.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
@@ -60,9 +46,12 @@ class SelectableFilterDemo : AppCompatActivity() {
             gender.raw to ContextCompat.getColor(this, android.R.color.holo_orange_light)
         )
 
+    private val index = client.initIndex(IndexName("mobile_demo_selectable_filter"))
+    private val searcher = SearcherSingleIndex(index)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.selectable_filter_demo)
+        setContentView(R.layout.selectable_filters_demo)
 
         val viewModelFreeShipping = SelectableFilterViewModel(Filter.Facet(promotions, "free shipping"))
         val viewFreeShipping = SelectableCompoundButton(checkBoxFreeShipping)

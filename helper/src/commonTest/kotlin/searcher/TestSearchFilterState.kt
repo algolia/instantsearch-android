@@ -1,4 +1,4 @@
-package search
+package searcher
 
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter

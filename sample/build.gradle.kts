@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 plugins {
     id("com.android.application")
+    id("kotlinx-serialization")
     kotlin("android")
     kotlin("android.extensions")
 }

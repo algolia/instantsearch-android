@@ -7,7 +7,7 @@ import com.algolia.search.model.response.ResponseSearch
 import filter.FilterGroupID
 import filter.FilterState
 import mockClient
-import search.SearcherSingleIndex
+import searcher.SearcherSingleIndex
 import shouldEqual
 import kotlin.test.Test
 

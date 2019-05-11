@@ -3,4 +3,5 @@
     <string name="nb_hits">hits: %d</string>
     <string name="filters">Filters</string>
     <string name="clear_all">Clear all</string>
+    <string name="search_for_demos">Search for demos</string>
 </resources>

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/listPreferredItemHeightSmall"
     android:layout_marginBottom="0.5dp"
-    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="0dp"
     tools:layout_height="50dp">
 

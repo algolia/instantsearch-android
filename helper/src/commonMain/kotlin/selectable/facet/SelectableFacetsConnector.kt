@@ -7,8 +7,8 @@ import filter.FilterGroupID
 import filter.Filters
 import filter.add
 import filter.getValue
-import search.SearcherSingleIndex
-import search.addFacet
+import searcher.SearcherSingleIndex
+import searcher.addFacet
 
 
 public fun SelectableFacetsViewModel.connectSearcher(

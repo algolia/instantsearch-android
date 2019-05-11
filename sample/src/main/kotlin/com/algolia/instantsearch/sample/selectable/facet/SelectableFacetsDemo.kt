@@ -8,10 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.sample.R
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
+import com.algolia.instantsearch.sample.client
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
@@ -21,7 +18,7 @@ import filter.toFilterGroups
 import highlight
 import kotlinx.android.synthetic.main.selectable_facets_demo.*
 import kotlinx.android.synthetic.main.selectable_header.*
-import search.SearcherSingleIndex
+import searcher.SearcherSingleIndex
 import selectable.facet.*
 import selectable.facet.FacetSortCriterion.*
 import selectable.list.SelectionMode
@@ -32,21 +29,6 @@ class SelectableFacetsDemo : AppCompatActivity() {
     private val color = Attribute("color")
     private val promotions = Attribute("promotions")
     private val category = Attribute("category")
-
-    private val client = ClientSearch(
-        ConfigurationSearch(
-            ApplicationID("latency"),
-            APIKey("1f6fd3a6fb973cb08419fe7d288fa4db")
-        )
-    )
-    private val index = client.initIndex(IndexName("mobile_demo_selectable_facets"))
-    private val filterState = FilterState(
-        facetGroups = mutableMapOf(
-            FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
-        )
-    )
-    private val searcher = SearcherSingleIndex(index, filterState = filterState)
-
     private val colors
         get() = mapOf(
             color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
@@ -57,6 +39,14 @@ class SelectableFacetsDemo : AppCompatActivity() {
     private val groupIDColor = FilterGroupID.And(color)
     private val groupIDPromotions = FilterGroupID.And(promotions)
     private val groupIDCategory = FilterGroupID.Or(category)
+
+    private val index = client.initIndex(IndexName("mobile_demo_selectable_facets"))
+    private val filterState = FilterState(
+        facetGroups = mutableMapOf(
+            FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
+        )
+    )
+    private val searcher = SearcherSingleIndex(index, filterState = filterState)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

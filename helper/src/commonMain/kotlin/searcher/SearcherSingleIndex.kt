@@ -1,4 +1,4 @@
-package search
+package searcher
 
 import MainDispatcher
 import com.algolia.search.client.Index
@@ -10,8 +10,6 @@ import filter.FilterGroupID
 import filter.FilterState
 import filter.toFilterGroups
 import kotlinx.coroutines.*
-import searcher.Searcher
-import searcher.Sequencer
 import kotlin.properties.Delegates
 
 

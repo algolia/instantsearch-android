@@ -1,11 +1,11 @@
 package com.algolia.instantsearch.sample.selectable.facet
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.sample.R
+import com.algolia.instantsearch.sample.inflate
 import com.algolia.search.model.search.Facet
 import selectable.facet.SelectableFacet
 import selectable.facet.SelectableFacetsView
@@ -18,9 +18,7 @@ class SelectableFacetsAdapter :
     override var onClick: ((Facet) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectableFacetViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.selectable_item, parent, false)
-
-        return SelectableFacetViewHolder(view)
+        return SelectableFacetViewHolder(parent.inflate(R.layout.selectable_item))
     }
 
     override fun onBindViewHolder(holder: SelectableFacetViewHolder, position: Int) {

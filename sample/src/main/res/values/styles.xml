@@ -8,6 +8,7 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowBackground">@color/white_light</item>
+        <item name="searchViewStyle">@style/SearchView</item>
         <item name="toolbarStyle">@style/Toolbar</item>
         <item name="actionBarTheme">@style/Toolbar</item>
     </style>
@@ -26,6 +27,15 @@
 
     <style name="Icon.Clickable">
         <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="SearchView" parent="Widget.AppCompat.Light.SearchView">
+        <item name="voiceIcon">@null</item>
+        <item name="searchIcon">@null</item>
+        <item name="queryHint">@string/search_for_demos</item>
+        <item name="android:maxWidth">1000dp</item>
+        <item name="closeIcon">@drawable/ic_close_hint</item>
+        <item name="queryBackground">@drawable/query_background</item>
     </style>
 
 </resources>

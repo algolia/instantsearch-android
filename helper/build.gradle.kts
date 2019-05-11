@@ -72,8 +72,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":core"))
+                api(AlgoliaClient("common"))
                 implementation(kotlin("stdlib-common"))
-                implementation(AlgoliaClient("common"))
             }
         }
         val commonTest by getting {
@@ -105,7 +105,7 @@ kotlin {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(AppCompat())
                 implementation(RecyclerView())
-                implementation(Coroutines("android"))
+                api(Coroutines("android"))
                 api(AlgoliaClient("jvm"))
                 api(Ktor("client-okhttp"))
             }

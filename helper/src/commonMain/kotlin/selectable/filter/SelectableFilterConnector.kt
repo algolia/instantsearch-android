@@ -3,8 +3,8 @@ package selectable.filter
 import com.algolia.search.model.filter.Filter
 import filter.FilterGroupID
 import filter.Filters
-import search.SearcherSingleIndex
-import search.addFacet
+import searcher.SearcherSingleIndex
+import searcher.addFacet
 import selectable.SelectableView
 
 
