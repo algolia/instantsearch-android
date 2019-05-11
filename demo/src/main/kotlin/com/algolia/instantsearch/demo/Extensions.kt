@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample
+package com.algolia.instantsearch.demo
 
 import android.view.LayoutInflater
 import android.view.View

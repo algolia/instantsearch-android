@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.selectable.filter
+package com.algolia.instantsearch.demo.selectable.filter
 
 import android.os.Bundle
 import android.view.View
@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.algolia.instantsearch.sample.R
-import com.algolia.instantsearch.sample.client
-import com.algolia.instantsearch.sample.selectable.facet.SelectableFacetsAdapter
+import com.algolia.instantsearch.demo.R
+import com.algolia.instantsearch.demo.client
+import com.algolia.instantsearch.demo.selectable.facet.SelectableFacetsAdapter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter

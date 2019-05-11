@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample
+package com.algolia.instantsearch.demo
 
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch

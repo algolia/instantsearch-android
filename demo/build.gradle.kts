@@ -1,3 +1,4 @@
+
 import dependency.network.Ktor
 import dependency.test.AndroidTestRunner
 import dependency.test.Espresso
@@ -17,7 +18,7 @@ android {
     defaultConfig {
         minSdkVersion(24)
         targetSdkVersion(28)
-        applicationId = "com.algolia.instantsearch.sample"
+        applicationId = "com.algolia.instantsearch.demo"
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

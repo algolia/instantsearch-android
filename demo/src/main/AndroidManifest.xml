@@ -2,10 +2,10 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.algolia.instantsearch.sample">
+    package="com.algolia.instantsearch.demo">
 
     <application
-        android:name=".App"
+        android:name="com.algolia.instantsearch.demo.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,7 +14,7 @@
         android:theme="@style/InstantSearchDemo"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".directory.DirectoryDemo">
+        <activity android:name="com.algolia.instantsearch.demo.directory.DirectoryDemo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,10 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".selectable.facet.SelectableFacetsDemo"
+            android:name="com.algolia.instantsearch.demo.selectable.facet.SelectableFacetsDemo"
             android:exported="true" />
         <activity
-            android:name=".selectable.filter.SelectableFiltersDemo"
+            android:name="com.algolia.instantsearch.demo.selectable.filter.SelectableFiltersDemo"
             android:exported="true" />
     </application>
 

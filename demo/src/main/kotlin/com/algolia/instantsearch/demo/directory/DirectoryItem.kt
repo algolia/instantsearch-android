@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.directory
+package com.algolia.instantsearch.demo.directory
 
 
 sealed class DirectoryItem {

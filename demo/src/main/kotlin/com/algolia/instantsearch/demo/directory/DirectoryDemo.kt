@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.directory
+package com.algolia.instantsearch.demo.directory
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.algolia.instantsearch.sample.R
-import com.algolia.instantsearch.sample.client
+import com.algolia.instantsearch.demo.R
+import com.algolia.instantsearch.demo.client
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import kotlinx.android.synthetic.main.directory_demo.*

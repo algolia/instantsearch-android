@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.directory
+package com.algolia.instantsearch.demo.directory
 
 import com.algolia.search.model.ObjectID
 import com.algolia.search.model.indexing.Indexable

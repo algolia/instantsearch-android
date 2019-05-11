@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample.directory
+package com.algolia.instantsearch.demo.directory
 
 import android.content.Intent
 import android.text.Html

@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.sample
+package com.algolia.instantsearch.demo
 
 import android.app.Application
 

@@ -1,11 +1,11 @@
-package com.algolia.instantsearch.sample.selectable.facet
+package com.algolia.instantsearch.demo.selectable.facet
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.algolia.instantsearch.sample.R
-import com.algolia.instantsearch.sample.inflate
+import com.algolia.instantsearch.demo.R
+import com.algolia.instantsearch.demo.inflate
 import com.algolia.search.model.search.Facet
 import selectable.facet.SelectableFacet
 import selectable.facet.SelectableFacetsView
