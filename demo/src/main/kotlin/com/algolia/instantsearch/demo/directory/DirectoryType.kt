@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.demo.directory
 
-import com.algolia.instantsearch.demo.selectable.facet.SelectableFacetsDemo
-import com.algolia.instantsearch.demo.selectable.filter.SelectableFiltersDemo
+import com.algolia.instantsearch.demo.selectable.facets.SelectableFacetsDemo
+import com.algolia.instantsearch.demo.selectable.filters.SelectableFiltersDemo
 import kotlin.reflect.KClass
 
 

@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.demo.selectable.filter
+package com.algolia.instantsearch.demo.selectable.filters
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.client
-import com.algolia.instantsearch.demo.selectable.facet.SelectableFacetsAdapter
+import com.algolia.instantsearch.demo.selectable.facets.SelectableFacetsAdapter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
