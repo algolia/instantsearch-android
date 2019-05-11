@@ -6,5 +6,5 @@ object Espresso: Dependency {
 
     override val group = "androidx.test.espresso"
     override val artifact = "espresso"
-    override val version = "3.2.0-alpha03"
+    override val version = "3.1.1"
 }

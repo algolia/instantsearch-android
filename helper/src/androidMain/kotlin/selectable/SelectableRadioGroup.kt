@@ -13,13 +13,13 @@ class SelectableRadioGroup(
     override var onClick: ((Int) -> Unit)? = null
 
     init {
-        view.setOnCheckedChangeListener { _, checkedId ->
-            onClick?.invoke(checkedId)
-        }
+        setOnCheckedChangeListener()
     }
 
     override fun setSelected(selected: Int?) {
+        view.setOnCheckedChangeListener(null)
         view.check(selected ?: View.NO_ID)
+        setOnCheckedChangeListener()
     }
 
     override fun setItems(items: Map<Int, String>) {
@@ -28,5 +28,8 @@ class SelectableRadioGroup(
 
             items[view?.id]?.let { view?.text = it }
         }
+    }
+    private fun setOnCheckedChangeListener() {
+        view.setOnCheckedChangeListener { _, isChecked -> onClick?.invoke(isChecked) }
     }
 }

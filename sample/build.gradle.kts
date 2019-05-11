@@ -1,5 +1,5 @@
 import dependency.network.Ktor
-import dependency.test.AndroidTest
+import dependency.test.AndroidTestRunner
 import dependency.test.Espresso
 import dependency.ui.*
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
@@ -62,6 +62,6 @@ dependencies {
     implementation(AndroidCore("ktx"))
     implementation(Ktor("client-mock-jvm"))
 
-    androidTestImplementation(AndroidTest())
+    androidTestImplementation(AndroidTestRunner())
     androidTestImplementation(Espresso("core"))
 }

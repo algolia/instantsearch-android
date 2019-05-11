@@ -2,8 +2,9 @@
 import dependency.network.AlgoliaClient
 import dependency.network.Coroutines
 import dependency.network.Ktor
-import dependency.test.AndroidTest
-import dependency.test.Espresso
+import dependency.test.AndroidTestExt
+import dependency.test.AndroidTestRunner
+import dependency.test.Robolectric
 import dependency.test.SL4J
 import dependency.ui.AppCompat
 import dependency.ui.RecyclerView
@@ -24,6 +25,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    testOptions.unitTests.isIncludeAndroidResources = true
 
     buildTypes {
         getByName("release") {
@@ -113,9 +116,10 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
                 implementation(AlgoliaClient("jvm"))
-                implementation(AndroidTest())
-                implementation(Espresso("core"))
                 implementation(Ktor("client-mock-jvm"))
+                implementation(AndroidTestRunner())
+                implementation(AndroidTestExt())
+                implementation(Robolectric())
             }
         }
     }
