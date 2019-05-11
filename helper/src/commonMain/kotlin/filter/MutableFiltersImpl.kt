@@ -3,7 +3,7 @@ package filter
 import com.algolia.search.model.filter.Filter
 
 
-internal class MutableFiltersImpl(
+internal data class MutableFiltersImpl(
     private val facetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(),
     private val tagGroups: MutableMap<FilterGroupID, Set<Filter.Tag>> = mutableMapOf(),
     private val numericGroups: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf()
@@ -69,5 +69,9 @@ internal class MutableFiltersImpl(
             numericGroups.clear()
             tagGroups.clear()
         }
+    }
+
+    override fun toString(): String {
+        return "MutableFiltersImpl(facets=$facetGroups, tags=$tagGroups, numerics=$numericGroups)"
     }
 }

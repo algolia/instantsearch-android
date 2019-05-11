@@ -33,6 +33,14 @@ public inline fun <reified T : Filter> MutableFilters.remove(groupID: FilterGrou
     remove(groupID, *filters.toTypedArray())
 }
 
+public fun Filter.Facet.getValue(): String {
+    return when (val value = value) {
+        is Filter.Facet.Value.String -> value.raw
+        is Filter.Facet.Value.Boolean -> value.raw.toString()
+        is Filter.Facet.Value.Number -> value.raw.toString()
+    }
+}
+
 internal fun Facet.toFilter(attribute: Attribute): Filter.Facet {
     return Filter.Facet(attribute, value)
 }

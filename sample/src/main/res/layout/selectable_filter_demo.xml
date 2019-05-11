@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.card.MaterialCardView
+            android:id="@+id/filtersCard"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/filtersTitle"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Filters"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:layout_width="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/filtersTextView"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/filtersTextView"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/filtersTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/stats"
+                    android:layout_width="0dp"
+                    android:minLines="4"
+                    android:maxLines="5"
+                    tools:text="@tools:sample/lorem/random"
+                    android:textAppearance="?attr/textAppearanceBody2"/>
+
+            <TextView
+                android:id="@+id/stats"
+                app:layout_constraintTop_toBottomOf="@id/filtersTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="0dp"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_bias="0"
+                tools:text="10 hits"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                    android:id="@+id/filtersClearAll"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="Clear all"
+                    android:src="@drawable/ic_delete"
+                    app:layout_constraintVertical_bias="0"
+                    android:layout_marginEnd="8dp"
+                    android:padding="8dp"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkBoxFreeShipping"
+            app:layout_constraintTop_toBottomOf="@id/filtersCard"
+            app:layout_constraintEnd_toStartOf="@id/list"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            tools:text="free shipping"/>
+
+    <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchCoupon"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxFreeShipping"
+            app:layout_constraintEnd_toStartOf="@id/list"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            tools:text="coupon"/>
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkBoxSize"
+            app:layout_constraintTop_toBottomOf="@id/switchCoupon"
+            app:layout_constraintEnd_toStartOf="@id/list"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            tools:text="size > 40"/>
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkBoxVintage"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxSize"
+            app:layout_constraintEnd_toStartOf="@id/list"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            tools:text="vintage"/>
+
+    <RadioGroup
+            android:id="@+id/radioGroupGender"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxVintage"
+            app:layout_constraintEnd_toStartOf="@id/list"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+        <RadioButton
+                android:id="@+id/male"
+                android:paddingStart="8dp"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:paddingEnd="8dp"
+                tools:text="male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <RadioButton
+                android:id="@+id/female"
+                tools:text="female"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </RadioGroup>
+
+    <include
+            android:id="@+id/list"
+            android:background="@android:color/holo_red_dark"
+            android:layout_marginTop="32dp"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/filtersCard"
+            app:layout_constraintStart_toEndOf="@id/checkBoxFreeShipping"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            layout="@layout/list"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

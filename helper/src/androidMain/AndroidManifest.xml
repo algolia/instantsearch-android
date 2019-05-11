@@ -1,2 +1,10 @@
 <manifest
-        package="com.algolia.instantsearch.android"/>
+        package="com.algolia.instantsearch.android"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <uses-library android:name="android.test.runner"
+                      android:required="false" />
+    </application>
+
+</manifest>

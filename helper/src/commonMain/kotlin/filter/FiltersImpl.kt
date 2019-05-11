@@ -3,7 +3,7 @@ package filter
 import com.algolia.search.model.filter.Filter
 
 
-internal class FiltersImpl(
+internal data class FiltersImpl(
     private val facets: Map<FilterGroupID, Set<Filter.Facet>>,
     private val tags: Map<FilterGroupID, Set<Filter.Tag>>,
     private val numerics: Map<FilterGroupID, Set<Filter.Numeric>>
@@ -48,5 +48,9 @@ internal class FiltersImpl(
             is Filter.Numeric -> numerics[groupID]?.contains(filter)
             else -> null
         } ?: false
+    }
+
+    override fun toString(): String {
+        return "FiltersImpl(facets=$facets, tags=$tags, numerics=$numerics)"
     }
 }
