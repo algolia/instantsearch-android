@@ -1,4 +1,4 @@
-package selectable.filters
+package selectable.filter
 
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -6,7 +6,6 @@ import filter.FilterGroupID
 import filter.Filters
 import searcher.SearcherSingleIndex
 import searcher.addFacet
-import selectable.filter.SelectableFilterPresenter
 
 
 public fun SelectableFiltersViewModel.connectSearcher(

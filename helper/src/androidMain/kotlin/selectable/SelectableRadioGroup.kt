@@ -3,7 +3,7 @@ package selectable
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import selectable.filters.SelectableFiltersView
+import selectable.filter.SelectableFiltersView
 
 
 class SelectableRadioGroup(

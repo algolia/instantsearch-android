@@ -1,4 +1,4 @@
-package selectable.filters
+package selectable.filter
 
 import selectable.map.SelectableMapView
 

@@ -23,10 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.algolia.instantsearch.demo.selectable.facets.SelectableFacetsDemo"
+            android:name="com.algolia.instantsearch.demo.selectable.facet.SelectableFacetsDemo"
             android:exported="true" />
         <activity
-            android:name="com.algolia.instantsearch.demo.selectable.filters.SelectableFiltersDemo"
+            android:name="com.algolia.instantsearch.demo.selectable.filter.SelectableFiltersDemo"
             android:exported="true" />
     </application>
 

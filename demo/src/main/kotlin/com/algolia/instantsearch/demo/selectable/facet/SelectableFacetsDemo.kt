@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.demo.selectable.facets
+package com.algolia.instantsearch.demo.selectable.facet
 
 import android.os.Bundle
 import android.view.View

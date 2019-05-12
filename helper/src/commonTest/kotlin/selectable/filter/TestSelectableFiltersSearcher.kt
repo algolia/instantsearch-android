@@ -1,4 +1,4 @@
-package selectable.filters
+package selectable.filter
 
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
