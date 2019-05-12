@@ -3,7 +3,6 @@ package com.algolia.instantsearch.helper.searcher
 import com.algolia.instantsearch.MainDispatcher
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
-import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearchForFacets
@@ -17,7 +16,6 @@ public class SearcherForFacet(
     val index: Index,
     val attribute: Attribute,
     val facetQuery: FacetQuery = FacetQuery(),
-    val filterState: FilterState = FilterState(),
     val requestOptions: RequestOptions? = null
 ) : Searcher, CoroutineScope {
 

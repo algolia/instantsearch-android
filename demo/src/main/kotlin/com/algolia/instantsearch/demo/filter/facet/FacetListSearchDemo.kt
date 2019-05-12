@@ -21,7 +21,7 @@ class FacetListSearchDemo : AppCompatActivity() {
     private val brand = Attribute("brand")
     private val index = client.initIndex(IndexName("mobile_demo_facet_list_search"))
     private val filterState = FilterState()
-    private val searcher = SearcherForFacet(index, brand, filterState = filterState)
+    private val searcher = SearcherForFacet(index, brand)
     private val colors
         get() = mapOf(
             brand.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark)
