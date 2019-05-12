@@ -1,5 +1,6 @@
 package selectable.map
 
+import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel
 import shouldBeNull
 import shouldEqual
 import kotlin.test.Test

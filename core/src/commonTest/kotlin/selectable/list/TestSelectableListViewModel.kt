@@ -1,5 +1,7 @@
 package selectable.list
 
+import com.algolia.instantsearch.core.selectable.list.SelectableListViewModel
+import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import shouldEqual
 import kotlin.test.Test
 
@@ -11,7 +13,8 @@ class TestSelectableListViewModel {
 
     @Test
     fun singleChoice() {
-        SelectableListViewModel<String, String>(selectionMode = SelectionMode.Single).apply {
+        SelectableListViewModel<String, String>(selectionMode = SelectionMode.Single)
+            .apply {
             items = listOf(valueA, valueB)
             onSelectionsComputed += { selections = it }
             computeSelections(valueA)
@@ -25,7 +28,8 @@ class TestSelectableListViewModel {
 
     @Test
     fun multipleChoice() {
-        SelectableListViewModel<String, String>(selectionMode = SelectionMode.Multiple).apply {
+        SelectableListViewModel<String, String>(selectionMode = SelectionMode.Multiple)
+            .apply {
             items = listOf(valueA, valueB)
             onSelectionsComputed += { selections = it }
             computeSelections(valueA)

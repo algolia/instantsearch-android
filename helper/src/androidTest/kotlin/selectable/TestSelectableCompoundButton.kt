@@ -4,6 +4,7 @@ import android.widget.Switch
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.algolia.instantsearch.android.selectable.SelectableCompoundButton
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
@@ -15,7 +16,8 @@ import shouldEqual
 @Config(manifest=Config.NONE)
 class TestSelectableCompoundButton  {
 
-    private fun widget() = SelectableCompoundButton(Switch(ApplicationProvider.getApplicationContext()))
+    private fun widget() =
+        SelectableCompoundButton(Switch(ApplicationProvider.getApplicationContext()))
 
     @Test
     fun callSetIsSelectedShouldUpdateIsChecked() {

@@ -16,7 +16,7 @@
         android:theme="@style/InstantSearchDemo"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.algolia.instantsearch.demo.directory.DirectoryDemo">
+        <activity android:name="com.algolia.instantsearch.demo.home.HomeDemo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,16 +26,17 @@
         </activity>
 
         <activity
-            android:name="com.algolia.instantsearch.demo.selectable.facet.SelectableFacetsDemo"
+            android:name="com.algolia.instantsearch.demo.filter.facet.FacetListDemo"
             android:exported="true" />
 
         <activity
-            android:name="com.algolia.instantsearch.demo.selectable.filter.SelectableFiltersDemo"
+            android:name="com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo"
             android:exported="true" />
 
         <activity
-            android:name=".selectable.list.SelectableFilterListDemo"
+            android:name=".filter.list.FilterListDemo"
             android:exported="true" />
+        <activity android:name=".filter.segment.FilterSegmentDemo" />
 
     </application>
 </manifest>

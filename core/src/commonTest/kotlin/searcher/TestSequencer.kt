@@ -1,10 +1,9 @@
-
+import com.algolia.instantsearch.core.searcher.Sequencer
 import kotlinx.atomicfu.AtomicArray
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
-import searcher.Sequencer
 import kotlin.random.Random
 import kotlin.test.Test
 

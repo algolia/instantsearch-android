@@ -5,15 +5,15 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.instantsearch.android.highlight
+import com.algolia.instantsearch.helper.filter.state.toFilterGroups
+import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
-import filter.toFilterGroups
-import highlight
 import io.ktor.client.features.logging.LogLevel
-import kotlinx.android.synthetic.main.selectable_header.*
-import searcher.SearcherSingleIndex
+import kotlinx.android.synthetic.main.demo_header.*
 
 
 val client = ClientSearch(

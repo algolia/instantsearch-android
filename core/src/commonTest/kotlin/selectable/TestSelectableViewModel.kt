@@ -1,7 +1,9 @@
 package selectable
 
+import com.algolia.instantsearch.core.selectable.SelectableViewModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
+
 
 class TestSelectableViewModel {
 
