@@ -1,7 +1,6 @@
 package selectable.facet
 
 import com.algolia.search.model.search.Facet
-import selectable.list.SelectableItem
 import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
@@ -15,11 +14,11 @@ class TestSelectableFacetsView  {
 
     private class MockSelectableFacetsView : SelectableFacetsView {
 
-        var items: List<SelectableItem<Facet>> = listOf()
+        var items: List<SelectableFacet> = listOf()
 
         override var onClick: ((Facet) -> Unit)? = null
 
-        override fun setSelectableItems(selectableItems: List<SelectableItem<Facet>>) {
+        override fun setSelectableItems(selectableItems: List<SelectableFacet>) {
             items = selectableItems
         }
     }

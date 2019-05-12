@@ -8,6 +8,7 @@ import filter.FilterGroupID
 import filter.FilterState
 import mockClient
 import searcher.SearcherSingleIndex
+import shouldBeEmpty
 import shouldEqual
 import kotlin.test.Test
 
@@ -50,6 +51,17 @@ class TestSelectableFiltersSearcher {
         viewModel.connectSearcher(color, searcher)
         viewModel.computeSelected(id)
         searcher.filterState.filters shouldEqual filterState.filters
+    }
+
+    @Test
+    fun selectingTwiceShouldRemoveFilter() {
+        val searcher = SearcherSingleIndex(index)
+        val viewModel = SelectableFiltersViewModel(filters)
+
+        viewModel.connectSearcher(color, searcher)
+        viewModel.computeSelected(id)
+        viewModel.computeSelected(id)
+        searcher.filterState.filters.getFilters().shouldBeEmpty()
     }
 
     @Test

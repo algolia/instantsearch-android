@@ -60,7 +60,7 @@ public fun SelectableFacetsViewModel.connectView(
     presenter: ((List<SelectableFacet>) -> List<SelectableFacet>)? = null
 ) {
     fun List<Facet>.toSelectableFacets(selections: Set<String>): List<SelectableFacet> {
-        return map { Pair(it, selections.contains(it.value)) }
+        return map { SelectableFacet(it, selections.contains(it.value)) }
 //        val persistentFacets = if (persistentSelection) {
 //            selections
 //                .filter { selection -> facets.any { it.first.value ==  selection } }

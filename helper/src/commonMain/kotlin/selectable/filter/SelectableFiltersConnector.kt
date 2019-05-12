@@ -17,7 +17,9 @@ public fun SelectableFiltersViewModel.connectSearcher(
         onSelectedComputed += { computed ->
             searcher.filterState.notify {
                 items[selected]?.let { remove(groupID, it) }
-                items[computed]?.let { add(groupID, it) }
+                if (selected != computed) {
+                    items[computed]?.let { add(groupID, it) }
+                }
             }
         }
     }

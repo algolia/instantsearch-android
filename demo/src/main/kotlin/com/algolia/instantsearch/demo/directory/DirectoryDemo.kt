@@ -37,7 +37,7 @@ class DirectoryDemo : AppCompatActivity() {
             it.isSubmitButtonEnabled = false
             it.isFocusable = true
             it.setIconifiedByDefault(false)
-            it.setOnQueryTextFocusChangeListener { search, hasFocus ->
+            it.setOnQueryTextFocusChangeListener { _, hasFocus ->
                 searchView.showQueryHintIcon(hasFocus, hintIcon, hintText)
             }
         }
@@ -57,7 +57,7 @@ class DirectoryDemo : AppCompatActivity() {
             val hits = response.hits.deserialize(DirectoryHit.serializer())
                 .groupBy { it.type }
                 .flatMap { (key, value) ->
-                    listOf(DirectoryItem.Header(key)) + value.map { DirectoryItem.Item(it) }
+                    listOf(DirectoryItem.Header(key)) + value.map { DirectoryItem.Item(it) }.sortedBy { it.hit.objectID.raw }
                 }
 
             adapter.submitList(hits)

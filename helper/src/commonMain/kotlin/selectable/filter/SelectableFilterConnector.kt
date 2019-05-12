@@ -34,7 +34,7 @@ public fun SelectableFilterViewModel.connectSearcher(
     whenFilterStateChangedThenUpdateIsSelected()
 }
 
-fun SelectableFilterViewModel.connectView(
+public fun SelectableFilterViewModel.connectView(
     view: SelectableView,
     presenter: (Filter) -> String = SelectableFilterPresenter
 ) {

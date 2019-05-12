@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.algolia.instantsearch.demo">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.algolia.instantsearch.demo.App"
         android:allowBackup="false"
@@ -22,13 +24,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.algolia.instantsearch.demo.selectable.facet.SelectableFacetsDemo"
             android:exported="true" />
+
         <activity
             android:name="com.algolia.instantsearch.demo.selectable.filter.SelectableFiltersDemo"
             android:exported="true" />
-    </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
+        <activity
+            android:name=".selectable.numeric.SelectableNumericsDemo"
+            android:exported="true" />
+
+    </application>
 </manifest>
