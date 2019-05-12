@@ -15,7 +15,7 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 import kotlinx.android.synthetic.main.demo_filter_toggle.*
-import kotlinx.android.synthetic.main.demo_header.*
+import kotlinx.android.synthetic.main.header_filter.*
 
 
 class FilterToggleDemo : AppCompatActivity() {
@@ -63,9 +63,9 @@ class FilterToggleDemo : AppCompatActivity() {
         viewModelVintage.connectFilterState(filterState)
         viewModelVintage.connectView(viewVintage)
 
-        onChangeThenUpdateFiltersText(searcher, colors, filtersTextView)
+        onChangeThenUpdateFiltersText(filterState, colors, filtersTextView)
+        onClearAllThenClearFilters(filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onClearAllThenClearFilters(searcher, filtersClearAll)
         onResponseChangedThenUpdateNbHits(searcher)
 
         searcher.search()

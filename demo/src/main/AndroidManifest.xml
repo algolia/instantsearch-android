@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.algolia.instantsearch.demo">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name="com.algolia.instantsearch.demo.App"
         android:allowBackup="false"
@@ -36,7 +34,17 @@
         <activity
             android:name=".filter.list.FilterListDemo"
             android:exported="true" />
-        <activity android:name=".filter.segment.FilterSegmentDemo" />
+
+        <activity
+            android:name=".filter.segment.FilterSegmentDemo"
+            android:exported="true" />
+
+        <activity
+            android:name=".filter.facet.FacetListSearchDemo"
+            android:exported="true" />
 
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

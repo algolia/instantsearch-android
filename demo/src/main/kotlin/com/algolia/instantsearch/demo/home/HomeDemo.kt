@@ -1,18 +1,13 @@
 package com.algolia.instantsearch.demo.home
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ImageSpan
-import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.algolia.instantsearch.android.searcher.connectSearchView
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.client
+import com.algolia.instantsearch.demo.configureRecyclerView
+import com.algolia.instantsearch.demo.showQueryHintIcon
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
@@ -44,11 +39,7 @@ class HomeDemo : AppCompatActivity() {
 
         val adapter = HomeAdapter()
 
-        directory.also {
-            it.itemAnimator = null
-            it.adapter = adapter
-            it.layoutManager = LinearLayoutManager(this)
-        }
+        configureRecyclerView(list, adapter)
 
         searcher.errorListeners += { throwable ->
             throwable.printStackTrace()
@@ -68,20 +59,5 @@ class HomeDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
-    }
-
-    private fun SearchView.showQueryHintIcon(showIconHint: Boolean, hintIcon: Drawable, hintText: String? = null) {
-        queryHint = if (!showIconHint) {
-            hintText
-        } else {
-            val textView = findViewById<AutoCompleteTextView>(R.id.search_src_text)
-            val textSize = (textView.textSize * 1.25).toInt()
-
-            hintIcon.setBounds(0, 0, textSize, textSize)
-            SpannableStringBuilder("    ").also {
-                it.setSpan(ImageSpan(hintIcon), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                if (hintText != null) it.append(hintText) else it.append(" ")
-            }
-        }
     }
 }

@@ -15,7 +15,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import kotlinx.android.synthetic.main.demo_filter_segment.*
-import kotlinx.android.synthetic.main.demo_header.*
+import kotlinx.android.synthetic.main.header_filter.*
 
 
 class FilterSegmentDemo : AppCompatActivity() {
@@ -46,9 +46,9 @@ class FilterSegmentDemo : AppCompatActivity() {
         viewModelGender.connectFilterState(filterState, groupID)
         viewModelGender.connectView(viewGender)
 
-        onChangeThenUpdateFiltersText(searcher, colors, filtersTextView)
+        onChangeThenUpdateFiltersText(filterState, colors, filtersTextView)
+        onClearAllThenClearFilters(filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onClearAllThenClearFilters(searcher, filtersClearAll)
         onResponseChangedThenUpdateNbHits(searcher)
 
         searcher.search()

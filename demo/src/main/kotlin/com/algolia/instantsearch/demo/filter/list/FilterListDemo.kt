@@ -15,8 +15,8 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
-import kotlinx.android.synthetic.main.demo_header.*
 import kotlinx.android.synthetic.main.demo_filter_list.*
+import kotlinx.android.synthetic.main.header_filter.*
 
 
 class FilterListDemo : AppCompatActivity() {
@@ -101,9 +101,9 @@ class FilterListDemo : AppCompatActivity() {
         configureRecyclerView(listBottomLeft, viewTag)
         configureRecyclerView(listBottomRight, viewAll)
 
-        onChangeThenUpdateFiltersText(searcher, colors, filtersTextView)
+        onChangeThenUpdateFiltersText(filterState, colors, filtersTextView)
+        onClearAllThenClearFilters(filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onClearAllThenClearFilters(searcher, filtersClearAll)
         onResponseChangedThenUpdateStats(searcher)
 
         searcher.search()

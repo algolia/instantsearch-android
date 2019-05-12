@@ -14,7 +14,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import kotlinx.android.synthetic.main.demo_facet_list.*
-import kotlinx.android.synthetic.main.demo_header.*
+import kotlinx.android.synthetic.main.header_filter.*
 
 
 class FacetListDemo : AppCompatActivity() {
@@ -86,9 +86,9 @@ class FacetListDemo : AppCompatActivity() {
         titleBottomLeft.text = formatTitle(promotionPresenter, groupIDPromotions)
         titleBottomRight.text = formatTitle(categoryPresenter, groupIDCategory)
 
-        onChangeThenUpdateFiltersText(searcher, colors, filtersTextView)
+        onChangeThenUpdateFiltersText(filterState, colors, filtersTextView)
+        onClearAllThenClearFilters(filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onClearAllThenClearFilters(searcher, filtersClearAll)
         onResponseChangedThenUpdateNbHits(searcher)
 
         searcher.search()

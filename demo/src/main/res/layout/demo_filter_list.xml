@@ -14,7 +14,6 @@
             android:id="@+id/titleTopLeft"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:layout_margin="16dp"
             android:gravity="center"
             android:text="@string/facet_filters"
@@ -23,7 +22,7 @@
             app:layout_constraintBottom_toTopOf="@id/listTopLeft"
             app:layout_constraintEnd_toStartOf="@id/titleTopRight"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filtersCard"
+            app:layout_constraintTop_toBottomOf="@id/headerFilter"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="@tools:sample/lorem" />
@@ -40,7 +39,7 @@
             app:layout_constraintBottom_toTopOf="@id/listTopRight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/titleTopLeft"
-            app:layout_constraintTop_toBottomOf="@id/filtersCard"
+            app:layout_constraintTop_toBottomOf="@id/headerFilter"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="@tools:sample/lorem" />
@@ -76,8 +75,8 @@
             tools:text="@tools:sample/lorem" />
 
         <include
-            android:id="@+id/filtersCard"
-            layout="@layout/demo_header"
+            android:id="@+id/headerFilter"
+            layout="@layout/header_filter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

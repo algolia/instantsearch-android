@@ -32,7 +32,6 @@
     <style name="SearchView" parent="Widget.AppCompat.Light.SearchView">
         <item name="voiceIcon">@null</item>
         <item name="searchIcon">@null</item>
-        <item name="queryHint">@string/search_for_demos</item>
         <item name="android:maxWidth">1000dp</item>
         <item name="closeIcon">@drawable/ic_close_hint</item>
         <item name="queryBackground">@drawable/query_background</item>
