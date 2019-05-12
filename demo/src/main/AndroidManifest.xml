@@ -34,7 +34,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".selectable.numeric.SelectableNumericsDemo"
+            android:name=".selectable.list.SelectableFilterListDemo"
             android:exported="true" />
 
     </application>

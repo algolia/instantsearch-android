@@ -9,16 +9,16 @@ internal data class FiltersImpl(
     private val numericGroups: Map<FilterGroupID, Set<Filter.Numeric>>
 ) : Filters {
 
-    override fun getFacetFilters(groupID: FilterGroupID): Set<Filter.Facet>? {
-        return facetGroups[groupID]
+    override fun getFacetFilters(groupID: FilterGroupID): Set<Filter.Facet> {
+        return facetGroups[groupID].orEmpty()
     }
 
-    override fun getTagFilters(groupID: FilterGroupID): Set<Filter.Tag>? {
-        return tagGroups[groupID]
+    override fun getTagFilters(groupID: FilterGroupID): Set<Filter.Tag> {
+        return tagGroups[groupID].orEmpty()
     }
 
-    override fun getNumericFilters(groupID: FilterGroupID): Set<Filter.Numeric>? {
-        return numericGroups[groupID]
+    override fun getNumericFilters(groupID: FilterGroupID): Set<Filter.Numeric> {
+        return numericGroups[groupID].orEmpty()
     }
 
     override fun getFacetGroups(): Map<FilterGroupID, Set<Filter.Facet>> {

@@ -5,11 +5,11 @@ import com.algolia.search.model.filter.Filter
 
 public interface Filters {
 
-    fun getFacetFilters(groupID: FilterGroupID): Set<Filter.Facet>?
+    fun getFacetFilters(groupID: FilterGroupID): Set<Filter.Facet>
 
-    fun getTagFilters(groupID: FilterGroupID): Set<Filter.Tag>?
+    fun getTagFilters(groupID: FilterGroupID): Set<Filter.Tag>
 
-    fun getNumericFilters(groupID: FilterGroupID): Set<Filter.Numeric>?
+    fun getNumericFilters(groupID: FilterGroupID): Set<Filter.Numeric>
 
     fun getFacetGroups(): Map<FilterGroupID, Set<Filter.Facet>>
 
