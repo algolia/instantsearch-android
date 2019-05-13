@@ -31,9 +31,6 @@ class FacetListSearchDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list_search)
 
-        val hintIcon = ContextCompat.getDrawable(this, R.drawable.ic_search_hint)!!
-        val hintText = getString(R.string.search_for_brands)
-
         val viewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple)
         val view = FacetListAdapter()
         val presenter = FacetListPresenter(
@@ -53,6 +50,9 @@ class FacetListSearchDemo : AppCompatActivity() {
             it.isFocusable = true
             it.setIconifiedByDefault(false)
             it.setOnQueryTextFocusChangeListener { _, hasFocus ->
+                val hintIcon = ContextCompat.getDrawable(this, R.drawable.ic_search_hint)!!
+                val hintText = getString(R.string.search_for_brands)
+
                 searchView.showQueryHintIcon(!hasFocus, hintIcon, hintText)
             }
         }
