@@ -53,7 +53,7 @@ class FacetListSearchDemo : AppCompatActivity() {
             it.isFocusable = true
             it.setIconifiedByDefault(false)
             it.setOnQueryTextFocusChangeListener { _, hasFocus ->
-                searchView.showQueryHintIcon(hasFocus, hintIcon, hintText)
+                searchView.showQueryHintIcon(!hasFocus, hintIcon, hintText)
             }
         }
         searcherForFacet.onErrorChanged += { throwable ->
