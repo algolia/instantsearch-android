@@ -9,7 +9,8 @@ import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherForFacet
-
+import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connect
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import kotlinx.android.synthetic.main.demo_home.*
@@ -20,12 +21,14 @@ class FacetListSearchDemo : AppCompatActivity() {
 
     private val brand = Attribute("brand")
     private val index = client.initIndex(IndexName("mobile_demo_facet_list_search"))
-    private val filterState = FilterState()
-    private val searcher = SearcherForFacet(index, brand)
     private val colors
         get() = mapOf(
             brand.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark)
         )
+    private val searcher = SearcherSingleIndex(index)
+    private val searcherForFacet = SearcherForFacet(index, brand)
+    private val filterState = FilterState().connect(searcher)
+    private val filterStateSearchForFacet = FilterState().connect(searcherForFacet)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,9 +46,9 @@ class FacetListSearchDemo : AppCompatActivity() {
         )
 
         viewModel.connectFilterState(brand, filterState)
-        viewModel.connectSearcherFacet(searcher)
+        viewModel.connectSearcherForFacet(searcherForFacet)
         viewModel.connectView(view, presenter)
-        searcher.connectSearchView(searchView)
+        searcherForFacet.connectSearchView(searchView, filterStateSearchForFacet)
         configureRecyclerView(list, view)
 
         setSupportActionBar(toolbar)
@@ -57,12 +60,14 @@ class FacetListSearchDemo : AppCompatActivity() {
                 searchView.showQueryHintIcon(hasFocus, hintIcon, hintText)
             }
         }
-        searcher.errorListeners += { throwable ->
+        searcherForFacet.errorListeners += { throwable ->
             throwable.printStackTrace()
         }
         onChangeThenUpdateFiltersText(filterState, colors, filtersTextView)
         onClearAllThenClearFilters(filterState, filtersClearAll)
+        onResponseChangedThenUpdateNbHits(searcher)
 
-        searcher.search()
+        searcher.search(filterState)
+        searcherForFacet.search(filterStateSearchForFacet)
     }
 }

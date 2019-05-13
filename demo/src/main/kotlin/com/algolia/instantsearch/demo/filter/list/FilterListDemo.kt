@@ -11,6 +11,7 @@ import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connect
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
@@ -33,12 +34,6 @@ class FilterListDemo : AppCompatActivity() {
             all to ContextCompat.getColor(this, android.R.color.holo_purple)
         )
     private val index = client.initIndex(IndexName("mobile_demo_filter_list"))
-    private val filterState = FilterState()
-    private val searcher = SearcherSingleIndex(index, filterState = filterState)
-    private val groupIDColor = FilterGroupID.And(color)
-    private val groupIDPrice = FilterGroupID.And(price)
-    private val groupIDTags = FilterGroupID.Or(tags)
-    private val groupIDAll = FilterGroupID.And(all)
     private val facetFilters = listOf(
         Filter.Facet(color, "red"),
         Filter.Facet(color, "green"),
@@ -67,6 +62,13 @@ class FilterListDemo : AppCompatActivity() {
         Filter.Facet(color, "black"),
         Filter.Numeric(price, NumericOperator.Greater, 100)
     )
+
+    private val groupIDColor = FilterGroupID.And(color)
+    private val groupIDPrice = FilterGroupID.And(price)
+    private val groupIDTags = FilterGroupID.Or(tags)
+    private val groupIDAll = FilterGroupID.And(all)
+    private val searcher = SearcherSingleIndex(index)
+    private val filterState = FilterState().connect(searcher)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,7 +108,7 @@ class FilterListDemo : AppCompatActivity() {
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateStats(searcher)
 
-        searcher.search()
+        searcher.search(filterState)
     }
 
     override fun onDestroy() {

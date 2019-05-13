@@ -11,6 +11,7 @@ import com.algolia.instantsearch.helper.filter.segment.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connect
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
@@ -26,10 +27,10 @@ class FilterSegmentDemo : AppCompatActivity() {
             gender.raw to ContextCompat.getColor(this, android.R.color.holo_orange_light)
         )
 
-    private val filterState = FilterState()
     private val index = client.initIndex(IndexName("mobile_demo_filter_segment"))
-    private val searcher = SearcherSingleIndex(index, filterState = filterState)
     private val groupID = FilterGroupID.And(gender)
+    private val searcher = SearcherSingleIndex(index)
+    private val filterState = FilterState().connect(searcher)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +52,7 @@ class FilterSegmentDemo : AppCompatActivity() {
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher)
 
-        searcher.search()
+        searcher.search(filterState)
     }
 
     override fun onDestroy() {

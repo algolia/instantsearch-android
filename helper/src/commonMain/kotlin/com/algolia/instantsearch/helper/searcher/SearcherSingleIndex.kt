@@ -1,10 +1,9 @@
 package com.algolia.instantsearch.helper.searcher
 
 import com.algolia.instantsearch.MainDispatcher
-import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.search.client.Index
 import com.algolia.search.model.filter.FilterGroupsConverter
@@ -18,7 +17,6 @@ import kotlin.properties.Delegates
 public class SearcherSingleIndex(
     val index: Index,
     val query: Query = Query(),
-    val filterState: FilterState = FilterState(),
     val requestOptions: RequestOptions? = null,
     val disjunctiveFacetingEnabled: Boolean = true
 ) : Searcher, CoroutineScope {
@@ -39,22 +37,18 @@ public class SearcherSingleIndex(
         errorListeners.forEach { it(throwable) }
     }
 
-    init {
-        filterState.onChange += { search() }
-    }
-
-    override fun search() {
-        val disjunctiveAttributes = filterState.getFacetGroups()
+    override fun search(filters: Filters) {
+        val disjunctiveAttributes = filters.getFacetGroups()
             .filter { it.key is FilterGroupID.Or }
             .flatMap { group -> group.value.map { it.attribute } }
 
-        query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
+        query.filters = FilterGroupsConverter.SQL(filters.toFilterGroups())
         val job = launch(MainDispatcher + exceptionHandler) {
             response = withContext(Dispatchers.Default) {
                 if (disjunctiveAttributes.isEmpty() || !disjunctiveFacetingEnabled) {
                     index.search(query, requestOptions)
                 } else {
-                    index.searchDisjunctiveFacets(query, disjunctiveAttributes, filterState.getFilters())
+                    index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters.getFilters())
                 }
             }
         }

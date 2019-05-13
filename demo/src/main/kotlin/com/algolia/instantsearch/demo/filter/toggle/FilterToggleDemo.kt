@@ -10,6 +10,7 @@ import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
 import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
 import com.algolia.instantsearch.helper.filter.toggle.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connect
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
@@ -30,9 +31,9 @@ class FilterToggleDemo : AppCompatActivity() {
             tags to ContextCompat.getColor(this, android.R.color.holo_purple)
         )
 
-    private val filterState = FilterState()
     private val index = client.initIndex(IndexName("mobile_demo_filter_toggle"))
-    private val searcher = SearcherSingleIndex(index, filterState = filterState)
+    private val searcher = SearcherSingleIndex(index)
+    private val filterState = FilterState().connect(searcher)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +69,7 @@ class FilterToggleDemo : AppCompatActivity() {
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher)
 
-        searcher.search()
+        searcher.search(filterState)
     }
 
     override fun onDestroy() {

@@ -8,6 +8,7 @@ import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.client
 import com.algolia.instantsearch.demo.configureRecyclerView
 import com.algolia.instantsearch.demo.showQueryHintIcon
+import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
@@ -18,6 +19,7 @@ class HomeDemo : AppCompatActivity() {
 
     private val index = client.initIndex(IndexName("mobile_demo_home"))
     private val searcher = SearcherSingleIndex(index)
+    private val filterState = FilterState()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +29,7 @@ class HomeDemo : AppCompatActivity() {
         val hintText = getString(R.string.search_for_demos)
 
         setSupportActionBar(toolbar)
-        searcher.connectSearchView(searchView)
+        searcher.connectSearchView(searchView, filterState)
         searchView.also {
             it.isSubmitButtonEnabled = false
             it.isFocusable = true
@@ -53,7 +55,7 @@ class HomeDemo : AppCompatActivity() {
 
             adapter.submitList(hits)
         }
-        searcher.search()
+        searcher.search(filterState)
     }
 
     override fun onDestroy() {

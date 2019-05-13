@@ -18,7 +18,7 @@ public fun FacetListViewModel.connectSearcher(
     }
 }
 
-public fun FacetListViewModel.connectSearcherFacet(
+public fun FacetListViewModel.connectSearcherForFacet(
     searcher: SearcherForFacet
 ) {
     searcher.onResponseChanged += { response ->

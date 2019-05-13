@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.helper.searcher
 
 import com.algolia.instantsearch.MainDispatcher
-import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
+import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearchForFacets
@@ -35,7 +35,7 @@ public class SearcherForFacet(
         errorListeners.forEach { it(throwable) }
     }
 
-    override fun search() {
+    override fun search(filters: Filters) {
         val job = launch(MainDispatcher + exceptionHandler) {
             response = withContext(Dispatchers.Default) {
                 index.searchForFacets(attribute, facetQuery, requestOptions)
