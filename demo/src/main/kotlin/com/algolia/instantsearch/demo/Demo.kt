@@ -9,6 +9,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.helper.android.highlight
@@ -74,6 +75,22 @@ fun AppCompatActivity.configureRecyclerView(
         it.layoutManager = LinearLayoutManager(this)
         it.adapter = view
         it.itemAnimator = null
+    }
+}
+
+fun AppCompatActivity.configureSearchView(
+    searchView: SearchView
+) {
+    searchView.also {
+        it.isSubmitButtonEnabled = false
+        it.isFocusable = true
+        it.setIconifiedByDefault(false)
+        it.setOnQueryTextFocusChangeListener { _, hasFocus ->
+            val hintIcon = ContextCompat.getDrawable(this, R.drawable.ic_search_hint)!!
+            val hintText = getString(R.string.search_for_brands)
+
+            searchView.showQueryHintIcon(!hasFocus, hintIcon, hintText)
+        }
     }
 }
 
