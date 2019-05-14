@@ -9,9 +9,7 @@ import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.list.connectFilterState
 import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connect
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
@@ -68,7 +66,6 @@ class FilterListDemo : AppCompatActivity() {
     private val groupIDTags = FilterGroupID.Or(tags)
     private val groupIDAll = FilterGroupID.And(all)
     private val searcher = SearcherSingleIndex(index)
-    private val filterState = FilterState().connect(searcher)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,25 +74,25 @@ class FilterListDemo : AppCompatActivity() {
         val viewModelFacet = FilterListViewModel.Facet(facetFilters, selectionMode = SelectionMode.Single)
         val viewFacet = FilterListAdapter<Filter.Facet>()
 
-        viewModelFacet.connectFilterState(filterState, groupIDColor)
+        viewModelFacet.connectFilterState(searcher.filterState, groupIDColor)
         viewModelFacet.connectView(viewFacet)
 
         val viewModelNumeric = FilterListViewModel.Numeric(numericFilters)
         val viewNumeric = FilterListAdapter<Filter.Numeric>()
 
-        viewModelNumeric.connectFilterState(filterState, groupIDPrice)
+        viewModelNumeric.connectFilterState(searcher.filterState, groupIDPrice)
         viewModelNumeric.connectView(viewNumeric)
 
         val viewModelTag = FilterListViewModel.Tag(tagFilters)
         val viewTag = FilterListAdapter<Filter.Tag>()
 
-        viewModelTag.connectFilterState(filterState, groupIDTags)
+        viewModelTag.connectFilterState(searcher.filterState, groupIDTags)
         viewModelTag.connectView(viewTag)
 
         val viewModelAll = FilterListViewModel.All(allFilters)
         val viewAll = FilterListAdapter<Filter>()
 
-        viewModelAll.connectFilterState(filterState, groupIDAll)
+        viewModelAll.connectFilterState(searcher.filterState, groupIDAll)
         viewModelAll.connectView(viewAll)
 
         configureRecyclerView(listTopLeft, viewFacet)
@@ -103,12 +100,12 @@ class FilterListDemo : AppCompatActivity() {
         configureRecyclerView(listBottomLeft, viewTag)
         configureRecyclerView(listBottomRight, viewAll)
 
-        onChangeThenUpdateFiltersText(filterState, colors, filtersTextView)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateStats(searcher)
 
-        searcher.search(filterState)
+        searcher.search()
     }
 
     override fun onDestroy() {

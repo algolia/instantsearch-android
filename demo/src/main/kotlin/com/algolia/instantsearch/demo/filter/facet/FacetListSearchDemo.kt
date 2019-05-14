@@ -7,10 +7,8 @@ import com.algolia.instantsearch.android.searcher.connectSearchView
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.facet.*
-import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherForFacet
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connect
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import kotlinx.android.synthetic.main.demo_home.*
@@ -27,8 +25,6 @@ class FacetListSearchDemo : AppCompatActivity() {
         )
     private val searcher = SearcherSingleIndex(index)
     private val searcherForFacet = SearcherForFacet(index, brand)
-    private val filterState = FilterState().connect(searcher)
-    private val filterStateSearchForFacet = FilterState().connect(searcherForFacet)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +41,10 @@ class FacetListSearchDemo : AppCompatActivity() {
             limit = 100
         )
 
-        viewModel.connectFilterState(brand, filterState)
+        viewModel.connectFilterState(brand, searcher.filterState)
         viewModel.connectSearcherForFacet(searcherForFacet)
         viewModel.connectView(view, presenter)
-        searcherForFacet.connectSearchView(searchView, filterStateSearchForFacet)
+        searcherForFacet.connectSearchView(searchView)
         configureRecyclerView(list, view)
 
         setSupportActionBar(toolbar)
@@ -63,11 +59,11 @@ class FacetListSearchDemo : AppCompatActivity() {
         searcherForFacet.errorListeners += { throwable ->
             throwable.printStackTrace()
         }
-        onChangeThenUpdateFiltersText(filterState, colors, filtersTextView)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onResponseChangedThenUpdateNbHits(searcher)
 
-        searcher.search(filterState)
-        searcherForFacet.search(filterStateSearchForFacet)
+        searcher.search()
+        searcherForFacet.search()
     }
 }

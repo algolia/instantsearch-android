@@ -10,7 +10,6 @@ import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion.*
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connect
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
@@ -34,12 +33,12 @@ class FacetListDemo : AppCompatActivity() {
     private val groupIDPromotions = FilterGroupID.And(promotions)
     private val groupIDCategory = FilterGroupID.Or(category)
     private val index = client.initIndex(IndexName("mobile_demo_facet_list"))
-    private val searcher = SearcherSingleIndex(index)
     private val filterState = FilterState(
         facetGroups = mutableMapOf(
             FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
         )
-    ).connect(searcher)
+    )
+    private val searcher = SearcherSingleIndex(index, filterState = filterState)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +91,7 @@ class FacetListDemo : AppCompatActivity() {
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher)
 
-        searcher.search(filterState)
+        searcher.search()
     }
 
     override fun onDestroy() {

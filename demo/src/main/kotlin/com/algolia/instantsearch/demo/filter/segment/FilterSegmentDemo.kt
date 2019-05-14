@@ -9,9 +9,7 @@ import com.algolia.instantsearch.helper.filter.segment.FilterSegmentViewModel
 import com.algolia.instantsearch.helper.filter.segment.connectFilterState
 import com.algolia.instantsearch.helper.filter.segment.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connect
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
@@ -30,7 +28,6 @@ class FilterSegmentDemo : AppCompatActivity() {
     private val index = client.initIndex(IndexName("mobile_demo_filter_segment"))
     private val groupID = FilterGroupID.And(gender)
     private val searcher = SearcherSingleIndex(index)
-    private val filterState = FilterState().connect(searcher)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,15 +41,15 @@ class FilterSegmentDemo : AppCompatActivity() {
         )
         val viewGender = SelectableRadioGroup(radioGroupGender)
 
-        viewModelGender.connectFilterState(filterState, groupID)
+        viewModelGender.connectFilterState(searcher.filterState, groupID)
         viewModelGender.connectView(viewGender)
 
-        onChangeThenUpdateFiltersText(filterState, colors, filtersTextView)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher)
 
-        searcher.search(filterState)
+        searcher.search()
     }
 
     override fun onDestroy() {

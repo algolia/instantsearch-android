@@ -5,12 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.android.selectable.SelectableCompoundButton
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
 import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
 import com.algolia.instantsearch.helper.filter.toggle.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connect
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
@@ -33,7 +31,6 @@ class FilterToggleDemo : AppCompatActivity() {
 
     private val index = client.initIndex(IndexName("mobile_demo_filter_toggle"))
     private val searcher = SearcherSingleIndex(index)
-    private val filterState = FilterState().connect(searcher)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,33 +40,33 @@ class FilterToggleDemo : AppCompatActivity() {
         val viewFreeShipping =
             SelectableCompoundButton(checkBoxFreeShipping)
 
-        viewModelFreeShipping.connectFilterState(filterState)
+        viewModelFreeShipping.connectFilterState(searcher.filterState)
         viewModelFreeShipping.connectView(viewFreeShipping)
 
         val viewModelCoupon = FilterToggleViewModel(Filter.Facet(promotions, "coupon"))
         val viewCoupon = SelectableCompoundButton(switchCoupon)
 
-        viewModelCoupon.connectFilterState(filterState)
+        viewModelCoupon.connectFilterState(searcher.filterState)
         viewModelCoupon.connectView(viewCoupon)
 
         val viewModelSize = FilterToggleViewModel(Filter.Numeric(size, NumericOperator.Greater, 40))
         val viewSize = SelectableCompoundButton(checkBoxSize)
 
-        viewModelSize.connectFilterState(filterState)
+        viewModelSize.connectFilterState(searcher.filterState)
         viewModelSize.connectView(viewSize)
 
         val viewModelVintage = FilterToggleViewModel(Filter.Tag("vintage"))
         val viewVintage = SelectableCompoundButton(checkBoxVintage)
 
-        viewModelVintage.connectFilterState(filterState)
+        viewModelVintage.connectFilterState(searcher.filterState)
         viewModelVintage.connectView(viewVintage)
 
-        onChangeThenUpdateFiltersText(filterState, colors, filtersTextView)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher)
 
-        searcher.search(filterState)
+        searcher.search()
     }
 
     override fun onDestroy() {
