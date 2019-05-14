@@ -5,7 +5,7 @@ import com.algolia.instantsearch.demo.filter.facet.FacetListSearchDemo
 import com.algolia.instantsearch.demo.filter.list.FilterListDemo
 import com.algolia.instantsearch.demo.filter.segment.FilterSegmentDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo
-import com.algolia.instantsearch.demo.widget.HitsDemo
+import com.algolia.instantsearch.demo.hits.paging.HitsPagingDemo
 import com.algolia.search.model.ObjectID
 
 
@@ -15,5 +15,5 @@ val homeType = mapOf(
     ObjectID("2") to FilterListDemo::class,
     ObjectID("3") to FacetListDemo::class,
     ObjectID("4") to FacetListSearchDemo::class,
-    ObjectID("5") to HitsDemo::class
+    ObjectID("5") to HitsPagingDemo::class
 )

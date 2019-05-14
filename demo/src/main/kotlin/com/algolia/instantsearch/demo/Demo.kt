@@ -21,8 +21,6 @@ import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import io.ktor.client.features.logging.LogLevel
-import kotlinx.android.synthetic.main.demo_hits.*
-import kotlinx.android.synthetic.main.header_filter.*
 import kotlinx.android.synthetic.main.header_filter.nbHits as filterNbHits
 
 
@@ -57,18 +55,7 @@ fun AppCompatActivity.onErrorThenUpdateFiltersText(searcher: SearcherSingleIndex
     }
 }
 
-fun AppCompatActivity.onResponseChangedThenUpdateNbHits(searcher: SearcherSingleIndex, isFilter: Boolean = false) {
-    if (isFilter) onResponseChangedThenUpdateFilterHeader(searcher)
-    else onResponseChangedThenUpdateWidgetHeader(searcher)
-}
-
-fun AppCompatActivity.onResponseChangedThenUpdateWidgetHeader(searcher: SearcherSingleIndex) {
-    searcher.onResponseChanged += {
-        nbHits.text = getString(R.string.nb_hits, it.nbHits)
-    }
-}
-
-fun AppCompatActivity.onResponseChangedThenUpdateFilterHeader(searcher: SearcherSingleIndex) {
+fun AppCompatActivity.onResponseChangedThenUpdateNbHits(searcher: SearcherSingleIndex) {
     searcher.onResponseChanged += {
         filterNbHits.text = getString(R.string.nb_hits, it.nbHits)
     }

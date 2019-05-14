@@ -18,7 +18,11 @@ public fun FilterSegmentViewModel.connectFilterState(
         }
     }
     val onChange: (Filters) -> Unit = { filters ->
-        selected = items.entries.find { it.value == filters.getFilters(groupID).firstOrNull() }?.key
+        selected = items.entries.find {
+            val value = filters.getFilters(groupID).firstOrNull()
+
+            it.value == value
+        }?.key
     }
 
     onChange(filterState)

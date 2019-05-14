@@ -44,7 +44,7 @@
             android:exported="true" />
 
         <activity
-                android:name=".widget.HitsDemo"
+                android:name="com.algolia.instantsearch.demo.hits.paging.HitsPagingDemo"
                 android:exported="true" />
     </application>
 
