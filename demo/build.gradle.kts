@@ -10,6 +10,7 @@ plugins {
     id("kotlinx-serialization")
     kotlin("android")
     kotlin("android.extensions")
+    kotlin("kapt")
 }
 
 android {
@@ -69,6 +70,12 @@ dependencies {
     implementation(MaterialDesign())
     implementation(AndroidCore("ktx"))
     implementation(Ktor("client-mock-jvm"))
+
+    implementation("androidx.paging:paging-runtime:2.1.0")
+
+    val lifecycleVersion = "2.0.0"
+    implementation("androidx.lifecycle:lifecycle-extensions:$lifecycleVersion")
+    kapt("androidx.lifecycle:lifecycle-compiler:$lifecycleVersion")
 
     androidTestImplementation(AndroidTestRunner())
     androidTestImplementation(Espresso("core"))
