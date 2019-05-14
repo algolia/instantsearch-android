@@ -89,7 +89,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":core"))
+                api(project(":core")) //FIXME implementation(project(":core")) sometimes needed
                 api(AlgoliaClient("common"))
                 implementation(kotlin("stdlib-common"))
             }

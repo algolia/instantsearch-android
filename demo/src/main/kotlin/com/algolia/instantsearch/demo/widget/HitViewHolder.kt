@@ -8,6 +8,6 @@ import kotlinx.serialization.json.content
 
 class HitViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     fun bind(hit: ResponseSearch.Hit) {
-        view.itemName.text = hit["name"]?.content
+        view.itemName.text = "${hit["brand"]?.content} - ${hit["name"]?.content}"
     }
 }

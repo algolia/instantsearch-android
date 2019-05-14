@@ -1,14 +1,25 @@
-package com.algolia.instantsearch.helper.widget
+package com.algolia.instantsearch.demo.widget
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.algolia.instantsearch.helper.filter.state.Filters
+import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch.Hit
-import kotlin.properties.Delegates
 
-class HitsViewModel(items: List<Hit> = listOf()) : ViewModel {
-    public val onItemsChanged: MutableList<(List<Hit>) -> Unit> = mutableListOf()
+class HitsViewModel(
+    searcher: SearcherSingleIndex,
+    filters: Filters,
+    items: List<Hit> = listOf()
+) : ViewModel() {
+    private val dataSourceFactory = HitsDataSourceFactory(searcher, filters)
+    private val config = PagedList.Config.Builder()
+        .setPageSize(20)
+        .setInitialLoadSizeHint(20) //FIXME: Leave default of 3*pageSize
+        .build()
 
-    public var items: List<Hit> by Delegates.observable(items) { _, oldValue, newValue ->
-        if (newValue != oldValue) {
-            onItemsChanged.forEach { it(newValue) }
-        }
-    }
+    var pagedHits: LiveData<PagedList<Hit>> =
+        LivePagedListBuilder<Int, Hit>(dataSourceFactory, config)
+            .build()
 }
