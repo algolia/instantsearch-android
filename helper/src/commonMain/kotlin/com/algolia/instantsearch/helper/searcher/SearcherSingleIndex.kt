@@ -15,7 +15,7 @@ import kotlin.properties.Delegates
 
 
 public class SearcherSingleIndex(
-    val index: Index,
+    var index: Index,
     val filterState: FilterState = FilterState(),
     val query: Query = Query(),
     val requestOptions: RequestOptions? = RequestOptions(),
@@ -38,9 +38,14 @@ public class SearcherSingleIndex(
         errorListeners.forEach { it(throwable) }
     }
 
+    private fun updateFilters() {
+        query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
+    }
+
     init {
+        updateFilters()
         filterState.onChange += {
-            query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
+            updateFilters()
             search()
         }
     }
