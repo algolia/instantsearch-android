@@ -10,7 +10,6 @@ import com.algolia.instantsearch.demo.configureRecyclerView
 import com.algolia.instantsearch.demo.hits.HitsAdapter
 import com.algolia.instantsearch.demo.observeNotNull
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearch
 import kotlinx.android.synthetic.main.demo_paging.*
