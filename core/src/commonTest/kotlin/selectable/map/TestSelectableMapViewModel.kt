@@ -18,15 +18,8 @@ class TestSelectableMapViewModel  {
     }
 
     @Test
-    fun selectedByDefault() {
-        SelectableMapViewModel(items, 0).apply {
-            selected shouldEqual 0
-        }
-    }
-
-    @Test
     fun computeSelected() {
-        SelectableMapViewModel(items, 0).apply {
+        SelectableMapViewModel(items).apply {
             onSelectedComputed += { selected = it }
             computeSelected(1)
             selected shouldEqual 1

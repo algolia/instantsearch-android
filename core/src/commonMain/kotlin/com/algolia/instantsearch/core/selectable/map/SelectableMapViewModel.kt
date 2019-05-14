@@ -4,14 +4,13 @@ import kotlin.properties.Delegates
 
 
 public open class SelectableMapViewModel<K, V>(
-    val items: Map<K, V>,
-    selected: K? = null
+    val items: Map<K, V>
 ) {
 
     public val onSelectedChanged: MutableList<(K?) -> Unit> = mutableListOf()
     public val onSelectedComputed: MutableList<(K?) -> Unit> = mutableListOf()
 
-    public var selected by Delegates.observable(selected) { _, oldValue, newValue ->
+    public var selected by Delegates.observable<K?>(null) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             onSelectedChanged.forEach { it(newValue) }
         }

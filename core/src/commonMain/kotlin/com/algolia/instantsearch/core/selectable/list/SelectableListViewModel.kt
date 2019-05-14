@@ -7,7 +7,6 @@ import kotlin.properties.Delegates
 
 public open class SelectableListViewModel<K, V>(
     items: List<V> = listOf(),
-    selections: Set<K> = setOf(),
     val selectionMode: SelectionMode = Multiple
 ) {
 
@@ -20,7 +19,7 @@ public open class SelectableListViewModel<K, V>(
             onItemsChanged.forEach { it(newValue) }
         }
     }
-    public var selections by Delegates.observable(selections) { _, oldValue, newValue ->
+    public var selections by Delegates.observable(setOf<K>()) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             onSelectionsChanged.forEach { it(newValue) }
         }

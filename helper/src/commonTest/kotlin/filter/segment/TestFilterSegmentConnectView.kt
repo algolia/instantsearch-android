@@ -38,8 +38,9 @@ class TestFilterSegmentConnectView {
     @Test
     fun connectShouldCallSetSelectedAndSetItems() {
         val view = MockSelectableView()
-        val viewModel = FilterSegmentViewModel(filters, id)
+        val viewModel = FilterSegmentViewModel(filters)
 
+        viewModel.selected = id
         viewModel.connectView(view)
         view.int shouldEqual id
         view.map shouldEqual mapOf(id to FilterPresenter(red))

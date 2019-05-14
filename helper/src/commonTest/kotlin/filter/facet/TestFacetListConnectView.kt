@@ -30,8 +30,9 @@ class TestFacetListConnectView  {
     @Test
     fun connectShouldCallSetSelectableItems() {
         val view = MockSelectableFacetsView()
-        val viewModel = FacetListViewModel(facets, selections)
+        val viewModel = FacetListViewModel(facets)
 
+        viewModel.selections = selections
         viewModel.connectView(view)
         view.items shouldEqual listOf(red to true)
     }

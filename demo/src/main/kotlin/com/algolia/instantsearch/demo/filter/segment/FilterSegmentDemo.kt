@@ -36,8 +36,7 @@ class FilterSegmentDemo : AppCompatActivity() {
             items = mapOf(
                 R.id.male to Filter.Facet(gender, "male"),
                 R.id.female to Filter.Facet(gender, "female")
-            ),
-            selected = R.id.male
+            )
         )
         val viewGender = SelectableRadioGroup(radioGroupGender)
 

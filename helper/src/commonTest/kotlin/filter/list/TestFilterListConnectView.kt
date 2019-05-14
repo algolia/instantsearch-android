@@ -32,8 +32,9 @@ class TestFilterListConnectView  {
     @Test
     fun connectShouldCallSetSelectableItems() {
         val view = MockFilterListViewFacet()
-        val viewModel = FilterListViewModel.Facet(filters, selections)
+        val viewModel = FilterListViewModel.Facet(filters)
 
+        viewModel.selections = selections
         viewModel.connectView(view)
         view.items shouldEqual listOf(filter to true)
     }

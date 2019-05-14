@@ -7,31 +7,26 @@ import com.algolia.search.model.filter.Filter
 
 sealed class FilterListViewModel<T : Filter>(
     items: List<T>,
-    selected: Set<T>,
     selectionMode: SelectionMode
-) : SelectableListViewModel<T, T>(items, selected, selectionMode) {
+) : SelectableListViewModel<T, T>(items, selectionMode) {
 
     public class Facet(
         items: List<Filter.Facet> = listOf(),
-        selected: Set<Filter.Facet> = setOf(),
         selectionMode: SelectionMode = SelectionMode.Multiple
-    ) : FilterListViewModel<Filter.Facet>(items, selected, selectionMode)
+    ) : FilterListViewModel<Filter.Facet>(items, selectionMode)
 
     public class Numeric(
         items: List<Filter.Numeric> = listOf(),
-        selected: Set<Filter.Numeric> = setOf(),
         selectionMode: SelectionMode = SelectionMode.Single
-    ) : FilterListViewModel<Filter.Numeric>(items, selected, selectionMode)
+    ) : FilterListViewModel<Filter.Numeric>(items, selectionMode)
 
     public class Tag(
         items: List<Filter.Tag> = listOf(),
-        selected: Set<Filter.Tag> = setOf(),
         selectionMode: SelectionMode = SelectionMode.Multiple
-    ) : FilterListViewModel<Filter.Tag>(items, selected, selectionMode)
+    ) : FilterListViewModel<Filter.Tag>(items, selectionMode)
 
     public class All(
         items: List<Filter> = listOf(),
-        selected: Set<Filter> = setOf(),
         selectionMode: SelectionMode = SelectionMode.Multiple
-    ) : FilterListViewModel<Filter>(items, selected, selectionMode)
+    ) : FilterListViewModel<Filter>(items, selectionMode)
 }
