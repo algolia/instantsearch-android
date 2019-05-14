@@ -18,7 +18,7 @@ class HomeAdapter : ListAdapter<HomeItem, HomeViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         return when (ViewType.values()[viewType]) {
             ViewType.Header -> HomeViewHolder.Header(
-                parent.inflate<TextView>(R.layout.header)
+                parent.inflate<TextView>(R.layout.header_item)
             )
             ViewType.Item -> HomeViewHolder.Item(
                 parent.inflate(R.layout.list_item)
