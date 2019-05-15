@@ -21,7 +21,7 @@ import kotlin.coroutines.CoroutineContext
 
 class HitsPagingDemo : AppCompatActivity(), CoroutineScope {
 
-    private val index = client.initIndex(IndexName("mobile_demo_facet_list_search"))
+    private val index = client.initIndex(IndexName("mobile_demo_hits_paging"))
     private val searcher = SearcherSingleIndex(index)
     private val dataSourceFactory = HitsDataSourceFactory(this, searcher)
     private val config = PagedList.Config.Builder()
