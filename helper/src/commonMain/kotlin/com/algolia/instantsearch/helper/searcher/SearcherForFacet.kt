@@ -26,15 +26,20 @@ public class SearcherForFacet(
     override val coroutineContext = SupervisorJob()
 
     public val onResponseChanged = mutableListOf<(ResponseSearchForFacets) -> Unit>()
-    public val errorListeners = mutableListOf<(Throwable) -> Unit>()
+    public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
 
     public var response by Delegates.observable<ResponseSearchForFacets?>(null) { _, _, newValue ->
         if (newValue != null) {
             onResponseChanged.forEach { it(newValue) }
         }
     }
+    public var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
+        if (newValue != null) {
+            onErrorChanged.forEach { it(newValue) }
+        }
+    }
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        errorListeners.forEach { it(throwable) }
+        error = throwable
     }
 
     override fun setQuery(text: String?) {

@@ -46,9 +46,15 @@ android {
         exclude("META-INF/ktor-client-logging.kotlin_module")
         exclude("META-INF/algoliasearch-client-kotlin.kotlin_module")
         exclude("META-INF/ktor-client-core.kotlin_module")
+        exclude("META-INF/ktor-client-serialization.kotlin_module")
+        exclude("META-INF/ktor-http-cio.kotlin_module")
     }
     (kotlinOptions as KotlinJvmOptions).apply {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+    compileOptions {
+        sourceCompatibility  = JavaVersion.VERSION_1_8
+        targetCompatibility  = JavaVersion.VERSION_1_8
     }
 }
 

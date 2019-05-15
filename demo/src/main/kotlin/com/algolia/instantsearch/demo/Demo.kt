@@ -49,7 +49,7 @@ fun AppCompatActivity.onClearAllThenClearFilters(filterState: FilterState, filte
 }
 
 fun AppCompatActivity.onErrorThenUpdateFiltersText(searcher: SearcherSingleIndex, filtersTextView: TextView) {
-    searcher.errorListeners += {
+    searcher.onErrorChanged += {
         filtersTextView.text = it.localizedMessage
     }
 }

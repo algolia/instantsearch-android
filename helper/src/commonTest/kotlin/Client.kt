@@ -3,10 +3,9 @@ import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import io.ktor.client.engine.mock.MockEngine
-import io.ktor.client.engine.mock.MockHttpResponse
+import io.ktor.client.engine.mock.respond
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.http.ContentType
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import kotlinx.coroutines.io.ByteReadChannel
 import kotlinx.serialization.KSerializer
@@ -18,9 +17,7 @@ fun <T> mockClient(response: T, serializer: KSerializer<T>): ClientSearch {
     val json = Json(JsonConfiguration.Stable.copy(encodeDefaults = false))
     val responseString = json.stringify(serializer, response)
     val mockEngine = MockEngine {
-        MockHttpResponse(
-            call,
-            HttpStatusCode.OK,
+        respond(
             headers = headersOf(
                 "Content-Type",
                 listOf(ContentType.Application.Json.toString())

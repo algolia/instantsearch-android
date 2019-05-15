@@ -27,15 +27,20 @@ public class SearcherSingleIndex(
     override val coroutineContext = SupervisorJob()
 
     public val onResponseChanged = mutableListOf<(ResponseSearch) -> Unit>()
-    public val errorListeners = mutableListOf<(Throwable) -> Unit>()
+    public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
 
     public var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
         if (newValue != null) {
             onResponseChanged.forEach { it(newValue) }
         }
     }
+    public var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
+        if (newValue != null) {
+            onErrorChanged.forEach { it(newValue) }
+        }
+    }
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        errorListeners.forEach { it(throwable) }
+        error = throwable
     }
 
     private fun updateFilters() {

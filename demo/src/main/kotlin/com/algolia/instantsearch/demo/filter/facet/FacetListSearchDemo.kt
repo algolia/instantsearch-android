@@ -56,7 +56,7 @@ class FacetListSearchDemo : AppCompatActivity() {
                 searchView.showQueryHintIcon(hasFocus, hintIcon, hintText)
             }
         }
-        searcherForFacet.errorListeners += { throwable ->
+        searcherForFacet.onErrorChanged += { throwable ->
             throwable.printStackTrace()
         }
         onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)

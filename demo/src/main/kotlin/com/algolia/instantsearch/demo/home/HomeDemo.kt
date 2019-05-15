@@ -41,7 +41,7 @@ class HomeDemo : AppCompatActivity() {
 
         configureRecyclerView(list, adapter)
 
-        searcher.errorListeners += { throwable ->
+        searcher.onErrorChanged += { throwable ->
             throwable.printStackTrace()
         }
         searcher.onResponseChanged += { response ->
