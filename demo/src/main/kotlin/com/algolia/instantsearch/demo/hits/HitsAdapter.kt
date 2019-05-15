@@ -11,7 +11,7 @@ import com.algolia.search.model.response.ResponseSearch.Hit
 class HitsAdapter : PagedListAdapter<Hit, HitViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HitViewHolder =
-        HitViewHolder(parent.inflate(R.layout.list_item))
+        HitViewHolder(parent.inflate(R.layout.list_item_paging))
 
 
     override fun onBindViewHolder(holder: HitViewHolder, position: Int) {
