@@ -79,15 +79,15 @@ fun AppCompatActivity.configureSearchView(
     searchView: SearchView
 ) {
     searchView.also {
+        val initialHintText = searchView.queryHint.toString()
+        val hintIcon = ContextCompat.getDrawable(this, R.drawable.ic_search_hint)!!
         it.isSubmitButtonEnabled = false
         it.isFocusable = true
         it.setIconifiedByDefault(false)
         it.setOnQueryTextFocusChangeListener { _, hasFocus ->
-            val hintIcon = ContextCompat.getDrawable(this, R.drawable.ic_search_hint)!!
-            val hintText = getString(R.string.search_for_brands)
-
-            searchView.showQueryHintIcon(!hasFocus, hintIcon, hintText)
+            searchView.showQueryHintIcon(!hasFocus, hintIcon,    initialHintText)
         }
+        searchView.showQueryHintIcon(true, hintIcon, initialHintText)
     }
 }
 
