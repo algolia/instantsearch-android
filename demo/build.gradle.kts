@@ -70,12 +70,9 @@ dependencies {
     implementation(MaterialDesign())
     implementation(AndroidCore("ktx"))
     implementation(Ktor("client-mock-jvm"))
-
-    implementation("androidx.paging:paging-runtime:2.1.0")
-
-    val lifecycleVersion = "2.0.0"
-    implementation("androidx.lifecycle:lifecycle-extensions:$lifecycleVersion")
-    kapt("androidx.lifecycle:lifecycle-compiler:$lifecycleVersion")
+    implementation(Paging())
+    implementation(Lifecycle("extensions"))
+    kapt(Lifecycle("compiler"))
 
     androidTestImplementation(AndroidTestRunner())
     androidTestImplementation(Espresso("core"))
