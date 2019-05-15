@@ -4,11 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.algolia.instantsearch.demo.R
-import com.algolia.instantsearch.demo.client
-import com.algolia.instantsearch.demo.configureRecyclerView
+import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.demo.hits.HitsAdapter
-import com.algolia.instantsearch.demo.observeNotNull
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearch
@@ -43,6 +40,7 @@ class HitsPagingDemo : AppCompatActivity(), CoroutineScope {
         }
 
         configureRecyclerView(list, hitsAdapter)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
         searcher.errorListeners += { throwable ->
             throwable.printStackTrace()

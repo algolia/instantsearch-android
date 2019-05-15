@@ -55,9 +55,12 @@ fun AppCompatActivity.onErrorThenUpdateFiltersText(searcher: SearcherSingleIndex
     }
 }
 
-fun AppCompatActivity.onResponseChangedThenUpdateNbHits(searcher: SearcherSingleIndex) {
+fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
+    searcher: SearcherSingleIndex,
+    nbHitsView: TextView = filterNbHits
+) {
     searcher.onResponseChanged += {
-        filterNbHits.text = getString(R.string.nb_hits, it.nbHits)
+        nbHitsView.text = getString(R.string.nb_hits, it.nbHits)
     }
 }
 
