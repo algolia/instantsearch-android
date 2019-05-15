@@ -54,7 +54,7 @@ public class SearcherSingleIndex(
         this.query.query = text
     }
 
-    override fun search() {
+    override fun search(): Job {
         val disjunctiveAttributes = filterState.getFacetGroups()
             .filter { it.key is FilterGroupID.Or }
             .flatMap { group -> group.value.map { it.attribute } }
@@ -69,6 +69,7 @@ public class SearcherSingleIndex(
             }
         }
         sequencer.addOperation(job)
+        return job
     }
 
     override fun cancel() {

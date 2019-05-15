@@ -41,13 +41,14 @@ public class SearcherForFacet(
         facetQuery = text
     }
 
-    override fun search() {
+    override fun search(): Job {
         val job = launch(MainDispatcher + exceptionHandler) {
             response = withContext(Dispatchers.Default) {
                 index.searchForFacets(attribute, facetQuery, query, requestOptions)
             }
         }
         sequencer.addOperation(job)
+        return job
     }
 
     override fun cancel() {
