@@ -60,7 +60,7 @@ class FacetListDemo : AppCompatActivity() {
         colorBViewModel.connectSearcher(color, searcher)
         colorBViewModel.connectView(colorBAdapter, colorBPresenter)
 
-        val promotionViewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple)
+        val promotionViewModel = FacetListViewModel()
         val promotionPresenter = FacetListPresenter(listOf(CountDescending), 5)
         val promotionAdapter = FacetListAdapter()
 
@@ -68,12 +68,12 @@ class FacetListDemo : AppCompatActivity() {
         promotionViewModel.connectSearcher(promotions, searcher)
         promotionViewModel.connectView(promotionAdapter, promotionPresenter)
 
-        val categoryViewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple)
+        val categoryViewModel = FacetListViewModel()
         val categoryPresenter = FacetListPresenter(listOf(CountDescending, AlphabeticalAscending), 5)
         val categoryAdapter = FacetListAdapter()
 
         categoryViewModel.connectFilterState(category, filterState, groupIDCategory)
-        categoryViewModel.connectSearcher(promotions, searcher)
+        categoryViewModel.connectSearcher(category, searcher)
         categoryViewModel.connectView(categoryAdapter, categoryPresenter)
 
         configureRecyclerView(listTopLeft, colorAAdapter)
