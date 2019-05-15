@@ -26,7 +26,6 @@ class HitsPagingDemo : AppCompatActivity(), CoroutineScope {
     private val dataSourceFactory = HitsDataSourceFactory(this, searcher)
     private val config = PagedList.Config.Builder()
         .setPageSize(20)
-        .setInitialLoadSizeHint(20)
         .build()
 
     override val coroutineContext: CoroutineContext = SupervisorJob()
