@@ -39,7 +39,9 @@ class HitsPagingDemo : AppCompatActivity(), CoroutineScope {
             hitsAdapter.submitList(it)
         }
 
+        searcher.connectSearchView(searchView, hitsAdapter)
         configureSearchView(searchView)
+
         configureRecyclerView(list, hitsAdapter)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
