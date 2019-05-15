@@ -49,6 +49,9 @@ class HomeAdapter : ListAdapter<HomeItem, HomeViewHolder>(diffUtil) {
         private val diffUtil = object : DiffUtil.ItemCallback<HomeItem>() {
 
             override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+                if (oldItem is HomeItem.Item && newItem is HomeItem.Item) {
+                    return oldItem.hit.objectID == newItem.hit.objectID
+                }
                 return oldItem::class.isInstance(newItem)
             }
 

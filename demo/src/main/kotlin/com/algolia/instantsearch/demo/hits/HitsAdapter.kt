@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.inflate
 import com.algolia.search.model.response.ResponseSearch.Hit
+import com.algolia.search.serialize.KeyObjectID
 
 
 class HitsAdapter : PagedListAdapter<Hit, HitViewHolder>(diffUtil) {
@@ -25,7 +26,7 @@ class HitsAdapter : PagedListAdapter<Hit, HitViewHolder>(diffUtil) {
         private val diffUtil = object : DiffUtil.ItemCallback<Hit>() {
 
             override fun areItemsTheSame(oldItem: Hit, newItem: Hit): Boolean {
-                return oldItem::class == newItem::class
+                return oldItem[KeyObjectID] == newItem[KeyObjectID]
             }
 
             override fun areContentsTheSame(oldItem: Hit, newItem: Hit): Boolean {
