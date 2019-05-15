@@ -1,9 +1,7 @@
 package com.algolia.instantsearch.helper.filter.list
 
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.state.Filters
-import com.algolia.instantsearch.helper.filter.state.add
+import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.helper.filter.state.*
 import com.algolia.search.model.filter.Filter
 
 
@@ -43,7 +41,10 @@ internal inline fun <reified T : Filter> FilterListViewModel<T>.connect(
 ) {
     onSelectionsComputed += { selections ->
         filterState.notify {
-            clear(groupID)
+            when (selectionMode) {
+                SelectionMode.Single -> clear(groupID)
+                SelectionMode.Multiple -> remove(groupID, items.toSet())
+            }
             add(groupID, selections)
         }
     }

@@ -24,6 +24,10 @@ public class FilterState(
         onChange.forEach { it(filters) }
     }
 
+    override fun equals(other: Any?): Boolean {
+        return if (other is FilterState) filters == other.filters else false
+    }
+
     override fun toString(): String =
         "FilterState(filters=$filters, onStateChanged=${onChange.size} listener${if (onChange.size > 1) "s" else ""})"
 }

@@ -1,5 +1,6 @@
 package filter.facet
 
+import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.helper.filter.facet.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
@@ -15,16 +16,18 @@ class TestFacetListConnectFilterState {
 
     private val color = Attribute("color")
     private val red = Facet("red", 1)
+    private val green = Facet("green", 2)
     private val groupID = FilterGroupID.Or(color)
     private val selections = setOf(red.value)
     private val filterRed = red.toFilter(color)
+    private val filterGreen = green.toFilter(color)
     private val expectedFilterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(filterRed)))
 
     @Test
     fun connectShouldUpdateSelectionsWithFilterState() {
         val viewModel = FacetListViewModel()
 
-        viewModel.connectFilterState(color, expectedFilterState)
+        viewModel.connectFilterState(color, expectedFilterState, groupID)
         viewModel.selections shouldEqual selections
     }
 
@@ -33,9 +36,9 @@ class TestFacetListConnectFilterState {
         val viewModel = FacetListViewModel()
         val filterState = FilterState()
 
-        viewModel.connectFilterState(color, filterState)
+        viewModel.connectFilterState(color, filterState, groupID)
         viewModel.computeSelections(red.value)
-        filterState.filters shouldEqual expectedFilterState.filters
+        filterState shouldEqual expectedFilterState
     }
 
     @Test
@@ -43,8 +46,46 @@ class TestFacetListConnectFilterState {
         val viewModel = FacetListViewModel()
         val filterState = FilterState()
 
-        viewModel.connectFilterState(color, filterState)
+        viewModel.connectFilterState(color, filterState, groupID)
         filterState.notify { add(groupID, filterRed) }
         viewModel.selections shouldEqual selections
+    }
+
+    @Test
+    fun selectionModeSingleShouldClearOtherFilters() {
+        val filterState = FilterState(
+            facetGroups = mutableMapOf(
+                groupID to setOf(filterRed, filterGreen)
+            )
+        )
+        val viewModelFacets = FacetListViewModel(selectionMode = SelectionMode.Single).apply {
+            items = listOf(red)
+        }
+
+        viewModelFacets.connectFilterState(color, filterState, groupID)
+        viewModelFacets.selections shouldEqual setOf(red.value, green.value)
+        viewModelFacets.computeSelections(red.value)
+        filterState shouldEqual FilterState()
+    }
+
+    @Test
+    fun selectionModeMultipleShouldNotClearOtherFilters() {
+        val filterState = FilterState(
+            facetGroups = mutableMapOf(
+                groupID to setOf(filterRed, filterGreen)
+            )
+        )
+        val viewModelFacets = FacetListViewModel(selectionMode = SelectionMode.Multiple).apply {
+            items = listOf(red)
+        }
+
+        viewModelFacets.connectFilterState(color, filterState, groupID)
+        viewModelFacets.selections shouldEqual setOf(red.value, green.value)
+        viewModelFacets.computeSelections(red.value)
+        filterState shouldEqual FilterState(
+            facetGroups = mutableMapOf(
+                groupID to setOf(filterGreen)
+            )
+        )
     }
 }
