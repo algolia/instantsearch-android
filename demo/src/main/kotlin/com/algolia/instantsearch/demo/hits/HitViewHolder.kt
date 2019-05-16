@@ -11,12 +11,13 @@ import kotlinx.serialization.json.content
 class HitViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(hit: ResponseSearch.Hit) {
-        view.itemTitle.text = "${hit["title"]?.content}"
-        view.itemYear.text = "${hit["year"]?.content}"
+        view.itemTitle.text = "${hit["title"]?.content} (${hit["year"]?.content})"
+        view.itemSubtitle.text = hit.json.getArray("genre").sortedBy { it.content }.joinToString { it.content }
         val imageURL = hit["image"]?.content
         imageURL?.let {
             Glide.with(view)
                 .load(imageURL).placeholder(android.R.drawable.ic_media_play)
+                .centerCrop()
                 .into(view.itemImage)
         }
     }
