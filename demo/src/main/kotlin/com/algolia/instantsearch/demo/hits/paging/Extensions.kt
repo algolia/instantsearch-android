@@ -13,7 +13,6 @@ fun Searcher.connectSearchView(searchView: SearchView, hitsAdapter: HitsAdapter)
         override fun onQueryTextChange(newText: String?): Boolean {
             setQuery(newText)
             hitsAdapter.currentList?.dataSource?.invalidate()
-            search()
             return true
         }
     })
