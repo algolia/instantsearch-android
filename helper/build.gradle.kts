@@ -8,6 +8,7 @@ import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
 import dependency.test.SL4J
 import dependency.ui.AppCompat
+import dependency.ui.Paging
 import dependency.ui.RecyclerView
 
 plugins {
@@ -126,6 +127,8 @@ kotlin {
                 api(Coroutines("android"))
                 api(AlgoliaClient("jvm"))
                 api(Ktor("client-okhttp"))
+
+                implementation(Paging())
             }
         }
         val androidTest by getting {

@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.demo.hits.paging
+package com.algolia.instantsearch.android.paging
 
 import androidx.paging.DataSource
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex

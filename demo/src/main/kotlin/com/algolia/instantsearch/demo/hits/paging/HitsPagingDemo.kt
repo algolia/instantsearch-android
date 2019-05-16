@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.algolia.instantsearch.android.paging.HitsDataSourceFactory
+import com.algolia.instantsearch.android.paging.connectSearchView
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.demo.hits.HitsAdapter
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
