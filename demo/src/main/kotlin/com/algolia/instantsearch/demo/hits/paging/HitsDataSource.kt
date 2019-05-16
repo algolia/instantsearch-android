@@ -15,7 +15,7 @@ class HitsDataSource(
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Hit>) {
         searcher.query.hitsPerPage = params.requestedLoadSize
-        searcher.query.page = 1
+        searcher.query.page = 0
         coroutineScope.launch(Dispatchers.Default) {
             searcher.search().join()
             searcher.response?.let {
