@@ -2,14 +2,13 @@ package com.algolia.instantsearch.demo.hits
 
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
+import com.algolia.instantsearch.android.diffUtils.HitDiffUtil
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.inflate
 import com.algolia.search.model.response.ResponseSearch.Hit
-import com.algolia.search.serialize.KeyObjectID
 
 
-class HitsAdapter : PagedListAdapter<Hit, HitViewHolder>(diffUtil) {
+class HitsAdapter : PagedListAdapter<Hit, HitViewHolder>(HitDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HitViewHolder =
         HitViewHolder(parent.inflate(R.layout.list_item_paging))
@@ -19,19 +18,5 @@ class HitsAdapter : PagedListAdapter<Hit, HitViewHolder>(diffUtil) {
         val item = getItem(position)
 
         if (item != null) holder.bind(item)
-    }
-
-    companion object {
-
-        private val diffUtil = object : DiffUtil.ItemCallback<Hit>() {
-
-            override fun areItemsTheSame(oldItem: Hit, newItem: Hit): Boolean {
-                return oldItem[KeyObjectID] == newItem[KeyObjectID]
-            }
-
-            override fun areContentsTheSame(oldItem: Hit, newItem: Hit): Boolean {
-                return oldItem == newItem
-            }
-        }
     }
 }
