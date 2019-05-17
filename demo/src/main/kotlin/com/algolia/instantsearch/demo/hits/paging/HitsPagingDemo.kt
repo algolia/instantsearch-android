@@ -47,7 +47,7 @@ class HitsPagingDemo : AppCompatActivity(), CoroutineScope {
         configureRecyclerView(list, hitsAdapter)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
-        searcher.errorListeners += { throwable ->
+        searcher.onErrorChanged += { throwable ->
             throwable.printStackTrace()
         }
     }
