@@ -1,12 +1,12 @@
 package com.algolia.instantsearch.android.selectable
 
 import android.widget.CompoundButton
-import com.algolia.instantsearch.core.selectable.SelectableView
+import com.algolia.instantsearch.core.selectable.SelectableItemView
 
 
 class SelectableCompoundButton(
     val view: CompoundButton
-) : SelectableView {
+) : SelectableItemView {
 
     override var onClick: ((Boolean) -> Unit)? = null
 

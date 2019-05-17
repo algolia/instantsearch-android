@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.core.selectable
 
 
-public interface SelectableView {
+public interface SelectableItemView {
 
     var onClick: ((Boolean) -> Unit)?
 

@@ -3,7 +3,7 @@ package com.algolia.instantsearch.core.selectable
 import kotlin.properties.Delegates
 
 
-public open class SelectableViewModel<V>(
+public open class SelectableItemViewModel<V>(
     val item: V
 ) {
 

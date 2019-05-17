@@ -1,6 +1,6 @@
 package filter.toggle
 
-import com.algolia.instantsearch.core.selectable.SelectableView
+import com.algolia.instantsearch.core.selectable.SelectableItemView
 import com.algolia.instantsearch.helper.filter.FilterPresenter
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
 import com.algolia.instantsearch.helper.filter.toggle.connectView
@@ -16,7 +16,7 @@ class TestFilterToggleConnectView {
     private val color = Attribute("color")
     private val red = Filter.Facet(color, "red")
 
-    private class MockSelectableView : SelectableView {
+    private class MockSelectableItemView : SelectableItemView {
 
         var boolean: Boolean? = null
         var string: String? = null
@@ -34,7 +34,7 @@ class TestFilterToggleConnectView {
 
     @Test
     fun connectShouldCallSetIsSelectedAndSetText() {
-        val view = MockSelectableView()
+        val view = MockSelectableItemView()
         val viewModel = FilterToggleViewModel(red)
 
         viewModel.isSelected = true
@@ -45,7 +45,7 @@ class TestFilterToggleConnectView {
 
     @Test
     fun onClickShouldCallOnIsSelectedComputed() {
-        val view = MockSelectableView()
+        val view = MockSelectableItemView()
         val viewModel = FilterToggleViewModel(red)
 
         viewModel.onIsSelectedComputed += { viewModel.isSelected = it }
@@ -57,7 +57,7 @@ class TestFilterToggleConnectView {
 
     @Test
     fun onIsSelectedChangedShouldCallSetIsSelected() {
-        val view = MockSelectableView()
+        val view = MockSelectableItemView()
         val viewModel = FilterToggleViewModel(red)
 
         viewModel.connectView(view)

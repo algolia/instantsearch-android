@@ -1,17 +1,17 @@
 package selectable
 
-import com.algolia.instantsearch.core.selectable.SelectableViewModel
+import com.algolia.instantsearch.core.selectable.SelectableItemViewModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
-class TestSelectableViewModel {
+class TestSelectableItemViewModel {
 
     private val valueA = "valueA"
 
     @Test
     fun selection() {
-        SelectableViewModel(valueA).apply {
+        SelectableItemViewModel(valueA).apply {
             onIsSelectedComputed += { isSelected = it }
             assertEquals(false, isSelected)
 
