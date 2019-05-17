@@ -1,7 +1,7 @@
-package com.algolia.instantsearch.core.selectable.map
+package com.algolia.instantsearch.core.selectable.segment
 
 
-public interface SelectableMapView<K, V> {
+public interface SelectableSegmentView<K, V> {
 
     var onClick: ((K) -> Unit)?
 

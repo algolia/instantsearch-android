@@ -3,12 +3,12 @@ package com.algolia.instantsearch.android.selectable
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import com.algolia.instantsearch.core.selectable.map.SelectableMapView
+import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
 
 
 class SelectableRadioGroup(
     val view: RadioGroup
-) : SelectableMapView<Int, String> {
+) : SelectableSegmentView<Int, String> {
 
     override var onClick: ((Int) -> Unit)? = null
 

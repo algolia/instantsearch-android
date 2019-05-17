@@ -1,6 +1,6 @@
 package filter.segment
 
-import com.algolia.instantsearch.core.selectable.map.SelectableMapView
+import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
 import com.algolia.instantsearch.helper.filter.FilterPresenter
 import com.algolia.instantsearch.helper.filter.segment.FilterSegmentViewModel
 import com.algolia.instantsearch.helper.filter.segment.connectView
@@ -19,7 +19,7 @@ class TestFilterSegmentConnectView {
     private val filters = mapOf(id to red)
 
     private class MockSelectableView :
-        SelectableMapView<Int, String> {
+        SelectableSegmentView<Int, String> {
 
         var int: Int? = null
         var map: Map<Int, String> = mapOf()

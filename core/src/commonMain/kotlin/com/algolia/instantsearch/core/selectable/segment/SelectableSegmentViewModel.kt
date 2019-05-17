@@ -1,9 +1,9 @@
-package com.algolia.instantsearch.core.selectable.map
+package com.algolia.instantsearch.core.selectable.segment
 
 import kotlin.properties.Delegates
 
 
-public open class SelectableMapViewModel<K, V>(
+public open class SelectableSegmentViewModel<K, V>(
     val items: Map<K, V>
 ) {
 

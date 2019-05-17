@@ -1,25 +1,25 @@
-package selectable.map
+package selectable.segment
 
-import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel
+import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentViewModel
 import shouldBeNull
 import shouldEqual
 import kotlin.test.Test
 
 
-class TestSelectableMapViewModel  {
+class TestSelectableSegmentViewModel  {
 
     private val items = mapOf(0 to "A", 1 to "B")
 
     @Test
     fun noSelectedByDefault() {
-        SelectableMapViewModel(items).apply {
+        SelectableSegmentViewModel(items).apply {
             selected.shouldBeNull()
         }
     }
 
     @Test
     fun computeSelected() {
-        SelectableMapViewModel(items).apply {
+        SelectableSegmentViewModel(items).apply {
             onSelectedComputed += { selected = it }
             computeSelected(1)
             selected shouldEqual 1
