@@ -1,4 +1,5 @@
 
+import dependency.Library
 import dependency.network.AlgoliaClient
 import dependency.network.Coroutines
 import dependency.network.Ktor
@@ -12,6 +13,8 @@ import dependency.ui.RecyclerView
 plugins {
     id("com.android.library")
     id("kotlin-multiplatform")
+    id("maven-publish")
+    id("com.jfrog.bintray") version "1.8.4"
 }
 
 android {
@@ -48,20 +51,35 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility  = JavaVersion.VERSION_1_8
-        targetCompatibility  = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
+group = Library.group
+version = Library.version
+
 kotlin {
-    android {
+    metadata {
+        mavenPublication {
+            artifactId = Library.artifactHelperCommon
+        }
+    }
+    jvm {
+        mavenPublication {
+            artifactId = Library.artifactHelperJvm
+        }
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
             }
         }
     }
-    jvm {
+    android {
+        mavenPublication {
+            artifactId = Library.artifactHelperAndroid
+        }
+        publishLibraryVariants("release")
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
@@ -121,6 +139,28 @@ kotlin {
                 implementation(AndroidTestExt())
                 implementation(Robolectric())
             }
+        }
+    }
+}
+
+bintray {
+    user = System.getenv("BINTRAY_USER")
+    key = System.getenv("BINTRAY_KEY")
+    publish = true
+    setPublications("metadata", "jvm", "androidRelease")
+
+    pkg.apply {
+        desc = ""
+        repo = "maven"
+        name = Library.artifact
+        websiteUrl = "https://www.algolia.com/"
+        issueTrackerUrl =  "https://github.com/algolia/instantsearch-kotlin/issues"
+        setLicenses("MIT")
+        setLabels("Kotlin", "Algolia")
+        vcsUrl = "https://github.com/algolia/instantsearch-kotlin.git"
+        version.apply {
+            name = Library.version
+            vcsTag = Library.version
         }
     }
 }

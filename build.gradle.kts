@@ -1,3 +1,4 @@
+
 import dependency.Library
 import java.net.URI
 
@@ -5,9 +6,6 @@ plugins {
     id("java-library-convention")
     id("maven-publish")
 }
-
-version = Library.version
-group = Library.group
 
 buildscript {
     repositories {
