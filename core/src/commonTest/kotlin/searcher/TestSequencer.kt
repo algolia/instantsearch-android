@@ -87,7 +87,7 @@ class TestSequencer {
         blocking {
             val sequencer = Sequencer(maxOperations)
 
-            val operations = (0..100000).map {
+            val operations = (0..1000).map {
                 launch { delay(Random.nextLong(50, 500)) }
             }
 
