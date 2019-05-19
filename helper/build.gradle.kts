@@ -90,7 +90,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":core")) //FIXME implementation(project(":core")) sometimes needed
+                api(project(":core"))
                 api(AlgoliaClient("common"))
                 implementation(kotlin("stdlib-common"))
             }
@@ -124,11 +124,10 @@ kotlin {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(AppCompat())
                 implementation(RecyclerView())
+                implementation(Paging())
                 api(Coroutines("android"))
                 api(AlgoliaClient("jvm"))
                 api(Ktor("client-okhttp"))
-
-                implementation(Paging())
             }
         }
         val androidTest by getting {

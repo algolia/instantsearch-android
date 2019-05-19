@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.helper.android.highlight
@@ -21,14 +23,13 @@ import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import io.ktor.client.features.logging.LogLevel
-import kotlinx.android.synthetic.main.header_filter.nbHits as filterNbHits
 
 
 val client = ClientSearch(
     ConfigurationSearch(
         ApplicationID("latency"),
         APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        logLevel = LogLevel.ALL
+        logLevel = LogLevel.BODY
     )
 )
 
@@ -57,10 +58,14 @@ fun AppCompatActivity.onErrorThenUpdateFiltersText(searcher: SearcherSingleIndex
 
 fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
     searcher: SearcherSingleIndex,
-    nbHitsView: TextView = filterNbHits
+    nbHitsView: TextView
 ) {
     searcher.onResponseChanged += {
-        nbHitsView.text = getString(R.string.nb_hits, it.nbHits)
+        nbHitsView.text = buildSpannedString {
+            bold { append(it.nbHits.toString()) }
+            append(" ")
+            append(getString(R.string.hits))
+        }
     }
 }
 

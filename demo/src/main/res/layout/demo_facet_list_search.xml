@@ -26,7 +26,7 @@
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchView"
                 android:layout_width="0dp"
-                app:queryHint="@string/search_for_brands"
+                app:queryHint="@string/search_brands"
                 android:focusable="false"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -75,6 +75,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerFilter"
-        tools:listitem="@layout/list_item" />
+        tools:listitem="@layout/list_item_small" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

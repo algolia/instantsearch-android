@@ -24,7 +24,7 @@ class HomeDemo : AppCompatActivity() {
         setContentView(R.layout.demo_home)
 
         val hintIcon = ContextCompat.getDrawable(this, R.drawable.ic_search_hint)!!
-        val hintText = getString(R.string.search_for_demos)
+        val hintText = getString(R.string.search_demos)
 
         setSupportActionBar(toolbar)
         searcher.connectSearchView(searchView)

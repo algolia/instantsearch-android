@@ -40,7 +40,6 @@ public class SearcherSingleIndex(
         }
     }
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        println(throwable.message)
         error = throwable
     }
 

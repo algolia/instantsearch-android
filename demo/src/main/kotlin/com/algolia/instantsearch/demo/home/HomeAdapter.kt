@@ -21,7 +21,7 @@ class HomeAdapter : ListAdapter<HomeItem, HomeViewHolder>(diffUtil) {
                 parent.inflate<TextView>(R.layout.header_item)
             )
             ViewType.Item -> HomeViewHolder.Item(
-                parent.inflate(R.layout.list_item)
+                parent.inflate(R.layout.list_item_small)
             )
         }
     }

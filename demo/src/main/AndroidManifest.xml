@@ -44,7 +44,7 @@
             android:exported="true" />
 
         <activity
-                android:name="com.algolia.instantsearch.demo.hits.paging.HitsPagingDemo"
+                android:name="com.algolia.instantsearch.demo.list.paging.PagingSingleIndexDemo"
                 android:exported="true" />
     </application>
 

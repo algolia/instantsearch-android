@@ -5,7 +5,7 @@ import android.text.Html
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.list_item.view.*
+import kotlinx.android.synthetic.main.list_item_small.view.*
 
 
 sealed class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {

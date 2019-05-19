@@ -89,7 +89,7 @@ class FacetListDemo : AppCompatActivity() {
         onChangeThenUpdateFiltersText(filterState, colors, filtersTextView)
         onClearAllThenClearFilters(filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
         searcher.search()
     }

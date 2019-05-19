@@ -103,7 +103,7 @@ class FilterListDemo : AppCompatActivity() {
         onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
         searcher.search()
     }
