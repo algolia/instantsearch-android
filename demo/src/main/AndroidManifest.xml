@@ -25,27 +25,40 @@
 
         <activity
             android:name="com.algolia.instantsearch.demo.filter.facet.FacetListDemo"
-            android:exported="true" />
+            android:parentActivityName=".home.HomeDemo" />
 
         <activity
             android:name="com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo"
-            android:exported="true" />
-
-        <activity
-            android:name=".filter.list.FilterListDemo"
-            android:exported="true" />
+            android:parentActivityName=".home.HomeDemo" />
 
         <activity
             android:name=".filter.segment.FilterSegmentDemo"
-            android:exported="true" />
+            android:parentActivityName=".home.HomeDemo" />
 
         <activity
             android:name=".filter.facet.FacetListSearchDemo"
-            android:exported="true" />
+            android:parentActivityName=".home.HomeDemo" />
 
         <activity
-                android:name="com.algolia.instantsearch.demo.list.paging.PagingSingleIndexDemo"
-                android:exported="true" />
+            android:name=".list.paging.PagingSingleIndexDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
+        <activity
+            android:name=".filter.list.FilterListAllDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
+        <activity
+            android:name=".filter.list.FilterListFacetDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
+        <activity
+            android:name=".filter.list.FilterListNumericDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
+        <activity
+            android:name=".filter.list.FilterListTagDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

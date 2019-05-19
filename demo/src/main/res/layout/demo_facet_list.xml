@@ -1,137 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:title="Title" />
 
-        <TextView
-            android:id="@+id/titleTopLeft"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:textAppearance="?attr/textAppearanceCaption"
-            android:textColor="@android:color/holo_red_dark"
-            app:layout_constraintBottom_toTopOf="@id/listTopLeft"
-            app:layout_constraintEnd_toStartOf="@id/titleTopRight"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/headerFilter"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="@tools:sample/lorem" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <TextView
-            android:id="@+id/titleTopRight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:textAppearance="?attr/textAppearanceCaption"
-            android:textColor="@android:color/holo_red_dark"
-            app:layout_constraintBottom_toTopOf="@id/listTopRight"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/titleTopLeft"
-            app:layout_constraintTop_toBottomOf="@id/headerFilter"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="@tools:sample/lorem" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/titleBottomLeft"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:textAppearance="?attr/textAppearanceCaption"
-            android:textColor="@android:color/holo_blue_dark"
-            app:layout_constraintBottom_toTopOf="@id/listBottomLeft"
-            app:layout_constraintEnd_toStartOf="@id/titleBottomRight"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/listTopLeft"
-            tools:text="@tools:sample/lorem" />
+            <TextView
+                android:id="@+id/titleTopLeft"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:textColor="@android:color/holo_red_dark"
+                app:layout_constraintBottom_toTopOf="@id/listTopLeft"
+                app:layout_constraintEnd_toStartOf="@id/titleTopRight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headerFilter"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="@tools:sample/lorem" />
 
-        <TextView
-            android:id="@+id/titleBottomRight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:textAppearance="?attr/textAppearanceCaption"
-            android:textColor="@android:color/holo_green_dark"
-            app:layout_constraintBottom_toTopOf="@id/listBottomRight"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/titleBottomLeft"
-            app:layout_constraintTop_toBottomOf="@id/listTopRight"
-            tools:text="@tools:sample/lorem" />
+            <TextView
+                android:id="@+id/titleTopRight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:textColor="@android:color/holo_red_dark"
+                app:layout_constraintBottom_toTopOf="@id/listTopRight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/titleTopLeft"
+                app:layout_constraintTop_toBottomOf="@id/headerFilter"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="@tools:sample/lorem" />
 
-        <include
-            android:id="@+id/headerFilter"
-            layout="@layout/header_filter"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/titleBottomLeft"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:textColor="@android:color/holo_blue_dark"
+                app:layout_constraintBottom_toTopOf="@id/listBottomLeft"
+                app:layout_constraintEnd_toStartOf="@id/titleBottomRight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/listTopLeft"
+                tools:text="@tools:sample/lorem" />
 
-        <include
-            android:id="@+id/listTopLeft"
-            layout="@layout/list"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toTopOf="@id/titleBottomLeft"
-            app:layout_constraintEnd_toStartOf="@id/listTopRight"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleTopLeft" />
+            <TextView
+                android:id="@+id/titleBottomRight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:textColor="@android:color/holo_green_dark"
+                app:layout_constraintBottom_toTopOf="@id/listBottomRight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/titleBottomLeft"
+                app:layout_constraintTop_toBottomOf="@id/listTopRight"
+                tools:text="@tools:sample/lorem" />
 
-        <include
-            android:id="@+id/listBottomLeft"
-            layout="@layout/list"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/listBottomRight"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleBottomLeft" />
+            <include
+                android:id="@+id/headerFilter"
+                layout="@layout/header_filter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            android:id="@+id/listTopRight"
-            layout="@layout/list"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toTopOf="@id/titleBottomRight"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/listTopLeft"
-            app:layout_constraintTop_toBottomOf="@id/titleTopRight" />
+            <include
+                android:id="@+id/listTopLeft"
+                layout="@layout/list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toTopOf="@id/titleBottomLeft"
+                app:layout_constraintEnd_toStartOf="@id/listTopRight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleTopLeft" />
 
-        <include
-            android:id="@+id/listBottomRight"
-            layout="@layout/list"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/listBottomLeft"
-            app:layout_constraintTop_toBottomOf="@id/titleBottomRight" />
+            <include
+                android:id="@+id/listBottomLeft"
+                layout="@layout/list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/listBottomRight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleBottomLeft" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <include
+                android:id="@+id/listTopRight"
+                layout="@layout/list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toTopOf="@id/titleBottomRight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/listTopLeft"
+                app:layout_constraintTop_toBottomOf="@id/titleTopRight" />
 
-</androidx.core.widget.NestedScrollView>
+            <include
+                android:id="@+id/listBottomRight"
+                layout="@layout/list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/listBottomLeft"
+                app:layout_constraintTop_toBottomOf="@id/titleBottomRight" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

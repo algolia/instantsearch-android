@@ -25,7 +25,9 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import com.algolia.search.serialize.KeyIndexName
+import com.algolia.search.serialize.KeyName
 import io.ktor.client.features.logging.LogLevel
+import kotlinx.android.synthetic.main.demo_filter_list.*
 
 
 val client = ClientSearch(
@@ -35,6 +37,15 @@ val client = ClientSearch(
         logLevel = LogLevel.BODY
     )
 )
+
+fun AppCompatActivity.configureToolbar() {
+    setSupportActionBar(toolbar)
+    supportActionBar?.let {
+        it.title = intent.extras!!.getString(KeyName)!!
+        it.setDisplayHomeAsUpEnabled(true)
+
+    }
+}
 
 fun AppCompatActivity.onChangeThenUpdateFiltersText(
     filterState: FilterState,

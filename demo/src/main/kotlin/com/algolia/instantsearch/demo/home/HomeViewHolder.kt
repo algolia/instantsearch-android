@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.search.serialize.KeyIndexName
+import com.algolia.search.serialize.KeyName
 import kotlinx.android.synthetic.main.list_item_small.view.*
 
 
@@ -14,7 +15,7 @@ sealed class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     data class Header(val view: TextView) : HomeViewHolder(view) {
 
         fun bind(item: HomeItem.Header) {
-            view.text = item.name.capitalize()
+            view.text = item.name
         }
     }
 
@@ -27,8 +28,9 @@ sealed class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
             view.itemName.text = text
             view.setOnClickListener {
-                val intent = Intent(view.context, homeType.getValue(item.hit.objectID).java).apply {
+                val intent = Intent(view.context, homeActivities.getValue(item.hit.objectID).java).apply {
                     putExtra(KeyIndexName, item.hit.index)
+                    putExtra(KeyName, item.hit.name)
                 }
 
                 view.context.startActivity(intent)

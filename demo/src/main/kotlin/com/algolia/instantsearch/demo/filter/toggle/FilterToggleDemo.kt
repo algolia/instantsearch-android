@@ -67,6 +67,7 @@ class FilterToggleDemo : AppCompatActivity() {
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        configureToolbar()
 
         searcher.search()
     }

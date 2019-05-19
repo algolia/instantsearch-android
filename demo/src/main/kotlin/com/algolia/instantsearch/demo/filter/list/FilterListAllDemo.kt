@@ -3,7 +3,6 @@ package com.algolia.instantsearch.demo.filter.list
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.list.connectFilterState
@@ -18,7 +17,7 @@ import kotlinx.android.synthetic.main.demo_filter_list.*
 import kotlinx.android.synthetic.main.header_filter.*
 
 
-class FilterListDemo : AppCompatActivity() {
+class FilterListAllDemo : AppCompatActivity() {
 
     private val color = Attribute("color")
     private val price = Attribute("price")
@@ -32,27 +31,6 @@ class FilterListDemo : AppCompatActivity() {
             all to ContextCompat.getColor(this, android.R.color.holo_purple)
         )
     private val index = client.initIndex(IndexName("stub"))
-    private val facetFilters = listOf(
-        Filter.Facet(color, "red"),
-        Filter.Facet(color, "green"),
-        Filter.Facet(color, "blue"),
-        Filter.Facet(color, "yellow"),
-        Filter.Facet(color, "black")
-    )
-    private val numericFilters = listOf(
-        Filter.Numeric(price, NumericOperator.Less, 5),
-        Filter.Numeric(price, 5..10),
-        Filter.Numeric(price, 10..25),
-        Filter.Numeric(price, 25..100),
-        Filter.Numeric(price, NumericOperator.Greater, 100)
-    )
-    private val tagFilters = listOf(
-        Filter.Tag("free shipping"),
-        Filter.Tag("coupon"),
-        Filter.Tag("free return"),
-        Filter.Tag("on sale"),
-        Filter.Tag("no exchange")
-    )
     private val allFilters = listOf(
         Filter.Numeric(price, 5..10),
         Filter.Tag("coupon"),
@@ -61,9 +39,6 @@ class FilterListDemo : AppCompatActivity() {
         Filter.Numeric(price, NumericOperator.Greater, 100)
     )
 
-    private val groupIDColor = FilterGroupID.And(color)
-    private val groupIDPrice = FilterGroupID.And(price)
-    private val groupIDTags = FilterGroupID.Or(tags)
     private val groupIDAll = FilterGroupID.And(all)
     private val searcher = SearcherSingleIndex(index)
 
@@ -73,39 +48,19 @@ class FilterListDemo : AppCompatActivity() {
 
         searcher.index = client.initIndex(intent.indexName)
 
-        val viewModelFacet = FilterListViewModel.Facet(facetFilters, selectionMode = SelectionMode.Single)
-        val viewFacet = FilterListAdapter<Filter.Facet>()
-
-        viewModelFacet.connectFilterState(searcher.filterState, groupIDColor)
-        viewModelFacet.connectView(viewFacet)
-
-        val viewModelNumeric = FilterListViewModel.Numeric(numericFilters)
-        val viewNumeric = FilterListAdapter<Filter.Numeric>()
-
-        viewModelNumeric.connectFilterState(searcher.filterState, groupIDPrice)
-        viewModelNumeric.connectView(viewNumeric)
-
-        val viewModelTag = FilterListViewModel.Tag(tagFilters)
-        val viewTag = FilterListAdapter<Filter.Tag>()
-
-        viewModelTag.connectFilterState(searcher.filterState, groupIDTags)
-        viewModelTag.connectView(viewTag)
-
         val viewModelAll = FilterListViewModel.All(allFilters)
         val viewAll = FilterListAdapter<Filter>()
 
         viewModelAll.connectFilterState(searcher.filterState, groupIDAll)
         viewModelAll.connectView(viewAll)
 
-        configureRecyclerView(listTopLeft, viewFacet)
-        configureRecyclerView(listTopRight, viewNumeric)
-        configureRecyclerView(listBottomLeft, viewTag)
-        configureRecyclerView(listBottomRight, viewAll)
+        configureRecyclerView(list, viewAll)
 
         onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        configureToolbar()
 
         searcher.search()
     }
