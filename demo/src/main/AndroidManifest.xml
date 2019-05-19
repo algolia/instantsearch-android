@@ -43,6 +43,9 @@
             android:name=".filter.facet.FacetListSearchDemo"
             android:exported="true" />
 
+        <activity
+                android:name="com.algolia.instantsearch.demo.list.paging.PagingSingleIndexDemo"
+                android:exported="true" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

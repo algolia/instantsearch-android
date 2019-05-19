@@ -10,6 +10,7 @@ plugins {
     id("kotlinx-serialization")
     kotlin("android")
     kotlin("android.extensions")
+    kotlin("kapt")
 }
 
 android {
@@ -69,6 +70,9 @@ dependencies {
     implementation(MaterialDesign())
     implementation(AndroidCore("ktx"))
     implementation(Ktor("client-mock-jvm"))
+    implementation(Paging())
+    implementation(Lifecycle("extensions"))
+    kapt(Lifecycle("compiler"))
 
     androidTestImplementation(AndroidTestRunner())
     androidTestImplementation(Espresso("core"))

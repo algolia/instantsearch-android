@@ -8,6 +8,7 @@ import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
 import dependency.test.SL4J
 import dependency.ui.AppCompat
+import dependency.ui.Paging
 import dependency.ui.RecyclerView
 
 plugins {
@@ -123,6 +124,7 @@ kotlin {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(AppCompat())
                 implementation(RecyclerView())
+                implementation(Paging())
                 api(Coroutines("android"))
                 api(AlgoliaClient("jvm"))
                 api(Ktor("client-okhttp"))

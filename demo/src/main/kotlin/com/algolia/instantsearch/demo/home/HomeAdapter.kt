@@ -18,10 +18,10 @@ class HomeAdapter : ListAdapter<HomeItem, HomeViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         return when (ViewType.values()[viewType]) {
             ViewType.Header -> HomeViewHolder.Header(
-                parent.inflate<TextView>(R.layout.header)
+                parent.inflate<TextView>(R.layout.header_item)
             )
             ViewType.Item -> HomeViewHolder.Item(
-                parent.inflate(R.layout.list_item)
+                parent.inflate(R.layout.list_item_small)
             )
         }
     }
@@ -49,6 +49,9 @@ class HomeAdapter : ListAdapter<HomeItem, HomeViewHolder>(diffUtil) {
         private val diffUtil = object : DiffUtil.ItemCallback<HomeItem>() {
 
             override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+                if (oldItem is HomeItem.Item && newItem is HomeItem.Item) {
+                    return oldItem.hit.objectID == newItem.hit.objectID
+                }
                 return oldItem::class.isInstance(newItem)
             }
 

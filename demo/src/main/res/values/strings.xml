@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">InstantSearch V2</string>
-    <string name="nb_hits">hits: %d</string>
+    <string name="hits">hits</string>
     <string name="filters">Filters</string>
     <string name="clear_all">Clear all</string>
-    <string name="search_for_demos">Search for demos</string>
-    <string name="search_for_brands">Search for brands</string>
+    <string name="search_demos">Search for demos</string>
+    <string name="search_brands">Search for brands</string>
+    <string name="search_movies">Search for movies</string>
+    <string name="template_title">"%s (%s)"</string>
     <string name="numeric_filters">Numeric Filters</string>
     <string name="facet_filters">Facet filters</string>
     <string name="tag_filters">Tag Filters</string>

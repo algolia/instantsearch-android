@@ -30,9 +30,7 @@ class FacetListSearchDemo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list_search)
-
-        val hintIcon = ContextCompat.getDrawable(this, R.drawable.ic_search_hint)!!
-        val hintText = getString(R.string.search_for_brands)
+        setSupportActionBar(toolbar)
 
         val viewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple)
         val view = FacetListAdapter()
@@ -46,22 +44,13 @@ class FacetListSearchDemo : AppCompatActivity() {
         viewModel.connectView(view, presenter)
         searcherForFacet.connectSearchView(searchView)
         configureRecyclerView(list, view)
-
-        setSupportActionBar(toolbar)
-        searchView.also {
-            it.isSubmitButtonEnabled = false
-            it.isFocusable = true
-            it.setIconifiedByDefault(false)
-            it.setOnQueryTextFocusChangeListener { _, hasFocus ->
-                searchView.showQueryHintIcon(hasFocus, hintIcon, hintText)
-            }
-        }
+        configureSearchView(searchView)
         searcherForFacet.onErrorChanged += { throwable ->
             throwable.printStackTrace()
         }
         onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
-        onResponseChangedThenUpdateNbHits(searcher)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
         searcher.search()
         searcherForFacet.search()

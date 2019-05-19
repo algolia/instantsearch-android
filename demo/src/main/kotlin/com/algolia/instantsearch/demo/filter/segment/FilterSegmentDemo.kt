@@ -3,8 +3,8 @@ package com.algolia.instantsearch.demo.filter.segment
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.algolia.instantsearch.helper.android.selectable.SelectableRadioGroup
 import com.algolia.instantsearch.demo.*
+import com.algolia.instantsearch.helper.android.selectable.SelectableRadioGroup
 import com.algolia.instantsearch.helper.filter.segment.FilterSegmentViewModel
 import com.algolia.instantsearch.helper.filter.segment.connectFilterState
 import com.algolia.instantsearch.helper.filter.segment.connectView
@@ -46,7 +46,7 @@ class FilterSegmentDemo : AppCompatActivity() {
         onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
         searcher.search()
     }

@@ -9,6 +9,9 @@ import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.helper.android.highlight
@@ -20,14 +23,13 @@ import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import io.ktor.client.features.logging.LogLevel
-import kotlinx.android.synthetic.main.header_filter.*
 
 
 val client = ClientSearch(
     ConfigurationSearch(
         ApplicationID("latency"),
         APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        logLevel = LogLevel.ALL
+        logLevel = LogLevel.BODY
     )
 )
 
@@ -54,15 +56,16 @@ fun AppCompatActivity.onErrorThenUpdateFiltersText(searcher: SearcherSingleIndex
     }
 }
 
-fun AppCompatActivity.onResponseChangedThenUpdateStats(searcher: SearcherSingleIndex) {
+fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
+    searcher: SearcherSingleIndex,
+    nbHitsView: TextView
+) {
     searcher.onResponseChanged += {
-        nbHits.text = getString(R.string.nb_hits, it.nbHits)
-    }
-}
-
-fun AppCompatActivity.onResponseChangedThenUpdateNbHits(searcher: SearcherSingleIndex) {
-    searcher.onResponseChanged += {
-        nbHits.text = getString(R.string.nb_hits, it.nbHits)
+        nbHitsView.text = buildSpannedString {
+            bold { append(it.nbHits.toString()) }
+            append(" ")
+            append(getString(R.string.hits))
+        }
     }
 }
 
@@ -74,6 +77,22 @@ fun AppCompatActivity.configureRecyclerView(
         it.layoutManager = LinearLayoutManager(this)
         it.adapter = view
         it.itemAnimator = null
+    }
+}
+
+fun AppCompatActivity.configureSearchView(
+    searchView: SearchView
+) {
+    searchView.also {
+        val initialHintText = searchView.queryHint.toString()
+        val hintIcon = ContextCompat.getDrawable(this, R.drawable.ic_search_hint)!!
+        it.isSubmitButtonEnabled = false
+        it.isFocusable = true
+        it.setIconifiedByDefault(false)
+        it.setOnQueryTextFocusChangeListener { _, hasFocus ->
+            searchView.showQueryHintIcon(!hasFocus, hintIcon,    initialHintText)
+        }
+        searchView.showQueryHintIcon(true, hintIcon, initialHintText)
     }
 }
 
