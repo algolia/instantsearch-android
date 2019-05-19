@@ -1,6 +1,6 @@
 package filter
 
-import com.algolia.instantsearch.helper.filter.FilterPresenter
+import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
@@ -8,7 +8,7 @@ import shouldEqual
 import kotlin.test.Test
 
 
-class TestFilterPresenter {
+class TestFilterPresenterImpl {
 
     private val attribute = Attribute("color")
 
@@ -18,16 +18,16 @@ class TestFilterPresenter {
         val integer = Filter.Facet(attribute, 0)
         val boolean = Filter.Facet(attribute, true)
 
-        FilterPresenter(string) shouldEqual "value"
-        FilterPresenter(integer) shouldEqual "color: 0"
-        FilterPresenter(boolean) shouldEqual "color"
+        FilterPresenterImpl(string) shouldEqual "value"
+        FilterPresenterImpl(integer) shouldEqual "color: 0"
+        FilterPresenterImpl(boolean) shouldEqual "color"
     }
 
     @Test
     fun tag() {
         val filter = Filter.Tag("value")
 
-        FilterPresenter(filter) shouldEqual "value"
+        FilterPresenterImpl(filter) shouldEqual "value"
     }
 
     @Test
@@ -35,7 +35,7 @@ class TestFilterPresenter {
         val range = Filter.Numeric(attribute, 0 until 10)
         val comparison = Filter.Numeric(attribute, NumericOperator.Greater, 1f)
 
-        FilterPresenter(range) shouldEqual "color: 0 to 9"
-        FilterPresenter(comparison) shouldEqual "color > 1.0"
+        FilterPresenterImpl(range) shouldEqual "color: 0 to 9"
+        FilterPresenterImpl(comparison) shouldEqual "color > 1.0"
     }
 }

@@ -1,7 +1,7 @@
 package filter.toggle
 
 import com.algolia.instantsearch.core.selectable.SelectableItemView
-import com.algolia.instantsearch.helper.filter.FilterPresenter
+import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
 import com.algolia.instantsearch.helper.filter.toggle.connectView
 import com.algolia.search.model.Attribute
@@ -40,7 +40,7 @@ class TestFilterToggleConnectView {
         viewModel.isSelected = true
         viewModel.connectView(view)
         view.boolean shouldEqual true
-        view.string shouldEqual FilterPresenter(red)
+        view.string shouldEqual FilterPresenterImpl(red)
     }
 
     @Test

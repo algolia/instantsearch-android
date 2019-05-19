@@ -1,7 +1,7 @@
 package filter.segment
 
 import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
-import com.algolia.instantsearch.helper.filter.FilterPresenter
+import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
 import com.algolia.instantsearch.helper.filter.segment.FilterSegmentViewModel
 import com.algolia.instantsearch.helper.filter.segment.connectView
 import com.algolia.search.model.Attribute
@@ -43,7 +43,7 @@ class TestFilterSegmentConnectView {
         viewModel.selected = id
         viewModel.connectView(view)
         view.int shouldEqual id
-        view.map shouldEqual mapOf(id to FilterPresenter(red))
+        view.map shouldEqual mapOf(id to FilterPresenterImpl(red))
     }
 
     @Test
