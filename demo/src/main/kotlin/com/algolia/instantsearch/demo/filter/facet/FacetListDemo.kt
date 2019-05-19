@@ -32,7 +32,7 @@ class FacetListDemo : AppCompatActivity() {
     private val groupIDColor = FilterGroupID.And(color)
     private val groupIDPromotions = FilterGroupID.And(promotions)
     private val groupIDCategory = FilterGroupID.Or(category)
-    private val index = client.initIndex(IndexName("mobile_demo_facet_list"))
+    private val index = client.initIndex(IndexName("stub"))
     private val filterState = FilterState(
         facetGroups = mutableMapOf(
             FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
@@ -43,6 +43,8 @@ class FacetListDemo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list)
+
+        searcher.index = client.initIndex(intent.indexName)
 
         val colorAViewModel = FacetListViewModel()
         val colorAPresenter = FacetListPresenter(listOf(IsRefined, AlphabeticalAscending), 5)

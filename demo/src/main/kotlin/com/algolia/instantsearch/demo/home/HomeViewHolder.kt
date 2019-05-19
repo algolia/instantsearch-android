@@ -5,6 +5,7 @@ import android.text.Html
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.search.serialize.KeyIndexName
 import kotlinx.android.synthetic.main.list_item_small.view.*
 
 
@@ -20,13 +21,18 @@ sealed class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     data class Item(val view: View) : HomeViewHolder(view) {
 
         fun bind(item: HomeItem.Item) {
-            val type = homeType[item.hit.objectID]
             val text = item.hit.highlightResults?.getValue("name")?.let {
                 Html.fromHtml(it.value, Html.FROM_HTML_MODE_COMPACT)
             } ?: item.hit.name
 
             view.itemName.text = text
-            view.setOnClickListener { view.context.startActivity(Intent(view.context, type?.java)) }
+            view.setOnClickListener {
+                val intent = Intent(view.context, homeType.getValue(item.hit.objectID).java).apply {
+                    putExtra(KeyIndexName, item.hit.index)
+                }
+
+                view.context.startActivity(intent)
+            }
         }
     }
 }

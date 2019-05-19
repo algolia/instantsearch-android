@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.demo
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -22,6 +23,8 @@ import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
+import com.algolia.search.model.IndexName
+import com.algolia.search.serialize.KeyIndexName
 import io.ktor.client.features.logging.LogLevel
 
 
@@ -80,6 +83,8 @@ fun AppCompatActivity.configureRecyclerView(
     }
 }
 
+val Intent.indexName: IndexName get() = IndexName(extras!!.getString(KeyIndexName)!!)
+
 fun AppCompatActivity.configureSearchView(
     searchView: SearchView
 ) {
@@ -90,7 +95,7 @@ fun AppCompatActivity.configureSearchView(
         it.isFocusable = true
         it.setIconifiedByDefault(false)
         it.setOnQueryTextFocusChangeListener { _, hasFocus ->
-            searchView.showQueryHintIcon(!hasFocus, hintIcon,    initialHintText)
+            searchView.showQueryHintIcon(!hasFocus, hintIcon, initialHintText)
         }
         searchView.showQueryHintIcon(true, hintIcon, initialHintText)
     }

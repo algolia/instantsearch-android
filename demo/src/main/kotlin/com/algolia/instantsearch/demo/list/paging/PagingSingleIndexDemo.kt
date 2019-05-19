@@ -17,8 +17,7 @@ import kotlinx.android.synthetic.main.demo_paging.*
 
 class PagingSingleIndexDemo : AppCompatActivity() {
 
-    private val index = client.initIndex(IndexName("mobile_demo_hits_paging"))
-    private val searcher = SearcherSingleIndex(index)
+    private val searcher = SearcherSingleIndex(client.initIndex(IndexName("stub")))
     private val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Movie.serializer())
     private val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
     private val movies = LivePagedListBuilder<Int, Movie>(dataSourceFactory, pagedListConfig).build()
@@ -29,10 +28,8 @@ class PagingSingleIndexDemo : AppCompatActivity() {
 
         val movieAdapter = MovieAdapter()
 
-        movies.observe(this, Observer { hits ->
-            movieAdapter.submitList(hits)
-        })
-
+        searcher.index = client.initIndex(intent.indexName)
+        movies.observe(this, Observer { hits -> movieAdapter.submitList(hits) })
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newText: String?): Boolean {
                 return false
@@ -51,9 +48,10 @@ class PagingSingleIndexDemo : AppCompatActivity() {
         configureSearchView(searchView)
         configureRecyclerView(list, movieAdapter)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
+    }
 
-        searcher.onErrorChanged += { throwable ->
-            throwable.printStackTrace()
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        searcher.cancel()
     }
 }

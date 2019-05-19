@@ -25,13 +25,16 @@ class FilterSegmentDemo : AppCompatActivity() {
             gender.raw to ContextCompat.getColor(this, android.R.color.holo_orange_light)
         )
 
-    private val index = client.initIndex(IndexName("mobile_demo_filter_segment"))
+    private val index = client.initIndex(IndexName("stub"))
     private val groupID = FilterGroupID.And(gender)
     private val searcher = SearcherSingleIndex(index)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_segment)
+
+        searcher.index = client.initIndex(intent.indexName)
+
         val viewModelGender = FilterSegmentViewModel(
             items = mapOf(
                 R.id.male to Filter.Facet(gender, "male"),

@@ -12,6 +12,7 @@ data class HomeHit(
     override val objectID: ObjectID,
     val name: String,
     val type: String,
+    val index: String,
     @SerialName("_highlightResult")
     val highlightResults: Map<String, HighlightResult>? = null
 ): Indexable

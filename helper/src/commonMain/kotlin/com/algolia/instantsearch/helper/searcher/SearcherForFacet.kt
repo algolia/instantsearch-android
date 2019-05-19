@@ -12,7 +12,7 @@ import kotlin.properties.Delegates
 
 
 public class SearcherForFacet(
-    val index: Index,
+    var index: Index,
     val attribute: Attribute,
     val filterState: FilterState = FilterState(),
     val query: Query = Query(),

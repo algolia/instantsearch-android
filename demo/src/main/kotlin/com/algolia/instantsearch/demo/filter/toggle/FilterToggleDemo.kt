@@ -3,8 +3,8 @@ package com.algolia.instantsearch.demo.filter.toggle
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.algolia.instantsearch.helper.android.selectable.SelectableCompoundButton
 import com.algolia.instantsearch.demo.*
+import com.algolia.instantsearch.helper.android.selectable.SelectableCompoundButton
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
 import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
 import com.algolia.instantsearch.helper.filter.toggle.connectView
@@ -29,12 +29,14 @@ class FilterToggleDemo : AppCompatActivity() {
             tags to ContextCompat.getColor(this, android.R.color.holo_purple)
         )
 
-    private val index = client.initIndex(IndexName("mobile_demo_filter_toggle"))
+    private val index = client.initIndex(IndexName("stub"))
     private val searcher = SearcherSingleIndex(index)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_toggle)
+
+        searcher.index = client.initIndex(intent.indexName)
 
         val viewModelFreeShipping = FilterToggleViewModel(Filter.Facet(promotions, "free shipping"))
         val viewFreeShipping =

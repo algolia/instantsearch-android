@@ -31,7 +31,7 @@ class FilterListDemo : AppCompatActivity() {
             tags to ContextCompat.getColor(this, android.R.color.holo_green_dark),
             all to ContextCompat.getColor(this, android.R.color.holo_purple)
         )
-    private val index = client.initIndex(IndexName("mobile_demo_filter_list"))
+    private val index = client.initIndex(IndexName("stub"))
     private val facetFilters = listOf(
         Filter.Facet(color, "red"),
         Filter.Facet(color, "green"),
@@ -70,6 +70,8 @@ class FilterListDemo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_list)
+
+        searcher.index = client.initIndex(intent.indexName)
 
         val viewModelFacet = FilterListViewModel.Facet(facetFilters, selectionMode = SelectionMode.Single)
         val viewFacet = FilterListAdapter<Filter.Facet>()
