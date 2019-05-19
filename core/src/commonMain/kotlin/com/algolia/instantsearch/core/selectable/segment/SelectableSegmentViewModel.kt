@@ -11,7 +11,7 @@ public open class SelectableSegmentViewModel<K, V>(
     public val onSelectedComputed: MutableList<(K?) -> Unit> = mutableListOf()
 
     public var selected by Delegates.observable<K?>(null) { _, oldValue, newValue ->
-        if (oldValue != newValue) {
+        if (newValue != oldValue) {
             onSelectedChanged.forEach { it(newValue) }
         }
     }

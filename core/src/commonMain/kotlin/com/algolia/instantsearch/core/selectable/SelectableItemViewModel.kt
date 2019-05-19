@@ -11,7 +11,7 @@ public open class SelectableItemViewModel<V>(
     val onIsSelectedComputed: MutableList<(Boolean) -> Unit> = mutableListOf()
 
     public var isSelected by Delegates.observable(false) { _, oldValue, newValue ->
-        if (oldValue != newValue) {
+        if (newValue != oldValue) {
             onIsSelectedChanged.forEach { it(newValue) }
         }
     }

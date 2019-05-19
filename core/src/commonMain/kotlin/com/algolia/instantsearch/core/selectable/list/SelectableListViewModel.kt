@@ -20,7 +20,7 @@ public open class SelectableListViewModel<K, V>(
         }
     }
     public var selections by Delegates.observable(setOf<K>()) { _, oldValue, newValue ->
-        if (oldValue != newValue) {
+        if (newValue != oldValue) {
             onSelectionsChanged.forEach { it(newValue) }
         }
     }
