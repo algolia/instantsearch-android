@@ -46,24 +46,16 @@ class FacetListDemo : AppCompatActivity() {
 
         searcher.index = client.initIndex(intent.indexName)
 
-        val colorAViewModel = FacetListViewModel()
-        val colorAPresenter = FacetListPresenter(listOf(IsRefined, AlphabeticalAscending), 5)
+        val colorAViewModel = FacetListViewModel(selectionMode = SelectionMode.Single)
+        val colorAPresenter = FacetListPresenter(listOf(IsRefined, AlphabeticalAscending), limit = 3)
         val colorAAdapter = FacetListAdapter()
 
         colorAViewModel.connectFilterState(color, filterState, groupIDColor)
         colorAViewModel.connectSearcher(color, searcher)
         colorAViewModel.connectView(colorAAdapter, colorAPresenter)
 
-        val colorBViewModel = FacetListViewModel(selectionMode = SelectionMode.Single)
-        val colorBPresenter = FacetListPresenter(listOf(AlphabeticalDescending), 3)
-        val colorBAdapter = FacetListAdapter()
-
-        colorBViewModel.connectFilterState(color, filterState, groupIDColor)
-        colorBViewModel.connectSearcher(color, searcher)
-        colorBViewModel.connectView(colorBAdapter, colorBPresenter)
-
         val promotionViewModel = FacetListViewModel()
-        val promotionPresenter = FacetListPresenter(listOf(CountDescending), 5)
+        val promotionPresenter = FacetListPresenter(listOf(CountDescending))
         val promotionAdapter = FacetListAdapter()
 
         promotionViewModel.connectFilterState(promotions, filterState, groupIDPromotions)
@@ -71,7 +63,7 @@ class FacetListDemo : AppCompatActivity() {
         promotionViewModel.connectView(promotionAdapter, promotionPresenter)
 
         val categoryViewModel = FacetListViewModel()
-        val categoryPresenter = FacetListPresenter(listOf(CountDescending, AlphabeticalAscending), 5)
+        val categoryPresenter = FacetListPresenter(listOf(CountDescending, AlphabeticalAscending))
         val categoryAdapter = FacetListAdapter()
 
         categoryViewModel.connectFilterState(category, filterState, groupIDCategory)
@@ -79,14 +71,12 @@ class FacetListDemo : AppCompatActivity() {
         categoryViewModel.connectView(categoryAdapter, categoryPresenter)
 
         configureRecyclerView(listTopLeft, colorAAdapter)
-        configureRecyclerView(listTopRight, colorBAdapter)
+        configureRecyclerView(listTopRight, categoryAdapter)
         configureRecyclerView(listBottomLeft, promotionAdapter)
-        configureRecyclerView(listBottomRight, categoryAdapter)
 
         titleTopLeft.text = formatTitle(colorAPresenter, groupIDColor)
-        titleTopRight.text = formatTitle(colorBPresenter, groupIDColor)
+        titleTopRight.text = formatTitle(categoryPresenter, groupIDCategory)
         titleBottomLeft.text = formatTitle(promotionPresenter, groupIDPromotions)
-        titleBottomRight.text = formatTitle(categoryPresenter, groupIDCategory)
 
         onChangeThenUpdateFiltersText(filterState, colors, filtersTextView)
         onClearAllThenClearFilters(filterState, filtersClearAll)
