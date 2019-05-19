@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.MainDispatcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -19,7 +18,8 @@ public class SearcherSingleIndex(
     val filterState: FilterState = FilterState(),
     val query: Query = Query(),
     val requestOptions: RequestOptions? = RequestOptions(),
-    val isDisjunctiveFacetingEnabled: Boolean = true
+    val isDisjunctiveFacetingEnabled: Boolean = true,
+    override val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : Searcher, CoroutineScope {
 
     internal val sequencer = Sequencer()
@@ -40,6 +40,7 @@ public class SearcherSingleIndex(
         }
     }
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        println(throwable.message)
         error = throwable
     }
 
@@ -64,7 +65,7 @@ public class SearcherSingleIndex(
             .filter { it.key is FilterGroupID.Or }
             .flatMap { group -> group.value.map { it.attribute } }
 
-        val job = launch(MainDispatcher + exceptionHandler) {
+        val job = launch(dispatcher + exceptionHandler) {
             response = withContext(Dispatchers.Default) {
                 if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
                     index.search(query, requestOptions)
@@ -73,7 +74,7 @@ public class SearcherSingleIndex(
                 }
             }
         }
-        sequencer.addOperation(job)
+//        sequencer.addOperation(job)
         return job
     }
 
