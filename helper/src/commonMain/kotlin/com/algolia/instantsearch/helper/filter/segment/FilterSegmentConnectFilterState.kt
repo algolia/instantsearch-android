@@ -7,7 +7,7 @@ import com.algolia.instantsearch.helper.filter.state.Filters
 
 public fun FilterSegmentViewModel.connectFilterState(
     filterState: FilterState,
-    groupID: FilterGroupID = FilterGroupID.Or()
+    groupID: FilterGroupID = FilterGroupID.And()
 ) {
     onSelectedComputed += { computed ->
         filterState.notify {

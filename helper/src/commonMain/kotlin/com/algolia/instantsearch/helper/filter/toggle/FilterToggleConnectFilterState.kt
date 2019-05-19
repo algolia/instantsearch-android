@@ -9,7 +9,7 @@ import com.algolia.search.model.filter.Filter
 public fun FilterToggleViewModel.connectFilterState(
     filterState: FilterState,
     default: Filter? = null,
-    groupID: FilterGroupID = FilterGroupID.Or(item.attribute)
+    groupID: FilterGroupID = FilterGroupID.And(item.attribute)
 ) {
     if (default != null) filterState.add(groupID, default)
     onIsSelectedComputed += { isSelected ->
