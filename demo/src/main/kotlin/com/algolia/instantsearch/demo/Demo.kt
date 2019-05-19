@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.algolia.instantsearch.android.highlight
+import com.algolia.instantsearch.helper.android.highlight
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex

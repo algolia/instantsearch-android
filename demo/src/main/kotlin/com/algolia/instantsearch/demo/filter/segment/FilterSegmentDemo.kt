@@ -3,7 +3,7 @@ package com.algolia.instantsearch.demo.filter.segment
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.algolia.instantsearch.android.selectable.SelectableRadioGroup
+import com.algolia.instantsearch.helper.android.selectable.SelectableRadioGroup
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.segment.FilterSegmentViewModel
 import com.algolia.instantsearch.helper.filter.segment.connectFilterState

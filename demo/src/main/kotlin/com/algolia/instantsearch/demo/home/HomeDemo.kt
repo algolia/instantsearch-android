@@ -3,7 +3,7 @@ package com.algolia.instantsearch.demo.home
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.algolia.instantsearch.android.searcher.connectSearchView
+import com.algolia.instantsearch.helper.android.searcher.connectSearchView
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.client
 import com.algolia.instantsearch.demo.configureRecyclerView

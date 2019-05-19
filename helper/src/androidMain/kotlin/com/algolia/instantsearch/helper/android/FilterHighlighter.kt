@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.android
+package com.algolia.instantsearch.helper.android
 
 import android.graphics.Color
 import android.graphics.Typeface

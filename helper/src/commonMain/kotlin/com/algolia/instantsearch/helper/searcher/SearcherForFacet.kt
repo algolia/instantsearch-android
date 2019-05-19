@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.MainDispatcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.client.Index
@@ -18,7 +17,8 @@ public class SearcherForFacet(
     val filterState: FilterState = FilterState(),
     val query: Query = Query(),
     var facetQuery: String? = null,
-    val requestOptions: RequestOptions? = null
+    val requestOptions: RequestOptions? = null,
+    override val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : Searcher, CoroutineScope {
 
     internal val sequencer = Sequencer()
@@ -47,7 +47,7 @@ public class SearcherForFacet(
     }
 
     override fun search(): Job {
-        val job = launch(MainDispatcher + exceptionHandler) {
+        val job = launch(dispatcher + exceptionHandler) {
             response = withContext(Dispatchers.Default) {
                 index.searchForFacets(attribute, facetQuery, query, requestOptions)
             }

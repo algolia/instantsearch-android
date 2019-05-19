@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.android.selectable
+package com.algolia.instantsearch.helper.android.selectable
 
 import android.view.View
 import android.widget.RadioButton

@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.android.searcher
+package com.algolia.instantsearch.helper.android.searcher
 
 import androidx.appcompat.widget.SearchView
 import com.algolia.instantsearch.helper.searcher.Searcher

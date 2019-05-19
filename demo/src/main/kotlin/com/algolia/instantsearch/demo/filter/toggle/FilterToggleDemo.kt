@@ -3,7 +3,7 @@ package com.algolia.instantsearch.demo.filter.toggle
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.algolia.instantsearch.android.selectable.SelectableCompoundButton
+import com.algolia.instantsearch.helper.android.selectable.SelectableCompoundButton
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
 import com.algolia.instantsearch.helper.filter.toggle.connectFilterState

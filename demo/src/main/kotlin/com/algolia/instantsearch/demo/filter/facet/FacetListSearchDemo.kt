@@ -3,7 +3,7 @@ package com.algolia.instantsearch.demo.filter.facet
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.algolia.instantsearch.android.searcher.connectSearchView
+import com.algolia.instantsearch.helper.android.searcher.connectSearchView
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.facet.*
