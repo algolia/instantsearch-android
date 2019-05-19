@@ -14,8 +14,10 @@ class TestFilterToggleConnectFilterState {
 
     private val color = Attribute("color")
     private val red = Filter.Facet(color, "red")
+    private val blue = Filter.Facet(color, "blue")
     private val groupID = FilterGroupID.Or(color)
     private val expectedFilterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
+    private val expectedFilterStateDefault = FilterState(facetGroups = mutableMapOf(groupID to setOf(blue)))
 
     @Test
     fun connectShouldUpdateIsSelectedWithFilterState() {
@@ -32,7 +34,7 @@ class TestFilterToggleConnectFilterState {
 
         viewModel.connectFilterState(filterState)
         viewModel.computeIsSelected(true)
-        filterState.filters shouldEqual expectedFilterState.filters
+        filterState shouldEqual expectedFilterState
     }
 
     @Test
@@ -43,5 +45,18 @@ class TestFilterToggleConnectFilterState {
         viewModel.connectFilterState(filterState)
         filterState.notify { add(groupID, red) }
         viewModel.isSelected shouldEqual true
+    }
+
+    @Test
+    fun connectWithDefaultShouldUpdateFilterState() {
+        val viewModel = FilterToggleViewModel(red)
+        val filterState = FilterState()
+
+        viewModel.connectFilterState(filterState, blue)
+        filterState shouldEqual expectedFilterStateDefault
+        viewModel.computeIsSelected(true)
+        filterState shouldEqual expectedFilterState
+        viewModel.computeIsSelected(false)
+        filterState shouldEqual expectedFilterStateDefault
     }
 }

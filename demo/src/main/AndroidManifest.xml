@@ -59,6 +59,10 @@
             android:name=".filter.list.FilterListTagDemo"
             android:parentActivityName=".home.HomeDemo" />
 
+        <activity
+            android:name=".filter.toggle.FilterToggleDefault"
+            android:parentActivityName=".home.HomeDemo" />
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

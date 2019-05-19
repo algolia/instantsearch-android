@@ -12,22 +12,15 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.NumericOperator
-import kotlinx.android.synthetic.main.demo_filter_toggle.*
+import kotlinx.android.synthetic.main.demo_filter_toggle_default.*
 import kotlinx.android.synthetic.main.header_filter.*
 
 
-class FilterToggleDemo : AppCompatActivity() {
+class FilterToggleDefault : AppCompatActivity() {
 
-    private val promotions = Attribute("promotions")
-    private val size = Attribute("size")
-    private val tags = "_tags"
+    private val popular = Attribute("popular")
     private val colors
-        get() = mapOf(
-            promotions.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
-            size.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark),
-            tags to ContextCompat.getColor(this, android.R.color.holo_purple)
-        )
+        get() = mapOf(popular.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark))
 
     private val index = client.initIndex(IndexName("stub"))
     private val searcher = SearcherSingleIndex(index)
@@ -38,23 +31,11 @@ class FilterToggleDemo : AppCompatActivity() {
 
         searcher.index = client.initIndex(intent.indexName)
 
-        val viewModelCoupon = FilterToggleViewModel(Filter.Facet(promotions, "coupon"))
-        val viewCoupon = SelectableCompoundButton(switchCoupon)
+        val viewModelPopular = FilterToggleViewModel(Filter.Facet(popular, true))
+        val viewPopular = SelectableCompoundButton(checkBoxPopular)
 
-        viewModelCoupon.connectFilterState(searcher.filterState)
-        viewModelCoupon.connectView(viewCoupon)
-
-        val viewModelSize = FilterToggleViewModel(Filter.Numeric(size, NumericOperator.Greater, 40))
-        val viewSize = SelectableCompoundButton(checkBoxSize)
-
-        viewModelSize.connectFilterState(searcher.filterState)
-        viewModelSize.connectView(viewSize)
-
-        val viewModelVintage = FilterToggleViewModel(Filter.Tag("vintage"))
-        val viewVintage = SelectableCompoundButton(checkBoxVintage)
-
-        viewModelVintage.connectFilterState(searcher.filterState)
-        viewModelVintage.connectView(viewVintage)
+        viewModelPopular.connectFilterState(searcher.filterState, default = Filter.Facet(popular, false))
+        viewModelPopular.connectView(viewPopular)
 
         onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
@@ -70,5 +51,3 @@ class FilterToggleDemo : AppCompatActivity() {
         searcher.cancel()
     }
 }
-
-
