@@ -9,7 +9,7 @@ import com.algolia.instantsearch.demo.configureSearchView
 import com.algolia.instantsearch.demo.list.Movie
 import com.algolia.instantsearch.demo.list.MovieAdapter
 import com.algolia.instantsearch.helper.android.searchbox.connectView
-import com.algolia.instantsearch.helper.android.searcher.connectSearchBoxViewModel
+import com.algolia.instantsearch.helper.searcher.connectSearchBoxViewModel
 import com.algolia.search.helper.deserialize
 import kotlinx.android.synthetic.main.demo_paging.*
 

@@ -9,8 +9,8 @@ import com.algolia.instantsearch.demo.client
 import com.algolia.instantsearch.demo.configureRecyclerView
 import com.algolia.instantsearch.demo.showQueryHintIcon
 import com.algolia.instantsearch.helper.android.searchbox.connectView
-import com.algolia.instantsearch.helper.android.searcher.connectSearchBoxViewModel
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connectSearchBoxViewModel
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import kotlinx.android.synthetic.main.demo_home.*

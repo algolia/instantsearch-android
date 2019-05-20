@@ -1,7 +1,6 @@
-package com.algolia.instantsearch.helper.android.searcher
+package com.algolia.instantsearch.helper.searcher
 
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
-import com.algolia.instantsearch.helper.searcher.Searcher
 
 fun Searcher.connectSearchBoxViewModel(
     searchBoxViewModel: SearchBoxViewModel,
