@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.inflate
-import com.algolia.instantsearch.helper.filter.FilterPresenter
+import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
 import com.algolia.instantsearch.helper.filter.list.FilterListView
 import com.algolia.search.model.filter.Filter
 
@@ -25,7 +25,7 @@ class FilterListAdapter<T: Filter> :
     override fun onBindViewHolder(holder: FilterListViewHolder, position: Int) {
         val (filter, selected) = getItem(position)
 
-        holder.bind(FilterPresenter(filter), selected, View.OnClickListener { onClick?.invoke(filter) })
+        holder.bind(FilterPresenterImpl(filter), selected, View.OnClickListener { onClick?.invoke(filter) })
     }
 
     override fun setSelectableItems(selectableItems: List<SelectableItem<T>>) {
