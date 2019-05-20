@@ -9,7 +9,7 @@ import com.algolia.instantsearch.demo.configureSearchView
 import com.algolia.instantsearch.demo.list.Movie
 import com.algolia.instantsearch.demo.list.MovieAdapter
 import com.algolia.instantsearch.helper.android.searchbox.connectView
-import com.algolia.instantsearch.helper.searcher.connectSearchBoxViewModel
+import com.algolia.instantsearch.helper.searchbox.connectSearcher
 import com.algolia.search.helper.deserialize
 import kotlinx.android.synthetic.main.demo_paging.*
 
@@ -22,7 +22,7 @@ class SearchOnSubmitDemo : DemoActivity() {
 
         val searchBoxViewModel = SearchBoxViewModel()
         searchBoxViewModel.connectView(searchView)
-        searcher.connectSearchBoxViewModel(searchBoxViewModel, false)
+        searchBoxViewModel.connectSearcher(searcher, false)
 
         val view = MovieAdapter()
         searcher.onResponseChanged += {
