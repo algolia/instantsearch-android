@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.demo_facet_list.*
 import kotlinx.android.synthetic.main.header_filter.*
 
 
-class FacetListDemo : AppCompatActivity() {
+class FacetListDemo : DemoActivity() {
 
     private val color = Attribute("color")
     private val promotions = Attribute("promotions")
@@ -32,19 +32,16 @@ class FacetListDemo : AppCompatActivity() {
     private val groupIDColor = FilterGroupID.And(color)
     private val groupIDPromotions = FilterGroupID.And(promotions)
     private val groupIDCategory = FilterGroupID.Or(category)
-    private val index = client.initIndex(IndexName("stub"))
     private val filterState = FilterState(
         facetGroups = mutableMapOf(
             FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
         )
     )
-    private val searcher = SearcherSingleIndex(index, filterState = filterState)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list)
-
-        searcher.index = client.initIndex(intent.indexName)
 
         val colorAViewModel = FacetListViewModel(selectionMode = SelectionMode.Single)
         val colorAPresenter = FacetListPresenter(listOf(IsRefined, AlphabeticalAscending), limit = 3)

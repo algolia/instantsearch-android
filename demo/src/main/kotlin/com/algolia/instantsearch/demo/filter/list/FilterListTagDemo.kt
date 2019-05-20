@@ -15,12 +15,11 @@ import kotlinx.android.synthetic.main.demo_filter_list.*
 import kotlinx.android.synthetic.main.header_filter.*
 
 
-class FilterListTagDemo : AppCompatActivity() {
+class FilterListTagDemo : DemoActivity() {
 
     private val tags = "tags"
     private val colors
         get() = mapOf(tags to ContextCompat.getColor(this, android.R.color.holo_green_dark))
-    private val index = client.initIndex(IndexName("stub"))
     private val tagFilters = listOf(
         Filter.Tag("free shipping"),
         Filter.Tag("coupon"),
@@ -28,14 +27,13 @@ class FilterListTagDemo : AppCompatActivity() {
         Filter.Tag("on sale"),
         Filter.Tag("no exchange")
     )
+
     private val groupIDTags = FilterGroupID.Or(tags)
-    private val searcher = SearcherSingleIndex(index)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_list)
-
-        searcher.index = client.initIndex(intent.indexName)
 
         val viewModelTag = FilterListViewModel.Tag(tagFilters)
         val viewTag = FilterListAdapter<Filter.Tag>()

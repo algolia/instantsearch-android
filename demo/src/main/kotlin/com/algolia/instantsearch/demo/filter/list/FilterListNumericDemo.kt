@@ -17,12 +17,11 @@ import kotlinx.android.synthetic.main.demo_filter_list.*
 import kotlinx.android.synthetic.main.header_filter.*
 
 
-class FilterListNumericDemo : AppCompatActivity() {
+class FilterListNumericDemo : DemoActivity() {
 
     private val price = Attribute("price")
     private val colors
         get() = mapOf(price.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark))
-    private val index = client.initIndex(IndexName("stub"))
     private val numericFilters = listOf(
         Filter.Numeric(price, NumericOperator.Less, 5),
         Filter.Numeric(price, 5..10),
@@ -32,13 +31,11 @@ class FilterListNumericDemo : AppCompatActivity() {
     )
 
     private val groupIDPrice = FilterGroupID.And(price)
-    private val searcher = SearcherSingleIndex(index)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_list)
-
-        searcher.index = client.initIndex(intent.indexName)
 
         val viewModelNumeric = FilterListViewModel.Numeric(numericFilters)
         val viewNumeric = FilterListAdapter<Filter.Numeric>()

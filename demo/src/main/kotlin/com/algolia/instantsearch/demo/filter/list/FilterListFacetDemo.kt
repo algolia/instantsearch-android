@@ -17,12 +17,11 @@ import kotlinx.android.synthetic.main.demo_filter_list.*
 import kotlinx.android.synthetic.main.header_filter.*
 
 
-class FilterListFacetDemo : AppCompatActivity() {
+class FilterListFacetDemo : DemoActivity() {
 
     private val color = Attribute("color")
     private val colors
         get() = mapOf(color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark))
-    private val index = client.initIndex(IndexName("stub"))
     private val facetFilters = listOf(
         Filter.Facet(color, "red"),
         Filter.Facet(color, "green"),
@@ -32,13 +31,11 @@ class FilterListFacetDemo : AppCompatActivity() {
     )
 
     private val groupIDColor = FilterGroupID.And(color)
-    private val searcher = SearcherSingleIndex(index)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_list)
-
-        searcher.index = client.initIndex(intent.indexName)
 
         val viewModelFacet = FilterListViewModel.Facet(facetFilters, selectionMode = SelectionMode.Single)
         val viewFacet = FilterListAdapter<Filter.Facet>()
