@@ -8,10 +8,11 @@ import com.algolia.instantsearch.demo.configureRecyclerView
 import com.algolia.instantsearch.demo.configureSearchView
 import com.algolia.instantsearch.demo.list.Movie
 import com.algolia.instantsearch.demo.list.MovieAdapter
-import com.algolia.instantsearch.helper.android.searchbox.connectView
+import com.algolia.instantsearch.helper.android.searchbox.SearchBox
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
+import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.search.helper.deserialize
-import kotlinx.android.synthetic.main.demo_paging.*
+import kotlinx.android.synthetic.main.demo_search_on_submit.*
 
 class SearchOnSubmitDemo : DemoActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +22,7 @@ class SearchOnSubmitDemo : DemoActivity() {
 
 
         val searchBoxViewModel = SearchBoxViewModel()
-        searchBoxViewModel.connectView(searchView)
+        searchBoxViewModel.connectView(SearchBox.Support(searchView))
         searchBoxViewModel.connectSearcher(searcher, false)
 
         val view = MovieAdapter()

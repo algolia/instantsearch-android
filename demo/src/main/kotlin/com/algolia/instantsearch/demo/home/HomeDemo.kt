@@ -8,8 +8,9 @@ import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.client
 import com.algolia.instantsearch.demo.configureRecyclerView
 import com.algolia.instantsearch.demo.showQueryHintIcon
-import com.algolia.instantsearch.helper.android.searchbox.connectView
+import com.algolia.instantsearch.helper.android.searchbox.SearchBox
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
+import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
@@ -30,7 +31,7 @@ class HomeDemo : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         val searchBoxViewModel = SearchBoxViewModel()
-        searchBoxViewModel.connectView(searchView)
+        searchBoxViewModel.connectView(SearchBox.Support(searchView))
         searchBoxViewModel.connectSearcher(searcher)
         searchView.also {
             it.isSubmitButtonEnabled = false

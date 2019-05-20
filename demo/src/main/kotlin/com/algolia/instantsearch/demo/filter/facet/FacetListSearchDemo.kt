@@ -5,9 +5,10 @@ import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.android.searchbox.connectView
+import com.algolia.instantsearch.helper.android.searchbox.SearchBox
 import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
+import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacet
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
@@ -43,7 +44,7 @@ class FacetListSearchDemo : DemoActivity() {
         viewModel.connectSearcherForFacet(searcherForFacet)
         viewModel.connectView(view, presenter)
         val searchBoxViewModel = SearchBoxViewModel()
-        searchBoxViewModel.connectView(searchView)
+        searchBoxViewModel.connectView(SearchBox.Support(searchView))
         searchBoxViewModel.connectSearcher(searcherForFacet)
         configureRecyclerView(list, view)
         configureSearchView(searchView)
