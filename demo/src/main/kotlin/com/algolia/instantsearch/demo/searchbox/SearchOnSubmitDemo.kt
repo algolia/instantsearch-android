@@ -22,7 +22,7 @@ class SearchOnSubmitDemo : DemoActivity() {
 
         val searchBoxViewModel = SearchBoxViewModel()
         searchBoxViewModel.connectView(searchView)
-        searcher.connectSearchBoxViewModel(searchBoxViewModel, false)
+        searchBoxViewModel.connectSearcher(searcher, false)
 
         val view = MovieAdapter()
         searcher.onResponseChanged += {
