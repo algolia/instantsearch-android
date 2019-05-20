@@ -67,6 +67,10 @@
             android:name=".filter.numeric.comparison.FilterComparisonDemo"
             android:parentActivityName=".home.HomeDemo" />
 
+        <activity
+            android:name="com.algolia.instantsearch.demo.searchbox.SearchOnSubmitDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
