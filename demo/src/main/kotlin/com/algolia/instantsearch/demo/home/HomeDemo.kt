@@ -3,11 +3,13 @@ package com.algolia.instantsearch.demo.home
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.client
 import com.algolia.instantsearch.demo.configureRecyclerView
 import com.algolia.instantsearch.demo.showQueryHintIcon
-import com.algolia.instantsearch.helper.android.searcher.connectSearchView
+import com.algolia.instantsearch.helper.android.searchbox.connectView
+import com.algolia.instantsearch.helper.android.searcher.connectSearchBoxViewModel
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
@@ -27,7 +29,9 @@ class HomeDemo : AppCompatActivity() {
         val hintText = getString(R.string.search_demos)
 
         setSupportActionBar(toolbar)
-        searcher.connectSearchView(searchView)
+        val searchBoxViewModel = SearchBoxViewModel()
+        searchBoxViewModel.connectView(searchView)
+        searcher.connectSearchBoxViewModel(searchBoxViewModel)
         searchView.also {
             it.isSubmitButtonEnabled = false
             it.isFocusable = true

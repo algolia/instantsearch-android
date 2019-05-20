@@ -3,9 +3,11 @@ package com.algolia.instantsearch.demo.filter.facet
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.android.searcher.connectSearchView
+import com.algolia.instantsearch.helper.android.searchbox.connectView
+import com.algolia.instantsearch.helper.android.searcher.connectSearchBoxViewModel
 import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.searcher.SearcherForFacet
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -47,7 +49,9 @@ class FacetListSearchDemo : AppCompatActivity() {
         viewModel.connectFilterState(brand, searcher.filterState)
         viewModel.connectSearcherForFacet(searcherForFacet)
         viewModel.connectView(view, presenter)
-        searcherForFacet.connectSearchView(searchView)
+        val searchBoxViewModel = SearchBoxViewModel()
+        searchBoxViewModel.connectView(searchView)
+        searcherForFacet.connectSearchBoxViewModel(searchBoxViewModel)
         configureRecyclerView(list, view)
         configureSearchView(searchView)
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
