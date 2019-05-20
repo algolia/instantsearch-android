@@ -7,7 +7,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.demo.list.Movie
-import com.algolia.instantsearch.demo.list.MovieAdapter
+import com.algolia.instantsearch.demo.list.PagedMovieAdapter
 import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
 import kotlinx.android.synthetic.main.demo_paging.*
 
@@ -22,7 +22,7 @@ class PagingSingleIndexDemo : DemoActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_paging)
 
-        val movieAdapter = MovieAdapter()
+        val movieAdapter = PagedMovieAdapter()
         movies.observe(this, Observer { hits -> movieAdapter.submitList(hits) })
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newText: String?): Boolean {
