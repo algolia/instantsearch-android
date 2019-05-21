@@ -5,6 +5,9 @@ import android.text.TextWatcher
 import android.view.View
 import com.algolia.instantsearch.helper.searchbox.SearchBoxView
 
+/**
+ * `SearchBox` is a reference SearchBoxView implementation, offering subclasses for both system and appcompat SearchViews and EditTexts.
+ */
 sealed class SearchBox(internal val view: View) : SearchBoxView {
     internal var submitListener: ((String?) -> Unit)? = null
     internal var changeListener: ((String?) -> Unit)? = null
