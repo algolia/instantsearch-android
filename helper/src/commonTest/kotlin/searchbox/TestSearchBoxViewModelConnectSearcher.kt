@@ -11,13 +11,17 @@ import shouldEqual
 import kotlin.test.Test
 
 class TestSearchBoxViewModelConnectSearcher {
-    @Test
-    fun connectSearchAsYouType() {
+    private fun setup(vararg expectedSearches: String): Triple<MockSearchBoxView, SearchBoxViewModel, MockSearcher> {
         val view = MockSearchBoxView()
         val viewModel = SearchBoxViewModel()
-        var round = 0
-        val mockSearcher = MockSearcher("4", "42")
+        val mockSearcher = MockSearcher(*expectedSearches)
         viewModel.connectView(view)
+        return Triple(view, viewModel, mockSearcher)
+    }
+
+    @Test
+    fun connectSearchAsYouType() {
+        val (view, viewModel, mockSearcher) = setup("4", "42")
         viewModel.connectSearcher(mockSearcher)
         view.text = "4"
         view.text = "42"
@@ -25,14 +29,27 @@ class TestSearchBoxViewModelConnectSearcher {
 
     @Test
     fun connectSearchOnSubmit() {
-        val view = MockSearchBoxView()
-        val viewModel = SearchBoxViewModel()
-        val mockSearcher = MockSearcher("42")
-        viewModel.connectView(view)
+        val (view, viewModel, mockSearcher) = setup("42")
         viewModel.connectSearcher(mockSearcher, false)
         view.text = "4"
         view.text = "42"
         view.submit()
+    }
+
+    @Test
+    fun connectUsesQueryHook() {
+        val (view, viewModel, mockSearcher) = setup("42")
+        var firstHookCall = true
+        viewModel.connectSearcher(mockSearcher, queryHook = {
+            if (firstHookCall) {
+                firstHookCall = false
+                false
+            } else {
+                true
+            }
+        })
+        view.text = "4"
+        view.text = "42"
     }
 
     private class MockSearcher(vararg val expectedSearches: String) : Searcher {
