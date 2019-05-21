@@ -8,6 +8,7 @@ import com.algolia.instantsearch.demo.filter.list.FilterListAllDemo
 import com.algolia.instantsearch.demo.filter.list.FilterListFacetDemo
 import com.algolia.instantsearch.demo.filter.list.FilterListNumericDemo
 import com.algolia.instantsearch.demo.filter.list.FilterListTagDemo
+import com.algolia.instantsearch.demo.filter.numeric.comparison.FilterComparisonDemo
 import com.algolia.instantsearch.demo.filter.segment.FilterSegmentDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDefaultDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo
@@ -25,5 +26,6 @@ val homeActivities = mapOf(
     ObjectID("filter_list_tag") to FilterListTagDemo::class,
     ObjectID("facet_list") to FacetListDemo::class,
     ObjectID("facet_list_search") to FacetListSearchDemo::class,
-    ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class
+    ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,
+    ObjectID("filter_numeric_comparison") to FilterComparisonDemo::class
 )

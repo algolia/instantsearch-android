@@ -73,7 +73,7 @@ public class SearcherSingleIndex(
                 }
             }
         }
-//        sequencer.addOperation(job)
+        sequencer.addOperation(job)
         return job
     }
 
