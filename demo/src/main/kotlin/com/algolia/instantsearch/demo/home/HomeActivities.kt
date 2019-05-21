@@ -13,6 +13,7 @@ import com.algolia.instantsearch.demo.filter.segment.FilterSegmentDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDefaultDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo
 import com.algolia.instantsearch.demo.list.paging.PagingSingleIndexDemo
+import com.algolia.instantsearch.demo.searchbox.SearchEditTextDemo
 import com.algolia.instantsearch.demo.searchbox.SearchOnSubmitDemo
 import com.algolia.search.model.ObjectID
 
@@ -30,5 +31,6 @@ val homeActivities = mapOf(
     ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,
     ObjectID("filter_numeric_comparison") to FilterComparisonDemo::class,
     ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,
-    ObjectID("search_on_submit") to SearchOnSubmitDemo::class
+    ObjectID("search_on_submit") to SearchOnSubmitDemo::class,
+    ObjectID("search_editable_text") to SearchEditTextDemo::class
 )
