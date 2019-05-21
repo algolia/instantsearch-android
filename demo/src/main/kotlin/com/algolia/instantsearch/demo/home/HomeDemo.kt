@@ -31,7 +31,7 @@ class HomeDemo : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         val searchBoxViewModel = SearchBoxViewModel()
-        searchBoxViewModel.connectView(SearchBox.Support(searchView))
+        searchBoxViewModel.connectView(SearchBox.SearchView.Support(searchView))
         searchBoxViewModel.connectSearcher(searcher)
         searchView.also {
             it.isSubmitButtonEnabled = false

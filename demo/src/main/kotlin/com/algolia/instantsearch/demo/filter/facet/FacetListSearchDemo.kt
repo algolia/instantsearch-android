@@ -44,7 +44,7 @@ class FacetListSearchDemo : DemoActivity() {
         viewModel.connectSearcherForFacet(searcherForFacet)
         viewModel.connectView(view, presenter)
         val searchBoxViewModel = SearchBoxViewModel()
-        searchBoxViewModel.connectView(SearchBox.Support(searchView))
+        searchBoxViewModel.connectView(SearchBox.SearchView.Support(searchView))
         searchBoxViewModel.connectSearcher(searcherForFacet)
         configureRecyclerView(list, view)
         configureSearchView(searchView)
