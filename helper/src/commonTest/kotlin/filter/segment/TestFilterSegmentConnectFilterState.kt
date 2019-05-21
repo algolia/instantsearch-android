@@ -35,7 +35,7 @@ class TestFilterSegmentConnectFilterState {
 
         viewModel.connectFilterState(filterState, groupID)
         viewModel.computeSelected(id)
-        filterState.filters shouldEqual expectedFilterState.filters
+        filterState shouldEqual expectedFilterState
     }
 
     @Test

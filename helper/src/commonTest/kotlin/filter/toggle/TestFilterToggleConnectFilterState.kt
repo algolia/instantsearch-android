@@ -15,7 +15,7 @@ class TestFilterToggleConnectFilterState {
     private val color = Attribute("color")
     private val red = Filter.Facet(color, "red")
     private val blue = Filter.Facet(color, "blue")
-    private val groupID = FilterGroupID.Or(color)
+    private val groupID = FilterGroupID.And(color)
     private val expectedFilterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
     private val expectedFilterStateDefault = FilterState(facetGroups = mutableMapOf(groupID to setOf(blue)))
 
@@ -23,7 +23,7 @@ class TestFilterToggleConnectFilterState {
     fun connectShouldUpdateIsSelectedWithFilterState() {
         val viewModel = FilterToggleViewModel(red)
 
-        viewModel.connectFilterState(expectedFilterState)
+        viewModel.connectFilterState(expectedFilterState, groupID = groupID)
         viewModel.isSelected shouldEqual true
     }
 
@@ -32,7 +32,7 @@ class TestFilterToggleConnectFilterState {
         val viewModel = FilterToggleViewModel(red)
         val filterState = FilterState()
 
-        viewModel.connectFilterState(filterState)
+        viewModel.connectFilterState(filterState, groupID = groupID)
         viewModel.computeIsSelected(true)
         filterState shouldEqual expectedFilterState
     }
@@ -42,7 +42,7 @@ class TestFilterToggleConnectFilterState {
         val viewModel = FilterToggleViewModel(red)
         val filterState = FilterState()
 
-        viewModel.connectFilterState(filterState)
+        viewModel.connectFilterState(filterState, groupID = groupID)
         filterState.notify { add(groupID, red) }
         viewModel.isSelected shouldEqual true
     }
@@ -52,7 +52,7 @@ class TestFilterToggleConnectFilterState {
         val viewModel = FilterToggleViewModel(red)
         val filterState = FilterState()
 
-        viewModel.connectFilterState(filterState, blue)
+        viewModel.connectFilterState(filterState, blue, groupID)
         filterState shouldEqual expectedFilterStateDefault
         viewModel.computeIsSelected(true)
         filterState shouldEqual expectedFilterState

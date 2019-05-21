@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.demo_filter_toggle_default.*
 import kotlinx.android.synthetic.main.header_filter.*
 
 
-class FilterToggleDefault : AppCompatActivity() {
+class FilterToggleDefaultDemo : AppCompatActivity() {
 
     private val popular = Attribute("popular")
     private val colors
@@ -27,7 +27,7 @@ class FilterToggleDefault : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.demo_filter_toggle)
+        setContentView(R.layout.demo_filter_toggle_default)
 
         searcher.index = client.initIndex(intent.indexName)
 

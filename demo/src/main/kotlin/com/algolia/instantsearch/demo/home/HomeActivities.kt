@@ -9,6 +9,7 @@ import com.algolia.instantsearch.demo.filter.list.FilterListFacetDemo
 import com.algolia.instantsearch.demo.filter.list.FilterListNumericDemo
 import com.algolia.instantsearch.demo.filter.list.FilterListTagDemo
 import com.algolia.instantsearch.demo.filter.segment.FilterSegmentDemo
+import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDefaultDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo
 import com.algolia.instantsearch.demo.list.paging.PagingSingleIndexDemo
 import com.algolia.search.model.ObjectID
@@ -16,6 +17,7 @@ import com.algolia.search.model.ObjectID
 
 val homeActivities = mapOf(
     ObjectID("filter_toggle") to FilterToggleDemo::class,
+    ObjectID("filter_toggle_default") to FilterToggleDefaultDemo::class,
     ObjectID("filter_segment") to FilterSegmentDemo::class,
     ObjectID("filter_list_all") to FilterListAllDemo::class,
     ObjectID("filter_list_numeric") to FilterListNumericDemo::class,

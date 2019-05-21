@@ -60,7 +60,7 @@
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name=".filter.toggle.FilterToggleDefault"
+            android:name=".filter.toggle.FilterToggleDefaultDemo"
             android:parentActivityName=".home.HomeDemo" />
 
     </application>
