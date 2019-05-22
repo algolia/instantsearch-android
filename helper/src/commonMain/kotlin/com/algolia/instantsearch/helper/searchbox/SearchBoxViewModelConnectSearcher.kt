@@ -21,8 +21,8 @@ inline fun SearchBoxViewModel.connectSearcher(
         }
     }
     if (searchAsYouType) {
-        changeListeners = changeListeners + triggerSearch
+        onChanged = onChanged + triggerSearch
     } else {
-        submitListeners = submitListeners + triggerSearch
+        onSubmitted = onSubmitted + triggerSearch
     }
 }
