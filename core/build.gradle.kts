@@ -7,6 +7,7 @@ plugins {
     id("kotlin-multiplatform")
     id("maven-publish")
     id("com.jfrog.bintray") version "1.8.4"
+    id("com.github.ben-manes.versions") version "0.21.0"
 }
 
 group = Library.group
