@@ -14,7 +14,7 @@ import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDefaultDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo
 import com.algolia.instantsearch.demo.list.paging.PagingSingleIndexDemo
 import com.algolia.instantsearch.demo.searchbox.SearchEditTextDemo
-import com.algolia.instantsearch.demo.searchbox.SearchOnSubmitDemo
+import com.algolia.instantsearch.demo.searchbox.SearchBoxOnSubmitDemo
 import com.algolia.search.model.ObjectID
 
 

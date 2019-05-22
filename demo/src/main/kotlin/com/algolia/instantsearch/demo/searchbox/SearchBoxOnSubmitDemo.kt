@@ -13,7 +13,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.helper.deserialize
 import kotlinx.android.synthetic.main.demo_search_on_submit.*
 
-class SearchOnSubmitDemo : AppCompatActivity() {
+class SearchBoxOnSubmitDemo : AppCompatActivity() {
     private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -68,7 +68,7 @@
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name="com.algolia.instantsearch.demo.searchbox.SearchOnSubmitDemo"
+            android:name="com.algolia.instantsearch.demo.searchbox.SearchBoxOnSubmitDemo"
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
