@@ -13,7 +13,7 @@ import com.algolia.search.helper.deserialize
 import kotlinx.android.synthetic.main.demo_paging.*
 
 
-class SearchOnSubmitDemo : AppCompatActivity() {
+class SearchBoxOnSubmitDemo : AppCompatActivity() {
     private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
