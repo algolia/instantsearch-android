@@ -8,7 +8,7 @@ import kotlin.properties.Delegates
  * It lets you define an arbitrary number of listeners,
  * for both [text change][onChanged] and [submit][onSubmitted] events.
  */
-class SearchBoxViewModel {
+public class SearchBoxViewModel {
     var query by Delegates.observable<String?>(null) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             onChanged.forEach { it(newValue) }
