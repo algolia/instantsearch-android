@@ -9,7 +9,7 @@ import com.algolia.instantsearch.helper.searcher.Searcher
  * @param searchAsYouType when `false`, the search is only triggered on [submit][SearchBoxViewModel.submit].
  * @param queryHook a function that will receive each new query and returns `true` when a trigger should be sent.
  */
-inline fun SearchBoxViewModel.connectSearcher(
+public inline fun SearchBoxViewModel.connectSearcher(
     searcher: Searcher,
     searchAsYouType: Boolean = true,
     crossinline queryHook: QueryHook = { _ -> true }

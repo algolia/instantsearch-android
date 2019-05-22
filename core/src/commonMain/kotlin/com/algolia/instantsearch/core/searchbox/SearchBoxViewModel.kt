@@ -9,16 +9,16 @@ import kotlin.properties.Delegates
  * for both [text change][onChanged] and [submit][onSubmitted] events.
  */
 public class SearchBoxViewModel {
-    var query by Delegates.observable<String?>(null) { _, oldValue, newValue ->
+    public var query by Delegates.observable<String?>(null) { _, oldValue, newValue ->
         if (oldValue != newValue) {
             onChanged.forEach { it(newValue) }
         }
     }
 
-    fun submit() {
+    public fun submit() {
         onSubmitted.forEach { it(query) }
     }
 
-    var onChanged: List<(String?) -> Unit> = listOf()
-    var onSubmitted: List<(String?) -> Unit> = listOf()
+    public var onChanged: List<(String?) -> Unit> = listOf()
+    public var onSubmitted: List<(String?) -> Unit> = listOf()
 }
