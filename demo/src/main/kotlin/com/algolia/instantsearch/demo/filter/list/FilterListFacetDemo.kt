@@ -22,7 +22,6 @@ class FilterListFacetDemo : AppCompatActivity() {
     private val color = Attribute("color")
     private val colors
         get() = mapOf(color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark))
-    private val index = client.initIndex(IndexName("stub"))
     private val facetFilters = listOf(
         Filter.Facet(color, "red"),
         Filter.Facet(color, "green"),
@@ -32,7 +31,7 @@ class FilterListFacetDemo : AppCompatActivity() {
     )
 
     private val groupIDColor = FilterGroupID.And(color)
-    private val searcher = SearcherSingleIndex(index)
+    private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

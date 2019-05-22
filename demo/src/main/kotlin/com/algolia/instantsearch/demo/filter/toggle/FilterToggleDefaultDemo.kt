@@ -10,7 +10,6 @@ import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
 import com.algolia.instantsearch.helper.filter.toggle.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import kotlinx.android.synthetic.main.demo_filter_toggle_default.*
 import kotlinx.android.synthetic.main.header_filter.*
@@ -22,8 +21,7 @@ class FilterToggleDefaultDemo : AppCompatActivity() {
     private val colors
         get() = mapOf(popular.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark))
 
-    private val index = client.initIndex(IndexName("stub"))
-    private val searcher = SearcherSingleIndex(index)
+    private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

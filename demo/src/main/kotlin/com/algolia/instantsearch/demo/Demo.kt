@@ -38,6 +38,8 @@ val client = ClientSearch(
     )
 )
 
+val stubIndex = client.initIndex(IndexName("stub"))
+
 fun AppCompatActivity.configureToolbar() {
     setSupportActionBar(toolbar)
     supportActionBar?.let {

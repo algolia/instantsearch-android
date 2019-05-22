@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.demo_paging.*
 
 class PagingSingleIndexDemo : AppCompatActivity() {
 
-    private val searcher = SearcherSingleIndex(client.initIndex(IndexName("stub")))
+    private val searcher = SearcherSingleIndex(stubIndex)
     private val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Movie.serializer())
     private val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
     private val movies = LivePagedListBuilder<Int, Movie>(dataSourceFactory, pagedListConfig).build()

@@ -30,7 +30,6 @@ class FilterListAllDemo : AppCompatActivity() {
             tags to ContextCompat.getColor(this, android.R.color.holo_green_dark),
             all to ContextCompat.getColor(this, android.R.color.holo_purple)
         )
-    private val index = client.initIndex(IndexName("stub"))
     private val allFilters = listOf(
         Filter.Numeric(price, 5..10),
         Filter.Tag("coupon"),
@@ -40,7 +39,7 @@ class FilterListAllDemo : AppCompatActivity() {
     )
 
     private val groupIDAll = FilterGroupID.And(all)
-    private val searcher = SearcherSingleIndex(index)
+    private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

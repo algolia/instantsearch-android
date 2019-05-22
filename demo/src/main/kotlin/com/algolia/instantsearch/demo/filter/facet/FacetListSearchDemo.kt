@@ -13,7 +13,6 @@ import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacet
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import kotlinx.android.synthetic.main.demo_home.*
 import kotlinx.android.synthetic.main.header_filter.*
 
@@ -21,13 +20,12 @@ import kotlinx.android.synthetic.main.header_filter.*
 class FacetListSearchDemo : AppCompatActivity() {
 
     private val brand = Attribute("brand")
-    private val index = client.initIndex(IndexName("stub"))
     private val colors
         get() = mapOf(
             brand.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark)
         )
-    private val searcher = SearcherSingleIndex(index)
-    private val searcherForFacet = SearcherForFacet(index, brand)
+    private val searcher = SearcherSingleIndex(stubIndex)
+    private val searcherForFacet = SearcherForFacet(stubIndex, brand)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

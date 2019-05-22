@@ -25,9 +25,8 @@ class FilterSegmentDemo : AppCompatActivity() {
             gender.raw to ContextCompat.getColor(this, android.R.color.holo_orange_light)
         )
 
-    private val index = client.initIndex(IndexName("stub"))
     private val groupID = FilterGroupID.And(gender)
-    private val searcher = SearcherSingleIndex(index)
+    private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

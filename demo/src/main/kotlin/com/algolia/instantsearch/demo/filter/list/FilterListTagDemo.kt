@@ -20,7 +20,6 @@ class FilterListTagDemo : AppCompatActivity() {
     private val tags = "tags"
     private val colors
         get() = mapOf(tags to ContextCompat.getColor(this, android.R.color.holo_green_dark))
-    private val index = client.initIndex(IndexName("stub"))
     private val tagFilters = listOf(
         Filter.Tag("free shipping"),
         Filter.Tag("coupon"),
@@ -29,7 +28,7 @@ class FilterListTagDemo : AppCompatActivity() {
         Filter.Tag("no exchange")
     )
     private val groupIDTags = FilterGroupID.Or(tags)
-    private val searcher = SearcherSingleIndex(index)
+    private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

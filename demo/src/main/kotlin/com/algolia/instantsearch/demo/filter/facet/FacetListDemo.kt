@@ -11,7 +11,6 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import kotlinx.android.synthetic.main.demo_facet_list.*
 import kotlinx.android.synthetic.main.header_filter.*
@@ -32,13 +31,12 @@ class FacetListDemo : AppCompatActivity() {
     private val groupIDColor = FilterGroupID.And(color)
     private val groupIDPromotions = FilterGroupID.And(promotions)
     private val groupIDCategory = FilterGroupID.Or(category)
-    private val index = client.initIndex(IndexName("stub"))
     private val filterState = FilterState(
         facetGroups = mutableMapOf(
             FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
         )
     )
-    private val searcher = SearcherSingleIndex(index, filterState = filterState)
+    private val searcher = SearcherSingleIndex(stubIndex, filterState = filterState)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

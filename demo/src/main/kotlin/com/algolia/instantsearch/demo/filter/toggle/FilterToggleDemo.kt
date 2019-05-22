@@ -29,8 +29,7 @@ class FilterToggleDemo : AppCompatActivity() {
             tags to ContextCompat.getColor(this, android.R.color.holo_purple)
         )
 
-    private val index = client.initIndex(IndexName("stub"))
-    private val searcher = SearcherSingleIndex(index)
+    private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
