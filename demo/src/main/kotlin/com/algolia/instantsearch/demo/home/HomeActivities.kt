@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.demo.home
 
 import com.algolia.instantsearch.demo.filter.facet.FacetListDemo
+import com.algolia.instantsearch.demo.filter.facet.FacetListPersistentDemo
 import com.algolia.instantsearch.demo.filter.facet.FacetListSearchDemo
 import com.algolia.instantsearch.demo.filter.list.FilterListAllDemo
 import com.algolia.instantsearch.demo.filter.list.FilterListFacetDemo
@@ -25,6 +26,7 @@ val homeActivities = mapOf(
     ObjectID("filter_list_facet") to FilterListFacetDemo::class,
     ObjectID("filter_list_tag") to FilterListTagDemo::class,
     ObjectID("facet_list") to FacetListDemo::class,
+    ObjectID("facet_list_persistent") to FacetListPersistentDemo::class,
     ObjectID("facet_list_search") to FacetListSearchDemo::class,
     ObjectID("filter_numeric_comparison") to FilterComparisonDemo::class,
     ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,

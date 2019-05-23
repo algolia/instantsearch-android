@@ -58,13 +58,13 @@ class TestFacetListConnectFilterState {
                 groupID to setOf(filterRed, filterGreen)
             )
         )
-        val viewModelFacets = FacetListViewModel(selectionMode = SelectionMode.Single).apply {
+        val viewModel = FacetListViewModel(selectionMode = SelectionMode.Single).apply {
             items = listOf(red)
         }
 
-        viewModelFacets.connectFilterState(color, filterState, groupID)
-        viewModelFacets.selections shouldEqual setOf(red.value, green.value)
-        viewModelFacets.computeSelections(red.value)
+        viewModel.connectFilterState(color, filterState, groupID)
+        viewModel.selections shouldEqual setOf(red.value, green.value)
+        viewModel.computeSelections(red.value)
         filterState shouldEqual FilterState()
     }
 
@@ -75,17 +75,34 @@ class TestFacetListConnectFilterState {
                 groupID to setOf(filterRed, filterGreen)
             )
         )
-        val viewModelFacets = FacetListViewModel(selectionMode = SelectionMode.Multiple).apply {
+        val viewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple).apply {
             items = listOf(red)
         }
 
-        viewModelFacets.connectFilterState(color, filterState, groupID)
-        viewModelFacets.selections shouldEqual setOf(red.value, green.value)
-        viewModelFacets.computeSelections(red.value)
+        viewModel.connectFilterState(color, filterState, groupID)
+        viewModel.selections shouldEqual setOf(red.value, green.value)
+        viewModel.computeSelections(red.value)
         filterState shouldEqual FilterState(
             facetGroups = mutableMapOf(
                 groupID to setOf(filterGreen)
             )
         )
+    }
+
+    @Test
+    fun facetPersistentSelection() {
+        val filterState = FilterState(
+            facetGroups = mutableMapOf(
+                groupID to setOf(filterRed, filterGreen)
+            )
+        )
+        val viewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple, persistentSelection = true).apply {
+            items = listOf(red)
+        }
+
+        viewModel.connectFilterState(color, filterState, groupID)
+        viewModel.selections shouldEqual setOf(red.value, green.value)
+        viewModel.computeSelections(green.value)
+        viewModel.selections shouldEqual setOf(red.value)
     }
 }

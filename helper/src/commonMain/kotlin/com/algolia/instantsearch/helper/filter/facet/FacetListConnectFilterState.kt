@@ -11,14 +11,19 @@ public fun FacetListViewModel.connectFilterState(
     filterState: FilterState,
     groupID: FilterGroupID = FilterGroupID.Or(attribute)
 ) {
-    onSelectionsComputed += { selections ->
-        val filters = selections.map { Filter.Facet(attribute, it) }.toSet()
-        val current = items.map { Filter.Facet(attribute, it.value) }.toSet()
+    onSelectionsComputed += { computed ->
+        val filters = computed.map { Filter.Facet(attribute, it) }.toSet()
 
         filterState.notify {
             when (selectionMode) {
                 SelectionMode.Single -> clear(groupID)
-                SelectionMode.Multiple -> remove(groupID, current)
+                SelectionMode.Multiple -> {
+                    val currentFilters = items.map { Filter.Facet(attribute, it.value) }.toSet()
+                    val currentSelections = selections.map { Filter.Facet(attribute, it) }
+                    val facetsToRemove = if (persistentSelection) currentFilters + currentSelections else currentFilters
+
+                    remove(groupID, facetsToRemove)
+                }
             }
             add(groupID, filters)
         }
