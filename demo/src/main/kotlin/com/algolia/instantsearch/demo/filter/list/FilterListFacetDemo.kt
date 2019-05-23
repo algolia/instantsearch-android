@@ -47,7 +47,7 @@ class FilterListFacetDemo : AppCompatActivity() {
         viewModelFacet.connectView(viewFacet)
 
         configureRecyclerView(list, viewFacet)
-        onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)

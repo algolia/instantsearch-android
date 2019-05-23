@@ -13,7 +13,7 @@ public class FilterState(
         numericGroups: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf()
     ) : this(MutableFiltersImpl(facetGroups, tagGroups, numericGroups))
 
-    public val onChange: MutableList<(Filters) -> Unit> = mutableListOf()
+    public val onChanged: MutableList<(Filters) -> Unit> = mutableListOf()
 
     public fun notify(block: MutableFilters.() -> Unit) {
         block(filters)
@@ -21,13 +21,17 @@ public class FilterState(
     }
 
     public fun notifyChange() {
-        onChange.forEach { it(filters) }
+        onChanged.forEach { it(filters) }
     }
 
     override fun equals(other: Any?): Boolean {
         return if (other is FilterState) filters == other.filters else false
     }
 
+    override fun hashCode(): Int {
+        return filters.hashCode()
+    }
+
     override fun toString(): String =
-        "FilterState(filters=$filters, onStateChanged=${onChange.size} listener${if (onChange.size > 1) "s" else ""})"
+        "FilterState(filters=$filters, onStateChanged=${onChanged.size} listener${if (onChanged.size > 1) "s" else ""})"
 }

@@ -48,10 +48,10 @@ internal inline fun <reified T : Filter> FilterListViewModel<T>.connect(
             add(groupID, selections)
         }
     }
-    val onChange: (Filters) -> Unit = { filters ->
+    val onChanged: (Filters) -> Unit = { filters ->
         selections = filters.getSelections()
     }
 
-    onChange(filterState)
-    filterState.onChange += onChange
+    onChanged(filterState)
+    filterState.onChanged += onChanged
 }

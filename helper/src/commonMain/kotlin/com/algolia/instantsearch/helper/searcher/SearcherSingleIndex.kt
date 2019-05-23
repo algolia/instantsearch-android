@@ -49,7 +49,7 @@ public class SearcherSingleIndex(
 
     init {
         updateFilters()
-        filterState.onChange += {
+        filterState.onChanged += {
             updateFilters()
             search()
         }

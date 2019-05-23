@@ -47,13 +47,13 @@ fun AppCompatActivity.configureToolbar() {
     }
 }
 
-fun AppCompatActivity.onChangeThenUpdateFiltersText(
+fun AppCompatActivity.onFilterChangedThenUpdateFiltersText(
     filterState: FilterState,
     colors: Map<String, Int>,
     filtersTextView: TextView
 ) {
     filtersTextView.text = filterState.toFilterGroups().highlight(colors = colors)
-    filterState.onChange += {
+    filterState.onChanged += {
         filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
     }
 }

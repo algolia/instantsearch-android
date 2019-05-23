@@ -22,7 +22,7 @@ public inline fun <reified T : Number> SelectableNumberViewModel<T>.connectFilte
         }
     }
 
-    val onChange: (Filters) -> Unit = { filters ->
+    val onChanged: (Filters) -> Unit = { filters ->
         number = filters
             .getNumericFilters(groupID)
             .filter { it.attribute == attribute }
@@ -32,6 +32,6 @@ public inline fun <reified T : Number> SelectableNumberViewModel<T>.connectFilte
             ?.number as? T?
     }
 
-    onChange(filterState)
-    filterState.onChange += onChange
+    onChanged(filterState)
+    filterState.onChanged += onChanged
 }
