@@ -53,7 +53,6 @@ class FilterListAllDemo : AppCompatActivity() {
         viewModelAll.connectView(viewAll)
 
         configureRecyclerView(list, viewAll)
-
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
