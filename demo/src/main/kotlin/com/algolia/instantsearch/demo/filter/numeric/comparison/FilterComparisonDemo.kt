@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.core.selectable.number.SelectableNumberViewModel
+import com.algolia.instantsearch.core.selectable.range.Range
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.numeric.comparison.computeBoundsFromFacetStats
 import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
@@ -15,7 +16,9 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.NumericOperator
 import kotlinx.android.synthetic.main.demo_filter_comparison.*
 import kotlinx.android.synthetic.main.header_filter.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class FilterComparisonDemo : AppCompatActivity() {
@@ -61,12 +64,18 @@ class FilterComparisonDemo : AppCompatActivity() {
 
         searcher.launch {
             searcher.search().join()
-            println(searcher.response)
             searcher.response?.facetStatsOrNull?.let {
                 priceViewModel.computeBoundsFromFacetStats(price, it)
                 yearViewModel.computeBoundsFromFacetStats(year, it)
+                withContext(Dispatchers.Main) {
+                    inputHint.text =  getInputHint(yearViewModel.bounds!!)
+                }
             }
         }
+    }
+
+    private fun getInputHint(bounds: Range<Int>): String {
+        return getString(R.string.year_range, bounds.min, bounds.max)
     }
 
     override fun onDestroy() {

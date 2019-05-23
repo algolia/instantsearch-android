@@ -74,6 +74,19 @@
         tools:text="year = "
         android:layout_height="wrap_content"/>
 
+    <TextView
+        android:id="@+id/inputHint"
+        app:layout_constraintTop_toBottomOf="@id/inputText"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        tools:text="from 2016 to 2019"
+        app:layout_constraintHorizontal_bias="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/inputEditText"
         android:imeOptions="actionDone"
