@@ -99,19 +99,12 @@ fun AppCompatActivity.configureRecyclerView(
 val Intent.indexName: IndexName get() = IndexName(extras!!.getString(KeyIndexName)!!)
 
 fun AppCompatActivity.configureSearchView(
-    searchView: SearchView,
-    searchAsYouType: Boolean = true
+    searchView: SearchView
 ) {
     searchView.also {
         val initialHintText = searchView.queryHint.toString()
         val hintIcon = ContextCompat.getDrawable(this, R.drawable.ic_search_hint)!!
-        if (searchAsYouType) {
-            it.isSubmitButtonEnabled = false
-            it.isFocusable = true
-        } else {
-            it.isSubmitButtonEnabled = true
-            it.isFocusable = false
-        }
+
         it.setIconifiedByDefault(false)
         it.setOnQueryTextFocusChangeListener { _, hasFocus ->
             searchView.showQueryHintIcon(!hasFocus, hintIcon, initialHintText)

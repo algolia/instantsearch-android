@@ -68,11 +68,11 @@
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name="com.algolia.instantsearch.demo.searchbox.SearchBoxOnSubmitDemo"
+            android:name="com.algolia.instantsearch.demo.search.SearchOnSubmitDemo"
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name="com.algolia.instantsearch.demo.searchbox.SearchEditTextDemo"
+            android:name="com.algolia.instantsearch.demo.search.SearchAsYouTypeDemo"
             android:parentActivityName=".home.HomeDemo" />
 
     </application>

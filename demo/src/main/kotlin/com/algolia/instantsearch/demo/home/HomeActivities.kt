@@ -1,5 +1,3 @@
-@file:JvmName("HomeDemoKt")
-
 package com.algolia.instantsearch.demo.home
 
 import com.algolia.instantsearch.demo.filter.facet.FacetListDemo
@@ -13,8 +11,8 @@ import com.algolia.instantsearch.demo.filter.segment.FilterSegmentDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDefaultDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo
 import com.algolia.instantsearch.demo.list.paging.PagingSingleIndexDemo
-import com.algolia.instantsearch.demo.searchbox.SearchEditTextDemo
-import com.algolia.instantsearch.demo.searchbox.SearchBoxOnSubmitDemo
+import com.algolia.instantsearch.demo.search.SearchAsYouTypeDemo
+import com.algolia.instantsearch.demo.search.SearchOnSubmitDemo
 import com.algolia.search.model.ObjectID
 
 
@@ -28,9 +26,8 @@ val homeActivities = mapOf(
     ObjectID("filter_list_tag") to FilterListTagDemo::class,
     ObjectID("facet_list") to FacetListDemo::class,
     ObjectID("facet_list_search") to FacetListSearchDemo::class,
-    ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,
     ObjectID("filter_numeric_comparison") to FilterComparisonDemo::class,
     ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,
     ObjectID("search_on_submit") to SearchOnSubmitDemo::class,
-    ObjectID("search_editable_text") to SearchEditTextDemo::class
+    ObjectID("search_as_you_type") to SearchAsYouTypeDemo::class
 )

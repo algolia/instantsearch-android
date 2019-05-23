@@ -19,7 +19,7 @@ public class SearcherForFacet(
     var facetQuery: String? = null,
     val requestOptions: RequestOptions? = null,
     override val dispatcher: CoroutineDispatcher = Dispatchers.Main
-) : Searcher, CoroutineScope {
+) : Searcher {
 
     internal val sequencer = Sequencer()
 

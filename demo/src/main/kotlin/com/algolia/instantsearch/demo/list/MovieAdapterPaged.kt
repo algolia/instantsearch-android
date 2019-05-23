@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.demo.list
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagedListAdapter
 
 
-class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(DiffUtilMovie) {
+class MovieAdapterPaged : PagedListAdapter<Movie, MovieViewHolder>(DiffUtilMovie) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return createMovieViewHolder(parent)

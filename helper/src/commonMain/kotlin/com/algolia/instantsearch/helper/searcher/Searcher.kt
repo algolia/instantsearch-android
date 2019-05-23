@@ -1,10 +1,11 @@
 package com.algolia.instantsearch.helper.searcher
 
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
 
-public interface Searcher {
+public interface Searcher: CoroutineScope {
 
     val dispatcher: CoroutineDispatcher
 

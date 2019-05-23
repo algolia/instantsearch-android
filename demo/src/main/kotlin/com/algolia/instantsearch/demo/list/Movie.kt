@@ -4,6 +4,7 @@ import com.algolia.search.model.ObjectID
 import com.algolia.search.model.indexing.Indexable
 import kotlinx.serialization.Serializable
 
+
 @Serializable
 data class Movie(
     val title: String,

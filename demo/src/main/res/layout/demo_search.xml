@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".search.SearchAsYouTypeDemo"
     android:layout_width="match_parent"
-    tools:context=".searchbox.SearchEditTextDemo"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
@@ -21,12 +21,11 @@
             android:clipChildren="false"
             android:clipToPadding="false">
 
-            <EditText
-                android:id="@+id/editText"
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
                 android:layout_width="0dp"
-                android:hint="@string/search_movies"
-                android:maxLines="1"
-                android:inputType="text"
+                app:queryHint="@string/search_movies"
+                android:focusable="false"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/microphone"

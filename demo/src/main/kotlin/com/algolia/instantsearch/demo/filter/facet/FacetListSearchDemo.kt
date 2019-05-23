@@ -6,10 +6,9 @@ import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.android.searchbox.SearchBox
+import com.algolia.instantsearch.helper.android.searchbox.connectSearchView
 import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
-import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacet
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
@@ -38,20 +37,23 @@ class FacetListSearchDemo : AppCompatActivity() {
         searcher.index = index
         searcherForFacet.index = index
 
-        val viewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple)
-        val view = FacetListAdapter()
-        val presenter = FacetListPresenter(
+        val facetViewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple)
+        val facetView = FacetListAdapter()
+        val facetPresenter = FacetListPresenter(
             sortBy = listOf(FacetSortCriterion.IsRefined, FacetSortCriterion.CountDescending),
             limit = 100
         )
 
-        viewModel.connectFilterState(brand, searcher.filterState)
-        viewModel.connectSearcherForFacet(searcherForFacet)
-        viewModel.connectView(view, presenter)
+        facetViewModel.connectFilterState(brand, searcher.filterState)
+        facetViewModel.connectSearcherForFacet(searcherForFacet)
+        facetViewModel.connectView(facetView, facetPresenter)
+
         val searchBoxViewModel = SearchBoxViewModel()
-        searchBoxViewModel.connectView(SearchBox.SearchView.Support(searchView))
+
+        searchBoxViewModel.connectSearchView(searchView)
         searchBoxViewModel.connectSearcher(searcherForFacet)
-        configureRecyclerView(list, view)
+
+        configureRecyclerView(list, facetView)
         configureSearchView(searchView)
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)

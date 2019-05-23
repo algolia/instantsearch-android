@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.demo.searchbox
+package com.algolia.instantsearch.demo.search
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,34 +6,43 @@ import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.demo.list.Movie
 import com.algolia.instantsearch.demo.list.MovieAdapter
-import com.algolia.instantsearch.helper.android.searchbox.SearchBox
+import com.algolia.instantsearch.helper.android.searchbox.connectSearchView
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
-import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.helper.deserialize
-import kotlinx.android.synthetic.main.demo_search_on_submit.*
+import kotlinx.android.synthetic.main.demo_search.*
 
-class SearchBoxOnSubmitDemo : AppCompatActivity() {
+
+class SearchAsYouTypeDemo : AppCompatActivity() {
+
     private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.demo_search_on_submit)
+        setContentView(R.layout.demo_search)
         setSupportActionBar(toolbar)
 
         searcher.index = client.initIndex(intent.indexName)
 
         val searchBoxViewModel = SearchBoxViewModel()
-        searchBoxViewModel.connectView(SearchBox.SearchView.Support(searchView))
-        searchBoxViewModel.connectSearcher(searcher, false)
+        val adapter = MovieAdapter()
 
-        val view = MovieAdapter()
+        searchBoxViewModel.connectSearchView(searchView)
+        searchBoxViewModel.connectSearcher(searcher)
+
+
         searcher.onResponseChanged += {
-            view.submitList(it.hits.deserialize(Movie.serializer()))
+            adapter.submitList(it.hits.deserialize(Movie.serializer()))
         }
-        configureRecyclerView(list, view)
-        configureSearchView(searchView, false)
+
+        configureRecyclerView(list, adapter)
+        configureSearchView(searchView)
 
         searcher.search()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        searcher.cancel()
     }
 }

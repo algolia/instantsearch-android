@@ -9,7 +9,6 @@ import com.algolia.instantsearch.helper.filter.list.connectFilterState
 import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import kotlinx.android.synthetic.main.demo_filter_list.*
 import kotlinx.android.synthetic.main.header_filter.*
@@ -19,7 +18,9 @@ class FilterListTagDemo : AppCompatActivity() {
 
     private val tags = "tags"
     private val colors
-        get() = mapOf(tags to ContextCompat.getColor(this, android.R.color.holo_green_dark))
+        get() = mapOf(
+            tags to ContextCompat.getColor(this, android.R.color.holo_green_dark)
+        )
     private val tagFilters = listOf(
         Filter.Tag("free shipping"),
         Filter.Tag("coupon"),
