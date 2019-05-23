@@ -13,6 +13,15 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 
 
+fun mockClient(mockEngine: MockEngine? = null) = ClientSearch(
+    ConfigurationSearch(
+        ApplicationID("A"),
+        APIKey("B"),
+        engine = mockEngine,
+        logLevel = LogLevel.ALL
+    )
+)
+
 fun <T> mockClient(response: T, serializer: KSerializer<T>): ClientSearch {
     val json = Json(JsonConfiguration.Stable.copy(encodeDefaults = false))
     val responseString = json.stringify(serializer, response)
@@ -26,12 +35,5 @@ fun <T> mockClient(response: T, serializer: KSerializer<T>): ClientSearch {
         )
     }
 
-    return ClientSearch(
-        ConfigurationSearch(
-            ApplicationID("A"),
-            APIKey("B"),
-            engine = mockEngine,
-            logLevel = LogLevel.ALL
-        )
-    )
+    return mockClient(mockEngine)
 }

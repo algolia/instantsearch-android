@@ -1,8 +1,8 @@
 <resources>
 
     <style name="InstantSearchDemo" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorAccent">@color/blue_dark</item>
-        <item name="colorPrimary">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorPrimary">@color/blue_dark</item>
         <item name="android:textColorPrimary">@color/black_light</item>
         <item name="colorControlNormal">@color/grey_dark</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -15,7 +15,7 @@
 
     <style name="Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:elevation">6dp</item>
-        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:background">@color/white</item>
         <item name="selectableItemBackground">?android:selectableItemBackground</item>
         <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
     </style>

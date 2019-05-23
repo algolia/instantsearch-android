@@ -1,17 +1,19 @@
 package com.algolia.instantsearch.helper.android.selectable
 
+import android.view.View
+import android.widget.AdapterView
 import android.widget.CompoundButton
 import com.algolia.instantsearch.core.selectable.SelectableItemView
 
 
-class SelectableCompoundButton(
+public class SelectableCompoundButton(
     val view: CompoundButton
-) : SelectableItemView {
+) : SelectableItemView, CompoundButton.OnCheckedChangeListener {
 
     override var onClick: ((Boolean) -> Unit)? = null
 
     init {
-        setOnCheckedChangeListener()
+        view.setOnCheckedChangeListener(this)
     }
 
     override fun setText(text: String) {
@@ -21,10 +23,10 @@ class SelectableCompoundButton(
     override fun setIsSelected(isSelected: Boolean) {
         view.setOnCheckedChangeListener(null)
         view.isChecked = isSelected
-        setOnCheckedChangeListener()
+        view.setOnCheckedChangeListener(this)
     }
 
-    private fun setOnCheckedChangeListener() {
-        view.setOnCheckedChangeListener { _, isChecked -> onClick?.invoke(isChecked) }
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        onClick?.invoke(isChecked)
     }
 }

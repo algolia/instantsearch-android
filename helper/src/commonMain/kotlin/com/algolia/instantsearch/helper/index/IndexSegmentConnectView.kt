@@ -1,13 +1,12 @@
-package com.algolia.instantsearch.helper.filter.segment
+package com.algolia.instantsearch.helper.index
 
 import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
-import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
-import com.algolia.search.model.filter.Filter
+import com.algolia.search.client.Index
 
 
-public fun FilterSegmentViewModel.connectView(
+public fun IndexSegmentViewModel.connectView(
     view: SelectableSegmentView<Int, String>,
-    presenter: (Filter) -> String = FilterPresenterImpl
+    presenter: (Index) -> String
 ) {
     view.setItems(items.map { it.key to presenter(it.value) }.toMap())
     view.setSelected(selected)

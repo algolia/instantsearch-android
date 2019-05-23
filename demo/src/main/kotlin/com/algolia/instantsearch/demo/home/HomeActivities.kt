@@ -11,6 +11,7 @@ import com.algolia.instantsearch.demo.filter.numeric.comparison.FilterComparison
 import com.algolia.instantsearch.demo.filter.segment.FilterSegmentDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDefaultDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo
+import com.algolia.instantsearch.demo.index.IndexSegmentDemo
 import com.algolia.instantsearch.demo.list.paging.PagingSingleIndexDemo
 import com.algolia.instantsearch.demo.search.SearchAsYouTypeDemo
 import com.algolia.instantsearch.demo.search.SearchOnSubmitDemo
@@ -31,5 +32,7 @@ val homeActivities = mapOf(
     ObjectID("filter_numeric_comparison") to FilterComparisonDemo::class,
     ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,
     ObjectID("search_on_submit") to SearchOnSubmitDemo::class,
-    ObjectID("search_as_you_type") to SearchAsYouTypeDemo::class
+    ObjectID("search_as_you_type") to SearchAsYouTypeDemo::class,
+    ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,
+    ObjectID("index_segment") to IndexSegmentDemo::class
 )

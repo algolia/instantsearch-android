@@ -79,6 +79,9 @@
             android:name="com.algolia.instantsearch.demo.search.SearchAsYouTypeDemo"
             android:parentActivityName=".home.HomeDemo" />
 
+        <activity android:name=".index.IndexSegmentDemo"
+            android:parentActivityName=".index.IndexSegmentDemo"/>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

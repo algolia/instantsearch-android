@@ -6,20 +6,24 @@ import android.widget.RadioGroup
 import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
 
 
-class SelectableRadioGroup(
+public class SelectableRadioGroup(
     val view: RadioGroup
-) : SelectableSegmentView<Int, String> {
+) : SelectableSegmentView<Int, String>, RadioGroup.OnCheckedChangeListener {
 
     override var onClick: ((Int) -> Unit)? = null
 
     init {
-        setOnCheckedChangeListener()
+        view.setOnCheckedChangeListener(this)
+    }
+
+    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+        onClick?.invoke(checkedId)
     }
 
     override fun setSelected(selected: Int?) {
         view.setOnCheckedChangeListener(null)
         view.check(selected ?: View.NO_ID)
-        setOnCheckedChangeListener()
+        view.setOnCheckedChangeListener(this)
     }
 
     override fun setItems(items: Map<Int, String>) {
@@ -28,8 +32,5 @@ class SelectableRadioGroup(
 
             items[view?.id]?.let { view?.text = it }
         }
-    }
-    private fun setOnCheckedChangeListener() {
-        view.setOnCheckedChangeListener { _, isChecked -> onClick?.invoke(isChecked) }
     }
 }

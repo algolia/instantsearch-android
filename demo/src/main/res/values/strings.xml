@@ -15,4 +15,5 @@
     <string name="single_choice">Single Choice</string>
     <string name="multiple_choice">Multiple Choice</string>
     <string name="year_range">from %d to %d</string>
+    <string name="sort_by">Sort by</string>
 </resources>
