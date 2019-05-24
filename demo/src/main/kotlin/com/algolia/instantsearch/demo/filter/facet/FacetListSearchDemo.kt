@@ -13,7 +13,7 @@ import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
-import kotlinx.android.synthetic.main.demo_home.*
+import kotlinx.android.synthetic.main.demo_facet_list_search.*
 import kotlinx.android.synthetic.main.header_filter.*
 import kotlinx.android.synthetic.main.include_search.*
 
