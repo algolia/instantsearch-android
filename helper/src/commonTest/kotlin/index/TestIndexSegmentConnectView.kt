@@ -44,7 +44,7 @@ class TestIndexSegmentConnectView {
         viewModel.selected = id
         viewModel.connectView(view, presenter)
         view.int shouldEqual id
-        view.map shouldEqual mapOf(id to presenter)
+        view.map shouldEqual mapOf(id to presenter(indexA))
     }
 
     @Test
