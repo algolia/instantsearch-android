@@ -14,13 +14,13 @@ import index
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import kotlin.test.assertEquals
+import shouldEqual
 
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
 @Config(manifest=Config.NONE)
-class TestClearSearchView {
+class TestClearFilter {
 
     private fun searchView() = SearchView(ApplicationProvider.getApplicationContext())
     private fun clearFilterView() = object : ClearFilterView {
@@ -50,6 +50,6 @@ class TestClearSearchView {
         viewModel.connectView(clearFilterView)
         clearFilterView.view.callOnClick()
 
-        assertEquals("", searchView.query.toString())
+        searchView.query.toString() shouldEqual ""
     }
 }
