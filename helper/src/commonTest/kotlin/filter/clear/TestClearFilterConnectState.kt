@@ -12,6 +12,7 @@ import com.algolia.search.model.search.Query
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import shouldEqual
 import kotlin.test.Test
 
@@ -37,8 +38,9 @@ class TestClearFilterConnectState {
         val viewModel = ClearFilterViewModel()
         val view = MockClearFilterView()
         val searcherQuery = object : Searcher {
-            val query: Query = Query()
+            override val coroutineContext = SupervisorJob()
             override val dispatcher: CoroutineDispatcher = Dispatchers.Main
+            val query: Query = Query()
             override fun setQuery(text: String?) {
                 query.query = text
             }
