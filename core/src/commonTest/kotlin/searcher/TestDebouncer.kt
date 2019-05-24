@@ -7,13 +7,13 @@ import shouldEqual
 import kotlin.test.Test
 
 
-class TestDebouncer  {
+class TestDebouncer {
 
     @Test
     fun shouldDebounce() {
         val debouncer = Debouncer(100)
         var count = 0
-        val block: suspend () -> Unit = { count ++ }
+        val block: suspend () -> Unit = { count++ }
 
         blocking {
             debouncer.debounce(this, block)
@@ -28,7 +28,7 @@ class TestDebouncer  {
     fun shouldNotDebounce() {
         val debouncer = Debouncer(100)
         var count = 0
-        val block: suspend () -> Unit = { count ++ }
+        val block: suspend () -> Unit = { count++ }
 
         blocking {
             debouncer.debounce(this, block)
