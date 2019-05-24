@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.algolia.instantsearch.demo">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".App"
         android:allowBackup="false"
@@ -14,7 +16,7 @@
         android:theme="@style/InstantSearchDemo"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="home.HomeDemo">
+        <activity android:name=".home.HomeDemo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -84,7 +86,5 @@
             android:parentActivityName=".index.IndexSegmentDemo" />
 
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
