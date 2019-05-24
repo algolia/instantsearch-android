@@ -23,10 +23,10 @@ public fun FilterToggleViewModel.connectFilterState(
             }
         }
     }
-    val onChange: (Filters) -> Unit = { filters ->
+    val onChanged: (Filters) -> Unit = { filters ->
         isSelected = filters.contains(groupID, item)
     }
 
-    onChange(filterState)
-    filterState.onChange += onChange
+    onChanged(filterState)
+    filterState.onChanged += onChanged
 }

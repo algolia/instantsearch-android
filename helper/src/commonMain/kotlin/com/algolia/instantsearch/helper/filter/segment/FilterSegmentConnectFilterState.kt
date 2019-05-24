@@ -17,10 +17,10 @@ public fun FilterSegmentViewModel.connectFilterState(
             }
         }
     }
-    val onChange: (Filters) -> Unit = { filters ->
+    val onChanged: (Filters) -> Unit = { filters ->
         selected = items.entries.find { it.value == filters.getFilters(groupID).firstOrNull() }?.key
     }
 
-    onChange(filterState)
-    filterState.onChange += onChange
+    onChanged(filterState)
+    filterState.onChanged += onChanged
 }

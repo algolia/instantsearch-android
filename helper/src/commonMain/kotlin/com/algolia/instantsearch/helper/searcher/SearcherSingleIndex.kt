@@ -49,7 +49,7 @@ public class SearcherSingleIndex(
 
     init {
         updateFilters()
-        filterState.onChange += {
+        filterState.onChanged += {
             updateFilters()
             search()
         }
@@ -73,7 +73,7 @@ public class SearcherSingleIndex(
                 }
             }
         }
-//        sequencer.addOperation(job)
+        sequencer.addOperation(job)
         return job
     }
 

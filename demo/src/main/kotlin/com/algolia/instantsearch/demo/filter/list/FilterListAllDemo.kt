@@ -56,7 +56,7 @@ class FilterListAllDemo : AppCompatActivity() {
 
         configureRecyclerView(list, viewAll)
 
-        onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)

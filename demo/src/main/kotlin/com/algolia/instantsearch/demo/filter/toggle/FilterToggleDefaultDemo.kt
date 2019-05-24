@@ -37,7 +37,7 @@ class FilterToggleDefaultDemo : AppCompatActivity() {
         viewModelPopular.connectFilterState(searcher.filterState, default = Filter.Facet(popular, false))
         viewModelPopular.connectView(viewPopular)
 
-        onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)

@@ -50,7 +50,7 @@ class FacetListSearchDemo : AppCompatActivity() {
         searcherForFacet.connectSearchView(searchView)
         configureRecyclerView(list, view)
         configureSearchView(searchView)
-        onChangeThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 

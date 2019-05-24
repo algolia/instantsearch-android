@@ -11,4 +11,5 @@
     <string name="facet_filters">Facet filters</string>
     <string name="tag_filters">Tag Filters</string>
     <string name="all_filters">All Filters</string>
+    <string name="year_range">from %d to %d</string>
 </resources>
