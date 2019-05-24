@@ -7,6 +7,5 @@ public fun ClearFilterViewModel.connectState(filterState: FilterState, queryToCl
     onCleared += {
         queryToClear?.query = ""
         filterState.notify { clear() }
-        println("Clear all notified!, query was ${queryToClear?.query}")
     }
 }
