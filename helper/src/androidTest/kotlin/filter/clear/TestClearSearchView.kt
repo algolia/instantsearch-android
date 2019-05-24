@@ -46,7 +46,7 @@ class TestClearSearchView {
         }
 
         val viewModel = ClearFilterViewModel()
-        viewModel.connectState(searcher.filterState, searcher.query)
+        viewModel.connectState(searcher.filterState, searcher)
         viewModel.connectView(clearFilterView)
         clearFilterView.view.callOnClick()
 

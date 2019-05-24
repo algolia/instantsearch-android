@@ -26,6 +26,7 @@ public class SearcherForFacets(
 
     public val onResponseChanged = mutableListOf<(ResponseSearchForFacets) -> Unit>()
     public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
+    public val onQueryChanged = mutableListOf<(String?) -> Unit>()
 
     public var response by Delegates.observable<ResponseSearchForFacets?>(null) { _, _, newValue ->
         if (newValue != null) {
@@ -42,7 +43,10 @@ public class SearcherForFacets(
     }
 
     override fun setQuery(text: String?) {
-        facetQuery = text
+        if (text != facetQuery) {
+            facetQuery = text
+            onQueryChanged.forEach { it(text) }
+        }
     }
 
     override fun search(): Job {

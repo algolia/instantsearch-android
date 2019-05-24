@@ -58,8 +58,13 @@ class FacetListSearchDemo : AppCompatActivity() {
         configureToolbar(toolbar)
         configureRecyclerView(list, facetView)
         configureSearchView(searchView, getString(R.string.search_brands))
+        //TODO move this logic to connector once SB PR is merged
+        searcherForFacet.onQueryChanged += { text : String? ->
+            // FIXME: can infinite loop here
+            searchView.setQuery(text, false)
+        }
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
-        onClearAllThenClearFilters(searcher.filterState, filtersClearAll, searcherForFacet.query)
+        onClearAllThenClearFilters(searcher.filterState, filtersClearAll, searcherForFacet)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
         searcher.search()

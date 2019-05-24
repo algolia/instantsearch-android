@@ -23,6 +23,7 @@ import com.algolia.instantsearch.helper.filter.clear.connectState
 import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
+import com.algolia.instantsearch.helper.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.client.ClientSearch
@@ -30,7 +31,6 @@ import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.search.Query
 import com.algolia.search.serialize.KeyIndexName
 import com.algolia.search.serialize.KeyName
 import io.ktor.client.features.logging.LogLevel
@@ -69,7 +69,7 @@ fun AppCompatActivity.onFilterChangedThenUpdateFiltersText(
 fun AppCompatActivity.onClearAllThenClearFilters(
     filterState: FilterState,
     filtersClearAllView: View,
-    queryToClear: Query? = null
+    queryToClearSearcher: Searcher? = null
 ) {
     val viewModel = ClearFilterViewModel()
     val view = object : ClearFilterView {
@@ -82,7 +82,7 @@ fun AppCompatActivity.onClearAllThenClearFilters(
             }
     }
     viewModel.connectView(view)
-    viewModel.connectState(filterState, queryToClear)
+    viewModel.connectState(filterState, queryToClearSearcher)
 }
 
 fun AppCompatActivity.onErrorThenUpdateFiltersText(searcher: SearcherSingleIndex, filtersTextView: TextView) {
