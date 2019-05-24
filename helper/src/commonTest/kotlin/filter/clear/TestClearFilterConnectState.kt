@@ -5,9 +5,13 @@ import com.algolia.instantsearch.helper.filter.clear.connectState
 import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.searcher.Searcher
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.search.Query
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import shouldEqual
 import kotlin.test.Test
 
@@ -32,11 +36,20 @@ class TestClearFilterConnectState {
     fun connectShouldClearQueryIfSpecified() {
         val viewModel = ClearFilterViewModel()
         val view = MockClearFilterView()
-        val query = Query("foo")
+        val searcherQuery = object : Searcher {
+            val query: Query = Query()
+            override val dispatcher: CoroutineDispatcher = Dispatchers.Main
+            override fun setQuery(text: String?) {
+                query.query = text
+            }
+
+            override fun search(): Job = Job()
+            override fun cancel() = Unit
+        }
         viewModel.connectView(view)
         val filterState = FilterState()
-        viewModel.connectState(filterState, query)
+        viewModel.connectState(filterState, searcherQuery)
         view.onClick?.invoke()
-        query.query shouldEqual ""
+        searcherQuery.query.query shouldEqual ""
     }
 }
