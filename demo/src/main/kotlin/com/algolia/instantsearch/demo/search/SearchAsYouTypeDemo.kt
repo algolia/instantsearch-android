@@ -30,7 +30,6 @@ class SearchAsYouTypeDemo : AppCompatActivity() {
         searchBoxViewModel.connectSearchView(searchView)
         searchBoxViewModel.connectSearcher(searcher)
 
-
         searcher.onResponseChanged += {
             adapter.submitList(it.hits.deserialize(Movie.serializer()))
         }

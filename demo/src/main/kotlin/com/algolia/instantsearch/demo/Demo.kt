@@ -89,11 +89,19 @@ fun AppCompatActivity.configureRecyclerView(
     recyclerView: View,
     view: RecyclerView.Adapter<*>
 ) {
-    (recyclerView as RecyclerView).let {
+    recyclerView as RecyclerView
+    recyclerView.let {
         it.layoutManager = LinearLayoutManager(this)
         it.adapter = view
         it.itemAnimator = null
     }
+    view.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            if (positionStart == 0) {
+                recyclerView.scrollToPosition(0)
+            }
+        }
+    })
 }
 
 val Intent.indexName: IndexName get() = IndexName(extras!!.getString(KeyIndexName)!!)

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.demo.list.Movie
@@ -39,15 +38,6 @@ class PagingSingleIndexDemo : AppCompatActivity() {
         searchBoxViewModel.onQueryChanged += {
             movies.value?.dataSource?.let { it.invalidate() }
         }
-
-        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (positionStart == 0) {
-                    list.scrollToPosition(0)
-                }
-            }
-        })
 
         configureSearchView(searchView)
         configureRecyclerView(list, adapter)
