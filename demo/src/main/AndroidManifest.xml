@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.algolia.instantsearch.demo">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.algolia.instantsearch.demo.App"
         android:allowBackup="false"
@@ -24,11 +26,11 @@
         </activity>
 
         <activity
-            android:name="com.algolia.instantsearch.demo.filter.facet.FacetListDemo"
+            android:name=".filter.facet.FacetListDemo"
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name="com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo"
+            android:name=".filter.toggle.FilterToggleDemo"
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
@@ -72,18 +74,15 @@
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name="com.algolia.instantsearch.demo.search.SearchOnSubmitDemo"
+            android:name=".search.SearchOnSubmitDemo"
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name="com.algolia.instantsearch.demo.search.SearchAsYouTypeDemo"
+            android:name=".search.SearchAsYouTypeDemo"
             android:parentActivityName=".home.HomeDemo" />
 
-        <activity android:name=".index.IndexSegmentDemo"
+        <activity
+            android:name=".index.IndexSegmentDemo"
             android:parentActivityName=".index.IndexSegmentDemo"/>
-
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-
 </manifest>
