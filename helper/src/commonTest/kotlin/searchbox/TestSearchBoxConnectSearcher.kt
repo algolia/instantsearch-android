@@ -5,9 +5,9 @@ import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
 import com.algolia.instantsearch.helper.searcher.Searcher
+import com.algolia.instantsearch.helper.searcher.SearcherScope
 import kotlinx.coroutines.*
 import shouldEqual
-import kotlin.coroutines.CoroutineContext
 import kotlin.test.Test
 
 
@@ -21,8 +21,7 @@ class TestSearchBoxConnectSearcher {
         var string: String? = null
         var searchCount: Int = 0
 
-        override val coroutineContext: CoroutineContext = SupervisorJob()
-
+        override val coroutineScope: CoroutineScope = SearcherScope()
         override val dispatcher: CoroutineDispatcher = Dispatchers.Default
 
         override fun setQuery(text: String?) {
@@ -31,7 +30,7 @@ class TestSearchBoxConnectSearcher {
 
         override fun search(): Job {
             searchCount++
-            val job = launch {  }
+            val job = coroutineScope.launch {  }
 
             this.job = job
             return job

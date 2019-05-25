@@ -18,12 +18,11 @@ public class SearcherForFacets(
     val query: Query = Query(),
     var facetQuery: String? = null,
     val requestOptions: RequestOptions? = null,
+    override val coroutineScope: CoroutineScope = SearcherScope(),
     override val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : Searcher {
 
     internal val sequencer = Sequencer()
-
-    override val coroutineContext = SupervisorJob()
 
     public val onResponseChanged = mutableListOf<(ResponseSearchForFacets) -> Unit>()
     public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
@@ -47,7 +46,7 @@ public class SearcherForFacets(
     }
 
     override fun search(): Job {
-        val job = launch(dispatcher + exceptionHandler) {
+        val job = coroutineScope.launch(dispatcher + exceptionHandler) {
             response = withContext(Dispatchers.Default) {
                 index.searchForFacets(attribute, facetQuery, query, requestOptions)
             }

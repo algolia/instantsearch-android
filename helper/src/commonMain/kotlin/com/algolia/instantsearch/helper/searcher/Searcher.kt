@@ -5,8 +5,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
 
-public interface Searcher: CoroutineScope {
+public interface Searcher {
 
+    val coroutineScope: CoroutineScope
     val dispatcher: CoroutineDispatcher
 
     fun setQuery(text: String?)

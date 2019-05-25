@@ -62,7 +62,7 @@ class FilterComparisonDemo : AppCompatActivity() {
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
-        searcher.launch {
+        searcher.coroutineScope.launch {
             searcher.search().join()
             searcher.response?.facetStatsOrNull?.let {
                 priceViewModel.computeBoundsFromFacetStats(price, it)

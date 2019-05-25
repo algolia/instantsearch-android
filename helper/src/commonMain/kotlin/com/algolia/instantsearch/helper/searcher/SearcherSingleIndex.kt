@@ -19,12 +19,11 @@ public class SearcherSingleIndex(
     val query: Query = Query(),
     val requestOptions: RequestOptions? = RequestOptions(),
     val isDisjunctiveFacetingEnabled: Boolean = true,
+    override val coroutineScope: CoroutineScope = SearcherScope(),
     override val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : Searcher {
 
     internal val sequencer = Sequencer()
-
-    override val coroutineContext = SupervisorJob()
 
     public val onResponseChanged = mutableListOf<(ResponseSearch) -> Unit>()
     public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
@@ -64,7 +63,7 @@ public class SearcherSingleIndex(
             .filter { it.key is FilterGroupID.Or }
             .flatMap { group -> group.value.map { it.attribute } }
 
-        val job = launch(dispatcher + exceptionHandler) {
+        val job = coroutineScope.launch(dispatcher + exceptionHandler) {
             response = withContext(Dispatchers.Default) {
                 if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
                     index.search(query, requestOptions)

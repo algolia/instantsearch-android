@@ -41,6 +41,7 @@ class PagingSingleIndexDemo : AppCompatActivity() {
             movies.value?.dataSource?.invalidate()
         }
 
+        configureToolbar(toolbar)
         configureSearcher(searcher)
         configureSearchView(searchView, getString(R.string.search_movies))
         configureRecyclerView(list, adapter)
