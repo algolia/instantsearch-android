@@ -4,13 +4,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
-import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
-import com.algolia.instantsearch.helper.searcher.SearcherForFacet
+import com.algolia.instantsearch.helper.searchbox.connectView
+import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import kotlinx.android.synthetic.main.demo_home.*
@@ -26,7 +26,7 @@ class FacetListSearchDemo : AppCompatActivity() {
             brand.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark)
         )
     private val searcher = SearcherSingleIndex(stubIndex)
-    private val searcherForFacet = SearcherForFacet(stubIndex, brand)
+    private val searcherForFacet = SearcherForFacets(stubIndex, brand)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

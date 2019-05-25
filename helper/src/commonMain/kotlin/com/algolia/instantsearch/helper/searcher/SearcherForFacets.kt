@@ -11,7 +11,7 @@ import kotlinx.coroutines.*
 import kotlin.properties.Delegates
 
 
-public class SearcherForFacet(
+public class SearcherForFacets(
     var index: Index,
     val attribute: Attribute,
     val filterState: FilterState = FilterState(),
