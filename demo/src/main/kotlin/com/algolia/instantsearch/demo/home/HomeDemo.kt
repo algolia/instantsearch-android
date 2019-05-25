@@ -12,7 +12,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import kotlinx.android.synthetic.main.demo_home.*
-import kotlinx.android.synthetic.main.include_toolbar_search.*
+import kotlinx.android.synthetic.main.include_search.*
 
 
 class HomeDemo : AppCompatActivity() {
@@ -43,7 +43,7 @@ class HomeDemo : AppCompatActivity() {
 
         val adapter = HomeAdapter()
 
-        setSupportActionBar(toolbar)
+        configureToolbar(toolbar)
         configureRecyclerView(list, adapter)
         configureSearchView(searchView, getString(R.string.search_demos))
 

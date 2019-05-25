@@ -40,7 +40,6 @@ class FilterComparisonDemo : AppCompatActivity() {
 
         searcher.query.addFacet(price)
         searcher.query.addFacet(year)
-        searcher.index = client.initIndex(intent.indexName)
 
         val priceOperator = NumericOperator.GreaterOrEquals
         val priceViewModel = SelectableNumberViewModel.Int()
@@ -56,11 +55,12 @@ class FilterComparisonDemo : AppCompatActivity() {
         yearViewModel.connectFilterState(year, yearOperator, searcher.filterState)
         yearViewModel.connectView(yearView)
 
+        configureToolbar(toolbar)
+        configureSearcher(searcher)
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
-        configureToolbar()
 
         searcher.launch {
             searcher.search().join()

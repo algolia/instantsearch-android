@@ -27,19 +27,18 @@ class FilterToggleDefaultDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_toggle_default)
 
-        searcher.index = client.initIndex(intent.indexName)
-
         val viewModelPopular = FilterToggleViewModel(Filter.Facet(popular, true))
         val viewPopular = SelectableCompoundButton(checkBoxPopular)
 
         viewModelPopular.connectFilterState(searcher.filterState, default = Filter.Facet(popular, false))
         viewModelPopular.connectView(viewPopular)
 
+        configureToolbar(toolbar)
+        configureSearcher(searcher)
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
-        configureToolbar()
 
         searcher.search()
     }

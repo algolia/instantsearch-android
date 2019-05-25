@@ -10,8 +10,8 @@
         android:id="@+id/nbHits"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
         android:layout_margin="15dp"
+        android:ellipsize="end"
         android:maxLines="1"
         android:textAppearance="?attr/textAppearanceCaption"
         app:layout_constraintBottom_toTopOf="@id/list"
@@ -20,25 +20,26 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:text="@tools:sample/lorem" />
 
-    <include
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        app:layout_constraintBottom_toTopOf="@+id/list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0"
-        layout="@layout/include_toolbar_search"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/include_search" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nbHits"
-        app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/list_item_large" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
+import kotlinx.android.synthetic.main.demo_filter_list.*
 import kotlinx.android.synthetic.main.header_filter.*
 import kotlinx.android.synthetic.main.include_list.*
 
@@ -44,20 +45,19 @@ class FilterListAllDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_list)
 
-        searcher.index = client.initIndex(intent.indexName)
-
         val viewModelAll = FilterListViewModel.All(allFilters)
         val viewAll = FilterListAdapter<Filter>()
 
         viewModelAll.connectFilterState(searcher.filterState, groupIDAll)
         viewModelAll.connectView(viewAll)
 
+        configureToolbar(toolbar)
+        configureSearcher(searcher)
         configureRecyclerView(listTopLeft, viewAll)
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
-        configureToolbar()
 
         searcher.search()
     }

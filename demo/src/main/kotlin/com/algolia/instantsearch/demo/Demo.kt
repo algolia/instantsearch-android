@@ -10,6 +10,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.helper.android.highlight
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
+import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
@@ -27,7 +29,6 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.serialize.KeyIndexName
 import com.algolia.search.serialize.KeyName
 import io.ktor.client.features.logging.LogLevel
-import kotlinx.android.synthetic.main.demo_filter_list.*
 
 
 val client = ClientSearch(
@@ -40,10 +41,10 @@ val client = ClientSearch(
 
 val stubIndex = client.initIndex(IndexName("stub"))
 
-fun AppCompatActivity.configureToolbar() {
+fun AppCompatActivity.configureToolbar(toolbar: Toolbar) {
     setSupportActionBar(toolbar)
     supportActionBar?.let {
-        it.title = intent.extras!!.getString(KeyName)!!
+        it.title = intent.extras?.getString(KeyName)
         it.setDisplayHomeAsUpEnabled(true)
 
     }
@@ -91,6 +92,14 @@ fun AppCompatActivity.configureTitle(textView: TextView, text: String, color: In
         it.setTextColor(color)
         it.visibility = View.VISIBLE
     }
+}
+
+fun AppCompatActivity.configureSearcher(searcher: SearcherSingleIndex) {
+    searcher.index = client.initIndex(intent.indexName)
+}
+
+fun AppCompatActivity.configureSearcher(searcher: SearcherForFacets) {
+    searcher.index = client.initIndex(intent.indexName)
 }
 
 fun AppCompatActivity.configureRecyclerView(

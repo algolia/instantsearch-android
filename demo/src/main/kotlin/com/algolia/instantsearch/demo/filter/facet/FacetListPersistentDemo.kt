@@ -16,9 +16,10 @@ import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
+import kotlinx.android.synthetic.main.demo_facet_list_persistent.*
 import kotlinx.android.synthetic.main.header_filter.*
 import kotlinx.android.synthetic.main.include_list.*
-import kotlinx.android.synthetic.main.include_toolbar_search.*
+import kotlinx.android.synthetic.main.include_search.*
 
 
 class FacetListPersistentDemo : AppCompatActivity() {
@@ -37,8 +38,6 @@ class FacetListPersistentDemo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list_persistent)
-
-        searcher.index = client.initIndex(intent.indexName)
 
         val colorViewModel = FacetListViewModel(persistentSelection = true)
         val colorAdapter = FacetListAdapter()
@@ -60,6 +59,8 @@ class FacetListPersistentDemo : AppCompatActivity() {
         searchBoxViewModel.connectView(searchBoxView)
         searchBoxViewModel.connectSearcher(searcher)
 
+        configureToolbar(toolbar)
+        configureSearcher(searcher)
         configureSearchView(searchView, getString(R.string.search_items))
         configureRecyclerView(listTopLeft, colorAdapter)
         configureRecyclerView(listTopRight, categoryAdapter)
@@ -69,7 +70,6 @@ class FacetListPersistentDemo : AppCompatActivity() {
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
-        configureToolbar()
 
         searcher.search()
     }

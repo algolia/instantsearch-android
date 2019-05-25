@@ -10,6 +10,7 @@ import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.client
 import com.algolia.instantsearch.demo.configureRecyclerView
+import com.algolia.instantsearch.demo.configureToolbar
 import com.algolia.instantsearch.demo.list.Movie
 import com.algolia.instantsearch.demo.list.MovieAdapter
 import com.algolia.instantsearch.helper.index.IndexSegmentViewModel
@@ -62,7 +63,7 @@ class IndexSegmentDemo : AppCompatActivity() {
             adapterMovie.submitList(it.hits.deserialize(Movie.serializer()))
         }
 
-        setSupportActionBar(toolbar)
+        configureToolbar(toolbar)
         configureRecyclerView(list, adapterMovie)
 
         searcher.search()

@@ -31,8 +31,6 @@ class FilterSegmentDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_segment)
 
-        searcher.index = client.initIndex(intent.indexName)
-
         val viewModelGender = FilterSegmentViewModel(
             items = mapOf(
                 R.id.male to Filter.Facet(gender, "male"),
@@ -44,11 +42,12 @@ class FilterSegmentDemo : AppCompatActivity() {
         viewModelGender.connectFilterState(searcher.filterState, groupID)
         viewModelGender.connectView(viewGender)
 
+        configureToolbar(toolbar)
+        configureSearcher(searcher)
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
-        configureToolbar()
 
         searcher.search()
     }

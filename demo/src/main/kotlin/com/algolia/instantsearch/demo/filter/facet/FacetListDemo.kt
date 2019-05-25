@@ -12,6 +12,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
+import kotlinx.android.synthetic.main.demo_facet_list.*
 import kotlinx.android.synthetic.main.header_filter.*
 import kotlinx.android.synthetic.main.include_list.*
 
@@ -42,8 +43,6 @@ class FacetListDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list)
 
-        searcher.index = client.initIndex(intent.indexName)
-
         val colorAViewModel = FacetListViewModel(selectionMode = SelectionMode.Single)
         val colorAPresenter = FacetListPresenter(listOf(IsRefined, AlphabeticalAscending), limit = 3)
         val colorAAdapter = FacetListAdapter()
@@ -68,6 +67,8 @@ class FacetListDemo : AppCompatActivity() {
         categoryViewModel.connectSearcher(category, searcher)
         categoryViewModel.connectView(categoryAdapter, categoryPresenter)
 
+        configureToolbar(toolbar)
+        configureSearcher(searcher)
         configureRecyclerView(listTopLeft, colorAAdapter)
         configureRecyclerView(listTopRight, categoryAdapter)
         configureRecyclerView(listBottomLeft, promotionAdapter)
@@ -82,7 +83,6 @@ class FacetListDemo : AppCompatActivity() {
         onClearAllThenClearFilters(filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
-        configureToolbar()
 
         searcher.search()
     }

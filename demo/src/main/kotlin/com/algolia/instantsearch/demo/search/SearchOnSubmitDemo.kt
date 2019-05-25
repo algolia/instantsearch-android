@@ -12,7 +12,7 @@ import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.helper.deserialize
 import kotlinx.android.synthetic.main.demo_search.*
-import kotlinx.android.synthetic.main.include_toolbar_search.*
+import kotlinx.android.synthetic.main.include_search.*
 
 
 class SearchOnSubmitDemo : AppCompatActivity() {
@@ -22,8 +22,6 @@ class SearchOnSubmitDemo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_search)
-
-        searcher.index = client.initIndex(intent.indexName)
 
         val adapter = MovieAdapter()
         val searchBoxView = SearchBoxViewAppCompat(searchView)
@@ -36,7 +34,8 @@ class SearchOnSubmitDemo : AppCompatActivity() {
             adapter.submitList(it.hits.deserialize(Movie.serializer()))
         }
 
-        setSupportActionBar(toolbar)
+        configureToolbar(toolbar)
+        configureSearcher(searcher)
         configureRecyclerView(list, adapter)
         configureSearchView(searchView, getString(R.string.search_movies))
 

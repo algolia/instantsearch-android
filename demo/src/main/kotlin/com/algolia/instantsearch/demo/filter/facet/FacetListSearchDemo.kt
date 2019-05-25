@@ -15,7 +15,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import kotlinx.android.synthetic.main.demo_home.*
 import kotlinx.android.synthetic.main.header_filter.*
-import kotlinx.android.synthetic.main.include_toolbar_search.*
+import kotlinx.android.synthetic.main.include_search.*
 
 
 class FacetListSearchDemo : AppCompatActivity() {
@@ -55,7 +55,7 @@ class FacetListSearchDemo : AppCompatActivity() {
         searchBoxViewModel.connectView(searchBoxView)
         searchBoxViewModel.connectSearcher(searcherForFacet)
 
-        setSupportActionBar(toolbar)
+        configureToolbar(toolbar)
         configureRecyclerView(list, facetView)
         configureSearchView(searchView, getString(R.string.search_brands))
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)

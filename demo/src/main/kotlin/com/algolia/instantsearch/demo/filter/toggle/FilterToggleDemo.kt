@@ -10,7 +10,6 @@ import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
 import com.algolia.instantsearch.helper.filter.toggle.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 import kotlinx.android.synthetic.main.demo_filter_toggle.*
@@ -35,8 +34,6 @@ class FilterToggleDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_toggle)
 
-        searcher.index = client.initIndex(intent.indexName)
-
         val viewModelCoupon = FilterToggleViewModel(Filter.Facet(promotions, "coupon"))
         val viewCoupon = SelectableCompoundButton(switchCoupon)
 
@@ -55,11 +52,12 @@ class FilterToggleDemo : AppCompatActivity() {
         viewModelVintage.connectFilterState(searcher.filterState)
         viewModelVintage.connectView(viewVintage)
 
+        configureToolbar(toolbar)
+        configureSearcher(searcher)
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
-        configureToolbar()
 
         searcher.search()
     }
