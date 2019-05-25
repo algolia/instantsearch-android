@@ -11,10 +11,9 @@ import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
-import kotlinx.android.synthetic.main.demo_filter_list.*
 import kotlinx.android.synthetic.main.header_filter.*
+import kotlinx.android.synthetic.main.include_list.*
 
 
 class FilterListFacetDemo : AppCompatActivity() {
@@ -45,7 +44,7 @@ class FilterListFacetDemo : AppCompatActivity() {
         viewModelFacet.connectFilterState(searcher.filterState, groupIDColor)
         viewModelFacet.connectView(viewFacet)
 
-        configureRecyclerView(list, viewFacet)
+        configureRecyclerView(listTopLeft, viewFacet)
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)

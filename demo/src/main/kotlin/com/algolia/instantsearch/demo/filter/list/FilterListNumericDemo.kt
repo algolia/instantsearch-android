@@ -10,11 +10,10 @@ import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
-import kotlinx.android.synthetic.main.demo_filter_list.*
 import kotlinx.android.synthetic.main.header_filter.*
+import kotlinx.android.synthetic.main.include_list.*
 
 
 class FilterListNumericDemo : AppCompatActivity() {
@@ -45,7 +44,7 @@ class FilterListNumericDemo : AppCompatActivity() {
         viewModelNumeric.connectFilterState(searcher.filterState, groupIDPrice)
         viewModelNumeric.connectView(viewNumeric)
 
-        configureRecyclerView(list, viewNumeric)
+        configureRecyclerView(listTopLeft, viewNumeric)
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)

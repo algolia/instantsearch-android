@@ -85,17 +85,25 @@ fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
     }
 }
 
+fun AppCompatActivity.configureTitle(textView: TextView, text: String, color: Int) {
+    textView.let {
+        it.text = text
+        it.setTextColor(color)
+        it.visibility = View.VISIBLE
+    }
+}
+
 fun AppCompatActivity.configureRecyclerView(
-    recyclerView: View,
-    view: RecyclerView.Adapter<*>
+    recyclerView: RecyclerView,
+    adapter: RecyclerView.Adapter<*>
 ) {
-    recyclerView as RecyclerView
     recyclerView.let {
+        it.visibility = View.VISIBLE
         it.layoutManager = LinearLayoutManager(this)
-        it.adapter = view
+        it.adapter = adapter
         it.itemAnimator = null
     }
-    view.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+    adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             if (positionStart == 0) {
                 recyclerView.scrollToPosition(0)
@@ -107,17 +115,18 @@ fun AppCompatActivity.configureRecyclerView(
 val Intent.indexName: IndexName get() = IndexName(extras!!.getString(KeyIndexName)!!)
 
 fun AppCompatActivity.configureSearchView(
-    searchView: SearchView
+    searchView: SearchView,
+    queryHint: String
 ) {
     searchView.also {
-        val initialHintText = searchView.queryHint.toString()
         val hintIcon = ContextCompat.getDrawable(this, R.drawable.ic_search_hint)!!
 
+        it.queryHint = queryHint
         it.setIconifiedByDefault(false)
         it.setOnQueryTextFocusChangeListener { _, hasFocus ->
-            searchView.showQueryHintIcon(!hasFocus, hintIcon, initialHintText)
+            searchView.showQueryHintIcon(!hasFocus, hintIcon, queryHint)
         }
-        searchView.showQueryHintIcon(true, hintIcon, initialHintText)
+        searchView.showQueryHintIcon(true, hintIcon, queryHint)
     }
 }
 

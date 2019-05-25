@@ -14,6 +14,7 @@ import com.algolia.instantsearch.helper.android.searchbox.connectSearchView
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import kotlinx.android.synthetic.main.demo_paging.*
+import kotlinx.android.synthetic.main.include_toolbar_search.*
 
 
 class PagingSingleIndexDemo : AppCompatActivity() {
@@ -36,10 +37,10 @@ class PagingSingleIndexDemo : AppCompatActivity() {
         searchBoxViewModel.connectSearchView(searchView)
         searchBoxViewModel.connectSearcher(searcher)
         searchBoxViewModel.onQueryChanged += {
-            movies.value?.dataSource?.let { it.invalidate() }
+            movies.value?.dataSource?.invalidate()
         }
 
-        configureSearchView(searchView)
+        configureSearchView(searchView, getString(R.string.search_movies))
         configureRecyclerView(list, adapter)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
     }

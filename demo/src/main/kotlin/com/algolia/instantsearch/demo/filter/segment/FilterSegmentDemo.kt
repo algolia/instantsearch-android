@@ -11,7 +11,6 @@ import com.algolia.instantsearch.helper.filter.segment.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import kotlinx.android.synthetic.main.demo_filter_segment.*
 import kotlinx.android.synthetic.main.header_filter.*
@@ -22,7 +21,7 @@ class FilterSegmentDemo : AppCompatActivity() {
     private val gender = Attribute("gender")
     private val colors
         get() = mapOf(
-            gender.raw to ContextCompat.getColor(this, android.R.color.holo_orange_light)
+            gender.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark)
         )
 
     private val groupID = FilterGroupID.And(gender)

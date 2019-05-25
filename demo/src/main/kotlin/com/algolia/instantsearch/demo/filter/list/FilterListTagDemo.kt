@@ -10,8 +10,8 @@ import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.filter.Filter
-import kotlinx.android.synthetic.main.demo_filter_list.*
 import kotlinx.android.synthetic.main.header_filter.*
+import kotlinx.android.synthetic.main.include_list.*
 
 
 class FilterListTagDemo : AppCompatActivity() {
@@ -43,7 +43,7 @@ class FilterListTagDemo : AppCompatActivity() {
         viewModelTag.connectFilterState(searcher.filterState, groupIDTags)
         viewModelTag.connectView(viewTag)
 
-        configureRecyclerView(list, viewTag)
+        configureRecyclerView(listTopLeft, viewTag)
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)

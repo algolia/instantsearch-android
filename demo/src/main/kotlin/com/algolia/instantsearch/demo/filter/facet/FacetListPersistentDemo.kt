@@ -11,11 +11,13 @@ import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.helper.filter.facet.connectFilterState
 import com.algolia.instantsearch.helper.filter.facet.connectSearcher
 import com.algolia.instantsearch.helper.filter.facet.connectView
+import com.algolia.instantsearch.helper.searchbox.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import kotlinx.android.synthetic.main.demo_facet_list_persistent.*
 import kotlinx.android.synthetic.main.header_filter.*
+import kotlinx.android.synthetic.main.include_list.*
+import kotlinx.android.synthetic.main.include_toolbar_search.*
 
 
 class FacetListPersistentDemo : AppCompatActivity() {
@@ -54,9 +56,13 @@ class FacetListPersistentDemo : AppCompatActivity() {
         val searchBoxViewModel = SearchBoxViewModel()
 
         searchBoxViewModel.connectSearchView(searchView)
-        configureSearchView(searchView)
-        configureRecyclerView(listLeft, colorAdapter)
-        configureRecyclerView(listRight, categoryAdapter)
+        searchBoxViewModel.connectSearcher(searcher)
+
+        configureSearchView(searchView, getString(R.string.search_items))
+        configureRecyclerView(listTopLeft, colorAdapter)
+        configureRecyclerView(listTopRight, categoryAdapter)
+        configureTitle(titleTopLeft, getString(R.string.multiple_choice), colors.getValue(color.raw))
+        configureTitle(titleTopRight, getString(R.string.single_choice), colors.getValue(category.raw))
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)

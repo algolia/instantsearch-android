@@ -11,6 +11,7 @@ import com.algolia.instantsearch.helper.searchbox.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.helper.deserialize
 import kotlinx.android.synthetic.main.demo_search.*
+import kotlinx.android.synthetic.main.include_toolbar_search.*
 
 
 class SearchAsYouTypeDemo : AppCompatActivity() {
@@ -36,7 +37,7 @@ class SearchAsYouTypeDemo : AppCompatActivity() {
         }
 
         configureRecyclerView(list, adapter)
-        configureSearchView(searchView)
+        configureSearchView(searchView, getString(R.string.search_movies))
 
         searcher.search()
     }

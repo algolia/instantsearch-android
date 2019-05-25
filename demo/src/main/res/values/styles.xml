@@ -1,7 +1,7 @@
 <resources>
 
     <style name="InstantSearchDemo" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorAccent">@color/white</item>
+        <item name="colorAccent">@color/blue_dark</item>
         <item name="colorPrimary">@color/blue_dark</item>
         <item name="android:textColorPrimary">@color/black_light</item>
         <item name="colorControlNormal">@color/grey_dark</item>

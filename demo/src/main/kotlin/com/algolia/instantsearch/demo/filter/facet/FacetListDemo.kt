@@ -12,8 +12,8 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
-import kotlinx.android.synthetic.main.demo_facet_list.*
 import kotlinx.android.synthetic.main.header_filter.*
+import kotlinx.android.synthetic.main.include_list.*
 
 
 class FacetListDemo : AppCompatActivity() {
@@ -71,11 +71,13 @@ class FacetListDemo : AppCompatActivity() {
         configureRecyclerView(listTopLeft, colorAAdapter)
         configureRecyclerView(listTopRight, categoryAdapter)
         configureRecyclerView(listBottomLeft, promotionAdapter)
-
-        titleTopLeft.text = formatTitle(colorAPresenter, groupIDColor)
-        titleTopRight.text = formatTitle(categoryPresenter, groupIDCategory)
-        titleBottomLeft.text = formatTitle(promotionPresenter, groupIDPromotions)
-
+        configureTitle(titleTopLeft, formatTitle(colorAPresenter, groupIDColor), colors.getValue(color.raw))
+        configureTitle(titleTopRight, formatTitle(categoryPresenter, groupIDCategory), colors.getValue(category.raw))
+        configureTitle(
+            titleBottomLeft,
+            formatTitle(promotionPresenter, groupIDPromotions),
+            colors.getValue(promotions.raw)
+        )
         onFilterChangedThenUpdateFiltersText(filterState, colors, filtersTextView)
         onClearAllThenClearFilters(filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
