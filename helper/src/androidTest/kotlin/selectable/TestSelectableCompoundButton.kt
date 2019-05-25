@@ -16,42 +16,42 @@ import shouldEqual
 @Config(manifest=Config.NONE)
 class TestSelectableCompoundButton  {
 
-    private fun widget() =
+    private fun view() =
         SelectableCompoundButton(Switch(ApplicationProvider.getApplicationContext()))
 
     @Test
     fun callSetIsSelectedShouldUpdateIsChecked() {
-        val widget = widget()
+        val view = view()
 
-        widget.setIsSelected(true)
-        widget.view.isChecked shouldEqual true
+        view.setIsSelected(true)
+        view.compoundButton.isChecked shouldEqual true
     }
 
     @Test
     fun callSetTextShouldUpdateText() {
-        val widget = widget()
+        val view = view()
 
-        widget.setText("text")
-        widget.view.text shouldEqual "text"
+        view.setText("text")
+        view.compoundButton.text shouldEqual "text"
     }
 
     @Test
     fun callSetIsSelectedShouldNotCallOnClick() {
-        val widget = widget()
+        val view = view()
         var onClickCalled = false
 
-        widget.onClick = { onClickCalled = true }
-        widget.setIsSelected(true)
+        view.onClick = { onClickCalled = true }
+        view.setIsSelected(true)
         onClickCalled shouldEqual false
     }
 
     @Test
     fun onCheckedChangeShouldCallOnClick() {
-        val widget = widget()
+        val view = view()
         var onClickCalled = false
 
-        widget.onClick = { onClickCalled = true }
-        widget.view.isChecked = true
+        view.onClick = { onClickCalled = true }
+        view.compoundButton.isChecked = true
         onClickCalled shouldEqual true
     }
 }

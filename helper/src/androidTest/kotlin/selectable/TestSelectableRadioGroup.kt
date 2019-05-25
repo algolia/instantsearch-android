@@ -17,7 +17,7 @@ import shouldEqual
 @Config(manifest = Config.NONE)
 class TestSelectableRadioGroup {
 
-    private fun widget(): SelectableRadioGroup {
+    private fun view(): SelectableRadioGroup {
         val context = ApplicationProvider.getApplicationContext<Context>()
 
         return SelectableRadioGroup(
@@ -29,39 +29,39 @@ class TestSelectableRadioGroup {
 
     @Test
     fun callSetIsSelectedShouldUpdateIsChecked() {
-        val widget = widget()
+        val view = view()
 
-        widget.setSelected(1)
-        widget.view.checkedRadioButtonId shouldEqual 1
+        view.setSelected(1)
+        view.radioGroup.checkedRadioButtonId shouldEqual 1
     }
 
     @Test
     fun callSetItemsShouldUpdateChildren() {
-        val widget = widget()
+        val view = view()
         val text = "text"
-        val child = widget.view.getChildAt(0) as RadioButton
+        val child = view.radioGroup.getChildAt(0) as RadioButton
 
-        widget.setItems(mapOf(child.id to text))
+        view.setItems(mapOf(child.id to text))
         child.text shouldEqual text
     }
 
     @Test
     fun callSetSelectedShouldNotCallOnClick() {
-        val widget = widget()
+        val view = view()
         var onClickCalled = false
 
-        widget.onClick = { onClickCalled = true }
-        widget.setSelected(1)
+        view.onClick = { onClickCalled = true }
+        view.setSelected(1)
         onClickCalled shouldEqual false
     }
 
     @Test
     fun onCheckedChangeShouldCallOnClick() {
-        val widget = widget()
+        val view = view()
         var onClickCalled = false
 
-        widget.onClick = { onClickCalled = true }
-        widget.view.check(1)
+        view.onClick = { onClickCalled = true }
+        view.radioGroup.check(1)
         onClickCalled shouldEqual true
     }
 }

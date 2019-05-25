@@ -38,7 +38,6 @@ class IndexSegmentDemo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_index_segment)
-        setSupportActionBar(toolbar)
 
         val viewModel = IndexSegmentViewModel(indexes).apply {
             selected = 0
@@ -63,6 +62,7 @@ class IndexSegmentDemo : AppCompatActivity() {
             adapterMovie.submitList(it.hits.deserialize(Movie.serializer()))
         }
 
+        setSupportActionBar(toolbar)
         configureRecyclerView(list, adapterMovie)
 
         searcher.search()

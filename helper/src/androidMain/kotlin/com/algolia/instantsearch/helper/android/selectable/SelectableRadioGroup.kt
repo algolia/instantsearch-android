@@ -7,13 +7,13 @@ import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
 
 
 public class SelectableRadioGroup(
-    val view: RadioGroup
+    val radioGroup: RadioGroup
 ) : SelectableSegmentView<Int, String>, RadioGroup.OnCheckedChangeListener {
 
     override var onClick: ((Int) -> Unit)? = null
 
     init {
-        view.setOnCheckedChangeListener(this)
+        radioGroup.setOnCheckedChangeListener(this)
     }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
@@ -21,14 +21,14 @@ public class SelectableRadioGroup(
     }
 
     override fun setSelected(selected: Int?) {
-        view.setOnCheckedChangeListener(null)
-        view.check(selected ?: View.NO_ID)
-        view.setOnCheckedChangeListener(this)
+        radioGroup.setOnCheckedChangeListener(null)
+        radioGroup.check(selected ?: View.NO_ID)
+        radioGroup.setOnCheckedChangeListener(this)
     }
 
     override fun setItems(items: Map<Int, String>) {
-        for (index in 0 until view.childCount) {
-            val view = view.getChildAt(index) as? RadioButton
+        for (index in 0 until radioGroup.childCount) {
+            val view = radioGroup.getChildAt(index) as? RadioButton
 
             items[view?.id]?.let { view?.text = it }
         }

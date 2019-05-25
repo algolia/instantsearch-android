@@ -8,7 +8,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.DeserializationStrategy
 
 
-class SearcherSingleIndexDataSource<T>(
+public class SearcherSingleIndexDataSource<T>(
     private val searcher: SearcherSingleIndex,
     private val deserializer: DeserializationStrategy<T>
 ) : PageKeyedDataSource<Int, T>() {

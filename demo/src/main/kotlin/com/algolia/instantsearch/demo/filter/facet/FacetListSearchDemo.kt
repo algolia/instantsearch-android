@@ -4,9 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
+import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.android.searchbox.connectSearchView
+import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherForFacet
@@ -31,7 +32,6 @@ class FacetListSearchDemo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list_search)
-        setSupportActionBar(toolbar)
 
         val index = client.initIndex(intent.indexName)
 
@@ -50,10 +50,12 @@ class FacetListSearchDemo : AppCompatActivity() {
         facetViewModel.connectView(facetView, facetPresenter)
 
         val searchBoxViewModel = SearchBoxViewModel()
+        val searchBoxView = SearchBoxViewAppCompat(searchView)
 
-        searchBoxViewModel.connectSearchView(searchView)
+        searchBoxViewModel.connectView(searchBoxView)
         searchBoxViewModel.connectSearcher(searcherForFacet)
 
+        setSupportActionBar(toolbar)
         configureRecyclerView(list, facetView)
         configureSearchView(searchView, getString(R.string.search_brands))
         onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)

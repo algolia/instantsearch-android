@@ -4,9 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
+import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.android.searchbox.connectSearchView
+import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.helper.filter.facet.connectFilterState
 import com.algolia.instantsearch.helper.filter.facet.connectSearcher
@@ -54,8 +55,9 @@ class FacetListPersistentDemo : AppCompatActivity() {
         categoryViewModel.connectSearcher(category, searcher)
 
         val searchBoxViewModel = SearchBoxViewModel()
+        val searchBoxView = SearchBoxViewAppCompat(searchView)
 
-        searchBoxViewModel.connectSearchView(searchView)
+        searchBoxViewModel.connectView(searchBoxView)
         searchBoxViewModel.connectSearcher(searcher)
 
         configureSearchView(searchView, getString(R.string.search_items))

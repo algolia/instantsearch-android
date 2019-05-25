@@ -1,29 +1,27 @@
 package com.algolia.instantsearch.helper.android.selectable
 
-import android.view.View
-import android.widget.AdapterView
 import android.widget.CompoundButton
 import com.algolia.instantsearch.core.selectable.SelectableItemView
 
 
 public class SelectableCompoundButton(
-    val view: CompoundButton
+    val compoundButton: CompoundButton
 ) : SelectableItemView, CompoundButton.OnCheckedChangeListener {
 
     override var onClick: ((Boolean) -> Unit)? = null
 
     init {
-        view.setOnCheckedChangeListener(this)
+        compoundButton.setOnCheckedChangeListener(this)
     }
 
     override fun setText(text: String) {
-        view.text = text
+        compoundButton.text = text
     }
 
     override fun setIsSelected(isSelected: Boolean) {
-        view.setOnCheckedChangeListener(null)
-        view.isChecked = isSelected
-        view.setOnCheckedChangeListener(this)
+        compoundButton.setOnCheckedChangeListener(null)
+        compoundButton.isChecked = isSelected
+        compoundButton.setOnCheckedChangeListener(this)
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
