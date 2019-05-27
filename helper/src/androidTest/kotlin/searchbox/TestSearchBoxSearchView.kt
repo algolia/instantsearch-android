@@ -1,12 +1,16 @@
 package searchbox
 
 import android.widget.SearchView
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import applicationContext
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewImpl
 import com.algolia.instantsearch.helper.searchbox.connectView
+import com.algolia.instantsearch.helper.android.searchbox.connectSearchView
+import com.algolia.instantsearch.helper.searchbox.connectSearcher
+import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import mockIndex
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
@@ -20,7 +24,7 @@ class TestSearchBoxSearchView {
 
     private val text = "text"
 
-    private fun view() = SearchBoxViewImpl(SearchView(ApplicationProvider.getApplicationContext()))
+    private fun view() = SearchBoxViewImpl(SearchView(applicationContext))
 
     @Test
     fun connectShouldUpdateQuery() {
@@ -52,5 +56,19 @@ class TestSearchBoxSearchView {
         viewModel.connectView(view)
         view.searchView.setQuery(text, true)
         expected shouldEqual text
+    }
+
+    @Test
+    fun onSearcherSetQueryShouldUpdateQuery() {
+        val searchView = SearchView(applicationContext)
+        val searcher = SearcherSingleIndex(mockIndex)
+        val searchBoxViewModel = SearchBoxViewModel()
+
+        searchBoxViewModel.connectSearchView(searchView)
+        searchBoxViewModel.connectSearcher(searcher)
+
+        searcher.setQuery("test")
+
+        searchView.query.toString() shouldEqual "test"
     }
 }

@@ -4,9 +4,14 @@ import android.widget.EditText
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import applicationContext
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewEditText
 import com.algolia.instantsearch.helper.searchbox.connectView
+import com.algolia.instantsearch.helper.android.searchbox.connectEditText
+import com.algolia.instantsearch.helper.searchbox.connectSearcher
+import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import mockIndex
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
@@ -20,7 +25,9 @@ class TestSearchBoxEditText {
 
     private val text = "text"
 
-    private fun view() = SearchBoxViewEditText(EditText(ApplicationProvider.getApplicationContext()))
+    private fun view() = SearchBoxViewEditText(EditText(applicationContext))
+
+    private fun editText(): EditText = EditText(applicationContext)
 
     @Test
     fun connectShouldUpdateQuery() {
@@ -40,5 +47,19 @@ class TestSearchBoxEditText {
         viewModel.connectView(view)
         view.editText.setText(text)
         viewModel.query shouldEqual text
+    }
+
+    @Test
+    fun onSearcherSetQueryShouldUpdateQuery() {
+        val editText = editText()
+        val searcher = SearcherSingleIndex(mockIndex)
+        val searchBoxViewModel = SearchBoxViewModel()
+
+        searchBoxViewModel.connectEditText(editText)
+        searchBoxViewModel.connectSearcher(searcher)
+
+        searcher.setQuery("test")
+
+        editText.text.toString() shouldEqual "test"
     }
 }

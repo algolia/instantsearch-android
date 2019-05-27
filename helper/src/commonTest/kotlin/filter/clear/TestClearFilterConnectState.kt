@@ -6,13 +6,14 @@ import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.Searcher
+import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.search.Query
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
 import shouldEqual
 import kotlin.test.Test
 
@@ -37,10 +38,10 @@ class TestClearFilterConnectState {
     fun connectShouldClearQueryIfSpecified() {
         val viewModel = ClearFilterViewModel()
         val view = MockClearFilterView()
-        val searcherQuery = object : Searcher {
-            override val coroutineContext = SupervisorJob()
+        val searcherWithQuery = object : Searcher {
+            override val coroutineScope: CoroutineScope = SearcherScope()
             override val dispatcher: CoroutineDispatcher = Dispatchers.Main
-            val query: Query = Query()
+            val query: Query = Query("foo")
             override fun setQuery(text: String?) {
                 query.query = text
             }
@@ -48,10 +49,11 @@ class TestClearFilterConnectState {
             override fun search(): Job = Job()
             override fun cancel() = Unit
         }
-        viewModel.connectView(view)
         val filterState = FilterState()
-        viewModel.connectState(filterState, searcherQuery)
+
+        viewModel.connectView(view)
+        viewModel.connectState(filterState, searcherWithQuery)
         view.onClick?.invoke()
-        searcherQuery.query.query shouldEqual ""
+        searcherWithQuery.query.query shouldEqual ""
     }
 }
