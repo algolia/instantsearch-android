@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.helper.android.highlight
 import com.algolia.instantsearch.helper.filter.clear.ClearFilterView
 import com.algolia.instantsearch.helper.filter.clear.ClearFilterViewModel
-import com.algolia.instantsearch.helper.filter.clear.connectState
+import com.algolia.instantsearch.helper.filter.clear.connectFilterState
 import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
@@ -82,7 +82,7 @@ fun AppCompatActivity.onClearAllThenClearFilters(
             }
     }
     viewModel.connectView(view)
-    viewModel.connectState(filterState, queryToClearSearcher)
+    viewModel.connectFilterState(filterState, queryToClearSearcher)
 }
 
 fun AppCompatActivity.onErrorThenUpdateFiltersText(searcher: SearcherSingleIndex, filtersTextView: TextView) {

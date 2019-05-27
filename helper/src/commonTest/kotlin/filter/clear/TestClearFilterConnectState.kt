@@ -1,7 +1,7 @@
 package filter.clear
 
 import com.algolia.instantsearch.helper.filter.clear.ClearFilterViewModel
-import com.algolia.instantsearch.helper.filter.clear.connectState
+import com.algolia.instantsearch.helper.filter.clear.connectFilterState
 import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -29,7 +29,7 @@ class TestClearFilterConnectState {
         viewModel.connectView(view)
         val filterState = FilterState().apply { add(group, facet) }
 
-        viewModel.connectState(filterState)
+        viewModel.connectFilterState(filterState)
         view.onClick?.invoke()
         filterState.getFilters() shouldEqual setOf()
     }
@@ -52,7 +52,7 @@ class TestClearFilterConnectState {
         val filterState = FilterState()
 
         viewModel.connectView(view)
-        viewModel.connectState(filterState, searcherWithQuery)
+        viewModel.connectFilterState(filterState, searcherWithQuery)
         view.onClick?.invoke()
         searcherWithQuery.query.query shouldEqual ""
     }

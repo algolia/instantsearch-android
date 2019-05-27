@@ -9,7 +9,7 @@ import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.helper.android.searchbox.connectSearchView
 import com.algolia.instantsearch.helper.filter.clear.ClearFilterView
 import com.algolia.instantsearch.helper.filter.clear.ClearFilterViewModel
-import com.algolia.instantsearch.helper.filter.clear.connectState
+import com.algolia.instantsearch.helper.filter.clear.connectFilterState
 import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -37,7 +37,7 @@ class TestClearFilter {
         searchBoxViewModel.connectSearcher(searcher)
 
         val viewModel = ClearFilterViewModel()
-        viewModel.connectState(searcher.filterState, searcher)
+        viewModel.connectFilterState(searcher.filterState, searcher)
         viewModel.connectView(clearFilterView)
         clearFilterView.view.callOnClick()
 
