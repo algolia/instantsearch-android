@@ -27,6 +27,7 @@ fun SearchBoxViewModel.connectSearchView(searchView: android.widget.SearchView) 
     }
 }
 
+// TODO: searchbox.TestSearchBoxSearchView
 fun SearchBoxViewModel.connectSearchView(searchView: SearchView) {
     searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
