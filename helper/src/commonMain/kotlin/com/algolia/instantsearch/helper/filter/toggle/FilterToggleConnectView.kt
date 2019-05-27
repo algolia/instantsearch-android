@@ -7,7 +7,7 @@ import com.algolia.search.model.filter.Filter
 
 public fun FilterToggleViewModel.connectView(
     view: SelectableItemView,
-    presenter: (Filter) -> String = FilterPresenterImpl
+    presenter: (Filter) -> String = FilterPresenterImpl()
 ) {
     view.setText(presenter(item))
     view.setIsSelected(isSelected)

@@ -7,46 +7,29 @@ import com.algolia.search.model.filter.NumericOperator
 
 interface FilterPresenter : (Filter) -> String {
 
-    fun facet(attribute: Attribute, value: String, isNegated: Boolean): String {
-        return value
-    }
-
-    fun facet(attribute: Attribute, value: Boolean, isNegated: Boolean): String {
-        return attribute.raw
-    }
-
-    fun facet(attribute: Attribute, value: Number, isNegated: Boolean): String {
-        return "${attribute.raw}: $value"
-    }
-
-    fun tag(value: String, isNegated: Boolean): String {
-        return value
-    }
-
-    fun numeric(attribute: Attribute, operator: NumericOperator, value: Number, isNegated: Boolean): String {
-        return "$attribute ${operator.raw} $value"
-    }
-
-    fun numeric(attribute: Attribute, lowerBound: Number, upperBound: Number, isNegated: Boolean): String {
-        return "$attribute: $lowerBound to $upperBound"
-    }
+    val facetString: (Attribute, String, Boolean) -> String
+    val facetBoolean: (Attribute, Boolean, Boolean) -> String
+    val facetNumber: (Attribute, Number, Boolean) -> String
+    val tag: (Attribute, String, Boolean) -> String
+    val numericComparison: (Attribute, NumericOperator, Number, Boolean) -> String
+    val numericRange: (Attribute, Number, Number, Boolean) -> String
 
     override fun invoke(filter: Filter): String {
         return when (filter) {
             is Filter.Facet -> {
                 when (val value = filter.value) {
-                    is Filter.Facet.Value.String -> facet(filter.attribute, value.raw, filter.isNegated)
-                    is Filter.Facet.Value.Number -> facet(filter.attribute, value.raw, filter.isNegated)
-                    is Filter.Facet.Value.Boolean -> facet(filter.attribute, value.raw, filter.isNegated)
+                    is Filter.Facet.Value.String -> facetString(filter.attribute, value.raw, filter.isNegated)
+                    is Filter.Facet.Value.Number -> facetNumber(filter.attribute, value.raw, filter.isNegated)
+                    is Filter.Facet.Value.Boolean -> facetBoolean(filter.attribute, value.raw, filter.isNegated)
                 }
             }
-            is Filter.Tag -> tag(filter.value, filter.isNegated)
+            is Filter.Tag -> tag(filter.attribute, filter.value, filter.isNegated)
             is Filter.Numeric -> when (val value = filter.value) {
                 is Filter.Numeric.Value.Comparison -> {
-                    numeric(filter.attribute, value.operator, value.number, filter.isNegated)
+                    numericComparison(filter.attribute, value.operator, value.number, filter.isNegated)
                 }
                 is Filter.Numeric.Value.Range -> {
-                    numeric(filter.attribute, value.lowerBound, value.upperBound, filter.isNegated)
+                    numericRange(filter.attribute, value.lowerBound, value.upperBound, filter.isNegated)
                 }
             }
         }

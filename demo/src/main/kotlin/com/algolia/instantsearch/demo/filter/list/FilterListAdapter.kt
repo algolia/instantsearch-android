@@ -25,7 +25,7 @@ class FilterListAdapter<T: Filter> :
     override fun onBindViewHolder(holder: FilterListViewHolder, position: Int) {
         val (filter, selected) = getItem(position)
 
-        holder.bind(FilterPresenterImpl(filter), selected, View.OnClickListener { onClick?.invoke(filter) })
+        holder.bind(FilterPresenterImpl()(filter), selected, View.OnClickListener { onClick?.invoke(filter) })
     }
 
     override fun setSelectableItems(selectableItems: List<SelectableItem<T>>) {

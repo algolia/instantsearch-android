@@ -14,28 +14,31 @@ class TestFilterPresenterImpl {
 
     @Test
     fun facet() {
+        val presenter = FilterPresenterImpl()
         val string = Filter.Facet(attribute, "value")
         val integer = Filter.Facet(attribute, 0)
         val boolean = Filter.Facet(attribute, true)
 
-        FilterPresenterImpl(string) shouldEqual "value"
-        FilterPresenterImpl(integer) shouldEqual "color: 0"
-        FilterPresenterImpl(boolean) shouldEqual "color"
+        presenter(string) shouldEqual "value"
+        presenter(integer) shouldEqual "color: 0"
+        presenter(boolean) shouldEqual "color"
     }
 
     @Test
     fun tag() {
+        val presenter = FilterPresenterImpl()
         val filter = Filter.Tag("value")
 
-        FilterPresenterImpl(filter) shouldEqual "value"
+        presenter(filter) shouldEqual "value"
     }
 
     @Test
     fun numeric() {
+        val presenter = FilterPresenterImpl()
         val range = Filter.Numeric(attribute, 0 until 10)
         val comparison = Filter.Numeric(attribute, NumericOperator.Greater, 1f)
 
-        FilterPresenterImpl(range) shouldEqual "color: 0 to 9"
-        FilterPresenterImpl(comparison) shouldEqual "color > 1.0"
+        presenter(range) shouldEqual "color: 0 to 9"
+        presenter(comparison) shouldEqual "color > 1.0"
     }
 }

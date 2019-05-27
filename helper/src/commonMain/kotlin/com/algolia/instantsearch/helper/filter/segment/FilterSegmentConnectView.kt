@@ -7,7 +7,7 @@ import com.algolia.search.model.filter.Filter
 
 public fun FilterSegmentViewModel.connectView(
     view: SelectableSegmentView<Int, String>,
-    presenter: (Filter) -> String = FilterPresenterImpl
+    presenter: (Filter) -> String = FilterPresenterImpl()
 ) {
     view.setItems(items.map { it.key to presenter(it.value) }.toMap())
     view.setSelected(selected)
