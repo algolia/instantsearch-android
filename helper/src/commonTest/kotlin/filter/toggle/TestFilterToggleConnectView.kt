@@ -40,7 +40,7 @@ class TestFilterToggleConnectView {
         viewModel.isSelected = true
         viewModel.connectView(view)
         view.boolean shouldEqual true
-        view.string shouldEqual FilterPresenterImpl(red)
+        view.string shouldEqual FilterPresenterImpl()(red)
     }
 
     @Test
