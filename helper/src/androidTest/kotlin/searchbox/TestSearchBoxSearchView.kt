@@ -37,7 +37,7 @@ class TestSearchBoxSearchView {
     }
 
     @Test
-    fun onQueryChangedShouldUpdateQuery() {
+    fun onViewQueryChangedShouldUpdateQuery() {
         val view = view()
         val viewModel = SearchBoxViewModel()
 
@@ -59,7 +59,7 @@ class TestSearchBoxSearchView {
     }
 
     @Test
-    fun onSearcherSetQueryShouldUpdateQuery() {
+    fun onSearcherQueryChangedShouldUpdateView() {
         val searchView = SearchView(applicationContext)
         val searcher = SearcherSingleIndex(mockIndex)
         val searchBoxViewModel = SearchBoxViewModel()

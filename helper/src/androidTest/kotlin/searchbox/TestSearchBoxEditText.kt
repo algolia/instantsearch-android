@@ -50,7 +50,7 @@ class TestSearchBoxEditText {
     }
 
     @Test
-    fun onSearcherSetQueryShouldUpdateQuery() {
+    fun onSearcherQueryChangedShouldUpdateView() {
         val editText = editText()
         val searcher = SearcherSingleIndex(mockIndex)
         val searchBoxViewModel = SearchBoxViewModel()
