@@ -5,10 +5,14 @@ import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 
 
 public fun SearchBoxViewModel.connectView(searchBoxView: SearchBoxView) {
-    searchBoxView.setQuery(query)
     searchBoxView.onQueryChanged = { query = it }
     searchBoxView.onQuerySubmitted = {
         query = it
         submitQuery()
     }
+    val onQueryChange: (String?) -> Unit = {
+        searchBoxView.setQuery(it)
+    }
+    onQueryChange(query)
+    onQueryChanged += onQueryChange
 }
