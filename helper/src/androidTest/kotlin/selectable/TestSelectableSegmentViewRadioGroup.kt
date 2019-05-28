@@ -15,7 +15,7 @@ import shouldEqual
 @SmallTest
 @RunWith(AndroidJUnit4::class)
 @Config(manifest = Config.NONE)
-class TestSelectableRadioGroup {
+class TestSelectableSegmentViewRadioGroup {
 
     private fun view(): SelectableSegmentViewRadioGroup {
         val context = ApplicationProvider.getApplicationContext<Context>()
