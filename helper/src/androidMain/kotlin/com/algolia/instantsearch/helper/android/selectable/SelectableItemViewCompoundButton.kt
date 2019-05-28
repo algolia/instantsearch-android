@@ -4,7 +4,7 @@ import android.widget.CompoundButton
 import com.algolia.instantsearch.core.selectable.SelectableItemView
 
 
-public class SelectableCompoundButton(
+public class SelectableItemViewCompoundButton(
     val compoundButton: CompoundButton
 ) : SelectableItemView, CompoundButton.OnCheckedChangeListener {
 

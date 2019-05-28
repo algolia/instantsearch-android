@@ -7,7 +7,7 @@ import android.widget.Spinner
 import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
 
 
-public class SelectableSpinner(
+public class SelectableSegmentViewSpinner(
     val spinner: Spinner,
     val adapter: ArrayAdapter<String>,
     val defaultSelection: Int = 0

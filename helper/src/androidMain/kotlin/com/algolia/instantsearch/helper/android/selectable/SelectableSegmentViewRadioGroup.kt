@@ -6,7 +6,7 @@ import android.widget.RadioGroup
 import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
 
 
-public class SelectableRadioGroup(
+public class SelectableSegmentViewRadioGroup(
     val radioGroup: RadioGroup
 ) : SelectableSegmentView<Int, String>, RadioGroup.OnCheckedChangeListener {
 

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.android.selectable.SelectableCompoundButton
+import com.algolia.instantsearch.helper.android.selectable.SelectableItemViewCompoundButton
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
 import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
 import com.algolia.instantsearch.helper.filter.toggle.connectView
@@ -35,19 +35,19 @@ class FilterToggleDemo : AppCompatActivity() {
         setContentView(R.layout.demo_filter_toggle)
 
         val viewModelCoupon = FilterToggleViewModel(Filter.Facet(promotions, "coupon"))
-        val viewCoupon = SelectableCompoundButton(switchCoupon)
+        val viewCoupon = SelectableItemViewCompoundButton(switchCoupon)
 
         viewModelCoupon.connectFilterState(searcher.filterState)
         viewModelCoupon.connectView(viewCoupon)
 
         val viewModelSize = FilterToggleViewModel(Filter.Numeric(size, NumericOperator.Greater, 40))
-        val viewSize = SelectableCompoundButton(checkBoxSize)
+        val viewSize = SelectableItemViewCompoundButton(checkBoxSize)
 
         viewModelSize.connectFilterState(searcher.filterState)
         viewModelSize.connectView(viewSize)
 
         val viewModelVintage = FilterToggleViewModel(Filter.Tag("vintage"))
-        val viewVintage = SelectableCompoundButton(checkBoxVintage)
+        val viewVintage = SelectableItemViewCompoundButton(checkBoxVintage)
 
         viewModelVintage.connectFilterState(searcher.filterState)
         viewModelVintage.connectView(viewVintage)
