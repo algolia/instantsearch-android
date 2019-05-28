@@ -1,5 +1,4 @@
 
-import dependency.Library
 import java.net.URI
 
 plugins {
@@ -16,6 +15,7 @@ buildscript {
         classpath(dependency.script.AndroidTools())
         classpath(kotlin("gradle-plugin", version = "1.3.31"))
         classpath(kotlin("serialization",  version = "1.3.31"))
+        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
     }
 }
 

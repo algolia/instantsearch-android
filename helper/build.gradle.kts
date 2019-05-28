@@ -15,7 +15,7 @@ plugins {
     id("com.android.library")
     id("kotlin-multiplatform")
     id("maven-publish")
-    id("com.jfrog.bintray") version "1.8.4"
+    id("com.jfrog.bintray")
 }
 
 android {
