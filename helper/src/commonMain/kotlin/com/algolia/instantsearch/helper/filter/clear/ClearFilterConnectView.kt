@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.helper.filter.clear
 
 
-fun ClearFilterViewModel.connectView(view: ClearFilterView) {
+fun ClearFiltersViewModel.connectView(view: ClearFiltersView) {
 
     view.onClick = {
-        onCleared.forEach { it() }
+        this.clearFilters()
     }
 }

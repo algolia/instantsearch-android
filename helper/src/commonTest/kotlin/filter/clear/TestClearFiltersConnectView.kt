@@ -1,15 +1,15 @@
 package filter.clear
 
-import com.algolia.instantsearch.helper.filter.clear.ClearFilterViewModel
+import com.algolia.instantsearch.helper.filter.clear.ClearFiltersViewModel
 import com.algolia.instantsearch.helper.filter.clear.connectView
 import shouldNotEqual
 import kotlin.test.Test
 
-class TestClearFilterConnectView {
+class TestClearFiltersConnectView {
     @Test
     fun connectShouldSetOnClick() {
-        val viewModel = ClearFilterViewModel()
-        val view = MockClearFilterView()
+        val viewModel = ClearFiltersViewModel()
+        val view = MockClearFiltersView()
         viewModel.connectView(view)
         view.onClick shouldNotEqual null
     }
