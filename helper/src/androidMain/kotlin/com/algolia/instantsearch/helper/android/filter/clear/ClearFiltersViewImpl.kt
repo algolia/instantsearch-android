@@ -8,5 +8,5 @@ public class ClearFiltersViewImpl(internal val view: View) : ClearFiltersView {
 
     init {
         view.setOnClickListener { onClick?.invoke() }
-        }
+    }
 }

@@ -15,12 +15,14 @@ import com.algolia.search.model.filter.Filter
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import shouldEqual
+import shouldBeEmpty
+
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
 @Config(manifest= Config.NONE)
 class TestClearFiltersViewImpl {
+
     private fun view() : View = View(ApplicationProvider.getApplicationContext())
 
     @Test
@@ -30,10 +32,10 @@ class TestClearFiltersViewImpl {
         }
         val viewModel = ClearFiltersViewModel()
         val view = ClearFiltersViewImpl(view())
+
         viewModel.connectFilterState(filterState)
         viewModel.connectView(view)
-
         view.view.callOnClick()
-        filterState.getFilters() shouldEqual setOf()
+        filterState.getFilters().shouldBeEmpty()
     }
 }
