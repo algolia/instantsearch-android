@@ -5,9 +5,8 @@ import com.algolia.instantsearch.helper.filter.clear.ClearFiltersView
 
 public class ClearFiltersViewImpl(internal val view: View) : ClearFiltersView {
     override var onClick: (() -> Unit)? = null
-        set(value) {
-            view.setOnClickListener {
-                value?.invoke()
-            }
+
+    init {
+        view.setOnClickListener { onClick?.invoke() }
         }
 }
