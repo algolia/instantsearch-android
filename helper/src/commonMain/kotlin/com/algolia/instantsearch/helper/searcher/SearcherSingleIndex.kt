@@ -27,7 +27,6 @@ public class SearcherSingleIndex(
 
     public val onResponseChanged = mutableListOf<(ResponseSearch) -> Unit>()
     public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
-    public val onQueryChanged = mutableListOf<(String?) -> Unit>()
 
     public var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
         if (newValue != null) {
@@ -58,7 +57,6 @@ public class SearcherSingleIndex(
     override fun setQuery(text: String?) {
         if (text != query.query) {
             query.query = text
-            onQueryChanged.forEach { it(text) }
         }
     }
 
