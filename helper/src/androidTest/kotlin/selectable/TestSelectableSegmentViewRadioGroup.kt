@@ -1,5 +1,6 @@
 package selectable
 
+import android.content.Context
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.test.core.app.ApplicationProvider
@@ -17,8 +18,11 @@ import shouldEqual
 class TestSelectableSegmentViewRadioGroup {
 
     private fun view(): SelectableSegmentViewRadioGroup {
-        return SelectableSegmentViewRadioGroup(RadioGroup(ApplicationProvider.getApplicationContext()).apply {
-            addView(RadioButton(ApplicationProvider.getApplicationContext()))
+        val context = ApplicationProvider.getApplicationContext<Context>()
+
+        return SelectableSegmentViewRadioGroup(
+            RadioGroup(context).apply {
+                addView(RadioButton(context))
             }
         )
     }
