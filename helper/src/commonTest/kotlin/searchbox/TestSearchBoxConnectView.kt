@@ -11,7 +11,6 @@ import kotlin.test.Test
 class TestSearchBoxConnectView {
 
     private val text = "text"
-    private val newText = "newText"
 
     private class MockView : SearchBoxView {
 
@@ -39,17 +38,6 @@ class TestSearchBoxConnectView {
         viewModel.query = text
         viewModel.connectView(view)
         view.text shouldEqual text
-    }
-
-    @Test
-    fun connectViewShouldKeepQueryInSync() {
-        val viewModel = SearchBoxViewModel()
-        val view = MockView()
-
-        viewModel.query = text
-        viewModel.connectView(view)
-        viewModel.query = newText
-        view.text shouldEqual newText
     }
 
     @Test
