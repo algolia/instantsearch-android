@@ -13,13 +13,13 @@ import kotlin.test.Test
 class TestClearFiltersConnectState {
 
     private val color = Attribute("color")
-    private val facet = Filter.Facet(color, 0)
-    private val group = FilterGroupID.And(color)
+    private val facetRed = Filter.Facet(color, "red")
+    private val groupID = FilterGroupID.And(color)
 
     @Test
     fun connectShouldClearFiltersOnClear() {
         val viewModel = ClearFiltersViewModel()
-        val filterState = FilterState().apply { add(group, facet) }
+        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(facetRed)))
 
         viewModel.connectFilterState(filterState)
         viewModel.clearFilters()

@@ -16,6 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import shouldBeEmpty
+import shouldNotBeEmpty
 
 
 @SmallTest
@@ -23,18 +24,22 @@ import shouldBeEmpty
 @Config(manifest= Config.NONE)
 class TestClearFiltersViewImpl {
 
+    private val color = Attribute("color")
+    private val groupID = FilterGroupID.And(color)
+    private val filterRed = Filter.Facet(color, "red")
+
     private fun view() : View = View(ApplicationProvider.getApplicationContext())
+
 
     @Test
     fun onViewClickCallsClearFilters() {
-        val filterState = FilterState().apply {
-            add(FilterGroupID.And("foo"), Filter.Facet(Attribute("color"), "red"))
-        }
+        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(filterRed)))
         val viewModel = ClearFiltersViewModel()
         val view = ClearFiltersViewImpl(view())
 
         viewModel.connectFilterState(filterState)
         viewModel.connectView(view)
+        filterState.getFilters().shouldNotBeEmpty()
         view.view.callOnClick()
         filterState.getFilters().shouldBeEmpty()
     }
