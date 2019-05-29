@@ -42,7 +42,7 @@ public class SearcherForFacets(
     }
 
     override fun setQuery(text: String?) {
-            facetQuery = text
+        facetQuery = text
     }
 
     override fun search(): Job {
