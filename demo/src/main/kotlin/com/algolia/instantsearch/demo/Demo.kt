@@ -16,14 +16,13 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.instantsearch.helper.android.filter.clear.ClearFilterViewImpl
 import com.algolia.instantsearch.helper.android.highlight
-import com.algolia.instantsearch.helper.filter.clear.ClearFilterView
 import com.algolia.instantsearch.helper.filter.clear.ClearFilterViewModel
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
 import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
-import com.algolia.instantsearch.helper.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.client.ClientSearch
@@ -68,21 +67,11 @@ fun AppCompatActivity.onFilterChangedThenUpdateFiltersText(
 
 fun AppCompatActivity.onClearAllThenClearFilters(
     filterState: FilterState,
-    filtersClearAllView: View,
-    queryToClearSearcher: Searcher? = null
+    filtersClearAll: View
 ) {
     val viewModel = ClearFilterViewModel()
-    val view = object : ClearFilterView {
-        override var onClick: (() -> Unit)? = null
-            set(value) {
-                field = value
-                filtersClearAllView.setOnClickListener {
-                    field?.invoke()
-                }
-            }
-    }
-    viewModel.connectView(view)
-    viewModel.connectFilterState(filterState, queryToClearSearcher)
+    viewModel.connectView(ClearFilterViewImpl(filtersClearAll))
+    viewModel.connectFilterState(filterState)
 }
 
 fun AppCompatActivity.onErrorThenUpdateFiltersText(searcher: SearcherSingleIndex, filtersTextView: TextView) {
