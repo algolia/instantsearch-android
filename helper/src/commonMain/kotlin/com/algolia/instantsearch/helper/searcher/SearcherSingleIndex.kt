@@ -55,7 +55,7 @@ public class SearcherSingleIndex(
     }
 
     override fun setQuery(text: String?) {
-            query.query = text
+        this.query.query = text
     }
 
     override fun search(): Job {
