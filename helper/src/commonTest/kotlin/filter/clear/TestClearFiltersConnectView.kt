@@ -18,6 +18,7 @@ class TestClearFiltersConnectView {
     fun connectShouldSetOnClick() {
         val viewModel = ClearFiltersViewModel()
         val view = MockClearFiltersView()
+
         viewModel.connectView(view)
         view.onClick.shouldNotBeNull()
     }
