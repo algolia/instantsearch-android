@@ -1,9 +1,9 @@
 package filter.clear
 
 import android.view.View
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import applicationContext
 import com.algolia.instantsearch.helper.android.filter.clear.ClearFiltersViewImpl
 import com.algolia.instantsearch.helper.filter.clear.ClearFiltersViewModel
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
@@ -21,7 +21,7 @@ import shouldEqual
 @RunWith(AndroidJUnit4::class)
 @Config(manifest= Config.NONE)
 class TestClearFiltersViewImpl {
-    private fun view() : View = View(applicationContext)
+    private fun view() : View = View(ApplicationProvider.getApplicationContext())
 
     @Test
     fun onViewClickCallsClearFilters() {

@@ -2,9 +2,9 @@ package selectable
 
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import applicationContext
 import com.algolia.instantsearch.helper.android.selectable.SelectableSegmentViewRadioGroup
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,8 +17,8 @@ import shouldEqual
 class TestSelectableSegmentViewRadioGroup {
 
     private fun view(): SelectableSegmentViewRadioGroup {
-        return SelectableSegmentViewRadioGroup(RadioGroup(applicationContext).apply {
-            addView(RadioButton(applicationContext))
+        return SelectableSegmentViewRadioGroup(RadioGroup(ApplicationProvider.getApplicationContext()).apply {
+            addView(RadioButton(ApplicationProvider.getApplicationContext()))
             }
         )
     }
