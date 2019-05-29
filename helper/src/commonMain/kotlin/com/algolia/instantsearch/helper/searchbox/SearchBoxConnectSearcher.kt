@@ -23,9 +23,4 @@ public fun SearchBoxViewModel.connectSearcher(
             searcher.search()
         }
     }
-    val setQuery = { it: String? -> query = it }
-    when (searcher) {
-        is SearcherSingleIndex -> searcher.onQueryChanged += setQuery
-        is SearcherForFacets -> searcher.onQueryChanged += setQuery
-    }
 }
