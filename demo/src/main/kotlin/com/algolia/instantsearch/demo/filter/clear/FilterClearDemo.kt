@@ -33,33 +33,32 @@ class FilterClearDemo : AppCompatActivity() {
             category.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
         )
 
-    private val initialFacetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> =
-        mutableMapOf(colorID to colorFacets, categoryID to categoryFacets)
+    private val initialFacetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(
+        colorID to colorFacets,
+        categoryID to categoryFacets
+    )
     private val searcher = SearcherSingleIndex(stubIndex, filterState = FilterState(facetGroups = initialFacetGroups))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_clear)
 
-        /** Clear all filters */
         val viewModel = FilterClearViewModel()
 
         viewModel.connectView(FilterClearViewImpl(filtersClearAll))
         viewModel.connectFilterState(searcher.filterState)
 
-        /** Clear only color filters */
-        val viewModelClearColors = FilterClearViewModel()
-        val viewClearColors = FilterClearViewImpl(buttonClearColors)
+        val clearColorsViewModel = FilterClearViewModel()
+        val clearColorsView = FilterClearViewImpl(buttonClearColors)
 
-        viewModelClearColors.connectView(viewClearColors)
-        viewModelClearColors.connectFilterState(searcher.filterState, colorID)
+        clearColorsViewModel.connectView(clearColorsView)
+        clearColorsViewModel.connectFilterState(searcher.filterState, colorID)
 
-        /** Clear all filters but colors */
-        val viewModelClearExceptColors = FilterClearViewModel()
-        val viewClearOther = FilterClearViewImpl(buttonClearExceptColors)
+        val clearExceptColorsViewModel = FilterClearViewModel()
+        val clearExceptColorsView = FilterClearViewImpl(buttonClearExceptColors)
 
-        viewModelClearExceptColors.connectView(viewClearOther)
-        viewModelClearExceptColors.connectFilterState(searcher.filterState, true, colorID)
+        clearExceptColorsViewModel.connectView(clearExceptColorsView)
+        clearExceptColorsViewModel.connectFilterState(searcher.filterState, true, colorID)
 
         buttonReset.setOnClickListener {
             searcher.filterState.notify {

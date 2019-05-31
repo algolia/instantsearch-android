@@ -11,20 +11,22 @@ import kotlin.test.Test
 
 class TestFilterClearConnectView {
 
+    private class MockFilterClearView: FilterClearView {
+
+        override var onClick: ((Unit) -> Unit)? = null
+    }
+
     @Test
     fun connectSetsOnClick() {
-        var clicked = false
         val viewModel = FilterClearViewModel()
-        val view = object : FilterClearView {
-            override var onClick: ((Unit) -> Unit)? = null
-        }
+        val view = MockFilterClearView()
+        var clicked = false
 
         viewModel.onClicked += { clicked = true }
-        viewModel.connectView(view)
         clicked.shouldBeFalse()
+        viewModel.connectView(view)
         view.onClick.shouldNotBeNull()
         view.onClick?.invoke(Unit)
         clicked.shouldBeTrue()
     }
-
 }

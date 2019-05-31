@@ -24,6 +24,7 @@ class TestFilterClearConnectFilterState {
     fun testConnectDoesNotClear() {
         val viewModel = FilterClearViewModel()
         val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
+
         viewModel.connectFilterState(filterState)
         filterState.getFilters() shouldEqual setOf(red)
     }
@@ -33,6 +34,7 @@ class TestFilterClearConnectFilterState {
         val viewModel = FilterClearViewModel()
         val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
         var changed = false
+
         filterState.onChanged += { changed = true }
         viewModel.connectFilterState(filterState)
         viewModel.click()
@@ -43,6 +45,7 @@ class TestFilterClearConnectFilterState {
     fun testClearAll() {
         val viewModel = FilterClearViewModel()
         val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
+
         viewModel.connectFilterState(filterState)
         viewModel.click()
         filterState.getFilters() shouldEqual setOf()
@@ -57,6 +60,7 @@ class TestFilterClearConnectFilterState {
                 otherGroupID to setOf(green)
             )
         )
+
         viewModel.connectFilterState(filterState, groupID)
         viewModel.click()
         filterState.getFilters() shouldEqual setOf(green)
@@ -66,6 +70,7 @@ class TestFilterClearConnectFilterState {
     fun testClearMissingGroup() {
         val viewModel = FilterClearViewModel()
         val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
+
         viewModel.connectFilterState(filterState, otherGroupID)
         viewModel.click()
         filterState.getFilters() shouldEqual setOf(red)
@@ -80,6 +85,7 @@ class TestFilterClearConnectFilterState {
                 otherGroupID to setOf(green)
             )
         )
+
         viewModel.connectFilterState(filterState, true, groupID)
         viewModel.click()
         filterState.getFilters() shouldEqual setOf(red)
@@ -89,6 +95,7 @@ class TestFilterClearConnectFilterState {
     fun testClearExceptMissingGroup() {
         val viewModel = FilterClearViewModel()
         val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
+        
         viewModel.connectFilterState(filterState, true, otherGroupID)
         viewModel.click()
         filterState.getFilters() shouldEqual setOf()

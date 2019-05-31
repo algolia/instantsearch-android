@@ -1,4 +1,4 @@
-package searcher
+package filter.state
 
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState

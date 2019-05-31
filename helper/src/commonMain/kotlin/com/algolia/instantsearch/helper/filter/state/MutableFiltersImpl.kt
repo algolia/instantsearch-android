@@ -59,11 +59,9 @@ internal data class MutableFiltersImpl(
         if (contains(groupID, filter)) remove(groupID, filter) else add(groupID, filter)
     }
 
-    override fun clear(
-        vararg groupID: FilterGroupID
-    ) {
-        if (groupID.isNotEmpty()) {
-            groupID.forEach {
+    override fun clear(vararg groupIDs: FilterGroupID) {
+        if (groupIDs.isNotEmpty()) {
+            groupIDs.forEach {
                 facetGroups.clear(it)
                 numericGroups.clear(it)
                 tagGroups.clear(it)

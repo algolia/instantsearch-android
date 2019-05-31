@@ -70,6 +70,7 @@ fun AppCompatActivity.onClearAllThenClearFilters(
     filtersClearAll: View
 ) {
     val viewModel = FilterClearViewModel()
+
     viewModel.connectView(FilterClearViewImpl(filtersClearAll))
     viewModel.connectFilterState(filterState)
 }
