@@ -25,5 +25,5 @@ fun FilterClearViewModel.connectFilterState(
     exceptGroup: Boolean,
     vararg groupID: FilterGroupID
 ) {
-    onClicked += { filterState.notify { clear(exceptGroup = exceptGroup, groupID = *groupID) } }
+    onClicked += { filterState.notify { if (exceptGroup) clearExcept(groupID.asList()) else clear(*groupID) } }
 }

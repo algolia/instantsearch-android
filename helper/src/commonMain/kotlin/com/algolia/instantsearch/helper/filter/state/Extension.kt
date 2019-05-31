@@ -33,13 +33,6 @@ public inline fun <reified T : Filter> MutableFilters.remove(groupID: FilterGrou
     remove(groupID, *filters.toTypedArray())
 }
 
-public fun MutableFilters.clear(vararg groupID: FilterGroupID) = clear(groupID = *groupID, exceptGroup = false)
-
-public fun MutableFilters.clear(groupIDs: List<FilterGroupID>, exceptGroup: Boolean = false) =
-    clear(exceptGroup, *groupIDs.toTypedArray())
-
-public fun MutableFilters.clearExcept(vararg groupID: FilterGroupID) = clear(groupID = *groupID, exceptGroup = true)
-
 public fun Filter.Facet.getValue(): String {
     return when (val value = value) {
         is Filter.Facet.Value.String -> value.raw

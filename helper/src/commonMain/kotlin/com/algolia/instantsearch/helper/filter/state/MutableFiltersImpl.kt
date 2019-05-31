@@ -60,26 +60,25 @@ internal data class MutableFiltersImpl(
     }
 
     override fun clear(
-        exceptGroup: Boolean,
         vararg groupID: FilterGroupID
     ) {
         if (groupID.isNotEmpty()) {
-            if (exceptGroup) {
-                facetGroups.filter { it.key !in groupID }.forEach { facetGroups.remove(it.key) }
-                numericGroups.filter { it.key !in groupID }.forEach { numericGroups.remove(it.key) }
-                tagGroups.filter { it.key !in groupID }.forEach { tagGroups.remove(it.key) }
-            } else {
-                groupID.forEach {
-                    facetGroups.clear(it)
-                    numericGroups.clear(it)
-                    tagGroups.clear(it)
-                }
+            groupID.forEach {
+                facetGroups.clear(it)
+                numericGroups.clear(it)
+                tagGroups.clear(it)
             }
         } else {
             facetGroups.clear()
             numericGroups.clear()
             tagGroups.clear()
         }
+    }
+
+    override fun clearExcept(groupIDs: List<FilterGroupID>) {
+        facetGroups.filter { it.key !in groupIDs }.forEach { facetGroups.remove(it.key) }
+        numericGroups.filter { it.key !in groupIDs }.forEach { numericGroups.remove(it.key) }
+        tagGroups.filter { it.key !in groupIDs }.forEach { tagGroups.remove(it.key) }
     }
 
     override fun toString(): String {
