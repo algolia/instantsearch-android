@@ -89,6 +89,10 @@
             android:name=".index.IndexSegmentDemo"
             android:parentActivityName=".index.IndexSegmentDemo" />
 
+        <activity
+            android:name=".stats.StatsDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
     </application>
 
 </manifest>

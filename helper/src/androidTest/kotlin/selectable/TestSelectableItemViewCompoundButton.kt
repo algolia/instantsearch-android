@@ -13,11 +13,10 @@ import shouldEqual
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest=Config.NONE)
-class TestSelectableItemViewCompoundButton  {
+@Config(manifest = Config.NONE)
+class TestSelectableItemViewCompoundButton {
 
-    private fun view() =
-        SelectableItemViewCompoundButton(Switch(ApplicationProvider.getApplicationContext()))
+    private fun view() = SelectableItemViewCompoundButton(Switch(ApplicationProvider.getApplicationContext()))
 
     @Test
     fun callSetIsSelectedShouldUpdateIsChecked() {

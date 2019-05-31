@@ -16,6 +16,7 @@ import com.algolia.instantsearch.demo.index.IndexSegmentDemo
 import com.algolia.instantsearch.demo.list.paging.PagingSingleIndexDemo
 import com.algolia.instantsearch.demo.search.SearchAsYouTypeDemo
 import com.algolia.instantsearch.demo.search.SearchOnSubmitDemo
+import com.algolia.instantsearch.demo.stats.StatsDemo
 import com.algolia.search.model.ObjectID
 
 
@@ -36,5 +37,6 @@ val homeActivities = mapOf(
     ObjectID("search_on_submit") to SearchOnSubmitDemo::class,
     ObjectID("search_as_you_type") to SearchAsYouTypeDemo::class,
     ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,
-    ObjectID("index_segment") to IndexSegmentDemo::class
+    ObjectID("index_segment") to IndexSegmentDemo::class,
+    ObjectID("stats") to StatsDemo::class
 )
