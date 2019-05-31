@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
+import com.algolia.instantsearch.helper.filter.clear.ClearMode
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
 import com.algolia.instantsearch.helper.filter.clear.connectView
@@ -22,10 +23,10 @@ class FilterClearDemo : AppCompatActivity() {
 
     private val color = Attribute("color")
     private val category = Attribute("category")
-    private val colorID = FilterGroupID.Or(color)
-    private val categoryID = FilterGroupID.Or(category)
-    private val colorFacets = setOf(Filter.Facet(color, "red"), Filter.Facet(color, "green"))
-    private val categoryFacets = setOf(Filter.Facet(category, "shoe"))
+    private val groupIDcolor = FilterGroupID.Or(color)
+    private val groupIDcategory = FilterGroupID.Or(category)
+    private val filterColors = setOf(Filter.Facet(color, "red"), Filter.Facet(color, "green"))
+    private val filterCategories = setOf(Filter.Facet(category, "shoe"))
 
     private val colors
         get() = mapOf(
@@ -34,8 +35,8 @@ class FilterClearDemo : AppCompatActivity() {
         )
 
     private val initialFacetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(
-        colorID to colorFacets,
-        categoryID to categoryFacets
+        groupIDcolor to filterColors,
+        groupIDcategory to filterCategories
     )
     private val searcher = SearcherSingleIndex(stubIndex, filterState = FilterState(facetGroups = initialFacetGroups))
 
@@ -52,20 +53,20 @@ class FilterClearDemo : AppCompatActivity() {
         val clearColorsView = FilterClearViewImpl(buttonClearColors)
 
         clearColorsViewModel.connectView(clearColorsView)
-        clearColorsViewModel.connectFilterState(searcher.filterState, colorID)
+        clearColorsViewModel.connectFilterState(searcher.filterState, listOf(groupIDcolor), ClearMode.Specified)
 
         val clearExceptColorsViewModel = FilterClearViewModel()
         val clearExceptColorsView = FilterClearViewImpl(buttonClearExceptColors)
 
         clearExceptColorsViewModel.connectView(clearExceptColorsView)
-        clearExceptColorsViewModel.connectFilterState(searcher.filterState, true, colorID)
+        clearExceptColorsViewModel.connectFilterState(searcher.filterState, listOf(groupIDcolor), ClearMode.Except)
 
         buttonReset.setOnClickListener {
             searcher.filterState.notify {
                 //TODO: worth implementing filterState.reset(MutableFiltersImpl)
                 clear()
-                add(colorID, *colorFacets.toTypedArray())
-                add(categoryID, *categoryFacets.toTypedArray())
+                add(groupIDcolor, *filterColors.toTypedArray())
+                add(groupIDcategory, *filterCategories.toTypedArray())
             }
         }
         configureToolbar(toolbar)

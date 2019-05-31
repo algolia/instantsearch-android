@@ -1,5 +1,6 @@
 package filter.clear
 
+import com.algolia.instantsearch.helper.filter.clear.ClearMode
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
 import com.algolia.instantsearch.helper.filter.clear.click
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
@@ -7,7 +8,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
-import shouldBeTrue
+import shouldBeEmpty
 import shouldEqual
 import kotlin.test.Test
 
@@ -17,87 +18,40 @@ class TestFilterClearConnectFilterState {
     private val color = Attribute("color")
     private val red = Filter.Facet(color, "red")
     private val green = Filter.Facet(color, "green")
-    private val groupID = FilterGroupID.Or(color)
-    private val otherGroupID = FilterGroupID.And(color)
+    private val groupIDA = FilterGroupID.Or("A")
+    private val groupIDB = FilterGroupID.And("B")
+    private val facetGroups = mutableMapOf(
+        groupIDA to setOf(red),
+        groupIDB to setOf(green)
+    )
 
     @Test
-    fun testConnectDoesNotClear() {
+    fun clearSpecifiedEmptyListShouldClearAll() {
         val viewModel = FilterClearViewModel()
-        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
+        val filterState = FilterState(facetGroups = facetGroups)
 
-        viewModel.connectFilterState(filterState)
-        filterState.getFilters() shouldEqual setOf(red)
+        viewModel.connectFilterState(filterState, listOf(), ClearMode.Specified)
+        viewModel.click()
+        filterState.getFilters().shouldBeEmpty()
     }
 
     @Test
-    fun testClearNotifies() {
+    fun clearSpecifiedShouldClearGroup() {
         val viewModel = FilterClearViewModel()
-        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
-        var changed = false
+        val filterState = FilterState(facetGroups = facetGroups)
 
-        filterState.onChanged += { changed = true }
-        viewModel.connectFilterState(filterState)
+        viewModel.connectFilterState(filterState, listOf(groupIDA), ClearMode.Specified)
         viewModel.click()
-        changed.shouldBeTrue()
+        filterState shouldEqual FilterState(facetGroups = mutableMapOf(groupIDB to setOf(green)))
     }
 
     @Test
-    fun testClearAll() {
+    fun clearExceptShouldClearGroup() {
         val viewModel = FilterClearViewModel()
-        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
+        val filterState = FilterState(facetGroups = facetGroups)
 
-        viewModel.connectFilterState(filterState)
+        viewModel.connectFilterState(filterState, listOf(groupIDA), ClearMode.Except)
         viewModel.click()
-        filterState.getFilters() shouldEqual setOf()
-    }
-
-    @Test
-    fun testClearExistingGroup() {
-        val viewModel = FilterClearViewModel()
-        val filterState = FilterState(
-            facetGroups = mutableMapOf(
-                groupID to setOf(red),
-                otherGroupID to setOf(green)
-            )
-        )
-
-        viewModel.connectFilterState(filterState, groupID)
-        viewModel.click()
-        filterState.getFilters() shouldEqual setOf(green)
-    }
-
-    @Test
-    fun testClearMissingGroup() {
-        val viewModel = FilterClearViewModel()
-        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
-
-        viewModel.connectFilterState(filterState, otherGroupID)
-        viewModel.click()
-        filterState.getFilters() shouldEqual setOf(red)
-    }
-
-    @Test
-    fun testClearExceptExistingGroup() {
-        val viewModel = FilterClearViewModel()
-        val filterState = FilterState(
-            facetGroups = mutableMapOf(
-                groupID to setOf(red),
-                otherGroupID to setOf(green)
-            )
-        )
-
-        viewModel.connectFilterState(filterState, true, groupID)
-        viewModel.click()
-        filterState.getFilters() shouldEqual setOf(red)
-    }
-
-    @Test
-    fun testClearExceptMissingGroup() {
-        val viewModel = FilterClearViewModel()
-        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
-        
-        viewModel.connectFilterState(filterState, true, otherGroupID)
-        viewModel.click()
-        filterState.getFilters() shouldEqual setOf()
+        filterState shouldEqual FilterState(facetGroups = mutableMapOf(groupIDA to setOf(red)))
     }
 }

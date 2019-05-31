@@ -4,25 +4,17 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 
 
-fun FilterClearViewModel.connectFilterState(
+public fun FilterClearViewModel.connectFilterState(
     filterState: FilterState,
-    vararg groupID: FilterGroupID
+    groupIDs: List<FilterGroupID> = listOf(),
+    mode: ClearMode = ClearMode.Specified
 ) {
-    connectFilterState(filterState, false, *groupID)
-}
-
-fun FilterClearViewModel.connectFilterState(
-    filterState: FilterState,
-    groupIDs: List<FilterGroupID>,
-    exceptGroup: Boolean = false
-) {
-    connectFilterState(filterState, exceptGroup, *groupIDs.toTypedArray())
-}
-
-fun FilterClearViewModel.connectFilterState(
-    filterState: FilterState,
-    exceptGroup: Boolean,
-    vararg groupID: FilterGroupID
-) {
-    onClicked += { filterState.notify { if (exceptGroup) clearExcept(groupID.asList()) else clear(*groupID) } }
+    onClicked += {
+        filterState.notify {
+            when (mode) {
+                ClearMode.Specified -> clear(*groupIDs.toTypedArray())
+                ClearMode.Except -> clearExcept(groupIDs)
+            }
+        }
+    }
 }
