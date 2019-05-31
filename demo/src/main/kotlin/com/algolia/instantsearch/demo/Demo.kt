@@ -16,7 +16,11 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
 import com.algolia.instantsearch.helper.android.highlight
+import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
+import com.algolia.instantsearch.helper.filter.clear.connectFilterState
+import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
@@ -61,13 +65,20 @@ fun AppCompatActivity.onFilterChangedThenUpdateFiltersText(
     }
 }
 
-fun AppCompatActivity.onClearAllThenClearFilters(filterState: FilterState, filtersClearAll: View) {
-    filtersClearAll.setOnClickListener {
-        filterState.notify { clear() }
-    }
+fun AppCompatActivity.onClearAllThenClearFilters(
+    filterState: FilterState,
+    filtersClearAll: View
+) {
+    val viewModel = FilterClearViewModel()
+
+    viewModel.connectView(FilterClearViewImpl(filtersClearAll))
+    viewModel.connectFilterState(filterState)
 }
 
-fun AppCompatActivity.onErrorThenUpdateFiltersText(searcher: SearcherSingleIndex, filtersTextView: TextView) {
+fun AppCompatActivity.onErrorThenUpdateFiltersText(
+    searcher: SearcherSingleIndex,
+    filtersTextView: TextView
+) {
     searcher.onErrorChanged += {
         filtersTextView.text = it.localizedMessage
     }
@@ -86,7 +97,11 @@ fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
     }
 }
 
-fun AppCompatActivity.configureTitle(textView: TextView, text: String, color: Int) {
+fun AppCompatActivity.configureTitle(
+    textView: TextView,
+    text: String,
+    color: Int
+) {
     textView.let {
         it.text = text
         it.setTextColor(color)
@@ -139,7 +154,10 @@ fun AppCompatActivity.configureSearchView(
     }
 }
 
-fun SearchView.showQueryHintIcon(showIconHint: Boolean, hintIcon: Drawable, hintText: String? = null) {
+fun SearchView.showQueryHintIcon(
+    showIconHint: Boolean,
+    hintIcon: Drawable,
+    hintText: String? = null) {
     queryHint = if (!showIconHint) {
         hintText
     } else {

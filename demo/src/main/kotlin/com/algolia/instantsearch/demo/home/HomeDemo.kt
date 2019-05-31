@@ -49,6 +49,7 @@ class HomeDemo : AppCompatActivity() {
         searcher.onResponseChanged += { response ->
             val hits = response.hits.deserialize(HomeHit.serializer())
                 .groupBy { it.type }
+                .toSortedMap()
                 .flatMap { (key, value) ->
                     listOf(HomeItem.Header(key)) + value.map { HomeItem.Item(it) }.sortedBy { it.hit.objectID.raw }
                 }

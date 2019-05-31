@@ -1,4 +1,4 @@
-package searcher
+package filter.state
 
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -115,7 +115,7 @@ class TestFilterState {
     }
 
     @Test
-    fun clear() {
+    fun clearAll() {
         FilterState().apply {
             add(groupA, facetA)
             add(groupB, facetB)
@@ -124,6 +124,36 @@ class TestFilterState {
             clear()
 
             getFacetGroups().shouldBeEmpty()
+            getTagGroups().shouldBeEmpty()
+            getNumericGroups().shouldBeEmpty()
+        }
+    }
+
+    @Test
+    fun clearOne() {
+        FilterState().apply {
+            add(groupA, facetA)
+            add(groupB, facetB)
+            add(groupA, numeric)
+            add(groupA, tag)
+            clear(groupB)
+
+            getFacetGroups() shouldEqual mapOf(groupA to setOf(facetA))
+            getTagGroups() shouldEqual mapOf(groupA to setOf(tag))
+            getNumericGroups() shouldEqual mapOf(groupA to setOf(numeric))
+        }
+    }
+
+    @Test
+    fun clearExceptOne() {
+        FilterState().apply {
+            add(groupA, facetA)
+            add(groupB, facetB)
+            add(groupA, numeric)
+            add(groupA, tag)
+            clearExcept(listOf(groupB))
+
+            getFacetGroups() shouldEqual mapOf(groupB to setOf(facetB))
             getTagGroups().shouldBeEmpty()
             getNumericGroups().shouldBeEmpty()
         }
