@@ -11,5 +11,5 @@ public interface MutableFilters: Filters {
 
     fun <T : Filter> toggle(groupID: FilterGroupID, filter: T)
 
-    fun clear(groupID: FilterGroupID? = null)
+    fun clear(exceptGroup: Boolean, vararg groupID: FilterGroupID)
 }
