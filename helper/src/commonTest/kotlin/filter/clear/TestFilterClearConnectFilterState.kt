@@ -21,6 +21,14 @@ class TestFilterClearConnectFilterState {
     private val otherGroupID = FilterGroupID.And(color)
 
     @Test
+    fun testConnectDoesNotClear() {
+        val viewModel = FilterClearViewModel()
+        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
+        viewModel.connectFilterState(filterState)
+        filterState.getFilters() shouldEqual setOf(red)
+    }
+
+    @Test
     fun testClearNotifies() {
         val viewModel = FilterClearViewModel()
         val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
