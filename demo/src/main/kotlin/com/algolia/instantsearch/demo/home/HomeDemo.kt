@@ -43,7 +43,6 @@ class HomeDemo : AppCompatActivity() {
 
         val adapter = HomeAdapter()
 
-        configureToolbar(toolbar)
         configureRecyclerView(list, adapter)
         configureSearchView(searchView, getString(R.string.search_demos))
 
