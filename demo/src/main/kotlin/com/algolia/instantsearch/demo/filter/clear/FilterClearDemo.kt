@@ -23,8 +23,8 @@ class FilterClearDemo : AppCompatActivity() {
 
     private val color = Attribute("color")
     private val category = Attribute("category")
-    private val groupIDcolor = FilterGroupID.Or(color)
-    private val groupIDcategory = FilterGroupID.Or(category)
+    private val groupIDColor = FilterGroupID.Or(color)
+    private val groupIDCategory = FilterGroupID.Or(category)
     private val filterColors = setOf(Filter.Facet(color, "red"), Filter.Facet(color, "green"))
     private val filterCategories = setOf(Filter.Facet(category, "shoe"))
 
@@ -35,8 +35,8 @@ class FilterClearDemo : AppCompatActivity() {
         )
 
     private val initialFacetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(
-        groupIDcolor to filterColors,
-        groupIDcategory to filterCategories
+        groupIDColor to filterColors,
+        groupIDCategory to filterCategories
     )
     private val searcher = SearcherSingleIndex(stubIndex, filterState = FilterState(facetGroups = initialFacetGroups))
 
@@ -53,20 +53,20 @@ class FilterClearDemo : AppCompatActivity() {
         val clearColorsView = FilterClearViewImpl(buttonClearColors)
 
         clearColorsViewModel.connectView(clearColorsView)
-        clearColorsViewModel.connectFilterState(searcher.filterState, listOf(groupIDcolor), ClearMode.Specified)
+        clearColorsViewModel.connectFilterState(searcher.filterState, listOf(groupIDColor), ClearMode.Specified)
 
         val clearExceptColorsViewModel = FilterClearViewModel()
         val clearExceptColorsView = FilterClearViewImpl(buttonClearExceptColors)
 
         clearExceptColorsViewModel.connectView(clearExceptColorsView)
-        clearExceptColorsViewModel.connectFilterState(searcher.filterState, listOf(groupIDcolor), ClearMode.Except)
+        clearExceptColorsViewModel.connectFilterState(searcher.filterState, listOf(groupIDColor), ClearMode.Except)
 
         buttonReset.setOnClickListener {
             searcher.filterState.notify {
                 //TODO: worth implementing filterState.reset(MutableFiltersImpl)
                 clear()
-                add(groupIDcolor, *filterColors.toTypedArray())
-                add(groupIDcategory, *filterCategories.toTypedArray())
+                add(groupIDColor, *filterColors.toTypedArray())
+                add(groupIDCategory, *filterCategories.toTypedArray())
             }
         }
         configureToolbar(toolbar)
