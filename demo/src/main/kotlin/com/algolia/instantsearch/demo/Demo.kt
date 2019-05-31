@@ -16,9 +16,9 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.algolia.instantsearch.helper.android.filter.clear.ClearFiltersViewImpl
+import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
 import com.algolia.instantsearch.helper.android.highlight
-import com.algolia.instantsearch.helper.filter.clear.ClearFiltersViewModel
+import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
 import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -69,8 +69,8 @@ fun AppCompatActivity.onClearAllThenClearFilters(
     filterState: FilterState,
     filtersClearAll: View
 ) {
-    val viewModel = ClearFiltersViewModel()
-    viewModel.connectView(ClearFiltersViewImpl(filtersClearAll))
+    val viewModel = FilterClearViewModel()
+    viewModel.connectView(FilterClearViewImpl(filtersClearAll))
     viewModel.connectFilterState(filterState)
 }
 
