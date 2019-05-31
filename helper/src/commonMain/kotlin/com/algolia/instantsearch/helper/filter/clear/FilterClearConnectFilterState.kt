@@ -19,7 +19,6 @@ fun FilterClearViewModel.connectFilterState(
     connectFilterState(filterState, exceptGroup, *groupIDs.toTypedArray())
 }
 
-
 fun FilterClearViewModel.connectFilterState(
     filterState: FilterState,
     exceptGroup: Boolean,
