@@ -3,6 +3,9 @@
     <style name="InstantSearchDemo" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorAccent">@color/blue_dark</item>
         <item name="colorPrimary">@color/blue_dark</item>
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/grey_dark</item>
         <item name="android:textColorPrimary">@color/black_light</item>
         <item name="colorControlNormal">@color/grey_dark</item>
         <item name="android:windowLightStatusBar">true</item>

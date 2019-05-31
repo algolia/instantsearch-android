@@ -50,18 +50,18 @@ class FilterClearDemo : AppCompatActivity() {
         viewModel.connectFilterState(searcher.filterState)
 
         val clearColorsViewModel = FilterClearViewModel()
-        val clearColorsView = FilterClearViewImpl(buttonClearColors)
+        val clearColorsView = FilterClearViewImpl(buttonClearSpecified)
 
         clearColorsViewModel.connectView(clearColorsView)
         clearColorsViewModel.connectFilterState(searcher.filterState, listOf(groupIDColor), ClearMode.Specified)
 
         val clearExceptColorsViewModel = FilterClearViewModel()
-        val clearExceptColorsView = FilterClearViewImpl(buttonClearExceptColors)
+        val clearExceptColorsView = FilterClearViewImpl(buttonClearExcept)
 
         clearExceptColorsViewModel.connectView(clearExceptColorsView)
         clearExceptColorsViewModel.connectFilterState(searcher.filterState, listOf(groupIDColor), ClearMode.Except)
 
-        buttonReset.setOnClickListener {
+        reset.setOnClickListener {
             searcher.filterState.notify {
                 //TODO: worth implementing filterState.reset(MutableFiltersImpl)
                 clear()

@@ -17,7 +17,7 @@
     <string name="multiple_choice">Multiple Choice</string>
     <string name="year_range">from %d to %d</string>
     <string name="sort_by">Sort by</string>
-    <string name="button_clear_colors">Clear colors</string>
-    <string name="button_clear_except_colors">Clear except colors</string>
+    <string name="clear_specified">Clear specified</string>
+    <string name="clear_except">Clear except</string>
     <string name="button_reset">Reset</string>
 </resources>
