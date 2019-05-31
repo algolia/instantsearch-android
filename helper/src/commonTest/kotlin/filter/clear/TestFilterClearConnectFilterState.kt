@@ -50,13 +50,13 @@ class TestFilterClearConnectFilterState {
 
     @Test
     fun testClearExistingGroup() {
+        val viewModel = FilterClearViewModel()
         val filterState = FilterState(
             facetGroups = mutableMapOf(
                 groupID to setOf(red),
                 otherGroupID to setOf(green)
             )
         )
-        val viewModel = FilterClearViewModel()
         viewModel.connectFilterState(filterState, groupID)
         viewModel.click()
         filterState.getFilters() shouldEqual setOf(green)
@@ -64,8 +64,8 @@ class TestFilterClearConnectFilterState {
 
     @Test
     fun testClearMissingGroup() {
-        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
         val viewModel = FilterClearViewModel()
+        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
         viewModel.connectFilterState(filterState, otherGroupID)
         viewModel.click()
         filterState.getFilters() shouldEqual setOf(red)
@@ -73,13 +73,13 @@ class TestFilterClearConnectFilterState {
 
     @Test
     fun testClearExceptExistingGroup() {
+        val viewModel = FilterClearViewModel()
         val filterState = FilterState(
             facetGroups = mutableMapOf(
                 groupID to setOf(red),
                 otherGroupID to setOf(green)
             )
         )
-        val viewModel = FilterClearViewModel()
         viewModel.connectFilterState(filterState, true, groupID)
         viewModel.click()
         filterState.getFilters() shouldEqual setOf(red)
@@ -87,8 +87,8 @@ class TestFilterClearConnectFilterState {
 
     @Test
     fun testClearExceptMissingGroup() {
-        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
         val viewModel = FilterClearViewModel()
+        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
         viewModel.connectFilterState(filterState, true, otherGroupID)
         viewModel.click()
         filterState.getFilters() shouldEqual setOf()
