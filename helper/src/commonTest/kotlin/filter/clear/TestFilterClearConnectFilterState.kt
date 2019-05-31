@@ -7,6 +7,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
+import shouldBeTrue
 import shouldEqual
 import kotlin.test.Test
 
@@ -20,9 +21,20 @@ class TestFilterClearConnectFilterState {
     private val otherGroupID = FilterGroupID.And(color)
 
     @Test
-    fun testClearAll() {
-        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
+    fun testClearNotifies() {
         val viewModel = FilterClearViewModel()
+        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
+        var changed = false
+        filterState.onChanged += { changed = true }
+        viewModel.connectFilterState(filterState)
+        viewModel.click()
+        changed.shouldBeTrue()
+    }
+
+    @Test
+    fun testClearAll() {
+        val viewModel = FilterClearViewModel()
+        val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
         viewModel.connectFilterState(filterState)
         viewModel.click()
         filterState.getFilters() shouldEqual setOf()
