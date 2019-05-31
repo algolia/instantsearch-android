@@ -74,7 +74,10 @@ fun AppCompatActivity.onClearAllThenClearFilters(
     viewModel.connectFilterState(filterState)
 }
 
-fun AppCompatActivity.onErrorThenUpdateFiltersText(searcher: SearcherSingleIndex, filtersTextView: TextView) {
+fun AppCompatActivity.onErrorThenUpdateFiltersText(
+    searcher: SearcherSingleIndex,
+    filtersTextView: TextView
+) {
     searcher.onErrorChanged += {
         filtersTextView.text = it.localizedMessage
     }
@@ -93,7 +96,11 @@ fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
     }
 }
 
-fun AppCompatActivity.configureTitle(textView: TextView, text: String, color: Int) {
+fun AppCompatActivity.configureTitle(
+    textView: TextView,
+    text: String,
+    color: Int
+) {
     textView.let {
         it.text = text
         it.setTextColor(color)
@@ -146,7 +153,10 @@ fun AppCompatActivity.configureSearchView(
     }
 }
 
-fun SearchView.showQueryHintIcon(showIconHint: Boolean, hintIcon: Drawable, hintText: String? = null) {
+fun SearchView.showQueryHintIcon(
+    showIconHint: Boolean,
+    hintIcon: Drawable,
+    hintText: String? = null) {
     queryHint = if (!showIconHint) {
         hintText
     } else {
