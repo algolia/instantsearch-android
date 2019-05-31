@@ -1,6 +1,8 @@
 package searcher
 
-import com.algolia.instantsearch.helper.filter.state.*
+import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup
@@ -149,7 +151,7 @@ class TestFilterState {
             add(groupB, facetB)
             add(groupA, numeric)
             add(groupA, tag)
-            clearExcept(groupB)
+            clearExcept(listOf(groupB))
 
             getFacetGroups() shouldEqual mapOf(groupB to setOf(facetB))
             getTagGroups().shouldBeEmpty()
