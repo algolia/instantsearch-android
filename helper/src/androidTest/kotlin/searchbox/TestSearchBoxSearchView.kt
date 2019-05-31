@@ -53,4 +53,4 @@ class TestSearchBoxSearchView {
         view.searchView.setQuery(text, true)
         expected shouldEqual text
     }
-} 
+}

@@ -13,6 +13,7 @@ class TestClickableViewModel {
     fun click() {
         var clicked = false
         val viewModel = ClickableViewModel<Unit>()
+
         viewModel.onClicked += { clicked = true}
         clicked.shouldBeFalse()
         viewModel.click(Unit)
@@ -23,6 +24,7 @@ class TestClickableViewModel {
     fun clickedStuff() {
         var clicked = 0
         val viewModel = ClickableViewModel<Int>()
+
         viewModel.onClicked += { clicked += it }
         clicked.shouldEqual(0)
         viewModel.click(1)

@@ -30,7 +30,6 @@ class TestFilterClearViewImpl {
 
     private fun view() : View = View(ApplicationProvider.getApplicationContext())
 
-
     @Test
     fun onViewClickCallsClearFilters() {
         val filterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(filterRed)))

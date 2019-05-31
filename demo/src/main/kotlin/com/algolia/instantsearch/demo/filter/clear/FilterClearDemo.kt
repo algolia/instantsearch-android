@@ -41,17 +41,23 @@ class FilterClearDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_clear)
 
+        /** Clear all filters */
         val viewModel = FilterClearViewModel()
+
         viewModel.connectView(FilterClearViewImpl(filtersClearAll))
         viewModel.connectFilterState(searcher.filterState)
 
+        /** Clear only color filters */
         val viewModelClearColors = FilterClearViewModel()
         val viewClearColors = FilterClearViewImpl(buttonClearColors)
+
         viewModelClearColors.connectView(viewClearColors)
         viewModelClearColors.connectFilterState(searcher.filterState, colorID)
 
+        /** Clear all filters but colors */
         val viewModelClearExceptColors = FilterClearViewModel()
         val viewClearOther = FilterClearViewImpl(buttonClearExceptColors)
+
         viewModelClearExceptColors.connectView(viewClearOther)
         viewModelClearExceptColors.connectFilterState(searcher.filterState, true, colorID)
 
