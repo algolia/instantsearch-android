@@ -18,6 +18,7 @@ public class SelectableSegmentViewSpinner(
     init {
         spinner.adapter = adapter
         spinner.onItemSelectedListener = this
+        spinner.setSelection(defaultSelection)
     }
 
     override fun setSelected(selected: Int?) {
