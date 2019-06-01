@@ -1,6 +1,7 @@
 package filter.toggle
 
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
 import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
@@ -15,9 +16,9 @@ class TestFilterToggleConnectFilterState {
     private val color = Attribute("color")
     private val red = Filter.Facet(color, "red")
     private val blue = Filter.Facet(color, "blue")
-    private val groupID = FilterGroupID.And(color)
-    private val expectedFilterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
-    private val expectedFilterStateDefault = FilterState(facetGroups = mutableMapOf(groupID to setOf(blue)))
+    private val groupID = FilterGroupID(color, FilterOperator.And)
+    private val expectedFilterState = FilterState(mapOf(groupID to setOf(red)))
+    private val expectedFilterStateDefault = FilterState(mapOf(groupID to setOf(blue)))
 
     @Test
     fun connectShouldUpdateIsSelectedWithFilterState() {

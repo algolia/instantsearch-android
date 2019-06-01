@@ -3,17 +3,15 @@ package com.algolia.instantsearch.helper.filter.state
 import com.algolia.search.model.Attribute
 
 
-public sealed class FilterGroupID {
+public data class FilterGroupID(
+    val name: String = "",
+    val operator: FilterOperator = FilterOperator.And
+) {
 
-    public abstract val name: String
+    public constructor(operator: FilterOperator) : this("", operator = operator)
 
-    public data class And(override val name: String = "") : FilterGroupID() {
-
-        constructor(attribute: Attribute): this(attribute.raw)
-    }
-
-    public data class Or(override val name: String = "") : FilterGroupID() {
-
-        constructor(attribute: Attribute): this(attribute.raw)
-    }
+    public constructor(
+        attribute: Attribute,
+        operator: FilterOperator = FilterOperator.And
+    ) : this(attribute.raw, operator)
 }

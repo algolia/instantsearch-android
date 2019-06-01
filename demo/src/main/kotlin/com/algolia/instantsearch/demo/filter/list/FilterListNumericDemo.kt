@@ -7,7 +7,7 @@ import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.list.connectFilterState
 import com.algolia.instantsearch.helper.filter.list.connectView
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.groupAnd
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -30,7 +30,7 @@ class FilterListNumericDemo : AppCompatActivity() {
         Filter.Numeric(price, NumericOperator.Greater, 100)
     )
 
-    private val groupIDPrice = FilterGroupID.And(price)
+    private val groupPrice = groupAnd(price)
     private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +40,7 @@ class FilterListNumericDemo : AppCompatActivity() {
         val viewModelNumeric = FilterListViewModel.Numeric(numericFilters)
         val viewNumeric = FilterListAdapter<Filter.Numeric>()
 
-        viewModelNumeric.connectFilterState(searcher.filterState, groupIDPrice)
+        viewModelNumeric.connectFilterState(searcher.filterState, groupPrice)
         viewModelNumeric.connectView(viewNumeric)
 
         configureToolbar(toolbar)

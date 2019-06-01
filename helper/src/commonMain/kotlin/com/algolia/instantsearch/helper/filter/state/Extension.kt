@@ -8,19 +8,19 @@ import com.algolia.search.model.search.Facet
 
 public fun Filters.toFilterGroups(): List<FilterGroup<*>> {
     return getFacetGroups().map { (key, value) ->
-        when (key) {
-            is FilterGroupID.And -> FilterGroup.And.Facet(value, key.name)
-            is FilterGroupID.Or -> FilterGroup.Or.Facet(value, key.name)
+        when (key.operator) {
+            FilterOperator.And -> FilterGroup.And.Facet(value, key.name)
+            FilterOperator.Or -> FilterGroup.Or.Facet(value, key.name)
         }
     } + getTagGroups().map { (key, value) ->
-        when (key) {
-            is FilterGroupID.And -> FilterGroup.And.Tag(value, key.name)
-            is FilterGroupID.Or -> FilterGroup.Or.Tag(value, key.name)
+        when (key.operator) {
+            FilterOperator.And -> FilterGroup.And.Tag(value, key.name)
+            FilterOperator.Or -> FilterGroup.Or.Tag(value, key.name)
         }
     } + getNumericGroups().map { (key, value) ->
-        when (key) {
-            is FilterGroupID.And -> FilterGroup.And.Numeric(value, key.name)
-            is FilterGroupID.Or -> FilterGroup.Or.Numeric(value, key.name)
+        when (key.operator) {
+            FilterOperator.And -> FilterGroup.And.Numeric(value, key.name)
+            FilterOperator.Or -> FilterGroup.Or.Numeric(value, key.name)
         }
     }
 }

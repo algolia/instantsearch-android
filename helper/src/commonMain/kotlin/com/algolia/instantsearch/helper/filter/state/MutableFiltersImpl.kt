@@ -35,6 +35,13 @@ internal data class MutableFiltersImpl(
         remove(groupID)
     }
 
+    override fun set(map: Map<FilterGroupID, Set<Filter>>) {
+        clear()
+        map.forEach { (groupID, filter) ->
+            add(groupID, filter)
+        }
+    }
+
     override fun <T : Filter> add(groupID: FilterGroupID, vararg filters: T) {
         filters.forEach { filter ->
             when (filter) {

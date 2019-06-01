@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.searcher
 
 import com.algolia.instantsearch.core.searcher.Sequencer
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.search.client.Index
@@ -60,7 +60,7 @@ public class SearcherSingleIndex(
 
     override fun search(): Job {
         val disjunctiveAttributes = filterState.getFacetGroups()
-            .filter { it.key is FilterGroupID.Or }
+            .filter { it.key.operator == FilterOperator.Or }
             .flatMap { group -> group.value.map { it.attribute } }
 
         val job = coroutineScope.launch(dispatcher + exceptionHandler) {

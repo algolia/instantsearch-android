@@ -9,6 +9,7 @@ import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.list.connectFilterState
 import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -30,7 +31,7 @@ class FilterListFacetDemo : AppCompatActivity() {
         Filter.Facet(color, "black")
     )
 
-    private val groupIDColor = FilterGroupID.And(color)
+    private val groupIDColor = FilterGroupID(color, FilterOperator.And)
     private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -7,11 +7,9 @@ import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion.*
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.filter.state.*
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
 import kotlinx.android.synthetic.main.demo_facet_list.*
 import kotlinx.android.synthetic.main.header_filter.*
 import kotlinx.android.synthetic.main.include_list.*
@@ -29,14 +27,14 @@ class FacetListDemo : AppCompatActivity() {
             category.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
         )
 
-    private val groupIDColor = FilterGroupID.And(color)
-    private val groupIDPromotions = FilterGroupID.And(promotions)
-    private val groupIDCategory = FilterGroupID.Or(category)
-    private val filterState = FilterState(
-        facetGroups = mutableMapOf(
-            FilterGroupID.And(color.raw) to setOf(Filter.Facet(color, "green"))
-        )
-    )
+    private val groupColor = groupAnd(color)
+    private val groupPromotions = groupAnd(promotions)
+    private val groupCategory = groupOr(category)
+    private val filterState = filterState {
+        group(groupColor) {
+            facet(color, "green")
+        }
+    }
     private val searcher = SearcherSingleIndex(stubIndex, filterState = filterState)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +45,7 @@ class FacetListDemo : AppCompatActivity() {
         val colorAPresenter = FacetListPresenterImpl(listOf(IsRefined, AlphabeticalAscending), limit = 3)
         val colorAAdapter = FacetListAdapter()
 
-        colorAViewModel.connectFilterState(color, filterState, groupIDColor)
+        colorAViewModel.connectFilterState(color, filterState, groupColor)
         colorAViewModel.connectSearcher(color, searcher)
         colorAViewModel.connectView(colorAAdapter, colorAPresenter)
 
@@ -55,7 +53,7 @@ class FacetListDemo : AppCompatActivity() {
         val promotionPresenter = FacetListPresenterImpl(listOf(CountDescending))
         val promotionAdapter = FacetListAdapter()
 
-        promotionViewModel.connectFilterState(promotions, filterState, groupIDPromotions)
+        promotionViewModel.connectFilterState(promotions, filterState, groupPromotions)
         promotionViewModel.connectSearcher(promotions, searcher)
         promotionViewModel.connectView(promotionAdapter, promotionPresenter)
 
@@ -63,7 +61,7 @@ class FacetListDemo : AppCompatActivity() {
         val categoryPresenter = FacetListPresenterImpl(listOf(CountDescending, AlphabeticalAscending))
         val categoryAdapter = FacetListAdapter()
 
-        categoryViewModel.connectFilterState(category, filterState, groupIDCategory)
+        categoryViewModel.connectFilterState(category, filterState, groupCategory)
         categoryViewModel.connectSearcher(category, searcher)
         categoryViewModel.connectView(categoryAdapter, categoryPresenter)
 
@@ -72,11 +70,11 @@ class FacetListDemo : AppCompatActivity() {
         configureRecyclerView(listTopLeft, colorAAdapter)
         configureRecyclerView(listTopRight, categoryAdapter)
         configureRecyclerView(listBottomLeft, promotionAdapter)
-        configureTitle(titleTopLeft, formatTitle(colorAPresenter, groupIDColor), colors.getValue(color.raw))
-        configureTitle(titleTopRight, formatTitle(categoryPresenter, groupIDCategory), colors.getValue(category.raw))
+        configureTitle(titleTopLeft, formatTitle(colorAPresenter, groupColor), colors.getValue(color.raw))
+        configureTitle(titleTopRight, formatTitle(categoryPresenter, groupCategory), colors.getValue(category.raw))
         configureTitle(
             titleBottomLeft,
-            formatTitle(promotionPresenter, groupIDPromotions),
+            formatTitle(promotionPresenter, groupPromotions),
             colors.getValue(promotions.raw)
         )
         onFilterChangedThenUpdateFiltersText(filterState, colors, filtersTextView)
@@ -105,9 +103,9 @@ class FacetListDemo : AppCompatActivity() {
     private fun formatTitle(presenter: FacetListPresenterImpl, filterGroupID: FilterGroupID): String {
 
         val criteria = presenter.sortBy.joinToString("-") { it.format() }
-        val operator = when (filterGroupID) {
-            is FilterGroupID.And -> "And"
-            is FilterGroupID.Or -> "Or"
+        val operator = when (filterGroupID.operator) {
+            FilterOperator.And -> "And"
+            FilterOperator.Or -> "Or"
         }
 
         return "$operator, $criteria, l=${presenter.limit}"

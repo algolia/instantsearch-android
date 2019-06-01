@@ -8,7 +8,7 @@ import com.algolia.instantsearch.helper.android.selectable.SelectableSegmentView
 import com.algolia.instantsearch.helper.filter.segment.FilterSegmentViewModel
 import com.algolia.instantsearch.helper.filter.segment.connectFilterState
 import com.algolia.instantsearch.helper.filter.segment.connectView
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.groupAnd
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -24,7 +24,7 @@ class FilterSegmentDemo : AppCompatActivity() {
             gender.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark)
         )
 
-    private val groupID = FilterGroupID.And(gender)
+    private val groupGender = groupAnd(gender)
     private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class FilterSegmentDemo : AppCompatActivity() {
         )
         val viewGender = SelectableSegmentViewRadioGroup(radioGroupGender)
 
-        viewModelGender.connectFilterState(searcher.filterState, groupID)
+        viewModelGender.connectFilterState(searcher.filterState, groupGender)
         viewModelGender.connectView(viewGender)
 
         configureToolbar(toolbar)

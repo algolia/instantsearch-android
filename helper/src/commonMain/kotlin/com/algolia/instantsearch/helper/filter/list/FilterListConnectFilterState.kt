@@ -7,14 +7,14 @@ import com.algolia.search.model.filter.Filter
 
 public fun FilterListViewModel.Facet.connectFilterState(
     filterState: FilterState,
-    groupID: FilterGroupID = FilterGroupID.Or()
+    groupID: FilterGroupID = FilterGroupID(FilterOperator.Or)
 ) {
     connect(filterState, groupID) { getFacetFilters(groupID) }
 }
 
 public fun FilterListViewModel.Numeric.connectFilterState(
     filterState: FilterState,
-    groupID: FilterGroupID = FilterGroupID.And()
+    groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
 ) {
     connect(filterState, groupID) { getNumericFilters(groupID) }
 }
@@ -22,14 +22,14 @@ public fun FilterListViewModel.Numeric.connectFilterState(
 
 public fun FilterListViewModel.Tag.connectFilterState(
     filterState: FilterState,
-    groupID: FilterGroupID = FilterGroupID.And()
+    groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
 ) {
     connect(filterState, groupID) { getTagFilters(groupID) }
 }
 
 public fun FilterListViewModel.All.connectFilterState(
     filterState: FilterState,
-    groupID: FilterGroupID = FilterGroupID.And()
+    groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
 ) {
     connect(filterState, groupID) { getFilters(groupID) }
 }

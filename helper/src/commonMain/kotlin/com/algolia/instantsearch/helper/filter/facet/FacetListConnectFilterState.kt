@@ -9,7 +9,7 @@ import com.algolia.search.model.filter.Filter
 public fun FacetListViewModel.connectFilterState(
     attribute: Attribute,
     filterState: FilterState,
-    groupID: FilterGroupID = FilterGroupID.Or(attribute)
+    groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or)
 ) {
     onSelectionsComputed += { computed ->
         val filters = computed.map { Filter.Facet(attribute, it) }.toSet()

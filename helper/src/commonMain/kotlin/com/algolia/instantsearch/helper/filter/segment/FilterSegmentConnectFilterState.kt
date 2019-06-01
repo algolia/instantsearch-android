@@ -1,13 +1,14 @@
 package com.algolia.instantsearch.helper.filter.segment
 
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
 
 
 public fun FilterSegmentViewModel.connectFilterState(
     filterState: FilterState,
-    groupID: FilterGroupID = FilterGroupID.And()
+    groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
 ) {
     onSelectedComputed += { computed ->
         filterState.notify {

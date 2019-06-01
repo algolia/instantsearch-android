@@ -3,15 +3,13 @@ package com.algolia.instantsearch.helper.filter.state
 import com.algolia.search.model.filter.Filter
 
 
-public class FilterState(
+public class FilterState internal constructor(
     internal val filters: MutableFilters = MutableFiltersImpl()
 ) : MutableFilters by filters {
 
-    public constructor(
-        facetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(),
-        tagGroups: MutableMap<FilterGroupID, Set<Filter.Tag>> = mutableMapOf(),
-        numericGroups: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf()
-    ) : this(MutableFiltersImpl(facetGroups, tagGroups, numericGroups))
+    public constructor(map: Map<FilterGroupID, Set<Filter>>) : this() {
+        map.forEach { (groupID, filters) -> add(groupID, filters) }
+    }
 
     public val onChanged: MutableList<(Filters) -> Unit> = mutableListOf()
 

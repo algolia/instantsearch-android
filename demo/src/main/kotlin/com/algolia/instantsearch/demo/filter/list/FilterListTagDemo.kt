@@ -7,7 +7,7 @@ import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.list.connectFilterState
 import com.algolia.instantsearch.helper.filter.list.connectView
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.groupOr
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.filter.Filter
 import kotlinx.android.synthetic.main.demo_filter_list.*
@@ -29,7 +29,7 @@ class FilterListTagDemo : AppCompatActivity() {
         Filter.Tag("on sale"),
         Filter.Tag("no exchange")
     )
-    private val groupIDTags = FilterGroupID.Or(tags)
+    private val groupTags = groupOr(tags)
     private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class FilterListTagDemo : AppCompatActivity() {
         val viewModelTag = FilterListViewModel.Tag(tagFilters)
         val viewTag = FilterListAdapter<Filter.Tag>()
 
-        viewModelTag.connectFilterState(searcher.filterState, groupIDTags)
+        viewModelTag.connectFilterState(searcher.filterState, groupTags)
         viewModelTag.connectView(viewTag)
 
         configureToolbar(toolbar)

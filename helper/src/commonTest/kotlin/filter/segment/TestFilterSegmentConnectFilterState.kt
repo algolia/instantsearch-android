@@ -3,6 +3,7 @@ package filter.segment
 import com.algolia.instantsearch.helper.filter.segment.FilterSegmentViewModel
 import com.algolia.instantsearch.helper.filter.segment.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -14,11 +15,11 @@ import kotlin.test.Test
 class TestFilterSegmentConnectFilterState {
 
     private val color = Attribute("color")
-    private val groupID = FilterGroupID.Or(color)
+    private val groupID = FilterGroupID(color, FilterOperator.Or)
     private val red = Filter.Facet(color, "red")
     private val id = 0
     private val filters = mapOf(id to red)
-    private val expectedFilterState = FilterState(facetGroups = mutableMapOf(groupID to setOf(red)))
+    private val expectedFilterState = FilterState(mapOf(groupID to setOf(red)))
 
     @Test
     fun connectShouldUpdateSelectedWithFilterState() {
