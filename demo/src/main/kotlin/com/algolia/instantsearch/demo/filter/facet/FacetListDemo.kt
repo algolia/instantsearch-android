@@ -44,7 +44,7 @@ class FacetListDemo : AppCompatActivity() {
         setContentView(R.layout.demo_facet_list)
 
         val colorAViewModel = FacetListViewModel(selectionMode = SelectionMode.Single)
-        val colorAPresenter = FacetListPresenter(listOf(IsRefined, AlphabeticalAscending), limit = 3)
+        val colorAPresenter = FacetListPresenterImpl(listOf(IsRefined, AlphabeticalAscending), limit = 3)
         val colorAAdapter = FacetListAdapter()
 
         colorAViewModel.connectFilterState(color, filterState, groupIDColor)
@@ -52,7 +52,7 @@ class FacetListDemo : AppCompatActivity() {
         colorAViewModel.connectView(colorAAdapter, colorAPresenter)
 
         val promotionViewModel = FacetListViewModel()
-        val promotionPresenter = FacetListPresenter(listOf(CountDescending))
+        val promotionPresenter = FacetListPresenterImpl(listOf(CountDescending))
         val promotionAdapter = FacetListAdapter()
 
         promotionViewModel.connectFilterState(promotions, filterState, groupIDPromotions)
@@ -60,7 +60,7 @@ class FacetListDemo : AppCompatActivity() {
         promotionViewModel.connectView(promotionAdapter, promotionPresenter)
 
         val categoryViewModel = FacetListViewModel()
-        val categoryPresenter = FacetListPresenter(listOf(CountDescending, AlphabeticalAscending))
+        val categoryPresenter = FacetListPresenterImpl(listOf(CountDescending, AlphabeticalAscending))
         val categoryAdapter = FacetListAdapter()
 
         categoryViewModel.connectFilterState(category, filterState, groupIDCategory)
@@ -102,7 +102,7 @@ class FacetListDemo : AppCompatActivity() {
         }
     }
 
-    private fun formatTitle(presenter: FacetListPresenter, filterGroupID: FilterGroupID): String {
+    private fun formatTitle(presenter: FacetListPresenterImpl, filterGroupID: FilterGroupID): String {
 
         val criteria = presenter.sortBy.joinToString("-") { it.format() }
         val operator = when (filterGroupID) {

@@ -40,7 +40,7 @@ class FacetListSearchDemo : AppCompatActivity() {
 
         val facetViewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple)
         val facetView = FacetListAdapter()
-        val facetPresenter = FacetListPresenter(
+        val facetPresenter = FacetListPresenterImpl(
             sortBy = listOf(FacetSortCriterion.IsRefined, FacetSortCriterion.CountDescending),
             limit = 100
         )
