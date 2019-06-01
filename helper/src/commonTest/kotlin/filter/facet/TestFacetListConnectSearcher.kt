@@ -8,7 +8,6 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
-import kotlinx.coroutines.Dispatchers
 import mockClient
 import shouldEqual
 import kotlin.test.Test
@@ -34,7 +33,7 @@ class TestFacetListConnectSearcher {
 
     @Test
     fun onResponseChangedShouldUpdateItems() {
-        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default)
+        val searcher = SearcherSingleIndex(index)
         val viewModel = FacetListViewModel()
 
         viewModel.connectSearcher(color, searcher)
