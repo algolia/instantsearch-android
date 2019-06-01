@@ -1,9 +1,9 @@
 package selectable
 
 import android.widget.Switch
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import applicationContext
 import com.algolia.instantsearch.helper.android.selectable.SelectableItemViewCompoundButton
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,7 +16,7 @@ import shouldEqual
 @Config(manifest = Config.NONE)
 class TestSelectableItemViewCompoundButton {
 
-    private fun view() = SelectableItemViewCompoundButton(Switch(ApplicationProvider.getApplicationContext()))
+    private fun view() = SelectableItemViewCompoundButton(Switch(applicationContext))
 
     @Test
     fun callSetIsSelectedShouldUpdateIsChecked() {

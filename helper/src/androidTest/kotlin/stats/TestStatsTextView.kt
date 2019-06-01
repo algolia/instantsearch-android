@@ -1,9 +1,9 @@
 package stats
 
 import android.widget.TextView
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import applicationContext
 import com.algolia.instantsearch.helper.android.stats.StatsTextView
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,7 +16,7 @@ import shouldEqual
 @Config(manifest = Config.NONE)
 class TestStatsTextView {
 
-    private fun view() = StatsTextView(TextView(ApplicationProvider.getApplicationContext()))
+    private fun view() = StatsTextView(TextView(applicationContext))
 
     private val text = "text"
 

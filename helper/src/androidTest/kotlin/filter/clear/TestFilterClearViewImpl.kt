@@ -1,9 +1,9 @@
 package filter.clear
 
 import android.view.View
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import applicationContext
 import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
@@ -21,14 +21,14 @@ import shouldNotBeEmpty
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest= Config.NONE)
+@Config(manifest = Config.NONE)
 class TestFilterClearViewImpl {
 
     private val color = Attribute("color")
     private val groupID = FilterGroupID.And(color)
     private val filterRed = Filter.Facet(color, "red")
 
-    private fun view() : View = View(ApplicationProvider.getApplicationContext())
+    private fun view(): View = View(applicationContext)
 
     @Test
     fun onViewClickCallsClearFilters() {

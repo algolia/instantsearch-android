@@ -1,9 +1,9 @@
 package searchbox
 
 import android.widget.EditText
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import applicationContext
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewEditText
 import com.algolia.instantsearch.helper.searchbox.connectView
@@ -20,7 +20,7 @@ class TestSearchBoxEditText {
 
     private val text = "text"
 
-    private fun view() = SearchBoxViewEditText(EditText(ApplicationProvider.getApplicationContext()))
+    private fun view() = SearchBoxViewEditText(EditText(applicationContext))
 
     @Test
     fun connectShouldUpdateQuery() {
