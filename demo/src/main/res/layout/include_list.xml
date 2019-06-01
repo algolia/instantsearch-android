@@ -2,9 +2,9 @@
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    xmlns:tools="http://schemas.android.com/tools"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -17,8 +17,6 @@
 
         <TextView
             android:id="@+id/titleTopLeft"
-            tools:text="@tools:sample/lorem"
-            tools:visibility="visible"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -26,18 +24,19 @@
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@android:color/holo_red_dark"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/listTopLeft"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/headerFilter"
             app:layout_constraintVertical_bias="0"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="@tools:sample/lorem"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/titleTopRight"
-            tools:text="@tools:sample/lorem"
-            tools:visibility="visible"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -45,18 +44,19 @@
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@android:color/holo_blue_dark"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/listTopRight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@id/headerFilter"
             app:layout_constraintVertical_bias="0"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="@tools:sample/lorem"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/titleBottomLeft"
-            tools:text="@tools:sample/lorem"
-            tools:visibility="visible"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -64,16 +64,17 @@
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@android:color/holo_green_dark"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/listBottomLeft"
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/listTopLeft" />
+            app:layout_constraintTop_toBottomOf="@id/listTopLeft"
+            tools:text="@tools:sample/lorem"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/titleBottomRight"
-            tools:text="@tools:sample/lorem"
-            tools:visibility="visible"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -81,11 +82,14 @@
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@android:color/holo_purple"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/listBottomRight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/listTopRight" />
+            app:layout_constraintTop_toBottomOf="@id/listTopRight"
+            tools:text="@tools:sample/lorem"
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -96,8 +100,6 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listTopLeft"
-            tools:layout_height="200dp"
-            tools:listitem="@layout/list_item_selectable"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -105,11 +107,12 @@
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleTopLeft"
-            app:layout_goneMarginTop="16dp" />
+            app:layout_goneMarginTop="16dp"
+            tools:layout_height="200dp"
+            tools:listitem="@layout/list_item_selectable" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listBottomLeft"
-            tools:listitem="@layout/list_item_selectable"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -117,12 +120,11 @@
             app:layout_constraintEnd_toStartOf="@id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleBottomLeft"
-            app:layout_goneMarginTop="16dp" />
+            app:layout_goneMarginTop="16dp"
+            tools:listitem="@layout/list_item_selectable" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listTopRight"
-            tools:layout_height="200dp"
-            tools:listitem="@layout/list_item_selectable"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -130,11 +132,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@id/titleTopRight"
-            app:layout_goneMarginTop="16dp" />
+            app:layout_goneMarginTop="16dp"
+            tools:layout_height="200dp"
+            tools:listitem="@layout/list_item_selectable" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listBottomRight"
-            tools:listitem="@layout/list_item_selectable"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -142,7 +145,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@id/titleBottomRight"
-            app:layout_goneMarginTop="16dp" />
+            app:layout_goneMarginTop="16dp"
+            tools:listitem="@layout/list_item_selectable" />
 
         <include
             android:id="@+id/headerFilter"

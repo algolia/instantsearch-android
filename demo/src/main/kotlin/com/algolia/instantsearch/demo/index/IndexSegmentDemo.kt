@@ -27,9 +27,7 @@ class IndexSegmentDemo : AppCompatActivity() {
     private val indexTitle = client.initIndex(IndexName("mobile_demo_movies"))
     private val indexYearAsc = client.initIndex(IndexName("mobile_demo_movies_year_asc"))
     private val indexYearDesc = client.initIndex(IndexName("mobile_demo_movies_year_desc"))
-
     private val searcher = SearcherSingleIndex(indexTitle)
-
     private val indexes = mapOf(
         0 to indexTitle,
         1 to indexYearAsc,

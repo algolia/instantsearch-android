@@ -2,7 +2,6 @@ package com.algolia.instantsearch.demo.filter.list
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.list.connectFilterState
@@ -20,8 +19,8 @@ import kotlinx.android.synthetic.main.include_list.*
 class FilterListNumericDemo : AppCompatActivity() {
 
     private val price = Attribute("price")
-    private val colors
-        get() = mapOf(price.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark))
+    private val groupPrice = groupAnd(price)
+    private val searcher = SearcherSingleIndex(stubIndex)
     private val numericFilters = listOf(
         Filter.Numeric(price, NumericOperator.Less, 5),
         Filter.Numeric(price, 5..10),
@@ -29,9 +28,6 @@ class FilterListNumericDemo : AppCompatActivity() {
         Filter.Numeric(price, 25..100),
         Filter.Numeric(price, NumericOperator.Greater, 100)
     )
-
-    private val groupPrice = groupAnd(price)
-    private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +42,7 @@ class FilterListNumericDemo : AppCompatActivity() {
         configureToolbar(toolbar)
         configureSearcher(searcher)
         configureRecyclerView(listTopLeft, viewNumeric)
-        onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onFilterChangedThenUpdateFiltersText(searcher.filterState, filtersTextView, price)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)

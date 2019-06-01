@@ -2,7 +2,6 @@ package com.algolia.instantsearch.demo.filter.facet
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
@@ -22,13 +21,7 @@ class FacetListPersistentDemo : AppCompatActivity() {
 
     private val color = Attribute("color")
     private val category = Attribute("category")
-    private val colors
-        get() = mapOf(
-            color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
-            category.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark)
-        )
     private val index = client.initIndex(IndexName("stub"))
-
     private val searcher = SearcherSingleIndex(index)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,9 +48,9 @@ class FacetListPersistentDemo : AppCompatActivity() {
         configureSearchView(searchView, getString(R.string.search_items))
         configureRecyclerView(listTopLeft, colorAdapter)
         configureRecyclerView(listTopRight, categoryAdapter)
-        configureTitle(titleTopLeft, getString(R.string.multiple_choice), colors.getValue(color.raw))
-        configureTitle(titleTopRight, getString(R.string.single_choice), colors.getValue(category.raw))
-        onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        configureTitle(titleTopLeft, getString(R.string.multiple_choice))
+        configureTitle(titleTopRight, getString(R.string.single_choice))
+        onFilterChangedThenUpdateFiltersText(searcher.filterState, filtersTextView, color, category)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)

@@ -2,7 +2,6 @@ package com.algolia.instantsearch.demo.filter.clear
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
@@ -25,12 +24,6 @@ class FilterClearDemo : AppCompatActivity() {
     private val category = Attribute("category")
     private val groupColor = groupOr(color)
     private val groupCategory = groupOr(category)
-    private val colors
-        get() = mapOf(
-            color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
-            category.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
-        )
-
     private val filters = filters {
         group(groupColor) {
             facet(color, "red")
@@ -68,7 +61,7 @@ class FilterClearDemo : AppCompatActivity() {
         }
         configureToolbar(toolbar)
         configureSearcher(searcher)
-        onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onFilterChangedThenUpdateFiltersText(searcher.filterState, filtersTextView, color, category)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 

@@ -2,7 +2,6 @@ package com.algolia.instantsearch.demo.filter.facet
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.facet.*
@@ -20,21 +19,10 @@ class FacetListDemo : AppCompatActivity() {
     private val color = Attribute("color")
     private val promotions = Attribute("promotions")
     private val category = Attribute("category")
-    private val colors
-        get() = mapOf(
-            color.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
-            promotions.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
-            category.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark)
-        )
-
     private val groupColor = groupAnd(color)
     private val groupPromotions = groupAnd(promotions)
     private val groupCategory = groupOr(category)
-    private val filterState = filterState {
-        group(groupColor) {
-            facet(color, "green")
-        }
-    }
+    private val filterState = filterState { group(groupColor) { facet(color, "green") } }
     private val searcher = SearcherSingleIndex(stubIndex, filterState = filterState)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,14 +58,10 @@ class FacetListDemo : AppCompatActivity() {
         configureRecyclerView(listTopLeft, colorAAdapter)
         configureRecyclerView(listTopRight, categoryAdapter)
         configureRecyclerView(listBottomLeft, promotionAdapter)
-        configureTitle(titleTopLeft, formatTitle(colorAPresenter, groupColor), colors.getValue(color.raw))
-        configureTitle(titleTopRight, formatTitle(categoryPresenter, groupCategory), colors.getValue(category.raw))
-        configureTitle(
-            titleBottomLeft,
-            formatTitle(promotionPresenter, groupPromotions),
-            colors.getValue(promotions.raw)
-        )
-        onFilterChangedThenUpdateFiltersText(filterState, colors, filtersTextView)
+        configureTitle(titleTopLeft, formatTitle(colorAPresenter, groupColor))
+        configureTitle(titleTopRight, formatTitle(categoryPresenter, groupCategory))
+        configureTitle(titleBottomLeft, formatTitle(promotionPresenter, groupPromotions))
+        onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color, promotions, category)
         onClearAllThenClearFilters(filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)

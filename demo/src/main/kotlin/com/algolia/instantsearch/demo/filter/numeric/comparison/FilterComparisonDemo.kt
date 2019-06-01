@@ -2,7 +2,6 @@ package com.algolia.instantsearch.demo.filter.numeric.comparison
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.core.selectable.number.SelectableNumberViewModel
 import com.algolia.instantsearch.core.selectable.range.Range
 import com.algolia.instantsearch.demo.*
@@ -25,12 +24,6 @@ class FilterComparisonDemo : AppCompatActivity() {
 
     private val price = Attribute("price")
     private val year = Attribute("year")
-    private val colors
-        get() = mapOf(
-            price.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark),
-            year.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark)
-        )
-
     private val index = client.initIndex(IndexName("stub"))
     private val searcher = SearcherSingleIndex(index)
 
@@ -57,7 +50,7 @@ class FilterComparisonDemo : AppCompatActivity() {
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
-        onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onFilterChangedThenUpdateFiltersText(searcher.filterState, filtersTextView, price, year)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)

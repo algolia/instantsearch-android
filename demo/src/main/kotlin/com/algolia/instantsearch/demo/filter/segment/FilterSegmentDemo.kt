@@ -2,7 +2,6 @@ package com.algolia.instantsearch.demo.filter.segment
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.selectable.SelectableSegmentViewRadioGroup
 import com.algolia.instantsearch.helper.filter.segment.FilterSegmentViewModel
@@ -19,11 +18,6 @@ import kotlinx.android.synthetic.main.header_filter.*
 class FilterSegmentDemo : AppCompatActivity() {
 
     private val gender = Attribute("gender")
-    private val colors
-        get() = mapOf(
-            gender.raw to ContextCompat.getColor(this, android.R.color.holo_red_dark)
-        )
-
     private val groupGender = groupAnd(gender)
     private val searcher = SearcherSingleIndex(stubIndex)
 
@@ -44,7 +38,7 @@ class FilterSegmentDemo : AppCompatActivity() {
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
-        onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onFilterChangedThenUpdateFiltersText(searcher.filterState, filtersTextView, gender)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)

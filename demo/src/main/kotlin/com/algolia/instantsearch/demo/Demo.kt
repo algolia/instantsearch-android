@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.demo
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -40,6 +41,7 @@ import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.serialize.KeyIndexName
 import com.algolia.search.serialize.KeyName
@@ -67,9 +69,18 @@ fun AppCompatActivity.configureToolbar(toolbar: Toolbar) {
 
 fun AppCompatActivity.onFilterChangedThenUpdateFiltersText(
     filterState: FilterState,
-    colors: Map<String, Int>,
-    filtersTextView: TextView
+    filtersTextView: TextView,
+    vararg attributes: Attribute
 ) {
+    val colors = attributes.mapIndexed { index, attribute ->
+        attribute.raw to when (index) {
+            0 -> ContextCompat.getColor(this, android.R.color.holo_red_dark)
+            1 -> ContextCompat.getColor(this, android.R.color.holo_blue_dark)
+            2 -> ContextCompat.getColor(this, android.R.color.holo_green_dark)
+            3 -> ContextCompat.getColor(this, android.R.color.holo_purple)
+            else -> Color.BLACK
+        }
+    }.toMap()
     filtersTextView.text = filterState.toFilterGroups().highlight(colors = colors)
     filterState.onChanged += {
         filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
@@ -116,12 +127,10 @@ fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
 
 fun AppCompatActivity.configureTitle(
     textView: TextView,
-    text: String,
-    color: Int
+    text: String
 ) {
     textView.let {
         it.text = text
-        it.setTextColor(color)
         it.visibility = View.VISIBLE
     }
 }

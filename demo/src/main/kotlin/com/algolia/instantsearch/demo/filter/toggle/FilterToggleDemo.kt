@@ -2,7 +2,6 @@ package com.algolia.instantsearch.demo.filter.toggle
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.selectable.SelectableItemViewCompoundButton
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
@@ -20,14 +19,7 @@ class FilterToggleDemo : AppCompatActivity() {
 
     private val promotions = Attribute("promotions")
     private val size = Attribute("size")
-    private val tags = "_tags"
-    private val colors
-        get() = mapOf(
-            promotions.raw to ContextCompat.getColor(this, android.R.color.holo_blue_dark),
-            size.raw to ContextCompat.getColor(this, android.R.color.holo_green_dark),
-            tags to ContextCompat.getColor(this, android.R.color.holo_purple)
-        )
-
+    private val tags = Attribute("_tags")
     private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +46,7 @@ class FilterToggleDemo : AppCompatActivity() {
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
-        onFilterChangedThenUpdateFiltersText(searcher.filterState, colors, filtersTextView)
+        onFilterChangedThenUpdateFiltersText(searcher.filterState, filtersTextView, promotions, size, tags)
         onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
