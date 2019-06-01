@@ -6,7 +6,9 @@ import android.widget.EditText
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 
 
-public class SearchBoxViewEditText(val editText: EditText) : SearchBoxView {
+public class SearchBoxViewEditText(
+    public val editText: EditText
+) : SearchBoxView {
 
     override var onQueryChanged: ((String?) -> Unit)? = null
     override var onQuerySubmitted: ((String?) -> Unit)? = null

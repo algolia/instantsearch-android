@@ -4,7 +4,9 @@ import kotlinx.atomicfu.atomicArrayOfNulls
 import kotlinx.coroutines.Job
 
 
-public class Sequencer(val maxOperations: Int = 5) {
+public class Sequencer(
+    public val maxOperations: Int = 5
+) {
 
     init {
         if (maxOperations <= 0)
@@ -26,7 +28,7 @@ public class Sequencer(val maxOperations: Int = 5) {
      * When an operation is added, and the maxOperations count is reached, the oldest job in the queue is canceled
      * and removed from the queue.
      */
-    fun addOperation(operation: Job) {
+    public fun addOperation(operation: Job) {
         val index = (0 until maxOperations).find { operations[it].value == null }
 
         if (index != null) {
@@ -60,7 +62,7 @@ public class Sequencer(val maxOperations: Int = 5) {
     /**
      * Cancel and clear all operations from the queue.
      */
-    fun cancelAll() {
+    public fun cancelAll() {
         repeat(maxOperations) {
             operations[it].getAndSet(null)?.cancel()
         }

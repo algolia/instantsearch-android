@@ -5,7 +5,9 @@ import android.widget.TextView
 import com.algolia.instantsearch.core.item.ItemView
 
 
-public class StatsTextViewSpanned(val view: TextView) : ItemView<SpannedString> {
+public class StatsTextViewSpanned(
+    public val view: TextView
+) : ItemView<SpannedString> {
 
     override fun setItem(item: SpannedString) {
         view.text = item

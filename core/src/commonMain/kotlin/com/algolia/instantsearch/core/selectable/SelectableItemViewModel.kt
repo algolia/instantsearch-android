@@ -4,11 +4,11 @@ import kotlin.properties.Delegates
 
 
 public open class SelectableItemViewModel<V>(
-    val item: V
+    public val item: V
 ) {
 
-    val onIsSelectedChanged: MutableList<(Boolean) -> Unit> = mutableListOf()
-    val onIsSelectedComputed: MutableList<(Boolean) -> Unit> = mutableListOf()
+    public val onIsSelectedChanged: MutableList<(Boolean) -> Unit> = mutableListOf()
+    public val onIsSelectedComputed: MutableList<(Boolean) -> Unit> = mutableListOf()
 
     public var isSelected by Delegates.observable(false) { _, oldValue, newValue ->
         if (newValue != oldValue) {

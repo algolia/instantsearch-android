@@ -4,7 +4,7 @@ import kotlin.properties.Delegates
 
 
 public open class SelectableSegmentViewModel<K, V>(
-    val items: Map<K, V>
+    public val items: Map<K, V>
 ) {
 
     public val onSelectedChanged: MutableList<(K?) -> Unit> = mutableListOf()

@@ -8,7 +8,7 @@ import com.algolia.search.model.search.Facet
 public class FacetListViewModel(
     items: List<Facet> = listOf(),
     selectionMode: SelectionMode = SelectionMode.Multiple,
-    val persistentSelection: Boolean = false
+    public val persistentSelection: Boolean = false
 ) : SelectableListViewModel<String, Facet>(items, selectionMode) {
 
     fun getFacetListItems(): List<FacetListItem> {

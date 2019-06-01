@@ -8,9 +8,9 @@ import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
 
 
 public class SelectableSegmentViewSpinner(
-    val spinner: Spinner,
-    val adapter: ArrayAdapter<String>,
-    val defaultSelection: Int = 0
+    public val spinner: Spinner,
+    public val adapter: ArrayAdapter<String>,
+    public val defaultSelection: Int = 0
 ) : SelectableSegmentView<Int, String>, AdapterView.OnItemSelectedListener {
 
     override var onClick: ((Int) -> Unit)? = null

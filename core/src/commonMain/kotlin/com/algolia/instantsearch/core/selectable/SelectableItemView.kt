@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.clickable.ClickableView
 
 public interface SelectableItemView: ClickableView<Boolean> {
 
-    fun setIsSelected(isSelected: Boolean)
+    public fun setIsSelected(isSelected: Boolean)
 
-    fun setText(text: String)
+    public fun setText(text: String)
 }

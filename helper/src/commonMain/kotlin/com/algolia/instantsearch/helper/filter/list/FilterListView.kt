@@ -4,10 +4,10 @@ import com.algolia.instantsearch.core.selectable.list.SelectableListView
 import com.algolia.search.model.filter.Filter
 
 
-interface FilterListView<T: Filter>: SelectableListView<T> {
+public interface FilterListView<T: Filter>: SelectableListView<T> {
 
-    interface Facet : FilterListView<Filter.Facet>
-    interface Tag : FilterListView<Filter.Tag>
-    interface Numeric : FilterListView<Filter.Numeric>
-    interface All : FilterListView<Filter>
+    public interface Facet : FilterListView<Filter.Facet>
+    public interface Tag : FilterListView<Filter.Tag>
+    public interface Numeric : FilterListView<Filter.Numeric>
+    public interface All : FilterListView<Filter>
 }

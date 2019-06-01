@@ -6,11 +6,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-public class Debouncer(val debounceTimeInMillis: Long) {
+public class Debouncer(
+    public val debounceTimeInMillis: Long
+) {
 
-    var job: Job? = null
+    public var job: Job? = null
 
-    fun debounce(coroutineScope: CoroutineScope, block: suspend () -> Unit) {
+    public fun debounce(coroutineScope: CoroutineScope, block: suspend () -> Unit) {
         job?.cancel()
         job = coroutineScope.launch {
             delay(debounceTimeInMillis)

@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.clickable.ClickableView
 
 public interface SelectableSegmentView<K, V>: ClickableView<K> {
 
-    fun setSelected(selected: K?)
+    public fun setSelected(selected: K?)
 
-    fun setItems(items: Map<K, V>)
+    public fun setItems(items: Map<K, V>)
 }

@@ -4,7 +4,9 @@ import androidx.appcompat.widget.SearchView
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 
 
-public class SearchBoxViewAppCompat(val searchView: SearchView) : SearchBoxView {
+public class SearchBoxViewAppCompat(
+    public val searchView: SearchView
+) : SearchBoxView {
 
     override var onQueryChanged: ((String?) -> Unit)? = null
     override var onQuerySubmitted: ((String?) -> Unit)? = null

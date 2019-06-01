@@ -7,10 +7,10 @@ import kotlinx.coroutines.Job
 
 public interface Searcher {
 
-    val coroutineScope: CoroutineScope
-    val dispatcher: CoroutineDispatcher
+    public val coroutineScope: CoroutineScope
+    public val dispatcher: CoroutineDispatcher
 
-    fun setQuery(text: String?)
-    fun search(): Job
-    fun cancel()
+    public fun setQuery(text: String?)
+    public fun search(): Job
+    public fun cancel()
 }

@@ -5,14 +5,14 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 
 
-interface FilterPresenter : (Filter) -> String {
+public interface FilterPresenter : (Filter) -> String {
 
-    val facetString: (Attribute, String, Boolean) -> String
-    val facetBoolean: (Attribute, Boolean, Boolean) -> String
-    val facetNumber: (Attribute, Number, Boolean) -> String
-    val tag: (Attribute, String, Boolean) -> String
-    val numericComparison: (Attribute, NumericOperator, Number, Boolean) -> String
-    val numericRange: (Attribute, Number, Number, Boolean) -> String
+    public val facetString: (Attribute, String, Boolean) -> String
+    public val facetBoolean: (Attribute, Boolean, Boolean) -> String
+    public val facetNumber: (Attribute, Number, Boolean) -> String
+    public val tag: (Attribute, String, Boolean) -> String
+    public val numericComparison: (Attribute, NumericOperator, Number, Boolean) -> String
+    public val numericRange: (Attribute, Number, Number, Boolean) -> String
 
     override fun invoke(filter: Filter): String {
         return when (filter) {

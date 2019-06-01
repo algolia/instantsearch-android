@@ -13,7 +13,7 @@ public class SearcherSingleIndexDataSource<T>(
     private val deserializer: DeserializationStrategy<T>
 ) : PageKeyedDataSource<Int, T>() {
 
-    class Factory<T>(
+    public class Factory<T>(
         private val searcher: SearcherSingleIndex,
         private val deserializer: DeserializationStrategy<T>
     ) : DataSource.Factory<Int, T>() {

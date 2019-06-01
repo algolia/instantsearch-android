@@ -12,12 +12,12 @@ import kotlin.properties.Delegates
 
 
 public class SearcherForFacets(
-    var index: Index,
-    val attribute: Attribute,
-    val filterState: FilterState = FilterState(),
-    val query: Query = Query(),
-    var facetQuery: String? = null,
-    val requestOptions: RequestOptions? = null,
+    public var index: Index,
+    public val attribute: Attribute,
+    public val filterState: FilterState = FilterState(),
+    public val query: Query = Query(),
+    public var facetQuery: String? = null,
+    public val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
 ) : Searcher {

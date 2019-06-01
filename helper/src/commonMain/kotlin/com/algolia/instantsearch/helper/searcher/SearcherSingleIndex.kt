@@ -14,11 +14,11 @@ import kotlin.properties.Delegates
 
 
 public class SearcherSingleIndex(
-    var index: Index,
-    val filterState: FilterState = FilterState(),
-    val query: Query = Query(),
-    val requestOptions: RequestOptions? = RequestOptions(),
-    val isDisjunctiveFacetingEnabled: Boolean = true,
+    public var index: Index,
+    public val filterState: FilterState = FilterState(),
+    public val query: Query = Query(),
+    public val requestOptions: RequestOptions? = RequestOptions(),
+    public val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
 ) : Searcher {

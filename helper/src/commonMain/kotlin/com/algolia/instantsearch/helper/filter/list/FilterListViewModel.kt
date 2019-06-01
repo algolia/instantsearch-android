@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.search.model.filter.Filter
 
 
-sealed class FilterListViewModel<T : Filter>(
+public sealed class FilterListViewModel<T : Filter>(
     items: List<T>,
     selectionMode: SelectionMode
 ) : SelectableListViewModel<T, T>(items, selectionMode) {

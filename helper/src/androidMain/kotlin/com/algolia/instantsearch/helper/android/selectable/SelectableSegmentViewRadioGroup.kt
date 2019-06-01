@@ -7,7 +7,7 @@ import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
 
 
 public class SelectableSegmentViewRadioGroup(
-    val radioGroup: RadioGroup
+    public val radioGroup: RadioGroup
 ) : SelectableSegmentView<Int, String>, RadioGroup.OnCheckedChangeListener {
 
     override var onClick: ((Int) -> Unit)? = null

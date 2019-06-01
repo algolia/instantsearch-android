@@ -10,7 +10,7 @@ import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.filter.FilterGroupsConverter
 
 
-fun List<FilterGroup<*>>.highlight(
+public fun List<FilterGroup<*>>.highlight(
     converter: FilterGroupsConverter<List<FilterGroup<*>>, String?> = FilterGroupsConverter.SQL.Unquoted,
     colors: Map<String, Int> = mapOf(),
     defaultColor: Int = Color.BLACK

@@ -5,5 +5,5 @@ import com.algolia.instantsearch.core.clickable.ClickableView
 
 public interface SelectableListView<T>: ClickableView<T> {
 
-    fun setSelectableItems(selectableItems: List<SelectableItem<T>>)
+    public fun setSelectableItems(selectableItems: List<SelectableItem<T>>)
 }

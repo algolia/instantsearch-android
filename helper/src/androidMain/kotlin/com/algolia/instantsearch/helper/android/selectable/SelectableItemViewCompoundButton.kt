@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.selectable.SelectableItemView
 
 
 public class SelectableItemViewCompoundButton(
-    val compoundButton: CompoundButton
+    public val compoundButton: CompoundButton
 ) : SelectableItemView, CompoundButton.OnCheckedChangeListener {
 
     override var onClick: ((Boolean) -> Unit)? = null

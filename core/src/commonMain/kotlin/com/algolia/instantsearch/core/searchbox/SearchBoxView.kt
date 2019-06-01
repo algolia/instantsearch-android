@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.core.searchbox
 
 
-interface SearchBoxView {
+public interface SearchBoxView {
 
-    fun setQuery(query: String?)
+    public fun setQuery(query: String?)
 
-    var onQueryChanged: ((String?) -> Unit)?
-    var onQuerySubmitted: ((String?) -> Unit)?
+    public var onQueryChanged: ((String?) -> Unit)?
+    public var onQuerySubmitted: ((String?) -> Unit)?
 }

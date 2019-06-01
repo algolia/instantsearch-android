@@ -4,7 +4,7 @@ import com.algolia.search.model.Attribute
 
 
 public class AttributePresenterImpl(
-    val transform: (Attribute) -> String = { attribute -> attribute.raw }
+    private val transform: (Attribute) -> String = { attribute -> attribute.raw }
 ) :
     AttributePresenter {
 

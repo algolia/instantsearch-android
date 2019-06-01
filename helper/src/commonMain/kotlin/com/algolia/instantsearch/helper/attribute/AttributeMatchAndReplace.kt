@@ -4,8 +4,8 @@ import com.algolia.search.model.Attribute
 
 
 public class AttributeMatchAndReplace(
-    val match: Attribute,
-    val replacement: String
+    private val match: Attribute,
+    private val replacement: String
 ) : AttributePresenter {
 
     override fun invoke(attribute: Attribute): String {

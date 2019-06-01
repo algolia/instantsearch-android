@@ -4,7 +4,9 @@ import android.view.View
 import com.algolia.instantsearch.helper.filter.clear.FilterClearView
 
 
-public class FilterClearViewImpl(val view: View) : FilterClearView {
+public class FilterClearViewImpl(
+    public val view: View
+) : FilterClearView {
 
     override var onClick: ((Unit) -> Unit)? = null
 
