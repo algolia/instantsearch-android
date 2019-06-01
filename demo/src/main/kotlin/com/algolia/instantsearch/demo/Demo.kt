@@ -17,14 +17,19 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
 import com.algolia.instantsearch.helper.android.highlight
+import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
 import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
+import com.algolia.instantsearch.helper.searchbox.connectSearcher
+import com.algolia.instantsearch.helper.searchbox.connectView
+import com.algolia.instantsearch.helper.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.stats.StatsPresenter
@@ -149,6 +154,17 @@ fun AppCompatActivity.configureRecyclerView(
 }
 
 val Intent.indexName: IndexName get() = IndexName(extras!!.getString(KeyIndexName)!!)
+
+fun AppCompatActivity.configureSearchBox(
+    searchView: SearchView,
+    searcher: Searcher
+) {
+    val searchBoxViewModel = SearchBoxViewModel()
+    val searchBoxView = SearchBoxViewAppCompat(searchView)
+
+    searchBoxViewModel.connectView(searchBoxView)
+    searchBoxViewModel.connectSearcher(searcher)
+}
 
 fun AppCompatActivity.configureSearchView(
     searchView: SearchView,

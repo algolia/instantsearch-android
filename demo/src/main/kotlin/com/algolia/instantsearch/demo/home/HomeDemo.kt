@@ -24,27 +24,11 @@ class HomeDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_home)
 
-        val hintIcon = ContextCompat.getDrawable(this, R.drawable.ic_search_hint)!!
-        val hintText = getString(R.string.search_demos)
-
-        val searchBoxViewModel = SearchBoxViewModel()
-        val searchBoxView = SearchBoxViewAppCompat(searchView)
-
-        searchBoxViewModel.connectView(searchBoxView)
-        searchBoxViewModel.connectSearcher(searcher)
-        searchView.also {
-            it.isSubmitButtonEnabled = false
-            it.isFocusable = true
-            it.setIconifiedByDefault(false)
-            it.setOnQueryTextFocusChangeListener { _, hasFocus ->
-                searchView.showQueryHintIcon(!hasFocus, hintIcon, hintText)
-            }
-        }
-
         val adapter = HomeAdapter()
 
         configureRecyclerView(list, adapter)
         configureSearchView(searchView, getString(R.string.search_demos))
+        configureSearchBox(searchView, searcher)
 
         searcher.onResponseChanged += { response ->
             val hits = response.hits.deserialize(HomeHit.serializer())
