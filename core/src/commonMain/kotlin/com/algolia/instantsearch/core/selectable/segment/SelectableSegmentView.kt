@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.core.selectable.segment
 
+import com.algolia.instantsearch.core.clickable.ClickableView
 
-public interface SelectableSegmentView<K, V> {
 
-    var onClick: ((K) -> Unit)?
+public interface SelectableSegmentView<K, V>: ClickableView<K> {
 
     fun setSelected(selected: K?)
 
