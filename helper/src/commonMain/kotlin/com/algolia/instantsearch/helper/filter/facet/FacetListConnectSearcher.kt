@@ -4,24 +4,32 @@ import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.addFacet
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.response.ResponseSearch
+import com.algolia.search.model.response.ResponseSearchForFacets
 
 
 public fun FacetListViewModel.connectSearcher(
     attribute: Attribute,
     searcher: SearcherSingleIndex
 ) {
-    searcher.query.addFacet(attribute)
-    searcher.onResponseChanged += { response ->
+    val onResponseChanged = { response: ResponseSearch ->
         val disjunctiveFacets = response.disjunctiveFacetsOrNull?.get(attribute)
 
         items = disjunctiveFacets ?: response.facetsOrNull.orEmpty()[attribute].orEmpty()
     }
+
+    searcher.query.addFacet(attribute)
+    searcher.response?.let(onResponseChanged)
+    searcher.onResponseChanged += onResponseChanged
 }
 
 public fun FacetListViewModel.connectSearcherForFacet(
     searcher: SearcherForFacets
 ) {
-    searcher.onResponseChanged += { response ->
+    val onResponseChanged = { response: ResponseSearchForFacets ->
         items = response.facets
     }
+
+    searcher.response?.let(onResponseChanged)
+    searcher.onResponseChanged += onResponseChanged
 }
