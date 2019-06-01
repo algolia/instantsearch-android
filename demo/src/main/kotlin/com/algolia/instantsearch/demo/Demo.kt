@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.SpannedString
 import android.text.style.ImageSpan
 import android.view.View
 import android.widget.AutoCompleteTextView
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
 import com.algolia.instantsearch.helper.android.highlight
+import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
 import com.algolia.instantsearch.helper.filter.clear.connectView
@@ -25,6 +27,10 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.stats.StatsPresenter
+import com.algolia.instantsearch.helper.stats.StatsViewModel
+import com.algolia.instantsearch.helper.stats.connectSearcher
+import com.algolia.instantsearch.helper.stats.connectView
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
@@ -88,13 +94,19 @@ fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
     searcher: SearcherSingleIndex,
     nbHitsView: TextView
 ) {
-    searcher.onResponseChanged += {
-        nbHitsView.text = buildSpannedString {
-            bold { append(it.nbHits.toString()) }
-            append(" ")
-            append(getString(R.string.hits))
+    val viewModel = StatsViewModel()
+    val view = StatsTextViewSpanned(nbHitsView)
+    val presenter: StatsPresenter<SpannedString> = { response ->
+        buildSpannedString {
+            if (response != null) {
+                bold { append(response.nbHits.toString()) }
+                append(" ${getString(R.string.hits)}")
+            }
         }
     }
+
+    viewModel.connectSearcher(searcher)
+    viewModel.connectView(view, presenter)
 }
 
 fun AppCompatActivity.configureTitle(
@@ -157,7 +169,8 @@ fun AppCompatActivity.configureSearchView(
 fun SearchView.showQueryHintIcon(
     showIconHint: Boolean,
     hintIcon: Drawable,
-    hintText: String? = null) {
+    hintText: String? = null
+) {
     queryHint = if (!showIconHint) {
         hintText
     } else {
