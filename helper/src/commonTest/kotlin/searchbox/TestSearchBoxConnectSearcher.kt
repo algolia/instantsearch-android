@@ -21,6 +21,7 @@ class TestSearchBoxConnectSearcher {
         var string: String? = null
         var searchCount: Int = 0
 
+        override var loading: Boolean = false
         override val coroutineScope: CoroutineScope = SearcherScope()
         override val dispatcher: CoroutineDispatcher = Dispatchers.Default
 

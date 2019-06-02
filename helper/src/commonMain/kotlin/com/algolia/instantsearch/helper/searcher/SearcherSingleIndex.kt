@@ -27,17 +27,25 @@ public class SearcherSingleIndex(
 
     public val onResponseChanged = mutableListOf<(ResponseSearch) -> Unit>()
     public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
+    public val onLoadingChanged = mutableListOf<(Boolean) -> Unit>()
 
-    public var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
-        if (newValue != null) {
+    public override var loading: Boolean by Delegates.observable(false) { _, oldValue, newValue ->
+        if (newValue != oldValue) {
+            onLoadingChanged.forEach { it(newValue) }
+        }
+    }
+
+    public var response by Delegates.observable<ResponseSearch?>(null) { _, oldValue, newValue ->
+        if (newValue != oldValue && newValue != null) {
             onResponseChanged.forEach { it(newValue) }
         }
     }
-    public var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
-        if (newValue != null) {
+    public var error by Delegates.observable<Throwable?>(null) { _, oldValue, newValue ->
+        if (newValue != oldValue && newValue != null) {
             onErrorChanged.forEach { it(newValue) }
         }
     }
+
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error = throwable
     }
@@ -63,6 +71,7 @@ public class SearcherSingleIndex(
             .filter { it.key.operator == FilterOperator.Or }
             .flatMap { group -> group.value.map { it.attribute } }
 
+        loading = true
         val job = coroutineScope.launch(dispatcher + exceptionHandler) {
             response = withContext(Dispatchers.Default) {
                 if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
@@ -71,6 +80,7 @@ public class SearcherSingleIndex(
                     index.searchDisjunctiveFacets(query, disjunctiveAttributes, filterState.getFilters())
                 }
             }
+            loading = false
         }
         sequencer.addOperation(job)
         return job

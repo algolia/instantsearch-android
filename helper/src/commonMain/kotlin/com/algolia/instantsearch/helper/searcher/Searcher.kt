@@ -10,6 +10,8 @@ public interface Searcher {
     public val coroutineScope: CoroutineScope
     public val dispatcher: CoroutineDispatcher
 
+    var loading: Boolean
+
     public fun setQuery(text: String?)
     public fun search(): Job
     public fun cancel()

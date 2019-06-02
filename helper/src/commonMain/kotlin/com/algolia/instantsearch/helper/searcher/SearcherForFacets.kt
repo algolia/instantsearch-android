@@ -26,17 +26,26 @@ public class SearcherForFacets(
 
     public val onResponseChanged = mutableListOf<(ResponseSearchForFacets) -> Unit>()
     public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
+    public val onLoadingChanged = mutableListOf<(Boolean) -> Unit>()
+
+    public override var loading: Boolean by Delegates.observable(false) { _, oldValue, newValue ->
+        if (newValue != oldValue) {
+            onLoadingChanged.forEach { it(newValue) }
+        }
+    }
 
     public var response by Delegates.observable<ResponseSearchForFacets?>(null) { _, _, newValue ->
         if (newValue != null) {
             onResponseChanged.forEach { it(newValue) }
         }
     }
+
     public var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
         if (newValue != null) {
             onErrorChanged.forEach { it(newValue) }
         }
     }
+
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error = throwable
     }
@@ -46,10 +55,12 @@ public class SearcherForFacets(
     }
 
     override fun search(): Job {
+        loading = true
         val job = coroutineScope.launch(dispatcher + exceptionHandler) {
             response = withContext(Dispatchers.Default) {
                 index.searchForFacets(attribute, facetQuery, query, requestOptions)
             }
+            loading = false
         }
         sequencer.addOperation(job)
         return job
