@@ -4,6 +4,7 @@ import com.algolia.instantsearch.helper.stats.StatsView
 import com.algolia.instantsearch.helper.stats.StatsViewModel
 import com.algolia.instantsearch.helper.stats.connectView
 import com.algolia.search.model.response.ResponseSearch
+import responseSearch
 import shouldBeNull
 import shouldBeTrue
 import shouldEqual
@@ -13,7 +14,6 @@ import kotlin.test.Test
 class TestStatsConnectView {
 
     private val text = "text"
-    private val response = ResponseSearch()
     private val presenter : (ResponseSearch?) -> String = { if (it != null) text else ""  }
 
     private class MockStatsView: StatsView {
@@ -27,7 +27,7 @@ class TestStatsConnectView {
 
     @Test
     fun connectShouldSetItem() {
-        val viewModel = StatsViewModel().also { it.item = response }
+        val viewModel = StatsViewModel().also { it.item = responseSearch }
         val view = MockStatsView()
 
         view.string.shouldBeNull()
@@ -42,7 +42,7 @@ class TestStatsConnectView {
 
         viewModel.connectView(view, presenter)
         view.string!!.isEmpty().shouldBeTrue()
-        viewModel.item = response
+        viewModel.item = responseSearch
         view.string shouldEqual text
     }
 }

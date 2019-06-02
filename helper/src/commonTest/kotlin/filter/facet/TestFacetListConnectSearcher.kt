@@ -9,6 +9,7 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 import mockClient
+import respondSearch
 import shouldEqual
 import kotlin.test.Test
 
@@ -19,7 +20,7 @@ class TestFacetListConnectSearcher {
     private val red = Facet("red", 1)
     private val facets = listOf(red)
     private val response = ResponseSearch(facetsOrNull = mapOf(color to facets))
-    private val client = mockClient(response, ResponseSearch.serializer())
+    private val client = mockClient(respondSearch(response))
     private val index = client.initIndex(IndexName("index"))
 
     @Test

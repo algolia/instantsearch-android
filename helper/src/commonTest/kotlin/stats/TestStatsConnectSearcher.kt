@@ -5,8 +5,8 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.stats.StatsViewModel
 import com.algolia.instantsearch.helper.stats.connectSearcher
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.response.ResponseSearch
 import mockClient
+import responseSearch
 import shouldBeNull
 import shouldEqual
 import kotlin.test.Test
@@ -14,18 +14,17 @@ import kotlin.test.Test
 
 class TestStatsConnectSearcher {
 
-    private val client = mockClient(ResponseSearch(), ResponseSearch.serializer())
+    private val client = mockClient()
     private val index = client.initIndex(IndexName("A"))
-    private val response = ResponseSearch()
 
     @Test
     fun connectShouldSetItem() {
-        val searcher = SearcherSingleIndex(index).also { it.response = response }
+        val searcher = SearcherSingleIndex(index).also { it.response = responseSearch }
         val viewModel = StatsViewModel()
 
         viewModel.item.shouldBeNull()
         viewModel.connectSearcher(searcher)
-        viewModel.item shouldEqual response
+        viewModel.item shouldEqual responseSearch
     }
 
     @Test
@@ -36,6 +35,6 @@ class TestStatsConnectSearcher {
         viewModel.connectSearcher(searcher)
         viewModel.item.shouldBeNull()
         blocking { searcher.search().join() }
-        viewModel.item shouldEqual response
+        viewModel.item shouldEqual responseSearch
     }
 }

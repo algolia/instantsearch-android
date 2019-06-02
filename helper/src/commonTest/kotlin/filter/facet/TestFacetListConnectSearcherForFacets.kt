@@ -9,6 +9,7 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Facet
 import mockClient
+import respondJson
 import shouldEqual
 import kotlin.test.Test
 
@@ -23,7 +24,7 @@ class TestFacetListConnectSearcherForFacets {
         exhaustiveFacetsCount = true,
         processingTimeMS = 0
     )
-    private val client = mockClient(response, ResponseSearchForFacets.serializer())
+    private val client = mockClient(respondJson(response, ResponseSearchForFacets.serializer()))
     private val index = client.initIndex(IndexName("index"))
 
     @Test

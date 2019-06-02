@@ -5,7 +5,6 @@ import com.algolia.instantsearch.helper.index.IndexSegmentViewModel
 import com.algolia.instantsearch.helper.index.connectView
 import com.algolia.search.client.Index
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.response.ResponseSearch
 import mockClient
 import shouldEqual
 import shouldNotBeNull
@@ -14,7 +13,7 @@ import kotlin.test.Test
 
 class TestIndexSegmentConnectView {
 
-    private val client = mockClient(ResponseSearch(), ResponseSearch.serializer())
+    private val client = mockClient()
     private val indexA = client.initIndex(IndexName("A"))
     private val id = 0
     private val indexes = mapOf(id to indexA)
