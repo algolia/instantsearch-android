@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.core.selectable.range
+package com.algolia.instantsearch.core.number
 
 
 public abstract class Range<T : Number> {

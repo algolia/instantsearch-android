@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.demo.filter.numeric.comparison
 
 import android.view.View
+import com.algolia.instantsearch.core.number.Computation
 import com.algolia.instantsearch.core.number.NumberView
 import com.algolia.instantsearch.core.number.decrement
 import com.algolia.instantsearch.core.number.increment
-import com.algolia.instantsearch.core.selectable.number.Computation
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.NumericOperator
 import kotlinx.android.synthetic.main.demo_filter_comparison.view.*

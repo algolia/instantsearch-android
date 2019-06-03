@@ -1,7 +1,7 @@
 package selectable.number
 
 import com.algolia.instantsearch.core.number.NumberViewModel
-import com.algolia.instantsearch.core.selectable.range.Range
+import com.algolia.instantsearch.core.number.Range
 import shouldEqual
 import kotlin.test.Test
 

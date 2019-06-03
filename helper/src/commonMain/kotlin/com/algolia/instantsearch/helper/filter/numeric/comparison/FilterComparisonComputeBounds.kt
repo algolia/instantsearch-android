@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
 import com.algolia.instantsearch.core.number.NumberViewModel
-import com.algolia.instantsearch.core.selectable.range.Range
+import com.algolia.instantsearch.core.number.Range
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.FacetStats
 

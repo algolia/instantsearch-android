@@ -2,7 +2,7 @@ package com.algolia.instantsearch.demo.filter.numeric.comparison
 
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import com.algolia.instantsearch.core.selectable.number.Computation
+import com.algolia.instantsearch.core.number.Computation
 import com.algolia.instantsearch.core.number.NumberView
 import com.algolia.instantsearch.core.number.just
 import com.algolia.search.model.Attribute
@@ -22,7 +22,7 @@ class FilterYearView(
 
     override fun setComputation(computation: Computation<Int>) {
         view.inputEditText.setOnEditorActionListener { v, actionId, _ ->
-            if (actionId ==  EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val year = v.text.toString().toIntOrNull()
 
                 computation.just(year)

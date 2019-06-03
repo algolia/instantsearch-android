@@ -3,7 +3,7 @@ package com.algolia.instantsearch.demo.filter.numeric.comparison
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.number.NumberViewModel
-import com.algolia.instantsearch.core.selectable.range.Range
+import com.algolia.instantsearch.core.number.Range
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.numeric.comparison.computeBoundsFromFacetStats
 import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState

@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.core.number
 
 import com.algolia.instantsearch.core.item.ItemViewModel
-import com.algolia.instantsearch.core.selectable.range.Range
 
 
 public abstract class NumberViewModel<T : Number>(
