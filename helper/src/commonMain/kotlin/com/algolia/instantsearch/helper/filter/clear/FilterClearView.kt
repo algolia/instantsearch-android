@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.filter.clear
 
-import com.algolia.instantsearch.core.clickable.ClickableView
+import com.algolia.instantsearch.core.event.EventView
 
 
-public typealias FilterClearView = ClickableView<Unit>
+public typealias FilterClearView = EventView<Unit>

@@ -22,7 +22,7 @@ class TestFilterClearConnectView {
         val view = MockFilterClearView()
         var clicked = false
 
-        viewModel.onClicked += { clicked = true }
+        viewModel.onTriggered += { clicked = true }
         clicked.shouldBeFalse()
         viewModel.connectView(view)
         view.onClick.shouldNotBeNull()

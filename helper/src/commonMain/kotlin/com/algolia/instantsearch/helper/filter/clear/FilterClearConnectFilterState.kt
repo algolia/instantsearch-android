@@ -9,7 +9,7 @@ public fun FilterClearViewModel.connectFilterState(
     groupIDs: List<FilterGroupID> = listOf(),
     mode: ClearMode = ClearMode.Specified
 ) {
-    onClicked += {
+    onTriggered += {
         filterState.notify {
             when (mode) {
                 ClearMode.Specified -> clear(*groupIDs.toTypedArray())

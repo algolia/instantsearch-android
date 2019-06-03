@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.core.selectable.segment
 
-import com.algolia.instantsearch.core.clickable.ClickableView
+import com.algolia.instantsearch.core.event.EventView
 
 
-public interface SelectableSegmentView<K, V>: ClickableView<K> {
+public interface SelectableSegmentView<K, V>: EventView<K> {
 
     public fun setSelected(selected: K?)
 
