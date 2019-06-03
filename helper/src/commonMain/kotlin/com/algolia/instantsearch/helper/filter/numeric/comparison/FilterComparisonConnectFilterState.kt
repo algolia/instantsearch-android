@@ -16,13 +16,6 @@ public inline fun <reified T : Number> NumberViewModel<T>.connectFilterState(
     filterState: FilterState,
     groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
 ) {
-    onNumberComputed += { computed ->
-        filterState.notify {
-            item?.let { remove(groupID, Filter.Numeric(attribute, operator, it)) }
-            computed?.let { add(groupID, Filter.Numeric(attribute, operator, it)) }
-        }
-    }
-
     val onChanged: (Filters) -> Unit = { filters ->
         item = filters
             .getNumericFilters(groupID)
@@ -35,4 +28,10 @@ public inline fun <reified T : Number> NumberViewModel<T>.connectFilterState(
 
     onChanged(filterState)
     filterState.onChanged += onChanged
+    onNumberComputed += { computed ->
+        filterState.notify {
+            item?.let { remove(groupID, Filter.Numeric(attribute, operator, it)) }
+            computed?.let { add(groupID, Filter.Numeric(attribute, operator, it)) }
+        }
+    }
 }
