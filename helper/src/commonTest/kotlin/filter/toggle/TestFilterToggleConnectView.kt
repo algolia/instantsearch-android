@@ -27,8 +27,8 @@ class TestFilterToggleConnectView {
             boolean = isSelected
         }
 
-        override fun setText(text: String) {
-            string = text
+        override fun setItem(item: String) {
+            string = item
         }
     }
 

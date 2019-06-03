@@ -14,8 +14,8 @@ public class SelectableItemViewCompoundButton(
         compoundButton.setOnCheckedChangeListener(this)
     }
 
-    override fun setText(text: String) {
-        compoundButton.text = text
+    override fun setItem(item: String) {
+        compoundButton.text = item
     }
 
     override fun setIsSelected(isSelected: Boolean) {
