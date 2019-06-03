@@ -10,14 +10,14 @@ class TestItemViewModel {
 
     @Test
     fun itemShouldBeNullByDefault() {
-        val viewModel = ItemViewModel<Unit>()
+        val viewModel = ItemViewModel<Unit?>(null)
 
         viewModel.item.shouldBeNull()
     }
 
     @Test
     fun setItemShouldCallOnItemChanged() {
-        val viewModel = ItemViewModel<Unit>()
+        val viewModel = ItemViewModel<Unit?>(null)
         var changed = false
 
         viewModel.onItemChanged += { changed = true }

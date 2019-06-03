@@ -28,8 +28,8 @@ class FilterListAdapter<T: Filter> :
         holder.bind(FilterPresenterImpl()(filter), selected, View.OnClickListener { onClick?.invoke(filter) })
     }
 
-    override fun setSelectableItems(selectableItems: List<SelectableItem<T>>) {
-        submitList(selectableItems)
+    override fun setItem(item: List<SelectableItem<T>>) {
+        submitList(item)
     }
 
     private class DiffUtilItem<T: Filter>: DiffUtil.ItemCallback<SelectableItem<T>>() {

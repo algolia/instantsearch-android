@@ -24,8 +24,8 @@ class TestFilterListConnectView  {
 
         override var onClick: ((Filter.Facet) -> Unit)? = null
 
-        override fun setSelectableItems(selectableItems: List<SelectableItem<Filter.Facet>>) {
-            items = selectableItems
+        override fun setItem(item: List<SelectableItem<Filter.Facet>>) {
+            items = item
         }
     }
 
@@ -57,7 +57,7 @@ class TestFilterListConnectView  {
         val viewModel = FilterListViewModel.Facet()
 
         viewModel.connectView(view)
-        viewModel.items = filters
+        viewModel.item = filters
         view.items shouldEqual listOf(filter to false)
     }
 

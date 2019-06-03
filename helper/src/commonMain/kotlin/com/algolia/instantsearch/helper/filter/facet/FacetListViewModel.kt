@@ -12,7 +12,7 @@ public class FacetListViewModel(
 ) : SelectableListViewModel<String, Facet>(items, selectionMode) {
 
     fun getFacetListItems(): List<FacetListItem> {
-        val facets = items.map { FacetListItem(it, selections.contains(it.value)) }
+        val facets = item.map { FacetListItem(it, selections.contains(it.value)) }
 
         return if (persistentSelection) {
             selections

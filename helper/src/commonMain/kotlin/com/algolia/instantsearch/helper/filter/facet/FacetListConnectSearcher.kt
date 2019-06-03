@@ -15,7 +15,7 @@ public fun FacetListViewModel.connectSearcher(
     val onResponseChanged = { response: ResponseSearch ->
         val disjunctiveFacets = response.disjunctiveFacetsOrNull?.get(attribute)
 
-        items = disjunctiveFacets ?: response.facetsOrNull.orEmpty()[attribute].orEmpty()
+        item = disjunctiveFacets ?: response.facetsOrNull.orEmpty()[attribute].orEmpty()
     }
 
     searcher.query.addFacet(attribute)
@@ -27,7 +27,7 @@ public fun FacetListViewModel.connectSearcherForFacet(
     searcher: SearcherForFacets
 ) {
     val onResponseChanged = { response: ResponseSearchForFacets ->
-        items = response.facets
+        item = response.facets
     }
 
     searcher.response?.let(onResponseChanged)

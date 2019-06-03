@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.core.selectable.list
 
+import com.algolia.instantsearch.core.item.ItemViewModel
 import com.algolia.instantsearch.core.selectable.list.SelectionMode.Multiple
 import com.algolia.instantsearch.core.selectable.list.SelectionMode.Single
 import kotlin.properties.Delegates
@@ -8,17 +9,11 @@ import kotlin.properties.Delegates
 public open class SelectableListViewModel<K, V>(
     items: List<V> = listOf(),
     public val selectionMode: SelectionMode
-) {
+): ItemViewModel<List<V>>(items) {
 
-    public val onItemsChanged: MutableList<(List<V>) -> Unit> = mutableListOf()
     public val onSelectionsChanged: MutableList<(Set<K>) -> Unit> = mutableListOf()
     public val onSelectionsComputed: MutableList<(Set<K>) -> Unit> = mutableListOf()
 
-    public var items: List<V> by Delegates.observable(items) { _, oldValue, newValue ->
-        if (newValue != oldValue) {
-            onItemsChanged.forEach { it(newValue) }
-        }
-    }
     public var selections by Delegates.observable(setOf<K>()) { _, oldValue, newValue ->
         if (newValue != oldValue) {
             onSelectionsChanged.forEach { it(newValue) }

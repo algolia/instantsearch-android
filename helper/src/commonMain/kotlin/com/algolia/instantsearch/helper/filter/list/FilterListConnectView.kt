@@ -7,14 +7,14 @@ public fun <T : Filter> FilterListViewModel<T>.connectView(
     view: FilterListView<T>
 ) {
 
-    fun setSelectableItems(filters: List<T>, selections: Set<T>) {
-        val selectableItems = filters.map { it to selections.contains(it) }
+    fun setItem(filters: List<T>, selections: Set<T>) {
+        val item = filters.map { it to selections.contains(it) }
 
-        view.setSelectableItems(selectableItems)
+        view.setItem(item)
     }
 
-    setSelectableItems(items, selections)
+    setItem(item, selections)
     view.onClick = { filter -> computeSelections(filter) }
-    onItemsChanged += { items -> setSelectableItems(items, selections) }
-    onSelectionsChanged += { selections -> setSelectableItems(items, selections) }
+    onItemChanged += { items -> setItem(items, selections) }
+    onSelectionsChanged += { selections -> setItem(item, selections) }
 }

@@ -8,6 +8,6 @@ public inline fun <reified T : Number> SelectableNumberViewModel<T>.connectView(
     view: SelectableNumberView<T>
 ) {
     view.setComputation { computeNumber(it(item)) }
-    view.setNumber(item)
-    onItemChanged += (view::setNumber)
+    view.setItem(item)
+    onItemChanged += (view::setItem)
 }

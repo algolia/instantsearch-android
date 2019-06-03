@@ -15,7 +15,7 @@ class TestSelectableListViewModel {
     fun singleChoice() {
         SelectableListViewModel<String, String>(selectionMode = SelectionMode.Single)
             .apply {
-            items = listOf(valueA, valueB)
+            item = listOf(valueA, valueB)
             onSelectionsComputed += { selections = it }
             computeSelections(valueA)
             selections shouldEqual setOf(valueA)
@@ -30,7 +30,7 @@ class TestSelectableListViewModel {
     fun multipleChoice() {
         SelectableListViewModel<String, String>(selectionMode = SelectionMode.Multiple)
             .apply {
-            items = listOf(valueA, valueB)
+            item = listOf(valueA, valueB)
             onSelectionsComputed += { selections = it }
             computeSelections(valueA)
             selections shouldEqual setOf(valueA)

@@ -10,22 +10,22 @@ import com.algolia.search.model.filter.Filter
 public fun FilterToggleViewModel.connectFilterState(
     filterState: FilterState,
     default: Filter? = null,
-    groupID: FilterGroupID = FilterGroupID(itemNotNull.attribute, FilterOperator.And)
+    groupID: FilterGroupID = FilterGroupID(item.attribute, FilterOperator.And)
 ) {
     if (default != null) filterState.add(groupID, default)
     onIsSelectedComputed += { isSelected ->
         filterState.notify {
             if (isSelected) {
                 if (default != null) remove(groupID, default)
-                add(groupID, itemNotNull)
+                add(groupID, item)
             } else {
-                remove(groupID, itemNotNull)
+                remove(groupID, item)
                 if (default != null) add(groupID, default)
             }
         }
     }
     val onChanged: (Filters) -> Unit = { filters ->
-        isSelected = filters.contains(groupID, itemNotNull)
+        isSelected = filters.contains(groupID, item)
     }
 
     onChanged(filterState)

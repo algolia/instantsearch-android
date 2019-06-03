@@ -15,7 +15,7 @@ class TestFacetListViewModel  {
     @Test
     fun getFacetListItems() {
         val viewModel = FacetListViewModel().apply {
-            items = listOf(red, green, blue)
+            item = listOf(red, green, blue)
             selections = setOf(blue.value)
         }
 
@@ -29,7 +29,7 @@ class TestFacetListViewModel  {
     @Test
     fun getFacetListItemsWithPersistentSelection() {
         val viewModel = FacetListViewModel(persistentSelection = true).apply {
-            items = listOf(red, green)
+            item = listOf(red, green)
             selections = setOf(blue.value)
         }
 
@@ -43,7 +43,7 @@ class TestFacetListViewModel  {
     @Test
     fun getFacetListItemsWithoutPersistentSelection() {
         val viewModel = FacetListViewModel().apply {
-            items = listOf(red, green)
+            item = listOf(red, green)
             selections = setOf(blue.value)
         }
 

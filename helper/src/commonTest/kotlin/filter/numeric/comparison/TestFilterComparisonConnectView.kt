@@ -27,8 +27,8 @@ class TestFilterComparisonConnectView {
             }
         }
 
-        override fun setNumber(number: Int?) {
-            int = number
+        override fun setItem(item: Int?) {
+            int = item
         }
     }
 

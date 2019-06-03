@@ -38,7 +38,7 @@ class TestFacetListConnectSearcher {
         val viewModel = FacetListViewModel()
 
         viewModel.connectSearcher(color, searcher)
-        viewModel.items shouldEqual facets
+        viewModel.item shouldEqual facets
     }
 
     @Test
@@ -48,6 +48,6 @@ class TestFacetListConnectSearcher {
 
         viewModel.connectSearcher(color, searcher)
         blocking { searcher.search().join() }
-        viewModel.items shouldEqual facets
+        viewModel.item shouldEqual facets
     }
 }

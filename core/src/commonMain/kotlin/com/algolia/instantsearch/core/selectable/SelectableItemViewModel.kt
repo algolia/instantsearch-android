@@ -8,8 +8,6 @@ public open class SelectableItemViewModel<V>(
     item: V
 ): ItemViewModel<V>(item) {
 
-    val itemNotNull get() = item!!
-
     public val onIsSelectedChanged: MutableList<(Boolean) -> Unit> = mutableListOf()
     public val onIsSelectedComputed: MutableList<(Boolean) -> Unit> = mutableListOf()
 

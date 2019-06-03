@@ -8,7 +8,7 @@ public abstract class SelectableNumberViewModel<T : Number>(
     bounds: Range<T>?,
     private val comparator: Comparator<T>,
     private val coerce: T.(Range<T>?) -> (T)
-): ItemViewModel<T>() {
+): ItemViewModel<T?>(null) {
 
     public val onNumberComputed: MutableList<(T?) -> Unit> = mutableListOf()
 

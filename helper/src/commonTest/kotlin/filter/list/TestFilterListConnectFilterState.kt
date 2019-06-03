@@ -54,7 +54,7 @@ class TestFilterListConnectFilterState {
     fun selectionModeSingleShouldClearOtherFilters() {
         val filterState = FilterState(filters)
         val viewModelFacets = FilterListViewModel.Facet(selectionMode = SelectionMode.Single).apply {
-            items = listOf(red)
+            item = listOf(red)
         }
 
         viewModelFacets.connectFilterState(filterState, groupID)
@@ -67,7 +67,7 @@ class TestFilterListConnectFilterState {
     fun selectionModeMultipleShouldNotClearOtherFilters() {
         val filterState = FilterState(filters)
         val viewModelFacets = FilterListViewModel.Facet(selectionMode = SelectionMode.Multiple).apply {
-            items = listOf(red)
+            item = listOf(red)
         }
 
         viewModelFacets.connectFilterState(filterState, groupID)

@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.inflate
 import com.algolia.instantsearch.helper.filter.facet.FacetListItem
@@ -27,8 +28,8 @@ class FacetListAdapter :
         holder.bind(facet, selected, View.OnClickListener { onClick?.invoke(facet) })
     }
 
-    override fun setSelectableItems(selectableItems: List<FacetListItem>) {
-        submitList(selectableItems)
+    override fun setItem(item: List<SelectableItem<Facet>>) {
+        submitList(item)
     }
 
     companion object {

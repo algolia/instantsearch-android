@@ -6,14 +6,14 @@ public fun FacetListViewModel.connectView(
     presenter: ((List<FacetListItem>) -> List<FacetListItem>)? = null
 ) {
 
-    fun setSelectableItems() {
-        val selectableItems = getFacetListItems()
+    fun setItem() {
+        val item = getFacetListItems()
 
-        view.setSelectableItems(presenter?.invoke(selectableItems) ?: selectableItems)
+        view.setItem(presenter?.invoke(item) ?: item)
     }
 
-    setSelectableItems()
+    setItem()
     view.onClick = { facet -> computeSelections(facet.value) }
-    onItemsChanged += { setSelectableItems() }
-    onSelectionsChanged += { setSelectableItems() }
+    onItemChanged += { setItem() }
+    onSelectionsChanged += { setItem() }
 }

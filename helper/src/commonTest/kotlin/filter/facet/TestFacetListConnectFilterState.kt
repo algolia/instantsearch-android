@@ -57,7 +57,7 @@ class TestFacetListConnectFilterState {
     fun selectionModeSingleShouldClearOtherFilters() {
         val filterState = FilterState(filters)
         val viewModel = FacetListViewModel(selectionMode = SelectionMode.Single).apply {
-            items = listOf(red)
+            item = listOf(red)
         }
 
         viewModel.connectFilterState(color, filterState, groupID)
@@ -70,7 +70,7 @@ class TestFacetListConnectFilterState {
     fun selectionModeMultipleShouldNotClearOtherFilters() {
         val filterState = FilterState(filters)
         val viewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple).apply {
-            items = listOf(red)
+            item = listOf(red)
         }
 
         viewModel.connectFilterState(color, filterState, groupID)
@@ -83,7 +83,7 @@ class TestFacetListConnectFilterState {
     fun facetPersistentSelection() {
         val filterState = FilterState(filters)
         val viewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple, persistentSelection = true).apply {
-            items = listOf(red)
+            item = listOf(red)
         }
 
         viewModel.connectFilterState(color, filterState, groupID)

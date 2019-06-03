@@ -43,7 +43,7 @@ internal inline fun <reified T : Filter> FilterListViewModel<T>.connect(
         filterState.notify {
             when (selectionMode) {
                 SelectionMode.Single -> clear(groupID)
-                SelectionMode.Multiple -> remove(groupID, items.toSet())
+                SelectionMode.Multiple -> remove(groupID, item.toSet())
             }
             add(groupID, selections)
         }

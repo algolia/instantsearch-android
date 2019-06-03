@@ -1,5 +1,6 @@
 package filter.facet
 
+import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.helper.filter.facet.FacetListItem
 import com.algolia.instantsearch.helper.filter.facet.FacetListView
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
@@ -22,8 +23,8 @@ class TestFacetListConnectView  {
 
         override var onClick: ((Facet) -> Unit)? = null
 
-        override fun setSelectableItems(selectableItems: List<FacetListItem>) {
-            items = selectableItems
+        override fun setItem(item: List<SelectableItem<Facet>>) {
+            items = item
         }
     }
 
@@ -55,7 +56,7 @@ class TestFacetListConnectView  {
         val viewModel = FacetListViewModel()
 
         viewModel.connectView(view)
-        viewModel.items = facets
+        viewModel.item = facets
         view.items shouldEqual listOf(red to false)
     }
 

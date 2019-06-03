@@ -1,14 +1,6 @@
 package com.algolia.instantsearch.helper.android.stats
 
-import android.widget.TextView
-import com.algolia.instantsearch.helper.stats.StatsView
+import com.algolia.instantsearch.helper.android.item.ItemTextView
 
 
-public class StatsTextView(
-    public val view: TextView
-): StatsView {
-
-    override fun setItem(item: String) {
-        view.text = item
-    }
-}
+typealias StatsTextView = ItemTextView
