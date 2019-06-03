@@ -1,10 +1,6 @@
-package filter.numeric.comparison
+package number
 
-import com.algolia.instantsearch.core.number.NumberView
-import com.algolia.instantsearch.core.number.NumberViewModel
-import com.algolia.instantsearch.core.number.decrement
-import com.algolia.instantsearch.core.number.increment
-import com.algolia.instantsearch.helper.filter.numeric.comparison.connectView
+import com.algolia.instantsearch.core.number.*
 import shouldEqual
 import kotlin.test.Test
 

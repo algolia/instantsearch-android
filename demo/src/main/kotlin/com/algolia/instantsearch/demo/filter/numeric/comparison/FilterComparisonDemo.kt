@@ -7,7 +7,7 @@ import com.algolia.instantsearch.core.number.Range
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.numeric.comparison.computeBoundsFromFacetStats
 import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
-import com.algolia.instantsearch.helper.filter.numeric.comparison.connectView
+import com.algolia.instantsearch.core.number.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.addFacet
 import com.algolia.search.model.Attribute

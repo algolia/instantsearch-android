@@ -1,6 +1,6 @@
-package filter.numeric.comparison
+package number
 
-import com.algolia.instantsearch.helper.filter.numeric.comparison.NumberPresenterImpl
+import com.algolia.instantsearch.core.number.NumberPresenterImpl
 import shouldEqual
 import kotlin.test.Test
 

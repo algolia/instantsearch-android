@@ -1,7 +1,4 @@
-package com.algolia.instantsearch.helper.filter.numeric.comparison
-
-import com.algolia.instantsearch.core.number.NumberView
-import com.algolia.instantsearch.core.number.NumberViewModel
+package com.algolia.instantsearch.core.number
 
 
 public fun <T : Number> NumberViewModel<T>.connectView(

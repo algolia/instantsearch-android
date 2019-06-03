@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.filter.numeric.comparison
+package com.algolia.instantsearch.core.number
 
 
 public object NumberPresenterImpl : NumberPresenter<Number> {
