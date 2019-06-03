@@ -12,7 +12,13 @@ public fun FilterToggleViewModel.connectFilterState(
     default: Filter? = null,
     groupID: FilterGroupID = FilterGroupID(item.attribute, FilterOperator.And)
 ) {
+    val onChanged: (Filters) -> Unit = { filters ->
+        isSelected = filters.contains(groupID, item)
+    }
+
+    onChanged(filterState)
     if (default != null) filterState.add(groupID, default)
+    filterState.onChanged += onChanged
     onIsSelectedComputed += { isSelected ->
         filterState.notify {
             if (isSelected) {
@@ -24,10 +30,4 @@ public fun FilterToggleViewModel.connectFilterState(
             }
         }
     }
-    val onChanged: (Filters) -> Unit = { filters ->
-        isSelected = filters.contains(groupID, item)
-    }
-
-    onChanged(filterState)
-    filterState.onChanged += onChanged
 }
