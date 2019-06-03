@@ -1,15 +1,6 @@
 package com.algolia.instantsearch.helper.android.stats
 
-import android.text.SpannedString
-import android.widget.TextView
-import com.algolia.instantsearch.core.item.ItemView
+import com.algolia.instantsearch.helper.android.item.ItemTextViewSpanned
 
 
-public class StatsTextViewSpanned(
-    public val view: TextView
-) : ItemView<SpannedString> {
-
-    override fun setItem(item: SpannedString) {
-        view.text = item
-    }
-}
+typealias StatsTextViewSpanned = ItemTextViewSpanned

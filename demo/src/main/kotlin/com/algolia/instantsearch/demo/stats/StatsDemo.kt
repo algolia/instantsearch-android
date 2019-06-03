@@ -32,6 +32,7 @@ class StatsDemo : AppCompatActivity() {
                 if (response != null) {
                     bold { append(response.nbHits.toString()) }
                     append(" ${getString(R.string.hits)}")
+                    searcher.query.query?.let { append(" for \"$it\"") }
                 }
             }
         }

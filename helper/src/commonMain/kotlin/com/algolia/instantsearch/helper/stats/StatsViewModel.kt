@@ -4,4 +4,4 @@ import com.algolia.instantsearch.core.item.ItemViewModel
 import com.algolia.search.model.response.ResponseSearch
 
 
-public typealias StatsViewModel = ItemViewModel<ResponseSearch>
+public class StatsViewModel : ItemViewModel<ResponseSearch?>(null)
