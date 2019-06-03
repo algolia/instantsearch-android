@@ -9,7 +9,7 @@ public fun FilterToggleViewModel.connectView(
     view: SelectableItemView,
     presenter: (Filter) -> String = FilterPresenterImpl()
 ) {
-    view.setText(presenter(item))
+    view.setText(presenter(itemNotNull))
     view.setIsSelected(isSelected)
     view.onClick = (::computeIsSelected)
     onIsSelectedChanged += (view::setIsSelected)
