@@ -18,8 +18,8 @@ class TestSearchBoxConnectView {
         var queryChanged: String? = null
         var querySubmitted: String? = null
 
-        override fun setQuery(query: String?) {
-            text = query
+        override fun setItem(item: String?) {
+            text = item
         }
 
         override var onQueryChanged: ((String?) -> Unit)? = {
@@ -35,7 +35,7 @@ class TestSearchBoxConnectView {
         val viewModel = SearchBoxViewModel()
         val view = MockView()
 
-        viewModel.query = text
+        viewModel.item = text
         viewModel.connectView(view)
         view.text shouldEqual text
     }
@@ -46,11 +46,11 @@ class TestSearchBoxConnectView {
         val view = MockView()
         var expected: String? = null
 
-        viewModel.onQueryChanged += { expected = it }
+        viewModel.onItemChanged += { expected = it }
         viewModel.connectView(view)
         view.onQueryChanged.shouldNotBeNull()
         view.onQueryChanged!!(text)
-        viewModel.query shouldEqual text
+        viewModel.item shouldEqual text
         expected shouldEqual text
     }
 
@@ -64,7 +64,7 @@ class TestSearchBoxConnectView {
         viewModel.connectView(view)
         view.onQuerySubmitted.shouldNotBeNull()
         view.onQuerySubmitted!!(text)
-        viewModel.query shouldEqual text
+        viewModel.item shouldEqual text
         expected shouldEqual text
     }
 }

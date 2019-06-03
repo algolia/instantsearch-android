@@ -37,7 +37,7 @@ class PagingSingleIndexDemo : AppCompatActivity() {
 
         searchBoxViewModel.connectView(searchBoxView)
         searchBoxViewModel.connectSearcher(searcher)
-        searchBoxViewModel.onQueryChanged += {
+        searchBoxViewModel.onItemChanged += {
             movies.value?.dataSource?.invalidate()
         }
 

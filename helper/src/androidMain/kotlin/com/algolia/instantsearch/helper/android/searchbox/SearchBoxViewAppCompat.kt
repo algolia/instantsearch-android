@@ -26,7 +26,7 @@ public class SearchBoxViewAppCompat(
         })
     }
 
-    override fun setQuery(query: String?) {
-        searchView.setQuery(query, false)
+    override fun setItem(item: String?) {
+        searchView.setQuery(item, false)
     }
 }

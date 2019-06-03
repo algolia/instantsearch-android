@@ -11,7 +11,7 @@ public fun SearchBoxViewModel.connectSearcher(
     debouncer: Debouncer = Debouncer(100)
 ) {
     if (searchAsYouType) {
-        onQueryChanged += {
+        onItemChanged += {
             searcher.setQuery(it)
             debouncer.debounce(searcher.coroutineScope) { searcher.search() }
         }

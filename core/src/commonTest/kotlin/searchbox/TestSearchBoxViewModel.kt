@@ -13,8 +13,8 @@ class TestSearchBoxViewModel  {
         var expected: String? = null
         val value = "hello"
 
-        viewModel.onQueryChanged += { expected = it }
-        viewModel.query = value
+        viewModel.onItemChanged += { expected = it }
+        viewModel.item = value
         expected shouldEqual value
     }
 
@@ -25,7 +25,7 @@ class TestSearchBoxViewModel  {
         val value = "hello"
 
         viewModel.onQuerySubmitted += { expected = it }
-        viewModel.query = value
+        viewModel.item = value
         viewModel.submitQuery()
         expected shouldEqual value
     }
