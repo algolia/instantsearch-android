@@ -36,9 +36,9 @@ class TestFilterClearViewImpl {
         val viewModel = FilterClearViewModel()
         val view = FilterClearViewImpl(view())
 
-        filterState.getFilters().shouldNotBeEmpty()
         viewModel.connectFilterState(filterState)
         viewModel.connectView(view)
+        filterState.getFilters().shouldNotBeEmpty()
         view.view.callOnClick()
         filterState.getFilters().shouldBeEmpty()
     }
