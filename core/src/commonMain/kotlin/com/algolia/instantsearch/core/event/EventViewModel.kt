@@ -5,7 +5,7 @@ public interface EventViewModel<T> {
 
     public val onTriggered: MutableList<(T) -> Unit>
 
-    public fun trigger(content: T) {
-        onTriggered.forEach { it(content) }
+    public fun trigger(event: T) {
+        onTriggered.forEach { it(event) }
     }
 }
