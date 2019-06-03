@@ -1,4 +1,4 @@
-package selectable.number
+package number
 
 import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.number.Range

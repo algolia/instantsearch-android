@@ -1,4 +1,4 @@
-package selectable.number
+package number
 
 import com.algolia.instantsearch.core.number.Computation
 import com.algolia.instantsearch.core.number.increment
