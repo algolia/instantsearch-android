@@ -2,7 +2,7 @@ package com.algolia.instantsearch.demo.filter.numeric.comparison
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.selectable.number.SelectableNumberViewModel
+import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.selectable.range.Range
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.numeric.comparison.computeBoundsFromFacetStats
@@ -31,18 +31,19 @@ class FilterComparisonDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_comparison)
 
+        // TODO: Move to connectSearcher()
         searcher.query.addFacet(price)
         searcher.query.addFacet(year)
 
         val priceOperator = NumericOperator.GreaterOrEquals
-        val priceViewModel = SelectableNumberViewModel.Int()
+        val priceViewModel = NumberViewModel.Int()
         val priceView = FilterPriceView(demoFilterComparison, price, priceOperator)
 
         priceViewModel.connectFilterState(price, priceOperator, searcher.filterState)
         priceViewModel.connectView(priceView)
 
         val yearOperator = NumericOperator.Equals
-        val yearViewModel = SelectableNumberViewModel.Int()
+        val yearViewModel = NumberViewModel.Int()
         val yearView = FilterYearView(demoFilterComparison, year, yearOperator)
 
         yearViewModel.connectFilterState(year, yearOperator, searcher.filterState)

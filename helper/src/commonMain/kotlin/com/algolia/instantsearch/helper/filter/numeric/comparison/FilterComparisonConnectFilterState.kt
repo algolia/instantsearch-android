@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
-import com.algolia.instantsearch.core.selectable.number.SelectableNumberViewModel
+import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -10,7 +10,7 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 
 
-public inline fun <reified T : Number> SelectableNumberViewModel<T>.connectFilterState(
+public inline fun <reified T : Number> NumberViewModel<T>.connectFilterState(
     attribute: Attribute,
     operator : NumericOperator,
     filterState: FilterState,

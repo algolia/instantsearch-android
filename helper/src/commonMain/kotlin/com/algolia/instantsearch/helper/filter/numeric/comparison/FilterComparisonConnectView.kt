@@ -1,11 +1,11 @@
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
-import com.algolia.instantsearch.core.selectable.number.SelectableNumberView
-import com.algolia.instantsearch.core.selectable.number.SelectableNumberViewModel
+import com.algolia.instantsearch.core.number.NumberView
+import com.algolia.instantsearch.core.number.NumberViewModel
 
 
-public inline fun <reified T : Number> SelectableNumberViewModel<T>.connectView(
-    view: SelectableNumberView<T>
+public inline fun <reified T : Number> NumberViewModel<T>.connectView(
+    view: NumberView<T>
 ) {
     view.setComputation { computeNumber(it(item)) }
     view.setItem(item)

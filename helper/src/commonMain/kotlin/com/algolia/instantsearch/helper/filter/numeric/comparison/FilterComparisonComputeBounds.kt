@@ -1,43 +1,43 @@
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
-import com.algolia.instantsearch.core.selectable.number.SelectableNumberViewModel
+import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.selectable.range.Range
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.FacetStats
 
 
-private fun <T : Number> SelectableNumberViewModel<T>.computeBoundsFromFacetStats(
+private fun <T : Number> NumberViewModel<T>.computeBoundsFromFacetStats(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>,
     range: (FacetStats) -> Range<T>
 ) {
     facetStats[attribute]?.let {
-        computeBounds(range(it))
+        applyBounds(range(it))
     }
 }
 
-public fun SelectableNumberViewModel.Int.computeBoundsFromFacetStats(
+public fun NumberViewModel.Int.computeBoundsFromFacetStats(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
     computeBoundsFromFacetStats(attribute, facetStats) { Range.Int(it.min.toInt(), it.max.toInt()) }
 }
 
-public fun SelectableNumberViewModel.Long.computeBoundsFromFacetStats(
+public fun NumberViewModel.Long.computeBoundsFromFacetStats(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
     computeBoundsFromFacetStats(attribute, facetStats) { Range.Long(it.min.toLong(), it.max.toLong()) }
 }
 
-public fun SelectableNumberViewModel.Float.computeBoundsFromFacetStats(
+public fun NumberViewModel.Float.computeBoundsFromFacetStats(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
     computeBoundsFromFacetStats(attribute, facetStats) { Range.Float(it.min, it.max) }
 }
 
-public fun SelectableNumberViewModel.Double.computeBoundsFromFacetStats(
+public fun NumberViewModel.Double.computeBoundsFromFacetStats(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {

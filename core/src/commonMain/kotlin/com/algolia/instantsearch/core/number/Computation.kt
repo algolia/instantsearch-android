@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.core.selectable.number
+package com.algolia.instantsearch.core.number
 
 
 public typealias Computation<T> = (((T?) -> T?) -> Unit)

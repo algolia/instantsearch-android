@@ -1,10 +1,10 @@
-package com.algolia.instantsearch.core.selectable.number
+package com.algolia.instantsearch.core.number
 
 import com.algolia.instantsearch.core.item.ItemViewModel
 import com.algolia.instantsearch.core.selectable.range.Range
 
 
-public abstract class SelectableNumberViewModel<T : Number>(
+public abstract class NumberViewModel<T : Number>(
     bounds: Range<T>?,
     private val comparator: Comparator<T>,
     private val coerce: T.(Range<T>?) -> (T)
@@ -15,7 +15,7 @@ public abstract class SelectableNumberViewModel<T : Number>(
     public var bounds: Range<T>? = bounds
         private set
 
-    public fun computeBounds(bounds: Range<T>?) {
+    public fun applyBounds(bounds: Range<T>?) {
         val coerced = item?.let { coerce(it, bounds) }
 
         this.bounds = bounds
@@ -34,7 +34,7 @@ public abstract class SelectableNumberViewModel<T : Number>(
 
     public class Int(
         bounds: Range.Int? = null
-    ) : SelectableNumberViewModel<kotlin.Int>(
+    ) : NumberViewModel<kotlin.Int>(
         bounds,
         Comparator { a, b -> a.compareTo(b) },
         { range -> range?.let { coerceIn(it.min, it.max) } ?: this }
@@ -45,7 +45,7 @@ public abstract class SelectableNumberViewModel<T : Number>(
 
     public class Long(
         bounds: Range.Long? = null
-    ) : SelectableNumberViewModel<kotlin.Long>(
+    ) : NumberViewModel<kotlin.Long>(
         bounds,
         Comparator { a, b -> a.compareTo(b) },
         { range -> range?.let { coerceIn(it.min, it.max) } ?: this }
@@ -56,7 +56,7 @@ public abstract class SelectableNumberViewModel<T : Number>(
 
     public class Float(
         bounds: Range.Float? = null
-    ) : SelectableNumberViewModel<kotlin.Float>(
+    ) : NumberViewModel<kotlin.Float>(
         bounds,
         Comparator { a, b -> a.compareTo(b) },
         { range -> range?.let { coerceIn(it.min, it.max) } ?: this }
@@ -64,7 +64,7 @@ public abstract class SelectableNumberViewModel<T : Number>(
 
     public class Double(
         bounds: Range.Double? = null
-    ) : SelectableNumberViewModel<kotlin.Double>(
+    ) : NumberViewModel<kotlin.Double>(
         bounds,
         Comparator { a, b -> a.compareTo(b) },
         { range -> range?.let { coerceIn(it.min, it.max) } ?: this }

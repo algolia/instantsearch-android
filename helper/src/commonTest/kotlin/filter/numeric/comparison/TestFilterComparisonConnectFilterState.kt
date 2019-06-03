@@ -1,6 +1,6 @@
 package filter.numeric.comparison
 
-import com.algolia.instantsearch.core.selectable.number.SelectableNumberViewModel
+import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
@@ -22,7 +22,7 @@ class TestFilterComparisonConnectFilterState  {
 
     @Test
     fun connectShouldUpdateNumberWithFilterState() {
-        val viewModel = SelectableNumberViewModel.Int(0 .. 10)
+        val viewModel = NumberViewModel.Int(0 .. 10)
         val filterState = FilterState()
 
         viewModel.connectFilterState(price, operator, filterState, groupID)
@@ -31,7 +31,7 @@ class TestFilterComparisonConnectFilterState  {
 
     @Test
     fun onSelectionsComputedShouldUpdateFilterState() {
-        val viewModel = SelectableNumberViewModel.Int(0 .. 10)
+        val viewModel = NumberViewModel.Int(0 .. 10)
         val filterState = FilterState()
 
         viewModel.connectFilterState(price, operator, filterState, groupID)

@@ -1,7 +1,7 @@
 package selectable.number
 
-import com.algolia.instantsearch.core.selectable.number.Computation
-import com.algolia.instantsearch.core.selectable.number.increment
+import com.algolia.instantsearch.core.number.Computation
+import com.algolia.instantsearch.core.number.increment
 import shouldEqual
 import kotlin.test.Test
 

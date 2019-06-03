@@ -1,9 +1,9 @@
 package filter.numeric.comparison
 
-import com.algolia.instantsearch.core.selectable.number.SelectableNumberView
-import com.algolia.instantsearch.core.selectable.number.SelectableNumberViewModel
-import com.algolia.instantsearch.core.selectable.number.decrement
-import com.algolia.instantsearch.core.selectable.number.increment
+import com.algolia.instantsearch.core.number.NumberView
+import com.algolia.instantsearch.core.number.NumberViewModel
+import com.algolia.instantsearch.core.number.decrement
+import com.algolia.instantsearch.core.number.increment
 import com.algolia.instantsearch.helper.filter.numeric.comparison.connectView
 import shouldEqual
 import kotlin.test.Test
@@ -11,7 +11,7 @@ import kotlin.test.Test
 
 class TestFilterComparisonConnectView {
 
-    private class MockSelectableNumberView : SelectableNumberView<Int> {
+    private class MockNumberView : NumberView<Int> {
 
         var onClickIncrement: (() -> Unit)? = null
         var onClickDecrement: (() -> Unit)? = null
@@ -34,8 +34,8 @@ class TestFilterComparisonConnectView {
 
     @Test
     fun connectShouldCallSetSelectedAndSetItems() {
-        val view = MockSelectableNumberView()
-        val viewModel = SelectableNumberViewModel.Int(0 .. 10)
+        val view = MockNumberView()
+        val viewModel = NumberViewModel.Int(0 .. 10)
 
         viewModel.item = 5
         viewModel.connectView(view)
@@ -44,8 +44,8 @@ class TestFilterComparisonConnectView {
 
     @Test
     fun onClickShouldCallOnSelectionsComputed() {
-        val view = MockSelectableNumberView()
-        val viewModel = SelectableNumberViewModel.Int(0 .. 10)
+        val view = MockNumberView()
+        val viewModel = NumberViewModel.Int(0 .. 10)
 
         viewModel.onNumberComputed += { viewModel.item = it }
         viewModel.connectView(view)
@@ -59,8 +59,8 @@ class TestFilterComparisonConnectView {
 
     @Test
     fun onSelectedChangedShouldCallSetSelected() {
-        val view = MockSelectableNumberView()
-        val viewModel = SelectableNumberViewModel.Int(0 .. 10)
+        val view = MockNumberView()
+        val viewModel = NumberViewModel.Int(0 .. 10)
 
         viewModel.connectView(view)
         viewModel.item = 5
