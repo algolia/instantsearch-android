@@ -3,8 +3,8 @@ package com.algolia.instantsearch.core.number
 
 public abstract class Range<T : Number> {
 
-    abstract val min: T
-    abstract val max: T
+    public abstract val min: T
+    public abstract val max: T
 
     public data class Int(
         override val min: kotlin.Int,
