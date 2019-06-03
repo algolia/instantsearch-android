@@ -47,7 +47,7 @@ class FilterComparisonDemo : AppCompatActivity() {
         val yearView = FilterYearView(demoFilterComparison, year, yearOperator)
 
         yearViewModel.connectFilterState(year, yearOperator, searcher.filterState)
-        yearViewModel.connectView(yearView)
+        yearViewModel.connectView(yearView) { number -> number?.toString() ?: "" }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

@@ -4,10 +4,15 @@ import com.algolia.instantsearch.core.number.NumberView
 import com.algolia.instantsearch.core.number.NumberViewModel
 
 
-public inline fun <reified T : Number> NumberViewModel<T>.connectView(
-    view: NumberView<T>
+public fun <T : Number> NumberViewModel<T>.connectView(
+    view: NumberView<T>,
+    presenter: NumberPresenter<T> = NumberPresenterImpl
 ) {
+    val onItemChanged : (T?) -> Unit = { item ->
+        view.setItem(presenter(item))
+    }
+
+    onItemChanged(item)
+    this.onItemChanged += onItemChanged
     view.setComputation { computeNumber(it(item)) }
-    view.setItem(item)
-    onItemChanged += (view::setItem)
 }

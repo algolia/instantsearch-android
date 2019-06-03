@@ -16,7 +16,7 @@ class TestFilterComparisonConnectView {
         var onClickIncrement: (() -> Unit)? = null
         var onClickDecrement: (() -> Unit)? = null
 
-        var int: Int? = null
+        var string: String? = null
 
         override fun setComputation(computation: ((Int?) -> Int?) -> Unit) {
             onClickIncrement = {
@@ -27,8 +27,8 @@ class TestFilterComparisonConnectView {
             }
         }
 
-        override fun setItem(item: Int?) {
-            int = item
+        override fun setItem(item: String) {
+            string = item
         }
     }
 
@@ -39,7 +39,7 @@ class TestFilterComparisonConnectView {
 
         viewModel.item = 5
         viewModel.connectView(view)
-        view.int shouldEqual 5
+        view.string shouldEqual "5"
     }
 
     @Test
@@ -50,11 +50,11 @@ class TestFilterComparisonConnectView {
         viewModel.onNumberComputed += { viewModel.item = it }
         viewModel.connectView(view)
         view.onClickIncrement!!()
-        view.int shouldEqual 0
+        view.string shouldEqual "0"
         view.onClickIncrement!!()
-        view.int shouldEqual 1
+        view.string shouldEqual "1"
         view.onClickDecrement!!()
-        view.int shouldEqual 0
+        view.string shouldEqual "0"
     }
 
     @Test
@@ -64,6 +64,6 @@ class TestFilterComparisonConnectView {
 
         viewModel.connectView(view)
         viewModel.item = 5
-        view.int shouldEqual 5
+        view.string shouldEqual "5"
     }
 }

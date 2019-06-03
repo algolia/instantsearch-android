@@ -12,18 +12,21 @@ import com.algolia.search.model.filter.NumericOperator
 
 public inline fun <reified T : Number> NumberViewModel<T>.connectFilterState(
     attribute: Attribute,
-    operator : NumericOperator,
+    operator: NumericOperator,
     filterState: FilterState,
     groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
 ) {
     val onChanged: (Filters) -> Unit = { filters ->
-        item = filters
+        val number = filters
             .getNumericFilters(groupID)
             .filter { it.attribute == attribute }
             .map { it.value }
             .filterIsInstance<Filter.Numeric.Value.Comparison>()
             .firstOrNull { it.operator == operator }
             ?.number as? T?
+
+        item = number
+        if (number == item) trigger()
     }
 
     onChanged(filterState)

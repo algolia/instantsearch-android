@@ -29,7 +29,7 @@ class FilterPriceView(
         }
     }
 
-    override fun setItem(item: Int?) {
-        view.stepperNumber.text = item?.toString() ?: "-"
+    override fun setItem(item: String) {
+        view.stepperNumber.text = item
     }
 }
