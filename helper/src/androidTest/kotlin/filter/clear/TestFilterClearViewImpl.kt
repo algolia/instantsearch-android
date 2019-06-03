@@ -25,7 +25,7 @@ import shouldNotBeEmpty
 class TestFilterClearViewImpl {
 
     private val color = Attribute("color")
-    private val groupID = FilterGroupID.And(color)
+    private val groupID = FilterGroupID(color)
     private val filterRed = Filter.Facet(color, "red")
 
     private fun view(): View = View(applicationContext)
