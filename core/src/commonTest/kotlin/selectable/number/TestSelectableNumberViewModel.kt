@@ -13,9 +13,9 @@ class TestSelectableNumberViewModel  {
         val viewModel = SelectableNumberViewModel.Int()
         val value = -1
 
-        viewModel.onNumberComputed += { viewModel.number = it }
+        viewModel.onNumberComputed += { viewModel.item = it }
         viewModel.computeNumber(value)
-        viewModel.number shouldEqual value
+        viewModel.item shouldEqual value
     }
 
     @Test
@@ -23,9 +23,9 @@ class TestSelectableNumberViewModel  {
         val range = 0 .. 10
         val viewModel = SelectableNumberViewModel.Int(range)
 
-        viewModel.onNumberComputed += { viewModel.number = it }
+        viewModel.onNumberComputed += { viewModel.item = it }
         viewModel.computeNumber(-1)
-        viewModel.number shouldEqual range.first
+        viewModel.item shouldEqual range.first
     }
 
     @Test
@@ -33,9 +33,9 @@ class TestSelectableNumberViewModel  {
         val range = 0 .. 10
         val viewModel = SelectableNumberViewModel.Int(range)
 
-        viewModel.onNumberComputed += { viewModel.number = it }
+        viewModel.onNumberComputed += { viewModel.item = it }
         viewModel.computeNumber(11)
-        viewModel.number shouldEqual range.last
+        viewModel.item shouldEqual range.last
     }
 
     @Test
@@ -44,11 +44,11 @@ class TestSelectableNumberViewModel  {
         val viewModel = SelectableNumberViewModel.Int(range)
         val value = 5
 
-        viewModel.onNumberComputed += { viewModel.number = it }
+        viewModel.onNumberComputed += { viewModel.item = it }
         viewModel.computeNumber(value)
-        viewModel.number shouldEqual value
+        viewModel.item shouldEqual value
         viewModel.computeBounds(Range.Int(6 .. 10))
-        viewModel.number shouldEqual 6
+        viewModel.item shouldEqual 6
     }
 
     @Test
@@ -57,10 +57,10 @@ class TestSelectableNumberViewModel  {
         val viewModel = SelectableNumberViewModel.Int(range)
         val value = 5
 
-        viewModel.onNumberComputed += { viewModel.number = it }
+        viewModel.onNumberComputed += { viewModel.item = it }
         viewModel.computeNumber(value)
-        viewModel.number shouldEqual value
+        viewModel.item shouldEqual value
         viewModel.computeBounds(Range.Int(0 .. 4))
-        viewModel.number shouldEqual 4
+        viewModel.item shouldEqual 4
     }
 }

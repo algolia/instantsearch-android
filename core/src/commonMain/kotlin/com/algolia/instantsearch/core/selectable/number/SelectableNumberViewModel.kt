@@ -1,32 +1,25 @@
 package com.algolia.instantsearch.core.selectable.number
 
+import com.algolia.instantsearch.core.item.ItemViewModel
 import com.algolia.instantsearch.core.selectable.range.Range
-import kotlin.properties.Delegates
 
 
 public abstract class SelectableNumberViewModel<T : Number>(
     bounds: Range<T>?,
     private val comparator: Comparator<T>,
     private val coerce: T.(Range<T>?) -> (T)
-) {
+): ItemViewModel<T>() {
 
-    public val onNumberChanged: MutableList<(T?) -> Unit> = mutableListOf()
     public val onNumberComputed: MutableList<(T?) -> Unit> = mutableListOf()
 
     public var bounds: Range<T>? = bounds
         private set
 
-    public var number: T? by Delegates.observable<T?>(null) { _, oldValue, newValue ->
-        if (newValue != oldValue) {
-            onNumberChanged.forEach { it(newValue) }
-        }
-    }
-
     public fun computeBounds(bounds: Range<T>?) {
-        val coerced = number?.let { coerce(it, bounds) }
+        val coerced = item?.let { coerce(it, bounds) }
 
         this.bounds = bounds
-        if (coerced != number) onNumberComputed.forEach { it(coerced) }
+        if (coerced != item) onNumberComputed.forEach { it(coerced) }
     }
 
     public fun computeNumber(number: T?) {

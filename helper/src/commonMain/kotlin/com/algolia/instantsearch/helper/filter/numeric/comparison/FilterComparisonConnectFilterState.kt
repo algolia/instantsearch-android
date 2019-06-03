@@ -18,13 +18,13 @@ public inline fun <reified T : Number> SelectableNumberViewModel<T>.connectFilte
 ) {
     onNumberComputed += { computed ->
         filterState.notify {
-            number?.let { remove(groupID, Filter.Numeric(attribute, operator, it)) }
+            item?.let { remove(groupID, Filter.Numeric(attribute, operator, it)) }
             computed?.let { add(groupID, Filter.Numeric(attribute, operator, it)) }
         }
     }
 
     val onChanged: (Filters) -> Unit = { filters ->
-        number = filters
+        item = filters
             .getNumericFilters(groupID)
             .filter { it.attribute == attribute }
             .map { it.value }

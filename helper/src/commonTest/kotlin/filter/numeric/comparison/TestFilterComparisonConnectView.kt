@@ -37,7 +37,7 @@ class TestFilterComparisonConnectView {
         val view = MockSelectableNumberView()
         val viewModel = SelectableNumberViewModel.Int(0 .. 10)
 
-        viewModel.number = 5
+        viewModel.item = 5
         viewModel.connectView(view)
         view.int shouldEqual 5
     }
@@ -47,7 +47,7 @@ class TestFilterComparisonConnectView {
         val view = MockSelectableNumberView()
         val viewModel = SelectableNumberViewModel.Int(0 .. 10)
 
-        viewModel.onNumberComputed += { viewModel.number = it }
+        viewModel.onNumberComputed += { viewModel.item = it }
         viewModel.connectView(view)
         view.onClickIncrement!!()
         view.int shouldEqual 0
@@ -63,7 +63,7 @@ class TestFilterComparisonConnectView {
         val viewModel = SelectableNumberViewModel.Int(0 .. 10)
 
         viewModel.connectView(view)
-        viewModel.number = 5
+        viewModel.item = 5
         view.int shouldEqual 5
     }
 }
