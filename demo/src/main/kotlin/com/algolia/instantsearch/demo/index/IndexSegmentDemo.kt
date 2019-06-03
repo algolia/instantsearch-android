@@ -91,11 +91,11 @@ public class SelectableAutoCompleteTextView(
         map?.get(selected)?.let { view.setText(it, false) }
     }
 
-    override fun setItems(items: Map<Int, String>) {
-        map = items
+    override fun setItem(item: Map<Int, String>) {
+        map = item
         adapter.setNotifyOnChange(false)
         adapter.clear()
-        adapter.addAll(items.values)
+        adapter.addAll(item.values)
         adapter.notifyDataSetChanged()
     }
 

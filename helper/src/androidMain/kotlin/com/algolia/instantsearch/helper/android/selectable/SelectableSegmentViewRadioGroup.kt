@@ -26,11 +26,11 @@ public class SelectableSegmentViewRadioGroup(
         radioGroup.setOnCheckedChangeListener(this)
     }
 
-    override fun setItems(items: Map<Int, String>) {
+    override fun setItem(item: Map<Int, String>) {
         for (index in 0 until radioGroup.childCount) {
             val view = radioGroup.getChildAt(index) as? RadioButton
 
-            items[view?.id]?.let { view?.text = it }
+            item[view?.id]?.let { view?.text = it }
         }
     }
 }

@@ -29,8 +29,8 @@ class TestFilterSegmentConnectView {
             int = selected
         }
 
-        override fun setItems(items: Map<Int, String>) {
-            map = items
+        override fun setItem(item: Map<Int, String>) {
+            map = item
         }
     }
 

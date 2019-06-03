@@ -4,9 +4,9 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 
 
 public fun IndexSegmentViewModel.connectSearcher(searcher: SearcherSingleIndex) {
-    items[selected]?.let { searcher.index = it }
+    item[selected]?.let { searcher.index = it }
     onSelectedComputed += { computed ->
-        items[computed]?.let { searcher.index = it}
+        item[computed]?.let { searcher.index = it}
         searcher.search()
     }
 }
