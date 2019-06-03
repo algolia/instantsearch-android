@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.core.event
 
 
-public class EventViewModel<T> {
+public interface EventViewModel<T> {
 
-    public val onTriggered: MutableList<(T) -> Unit> = mutableListOf()
+    public val onTriggered: MutableList<(T) -> Unit>
 
     public fun trigger(content: T) {
         onTriggered.forEach { it(content) }
