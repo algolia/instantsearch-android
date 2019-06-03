@@ -11,7 +11,7 @@ public abstract class Range<T : Number> {
         override val max: kotlin.Int
     ) : Range<kotlin.Int>() {
 
-        public constructor(range: IntRange): this(range.first, range.endInclusive)
+        public constructor(range: IntRange): this(range.first, range.last)
 
         init {
             if (min > max) throw IllegalArgumentException("min $min is greater than max $max.")
@@ -23,7 +23,7 @@ public abstract class Range<T : Number> {
         override val max: kotlin.Long
     ) : Range<kotlin.Long>() {
 
-        public constructor(range: LongRange): this(range.first, range.endInclusive)
+        public constructor(range: LongRange): this(range.first, range.last)
 
         init {
             if (min > max) throw IllegalArgumentException("min $min is greater than max $max.")
