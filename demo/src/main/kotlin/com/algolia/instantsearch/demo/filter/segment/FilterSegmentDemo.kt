@@ -3,7 +3,7 @@ package com.algolia.instantsearch.demo.filter.segment
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.android.selectable.SelectableSegmentViewRadioGroup
+import com.algolia.instantsearch.helper.android.filter.FilterSegmentViewRadioGroup
 import com.algolia.instantsearch.helper.filter.segment.FilterSegmentViewModel
 import com.algolia.instantsearch.helper.filter.segment.connectFilterState
 import com.algolia.instantsearch.helper.filter.segment.connectView
@@ -31,7 +31,7 @@ class FilterSegmentDemo : AppCompatActivity() {
                 R.id.female to Filter.Facet(gender, "female")
             )
         )
-        val viewGender = SelectableSegmentViewRadioGroup(radioGroupGender)
+        val viewGender = FilterSegmentViewRadioGroup(radioGroupGender)
 
         viewModelGender.connectFilterState(searcher.filterState, groupGender)
         viewModelGender.connectView(viewGender)

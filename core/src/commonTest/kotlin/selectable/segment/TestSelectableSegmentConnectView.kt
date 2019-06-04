@@ -1,24 +1,20 @@
-package index
+package selectable.segment
 
 import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
-import com.algolia.instantsearch.helper.index.IndexSegmentViewModel
-import com.algolia.instantsearch.helper.index.connectView
-import com.algolia.search.client.Index
-import com.algolia.search.model.IndexName
-import mockClient
+import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentViewModel
+import com.algolia.instantsearch.core.selectable.segment.connectView
 import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
 
 
-class TestIndexSegmentConnectView {
+class TestSelectableSegmentConnectView {
 
-    private val client = mockClient()
-    private val indexA = client.initIndex(IndexName("A"))
+    private val input = 0
+    private val output = "0"
     private val id = 0
-    private val indexes = mapOf(id to indexA)
-
-    private val presenter = { index: Index -> index.indexName.raw }
+    private val map = mapOf(id to input)
+    private val presenter: (Int) -> String = { it.toString() }
 
     private class MockSelectableView : SelectableSegmentView<Int, String> {
 
@@ -39,18 +35,18 @@ class TestIndexSegmentConnectView {
     @Test
     fun connectShouldCallSetSelectedAndSetItems() {
         val view = MockSelectableView()
-        val viewModel = IndexSegmentViewModel(indexes)
+        val viewModel = SelectableSegmentViewModel(map)
 
         viewModel.selected = id
         viewModel.connectView(view, presenter)
         view.int shouldEqual id
-        view.map shouldEqual mapOf(id to presenter(indexA))
+        view.map shouldEqual mapOf(id to output)
     }
 
     @Test
     fun onClickShouldCallOnSelectionsComputed() {
         val view = MockSelectableView()
-        val viewModel = IndexSegmentViewModel(indexes)
+        val viewModel = SelectableSegmentViewModel(map)
 
         viewModel.onSelectedComputed += { viewModel.selected = it }
         viewModel.connectView(view, presenter)
@@ -62,7 +58,7 @@ class TestIndexSegmentConnectView {
     @Test
     fun onSelectedChangedShouldCallSetSelected() {
         val view = MockSelectableView()
-        val viewModel = IndexSegmentViewModel(indexes)
+        val viewModel = SelectableSegmentViewModel(map)
 
         viewModel.connectView(view, presenter)
         viewModel.selected = id

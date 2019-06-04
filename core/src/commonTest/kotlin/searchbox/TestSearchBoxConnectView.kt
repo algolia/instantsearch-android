@@ -2,7 +2,7 @@ package searchbox
 
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
-import com.algolia.instantsearch.helper.searchbox.connectView
+import com.algolia.instantsearch.core.searchbox.connectView
 import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test

@@ -3,7 +3,7 @@ package com.algolia.instantsearch.demo.filter.toggle
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.android.selectable.SelectableItemViewCompoundButton
+import com.algolia.instantsearch.helper.android.filter.FilterToggleViewCompoundButton
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
 import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
 import com.algolia.instantsearch.helper.filter.toggle.connectView
@@ -24,7 +24,8 @@ class FilterToggleDefaultDemo : AppCompatActivity() {
         setContentView(R.layout.demo_filter_toggle_default)
 
         val viewModelPopular = FilterToggleViewModel(Filter.Facet(popular, true))
-        val viewPopular = SelectableItemViewCompoundButton(checkBoxPopular)
+        val viewPopular =
+            FilterToggleViewCompoundButton(checkBoxPopular)
 
         viewModelPopular.connectFilterState(searcher.filterState, default = Filter.Facet(popular, false))
         viewModelPopular.connectView(viewPopular)

@@ -5,7 +5,7 @@ import android.widget.RadioGroup
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
-import com.algolia.instantsearch.helper.android.selectable.SelectableSegmentViewRadioGroup
+import com.algolia.instantsearch.helper.android.filter.FilterSegmentViewRadioGroup
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
@@ -17,8 +17,8 @@ import shouldEqual
 @Config(manifest = Config.NONE)
 class TestSelectableSegmentViewRadioGroup {
 
-    private fun view(): SelectableSegmentViewRadioGroup {
-        return SelectableSegmentViewRadioGroup(
+    private fun view(): FilterSegmentViewRadioGroup {
+        return FilterSegmentViewRadioGroup(
             RadioGroup(applicationContext).apply {
                 addView(RadioButton(applicationContext))
             }

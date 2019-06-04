@@ -5,7 +5,7 @@ import shouldEqual
 import kotlin.test.Test
 
 
-class TestFilterComparisonConnectView {
+class TestNumberConnectView {
 
     private class MockNumberView : NumberView<Int> {
 

@@ -1,7 +1,4 @@
-package com.algolia.instantsearch.helper.searchbox
-
-import com.algolia.instantsearch.core.searchbox.SearchBoxView
-import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
+package com.algolia.instantsearch.core.searchbox
 
 
 public fun SearchBoxViewModel.connectView(searchBoxView: SearchBoxView) {

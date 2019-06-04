@@ -15,7 +15,7 @@ class TestSearchBoxConnectSearcher {
 
     private val text = "text"
 
-    private class MockSearcher: Searcher {
+    private class MockSearcher : Searcher {
 
         var job: Job? = null
         var string: String? = null
@@ -30,7 +30,7 @@ class TestSearchBoxConnectSearcher {
 
         override fun search(): Job {
             searchCount++
-            val job = coroutineScope.launch {  }
+            val job = coroutineScope.launch { }
 
             this.job = job
             return job

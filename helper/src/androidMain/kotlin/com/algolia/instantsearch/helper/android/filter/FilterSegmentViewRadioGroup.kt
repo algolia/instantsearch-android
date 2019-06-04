@@ -1,14 +1,15 @@
-package com.algolia.instantsearch.helper.android.selectable
+package com.algolia.instantsearch.helper.android.filter
 
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
+import com.algolia.instantsearch.helper.filter.segment.FilterSegmentView
 
 
-public class SelectableSegmentViewRadioGroup(
+public class FilterSegmentViewRadioGroup(
     public val radioGroup: RadioGroup
-) : SelectableSegmentView<Int, String>, RadioGroup.OnCheckedChangeListener {
+) : FilterSegmentView,
+    RadioGroup.OnCheckedChangeListener {
 
     override var onClick: ((Int) -> Unit)? = null
 

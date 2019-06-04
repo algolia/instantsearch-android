@@ -1,8 +1,8 @@
-package filter.clear
+package event
 
-import com.algolia.instantsearch.helper.filter.clear.FilterClearView
-import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
-import com.algolia.instantsearch.helper.filter.clear.connectView
+import com.algolia.instantsearch.core.event.EventView
+import com.algolia.instantsearch.core.event.EventViewModelImpl
+import com.algolia.instantsearch.core.event.connectView
 import shouldBeFalse
 import shouldBeTrue
 import shouldNotBeNull
@@ -11,20 +11,20 @@ import kotlin.test.Test
 
 class TestFilterClearConnectView {
 
-    private class MockFilterClearView: FilterClearView {
+    private class MockFilterClearView : EventView<Unit> {
 
         override var onClick: ((Unit) -> Unit)? = null
     }
 
     @Test
     fun connectSetsOnClick() {
-        val viewModel = FilterClearViewModel()
+        val viewModel = EventViewModelImpl<Unit>()
         val view = MockFilterClearView()
         var clicked = false
 
         viewModel.onTriggered += { clicked = true }
         clicked.shouldBeFalse()
-        viewModel.connectView(view)
+        viewModel.connectView(view) { viewModel.trigger(Unit) }
         view.onClick.shouldNotBeNull()
         view.onClick?.invoke(Unit)
         clicked.shouldBeTrue()

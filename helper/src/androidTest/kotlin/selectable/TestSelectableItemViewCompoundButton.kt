@@ -4,7 +4,7 @@ import android.widget.Switch
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
-import com.algolia.instantsearch.helper.android.selectable.SelectableItemViewCompoundButton
+import com.algolia.instantsearch.helper.android.filter.FilterToggleViewCompoundButton
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
@@ -16,7 +16,8 @@ import shouldEqual
 @Config(manifest = Config.NONE)
 class TestSelectableItemViewCompoundButton {
 
-    private fun view() = SelectableItemViewCompoundButton(Switch(applicationContext))
+    private fun view() =
+        FilterToggleViewCompoundButton(Switch(applicationContext))
 
     @Test
     fun callSetIsSelectedShouldUpdateIsChecked() {

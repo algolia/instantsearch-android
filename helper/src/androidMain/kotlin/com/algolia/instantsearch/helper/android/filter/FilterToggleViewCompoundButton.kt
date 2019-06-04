@@ -1,12 +1,13 @@
-package com.algolia.instantsearch.helper.android.selectable
+package com.algolia.instantsearch.helper.android.filter
 
 import android.widget.CompoundButton
-import com.algolia.instantsearch.core.selectable.SelectableItemView
+import com.algolia.instantsearch.helper.filter.toggle.FilterToggleView
 
 
-public class SelectableItemViewCompoundButton(
+public class FilterToggleViewCompoundButton(
     public val compoundButton: CompoundButton
-) : SelectableItemView, CompoundButton.OnCheckedChangeListener {
+) : FilterToggleView,
+    CompoundButton.OnCheckedChangeListener {
 
     override var onClick: ((Boolean) -> Unit)? = null
 

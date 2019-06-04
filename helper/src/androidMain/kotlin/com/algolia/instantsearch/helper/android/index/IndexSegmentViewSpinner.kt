@@ -1,17 +1,18 @@
-package com.algolia.instantsearch.helper.android.selectable
+package com.algolia.instantsearch.helper.android.index
 
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
+import com.algolia.instantsearch.helper.index.IndexSegmentView
 
 
-public class SelectableSegmentViewSpinner(
+public class IndexSegmentViewSpinner(
     public val spinner: Spinner,
     public val adapter: ArrayAdapter<String>,
     public val defaultSelection: Int = 0
-) : SelectableSegmentView<Int, String>, AdapterView.OnItemSelectedListener {
+) : IndexSegmentView,
+    AdapterView.OnItemSelectedListener {
 
     override var onClick: ((Int) -> Unit)? = null
 
