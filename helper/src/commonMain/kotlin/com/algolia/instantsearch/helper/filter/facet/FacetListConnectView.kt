@@ -5,7 +5,6 @@ public fun FacetListViewModel.connectView(
     view: FacetListView,
     presenter: FacetListPresenter? = null
 ) {
-
     fun setItem() {
         val item = getFacetListItems()
 

@@ -11,6 +11,14 @@ public fun FacetListViewModel.connectFilterState(
     filterState: FilterState,
     groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or)
 ) {
+    val onChanged: (Filters) -> Unit = { filters ->
+        selections = filters.getFacetFilters(groupID)
+            .map { it.getValue() }
+            .toSet()
+    }
+
+    onChanged(filterState)
+    filterState.onChanged += onChanged
     onSelectionsComputed += { computed ->
         val filters = computed.map { Filter.Facet(attribute, it) }.toSet()
 
@@ -28,12 +36,4 @@ public fun FacetListViewModel.connectFilterState(
             add(groupID, filters)
         }
     }
-    val onChanged: (Filters) -> Unit = { filters ->
-        selections = filters.getFacetFilters(groupID)
-            .map { it.getValue() }
-            .toSet()
-    }
-
-    onChanged(filterState)
-    filterState.onChanged += onChanged
 }
