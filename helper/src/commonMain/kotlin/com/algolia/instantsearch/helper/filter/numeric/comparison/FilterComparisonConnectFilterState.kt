@@ -17,16 +17,13 @@ public inline fun <reified T : Number> NumberViewModel<T>.connectFilterState(
     groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
 ) {
     val onChanged: (Filters) -> Unit = { filters ->
-        val number = filters
+        item = filters
             .getNumericFilters(groupID)
             .filter { it.attribute == attribute }
             .map { it.value }
             .filterIsInstance<Filter.Numeric.Value.Comparison>()
             .firstOrNull { it.operator == operator }
             ?.number as? T?
-
-        item = number
-        if (number == item) trigger()
     }
 
     onChanged(filterState)

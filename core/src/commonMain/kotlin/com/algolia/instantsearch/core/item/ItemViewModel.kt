@@ -12,8 +12,4 @@ public open class ItemViewModel<T>(item: T) {
     }
 
     public val onItemChanged: MutableList<(T) -> Unit> = mutableListOf()
-
-    fun trigger() {
-        onItemChanged.forEach { it(item) }
-    }
 }
