@@ -5,8 +5,7 @@ import com.algolia.search.model.Attribute
 
 public class AttributePresenterImpl(
     private val transform: (Attribute) -> String = { attribute -> attribute.raw }
-) :
-    AttributePresenter {
+) : AttributePresenter {
 
     override fun invoke(attribute: Attribute): String {
         return transform(attribute)
