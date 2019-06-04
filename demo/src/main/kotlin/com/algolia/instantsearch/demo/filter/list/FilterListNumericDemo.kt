@@ -6,8 +6,10 @@ import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.list.connectFilterState
 import com.algolia.instantsearch.helper.filter.list.connectView
+import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupAnd
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
@@ -21,6 +23,7 @@ class FilterListNumericDemo : AppCompatActivity() {
     private val price = Attribute("price")
     private val groupPrice = groupAnd(price)
     private val searcher = SearcherSingleIndex(stubIndex)
+    private val filterState = FilterState()
     private val numericFilters = listOf(
         Filter.Numeric(price, NumericOperator.Less, 5),
         Filter.Numeric(price, 5..10),
@@ -33,17 +36,19 @@ class FilterListNumericDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_list)
 
+        searcher.connectFilterState(filterState)
+
         val viewModelNumeric = FilterListViewModel.Numeric(numericFilters)
         val viewNumeric = FilterListAdapter<Filter.Numeric>()
 
-        viewModelNumeric.connectFilterState(searcher.filterState, groupPrice)
+        viewModelNumeric.connectFilterState(filterState, groupPrice)
         viewModelNumeric.connectView(viewNumeric)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
         configureRecyclerView(listTopLeft, viewNumeric)
-        onFilterChangedThenUpdateFiltersText(searcher.filterState, filtersTextView, price)
-        onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
+        onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, price)
+        onClearAllThenClearFilters(filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 

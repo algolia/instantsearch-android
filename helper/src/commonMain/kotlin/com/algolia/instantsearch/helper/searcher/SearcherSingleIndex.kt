@@ -1,11 +1,10 @@
 package com.algolia.instantsearch.helper.searcher
 
+import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
-import com.algolia.instantsearch.helper.filter.state.FilterOperator
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.search.client.Index
-import com.algolia.search.model.filter.FilterGroupsConverter
+import com.algolia.search.model.Attribute
+import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
@@ -15,7 +14,6 @@ import kotlin.properties.Delegates
 
 public class SearcherSingleIndex(
     public var index: Index,
-    public val filterState: FilterState = FilterState(),
     public val query: Query = Query(),
     public val requestOptions: RequestOptions? = RequestOptions(),
     public val isDisjunctiveFacetingEnabled: Boolean = true,
@@ -48,26 +46,14 @@ public class SearcherSingleIndex(
         error = throwable
     }
 
-    private fun updateFilters() {
-        query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
-    }
-
-    init {
-        updateFilters()
-        filterState.onChanged += {
-            updateFilters()
-            search()
-        }
-    }
+    internal var disjunctive: (() -> Pair<List<Attribute>, Set<Filter>>) = { listOf<Attribute>() to setOf() }
 
     override fun setQuery(text: String?) {
         this.query.query = text
     }
 
     override fun search(): Job {
-        val disjunctiveAttributes = filterState.getFacetGroups()
-            .filter { it.key.operator == FilterOperator.Or }
-            .flatMap { group -> group.value.map { it.attribute } }
+        val (disjunctiveAttributes, filters) = disjunctive.invoke()
 
         loading = true
         val job = coroutineScope.launch(dispatcher + exceptionHandler) {
@@ -75,7 +61,7 @@ public class SearcherSingleIndex(
                 if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
                     index.search(query, requestOptions)
                 } else {
-                    index.searchDisjunctiveFacets(query, disjunctiveAttributes, filterState.getFilters())
+                    index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters)
                 }
             }
             loading = false

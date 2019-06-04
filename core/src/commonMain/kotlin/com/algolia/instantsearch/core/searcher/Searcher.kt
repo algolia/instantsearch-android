@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.searcher
+package com.algolia.instantsearch.core.searcher
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope

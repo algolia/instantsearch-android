@@ -8,6 +8,7 @@ import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.filter.facet.*
+import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.include_search.*
 class FacetListSearchDemo : AppCompatActivity() {
 
     private val brand = Attribute("brand")
+    private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(stubIndex)
     private val searcherForFacet = SearcherForFacets(stubIndex, brand)
 
@@ -39,7 +41,7 @@ class FacetListSearchDemo : AppCompatActivity() {
             limit = 100
         )
 
-        facetViewModel.connectFilterState(brand, searcher.filterState)
+        facetViewModel.connectFilterState(brand, filterState)
         facetViewModel.connectSearcherForFacet(searcherForFacet)
         facetViewModel.connectView(facetView, facetPresenter)
 
@@ -52,8 +54,8 @@ class FacetListSearchDemo : AppCompatActivity() {
         configureToolbar(toolbar)
         configureRecyclerView(list, facetView)
         configureSearchView(searchView, getString(R.string.search_brands))
-        onFilterChangedThenUpdateFiltersText(searcher.filterState, filtersTextView, brand)
-        onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
+        onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, brand)
+        onClearAllThenClearFilters(filterState, filtersClearAll)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
         searcher.search()

@@ -8,6 +8,7 @@ import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion.*
 import com.algolia.instantsearch.helper.filter.state.*
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import kotlinx.android.synthetic.main.demo_facet_list.*
 import kotlinx.android.synthetic.main.header_filter.*
@@ -23,11 +24,13 @@ class FacetListDemo : AppCompatActivity() {
     private val groupPromotions = groupAnd(promotions)
     private val groupCategory = groupOr(category)
     private val filterState = filterState { group(groupColor) { facet(color, "green") } }
-    private val searcher = SearcherSingleIndex(stubIndex, filterState = filterState)
+    private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list)
+
+        searcher.connectFilterState(filterState)
 
         val colorAViewModel = FacetListViewModel(selectionMode = SelectionMode.Single)
         val colorAPresenter = FacetListPresenterImpl(listOf(IsRefined, AlphabeticalAscending), limit = 3)

@@ -1,18 +1,15 @@
 package com.algolia.instantsearch.demo.index
 
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.client
 import com.algolia.instantsearch.demo.configureRecyclerView
 import com.algolia.instantsearch.demo.configureToolbar
 import com.algolia.instantsearch.demo.list.Movie
 import com.algolia.instantsearch.demo.list.MovieAdapter
+import com.algolia.instantsearch.helper.android.index.IndexSegmentViewAutocomplete
 import com.algolia.instantsearch.helper.index.IndexSegmentViewModel
 import com.algolia.instantsearch.helper.index.connectSearcher
 import com.algolia.instantsearch.helper.index.connectView
@@ -42,7 +39,10 @@ class IndexSegmentDemo : AppCompatActivity() {
             selected = 0
         }
         val adapter = ArrayAdapter<String>(this, R.layout.menu_item)
-        val view = SelectableAutoCompleteTextView(autocompleteTextView, adapter)
+        val view = IndexSegmentViewAutocomplete(
+            autocompleteTextView,
+            adapter
+        )
 
 
         viewModel.connectSearcher(searcher)
@@ -70,36 +70,5 @@ class IndexSegmentDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
-    }
-}
-
-public class SelectableAutoCompleteTextView(
-    val view: AutoCompleteTextView,
-    val adapter: ArrayAdapter<String>
-) : SelectableSegmentView<Int, String>, AdapterView.OnItemClickListener {
-
-    override var onClick: ((Int) -> Unit)? = null
-
-    private var map: Map<Int, String>? = null
-
-    init {
-        view.setAdapter(adapter)
-        view.onItemClickListener = this
-    }
-
-    override fun setSelected(selected: Int?) {
-        map?.get(selected)?.let { view.setText(it, false) }
-    }
-
-    override fun setItem(item: Map<Int, String>) {
-        map = item
-        adapter.setNotifyOnChange(false)
-        adapter.clear()
-        adapter.addAll(item.values)
-        adapter.notifyDataSetChanged()
-    }
-
-    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        onClick?.invoke(position)
     }
 }

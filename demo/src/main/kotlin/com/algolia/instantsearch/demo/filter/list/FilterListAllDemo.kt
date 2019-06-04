@@ -6,8 +6,10 @@ import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.list.connectFilterState
 import com.algolia.instantsearch.helper.filter.list.connectView
+import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupAnd
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
@@ -23,6 +25,7 @@ class FilterListAllDemo : AppCompatActivity() {
     private val tags = Attribute("tags")
     private val all = Attribute("all")
     private val groupAll = groupAnd(all)
+    private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(stubIndex)
     private val allFilters = listOf(
         Filter.Numeric(price, 5..10),
@@ -36,17 +39,19 @@ class FilterListAllDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_list)
 
+        searcher.connectFilterState(filterState)
+
         val viewModelAll = FilterListViewModel.All(allFilters)
         val viewAll = FilterListAdapter<Filter>()
 
-        viewModelAll.connectFilterState(searcher.filterState, groupAll)
+        viewModelAll.connectFilterState(filterState, groupAll)
         viewModelAll.connectView(viewAll)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
         configureRecyclerView(listTopLeft, viewAll)
-        onFilterChangedThenUpdateFiltersText(searcher.filterState, filtersTextView, color, price, tags, all)
-        onClearAllThenClearFilters(searcher.filterState, filtersClearAll)
+        onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color, price, tags, all)
+        onClearAllThenClearFilters(filterState, filtersClearAll)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 

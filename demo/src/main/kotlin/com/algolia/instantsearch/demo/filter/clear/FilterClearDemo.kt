@@ -12,6 +12,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.filters
 import com.algolia.instantsearch.helper.filter.state.groupOr
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import kotlinx.android.synthetic.main.demo_filter_clear.*
 import kotlinx.android.synthetic.main.demo_filter_toggle_default.toolbar
@@ -33,35 +34,38 @@ class FilterClearDemo : AppCompatActivity() {
             facet(category, "shoe")
         }
     }
-    private val searcher = SearcherSingleIndex(stubIndex, filterState = FilterState(filters))
+    private val filterState = FilterState(filters)
+    private val searcher = SearcherSingleIndex(stubIndex)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_clear)
 
+        searcher.connectFilterState(filterState)
+
         val viewModel = FilterClearViewModel()
 
         viewModel.connectView(FilterClearViewImpl(filtersClearAll))
-        viewModel.connectFilterState(searcher.filterState)
+        viewModel.connectFilterState(filterState)
 
         val clearColorsViewModel = FilterClearViewModel()
         val clearColorsView = FilterClearViewImpl(buttonClearSpecified)
 
         clearColorsViewModel.connectView(clearColorsView)
-        clearColorsViewModel.connectFilterState(searcher.filterState, listOf(groupColor), ClearMode.Specified)
+        clearColorsViewModel.connectFilterState(filterState, listOf(groupColor), ClearMode.Specified)
 
         val clearExceptColorsViewModel = FilterClearViewModel()
         val clearExceptColorsView = FilterClearViewImpl(buttonClearExcept)
 
         clearExceptColorsViewModel.connectView(clearExceptColorsView)
-        clearExceptColorsViewModel.connectFilterState(searcher.filterState, listOf(groupColor), ClearMode.Except)
+        clearExceptColorsViewModel.connectFilterState(filterState, listOf(groupColor), ClearMode.Except)
 
         reset.setOnClickListener {
-            searcher.filterState.notify { set(filters) }
+            filterState.notify { set(filters) }
         }
         configureToolbar(toolbar)
         configureSearcher(searcher)
-        onFilterChangedThenUpdateFiltersText(searcher.filterState, filtersTextView, color, category)
+        onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color, category)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 

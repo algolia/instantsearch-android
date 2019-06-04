@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.searcher
 
+import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
-import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearchForFacets
@@ -14,7 +14,6 @@ import kotlin.properties.Delegates
 public class SearcherForFacets(
     public var index: Index,
     public val attribute: Attribute,
-    public val filterState: FilterState = FilterState(),
     public val query: Query = Query(),
     public var facetQuery: String? = null,
     public val requestOptions: RequestOptions? = null,

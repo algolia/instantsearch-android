@@ -3,8 +3,8 @@ package searchbox
 import blocking
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
+import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
-import com.algolia.instantsearch.helper.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import kotlinx.coroutines.*
 import shouldEqual

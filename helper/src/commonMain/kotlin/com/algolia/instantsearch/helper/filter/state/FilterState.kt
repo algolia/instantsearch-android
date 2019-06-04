@@ -7,6 +7,8 @@ public class FilterState internal constructor(
     internal val filters: MutableFilters = MutableFiltersImpl()
 ) : MutableFilters by filters {
 
+    public constructor(): this(MutableFiltersImpl())
+
     public constructor(map: Map<FilterGroupID, Set<Filter>>) : this() {
         map.forEach { (groupID, filters) -> add(groupID, filters) }
     }
