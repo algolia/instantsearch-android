@@ -28,10 +28,8 @@ public class SearcherForFacets(
     public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
     public val onLoadingChanged = mutableListOf<(Boolean) -> Unit>()
 
-    public override var loading: Boolean by Delegates.observable(false) { _, oldValue, newValue ->
-        if (newValue != oldValue) {
-            onLoadingChanged.forEach { it(newValue) }
-        }
+    public override var loading: Boolean by Delegates.observable(false) { _, _, newValue ->
+        onLoadingChanged.forEach { it(newValue) }
     }
 
     public var response by Delegates.observable<ResponseSearchForFacets?>(null) { _, _, newValue ->

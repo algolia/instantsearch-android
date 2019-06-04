@@ -29,19 +29,17 @@ public class SearcherSingleIndex(
     public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
     public val onLoadingChanged = mutableListOf<(Boolean) -> Unit>()
 
-    public override var loading: Boolean by Delegates.observable(false) { _, oldValue, newValue ->
-        if (newValue != oldValue) {
-            onLoadingChanged.forEach { it(newValue) }
-        }
+    public override var loading: Boolean by Delegates.observable(false) { _, _, newValue ->
+        onLoadingChanged.forEach { it(newValue) }
     }
 
-    public var response by Delegates.observable<ResponseSearch?>(null) { _, oldValue, newValue ->
-        if (newValue != oldValue && newValue != null) {
+    public var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
+        if (newValue != null) {
             onResponseChanged.forEach { it(newValue) }
         }
     }
-    public var error by Delegates.observable<Throwable?>(null) { _, oldValue, newValue ->
-        if (newValue != oldValue && newValue != null) {
+    public var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
+        if (newValue != null) {
             onErrorChanged.forEach { it(newValue) }
         }
     }
