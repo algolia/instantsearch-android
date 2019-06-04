@@ -1,11 +1,12 @@
 package com.algolia.instantsearch.helper.filter
 
+import com.algolia.instantsearch.core.Presenter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 
 
-public interface FilterPresenter : (Filter) -> String {
+public interface FilterPresenter : Presenter<Filter, String> {
 
     public val facetString: (Attribute, String, Boolean) -> String
     public val facetBoolean: (Attribute, Boolean, Boolean) -> String
