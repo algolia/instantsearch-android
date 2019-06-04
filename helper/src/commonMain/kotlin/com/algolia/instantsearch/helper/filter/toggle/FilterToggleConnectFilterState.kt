@@ -17,8 +17,8 @@ public fun FilterToggleViewModel.connectFilterState(
     }
 
     onChanged(filterState)
-    if (default != null) filterState.add(groupID, default)
     filterState.onChanged += onChanged
+    if (default != null) filterState.add(groupID, default)
     onIsSelectedComputed += { isSelected ->
         filterState.notify {
             if (isSelected) {

@@ -10,6 +10,12 @@ public fun FilterSegmentViewModel.connectFilterState(
     filterState: FilterState,
     groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
 ) {
+    val onChanged: (Filters) -> Unit = { filters ->
+        selected = item.entries.find { it.value == filters.getFilters(groupID).firstOrNull() }?.key
+    }
+
+    onChanged(filterState)
+    filterState.onChanged += onChanged
     onSelectedComputed += { computed ->
         filterState.notify {
             item[selected]?.let { remove(groupID, it) }
@@ -18,10 +24,4 @@ public fun FilterSegmentViewModel.connectFilterState(
             }
         }
     }
-    val onChanged: (Filters) -> Unit = { filters ->
-        selected = item.entries.find { it.value == filters.getFilters(groupID).firstOrNull() }?.key
-    }
-
-    onChanged(filterState)
-    filterState.onChanged += onChanged
 }
