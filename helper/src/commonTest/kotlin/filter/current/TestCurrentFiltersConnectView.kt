@@ -20,8 +20,8 @@ class TestCurrentFiltersConnectView {
     private class MockCurrentFiltersView : CurrentFiltersView {
         var filters: Map<String, Filter> = mapOf()
 
-        override fun setItems(items: Map<String, Filter>) {
-            filters = items
+        override fun setItem(item: Map<String, Filter>) {
+            filters = item
         }
 
         override var onClick: ((String) -> Unit)? = null
