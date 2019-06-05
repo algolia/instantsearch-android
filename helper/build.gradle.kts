@@ -8,6 +8,7 @@ import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
 import dependency.test.SL4J
 import dependency.ui.AppCompat
+import dependency.ui.MaterialDesign
 import dependency.ui.Paging
 import dependency.ui.RecyclerView
 import dependency.ui.SwipeRefreshLayout
@@ -125,6 +126,7 @@ kotlin {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(AppCompat())
                 implementation(RecyclerView())
+                implementation(MaterialDesign())
                 implementation(Paging())
                 api(Coroutines("android"))
                 api(AlgoliaClient("jvm"))
