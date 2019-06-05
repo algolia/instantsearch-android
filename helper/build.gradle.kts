@@ -10,6 +10,7 @@ import dependency.test.SL4J
 import dependency.ui.AppCompat
 import dependency.ui.Paging
 import dependency.ui.RecyclerView
+import dependency.ui.SwipeRefreshLayout
 
 plugins {
     id("com.android.library")
@@ -137,6 +138,8 @@ kotlin {
                 implementation(kotlin("test-junit"))
                 implementation(AlgoliaClient("jvm"))
                 implementation(Ktor("client-mock-jvm"))
+                implementation(AppCompat())
+                implementation(SwipeRefreshLayout())
                 implementation(AndroidTestRunner())
                 implementation(AndroidTestExt())
                 implementation(Robolectric())

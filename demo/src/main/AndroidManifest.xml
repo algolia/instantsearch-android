@@ -93,6 +93,10 @@
             android:name=".stats.StatsDemo"
             android:parentActivityName=".home.HomeDemo" />
 
+        <activity
+            android:name=".loading.LoadingDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
     </application>
 
 </manifest>
