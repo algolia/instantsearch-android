@@ -17,7 +17,7 @@ class TestFilterClearConnectView {
     }
 
     @Test
-    fun connectSetsOnClick() {
+    fun onClickShouldCallOnTriggered() {
         val viewModel = EventViewModelImpl<Unit>()
         val view = MockFilterClearView()
         var clicked = false

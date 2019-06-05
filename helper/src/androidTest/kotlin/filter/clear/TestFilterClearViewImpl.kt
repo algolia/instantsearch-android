@@ -4,7 +4,7 @@ import android.view.View
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
-import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
+import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
 import com.algolia.instantsearch.helper.filter.clear.connectView

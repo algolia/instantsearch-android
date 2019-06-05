@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.android.filter.clear
+package com.algolia.instantsearch.helper.android.filter
 
 import android.view.View
 import com.algolia.instantsearch.helper.filter.clear.FilterClearView

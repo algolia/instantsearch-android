@@ -31,7 +31,7 @@ class TestFilterToggleConnectView {
     }
 
     @Test
-    fun connectShouldCallSetIsSelectedAndSetText() {
+    fun connectShouldCallSetIsSelectedAndSetItem() {
         val view = MockSelectableItemView()
         val viewModel = SelectableItemViewModel(input)
 
@@ -39,6 +39,16 @@ class TestFilterToggleConnectView {
         viewModel.connectView(view, presenter)
         view.boolean shouldEqual true
         view.string shouldEqual output
+    }
+
+    @Test
+    fun onItemChangedShouldCallSetItem() {
+        val view = MockSelectableItemView()
+        val viewModel =  SelectableItemViewModel(input)
+
+        viewModel.connectView(view, presenter)
+        viewModel.item = 1
+        view.string shouldEqual "1"
     }
 
     @Test

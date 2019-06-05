@@ -29,12 +29,32 @@ class TestFacetListConnectView  {
     }
 
     @Test
-    fun connectShouldCallSetSelectableItems() {
+    fun connectShouldCallSetItem() {
         val view = MockSelectableFacetsView()
         val viewModel = FacetListViewModel(facets)
 
         viewModel.selections = selections
         viewModel.connectView(view)
+        view.items shouldEqual listOf(red to true)
+    }
+
+    @Test
+    fun onItemChangedShouldCallSetItem() {
+        val view = MockSelectableFacetsView()
+        val viewModel = FacetListViewModel()
+
+        viewModel.connectView(view)
+        viewModel.item = facets
+        view.items shouldEqual listOf(red to false)
+    }
+
+    @Test
+    fun onSelectionsChangedShouldCallSetItem() {
+        val view = MockSelectableFacetsView()
+        val viewModel = FacetListViewModel(facets)
+
+        viewModel.connectView(view)
+        viewModel.selections = selections
         view.items shouldEqual listOf(red to true)
     }
 
@@ -47,26 +67,6 @@ class TestFacetListConnectView  {
         viewModel.connectView(view)
         view.onClick.shouldNotBeNull()
         view.onClick!!(red)
-        view.items shouldEqual listOf(red to true)
-    }
-
-    @Test
-    fun onItemsChangedShouldCallSetSelectableItems() {
-        val view = MockSelectableFacetsView()
-        val viewModel = FacetListViewModel()
-
-        viewModel.connectView(view)
-        viewModel.item = facets
-        view.items shouldEqual listOf(red to false)
-    }
-
-    @Test
-    fun onSelectionsChangedShouldCallSetSelectableItems() {
-        val view = MockSelectableFacetsView()
-        val viewModel = FacetListViewModel(facets)
-
-        viewModel.connectView(view)
-        viewModel.selections = selections
         view.items shouldEqual listOf(red to true)
     }
 }

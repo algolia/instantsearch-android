@@ -1,6 +1,7 @@
 package selectable.list
 
 import com.algolia.instantsearch.core.selectable.list.*
+import shouldBeEmpty
 import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
@@ -24,12 +25,33 @@ class TestSelectableListConnectView {
     }
 
     @Test
-    fun connectShouldCallSetSelectableItems() {
+    fun connectShouldCallSetItem() {
         val view = MockFilterListViewFacet()
         val viewModel = SelectableListViewModel<String, String>(items, SelectionMode.Multiple)
 
         viewModel.selections = selections
         viewModel.connectView(view)
+        view.items shouldEqual listOf(string to true)
+    }
+
+    @Test
+    fun onItemsChangedShouldCallSetItem() {
+        val view = MockFilterListViewFacet()
+        val viewModel = SelectableListViewModel<String, String>(emptyList(), SelectionMode.Multiple)
+
+        viewModel.connectView(view)
+        viewModel.item.shouldBeEmpty()
+        viewModel.item = items
+        view.items shouldEqual listOf(string to false)
+    }
+
+    @Test
+    fun onSelectionsChangedShouldCallSetItems() {
+        val view = MockFilterListViewFacet()
+        val viewModel = SelectableListViewModel<String, String>(items, SelectionMode.Multiple)
+
+        viewModel.connectView(view)
+        viewModel.selections = selections
         view.items shouldEqual listOf(string to true)
     }
 
@@ -42,26 +64,6 @@ class TestSelectableListConnectView {
         viewModel.connectView(view)
         view.onClick.shouldNotBeNull()
         view.onClick!!(string)
-        view.items shouldEqual listOf(string to true)
-    }
-
-    @Test
-    fun onItemsChangedShouldCallSetSelectableItems() {
-        val view = MockFilterListViewFacet()
-        val viewModel = SelectableListViewModel<String, String>(items, SelectionMode.Multiple)
-
-        viewModel.connectView(view)
-        viewModel.item = items
-        view.items shouldEqual listOf(string to false)
-    }
-
-    @Test
-    fun onSelectionsChangedShouldCallSetSelectableItems() {
-        val view = MockFilterListViewFacet()
-        val viewModel = SelectableListViewModel<String, String>(items, SelectionMode.Multiple)
-
-        viewModel.connectView(view)
-        viewModel.selections = selections
         view.items shouldEqual listOf(string to true)
     }
 }

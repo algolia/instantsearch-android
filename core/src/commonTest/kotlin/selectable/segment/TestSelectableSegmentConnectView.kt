@@ -33,7 +33,7 @@ class TestSelectableSegmentConnectView {
     }
 
     @Test
-    fun connectShouldCallSetSelectedAndSetItems() {
+    fun connectShouldCallSetSelectedAndSetItem() {
         val view = MockSelectableView()
         val viewModel = SelectableSegmentViewModel(map)
 
@@ -41,6 +41,16 @@ class TestSelectableSegmentConnectView {
         viewModel.connectView(view, presenter)
         view.int shouldEqual id
         view.map shouldEqual mapOf(id to output)
+    }
+
+    @Test
+    fun onItemChangedShouldCallSetItem() {
+        val view = MockSelectableView()
+        val viewModel = SelectableSegmentViewModel(map)
+
+        viewModel.connectView(view, presenter)
+        viewModel.item = mapOf(1 to 1)
+        view.map shouldEqual mapOf(1 to "1")
     }
 
     @Test

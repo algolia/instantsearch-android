@@ -31,7 +31,7 @@ class TestSearchBoxConnectView {
     }
 
     @Test
-    fun connectViewShouldSetQuery() {
+    fun connectShouldSetItem() {
         val viewModel = SearchBoxViewModel()
         val view = MockView()
 
@@ -41,7 +41,7 @@ class TestSearchBoxConnectView {
     }
 
     @Test
-    fun onQueryChangedShouldCallOnQueryChanged() {
+    fun onQueryChangedShouldCallOnItemChanged() {
         val viewModel = SearchBoxViewModel()
         val view = MockView()
         var expected: String? = null

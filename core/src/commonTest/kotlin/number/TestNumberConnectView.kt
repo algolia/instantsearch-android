@@ -29,7 +29,7 @@ class TestNumberConnectView {
     }
 
     @Test
-    fun connectShouldCallSetSelectedAndSetItems() {
+    fun connectShouldCallSetItem() {
         val view = MockNumberView()
         val viewModel = NumberViewModel.Int(0 .. 10)
 
@@ -39,7 +39,17 @@ class TestNumberConnectView {
     }
 
     @Test
-    fun onClickShouldCallOnSelectionsComputed() {
+    fun onItemChangedShouldCallSetItem() {
+        val view = MockNumberView()
+        val viewModel = NumberViewModel.Int(0 .. 10)
+
+        viewModel.connectView(view)
+        viewModel.item = 5
+        view.string shouldEqual "5"
+    }
+
+    @Test
+    fun onClickShouldCallOnNumberComputed() {
         val view = MockNumberView()
         val viewModel = NumberViewModel.Int(0 .. 10)
 
@@ -51,15 +61,5 @@ class TestNumberConnectView {
         view.string shouldEqual "1"
         view.onClickDecrement!!()
         view.string shouldEqual "0"
-    }
-
-    @Test
-    fun onSelectedChangedShouldCallSetSelected() {
-        val view = MockNumberView()
-        val viewModel = NumberViewModel.Int(0 .. 10)
-
-        viewModel.connectView(view)
-        viewModel.item = 5
-        view.string shouldEqual "5"
     }
 }

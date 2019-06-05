@@ -3,7 +3,7 @@ package com.algolia.instantsearch.demo.filter.clear
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
+import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
