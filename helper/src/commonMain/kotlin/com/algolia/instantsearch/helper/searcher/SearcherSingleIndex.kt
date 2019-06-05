@@ -25,7 +25,7 @@ public class SearcherSingleIndex(
 
     public val onResponseChanged = mutableListOf<(ResponseSearch) -> Unit>()
     public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
-    public val onLoadingChanged = mutableListOf<(Boolean) -> Unit>()
+    public override val onLoadingChanged = mutableListOf<(Boolean) -> Unit>()
 
     public override var loading: Boolean by Delegates.observable(false) { _, _, newValue ->
         onLoadingChanged.forEach { it(newValue) }

@@ -3,10 +3,8 @@ package searchbox
 import blocking
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
-import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
-import com.algolia.instantsearch.helper.searcher.SearcherScope
-import kotlinx.coroutines.*
+import searcher.MockSearcher
 import shouldEqual
 import kotlin.test.Test
 
@@ -14,31 +12,6 @@ import kotlin.test.Test
 class TestSearchBoxConnectSearcher {
 
     private val text = "text"
-
-    private class MockSearcher : Searcher {
-
-        var job: Job? = null
-        var string: String? = null
-        var searchCount: Int = 0
-
-        override var loading: Boolean = false
-        override val coroutineScope: CoroutineScope = SearcherScope()
-        override val dispatcher: CoroutineDispatcher = Dispatchers.Default
-
-        override fun setQuery(text: String?) {
-            string = text
-        }
-
-        override fun search(): Job {
-            searchCount++
-            val job = coroutineScope.launch { }
-
-            this.job = job
-            return job
-        }
-
-        override fun cancel() = Unit
-    }
 
     @Test
     fun searchAsYouType() {

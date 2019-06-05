@@ -10,6 +10,7 @@ public interface Searcher {
     public val coroutineScope: CoroutineScope
     public val dispatcher: CoroutineDispatcher
 
+    public val onLoadingChanged: MutableList<(Boolean) -> Unit>
     public var loading: Boolean
 
     public fun setQuery(text: String?)
