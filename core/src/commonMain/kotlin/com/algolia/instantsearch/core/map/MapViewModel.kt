@@ -16,7 +16,5 @@ public open class MapViewModel<K, V>(
 
         onMapComputed.forEach { it(map) }
     }
-
-    fun getValues() = item.values.toSet()
 }
 
