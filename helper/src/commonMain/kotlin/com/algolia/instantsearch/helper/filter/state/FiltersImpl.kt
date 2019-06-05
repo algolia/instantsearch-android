@@ -34,7 +34,7 @@ internal data class FiltersImpl(
     }
 
     override fun getGroups(): Map<FilterGroupID, Set<Filter>> {
-        return (facetGroups + tagGroups + numericGroups)
+        return facetGroups + tagGroups + numericGroups
     }
 
     override fun getFilters(groupID: FilterGroupID): Set<Filter> {
