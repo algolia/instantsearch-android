@@ -20,4 +20,3 @@ public open class MapViewModel<K, V>(
         onMapComputed.forEach { it(map) }
     }
 }
-
