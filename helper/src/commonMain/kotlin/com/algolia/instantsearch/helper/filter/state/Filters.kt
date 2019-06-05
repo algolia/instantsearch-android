@@ -17,6 +17,8 @@ public interface Filters {
 
     public fun getNumericGroups(): Map<FilterGroupID, Set<Filter.Numeric>>
 
+    public fun getGroups(): Map<FilterGroupID, Set<Filter>>
+
     public fun getFilters(groupID: FilterGroupID): Set<Filter>
 
     public fun getFilters(): Set<Filter>
