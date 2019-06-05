@@ -41,8 +41,11 @@ class TestCurrentFiltersConnectView {
         val viewModel = CurrentFiltersViewModel(filters)
         val view = MockCurrentFiltersView()
 
+        viewModel.onMapComputed += {
+            viewModel.item = it
+        }
         viewModel.connectView(view)
-        view.onClick .shouldNotBeNull()
+        view.onClick.shouldNotBeNull()
         view.onClick!!(identifier)
         view.filters.shouldBeEmpty()
     }
