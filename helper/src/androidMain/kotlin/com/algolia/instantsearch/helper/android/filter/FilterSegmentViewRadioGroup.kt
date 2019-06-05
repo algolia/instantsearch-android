@@ -27,11 +27,11 @@ public class FilterSegmentViewRadioGroup(
         radioGroup.setOnCheckedChangeListener(this)
     }
 
-    override fun setItem(item: Map<Int, String>) {
+    override fun setItems(items: Map<Int, String>) {
         for (index in 0 until radioGroup.childCount) {
             val view = radioGroup.getChildAt(index) as? RadioButton
 
-            item[view?.id]?.let { view?.text = it }
+            items[view?.id]?.let { view?.text = it }
         }
     }
 }
