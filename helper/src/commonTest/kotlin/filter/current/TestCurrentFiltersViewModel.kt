@@ -3,6 +3,7 @@ package filter.current
 import com.algolia.instantsearch.helper.filter.current.CurrentFiltersViewModel
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
+import shouldBeTrue
 import shouldEqual
 import kotlin.test.Test
 
@@ -38,6 +39,18 @@ class TestCurrentFiltersViewModel {
 
         viewModel.clearFilter(filterRed)
         viewModel.item shouldEqual mapOf(green to filterGreen)
+    }
+
+    @Test
+    fun clearFilterTriggersListeners() {
+        val viewModel = CurrentFiltersViewModel(mapOf(green to filterGreen))
+        var triggered = false
+        viewModel.onTriggered += {
+            triggered = true
+        }
+
+        viewModel.clearFilter(filterGreen)
+        triggered.shouldBeTrue()
     }
 
     @Test

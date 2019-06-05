@@ -1,12 +1,11 @@
 package com.algolia.instantsearch.core.map
 
-import com.algolia.instantsearch.core.event.EventViewModel
 import com.algolia.instantsearch.core.item.ItemViewModel
 
 
 public open class MapViewModel<K, V>(
     items: Map<K, V>
-) : ItemViewModel<Map<K, V>>(items), EventViewModel<K> {
+) : ItemViewModel<Map<K, V>>(items) {
 
 //TODO: alias item for internal DX
 //    var map
@@ -14,7 +13,5 @@ public open class MapViewModel<K, V>(
 //        set(value) {
 //            item = value
 //        }
-
-    override val onTriggered: MutableList<(K) -> Unit> = mutableListOf()
 }
 
