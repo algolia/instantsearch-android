@@ -24,7 +24,6 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-        maven { url = URI("https://dl.bintray.com/algolia/maven") }
         maven { url = URI("https://kotlin.bintray.com/kotlinx") }
         maven { url = URI("https://dl.bintray.com/kotlin/ktor") }
     }
