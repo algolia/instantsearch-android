@@ -2,7 +2,6 @@ package filter.clear
 
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
-import com.algolia.instantsearch.helper.filter.clear.click
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
@@ -32,7 +31,7 @@ class TestFilterClearConnectFilterState {
         val filterState = FilterState(filters)
 
         viewModel.connectFilterState(filterState, listOf(), ClearMode.Specified)
-        viewModel.click()
+        viewModel.trigger(Unit)
         filterState.getFilters().shouldBeEmpty()
     }
 
@@ -42,7 +41,7 @@ class TestFilterClearConnectFilterState {
         val filterState = FilterState(filters)
 
         viewModel.connectFilterState(filterState, listOf(groupIDA), ClearMode.Specified)
-        viewModel.click()
+        viewModel.trigger(Unit)
         filterState shouldEqual FilterState(mapOf(groupIDB to setOf(green)))
     }
 
@@ -52,7 +51,7 @@ class TestFilterClearConnectFilterState {
         val filterState = FilterState(filters)
 
         viewModel.connectFilterState(filterState, listOf(groupIDA), ClearMode.Except)
-        viewModel.click()
+        viewModel.trigger(Unit)
         filterState shouldEqual FilterState(mapOf(groupIDA to setOf(red)))
     }
 }

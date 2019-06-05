@@ -1,4 +1,4 @@
-package filter.clear
+package filter
 
 import android.view.View
 import androidx.test.ext.junit.runners.AndroidJUnit4

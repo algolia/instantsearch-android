@@ -4,5 +4,5 @@ import com.algolia.instantsearch.core.event.connectView
 
 
 public fun FilterClearViewModel.connectView(view: FilterClearView) {
-   connectView(view) { click() }
+   connectView(view) { trigger(Unit) }
 }
