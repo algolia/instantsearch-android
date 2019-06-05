@@ -12,37 +12,32 @@ public fun CurrentFiltersViewModel.connectFilterState(
     filterState: FilterState
     //TODO added feature: groupID parameter to only see its filters
 ) {
-    item = filtersToItem(filterState)
-    println("connected with ${item.size}  items=$item")
-    val onTriggered: (String) -> Unit = { identifier ->
-        println("onTriggered($identifier): ${item[identifier]}")
-        item[identifier]?.let {
-            filterState.notify {
-                val groupID = groupFromIdentifier(identifier)
-                remove(groupID, it)
-                println("removing $groupID: $it")
-            }
-        }
-    }
     val onChanged: (Filters) -> Unit = {
         item = filtersToItem(it)
-        println("onChanged($it) -> setting item")
     }
 
-    this.onTriggered += onTriggered
+    onChanged(filterState.filters)
     filterState.onChanged += onChanged
+    onMapComputed += { map ->
+        filterState.notify {
+            val obsoleteFilters = item.entries.filter { !map.containsKey(it.key) }
+            val newFilters = item.filter { it !in obsoleteFilters }
+
+            obsoleteFilters.forEach { remove(groupFromIdentifier(it.key), it.value) }
+            newFilters.forEach { add(groupFromIdentifier(it.key), it.value) }
+        }
+    }
 }
 
 private fun filtersToItem(filters: Filters): Map<String, Filter> {
     val groups = filters.getGroups()
-    val map = mutableMapOf<String, Filter>().apply {
+    return mutableMapOf<String, Filter>().apply {
         groups.entries.forEach { group ->
             group.value.forEach {
                 put(filterIdentifier(group.key, it), it)
             }
         }
     }
-    return map
 }
 
 fun filterIdentifier(groupID: FilterGroupID, filter: Filter): String {

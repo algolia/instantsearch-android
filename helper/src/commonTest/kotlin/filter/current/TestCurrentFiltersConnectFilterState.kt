@@ -2,6 +2,7 @@ package filter.current
 
 import com.algolia.instantsearch.helper.filter.current.CurrentFiltersViewModel
 import com.algolia.instantsearch.helper.filter.current.connectFilterState
+import com.algolia.instantsearch.helper.filter.current.filterIdentifier
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
@@ -29,7 +30,7 @@ class TestCurrentFiltersConnectFilterState {
         val filterState = FilterState(filterMap)
 
         viewModel.connectFilterState(filterState)
-        viewModel.getFilters() shouldEqual filters
+        viewModel.getValues() shouldEqual filters
     }
 
     @Test
@@ -39,7 +40,7 @@ class TestCurrentFiltersConnectFilterState {
 
         viewModel.connectFilterState(filterState)
         filterState.notify { remove(groupID, filterRed) }
-        viewModel.getFilters() shouldEqual setOf(filterGreen)
+        viewModel.getValues() shouldEqual setOf(filterGreen)
     }
 
     @Test
@@ -50,7 +51,7 @@ class TestCurrentFiltersConnectFilterState {
         viewModel.connectFilterState(filterState)
         filterState.getFilters().shouldBeEmpty()
         viewModel.item = identifiedFilters
-        viewModel.getFilters() shouldEqual filters
+        viewModel.getValues() shouldEqual filters
     }
 
     @Test
@@ -59,7 +60,7 @@ class TestCurrentFiltersConnectFilterState {
         val filterState = FilterState(filterMap)
 
         viewModel.connectFilterState(filterState)
-        viewModel.clearFilter(filterRed)
+        viewModel.remove(filterIdentifier(groupID, filterRed))
         filterState.getFilters() shouldEqual setOf(filterGreen)
     }
 
