@@ -1,6 +1,7 @@
 package filter.current
 
 import com.algolia.instantsearch.helper.filter.current.CurrentFiltersViewModel
+import com.algolia.instantsearch.helper.filter.current.filters
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import shouldBeTrue
@@ -25,14 +26,15 @@ class TestCurrentFiltersViewModel {
         viewModel.item shouldEqual mapOf(green to filterGreen)
     }
 
+
     @Test
     fun clearFilterTriggersListeners() {
         val viewModel = CurrentFiltersViewModel(mapOf(green to filterGreen))
         var triggered = false
+
         viewModel.onMapComputed += {
             triggered = true
         }
-
         viewModel.remove(green)
         triggered.shouldBeTrue()
     }
@@ -41,6 +43,6 @@ class TestCurrentFiltersViewModel {
     fun getValuesReturnsFilterSet() {
         val viewModel = CurrentFiltersViewModel(mapOf(green to filterGreen))
 
-        viewModel.getValues() shouldEqual setOf(filterGreen)
+        viewModel.filters shouldEqual setOf(filterGreen)
     }
 }
