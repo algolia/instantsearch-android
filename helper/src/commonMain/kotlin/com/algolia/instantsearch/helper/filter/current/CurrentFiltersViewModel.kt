@@ -20,8 +20,8 @@ class CurrentFiltersViewModel(
 
     fun clearFilter(identifier: String?) {
         identifier?.let {
-            item = presenter(item.toMutableMap().apply { remove(identifier) })
             onTriggered.forEach { it(identifier) }
+            item = presenter(item.toMutableMap().apply { remove(identifier) })
         }
     }
 }
