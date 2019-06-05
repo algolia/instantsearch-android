@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.item.ItemViewModel
 
 
 public open class MapViewModel<K, V>(
-    items: Map<K, V>
+    items: Map<K, V> = mapOf()
 ) : ItemViewModel<Map<K, V>>(items) {
 
     //TODO: alias item=map for internal DX
