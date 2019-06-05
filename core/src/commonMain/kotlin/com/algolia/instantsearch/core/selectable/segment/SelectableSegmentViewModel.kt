@@ -1,12 +1,12 @@
 package com.algolia.instantsearch.core.selectable.segment
 
-import com.algolia.instantsearch.core.item.ItemViewModel
+import com.algolia.instantsearch.core.map.MapViewModel
 import kotlin.properties.Delegates
 
 
 public open class SelectableSegmentViewModel<K, V>(
     items: Map<K, V>
-) : ItemViewModel<Map<K, V>>(items) {
+) : MapViewModel<K, V>(items) {
 
     public val onSelectedChanged: MutableList<(K?) -> Unit> = mutableListOf()
     public val onSelectedComputed: MutableList<(K?) -> Unit> = mutableListOf()
