@@ -7,8 +7,7 @@ import com.algolia.search.model.filter.Filter
 
 
 class CurrentFiltersViewModel(
-    items: Map<String, Filter> = mapOf(),
-    val presenter: (Map<String, Filter>) -> Map<String, Filter> = { it }
+    items: Map<String, Filter> = mapOf()
 ) : MapViewModel<String, Filter>(items),
     EventViewModel<String> by EventViewModelImpl() {
 
@@ -21,7 +20,7 @@ class CurrentFiltersViewModel(
     fun clearFilter(identifier: String?) {
         identifier?.let {
             onTriggered.forEach { it(identifier) }
-            item = presenter(item.toMutableMap().apply { remove(identifier) })
+            item = item.toMutableMap().apply { remove(identifier) }
         }
     }
 }
