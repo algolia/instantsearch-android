@@ -18,26 +18,10 @@ class TestCurrentFiltersViewModel {
     private val filters = mapOf<String, Filter>(red to filterRed, green to filterGreen)
 
     @Test
-    fun clearFilterHitsThenClearsIt() {
-        val viewModel = CurrentFiltersViewModel(filters)
-
-        viewModel.clearFilter(red)
-        viewModel.item shouldEqual mapOf(green to filterGreen)
-    }
-
-    @Test
     fun clearFilterMissesThenNoClear() {
         val viewModel = CurrentFiltersViewModel(mapOf(green to filterGreen))
 
-        viewModel.clearFilter(red)
-        viewModel.item shouldEqual mapOf(green to filterGreen)
-    }
-
-    @Test
-    fun clearFilterByFilterClearsIt() {
-        val viewModel = CurrentFiltersViewModel(mapOf(green to filterGreen))
-
-        viewModel.clearFilter(filterRed)
+        viewModel.remove(red)
         viewModel.item shouldEqual mapOf(green to filterGreen)
     }
 
@@ -45,18 +29,18 @@ class TestCurrentFiltersViewModel {
     fun clearFilterTriggersListeners() {
         val viewModel = CurrentFiltersViewModel(mapOf(green to filterGreen))
         var triggered = false
-        viewModel.onTriggered += {
+        viewModel.onMapComputed += {
             triggered = true
         }
 
-        viewModel.clearFilter(filterGreen)
+        viewModel.remove(green)
         triggered.shouldBeTrue()
     }
 
     @Test
-    fun getFiltersReturnsFilterSet() {
+    fun getValuesReturnsFilterSet() {
         val viewModel = CurrentFiltersViewModel(mapOf(green to filterGreen))
 
-        viewModel.getFilters() shouldEqual setOf(filterGreen)
+        viewModel.getValues() shouldEqual setOf(filterGreen)
     }
 }

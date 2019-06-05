@@ -10,5 +10,5 @@ public fun CurrentFiltersViewModel.connectView(view: CurrentFiltersView) {
 
     onItemChange(item)
     this.onItemChanged += onItemChange
-    view.onClick = { clearFilter(it) }
+    view.onClick = { remove(it) }
 }
