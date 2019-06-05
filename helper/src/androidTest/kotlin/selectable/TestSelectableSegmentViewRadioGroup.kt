@@ -34,12 +34,12 @@ class TestSelectableSegmentViewRadioGroup {
     }
 
     @Test
-    fun callSetItemsShouldUpdateChildren() {
+    fun callSetItemShouldUpdateChildren() {
         val view = view()
         val text = "text"
         val child = view.radioGroup.getChildAt(0) as RadioButton
 
-        view.setItems(mapOf(child.id to text))
+        view.setItem(mapOf(child.id to text))
         child.text shouldEqual text
     }
 

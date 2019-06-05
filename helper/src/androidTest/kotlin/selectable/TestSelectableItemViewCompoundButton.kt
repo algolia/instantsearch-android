@@ -28,10 +28,10 @@ class TestSelectableItemViewCompoundButton {
     }
 
     @Test
-    fun callSetTextShouldUpdateText() {
+    fun callSetItemShouldUpdateText() {
         val view = view()
 
-        view.setText("text")
+        view.setItem("text")
         view.compoundButton.text shouldEqual "text"
     }
 
