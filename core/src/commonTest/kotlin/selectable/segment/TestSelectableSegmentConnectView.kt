@@ -27,8 +27,8 @@ class TestSelectableSegmentConnectView {
             int = selected
         }
 
-        override fun setItem(item: Map<Int, String>) {
-            map = item
+        override fun setItems(items: Map<Int, String>) {
+            map = items
         }
     }
 
