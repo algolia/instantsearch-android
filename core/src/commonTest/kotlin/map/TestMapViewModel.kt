@@ -1,24 +1,21 @@
 package map
 
 import com.algolia.instantsearch.core.map.MapViewModel
-import shouldBeTrue
+import shouldEqual
 import kotlin.test.Test
 
 
 class TestMapViewModel {
 
-    private val green = "green"
-    private val red = "red"
+    private val id = "id"
+    private val map = mapOf(id to "value")
 
     @Test
     fun removeShouldCallOnMapComputed() {
-        val viewModel = MapViewModel(mapOf(green to green))
-        var triggered = false
+        val viewModel = MapViewModel(map)
 
-        viewModel.onMapComputed += {
-            triggered = true
-        }
-        viewModel.remove(green)
-        triggered.shouldBeTrue()
+        viewModel.onMapComputed += { viewModel.map = it }
+        viewModel.remove(id)
+        viewModel.map shouldEqual mapOf()
     }
 }
