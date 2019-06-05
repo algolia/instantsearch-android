@@ -53,7 +53,7 @@ class TestCurrentFiltersConnectView {
         val view = MockCurrentFiltersView()
 
         viewModel.connectView(view)
-        viewModel.item = mapOf()
+        viewModel.map = mapOf()
         view.filters shouldEqual mapOf()
     }
 }
