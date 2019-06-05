@@ -12,7 +12,7 @@ class CurrentFiltersViewModel(
 ) : MapViewModel<String, Filter>(items),
     EventViewModel<String> by EventViewModelImpl() {
 
-    fun getFilters() = item.values
+    fun getFilters(): Set<Filter> = item.values.toSet()
 
     fun clearFilter(filter: Filter) {
         clearFilter(item.entries.firstOrNull { it.value == filter }?.key)
