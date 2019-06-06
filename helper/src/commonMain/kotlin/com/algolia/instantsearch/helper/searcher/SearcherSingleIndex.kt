@@ -15,7 +15,7 @@ import kotlin.properties.Delegates
 public class SearcherSingleIndex(
     public var index: Index,
     public val query: Query = Query(),
-    public val requestOptions: RequestOptions? = RequestOptions(),
+    public val requestOptions: RequestOptions? = null,
     public val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
