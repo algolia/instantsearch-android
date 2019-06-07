@@ -40,7 +40,7 @@ class TestCurrentFiltersViewImpl {
         viewModel.connectView(view)
 
         filterState.getFilters().shouldNotBeEmpty()
-        view.view.callOnClick()
+        view.getChildAt(0).callOnClick()
         filterState.getFilters().shouldBeEmpty()
     }
 }
