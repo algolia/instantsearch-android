@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.demo.home
 
 import com.algolia.instantsearch.demo.filter.clear.FilterClearDemo
+import com.algolia.instantsearch.demo.filter.current.CurrentFiltersDemo
 import com.algolia.instantsearch.demo.filter.facet.FacetListDemo
 import com.algolia.instantsearch.demo.filter.facet.FacetListPersistentDemo
 import com.algolia.instantsearch.demo.filter.facet.FacetListSearchDemo
@@ -23,6 +24,7 @@ import com.algolia.search.model.ObjectID
 
 
 val homeActivities = mapOf(
+    ObjectID("filter_current") to CurrentFiltersDemo::class,
     ObjectID("filter_clear") to FilterClearDemo::class,
     ObjectID("filter_toggle") to FilterToggleDemo::class,
     ObjectID("filter_toggle_default") to FilterToggleDefaultDemo::class,

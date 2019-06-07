@@ -30,6 +30,10 @@
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
+            android:name=".filter.current.CurrentFiltersDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
+        <activity
             android:name=".filter.toggle.FilterToggleDemo"
             android:parentActivityName=".home.HomeDemo" />
 
