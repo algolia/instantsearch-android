@@ -23,16 +23,18 @@ import com.algolia.instantsearch.core.item.connectView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
+import com.algolia.instantsearch.core.searcher.Searcher
+import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
 import com.algolia.instantsearch.helper.android.highlight
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
 import com.algolia.instantsearch.helper.filter.clear.connectView
+import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
-import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.stats.StatsPresenter
@@ -44,6 +46,7 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
+import com.algolia.search.model.filter.Filter
 import com.algolia.search.serialize.KeyIndexName
 import com.algolia.search.serialize.KeyName
 import io.ktor.client.features.logging.LogLevel
@@ -124,6 +127,16 @@ fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
 
     viewModel.connectSearcher(searcher)
     viewModel.connectView(view, presenter)
+}
+
+fun AppCompatActivity.onResetThenRestoreFilters(
+    reset: View,
+    filterState: FilterState,
+    filters: Map<FilterGroupID, Set<Filter>>
+) {
+    reset.setOnClickListener {
+        filterState.notify { set(filters) }
+    }
 }
 
 fun AppCompatActivity.configureTitle(

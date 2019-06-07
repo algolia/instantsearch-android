@@ -60,14 +60,12 @@ class FilterClearDemo : AppCompatActivity() {
         clearExceptColorsViewModel.connectView(clearExceptColorsView)
         clearExceptColorsViewModel.connectFilterState(filterState, listOf(groupColor), ClearMode.Except)
 
-        reset.setOnClickListener {
-            filterState.notify { set(filters) }
-        }
         configureToolbar(toolbar)
         configureSearcher(searcher)
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color, category)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResetThenRestoreFilters(reset, filterState, filters)
 
         searcher.searchAsync()
     }
