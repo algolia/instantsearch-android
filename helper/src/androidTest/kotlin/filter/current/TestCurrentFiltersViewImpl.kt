@@ -27,12 +27,14 @@ class TestCurrentFiltersViewImpl {
     private val color = Attribute("color")
     private val groupID = FilterGroupID(color)
     private val filterRed = Filter.Facet(color, "red")
+    private val filterGreen = Filter.Facet(color, "green")
+    private val filters = mapOf(groupID to setOf(filterRed, filterGreen))
 
     private fun chipGroup(): ChipGroup = ChipGroup(applicationContext)
 
     @Test
     fun onViewClickCallsClearFilters() {
-        val filterState = FilterState(mapOf(groupID to setOf(filterRed)))
+        val filterState = FilterState(filters)
         val viewModel = CurrentFiltersViewModel()
         val view = CurrentFiltersViewImpl(chipGroup())
 
@@ -41,6 +43,6 @@ class TestCurrentFiltersViewImpl {
 
         filterState.getFilters().shouldNotBeEmpty()
         view.getChildAt(0).callOnClick()
-        filterState.getFilters().shouldBeEmpty()
+        filterState.getFilters() shouldEqual setOf(filterGreen)
     }
 }
