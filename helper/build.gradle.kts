@@ -7,11 +7,7 @@ import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
 import dependency.test.SL4J
-import dependency.ui.AppCompat
-import dependency.ui.MaterialDesign
-import dependency.ui.Paging
-import dependency.ui.RecyclerView
-import dependency.ui.SwipeRefreshLayout
+import dependency.ui.*
 
 plugins {
     id("com.android.library")
@@ -127,6 +123,7 @@ kotlin {
                 implementation(AppCompat())
                 implementation(RecyclerView())
                 implementation(MaterialDesign())
+                implementation(AndroidCore("ktx"))
                 implementation(Paging())
                 api(Coroutines("android"))
                 api(AlgoliaClient("jvm"))
