@@ -63,7 +63,8 @@ class CurrentFiltersDemo : AppCompatActivity() {
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color, price, tags)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
-        onResetThenRestoreFilters(reset, filterState, filters)//FIXME: Does not seem to work
+        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onResetThenRestoreFilters(reset, filterState, filters)
 
         searcher.search()
     }
