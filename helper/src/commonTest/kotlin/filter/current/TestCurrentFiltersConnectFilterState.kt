@@ -1,10 +1,8 @@
 package filter.current
 
-import com.algolia.instantsearch.helper.filter.current.CurrentFiltersViewModel
-import com.algolia.instantsearch.helper.filter.current.connectFilterState
-import com.algolia.instantsearch.helper.filter.current.filterIdentifier
-import com.algolia.instantsearch.helper.filter.current.filters
+import com.algolia.instantsearch.helper.filter.current.*
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -65,4 +63,20 @@ class TestCurrentFiltersConnectFilterState {
         filterState.getFilters() shouldEqual setOf(filterGreen)
     }
 
+    @Test
+    fun filterIdentifierWithAttribute() {
+        val attribute = Attribute("foo")
+        val groupID = FilterGroupID(attribute, FilterOperator.Or)
+        val filter = Filter.Facet(attribute, "bar")
+
+        groupFromIdentifier(filterIdentifier(groupID, filter)) shouldEqual groupID
+    }
+
+    @Test
+    fun filterIdentifierWithEmptyName() {
+        val groupID = FilterGroupID()
+        val filter = Filter.Tag("bar")
+
+        groupFromIdentifier(filterIdentifier(groupID, filter)) shouldEqual groupID
+    }
 }

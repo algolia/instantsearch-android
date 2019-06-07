@@ -47,11 +47,13 @@ fun filterIdentifier(groupID: FilterGroupID, filter: Filter): String {
 
 fun groupFromIdentifier(identifier: String): FilterGroupID {
     identifier.split("%").also {
-        val attribute = Attribute(it[0])
         val operator = when (it[1]) {
             "Or" -> FilterOperator.Or
             else -> FilterOperator.And
         }
-        return FilterGroupID(attribute, operator)
+
+        return if (!it[0].isNullOrEmpty()) {
+            FilterGroupID(Attribute(it[0]), operator)
+        } else FilterGroupID("", operator)
     }
 }
