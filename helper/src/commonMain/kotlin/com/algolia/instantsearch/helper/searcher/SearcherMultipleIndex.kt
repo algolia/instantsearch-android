@@ -26,7 +26,9 @@ public class SearcherMultipleIndex(
     public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
     override val onLoadingChanged: MutableList<(Boolean) -> Unit> = mutableListOf()
 
-    override var loading: Boolean = false
+    override var loading by Delegates.observable(false) { _, _, newValue ->
+        onLoadingChanged.forEach { it(newValue) }
+    }
 
     public var response by Delegates.observable<ResponseSearches?>(null) { _, _, newValue ->
         if (newValue != null) {
@@ -48,9 +50,11 @@ public class SearcherMultipleIndex(
     }
 
     override fun search(): Job {
-        loading = true
-        val job = coroutineScope.launch(dispatcher + exceptionHandler) {
-            response = client.multipleQueries(queries, strategy, requestOptions)
+        val job = coroutineScope.launch(dispatcher) {
+            loading = true
+            response = withContext(Dispatchers.Default) {
+                client.multipleQueries(queries, strategy, requestOptions)
+            }
             loading = false
         }
 

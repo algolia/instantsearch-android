@@ -27,7 +27,7 @@ public class SearcherSingleIndex(
     public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
     public override val onLoadingChanged = mutableListOf<(Boolean) -> Unit>()
 
-    public override var loading: Boolean by Delegates.observable(false) { _, _, newValue ->
+    public override var loading by Delegates.observable(false) { _, _, newValue ->
         onLoadingChanged.forEach { it(newValue) }
     }
 
@@ -55,8 +55,8 @@ public class SearcherSingleIndex(
     override fun search(): Job {
         val (disjunctiveAttributes, filters) = disjunctive.invoke()
 
-        loading = true
         val job = coroutineScope.launch(dispatcher + exceptionHandler) {
+            loading = true
             response = withContext(Dispatchers.Default) {
                 if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
                     index.search(query, requestOptions)
