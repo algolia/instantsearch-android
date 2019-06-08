@@ -14,6 +14,7 @@ import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieAdapterNested
 import com.algolia.instantsearch.helper.android.list.SearcherMultipleIndexDataSource
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
+import com.algolia.instantsearch.helper.android.searchbox.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.multipleindex.IndexQuery
@@ -61,11 +62,8 @@ class NestedListDemo : AppCompatActivity() {
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 
         searchBoxViewModel.connectView(searchBoxView)
-        searchBoxViewModel.onItemChanged += {
-            searcher.setQuery(it)
-            movies.value?.dataSource?.invalidate()
-            actors.value?.dataSource?.invalidate()
-        }
+        searchBoxViewModel.connectSearcher(searcher, movies)
+        searchBoxViewModel.connectSearcher(searcher, movies)
 
         configureToolbar(toolbar)
         configureSearchView(searchView, getString(R.string.search_movies))
