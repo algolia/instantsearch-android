@@ -3,7 +3,6 @@ package com.algolia.instantsearch.helper.searchbox
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
-import com.algolia.instantsearch.helper.searcher.defaultDispatcher
 
 
 public fun SearchBoxViewModel.connectSearcher(
@@ -14,7 +13,7 @@ public fun SearchBoxViewModel.connectSearcher(
     if (searchAsYouType) {
         onItemChanged += {
             searcher.setQuery(it)
-            debouncer.debounce(searcher.coroutineScope, defaultDispatcher) { searcher.search() }
+            debouncer.debounce(searcher) { search() }
         }
     } else {
         onQuerySubmitted += {

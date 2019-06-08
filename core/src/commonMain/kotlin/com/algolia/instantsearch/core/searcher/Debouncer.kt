@@ -16,4 +16,8 @@ public class Debouncer(
             block()
         }
     }
+
+    public fun debounce(searcher: Searcher, block: suspend Searcher.() -> Unit) {
+        debounce(searcher.coroutineScope, searcher.dispatcher) { block(searcher) }
+    }
 }
