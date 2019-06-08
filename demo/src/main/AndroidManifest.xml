@@ -97,6 +97,10 @@
             android:name=".loading.LoadingDemo"
             android:parentActivityName=".home.HomeDemo" />
 
+        <activity
+            android:name=".list.nested.NestedListDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
     </application>
 
 </manifest>

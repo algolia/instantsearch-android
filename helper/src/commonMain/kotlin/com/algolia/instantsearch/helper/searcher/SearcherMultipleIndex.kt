@@ -13,8 +13,8 @@ import kotlin.properties.Delegates
 
 public class SearcherMultipleIndex(
     public val client: ClientSearch,
-    public val strategy: MultipleQueriesStrategy,
     public val queries: List<IndexQuery>,
+    public val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     public val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val dispatcher: CoroutineDispatcher = defaultDispatcher

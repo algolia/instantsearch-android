@@ -8,8 +8,8 @@ import androidx.paging.PagedList
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.demo.list.Movie
-import com.algolia.instantsearch.demo.list.MovieAdapterPaged
+import com.algolia.instantsearch.demo.list.movie.Movie
+import com.algolia.instantsearch.demo.list.movie.MovieAdapterPaged
 import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.searchbox.connectSearcher

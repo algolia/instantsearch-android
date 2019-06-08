@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.demo
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -209,3 +210,5 @@ fun SearchView.showQueryHintIcon(
         }
     }
 }
+
+fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()

@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.demo.list
+package com.algolia.instantsearch.demo.list.movie
 
 import com.algolia.search.model.ObjectID
 import com.algolia.search.model.indexing.Indexable
