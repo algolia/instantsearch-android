@@ -153,11 +153,15 @@ fun AppCompatActivity.configureRecyclerView(
         it.layoutManager = LinearLayoutManager(this)
         it.adapter = adapter
         it.itemAnimator = null
+        it.autoScrollToStart(adapter)
     }
+}
+
+fun RecyclerView.autoScrollToStart(adapter: RecyclerView.Adapter<*>) {
     adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             if (positionStart == 0) {
-                recyclerView.scrollToPosition(0)
+                scrollToPosition(0)
             }
         }
     })

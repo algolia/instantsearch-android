@@ -25,6 +25,7 @@ class NestedListAdapter : ListAdapter<NestedListItem, NestedListViewHolder>(this
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
             it.setPadding(parent.context.dip(8), 0, parent.context.dip(8), 0)
+            it.itemAnimator = null
             it.clipToPadding = false
         }
     }

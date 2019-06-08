@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.instantsearch.demo.autoScrollToStart
 
 
 sealed class NestedListViewHolder(
@@ -25,6 +26,7 @@ sealed class NestedListViewHolder(
 
         fun bind(item: NestedListItem.Movies) {
             view.let {
+                it.autoScrollToStart(item.adapter)
                 it.adapter = item.adapter
                 it.layoutManager = LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
             }
@@ -36,8 +38,8 @@ sealed class NestedListViewHolder(
     ) : NestedListViewHolder(view) {
 
         fun bind(item: NestedListItem.Actors) {
-
             view.let {
+                it.autoScrollToStart(item.adapter)
                 it.adapter = item.adapter
                 it.layoutManager = LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
             }
