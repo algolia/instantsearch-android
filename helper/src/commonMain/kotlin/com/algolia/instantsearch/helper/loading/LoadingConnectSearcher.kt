@@ -6,6 +6,6 @@ import com.algolia.instantsearch.core.searcher.Searcher
 
 public fun LoadingViewModel.connectSearcher(searcher: Searcher) {
     item = searcher.loading
-    onTriggered += { searcher.search() }
+    onTriggered += { searcher.searchAsync() }
     searcher.onLoadingChanged += { loading -> item = loading }
 }

@@ -39,7 +39,7 @@ class SearchAsYouTypeDemo : AppCompatActivity() {
         configureRecyclerView(list, adapter)
         configureSearchView(searchView, getString(R.string.search_movies))
 
-        searcher.search()
+        searcher.searchAsync()
     }
 
     override fun onDestroy() {

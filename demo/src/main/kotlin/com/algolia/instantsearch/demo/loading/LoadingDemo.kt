@@ -42,7 +42,7 @@ class LoadingDemo : AppCompatActivity() {
         configureSearchView(searchView, getString(R.string.search_movies))
         configureRecyclerView(list, adapter)
 
-        searcher.search()
+        searcher.searchAsync()
     }
 
     override fun onDestroy() {

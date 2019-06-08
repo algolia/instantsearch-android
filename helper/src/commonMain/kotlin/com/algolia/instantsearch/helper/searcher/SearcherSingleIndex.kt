@@ -52,22 +52,24 @@ public class SearcherSingleIndex(
         this.query.query = text
     }
 
-    override fun search(): Job {
+    override fun searchAsync(): Job {
+        return coroutineScope.launch(dispatcher + exceptionHandler) { search() }.also {
+            sequencer.addOperation(it)
+        }
+    }
+
+    override suspend fun search() {
         val (disjunctiveAttributes, filters) = disjunctive.invoke()
 
-        val job = coroutineScope.launch(dispatcher + exceptionHandler) {
-            loading = true
-            response = withContext(Dispatchers.Default) {
-                if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
-                    index.search(query, requestOptions)
-                } else {
-                    index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters)
-                }
+        loading = true
+        response = withContext(Dispatchers.Default) {
+            if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
+                index.search(query, requestOptions)
+            } else {
+                index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters)
             }
-            loading = false
         }
-        sequencer.addOperation(job)
-        return job
+        loading = false
     }
 
     override fun cancel() {

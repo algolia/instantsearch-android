@@ -51,16 +51,18 @@ public class SearcherForFacets(
         facetQuery = text
     }
 
-    override fun search(): Job {
-        loading = true
-        val job = coroutineScope.launch(dispatcher + exceptionHandler) {
-            response = withContext(Dispatchers.Default) {
-                index.searchForFacets(attribute, facetQuery, query, requestOptions)
-            }
-            loading = false
+    override fun searchAsync(): Job {
+        return coroutineScope.launch(dispatcher + exceptionHandler) { search() }.also {
+            sequencer.addOperation(it)
         }
-        sequencer.addOperation(job)
-        return job
+    }
+
+    override suspend fun search() {
+        loading = true
+        response = withContext(Dispatchers.Default) {
+            index.searchForFacets(attribute, facetQuery, query, requestOptions)
+        }
+        loading = false
     }
 
     override fun cancel() {

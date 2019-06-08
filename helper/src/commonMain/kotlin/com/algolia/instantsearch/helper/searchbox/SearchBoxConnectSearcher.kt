@@ -19,7 +19,7 @@ public fun SearchBoxViewModel.connectSearcher(
     } else {
         onQuerySubmitted += {
             searcher.setQuery(it)
-            searcher.search()
+            searcher.searchAsync()
         }
     }
 }

@@ -49,17 +49,18 @@ public class SearcherMultipleIndex(
         queries.forEach { it.query.query = text }
     }
 
-    override fun search(): Job {
-        val job = coroutineScope.launch(dispatcher) {
-            loading = true
-            response = withContext(Dispatchers.Default) {
-                client.multipleQueries(queries, strategy, requestOptions)
-            }
-            loading = false
+    override fun searchAsync(): Job {
+        return coroutineScope.launch(dispatcher + exceptionHandler) { search() }.also {
+            sequencer.addOperation(it)
         }
+    }
 
-        sequencer.addOperation(job)
-        return job
+    override suspend fun search() {
+        loading = true
+        response = withContext(Dispatchers.Default) {
+            client.multipleQueries(queries, strategy, requestOptions)
+        }
+        loading = false
     }
 
     override fun cancel() {

@@ -60,7 +60,7 @@ class FilterComparisonDemo : AppCompatActivity() {
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
         searcher.coroutineScope.launch {
-            searcher.search().join()
+            searcher.search()
             searcher.response?.facetStatsOrNull?.let {
                 priceViewModel.computeBoundsFromFacetStats(price, it)
                 yearViewModel.computeBoundsFromFacetStats(year, it)

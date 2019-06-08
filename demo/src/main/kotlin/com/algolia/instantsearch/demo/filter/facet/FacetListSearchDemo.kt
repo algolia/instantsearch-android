@@ -58,7 +58,7 @@ class FacetListSearchDemo : AppCompatActivity() {
         onClearAllThenClearFilters(filterState, filtersClearAll)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
-        searcher.search()
-        searcherForFacet.search()
+        searcher.searchAsync()
+        searcherForFacet.searchAsync()
     }
 }

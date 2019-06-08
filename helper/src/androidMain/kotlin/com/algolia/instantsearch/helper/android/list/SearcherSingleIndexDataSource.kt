@@ -27,7 +27,7 @@ public class SearcherSingleIndexDataSource<T>(
         searcher.query.hitsPerPage = params.requestedLoadSize
         searcher.query.page = 0
         runBlocking {
-            searcher.search().join()
+            searcher.search()
             searcher.response?.let {
                 callback.onResult(it.hits.deserialize(deserializer), null, 0)
             }
@@ -38,7 +38,7 @@ public class SearcherSingleIndexDataSource<T>(
         searcher.query.page = params.key + (searcher.query.hitsPerPage!! / params.requestedLoadSize)
         searcher.query.hitsPerPage = params.requestedLoadSize
         runBlocking {
-            searcher.search().join()
+            searcher.search()
             searcher.response?.let {
                 callback.onResult(it.hits.deserialize(deserializer), params.key + 1)
             }

@@ -22,7 +22,7 @@ fun SearcherSingleIndex.connectFilterState(filterState: FilterState) {
     }
     filterState.onChanged += {
         updateFilters()
-        search()
+        searchAsync()
     }
 }
 
@@ -35,6 +35,6 @@ fun SearcherForFacets.connectFilterState(filterState: FilterState) {
     updateFilters()
     filterState.onChanged += {
         updateFilters()
-        search()
+        searchAsync()
     }
 }

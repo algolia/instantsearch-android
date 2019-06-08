@@ -36,7 +36,7 @@ class HomeDemo : AppCompatActivity() {
 
             adapter.submitList(hits)
         }
-        searcher.search()
+        searcher.searchAsync()
     }
 
     override fun onDestroy() {

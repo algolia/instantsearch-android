@@ -64,7 +64,7 @@ class IndexSegmentDemo : AppCompatActivity() {
         configureToolbar(toolbar)
         configureRecyclerView(list, adapterMovie)
 
-        searcher.search()
+        searcher.searchAsync()
     }
 
     override fun onDestroy() {
