@@ -81,4 +81,3 @@ public class SearcherSingleIndex(
         sequencer.cancelAll()
     }
 }
-
