@@ -19,24 +19,24 @@ public class SearcherSingleIndex(
     public val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
-) : Searcher {
+) : Searcher<ResponseSearch> {
 
     internal val sequencer = Sequencer()
 
-    public val onResponseChanged = mutableListOf<(ResponseSearch) -> Unit>()
-    public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
+    public override val onResponseChanged = mutableListOf<(ResponseSearch) -> Unit>()
+    public override val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
     public override val onLoadingChanged = mutableListOf<(Boolean) -> Unit>()
 
     public override var loading by Delegates.observable(false) { _, _, newValue ->
         onLoadingChanged.forEach { it(newValue) }
     }
 
-    public var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
+    public override var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
         if (newValue != null) {
             onResponseChanged.forEach { it(newValue) }
         }
     }
-    public var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
+    public override var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
         if (newValue != null) {
             onErrorChanged.forEach { it(newValue) }
         }
@@ -53,16 +53,16 @@ public class SearcherSingleIndex(
     }
 
     override fun searchAsync(): Job {
-        return coroutineScope.launch(dispatcher + exceptionHandler) { search() }.also {
+        return coroutineScope.launch(dispatcher + exceptionHandler) { response = search() }.also {
             sequencer.addOperation(it)
         }
     }
 
-    override suspend fun search() {
+    override suspend fun search(): ResponseSearch {
         val (disjunctiveAttributes, filters) = disjunctive.invoke()
 
         loading = true
-        response = withContext(Dispatchers.Default) {
+        val response = withContext(Dispatchers.Default) {
             if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
                 index.search(query, requestOptions)
             } else {
@@ -70,6 +70,7 @@ public class SearcherSingleIndex(
             }
         }
         loading = false
+        return response
     }
 
     override fun cancel() {

@@ -34,7 +34,7 @@ class TestStatsConnectSearcher {
 
         viewModel.connectSearcher(searcher)
         viewModel.item.shouldBeNull()
-        blocking { searcher.search() }
+        blocking { searcher.searchAsync().join() }
         viewModel.item shouldEqual responseSearch
     }
 }

@@ -19,25 +19,25 @@ public class SearcherForFacets(
     public val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
-) : Searcher {
+) : Searcher<ResponseSearchForFacets> {
 
     internal val sequencer = Sequencer()
 
-    public val onResponseChanged = mutableListOf<(ResponseSearchForFacets) -> Unit>()
-    public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
+    public override val onResponseChanged = mutableListOf<(ResponseSearchForFacets) -> Unit>()
+    public override val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
     public override val onLoadingChanged = mutableListOf<(Boolean) -> Unit>()
 
     public override var loading: Boolean by Delegates.observable(false) { _, _, newValue ->
         onLoadingChanged.forEach { it(newValue) }
     }
 
-    public var response by Delegates.observable<ResponseSearchForFacets?>(null) { _, _, newValue ->
+    public override var response by Delegates.observable<ResponseSearchForFacets?>(null) { _, _, newValue ->
         if (newValue != null) {
             onResponseChanged.forEach { it(newValue) }
         }
     }
 
-    public var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
+    public override var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
         if (newValue != null) {
             onErrorChanged.forEach { it(newValue) }
         }
@@ -52,17 +52,18 @@ public class SearcherForFacets(
     }
 
     override fun searchAsync(): Job {
-        return coroutineScope.launch(dispatcher + exceptionHandler) { search() }.also {
+        return coroutineScope.launch(dispatcher + exceptionHandler) { response = search() }.also {
             sequencer.addOperation(it)
         }
     }
 
-    override suspend fun search() {
+    override suspend fun search(): ResponseSearchForFacets{
         loading = true
-        response = withContext(Dispatchers.Default) {
+        val response = withContext(Dispatchers.Default) {
             index.searchForFacets(attribute, facetQuery, query, requestOptions)
         }
         loading = false
+        return response
     }
 
     override fun cancel() {

@@ -39,7 +39,7 @@ class TestSearcherSingleIndex {
 
         searcher.onResponseChanged += { responded = true }
         searcher.response.shouldBeNull()
-        blocking { searcher.search() }
+        blocking { searcher.searchAsync().join() }
         searcher.response shouldEqual responseSearch
         responded.shouldBeTrue()
         searcher.error.shouldBeNull()

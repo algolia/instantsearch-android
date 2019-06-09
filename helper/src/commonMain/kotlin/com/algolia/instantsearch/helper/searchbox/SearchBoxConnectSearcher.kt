@@ -5,8 +5,8 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 
 
-public fun SearchBoxViewModel.connectSearcher(
-    searcher: Searcher,
+public fun <R> SearchBoxViewModel.connectSearcher(
+    searcher: Searcher<R>,
     searchAsYouType: Boolean = true,
     debouncer: Debouncer = Debouncer(100)
 ) {

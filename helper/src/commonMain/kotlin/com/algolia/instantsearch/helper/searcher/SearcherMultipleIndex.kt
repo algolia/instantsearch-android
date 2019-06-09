@@ -18,24 +18,24 @@ public class SearcherMultipleIndex(
     public val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
-) : Searcher {
+) : Searcher<ResponseSearches> {
 
     internal val sequencer = Sequencer()
 
-    public val onResponseChanged = mutableListOf<(ResponseSearches) -> Unit>()
-    public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
+    public override val onResponseChanged = mutableListOf<(ResponseSearches) -> Unit>()
+    public override val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
     override val onLoadingChanged: MutableList<(Boolean) -> Unit> = mutableListOf()
 
     override var loading by Delegates.observable(false) { _, _, newValue ->
         onLoadingChanged.forEach { it(newValue) }
     }
 
-    public var response by Delegates.observable<ResponseSearches?>(null) { _, _, newValue ->
+    public override var response by Delegates.observable<ResponseSearches?>(null) { _, _, newValue ->
         if (newValue != null) {
             onResponseChanged.forEach { it(newValue) }
         }
     }
-    public var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
+    public override var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
         if (newValue != null) {
             onErrorChanged.forEach { it(newValue) }
         }
@@ -50,17 +50,18 @@ public class SearcherMultipleIndex(
     }
 
     override fun searchAsync(): Job {
-        return coroutineScope.launch(dispatcher + exceptionHandler) { search() }.also {
+        return coroutineScope.launch(dispatcher + exceptionHandler) { response = search() }.also {
             sequencer.addOperation(it)
         }
     }
 
-    override suspend fun search() {
+    override suspend fun search(): ResponseSearches {
         loading = true
-        response = withContext(Dispatchers.Default) {
+        val response = withContext(Dispatchers.Default) {
             client.multipleQueries(queries, strategy, requestOptions)
         }
         loading = false
+        return response
     }
 
     override fun cancel() {

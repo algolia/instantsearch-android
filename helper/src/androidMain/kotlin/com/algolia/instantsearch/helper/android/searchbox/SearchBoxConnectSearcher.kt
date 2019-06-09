@@ -7,8 +7,8 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 
 
-fun <T> SearchBoxViewModel.connectSearcher(
-    searcher: Searcher,
+fun <T, R> SearchBoxViewModel.connectSearcher(
+    searcher: Searcher<R>,
     pagedList: LiveData<PagedList<T>>,
     searchAsYouType: Boolean = true,
     debouncer: Debouncer = Debouncer(100)

@@ -47,7 +47,7 @@ class TestSearcherForFacets  {
 
         searcher.onResponseChanged += { responded = true }
         searcher.response.shouldBeNull()
-        blocking { searcher.search() }
+        blocking { searcher.searchAsync().join() }
         searcher.response shouldEqual response
         responded.shouldBeTrue()
         searcher.error.shouldBeNull()

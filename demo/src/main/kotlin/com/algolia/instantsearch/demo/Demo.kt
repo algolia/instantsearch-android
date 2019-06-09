@@ -169,9 +169,9 @@ fun RecyclerView.autoScrollToStart(adapter: RecyclerView.Adapter<*>) {
 
 val Intent.indexName: IndexName get() = IndexName(extras!!.getString(KeyIndexName)!!)
 
-fun AppCompatActivity.configureSearchBox(
+fun <R> AppCompatActivity.configureSearchBox(
     searchView: SearchView,
-    searcher: Searcher
+    searcher: Searcher<R>
 ) {
     val searchBoxViewModel = SearchBoxViewModel()
     val searchBoxView = SearchBoxViewAppCompat(searchView)
