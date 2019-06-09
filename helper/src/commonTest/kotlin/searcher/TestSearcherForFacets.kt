@@ -32,16 +32,12 @@ class TestSearcherForFacets  {
     @Test
     fun searchShouldUpdateLoading() {
         val searcher = SearcherForFacets(index, attribute)
+        var count = 0
 
-        searcher.onLoadingChanged += { it shouldEqual searcher.loading }
+        searcher.onLoadingChanged += { if (it) count++ }
         searcher.loading.shouldBeFalse()
-        blocking {
-            val job = searcher.search()
-
-            searcher.loading shouldEqual job.isActive
-            job.join()
-        }
-        searcher.loading.shouldBeFalse()
+        blocking { searcher.search() }
+        count shouldEqual 1
     }
 
     @Test
@@ -51,7 +47,7 @@ class TestSearcherForFacets  {
 
         searcher.onResponseChanged += { responded = true }
         searcher.response.shouldBeNull()
-        blocking { searcher.search().join() }
+        blocking { searcher.search() }
         searcher.response shouldEqual response
         responded.shouldBeTrue()
         searcher.error.shouldBeNull()
@@ -64,7 +60,7 @@ class TestSearcherForFacets  {
 
         searcher.onErrorChanged += { error = true }
         searcher.error.shouldBeNull()
-        blocking { searcher.search().join() }
+        blocking { searcher.searchAsync().join() }
         searcher.error.shouldNotBeNull()
         searcher.response.shouldBeNull()
         error.shouldBeTrue()

@@ -2,36 +2,35 @@ package com.algolia.instantsearch.helper.searcher
 
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
-import com.algolia.search.client.Index
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.Query
+import com.algolia.search.client.ClientSearch
+import com.algolia.search.model.multipleindex.IndexQuery
+import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
+import com.algolia.search.model.response.ResponseSearches
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
 import kotlin.properties.Delegates
 
 
-public class SearcherSingleIndex(
-    public var index: Index,
-    public val query: Query = Query(),
+public class SearcherMultipleIndex(
+    public val client: ClientSearch,
+    public val queries: List<IndexQuery>,
+    public val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     public val requestOptions: RequestOptions? = null,
-    public val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
 ) : Searcher {
 
     internal val sequencer = Sequencer()
 
-    public val onResponseChanged = mutableListOf<(ResponseSearch) -> Unit>()
+    public val onResponseChanged = mutableListOf<(ResponseSearches) -> Unit>()
     public val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
-    public override val onLoadingChanged = mutableListOf<(Boolean) -> Unit>()
+    override val onLoadingChanged: MutableList<(Boolean) -> Unit> = mutableListOf()
 
-    public override var loading by Delegates.observable(false) { _, _, newValue ->
+    override var loading by Delegates.observable(false) { _, _, newValue ->
         onLoadingChanged.forEach { it(newValue) }
     }
 
-    public var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
+    public var response by Delegates.observable<ResponseSearches?>(null) { _, _, newValue ->
         if (newValue != null) {
             onResponseChanged.forEach { it(newValue) }
         }
@@ -46,10 +45,8 @@ public class SearcherSingleIndex(
         error = throwable
     }
 
-    internal var disjunctive: (() -> Pair<List<Attribute>, Set<Filter>>) = { listOf<Attribute>() to setOf() }
-
     override fun setQuery(text: String?) {
-        this.query.query = text
+        queries.forEach { it.query.query = text }
     }
 
     override fun searchAsync(): Job {
@@ -59,15 +56,9 @@ public class SearcherSingleIndex(
     }
 
     override suspend fun search() {
-        val (disjunctiveAttributes, filters) = disjunctive.invoke()
-
         loading = true
         response = withContext(Dispatchers.Default) {
-            if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
-                index.search(query, requestOptions)
-            } else {
-                index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters)
-            }
+            client.multipleQueries(queries, strategy, requestOptions)
         }
         loading = false
     }
@@ -76,4 +67,3 @@ public class SearcherSingleIndex(
         sequencer.cancelAll()
     }
 }
-

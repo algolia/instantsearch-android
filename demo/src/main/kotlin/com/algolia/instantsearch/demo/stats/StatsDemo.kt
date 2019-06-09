@@ -54,7 +54,7 @@ class StatsDemo : AppCompatActivity() {
         configureSearchView(searchView, getString(R.string.search_movies))
         configureSearchBox(searchView, searcher)
 
-        searcher.search()
+        searcher.searchAsync()
     }
 
     override fun onDestroy() {

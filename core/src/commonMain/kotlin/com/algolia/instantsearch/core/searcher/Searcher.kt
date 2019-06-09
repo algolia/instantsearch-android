@@ -14,6 +14,7 @@ public interface Searcher {
     public var loading: Boolean
 
     public fun setQuery(text: String?)
-    public fun search(): Job
+    public fun searchAsync(): Job
+    public suspend fun search()
     public fun cancel()
 }

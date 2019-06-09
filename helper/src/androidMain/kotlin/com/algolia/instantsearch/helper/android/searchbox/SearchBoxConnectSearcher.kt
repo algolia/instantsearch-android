@@ -1,24 +1,29 @@
-package com.algolia.instantsearch.helper.searchbox
+package com.algolia.instantsearch.helper.android.searchbox
 
+import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 
 
-public fun SearchBoxViewModel.connectSearcher(
+fun <T> SearchBoxViewModel.connectSearcher(
     searcher: Searcher,
+    pagedList: LiveData<PagedList<T>>,
     searchAsYouType: Boolean = true,
     debouncer: Debouncer = Debouncer(100)
 ) {
     if (searchAsYouType) {
         onItemChanged += {
             searcher.setQuery(it)
-            debouncer.debounce(searcher) { search() }
+            debouncer.debounce(searcher) {
+                pagedList.value?.dataSource?.invalidate()
+            }
         }
     } else {
         onQuerySubmitted += {
             searcher.setQuery(it)
-            searcher.searchAsync()
+            pagedList.value?.dataSource?.invalidate()
         }
     }
 }

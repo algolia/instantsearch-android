@@ -1,5 +1,6 @@
 package loading
 
+import blocking
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.helper.loading.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -48,6 +49,7 @@ class TestLoadingConnectSearcher {
         searcher.searchCount shouldEqual 0
         viewModel.connectSearcher(searcher)
         viewModel.trigger(Unit)
+        blocking { searcher.job?.join() }
         searcher.searchCount shouldEqual 1
     }
 }

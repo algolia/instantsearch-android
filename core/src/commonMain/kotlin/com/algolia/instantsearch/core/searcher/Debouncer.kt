@@ -1,9 +1,6 @@
 package com.algolia.instantsearch.core.searcher
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 public class Debouncer(
@@ -12,11 +9,15 @@ public class Debouncer(
 
     public var job: Job? = null
 
-    public fun debounce(coroutineScope: CoroutineScope, block: suspend () -> Unit) {
+    public fun debounce(coroutineScope: CoroutineScope, dispatcher: CoroutineDispatcher, block: suspend () -> Unit) {
         job?.cancel()
-        job = coroutineScope.launch {
+        job = coroutineScope.launch(dispatcher) {
             delay(debounceTimeInMillis)
             block()
         }
+    }
+
+    public fun debounce(searcher: Searcher, block: suspend Searcher.() -> Unit) {
+        debounce(searcher.coroutineScope, searcher.dispatcher) { block(searcher) }
     }
 }

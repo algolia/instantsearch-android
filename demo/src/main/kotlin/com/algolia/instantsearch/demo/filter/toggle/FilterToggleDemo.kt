@@ -57,7 +57,7 @@ class FilterToggleDemo : AppCompatActivity() {
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
-        searcher.search()
+        searcher.searchAsync()
     }
 
     override fun onDestroy() {

@@ -20,12 +20,12 @@ class MockSearcher : Searcher {
         string = text
     }
 
-    override fun search(): Job {
-        searchCount++
-        val job = coroutineScope.launch { }
+    override fun searchAsync(): Job {
+        return coroutineScope.launch { search() }.also { job = it }
+    }
 
-        this.job = job
-        return job
+    override suspend fun search() {
+        searchCount++
     }
 
     override fun cancel() = Unit

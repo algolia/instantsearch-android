@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.demo
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -152,11 +153,15 @@ fun AppCompatActivity.configureRecyclerView(
         it.layoutManager = LinearLayoutManager(this)
         it.adapter = adapter
         it.itemAnimator = null
+        it.autoScrollToStart(adapter)
     }
+}
+
+fun RecyclerView.autoScrollToStart(adapter: RecyclerView.Adapter<*>) {
     adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             if (positionStart == 0) {
-                recyclerView.scrollToPosition(0)
+                scrollToPosition(0)
             }
         }
     })
@@ -209,3 +214,5 @@ fun SearchView.showQueryHintIcon(
         }
     }
 }
+
+fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()

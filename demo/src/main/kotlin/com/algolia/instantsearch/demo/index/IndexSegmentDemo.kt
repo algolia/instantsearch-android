@@ -7,8 +7,8 @@ import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.client
 import com.algolia.instantsearch.demo.configureRecyclerView
 import com.algolia.instantsearch.demo.configureToolbar
-import com.algolia.instantsearch.demo.list.Movie
-import com.algolia.instantsearch.demo.list.MovieAdapter
+import com.algolia.instantsearch.demo.list.movie.Movie
+import com.algolia.instantsearch.demo.list.movie.MovieAdapter
 import com.algolia.instantsearch.helper.android.index.IndexSegmentViewAutocomplete
 import com.algolia.instantsearch.helper.index.IndexSegmentViewModel
 import com.algolia.instantsearch.helper.index.connectSearcher
@@ -64,7 +64,7 @@ class IndexSegmentDemo : AppCompatActivity() {
         configureToolbar(toolbar)
         configureRecyclerView(list, adapterMovie)
 
-        searcher.search()
+        searcher.searchAsync()
     }
 
     override fun onDestroy() {

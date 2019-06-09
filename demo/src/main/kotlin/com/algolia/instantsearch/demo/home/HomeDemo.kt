@@ -27,6 +27,7 @@ class HomeDemo : AppCompatActivity() {
 
         searcher.onResponseChanged += { response ->
             val hits = response.hits.deserialize(HomeHit.serializer())
+                .filter { homeActivities.containsKey(it.objectID) }
                 .groupBy { it.type }
                 .toSortedMap()
                 .flatMap { (key, value) ->
@@ -35,7 +36,7 @@ class HomeDemo : AppCompatActivity() {
 
             adapter.submitList(hits)
         }
-        searcher.search()
+        searcher.searchAsync()
     }
 
     override fun onDestroy() {

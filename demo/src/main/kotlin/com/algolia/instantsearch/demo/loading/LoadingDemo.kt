@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.loading.connectView
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.demo.list.Movie
-import com.algolia.instantsearch.demo.list.MovieAdapter
+import com.algolia.instantsearch.demo.list.movie.Movie
+import com.algolia.instantsearch.demo.list.movie.MovieAdapter
 import com.algolia.instantsearch.helper.android.loading.LoadingViewSwipeRefreshLayout
 import com.algolia.instantsearch.helper.loading.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -42,7 +42,7 @@ class LoadingDemo : AppCompatActivity() {
         configureSearchView(searchView, getString(R.string.search_movies))
         configureRecyclerView(list, adapter)
 
-        searcher.search()
+        searcher.searchAsync()
     }
 
     override fun onDestroy() {

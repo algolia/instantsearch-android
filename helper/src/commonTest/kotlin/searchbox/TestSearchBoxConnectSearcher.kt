@@ -34,6 +34,7 @@ class TestSearchBoxConnectSearcher {
         viewModel.connectSearcher(searcher, searchAsYouType = false)
         viewModel.item = text
         viewModel.submitQuery()
+        blocking { searcher.job!!.join() }
         searcher.searchCount shouldEqual 1
         searcher.string shouldEqual text
     }
