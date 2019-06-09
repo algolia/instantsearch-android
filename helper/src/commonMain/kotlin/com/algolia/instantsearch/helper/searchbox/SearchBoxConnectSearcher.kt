@@ -13,7 +13,7 @@ public fun <R> SearchBoxViewModel.connectSearcher(
     if (searchAsYouType) {
         onItemChanged += {
             searcher.setQuery(it)
-            debouncer.debounce(searcher) { search() }
+            debouncer.debounce(searcher) { searchAsync() }
         }
     } else {
         onQuerySubmitted += {
