@@ -16,11 +16,12 @@ public class SearcherMultipleIndex(
     public val queries: List<IndexQuery>,
     public val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     public val requestOptions: RequestOptions? = null,
-    override val coroutineScope: CoroutineScope = SearcherScope(),
-    override val dispatcher: CoroutineDispatcher = defaultDispatcher
+    override val coroutineScope: CoroutineScope = SearcherScope()
 ) : Searcher<ResponseSearches> {
 
     internal val sequencer = Sequencer()
+
+    override val dispatcher: CoroutineDispatcher = defaultDispatcher
 
     public override val onResponseChanged = mutableListOf<(ResponseSearches) -> Unit>()
     public override val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
@@ -50,17 +51,20 @@ public class SearcherMultipleIndex(
     }
 
     override fun searchAsync(): Job {
-        return coroutineScope.launch(dispatcher + exceptionHandler) { response = search() }.also {
+        return coroutineScope.launch(dispatcher + exceptionHandler) {
+            withContext(Dispatchers.Default) { search() }
+        }.also {
             sequencer.addOperation(it)
         }
     }
 
     override suspend fun search(): ResponseSearches {
-        loading = true
-        val response = withContext(Dispatchers.Default) {
-            client.multipleQueries(queries, strategy, requestOptions)
+        withContext(dispatcher) { loading = true }
+        val response = client.multipleQueries(queries, strategy, requestOptions)
+        withContext(dispatcher) {
+            this@SearcherMultipleIndex.response = response
+            loading = false
         }
-        loading = false
         return response
     }
 

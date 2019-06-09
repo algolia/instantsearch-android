@@ -17,11 +17,12 @@ public class SearcherSingleIndex(
     public val query: Query = Query(),
     public val requestOptions: RequestOptions? = null,
     public val isDisjunctiveFacetingEnabled: Boolean = true,
-    override val coroutineScope: CoroutineScope = SearcherScope(),
-    override val dispatcher: CoroutineDispatcher = defaultDispatcher
+    override val coroutineScope: CoroutineScope = SearcherScope()
 ) : Searcher<ResponseSearch> {
 
     internal val sequencer = Sequencer()
+
+    override val dispatcher: CoroutineDispatcher = defaultDispatcher
 
     public override val onResponseChanged = mutableListOf<(ResponseSearch) -> Unit>()
     public override val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
@@ -53,7 +54,9 @@ public class SearcherSingleIndex(
     }
 
     override fun searchAsync(): Job {
-        return coroutineScope.launch(dispatcher + exceptionHandler) { response = search() }.also {
+        return coroutineScope.launch(dispatcher + exceptionHandler) {
+            withContext(Dispatchers.Default) { search() }
+        }.also {
             sequencer.addOperation(it)
         }
     }
@@ -61,15 +64,16 @@ public class SearcherSingleIndex(
     override suspend fun search(): ResponseSearch {
         val (disjunctiveAttributes, filters) = disjunctive.invoke()
 
-        loading = true
-        val response = withContext(Dispatchers.Default) {
-            if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
-                index.search(query, requestOptions)
-            } else {
-                index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters)
-            }
+        withContext(dispatcher) { loading = true }
+        val response = if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
+            index.search(query, requestOptions)
+        } else {
+            index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters)
         }
-        loading = false
+        withContext(dispatcher) {
+            this@SearcherSingleIndex.response = response
+            loading = false
+        }
         return response
     }
 

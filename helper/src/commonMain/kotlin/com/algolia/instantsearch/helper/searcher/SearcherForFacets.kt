@@ -17,11 +17,12 @@ public class SearcherForFacets(
     public val query: Query = Query(),
     public var facetQuery: String? = null,
     public val requestOptions: RequestOptions? = null,
-    override val coroutineScope: CoroutineScope = SearcherScope(),
-    override val dispatcher: CoroutineDispatcher = defaultDispatcher
+    override val coroutineScope: CoroutineScope = SearcherScope()
 ) : Searcher<ResponseSearchForFacets> {
 
     internal val sequencer = Sequencer()
+
+    override val dispatcher: CoroutineDispatcher = defaultDispatcher
 
     public override val onResponseChanged = mutableListOf<(ResponseSearchForFacets) -> Unit>()
     public override val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
@@ -52,17 +53,22 @@ public class SearcherForFacets(
     }
 
     override fun searchAsync(): Job {
-        return coroutineScope.launch(dispatcher + exceptionHandler) { response = search() }.also {
+        return coroutineScope.launch(dispatcher + exceptionHandler) {
+            loading = true
+            withContext(Dispatchers.Default) { search() }
+            loading = false
+        }.also {
             sequencer.addOperation(it)
         }
     }
 
-    override suspend fun search(): ResponseSearchForFacets{
-        loading = true
-        val response = withContext(Dispatchers.Default) {
-            index.searchForFacets(attribute, facetQuery, query, requestOptions)
+    override suspend fun search(): ResponseSearchForFacets {
+        withContext(dispatcher) { loading = true }
+        val response =  index.searchForFacets(attribute, facetQuery, query, requestOptions)
+        withContext(dispatcher) {
+            this@SearcherForFacets.response = response
+            loading = false
         }
-        loading = false
         return response
     }
 

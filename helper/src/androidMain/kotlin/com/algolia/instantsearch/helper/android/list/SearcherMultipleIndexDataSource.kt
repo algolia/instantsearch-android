@@ -31,10 +31,9 @@ public class SearcherMultipleIndexDataSource<T>(
         query.hitsPerPage = params.requestedLoadSize
         query.page = 0
         runBlocking {
-            searcher.search()
-            searcher.response?.let {
-                callback.onResult(it.results[index].hits.deserialize(deserializer), null, 0)
-            }
+            val response = searcher.search()
+
+            callback.onResult(response.results[index].hits.deserialize(deserializer), null, 0)
         }
     }
 
@@ -42,10 +41,9 @@ public class SearcherMultipleIndexDataSource<T>(
         query.page = params.key + (query.hitsPerPage!! / params.requestedLoadSize)
         query.hitsPerPage = params.requestedLoadSize
         runBlocking {
-            searcher.search()
-            searcher.response?.let {
-                callback.onResult(it.results[index].hits.deserialize(deserializer), params.key + 1)
-            }
+            val response = searcher.search()
+
+            callback.onResult(response.results[index].hits.deserialize(deserializer), params.key + 1)
         }
     }
 
