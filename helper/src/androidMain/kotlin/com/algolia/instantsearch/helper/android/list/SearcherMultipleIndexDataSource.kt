@@ -26,24 +26,31 @@ public class SearcherMultipleIndexDataSource<T>(
     }
 
     private val query = searcher.queries[index].query
+    private var initialLoadSize: Int = 30
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, T>) {
-        query.hitsPerPage = params.requestedLoadSize
+        initialLoadSize = params.requestedLoadSize
+        query.hitsPerPage = initialLoadSize
         query.page = 0
         runBlocking {
-            val response = searcher.search()
+            val response = searcher.search().results[index]
+            val nextKey = if (response.nbHits > initialLoadSize) 1 else null
 
-            callback.onResult(response.results[index].hits.deserialize(deserializer), null, 0)
+            callback.onResult(response.hits.deserialize(deserializer), 0, response.nbHits, null, nextKey)
         }
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, T>) {
-        query.page = params.key + (query.hitsPerPage!! / params.requestedLoadSize)
+        val initialOffset = (initialLoadSize / params.requestedLoadSize) - 1
+        val page = params.key + initialOffset
+
+        query.page = page
         query.hitsPerPage = params.requestedLoadSize
         runBlocking {
-            val response = searcher.search()
+            val response = searcher.search().results[index]
+            val nextKey = if (page + 1 < response.nbPages) params.key + 1 else null
 
-            callback.onResult(response.results[index].hits.deserialize(deserializer), params.key + 1)
+            callback.onResult(response.hits.deserialize(deserializer), nextKey)
         }
     }
 
