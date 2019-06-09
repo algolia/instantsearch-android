@@ -6,7 +6,7 @@
     <string name="search_demos">Search for demos</string>
     <string name="search_brands">Search for brands</string>
     <string name="search_movies">Search for movies</string>
-    <string name="template_title">"%s (%s)"</string>
+    <string name="template_title">"%1$s (%2$s)"</string>
     <string name="numeric_filters">Numeric Filters</string>
     <string name="facet_filters">Facet filters</string>
     <string name="tag_filters">Tag Filters</string>
@@ -15,7 +15,7 @@
     <string name="search_items">Search for items</string>
     <string name="single_choice">Single Choice</string>
     <string name="multiple_choice">Multiple Choice</string>
-    <string name="year_range">from %d to %d</string>
+    <string name="year_range">from %1$d to %2$d</string>
     <string name="sort_by">Sort by</string>
     <string name="clear_specified">Clear specified</string>
     <string name="clear_except">Clear except</string>
