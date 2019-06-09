@@ -2,6 +2,7 @@ package loading
 
 import blocking
 import com.algolia.instantsearch.core.loading.LoadingViewModel
+import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.helper.loading.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.IndexName
@@ -31,13 +32,15 @@ class TestLoadingConnectSearcher {
 
     @Test
     fun onLoadingChangedShouldSetItem() {
+        val debouncer = Debouncer(100)
         val searcher = SearcherSingleIndex(index)
         val viewModel = LoadingViewModel()
         val expected = true
 
         viewModel.item.shouldBeFalse()
-        viewModel.connectSearcher(searcher)
+        viewModel.connectSearcher(searcher, debouncer)
         searcher.loading = true
+        blocking { debouncer.job!!.join() }
         viewModel.item shouldEqual expected
     }
 
