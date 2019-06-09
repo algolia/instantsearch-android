@@ -39,6 +39,7 @@ class LoadingDemo : AppCompatActivity() {
 
         configureSearcher(searcher)
         configureToolbar(toolbar)
+        configureSearchBox(searchView, searcher)
         configureSearchView(searchView, getString(R.string.search_movies))
         configureRecyclerView(list, adapter)
 
