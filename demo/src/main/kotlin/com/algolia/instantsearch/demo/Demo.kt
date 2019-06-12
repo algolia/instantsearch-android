@@ -22,9 +22,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.item.connectView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
-import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
 import com.algolia.instantsearch.core.searcher.Searcher
-import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
+import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
 import com.algolia.instantsearch.helper.android.highlight
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
