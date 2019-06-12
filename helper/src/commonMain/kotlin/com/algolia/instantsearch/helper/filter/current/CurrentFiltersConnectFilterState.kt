@@ -43,7 +43,7 @@ fun groupFromIdentifier(identifier: String): FilterGroupID {
             else -> FilterOperator.And
         }
 
-        return if (!it[0].isNullOrEmpty()) {
+        return if (it[0].isNotEmpty()) {
             FilterGroupID(Attribute(it[0]), operator)
         } else FilterGroupID("", operator)
     }
