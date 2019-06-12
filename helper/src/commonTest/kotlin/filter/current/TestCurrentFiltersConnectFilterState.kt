@@ -6,22 +6,26 @@ import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
-import shouldBeEmpty
 import shouldEqual
 import kotlin.test.Test
 
 
 class TestCurrentFiltersConnectFilterState {
 
-    private val red: String = "red"
-    private val green: String = "green"
     private val color = Attribute("color")
-    private val groupID = FilterGroupID(color)
-    private val filterRed = Filter.Facet(color, red)
-    private val filterGreen = Filter.Facet(color, green)
-    private val filters = setOf(filterRed, filterGreen)
-    private val identifiedFilters = filters.map { Pair(it.value.toString(), it) }.toMap()
-    private val filterMap = mapOf(groupID to filters)
+    private val brand = Attribute("brand")
+    private val colorID = FilterGroupID(color)
+    private val brandID = FilterGroupID(brand)
+    private val filterRed = Filter.Facet(color, "red")
+    private val filterGreen = Filter.Facet(color, "green")
+    private val filterAlgolia = Filter.Facet(brand, "algolia")
+    private val filterElastic = Filter.Facet(brand, "elastic")
+
+    private val colorFilters = setOf(filterRed, filterGreen)
+    private val brandFilters = setOf(filterAlgolia)
+    private val filters = colorFilters + brandFilters
+    private val identifiedFilters = filters.map { it.value.toString() to it }.toMap()
+    private val filterMap = mapOf(colorID to colorFilters, brandID to brandFilters)
 
     @Test
     fun connectShouldUpdateItems() {
@@ -38,19 +42,18 @@ class TestCurrentFiltersConnectFilterState {
         val filterState = FilterState(filterMap)
 
         viewModel.connectFilterState(filterState)
-        filterState.notify { remove(groupID, filterRed) }
-        viewModel.filters shouldEqual setOf(filterGreen)
+        filterState.notify { remove(colorID, filterRed) }
+        viewModel.filters shouldEqual setOf(filterGreen, filterAlgolia)
     }
 
     @Test
-    fun onItemsChangedShouldUpdateFilterState() {
-        val viewModel = CurrentFiltersViewModel()
-        val filterState = FilterState()
+    fun onFilterStateChangedShouldUpdateRelevantItems() {
+        val viewModel = CurrentFiltersViewModel(identifiedFilters)
+        val filterState = FilterState(filterMap)
 
-        viewModel.connectFilterState(filterState)
-        filterState.getFilters().shouldBeEmpty()
-        viewModel.item = identifiedFilters
-        viewModel.filters shouldEqual filters
+        viewModel.connectFilterState(filterState, colorID)
+        filterState.notify { add(brandID, filterElastic) }
+        viewModel.filters shouldEqual setOf(filterGreen, filterRed)
     }
 
     @Test
@@ -59,8 +62,18 @@ class TestCurrentFiltersConnectFilterState {
         val filterState = FilterState(filterMap)
 
         viewModel.connectFilterState(filterState)
-        viewModel.remove(filterIdentifier(groupID, filterRed))
-        filterState.getFilters() shouldEqual setOf(filterGreen)
+        viewModel.remove(filterIdentifier(colorID, filterRed))
+        filterState.getFilters() shouldEqual setOf(filterGreen, filterAlgolia)
+    }
+
+    @Test
+    fun onTriggeredWithGroupIDShouldUpdateOnlyThatGroup() {
+        val viewModel = CurrentFiltersViewModel(identifiedFilters)
+        val filterState = FilterState(filterMap)
+
+        viewModel.connectFilterState(filterState, colorID)
+        viewModel.clear()
+        filterState.getFilters() shouldEqual setOf(filterAlgolia)
     }
 
     @Test
