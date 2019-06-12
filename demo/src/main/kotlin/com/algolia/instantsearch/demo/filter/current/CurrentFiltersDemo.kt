@@ -48,8 +48,13 @@ class CurrentFiltersDemo : AppCompatActivity() {
 
         searcher.connectFilterState(filterState)
 
+        val viewModelColors = CurrentFiltersViewModel()
+        val viewColors = CurrentFiltersViewImpl(chipGroupColors as ChipGroup, R.layout.filter_chip)
+        viewModelColors.connectFilterState(filterState, groupColor)
+        viewModelColors.connectView(viewColors)
+
         val viewModelAll = CurrentFiltersViewModel()
-        val viewAll = CurrentFiltersViewImpl(chipGroup as ChipGroup, R.layout.filter_chip)
+        val viewAll = CurrentFiltersViewImpl(chipGroupAll as ChipGroup, R.layout.filter_chip)
         viewModelAll.connectFilterState(filterState)
         viewModelAll.connectView(viewAll)
 
