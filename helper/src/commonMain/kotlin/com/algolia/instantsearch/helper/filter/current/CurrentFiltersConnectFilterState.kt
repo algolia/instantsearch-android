@@ -18,13 +18,10 @@ public fun CurrentFiltersViewModel.connectFilterState(
 
     onChanged(filterState.filters)
     filterState.onChanged += onChanged
-    onMapComputed += { map ->
+    onMapComputed += {
         filterState.notify {
-            val obsoleteFilters = item.entries.filter { !map.containsKey(it.key) }
-            val newFilters = item.filter { it !in obsoleteFilters }
-
-            obsoleteFilters.forEach { remove(groupFromIdentifier(it.key), it.value) }
-            newFilters.forEach { add(groupFromIdentifier(it.key), it.value) }
+            clear()
+            it.forEach { add(groupFromIdentifier(it.key), it.value) }
         }
     }
 }
