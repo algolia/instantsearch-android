@@ -30,15 +30,9 @@ public fun CurrentFiltersViewModel.connectFilterState(
 }
 
 private fun filtersToItem(filters: Filters): Map<String, Filter> {
-    val groups = filters.getGroups()
-
-    return mutableMapOf<String, Filter>().apply {
-        groups.entries.forEach { group ->
-            group.value.forEach {
-                put(filterIdentifier(group.key, it), it)
-            }
-        }
-    }
+    return filters.getGroups().entries.flatMap { entry ->
+        entry.value.map { Pair(filterIdentifier(entry.key, it), it) }
+    }.toMap()
 }
 
 fun filterIdentifier(groupID: FilterGroupID, filter: Filter): String {
