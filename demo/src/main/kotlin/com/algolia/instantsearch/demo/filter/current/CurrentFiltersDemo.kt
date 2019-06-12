@@ -14,7 +14,6 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.NumericOperator
-import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.demo_filter_current.*
 import kotlinx.android.synthetic.main.header_filter.*
 
@@ -49,12 +48,12 @@ class CurrentFiltersDemo : AppCompatActivity() {
         searcher.connectFilterState(filterState)
 
         val viewModelColors = CurrentFiltersViewModel()
-        val viewColors = CurrentFiltersViewImpl(chipGroupColors as ChipGroup, R.layout.filter_chip)
+        val viewColors = CurrentFiltersViewImpl(chipGroupColors, R.layout.filter_chip)
         viewModelColors.connectFilterState(filterState, groupColor)
         viewModelColors.connectView(viewColors)
 
         val viewModelAll = CurrentFiltersViewModel()
-        val viewAll = CurrentFiltersViewImpl(chipGroupAll as ChipGroup, R.layout.filter_chip)
+        val viewAll = CurrentFiltersViewImpl(chipGroupAll, R.layout.filter_chip)
         viewModelAll.connectFilterState(filterState)
         viewModelAll.connectView(viewAll)
 
