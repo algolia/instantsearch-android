@@ -19,10 +19,6 @@ public class CurrentFiltersViewImpl(
 
     override fun setItem(item: Map<String, String>) {
         filters = item.toSortedMap()
-        updateView()
-    }
-
-    private fun updateView() {
         view.removeAllViews()
         filters.entries.forEach { (identifier, filter) ->
             val chip: Chip = if (chipLayout != null) {
