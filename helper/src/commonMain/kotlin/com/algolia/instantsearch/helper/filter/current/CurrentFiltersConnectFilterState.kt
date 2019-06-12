@@ -31,8 +31,8 @@ public fun CurrentFiltersViewModel.connectFilterState(
 }
 
 private fun filtersToItem(filters: Filters): Map<String, Filter> {
-    return filters.getGroups().entries.flatMap { entry ->
-        entry.value.map { Pair(filterIdentifier(entry.key, it), it) }
+    return filters.getGroups().flatMap { (key, value) ->
+        value.map { filterIdentifier(key, it) to it }
     }.toMap()
 }
 
