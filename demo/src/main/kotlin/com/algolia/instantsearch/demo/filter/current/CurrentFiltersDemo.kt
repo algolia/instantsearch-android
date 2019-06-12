@@ -47,11 +47,6 @@ class CurrentFiltersDemo : AppCompatActivity() {
         setContentView(R.layout.demo_filter_current)
 
         searcher.connectFilterState(filterState)
-//
-//        val viewModelColors = CurrentFiltersViewModel()
-//        val viewColors = CurrentFiltersViewImpl(listView1)
-//        viewModelColors.connectFilterState(filterState, groupColor)
-//        viewModelColors.connectView(viewColors)
 
         val viewModelAll = CurrentFiltersViewModel()
         val viewAll = CurrentFiltersViewImpl(chipGroup as ChipGroup, R.layout.filter_chip)
@@ -66,6 +61,6 @@ class CurrentFiltersDemo : AppCompatActivity() {
         onClearAllThenClearFilters(filterState, filtersClearAll)
         onResetThenRestoreFilters(reset, filterState, filters)
 
-        searcher.search()
+        searcher.searchAsync()
     }
 }
