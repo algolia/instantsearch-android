@@ -13,7 +13,7 @@ public fun CurrentFiltersViewModel.connectFilterState(
     groupID: FilterGroupID? = null
 ) {
     val onChanged: (Filters) -> Unit = {
-        item = filtersToItem(it)
+        item = filtersToItem(it, groupID)
     }
 
     onChanged(filterState.filters)
@@ -30,9 +30,14 @@ public fun CurrentFiltersViewModel.connectFilterState(
     }
 }
 
-private fun filtersToItem(filters: Filters): Map<String, Filter> {
-    return filters.getGroups().flatMap { (key, value) ->
-        value.map { filterIdentifier(key, it) to it }
+private fun filtersToItem(
+    filters: Filters,
+    groupID: FilterGroupID? = null
+): Map<String, Filter> {
+    return filters.getGroups()
+        .filter { groupID == null || it.key == groupID }
+        .flatMap { (key, value) ->
+            value.map { filterIdentifier(key, it) to it }
     }.toMap()
 }
 
