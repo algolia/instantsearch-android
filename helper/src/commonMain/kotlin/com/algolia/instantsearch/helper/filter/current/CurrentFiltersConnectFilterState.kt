@@ -9,8 +9,8 @@ import com.algolia.search.model.filter.Filter
 
 
 public fun CurrentFiltersViewModel.connectFilterState(
-    filterState: FilterState
-    //TODO added feature: groupID parameter to only see its filters
+    filterState: FilterState,
+    groupID: FilterGroupID? = null
 ) {
     val onChanged: (Filters) -> Unit = {
         item = filtersToItem(it)
@@ -20,7 +20,11 @@ public fun CurrentFiltersViewModel.connectFilterState(
     filterState.onChanged += onChanged
     onMapComputed += {
         filterState.notify {
-            clear()
+            if (groupID != null) {
+                clear(groupID)
+            } else {
+                clear()
+            }
             it.forEach { add(groupFromIdentifier(it.key), it.value) }
         }
     }
