@@ -20,4 +20,10 @@ public open class MapViewModel<K, V>(
 
         onMapComputed.forEach { it(map) }
     }
+
+    public fun clear() {
+        val map = item.toMutableMap().apply { clear() }
+
+        onMapComputed.forEach { it(map) }
+    }
 }
