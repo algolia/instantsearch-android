@@ -18,4 +18,6 @@
     <color name="orange">#fec168</color>
     <color name="orange_a50">#80fec168</color>
     <color name="purple">#b84592</color>
+
+    <color name="chip_content">@color/white_light</color>
 </resources>
