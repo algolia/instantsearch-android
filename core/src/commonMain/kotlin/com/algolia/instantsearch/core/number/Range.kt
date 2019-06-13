@@ -35,6 +35,8 @@ public abstract class Range<T : Number> {
         override val max: kotlin.Float
     ) : Range<kotlin.Float>() {
 
+        public constructor(range: ClosedRange<kotlin.Float>): this(range.start, range.endInclusive)
+
         init {
             if (min > max) throw IllegalArgumentException("min $min is greater than max $max.")
         }
@@ -44,6 +46,8 @@ public abstract class Range<T : Number> {
         override val min: kotlin.Double,
         override val max: kotlin.Double
     ) : Range<kotlin.Double>() {
+
+        public constructor(range: ClosedRange<kotlin.Double>): this(range.start, range.endInclusive)
 
         init {
             if (min > max) throw IllegalArgumentException("min $min is greater than max $max.")
