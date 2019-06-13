@@ -62,7 +62,7 @@ class NestedListDemo : AppCompatActivity() {
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 
         searchBoxViewModel.connectView(searchBoxView)
-        searchBoxViewModel.connectSearcher(searcher, movies)
+        searchBoxViewModel.connectSearcher(searcher, actors)
         searchBoxViewModel.connectSearcher(searcher, movies)
 
         configureToolbar(toolbar)
