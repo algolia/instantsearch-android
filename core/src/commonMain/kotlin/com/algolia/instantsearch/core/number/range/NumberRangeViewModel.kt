@@ -1,17 +1,15 @@
 package com.algolia.instantsearch.core.number.range
 
+import com.algolia.instantsearch.core.item.ItemViewModel
 import com.algolia.instantsearch.core.number.Range
-import kotlin.properties.Delegates
 
 
-public abstract class NumberRangeViewModel<T : Number>(range: Range<T>) {
+public abstract class NumberRangeViewModel<T : Number>(range: Range<T>) : ItemViewModel<Range<T>>(range) {
 
-    val onRangeChanged: MutableList<(Range<T>) -> Unit> = mutableListOf()
-
-    public var range by Delegates.observable(range) { _, oldValue, newValue ->
-        if (oldValue != newValue) {
-            onRangeChanged.forEach { it(newValue) }
-        }
+    public var range: Range<T>
+        get() = item
+        set(value) {
+            item = value
     }
 
     public class Int(
