@@ -16,11 +16,11 @@ class TestNumberRangeConnectView {
             range = item
         }
 
-        override var onNewRange: ((Range<Int>) -> Unit)? = null
+        override var onClick: ((Range<Int>) -> Unit)? = null
     }
 
     @Test
-    fun connectShouldCallSetRange() {
+    fun connectShouldCallSetItem() {
         val viewModel = NumberRangeViewModel.Int(0..10)
         val view = MockNumberRangeView()
 
@@ -36,17 +36,5 @@ class TestNumberRangeConnectView {
         viewModel.connectView(view)
         viewModel.range = Range.Int(0..20)
         view.range shouldEqual Range.Int(0, 20)
-    }
-
-    @Test
-    fun onNewRangeShouldCallOnRangeChanged() {
-        val viewModel = NumberRangeViewModel.Int(0..10)
-        val view = MockNumberRangeView()
-        var currentRange: Range<Int>? = null
-
-        viewModel.onItemChanged += { currentRange = it }
-        viewModel.connectView(view)
-        view.onNewRange!!(Range.Int(0..20))
-        currentRange shouldEqual Range.Int(0, 20)
     }
 }

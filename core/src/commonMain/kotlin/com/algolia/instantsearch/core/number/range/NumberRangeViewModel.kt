@@ -1,10 +1,13 @@
 package com.algolia.instantsearch.core.number.range
 
+import com.algolia.instantsearch.core.event.EventViewModel
+import com.algolia.instantsearch.core.event.EventViewModelImpl
 import com.algolia.instantsearch.core.item.ItemViewModel
 import com.algolia.instantsearch.core.number.Range
 
 
-public abstract class NumberRangeViewModel<T : Number>(range: Range<T>) : ItemViewModel<Range<T>>(range) {
+public abstract class NumberRangeViewModel<T : Number>(range: Range<T>) : ItemViewModel<Range<T>>(range),
+    EventViewModel<Range<T>> by EventViewModelImpl<Range<T>>() {
 
     public var range: Range<T>
         get() = item

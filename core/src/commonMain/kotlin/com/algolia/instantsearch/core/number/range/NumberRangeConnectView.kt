@@ -1,12 +1,12 @@
 package com.algolia.instantsearch.core.number.range
 
-import com.algolia.instantsearch.core.number.Range
+import com.algolia.instantsearch.core.event.connectView as connectEventView
+import com.algolia.instantsearch.core.item.connectView as connectItemView
 
 
-public fun <T: Number> NumberRangeViewModel<T>.connectView(view: NumberRangeView<T>) {
-    val onRangeChange: (Range<T>) -> Unit = { view.setItem(it) }
-
-    onRangeChange(item)
-    onItemChanged += onRangeChange
-    view.onNewRange = { newRange -> item = newRange }
+public fun <T : Number> NumberRangeViewModel<T>.connectView(
+    view: NumberRangeView<T>
+) {
+    connectItemView(view) { it }
+    connectEventView(view) { this.trigger(range) }
 }
