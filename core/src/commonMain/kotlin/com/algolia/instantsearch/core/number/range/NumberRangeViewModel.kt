@@ -36,24 +36,36 @@ public abstract class NumberRangeViewModel<T : Number>(
     }
 
     public class Int(
-        range: Range.Int
-    ) : NumberRangeViewModel<kotlin.Int>(range) {
+        bounds: Range.Int? = null
+    ) : NumberRangeViewModel<kotlin.Int>(
+        bounds,
+        { range: Range<kotlin.Int>?, bounds: Range<kotlin.Int>? -> range?.coerceIn(bounds) }
+    ) {
 
         public constructor(range: IntRange) : this(Range.Int(range))
     }
 
     public class Long(
-        range: Range.Long
-    ) : NumberRangeViewModel<kotlin.Long>(range) {
+        bounds: Range.Long? = null
+    ) : NumberRangeViewModel<kotlin.Long>(
+        bounds,
+        { range: Range<kotlin.Long>?, bounds: Range<kotlin.Long>? -> range?.coerceIn(bounds) }
+    ) {
 
         public constructor(range: LongRange) : this(Range.Long(range))
     }
 
     public class Float(
-        range: Range.Float
-    ) : NumberRangeViewModel<kotlin.Float>(range)
+        bounds: Range.Float? = null
+    ) : NumberRangeViewModel<kotlin.Float>(
+        bounds,
+        { range: Range<kotlin.Float>?, bounds: Range<kotlin.Float>? -> range?.coerceIn(bounds) }
+    )
 
     public class Double(
-        range: Range.Double
-    ) : NumberRangeViewModel<kotlin.Double>(range)
+        bounds: Range.Double? = null
+    ) : NumberRangeViewModel<kotlin.Double>(
+        bounds,
+        { range: Range<kotlin.Double>?, bounds: Range<kotlin.Double>? -> range?.coerceIn(bounds) }
+    )
 }
