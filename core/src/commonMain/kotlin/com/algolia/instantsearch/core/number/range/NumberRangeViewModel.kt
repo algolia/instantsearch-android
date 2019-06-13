@@ -6,13 +6,33 @@ import com.algolia.instantsearch.core.item.ItemViewModel
 import com.algolia.instantsearch.core.number.Range
 
 
-public abstract class NumberRangeViewModel<T : Number>(range: Range<T>) : ItemViewModel<Range<T>>(range),
+public abstract class NumberRangeViewModel<T : Number>(
+    bounds: Range<T>? = null,
+    private val coerce: (Range<T>?, Range<T>?) -> Range<T>?
+) : ItemViewModel<Range<T>?>(null),
     EventViewModel<Range<T>> by EventViewModelImpl<Range<T>>() {
 
-    public var range: Range<T>
+    public val onRangeComputed: MutableList<(Range<T>?) -> Unit> = mutableListOf()
+
+    public var range: Range<T>?
         get() = item
         set(value) {
-            item = value
+            item = computeRange(value)
+        }
+
+    public var bounds: Range<T>? = bounds
+        set(value) {
+            field = value
+            value?.let {
+                computeRange()
+            }
+        }
+
+    public fun computeRange(range: Range<T>? = this.range): Range<T>? {
+        val coerced = coerce(range, bounds)
+
+        if (coerced != item) onRangeComputed.forEach { it(coerced) }
+        return coerced
     }
 
     public class Int(
