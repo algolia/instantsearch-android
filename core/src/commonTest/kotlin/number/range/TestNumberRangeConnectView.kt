@@ -7,6 +7,7 @@ import com.algolia.instantsearch.core.number.range.connectView
 import shouldEqual
 import kotlin.test.Test
 
+
 class TestNumberRangeConnectView {
 
     private class MockNumberRangeView : NumberRangeView<Int> {

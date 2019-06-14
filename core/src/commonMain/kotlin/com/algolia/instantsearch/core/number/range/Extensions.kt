@@ -3,6 +3,7 @@ package com.algolia.instantsearch.core.number.range
 import com.algolia.instantsearch.core.number.Range
 import kotlin.jvm.JvmName
 
+
 @JvmName("coerceInInt")
 public fun Range<Int>.coerceIn(range: Range<Int>?): Range<Int> {
     return range?.let {
