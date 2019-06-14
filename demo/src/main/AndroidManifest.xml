@@ -38,6 +38,10 @@
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
+            android:name=".filter.range.FilterRangeDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
+        <activity
             android:name=".filter.segment.FilterSegmentDemo"
             android:parentActivityName=".home.HomeDemo" />
 
