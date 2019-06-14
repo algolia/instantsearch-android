@@ -12,7 +12,7 @@ class TestNumberRangeConnectView {
     private class MockNumberRangeView : NumberRangeView<Int> {
         public var range: Range<Int>? = null
 
-        override fun setItem(item: Range<Int>) {
+        override fun setItem(item: Range<Int>?) {
             range = item
         }
 
@@ -21,20 +21,21 @@ class TestNumberRangeConnectView {
 
     @Test
     fun connectShouldCallSetItem() {
-        val viewModel = NumberRangeViewModel.Int(0..10)
+        val viewModel = NumberRangeViewModel.Int()
         val view = MockNumberRangeView()
 
+        viewModel.range = Range.Int(0..20)
         viewModel.connectView(view)
-        view.range shouldEqual Range.Int(0, 10)
+        view.range shouldEqual viewModel.range
     }
 
     @Test
     fun onRangeChangedShouldUpdateRange() {
-        val viewModel = NumberRangeViewModel.Int(0..10)
+        val viewModel = NumberRangeViewModel.Int()
         val view = MockNumberRangeView()
 
         viewModel.connectView(view)
         viewModel.range = Range.Int(0..20)
-        view.range shouldEqual Range.Int(0, 20)
+        view.range shouldEqual viewModel.range
     }
 }

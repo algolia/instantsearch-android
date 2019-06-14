@@ -5,4 +5,4 @@ import com.algolia.instantsearch.core.item.ItemView
 import com.algolia.instantsearch.core.number.Range
 
 
-public interface NumberRangeView<T : Number> : ItemView<Range<T>>, EventView<Range<T>>
+public interface NumberRangeView<T : Number> : ItemView<Range<T>?>, EventView<Range<T>>
