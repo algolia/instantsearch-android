@@ -26,6 +26,7 @@ public abstract class NumberRangeViewModel<T : Number>(
         if (coerced != item) onRangeComputed.forEach { it(coerced) }
     }
 
+    //region Subclasses
     public class Int(
         bounds: Range.Int? = null
     ) : NumberRangeViewModel<kotlin.Int>(
@@ -59,4 +60,5 @@ public abstract class NumberRangeViewModel<T : Number>(
         bounds,
         { range -> coerceDouble(range) }
     )
+    //endregion
 }
