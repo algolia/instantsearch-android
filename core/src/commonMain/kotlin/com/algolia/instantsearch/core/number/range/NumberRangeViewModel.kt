@@ -8,7 +8,7 @@ import com.algolia.instantsearch.core.number.Range
 
 public abstract class NumberRangeViewModel<T : Number>(
     bounds: Range<T>? = null,
-    private val coerce: (Range<T>?, Range<T>?) -> Range<T>?
+    private val coerce: Range<T>.(Range<T>?) -> Range<T>?
 ) : ItemViewModel<Range<T>?>(null),
     EventViewModel<Range<T>> by EventViewModelImpl<Range<T>>() {
 
@@ -23,13 +23,11 @@ public abstract class NumberRangeViewModel<T : Number>(
     public var bounds: Range<T>? = bounds
         set(value) {
             field = value
-            value?.let {
-                computeRange()
-            }
+            computeRange(range)
         }
 
-    public fun computeRange(range: Range<T>? = this.range): Range<T>? {
-        val coerced = coerce(range, bounds)
+    public fun computeRange(range: Range<T>?): Range<T>? {
+        val coerced = range?.let { coerce(it, bounds) }
 
         if (coerced != item) onRangeComputed.forEach { it(coerced) }
         return coerced
@@ -39,7 +37,7 @@ public abstract class NumberRangeViewModel<T : Number>(
         bounds: Range.Int? = null
     ) : NumberRangeViewModel<kotlin.Int>(
         bounds,
-        { range: Range<kotlin.Int>?, bounds: Range<kotlin.Int>? -> range?.coerceIn(bounds) }
+        { range -> coerceInt(range) }
     ) {
 
         public constructor(range: IntRange) : this(Range.Int(range))
@@ -49,7 +47,7 @@ public abstract class NumberRangeViewModel<T : Number>(
         bounds: Range.Long? = null
     ) : NumberRangeViewModel<kotlin.Long>(
         bounds,
-        { range: Range<kotlin.Long>?, bounds: Range<kotlin.Long>? -> range?.coerceIn(bounds) }
+        { range -> coerceLong(range) }
     ) {
 
         public constructor(range: LongRange) : this(Range.Long(range))
@@ -59,13 +57,13 @@ public abstract class NumberRangeViewModel<T : Number>(
         bounds: Range.Float? = null
     ) : NumberRangeViewModel<kotlin.Float>(
         bounds,
-        { range: Range<kotlin.Float>?, bounds: Range<kotlin.Float>? -> range?.coerceIn(bounds) }
+        { range -> coerceFloat(range) }
     )
 
     public class Double(
         bounds: Range.Double? = null
     ) : NumberRangeViewModel<kotlin.Double>(
         bounds,
-        { range: Range<kotlin.Double>?, bounds: Range<kotlin.Double>? -> range?.coerceIn(bounds) }
+        { range -> coerceDouble(range) }
     )
 }

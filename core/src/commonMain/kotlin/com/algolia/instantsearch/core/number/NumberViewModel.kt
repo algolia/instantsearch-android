@@ -1,13 +1,17 @@
 package com.algolia.instantsearch.core.number
 
 import com.algolia.instantsearch.core.item.ItemViewModel
+import com.algolia.instantsearch.core.number.range.coerceDouble
+import com.algolia.instantsearch.core.number.range.coerceFloat
+import com.algolia.instantsearch.core.number.range.coerceInt
+import com.algolia.instantsearch.core.number.range.coerceLong
 
 
 public abstract class NumberViewModel<T : Number>(
     bounds: Range<T>?,
     private val comparator: Comparator<T>,
     private val coerce: T.(Range<T>?) -> (T)
-): ItemViewModel<T?>(null) {
+) : ItemViewModel<T?>(null) {
 
     public val onNumberComputed: MutableList<(T?) -> Unit> = mutableListOf()
 
@@ -36,7 +40,7 @@ public abstract class NumberViewModel<T : Number>(
     ) : NumberViewModel<kotlin.Int>(
         bounds,
         Comparator { a, b -> a.compareTo(b) },
-        { range -> range?.let { coerceIn(it.min, it.max) } ?: this }
+        { range -> coerceInt(range) }
     ) {
 
         public constructor(range: IntRange) : this(Range.Int(range))
@@ -47,7 +51,7 @@ public abstract class NumberViewModel<T : Number>(
     ) : NumberViewModel<kotlin.Long>(
         bounds,
         Comparator { a, b -> a.compareTo(b) },
-        { range -> range?.let { coerceIn(it.min, it.max) } ?: this }
+        { range -> coerceLong(range) }
     ) {
 
         public constructor(range: LongRange) : this(Range.Long(range))
@@ -58,7 +62,7 @@ public abstract class NumberViewModel<T : Number>(
     ) : NumberViewModel<kotlin.Float>(
         bounds,
         Comparator { a, b -> a.compareTo(b) },
-        { range -> range?.let { coerceIn(it.min, it.max) } ?: this }
+        { range -> coerceFloat(range) }
     )
 
     public class Double(
@@ -66,6 +70,6 @@ public abstract class NumberViewModel<T : Number>(
     ) : NumberViewModel<kotlin.Double>(
         bounds,
         Comparator { a, b -> a.compareTo(b) },
-        { range -> range?.let { coerceIn(it.min, it.max) } ?: this }
+        { range -> coerceDouble(range) }
     )
 }
