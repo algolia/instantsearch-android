@@ -17,7 +17,7 @@ public abstract class NumberRangeViewModel<T : Number>(
     public var range: Range<T>?
         get() = item
         set(value) {
-            item = computeRange(value)
+            item = value
         }
 
     public var bounds: Range<T>? = bounds
@@ -26,11 +26,10 @@ public abstract class NumberRangeViewModel<T : Number>(
             computeRange(range)
         }
 
-    public fun computeRange(range: Range<T>?): Range<T>? {
+    public fun computeRange(range: Range<T>?) {
         val coerced = range?.let { coerce(it, bounds) }
 
         if (coerced != item) onRangeComputed.forEach { it(coerced) }
-        return coerced
     }
 
     public class Int(
