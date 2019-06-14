@@ -17,14 +17,7 @@ public fun <T : Number> NumberRangeViewModel<T>.connectFilterState(
         filters.getNumericFilters(groupID)
             .firstOrNull { it.value is Filter.Numeric.Value.Range }
             ?.let {
-                val rangeValue = it.value as Filter.Numeric.Value.Range
-                item = when (rangeValue.lowerBound) {
-                    is Int -> createRange(it)
-//            is Long -> Range.Long(rangeValue.lowerBound, rangeValue.upperBound)
-//            is Float -> Range.Float(rangeValue.lowerBound, rangeValue.upperBound)
-//            is Double -> Range.Double(rangeValue.lowerBound, rangeValue.upperBound)
-                    else -> TODO()
-                } as Range<T>?
+                item = createRange(it.value as Filter.Numeric.Value.Range)
             }
     }
     onChanged(filterState)
@@ -35,10 +28,14 @@ public fun <T : Number> NumberRangeViewModel<T>.connectFilterState(
     }
 }
 
-fun createRange(filter: Filter.Numeric): Range<Int> {
-    (filter.value as Filter.Numeric.Value.Range).let {
-        return Range.Int(IntRange(it.lowerBound as Int, it.upperBound as Int))
-    }
+private fun <T : Number> createRange(value: Filter.Numeric.Value.Range): Range<T> {
+    return when (value.lowerBound) {
+        is Int -> Range.Int(value.lowerBound as Int..value.upperBound as Int)
+        is Long -> Range.Long(value.lowerBound as Long..value.upperBound as Long)
+        is Float -> Range.Float(value.lowerBound as Float..value.upperBound as Float)
+        is Double -> Range.Double(value.lowerBound as Double..value.upperBound as Double)
+        else -> throw IllegalStateException("$value bounds don't match a supported Number subclass")
+    } as Range<T>
 }
 
 //fun <T : Number> createRange(filter: Filter.Numeric): Range<T> {
