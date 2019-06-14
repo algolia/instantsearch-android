@@ -31,29 +31,29 @@ class TestFilterRangeConnectFilterState  {
 
     @Test
     fun onFilterStateChangedShouldUpdateRange() {
-        val viewModel = NumberRangeViewModel.Int()
+        val viewModel = NumberRangeViewModel.Float()
         val filterState = FilterState()
-        val range = 0..9
+        val range = 0f..9f
 
         viewModel.connectFilterState(attribute, filterState)
         viewModel.range.shouldBeNull()
         filterState.notify {
-            add(filterGroupID, Filter.Numeric(attribute, range))
+            add(filterGroupID, Filter.Numeric(attribute, range.start, range.endInclusive))
         }
-        viewModel.range shouldEqual Range.Int(range)
+        viewModel.range shouldEqual Range.Float(range)
     }
 
     @Test
     fun onNegatedFilterStateChangedShouldUpdateRange() {
-        val viewModel = NumberRangeViewModel.Int()
+        val viewModel = NumberRangeViewModel.Long()
         val filterState = FilterState()
-        val range = 0..9
+        val range = 0L..9L
 
         viewModel.connectFilterState(attribute, filterState)
         viewModel.range.shouldBeNull()
         filterState.notify {
             add(filterGroupID, Filter.Numeric(attribute, range, true))
         }
-        viewModel.range shouldEqual Range.Int(range)
+        viewModel.range shouldEqual Range.Long(range)
     }
 }
