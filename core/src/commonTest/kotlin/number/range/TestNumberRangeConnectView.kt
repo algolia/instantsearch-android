@@ -25,9 +25,9 @@ class TestNumberRangeConnectView {
         val viewModel = NumberRangeViewModel.Int()
         val view = MockNumberRangeView()
 
-        viewModel.range = Range.Int(0..20)
+        viewModel.item = Range.Int(0..20)
         viewModel.connectView(view)
-        view.range shouldEqual viewModel.range
+        view.range shouldEqual viewModel.item
     }
 
     @Test
@@ -36,7 +36,7 @@ class TestNumberRangeConnectView {
         val view = MockNumberRangeView()
 
         viewModel.connectView(view)
-        viewModel.range = Range.Int(0..20)
-        view.range shouldEqual viewModel.range
+        viewModel.item = Range.Int(0..20)
+        view.range shouldEqual viewModel.item
     }
 }

@@ -14,16 +14,10 @@ public abstract class NumberRangeViewModel<T : Number>(
 
     public val onRangeComputed: MutableList<(Range<T>?) -> Unit> = mutableListOf()
 
-    public var range: Range<T>?
-        get() = item
-        set(value) {
-            item = value
-        }
-
     public var bounds: Range<T>? = bounds
         set(value) {
             field = value
-            computeRange(range)
+            computeRange(item)
         }
 
     public fun computeRange(range: Range<T>?) {

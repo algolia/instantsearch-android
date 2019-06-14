@@ -8,5 +8,5 @@ public fun <T : Number> NumberRangeViewModel<T>.connectView(
     view: NumberRangeView<T>
 ) {
     connectItemView(view) { it }
-    connectEventView(view) { range?.let { trigger(it) } }
+    connectEventView(view) { item?.let { trigger(it) } }
 }
