@@ -8,6 +8,7 @@ import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
+
 public fun <T : Number> NumberRangeViewModel<T>.connectFilterState(
     attribute: Attribute,
     filterState: FilterState,
