@@ -38,10 +38,6 @@ private fun <T : Number> createRange(value: Filter.Numeric.Value.Range): Range<T
     } as Range<T>
 }
 
-//fun <T : Number> createRange(filter: Filter.Numeric): Range<T> {
-//
-//}
-
 private fun <T : Number> createNumericFilter(
     attribute: Attribute,
     range: Range<T>?
