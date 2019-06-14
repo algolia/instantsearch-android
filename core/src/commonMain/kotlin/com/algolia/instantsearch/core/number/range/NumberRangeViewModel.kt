@@ -33,7 +33,7 @@ public abstract class NumberRangeViewModel<T : Number>(
         { range -> coerceInt(range) }
     ) {
 
-        public constructor(range: IntRange) : this(Range.Int(range))
+        public constructor(bounds: IntRange) : this(Range.Int(bounds))
     }
 
     public class Long(
@@ -43,7 +43,7 @@ public abstract class NumberRangeViewModel<T : Number>(
         { range -> coerceLong(range) }
     ) {
 
-        public constructor(range: LongRange) : this(Range.Long(range))
+        public constructor(bounds: LongRange) : this(Range.Long(bounds))
     }
 
     public class Float(
