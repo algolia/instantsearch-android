@@ -9,7 +9,7 @@ import shouldNotBeNull
 import kotlin.test.Test
 
 
-class TestFilterClearConnectView {
+class TestEventConnectView {
 
     private class MockFilterClearView : EventView<Unit> {
 
