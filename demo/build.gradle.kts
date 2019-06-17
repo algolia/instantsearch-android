@@ -68,6 +68,7 @@ dependencies {
     implementation(ContraintLayout())
     implementation(RecyclerView())
     implementation(MaterialDesign())
+    implementation(MultiSlider())
     implementation(AndroidCore("ktx"))
     implementation(Ktor("client-mock-jvm"))
     implementation(Paging())
