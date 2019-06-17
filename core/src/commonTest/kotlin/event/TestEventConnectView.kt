@@ -11,15 +11,20 @@ import kotlin.test.Test
 
 class TestEventConnectView {
 
-    private class MockFilterClearView : EventView<Unit> {
+    private class MockUnitEventView : EventView<Unit> {
 
         override var onClick: ((Unit) -> Unit)? = null
     }
 
+    private class MockBooleanEventView : EventView<Boolean> {
+
+        override var onClick: ((Boolean) -> Unit)? = null
+    }
+
     @Test
-    fun onClickShouldCallOnTriggered() {
+    fun onClickUnitShouldCallOnTriggeredUnit() {
         val viewModel = EventViewModelImpl<Unit>()
-        val view = MockFilterClearView()
+        val view = MockUnitEventView()
         var clicked = false
 
         viewModel.onTriggered += { clicked = true }
@@ -27,6 +32,20 @@ class TestEventConnectView {
         viewModel.connectView(view) { viewModel.trigger(Unit) }
         view.onClick.shouldNotBeNull()
         view.onClick?.invoke(Unit)
+        clicked.shouldBeTrue()
+    }
+
+    @Test
+    fun onClickWithParamShouldCallOnTriggeredWithParam() {
+        val viewModel = EventViewModelImpl<Boolean>()
+        val view = MockBooleanEventView()
+        var clicked = false
+
+        viewModel.onTriggered += { clicked = it }
+        clicked.shouldBeFalse()
+        viewModel.connectView(view) { viewModel.trigger(it) }
+        view.onClick.shouldNotBeNull()
+        view.onClick?.invoke(true)
         clicked.shouldBeTrue()
     }
 }
