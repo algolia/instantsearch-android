@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.demo.filter.range
 
-import com.algolia.instantsearch.core.number.Range
 import com.algolia.instantsearch.core.number.range.NumberRangeView
+import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.demo.R
 import io.apptik.widget.MultiSlider
 
@@ -19,7 +19,7 @@ class RangeSliderView(
             val valueMax = if (thumbIndex == 1) value else multiSlider.getThumb(1).value
             if (item?.min != valueMin || item?.max != valueMax) {
                 println("Value change! $valueMin/$valueMax (was ${item?.min}/${item?.max})")
-                onClick?.invoke(Range.Int(valueMin..valueMax))
+                onClick?.invoke(Range(valueMin..valueMax))
             }
         }
 

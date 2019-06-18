@@ -2,8 +2,8 @@ package com.algolia.instantsearch.demo.filter.range
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.number.Range
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
+import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.number.range.connectView
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
@@ -26,14 +26,14 @@ class FilterRangeDemo : AppCompatActivity() {
 
         searcher.connectFilterState(filterState)
 
-        val viewModel = NumberRangeViewModel.Int(0..100)
+        val viewModel = NumberRangeViewModel(Range(0..100))
         val sliderView = RangeSliderView(filterRangeSlider)
         val textView = RangeTextView(filterRangeLabel)
 
         viewModel.connectView(sliderView)
         viewModel.connectView(textView)
         viewModel.connectFilterState(price, filterState)
-        viewModel.computeRange(Range.Int(1..9))
+        viewModel.computeRange(Range(1..9))
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

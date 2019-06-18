@@ -39,10 +39,10 @@ class TestNumberRangeConnectView {
 
     @Test
     fun connectShouldCallSetBounds() {
-        val viewModel = NumberRangeViewModel.Int()
+        val viewModel = NumberRangeViewModel<Int>()
         val view = MockNumberRangeView()
 
-        viewModel.bounds = Range.Int(0..20)
+        viewModel.bounds = Range(0..20)
         viewModel.connectView(view)
         view.bounds shouldEqual viewModel.bounds
     }
@@ -59,11 +59,11 @@ class TestNumberRangeConnectView {
 
     @Test
     fun onBoundsComputedShouldUpdateBounds() {
-        val viewModel = NumberRangeViewModel.Int()
+        val viewModel = NumberRangeViewModel<Int>()
         val view = MockNumberRangeView()
 
         viewModel.connectView(view)
-        viewModel.bounds = Range.Int(0..20)
+        viewModel.bounds = Range(0..20)
         view.bounds shouldEqual viewModel.bounds
     }
 }

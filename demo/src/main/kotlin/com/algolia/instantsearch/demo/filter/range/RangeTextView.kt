@@ -3,8 +3,8 @@ package com.algolia.instantsearch.demo.filter.range
 import android.widget.TextView
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import com.algolia.instantsearch.core.number.Range
 import com.algolia.instantsearch.core.number.range.NumberRangeView
+import com.algolia.instantsearch.core.number.range.Range
 
 
 class RangeTextView(val view: TextView) : NumberRangeView<Int> {
