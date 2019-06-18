@@ -15,7 +15,7 @@ import com.google.android.material.chip.ChipGroup
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import shouldBeEmpty
+import shouldEqual
 import shouldNotBeEmpty
 
 
@@ -42,7 +42,7 @@ class TestCurrentFiltersViewImpl {
         viewModel.connectView(view)
 
         filterState.getFilters().shouldNotBeEmpty()
-        view.getChildAt(0).callOnClick()
+        view.view.getChildAt(0).callOnClick()
         filterState.getFilters() shouldEqual setOf(filterGreen)
     }
 }
