@@ -27,10 +27,12 @@ class FilterRangeDemo : AppCompatActivity() {
         searcher.connectFilterState(filterState)
 
         val viewModel = NumberRangeViewModel(Range(0..100))
-        val sliderView = RangeSliderView(filterRangeSlider)
-        val textView = RangeTextView(filterRangeLabel)
+        val sliderView = RangeSliderView(filterPriceSlider)
+        val textView = RangeTextView(filterPriceLabel)
+        val slider2View = RangeSliderView(filterPriceSlider2)
 
         viewModel.connectView(sliderView)
+        viewModel.connectView(slider2View)
         viewModel.connectView(textView)
         viewModel.connectFilterState(price, filterState)
         viewModel.computeRange(Range(1..9))

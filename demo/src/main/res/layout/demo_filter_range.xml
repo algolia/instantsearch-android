@@ -28,12 +28,12 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <TextView
-        android:id="@+id/filterRangeLabel"
+        android:id="@+id/filterPriceLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/filterRangeSlider"
+        app:layout_constraintBottom_toTopOf="@+id/filterPriceSlider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerFilter"
@@ -42,7 +42,21 @@
         tools:text="$1 to $100" />
 
     <io.apptik.widget.MultiSlider
-        android:id="@+id/filterRangeSlider"
+        android:id="@+id/filterPriceSlider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:thumb="@drawable/thumb"
+        app:layout_constraintBottom_toTopOf="@id/filterPriceSlider2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterPriceLabel"
+        app:trackColor="@color/grey_light_a35" />
+
+    <io.apptik.widget.MultiSlider
+        android:id="@+id/filterPriceSlider2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -52,7 +66,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filterRangeLabel"
+        app:layout_constraintTop_toBottomOf="@+id/filterPriceSlider"
         app:trackColor="@color/grey_light_a35" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
