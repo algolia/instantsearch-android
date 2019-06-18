@@ -24,13 +24,14 @@ public inline fun <reified T> NumberRangeViewModel<T>.connectFilterState(
 
         item = if (filter != null) Range(filter.lowerBound as T, filter.upperBound as T) else null
     }
+
     onChanged(filterState)
     filterState.onChanged += onChanged
-
     onRangeComputed += { range ->
         filterState.notify {
             item?.let { remove(groupID, it.toFilterNumeric(attribute)) }
             if (range != null) add(groupID, range.toFilterNumeric(attribute))
         }
     }
+    onTriggered += { computeRange(it) }
 }
