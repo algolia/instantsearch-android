@@ -12,7 +12,6 @@ class RangeSliderView(
 
     private var item: Range<Int>? = null
     private var bounds: Range<Int>? = null
-
     private val changeListener: (multiSlider: MultiSlider, thumb: MultiSlider.Thumb, thumbIndex: Int, value: Int) -> Unit =
         { multiSlider, _, thumbIndex, value ->
             val valueMin = if (thumbIndex == 0) value else multiSlider.getThumb(0).value
@@ -22,39 +21,23 @@ class RangeSliderView(
             }
         }
 
+    init {
+        slider.setOnThumbValueChangeListener(changeListener)
+    }
+
     override var onClick: ((Range<Int>) -> Unit)? = null
 
     override fun setItem(item: Range<Int>?) {
         slider.setOnThumbValueChangeListener(null)
         if (item == null) {
-            slider.unsetThumbValues()
+            slider.getThumb(0).unsetThumbValue()
+            slider.getThumb(1).unsetThumbValue(true)
         } else if (this.item != item) { // Avoid infinite loop through OnThumbValueChangeListener
-            slider.setThumbValues(item)
+            slider.getThumb(0).setThumbValue(item.min)
+            slider.getThumb(1).setThumbValue(item.max)
         }
         this.item = item
         slider.setOnThumbValueChangeListener(changeListener)
-    }
-
-    private fun MultiSlider.setThumbValues(value: Range<Int>) {
-        getThumb(0).apply { setThumbValue(value.min) }
-        getThumb(1).apply { setThumbValue(value.max) }
-    }
-
-    private fun MultiSlider.Thumb.setThumbValue(value: Int) {
-        this.value = value
-        thumb.setTintList(null)
-        range.setTint(slider.resources.getColor(R.color.blue_dark, slider.context.theme))
-    }
-
-    private fun MultiSlider.unsetThumbValues() {
-        getThumb(0).apply { unsetThumbValue() }
-        getThumb(1).apply { unsetThumbValue(true) }
-    }
-
-    private fun MultiSlider.Thumb.unsetThumbValue(isMax: Boolean = false) {
-        thumb.setTint(slider.resources.getColor(R.color.blue_dark_a25, slider.context.theme))
-        range.setTint(slider.resources.getColor(R.color.blue_dark_a25, slider.context.theme))
-        bounds?.let { value = if (isMax) it.max else it.min }
     }
 
     override fun setBounds(bounds: Range<Int>?) {
@@ -65,7 +48,15 @@ class RangeSliderView(
         }
     }
 
-    init {
-        slider.setOnThumbValueChangeListener(changeListener)
+    private fun MultiSlider.Thumb.setThumbValue(value: Int) {
+        this.value = value
+        thumb.setTintList(null)
+        range.setTint(slider.resources.getColor(R.color.blue_dark, slider.context.theme))
+    }
+
+    private fun MultiSlider.Thumb.unsetThumbValue(isMax: Boolean = false) {
+        thumb.setTint(slider.resources.getColor(R.color.blue_dark_a25, slider.context.theme))
+        range.setTint(slider.resources.getColor(R.color.blue_dark_a25, slider.context.theme))
+        bounds?.let { value = if (isMax) it.max else it.min }
     }
 }
