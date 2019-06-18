@@ -22,7 +22,7 @@ class FilterRangeDemo : AppCompatActivity() {
     private val filterState = FilterState()
     private val price = Attribute("price")
     private val groupID = FilterGroupID(price)
-    private val filters: Map<FilterGroupID, Set<Filter>> = mapOf(groupID to setOf(Filter.Numeric(price, 0..9)))
+    private val filters: Map<FilterGroupID, Set<Filter>> = mapOf(groupID to setOf(Filter.Numeric(price, 1..9)))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +30,7 @@ class FilterRangeDemo : AppCompatActivity() {
 
         searcher.connectFilterState(filterState)
 
-        val viewModel = NumberRangeViewModel(Range(0..100))
+        val viewModel = NumberRangeViewModel(Range(0..10))
         val sliderView = RangeSliderView(filterPriceSlider)
         val textView = RangeTextView(filterPriceLabel)
         val slider2View = RangeSliderView(filterPriceSlider2)
