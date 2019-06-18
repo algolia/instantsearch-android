@@ -3,6 +3,7 @@ package com.algolia.instantsearch.demo.filter.range
 import android.widget.TextView
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
+import androidx.core.text.italic
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.Range
 
@@ -26,9 +27,13 @@ class RangeTextView(val view: TextView) : NumberRangeView<Int> {
 
     private fun updateText() {
         view.text = buildSpannedString {
-            bounds?.let { append("[${it.min}| ") }
-            item?.let { bold { append("${it.min} TO ${it.max}") } }
-            bounds?.let { append(" |${it.max}]") }
+            bounds?.let { append("${it.min} ≤ ") }
+            if (item == null) {
+                italic { append("?") }
+            } else {
+                item?.let { bold { append("${it.min} TO ${it.max}") } }
+            }
+            bounds?.let { append(" ≤ ${it.max}") }
         }
     }
 }
