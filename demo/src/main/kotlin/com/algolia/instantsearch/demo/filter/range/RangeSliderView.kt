@@ -29,9 +29,9 @@ class RangeSliderView(
         if (item == null) {
             slider.unsetThumbValues()
         } else if (this.item != item) { // Avoid infinite loop through OnThumbValueChangeListener
-            this.item = item
             slider.setThumbValues(item)
         }
+        this.item = item
         slider.setOnThumbValueChangeListener(changeListener)
     }
 
