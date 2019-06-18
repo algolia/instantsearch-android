@@ -7,10 +7,12 @@ import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.number.range.connectView
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
+import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.filter.Filter
 import kotlinx.android.synthetic.main.demo_filter_range.*
 import kotlinx.android.synthetic.main.header_filter.*
 
@@ -19,6 +21,8 @@ class FilterRangeDemo : AppCompatActivity() {
     private val searcher = SearcherSingleIndex(stubIndex)
     private val filterState = FilterState()
     private val price = Attribute("price")
+    private val groupID = FilterGroupID(price)
+    private val filters: Map<FilterGroupID, Set<Filter>> = mapOf(groupID to setOf(Filter.Numeric(price, 0..9)))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +39,10 @@ class FilterRangeDemo : AppCompatActivity() {
         viewModel.connectView(slider2View)
         viewModel.connectView(textView)
         viewModel.connectFilterState(price, filterState)
-        viewModel.computeRange(Range(1..9))
 
+        reset.setOnClickListener {
+            filterState.notify { set(filters) }
+        }
         configureToolbar(toolbar)
         configureSearcher(searcher)
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, price)
