@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.event.EventViewModelImpl
 import com.algolia.instantsearch.core.item.ItemViewModel
 
 
+//DISCUSS: minRange?
 public open class NumberRangeViewModel<T>(
     bounds: Range<T>? = null
 ) : ItemViewModel<Range<T>?>(null),
