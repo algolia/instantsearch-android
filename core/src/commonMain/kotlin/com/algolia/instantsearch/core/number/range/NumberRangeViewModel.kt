@@ -12,10 +12,12 @@ public open class NumberRangeViewModel<T>(
         where T : Number, T : Comparable<T> {
 
     public val onRangeComputed: MutableList<(Range<T>?) -> Unit> = mutableListOf()
+    public val onBoundsComputed: MutableList<(Range<T>?) -> Unit> = mutableListOf()
 
     public var bounds: Range<T>? = bounds
         set(value) {
             field = value
+            onBoundsComputed.forEach { it(value) }
             computeRange(item)
         }
 
