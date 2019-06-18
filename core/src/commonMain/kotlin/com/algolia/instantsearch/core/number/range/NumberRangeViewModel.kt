@@ -3,14 +3,13 @@ package com.algolia.instantsearch.core.number.range
 import com.algolia.instantsearch.core.event.EventViewModel
 import com.algolia.instantsearch.core.event.EventViewModelImpl
 import com.algolia.instantsearch.core.item.ItemViewModel
-import com.algolia.instantsearch.core.number.Range
 
 
-public abstract class NumberRangeViewModel<T : Number>(
-    bounds: Range<T>? = null,
-    private val coerce: Range<T>.(Range<T>?) -> Range<T>?
+public open class NumberRangeViewModel<T>(
+    bounds: Range<T>? = null
 ) : ItemViewModel<Range<T>?>(null),
-    EventViewModel<Range<T>> by EventViewModelImpl<Range<T>>() {
+    EventViewModel<Range<T>> by EventViewModelImpl<Range<T>>()
+        where T : Number, T : Comparable<T> {
 
     public val onRangeComputed: MutableList<(Range<T>?) -> Unit> = mutableListOf()
 
@@ -21,44 +20,8 @@ public abstract class NumberRangeViewModel<T : Number>(
         }
 
     public fun computeRange(range: Range<T>?) {
-        val coerced = range?.let { coerce(it, bounds) }
+        val coerced = range?.coerce(bounds)
 
         if (coerced != item) onRangeComputed.forEach { it(coerced) }
     }
-
-    //region Subclasses
-    public class Int(
-        bounds: Range.Int? = null
-    ) : NumberRangeViewModel<kotlin.Int>(
-        bounds,
-        { range -> coerceInt(range) }
-    ) {
-
-        public constructor(bounds: IntRange) : this(Range.Int(bounds))
-    }
-
-    public class Long(
-        bounds: Range.Long? = null
-    ) : NumberRangeViewModel<kotlin.Long>(
-        bounds,
-        { range -> coerceLong(range) }
-    ) {
-
-        public constructor(bounds: LongRange) : this(Range.Long(bounds))
-    }
-
-    public class Float(
-        bounds: Range.Float? = null
-    ) : NumberRangeViewModel<kotlin.Float>(
-        bounds,
-        { range -> coerceFloat(range) }
-    )
-
-    public class Double(
-        bounds: Range.Double? = null
-    ) : NumberRangeViewModel<kotlin.Double>(
-        bounds,
-        { range -> coerceDouble(range) }
-    )
-    //endregion
 }

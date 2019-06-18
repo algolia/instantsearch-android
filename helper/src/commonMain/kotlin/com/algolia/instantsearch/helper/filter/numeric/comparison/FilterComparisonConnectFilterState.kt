@@ -10,12 +10,12 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 
 
-public inline fun <reified T : Number> NumberViewModel<T>.connectFilterState(
+public inline fun <reified T> NumberViewModel<T>.connectFilterState(
     attribute: Attribute,
     operator: NumericOperator,
     filterState: FilterState,
     groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
-) {
+) where T : Number, T : Comparable<T> {
     val onChanged: (Filters) -> Unit = { filters ->
         item = filters
             .getNumericFilters(groupID)

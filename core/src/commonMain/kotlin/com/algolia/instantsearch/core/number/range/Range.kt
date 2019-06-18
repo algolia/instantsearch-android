@@ -1,56 +1,15 @@
-package com.algolia.instantsearch.core.number
+package com.algolia.instantsearch.core.number.range
 
 
-public abstract class Range<T : Number> {
+public data class Range<T>(
+    public val min: T,
+    public val max: T
+) where T : Number, T : Comparable<T> {
 
-    public abstract val min: T
-    public abstract val max: T
+    companion object {
 
-    public data class Int(
-        override val min: kotlin.Int,
-        override val max: kotlin.Int
-    ) : Range<kotlin.Int>() {
-
-        public constructor(range: IntRange): this(range.first, range.last)
-
-        init {
-            if (min > max) throw IllegalArgumentException("min $min is greater than max $max.")
-        }
-    }
-
-    public data class Long(
-        override val min: kotlin.Long,
-        override val max: kotlin.Long
-    ) : Range<kotlin.Long>() {
-
-        public constructor(range: LongRange): this(range.first, range.last)
-
-        init {
-            if (min > max) throw IllegalArgumentException("min $min is greater than max $max.")
-        }
-    }
-
-    public data class Float(
-        override val min: kotlin.Float,
-        override val max: kotlin.Float
-    ) : Range<kotlin.Float>() {
-
-        public constructor(range: ClosedRange<kotlin.Float>): this(range.start, range.endInclusive)
-
-        init {
-            if (min > max) throw IllegalArgumentException("min $min is greater than max $max.")
-        }
-    }
-
-    public data class Double(
-        override val min: kotlin.Double,
-        override val max: kotlin.Double
-    ) : Range<kotlin.Double>() {
-
-        public constructor(range: ClosedRange<kotlin.Double>): this(range.start, range.endInclusive)
-
-        init {
-            if (min > max) throw IllegalArgumentException("min $min is greater than max $max.")
+        operator fun <T> invoke(range: ClosedRange<T>): Range<T> where T : Number, T : Comparable<T> {
+            return Range(range.start, range.endInclusive)
         }
     }
 }

@@ -12,17 +12,17 @@ import shouldEqual
 import kotlin.test.Test
 
 
-class TestFilterComparisonConnectFilterState  {
+class TestFilterComparisonConnectFilterState {
 
     private val price = Attribute("price")
-    private val operator =  NumericOperator.Greater
+    private val operator = NumericOperator.Greater
     private val filter = Filter.Numeric(price, operator, 5)
     private val groupID = FilterGroupID(price, FilterOperator.And)
     private val expectedFilterState = FilterState(mapOf(groupID to setOf(filter)))
 
     @Test
     fun connectShouldUpdateNumberWithFilterState() {
-        val viewModel = NumberViewModel.Int(0 .. 10)
+        val viewModel = NumberViewModel(0..10)
         val filterState = FilterState()
 
         viewModel.connectFilterState(price, operator, filterState, groupID)
@@ -31,7 +31,7 @@ class TestFilterComparisonConnectFilterState  {
 
     @Test
     fun onSelectionsComputedShouldUpdateFilterState() {
-        val viewModel = NumberViewModel.Int(0 .. 10)
+        val viewModel = NumberViewModel(0..10)
         val filterState = FilterState()
 
         viewModel.connectFilterState(price, operator, filterState, groupID)

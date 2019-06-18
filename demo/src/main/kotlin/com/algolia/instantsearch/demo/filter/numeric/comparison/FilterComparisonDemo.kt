@@ -3,10 +3,10 @@ package com.algolia.instantsearch.demo.filter.numeric.comparison
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.number.NumberViewModel
-import com.algolia.instantsearch.core.number.Range
 import com.algolia.instantsearch.core.number.connectView
+import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.numeric.comparison.computeBoundsFromFacetStats
+import com.algolia.instantsearch.helper.filter.numeric.comparison.computeBoundsFromFacetStatsInt
 import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -39,14 +39,14 @@ class FilterComparisonDemo : AppCompatActivity() {
         searcher.query.addFacet(year)
 
         val priceOperator = NumericOperator.GreaterOrEquals
-        val priceViewModel = NumberViewModel.Int()
+        val priceViewModel = NumberViewModel<Int>()
         val priceView = FilterPriceView(demoFilterComparison, price, priceOperator)
 
         priceViewModel.connectFilterState(price, priceOperator, filterState)
         priceViewModel.connectView(priceView)
 
         val yearOperator = NumericOperator.Equals
-        val yearViewModel = NumberViewModel.Int()
+        val yearViewModel = NumberViewModel<Int>()
         val yearView = FilterYearView(demoFilterComparison, year, yearOperator)
 
         yearViewModel.connectFilterState(year, yearOperator, filterState)
@@ -63,10 +63,10 @@ class FilterComparisonDemo : AppCompatActivity() {
             val response = searcher.search()
 
             response.facetStatsOrNull?.let {
-                priceViewModel.computeBoundsFromFacetStats(price, it)
-                yearViewModel.computeBoundsFromFacetStats(year, it)
+                priceViewModel.computeBoundsFromFacetStatsInt(price, it)
+                yearViewModel.computeBoundsFromFacetStatsInt(year, it)
                 withContext(Dispatchers.Main) {
-                    inputHint.text =  getInputHint(yearViewModel.bounds!!)
+                    inputHint.text = getInputHint(yearViewModel.bounds!!)
                 }
             }
         }

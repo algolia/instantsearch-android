@@ -1,45 +1,45 @@
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
 import com.algolia.instantsearch.core.number.NumberViewModel
-import com.algolia.instantsearch.core.number.Range
+import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.FacetStats
 
 
-private fun <T : Number> NumberViewModel<T>.computeBoundsFromFacetStats(
+private fun <T> NumberViewModel<T>.computeBoundsFromFacetStats(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>,
-    range: (FacetStats) -> Range<T>
-) {
+    transform: (Float) -> T
+) where T : Number, T : Comparable<T> {
     facetStats[attribute]?.let {
-        applyBounds(range(it))
+        bounds = Range(transform(it.min), transform(it.max))
     }
 }
 
-public fun NumberViewModel.Int.computeBoundsFromFacetStats(
+public fun NumberViewModel<Int>.computeBoundsFromFacetStatsInt(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
-    computeBoundsFromFacetStats(attribute, facetStats) { Range.Int(it.min.toInt(), it.max.toInt()) }
+    computeBoundsFromFacetStats(attribute, facetStats) { it.toInt() }
 }
 
-public fun NumberViewModel.Long.computeBoundsFromFacetStats(
+public fun NumberViewModel<Long>.computeBoundsFromFacetStatsLong(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
-    computeBoundsFromFacetStats(attribute, facetStats) { Range.Long(it.min.toLong(), it.max.toLong()) }
+    computeBoundsFromFacetStats(attribute, facetStats) { it.toLong() }
 }
 
-public fun NumberViewModel.Float.computeBoundsFromFacetStats(
+public fun NumberViewModel<Float>.computeBoundsFromFacetStatsFloat(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
-    computeBoundsFromFacetStats(attribute, facetStats) { Range.Float(it.min, it.max) }
+    computeBoundsFromFacetStats(attribute, facetStats) { it }
 }
 
-public fun NumberViewModel.Double.computeBoundsFromFacetStats(
+public fun NumberViewModel<Double>.computeBoundsFromFacetStatsDouble(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
-    computeBoundsFromFacetStats(attribute, facetStats) { Range.Double(it.min.toDouble(), it.max.toDouble()) }
+    computeBoundsFromFacetStats(attribute, facetStats) { it.toDouble() }
 }
