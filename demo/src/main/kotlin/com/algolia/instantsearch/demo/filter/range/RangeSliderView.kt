@@ -18,7 +18,6 @@ class RangeSliderView(
             val valueMin = if (thumbIndex == 0) value else multiSlider.getThumb(0).value
             val valueMax = if (thumbIndex == 1) value else multiSlider.getThumb(1).value
             if (item?.min != valueMin || item?.max != valueMax) {
-                println("Value change! $valueMin/$valueMax (was ${item?.min}/${item?.max})")
                 onClick?.invoke(Range(valueMin..valueMax))
             }
         }
