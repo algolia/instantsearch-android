@@ -43,6 +43,7 @@ class RangeSliderView(
     private fun MultiSlider.Thumb.setThumbValue(value: Int) {
         this.value = value
         thumb.setTintList(null)
+        range.setTint(slider.resources.getColor(R.color.blue_dark, slider.context.theme))
     }
 
     private fun MultiSlider.unsetThumbValues() {
@@ -52,6 +53,7 @@ class RangeSliderView(
 
     private fun MultiSlider.Thumb.unsetThumbValue(isMax: Boolean = false) {
         thumb.setTint(slider.resources.getColor(R.color.blue_dark_a25, slider.context.theme))
+        range.setTint(slider.resources.getColor(R.color.blue_dark_a25, slider.context.theme))
         bounds?.let { value = if (isMax) it.max else it.min }
     }
 
