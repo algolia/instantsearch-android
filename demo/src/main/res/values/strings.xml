@@ -20,6 +20,6 @@
     <string name="clear_specified">Clear specified</string>
     <string name="clear_except">Clear except</string>
     <string name="bounds_reset">Reset bounds</string>
-    <string name="bounds_change">Bigger bounds</string>
+    <string name="bounds_change">Change bounds</string>
     <string name="button_reset">Reset</string>
 </resources>

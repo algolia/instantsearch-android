@@ -43,8 +43,16 @@ class FilterRangeDemo : AppCompatActivity() {
         viewModel.connectView(boundsTextView)
         viewModel.connectFilterState(price, filterState)
 
-        buttonBiggerBounds.setOnClickListener { viewModel.bounds = Range(0..20) }
-        buttonResetBounds.setOnClickListener { viewModel.bounds = initialRange }
+        buttonBiggerBounds.setOnClickListener {
+            viewModel.bounds = Range(0..20)
+            it.isEnabled = false
+            buttonResetBounds.isEnabled = true
+        }
+        buttonResetBounds.setOnClickListener {
+            viewModel.bounds = initialRange
+            it.isEnabled = false
+            buttonBiggerBounds.isEnabled = true
+        }
 
         reset.setOnClickListener {
             filterState.notify { set(filters) }
