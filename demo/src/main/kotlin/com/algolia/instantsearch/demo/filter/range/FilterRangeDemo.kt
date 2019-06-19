@@ -32,12 +32,14 @@ class FilterRangeDemo : AppCompatActivity() {
 
         val viewModel = NumberRangeViewModel(Range(0..10))
         val sliderView = RangeSliderView(filterPriceSlider)
-        val textView = RangeTextView(filterPriceLabel)
+        val rangeTextView = RangeTextView(rangeLabel)
+        val boundsTextView = BoundsTextView(boundsLabel)
         val slider2View = RangeSliderView(filterPriceSlider2)
 
         viewModel.connectView(sliderView)
         viewModel.connectView(slider2View)
-        viewModel.connectView(textView)
+        viewModel.connectView(rangeTextView)
+        viewModel.connectView(boundsTextView)
         viewModel.connectFilterState(price, filterState)
 
         reset.setOnClickListener {

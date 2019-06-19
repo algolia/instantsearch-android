@@ -10,30 +10,20 @@ import com.algolia.instantsearch.core.number.range.Range
 
 class RangeTextView(val view: TextView) : NumberRangeView<Int> {
 
-    private var bounds: Range<Int>? = null
-    private var item: Range<Int>? = null
-
     override var onClick: ((Range<Int>) -> Unit)? = null
 
-    override fun setBounds(bounds: Range<Int>?) {
-        this.bounds = bounds
-        updateText()
-    }
+    override fun setBounds(bounds: Range<Int>?) = Unit
 
     override fun setItem(item: Range<Int>?) {
-        this.item = item
-        updateText()
-    }
-
-    private fun updateText() {
         view.text = buildSpannedString {
-            bounds?.let { append("${it.min} ≤ ") }
-            if (item == null) {
-                italic { append("?") }
+            append("Range: ")
+            if (item != null) {
+                bold { append("${item.min}")}
+                append(" to ")
+                bold { append("${item.max}") }
             } else {
-                item?.let { bold { append("${it.min} TO ${it.max}") } }
+                italic { append("?") }
             }
-            bounds?.let { append(" ≤ ${it.max}") }
         }
     }
 }

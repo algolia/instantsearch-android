@@ -28,18 +28,35 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <TextView
-        android:id="@+id/filterPriceLabel"
-        android:layout_width="0dp"
+        android:id="@+id/rangeLabel"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/filterPriceSlider"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/boundsLabel"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerFilter"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:text="$1 to $100" />
+        tools:text="$2 to $9" />
+
+    <TextView
+        android:id="@+id/boundsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toBottomOf="@+id/rangeLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/rangeLabel"
+        app:layout_constraintTop_toTopOf="@+id/rangeLabel"
+        tools:text="Bounds: 1 to 10" />
 
     <io.apptik.widget.MultiSlider
         android:id="@+id/filterPriceSlider"
@@ -53,7 +70,7 @@
         app:layout_constraintBottom_toTopOf="@id/filterPriceSlider2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filterPriceLabel"
+        app:layout_constraintTop_toBottomOf="@+id/rangeLabel"
         app:trackColor="@color/grey_light_a35" />
 
     <io.apptik.widget.MultiSlider
