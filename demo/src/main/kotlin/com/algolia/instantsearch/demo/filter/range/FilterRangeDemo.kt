@@ -30,7 +30,8 @@ class FilterRangeDemo : AppCompatActivity() {
 
         searcher.connectFilterState(filterState)
 
-        val viewModel = NumberRangeViewModel(Range(0..10))
+        val initialRange = Range(0..10)
+        val viewModel = NumberRangeViewModel(initialRange)
         val sliderView = RangeSliderView(filterPriceSlider)
         val rangeTextView = RangeTextView(rangeLabel)
         val boundsTextView = BoundsTextView(boundsLabel)
@@ -41,6 +42,9 @@ class FilterRangeDemo : AppCompatActivity() {
         viewModel.connectView(rangeTextView)
         viewModel.connectView(boundsTextView)
         viewModel.connectFilterState(price, filterState)
+
+        buttonBiggerBounds.setOnClickListener { viewModel.bounds = Range(0..20) }
+        buttonResetBounds.setOnClickListener { viewModel.bounds = initialRange }
 
         reset.setOnClickListener {
             filterState.notify { set(filters) }
