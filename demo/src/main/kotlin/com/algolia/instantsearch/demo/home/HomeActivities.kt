@@ -10,6 +10,7 @@ import com.algolia.instantsearch.demo.filter.list.FilterListFacetDemo
 import com.algolia.instantsearch.demo.filter.list.FilterListNumericDemo
 import com.algolia.instantsearch.demo.filter.list.FilterListTagDemo
 import com.algolia.instantsearch.demo.filter.numeric.comparison.FilterComparisonDemo
+import com.algolia.instantsearch.demo.filter.range.FilterRangeDemo
 import com.algolia.instantsearch.demo.filter.segment.FilterSegmentDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDefaultDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo
@@ -37,6 +38,7 @@ val homeActivities = mapOf(
     ObjectID("facet_list_persistent") to FacetListPersistentDemo::class,
     ObjectID("facet_list_search") to FacetListSearchDemo::class,
     ObjectID("filter_numeric_comparison") to FilterComparisonDemo::class,
+    ObjectID("filter_numeric_range") to FilterRangeDemo::class,
     ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,
     ObjectID("search_on_submit") to SearchOnSubmitDemo::class,
     ObjectID("search_as_you_type") to SearchAsYouTypeDemo::class,
