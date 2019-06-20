@@ -17,18 +17,20 @@ public class HighlightTokenizer(
             var matchResult = regex.find(input)
 
             while (matchResult != null && matchResult.groups.isNotEmpty()) {
-                val group = matchResult.groups[0]!!
-                val groupStart = input.indexOf(group.value, startIndex)
-                val groupEnd = groupStart + group.value.length
-                val textBeforeHighlight = input.substring(startIndex, groupStart)
-                val textHighlighted = input.substring(groupStart + preTag.length, groupEnd - postTag.length)
+                matchResult.groups[0]?.let {
+                    val groupStart = input.indexOf(it.value, startIndex)
+                    val groupEnd = groupStart + it.value.length
+                    val textBeforeHighlight = input.substring(startIndex, groupStart)
+                    val textHighlighted = input.substring(groupStart + preTag.length, groupEnd - postTag.length)
 
-                if (groupStart != startIndex) { // There was unmatched input before this match
-                    add(HighlightToken(false, textBeforeHighlight))
+                    if (groupStart != startIndex) { // There was unmatched input before this match
+                        add(HighlightToken(false, textBeforeHighlight))
+                    }
+                    add(HighlightToken(true, textHighlighted))
+
+                    startIndex = groupEnd
                 }
-                add(HighlightToken(true, textHighlighted))
 
-                startIndex = groupEnd
                 matchResult = matchResult.next()
             }
 
