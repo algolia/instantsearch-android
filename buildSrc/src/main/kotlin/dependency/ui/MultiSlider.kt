@@ -2,6 +2,7 @@ package dependency.ui
 
 import dependency.Dependency
 
+
 object MultiSlider : Dependency {
 
     override val group: String = "io.apptik.widget"

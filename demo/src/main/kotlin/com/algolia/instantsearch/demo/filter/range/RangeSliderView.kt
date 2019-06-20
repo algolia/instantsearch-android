@@ -42,7 +42,7 @@ class RangeSliderView(
 
     override fun setBounds(bounds: Range<Int>?) {
         bounds?.let {
-            this.bounds = bounds
+            this.bounds = it
             slider.setMin(it.min, true, false)
             slider.setMax(it.max, true, false)
             slider.getThumb(0).value = item?.min ?: it.min

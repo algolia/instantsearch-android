@@ -18,7 +18,7 @@ class RangeTextView(val view: TextView) : NumberRangeView<Int> {
         view.text = buildSpannedString {
             append("Range: ")
             if (item != null) {
-                bold { append("${item.min}")}
+                bold { append("${item.min}") }
                 append(" to ")
                 bold { append("${item.max}") }
             } else {

@@ -31,7 +31,7 @@ class TestEventConnectView {
         clicked.shouldBeFalse()
         viewModel.connectView(view) { viewModel.trigger(Unit) }
         view.onClick.shouldNotBeNull()
-        view.onClick?.invoke(Unit)
+        view.onClick!!.invoke(Unit)
         clicked.shouldBeTrue()
     }
 
@@ -45,7 +45,7 @@ class TestEventConnectView {
         clicked.shouldBeFalse()
         viewModel.connectView(view) { viewModel.trigger(it) }
         view.onClick.shouldNotBeNull()
-        view.onClick?.invoke(true)
+        view.onClick!!.invoke(true)
         clicked.shouldBeTrue()
     }
 }

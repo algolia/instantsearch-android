@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.header_filter.*
 
 
 class FilterRangeDemo : AppCompatActivity() {
+
     private val searcher = SearcherSingleIndex(stubIndex)
     private val filterState = FilterState()
     private val price = Attribute("price")
@@ -32,18 +33,18 @@ class FilterRangeDemo : AppCompatActivity() {
 
         val initialRange = Range(0..10)
         val viewModel = NumberRangeViewModel(initialRange)
-        val sliderView = RangeSliderView(filterPriceSlider)
+        val sliderViewA = RangeSliderView(sliderA)
+        val sliderViewB = RangeSliderView(sliderB)
         val rangeTextView = RangeTextView(rangeLabel)
         val boundsTextView = BoundsTextView(boundsLabel)
-        val slider2View = RangeSliderView(filterPriceSlider2)
 
-        viewModel.connectView(sliderView)
-        viewModel.connectView(slider2View)
+        viewModel.connectView(sliderViewA)
+        viewModel.connectView(sliderViewB)
         viewModel.connectView(rangeTextView)
         viewModel.connectView(boundsTextView)
         viewModel.connectFilterState(price, filterState)
 
-        buttonBiggerBounds.setOnClickListener {
+        buttonChangeBounds.setOnClickListener {
             viewModel.bounds = Range(0..20)
             it.isEnabled = false
             buttonResetBounds.isEnabled = true
@@ -51,7 +52,7 @@ class FilterRangeDemo : AppCompatActivity() {
         buttonResetBounds.setOnClickListener {
             viewModel.bounds = initialRange
             it.isEnabled = false
-            buttonBiggerBounds.isEnabled = true
+            buttonChangeBounds.isEnabled = true
         }
 
         reset.setOnClickListener {
@@ -66,6 +67,5 @@ class FilterRangeDemo : AppCompatActivity() {
 
         searcher.searchAsync()
     }
-
 }
 
