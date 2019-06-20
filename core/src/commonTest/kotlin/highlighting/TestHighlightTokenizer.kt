@@ -14,7 +14,7 @@ class TestHighlightTokenizer {
     fun match() {
         val tokenizer = HighlightTokenizer()
         val input = "This <em>John</em> Doe looks like <em>John</em>athan."
-        val output = tokenizer.parse(input)
+        val output = tokenizer.tokenize(input)
 
         output.original shouldEqual input
         output.parts.size shouldEqual 5
@@ -25,7 +25,7 @@ class TestHighlightTokenizer {
     fun noMatch() {
         val tokenizer = HighlightTokenizer()
         val input = "This John Doe looks like Johnathan."
-        val output = tokenizer.parse(input)
+        val output = tokenizer.tokenize(input)
 
         output.original shouldEqual input
         output.parts.size shouldEqual 1
@@ -37,7 +37,7 @@ class TestHighlightTokenizer {
     fun onlyMatch() {
         val tokenizer = HighlightTokenizer()
         val input = "<em>John</em><em>John</em>"
-        val output = tokenizer.parse(input)
+        val output = tokenizer.tokenize(input)
 
         output.original shouldEqual input
         println(output.parts)
@@ -49,7 +49,7 @@ class TestHighlightTokenizer {
     @Test
     fun customTags() {
         val tokenizer = HighlightTokenizer("^", "$")
-        val output = tokenizer.parse("This ^Game$ is really ^funny$, don't you ^think$?")
+        val output = tokenizer.tokenize("This ^Game$ is really ^funny$, don't you ^think$?")
 
         output.parts.size shouldEqual 7
         output.highlightedParts shouldEqual listOf("Game", "funny", "think")

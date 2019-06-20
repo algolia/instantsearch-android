@@ -11,7 +11,7 @@ public class HighlightTokenizer(
 
     private val regex = Regex(Regex.escape(preTag) + ".*?" + Regex.escape(postTag))
 
-    fun parse(input: String): HighlightedString {
+    fun tokenize(input: String): HighlightedString {
         return HighlightedString(input, mutableListOf<HighlightToken>().apply {
             var startIndex = 0
             var matchResult = regex.find(input)
