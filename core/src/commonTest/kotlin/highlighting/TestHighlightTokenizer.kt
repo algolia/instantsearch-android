@@ -11,47 +11,47 @@ import kotlin.test.Test
 class TestHighlightTokenizer {
 
     @Test
-    fun parseMatch() {
-        val parser = HighlightTokenizer()
+    fun match() {
+        val tokenizer = HighlightTokenizer()
         val input = "This <em>John</em> Doe looks like <em>John</em>athan."
-        val parsed = parser.parse(input)
+        val output = tokenizer.parse(input)
 
-        parsed.original shouldEqual input
-        parsed.parts.size shouldEqual 5
-        parsed.highlightedParts shouldEqual listOf("John", "John")
+        output.original shouldEqual input
+        output.parts.size shouldEqual 5
+        output.highlightedParts shouldEqual listOf("John", "John")
     }
 
     @Test
-    fun parseNoMatch() {
-        val parser = HighlightTokenizer()
+    fun noMatch() {
+        val tokenizer = HighlightTokenizer()
         val input = "This John Doe looks like Johnathan."
-        val parsed = parser.parse(input)
+        val output = tokenizer.parse(input)
 
-        parsed.original shouldEqual input
-        parsed.parts.size shouldEqual 1
-        parsed.parts.any { it.highlighted }.shouldBeFalse()
-        parsed.highlightedParts.shouldBeEmpty()
+        output.original shouldEqual input
+        output.parts.size shouldEqual 1
+        output.parts.any { it.highlighted }.shouldBeFalse()
+        output.highlightedParts.shouldBeEmpty()
     }
 
     @Test
-    fun parseOnlyMatch() {
-        val parser = HighlightTokenizer()
+    fun onlyMatch() {
+        val tokenizer = HighlightTokenizer()
         val input = "<em>John</em><em>John</em>"
-        val parsed = parser.parse(input)
+        val output = tokenizer.parse(input)
 
-        parsed.original shouldEqual input
-        println(parsed.parts)
-        parsed.parts.size shouldEqual 2
-        parsed.parts.all { it.highlighted }.shouldBeTrue()
-        parsed.highlightedParts shouldEqual listOf("John", "John")
+        output.original shouldEqual input
+        println(output.parts)
+        output.parts.size shouldEqual 2
+        output.parts.all { it.highlighted }.shouldBeTrue()
+        output.highlightedParts shouldEqual listOf("John", "John")
     }
 
     @Test
-    fun parseCustomTags() {
-        val parser = HighlightTokenizer("^", "$")
-        val parsed = parser.parse("This ^Game$ is really ^funny$, don't you ^think$?")
+    fun customTags() {
+        val tokenizer = HighlightTokenizer("^", "$")
+        val output = tokenizer.parse("This ^Game$ is really ^funny$, don't you ^think$?")
 
-        parsed.parts.size shouldEqual 7
-        parsed.highlightedParts shouldEqual listOf("Game", "funny", "think")
+        output.parts.size shouldEqual 7
+        output.highlightedParts shouldEqual listOf("Game", "funny", "think")
     }
 }
