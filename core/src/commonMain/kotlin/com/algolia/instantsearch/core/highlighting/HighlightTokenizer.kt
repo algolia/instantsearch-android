@@ -24,9 +24,9 @@ public class HighlightTokenizer(
                     val textHighlighted = input.substring(groupStart + preTag.length, groupEnd - postTag.length)
 
                     if (groupStart != startIndex) { // There was unmatched input before this match
-                        add(HighlightToken(false, textBeforeHighlight))
+                        add(HighlightToken(textBeforeHighlight, false))
                     }
-                    add(HighlightToken(true, textHighlighted))
+                    add(HighlightToken(textHighlighted, true))
 
                     startIndex = groupEnd
                 }
@@ -35,7 +35,7 @@ public class HighlightTokenizer(
             }
 
             if (startIndex != input.length) { // Some input remains after the last match
-                add(HighlightToken(false, input.substring(startIndex)))
+                add(HighlightToken(input.substring(startIndex), false))
             }
         })
     }
