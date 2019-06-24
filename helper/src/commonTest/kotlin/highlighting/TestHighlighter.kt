@@ -1,5 +1,6 @@
 package highlighting
 
+import com.algolia.instantsearch.core.highlighting.HighlightedString
 import com.algolia.instantsearch.helper.highlighting.Highlighter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
@@ -40,10 +41,14 @@ class TestHighlighter {
             highlight.parts.size shouldEqual 2
             highlight.highlightedParts shouldEqual listOf("John")
 
-            println("${highlight.parts.size} parts:")
-            highlight.parts.forEach {
-                println("${it.content.length}: $it")
-            }
+            printHighlight(highlight)
+        }
+    }
+
+    private fun printHighlight(highlight: HighlightedString) {
+        println("${highlight.parts.size} parts:")
+        highlight.parts.forEach {
+            println("${it.content.length}: $it")
         }
     }
 }
