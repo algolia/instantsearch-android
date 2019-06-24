@@ -1,12 +1,12 @@
 package com.algolia.instantsearch.core.highlighting
 
 
-private const val DEFAULT_PRETAG: String = "<em>"
-private const val DEFAULT_POSTTAG: String = "</em>"
+private const val DefaultPreTag: String = "<em>"
+private const val DefaultPostTag: String = "</em>"
 
 public class HighlightTokenizer(
-    public val preTag: String = DEFAULT_PRETAG,
-    public val postTag: String = DEFAULT_POSTTAG
+    public val preTag: String = DefaultPreTag,
+    public val postTag: String = DefaultPostTag
 ) {
 
     private val regex = Regex(Regex.escape(preTag) + ".*?" + Regex.escape(postTag))
