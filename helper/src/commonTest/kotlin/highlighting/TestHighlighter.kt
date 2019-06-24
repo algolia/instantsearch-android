@@ -17,15 +17,18 @@ import kotlin.test.Test
 
 class TestHighlighter {
 
-    private val Json = Json(JsonConfiguration.Stable.copy())
-
     private val attribute = Attribute("name")
     private val highlightResult = HighlightResult("<em>John</em>ny", MatchLevel.Partial, listOf("Johnny"))
     private val highlights = mapOf(attribute to highlightResult)
     private val hit = ResponseSearch.Hit(json {
         attribute.raw to "Johnny"
         "age" to 42
-        Key_HighlightResult to Json.toJson(HashMapSerializer(Attribute, HighlightResult.serializer()), highlights)
+        Key_HighlightResult to Json(JsonConfiguration.Stable).toJson(
+            HashMapSerializer(
+                Attribute,
+                HighlightResult.serializer()
+            ), highlights
+        )
     })
 
     @Test
