@@ -34,7 +34,7 @@ class Highlighter {
     ): HighlightedString? {
 
         return highlightResult?.get(attribute.raw)?.jsonObject?.get("value")?.content?.let {
-            HighlightTokenizer().tokenize(it)
+            HighlightTokenizer()(it)
         }
     }
 }

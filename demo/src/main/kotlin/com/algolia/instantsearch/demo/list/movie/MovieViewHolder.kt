@@ -14,7 +14,7 @@ class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val title = buildSpannedString {
             val parts = movie.titleHighlight?.parts
 
-            parts?.forEach { (isHighlighted, part) ->
+            parts?.forEach { (part, isHighlighted) ->
                 if (isHighlighted) {
                     println("High part: $part")
                     bold { append(part) }
