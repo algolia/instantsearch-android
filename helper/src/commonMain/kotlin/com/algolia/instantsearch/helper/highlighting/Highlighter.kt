@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
 import com.algolia.instantsearch.core.highlighting.HighlightedString
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
-import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.content
 
 
 class Highlighter {
@@ -13,13 +13,9 @@ class Highlighter {
         attribute: Attribute,
         hit: ResponseSearch.Hit
     ): HighlightedString? {
-        val highlightResult: JsonObject = hit.highlightResult
-        val highlightedAttribute = highlightResult[attribute.raw]
 
-        highlightedAttribute?.let {
-            val value = it.jsonObject["value"]
-            return HighlightTokenizer().tokenize(value.toString())
+        return hit.highlightResult[attribute.raw]?.jsonObject?.get("value")?.content?.let {
+            HighlightTokenizer().tokenize(it)
         }
-        return null
     }
 }
