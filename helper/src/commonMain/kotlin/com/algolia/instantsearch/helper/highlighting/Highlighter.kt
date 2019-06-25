@@ -7,21 +7,16 @@ import com.algolia.search.model.response.ResponseSearch
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.content
 
+/**
+ * Creates a [HighlightedString] from this hit's [attribute].
+ *
+ * @return null if no `_highlightResult` was found.
+ */
+fun ResponseSearch.Hit.toHighlightedString(attribute: Attribute): HighlightedString? {
+    return Highlighter.getHighlight(attribute, highlightResultOrNull)
+}
 
-class Highlighter {
-
-    /**
-     * Creates a [HighlightedString] from the [hit]'s [attribute].
-     *
-     * @return null if no `_highlightResult` was found.
-     */
-    fun getHighlight(
-        attribute: Attribute,
-        hit: ResponseSearch.Hit
-    ): HighlightedString? {
-
-        return getHighlight(attribute, hit.highlightResultOrNull)
-    }
+object Highlighter {
 
     /**
      * Creates a [HighlightedString] from a [highlightResult]'s [attribute].

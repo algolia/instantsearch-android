@@ -23,5 +23,5 @@ data class Movie(
 
     @Transient
     public val titleHighlight
-        get() = Highlighter().getHighlight(Attribute("title"), highlightResult)
+        get() = Highlighter.getHighlight(Attribute("title"), highlightResult)
 }

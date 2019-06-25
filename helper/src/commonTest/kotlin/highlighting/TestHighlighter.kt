@@ -1,7 +1,7 @@
 package highlighting
 
 import com.algolia.instantsearch.core.highlighting.HighlightedString
-import com.algolia.instantsearch.helper.highlighting.Highlighter
+import com.algolia.instantsearch.helper.highlighting.toHighlightedString
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.HighlightResult
@@ -33,8 +33,8 @@ class TestHighlighter {
     })
 
     @Test
-    fun getHighlight() {
-        val highlight = Highlighter().getHighlight(attribute, hit)
+    fun toHighlightedString() {
+        val highlight = hit.toHighlightedString(attribute)
 
         highlight.shouldNotBeNull()
         highlight?.let {
