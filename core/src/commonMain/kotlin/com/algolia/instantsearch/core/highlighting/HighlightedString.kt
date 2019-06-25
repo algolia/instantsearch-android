@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.core.highlighting
 
 
-data class HighlightedString(val original: String, val parts: List<HighlightToken>) {
+public data class HighlightedString(val original: String, val parts: List<HighlightToken>) {
 
     public val highlightedParts
         get() = parts.filter { it.highlighted }.map { it.content }
