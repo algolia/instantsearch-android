@@ -7,7 +7,7 @@ private const val DefaultPostTag: String = "</em>"
 public class HighlightTokenizer(
     public val preTag: String = DefaultPreTag,
     public val postTag: String = DefaultPostTag
-) : ((String) -> HighlightedString) {
+) : (String) -> HighlightedString {
 
     private val regex = Regex(Regex.escape(preTag) + ".*?" + Regex.escape(postTag))
 
