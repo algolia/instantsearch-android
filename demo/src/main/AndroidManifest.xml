@@ -26,6 +26,10 @@
         </activity>
 
         <activity
+            android:name=".highlighting.HighlightingDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
+        <activity
             android:name=".filter.clear.FilterClearDemo"
             android:parentActivityName=".home.HomeDemo" />
 
