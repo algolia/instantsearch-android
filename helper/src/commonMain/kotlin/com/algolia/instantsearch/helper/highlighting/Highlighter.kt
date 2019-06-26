@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.helper.highlighting
 
+import com.algolia.instantsearch.core.highlighting.DefaultPostTag
+import com.algolia.instantsearch.core.highlighting.DefaultPreTag
 import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
 import com.algolia.instantsearch.core.highlighting.HighlightedString
 import com.algolia.search.model.Attribute
@@ -12,8 +14,12 @@ import kotlinx.serialization.json.content
  *
  * @return null if no `_highlightResult` was found.
  */
-fun ResponseSearch.Hit.toHighlightedString(attribute: Attribute): HighlightedString? {
-    return Highlighter.getHighlight(attribute, highlightResultOrNull)
+fun ResponseSearch.Hit.toHighlightedString(
+    attribute: Attribute,
+    preTag: String = DefaultPreTag,
+    postTag: String = DefaultPostTag
+): HighlightedString? {
+    return Highlighter.getHighlight(attribute, highlightResultOrNull, preTag, postTag)
 }
 
 object Highlighter {
@@ -25,11 +31,13 @@ object Highlighter {
      */
     fun getHighlight(
         attribute: Attribute,
-        highlightResult: JsonObject?
+        highlightResult: JsonObject?,
+        preTag: String = DefaultPreTag,
+        postTag: String = DefaultPostTag
     ): HighlightedString? {
 
         return highlightResult?.get(attribute.raw)?.jsonObject?.get("value")?.content?.let {
-            HighlightTokenizer()(it)
+            HighlightTokenizer(preTag, postTag)(it)
         }
     }
 }

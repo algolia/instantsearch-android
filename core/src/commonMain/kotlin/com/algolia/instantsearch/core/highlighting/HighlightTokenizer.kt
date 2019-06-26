@@ -1,9 +1,6 @@
 package com.algolia.instantsearch.core.highlighting
 
 
-private const val DefaultPreTag: String = "<em>"
-private const val DefaultPostTag: String = "</em>"
-
 public class HighlightTokenizer(
     public val preTag: String = DefaultPreTag,
     public val postTag: String = DefaultPostTag
