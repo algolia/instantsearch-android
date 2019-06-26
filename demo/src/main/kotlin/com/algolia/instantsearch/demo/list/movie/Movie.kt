@@ -20,14 +20,15 @@ import kotlinx.serialization.json.JsonObject
 @Serializable
 abstract class Hit(
 
-    @Transient override val objectID: ObjectID = ObjectID("")
+    //DISCUSS: can this fake objectID cause problems down the line?
+    @Transient override val objectID: ObjectID = ObjectID("stubObjectID")
 ) : Indexable {
     @SerialName(Key_HighlightResult)
 
     private val highlightResult: JsonObject? = null
 
     @Transient
-    public val highlights: Map<Attribute, HighlightedString>?
+    public val highlights: Map<Attribute, List<HighlightedString>>?
         get() = Highlighter.getHighlights(highlightResult)
 }
 
@@ -43,6 +44,6 @@ data class Movie(
 
     @Transient
     public val titleHighlight
-        get() = highlights?.get(Attribute("title"))
+        get() = highlights?.get(Attribute("title"))?.first()
 
 }

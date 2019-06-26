@@ -6,6 +6,7 @@ import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
 import com.algolia.instantsearch.core.highlighting.HighlightedString
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.content
 
@@ -29,6 +30,7 @@ object Highlighter {
      *
      * @return null if no `_highlightResult` was found.
      */
+    //FIXME: Can I return something better for the default case than List<HString>?
     fun getHighlights(
         highlightResult: JsonObject?,
         preTag: String = DefaultPreTag,
@@ -38,10 +40,19 @@ object Highlighter {
 
         mutableMapOf<Attribute, List<HighlightedString>>().apply {
             it.content.forEach { (attribute, highlightJSON) ->
-                println("highlightJson: $highlightJSON")
-                    highlightJSON.jsonObject["value"]?.content?.let {
-                        put(Attribute(attribute), listOf(highlightTokenizer(it)))
+                put(Attribute(attribute), mutableListOf<HighlightedString>().apply {
+                    if (highlightJSON is JsonObject) {
+                        highlightJSON.jsonObject["value"]?.content?.let {
+                            add(highlightTokenizer(it))
+                        }
+                    } else if (highlightJSON is JsonArray) {
+                        highlightJSON.jsonArray.forEach {
+                            it.jsonObject["value"]?.content?.let { content ->
+                                add(highlightTokenizer(content))
+                            }
+                        }
                     }
+                })
             }
         }
     }
@@ -51,6 +62,7 @@ object Highlighter {
      *
      * @return null if no `_highlightResult` was found.
      */
+    //TODO: Handle List attribute, + Test 
     fun getHighlight(
         attribute: Attribute,
         highlightResult: JsonObject?,
