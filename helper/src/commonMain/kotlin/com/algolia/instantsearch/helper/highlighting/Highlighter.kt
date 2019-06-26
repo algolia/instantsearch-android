@@ -25,6 +25,28 @@ fun ResponseSearch.Hit.toHighlightedString(
 object Highlighter {
 
     /**
+     * Creates a map of [Attribute] to [HighlightedString] from a [highlightResult].
+     *
+     * @return null if no `_highlightResult` was found.
+     */
+    fun getHighlights(
+        highlightResult: JsonObject?,
+        preTag: String = DefaultPreTag,
+        postTag: String = DefaultPostTag
+    ): Map<Attribute, List<HighlightedString>>? = highlightResult?.let {
+        val highlightTokenizer = HighlightTokenizer(preTag, postTag)
+
+        mutableMapOf<Attribute, List<HighlightedString>>().apply {
+            it.content.forEach { (attribute, highlightJSON) ->
+                println("highlightJson: $highlightJSON")
+                    highlightJSON.jsonObject["value"]?.content?.let {
+                        put(Attribute(attribute), listOf(highlightTokenizer(it)))
+                    }
+            }
+        }
+    }
+
+    /**
      * Creates a [HighlightedString] from a [highlightResult]'s [attribute].
      *
      * @return null if no `_highlightResult` was found.
