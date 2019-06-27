@@ -40,6 +40,5 @@ class HighlightingDemo : AppCompatActivity() {
         configureSearchView(searchView, getString(R.string.search_movies))
 
         searcher.searchAsync()
-
     }
 }
