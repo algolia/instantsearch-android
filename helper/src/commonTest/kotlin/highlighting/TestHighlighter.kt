@@ -2,6 +2,7 @@ package highlighting
 
 import com.algolia.instantsearch.helper.highlighting.Highlighter
 import com.algolia.instantsearch.helper.highlighting.toHighlightedString
+import com.algolia.instantsearch.helper.highlighting.toHighlightedStrings
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.HighlightResult
@@ -22,14 +23,15 @@ class TestHighlighter {
     private val preTag = "["
     private val postTag = "]"
     private val name = Attribute("name")
-    private val nameHighlight = HighlightResult("[John]ny", MatchLevel.Partial, listOf("Johnny"))
+    private val city = Attribute("city")
     private val nickname = Attribute("nickname")
+
+    private val nameHighlight = HighlightResult("[John]ny", MatchLevel.Partial, listOf("Johnny"))
+    private val cityHighlight = HighlightResult("[John]son Town", MatchLevel.Partial, listOf("Johnson"))
     private val nicknameHighlight = listOf(
         HighlightResult("Little [John]", MatchLevel.Partial, listOf("Johnny")),
         HighlightResult("[John] the wise", MatchLevel.Partial, listOf("John"))
     )
-    private val city = Attribute("city")
-    private val cityHighlight = HighlightResult("[John]son Town", MatchLevel.Partial, listOf("Johnson"))
 
     private val hit = ResponseSearch.Hit(json {
         name.raw to "Johnny"
@@ -41,8 +43,7 @@ class TestHighlighter {
             ), mapOf(name to nameHighlight, city to cityHighlight)
         )
     })
-
-    //FIXME: Can I serialize a Highlight with both flat and list highlights?
+    //FIXME: Can I serialize a Highlight with both flat and list highlights? Else, maybe use json{}
     private val hitWithList = ResponseSearch.Hit(json {
         name.raw to "Johnny"
         "age" to 42
@@ -53,17 +54,6 @@ class TestHighlighter {
             ), mapOf(nickname to nicknameHighlight)
         )
     })
-
-    @Test
-    fun toHighlightedString() {
-        val highlight = hit.toHighlightedString(name, preTag, postTag)
-
-        highlight.shouldNotBeNull()
-        highlight?.let {
-            it.parts.size shouldEqual 2
-            it.highlightedParts shouldEqual listOf("John")
-        }
-    }
 
     @Test
     fun getHighlights() {
@@ -82,6 +72,17 @@ class TestHighlighter {
     }
 
     @Test
+    fun toHighlightedString() {
+        val highlight = hit.toHighlightedString(name, preTag, postTag)
+
+        highlight.shouldNotBeNull()
+        highlight?.let {
+            it.parts.size shouldEqual 2
+            it.highlightedParts shouldEqual listOf("John")
+        }
+    }
+
+    @Test
     fun getHighlightsWithList() {
         val highlights = Highlighter.getHighlights(hitWithList.highlightResult, preTag, postTag)
 
@@ -93,6 +94,20 @@ class TestHighlighter {
                     value.parts.size shouldEqual 2
                     value.highlightedParts shouldEqual listOf("John")
                 }
+            }
+        }
+    }
+
+
+    @Test
+    fun toHighlightedStrings() {
+        val highlights = hitWithList.toHighlightedStrings(nickname, preTag, postTag)
+
+        highlights.shouldNotBeNull()
+        highlights?.forEach{ highlight ->
+            highlight.let {
+                it.parts.size shouldEqual 2
+                it.highlightedParts shouldEqual listOf("John")
             }
         }
     }

@@ -6,9 +6,9 @@ import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
 import com.algolia.instantsearch.core.highlighting.HighlightedString
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
-import kotlinx.serialization.json.JsonArray
+import com.algolia.search.serialize.toHighlight
+import com.algolia.search.serialize.toHighlights
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.content
 
 /**
  * Creates a [HighlightedString] from this hit's [attribute].
@@ -19,8 +19,14 @@ fun ResponseSearch.Hit.toHighlightedString(
     attribute: Attribute,
     preTag: String = DefaultPreTag,
     postTag: String = DefaultPostTag
-): HighlightedString? {
-    return Highlighter.getHighlight(attribute, highlightResultOrNull, preTag, postTag)
+): HighlightedString? = toHighlightedStrings(attribute, preTag, postTag)?.first()
+
+fun ResponseSearch.Hit.toHighlightedStrings(
+    attribute: Attribute,
+    preTag: String = DefaultPreTag,
+    postTag: String = DefaultPostTag
+): List<HighlightedString>? {
+    return Highlighter.getHighlights(attribute, highlightResultOrNull, preTag, postTag)
 }
 
 object Highlighter {
@@ -30,48 +36,37 @@ object Highlighter {
      *
      * @return null if no `_highlightResult` was found.
      */
-    //FIXME: Can I return something better for the default case than List<HString>?
     fun getHighlights(
         highlightResult: JsonObject?,
         preTag: String = DefaultPreTag,
         postTag: String = DefaultPostTag
     ): Map<Attribute, List<HighlightedString>>? = highlightResult?.let {
-        val highlightTokenizer = HighlightTokenizer(preTag, postTag)
+        val tokenizer = HighlightTokenizer(preTag, postTag)
 
         mutableMapOf<Attribute, List<HighlightedString>>().apply {
-            it.content.forEach { (attribute, highlightJSON) ->
-                put(Attribute(attribute), mutableListOf<HighlightedString>().apply {
-                    if (highlightJSON is JsonObject) {
-                        highlightJSON.jsonObject["value"]?.content?.let {
-                            add(highlightTokenizer(it))
-                        }
-                    } else if (highlightJSON is JsonArray) {
-                        highlightJSON.jsonArray.forEach {
-                            it.jsonObject["value"]?.content?.let { content ->
-                                add(highlightTokenizer(content))
-                            }
-                        }
+            it.keys.forEach { attribute ->
+                highlightResult.toHighlights(attribute)
+                    ?: highlightResult.toHighlight(attribute)?.let { listOf(it) }?.let { list ->
+                        put(Attribute(attribute), list.map { tokenizer(it.value) })
                     }
-                })
             }
         }
     }
 
     /**
-     * Creates a [HighlightedString] from a [highlightResult]'s [attribute].
+     * Creates a list of [HighlightedString] from a [highlightResult]'s [attribute].
      *
      * @return null if no `_highlightResult` was found.
      */
-    //TODO: Handle List attribute, + Test 
-    fun getHighlight(
+    fun getHighlights(
         attribute: Attribute,
         highlightResult: JsonObject?,
         preTag: String = DefaultPreTag,
         postTag: String = DefaultPostTag
-    ): HighlightedString? {
+    ): List<HighlightedString>? {
 
-        return highlightResult?.get(attribute.raw)?.jsonObject?.get("value")?.content?.let {
-            HighlightTokenizer(preTag, postTag)(it)
-        }
+        return (highlightResult?.toHighlights(attribute.raw)
+            ?: highlightResult?.toHighlight(attribute.raw)?.let { listOf(it) })
+            ?.map { HighlightTokenizer(preTag, postTag)(it.value) }
     }
 }
