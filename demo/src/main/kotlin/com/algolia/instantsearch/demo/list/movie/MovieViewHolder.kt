@@ -1,10 +1,7 @@
 package com.algolia.instantsearch.demo.list.movie
 
-import android.text.SpannedString
 import android.text.TextUtils
-import android.text.style.StyleSpan
 import android.view.View
-import androidx.core.text.getSpans
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.helper.highlighting.toSpannedString
 import com.bumptech.glide.Glide
@@ -18,15 +15,7 @@ class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         //view.itemTitle.text = view.resources.getString(R.string.template_title).format(title, movie.year)
 
         view.itemTitle.text = TextUtils.concat(movie.highlightedTitle.toSpannedString(), " (${movie.year})")
-        val genreStrings = movie.highlightedGenres.sorted()
-            .map { it.toSpannedString() }
-        if (genreStrings.isNotEmpty()) {
-            view.itemSubtitle.text = genreStrings.reduce { acc, str ->
-                TextUtils.concat(acc, ", ", str) as SpannedString
-            }.also {
-                println("Final string: $it, spans: ${it.getSpans<StyleSpan>(0, it.length).size}")
-            }
-        }
+        view.itemSubtitle.text = movie.highlightedGenres?.toSpannedString()
         Glide.with(view)
             .load(movie.image).placeholder(android.R.drawable.ic_media_play)
             .centerCrop()
