@@ -8,10 +8,9 @@ public data class HighlightedString(
     public val highlightedParts
         get() = parts.filter { it.highlighted }.map { it.content }
 
-    override fun toString(): String = parts
-        .map { if (it.highlighted) "_${it.content}_" else it.content }.toString()
-
     override fun compareTo(other: HighlightedString): Int {
         return original.compareTo(other.original)
     }
+
+    override fun toString(): String = parts.joinToString("") { if (it.highlighted) "_${it.content}_" else it.content }
 }
