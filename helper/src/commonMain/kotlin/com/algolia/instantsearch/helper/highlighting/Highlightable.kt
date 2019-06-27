@@ -6,6 +6,9 @@ import kotlinx.serialization.Transient
 import kotlinx.serialization.json.JsonObject
 
 
+/**
+ * Inheritors of this interface can use [getHighlight]/[getHighlights] methods to render highlights easily.
+ */
 interface Highlightable {
     @Suppress("PropertyName") // Else implementers have to remember to specify @SerialName
     val _highlightResult: JsonObject?
