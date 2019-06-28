@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.demo.list.movie
 
-import com.algolia.instantsearch.core.highlighting.HighlightedString
 import com.algolia.instantsearch.helper.highlighting.Highlightable
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.ObjectID
@@ -25,6 +24,6 @@ data class Movie(
         get() = getHighlight(Attribute("title"))
 
     @Transient
-    public val highlightedGenres: List<HighlightedString>?
-        get() = getHighlightsOrNull(Attribute("genre"))
+    public val highlightedGenres
+        get() = getHighlights(Attribute("genre"))
 }
