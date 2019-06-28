@@ -48,7 +48,7 @@ class MovieAdapterHighlighted : ListAdapter<Movie, MovieAdapterHighlighted.Movie
 
         private fun bindFooter(movie: Movie) {
             view.itemFooter.text = movie.highlightedActors?.let { list ->
-                list.joinToString { highlight ->
+                list.sortedByDescending { it.highlightedParts.size }.joinToString { highlight ->
                     highlight.parts.joinToString("") {
                         if (it.highlighted) it.content.toUpperCase() else it.content
                     }
