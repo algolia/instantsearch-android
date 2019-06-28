@@ -22,7 +22,7 @@ class HighlightingDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_highlighting)
 
-        val adapter = MovieHighlightedAdapter()
+        val adapter = MovieAdapterHighlighted()
         val searchBoxViewModel = SearchBoxViewModel()
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 

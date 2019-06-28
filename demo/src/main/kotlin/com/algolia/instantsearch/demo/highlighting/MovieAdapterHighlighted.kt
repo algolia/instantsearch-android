@@ -18,10 +18,10 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.list_item_large.view.*
 
 
-class MovieHighlightedAdapter : ListAdapter<Movie, MovieHighlightedAdapter.MovieHighlightedViewHolder>(MovieDiffUtil) {
+class MovieAdapterHighlighted : ListAdapter<Movie, MovieAdapterHighlighted.MovieHighlightedViewHolder>(MovieDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHighlightedViewHolder {
-        return MovieHighlightedViewHolder(parent.inflate(R.layout.list_item_large))
+        return MovieHighlightedViewHolder(parent.inflate(R.layout.list_item_highlighting))
     }
 
     override fun onBindViewHolder(holder: MovieHighlightedViewHolder, position: Int) {
@@ -47,21 +47,13 @@ class MovieHighlightedAdapter : ListAdapter<Movie, MovieHighlightedAdapter.Movie
         }
 
         private fun bindFooter(movie: Movie) {
-            view.itemFooter.visibility = View.VISIBLE
-            val text: CharSequence? = movie.highlightedActors?.let { list ->
-                println("Actors: $list")
+            view.itemFooter.text = movie.highlightedActors?.let { list ->
                 list.joinToString { highlight ->
-                    println("HL: $highlight")
                     highlight.parts.joinToString("") {
-                        if (it.highlighted) {
-                            println("HHHHHH!")
-                            it.content.toUpperCase()
-                        } else it.content
+                        if (it.highlighted) it.content.toUpperCase() else it.content
                     }
                 }
             }
-            println("Text: $text")
-            view.itemFooter.text = text
         }
 
         private fun bindImage(movie: Movie) {
