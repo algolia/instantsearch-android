@@ -1,8 +1,12 @@
 package com.algolia.instantsearch.helper.highlighting
 
+import com.algolia.instantsearch.core.highlighting.DefaultPostTag
+import com.algolia.instantsearch.core.highlighting.DefaultPreTag
+import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
 import com.algolia.instantsearch.core.highlighting.HighlightedString
 import com.algolia.search.model.Attribute
-import kotlinx.serialization.Transient
+import com.algolia.search.serialize.toHighlight
+import com.algolia.search.serialize.toHighlights
 import kotlinx.serialization.json.JsonObject
 
 
@@ -10,26 +14,41 @@ import kotlinx.serialization.json.JsonObject
  * Inheritors of this interface can use [getHighlight]/[getHighlights] methods to render highlights easily.
  */
 interface Highlightable {
+
     @Suppress("PropertyName") // Else implementers have to remember to specify @SerialName
     val _highlightResult: JsonObject?
 
-    @Transient
-    public val highlights: Map<Attribute, List<HighlightedString>>?
-        get() = Highlighter.getHighlights(_highlightResult)
+    fun getHighlight(
+        key: Attribute,
+        findHighlight: (JsonObject) -> JsonObject = { it },
+        preTag: String = DefaultPreTag,
+        postTag: String = DefaultPostTag
+    ): HighlightedString? = getHighlight(key.raw, findHighlight)
 
-    fun getHighlightsOrNull(attribute: Attribute): List<HighlightedString>? = highlights?.get(attribute)
+    fun getHighlight(
+        key: String,
+        findHighlight: (JsonObject) -> JsonObject = { it },
+        preTag: String = DefaultPreTag,
+        postTag: String = DefaultPostTag
+    ): HighlightedString? = _highlightResult?.let { findHighlight(it).toHighlight(key) }?.let {
+        HighlightTokenizer(preTag, postTag)(it.value)
+    }
 
-    fun getHighlightOrNull(attribute: Attribute): HighlightedString? = highlights?.get(attribute)?.first()
+    fun getHighlights(
+        key: Attribute,
+        findHighlight: (JsonObject) -> JsonObject = { it },
+        preTag: String = DefaultPreTag,
+        postTag: String = DefaultPostTag
+    ): List<HighlightedString>? = getHighlights(key.raw, findHighlight)
 
-    fun getHighlights(attribute: Attribute): List<HighlightedString> =
-        getHighlightsOrNull(attribute) ?: throw IllegalStateException(
-            "No highlights for attribute \"$attribute\". Is it in `searchableAttributes`, and in `attributesToHighlight` if specified?"
-        )
-
-    fun getHighlight(attribute: Attribute): HighlightedString =
-        getHighlightOrNull(attribute) ?: throw IllegalStateException(
-            "No highlight for attribute \"$attribute\". Is it in `searchableAttributes`, and in `attributesToHighlight` if specified?"
-        )
+    fun getHighlights(
+        key: String,
+        findHighlight: (JsonObject) -> JsonObject = { it },
+        preTag: String = DefaultPreTag,
+        postTag: String = DefaultPostTag
+    ): List<HighlightedString>? = _highlightResult?.let { findHighlight(it).toHighlights(key) }?.map {
+        HighlightTokenizer(preTag, postTag)(it.value)
+    }
 }
 
 
