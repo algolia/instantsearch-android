@@ -26,4 +26,9 @@ data class Movie(
     @Transient
     public val highlightedGenres
         get() = getHighlights(Attribute("genre"))
+
+    @Transient
+    public val highlightedActors
+        get() = getHighlights(Attribute("actors"))
+
 }
