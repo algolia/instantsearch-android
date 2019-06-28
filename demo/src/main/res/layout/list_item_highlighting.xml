@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="?attr/listPreferredItemHeightLarge"
+    android:layout_height="100dp"
     android:layout_marginBottom="0.5dp"
     app:cardCornerRadius="0dp"
     app:contentPadding="16dp">
@@ -29,6 +29,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:ellipsize="end"
+            android:includeFontPadding="false"
             android:maxLines="1"
             android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintBottom_toTopOf="@id/itemSubtitle"
@@ -45,12 +46,25 @@
             android:maxLines="1"
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="@color/grey_dark"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/itemFooter"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="@+id/itemTitle"
             app:layout_constraintTop_toBottomOf="@id/itemTitle"
             tools:text="@tools:sample/lorem/random" />
+
+        <TextView
+            android:id="@+id/itemFooter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@color/grey_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/itemSubtitle"
+            app:layout_constraintTop_toBottomOf="@id/itemSubtitle"
+            tools:text="@tools:sample/lorem/random"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
