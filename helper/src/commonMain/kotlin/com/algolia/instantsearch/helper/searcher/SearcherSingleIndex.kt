@@ -49,6 +49,9 @@ public class SearcherSingleIndex(
 
     internal var disjunctive: (() -> Pair<List<Attribute>, Set<Filter>>) = { listOf<Attribute>() to setOf() }
 
+    internal var hierarchicalAttributes: List<Attribute> = listOf()
+    internal var hierarchicalFilters: List<Filter.Facet> = listOf()
+
     override fun setQuery(text: String?) {
         this.query.query = text
     }
@@ -62,13 +65,21 @@ public class SearcherSingleIndex(
     }
 
     override suspend fun search(): ResponseSearch {
-        val (disjunctiveAttributes, filters) = disjunctive.invoke()
+        val (disjunctiveAttributes, disjunctiveFilters) = disjunctive()
 
         withContext(dispatcher) { loading = true }
-        val response = if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
+        val response = if (hierarchicalFilters.isNotEmpty()) {
+            index.searchHierarchical(
+                query,
+                disjunctiveAttributes,
+                disjunctiveFilters,
+                hierarchicalAttributes,
+                hierarchicalFilters
+            )
+        } else if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
             index.search(query, requestOptions)
         } else {
-            index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters)
+            index.searchDisjunctiveFacets(query, disjunctiveAttributes, disjunctiveFilters)
         }
         withContext(dispatcher) {
             this@SearcherSingleIndex.response = response

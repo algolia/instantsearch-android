@@ -109,6 +109,10 @@
             android:name=".list.nested.NestedListDemo"
             android:parentActivityName=".home.HomeDemo" />
 
+        <activity
+            android:name=".hierarchical.HierarchicalDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
     </application>
 
 </manifest>

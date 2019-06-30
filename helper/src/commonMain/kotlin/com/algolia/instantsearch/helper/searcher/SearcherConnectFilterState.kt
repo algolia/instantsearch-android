@@ -18,6 +18,8 @@ fun SearcherSingleIndex.connectFilterState(filterState: FilterState) {
             .filter { it.key.operator == FilterOperator.Or }
             .flatMap { group -> group.value.map { it.attribute } }
 
+        hierarchicalAttributes = filterState.hierarchicalAttributes
+        hierarchicalFilters = filterState.hierarchicalFilters
         disjunctiveAttributes to filterState.getFilters()
     }
     filterState.onChanged += {
