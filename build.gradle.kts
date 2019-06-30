@@ -13,8 +13,8 @@ buildscript {
     }
     dependencies {
         classpath(dependency.script.AndroidTools())
-        classpath(kotlin("gradle-plugin", version = "1.3.31"))
-        classpath(kotlin("serialization",  version = "1.3.31"))
+        classpath(kotlin("gradle-plugin", version = "1.3.40"))
+        classpath(kotlin("serialization",  version = "1.3.40"))
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
     }
 }
