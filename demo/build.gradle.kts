@@ -35,7 +35,8 @@ android {
     }
 
     packagingOptions {
-        // FIXME: Solve these "More than one file was found with OS independent path 'META-INF/*' in the lib via Proguard
+        // TODO: Solve these "More than one file was found with OS independent path 'META-INF/*' in the lib via Proguard
+        exclude("META-INF/kotlinx-serialization-runtime.kotlin_module")
         exclude("META-INF/kotlinx-coroutines-core.kotlin_module")
         exclude("META-INF/ktor-http.kotlin_module")
         exclude("META-INF/kotlinx-io.kotlin_module")
