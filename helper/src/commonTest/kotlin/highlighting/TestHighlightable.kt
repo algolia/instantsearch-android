@@ -1,10 +1,12 @@
 package highlighting
 
+import JsonNoDefaults
 import com.algolia.instantsearch.core.highlighting.HighlightToken
 import com.algolia.instantsearch.helper.highlighting.Highlightable
-import com.algolia.search.serialize.*
+import com.algolia.search.model.search.HighlightResult
+import com.algolia.search.model.search.MatchLevel
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.json
 import kotlinx.serialization.json.jsonArray
@@ -32,17 +34,17 @@ class TestHighlightable {
         listOf("foo", "bar"),
         Pet("fido", listOf("fifi, dodo")),
         json {
-            "name" to jsonHighlight("<em>to</em>to")
+            "name" to HighlightResult("<em>to</em>to").toJson()
             "friendNames" to jsonArray {
-                +jsonHighlight("<em>f</em>oo")
-                +jsonHighlight("b<em>a</em>r")
+                +HighlightResult("<em>f</em>oo").toJson()
+                +HighlightResult("b<em>a</em>r").toJson()
             }
-            "age" to jsonHighlight("<em>4</em>2")
+            "age" to HighlightResult("<em>4</em>2").toJson()
             "pet" to json {
-                "name" to jsonHighlight("fi<em>do</em>")
+                "name" to HighlightResult("fi<em>do</em>").toJson()
                 "nicknames" to jsonArray {
-                    +jsonHighlight("<em>fifi</em>")
-                    +jsonHighlight("dodo")
+                    +HighlightResult("<em>fifi</em>").toJson()
+                    +HighlightResult("dodo").toJson()
                 }
             }
         }
@@ -116,17 +118,14 @@ class TestHighlightable {
         }
     }
 
-    private fun jsonHighlight(
-        value: String,
-        matchLevel: String = KeyFull,
-        fullyHighlighted: Boolean = false,
-        matchedWords: JsonArray = jsonArray { +value }
-    ): JsonObject {
-        return json {
-            KeyValue to value
-            KeyMatchLevel to matchLevel
-            KeyFullyHighlighted to fullyHighlighted
-            KeyMatchedWords to matchedWords
-        }
+    private operator fun HighlightResult.Companion.invoke(value: String): HighlightResult {
+        return HighlightResult(
+            value = value,
+            matchLevel = MatchLevel.Full,
+            matchedWords = listOf(),
+            fullyHighlighted = false
+        )
     }
+
+    private fun HighlightResult.toJson(): JsonElement = JsonNoDefaults.toJson(HighlightResult.serializer(), this)
 }

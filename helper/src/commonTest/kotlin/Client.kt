@@ -14,6 +14,7 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 
+val JsonNoDefaults = Json(JsonConfiguration.Stable.copy(encodeDefaults = false))
 
 fun mockClient(
     response: HttpResponseData = respondSearch()
@@ -33,8 +34,7 @@ val responseSearch = ResponseSearch()
 fun respondSearch(response: ResponseSearch = responseSearch) = respondJson(response, ResponseSearch.serializer())
 
 fun <T> respondJson(response: T, serializer: KSerializer<T>): HttpResponseData {
-    val json = Json(JsonConfiguration.Stable.copy(encodeDefaults = false))
-    val responseString = json.stringify(serializer, response)
+    val responseString = JsonNoDefaults.stringify(serializer, response)
 
     return respond(
         headers = headersOf(
