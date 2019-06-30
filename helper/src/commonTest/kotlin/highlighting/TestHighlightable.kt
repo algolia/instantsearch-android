@@ -29,11 +29,11 @@ class TestHighlightable {
     ) : Highlightable
 
     private val friend = Friend(
-        "toto",
-        42,
-        listOf("foo", "bar"),
-        Pet("fido", listOf("fifi, dodo")),
-        json {
+        name = "toto",
+        age = 42,
+        friendNames = listOf("foo", "bar"),
+        pet = Pet("fido", listOf("fifi, dodo")),
+        _highlightResult = json {
             "name" to HighlightResult("<em>to</em>to").toJson()
             "friendNames" to jsonArray {
                 +HighlightResult("<em>f</em>oo").toJson()
