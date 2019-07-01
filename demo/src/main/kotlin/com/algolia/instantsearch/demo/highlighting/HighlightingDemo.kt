@@ -40,4 +40,9 @@ class HighlightingDemo : AppCompatActivity() {
 
         searcher.searchAsync()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        searcher.cancel()
+    }
 }
