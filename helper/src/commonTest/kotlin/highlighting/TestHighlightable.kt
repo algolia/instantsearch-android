@@ -91,7 +91,6 @@ class TestHighlightable {
         }
     }
 
-
     @Test
     fun getHighlightObjectString() {
         val highlightPetName = friend.getHighlight("name", { it.getObject("pet") })!!
