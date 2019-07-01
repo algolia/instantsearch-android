@@ -12,7 +12,7 @@ import com.algolia.instantsearch.core.highlighting.HighlightedString
 public fun HighlightedString.toSpannedString(
     span: ParcelableSpan = StyleSpan(Typeface.BOLD)
 ): SpannedString = buildSpannedString {
-    parts.forEach { (part, isHighlighted) ->
+    tokens.forEach { (part, isHighlighted) ->
         if (isHighlighted) inSpans(span) { append(part) }
         else append(part)
     }

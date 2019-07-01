@@ -53,7 +53,7 @@ class TestHighlightable {
         val highlightName = friend.getHighlight("name")!!
 
         highlightName.original shouldEqual "<em>to</em>to"
-        highlightName.parts shouldEqual listOf(
+        highlightName.tokens shouldEqual listOf(
             HighlightToken("to", true),
             HighlightToken("to", false)
         )
@@ -64,7 +64,7 @@ class TestHighlightable {
         val highlightAge = friend.getHighlight("age")!!
 
         highlightAge.original shouldEqual "<em>4</em>2"
-        highlightAge.parts shouldEqual listOf(
+        highlightAge.tokens shouldEqual listOf(
             HighlightToken("4", true),
             HighlightToken("2", false)
         )
@@ -76,14 +76,14 @@ class TestHighlightable {
 
         highlightFriends[0].let {
             it.original shouldEqual "<em>f</em>oo"
-            it.parts shouldEqual listOf(
+            it.tokens shouldEqual listOf(
                 HighlightToken("f", true),
                 HighlightToken("oo", false)
             )
         }
         highlightFriends[1].let {
             it.original shouldEqual "b<em>a</em>r"
-            it.parts shouldEqual listOf(
+            it.tokens shouldEqual listOf(
                 HighlightToken("b", false),
                 HighlightToken("a", true),
                 HighlightToken("r", false)
@@ -97,7 +97,7 @@ class TestHighlightable {
         val highlightPetName = friend.getHighlight("name", { it.getObject("pet") })!!
 
         highlightPetName.original shouldEqual "fi<em>do</em>"
-        highlightPetName.parts shouldEqual listOf(
+        highlightPetName.tokens shouldEqual listOf(
             HighlightToken("fi", false),
             HighlightToken("do", true)
         )
@@ -109,11 +109,11 @@ class TestHighlightable {
 
         highlightPetNicknames[0].let {
             it.original shouldEqual "<em>fifi</em>"
-            it.parts shouldEqual listOf(HighlightToken("fifi", true))
+            it.tokens shouldEqual listOf(HighlightToken("fifi", true))
         }
         highlightPetNicknames[1].let {
             it.original shouldEqual "dodo"
-            it.parts shouldEqual listOf(HighlightToken("dodo", false))
+            it.tokens shouldEqual listOf(HighlightToken("dodo", false))
         }
     }
 
