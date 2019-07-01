@@ -13,19 +13,19 @@ import kotlinx.serialization.json.JsonObject
 /**
  * Inheritors of this interface can use [getHighlight]/[getHighlights] methods to render highlights easily.
  */
-interface Highlightable {
+public interface Highlightable {
 
     @Suppress("PropertyName") // Else implementers have to remember to specify @SerialName
-    val _highlightResult: JsonObject?
+    public val _highlightResult: JsonObject?
 
-    fun getHighlight(
+    public fun getHighlight(
         key: Attribute,
         findHighlight: (JsonObject) -> JsonObject = { it },
         preTag: String = DefaultPreTag,
         postTag: String = DefaultPostTag
     ): HighlightedString? = getHighlight(key.raw, findHighlight)
 
-    fun getHighlight(
+    public fun getHighlight(
         key: String,
         findHighlight: (JsonObject) -> JsonObject = { it },
         preTag: String = DefaultPreTag,
@@ -34,14 +34,14 @@ interface Highlightable {
         HighlightTokenizer(preTag, postTag)(it.value)
     }
 
-    fun getHighlights(
+    public fun getHighlights(
         key: Attribute,
         findHighlight: (JsonObject) -> JsonObject = { it },
         preTag: String = DefaultPreTag,
         postTag: String = DefaultPostTag
     ): List<HighlightedString>? = getHighlights(key.raw, findHighlight)
 
-    fun getHighlights(
+    public fun getHighlights(
         key: String,
         findHighlight: (JsonObject) -> JsonObject = { it },
         preTag: String = DefaultPreTag,
