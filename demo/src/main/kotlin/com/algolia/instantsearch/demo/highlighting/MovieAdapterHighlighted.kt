@@ -5,6 +5,8 @@ import android.text.TextUtils
 import android.text.style.BackgroundColorSpan
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.text.buildSpannedString
 import androidx.core.text.italic
 import androidx.recyclerview.widget.ListAdapter
@@ -31,23 +33,23 @@ class MovieAdapterHighlighted : ListAdapter<Movie, MovieAdapterHighlighted.Movie
     class MovieHighlightedViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(movie: Movie) {
-            bindTitle(movie)
-            bindSubtitle(movie)
-            bindFooter(movie)
-            bindImage(movie)
+            movie.bindTitleTo(view.itemTitle)
+            movie.bindSubtitleTo(view.itemSubtitle)
+            movie.bindFooterTo(view.itemFooter)
+            movie.bindImageTo(view.itemImage)
         }
 
-        private fun bindTitle(movie: Movie) {
-            view.itemTitle.text = TextUtils.concat(movie.highlightedTitle?.toSpannedString(), " (${movie.year})")
+        private fun Movie.bindTitleTo(view: TextView) {
+            view.text = TextUtils.concat(highlightedTitle?.toSpannedString(), " ($year)")
         }
 
-        private fun bindSubtitle(movie: Movie) {
-            view.itemSubtitle.text = movie.highlightedGenres?.toSpannedString(BackgroundColorSpan(Color.YELLOW))
+        private fun Movie.bindSubtitleTo(view: TextView) {
+            view.text = highlightedGenres?.toSpannedString(BackgroundColorSpan(Color.YELLOW))
                 ?: buildSpannedString { italic { append("unknown genre") } }
         }
 
-        private fun bindFooter(movie: Movie) {
-            view.itemFooter.text = movie.highlightedActors?.let { list ->
+        private fun Movie.bindFooterTo(view: TextView) {
+            view.text = highlightedActors?.let { list ->
                 list.sortedByDescending { it.highlightedTokens.size }.joinToString { highlight ->
                     highlight.tokens.joinToString("") {
                         if (it.highlighted) it.content.toUpperCase() else it.content
@@ -56,11 +58,11 @@ class MovieAdapterHighlighted : ListAdapter<Movie, MovieAdapterHighlighted.Movie
             }
         }
 
-        private fun bindImage(movie: Movie) {
+        private fun Movie.bindImageTo(view: ImageView) {
             Glide.with(view)
-                .load(movie.image).placeholder(android.R.drawable.ic_media_play)
+                .load(image).placeholder(android.R.drawable.ic_media_play)
                 .centerCrop()
-                .into(view.itemImage)
+                .into(view)
         }
     }
 }
