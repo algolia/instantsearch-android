@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.core.highlighting
 
 
-public val DefaultPreTag = "<em>"
-public val DefaultPostTag = "</em>"
-
+public const val DefaultPreTag = "<em>"
+public const val DefaultPostTag = "</em>"
