@@ -5,6 +5,10 @@ import com.algolia.search.model.Attribute
 import kotlin.properties.Delegates
 
 
+/**
+ * @param hierarchicalAttributes attributes of the hierarchy.
+ * These MUST be specified in order, e.g. `["hierarchy.lvl0", "hierarchy.lvl1", "hierarchy.lvl2"]`.
+ */
 public open class HierarchicalViewModel(
     val hierarchicalAttributes: List<Attribute>,
     val separator: String,
@@ -23,6 +27,12 @@ public open class HierarchicalViewModel(
         onSelectionsChanged.forEach { it(newValue) }
     }
 
+    /**
+     * Computes selected levels as a List of Pair([Attribute], value) given a hierarchical key.
+     *
+     * @param key a hierarchy level separated by [separator], e.g. "products > shoes > running"
+     *
+     */
     public fun computeSelections(key: String) {
         val selections = key.split(separator).fold(listOf<String>()) { acc, s ->
             acc + if (acc.isEmpty()) s else acc.last() + separator + s
