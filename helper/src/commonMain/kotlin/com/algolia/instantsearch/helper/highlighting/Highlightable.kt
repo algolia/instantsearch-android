@@ -50,5 +50,3 @@ public interface Highlightable {
         HighlightTokenizer(preTag, postTag)(it.value)
     }
 }
-
-

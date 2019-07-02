@@ -8,6 +8,7 @@ import androidx.core.text.buildSpannedString
 import androidx.core.text.inSpans
 import com.algolia.instantsearch.core.highlighting.HighlightedString
 
+
 public fun HighlightedString.toSpannedString(
     span: ParcelableSpan = StyleSpan(Typeface.BOLD)
 ): SpannedString = buildSpannedString {

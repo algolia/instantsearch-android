@@ -18,10 +18,12 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import shouldEqual
 
+
 @SmallTest
 @RunWith(AndroidJUnit4::class)
 @Config(manifest = Config.NONE)
 class TestExtensions {
+
     private val tokenizer = HighlightTokenizer("[", "]")
     private val highlightStrings = listOf("foo[ba]r", "foo[ba]r[ba]z")
     private val highlights = highlightStrings.map(tokenizer)
@@ -54,7 +56,7 @@ class TestExtensions {
     fun listToSpannedString() = listToCustomSpannedString(defaultSpan)
 
     @Test
-    fun listToCustomSpannedString() =  listToCustomSpannedString(customSpan)
+    fun listToCustomSpannedString() = listToCustomSpannedString(customSpan)
 
     private fun stringToCustomSpannedString(customSpan: ParcelableSpan) {
         highlights.forEachIndexed { index, it ->
@@ -82,6 +84,6 @@ class TestExtensions {
     }
 
     private inline fun <reified T : Any> SpannedString.getSpans(): Array<out T> {
-        return getSpans<T>(0, length)
+        return getSpans(0, length)
     }
 }

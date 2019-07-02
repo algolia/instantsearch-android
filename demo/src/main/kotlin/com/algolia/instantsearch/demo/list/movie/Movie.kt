@@ -30,5 +30,4 @@ data class Movie(
     @Transient
     public val highlightedActors
         get() = getHighlights(Attribute("actors"))
-
 }
