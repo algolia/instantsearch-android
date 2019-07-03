@@ -34,20 +34,17 @@ internal fun <T> HierarchicalTree.depth(
     comparator: Comparator<T>,
     level: Int = 0,
     transform: (HierarchicalNode, Int, Boolean) -> T
-): List<T> {
-    return children.depth(comparator, level, transform)
-}
+): List<T> = children.depth(comparator, level, transform)
 
 private fun <T> List<HierarchicalNode>.depth(
     comparator: Comparator<T>,
     level: Int = 0,
     transform: (HierarchicalNode, Int, Boolean) -> T
 ): List<T> {
-    val list = mutableListOf<T>()
-
-    forEach { node ->
-        list += transform(node, level, node.children.isEmpty())
-        list += node.children.depth(comparator, level + 1, transform)
-    }
-    return list.sortedWith(comparator)
+    return mutableListOf<T>().also { list ->
+        forEach { node ->
+            list += transform(node, level, node.children.isEmpty())
+            list += node.children.depth(comparator, level + 1, transform)
+        }
+    }.sortedWith(comparator)
 }
