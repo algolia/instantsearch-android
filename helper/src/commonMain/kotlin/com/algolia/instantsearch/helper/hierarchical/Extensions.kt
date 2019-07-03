@@ -18,9 +18,7 @@ internal fun List<Facet>.toNodes(): HierarchicalTree {
     return map { HierarchicalNode(it) }.asTree()
 }
 
-internal fun List<HierarchicalNode>.asTree(): HierarchicalTree {
-    val tree = HierarchicalTree()
-
+internal fun List<HierarchicalNode>.asTree(): HierarchicalTree = HierarchicalTree().also { tree ->
     forEach { node ->
         val root = tree.findNode(node.facet)
 
@@ -30,7 +28,6 @@ internal fun List<HierarchicalNode>.asTree(): HierarchicalTree {
             tree.children += node
         }
     }
-    return tree
 }
 
 internal fun <T> HierarchicalTree.depth(
