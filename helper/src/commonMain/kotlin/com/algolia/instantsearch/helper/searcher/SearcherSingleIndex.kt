@@ -49,8 +49,8 @@ public class SearcherSingleIndex(
 
     internal var computeDisjunctiveParams: (() -> Pair<List<Attribute>, Set<Filter>>) = { listOf<Attribute>() to setOf() }
 
-    internal var hierarchicalAttributes: List<Attribute> = listOf()
     internal var hierarchicalFilters: List<Filter.Facet> = listOf()
+    internal var hierarchicalAttributes = hierarchicalFilters.map { it.attribute }.distinct()
 
     override fun setQuery(text: String?) {
         this.query.query = text
