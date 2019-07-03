@@ -47,7 +47,7 @@ public class SearcherSingleIndex(
         error = throwable
     }
 
-    internal var disjunctive: (() -> Pair<List<Attribute>, Set<Filter>>) = { listOf<Attribute>() to setOf() }
+    internal var computeDisjunctiveParams: (() -> Pair<List<Attribute>, Set<Filter>>) = { listOf<Attribute>() to setOf() }
 
     internal var hierarchicalAttributes: List<Attribute> = listOf()
     internal var hierarchicalFilters: List<Filter.Facet> = listOf()
@@ -65,7 +65,7 @@ public class SearcherSingleIndex(
     }
 
     override suspend fun search(): ResponseSearch {
-        val (disjunctiveAttributes, disjunctiveFilters) = disjunctive()
+        val (disjunctiveAttributes, disjunctiveFilters) = computeDisjunctiveParams()
 
         withContext(dispatcher) { loading = true }
         val response = if (hierarchicalFilters.isNotEmpty()) {

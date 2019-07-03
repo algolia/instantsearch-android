@@ -13,7 +13,7 @@ fun SearcherSingleIndex.connectFilterState(filterState: FilterState) {
     }
 
     updateFilters()
-    disjunctive = {
+    computeDisjunctiveParams = {
         val disjunctiveAttributes = filterState.getFacetGroups()
             .filter { it.key.operator == FilterOperator.Or }
             .flatMap { group -> group.value.map { it.attribute } }
