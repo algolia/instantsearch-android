@@ -1,6 +1,7 @@
 package hierarchical
 
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalNode
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalTree
 import com.algolia.instantsearch.helper.hierarchical.asTree
 import com.algolia.instantsearch.helper.hierarchical.findNode
 import com.algolia.search.model.search.Facet
@@ -62,17 +63,19 @@ class TestHierarchicalNode {
             category311, category312, category321, category322
         )
 
-        nodes.asTree() shouldEqual listOf(
-            category1,
-            category2.copy(children = mutableListOf(category21, category22)),
-            category3.copy(
-                children = mutableListOf(
-                    category31.copy(
-                        children = mutableListOf(category311, category312)
-                    ),
-                    category32.copy(
-                        children = mutableListOf(category321, category322)
+        nodes.asTree() shouldEqual HierarchicalTree(
+            mutableListOf(
+                category1,
+                category2.copy(children = mutableListOf(category21, category22)),
+                category3.copy(
+                    children = mutableListOf(
+                        category31.copy(
+                            children = mutableListOf(category311, category312)
+                        ),
+                        category32.copy(
+                            children = mutableListOf(category321, category322)
 
+                        )
                     )
                 )
             )
