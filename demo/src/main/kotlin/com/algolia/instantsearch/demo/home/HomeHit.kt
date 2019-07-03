@@ -3,6 +3,7 @@ package com.algolia.instantsearch.demo.home
 import com.algolia.search.model.ObjectID
 import com.algolia.search.model.indexing.Indexable
 import com.algolia.search.model.search.HighlightResult
+import com.algolia.search.serialize.Key_HighlightResult
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,6 +14,6 @@ data class HomeHit(
     val name: String,
     val type: String,
     val index: String,
-    @SerialName("_highlightResult")
+    @SerialName(Key_HighlightResult)
     val highlightResults: Map<String, HighlightResult>? = null
 ): Indexable

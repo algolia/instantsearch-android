@@ -1,8 +1,11 @@
 package com.algolia.instantsearch.demo.list.movie
 
+import android.text.TextUtils
 import android.view.View
+import androidx.core.text.buildSpannedString
+import androidx.core.text.italic
 import androidx.recyclerview.widget.RecyclerView
-import com.algolia.instantsearch.demo.R
+import com.algolia.instantsearch.helper.highlighting.toSpannedString
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.list_item_large.view.*
 
@@ -10,8 +13,9 @@ import kotlinx.android.synthetic.main.list_item_large.view.*
 class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(movie: Movie) {
-        view.itemTitle.text = view.resources.getString(R.string.template_title).format(movie.title, movie.year)
-        view.itemSubtitle.text = movie.genre.sorted().joinToString { it }
+        view.itemTitle.text = TextUtils.concat(movie.highlightedTitle?.toSpannedString(), " (${movie.year})")
+        view.itemSubtitle.text = movie.highlightedGenres?.toSpannedString()
+            ?: buildSpannedString { italic { append("unknown genre") } }
         Glide.with(view)
             .load(movie.image).placeholder(android.R.drawable.ic_media_play)
             .centerCrop()

@@ -63,13 +63,13 @@ class TestHighlightTokenizer {
         val output = tokenizer(input)
 
         output.original shouldEqual input
-        output.parts.size shouldEqual expectNbParts
-        output.highlightedParts shouldEqual expectHighlightedParts
+        output.tokens.size shouldEqual expectNbParts
+        output.highlightedTokens shouldEqual expectHighlightedParts
 
         if (expectHighlightedParts.isEmpty()) { // No part should be highlighted
-            output.parts.any { it.highlighted }.shouldBeFalse()
-        } else if (expectNbParts == expectHighlightedParts.size) { // All parts should be highlighted
-            output.parts.all { it.highlighted }.shouldBeTrue()
+            output.tokens.any { it.highlighted }.shouldBeFalse()
+        } else if (expectNbParts == expectHighlightedParts.size) { // All tokens should be highlighted
+            output.tokens.all { it.highlighted }.shouldBeTrue()
         }
     }
 }

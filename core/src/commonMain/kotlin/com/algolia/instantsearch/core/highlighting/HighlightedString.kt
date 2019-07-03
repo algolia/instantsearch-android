@@ -1,11 +1,15 @@
 package com.algolia.instantsearch.core.highlighting
 
 
-public data class HighlightedString(val original: String, val parts: List<HighlightToken>) {
+public data class HighlightedString(
+    val original: String,
+    val tokens: List<HighlightToken>
+) : Comparable<HighlightedString> {
 
-    public val highlightedParts
-        get() = parts.filter { it.highlighted }.map { it.content }
+    public val highlightedTokens
+        get() = tokens.filter { it.highlighted }.map { it.content }
 
-    override fun toString(): String = parts
-        .map { if (it.highlighted) "_${it.content}_" else it.content }.toString()
+    override fun compareTo(other: HighlightedString): Int {
+        return original.compareTo(other.original)
+    }
 }

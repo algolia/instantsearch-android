@@ -139,6 +139,7 @@ kotlin {
                 implementation(Ktor("client-mock-jvm"))
                 implementation(AppCompat())
                 implementation(MaterialDesign())
+                implementation(AndroidCore("ktx"))
                 implementation(SwipeRefreshLayout())
                 implementation(AndroidTestRunner())
                 implementation(AndroidTestExt())

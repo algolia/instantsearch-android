@@ -15,6 +15,7 @@ import com.algolia.instantsearch.demo.filter.segment.FilterSegmentDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDefaultDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo
 import com.algolia.instantsearch.demo.hierarchical.HierarchicalDemo
+import com.algolia.instantsearch.demo.highlighting.HighlightingDemo
 import com.algolia.instantsearch.demo.index.IndexSegmentDemo
 import com.algolia.instantsearch.demo.list.nested.NestedListDemo
 import com.algolia.instantsearch.demo.list.paging.PagingSingleIndexDemo
@@ -48,5 +49,6 @@ val homeActivities = mapOf(
     ObjectID("stats") to StatsDemo::class,
     ObjectID("loading") to LoadingDemo::class,
     ObjectID("nested_list") to NestedListDemo::class,
-    ObjectID("filter_hierarchical") to HierarchicalDemo::class
+    ObjectID("filter_hierarchical") to HierarchicalDemo::class,
+    ObjectID("highlighting") to HighlightingDemo::class
 )
