@@ -7,9 +7,8 @@ internal fun HierarchicalTree.findNode(facet: Facet): HierarchicalNode? = childr
 
 internal fun List<HierarchicalNode>.findNode(facet: Facet): HierarchicalNode? {
     forEach { node ->
-        val next = node.children.findNode(facet)
-
-        if (facet.value.startsWith(node.facet.value)) return next ?: node
+        if (facet.value.startsWith(node.facet.value))
+            return node.children.findNode(facet) ?: node
     }
     return null
 }
