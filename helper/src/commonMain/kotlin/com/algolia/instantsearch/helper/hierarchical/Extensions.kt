@@ -32,9 +32,8 @@ internal fun List<HierarchicalNode>.asTree(): HierarchicalTree = HierarchicalTre
 
 internal fun <T> HierarchicalTree.asTree(
     comparator: Comparator<T>,
-    level: Int = 0,
     transform: (HierarchicalNode, Int, Boolean) -> T
-): List<T> = children.asTree(comparator, level, transform)
+): List<T> = children.asTree(comparator, 0, transform)
 
 private fun <T> List<HierarchicalNode>.asTree(
     comparator: Comparator<T>,
