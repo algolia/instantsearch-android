@@ -30,13 +30,13 @@ internal fun List<HierarchicalNode>.asTree(): HierarchicalTree = HierarchicalTre
     }
 }
 
-internal fun <T> HierarchicalTree.depth(
+internal fun <T> HierarchicalTree.asTree(
     comparator: Comparator<T>,
     level: Int = 0,
     transform: (HierarchicalNode, Int, Boolean) -> T
-): List<T> = children.depth(comparator, level, transform)
+): List<T> = children.asTree(comparator, level, transform)
 
-private fun <T> List<HierarchicalNode>.depth(
+private fun <T> List<HierarchicalNode>.asTree(
     comparator: Comparator<T>,
     level: Int = 0,
     transform: (HierarchicalNode, Int, Boolean) -> T
@@ -44,7 +44,7 @@ private fun <T> List<HierarchicalNode>.depth(
     return mutableListOf<T>().also { list ->
         forEach { node ->
             list += transform(node, level, node.children.isEmpty())
-            list += node.children.depth(comparator, level + 1, transform)
+            list += node.children.asTree(comparator, level + 1, transform)
         }
     }.sortedWith(comparator)
 }
