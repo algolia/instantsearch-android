@@ -3,7 +3,7 @@ package com.algolia.instantsearch.helper.hierarchical
 import com.algolia.search.model.search.Facet
 
 
-internal fun HierarchicalTree.findNode(facet: Facet) : HierarchicalNode? = children.findNode(facet)
+internal fun HierarchicalTree.findNode(facet: Facet): HierarchicalNode? = children.findNode(facet)
 
 internal fun List<HierarchicalNode>.findNode(facet: Facet): HierarchicalNode? {
     forEach { node ->
