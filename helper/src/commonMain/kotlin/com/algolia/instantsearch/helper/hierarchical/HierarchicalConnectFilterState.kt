@@ -6,8 +6,12 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
 
-public fun HierarchicalViewModel.connectFilterState(filterState: FilterState, attribute: Attribute) {
-    val filterGroupID = FilterGroupID(attribute)
+public fun HierarchicalViewModel.connectFilterState(
+    filterState: FilterState,
+    attribute: Attribute,
+    filterGroupName: String = attribute.raw
+) {
+    val filterGroupID = FilterGroupID(filterGroupName)
 
     filterState.hierarchicalAttributes = hierarchicalAttributes
     onSelectionsComputed += { selections ->
