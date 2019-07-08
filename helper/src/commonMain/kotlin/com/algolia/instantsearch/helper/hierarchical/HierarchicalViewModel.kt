@@ -12,8 +12,8 @@ import kotlin.properties.Delegates
 public open class HierarchicalViewModel(
     val hierarchicalAttributes: List<Attribute>,
     val separator: String,
-    hierarchy: HierarchicalTree = HierarchicalTree()
-) : ItemViewModel<HierarchicalTree>(hierarchy) {
+    tree: HierarchicalTree = HierarchicalTree()
+) : ItemViewModel<HierarchicalTree>(tree) {
 
     init {
         if (hierarchicalAttributes.isEmpty())
