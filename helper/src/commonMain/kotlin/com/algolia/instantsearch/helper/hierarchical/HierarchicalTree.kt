@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.hierarchical
 
+import com.algolia.instantsearch.core.tree.Tree
+import com.algolia.search.model.search.Facet
 
-public data class HierarchicalTree(
-    val children: MutableList<HierarchicalNode> = mutableListOf()
-)
+
+public typealias HierarchicalTree = Tree<Facet>
