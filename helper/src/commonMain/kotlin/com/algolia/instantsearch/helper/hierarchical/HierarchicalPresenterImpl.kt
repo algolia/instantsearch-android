@@ -9,8 +9,8 @@ public class HierarchicalPresenterImpl(
     override fun invoke(tree: HierarchicalTree): List<HierarchicalItem> {
         return tree.asTree(comparator) { node, level, _ ->
             HierarchicalItem(
-                node.facet,
-                node.facet.value.split(separator)[level],
+                node.content,
+                node.content.value.split(separator)[level],
                 level
             )
         }

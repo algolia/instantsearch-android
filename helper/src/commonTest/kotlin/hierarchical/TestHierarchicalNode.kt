@@ -30,21 +30,21 @@ class TestHierarchicalNode {
     fun findNodeShouldBeNull() {
         val nodes = mutableListOf<HierarchicalNode>()
 
-        nodes.findNode(category1.facet).shouldBeNull()
+        nodes.findNode(category1.content).shouldBeNull()
     }
 
     @Test
     fun findNodeShouldMiss() {
         val nodes = mutableListOf(category1)
 
-        nodes.findNode(category21.facet).shouldBeNull()
+        nodes.findNode(category21.content).shouldBeNull()
     }
 
     @Test
     fun findFirstLevelNodeShouldHit() {
         val nodes = mutableListOf(category2)
 
-        nodes.findNode(category21.facet) shouldEqual category2
+        nodes.findNode(category21.content) shouldEqual category2
     }
 
     @Test
@@ -52,7 +52,7 @@ class TestHierarchicalNode {
         val node1 = category3.copy(children = mutableListOf(category31))
         val nodes = mutableListOf(node1)
 
-        nodes.findNode(category311.facet) shouldEqual category31
+        nodes.findNode(category311.content) shouldEqual category31
     }
 
     @Test
