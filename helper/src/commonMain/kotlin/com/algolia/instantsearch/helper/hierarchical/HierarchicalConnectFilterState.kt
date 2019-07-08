@@ -11,7 +11,7 @@ public fun HierarchicalViewModel.connectFilterState(
     attribute: Attribute,
     filterGroupName: String = attribute.raw
 ) {
-    val filterGroupID = FilterGroupID(filterGroupName)
+    val filterGroupID = FilterGroupID(filterGroupName) // hierarchical facet's FilterOperator MUST be And
 
     filterState.hierarchicalAttributes = hierarchicalAttributes
     onSelectionsComputed += { selections ->
