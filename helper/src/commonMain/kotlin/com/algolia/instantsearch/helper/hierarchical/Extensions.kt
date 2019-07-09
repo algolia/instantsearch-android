@@ -7,6 +7,7 @@ import com.algolia.instantsearch.core.tree.toNodes
 import com.algolia.search.model.search.Facet
 
 
+//FIXME: What if two values are prefixes but not subs? E.g "products > bike", "products > bikesheds"
 val isMatchingFacetNode: (Facet, Node<Facet>) -> Boolean =
     { content, node -> content.value.startsWith(node.content.value) }
 
