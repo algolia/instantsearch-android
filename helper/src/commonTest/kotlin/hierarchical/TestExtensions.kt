@@ -2,7 +2,6 @@ package hierarchical
 
 import com.algolia.instantsearch.core.tree.Node
 import com.algolia.instantsearch.helper.hierarchical.findNode
-import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import shouldBeNull
 import shouldEqual
@@ -11,24 +10,47 @@ import kotlin.test.Test
 class TestExtensions {
     private fun Facet.toNode() = Node(this)
 
-    private val attribute = Attribute("foo")
     private val category1 = Facet("Sport", 5).toNode()
-    private val category2 = Facet("Leisure", 1).toNode()
     private val category11 = Facet("Sport > Bikes", 2).toNode()
     private val category12 = Facet("Sport > Bikesheds", 3).toNode()
-    private val category21 = Facet("Leisure > Books", 1).toNode()
+    private val category11Custom = Facet("Sport | Bikes", 2).toNode()
+    private val category12Custom= Facet("Sport | Bikesheds", 3).toNode()
+    private val category2 = Facet("Sport - Leisure", 5).toNode()
+    private val category21= Facet("Sport - Leisure > Foo - Bar", 3).toNode()
+
 
     @Test
-    fun findNodeShouldHitMatching() {
+    fun findNodeMatchingShouldHit() {
+        val nodes = mutableListOf(category1)
+
+        nodes.findNode(category12.content) shouldEqual category1
+    }
+
+    @Test
+    fun findNodePrefixShouldMiss() {
+        val nodes = mutableListOf(category11)
+
+        nodes.findNode(category12.content).shouldBeNull()
+    }
+
+    @Test
+    fun findNodeMatchingCustomShouldHit() {
+        val nodes = mutableListOf(category1)
+
+        nodes.findNode(category12Custom.content) shouldEqual category1
+    }
+
+    @Test
+    fun findNodeCustomShouldHitPrefix() {
         val nodes = mutableListOf(category2)
 
         nodes.findNode(category21.content) shouldEqual category2
     }
 
     @Test
-    fun findNodeShouldMissPrefix() {
-        val nodes = mutableListOf(category11)
+    fun findNodeCustomShouldMissPrefix() {
+        val nodes = mutableListOf(category11Custom)
 
-        nodes.findNode(category12.content).shouldBeNull()
+        nodes.findNode(category12Custom.content).shouldBeNull()
     }
 }
