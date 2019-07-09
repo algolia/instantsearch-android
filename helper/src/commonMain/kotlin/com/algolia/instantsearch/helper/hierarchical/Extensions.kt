@@ -1,17 +1,15 @@
 package com.algolia.instantsearch.helper.hierarchical
 
+import com.algolia.instantsearch.core.tree.Node
+import com.algolia.instantsearch.core.tree.findNode
 import com.algolia.search.model.search.Facet
 
+val isMatchingFacetNode: (Facet, Node<Facet>) -> Boolean =
+    { content, node -> content.value.startsWith(node.content.value) }
 
-internal fun HierarchicalTree.findNode(facet: Facet): HierarchicalNode? = children.findNode(facet)
+internal fun HierarchicalTree.findNode(facet: Facet) = findNode(facet, isMatchingFacetNode)
 
-internal fun List<HierarchicalNode>.findNode(facet: Facet): HierarchicalNode? {
-    forEach { node ->
-        if (facet.value.startsWith(node.content.value))
-            return node.children.findNode(facet) ?: node
-    }
-    return null
-}
+internal fun List<HierarchicalNode>.findNode(facet: Facet): HierarchicalNode? = findNode(facet, isMatchingFacetNode)
 
 internal fun List<Facet>.toNodes(): HierarchicalTree {
     return map { HierarchicalNode(it) }.asTree()
