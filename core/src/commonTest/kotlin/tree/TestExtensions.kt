@@ -1,10 +1,6 @@
-package hierarchical
+package tree
 
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalNode
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalTree
-import com.algolia.instantsearch.helper.hierarchical.asTree
-import com.algolia.instantsearch.helper.hierarchical.findNode
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.core.tree.*
 import shouldBeNull
 import shouldEqual
 import kotlin.test.Test
@@ -12,23 +8,29 @@ import kotlin.test.Test
 
 class TestHierarchicalNode {
 
-    private fun Facet.toNode() = HierarchicalNode(this)
+    private fun String.toNode() = Node(this)
 
-    private val category1 = Facet("Furniture", 1).toNode()
-    private val category2 = Facet("Book", 2).toNode()
-    private val category3 = Facet("Clothing", 4).toNode()
-    private val category21 = Facet("Book > Science Fiction", 2).toNode()
-    private val category22 = Facet("Book > Romance", 2).toNode()
-    private val category31 = Facet("Clothing > Men", 1).toNode()
-    private val category32 = Facet("Clothing > Women", 1).toNode()
-    private val category311 = Facet("Clothing > Men > Shirt", 1).toNode()
-    private val category312 = Facet("Clothing > Men > Hats", 1).toNode()
-    private val category321 = Facet("Clothing > Women > Shoes", 1).toNode()
-    private val category322 = Facet("Clothing > Women > Bags", 1).toNode()
+    private val category1 = "Furniture".toNode()
+    private val category2 = "Book".toNode()
+    private val category3 = "Clothing".toNode()
+    private val category21 = "Book > Science Fiction".toNode()
+    private val category22 = "Book > Romance".toNode()
+    private val category31 = "Clothing > Men".toNode()
+    private val category32 = "Clothing > Women".toNode()
+    private val category311 = "Clothing > Men > Shirt".toNode()
+    private val category312 = "Clothing > Men > Hats".toNode()
+    private val category321 = "Clothing > Women > Shoes".toNode()
+    private val category322 = "Clothing > Women > Bags".toNode()
+
+    private val isMatchingString: (String, Node<String>) -> Boolean = { str, node ->
+        str.startsWith(node.content)
+    }
+
+    private fun List<Node<String>>.findNode(content: String) = findNode(content, isMatchingString)
 
     @Test
     fun findNodeShouldBeNull() {
-        val nodes = mutableListOf<HierarchicalNode>()
+        val nodes = mutableListOf<Node<String>>()
 
         nodes.findNode(category1.content).shouldBeNull()
     }
@@ -56,6 +58,15 @@ class TestHierarchicalNode {
     }
 
     @Test
+    fun toNodes() {
+        val values = listOf(category1.content, category2.content, category21.content, category22.content)
+        val nodes = values.toNodes(isMatchingString)
+        nodes shouldEqual Tree(
+            mutableListOf(category1, category2.copy(children = mutableListOf(category21, category22)))
+        )
+    }
+
+    @Test
     fun asTree() {
         val nodes = listOf(
             category1, category2, category3,
@@ -63,7 +74,7 @@ class TestHierarchicalNode {
             category311, category312, category321, category322
         )
 
-        nodes.asTree() shouldEqual HierarchicalTree(
+        nodes.asTree(isMatchingString) shouldEqual Tree(
             mutableListOf(
                 category1,
                 category2.copy(children = mutableListOf(category21, category22)),
