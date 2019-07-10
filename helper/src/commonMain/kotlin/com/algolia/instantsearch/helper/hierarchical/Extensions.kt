@@ -10,11 +10,13 @@ import kotlin.math.min
 
 val isMatchingFacetNode: (Facet, Node<Facet>) -> Boolean =
     { content, node ->
-        val splitNode: List<String> = node.content.value.split(Regex(" . "))
-        val splitContent: List<String> = content.value.split(Regex(" . "))
+        val regexSeparator = Regex(" . ")
+        val splitContent: List<String> = content.value.split(regexSeparator)
+        val splitNode: List<String> = node.content.value.split(regexSeparator)
         var isMatching = true
-        for (i in 0 until min(splitNode.size, splitContent.size)) {
-            if (splitNode[i] != splitContent[i]) {
+
+        for (i in 0 until min(splitContent.size,splitNode.size)) {
+            if (splitContent[i] != splitNode[i]) {
                 isMatching = false
                 break
             }

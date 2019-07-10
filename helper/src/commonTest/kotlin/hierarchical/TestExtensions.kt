@@ -15,8 +15,8 @@ class TestExtensions {
     private val category12 = Facet("Sport > Bikesheds", 3).toNode()
     private val category11Custom = Facet("Sport | Bikes", 2).toNode()
     private val category12Custom= Facet("Sport | Bikesheds", 3).toNode()
-    private val category2 = Facet("Sport - Leisure", 5).toNode()
-    private val category21= Facet("Sport - Leisure > Foo - Bar", 3).toNode()
+    private val category2Mixed = Facet("Sport - Leisure", 5).toNode()
+    private val category21Mixed= Facet("Sport - Leisure > Foo - Bar", 3).toNode()
 
 
     @Test
@@ -42,9 +42,9 @@ class TestExtensions {
 
     @Test
     fun findNodeCustomShouldHitPrefix() {
-        val nodes = mutableListOf(category2)
+        val nodes = mutableListOf(category2Mixed)
 
-        nodes.findNode(category21.content) shouldEqual category2
+        nodes.findNode(category21Mixed.content) shouldEqual category2Mixed
     }
 
     @Test
