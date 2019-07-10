@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.inflate
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalItem
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewImpl
+import com.algolia.instantsearch.helper.hierarchical.TreeViewImpl
 
 
-class HierarchicalAdapter : ListAdapter<HierarchicalItem, HierarchicalViewHolder>(diffUtil), HierarchicalViewImpl {
+class HierarchicalAdapter : ListAdapter<HierarchicalItem, HierarchicalViewHolder>(diffUtil), TreeViewImpl {
 
     override var onClick: ((String) -> Unit)? = null
 
