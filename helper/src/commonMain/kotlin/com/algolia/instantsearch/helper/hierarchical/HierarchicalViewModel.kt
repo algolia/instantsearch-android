@@ -1,7 +1,8 @@
 package com.algolia.instantsearch.helper.hierarchical
 
-import com.algolia.instantsearch.core.item.ItemViewModel
+import com.algolia.instantsearch.core.tree.TreeViewModel
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.search.Facet
 import kotlin.properties.Delegates
 
 
@@ -13,7 +14,7 @@ public open class HierarchicalViewModel(
     val hierarchicalAttributes: List<Attribute>,
     val separator: String,
     tree: HierarchicalTree = HierarchicalTree()
-) : ItemViewModel<HierarchicalTree>(tree) {
+) : TreeViewModel<String, Facet>(tree) {
 
     init {
         if (hierarchicalAttributes.isEmpty())
@@ -33,7 +34,7 @@ public open class HierarchicalViewModel(
      * @param key a hierarchy level separated by [separator], e.g. "products > shoes > running"
      *
      */
-    public fun computeSelections(key: String) {
+    override fun computeSelections(key: String) {
         val selections = key.split(separator).fold(listOf<String>()) { acc, s ->
             acc + if (acc.isEmpty()) s else acc.last() + separator + s
         }

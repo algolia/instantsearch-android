@@ -2,8 +2,11 @@ package hierarchical
 
 import com.algolia.instantsearch.core.tree.Node
 import com.algolia.instantsearch.core.tree.Tree
-import com.algolia.instantsearch.core.tree.connectView
-import com.algolia.instantsearch.helper.hierarchical.*
+import com.algolia.instantsearch.core.tree.TreeView
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalItem
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalPresenterImpl
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel
+import com.algolia.instantsearch.helper.hierarchical.connectView
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import shouldBeEmpty
@@ -48,7 +51,7 @@ class TestHierarchicalConnectView {
         Attribute("category.lvl1")
     )
 
-    private class MockTreeView : HierarchicalView {
+    private class MockTreeView : TreeView<List<HierarchicalItem>> {
         internal var items: List<HierarchicalItem> = listOf()
 
         override var onClick: ((String) -> Unit)? = null

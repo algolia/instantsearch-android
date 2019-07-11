@@ -3,6 +3,7 @@ package com.algolia.instantsearch.demo.hierarchical
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.algolia.instantsearch.core.tree.connectView
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.configureSearcher
 import com.algolia.instantsearch.demo.configureToolbar
