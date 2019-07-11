@@ -13,7 +13,6 @@ import com.algolia.instantsearch.helper.hierarchical.*
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
-import kotlinx.android.synthetic.main.demo_facet_list.*
 import kotlinx.android.synthetic.main.demo_hierarchical.*
 import kotlinx.android.synthetic.main.demo_hierarchical.toolbar
 
