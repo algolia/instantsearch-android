@@ -3,7 +3,10 @@ package hierarchical
 import com.algolia.instantsearch.core.tree.Node
 import com.algolia.instantsearch.core.tree.Tree
 import com.algolia.instantsearch.core.tree.connectView
-import com.algolia.instantsearch.helper.hierarchical.*
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalItem
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalPresenterImpl
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalView
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import shouldBeEmpty
@@ -12,6 +15,7 @@ import shouldNotBeNull
 import kotlin.test.Test
 
 
+//TODO: refactor as core test testing TreeConnectView
 class TestHierarchicalConnectView {
 
     private val selections = listOf("Shoes > Running")
