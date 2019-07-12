@@ -36,13 +36,19 @@ fun <T> List<Node<T>>.asTree(
     }
 }
 
-fun <I, O> Tree<I>.asTree(
+/**
+ * Transforms a List of Nodes with children into a flat list matching the nodes hierarchy.
+ *
+ * @param comparator a [Comparator] to sort sibling nodes.
+ * @param transform A function transforming a Node`<`**I**`>` into an **O**, knowing its depth and if it has children.
+ */
+public fun <I, O> Tree<I>.asTree(
     comparator: Comparator<O>,
     transform: (Node<I>, Int, Boolean) -> O
 ): List<O> = children.asTree(comparator, 0, transform)
 
 
-fun <I, O> List<Node<I>>.asTree(
+private fun <I, O> List<Node<I>>.asTree(
     comparator: Comparator<O>,
     level: Int = 0,
     transform: (Node<I>, Int, Boolean) -> O
