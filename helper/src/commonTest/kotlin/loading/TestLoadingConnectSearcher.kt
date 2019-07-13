@@ -25,9 +25,9 @@ class TestLoadingConnectSearcher {
         val expected = true
 
         searcher.loading = expected
-        viewModel.item.shouldBeFalse()
+        viewModel.isLoading.get().shouldBeFalse()
         viewModel.connectSearcher(searcher)
-        viewModel.item shouldEqual expected
+        viewModel.isLoading.get() shouldEqual expected
     }
 
     @Test
@@ -37,21 +37,21 @@ class TestLoadingConnectSearcher {
         val viewModel = LoadingViewModel()
         val expected = true
 
-        viewModel.item.shouldBeFalse()
+        viewModel.isLoading.get().shouldBeFalse()
         viewModel.connectSearcher(searcher, debouncer)
         searcher.loading = true
         blocking { debouncer.job!!.join() }
-        viewModel.item shouldEqual expected
+        viewModel.isLoading.get() shouldEqual expected
     }
 
     @Test
-    fun onTriggeredShouldCallSearch() {
+    fun onEventSentShouldCallSearch() {
         val searcher = MockSearcher()
         val viewModel = LoadingViewModel()
 
         searcher.searchCount shouldEqual 0
         viewModel.connectSearcher(searcher)
-        viewModel.trigger(Unit)
+        viewModel.event.send(Unit)
         blocking { searcher.job?.join() }
         searcher.searchCount shouldEqual 1
     }

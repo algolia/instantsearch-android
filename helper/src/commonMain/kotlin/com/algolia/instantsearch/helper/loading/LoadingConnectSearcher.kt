@@ -6,11 +6,11 @@ import com.algolia.instantsearch.core.searcher.Searcher
 
 
 public fun <R> LoadingViewModel.connectSearcher(searcher: Searcher<R>, debouncer: Debouncer = Debouncer(200)) {
-    item = searcher.loading
-    onTriggered += { searcher.searchAsync() }
+    isLoading.set(searcher.loading)
+    event.subscribe { searcher.searchAsync() }
     searcher.onLoadingChanged += { loading ->
         debouncer.debounce(searcher) {
-            item = loading
+            isLoading.set(loading)
         }
     }
 }

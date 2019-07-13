@@ -42,17 +42,17 @@ class TestLoadingConnectView {
 
         viewModel.connectView(view)
         view.boolean shouldEqual false
-        viewModel.item = expected
+        viewModel.isLoading.set(expected)
         view.boolean shouldEqual expected
     }
 
     @Test
-    fun onClickShouldCallOnTriggerChanged() {
+    fun onClickShouldCallEventSubscription() {
         val viewModel = LoadingViewModel()
         val view = MockLoadingView()
         var expected = false
 
-        viewModel.onTriggered += { expected = true }
+        viewModel.event.subscribe { expected = true }
         view.onClick.shouldBeNull()
         viewModel.connectView(view)
         view.onClick.shouldNotBeNull()
