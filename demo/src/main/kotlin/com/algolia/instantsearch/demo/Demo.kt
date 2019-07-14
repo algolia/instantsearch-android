@@ -85,7 +85,7 @@ fun AppCompatActivity.onFilterChangedThenUpdateFiltersText(
         }
     }.toMap()
     filtersTextView.text = filterState.toFilterGroups().highlight(colors = colors)
-    filterState.onChanged += {
+    filterState.filters.subscribe {
         filtersTextView.text = it.toFilterGroups().highlight(colors = colors)
     }
 }

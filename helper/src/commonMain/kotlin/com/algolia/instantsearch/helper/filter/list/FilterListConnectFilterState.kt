@@ -39,12 +39,9 @@ internal inline fun <reified T : Filter> FilterListViewModel<T>.connect(
     groupID: FilterGroupID,
     crossinline getSelections: Filters.() -> Set<T>
 ) {
-    val onChanged: (Filters) -> Unit = { filters ->
+    filterState.filters.subscribePast { filters ->
         selections = filters.getSelections()
     }
-
-    onChanged(filterState)
-    filterState.onChanged += onChanged
     onSelectionsComputed += { selections ->
         filterState.notify {
             when (selectionMode) {

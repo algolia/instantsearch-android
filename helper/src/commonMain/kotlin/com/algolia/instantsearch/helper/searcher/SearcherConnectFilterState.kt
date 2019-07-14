@@ -22,7 +22,7 @@ fun SearcherSingleIndex.connectFilterState(filterState: FilterState) {
         hierarchicalFilters = filterState.hierarchicalFilters
         disjunctiveAttributes to filterState.getFilters()
     }
-    filterState.onChanged += {
+    filterState.filters.subscribe {
         updateFilters()
         searchAsync()
     }
@@ -35,7 +35,7 @@ fun SearcherForFacets.connectFilterState(filterState: FilterState) {
     }
 
     updateFilters()
-    filterState.onChanged += {
+    filterState.filters.subscribe {
         updateFilters()
         searchAsync()
     }
