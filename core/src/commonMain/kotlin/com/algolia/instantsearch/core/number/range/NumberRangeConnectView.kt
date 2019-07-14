@@ -1,22 +1,14 @@
 package com.algolia.instantsearch.core.number.range
 
-import com.algolia.instantsearch.core.event.connectView as connectEventView
-import com.algolia.instantsearch.core.item.connectView as connectItemView
+import com.algolia.instantsearch.core.item.connectView
+import com.algolia.instantsearch.core.observable.ObservableKey
 
 
 public fun <T> NumberRangeViewModel<T>.connectView(
-    view: NumberRangeView<T>
+    view: NumberRangeView<T>,
+    key: ObservableKey? = null
 ) where T : Number, T : Comparable<T> {
-    connectRangeView(view)
-    connectItemView(view) { it }
-    connectEventView(view) { trigger(it) }
-}
-
-private fun <T> NumberRangeViewModel<T>.connectRangeView(
-    view: NumberRangeView<T>
-) where T : Number, T : Comparable<T> {
-    val onBoundsComputed: (Range<T>?) -> Unit = { view.setBounds(it) }
-
-    this.onBoundsComputed += onBoundsComputed
-    onBoundsComputed(bounds)
+    bounds.subscribePast { view.setBounds(it) }
+    range.connectView(view, key) { it }
+    view.onClick = (::coerce)
 }

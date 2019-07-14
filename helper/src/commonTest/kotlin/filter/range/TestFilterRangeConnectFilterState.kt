@@ -12,7 +12,7 @@ import shouldEqual
 import kotlin.test.Test
 
 
-class TestFilterRangeConnectFilterState  {
+class TestFilterRangeConnectFilterState {
 
     private val attribute = Attribute("foo")
     private val filterGroupID = FilterGroupID(attribute)
@@ -24,7 +24,7 @@ class TestFilterRangeConnectFilterState  {
         val range = 0..9
 
         viewModel.connectFilterState(attribute, filterState)
-        viewModel.computeRange(Range(range))
+        viewModel.coerce(Range(range))
         filterState.getFilters() shouldEqual setOf(Filter.Numeric(attribute, range))
     }
 
@@ -36,11 +36,11 @@ class TestFilterRangeConnectFilterState  {
         val range = 0f..9f
 
         viewModel.connectFilterState(attribute, filterState)
-        viewModel.item.shouldBeNull()
+        viewModel.range.get().shouldBeNull()
         filterState.notify {
             add(filterGroupID, Filter.Numeric(attribute, range.start, range.endInclusive))
         }
-        viewModel.item shouldEqual Range(range)
+        viewModel.range.get() shouldEqual Range(range)
     }
 
     @Test
@@ -50,10 +50,10 @@ class TestFilterRangeConnectFilterState  {
         val range = 0L..9L
 
         viewModel.connectFilterState(attribute, filterState)
-        viewModel.item.shouldBeNull()
+        viewModel.range.get().shouldBeNull()
         filterState.notify {
             add(filterGroupID, Filter.Numeric(attribute, range, true))
         }
-        viewModel.item shouldEqual Range(range)
+        viewModel.range.get() shouldEqual Range(range)
     }
 }

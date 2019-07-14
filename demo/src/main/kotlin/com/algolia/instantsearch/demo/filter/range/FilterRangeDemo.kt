@@ -2,10 +2,10 @@ package com.algolia.instantsearch.demo.filter.range
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.number.range.connectView
 import com.algolia.instantsearch.demo.*
+import com.algolia.instantsearch.helper.filter.range.FilterRangeViewModel
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -32,7 +32,7 @@ class FilterRangeDemo : AppCompatActivity() {
         searcher.connectFilterState(filterState)
 
         val initialRange = Range(0..10)
-        val viewModel = NumberRangeViewModel(initialRange)
+        val viewModel = FilterRangeViewModel(initialRange)
         val sliderViewA = RangeSliderView(sliderA)
         val sliderViewB = RangeSliderView(sliderB)
         val rangeTextView = RangeTextView(rangeLabel)
@@ -45,12 +45,12 @@ class FilterRangeDemo : AppCompatActivity() {
         viewModel.connectFilterState(price, filterState)
 
         buttonChangeBounds.setOnClickListener {
-            viewModel.bounds = Range(0..20)
+            viewModel.bounds.set(Range(0..20))
             it.isEnabled = false
             buttonResetBounds.isEnabled = true
         }
         buttonResetBounds.setOnClickListener {
-            viewModel.bounds = initialRange
+            viewModel.bounds.set(initialRange)
             it.isEnabled = false
             buttonChangeBounds.isEnabled = true
         }
