@@ -1,17 +1,17 @@
-package com.algolia.instantsearch.helper.android.filter.current
+package com.algolia.instantsearch.helper.android.filter
 
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.LayoutRes
-import com.algolia.instantsearch.helper.filter.current.CurrentFiltersView
+import com.algolia.instantsearch.helper.filter.current.FilterCurrentView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
 
-public class CurrentFiltersViewImpl(
+public class FilterCurrentViewImpl(
     val view: ChipGroup,
     @LayoutRes val chipLayout: Int? = null
-) : CurrentFiltersView {
+) : FilterCurrentView {
 
     var filters = sortedMapOf<String, String>()
 

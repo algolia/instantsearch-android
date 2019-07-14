@@ -29,7 +29,7 @@ class TestCurrentFiltersConnectFilterState {
 
     @Test
     fun connectShouldUpdateItems() {
-        val viewModel = CurrentFiltersViewModel(identifiedFilters)
+        val viewModel = FilterCurrentViewModel(identifiedFilters)
         val filterState = FilterState(filterMap)
 
         viewModel.connectFilterState(filterState)
@@ -38,7 +38,7 @@ class TestCurrentFiltersConnectFilterState {
 
     @Test
     fun onFilterStateChangedShouldUpdateItems() {
-        val viewModel = CurrentFiltersViewModel(identifiedFilters)
+        val viewModel = FilterCurrentViewModel(identifiedFilters)
         val filterState = FilterState(filterMap)
 
         viewModel.connectFilterState(filterState)
@@ -48,7 +48,7 @@ class TestCurrentFiltersConnectFilterState {
 
     @Test
     fun onFilterStateChangedShouldUpdateRelevantItems() {
-        val viewModel = CurrentFiltersViewModel(identifiedFilters)
+        val viewModel = FilterCurrentViewModel(identifiedFilters)
         val filterState = FilterState(filterMap)
 
         viewModel.connectFilterState(filterState, colorID)
@@ -58,7 +58,7 @@ class TestCurrentFiltersConnectFilterState {
 
     @Test
     fun onEventRemoveShouldUpdateFilterState() {
-        val viewModel = CurrentFiltersViewModel(identifiedFilters)
+        val viewModel = FilterCurrentViewModel(identifiedFilters)
         val filterState = FilterState(filterMap)
 
         viewModel.connectFilterState(filterState)
@@ -68,7 +68,7 @@ class TestCurrentFiltersConnectFilterState {
 
     @Test
     fun onEventClearWithGroupIDShouldUpdateOnlyThatGroup() {
-        val viewModel = CurrentFiltersViewModel(identifiedFilters)
+        val viewModel = FilterCurrentViewModel(identifiedFilters)
         val filterState = FilterState(filterMap)
 
         viewModel.connectFilterState(filterState, colorID)

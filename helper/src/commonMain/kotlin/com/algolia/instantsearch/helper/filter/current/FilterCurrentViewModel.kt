@@ -4,6 +4,6 @@ import com.algolia.instantsearch.core.map.MapViewModel
 import com.algolia.search.model.filter.Filter
 
 
-public typealias CurrentFiltersViewModel = MapViewModel<String, Filter>
+public typealias FilterCurrentViewModel = MapViewModel<String, Filter>
 
-public val CurrentFiltersViewModel.filters: Set<Filter> get() = map.get().values.toSet()
+public val FilterCurrentViewModel.filters: Set<Filter> get() = map.get().values.toSet()

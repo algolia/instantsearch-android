@@ -5,8 +5,8 @@ import com.algolia.instantsearch.helper.filter.FilterPresenter
 import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
 
 
-public fun CurrentFiltersViewModel.connectView(
-    view: CurrentFiltersView,
+public fun FilterCurrentViewModel.connectView(
+    view: FilterCurrentView,
     presenter: FilterPresenter = FilterPresenterImpl(),
     key: ObservableKey? = null
 ) {

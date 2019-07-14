@@ -34,7 +34,7 @@
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name=".filter.current.CurrentFiltersDemo"
+            android:name=".filter.current.FilterCurrentDemo"
             android:parentActivityName=".home.HomeDemo" />
 
         <activity

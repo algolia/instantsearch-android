@@ -3,8 +3,8 @@ package com.algolia.instantsearch.demo.filter.current
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.android.filter.current.CurrentFiltersViewImpl
-import com.algolia.instantsearch.helper.filter.current.CurrentFiltersViewModel
+import com.algolia.instantsearch.helper.android.filter.FilterCurrentViewImpl
+import com.algolia.instantsearch.helper.filter.current.FilterCurrentViewModel
 import com.algolia.instantsearch.helper.filter.current.connectFilterState
 import com.algolia.instantsearch.helper.filter.current.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
@@ -17,7 +17,7 @@ import com.algolia.search.model.filter.NumericOperator
 import kotlinx.android.synthetic.main.demo_filter_current.*
 import kotlinx.android.synthetic.main.header_filter.*
 
-class CurrentFiltersDemo : AppCompatActivity() {
+class FilterCurrentDemo : AppCompatActivity() {
 
     private val color = Attribute("color")
     private val price = Attribute("price")
@@ -47,13 +47,17 @@ class CurrentFiltersDemo : AppCompatActivity() {
 
         searcher.connectFilterState(filterState)
 
-        val viewModelColors = CurrentFiltersViewModel()
-        val viewColors = CurrentFiltersViewImpl(chipGroupColors, R.layout.filter_chip)
+        val viewModelColors = FilterCurrentViewModel()
+        val viewColors = FilterCurrentViewImpl(
+            chipGroupColors,
+            R.layout.filter_chip
+        )
         viewModelColors.connectFilterState(filterState, groupColor)
         viewModelColors.connectView(viewColors)
 
-        val viewModelAll = CurrentFiltersViewModel()
-        val viewAll = CurrentFiltersViewImpl(chipGroupAll, R.layout.filter_chip)
+        val viewModelAll = FilterCurrentViewModel()
+        val viewAll =
+            FilterCurrentViewImpl(chipGroupAll, R.layout.filter_chip)
         viewModelAll.connectFilterState(filterState)
         viewModelAll.connectView(viewAll)
 

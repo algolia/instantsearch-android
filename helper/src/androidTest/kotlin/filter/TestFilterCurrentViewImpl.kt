@@ -1,10 +1,10 @@
-package filter.current
+package filter
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
-import com.algolia.instantsearch.helper.android.filter.current.CurrentFiltersViewImpl
-import com.algolia.instantsearch.helper.filter.current.CurrentFiltersViewModel
+import com.algolia.instantsearch.helper.android.filter.FilterCurrentViewImpl
+import com.algolia.instantsearch.helper.filter.current.FilterCurrentViewModel
 import com.algolia.instantsearch.helper.filter.current.connectFilterState
 import com.algolia.instantsearch.helper.filter.current.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
@@ -22,7 +22,7 @@ import shouldNotBeEmpty
 @SmallTest
 @RunWith(AndroidJUnit4::class)
 @Config(manifest = Config.NONE)
-class TestCurrentFiltersViewImpl {
+class TestFilterCurrentViewImpl {
 
     private val color = Attribute("color")
     private val groupID = FilterGroupID(color)
@@ -35,8 +35,8 @@ class TestCurrentFiltersViewImpl {
     @Test
     fun onViewClickCallsClearFilters() {
         val filterState = FilterState(filters)
-        val viewModel = CurrentFiltersViewModel()
-        val view = CurrentFiltersViewImpl(chipGroup())
+        val viewModel = FilterCurrentViewModel()
+        val view = FilterCurrentViewImpl(chipGroup())
 
         viewModel.connectFilterState(filterState)
         viewModel.connectView(view)

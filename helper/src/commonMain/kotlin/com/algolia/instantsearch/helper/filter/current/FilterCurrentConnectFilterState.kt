@@ -8,7 +8,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
 
-public fun CurrentFiltersViewModel.connectFilterState(
+public fun FilterCurrentViewModel.connectFilterState(
     filterState: FilterState,
     groupID: FilterGroupID? = null
 ) {
