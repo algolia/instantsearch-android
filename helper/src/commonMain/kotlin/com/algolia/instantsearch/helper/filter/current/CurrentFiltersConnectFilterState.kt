@@ -18,14 +18,14 @@ public fun CurrentFiltersViewModel.connectFilterState(
 
     onChanged(filterState.filters)
     filterState.onChanged += onChanged
-    onMapComputed += {
+    event.subscribe {
         filterState.notify {
             if (groupID != null) {
                 clear(groupID)
             } else {
                 clear()
             }
-            it.forEach { add(groupFromIdentifier(it.key), it.value) }
+            it.get().forEach { add(groupFromIdentifier(it.key), it.value) }
         }
     }
 }

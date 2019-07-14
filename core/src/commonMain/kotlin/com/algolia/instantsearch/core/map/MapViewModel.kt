@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.core.map
 
+import com.algolia.instantsearch.core.observable.ObservableEvent
 import com.algolia.instantsearch.core.observable.ObservableItem
 
 
@@ -9,17 +10,17 @@ public open class MapViewModel<K, V>(
 
     public val map = ObservableItem(items)
 
-    public val onMapComputed: MutableList<(Map<K, V>) -> Unit> = mutableListOf()
+    public val event = ObservableEvent<MapEvent<K, V>>()
 
-    public fun remove(key: K) {
-        val map = map.get().toMutableMap().apply { remove(key) }
-
-        onMapComputed.forEach { it(map) }
+    fun remove(key: K) {
+        event.send(MapEvent.Remove(map.get(), key))
     }
 
-    public fun clear() {
-        val map = map.get().toMutableMap().apply { clear() }
+    fun add(entry: Pair<K, V>) {
+        event.send(MapEvent.Add(map.get(), entry))
+    }
 
-        onMapComputed.forEach { it(map) }
+    fun clear() {
+        event.send(MapEvent.Clear(map.get()))
     }
 }

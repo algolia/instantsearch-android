@@ -14,7 +14,7 @@ class TestMapViewModel {
     fun removeShouldCallOnMapComputed() {
         val viewModel = MapViewModel(map)
 
-        viewModel.onMapComputed += { viewModel.map.set(it) }
+        viewModel.event.subscribe { viewModel.map.set(it.get()) }
         viewModel.remove(id)
         viewModel.map.get() shouldEqual mapOf()
     }

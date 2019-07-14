@@ -57,7 +57,7 @@ class TestCurrentFiltersConnectFilterState {
     }
 
     @Test
-    fun onTriggeredShouldUpdateFilterState() {
+    fun onEventRemoveShouldUpdateFilterState() {
         val viewModel = CurrentFiltersViewModel(identifiedFilters)
         val filterState = FilterState(filterMap)
 
@@ -67,7 +67,7 @@ class TestCurrentFiltersConnectFilterState {
     }
 
     @Test
-    fun onTriggeredWithGroupIDShouldUpdateOnlyThatGroup() {
+    fun onEventClearWithGroupIDShouldUpdateOnlyThatGroup() {
         val viewModel = CurrentFiltersViewModel(identifiedFilters)
         val filterState = FilterState(filterMap)
 

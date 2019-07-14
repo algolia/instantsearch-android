@@ -13,5 +13,5 @@ public fun CurrentFiltersViewModel.connectView(
     map.subscribePast(key) {
         view.setItem(it.mapValues { (_, value) -> presenter(value) })
     }
-    view.onClick = { remove(it) }
+    view.onClick = (::remove)
 }

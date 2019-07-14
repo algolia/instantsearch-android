@@ -38,8 +38,8 @@ class TestMapConnectView {
         val viewModel = MapViewModel(map)
         val view = MockMapView()
 
-        viewModel.onMapComputed += {
-            viewModel.map.set(it)
+        viewModel.event.subscribe {
+            viewModel.map.set(it.get())
         }
         viewModel.connectView(view)
         view.onClick.shouldNotBeNull()
