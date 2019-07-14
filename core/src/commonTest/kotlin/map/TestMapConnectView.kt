@@ -39,7 +39,7 @@ class TestMapConnectView {
         val view = MockMapView()
 
         viewModel.onMapComputed += {
-            viewModel.item = it
+            viewModel.map.set(it)
         }
         viewModel.connectView(view)
         view.onClick.shouldNotBeNull()
@@ -53,7 +53,7 @@ class TestMapConnectView {
         val view = MockMapView()
 
         viewModel.connectView(view)
-        viewModel.map = mapOf()
+        viewModel.map.set(mapOf())
         view.map shouldEqual mapOf()
     }
 }

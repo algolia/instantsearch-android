@@ -6,4 +6,4 @@ import com.algolia.search.model.filter.Filter
 
 public typealias CurrentFiltersViewModel = MapViewModel<String, Filter>
 
-public val CurrentFiltersViewModel.filters: Set<Filter> get() = item.values.toSet()
+public val CurrentFiltersViewModel.filters: Set<Filter> get() = map.get().values.toSet()

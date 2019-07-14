@@ -13,7 +13,7 @@ public fun CurrentFiltersViewModel.connectFilterState(
     groupID: FilterGroupID? = null
 ) {
     val onChanged: (Filters) -> Unit = {
-        item = filtersToItem(it, groupID)
+        map.set(filtersToItem(it, groupID))
     }
 
     onChanged(filterState.filters)
