@@ -6,15 +6,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.demo.R
-import com.algolia.instantsearch.demo.inflate
+import com.algolia.instantsearch.helper.android.inflate
 import com.algolia.instantsearch.helper.filter.facet.FacetListItem
 import com.algolia.instantsearch.helper.filter.facet.FacetListView
 import com.algolia.search.model.search.Facet
 
 
-class FacetListAdapter :
-    ListAdapter<FacetListItem, FacetListViewHolder>(diffUtil),
-    FacetListView {
+class FacetListAdapter : ListAdapter<FacetListItem, FacetListViewHolder>(diffUtil), FacetListView {
 
     override var onClick: ((Facet) -> Unit)? = null
 

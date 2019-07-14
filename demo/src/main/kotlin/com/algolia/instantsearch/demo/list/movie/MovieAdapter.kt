@@ -3,7 +3,7 @@ package com.algolia.instantsearch.demo.list.movie
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.demo.R
-import com.algolia.instantsearch.demo.inflate
+import com.algolia.instantsearch.helper.android.inflate
 
 
 class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieDiffUtil) {

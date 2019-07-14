@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.dip
-import com.algolia.instantsearch.demo.inflate
+import com.algolia.instantsearch.helper.android.inflate
 
 
 class NestedListAdapter : ListAdapter<NestedListItem, NestedListViewHolder>(this) {

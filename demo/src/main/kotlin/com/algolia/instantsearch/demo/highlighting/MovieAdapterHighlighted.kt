@@ -12,9 +12,9 @@ import androidx.core.text.italic
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.demo.R
-import com.algolia.instantsearch.demo.inflate
 import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieDiffUtil
+import com.algolia.instantsearch.helper.android.inflate
 import com.algolia.instantsearch.helper.highlighting.toSpannedString
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.list_item_highlighting.view.*

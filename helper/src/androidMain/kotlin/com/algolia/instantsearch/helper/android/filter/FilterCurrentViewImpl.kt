@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.helper.android.filter
 
-import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.LayoutRes
+import com.algolia.instantsearch.helper.android.inflate
 import com.algolia.instantsearch.helper.filter.current.FilterAndID
 import com.algolia.instantsearch.helper.filter.current.FilterCurrentView
 import com.google.android.material.chip.Chip
@@ -19,17 +19,16 @@ public class FilterCurrentViewImpl(
     override fun setItem(item: List<Pair<FilterAndID, String>>) {
         view.removeAllViews()
         item.forEach { (id, filter) ->
-            val chip: Chip = if (chipLayout != null)
-                LayoutInflater.from(view.context).inflate(chipLayout, null) as Chip else Chip(view.context)
-            val onClickListener = View.OnClickListener {
-                onClick?.invoke(id)
-            }
+            val chip: Chip = if (chipLayout != null) view.inflate<Chip>(chipLayout) else Chip(view.context)
+            val onClickListener = View.OnClickListener { onClick?.invoke(id) }
 
-            chip.text = filter
-            chip.isCloseIconVisible = true
-            chip.setOnClickListener(onClickListener)
-            chip.setOnCloseIconClickListener(onClickListener)
-            view.addView(chip)
+            chip.let {
+                it.text = filter
+                it.isCloseIconVisible = true
+                it.setOnClickListener(onClickListener)
+                it.setOnCloseIconClickListener(onClickListener)
+                view.addView(it)
+            }
         }
     }
 }

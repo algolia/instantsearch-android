@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.algolia.instantsearch.demo.R
-import com.algolia.instantsearch.demo.inflate
+import com.algolia.instantsearch.helper.android.inflate
 
 
 class ActorAdapterNested : PagedListAdapter<Actor, ActorViewHolderNested>(this) {
