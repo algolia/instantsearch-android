@@ -1,8 +1,9 @@
 package filter.current
 
-import com.algolia.instantsearch.helper.filter.current.*
+import com.algolia.instantsearch.helper.filter.current.FilterCurrentViewModel
+import com.algolia.instantsearch.helper.filter.current.connectFilterState
+import com.algolia.instantsearch.helper.filter.current.toFilterAndIds
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -23,73 +24,55 @@ class TestCurrentFiltersConnectFilterState {
 
     private val colorFilters = setOf(filterRed, filterGreen)
     private val brandFilters = setOf(filterAlgolia)
-    private val filters = colorFilters + brandFilters
-    private val identifiedFilters = filters.map { it.value.toString() to it }.toMap()
-    private val filterMap = mapOf(colorID to colorFilters, brandID to brandFilters)
+    private val filters = mapOf(colorID to colorFilters, brandID to brandFilters)
+    private val filterAndIDs = filters.toFilterAndIds()
 
     @Test
     fun connectShouldUpdateItems() {
-        val viewModel = FilterCurrentViewModel(identifiedFilters)
-        val filterState = FilterState(filterMap)
+        val viewModel = FilterCurrentViewModel(filterAndIDs)
+        val filterState = FilterState(filters)
 
         viewModel.connectFilterState(filterState)
-        viewModel.filters shouldEqual filters
+        viewModel.filters.get() shouldEqual filterAndIDs
     }
 
     @Test
     fun onFilterStateChangedShouldUpdateItems() {
-        val viewModel = FilterCurrentViewModel(identifiedFilters)
-        val filterState = FilterState(filterMap)
+        val viewModel = FilterCurrentViewModel(filterAndIDs)
+        val filterState = FilterState(filters)
 
         viewModel.connectFilterState(filterState)
         filterState.notify { remove(colorID, filterRed) }
-        viewModel.filters shouldEqual setOf(filterGreen, filterAlgolia)
+        viewModel.filters.get() shouldEqual setOf(colorID to filterGreen, brandID to filterAlgolia)
     }
 
     @Test
     fun onFilterStateChangedShouldUpdateRelevantItems() {
-        val viewModel = FilterCurrentViewModel(identifiedFilters)
-        val filterState = FilterState(filterMap)
+        val viewModel = FilterCurrentViewModel(filterAndIDs)
+        val filterState = FilterState(filters)
 
         viewModel.connectFilterState(filterState, colorID)
         filterState.notify { add(brandID, filterElastic) }
-        viewModel.filters shouldEqual setOf(filterGreen, filterRed)
+        viewModel.filters.get() shouldEqual setOf(colorID to filterGreen, colorID to filterRed)
     }
 
     @Test
     fun onEventRemoveShouldUpdateFilterState() {
-        val viewModel = FilterCurrentViewModel(identifiedFilters)
-        val filterState = FilterState(filterMap)
+        val viewModel = FilterCurrentViewModel(filterAndIDs)
+        val filterState = FilterState(filters)
 
         viewModel.connectFilterState(filterState)
-        viewModel.remove(filterIdentifier(colorID, filterRed))
+        viewModel.remove(colorID to filterRed)
         filterState.getFilters() shouldEqual setOf(filterGreen, filterAlgolia)
     }
 
     @Test
     fun onEventClearWithGroupIDShouldUpdateOnlyThatGroup() {
-        val viewModel = FilterCurrentViewModel(identifiedFilters)
-        val filterState = FilterState(filterMap)
+        val viewModel = FilterCurrentViewModel(filterAndIDs)
+        val filterState = FilterState(filters)
 
         viewModel.connectFilterState(filterState, colorID)
         viewModel.clear()
         filterState.getFilters() shouldEqual setOf(filterAlgolia)
-    }
-
-    @Test
-    fun filterIdentifierWithAttribute() {
-        val attribute = Attribute("foo")
-        val groupID = FilterGroupID(attribute, FilterOperator.Or)
-        val filter = Filter.Facet(attribute, "bar")
-
-        groupFromIdentifier(filterIdentifier(groupID, filter)) shouldEqual groupID
-    }
-
-    @Test
-    fun filterIdentifierWithEmptyName() {
-        val groupID = FilterGroupID()
-        val filter = Filter.Tag("bar")
-
-        groupFromIdentifier(filterIdentifier(groupID, filter)) shouldEqual groupID
     }
 }

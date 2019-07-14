@@ -1,19 +1,23 @@
 package com.algolia.instantsearch.helper.filter.current
 
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
-import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
+internal fun Map<FilterGroupID, Set<Filter>>.toFilterAndIds(): Set<FilterAndID> {
+    return flatMap { (key, value) -> value.map { key to it } }.toSet()
+}
 
 public fun FilterCurrentViewModel.connectFilterState(
     filterState: FilterState,
     groupID: FilterGroupID? = null
 ) {
-    val onChanged: (Filters) -> Unit = {
-        map.set(filtersToItem(it, groupID))
+    val onChanged: (Filters) -> Unit = { filters ->
+        val groups = filters.getGroups().filter { groupID == null || it.key == groupID }
+        val filterAndIDs = groups.toFilterAndIds()
+
+        this.filters.set(filterAndIDs)
     }
 
     onChanged(filterState.filters)
@@ -25,35 +29,7 @@ public fun FilterCurrentViewModel.connectFilterState(
             } else {
                 clear()
             }
-            it.get().forEach { add(groupFromIdentifier(it.key), it.value) }
+            it.forEach { add(it.first, it.second) }
         }
-    }
-}
-
-private fun filtersToItem(
-    filters: Filters,
-    groupID: FilterGroupID? = null
-): Map<String, Filter> {
-    return filters.getGroups()
-        .filter { groupID == null || it.key == groupID }
-        .flatMap { (key, value) ->
-            value.map { filterIdentifier(key, it) to it }
-    }.toMap()
-}
-
-fun filterIdentifier(groupID: FilterGroupID, filter: Filter): String {
-    return "${groupID.name}%${groupID.operator}%$filter"
-}
-
-fun groupFromIdentifier(identifier: String): FilterGroupID {
-    identifier.split("%").also {
-        val operator = when (it[1]) {
-            "Or" -> FilterOperator.Or
-            else -> FilterOperator.And
-        }
-
-        return if (it[0].isNotEmpty()) {
-            FilterGroupID(Attribute(it[0]), operator)
-        } else FilterGroupID("", operator)
     }
 }

@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.filter.current
 
-import com.algolia.instantsearch.core.map.MapView
+import com.algolia.instantsearch.core.event.EventView
+import com.algolia.instantsearch.core.item.ItemView
 
 
-public typealias FilterCurrentView = MapView<String, String>
+public interface FilterCurrentView : ItemView<List<Pair<FilterAndID, String>>>, EventView<FilterAndID>

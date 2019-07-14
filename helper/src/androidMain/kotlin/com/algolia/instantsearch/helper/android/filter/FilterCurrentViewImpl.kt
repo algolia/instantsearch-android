@@ -3,6 +3,7 @@ package com.algolia.instantsearch.helper.android.filter
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.LayoutRes
+import com.algolia.instantsearch.helper.filter.current.FilterAndID
 import com.algolia.instantsearch.helper.filter.current.FilterCurrentView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -13,19 +14,15 @@ public class FilterCurrentViewImpl(
     @LayoutRes val chipLayout: Int? = null
 ) : FilterCurrentView {
 
-    var filters = sortedMapOf<String, String>()
+    override var onClick: ((FilterAndID) -> Unit)? = null
 
-    override var onClick: ((String) -> Unit)? = null
-
-    override fun setItem(item: Map<String, String>) {
-        filters = item.toSortedMap()
+    override fun setItem(item: List<Pair<FilterAndID, String>>) {
         view.removeAllViews()
-        filters.entries.forEach { (identifier, filter) ->
-            val chip: Chip = if (chipLayout != null) {
-                LayoutInflater.from(view.context).inflate(chipLayout, null) as Chip
-            } else Chip(view.context)
+        item.forEach { (id, filter) ->
+            val chip: Chip = if (chipLayout != null)
+                LayoutInflater.from(view.context).inflate(chipLayout, null) as Chip else Chip(view.context)
             val onClickListener = View.OnClickListener {
-                onClick?.invoke(identifier)
+                onClick?.invoke(id)
             }
 
             chip.text = filter
