@@ -10,15 +10,15 @@ public class FilterCurrentViewModel(filters: Set<FilterAndID> = setOf()) {
 
     val event = ObservableEvent<Set<FilterAndID>>()
 
-    fun add(element: FilterAndID) {
+    public fun add(element: FilterAndID) {
         event.send(filters.get() + element)
     }
 
-    fun remove(element: FilterAndID) {
+    public fun remove(element: FilterAndID) {
         event.send(filters.get() - element)
     }
 
-    fun clear() {
+    public fun clear() {
         event.send(setOf())
     }
 }
