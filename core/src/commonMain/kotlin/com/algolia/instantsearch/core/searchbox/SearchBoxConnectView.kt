@@ -2,10 +2,10 @@ package com.algolia.instantsearch.core.searchbox
 
 
 public fun SearchBoxViewModel.connectView(searchBoxView: SearchBoxView) {
-    searchBoxView.setItem(item)
-    searchBoxView.onQueryChanged = { item = it }
+    searchBoxView.setItem(query.get())
+    searchBoxView.onQueryChanged = (query::set)
     searchBoxView.onQuerySubmitted = {
-        item = it
-        submitQuery()
+        query.set(it)
+        event.send(it)
     }
 }

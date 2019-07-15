@@ -27,28 +27,28 @@ class TestSearchBoxSearchView {
         val view = view()
         val viewModel = SearchBoxViewModel()
 
-        viewModel.item = text
+        viewModel.query.set(text)
         viewModel.connectView(view)
         view.searchView.query.toString() shouldEqual text
     }
 
     @Test
-    fun onQueryChangedShouldUpdateItem() {
+    fun setQueryShouldUpdateItem() {
         val view = view()
         val viewModel = SearchBoxViewModel()
 
         viewModel.connectView(view)
         view.searchView.setQuery(text, false)
-        viewModel.item shouldEqual text
+        viewModel.query.get() shouldEqual text
     }
 
     @Test
-    fun onSubmitShouldCallOnQuerySubmitted() {
+    fun sendEventShouldCallSubscription() {
         val view = view()
         val viewModel = SearchBoxViewModel()
         var expected: String? = null
 
-        viewModel.onQuerySubmitted += { expected = it }
+        viewModel.event.subscribe { expected = it }
         viewModel.connectView(view)
         view.searchView.setQuery(text, true)
         expected shouldEqual text

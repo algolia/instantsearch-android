@@ -5,28 +5,27 @@ import shouldEqual
 import kotlin.test.Test
 
 
-class TestSearchBoxViewModel  {
+class TestSearchBoxViewModel {
 
     @Test
-    fun setQueryShouldCallOnQueryChanged() {
+    fun setQueryShouldCallSubscription() {
         val viewModel = SearchBoxViewModel()
         var expected: String? = null
         val value = "hello"
 
-        viewModel.onItemChanged += { expected = it }
-        viewModel.item = value
+        viewModel.query.subscribe { expected = it }
+        viewModel.query.set(value)
         expected shouldEqual value
     }
 
     @Test
-    fun submitQueryShouldCallOnQuerySubmitted() {
+    fun sendEventShouldCallSubscription() {
         val viewModel = SearchBoxViewModel()
         var expected: String? = null
         val value = "hello"
 
-        viewModel.onQuerySubmitted += { expected = it }
-        viewModel.item = value
-        viewModel.submitQuery()
+        viewModel.event.subscribe { expected = it }
+        viewModel.event.send(value)
         expected shouldEqual value
     }
 }
