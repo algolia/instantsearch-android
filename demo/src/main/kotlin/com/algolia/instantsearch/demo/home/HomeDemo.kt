@@ -6,6 +6,7 @@ import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
+import com.algolia.search.model.search.Query
 import kotlinx.android.synthetic.main.demo_home.*
 import kotlinx.android.synthetic.main.include_search.*
 
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.include_search.*
 class HomeDemo : AppCompatActivity() {
 
     private val index = client.initIndex(IndexName("mobile_demo_home"))
-    private val searcher = SearcherSingleIndex(index)
+    private val searcher = SearcherSingleIndex(index, Query(hitsPerPage = 100))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
