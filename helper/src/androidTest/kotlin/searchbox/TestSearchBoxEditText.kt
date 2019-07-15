@@ -39,6 +39,6 @@ class TestSearchBoxEditText {
 
         viewModel.connectView(view)
         view.editText.setText(text)
-        viewModel.item shouldEqual text
+        viewModel.query.get() shouldEqual text
     }
 }
