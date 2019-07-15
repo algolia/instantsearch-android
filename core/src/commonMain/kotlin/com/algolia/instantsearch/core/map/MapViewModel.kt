@@ -12,15 +12,15 @@ public open class MapViewModel<K, V>(
 
     public val event = ObservableEvent<MapEvent<K, V>>()
 
-    fun remove(key: K) {
-        event.send(MapEvent.Remove(map.get(), key))
-    }
-
-    fun add(entry: Pair<K, V>) {
+    public fun add(entry: Pair<K, V>) {
         event.send(MapEvent.Add(map.get(), entry))
     }
 
-    fun clear() {
+    public fun remove(key: K) {
+        event.send(MapEvent.Remove(map.get(), key))
+    }
+
+    public fun clear() {
         event.send(MapEvent.Clear(map.get()))
     }
 }
