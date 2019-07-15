@@ -6,5 +6,5 @@ import com.algolia.instantsearch.core.observable.ObservableKey
 
 public fun LoadingViewModel.connectView(view: LoadingView, key: ObservableKey? = null) {
     isLoading.connectView(view, key) { it }
-    view.onClick = { event.send(Unit) }
+    view.onClick = (event::send)
 }
