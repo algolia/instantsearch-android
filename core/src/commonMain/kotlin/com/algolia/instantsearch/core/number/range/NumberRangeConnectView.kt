@@ -8,7 +8,7 @@ public fun <T> NumberRangeViewModel<T>.connectView(
     view: NumberRangeView<T>,
     key: ObservableKey? = null
 ) where T : Number, T : Comparable<T> {
-    bounds.subscribePast { view.setBounds(it) }
+    bounds.subscribePast(key) { view.setBounds(it) }
     range.connectView(view, key) { it }
     view.onClick = (::coerce)
 }

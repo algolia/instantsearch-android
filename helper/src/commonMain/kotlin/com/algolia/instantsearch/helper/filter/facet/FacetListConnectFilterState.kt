@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.filter.facet
 
+import com.algolia.instantsearch.core.observable.ObservableKey
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.filter.state.*
 import com.algolia.search.model.Attribute
@@ -9,9 +10,10 @@ import com.algolia.search.model.filter.Filter
 public fun FacetListViewModel.connectFilterState(
     attribute: Attribute,
     filterState: FilterState,
-    groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or)
+    groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
+    key: ObservableKey? = null
 ) {
-    filterState.filters.subscribePast { filters ->
+    filterState.filters.subscribePast(key) { filters ->
         selections = filters.getFacetFilters(groupID)
             .map { it.getValue() }
             .toSet()

@@ -1,12 +1,13 @@
 package com.algolia.instantsearch.helper.searcher
 
+import com.algolia.instantsearch.core.observable.ObservableKey
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.search.model.filter.FilterGroupsConverter
 
 
-fun SearcherSingleIndex.connectFilterState(filterState: FilterState) {
+public fun SearcherSingleIndex.connectFilterState(filterState: FilterState, key: ObservableKey? = null) {
 
     fun updateFilters() {
         query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
@@ -22,20 +23,20 @@ fun SearcherSingleIndex.connectFilterState(filterState: FilterState) {
         hierarchicalFilters = filterState.hierarchicalFilters
         disjunctiveAttributes to filterState.getFilters()
     }
-    filterState.filters.subscribe {
+    filterState.filters.subscribe(key) {
         updateFilters()
         searchAsync()
     }
 }
 
-fun SearcherForFacets.connectFilterState(filterState: FilterState) {
+public fun SearcherForFacets.connectFilterState(filterState: FilterState, key: ObservableKey? = null) {
 
     fun updateFilters() {
         query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
     }
 
     updateFilters()
-    filterState.filters.subscribe {
+    filterState.filters.subscribe(key) {
         updateFilters()
         searchAsync()
     }

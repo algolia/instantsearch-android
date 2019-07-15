@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.filter.toggle
 
+import com.algolia.instantsearch.core.observable.ObservableKey
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -9,9 +10,10 @@ import com.algolia.search.model.filter.Filter
 public fun FilterToggleViewModel.connectFilterState(
     filterState: FilterState,
     default: Filter? = null,
-    groupID: FilterGroupID = FilterGroupID(item.attribute, FilterOperator.And)
+    groupID: FilterGroupID = FilterGroupID(item.attribute, FilterOperator.And),
+    key: ObservableKey? = null
 ) {
-    filterState.filters.subscribePast { filters ->
+    filterState.filters.subscribePast(key) { filters ->
         isSelected = filters.contains(groupID, item)
     }
     if (default != null) filterState.add(groupID, default)
