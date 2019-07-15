@@ -55,7 +55,8 @@ val client = ClientSearch(
     ConfigurationSearch(
         ApplicationID("latency"),
         APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        logLevel = LogLevel.NONE
+        logLevel = LogLevel.NONE,
+        readTimeout = 5000
     )
 )
 
