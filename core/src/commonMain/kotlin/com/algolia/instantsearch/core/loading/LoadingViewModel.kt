@@ -9,6 +9,5 @@ public open class LoadingViewModel(
 ) {
 
     public val isLoading = ObservableItem(isLoading)
-
     public val event = ObservableEvent<Unit>()
 }

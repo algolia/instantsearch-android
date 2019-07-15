@@ -9,7 +9,6 @@ public open class MapViewModel<K, V>(
 ) {
 
     public val map = ObservableItem(items)
-
     public val event = ObservableEvent<MapEvent<K, V>>()
 
     public fun add(entry: Pair<K, V>) {
