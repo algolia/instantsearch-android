@@ -18,17 +18,17 @@ public inline fun <reified T> NumberViewModel<T>.connectFilterState(
     key: ObservableKey? = null
 ) where T : Number, T : Comparable<T> {
     filterState.filters.subscribePast(key) { filters ->
-        item = filters
+        number.set(filters
             .getNumericFilters(groupID)
             .filter { it.attribute == attribute }
             .map { it.value }
             .filterIsInstance<Filter.Numeric.Value.Comparison>()
             .firstOrNull { it.operator == operator }
-            ?.number as? T?
+            ?.number as? T?)
     }
-    onNumberComputed += { computed ->
+    event.subscribe(key) { computed ->
         filterState.notify {
-            item?.let { remove(groupID, Filter.Numeric(attribute, operator, it)) }
+            number.get()?.let { remove(groupID, Filter.Numeric(attribute, operator, it)) }
             computed?.let { add(groupID, Filter.Numeric(attribute, operator, it)) }
         }
     }

@@ -6,8 +6,8 @@ import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.number.connectView
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.numeric.comparison.computeBoundsFromFacetStatsInt
 import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
+import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromFacetStatsInt
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.addFacet
@@ -63,10 +63,10 @@ class FilterComparisonDemo : AppCompatActivity() {
             val response = searcher.search()
 
             response.facetStatsOrNull?.let {
-                priceViewModel.computeBoundsFromFacetStatsInt(price, it)
-                yearViewModel.computeBoundsFromFacetStatsInt(year, it)
+                priceViewModel.setBoundsFromFacetStatsInt(price, it)
+                yearViewModel.setBoundsFromFacetStatsInt(year, it)
                 withContext(Dispatchers.Main) {
-                    inputHint.text = getInputHint(yearViewModel.bounds!!)
+                    inputHint.text = getInputHint(yearViewModel.bounds.get()!!)
                 }
             }
         }

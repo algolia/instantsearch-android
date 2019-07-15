@@ -26,16 +26,16 @@ class TestFilterComparisonConnectFilterState {
         val filterState = FilterState()
 
         viewModel.connectFilterState(price, operator, filterState, groupID)
-        viewModel.item shouldEqual null
+        viewModel.number.get() shouldEqual null
     }
 
     @Test
-    fun onSelectionsComputedShouldUpdateFilterState() {
+    fun coerceShouldUpdateFilterState() {
         val viewModel = NumberViewModel(0..10)
         val filterState = FilterState()
 
         viewModel.connectFilterState(price, operator, filterState, groupID)
-        viewModel.computeNumber(5)
+        viewModel.coerce(5)
         filterState shouldEqual expectedFilterState
     }
 }

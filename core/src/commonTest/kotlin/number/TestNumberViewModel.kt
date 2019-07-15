@@ -9,33 +9,33 @@ import kotlin.test.Test
 class TestNumberViewModel {
 
     @Test
-    fun computeShouldNotCoerceIfNoBounds() {
+    fun coerceShouldNotCoerceIfNoBounds() {
         val viewModel = NumberViewModel<Int>()
         val value = -1
 
-        viewModel.onNumberComputed += { viewModel.item = it }
-        viewModel.computeNumber(value)
-        viewModel.item shouldEqual value
+        viewModel.event.subscribe { viewModel.number.set(it) }
+        viewModel.coerce(value)
+        viewModel.number.get() shouldEqual value
     }
 
     @Test
-    fun computeShouldCoerceMin() {
+    fun coerceShouldCoerceMin() {
         val range = 0..10
         val viewModel = NumberViewModel(range)
 
-        viewModel.onNumberComputed += { viewModel.item = it }
-        viewModel.computeNumber(-1)
-        viewModel.item shouldEqual range.first
+        viewModel.event.subscribe { viewModel.number.set(it) }
+        viewModel.coerce(-1)
+        viewModel.number.get() shouldEqual range.first
     }
 
     @Test
-    fun computeShouldCoerceMax() {
+    fun coerceShouldCoerceMax() {
         val range = 0..10
         val viewModel = NumberViewModel(range)
 
-        viewModel.onNumberComputed += { viewModel.item = it }
-        viewModel.computeNumber(11)
-        viewModel.item shouldEqual range.last
+        viewModel.event.subscribe { viewModel.number.set(it) }
+        viewModel.coerce(11)
+        viewModel.number.get() shouldEqual range.last
     }
 
     @Test
@@ -44,11 +44,11 @@ class TestNumberViewModel {
         val viewModel = NumberViewModel(range)
         val value = 5
 
-        viewModel.onNumberComputed += { viewModel.item = it }
-        viewModel.computeNumber(value)
-        viewModel.item shouldEqual value
-        viewModel.bounds = Range(6..10)
-        viewModel.item shouldEqual 6
+        viewModel.event.subscribe { viewModel.number.set(it) }
+        viewModel.coerce(value)
+        viewModel.number.get() shouldEqual value
+        viewModel.bounds.set(Range(6..10))
+        viewModel.number.get() shouldEqual 6
     }
 
     @Test
@@ -57,10 +57,10 @@ class TestNumberViewModel {
         val viewModel = NumberViewModel(range)
         val value = 5
 
-        viewModel.onNumberComputed += { viewModel.item = it }
-        viewModel.computeNumber(value)
-        viewModel.item shouldEqual value
-        viewModel.bounds = Range(0..4)
-        viewModel.item shouldEqual 4
+        viewModel.event.subscribe { viewModel.number.set(it) }
+        viewModel.coerce(value)
+        viewModel.number.get() shouldEqual value
+        viewModel.bounds.set(Range(0..4))
+        viewModel.number.get() shouldEqual 4
     }
 }

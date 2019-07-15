@@ -6,40 +6,40 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.FacetStats
 
 
-private fun <T> NumberViewModel<T>.computeBoundsFromFacetStats(
+private fun <T> NumberViewModel<T>.setBoundsFromFacetStats(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>,
     transform: (Float) -> T
 ) where T : Number, T : Comparable<T> {
     facetStats[attribute]?.let {
-        bounds = Range(transform(it.min), transform(it.max))
+        bounds.set(Range(transform(it.min), transform(it.max)))
     }
 }
 
-public fun NumberViewModel<Int>.computeBoundsFromFacetStatsInt(
+public fun NumberViewModel<Int>.setBoundsFromFacetStatsInt(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
-    computeBoundsFromFacetStats(attribute, facetStats) { it.toInt() }
+    setBoundsFromFacetStats(attribute, facetStats) { it.toInt() }
 }
 
 public fun NumberViewModel<Long>.computeBoundsFromFacetStatsLong(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
-    computeBoundsFromFacetStats(attribute, facetStats) { it.toLong() }
+    setBoundsFromFacetStats(attribute, facetStats) { it.toLong() }
 }
 
 public fun NumberViewModel<Float>.computeBoundsFromFacetStatsFloat(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
-    computeBoundsFromFacetStats(attribute, facetStats) { it }
+    setBoundsFromFacetStats(attribute, facetStats) { it }
 }
 
 public fun NumberViewModel<Double>.computeBoundsFromFacetStatsDouble(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
-    computeBoundsFromFacetStats(attribute, facetStats) { it.toDouble() }
+    setBoundsFromFacetStats(attribute, facetStats) { it.toDouble() }
 }

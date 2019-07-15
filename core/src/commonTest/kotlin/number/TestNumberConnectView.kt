@@ -33,27 +33,27 @@ class TestNumberConnectView {
         val view = MockNumberView()
         val viewModel = NumberViewModel(0..10)
 
-        viewModel.item = 5
+        viewModel.number.set(5)
         viewModel.connectView(view)
         view.string shouldEqual "5"
     }
 
     @Test
-    fun onItemChangedShouldCallSetItem() {
+    fun onSetNumberShouldCallSetItem() {
         val view = MockNumberView()
         val viewModel = NumberViewModel(0..10)
 
         viewModel.connectView(view)
-        viewModel.item = 5
+        viewModel.number.set(5)
         view.string shouldEqual "5"
     }
 
     @Test
-    fun onClickShouldCallOnNumberComputed() {
+    fun onClickShouldCallEventSubscription() {
         val view = MockNumberView()
         val viewModel = NumberViewModel(0..10)
 
-        viewModel.onNumberComputed += { viewModel.item = it }
+        viewModel.event.subscribe { viewModel.number.set(it) }
         viewModel.connectView(view)
         view.onClickIncrement!!()
         view.string shouldEqual "0"
