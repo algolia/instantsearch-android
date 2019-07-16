@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.hierarchical
 
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -11,7 +12,8 @@ public fun HierarchicalViewModel.connectFilterState(
     attribute: Attribute,
     filterGroupName: String = attribute.raw
 ) {
-    val filterGroupID = FilterGroupID(filterGroupName) // hierarchical facet's FilterOperator MUST be And
+    // hierarchical facet's FilterOperator MUST be And
+    val filterGroupID = FilterGroupID(filterGroupName, FilterOperator.And)
 
     filterState.hierarchicalAttributes = hierarchicalAttributes
     onSelectionsComputed += { selections ->
