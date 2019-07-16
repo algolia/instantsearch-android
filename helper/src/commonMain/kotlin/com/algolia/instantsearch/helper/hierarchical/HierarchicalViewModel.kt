@@ -35,13 +35,15 @@ public open class HierarchicalViewModel(
      *
      */
     override fun computeSelections(key: String) {
-        val selections = key.split(separator).fold(listOf<String>()) { acc, s ->
-            acc + if (acc.isEmpty()) s else acc.last() + separator + s
-        }
+        val selections = key.toSelectionList()
         val hierarchicalPath = hierarchicalAttributes.mapIndexed { index, item ->
             selections.getOrNull(index)?.let { item to it }
         }.filterNotNull()
 
         onSelectionsComputed.forEach { it(hierarchicalPath) }
+    }
+
+    private fun String.toSelectionList(): List<String> = split(separator).fold(listOf()) { acc, s ->
+        acc + if (acc.isEmpty()) s else acc.last() + separator + s
     }
 }
