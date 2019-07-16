@@ -9,12 +9,14 @@ import com.algolia.instantsearch.demo.configureSearcher
 import com.algolia.instantsearch.demo.configureToolbar
 import com.algolia.instantsearch.demo.stubIndex
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.hierarchical.*
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalPresenterImpl
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel
+import com.algolia.instantsearch.helper.hierarchical.connectFilterState
+import com.algolia.instantsearch.helper.hierarchical.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import kotlinx.android.synthetic.main.demo_hierarchical.*
-import kotlinx.android.synthetic.main.demo_hierarchical.toolbar
 
 
 class HierarchicalDemo : AppCompatActivity() {
