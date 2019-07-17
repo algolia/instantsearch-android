@@ -26,8 +26,8 @@ class TestSearcherSingleIndex {
         val searcher = SearcherSingleIndex(index)
         var count = 0
 
-        searcher.onLoadingChanged += { if (it) count++ }
-        searcher.loading.shouldBeFalse()
+        searcher.isLoading.subscribe { if (it) count++ }
+        searcher.isLoading.get().shouldBeFalse()
         blocking { searcher.search() }
         count shouldEqual 1
     }
@@ -37,12 +37,12 @@ class TestSearcherSingleIndex {
         val searcher = SearcherSingleIndex(index)
         var responded = false
 
-        searcher.onResponseChanged += { responded = true }
-        searcher.response.shouldBeNull()
+        searcher.response.subscribe { responded = true }
+        searcher.response.get().shouldBeNull()
         blocking { searcher.searchAsync().join() }
-        searcher.response shouldEqual responseSearch
+        searcher.response.get() shouldEqual responseSearch
         responded.shouldBeTrue()
-        searcher.error.shouldBeNull()
+        searcher.error.get().shouldBeNull()
     }
 
     @Test
@@ -50,11 +50,11 @@ class TestSearcherSingleIndex {
         val searcher = SearcherSingleIndex(indexError)
         var error = false
 
-        searcher.onErrorChanged += { error = true }
-        searcher.error.shouldBeNull()
+        searcher.error.subscribe { error = true }
+        searcher.error.get().shouldBeNull()
         blocking { searcher.searchAsync().join() }
-        searcher.error.shouldNotBeNull()
-        searcher.response.shouldBeNull()
+        searcher.error.get().shouldNotBeNull()
+        searcher.response.get().shouldBeNull()
         error.shouldBeTrue()
     }
 }

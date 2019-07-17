@@ -30,8 +30,10 @@ class SearchOnSubmitDemo : AppCompatActivity() {
         searchBoxViewModel.connectView(searchBoxView)
         searchBoxViewModel.connectSearcher(searcher, searchAsYouType = false)
 
-        searcher.onResponseChanged += {
-            adapter.submitList(it.hits.deserialize(Movie.serializer()))
+        searcher.response.subscribe { response ->
+            if (response != null) {
+                adapter.submitList(response.hits.deserialize(Movie.serializer()))
+            }
         }
 
         configureToolbar(toolbar)

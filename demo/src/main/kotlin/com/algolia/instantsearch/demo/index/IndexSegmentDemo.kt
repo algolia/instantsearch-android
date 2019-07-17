@@ -57,8 +57,10 @@ class IndexSegmentDemo : AppCompatActivity() {
 
         val adapterMovie = MovieAdapter()
 
-        searcher.onResponseChanged += {
-            adapterMovie.submitList(it.hits.deserialize(Movie.serializer()))
+        searcher.response.subscribe { response ->
+            if (response != null) {
+                adapterMovie.submitList(response.hits.deserialize(Movie.serializer()))
+            }
         }
 
         configureToolbar(toolbar)

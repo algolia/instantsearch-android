@@ -24,7 +24,7 @@ class TestLoadingConnectSearcher {
         val viewModel = LoadingViewModel()
         val expected = true
 
-        searcher.loading = expected
+        searcher.isLoading.set(expected)
         viewModel.isLoading.get().shouldBeFalse()
         viewModel.connectSearcher(searcher)
         viewModel.isLoading.get() shouldEqual expected
@@ -39,7 +39,7 @@ class TestLoadingConnectSearcher {
 
         viewModel.isLoading.get().shouldBeFalse()
         viewModel.connectSearcher(searcher, debouncer)
-        searcher.loading = true
+        searcher.isLoading.set(true)
         blocking { debouncer.job!!.join() }
         viewModel.isLoading.get() shouldEqual expected
     }

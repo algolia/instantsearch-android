@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.searcher
 
+import com.algolia.instantsearch.core.observable.ObservableItem
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.search.client.ClientSearch
@@ -8,7 +9,6 @@ import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.response.ResponseSearches
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
-import kotlin.properties.Delegates
 
 
 public class SearcherMultipleIndex(
@@ -22,28 +22,12 @@ public class SearcherMultipleIndex(
     internal val sequencer = Sequencer()
 
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
-
-    public override val onResponseChanged = mutableListOf<(ResponseSearches) -> Unit>()
-    public override val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
-    override val onLoadingChanged: MutableList<(Boolean) -> Unit> = mutableListOf()
-
-    override var loading by Delegates.observable(false) { _, _, newValue ->
-        onLoadingChanged.forEach { it(newValue) }
-    }
-
-    public override var response by Delegates.observable<ResponseSearches?>(null) { _, _, newValue ->
-        if (newValue != null) {
-            onResponseChanged.forEach { it(newValue) }
-        }
-    }
-    public override var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
-        if (newValue != null) {
-            onErrorChanged.forEach { it(newValue) }
-        }
-    }
+    override val isLoading = ObservableItem(false)
+    override val error = ObservableItem<Throwable?>(null)
+    override val response = ObservableItem<ResponseSearches?>(null)
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        error = throwable
+        error.set(throwable)
     }
 
     override fun setQuery(text: String?) {
@@ -59,11 +43,11 @@ public class SearcherMultipleIndex(
     }
 
     override suspend fun search(): ResponseSearches {
-        withContext(dispatcher) { loading = true }
+        withContext(dispatcher) { isLoading.set(true) }
         val response = client.multipleQueries(queries, strategy, requestOptions)
         withContext(dispatcher) {
-            this@SearcherMultipleIndex.response = response
-            loading = false
+            this@SearcherMultipleIndex.response.set(response)
+            isLoading.set(false)
         }
         return response
     }

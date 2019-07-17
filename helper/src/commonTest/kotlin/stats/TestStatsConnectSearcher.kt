@@ -19,7 +19,7 @@ class TestStatsConnectSearcher {
 
     @Test
     fun connectShouldSetItem() {
-        val searcher = SearcherSingleIndex(index).also { it.response = responseSearch }
+        val searcher = SearcherSingleIndex(index).also { it.response.set(responseSearch) }
         val viewModel = StatsViewModel()
 
         viewModel.item.shouldBeNull()

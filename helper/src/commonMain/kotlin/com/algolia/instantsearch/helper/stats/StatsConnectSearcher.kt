@@ -4,6 +4,5 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 
 
 public fun StatsViewModel.connectSearcher(searcher: SearcherSingleIndex) {
-    item = searcher.response
-    searcher.onResponseChanged += { item = it }
+    searcher.response.subscribePast { item = it }
 }

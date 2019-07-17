@@ -105,8 +105,8 @@ fun AppCompatActivity.onErrorThenUpdateFiltersText(
     searcher: SearcherSingleIndex,
     filtersTextView: TextView
 ) {
-    searcher.onErrorChanged += {
-        filtersTextView.text = it.localizedMessage
+    searcher.error.subscribe {
+        filtersTextView.text = it?.localizedMessage
     }
 }
 

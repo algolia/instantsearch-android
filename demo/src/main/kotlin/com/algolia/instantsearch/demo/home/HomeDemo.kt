@@ -26,16 +26,18 @@ class HomeDemo : AppCompatActivity() {
         configureSearchView(searchView, getString(R.string.search_demos))
         configureSearchBox(searchView, searcher)
 
-        searcher.onResponseChanged += { response ->
-            val hits = response.hits.deserialize(HomeHit.serializer())
-                .filter { homeActivities.containsKey(it.objectID) }
-                .groupBy { it.type }
-                .toSortedMap()
-                .flatMap { (key, value) ->
-                    listOf(HomeItem.Header(key)) + value.map { HomeItem.Item(it) }.sortedBy { it.hit.objectID.raw }
-                }
+        searcher.response.subscribe { response ->
+            if (response != null) {
+                val hits = response.hits.deserialize(HomeHit.serializer())
+                    .filter { homeActivities.containsKey(it.objectID) }
+                    .groupBy { it.type }
+                    .toSortedMap()
+                    .flatMap { (key, value) ->
+                        listOf(HomeItem.Header(key)) + value.map { HomeItem.Item(it) }.sortedBy { it.hit.objectID.raw }
+                    }
 
-            adapter.submitList(hits)
+                adapter.submitList(hits)
+            }
         }
         searcher.searchAsync()
     }
