@@ -16,9 +16,11 @@ public class SearcherSingleIndexDataSource<T>(
     public class Factory<T>(
         private val searcher: SearcherSingleIndex,
         private val deserializer: DeserializationStrategy<T>
-    ) : SearcherDataSourceFactory<T>() {
+    ) : DataSource.Factory<Int, T>() {
 
-        override fun createDataSource(): DataSource<Int, T> = SearcherSingleIndexDataSource(searcher, deserializer)
+        override fun create(): DataSource<Int, T> {
+            return SearcherSingleIndexDataSource(searcher, deserializer)
+        }
     }
 
     private var initialLoadSize: Int = 30

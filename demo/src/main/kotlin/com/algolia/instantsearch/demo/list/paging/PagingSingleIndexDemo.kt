@@ -48,7 +48,7 @@ class PagingSingleIndexDemo : AppCompatActivity() {
         searchBoxViewModel.connectView(searchBoxView)
         searchBoxViewModel.connectSearcher(searcher, movies)
         searcher.connectFilterState(filterState)
-        dataSourceFactory.connectFilterState(filterState)
+        movies.connectFilterState(filterState)
 
         filter.setOnClickListener {
             val groupID = FilterGroupID("year")
