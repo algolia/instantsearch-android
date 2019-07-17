@@ -11,9 +11,16 @@ import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieAdapterPaged
 import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
+import com.algolia.instantsearch.helper.android.list.connectFilterState
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.searchbox.connectSearcher
+import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.search.helper.toAttribute
+import com.algolia.search.model.filter.Filter
+import com.algolia.search.model.filter.NumericOperator
 import kotlinx.android.synthetic.main.demo_paging.*
 import kotlinx.android.synthetic.main.include_search.*
 
@@ -23,7 +30,10 @@ class PagingSingleIndexDemo : AppCompatActivity() {
     private val searcher = SearcherSingleIndex(stubIndex)
     private val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Movie.serializer())
     private val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
-    private val movies = LivePagedListBuilder<Int, Movie>(dataSourceFactory, pagedListConfig).build()
+    private val movies = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
+    private val filterState = FilterState()
+
+    private var isFiltered = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +47,18 @@ class PagingSingleIndexDemo : AppCompatActivity() {
 
         searchBoxViewModel.connectView(searchBoxView)
         searchBoxViewModel.connectSearcher(searcher, movies)
+        searcher.connectFilterState(filterState)
+        dataSourceFactory.connectFilterState(filterState)
+
+        filter.setOnClickListener {
+            val groupID = FilterGroupID("year")
+            val filter = Filter.Numeric(groupID.name.toAttribute(), NumericOperator.GreaterOrEquals, 1993)
+
+            filterState.notify {
+                if (isFiltered) add(groupID, filter) else remove(groupID, filter)
+                isFiltered = !isFiltered
+            }
+        }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

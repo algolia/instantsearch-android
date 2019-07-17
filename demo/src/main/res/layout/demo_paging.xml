@@ -42,4 +42,16 @@
         app:layout_constraintTop_toBottomOf="@id/nbHits"
         tools:listitem="@layout/list_item_large" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/filter"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_filter_list" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
