@@ -5,26 +5,26 @@ public class ObservableItem<T>(initialValue: T) {
 
     internal var value: T = initialValue
 
-    internal val listeners: MutableMap<ObservableKey, (T) -> Unit> = mutableMapOf()
+    internal val listeners: MutableList<(T) -> Unit> = mutableListOf()
 
     public fun get() = value
 
     public fun set(value: T) {
         this.value = value
-        listeners.values.forEach { it(value) }
+        listeners.forEach { it(value) }
     }
 
-    public fun subscribe(key: ObservableKey? = null, action: (T) -> Unit) {
-        listeners[key ?: ObservableKey(this)] = action
+    public fun subscribe(listener: (T) -> Unit) {
+        listeners += listener
     }
 
-    public fun subscribePast(key: ObservableKey? = null, action: (T) -> Unit) {
-        action(value)
-        listeners[key ?: ObservableKey(this)] = action
+    public fun subscribePast(listener: (T) -> Unit) {
+        listener(value)
+        listeners += listener
     }
 
-    public fun unsubscribe(key: ObservableKey) {
-        listeners.remove(key)
+    public fun unsubscribe(listener: (T) -> Unit) {
+        listeners -= listener
     }
 
     public fun unsubscribeAll() {

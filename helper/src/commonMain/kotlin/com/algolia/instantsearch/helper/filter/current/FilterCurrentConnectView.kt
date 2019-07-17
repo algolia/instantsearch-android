@@ -1,13 +1,10 @@
 package com.algolia.instantsearch.helper.filter.current
 
-import com.algolia.instantsearch.core.observable.ObservableKey
-
 
 public fun FilterCurrentViewModel.connectView(
     view: FilterCurrentView,
-    presenter: FilterCurrentPresenter = FilterCurrentPresenterImpl(),
-    key: ObservableKey? = null
+    presenter: FilterCurrentPresenter = FilterCurrentPresenterImpl()
 ) {
-    filters.subscribePast(key) { view.setItem(presenter(it)) }
+    filters.subscribePast { view.setItem(presenter(it)) }
     view.onClick = (::remove)
 }

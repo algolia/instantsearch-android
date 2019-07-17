@@ -1,15 +1,12 @@
 package observable
 
 import com.algolia.instantsearch.core.observable.ObservableEvent
-import com.algolia.instantsearch.core.observable.ObservableKey
 import shouldEqual
 import kotlin.test.Test
 
 
 class TestObservableEvent {
 
-    private val keyA = ObservableKey("keyA")
-    private val keyB = ObservableKey("keyB")
     private val value = "value"
 
     @Test
@@ -27,11 +24,11 @@ class TestObservableEvent {
         val item: ObservableEvent<String?> = ObservableEvent()
         val listener: (String?) -> Unit = { }
 
-        item.subscribe(keyA, listener)
-        item.subscribe(keyB, listener)
-        item.listeners shouldEqual mapOf(keyA to listener, keyB to listener)
-        item.unsubscribe(keyA)
-        item.listeners shouldEqual mapOf(keyB to listener)
+        item.subscribe(listener)
+        item.subscribe(listener)
+        item.listeners shouldEqual listOf(listener, listener)
+        item.unsubscribe(listener)
+        item.listeners shouldEqual listOf(listener)
     }
 
     @Test
@@ -39,10 +36,10 @@ class TestObservableEvent {
         val item: ObservableEvent<String?> = ObservableEvent()
         val listener: (String?) -> Unit = { }
 
-        item.subscribe(keyA, listener)
-        item.subscribe(keyB, listener)
-        item.listeners shouldEqual mapOf(keyA to listener, keyB to listener)
+        item.subscribe(listener)
+        item.subscribe(listener)
+        item.listeners shouldEqual listOf(listener, listener)
         item.unsubscribeAll()
-        item.listeners shouldEqual mapOf<String, (String?) -> Unit>()
+        item.listeners shouldEqual emptyList()
     }
 }

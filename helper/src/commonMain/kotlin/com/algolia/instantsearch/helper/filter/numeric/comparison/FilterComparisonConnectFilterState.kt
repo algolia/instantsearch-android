@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
 import com.algolia.instantsearch.core.number.NumberViewModel
-import com.algolia.instantsearch.core.observable.ObservableKey
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -14,10 +13,9 @@ public inline fun <reified T> NumberViewModel<T>.connectFilterState(
     attribute: Attribute,
     operator: NumericOperator,
     filterState: FilterState,
-    groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
-    key: ObservableKey? = null
+    groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
 ) where T : Number, T : Comparable<T> {
-    filterState.filters.subscribePast(key) { filters ->
+    filterState.filters.subscribePast { filters ->
         number.set(filters
             .getNumericFilters(groupID)
             .filter { it.attribute == attribute }
@@ -26,7 +24,7 @@ public inline fun <reified T> NumberViewModel<T>.connectFilterState(
             .firstOrNull { it.operator == operator }
             ?.number as? T?)
     }
-    event.subscribe(key) { computed ->
+    event.subscribe { computed ->
         filterState.notify {
             number.get()?.let { remove(groupID, Filter.Numeric(attribute, operator, it)) }
             computed?.let { add(groupID, Filter.Numeric(attribute, operator, it)) }
