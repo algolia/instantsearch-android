@@ -45,18 +45,17 @@ fun <T> List<Node<T>>.asTree(
 public fun <I, O> Tree<I>.asTree(
     comparator: Comparator<O>,
     transform: (Node<I>, Int, Boolean) -> O
-): List<O> = children.asTree(comparator, 0, transform)
+): List<O> = children.asTree(0, transform).sortedWith(comparator)
 
 
 private fun <I, O> List<Node<I>>.asTree(
-    comparator: Comparator<O>,
     level: Int = 0,
     transform: (Node<I>, Int, Boolean) -> O
 ): List<O> {
     return mutableListOf<O>().also { list ->
         forEach { node ->
             list += transform(node, level, node.children.isEmpty())
-            list += node.children.asTree(comparator, level + 1, transform)
+            list += node.children.asTree(level + 1, transform)
         }
-    }.sortedWith(comparator)
+    }
 }
