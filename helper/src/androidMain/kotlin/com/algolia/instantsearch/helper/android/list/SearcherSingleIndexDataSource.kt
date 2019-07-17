@@ -18,8 +18,11 @@ public class SearcherSingleIndexDataSource<T>(
         private val deserializer: DeserializationStrategy<T>
     ) : DataSource.Factory<Int, T>() {
 
+        public lateinit var lastDataSource: DataSource<Int, T>
+
         override fun create(): DataSource<Int, T> {
-            return SearcherSingleIndexDataSource(searcher, deserializer)
+            lastDataSource = SearcherSingleIndexDataSource(searcher, deserializer)
+            return lastDataSource
         }
     }
 
