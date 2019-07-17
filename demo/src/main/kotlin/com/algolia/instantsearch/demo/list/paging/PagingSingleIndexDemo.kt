@@ -55,7 +55,7 @@ class PagingSingleIndexDemo : AppCompatActivity() {
             val filter = Filter.Numeric(groupID.name.toAttribute(), NumericOperator.GreaterOrEquals, 1993)
 
             filterState.notify {
-                if (isFiltered) add(groupID, filter) else remove(groupID, filter)
+                if (!isFiltered) add(groupID, filter) else remove(groupID, filter)
                 isFiltered = !isFiltered
             }
         }
