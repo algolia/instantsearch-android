@@ -18,11 +18,10 @@ public class SearcherMultipleIndexDataSource<T>(
         private val searcher: SearcherMultipleIndex,
         private val index: Int,
         private val deserializer: DeserializationStrategy<T>
-    ) : DataSource.Factory<Int, T>() {
+    ) : SearcherDataSourceFactory<T>() {
 
-        override fun create(): DataSource<Int, T> {
-            return SearcherMultipleIndexDataSource(searcher, index, deserializer)
-        }
+        override fun createDataSource(): DataSource<Int, T> =
+            SearcherMultipleIndexDataSource(searcher, index, deserializer)
     }
 
     private val query = searcher.queries[index].query
