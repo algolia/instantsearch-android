@@ -14,7 +14,7 @@ public class ObservableEvent<T> {
     }
 
     public fun unsubscribe(listener: (T) -> Unit) {
-        listeners.remove(listener)
+        listeners -= listener
     }
 
     public fun unsubscribeAll() {
