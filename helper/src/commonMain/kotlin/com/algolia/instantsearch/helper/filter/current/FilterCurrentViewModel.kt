@@ -1,24 +1,7 @@
 package com.algolia.instantsearch.helper.filter.current
 
-import com.algolia.instantsearch.core.observable.ObservableEvent
-import com.algolia.instantsearch.core.observable.ObservableItem
+import com.algolia.instantsearch.core.map.MapViewModel
+import com.algolia.search.model.filter.Filter
 
 
-public class FilterCurrentViewModel(filters: Set<FilterAndID> = setOf()) {
-
-    val filters = ObservableItem(filters)
-
-    val event = ObservableEvent<Set<FilterAndID>>()
-
-    public fun add(element: FilterAndID) {
-        event.send(filters.get() + element)
-    }
-
-    public fun remove(element: FilterAndID) {
-        event.send(filters.get() - element)
-    }
-
-    public fun clear() {
-        event.send(setOf())
-    }
-}
+public typealias FilterCurrentViewModel = MapViewModel<FilterAndID, Filter>

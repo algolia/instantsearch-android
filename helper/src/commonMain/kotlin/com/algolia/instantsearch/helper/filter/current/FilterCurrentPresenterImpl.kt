@@ -2,6 +2,7 @@ package com.algolia.instantsearch.helper.filter.current
 
 import com.algolia.instantsearch.helper.filter.FilterPresenter
 import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
+import com.algolia.search.model.filter.Filter
 
 
 public class FilterCurrentPresenterImpl(
@@ -9,7 +10,7 @@ public class FilterCurrentPresenterImpl(
     val presenter: FilterPresenter = FilterPresenterImpl()
 ) : FilterCurrentPresenter {
 
-    override fun invoke(filterAndIDs: Set<FilterAndID>): List<Pair<FilterAndID, String>> {
-        return filterAndIDs.map { it to presenter(it.second) }.sortedWith(comparator)
+    override fun invoke(filterAndIDs: Map<FilterAndID, Filter>): List<Pair<FilterAndID, String>> {
+        return filterAndIDs.map { (key, value) -> key to presenter(value) }.sortedWith(comparator)
     }
 }

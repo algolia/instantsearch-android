@@ -5,6 +5,6 @@ public fun FilterCurrentViewModel.connectView(
     view: FilterCurrentView,
     presenter: FilterCurrentPresenter = FilterCurrentPresenterImpl()
 ) {
-    filters.subscribePast { view.setItem(presenter(it)) }
+    map.subscribePast { view.setItem(presenter(it )) }
     view.onClick = (::remove)
 }

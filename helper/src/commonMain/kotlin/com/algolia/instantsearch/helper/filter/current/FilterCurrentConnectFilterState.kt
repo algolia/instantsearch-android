@@ -4,8 +4,8 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
 
-internal fun Map<FilterGroupID, Set<Filter>>.toFilterAndIds(): Set<FilterAndID> {
-    return flatMap { (key, value) -> value.map { key to it } }.toSet()
+internal fun Map<FilterGroupID, Set<Filter>>.toFilterAndIds(): Map<FilterAndID, Filter> {
+    return flatMap { (key, value) -> value.map { FilterAndID(key, it) to it } }.toMap()
 }
 
 public fun FilterCurrentViewModel.connectFilterState(
@@ -16,7 +16,7 @@ public fun FilterCurrentViewModel.connectFilterState(
         val groups = filters.getGroups().filter { groupID == null || it.key == groupID }
         val filterAndIDs = groups.toFilterAndIds()
 
-        this.filters.set(filterAndIDs)
+        map.set(filterAndIDs)
     }
     event.subscribe {
         filterState.notify {
@@ -25,7 +25,7 @@ public fun FilterCurrentViewModel.connectFilterState(
             } else {
                 clear()
             }
-            it.forEach { add(it.first, it.second) }
+            it.get().forEach { add(it.key.first, it.value) }
         }
     }
 }

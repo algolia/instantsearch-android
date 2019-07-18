@@ -33,7 +33,7 @@ class TestCurrentFiltersConnectFilterState {
         val filterState = FilterState(filters)
 
         viewModel.connectFilterState(filterState)
-        viewModel.filters.get() shouldEqual filterAndIDs
+        viewModel.map.get() shouldEqual filterAndIDs
     }
 
     @Test
@@ -43,7 +43,10 @@ class TestCurrentFiltersConnectFilterState {
 
         viewModel.connectFilterState(filterState)
         filterState.notify { remove(colorID, filterRed) }
-        viewModel.filters.get() shouldEqual setOf(colorID to filterGreen, brandID to filterAlgolia)
+        viewModel.map.get() shouldEqual mapOf(
+            (colorID to filterGreen) to filterGreen,
+            (brandID to filterAlgolia) to filterAlgolia
+        )
     }
 
     @Test
@@ -53,7 +56,10 @@ class TestCurrentFiltersConnectFilterState {
 
         viewModel.connectFilterState(filterState, colorID)
         filterState.notify { add(brandID, filterElastic) }
-        viewModel.filters.get() shouldEqual setOf(colorID to filterGreen, colorID to filterRed)
+        viewModel.map.get() shouldEqual mapOf(
+            (colorID to filterGreen) to filterGreen,
+            (colorID to filterRed) to filterRed
+        )
     }
 
     @Test
