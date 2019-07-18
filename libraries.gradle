@@ -6,7 +6,7 @@ ext {
 
     libraries = [
             // exposed APIs
-            "algolia"          : "com.algolia:algoliasearch-android:3.23.13",
+            "algolia"          : "com.algolia:algoliasearch-android:3.27.0",
             "eventbus"         : "org.greenrobot:eventbus:3.1.1",
             // core dependencies
             "appcompat"        : "com.android.support:appcompat-v7:$VERSION_APPCOMPAT",
