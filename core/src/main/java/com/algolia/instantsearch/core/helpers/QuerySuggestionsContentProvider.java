@@ -18,6 +18,8 @@ import com.algolia.search.saas.Query;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Locale;
+
 /**
  * Provides Search Suggestions through a ContentProvider.
  * <p>
@@ -63,7 +65,8 @@ public abstract class QuerySuggestionsContentProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         MatrixCursor cursor = new MatrixCursor(COLUMN_NAMES);
-        final String query = uri.getLastPathSegment().toLowerCase();
+        final String lastPathSegment = uri.getLastPathSegment();
+        final String query = lastPathSegment != null ? lastPathSegment.toLowerCase(Locale.ROOT) : "";
 
         try {
             SearchResults results = new SearchResults(index.searchSync(new Query(query).setHitsPerPage(getLimit()).setAttributesToHighlight("query")));

@@ -17,7 +17,6 @@ dependencies {
     implementation libraries.appcompat
     implementation libraries.glide
     implementation libraries.recyclerview
-    implementation libraries.constraint_layout
 }
 
 apply from: '../release.gradle'

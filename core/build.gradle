@@ -8,7 +8,6 @@ dependencies {
     api libraries.eventbus
     api libraries.algolia
 
-    implementation libraries.appcompat
     implementation libraries.support
     implementation(libraries.json_path) {
         exclude module: 'asm'
