@@ -15,7 +15,6 @@ ext {
             // UI
             "glide"            : "com.github.bumptech.glide:glide:4.7.1",
             "recyclerview"     : "com.android.support:recyclerview-v7:$VERSION_APPCOMPAT",
-            "constraint_layout": 'com.android.support.constraint:constraint-layout:1.1.2',
             // Testing
             "junit"            : "junit:junit:4.12",
             "robolectric"      : "org.robolectric:robolectric:4.0",
