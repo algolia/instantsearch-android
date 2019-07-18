@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="right">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="right"
+    tools:ignore="RtlHardcoded">
+    <!--TODO: Handle properly RtlHardcoded-->
 
     <TextView
         android:id="@+id/refinementName"
@@ -12,19 +14,19 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
-        tools:text="City"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorRefinementName"/>
+        android:textColor="@color/colorRefinementName"
+        tools:text="City" />
 
     <TextView
         android:id="@+id/refinementCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        tools:text="10"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/colorRefinementCount"
-        tools:ignore="RelativeOverlap"/>
+        tools:ignore="RelativeOverlap"
+        tools:text="10" />
 </RelativeLayout>
