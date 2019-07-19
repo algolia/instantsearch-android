@@ -34,9 +34,9 @@ class TestNumberRangeConnectView {
         val viewModel = NumberRangeViewModel<Int>()
         val view = MockNumberRangeView()
 
-        viewModel.range.set(Range(0..20))
+        viewModel.range.value = Range(0..20)
         viewModel.connectView(view)
-        view.rangeInt shouldEqual viewModel.range.get()
+        view.rangeInt shouldEqual viewModel.range.value
     }
 
     @Test
@@ -44,9 +44,9 @@ class TestNumberRangeConnectView {
         val viewModel = NumberRangeViewModel<Int>()
         val view = MockNumberRangeView()
 
-        viewModel.bounds.set(Range(0..20))
+        viewModel.bounds.value = Range(0..20)
         viewModel.connectView(view)
-        view.bounds shouldEqual viewModel.bounds.get()
+        view.bounds shouldEqual viewModel.bounds.value
     }
 
     @Test
@@ -55,8 +55,8 @@ class TestNumberRangeConnectView {
         val view = MockNumberRangeView()
 
         viewModel.connectView(view)
-        viewModel.range.set(Range(0..20))
-        view.rangeInt shouldEqual viewModel.range.get()
+        viewModel.range.value = Range(0..20)
+        view.rangeInt shouldEqual viewModel.range.value
     }
 
     @Test
@@ -65,7 +65,7 @@ class TestNumberRangeConnectView {
         val view = MockNumberRangeView()
 
         viewModel.connectView(view)
-        viewModel.bounds.set(Range(0..20))
-        view.bounds shouldEqual viewModel.bounds.get()
+        viewModel.bounds.value = Range(0..20)
+        view.bounds shouldEqual viewModel.bounds.value
     }
 }

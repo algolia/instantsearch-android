@@ -36,7 +36,7 @@ class TestFilterToggleConnectView {
         val view = MockSelectableItemView()
         val viewModel = SelectableItemViewModel(input)
 
-        viewModel.isSelected.set(true)
+        viewModel.isSelected.value = true
         viewModel.connectView(view, presenter)
         view.boolean shouldEqual true
         view.string shouldEqual output
@@ -48,7 +48,7 @@ class TestFilterToggleConnectView {
         val viewModel = SelectableItemViewModel(input)
 
         viewModel.connectView(view, presenter)
-        viewModel.item.set(1)
+        viewModel.item.value = 1
         view.string shouldEqual "1"
     }
 
@@ -57,7 +57,7 @@ class TestFilterToggleConnectView {
         val view = MockSelectableItemView()
         val viewModel = SelectableItemViewModel(input)
 
-        viewModel.eventSelection.subscribe { viewModel.isSelected.set(it) }
+        viewModel.eventSelection.subscribe { viewModel.isSelected.value = it }
         viewModel.connectView(view, presenter)
         view.onSelectionChanged.shouldNotBeNull()
         view.onSelectionChanged!!(true)
@@ -70,7 +70,7 @@ class TestFilterToggleConnectView {
         val viewModel = SelectableItemViewModel(input)
 
         viewModel.connectView(view, presenter)
-        viewModel.isSelected.set(true)
+        viewModel.isSelected.value = true
         view.boolean shouldEqual true
     }
 }

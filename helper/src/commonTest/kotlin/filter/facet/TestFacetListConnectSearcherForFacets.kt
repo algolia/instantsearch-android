@@ -30,7 +30,7 @@ class TestFacetListConnectSearcherForFacets {
     @Test
     fun connectShouldUpdateItems() {
         val viewModel = FacetListViewModel()
-        val searcher = SearcherForFacets(index, attribute).also { it.response.set(response) }
+        val searcher = SearcherForFacets(index, attribute).also { it.response.value = response }
 
         viewModel.connectSearcherForFacet(searcher)
         viewModel.item shouldEqual facets

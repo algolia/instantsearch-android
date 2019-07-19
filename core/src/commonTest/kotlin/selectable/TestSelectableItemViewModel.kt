@@ -13,12 +13,12 @@ class TestSelectableItemViewModel {
     @Test
     fun selection() {
         SelectableItemViewModel(valueA).apply {
-            eventSelection.subscribe { isSelected.set(it) }
-            isSelected.get().shouldBeFalse()
+            eventSelection.subscribe { isSelected.value = it }
+            isSelected.value.shouldBeFalse()
             eventSelection.send(true)
-            isSelected.get().shouldBeTrue()
+            isSelected.value.shouldBeTrue()
             eventSelection.send(false)
-            isSelected.get().shouldBeFalse()
+            isSelected.value.shouldBeFalse()
         }
     }
 }

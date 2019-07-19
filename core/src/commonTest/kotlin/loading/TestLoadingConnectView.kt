@@ -42,7 +42,7 @@ class TestLoadingConnectView {
 
         viewModel.connectView(view)
         view.boolean shouldEqual false
-        viewModel.isLoading.set(expected)
+        viewModel.isLoading.value = expected
         view.boolean shouldEqual expected
     }
 

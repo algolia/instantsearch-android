@@ -27,7 +27,7 @@ class TestSearcherSingleIndex {
         var count = 0
 
         searcher.isLoading.subscribe { if (it) count++ }
-        searcher.isLoading.get().shouldBeFalse()
+        searcher.isLoading.value.shouldBeFalse()
         blocking { searcher.search() }
         count shouldEqual 1
     }
@@ -38,11 +38,11 @@ class TestSearcherSingleIndex {
         var responded = false
 
         searcher.response.subscribe { responded = true }
-        searcher.response.get().shouldBeNull()
+        searcher.response.value.shouldBeNull()
         blocking { searcher.searchAsync().join() }
-        searcher.response.get() shouldEqual responseSearch
+        searcher.response.value shouldEqual responseSearch
         responded.shouldBeTrue()
-        searcher.error.get().shouldBeNull()
+        searcher.error.value.shouldBeNull()
     }
 
     @Test
@@ -51,10 +51,10 @@ class TestSearcherSingleIndex {
         var error = false
 
         searcher.error.subscribe { error = true }
-        searcher.error.get().shouldBeNull()
+        searcher.error.value.shouldBeNull()
         blocking { searcher.searchAsync().join() }
-        searcher.error.get().shouldNotBeNull()
-        searcher.response.get().shouldBeNull()
+        searcher.error.value.shouldNotBeNull()
+        searcher.response.value.shouldBeNull()
         error.shouldBeTrue()
     }
 }

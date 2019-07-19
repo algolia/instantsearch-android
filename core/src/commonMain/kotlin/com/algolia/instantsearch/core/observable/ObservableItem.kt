@@ -1,33 +1,34 @@
 package com.algolia.instantsearch.core.observable
 
+import kotlin.properties.Delegates
+
 
 public class ObservableItem<T>(initialValue: T) {
 
-    internal var value: T = initialValue
+    internal val subscriptions: MutableList<(T) -> Unit> = mutableListOf()
 
-    internal val listeners: MutableList<(T) -> Unit> = mutableListOf()
-
-    public fun get() = value
-
-    public fun set(value: T) {
-        this.value = value
-        listeners.forEach { it(value) }
+    public var value: T  by Delegates.observable(initialValue) { _, _, newValue ->
+        subscriptions.forEach { it(newValue) }
     }
 
     public fun subscribe(listener: (T) -> Unit) {
-        listeners += listener
+        subscriptions += listener
     }
 
     public fun subscribePast(listener: (T) -> Unit) {
         listener(value)
-        listeners += listener
+        subscriptions += listener
     }
 
     public fun unsubscribe(listener: (T) -> Unit) {
-        listeners -= listener
+        subscriptions -= listener
     }
 
     public fun unsubscribeAll() {
-        listeners.clear()
+        subscriptions.clear()
+    }
+
+    public fun notifySubscriptions() {
+        subscriptions.forEach { it(value) }
     }
 }

@@ -23,12 +23,12 @@ public class SearcherSingleIndex(
     internal val sequencer = Sequencer()
 
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
-    override val isLoading =  ObservableItem(false)
+    override val isLoading = ObservableItem(false)
     override val error = ObservableItem<Throwable?>(null)
     override val response = ObservableItem<ResponseSearch?>(null)
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        error.set(throwable)
+        error.value = throwable
     }
 
     internal var disjunctive: (() -> Pair<List<Attribute>, Set<Filter>>) = { listOf<Attribute>() to setOf() }
@@ -48,15 +48,15 @@ public class SearcherSingleIndex(
     override suspend fun search(): ResponseSearch {
         val (disjunctiveAttributes, filters) = disjunctive.invoke()
 
-        withContext(dispatcher) { isLoading.set(true) }
+        withContext(dispatcher) { isLoading.value = true }
         val response = if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
             index.search(query, requestOptions)
         } else {
             index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters)
         }
         withContext(dispatcher) {
-            this@SearcherSingleIndex.response.set(response)
-            isLoading.set(false)
+            this@SearcherSingleIndex.response.value = response
+            isLoading.value = false
         }
         return response
     }

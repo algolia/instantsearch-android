@@ -20,11 +20,11 @@ public inline fun <reified T> FilterRangeViewModel<T>.connectFilterState(
             .filterIsInstance<Filter.Numeric.Value.Range>()
             .firstOrNull()
 
-        range.set(if (filter != null) Range(filter.lowerBound as T, filter.upperBound as T) else null)
+        range.value = if (filter != null) Range(filter.lowerBound as T, filter.upperBound as T) else null
     }
     eventRange.subscribe { range ->
         filterState.notify {
-            this@connectFilterState.range.get()?.let { remove(groupID, it.toFilterNumeric(attribute)) }
+            this@connectFilterState.range.value?.let { remove(groupID, it.toFilterNumeric(attribute)) }
             if (range != null) add(groupID, range.toFilterNumeric(attribute))
         }
     }

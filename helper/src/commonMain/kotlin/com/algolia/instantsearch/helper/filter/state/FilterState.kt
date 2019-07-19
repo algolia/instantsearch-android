@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.helper.filter.state
 
 import com.algolia.instantsearch.core.observable.ObservableItem
-import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
 
@@ -9,28 +8,25 @@ public class FilterState internal constructor(
     filters: MutableFilters = MutableFiltersImpl()
 ) : MutableFilters by filters {
 
+    public val filters = ObservableItem(filters)
+
     public constructor() : this(MutableFiltersImpl())
-
-    val filters = ObservableItem(filters)
-
-    internal var hierarchicalAttributes: List<Attribute> = listOf()
-    internal var hierarchicalFilters: List<Filter.Facet> = listOf()
 
     public constructor(map: Map<FilterGroupID, Set<Filter>>) : this() {
         map.forEach { (groupID, filters) -> add(groupID, filters) }
     }
 
     public fun notify(block: MutableFilters.() -> Unit) {
-        block(filters.get())
+        block(filters.value)
         notifyChange()
     }
 
     public fun notifyChange() {
-        filters.set(filters.get())
+        filters.notifySubscriptions()
     }
 
     override fun equals(other: Any?): Boolean {
-        return if (other is FilterState) filters.get() == other.filters.get() else false
+        return if (other is FilterState) filters.value == other.filters.value else false
     }
 
     override fun hashCode(): Int {

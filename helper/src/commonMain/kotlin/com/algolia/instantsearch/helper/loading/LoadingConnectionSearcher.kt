@@ -19,13 +19,13 @@ public class LoadingConnectionSearcher<R>(
     }
     private val updateIsLoading: (Boolean) -> Unit = {
         debouncer.debounce(searcher) {
-            viewModel.isLoading.set(it)
+            viewModel.isLoading.value = it
         }
     }
 
     override fun connect() {
         super.connect()
-        viewModel.isLoading.set(searcher.isLoading.get())
+        viewModel.isLoading.value = searcher.isLoading.value
         viewModel.eventReload.subscribe(eventReload)
         searcher.isLoading.subscribePast(updateIsLoading)
     }

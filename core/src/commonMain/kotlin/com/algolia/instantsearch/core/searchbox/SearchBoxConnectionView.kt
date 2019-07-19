@@ -12,10 +12,10 @@ public class SearchBoxConnectionView(
 
     override fun connect() {
         super.connect()
-        view.setText(viewModel.query.get())
-        view.onQueryChanged = (viewModel.query::set)
+        view.setText(viewModel.query.value)
+        view.onQueryChanged = (viewModel.query::value::set)
         view.onQuerySubmitted = {
-            viewModel.query.set(it)
+            viewModel.query.value = it
             viewModel.eventSubmit.send(it)
         }
     }

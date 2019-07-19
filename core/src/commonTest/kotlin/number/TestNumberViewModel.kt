@@ -13,9 +13,9 @@ class TestNumberViewModel {
         val viewModel = NumberViewModel<Int>()
         val value = -1
 
-        viewModel.eventNumber.subscribe { viewModel.number.set(it) }
+        viewModel.eventNumber.subscribe { viewModel.number.value = it }
         viewModel.coerce(value)
-        viewModel.number.get() shouldEqual value
+        viewModel.number.value shouldEqual value
     }
 
     @Test
@@ -23,9 +23,9 @@ class TestNumberViewModel {
         val range = 0..10
         val viewModel = NumberViewModel(range)
 
-        viewModel.eventNumber.subscribe { viewModel.number.set(it) }
+        viewModel.eventNumber.subscribe { viewModel.number.value = it }
         viewModel.coerce(-1)
-        viewModel.number.get() shouldEqual range.first
+        viewModel.number.value shouldEqual range.first
     }
 
     @Test
@@ -33,9 +33,9 @@ class TestNumberViewModel {
         val range = 0..10
         val viewModel = NumberViewModel(range)
 
-        viewModel.eventNumber.subscribe { viewModel.number.set(it) }
+        viewModel.eventNumber.subscribe { viewModel.number.value = it }
         viewModel.coerce(11)
-        viewModel.number.get() shouldEqual range.last
+        viewModel.number.value shouldEqual range.last
     }
 
     @Test
@@ -44,11 +44,11 @@ class TestNumberViewModel {
         val viewModel = NumberViewModel(range)
         val value = 5
 
-        viewModel.eventNumber.subscribe { viewModel.number.set(it) }
+        viewModel.eventNumber.subscribe { viewModel.number.value = it }
         viewModel.coerce(value)
-        viewModel.number.get() shouldEqual value
-        viewModel.bounds.set(Range(6..10))
-        viewModel.number.get() shouldEqual 6
+        viewModel.number.value shouldEqual value
+        viewModel.bounds.value = Range(6..10)
+        viewModel.number.value shouldEqual 6
     }
 
     @Test
@@ -57,10 +57,10 @@ class TestNumberViewModel {
         val viewModel = NumberViewModel(range)
         val value = 5
 
-        viewModel.eventNumber.subscribe { viewModel.number.set(it) }
+        viewModel.eventNumber.subscribe { viewModel.number.value = it }
         viewModel.coerce(value)
-        viewModel.number.get() shouldEqual value
-        viewModel.bounds.set(Range(0..4))
-        viewModel.number.get() shouldEqual 4
+        viewModel.number.value shouldEqual value
+        viewModel.bounds.value = Range(0..4)
+        viewModel.number.value shouldEqual 4
     }
 }

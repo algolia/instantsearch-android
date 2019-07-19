@@ -27,7 +27,7 @@ class TestSearchBoxEditText {
         val view = view()
         val viewModel = SearchBoxViewModel()
 
-        viewModel.query.set(text)
+        viewModel.query.value = text
         viewModel.connectView(view)
         view.editText.text.toString() shouldEqual text
     }
@@ -39,6 +39,6 @@ class TestSearchBoxEditText {
 
         viewModel.connectView(view)
         view.editText.setText(text)
-        viewModel.query.get() shouldEqual text
+        viewModel.query.value shouldEqual text
     }
 }

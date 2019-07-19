@@ -14,7 +14,7 @@ class TestSearchBoxViewModel {
         val value = "hello"
 
         viewModel.query.subscribe { expected = it }
-        viewModel.query.set(value)
+        viewModel.query.value = value
         expected shouldEqual value
     }
 

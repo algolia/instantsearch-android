@@ -27,7 +27,7 @@ public class SearcherMultipleIndex(
     override val response = ObservableItem<ResponseSearches?>(null)
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        error.set(throwable)
+        error.value = throwable
     }
 
     override fun setQuery(text: String?) {
@@ -43,11 +43,11 @@ public class SearcherMultipleIndex(
     }
 
     override suspend fun search(): ResponseSearches {
-        withContext(dispatcher) { isLoading.set(true) }
+        withContext(dispatcher) { isLoading.value = true }
         val response = client.multipleQueries(queries, strategy, requestOptions)
         withContext(dispatcher) {
-            this@SearcherMultipleIndex.response.set(response)
-            isLoading.set(false)
+            this@SearcherMultipleIndex.response.value = response
+            isLoading.value = false
         }
         return response
     }

@@ -66,7 +66,7 @@ class FilterComparisonDemo : AppCompatActivity() {
                 priceViewModel.setBoundsFromFacetStatsInt(price, it)
                 yearViewModel.setBoundsFromFacetStatsInt(year, it)
                 withContext(Dispatchers.Main) {
-                    inputHint.text = getInputHint(yearViewModel.bounds.get()!!)
+                    inputHint.text = getInputHint(yearViewModel.bounds.value!!)
                 }
             }
         }

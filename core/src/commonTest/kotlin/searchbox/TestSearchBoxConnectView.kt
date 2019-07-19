@@ -36,7 +36,7 @@ class TestSearchBoxConnectView {
         val viewModel = SearchBoxViewModel()
         val view = MockView()
 
-        viewModel.query.set(text)
+        viewModel.query.value = text
         viewModel.connectView(view)
         view.string shouldEqual text
     }
@@ -51,7 +51,7 @@ class TestSearchBoxConnectView {
         viewModel.connectView(view)
         view.onQueryChanged.shouldNotBeNull()
         view.onQueryChanged!!(text)
-        viewModel.query.get() shouldEqual text
+        viewModel.query.value shouldEqual text
         expected shouldEqual text
     }
 
@@ -65,7 +65,7 @@ class TestSearchBoxConnectView {
         viewModel.connectView(view)
         view.onQuerySubmitted.shouldNotBeNull()
         view.onQuerySubmitted!!(text)
-        viewModel.query.get() shouldEqual text
+        viewModel.query.value shouldEqual text
         expected shouldEqual text
     }
 }

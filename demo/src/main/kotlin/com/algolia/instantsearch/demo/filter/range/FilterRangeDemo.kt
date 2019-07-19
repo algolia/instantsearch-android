@@ -45,12 +45,12 @@ class FilterRangeDemo : AppCompatActivity() {
         viewModel.connectFilterState(price, filterState)
 
         buttonChangeBounds.setOnClickListener {
-            viewModel.bounds.set(Range(0..20))
+            viewModel.bounds.value = Range(0..20)
             it.isEnabled = false
             buttonResetBounds.isEnabled = true
         }
         buttonResetBounds.setOnClickListener {
-            viewModel.bounds.set(initialRange)
+            viewModel.bounds.value = initialRange
             it.isEnabled = false
             buttonChangeBounds.isEnabled = true
         }

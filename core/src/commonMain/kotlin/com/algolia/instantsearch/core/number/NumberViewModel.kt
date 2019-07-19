@@ -14,13 +14,13 @@ public open class NumberViewModel<T>(
     public val eventNumber = ObservableEvent<T?>()
     public val number = ObservableItem(number)
     public val bounds = ObservableItem(bounds).apply {
-        subscribe { coerce(this@NumberViewModel.number.get()) }
+        subscribe { coerce(this@NumberViewModel.number.value) }
     }
 
     public fun coerce(number: T?) {
-        val coerced = number?.coerce(bounds.get())
+        val coerced = number?.coerce(bounds.value)
 
-        if (coerced != this.number.get()) eventNumber.send(coerced)
+        if (coerced != this.number.value) eventNumber.send(coerced)
     }
 
     companion object {

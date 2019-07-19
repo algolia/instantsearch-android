@@ -25,7 +25,7 @@ class TestFilterToggleConnectFilterState {
         val viewModel = FilterToggleViewModel(red)
 
         viewModel.connectFilterState(expectedFilterState, groupID = groupID)
-        viewModel.isSelected shouldEqual true
+        viewModel.isSelected.value shouldEqual true
     }
 
     @Test
@@ -45,7 +45,7 @@ class TestFilterToggleConnectFilterState {
 
         viewModel.connectFilterState(filterState, groupID = groupID)
         filterState.notify { add(groupID, red) }
-        viewModel.isSelected shouldEqual true
+        viewModel.isSelected.value shouldEqual true
     }
 
     @Test

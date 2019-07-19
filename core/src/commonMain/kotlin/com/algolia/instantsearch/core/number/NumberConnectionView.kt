@@ -18,7 +18,7 @@ public class NumberConnectionView<T>(
     override fun connect() {
         super.connect()
         viewModel.number.subscribePast(updateText)
-        view.setComputation { computation -> viewModel.coerce(computation(viewModel.number.get())) }
+        view.setComputation { computation -> viewModel.coerce(computation(viewModel.number.value)) }
     }
 
     override fun disconnect() {

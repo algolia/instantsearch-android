@@ -20,7 +20,7 @@ class TestSearchBoxConnectSearcher {
         val debouncer = Debouncer(100)
 
         viewModel.connectSearcher(searcher, searchAsYouType = true, debouncer = debouncer)
-        viewModel.query.set(text)
+        viewModel.query.value = text
         blocking { debouncer.job!!.join() }
         searcher.searchCount shouldEqual 1
         searcher.string shouldEqual text
@@ -45,9 +45,9 @@ class TestSearchBoxConnectSearcher {
         val debouncer = Debouncer(100)
 
         viewModel.connectSearcher(searcher, debouncer = debouncer)
-        viewModel.query.set("a")
-        viewModel.query.set("ab")
-        viewModel.query.set("abc")
+        viewModel.query.value = "a"
+        viewModel.query.value = "ab"
+        viewModel.query.value = "abc"
         blocking { debouncer.job!!.join() }
         searcher.searchCount shouldEqual 1
         searcher.string shouldEqual "abc"

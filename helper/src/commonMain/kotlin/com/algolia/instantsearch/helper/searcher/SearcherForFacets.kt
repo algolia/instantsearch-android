@@ -23,12 +23,12 @@ public class SearcherForFacets(
     internal val sequencer = Sequencer()
 
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
-    override val isLoading =  ObservableItem(false)
+    override val isLoading = ObservableItem(false)
     override val error = ObservableItem<Throwable?>(null)
     override val response = ObservableItem<ResponseSearchForFacets?>(null)
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        error.set(throwable)
+        error.value = throwable
     }
 
     override fun setQuery(text: String?) {
@@ -37,20 +37,20 @@ public class SearcherForFacets(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(dispatcher + exceptionHandler) {
-            isLoading.set(true)
+            isLoading.value = true
             withContext(Dispatchers.Default) { search() }
-            isLoading.set(false)
+            isLoading.value = false
         }.also {
             sequencer.addOperation(it)
         }
     }
 
     override suspend fun search(): ResponseSearchForFacets {
-        withContext(dispatcher) { isLoading.set(true) }
-        val response =  index.searchForFacets(attribute, facetQuery, query, requestOptions)
+        withContext(dispatcher) { isLoading.value = true }
+        val response = index.searchForFacets(attribute, facetQuery, query, requestOptions)
         withContext(dispatcher) {
-            this@SearcherForFacets.response.set(response)
-            isLoading.set(false)
+            this@SearcherForFacets.response.value = response
+            isLoading.value = false
         }
         return response
     }

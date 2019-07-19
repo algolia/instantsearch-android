@@ -16,7 +16,7 @@ public fun FilterCurrentViewModel.connectFilterState(
         val groups = filters.getGroups().filter { groupID == null || it.key == groupID }
         val filterAndIDs = groups.toFilterAndIds()
 
-        map.set(filterAndIDs)
+        map.value = filterAndIDs
     }
     event.subscribe {
         filterState.notify {

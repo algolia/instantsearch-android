@@ -11,13 +11,13 @@ public open class NumberRangeViewModel<T>(
 
     public val range = ObservableItem(range)
     public val bounds = ObservableItem(bounds).apply {
-        subscribe { coerce(this@NumberRangeViewModel.range.get()) }
+        subscribe { coerce(this@NumberRangeViewModel.range.value) }
     }
     public val eventRange = ObservableEvent<Range<T>?>()
 
     public fun coerce(range: Range<T>?) {
-        val coerced = range?.coerce(bounds.get())
+        val coerced = range?.coerce(bounds.value)
 
-        if (coerced != this.range.get()) eventRange.send(coerced)
+        if (coerced != this.range.value) eventRange.send(coerced)
     }
 }

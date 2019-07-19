@@ -16,17 +16,17 @@ public inline fun <reified T> NumberViewModel<T>.connectFilterState(
     groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
 ) where T : Number, T : Comparable<T> {
     filterState.filters.subscribePast { filters ->
-        number.set(filters
+        number.value =filters
             .getNumericFilters(groupID)
             .filter { it.attribute == attribute }
             .map { it.value }
             .filterIsInstance<Filter.Numeric.Value.Comparison>()
             .firstOrNull { it.operator == operator }
-            ?.number as? T?)
+            ?.number as? T?
     }
     eventNumber.subscribe { computed ->
         filterState.notify {
-            number.get()?.let { remove(groupID, Filter.Numeric(attribute, operator, it)) }
+            number.value?.let { remove(groupID, Filter.Numeric(attribute, operator, it)) }
             computed?.let { add(groupID, Filter.Numeric(attribute, operator, it)) }
         }
     }

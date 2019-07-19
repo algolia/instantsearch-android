@@ -21,6 +21,6 @@ class TestFilterComparisonComputeBounds {
         val viewModel = NumberViewModel<Int>()
 
         viewModel.setBoundsFromFacetStatsInt(price, facetStats)
-        viewModel.bounds.get() shouldEqual Range(0, 10)
+        viewModel.bounds.value shouldEqual Range(0, 10)
     }
 }

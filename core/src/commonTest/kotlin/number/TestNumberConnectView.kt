@@ -33,7 +33,7 @@ class TestNumberConnectView {
         val view = MockNumberView()
         val viewModel = NumberViewModel(0..10)
 
-        viewModel.number.set(5)
+        viewModel.number.value = 5
         viewModel.connectView(view)
         view.string shouldEqual "5"
     }
@@ -44,7 +44,7 @@ class TestNumberConnectView {
         val viewModel = NumberViewModel(0..10)
 
         viewModel.connectView(view)
-        viewModel.number.set(5)
+        viewModel.number.value = 5
         view.string shouldEqual "5"
     }
 
@@ -53,7 +53,7 @@ class TestNumberConnectView {
         val view = MockNumberView()
         val viewModel = NumberViewModel(0..10)
 
-        viewModel.eventNumber.subscribe { viewModel.number.set(it) }
+        viewModel.eventNumber.subscribe { viewModel.number.value = it }
         viewModel.connectView(view)
         view.onClickIncrement!!()
         view.string shouldEqual "0"

@@ -8,7 +8,7 @@ import com.algolia.instantsearch.core.number.range.Range
 
 class BoundsTextView(val view: TextView) : NumberRangeView<Int> {
 
-    override var onRangeChanged: Event<Range<Int>>? = null
+    override var onRangeChanged: Event<Range<Int>> = null
 
     private var bounds: Range<Int>? = null
 

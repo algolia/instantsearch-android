@@ -10,9 +10,9 @@ class TestObservableItem {
     fun setAndGetShouldWork() {
         val item: ObservableItem<String?> = ObservableItem(null)
 
-        item.set(value)
+        item.value = value
         item.value shouldEqual value
-        item.get() shouldEqual value
+        item.value shouldEqual value
     }
 
     @Test
@@ -28,7 +28,7 @@ class TestObservableItem {
         val item: ObservableItem<String?> = ObservableItem(null)
 
         item.subscribe { expected = it }
-        item.set(value)
+        item.value = value
         expected shouldEqual value
     }
 
@@ -48,9 +48,9 @@ class TestObservableItem {
 
         item.subscribe(listener)
         item.subscribe(listener)
-        item.listeners shouldEqual listOf(listener, listener)
+        item.subscriptions shouldEqual listOf(listener, listener)
         item.unsubscribe(listener)
-        item.listeners shouldEqual listOf(listener)
+        item.subscriptions shouldEqual listOf(listener)
     }
 
     @Test
@@ -60,8 +60,8 @@ class TestObservableItem {
 
         item.subscribe(listener)
         item.subscribe(listener)
-        item.listeners shouldEqual listOf(listener, listener)
+        item.subscriptions shouldEqual listOf(listener, listener)
         item.unsubscribeAll()
-        item.listeners shouldEqual emptyList()
+        item.subscriptions shouldEqual emptyList()
     }
 }
