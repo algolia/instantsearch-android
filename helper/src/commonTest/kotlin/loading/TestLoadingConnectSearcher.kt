@@ -51,7 +51,7 @@ class TestLoadingConnectSearcher {
 
         searcher.searchCount shouldEqual 0
         viewModel.connectSearcher(searcher)
-        viewModel.reload.send(Unit)
+        viewModel.eventReload.send(Unit)
         blocking { searcher.job?.join() }
         searcher.searchCount shouldEqual 1
     }

@@ -52,7 +52,7 @@ class TestLoadingConnectView {
         val view = MockLoadingView()
         var expected = false
 
-        viewModel.reload.subscribe { expected = true }
+        viewModel.eventReload.subscribe { expected = true }
         view.onReload.shouldBeNull()
         viewModel.connectView(view)
         view.onReload.shouldNotBeNull()
