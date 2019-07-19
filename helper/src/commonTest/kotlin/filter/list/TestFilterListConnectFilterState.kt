@@ -27,7 +27,7 @@ class TestFilterListConnectFilterState {
         val viewModel = FilterListViewModel.Facet()
 
         viewModel.connectFilterState(expectedFilterState, groupID)
-        viewModel.selections shouldEqual selections
+        viewModel.selections.value shouldEqual selections
     }
 
     @Test
@@ -36,7 +36,7 @@ class TestFilterListConnectFilterState {
         val filterState = FilterState()
 
         viewModel.connectFilterState(filterState, groupID)
-        viewModel.computeSelections(red)
+        viewModel.select(red)
         filterState shouldEqual expectedFilterState
     }
 
@@ -47,19 +47,19 @@ class TestFilterListConnectFilterState {
 
         viewModel.connectFilterState(filterState, groupID)
         filterState.notify { add(groupID, red) }
-        viewModel.selections shouldEqual selections
+        viewModel.selections.value shouldEqual selections
     }
 
     @Test
     fun selectionModeSingleShouldClearOtherFilters() {
         val filterState = FilterState(filters)
         val viewModelFacets = FilterListViewModel.Facet(selectionMode = SelectionMode.Single).apply {
-            item = listOf(red)
+            items.value = listOf(red)
         }
 
         viewModelFacets.connectFilterState(filterState, groupID)
-        viewModelFacets.selections shouldEqual setOf(red, green)
-        viewModelFacets.computeSelections(red)
+        viewModelFacets.selections.value shouldEqual setOf(red, green)
+        viewModelFacets.select(red)
         filterState shouldEqual FilterState()
     }
 
@@ -67,12 +67,12 @@ class TestFilterListConnectFilterState {
     fun selectionModeMultipleShouldNotClearOtherFilters() {
         val filterState = FilterState(filters)
         val viewModelFacets = FilterListViewModel.Facet(selectionMode = SelectionMode.Multiple).apply {
-            item = listOf(red)
+            items.value = listOf(red)
         }
 
         viewModelFacets.connectFilterState(filterState, groupID)
-        viewModelFacets.selections shouldEqual setOf(red, green)
-        viewModelFacets.computeSelections(red)
+        viewModelFacets.selections.value shouldEqual setOf(red, green)
+        viewModelFacets.select(red)
         filterState shouldEqual FilterState(mapOf(groupID to setOf(green)))
     }
 }

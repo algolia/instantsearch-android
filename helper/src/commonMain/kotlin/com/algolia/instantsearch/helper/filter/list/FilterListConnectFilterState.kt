@@ -40,13 +40,13 @@ internal inline fun <reified T : Filter> FilterListViewModel<T>.connect(
     crossinline getSelections: Filters.() -> Set<T>
 ) {
     filterState.filters.subscribePast { filters ->
-        selections = filters.getSelections()
+        selections.value = filters.getSelections()
     }
-    onSelectionsComputed += { selections ->
+    eventSelection.subscribe { selections ->
         filterState.notify {
             when (selectionMode) {
                 SelectionMode.Single -> clear(groupID)
-                SelectionMode.Multiple -> remove(groupID, item.toSet())
+                SelectionMode.Multiple -> remove(groupID, items.value.toSet())
             }
             add(groupID, selections)
         }

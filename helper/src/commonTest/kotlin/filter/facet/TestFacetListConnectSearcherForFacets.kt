@@ -33,7 +33,7 @@ class TestFacetListConnectSearcherForFacets {
         val searcher = SearcherForFacets(index, attribute).also { it.response.value = response }
 
         viewModel.connectSearcherForFacet(searcher)
-        viewModel.item shouldEqual facets
+        viewModel.items.value shouldEqual facets
     }
 
     @Test
@@ -43,6 +43,6 @@ class TestFacetListConnectSearcherForFacets {
 
         viewModel.connectSearcherForFacet(searcher)
         blocking { searcher.searchAsync().join() }
-        viewModel.item shouldEqual facets
+        viewModel.items.value shouldEqual facets
     }
 }

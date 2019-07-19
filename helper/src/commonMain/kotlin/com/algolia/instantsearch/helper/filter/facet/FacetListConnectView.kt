@@ -5,14 +5,14 @@ public fun FacetListViewModel.connectView(
     view: FacetListView,
     presenter: FacetListPresenter? = null
 ) {
-    fun setItem() {
+
+    fun setItems() {
         val item = getFacetListItems()
 
-        view.setItem(presenter?.invoke(item) ?: item)
+        view.setItems(presenter?.invoke(item) ?: item)
     }
 
-    setItem()
-    view.onClick = { facet -> computeSelections(facet.value) }
-    onItemChanged += { setItem() }
-    onSelectionsChanged += { setItem() }
+    view.onSelection = { facet -> select(facet.value) }
+    items.subscribePast { setItems() }
+    selections.subscribe { setItems() }
 }

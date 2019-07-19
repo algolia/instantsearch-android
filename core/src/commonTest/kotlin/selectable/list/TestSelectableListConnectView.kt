@@ -1,5 +1,6 @@
 package selectable.list
 
+import com.algolia.instantsearch.core.event.Event
 import com.algolia.instantsearch.core.selectable.list.*
 import shouldBeEmpty
 import shouldEqual
@@ -15,12 +16,12 @@ class TestSelectableListConnectView {
 
     private class MockFilterListViewFacet : SelectableListView<String> {
 
-        var items: List<SelectableItem<String>> = listOf()
+        var list: List<SelectableItem<String>> = listOf()
 
-        override var onClick: ((String) -> Unit)? = null
+        override var onSelection: Event<String> = null
 
-        override fun setItem(item: List<SelectableItem<String>>) {
-            items = item
+        override fun setItems(items: List<SelectableItem<String>>) {
+            list = items
         }
     }
 
@@ -29,9 +30,9 @@ class TestSelectableListConnectView {
         val view = MockFilterListViewFacet()
         val viewModel = SelectableListViewModel<String, String>(items, SelectionMode.Multiple)
 
-        viewModel.selections = selections
+        viewModel.selections.value = selections
         viewModel.connectView(view)
-        view.items shouldEqual listOf(string to true)
+        view.list shouldEqual listOf(string to true)
     }
 
     @Test
@@ -40,9 +41,9 @@ class TestSelectableListConnectView {
         val viewModel = SelectableListViewModel<String, String>(emptyList(), SelectionMode.Multiple)
 
         viewModel.connectView(view)
-        viewModel.item.shouldBeEmpty()
-        viewModel.item = items
-        view.items shouldEqual listOf(string to false)
+        viewModel.items.value.shouldBeEmpty()
+        viewModel.items.value = items
+        view.list shouldEqual listOf(string to false)
     }
 
     @Test
@@ -51,8 +52,8 @@ class TestSelectableListConnectView {
         val viewModel = SelectableListViewModel<String, String>(items, SelectionMode.Multiple)
 
         viewModel.connectView(view)
-        viewModel.selections = selections
-        view.items shouldEqual listOf(string to true)
+        viewModel.selections.value = selections
+        view.list shouldEqual listOf(string to true)
     }
 
     @Test
@@ -60,10 +61,10 @@ class TestSelectableListConnectView {
         val view = MockFilterListViewFacet()
         val viewModel = SelectableListViewModel<String, String>(items, SelectionMode.Multiple)
 
-        viewModel.onSelectionsComputed += { viewModel.selections = it }
+        viewModel.eventSelection.subscribe { viewModel.selections.value = it }
         viewModel.connectView(view)
-        view.onClick.shouldNotBeNull()
-        view.onClick!!(string)
-        view.items shouldEqual listOf(string to true)
+        view.onSelection.shouldNotBeNull()
+        view.onSelection!!(string)
+        view.list shouldEqual listOf(string to true)
     }
 }
