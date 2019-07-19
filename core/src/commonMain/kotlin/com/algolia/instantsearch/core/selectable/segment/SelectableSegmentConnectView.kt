@@ -2,6 +2,7 @@ package com.algolia.instantsearch.core.selectable.segment
 
 import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.connection.autoConnect
 
 
 public fun <K, I, O> SelectableSegmentViewModel<K, I>.connectView(
@@ -9,5 +10,5 @@ public fun <K, I, O> SelectableSegmentViewModel<K, I>.connectView(
     presenter: Presenter<I, O>,
     connect: Boolean = true
 ): Connection {
-    return SelectableSegmentConnectionView(this, view, presenter).apply { if (connect) connect() }
+    return SelectableSegmentConnectionView(this, view, presenter).autoConnect(connect)
 }

@@ -10,7 +10,7 @@ public class SelectableSegmentConnectionView<K, I, O>(
     public val presenter: Presenter<I, O>
 ) : Connection {
 
-    override var isConnected: Boolean = true
+    override var isConnected: Boolean = false
 
     private fun Map<K, I>.present(): Map<K, O> {
         return map { it.key to presenter(it.value) }.toMap()
