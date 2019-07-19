@@ -7,6 +7,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilter
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel
 import com.algolia.instantsearch.helper.hierarchical.connectFilterState
+import com.algolia.instantsearch.helper.hierarchical.hierarchicalGroupName
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import shouldEqual
@@ -21,8 +22,7 @@ class TestHierarchicalConnectFilterState {
         Attribute("$category.lvl0"),
         Attribute("$category.lvl1")
     )
-    private val groupIDName = categories.first().raw
-    private val groupID = FilterGroupID(groupIDName)
+    private val groupID = FilterGroupID(hierarchicalGroupName)
 
     private val facetShoes = Facet("Shoes", 3)
     private val facetShoesRunning = Facet("Shoes > Running", 2)
@@ -57,7 +57,7 @@ class TestHierarchicalConnectFilterState {
         val viewModel = HierarchicalViewModel(categories, separator, tree)
         val filterState = FilterState()
 
-        viewModel.connectFilterState(filterState, category, groupIDName)
+        viewModel.connectFilterState(filterState)
         filterState.hierarchicalAttributes shouldEqual viewModel.hierarchicalAttributes
     }
 
@@ -66,7 +66,7 @@ class TestHierarchicalConnectFilterState {
         val viewModel = HierarchicalViewModel(categories, separator, tree)
         val filterState = FilterState()
 
-        viewModel.connectFilterState(filterState, category, groupIDName)
+        viewModel.connectFilterState(filterState)
         viewModel.computeSelections(selection)
         filterState.filters shouldEqual expectedFilterState.filters
         filterState.hierarchicalFilters shouldEqual expectedFilterState.hierarchicalFilters
@@ -77,7 +77,7 @@ class TestHierarchicalConnectFilterState {
         val viewModel = HierarchicalViewModel(categories, separator, tree)
         val filterState = FilterState()
 
-        viewModel.connectFilterState(filterState, category, groupIDName)
+        viewModel.connectFilterState(filterState)
         filterState.notify {
             remove(groupID, filterShoesRunning)
             add(groupID, filterBags)

@@ -5,6 +5,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import kotlin.properties.Delegates
 
+public const val hierarchicalGroupName = "_hierarchical"
 
 /**
  * @param hierarchicalAttributes attributes of the hierarchy.
