@@ -1,16 +1,14 @@
 package com.algolia.instantsearch.core.selectable.segment
 
 import com.algolia.instantsearch.core.Presenter
-import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 public class SelectableSegmentConnectionView<K, I, O>(
     public val viewModel: SelectableSegmentViewModel<K, I>,
     public val view: SelectableSegmentView<K, O>,
     public val presenter: Presenter<I, O>
-) : Connection {
-
-    override var isConnected: Boolean = false
+) : ConnectionImpl() {
 
     private fun Map<K, I>.present(): Map<K, O> {
         return map { it.key to presenter(it.value) }.toMap()

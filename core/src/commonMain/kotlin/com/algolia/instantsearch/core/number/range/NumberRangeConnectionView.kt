@@ -1,14 +1,12 @@
 package com.algolia.instantsearch.core.number.range
 
-import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 public class NumberRangeConnectionView<T>(
     public val viewModel: NumberRangeViewModel<T>,
     public val view: NumberRangeView<T>
-) : Connection where T : Number, T : Comparable<T> {
-
-    override var isConnected: Boolean = false
+) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     private val updateBounds: (Range<T>?) -> Unit = { bounds ->
         view.setBounds(bounds)

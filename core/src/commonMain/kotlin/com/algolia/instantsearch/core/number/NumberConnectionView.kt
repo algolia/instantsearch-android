@@ -1,15 +1,13 @@
 package com.algolia.instantsearch.core.number
 
-import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 public class NumberConnectionView<T>(
     public val viewModel: NumberViewModel<T>,
     public val view: NumberView<T>,
     public val presenter: NumberPresenter<T>
-) : Connection where T : Number, T : Comparable<T> {
-
-    override var isConnected: Boolean = false
+) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     private val updateText: (T?) -> Unit = { number ->
         view.setText(presenter(number))

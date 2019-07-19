@@ -1,16 +1,14 @@
 package com.algolia.instantsearch.core.selectable
 
 import com.algolia.instantsearch.core.Presenter
-import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 public class SelectableItemConnectionView<I, O>(
     val viewModel: SelectableItemViewModel<I>,
     val view: SelectableItemView<O>,
     presenter: Presenter<I, O>
-) : Connection {
-
-    override var isConnected: Boolean = false
+) : ConnectionImpl() {
 
     private val updateItem: (I) -> Unit = { item ->
         view.setItem(presenter(item))

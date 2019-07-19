@@ -1,14 +1,12 @@
 package com.algolia.instantsearch.core.searchbox
 
-import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 public class SearchBoxConnectionView(
     public val viewModel: SearchBoxViewModel,
     public val view: SearchBoxView
-) : Connection {
-
-    override var isConnected: Boolean = false
+) : ConnectionImpl() {
 
     override fun connect() {
         super.connect()

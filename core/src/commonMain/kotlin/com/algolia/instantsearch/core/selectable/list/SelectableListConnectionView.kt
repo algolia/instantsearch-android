@@ -1,14 +1,13 @@
 package com.algolia.instantsearch.core.selectable.list
 
 import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 public class SelectableListConnectionView<T>(
     public val viewModel: SelectableListViewModel<T, T>,
     public val view: SelectableListView<T>
-) : Connection {
-
-    override var isConnected: Boolean = false
+) : ConnectionImpl() {
 
     private val updateItems: (List<T>) -> Unit = { items ->
         val item = items.map { it to viewModel.selections.value.contains(it) }

@@ -1,18 +1,16 @@
 package com.algolia.instantsearch.helper.loading
 
-import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 
 
 public class LoadingConnectionSearcher<R>(
-    val viewModel: LoadingViewModel,
-    val searcher: Searcher<R>,
-    val debouncer: Debouncer
-) : Connection {
-
-    override var isConnected: Boolean = false
+    public val viewModel: LoadingViewModel,
+    public val searcher: Searcher<R>,
+    public val debouncer: Debouncer
+) : ConnectionImpl() {
 
     private val eventReload: (Unit) -> Unit = {
         searcher.searchAsync()

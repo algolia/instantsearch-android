@@ -1,14 +1,12 @@
 package com.algolia.instantsearch.core.loading
 
-import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 public class LoadingConnectionView(
     public val viewModel: LoadingViewModel,
     public val view: LoadingView
-) : Connection {
-
-    override var isConnected: Boolean = false
+) : ConnectionImpl() {
 
     private val updateIsLoading: (Boolean) -> Unit = { isLoading ->
         view.setIsLoading(isLoading)
