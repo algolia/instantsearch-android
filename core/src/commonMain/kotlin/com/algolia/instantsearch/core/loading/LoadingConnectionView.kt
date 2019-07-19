@@ -17,12 +17,12 @@ public class LoadingConnectionView(
     override fun connect() {
         super.connect()
         viewModel.isLoading.subscribePast(updateView)
-        view.reload = (viewModel.reload::send)
+        view.onReload = (viewModel.reload::send)
     }
 
     override fun disconnect() {
         super.disconnect()
         viewModel.isLoading.unsubscribe(updateView)
-        view.reload = null
+        view.onReload = null
     }
 }

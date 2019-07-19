@@ -16,7 +16,7 @@ class TestLoadingConnectView {
 
         var boolean: Boolean? = null
 
-        override var reload: ((Unit) -> Unit)? = null
+        override var onReload: ((Unit) -> Unit)? = null
 
         override fun setIsLoading(isLoading: Boolean) {
             boolean = isLoading
@@ -53,10 +53,10 @@ class TestLoadingConnectView {
         var expected = false
 
         viewModel.reload.subscribe { expected = true }
-        view.reload.shouldBeNull()
+        view.onReload.shouldBeNull()
         viewModel.connectView(view)
-        view.reload.shouldNotBeNull()
-        view.reload!!(Unit)
+        view.onReload.shouldNotBeNull()
+        view.onReload!!(Unit)
         expected.shouldBeTrue()
 
     }
