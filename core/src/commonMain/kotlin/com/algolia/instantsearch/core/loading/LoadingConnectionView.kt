@@ -10,19 +10,19 @@ public class LoadingConnectionView(
 
     override var isConnected: Boolean = false
 
-    private val updateView: (Boolean) -> Unit = {
-        view.setItem(it)
+    private val updateView: (Boolean) -> Unit = { isLoading ->
+        view.setIsLoading(isLoading)
     }
 
     override fun connect() {
         super.connect()
         viewModel.isLoading.subscribePast(updateView)
-        view.onClick = (viewModel.event::send)
+        view.reload = (viewModel.reload::send)
     }
 
     override fun disconnect() {
         super.disconnect()
         viewModel.isLoading.unsubscribe(updateView)
-        view.onClick = null
+        view.reload = null
     }
 }

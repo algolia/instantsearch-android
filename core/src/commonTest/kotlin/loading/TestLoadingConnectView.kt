@@ -16,10 +16,10 @@ class TestLoadingConnectView {
 
         var boolean: Boolean? = null
 
-        override var onClick: ((Unit) -> Unit)? = null
+        override var reload: ((Unit) -> Unit)? = null
 
-        override fun setItem(item: Boolean) {
-            boolean = item
+        override fun setIsLoading(isLoading: Boolean) {
+            boolean = isLoading
         }
     }
 
@@ -52,11 +52,11 @@ class TestLoadingConnectView {
         val view = MockLoadingView()
         var expected = false
 
-        viewModel.event.subscribe { expected = true }
-        view.onClick.shouldBeNull()
+        viewModel.reload.subscribe { expected = true }
+        view.reload.shouldBeNull()
         viewModel.connectView(view)
-        view.onClick.shouldNotBeNull()
-        view.onClick!!(Unit)
+        view.reload.shouldNotBeNull()
+        view.reload!!(Unit)
         expected.shouldBeTrue()
 
     }

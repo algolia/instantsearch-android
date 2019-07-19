@@ -26,13 +26,13 @@ public class LoadingConnectionSearcher<R>(
     override fun connect() {
         super.connect()
         viewModel.isLoading.set(searcher.isLoading.get())
-        viewModel.event.subscribe(eventReload)
+        viewModel.reload.subscribe(eventReload)
         searcher.isLoading.subscribePast(updateIsLoading)
     }
 
     override fun disconnect() {
         super.disconnect()
-        viewModel.event.unsubscribe(eventReload)
+        viewModel.reload.unsubscribe(eventReload)
         searcher.isLoading.unsubscribe(updateIsLoading)
     }
 }

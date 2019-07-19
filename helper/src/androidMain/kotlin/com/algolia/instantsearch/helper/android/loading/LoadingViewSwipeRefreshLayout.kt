@@ -8,13 +8,13 @@ public class LoadingViewSwipeRefreshLayout(
     public val swipeRefreshLayout: SwipeRefreshLayout
 ) : LoadingView {
 
-    override var onClick: ((Unit) -> Unit)? = null
+    override var reload: ((Unit) -> Unit)? = null
 
     init {
-        swipeRefreshLayout.setOnRefreshListener { onClick?.invoke(Unit) }
+        swipeRefreshLayout.setOnRefreshListener { reload?.invoke(Unit) }
     }
 
-    override fun setItem(item: Boolean) {
-        swipeRefreshLayout.isRefreshing = item
+    override fun setIsLoading(isLoading: Boolean) {
+        swipeRefreshLayout.isRefreshing = isLoading
     }
 }
