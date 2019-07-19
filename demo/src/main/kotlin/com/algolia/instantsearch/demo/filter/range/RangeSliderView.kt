@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.demo.filter.range
 
+import com.algolia.instantsearch.core.event.Event
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.demo.R
@@ -10,14 +11,16 @@ class RangeSliderView(
     private val slider: MultiSlider
 ) : NumberRangeView<Int> {
 
-    private var item: Range<Int>? = null
+    override var onRangeChanged: Event<Range<Int>> = null
+
+    private var range: Range<Int>? = null
     private var bounds: Range<Int>? = null
     private val changeListener: (multiSlider: MultiSlider, thumb: MultiSlider.Thumb, thumbIndex: Int, value: Int) -> Unit =
         { multiSlider, _, thumbIndex, value ->
             val valueMin = if (thumbIndex == 0) value else multiSlider.getThumb(0).value
             val valueMax = if (thumbIndex == 1) value else multiSlider.getThumb(1).value
-            if (item?.min != valueMin || item?.max != valueMax) {
-                onClick?.invoke(Range(valueMin..valueMax))
+            if (range?.min != valueMin || range?.max != valueMax) {
+                onRangeChanged?.invoke(Range(valueMin..valueMax))
             }
         }
 
@@ -25,18 +28,16 @@ class RangeSliderView(
         slider.setOnThumbValueChangeListener(changeListener)
     }
 
-    override var onClick: ((Range<Int>) -> Unit)? = null
-
-    override fun setItem(item: Range<Int>?) {
+    override fun setRange(range: Range<Int>?) {
         slider.setOnThumbValueChangeListener(null)
-        if (item == null) {
+        if (range == null) {
             slider.getThumb(0).unsetThumbValue()
             slider.getThumb(1).unsetThumbValue(true)
-        } else if (this.item != item) { // Avoid infinite loop through OnThumbValueChangeListener
-            slider.getThumb(0).setThumbValue(item.min)
-            slider.getThumb(1).setThumbValue(item.max)
+        } else if (this.range != range) { // Avoid infinite loop through OnThumbValueChangeListener
+            slider.getThumb(0).setThumbValue(range.min)
+            slider.getThumb(1).setThumbValue(range.max)
         }
-        this.item = item
+        this.range = range
         slider.setOnThumbValueChangeListener(changeListener)
     }
 
@@ -45,8 +46,8 @@ class RangeSliderView(
             this.bounds = it
             slider.setMin(it.min, true, false)
             slider.setMax(it.max, true, false)
-            slider.getThumb(0).value = item?.min ?: it.min
-            slider.getThumb(1).value = item?.max ?: it.max
+            slider.getThumb(0).value = range?.min ?: it.min
+            slider.getThumb(1).value = range?.max ?: it.max
         }
     }
 

@@ -13,7 +13,7 @@ class TestNumberRangeViewModel {
         val viewModel = NumberRangeViewModel<Int>()
         val range = Range(1..5)
 
-        viewModel.event.subscribe { viewModel.range.set(it) }
+        viewModel.eventRange.subscribe { viewModel.range.set(it) }
         viewModel.coerce(range)
         viewModel.range.get() shouldEqual range
     }
@@ -24,7 +24,7 @@ class TestNumberRangeViewModel {
         val range = Range(-1f..9f)
         val viewModel = NumberRangeViewModel(bounds = bounds)
 
-        viewModel.event.subscribe { viewModel.range.set(it) }
+        viewModel.eventRange.subscribe { viewModel.range.set(it) }
         viewModel.coerce(range)
         viewModel.range.get() shouldEqual Range(bounds.min, range.max)
     }
@@ -35,7 +35,7 @@ class TestNumberRangeViewModel {
         val range = Range(0L..11L)
         val viewModel = NumberRangeViewModel(bounds = bounds)
 
-        viewModel.event.subscribe { viewModel.range.set(it) }
+        viewModel.eventRange.subscribe { viewModel.range.set(it) }
         viewModel.coerce(range)
         viewModel.range.get() shouldEqual Range(range.min, bounds.max)
     }
@@ -45,7 +45,7 @@ class TestNumberRangeViewModel {
         val viewModel = NumberRangeViewModel(bounds = Range(0.5..10.5))
         val range = Range(1.5..9.5)
 
-        viewModel.event.subscribe { viewModel.range.set(it) }
+        viewModel.eventRange.subscribe { viewModel.range.set(it) }
         viewModel.coerce(range)
         viewModel.range.get() shouldEqual range
         viewModel.bounds.set(Range(6.5..10.5))
@@ -57,7 +57,7 @@ class TestNumberRangeViewModel {
         val viewModel = NumberRangeViewModel(bounds = Range(0..10))
         val range = Range(1..9)
 
-        viewModel.event.subscribe { viewModel.range.set(it) }
+        viewModel.eventRange.subscribe { viewModel.range.set(it) }
         viewModel.coerce(range)
         viewModel.range.get() shouldEqual range
         viewModel.bounds.set(Range(0..8))

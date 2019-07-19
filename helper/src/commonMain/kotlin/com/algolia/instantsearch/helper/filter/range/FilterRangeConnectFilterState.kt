@@ -22,7 +22,7 @@ public inline fun <reified T> FilterRangeViewModel<T>.connectFilterState(
 
         range.set(if (filter != null) Range(filter.lowerBound as T, filter.upperBound as T) else null)
     }
-    event.subscribe { range ->
+    eventRange.subscribe { range ->
         filterState.notify {
             this@connectFilterState.range.get()?.let { remove(groupID, it.toFilterNumeric(attribute)) }
             if (range != null) add(groupID, range.toFilterNumeric(attribute))

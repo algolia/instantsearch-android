@@ -1,5 +1,6 @@
 package number.range
 
+import com.algolia.instantsearch.core.event.Event
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
 import com.algolia.instantsearch.core.number.range.Range
@@ -12,19 +13,20 @@ class TestNumberRangeConnectView {
 
     private class MockNumberRangeView : NumberRangeView<Int> {
 
-        public var range: Range<Int>? = null
+        public var rangeInt: Range<Int>? = null
         public var bounds: Range<Int>? = null
             private set
 
-        override fun setItem(item: Range<Int>?) {
-            range = item
+        override var onRangeChanged: Event<Range<Int>>? = null
+
+        override fun setRange(range: Range<Int>?) {
+            this.rangeInt = range
         }
+
 
         override fun setBounds(bounds: Range<Int>?) {
             this.bounds = bounds
         }
-
-        override var onClick: ((Range<Int>) -> Unit)? = null
     }
 
     @Test
@@ -34,7 +36,7 @@ class TestNumberRangeConnectView {
 
         viewModel.range.set(Range(0..20))
         viewModel.connectView(view)
-        view.range shouldEqual viewModel.range.get()
+        view.rangeInt shouldEqual viewModel.range.get()
     }
 
     @Test
@@ -54,7 +56,7 @@ class TestNumberRangeConnectView {
 
         viewModel.connectView(view)
         viewModel.range.set(Range(0..20))
-        view.range shouldEqual viewModel.range.get()
+        view.rangeInt shouldEqual viewModel.range.get()
     }
 
     @Test
