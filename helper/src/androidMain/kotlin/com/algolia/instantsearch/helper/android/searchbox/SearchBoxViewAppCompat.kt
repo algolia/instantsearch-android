@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.android.searchbox
 
 import androidx.appcompat.widget.SearchView
+import com.algolia.instantsearch.core.event.Event
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 
 
@@ -8,8 +9,8 @@ public class SearchBoxViewAppCompat(
     public val searchView: SearchView
 ) : SearchBoxView {
 
-    override var onQueryChanged: ((String?) -> Unit)? = null
-    override var onQuerySubmitted: ((String?) -> Unit)? = null
+    override var onQueryChanged: Event<String?> = null
+    override var onQuerySubmitted: Event<String?> = null
 
     init {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -26,7 +27,7 @@ public class SearchBoxViewAppCompat(
         })
     }
 
-    override fun setItem(item: String?) {
-        searchView.setQuery(item, false)
+    override fun setText(text: String?) {
+        searchView.setQuery(text, false)
     }
 }

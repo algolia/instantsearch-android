@@ -48,7 +48,7 @@ class TestSearchBoxSearchView {
         val viewModel = SearchBoxViewModel()
         var expected: String? = null
 
-        viewModel.event.subscribe { expected = it }
+        viewModel.eventSubmit.subscribe { expected = it }
         viewModel.connectView(view)
         view.searchView.setQuery(text, true)
         expected shouldEqual text

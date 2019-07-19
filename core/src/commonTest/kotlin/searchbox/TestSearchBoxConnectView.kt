@@ -1,5 +1,6 @@
 package searchbox
 
+import com.algolia.instantsearch.core.event.Event
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
@@ -14,18 +15,18 @@ class TestSearchBoxConnectView {
 
     private class MockView : SearchBoxView {
 
-        var text: String? = null
+        var string: String? = null
         var queryChanged: String? = null
         var querySubmitted: String? = null
 
-        override fun setItem(item: String?) {
-            text = item
+        override fun setText(text: String?) {
+            string = text
         }
 
-        override var onQueryChanged: ((String?) -> Unit)? = {
+        override var onQueryChanged: Event<String?> = {
             queryChanged = it
         }
-        override var onQuerySubmitted: ((String?) -> Unit)? = {
+        override var onQuerySubmitted: Event<String?> = {
             querySubmitted = it
         }
     }
@@ -37,7 +38,7 @@ class TestSearchBoxConnectView {
 
         viewModel.query.set(text)
         viewModel.connectView(view)
-        view.text shouldEqual text
+        view.string shouldEqual text
     }
 
     @Test
@@ -60,7 +61,7 @@ class TestSearchBoxConnectView {
         val view = MockView()
         var expected: String? = null
 
-        viewModel.event.subscribe { expected = it }
+        viewModel.eventSubmit.subscribe { expected = it }
         viewModel.connectView(view)
         view.onQuerySubmitted.shouldNotBeNull()
         view.onQuerySubmitted!!(text)

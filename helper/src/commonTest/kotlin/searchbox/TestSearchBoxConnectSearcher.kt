@@ -32,7 +32,7 @@ class TestSearchBoxConnectSearcher {
         val viewModel = SearchBoxViewModel()
 
         viewModel.connectSearcher(searcher, searchAsYouType = false)
-        viewModel.event.send(text)
+        viewModel.eventSubmit.send(text)
         blocking { searcher.job!!.join() }
         searcher.searchCount shouldEqual 1
         searcher.string shouldEqual text

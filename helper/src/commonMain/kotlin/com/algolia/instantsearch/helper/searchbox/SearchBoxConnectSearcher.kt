@@ -16,7 +16,7 @@ public fun <R> SearchBoxViewModel.connectSearcher(
             debouncer.debounce(searcher) { search() }
         }
     } else {
-        event.subscribe {
+        eventSubmit.subscribe {
             searcher.setQuery(it)
             searcher.searchAsync()
         }

@@ -21,7 +21,7 @@ fun <T, R> SearchBoxViewModel.connectSearcher(
             }
         }
     } else {
-        event.subscribe {
+        eventSubmit.subscribe {
             searcher.setQuery(it)
             pagedList.value?.dataSource?.invalidate()
         }

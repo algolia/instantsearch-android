@@ -24,8 +24,8 @@ class TestSearchBoxViewModel {
         var expected: String? = null
         val value = "hello"
 
-        viewModel.event.subscribe { expected = it }
-        viewModel.event.send(value)
+        viewModel.eventSubmit.subscribe { expected = it }
+        viewModel.eventSubmit.send(value)
         expected shouldEqual value
     }
 }
