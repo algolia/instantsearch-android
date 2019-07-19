@@ -1,7 +1,13 @@
 # Changelog
 
 ## 1.15.3
+## Bug fixes
 
+ * fix(QSCP): Handle empty LastPathSegment, use ROOT locale
+
+## Improvements
+ * fix: Don't pull unused appcompat in core
+ * fix: Don't pull unused constraint-layout in UI
 
 
 ## 1.15.2
