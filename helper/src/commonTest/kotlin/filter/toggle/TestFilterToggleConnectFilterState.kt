@@ -34,7 +34,7 @@ class TestFilterToggleConnectFilterState {
         val filterState = FilterState()
 
         viewModel.connectFilterState(filterState, groupID = groupID)
-        viewModel.computeIsSelected(true)
+        viewModel.eventSelection.send(true)
         filterState shouldEqual expectedFilterState
     }
 
@@ -55,9 +55,9 @@ class TestFilterToggleConnectFilterState {
 
         viewModel.connectFilterState(filterState, blue, groupID)
         filterState shouldEqual expectedFilterStateDefault
-        viewModel.computeIsSelected(true)
+        viewModel.eventSelection.send(true)
         filterState shouldEqual expectedFilterState
-        viewModel.computeIsSelected(false)
+        viewModel.eventSelection.send(false)
         filterState shouldEqual expectedFilterStateDefault
     }
 }

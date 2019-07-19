@@ -9,19 +9,19 @@ import com.algolia.search.model.filter.Filter
 public fun FilterToggleViewModel.connectFilterState(
     filterState: FilterState,
     default: Filter? = null,
-    groupID: FilterGroupID = FilterGroupID(item.attribute, FilterOperator.And)
+    groupID: FilterGroupID = FilterGroupID(item.get().attribute, FilterOperator.And)
 ) {
     filterState.filters.subscribePast { filters ->
-        isSelected = filters.contains(groupID, item)
+        isSelected.set(filters.contains(groupID, item.get()))
     }
     if (default != null) filterState.add(groupID, default)
-    onIsSelectedComputed += { isSelected ->
+    eventSelection.subscribe { isSelected ->
         filterState.notify {
             if (isSelected) {
                 if (default != null) remove(groupID, default)
-                add(groupID, item)
+                add(groupID, item.get())
             } else {
-                remove(groupID, item)
+                remove(groupID, item.get())
                 if (default != null) add(groupID, default)
             }
         }
