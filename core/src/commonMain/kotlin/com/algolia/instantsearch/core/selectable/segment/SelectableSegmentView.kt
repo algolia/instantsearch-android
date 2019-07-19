@@ -1,10 +1,13 @@
 package com.algolia.instantsearch.core.selectable.segment
 
-import com.algolia.instantsearch.core.event.EventView
-import com.algolia.instantsearch.core.item.ItemView
+import com.algolia.instantsearch.core.event.Event
 
 
-public interface SelectableSegmentView<K, V> : ItemView<Map<K, V>>, EventView<K> {
+public interface SelectableSegmentView<K, V> {
+
+    public var onSelectionChange: Event<K>
+
+    public fun setSegment(segment: Map<K, V>)
 
     public fun setSelected(selected: K?)
 }

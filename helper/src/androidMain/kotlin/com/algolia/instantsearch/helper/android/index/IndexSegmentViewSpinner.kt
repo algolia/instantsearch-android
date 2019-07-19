@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.algolia.instantsearch.core.event.Event
 import com.algolia.instantsearch.helper.index.IndexSegmentView
 
 
@@ -14,7 +15,7 @@ public class IndexSegmentViewSpinner(
 ) : IndexSegmentView,
     AdapterView.OnItemSelectedListener {
 
-    override var onClick: ((Int) -> Unit)? = null
+    override var onSelectionChange: Event<Int> = null
 
     init {
         spinner.adapter = adapter
@@ -26,14 +27,14 @@ public class IndexSegmentViewSpinner(
         spinner.setSelection(selected ?: defaultSelection)
     }
 
-    override fun setItem(item: Map<Int, String>) {
+    override fun setSegment(segment: Map<Int, String>) {
         adapter.clear()
-        adapter.addAll(item.values)
+        adapter.addAll(segment.values)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) = Unit
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        onClick?.invoke(position)
+        onSelectionChange?.invoke(position)
     }
 }

@@ -3,6 +3,7 @@ package com.algolia.instantsearch.helper.android.filter
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import com.algolia.instantsearch.core.event.Event
 import com.algolia.instantsearch.helper.filter.segment.FilterSegmentView
 
 
@@ -11,14 +12,14 @@ public class FilterSegmentViewRadioGroup(
 ) : FilterSegmentView,
     RadioGroup.OnCheckedChangeListener {
 
-    override var onClick: ((Int) -> Unit)? = null
+    override var onSelectionChange: Event<Int> = null
 
     init {
         radioGroup.setOnCheckedChangeListener(this)
     }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-        onClick?.invoke(checkedId)
+        onSelectionChange?.invoke(checkedId)
     }
 
     override fun setSelected(selected: Int?) {
@@ -27,11 +28,11 @@ public class FilterSegmentViewRadioGroup(
         radioGroup.setOnCheckedChangeListener(this)
     }
 
-    override fun setItem(item: Map<Int, String>) {
+    override fun setSegment(segment: Map<Int, String>) {
         for (index in 0 until radioGroup.childCount) {
             val view = radioGroup.getChildAt(index) as? RadioButton
 
-            item[view?.id]?.let { view?.text = it }
+            segment[view?.id]?.let { view?.text = it }
         }
     }
 }

@@ -26,7 +26,7 @@ class TestFilterSegmentConnectFilterState {
         val viewModel = FilterSegmentViewModel(filters)
 
         viewModel.connectFilterState(expectedFilterState, groupID)
-        viewModel.selected shouldEqual id
+        viewModel.selected.value shouldEqual id
     }
 
     @Test
@@ -35,7 +35,7 @@ class TestFilterSegmentConnectFilterState {
         val filterState = FilterState()
 
         viewModel.connectFilterState(filterState, groupID)
-        viewModel.computeSelected(id)
+        viewModel.eventSelection.send(id)
         filterState shouldEqual expectedFilterState
     }
 
@@ -45,8 +45,8 @@ class TestFilterSegmentConnectFilterState {
         val filterState = FilterState()
 
         viewModel.connectFilterState(filterState, groupID)
-        viewModel.computeSelected(id)
-        viewModel.computeSelected(id)
+        viewModel.eventSelection.send(id)
+        viewModel.eventSelection.send(id)
         filterState.getFilters(groupID).shouldBeEmpty()
     }
 
@@ -57,6 +57,6 @@ class TestFilterSegmentConnectFilterState {
 
         viewModel.connectFilterState(filterState, groupID)
         filterState.notify { add(groupID, red) }
-        viewModel.selected shouldEqual id
+        viewModel.selected.value shouldEqual id
     }
 }

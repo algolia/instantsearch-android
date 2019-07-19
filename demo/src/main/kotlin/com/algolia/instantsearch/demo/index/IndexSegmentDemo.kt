@@ -36,7 +36,7 @@ class IndexSegmentDemo : AppCompatActivity() {
         setContentView(R.layout.demo_index_segment)
 
         val viewModel = IndexSegmentViewModel(indexes).apply {
-            selected = 0
+            selected.value = 0
         }
         val adapter = ArrayAdapter<String>(this, R.layout.menu_item)
         val view = IndexSegmentViewAutocomplete(

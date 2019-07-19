@@ -19,11 +19,11 @@ class TestIndexSegmentConnectSearcher {
     fun connectShouldUpdateSearcherIndex() {
         val searcher = SearcherSingleIndex(indexA)
         val viewModel = IndexSegmentViewModel(
-            items = mapOf(
+            segment = mapOf(
                 0 to indexA,
                 1 to indexB
             )
-        ).apply { selected = 1 }
+        ).apply { selected.value = 1 }
 
         viewModel.connectSearcher(searcher)
         searcher.index shouldEqual indexB
@@ -33,14 +33,14 @@ class TestIndexSegmentConnectSearcher {
     fun onSelectedComputedShouldUpdateIndex() {
         val searcher = SearcherSingleIndex(indexA)
         val viewModel = IndexSegmentViewModel(
-            items = mapOf(
+            segment = mapOf(
                 0 to indexA,
                 1 to indexB
             )
         )
 
         viewModel.connectSearcher(searcher)
-        viewModel.computeSelected(1)
+        viewModel.eventSelection.send(1)
         searcher.index shouldEqual indexB
     }
 }

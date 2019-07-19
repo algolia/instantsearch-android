@@ -1,5 +1,6 @@
 package selectable.segment
 
+import com.algolia.instantsearch.core.event.Event
 import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
 import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentViewModel
 import com.algolia.instantsearch.core.selectable.segment.connectView
@@ -18,17 +19,17 @@ class TestSelectableSegmentConnectView {
 
     private class MockSelectableView : SelectableSegmentView<Int, String> {
 
+        override var onSelectionChange: Event<Int> = null
+
         var int: Int? = null
         var map: Map<Int, String> = mapOf()
 
-        override var onClick: ((Int) -> Unit)? = null
+        override fun setSegment(segment: Map<Int, String>) {
+            map = segment
+        }
 
         override fun setSelected(selected: Int?) {
             int = selected
-        }
-
-        override fun setItem(item: Map<Int, String>) {
-            map = item
         }
     }
 
@@ -37,7 +38,7 @@ class TestSelectableSegmentConnectView {
         val view = MockSelectableView()
         val viewModel = SelectableSegmentViewModel(map)
 
-        viewModel.selected = id
+        viewModel.selected.value = id
         viewModel.connectView(view, presenter)
         view.int shouldEqual id
         view.map shouldEqual mapOf(id to output)
@@ -49,7 +50,7 @@ class TestSelectableSegmentConnectView {
         val viewModel = SelectableSegmentViewModel(map)
 
         viewModel.connectView(view, presenter)
-        viewModel.item = mapOf(1 to 1)
+        viewModel.segment.value = mapOf(1 to 1)
         view.map shouldEqual mapOf(1 to "1")
     }
 
@@ -58,10 +59,10 @@ class TestSelectableSegmentConnectView {
         val view = MockSelectableView()
         val viewModel = SelectableSegmentViewModel(map)
 
-        viewModel.onSelectedComputed += { viewModel.selected = it }
+        viewModel.eventSelection.subscribe { viewModel.selected.value = it }
         viewModel.connectView(view, presenter)
-        view.onClick.shouldNotBeNull()
-        view.onClick!!(id)
+        view.onSelectionChange.shouldNotBeNull()
+        view.onSelectionChange!!(id)
         view.int shouldEqual id
     }
 
@@ -71,7 +72,7 @@ class TestSelectableSegmentConnectView {
         val viewModel = SelectableSegmentViewModel(map)
 
         viewModel.connectView(view, presenter)
-        viewModel.selected = id
+        viewModel.selected.value = id
         view.int shouldEqual id
     }
 }

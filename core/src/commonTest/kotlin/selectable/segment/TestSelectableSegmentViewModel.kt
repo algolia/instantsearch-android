@@ -6,23 +6,23 @@ import shouldEqual
 import kotlin.test.Test
 
 
-class TestSelectableSegmentViewModel  {
+class TestSelectableSegmentViewModel {
 
     private val items = mapOf(0 to "A", 1 to "B")
 
     @Test
     fun noSelectedByDefault() {
         SelectableSegmentViewModel(items).apply {
-            selected.shouldBeNull()
+            selected.value.shouldBeNull()
         }
     }
 
     @Test
     fun computeSelected() {
         SelectableSegmentViewModel(items).apply {
-            onSelectedComputed += { selected = it }
-            computeSelected(1)
-            selected shouldEqual 1
+            eventSelection.subscribe { selected.value = it }
+            eventSelection.send(1)
+            selected.value shouldEqual 1
         }
     }
 }
