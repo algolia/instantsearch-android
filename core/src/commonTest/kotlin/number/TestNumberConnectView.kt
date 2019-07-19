@@ -23,8 +23,8 @@ class TestNumberConnectView {
             }
         }
 
-        override fun setItem(item: String) {
-            string = item
+        override fun setText(text: String) {
+            string = text
         }
     }
 
@@ -53,7 +53,7 @@ class TestNumberConnectView {
         val view = MockNumberView()
         val viewModel = NumberViewModel(0..10)
 
-        viewModel.event.subscribe { viewModel.number.set(it) }
+        viewModel.eventNumber.subscribe { viewModel.number.set(it) }
         viewModel.connectView(view)
         view.onClickIncrement!!()
         view.string shouldEqual "0"

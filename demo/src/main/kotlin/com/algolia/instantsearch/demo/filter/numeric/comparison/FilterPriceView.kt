@@ -29,7 +29,7 @@ class FilterPriceView(
         }
     }
 
-    override fun setItem(item: String) {
-        view.stepperNumber.text = item
+    override fun setText(text: String) {
+        view.stepperNumber.text = text
     }
 }

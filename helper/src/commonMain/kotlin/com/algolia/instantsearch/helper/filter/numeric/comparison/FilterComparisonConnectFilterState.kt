@@ -24,7 +24,7 @@ public inline fun <reified T> NumberViewModel<T>.connectFilterState(
             .firstOrNull { it.operator == operator }
             ?.number as? T?)
     }
-    event.subscribe { computed ->
+    eventNumber.subscribe { computed ->
         filterState.notify {
             number.get()?.let { remove(groupID, Filter.Numeric(attribute, operator, it)) }
             computed?.let { add(groupID, Filter.Numeric(attribute, operator, it)) }

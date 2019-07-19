@@ -17,7 +17,7 @@ class TestNumberRangeConnectView {
         public var bounds: Range<Int>? = null
             private set
 
-        override var onRangeChanged: Event<Range<Int>>? = null
+        override var onRangeChanged: Event<Range<Int>> = null
 
         override fun setRange(range: Range<Int>?) {
             this.rangeInt = range

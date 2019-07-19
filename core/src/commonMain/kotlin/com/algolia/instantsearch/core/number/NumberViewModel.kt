@@ -11,9 +11,8 @@ public open class NumberViewModel<T>(
     bounds: Range<T>? = null
 ) where T : Number, T : Comparable<T> {
 
+    public val eventNumber = ObservableEvent<T?>()
     public val number = ObservableItem(number)
-
-    public val event = ObservableEvent<T?>()
     public val bounds = ObservableItem(bounds).apply {
         subscribe { coerce(this@NumberViewModel.number.get()) }
     }
@@ -21,7 +20,7 @@ public open class NumberViewModel<T>(
     public fun coerce(number: T?) {
         val coerced = number?.coerce(bounds.get())
 
-        if (coerced != this.number.get()) event.send(coerced)
+        if (coerced != this.number.get()) eventNumber.send(coerced)
     }
 
     companion object {
