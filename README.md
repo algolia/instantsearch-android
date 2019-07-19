@@ -25,22 +25,26 @@ You can see InstantSearch Android in action in our [Examples repository](https:/
 
 You can add InstantSearch to your Android application by adding one of the following to your `build.gradle`'s dependencies. **Note that until a [Bug in Jetifier](https://issuetracker.google.com/issues/119776863) is resolved, if you use [AndroidX](https://developer.android.com/jetpack/androidx/) you should target our `instantsearch-androidx` artifacts**.
 ```groovy
-implementation 'com.algolia:instantsearch-android:1.15.2'
+implementation 'com.algolia:instantsearch-android:1.15.3'
+
 
 
 // OR, if your application uses AndroidX
-implementation 'com.algolia:instantsearch-androidx:1.15.2'
+implementation 'com.algolia:instantsearch-androidx:1.15.3'
+
 
 
 ```
 
 To use InstantSearch's Core without the UI components and helpers, you should use this instead:
 ```groovy
-implementation 'com.algolia:instantsearch-android-core:1.15.2'
+implementation 'com.algolia:instantsearch-android-core:1.15.3'
+
 
 
 // OR, if your application uses AndroidX
-implementation 'com.algolia:instantsearch-androidx-core:1.15.2'
+implementation 'com.algolia:instantsearch-androidx-core:1.15.3'
+
 
 
 ```
