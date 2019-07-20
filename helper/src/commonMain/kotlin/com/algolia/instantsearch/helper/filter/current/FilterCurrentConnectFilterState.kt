@@ -25,7 +25,7 @@ public fun FilterCurrentViewModel.connectFilterState(
             } else {
                 clear()
             }
-            it.get().forEach { add(it.key.first, it.value) }
+            it.forEach { add(it.key.first, it.value) }
         }
     }
 }

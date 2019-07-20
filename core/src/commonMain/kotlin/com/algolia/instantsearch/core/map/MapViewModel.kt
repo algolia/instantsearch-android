@@ -9,17 +9,23 @@ public open class MapViewModel<K, V>(
 ) {
 
     public val map = ObservableItem(items)
-    public val event = ObservableEvent<MapEvent<K, V>>()
+    public val event = ObservableEvent<Map<K, V>>()
 
     public fun add(entry: Pair<K, V>) {
-        event.send(MapEvent.Add(map.value, entry))
+        val map = map.value.toMutableMap().apply { put(entry.first, entry.second) }
+
+        event.send(map)
     }
 
     public fun remove(key: K) {
-        event.send(MapEvent.Remove(map.value, key))
+        val map = map.value.toMutableMap().apply { remove(key) }
+
+        event.send(map)
     }
 
     public fun clear() {
-        event.send(MapEvent.Clear(map.value))
+        val map = map.value.toMutableMap().apply { clear() }
+
+        event.send(map)
     }
 }
