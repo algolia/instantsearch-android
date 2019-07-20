@@ -3,7 +3,7 @@ package com.algolia.instantsearch.core.number.range
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
-public class NumberRangeConnectionView<T>(
+internal class NumberRangeConnectionView<T>(
     public val viewModel: NumberRangeViewModel<T>,
     public val view: NumberRangeView<T>
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {

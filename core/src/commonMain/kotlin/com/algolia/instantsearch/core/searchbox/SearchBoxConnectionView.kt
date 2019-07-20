@@ -3,7 +3,7 @@ package com.algolia.instantsearch.core.searchbox
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
-public class SearchBoxConnectionView(
+internal class SearchBoxConnectionView(
     public val viewModel: SearchBoxViewModel,
     public val view: SearchBoxView
 ) : ConnectionImpl() {

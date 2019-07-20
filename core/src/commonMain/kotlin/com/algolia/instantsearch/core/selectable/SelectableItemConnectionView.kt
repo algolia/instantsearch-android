@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
-public class SelectableItemConnectionView<I, O>(
+internal class SelectableItemConnectionView<I, O>(
     val viewModel: SelectableItemViewModel<I>,
     val view: SelectableItemView<O>,
     presenter: Presenter<I, O>

@@ -1,9 +1,11 @@
 package com.algolia.instantsearch.helper.loading
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.core.loading.LoadingConnectionView
+import com.algolia.instantsearch.core.connection.safeConnect
+import com.algolia.instantsearch.core.connection.safeDisconnect
 import com.algolia.instantsearch.core.loading.LoadingView
 import com.algolia.instantsearch.core.loading.LoadingViewModel
+import com.algolia.instantsearch.core.loading.connectView
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 
@@ -15,18 +17,18 @@ public class LoadingWidget<R>(
     public val debouncer: Debouncer = Debouncer(200)
 ) : ConnectionImpl() {
 
-    private val connectionView = LoadingConnectionView(viewModel, view)
-    private val connectionSearcher = LoadingConnectionSearcher(viewModel, searcher, debouncer)
+    private val connections = listOf(
+        viewModel.connectView(view, false),
+        viewModel.connectSearcher(searcher, debouncer, false)
+    )
 
     override fun connect() {
         super.connect()
-        connectionView.connect()
-        connectionSearcher.connect()
+        connections.forEach { it.safeConnect() }
     }
 
     override fun disconnect() {
         super.disconnect()
-        connectionView.disconnect()
-        connectionSearcher.disconnect()
+        connections.forEach { it.safeDisconnect() }
     }
 }

@@ -3,7 +3,7 @@ package com.algolia.instantsearch.core.loading
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
-public class LoadingConnectionView(
+internal class LoadingConnectionView(
     public val viewModel: LoadingViewModel,
     public val view: LoadingView
 ) : ConnectionImpl() {

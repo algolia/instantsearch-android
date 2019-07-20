@@ -3,7 +3,7 @@ package com.algolia.instantsearch.core.number
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
-public class NumberConnectionView<T>(
+internal class NumberConnectionView<T>(
     public val viewModel: NumberViewModel<T>,
     public val view: NumberView<T>,
     public val presenter: NumberPresenter<T>

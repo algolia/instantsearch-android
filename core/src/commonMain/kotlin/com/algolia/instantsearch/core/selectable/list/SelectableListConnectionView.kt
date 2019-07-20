@@ -1,10 +1,9 @@
 package com.algolia.instantsearch.core.selectable.list
 
-import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
-public class SelectableListConnectionView<T>(
+internal class SelectableListConnectionView<T>(
     public val viewModel: SelectableListViewModel<T, T>,
     public val view: SelectableListView<T>
 ) : ConnectionImpl() {

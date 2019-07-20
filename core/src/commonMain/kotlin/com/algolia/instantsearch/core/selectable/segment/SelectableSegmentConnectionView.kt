@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
-public class SelectableSegmentConnectionView<K, I, O>(
+internal class SelectableSegmentConnectionView<K, I, O>(
     public val viewModel: SelectableSegmentViewModel<K, I>,
     public val view: SelectableSegmentView<K, O>,
     public val presenter: Presenter<I, O>
