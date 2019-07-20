@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.core.connection
 
 
-internal fun Connection.autoConnect(connect: Boolean): Connection {
+public fun Connection.autoConnect(connect: Boolean): Connection {
     if (connect) connect()
     return this
 }

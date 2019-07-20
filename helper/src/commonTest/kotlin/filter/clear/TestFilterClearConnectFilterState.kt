@@ -31,7 +31,7 @@ class TestFilterClearConnectFilterState {
         val filterState = FilterState(filters)
 
         viewModel.connectFilterState(filterState, listOf(), ClearMode.Specified)
-        viewModel.trigger(Unit)
+        viewModel.eventClear.send(Unit)
         filterState.getFilters().shouldBeEmpty()
     }
 
@@ -41,7 +41,7 @@ class TestFilterClearConnectFilterState {
         val filterState = FilterState(filters)
 
         viewModel.connectFilterState(filterState, listOf(groupIDA), ClearMode.Specified)
-        viewModel.trigger(Unit)
+        viewModel.eventClear.send(Unit)
         filterState shouldEqual FilterState(mapOf(groupIDB to setOf(green)))
     }
 
@@ -51,7 +51,7 @@ class TestFilterClearConnectFilterState {
         val filterState = FilterState(filters)
 
         viewModel.connectFilterState(filterState, listOf(groupIDA), ClearMode.Except)
-        viewModel.trigger(Unit)
+        viewModel.eventClear.send(Unit)
         filterState shouldEqual FilterState(mapOf(groupIDA to setOf(red)))
     }
 }
