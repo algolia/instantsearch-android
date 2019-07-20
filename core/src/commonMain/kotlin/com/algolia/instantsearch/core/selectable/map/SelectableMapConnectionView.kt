@@ -2,6 +2,7 @@ package com.algolia.instantsearch.core.selectable.map
 
 import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.event.Callback
 
 
 internal class SelectableMapConnectionView<K, I, O>(
@@ -14,7 +15,7 @@ internal class SelectableMapConnectionView<K, I, O>(
         return map { it.key to presenter(it.value) }.toMap()
     }
 
-    private val updateSegment: (Map<K, I>) -> Unit = { segment ->
+    private val updateSegment: Callback<Map<K, I>> = { segment ->
         view.setMap(segment.present())
     }
 

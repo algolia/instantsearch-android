@@ -1,6 +1,6 @@
 package filter.facet
 
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.helper.filter.facet.FacetListItem
 import com.algolia.instantsearch.helper.filter.facet.FacetListView
@@ -20,7 +20,7 @@ class TestFacetListConnectView {
 
     private class MockSelectableFacetsView : FacetListView {
 
-        override var onSelection: Event<Facet> = null
+        override var onSelection: Callback<Facet>? = null
 
         var list: List<FacetListItem> = listOf()
 

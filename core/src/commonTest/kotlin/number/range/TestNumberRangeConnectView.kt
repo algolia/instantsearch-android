@@ -1,6 +1,6 @@
 package number.range
 
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
 import com.algolia.instantsearch.core.number.range.Range
@@ -17,7 +17,7 @@ class TestNumberRangeConnectView {
         public var bounds: Range<Int>? = null
             private set
 
-        override var onRangeChanged: Event<Range<Int>> = null
+        override var onRangeChanged: Callback<Range<Int>>? = null
 
         override fun setRange(range: Range<Int>?) {
             this.rangeInt = range

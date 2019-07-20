@@ -1,6 +1,6 @@
 package searchbox
 
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
@@ -23,10 +23,10 @@ class TestSearchBoxConnectView {
             string = text
         }
 
-        override var onQueryChanged: Event<String?> = {
+        override var onQueryChanged: Callback<String?>? = {
             queryChanged = it
         }
-        override var onQuerySubmitted: Event<String?> = {
+        override var onQuerySubmitted: Callback<String?>? = {
             querySubmitted = it
         }
     }

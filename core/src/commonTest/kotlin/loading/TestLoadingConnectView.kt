@@ -1,5 +1,6 @@
 package loading
 
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.loading.LoadingView
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.loading.connectView
@@ -16,7 +17,7 @@ class TestLoadingConnectView {
 
         var boolean: Boolean? = null
 
-        override var onReload: ((Unit) -> Unit)? = null
+        override var onReload: Callback<Unit>? = null
 
         override fun setIsLoading(isLoading: Boolean) {
             boolean = isLoading

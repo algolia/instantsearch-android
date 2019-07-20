@@ -1,6 +1,6 @@
 package selectable
 
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.selectable.SelectableItemView
 import com.algolia.instantsearch.core.selectable.SelectableItemViewModel
 import com.algolia.instantsearch.core.selectable.connectView
@@ -20,7 +20,7 @@ class TestFilterToggleConnectView {
         var boolean: Boolean? = null
         var string: String? = null
 
-        override var onSelectionChanged: Event<Boolean> = null
+        override var onSelectionChanged: Callback<Boolean>? = null
 
         override fun setIsSelected(isSelected: Boolean) {
             boolean = isSelected

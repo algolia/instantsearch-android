@@ -1,5 +1,6 @@
 package event
 
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.event.EventView
 import com.algolia.instantsearch.core.event.EventViewModelImpl
 import com.algolia.instantsearch.core.event.connectView
@@ -13,12 +14,12 @@ class TestEventConnectView {
 
     private class MockUnitEventView : EventView<Unit> {
 
-        override var onClick: ((Unit) -> Unit)? = null
+        override var onClick: Callback<Unit>? = null
     }
 
     private class MockBooleanEventView : EventView<Boolean> {
 
-        override var onClick: ((Boolean) -> Unit)? = null
+        override var onClick: Callback<Boolean>? = null
     }
 
     @Test

@@ -1,14 +1,14 @@
 package com.algolia.instantsearch.demo.filter.range
 
 import android.widget.TextView
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.Range
 
 
 class BoundsTextView(val view: TextView) : NumberRangeView<Int> {
 
-    override var onRangeChanged: Event<Range<Int>> = null
+    override var onRangeChanged: Callback<Range<Int>>? = null
 
     private var bounds: Range<Int>? = null
 

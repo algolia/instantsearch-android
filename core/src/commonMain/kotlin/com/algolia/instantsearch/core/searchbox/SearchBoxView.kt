@@ -1,12 +1,12 @@
 package com.algolia.instantsearch.core.searchbox
 
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 
 
 public interface SearchBoxView {
 
-    public var onQueryChanged: Event<String?>
-    public var onQuerySubmitted: Event<String?>
+    public var onQueryChanged: Callback<String?>?
+    public var onQuerySubmitted: Callback<String?>?
 
     public fun setText(text: String?)
 }

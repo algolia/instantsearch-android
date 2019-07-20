@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.core.number.range
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.event.Callback
 
 
 internal class NumberRangeConnectionView<T>(
@@ -8,10 +9,10 @@ internal class NumberRangeConnectionView<T>(
     private val view: NumberRangeView<T>
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
-    private val updateBounds: (Range<T>?) -> Unit = { bounds ->
+    private val updateBounds: Callback<Range<T>?> = { bounds ->
         view.setBounds(bounds)
     }
-    private val updateRange: (Range<T>?) -> Unit = { range ->
+    private val updateRange: Callback<Range<T>?> = { range ->
         view.setRange(range)
     }
 

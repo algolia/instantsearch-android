@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.core.selectable.list
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.event.Callback
 
 
 internal class SelectableListConnectionView<T>(
@@ -8,13 +9,13 @@ internal class SelectableListConnectionView<T>(
     private val view: SelectableListView<T>
 ) : ConnectionImpl() {
 
-    private val updateItems: (List<T>) -> Unit = { items ->
+    private val updateItems: Callback<List<T>> = { items ->
         val item = items.map { it to viewModel.selections.value.contains(it) }
 
         view.setItems(item)
     }
 
-    private val updateSelections: (Set<T>) -> Unit = { selections ->
+    private val updateSelections: Callback<Set<T>> = { selections ->
         val item = viewModel.items.value.map { it to selections.contains(it) }
 
         view.setItems(item)

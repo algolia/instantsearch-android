@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.demo.filter.range
 
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.demo.R
@@ -11,7 +11,7 @@ class RangeSliderView(
     private val slider: MultiSlider
 ) : NumberRangeView<Int> {
 
-    override var onRangeChanged: Event<Range<Int>> = null
+    override var onRangeChanged: Callback<Range<Int>>? = null
 
     private var range: Range<Int>? = null
     private var bounds: Range<Int>? = null

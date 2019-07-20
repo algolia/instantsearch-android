@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.helper.android.inflate
@@ -17,7 +17,7 @@ class FilterListAdapter<T: Filter> :
     ListAdapter<SelectableItem<T>, FilterListViewHolder>(DiffUtilItem()),
     FilterListView<T> {
 
-    override var onSelection: Event<T> = null
+    override var onSelection: Callback<T>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterListViewHolder {
         return FilterListViewHolder(parent.inflate(R.layout.list_item_selectable))

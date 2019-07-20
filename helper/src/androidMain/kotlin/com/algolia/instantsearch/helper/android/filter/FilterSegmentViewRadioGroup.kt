@@ -3,7 +3,7 @@ package com.algolia.instantsearch.helper.android.filter
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.helper.filter.segment.FilterSegmentView
 
 
@@ -12,7 +12,7 @@ public class FilterSegmentViewRadioGroup(
 ) : FilterSegmentView,
     RadioGroup.OnCheckedChangeListener {
 
-    override var onSelectionChange: Event<Int> = null
+    override var onSelectionChange: Callback<Int>? = null
 
     init {
         radioGroup.setOnCheckedChangeListener(this)

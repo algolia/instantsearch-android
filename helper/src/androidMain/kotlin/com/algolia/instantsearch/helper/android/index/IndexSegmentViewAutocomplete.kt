@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.helper.index.IndexSegmentView
 
 
@@ -14,7 +14,7 @@ public class IndexSegmentViewAutocomplete(
 ) : IndexSegmentView,
     AdapterView.OnItemClickListener {
 
-    override var onSelectionChange: Event<Int> = null
+    override var onSelectionChange: Callback<Int>? = null
 
     private var map: Map<Int, String>? = null
 
@@ -27,11 +27,11 @@ public class IndexSegmentViewAutocomplete(
         map?.get(selected)?.let { view.setText(it, false) }
     }
 
-    override fun setMap(segment: Map<Int, String>) {
-        map = segment
+    override fun setMap(map: Map<Int, String>) {
+        this.map = map
         adapter.setNotifyOnChange(false)
         adapter.clear()
-        adapter.addAll(segment.values)
+        adapter.addAll(map.values)
         adapter.notifyDataSetChanged()
     }
 

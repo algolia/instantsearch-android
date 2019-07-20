@@ -1,6 +1,6 @@
 package selectable.list
 
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.selectable.list.*
 import shouldBeEmpty
 import shouldEqual
@@ -18,7 +18,7 @@ class TestSelectableListConnectView {
 
         var list: List<SelectableItem<String>> = listOf()
 
-        override var onSelection: Event<String> = null
+        override var onSelection: Callback<String>? = null
 
         override fun setItems(items: List<SelectableItem<String>>) {
             list = items

@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.core.loading
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.event.Callback
 
 
 internal class LoadingConnectionView(
@@ -8,7 +9,7 @@ internal class LoadingConnectionView(
     private val view: LoadingView
 ) : ConnectionImpl() {
 
-    private val updateIsLoading: (Boolean) -> Unit = { isLoading ->
+    private val updateIsLoading: Callback<Boolean> = { isLoading ->
         view.setIsLoading(isLoading)
     }
 

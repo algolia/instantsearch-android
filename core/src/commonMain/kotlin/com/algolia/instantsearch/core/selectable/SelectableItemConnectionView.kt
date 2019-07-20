@@ -2,6 +2,7 @@ package com.algolia.instantsearch.core.selectable
 
 import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.event.Callback
 
 
 internal class SelectableItemConnectionView<I, O>(
@@ -10,10 +11,10 @@ internal class SelectableItemConnectionView<I, O>(
     presenter: Presenter<I, O>
 ) : ConnectionImpl() {
 
-    private val updateItem: (I) -> Unit = { item ->
+    private val updateItem: Callback<I> = { item ->
         view.setItem(presenter(item))
     }
-    private val updateIsSelected: (Boolean) -> Unit = { isSelected ->
+    private val updateIsSelected: Callback<Boolean> = { isSelected ->
         view.setIsSelected(isSelected)
     }
 

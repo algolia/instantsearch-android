@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.android.filter
 
 import android.widget.CompoundButton
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleView
 
 
@@ -10,7 +10,7 @@ public class FilterToggleViewCompoundButton(
 ) : FilterToggleView,
     CompoundButton.OnCheckedChangeListener {
 
-    override var onSelectionChanged: Event<Boolean> = null
+    override var onSelectionChanged: Callback<Boolean>? = null
 
     init {
         compoundButton.setOnCheckedChangeListener(this)

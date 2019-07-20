@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.core.number
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.event.Callback
 
 
 internal class NumberConnectionView<T>(
@@ -9,7 +10,7 @@ internal class NumberConnectionView<T>(
     private val presenter: NumberPresenter<T>
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
-    private val updateText: (T?) -> Unit = { number ->
+    private val updateText: Callback<T?> = { number ->
         view.setText(presenter(number))
     }
 

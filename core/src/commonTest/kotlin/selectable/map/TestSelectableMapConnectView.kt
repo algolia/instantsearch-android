@@ -1,6 +1,6 @@
 package selectable.map
 
-import com.algolia.instantsearch.core.event.Event
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.selectable.map.SelectableMapView
 import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel
 import com.algolia.instantsearch.core.selectable.map.connectView
@@ -19,7 +19,7 @@ class TestSelectableMapConnectView {
 
     private class MockSelectableView : SelectableMapView<Int, String> {
 
-        override var onSelectionChange: Event<Int> = null
+        override var onSelectionChange: Callback<Int>? = null
 
         var int: Int? = null
         var data: Map<Int, String> = mapOf()
