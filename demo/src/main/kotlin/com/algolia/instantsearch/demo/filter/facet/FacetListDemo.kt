@@ -36,24 +36,24 @@ class FacetListDemo : AppCompatActivity() {
         val colorAPresenter = FacetListPresenterImpl(listOf(IsRefined, AlphabeticalAscending), limit = 3)
         val colorAAdapter = FacetListAdapter()
 
-        colorAViewModel.connectFilterState(color, filterState, groupColor)
-        colorAViewModel.connectSearcher(color, searcher)
+        colorAViewModel.connectFilterState(filterState, color, groupColor)
+        colorAViewModel.connectSearcher(searcher, color)
         colorAViewModel.connectView(colorAAdapter, colorAPresenter)
 
         val promotionViewModel = FacetListViewModel()
         val promotionPresenter = FacetListPresenterImpl(listOf(CountDescending))
         val promotionAdapter = FacetListAdapter()
 
-        promotionViewModel.connectFilterState(promotions, filterState, groupPromotions)
-        promotionViewModel.connectSearcher(promotions, searcher)
+        promotionViewModel.connectFilterState(filterState, promotions, groupPromotions)
+        promotionViewModel.connectSearcher(searcher, promotions)
         promotionViewModel.connectView(promotionAdapter, promotionPresenter)
 
         val categoryViewModel = FacetListViewModel()
         val categoryPresenter = FacetListPresenterImpl(listOf(CountDescending, AlphabeticalAscending))
         val categoryAdapter = FacetListAdapter()
 
-        categoryViewModel.connectFilterState(category, filterState, groupCategory)
-        categoryViewModel.connectSearcher(category, searcher)
+        categoryViewModel.connectFilterState(filterState, category, groupCategory)
+        categoryViewModel.connectSearcher(searcher, category)
         categoryViewModel.connectView(categoryAdapter, categoryPresenter)
 
         configureToolbar(toolbar)

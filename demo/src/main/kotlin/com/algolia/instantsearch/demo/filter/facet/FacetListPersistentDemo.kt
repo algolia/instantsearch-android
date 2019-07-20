@@ -36,16 +36,16 @@ class FacetListPersistentDemo : AppCompatActivity() {
         val colorViewModel = FacetListViewModel(persistentSelection = true)
         val colorAdapter = FacetListAdapter()
 
-        colorViewModel.connectFilterState(color, filterState)
+        colorViewModel.connectFilterState(filterState, color)
         colorViewModel.connectView(colorAdapter)
-        colorViewModel.connectSearcher(color, searcher)
+        colorViewModel.connectSearcher(searcher, color)
 
         val categoryViewModel = FacetListViewModel(selectionMode = SelectionMode.Single, persistentSelection = true)
         val categoryAdapter = FacetListAdapter()
 
-        categoryViewModel.connectFilterState(category, filterState)
+        categoryViewModel.connectFilterState(filterState, category)
         categoryViewModel.connectView(categoryAdapter)
-        categoryViewModel.connectSearcher(category, searcher)
+        categoryViewModel.connectSearcher(searcher, category)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

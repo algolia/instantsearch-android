@@ -29,7 +29,7 @@ class TestFacetListConnectFilterState {
     fun connectShouldUpdateSelectionsWithFilterState() {
         val viewModel = FacetListViewModel()
 
-        viewModel.connectFilterState(color, expectedFilterState, groupID)
+        viewModel.connectFilterState(expectedFilterState, color, groupID)
         viewModel.selections.value shouldEqual selections
     }
 
@@ -38,7 +38,7 @@ class TestFacetListConnectFilterState {
         val viewModel = FacetListViewModel()
         val filterState = FilterState()
 
-        viewModel.connectFilterState(color, filterState, groupID)
+        viewModel.connectFilterState(filterState, color, groupID)
         viewModel.select(red.value)
         filterState shouldEqual expectedFilterState
     }
@@ -48,7 +48,7 @@ class TestFacetListConnectFilterState {
         val viewModel = FacetListViewModel()
         val filterState = FilterState()
 
-        viewModel.connectFilterState(color, filterState, groupID)
+        viewModel.connectFilterState(filterState, color, groupID)
         filterState.notify { add(groupID, filterRed) }
         viewModel.selections.value shouldEqual selections
     }
@@ -60,7 +60,7 @@ class TestFacetListConnectFilterState {
             items.value = listOf(red)
         }
 
-        viewModel.connectFilterState(color, filterState, groupID)
+        viewModel.connectFilterState(filterState, color, groupID)
         viewModel.selections.value shouldEqual setOf(red.value, green.value)
         viewModel.select(red.value)
         filterState shouldEqual FilterState()
@@ -73,7 +73,7 @@ class TestFacetListConnectFilterState {
             items.value = listOf(red)
         }
 
-        viewModel.connectFilterState(color, filterState, groupID)
+        viewModel.connectFilterState(filterState, color, groupID)
         viewModel.selections.value shouldEqual setOf(red.value, green.value)
         viewModel.select(red.value)
         filterState shouldEqual FilterState(mapOf(groupID to setOf(filterGreen)))
@@ -86,7 +86,7 @@ class TestFacetListConnectFilterState {
             items.value = listOf(red)
         }
 
-        viewModel.connectFilterState(color, filterState, groupID)
+        viewModel.connectFilterState(filterState, color, groupID)
         viewModel.selections.value shouldEqual setOf(red.value, green.value)
         viewModel.select(green.value)
         viewModel.selections.value shouldEqual setOf(red.value)
