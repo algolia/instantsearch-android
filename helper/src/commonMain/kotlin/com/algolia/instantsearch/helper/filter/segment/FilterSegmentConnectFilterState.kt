@@ -10,13 +10,13 @@ public fun FilterSegmentViewModel.connectFilterState(
     groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
 ) {
     filterState.filters.subscribePast { filters ->
-        selected.value = segment.value.entries.find { it.value == filters.getFilters(groupID).firstOrNull() }?.key
+        selected.value = map.value.entries.find { it.value == filters.getFilters(groupID).firstOrNull() }?.key
     }
     eventSelection.subscribe { computed ->
         filterState.notify {
-            segment.value[selected.value]?.let { remove(groupID, it) }
+            map.value[selected.value]?.let { remove(groupID, it) }
             if (selected.value != computed) {
-                segment.value[computed]?.let { add(groupID, it) }
+                map.value[computed]?.let { add(groupID, it) }
             }
         }
     }

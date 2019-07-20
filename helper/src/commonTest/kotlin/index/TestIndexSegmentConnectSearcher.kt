@@ -19,7 +19,7 @@ class TestIndexSegmentConnectSearcher {
     fun connectShouldUpdateSearcherIndex() {
         val searcher = SearcherSingleIndex(indexA)
         val viewModel = IndexSegmentViewModel(
-            segment = mapOf(
+            map = mapOf(
                 0 to indexA,
                 1 to indexB
             )
@@ -33,7 +33,7 @@ class TestIndexSegmentConnectSearcher {
     fun onSelectedComputedShouldUpdateIndex() {
         val searcher = SearcherSingleIndex(indexA)
         val viewModel = IndexSegmentViewModel(
-            segment = mapOf(
+            map = mapOf(
                 0 to indexA,
                 1 to indexB
             )

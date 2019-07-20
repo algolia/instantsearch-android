@@ -1,11 +1,11 @@
 package com.algolia.instantsearch.helper.index
 
-import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
-import com.algolia.instantsearch.core.selectable.segment.connectView
+import com.algolia.instantsearch.core.selectable.map.SelectableMapView
+import com.algolia.instantsearch.core.selectable.map.connectView
 
 
 public fun IndexSegmentViewModel.connectView(
-    view: SelectableSegmentView<Int, String>,
+    view: SelectableMapView<Int, String>,
     presenter: IndexPresenter
 ) {
     connectView(view, presenter)

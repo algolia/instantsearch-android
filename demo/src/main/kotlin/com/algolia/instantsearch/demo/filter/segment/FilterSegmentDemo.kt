@@ -31,7 +31,7 @@ class FilterSegmentDemo : AppCompatActivity() {
         searcher.connectFilterState(filterState)
 
         val viewModelGender = FilterSegmentViewModel(
-            segment = mapOf(
+            map = mapOf(
                 R.id.male to Filter.Facet(gender, "male"),
                 R.id.female to Filter.Facet(gender, "female")
             )

@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.filter.segment
 
-import com.algolia.instantsearch.core.selectable.segment.SelectableSegmentView
+import com.algolia.instantsearch.core.selectable.map.SelectableMapView
 
 
-public typealias FilterSegmentView = SelectableSegmentView<Int, String>
+public typealias FilterSegmentView = SelectableMapView<Int, String>

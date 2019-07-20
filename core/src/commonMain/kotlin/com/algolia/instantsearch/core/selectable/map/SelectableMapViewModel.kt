@@ -1,14 +1,14 @@
-package com.algolia.instantsearch.core.selectable.segment
+package com.algolia.instantsearch.core.selectable.map
 
+import com.algolia.instantsearch.core.map.MapViewModel
 import com.algolia.instantsearch.core.observable.ObservableEvent
 import com.algolia.instantsearch.core.observable.ObservableItem
 
 
-public open class SelectableSegmentViewModel<K, V>(
-    segment: Map<K, V>
-) {
+public open class SelectableMapViewModel<K, V>(
+    map: Map<K, V>
+): MapViewModel<K, V>(map) {
 
-    public val segment = ObservableItem(segment)
     public val selected = ObservableItem<K?>(null)
     public val eventSelection = ObservableEvent<K?>()
 }

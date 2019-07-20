@@ -59,7 +59,7 @@ class TestSelectableSegmentViewSpinner {
     fun setItemShouldUpdateAdapter() {
         val view = view(0)
 
-        view.setItem(mapOf(0 to "D"))
+        view.setMap(mapOf(0 to "D"))
         view.adapter.count shouldEqual 1
         view.adapter.getItem(0) shouldEqual "D"
     }
@@ -69,7 +69,7 @@ class TestSelectableSegmentViewSpinner {
         val view = view(0)
         var onClickCalled = false
 
-        view.onClick = { onClickCalled = true }
+        view.onSelectionChange = { onClickCalled = true }
         view.setSelected(1)
         onClickCalled shouldEqual true
     }

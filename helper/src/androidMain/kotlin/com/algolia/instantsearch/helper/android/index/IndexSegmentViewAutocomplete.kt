@@ -27,7 +27,7 @@ public class IndexSegmentViewAutocomplete(
         map?.get(selected)?.let { view.setText(it, false) }
     }
 
-    override fun setSegment(segment: Map<Int, String>) {
+    override fun setMap(segment: Map<Int, String>) {
         map = segment
         adapter.setNotifyOnChange(false)
         adapter.clear()

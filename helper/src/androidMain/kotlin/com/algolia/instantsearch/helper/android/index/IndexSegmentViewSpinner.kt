@@ -27,9 +27,9 @@ public class IndexSegmentViewSpinner(
         spinner.setSelection(selected ?: defaultSelection)
     }
 
-    override fun setSegment(segment: Map<Int, String>) {
+    override fun setMap(map: Map<Int, String>) {
         adapter.clear()
-        adapter.addAll(segment.values)
+        adapter.addAll(map.values)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) = Unit

@@ -1,12 +1,12 @@
-package com.algolia.instantsearch.core.selectable.segment
+package com.algolia.instantsearch.core.selectable.map
 
 import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
-internal class SelectableSegmentConnectionView<K, I, O>(
-    public val viewModel: SelectableSegmentViewModel<K, I>,
-    public val view: SelectableSegmentView<K, O>,
+internal class SelectableMapConnectionView<K, I, O>(
+    public val viewModel: SelectableMapViewModel<K, I>,
+    public val view: SelectableMapView<K, O>,
     public val presenter: Presenter<I, O>
 ) : ConnectionImpl() {
 
@@ -15,19 +15,19 @@ internal class SelectableSegmentConnectionView<K, I, O>(
     }
 
     private val updateSegment: (Map<K, I>) -> Unit = { segment ->
-        view.setSegment(segment.present())
+        view.setMap(segment.present())
     }
 
     override fun connect() {
         super.connect()
-        viewModel.segment.subscribePast(updateSegment)
+        viewModel.map.subscribePast(updateSegment)
         viewModel.selected.subscribePast(view::setSelected)
         view.onSelectionChange = (viewModel.eventSelection::send)
     }
 
     override fun disconnect() {
         super.disconnect()
-        viewModel.segment.unsubscribe(updateSegment)
+        viewModel.map.unsubscribe(updateSegment)
         viewModel.selected.unsubscribe(view::setSelected)
         view.onSelectionChange = null
     }
