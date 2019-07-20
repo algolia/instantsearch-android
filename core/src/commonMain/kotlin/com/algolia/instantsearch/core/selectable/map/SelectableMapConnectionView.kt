@@ -5,9 +5,9 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 internal class SelectableMapConnectionView<K, I, O>(
-    public val viewModel: SelectableMapViewModel<K, I>,
-    public val view: SelectableMapView<K, O>,
-    public val presenter: Presenter<I, O>
+    private val viewModel: SelectableMapViewModel<K, I>,
+    private val view: SelectableMapView<K, O>,
+    private val presenter: Presenter<I, O>
 ) : ConnectionImpl() {
 
     private fun Map<K, I>.present(): Map<K, O> {

@@ -4,8 +4,8 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 internal class LoadingConnectionView(
-    public val viewModel: LoadingViewModel,
-    public val view: LoadingView
+    private val viewModel: LoadingViewModel,
+    private val view: LoadingView
 ) : ConnectionImpl() {
 
     private val updateIsLoading: (Boolean) -> Unit = { isLoading ->

@@ -4,8 +4,8 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 internal class NumberRangeConnectionView<T>(
-    public val viewModel: NumberRangeViewModel<T>,
-    public val view: NumberRangeView<T>
+    private val viewModel: NumberRangeViewModel<T>,
+    private val view: NumberRangeView<T>
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     private val updateBounds: (Range<T>?) -> Unit = { bounds ->

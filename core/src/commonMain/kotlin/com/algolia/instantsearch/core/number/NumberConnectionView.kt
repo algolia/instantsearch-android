@@ -4,9 +4,9 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 internal class NumberConnectionView<T>(
-    public val viewModel: NumberViewModel<T>,
-    public val view: NumberView<T>,
-    public val presenter: NumberPresenter<T>
+    private val viewModel: NumberViewModel<T>,
+    private val view: NumberView<T>,
+    private val presenter: NumberPresenter<T>
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     private val updateText: (T?) -> Unit = { number ->

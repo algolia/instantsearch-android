@@ -7,9 +7,9 @@ import com.algolia.instantsearch.core.searcher.Searcher
 
 
 internal class LoadingConnectionSearcher<R>(
-    public val viewModel: LoadingViewModel,
-    public val searcher: Searcher<R>,
-    public val debouncer: Debouncer
+    private val viewModel: LoadingViewModel,
+    private val searcher: Searcher<R>,
+    private val debouncer: Debouncer
 ) : ConnectionImpl() {
 
     private val eventReload: (Unit) -> Unit = {

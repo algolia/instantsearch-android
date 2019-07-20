@@ -4,8 +4,8 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 internal class SearchBoxConnectionView(
-    public val viewModel: SearchBoxViewModel,
-    public val view: SearchBoxView
+    private val viewModel: SearchBoxViewModel,
+    private val view: SearchBoxView
 ) : ConnectionImpl() {
 
     override fun connect() {

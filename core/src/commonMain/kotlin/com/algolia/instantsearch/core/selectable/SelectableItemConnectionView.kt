@@ -5,8 +5,8 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 internal class SelectableItemConnectionView<I, O>(
-    val viewModel: SelectableItemViewModel<I>,
-    val view: SelectableItemView<O>,
+    private val viewModel: SelectableItemViewModel<I>,
+    private val view: SelectableItemView<O>,
     presenter: Presenter<I, O>
 ) : ConnectionImpl() {
 

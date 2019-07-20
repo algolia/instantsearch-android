@@ -4,8 +4,8 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 internal class SelectableListConnectionView<T>(
-    public val viewModel: SelectableListViewModel<T, T>,
-    public val view: SelectableListView<T>
+    private val viewModel: SelectableListViewModel<T, T>,
+    private val view: SelectableListView<T>
 ) : ConnectionImpl() {
 
     private val updateItems: (List<T>) -> Unit = { items ->
