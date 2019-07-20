@@ -3,10 +3,10 @@ package com.algolia.instantsearch.demo.filter.list
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.core.selectable.list.connectView
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.list.connectFilterState
-import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupAnd
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
