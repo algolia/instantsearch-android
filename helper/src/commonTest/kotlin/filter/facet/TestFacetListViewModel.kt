@@ -19,7 +19,7 @@ class TestFacetListViewModel  {
             selections.value = setOf(blue.value)
         }
 
-        viewModel.getFacetListItems() shouldEqual listOf(
+        viewModel.facets.value shouldEqual listOf(
             red to false,
             green to false,
             blue to true
@@ -33,7 +33,7 @@ class TestFacetListViewModel  {
             selections.value = setOf(blue.value)
         }
 
-        viewModel.getFacetListItems() shouldEqual listOf(
+        viewModel.facets.value shouldEqual listOf(
             blue.copy(count = 0) to true,
             red to false,
             green to false
@@ -47,7 +47,7 @@ class TestFacetListViewModel  {
             selections.value = setOf(blue.value)
         }
 
-        viewModel.getFacetListItems() shouldEqual listOf(
+        viewModel.facets.value shouldEqual listOf(
             red to false,
             green to false
         )
