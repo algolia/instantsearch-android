@@ -1,7 +1,11 @@
 package com.algolia.instantsearch.helper.filter.current
 
-import com.algolia.instantsearch.core.event.EventView
-import com.algolia.instantsearch.core.item.ItemView
+import com.algolia.instantsearch.core.event.Callback
 
 
-public interface FilterCurrentView : ItemView<List<Pair<FilterAndID, String>>>, EventView<FilterAndID>
+public interface FilterCurrentView {
+
+    public var onFilterSelected: Callback<FilterAndID>?
+
+    public fun setFilters(filters: List<Pair<FilterAndID, String>>)
+}

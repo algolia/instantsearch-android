@@ -8,7 +8,7 @@ import com.algolia.instantsearch.core.event.Callback
 internal class SelectableItemConnectionView<I, O>(
     private val viewModel: SelectableItemViewModel<I>,
     private val view: SelectableItemView<O>,
-    presenter: Presenter<I, O>
+    private val presenter: Presenter<I, O>
 ) : ConnectionImpl() {
 
     private val updateItem: Callback<I> = { item ->

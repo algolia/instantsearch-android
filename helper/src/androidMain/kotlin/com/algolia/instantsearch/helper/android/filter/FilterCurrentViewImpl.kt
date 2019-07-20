@@ -2,6 +2,7 @@ package com.algolia.instantsearch.helper.android.filter
 
 import android.view.View
 import androidx.annotation.LayoutRes
+import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.helper.android.inflate
 import com.algolia.instantsearch.helper.filter.current.FilterAndID
 import com.algolia.instantsearch.helper.filter.current.FilterCurrentView
@@ -14,13 +15,13 @@ public class FilterCurrentViewImpl(
     @LayoutRes val chipLayout: Int? = null
 ) : FilterCurrentView {
 
-    override var onClick: ((FilterAndID) -> Unit)? = null
+    override var onFilterSelected: Callback<FilterAndID>? = null
 
-    override fun setItem(item: List<Pair<FilterAndID, String>>) {
+    override fun setFilters(filters: List<Pair<FilterAndID, String>>) {
         view.removeAllViews()
-        item.forEach { (id, filter) ->
+        filters.forEach { (id, filter) ->
             val chip: Chip = if (chipLayout != null) view.inflate<Chip>(chipLayout) else Chip(view.context)
-            val onClickListener = View.OnClickListener { onClick?.invoke(id) }
+            val onClickListener = View.OnClickListener { onFilterSelected?.invoke(id) }
 
             chip.let {
                 it.text = filter
