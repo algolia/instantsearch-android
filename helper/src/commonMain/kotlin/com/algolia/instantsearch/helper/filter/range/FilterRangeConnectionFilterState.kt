@@ -15,7 +15,7 @@ internal class FilterRangeConnectionFilterState<T>(
     private val viewModel: FilterRangeViewModel<T>,
     private val filterState: FilterState,
     private val attribute: Attribute,
-    private val groupID: FilterGroupID = FilterGroupID(attribute.raw)
+    private val groupID: FilterGroupID
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     @Suppress("UNCHECKED_CAST")
