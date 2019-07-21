@@ -23,7 +23,7 @@ class TestFilterRangeConnectFilterState {
         val filterState = FilterState()
         val range = 0..9
 
-        viewModel.connectFilterState(attribute, filterState)
+        viewModel.connectFilterState(filterState, attribute)
         viewModel.coerce(Range(range))
         filterState.getFilters() shouldEqual setOf(Filter.Numeric(attribute, range))
     }
@@ -35,7 +35,7 @@ class TestFilterRangeConnectFilterState {
         val filterState = FilterState()
         val range = 0f..9f
 
-        viewModel.connectFilterState(attribute, filterState)
+        viewModel.connectFilterState(filterState, attribute)
         viewModel.range.value.shouldBeNull()
         filterState.notify {
             add(filterGroupID, Filter.Numeric(attribute, range.start, range.endInclusive))
@@ -49,7 +49,7 @@ class TestFilterRangeConnectFilterState {
         val filterState = FilterState()
         val range = 0L..9L
 
-        viewModel.connectFilterState(attribute, filterState)
+        viewModel.connectFilterState(filterState, attribute)
         viewModel.range.value.shouldBeNull()
         filterState.notify {
             add(filterGroupID, Filter.Numeric(attribute, range, true))

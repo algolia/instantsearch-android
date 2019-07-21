@@ -42,7 +42,7 @@ class FilterRangeDemo : AppCompatActivity() {
         viewModel.connectView(sliderViewB)
         viewModel.connectView(rangeTextView)
         viewModel.connectView(boundsTextView)
-        viewModel.connectFilterState(price, filterState)
+        viewModel.connectFilterState(filterState, price)
 
         buttonChangeBounds.setOnClickListener {
             viewModel.bounds.value = Range(0..20)
