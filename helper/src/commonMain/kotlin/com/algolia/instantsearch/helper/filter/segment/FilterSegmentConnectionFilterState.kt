@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.state.MutableFilters
+import com.algolia.instantsearch.helper.filter.state.Filters
 
 
 internal class FilterSegmentConnectionFilterState(
@@ -13,7 +13,7 @@ internal class FilterSegmentConnectionFilterState(
     private val groupID: FilterGroupID
 ) : ConnectionImpl() {
 
-    private val updateSelected: Callback<MutableFilters> = { filters ->
+    private val updateSelected: Callback<Filters> = { filters ->
         viewModel.selected.value = viewModel.map.value.entries
             .find { it.value == filters.getFilters(groupID).firstOrNull() }?.key
     }

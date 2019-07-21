@@ -3,10 +3,7 @@ package com.algolia.instantsearch.helper.filter.range
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.state.MutableFilters
-import com.algolia.instantsearch.helper.filter.state.toFilterNumeric
+import com.algolia.instantsearch.helper.filter.state.*
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
@@ -19,7 +16,7 @@ internal class FilterRangeConnectionFilterState<T>(
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     @Suppress("UNCHECKED_CAST")
-    private val updateRange: Callback<MutableFilters> = { filters ->
+    private val updateRange: Callback<Filters> = { filters ->
         val filter = filters.getNumericFilters(groupID)
             .filter { it.attribute == attribute }
             .map { it.value }

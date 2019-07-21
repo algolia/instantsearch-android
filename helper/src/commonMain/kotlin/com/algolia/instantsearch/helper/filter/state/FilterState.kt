@@ -8,7 +8,7 @@ public class FilterState internal constructor(
     filters: MutableFilters = MutableFiltersImpl()
 ) : MutableFilters by filters {
 
-    public val filters = ObservableItem(filters)
+    public val filters = ObservableItem<Filters>(filters)
 
     public constructor() : this(MutableFiltersImpl())
 
@@ -17,7 +17,7 @@ public class FilterState internal constructor(
     }
 
     public fun notify(block: MutableFilters.() -> Unit) {
-        block(filters.value)
+        block(this)
         notifyChange()
     }
 

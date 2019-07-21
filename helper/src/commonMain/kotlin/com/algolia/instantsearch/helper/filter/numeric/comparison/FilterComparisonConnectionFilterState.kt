@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.event.Callback
 import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.state.MutableFilters
+import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
@@ -20,7 +20,7 @@ internal class FilterComparisonConnectionFilterState<T>(
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     @Suppress("UNCHECKED_CAST")
-    private val updateNumber: Callback<MutableFilters> = { filters ->
+    private val updateNumber: Callback<Filters> = { filters ->
         viewModel.number.value = filters
             .getNumericFilters(groupID)
             .filter { it.attribute == attribute }

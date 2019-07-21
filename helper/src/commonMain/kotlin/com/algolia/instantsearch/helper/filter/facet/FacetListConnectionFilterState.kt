@@ -15,7 +15,7 @@ internal class FacetListConnectionFilterState(
     private val groupID: FilterGroupID
 ) : ConnectionImpl() {
 
-    private val updateSelections: Callback<MutableFilters> = { filters ->
+    private val updateSelections: Callback<Filters> = { filters ->
         viewModel.selections.value = filters.getFacetFilters(groupID).map { it.getValue() }.toSet()
     }
     private val updateFilterState: Callback<Set<String>> = { selections ->
