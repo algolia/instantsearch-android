@@ -42,14 +42,14 @@ class FilterComparisonDemo : AppCompatActivity() {
         val priceViewModel = NumberViewModel<Int>()
         val priceView = FilterPriceView(demoFilterComparison, price, priceOperator)
 
-        priceViewModel.connectFilterState(price, priceOperator, filterState)
+        priceViewModel.connectFilterState(filterState, price, priceOperator)
         priceViewModel.connectView(priceView)
 
         val yearOperator = NumericOperator.Equals
         val yearViewModel = NumberViewModel<Int>()
         val yearView = FilterYearView(demoFilterComparison, year, yearOperator)
 
-        yearViewModel.connectFilterState(year, yearOperator, filterState)
+        yearViewModel.connectFilterState(filterState, year, yearOperator)
         yearViewModel.connectView(yearView) { number -> number?.toString() ?: "" }
 
         configureToolbar(toolbar)

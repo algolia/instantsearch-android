@@ -25,7 +25,7 @@ class TestFilterComparisonConnectFilterState {
         val viewModel = NumberViewModel(0..10)
         val filterState = FilterState()
 
-        viewModel.connectFilterState(price, operator, filterState, groupID)
+        viewModel.connectFilterState(filterState, price, operator, groupID)
         viewModel.number.value shouldEqual null
     }
 
@@ -34,7 +34,7 @@ class TestFilterComparisonConnectFilterState {
         val viewModel = NumberViewModel(0..10)
         val filterState = FilterState()
 
-        viewModel.connectFilterState(price, operator, filterState, groupID)
+        viewModel.connectFilterState(filterState, price, operator, groupID)
         viewModel.coerce(5)
         filterState shouldEqual expectedFilterState
     }

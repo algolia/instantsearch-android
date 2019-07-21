@@ -1,33 +1,21 @@
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
+import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.connection.autoConnect
 import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 
 
-public inline fun <reified T> NumberViewModel<T>.connectFilterState(
+public fun <T> NumberViewModel<T>.connectFilterState(
+    filterState: FilterState,
     attribute: Attribute,
     operator: NumericOperator,
-    filterState: FilterState,
-    groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
-) where T : Number, T : Comparable<T> {
-    filterState.filters.subscribePast { filters ->
-        number.value =filters
-            .getNumericFilters(groupID)
-            .filter { it.attribute == attribute }
-            .map { it.value }
-            .filterIsInstance<Filter.Numeric.Value.Comparison>()
-            .firstOrNull { it.operator == operator }
-            ?.number as? T?
-    }
-    eventNumber.subscribe { computed ->
-        filterState.notify {
-            number.value?.let { remove(groupID, Filter.Numeric(attribute, operator, it)) }
-            computed?.let { add(groupID, Filter.Numeric(attribute, operator, it)) }
-        }
-    }
+    groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
+    connect: Boolean = true
+): Connection where T : Number, T : Comparable<T> {
+    return FilterComparisonConnectionFilterState(this, filterState, attribute, operator, groupID).autoConnect(connect)
 }

@@ -12,7 +12,7 @@ private fun <T> NumberViewModel<T>.setBoundsFromFacetStats(
     transform: (Float) -> T
 ) where T : Number, T : Comparable<T> {
     facetStats[attribute]?.let {
-        bounds.value =Range(transform(it.min), transform(it.max))
+        bounds.value = Range(transform(it.min), transform(it.max))
     }
 }
 
