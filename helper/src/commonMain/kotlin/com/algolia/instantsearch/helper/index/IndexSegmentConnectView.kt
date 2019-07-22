@@ -7,8 +7,8 @@ import com.algolia.instantsearch.core.selectable.map.connectView
 
 public fun IndexSegmentViewModel.connectView(
     view: SelectableMapView<Int, String>,
-    presenter: IndexPresenter,
-    connect: Boolean = true
+    connect: Boolean = true,
+    presenter: IndexPresenter
 ): Connection {
     return connectView(view, presenter, connect)
 }
