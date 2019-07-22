@@ -22,9 +22,9 @@ class TestStatsConnectSearcher {
         val searcher = SearcherSingleIndex(index).also { it.response.value = responseSearch }
         val viewModel = StatsViewModel()
 
-        viewModel.item.shouldBeNull()
+        viewModel.response.value.shouldBeNull()
         viewModel.connectSearcher(searcher)
-        viewModel.item shouldEqual responseSearch
+        viewModel.response.value shouldEqual responseSearch
     }
 
     @Test
@@ -33,8 +33,8 @@ class TestStatsConnectSearcher {
         val viewModel = StatsViewModel()
 
         viewModel.connectSearcher(searcher)
-        viewModel.item.shouldBeNull()
+        viewModel.response.value.shouldBeNull()
         blocking { searcher.searchAsync().join() }
-        viewModel.item shouldEqual responseSearch
+        viewModel.response.value shouldEqual responseSearch
     }
 }

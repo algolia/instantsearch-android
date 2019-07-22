@@ -5,15 +5,11 @@ import android.text.SpannedString
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import com.algolia.instantsearch.core.item.connectView
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.stats.StatsTextView
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.stats.StatsPresenter
-import com.algolia.instantsearch.helper.stats.StatsPresenterImpl
-import com.algolia.instantsearch.helper.stats.StatsViewModel
-import com.algolia.instantsearch.helper.stats.connectSearcher
+import com.algolia.instantsearch.helper.stats.*
 import kotlinx.android.synthetic.main.demo_paging.toolbar
 import kotlinx.android.synthetic.main.demo_stats.*
 import kotlinx.android.synthetic.main.include_search.*
@@ -46,8 +42,8 @@ class StatsDemo : AppCompatActivity() {
         }
 
         statsViewModel.connectSearcher(searcher)
-        statsViewModel.connectView(statsViewA, StatsPresenterImpl())
-        statsViewModel.connectView(statsViewB, presenter)
+        statsViewModel.connectView(statsViewA, true, StatsPresenterImpl())
+        statsViewModel.connectView(statsViewB, true, presenter)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

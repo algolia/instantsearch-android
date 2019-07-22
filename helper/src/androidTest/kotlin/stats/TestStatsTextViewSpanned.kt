@@ -25,7 +25,7 @@ class TestStatsTextViewSpanned {
     fun setItemShouldSetText() {
         val view = view()
 
-        view.setItem(spanned)
+        view.setText(spanned)
         view.view.text shouldEqual spanned
     }
 }

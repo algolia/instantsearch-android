@@ -24,7 +24,7 @@ class TestStatsTextView {
     fun setItemShouldSetText() {
         val view = view()
 
-        view.setItem(text)
+        view.setText(text)
         view.view.text shouldEqual text
     }
 }

@@ -19,7 +19,6 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.algolia.instantsearch.core.item.connectView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.searcher.Searcher
@@ -39,6 +38,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.stats.StatsPresenter
 import com.algolia.instantsearch.helper.stats.StatsViewModel
 import com.algolia.instantsearch.helper.stats.connectSearcher
+import com.algolia.instantsearch.helper.stats.connectView
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
@@ -126,7 +126,7 @@ fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
     }
 
     viewModel.connectSearcher(searcher)
-    viewModel.connectView(view, presenter)
+    viewModel.connectView(view, true, presenter)
 }
 
 fun AppCompatActivity.onResetThenRestoreFilters(
