@@ -2,7 +2,7 @@ package com.algolia.instantsearch.core.selectable
 
 import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 
 
 internal class SelectableItemConnectionView<I, O>(

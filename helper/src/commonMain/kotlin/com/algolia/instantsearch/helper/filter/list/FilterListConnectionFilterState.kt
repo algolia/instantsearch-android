@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.filter.list
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState

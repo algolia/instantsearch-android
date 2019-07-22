@@ -4,7 +4,7 @@ import android.widget.TextView
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.text.italic
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.Range
 

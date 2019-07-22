@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.demo.filter.range
 
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.demo.R

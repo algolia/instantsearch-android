@@ -1,6 +1,6 @@
 package searchbox
 
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView

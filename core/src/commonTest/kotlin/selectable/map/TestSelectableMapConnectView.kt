@@ -1,6 +1,6 @@
 package selectable.map
 
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.map.SelectableMapView
 import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel
 import com.algolia.instantsearch.core.selectable.map.connectView

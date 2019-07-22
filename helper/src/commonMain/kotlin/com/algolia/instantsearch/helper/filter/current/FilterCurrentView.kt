@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.filter.current
 
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 
 
 public interface FilterCurrentView {

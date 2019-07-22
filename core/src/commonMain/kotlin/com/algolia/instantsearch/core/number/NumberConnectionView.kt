@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.core.number
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 
 
 internal class NumberConnectionView<T>(

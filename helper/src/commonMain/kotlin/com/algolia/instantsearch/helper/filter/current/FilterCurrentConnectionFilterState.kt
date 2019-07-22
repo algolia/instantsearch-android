@@ -1,11 +1,10 @@
 package com.algolia.instantsearch.helper.filter.current
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
-import com.algolia.instantsearch.helper.filter.state.MutableFilters
 import com.algolia.search.model.filter.Filter
 
 

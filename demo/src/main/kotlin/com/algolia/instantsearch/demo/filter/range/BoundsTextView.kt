@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.demo.filter.range
 
 import android.widget.TextView
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.Range
 

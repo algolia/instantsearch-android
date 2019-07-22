@@ -1,6 +1,6 @@
 package selectable.list
 
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.list.*
 import shouldBeEmpty
 import shouldEqual

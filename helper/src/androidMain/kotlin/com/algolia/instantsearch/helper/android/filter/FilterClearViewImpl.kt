@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.android.filter
 
 import android.view.View
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.helper.filter.clear.FilterClearView
 
 

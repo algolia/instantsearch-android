@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.android.searchbox
 
 import androidx.appcompat.widget.SearchView
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 
 

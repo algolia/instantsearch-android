@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.stats
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.core.event.Callback
+import com.algolia.instantsearch.core.Callback
 import com.algolia.search.model.response.ResponseSearch
 
 
