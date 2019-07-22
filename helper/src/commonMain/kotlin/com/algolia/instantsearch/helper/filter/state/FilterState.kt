@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.filter.state
 
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
 
@@ -7,11 +8,14 @@ public class FilterState internal constructor(
     internal val filters: MutableFilters = MutableFiltersImpl()
 ) : MutableFilters by filters {
 
-    public constructor(): this(MutableFiltersImpl())
+    public constructor() : this(MutableFiltersImpl())
 
     public constructor(map: Map<FilterGroupID, Set<Filter>>) : this() {
         map.forEach { (groupID, filters) -> add(groupID, filters) }
     }
+
+    internal var hierarchicalAttributes: List<Attribute> = listOf()
+    internal var hierarchicalFilters: List<Filter.Facet> = listOf()
 
     public val onChanged: MutableList<(Filters) -> Unit> = mutableListOf()
 

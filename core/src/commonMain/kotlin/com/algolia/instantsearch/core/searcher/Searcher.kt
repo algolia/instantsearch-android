@@ -14,9 +14,9 @@ public interface Searcher<R> {
     public var response: R?
     public var error: Throwable?
 
-    public val onResponseChanged : MutableList<(R) -> Unit>
+    public val onResponseChanged: MutableList<(R) -> Unit>
     public val onLoadingChanged: MutableList<(Boolean) -> Unit>
-    public val onErrorChanged : MutableList<(Throwable) -> Unit>
+    public val onErrorChanged: MutableList<(Throwable) -> Unit>
 
     public fun setQuery(text: String?)
     public fun searchAsync(): Job

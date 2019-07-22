@@ -52,7 +52,7 @@ class HomeAdapter : ListAdapter<HomeItem, HomeViewHolder>(diffUtil) {
                 if (oldItem is HomeItem.Item && newItem is HomeItem.Item) {
                     return oldItem.hit.objectID == newItem.hit.objectID
                 }
-                return oldItem::class.isInstance(newItem)
+                return oldItem::class == newItem::class
             }
 
             override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
