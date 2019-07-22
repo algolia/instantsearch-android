@@ -1,42 +1,20 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.helper.filter.state.FilterOperator
+import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.connection.autoConnect
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.state.toFilterGroups
-import com.algolia.search.model.filter.FilterGroupsConverter
 
 
-public fun SearcherSingleIndex.connectFilterState(filterState: FilterState) {
-
-    fun updateFilters() {
-        query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
-    }
-
-    updateFilters()
-    computeDisjunctiveParams = {
-        val disjunctiveAttributes = filterState.getFacetGroups()
-            .filter { it.key.operator == FilterOperator.Or }
-            .flatMap { group -> group.value.map { it.attribute } }
-
-        hierarchicalAttributes = filterState.hierarchicalAttributes
-        hierarchicalFilters = filterState.hierarchicalFilters
-        disjunctiveAttributes to filterState.getFilters()
-    }
-    filterState.filters.subscribe {
-        updateFilters()
-        searchAsync()
-    }
+public fun SearcherSingleIndex.connectFilterState(
+    filterState: FilterState,
+    connect: Boolean = true
+): Connection {
+    return SearcherSingleConnectionFilterState(this, filterState).autoConnect(connect)
 }
 
-public fun SearcherForFacets.connectFilterState(filterState: FilterState) {
-
-    fun updateFilters() {
-        query.filters = FilterGroupsConverter.SQL(filterState.toFilterGroups())
-    }
-
-    updateFilters()
-    filterState.filters.subscribe {
-        updateFilters()
-        searchAsync()
-    }
+public fun SearcherForFacets.connectFilterState(
+    filterState: FilterState,
+    connect: Boolean = true
+): Connection {
+    return SearcherForFacetsConnectionFilterState(this, filterState).autoConnect(connect)
 }
