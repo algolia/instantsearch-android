@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.algolia.instantsearch.core.loading.LoadingViewModel
-import com.algolia.instantsearch.core.loading.connectView
+import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.connection.connect
+import com.algolia.instantsearch.core.connection.disconnect
+import com.algolia.instantsearch.core.connection.safeConnect
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.demo.*
@@ -16,7 +18,7 @@ import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSour
 import com.algolia.instantsearch.helper.android.loading.LoadingViewSwipeRefreshLayout
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.searchbox.connectSearcher
-import com.algolia.instantsearch.helper.loading.connectSearcher
+import com.algolia.instantsearch.helper.loading.LoadingWidget
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import kotlinx.android.synthetic.main.demo_loading.*
 import kotlinx.android.synthetic.main.demo_search.list
@@ -29,17 +31,17 @@ class LoadingDemo : AppCompatActivity() {
     private val searcher = SearcherSingleIndex(stubIndex)
     private val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Movie.serializer())
     private val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
-    private val movies = LivePagedListBuilder<Int, Movie>(dataSourceFactory, pagedListConfig).build()
+    private val movies = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
+    private val widget = LoadingWidget(searcher).safeConnect()
+    private lateinit var connections: List<Connection>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_loading)
 
-        val viewModel = LoadingViewModel()
         val view = LoadingViewSwipeRefreshLayout(swipeRefreshLayout)
 
-        viewModel.connectView(view)
-        viewModel.connectSearcher(searcher)
+        connections = widget.with(view).connect()
 
         val adapter = MovieAdapterPaged()
 
@@ -62,5 +64,7 @@ class LoadingDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        widget.disconnect()
+        connections.disconnect()
     }
 }

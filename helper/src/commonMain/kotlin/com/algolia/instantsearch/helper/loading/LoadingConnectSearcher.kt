@@ -6,10 +6,16 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 
 
+public fun <R> LoadingViewModel.connectionSearcher(
+    searcher: Searcher<R>,
+    debouncer: Debouncer = Debouncer(200)
+): Connection {
+    return LoadingConnectionSearcher(this, searcher, debouncer)
+}
+
 public fun <R> LoadingViewModel.connectSearcher(
     searcher: Searcher<R>,
-    debouncer: Debouncer = Debouncer(200),
-    connect: Boolean = true
+    debouncer: Debouncer = Debouncer(200)
 ): Connection {
-    return LoadingConnectionSearcher(this, searcher, debouncer).apply { if (connect) connect() }
+    return connectionSearcher(searcher, debouncer).apply { connect() }
 }
