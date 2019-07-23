@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.core.number.range.connectView
+import com.algolia.instantsearch.core.number.range.connectionView
 import shouldEqual
 import kotlin.test.Test
 
@@ -33,9 +33,10 @@ class TestNumberRangeConnectView {
     fun connectShouldCallSetItem() {
         val viewModel = NumberRangeViewModel<Int>()
         val view = MockNumberRangeView()
+        val connection = viewModel.connectionView(view)
 
         viewModel.range.value = Range(0..20)
-        viewModel.connectView(view)
+        connection.connect()
         view.rangeInt shouldEqual viewModel.range.value
     }
 
@@ -43,9 +44,10 @@ class TestNumberRangeConnectView {
     fun connectShouldCallSetBounds() {
         val viewModel = NumberRangeViewModel<Int>()
         val view = MockNumberRangeView()
+        val connection = viewModel.connectionView(view)
 
         viewModel.bounds.value = Range(0..20)
-        viewModel.connectView(view)
+        connection.connect()
         view.bounds shouldEqual viewModel.bounds.value
     }
 
@@ -53,8 +55,9 @@ class TestNumberRangeConnectView {
     fun onRangeChangedShouldUpdateRange() {
         val viewModel = NumberRangeViewModel<Int>()
         val view = MockNumberRangeView()
+        val connection = viewModel.connectionView(view)
 
-        viewModel.connectView(view)
+        connection.connect()
         viewModel.range.value = Range(0..20)
         view.rangeInt shouldEqual viewModel.range.value
     }
@@ -63,8 +66,9 @@ class TestNumberRangeConnectView {
     fun onBoundsComputedShouldUpdateBounds() {
         val viewModel = NumberRangeViewModel<Int>()
         val view = MockNumberRangeView()
+        val connection = viewModel.connectionView(view)
 
-        viewModel.connectView(view)
+        connection.connect()
         viewModel.bounds.value = Range(0..20)
         view.bounds shouldEqual viewModel.bounds.value
     }

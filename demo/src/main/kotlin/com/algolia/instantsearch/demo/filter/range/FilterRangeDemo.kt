@@ -2,11 +2,12 @@ package com.algolia.instantsearch.demo.filter.range
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.core.connection.Connections
+import com.algolia.instantsearch.core.connection.connect
+import com.algolia.instantsearch.core.connection.disconnect
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.core.number.range.connectView
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.range.FilterRangeViewModel
-import com.algolia.instantsearch.helper.filter.range.connectFilterState
+import com.algolia.instantsearch.helper.filter.range.FilterRangeWidget
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -24,6 +25,8 @@ class FilterRangeDemo : AppCompatActivity() {
     private val price = Attribute("price")
     private val groupID = FilterGroupID(price)
     private val filters: Map<FilterGroupID, Set<Filter>> = mapOf(groupID to setOf(Filter.Numeric(price, 1..9)))
+    private val widget = FilterRangeWidget(0..10, filterState, price)
+    private lateinit var connections: Connections
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,25 +35,21 @@ class FilterRangeDemo : AppCompatActivity() {
         searcher.connectFilterState(filterState)
 
         val initialRange = Range(0..10)
-        val viewModel = FilterRangeViewModel(initialRange)
         val sliderViewA = RangeSliderView(sliderA)
         val sliderViewB = RangeSliderView(sliderB)
         val rangeTextView = RangeTextView(rangeLabel)
         val boundsTextView = BoundsTextView(boundsLabel)
 
-        viewModel.connectView(sliderViewA)
-        viewModel.connectView(sliderViewB)
-        viewModel.connectView(rangeTextView)
-        viewModel.connectView(boundsTextView)
-        viewModel.connectFilterState(filterState, price)
+        widget.connect()
+        connections = widget.with(sliderViewA, sliderViewB, rangeTextView, boundsTextView).connect()
 
         buttonChangeBounds.setOnClickListener {
-            viewModel.bounds.value = Range(0..20)
+            widget.viewModel.bounds.value = Range(0..20)
             it.isEnabled = false
             buttonResetBounds.isEnabled = true
         }
         buttonResetBounds.setOnClickListener {
-            viewModel.bounds.value = initialRange
+            widget.viewModel.bounds.value = initialRange
             it.isEnabled = false
             buttonChangeBounds.isEnabled = true
         }
@@ -66,6 +65,12 @@ class FilterRangeDemo : AppCompatActivity() {
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
         searcher.searchAsync()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        widget.disconnect()
+        connections.disconnect()
     }
 }
 
