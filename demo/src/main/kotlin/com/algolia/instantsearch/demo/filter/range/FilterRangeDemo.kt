@@ -2,7 +2,7 @@ package com.algolia.instantsearch.demo.filter.range
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.connection.Connections
+import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.disconnect
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.searcher.Debouncer
@@ -12,7 +12,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.filters
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.helper.searcher.with
 import com.algolia.search.model.Attribute
 import kotlinx.android.synthetic.main.demo_filter_range.*
 import kotlinx.android.synthetic.main.header_filter.*
@@ -33,13 +33,11 @@ class FilterRangeDemo : AppCompatActivity() {
     }
     private val filterState = FilterState(filters)
     private val widget = FilterRangeWidget(filterState, price, range = initialRange, bounds = primaryBounds)
-    private lateinit var connections: Connections
+    private val connections = mutableListOf<Connection>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_range)
-
-        searcher.connectFilterState(filterState, Debouncer(100))
 
         val views = arrayOf(
             RangeSliderView(slider),
@@ -47,7 +45,8 @@ class FilterRangeDemo : AppCompatActivity() {
             BoundsTextView(boundsLabel)
         )
 
-        connections = widget.with(*views)
+        connections += searcher.with(filterState, Debouncer(100))
+        connections += widget.with(*views)
 
         buttonChangeBounds.setOnClickListener {
             widget.viewModel.bounds.value = Range(secondaryBounds)

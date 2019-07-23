@@ -35,7 +35,7 @@ public class SearcherWidget(
     )
 
     override val connections = searcher
-        .connectFilterState(filterState, debouncer)
+        .connectionFilterState(filterState, debouncer)
         .asList()
         .connect()
 

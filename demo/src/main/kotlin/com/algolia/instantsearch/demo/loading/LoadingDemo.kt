@@ -31,7 +31,7 @@ class LoadingDemo : AppCompatActivity() {
     private val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
     private val movies = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
     private val widget = LoadingWidget(searcher)
-    private lateinit var connections: List<Connection>
+    private val connections = mutableListOf<Connection>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +39,7 @@ class LoadingDemo : AppCompatActivity() {
 
         val view = LoadingViewSwipeRefreshLayout(swipeRefreshLayout)
 
-        connections = widget.with(view)
+        connections += widget.with(view)
 
         val adapter = MovieAdapterPaged()
 

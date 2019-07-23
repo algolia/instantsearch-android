@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.filter.range
 
-import com.algolia.instantsearch.core.connection.Connections
+import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.asList
 import com.algolia.instantsearch.core.connection.connect
 import com.algolia.instantsearch.core.number.range.NumberRangeView
@@ -38,7 +38,7 @@ public class FilterRangeWidget<T>(
         .asList()
         .connect()
 
-    public fun with(vararg views: NumberRangeView<T>): Connections {
+    public fun with(vararg views: NumberRangeView<T>): List<Connection> {
         return views.map(viewModel::connectionView).connect()
     }
 }

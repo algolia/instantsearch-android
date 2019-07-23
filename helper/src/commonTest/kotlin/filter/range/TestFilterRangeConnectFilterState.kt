@@ -22,7 +22,7 @@ class TestFilterRangeConnectFilterState {
         val viewModel = NumberRangeViewModel<Int>()
         val filterState = FilterState()
         val range = 0..9
-        val connection = viewModel.connectionFilterState(filterState, attribute)
+        val connection = viewModel.connectionFilterState(filterState, attribute, filterGroupID)
 
         connection.connect()
         viewModel.coerce(Range(range))
@@ -35,7 +35,7 @@ class TestFilterRangeConnectFilterState {
         val viewModel = NumberRangeViewModel<Float>()
         val filterState = FilterState()
         val range = 0f..9f
-        val connection = viewModel.connectionFilterState(filterState, attribute)
+        val connection = viewModel.connectionFilterState(filterState, attribute, filterGroupID)
 
         connection.connect()
         viewModel.range.value.shouldBeNull()
@@ -50,7 +50,7 @@ class TestFilterRangeConnectFilterState {
         val viewModel = NumberRangeViewModel<Long>()
         val filterState = FilterState()
         val range = 0L..9L
-        val connection = viewModel.connectionFilterState(filterState, attribute)
+        val connection = viewModel.connectionFilterState(filterState, attribute, filterGroupID)
 
         connection.connect()
         viewModel.range.value.shouldBeNull()

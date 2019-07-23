@@ -2,7 +2,7 @@ package com.algolia.instantsearch.demo.filter.numeric.comparison
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.connection.Connections
+import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.disconnect
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.demo.*
@@ -12,7 +12,7 @@ import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromF
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.addFacet
-import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.helper.searcher.with
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.NumericOperator
@@ -32,22 +32,21 @@ class FilterComparisonDemo : AppCompatActivity() {
     private val searcher = SearcherSingleIndex(index)
     private val widgetPrice = FilterComparisonWidget<Long>(filterState, price, NumericOperator.GreaterOrEquals)
     private val widgetYear = FilterComparisonWidget<Int>(filterState, year, NumericOperator.Equals)
-    private lateinit var connections: Connections
+    private val connections = mutableListOf<Connection>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_comparison)
 
-        searcher.connectFilterState(filterState)
         searcher.query.addFacet(price)
         searcher.query.addFacet(year)
 
         val priceView = FilterPriceView(demoFilterComparison, price, widgetPrice.operator)
         val yearView = FilterYearView(demoFilterComparison, year, widgetYear.operator)
 
-        connections = widgetYear
-            .with(yearView) { year -> year?.toString() ?: "" }
-            .plus(widgetPrice.with(priceView))
+        connections += searcher.with(filterState)
+        connections += widgetPrice.with(priceView)
+        connections += widgetYear.with(yearView) { year -> year?.toString() ?: "" }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

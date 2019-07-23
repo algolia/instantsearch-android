@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
-import com.algolia.instantsearch.core.connection.Connections
+import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.asList
 import com.algolia.instantsearch.core.connection.connect
 import com.algolia.instantsearch.core.number.*
@@ -36,7 +36,7 @@ public class FilterComparisonWidget<T>(
     public fun with(
         vararg views: NumberView<T>,
         presenter: NumberPresenter<T> = NumberPresenterImpl
-    ): Connections {
+    ): List<Connection> {
         return views.map { viewModel.connectionView(it, presenter) }.connect()
     }
 }

@@ -1,22 +1,21 @@
 package com.algolia.instantsearch.core.connection
 
-public typealias Connections = List<Connection>
 
 public fun Connection.autoConnect(connect: Boolean): Connection {
     if (connect) connect()
     return this
 }
 
-public fun Connection.asList(): Connections {
+public fun Connection.asList(): List<Connection> {
     return listOf(this)
 }
 
-public fun Connections.connect(): Connections {
+public fun List<Connection>.connect(): List<Connection> {
     forEach { it.connect() }
     return this
 }
 
-public fun Connections.disconnect(): Connections {
+public fun List<Connection>.disconnect(): List<Connection> {
     forEach { it.disconnect() }
     return this
 }
