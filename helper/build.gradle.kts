@@ -127,7 +127,7 @@ kotlin {
                 implementation(Paging())
                 api(Coroutines("android"))
                 api(AlgoliaClient("jvm"))
-                api(Ktor("client-android"))
+                api(Ktor("client-okhttp"))
             }
         }
         val androidTest by getting {
