@@ -23,21 +23,21 @@ public fun NumberViewModel<Int>.setBoundsFromFacetStatsInt(
     setBoundsFromFacetStats(attribute, facetStats) { it.toInt() }
 }
 
-public fun NumberViewModel<Long>.computeBoundsFromFacetStatsLong(
+public fun NumberViewModel<Long>.setBoundsFromFacetStatsLong(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
     setBoundsFromFacetStats(attribute, facetStats) { it.toLong() }
 }
 
-public fun NumberViewModel<Float>.computeBoundsFromFacetStatsFloat(
+public fun NumberViewModel<Float>.setBoundsFromFacetStatsFloat(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
     setBoundsFromFacetStats(attribute, facetStats) { it }
 }
 
-public fun NumberViewModel<Double>.computeBoundsFromFacetStatsDouble(
+public fun NumberViewModel<Double>.setBoundsFromFacetStatsDouble(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
 ) {
