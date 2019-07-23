@@ -8,7 +8,6 @@ import androidx.paging.PagedList
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.connect
 import com.algolia.instantsearch.core.connection.disconnect
-import com.algolia.instantsearch.core.connection.safeConnect
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.demo.*
@@ -32,7 +31,7 @@ class LoadingDemo : AppCompatActivity() {
     private val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Movie.serializer())
     private val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
     private val movies = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
-    private val widget = LoadingWidget(searcher).safeConnect()
+    private val widget = LoadingWidget(searcher)
     private lateinit var connections: List<Connection>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +40,7 @@ class LoadingDemo : AppCompatActivity() {
 
         val view = LoadingViewSwipeRefreshLayout(swipeRefreshLayout)
 
+        widget.connect()
         connections = widget.with(view).connect()
 
         val adapter = MovieAdapterPaged()
