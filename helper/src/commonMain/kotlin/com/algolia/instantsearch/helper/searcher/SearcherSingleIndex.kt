@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.core.observable.SubscriptionValue
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.search.client.Index

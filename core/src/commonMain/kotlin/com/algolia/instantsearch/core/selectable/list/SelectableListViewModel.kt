@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.core.selectable.list
 
-import com.algolia.instantsearch.core.observable.SubscriptionEvent
-import com.algolia.instantsearch.core.observable.SubscriptionValue
+import com.algolia.instantsearch.core.subscription.SubscriptionEvent
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.selectable.list.SelectionMode.Multiple
 import com.algolia.instantsearch.core.selectable.list.SelectionMode.Single
 

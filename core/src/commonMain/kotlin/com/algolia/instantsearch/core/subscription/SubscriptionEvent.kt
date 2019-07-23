@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.core.observable
+package com.algolia.instantsearch.core.subscription
 
 
 public class SubscriptionEvent<T> : Subscription<T>() {

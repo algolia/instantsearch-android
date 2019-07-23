@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.stats
 
-import com.algolia.instantsearch.core.observable.SubscriptionValue
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.search.model.response.ResponseSearch
 
 

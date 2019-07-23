@@ -1,6 +1,6 @@
 package searcher
 
-import com.algolia.instantsearch.core.observable.SubscriptionValue
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import kotlinx.coroutines.*

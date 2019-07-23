@@ -2,8 +2,8 @@ package com.algolia.instantsearch.core.number
 
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.number.range.coerce
-import com.algolia.instantsearch.core.observable.SubscriptionEvent
-import com.algolia.instantsearch.core.observable.SubscriptionValue
+import com.algolia.instantsearch.core.subscription.SubscriptionEvent
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 
 public open class NumberViewModel<T>(
