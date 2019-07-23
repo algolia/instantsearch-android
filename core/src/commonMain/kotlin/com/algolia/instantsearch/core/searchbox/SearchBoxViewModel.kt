@@ -1,11 +1,11 @@
 package com.algolia.instantsearch.core.searchbox
 
-import com.algolia.instantsearch.core.observable.ObservableEvent
-import com.algolia.instantsearch.core.observable.ObservableItem
+import com.algolia.instantsearch.core.observable.SubscriptionEvent
+import com.algolia.instantsearch.core.observable.SubscriptionValue
 
 
 public open class SearchBoxViewModel {
 
-    public val query = ObservableItem<String?>(null)
-    public val eventSubmit = ObservableEvent<String?>()
+    public val query = SubscriptionValue<String?>(null)
+    public val eventSubmit = SubscriptionEvent<String?>()
 }

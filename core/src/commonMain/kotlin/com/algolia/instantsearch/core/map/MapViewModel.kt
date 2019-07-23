@@ -1,15 +1,15 @@
 package com.algolia.instantsearch.core.map
 
-import com.algolia.instantsearch.core.observable.ObservableEvent
-import com.algolia.instantsearch.core.observable.ObservableItem
+import com.algolia.instantsearch.core.observable.SubscriptionEvent
+import com.algolia.instantsearch.core.observable.SubscriptionValue
 
 
 public open class MapViewModel<K, V>(
     items: Map<K, V> = mapOf()
 ) {
 
-    public val map = ObservableItem(items)
-    public val event = ObservableEvent<Map<K, V>>()
+    public val map = SubscriptionValue(items)
+    public val event = SubscriptionEvent<Map<K, V>>()
 
     public fun add(entry: Pair<K, V>) {
         val map = map.value.toMutableMap().apply { put(entry.first, entry.second) }

@@ -1,14 +1,14 @@
 package com.algolia.instantsearch.core.selectable
 
-import com.algolia.instantsearch.core.observable.ObservableEvent
-import com.algolia.instantsearch.core.observable.ObservableItem
+import com.algolia.instantsearch.core.observable.SubscriptionEvent
+import com.algolia.instantsearch.core.observable.SubscriptionValue
 
 
 public open class SelectableItemViewModel<T>(
     item: T
 ) {
 
-    public val item = ObservableItem(item)
-    public val isSelected = ObservableItem(false)
-    public val eventSelection = ObservableEvent<Boolean>()
+    public val item = SubscriptionValue(item)
+    public val isSelected = SubscriptionValue(false)
+    public val eventSelection = SubscriptionEvent<Boolean>()
 }

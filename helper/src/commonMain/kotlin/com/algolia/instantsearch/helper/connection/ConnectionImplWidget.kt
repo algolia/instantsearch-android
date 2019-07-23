@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 public abstract class ConnectionImplWidget : ConnectionImpl() {
 
-    protected abstract val connections: MutableList<Connection>
+    protected abstract val connections: List<Connection>
 
     override fun connect() {
         super.connect()

@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.filter.state
 
-import com.algolia.instantsearch.core.observable.ObservableItem
+import com.algolia.instantsearch.core.observable.SubscriptionValue
 import com.algolia.search.model.filter.Filter
 
 
@@ -8,7 +8,7 @@ public class FilterState internal constructor(
     filters: MutableFilters = MutableFiltersImpl()
 ) : MutableFilters by filters {
 
-    public val filters = ObservableItem<Filters>(filters)
+    public val filters = SubscriptionValue<Filters>(filters)
 
     public constructor() : this(MutableFiltersImpl())
 

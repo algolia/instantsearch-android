@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.core.selectable.list
 
-import com.algolia.instantsearch.core.observable.ObservableEvent
-import com.algolia.instantsearch.core.observable.ObservableItem
+import com.algolia.instantsearch.core.observable.SubscriptionEvent
+import com.algolia.instantsearch.core.observable.SubscriptionValue
 import com.algolia.instantsearch.core.selectable.list.SelectionMode.Multiple
 import com.algolia.instantsearch.core.selectable.list.SelectionMode.Single
 
@@ -11,9 +11,9 @@ public open class SelectableListViewModel<K, V>(
     public val selectionMode: SelectionMode
 ) {
 
-    public val items = ObservableItem(items)
-    public val selections = ObservableItem<Set<K>>(setOf())
-    public val eventSelection = ObservableEvent<Set<K>>()
+    public val items = SubscriptionValue(items)
+    public val selections = SubscriptionValue<Set<K>>(setOf())
+    public val eventSelection = SubscriptionEvent<Set<K>>()
 
     public fun select(key: K) {
         val selections = selections.value

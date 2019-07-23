@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.core.number.range
 
-import com.algolia.instantsearch.core.observable.ObservableEvent
-import com.algolia.instantsearch.core.observable.ObservableItem
+import com.algolia.instantsearch.core.observable.SubscriptionEvent
+import com.algolia.instantsearch.core.observable.SubscriptionValue
 
 
 public open class NumberRangeViewModel<T>(
@@ -9,11 +9,11 @@ public open class NumberRangeViewModel<T>(
     bounds: Range<T>? = null
 ) where T : Number, T : Comparable<T> {
 
-    public val range = ObservableItem(range)
-    public val bounds = ObservableItem(bounds).apply {
+    public val range = SubscriptionValue(range)
+    public val bounds = SubscriptionValue(bounds).apply {
         subscribe { coerce(this@NumberRangeViewModel.range.value) }
     }
-    public val eventRange = ObservableEvent<Range<T>?>()
+    public val eventRange = SubscriptionEvent<Range<T>?>()
 
     public fun coerce(range: Range<T>?) {
         val coerced = range?.coerce(bounds.value)
