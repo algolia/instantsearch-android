@@ -47,8 +47,7 @@ class FilterRangeDemo : AppCompatActivity() {
         val rangeTextView = RangeTextView(rangeLabel)
         val boundsTextView = BoundsTextView(boundsLabel)
 
-        widget.connect()
-        connections = widget.with(sliderViewA, sliderViewB, rangeTextView, boundsTextView).connect()
+        connections = widget.with(sliderViewA, sliderViewB, rangeTextView, boundsTextView)
 
         buttonChangeBounds.setOnClickListener {
             widget.viewModel.bounds.value = Range(extendedBounds)

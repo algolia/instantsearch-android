@@ -3,7 +3,6 @@ package com.algolia.instantsearch.demo.filter.numeric.comparison
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.Connections
-import com.algolia.instantsearch.core.connection.connect
 import com.algolia.instantsearch.core.connection.disconnect
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.demo.*
@@ -46,12 +45,9 @@ class FilterComparisonDemo : AppCompatActivity() {
         val priceView = FilterPriceView(demoFilterComparison, price, widgetPrice.operator)
         val yearView = FilterYearView(demoFilterComparison, year, widgetYear.operator)
 
-        widgetPrice.connect()
-        widgetYear.connect()
         connections = widgetYear
             .with(yearView) { year -> year?.toString() ?: "" }
             .plus(widgetPrice.with(priceView))
-            .connect()
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

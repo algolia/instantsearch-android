@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.algolia.instantsearch.core.connection.Connection
-import com.algolia.instantsearch.core.connection.connect
 import com.algolia.instantsearch.core.connection.disconnect
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
@@ -40,8 +39,7 @@ class LoadingDemo : AppCompatActivity() {
 
         val view = LoadingViewSwipeRefreshLayout(swipeRefreshLayout)
 
-        widget.connect()
-        connections = widget.with(view).connect()
+        connections = widget.with(view)
 
         val adapter = MovieAdapterPaged()
 

@@ -7,6 +7,10 @@ public fun Connection.autoConnect(connect: Boolean): Connection {
     return this
 }
 
+public fun Connection.asList(): Connections {
+    return listOf(this)
+}
+
 public fun Connections.connect(): Connections {
     forEach { it.connect() }
     return this

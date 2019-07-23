@@ -1,6 +1,8 @@
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
 import com.algolia.instantsearch.core.connection.Connections
+import com.algolia.instantsearch.core.connection.asList
+import com.algolia.instantsearch.core.connection.connect
 import com.algolia.instantsearch.core.number.*
 import com.algolia.instantsearch.helper.connection.ConnectionImplWidget
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
@@ -26,12 +28,15 @@ public class FilterComparisonWidget<T>(
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
     ) : this(NumberViewModel(number), filterState, attribute, operator, groupID)
 
-    override val connections = listOf(viewModel.connectionFilterState(filterState, attribute, operator, groupID))
+    override val connections = viewModel
+        .connectionFilterState(filterState, attribute, operator, groupID)
+        .asList()
+        .connect()
 
     public fun with(
         vararg views: NumberView<T>,
         presenter: NumberPresenter<T> = NumberPresenterImpl
     ): Connections {
-        return views.map { viewModel.connectionView(it, presenter) }
+        return views.map { viewModel.connectionView(it, presenter) }.connect()
     }
 }
