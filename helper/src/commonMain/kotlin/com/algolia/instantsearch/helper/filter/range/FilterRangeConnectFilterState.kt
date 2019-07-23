@@ -9,7 +9,7 @@ import com.algolia.search.model.Attribute
 public fun <T> FilterRangeViewModel<T>.connectionFilterState(
     filterState: FilterState,
     attribute: Attribute,
-    groupID: FilterGroupID = FilterGroupID(attribute.raw)
+    groupID: FilterGroupID
 ): Connection where T : Number, T : Comparable<T> {
     return FilterRangeConnectionFilterState(this, filterState, attribute, groupID)
 }
