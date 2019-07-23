@@ -6,6 +6,7 @@ import com.algolia.instantsearch.core.connection.Connections
 import com.algolia.instantsearch.core.connection.connect
 import com.algolia.instantsearch.core.connection.disconnect
 import com.algolia.instantsearch.core.number.range.Range
+import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.range.FilterRangeWidget
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
@@ -39,7 +40,7 @@ class FilterRangeDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_range)
 
-        searcher.connectFilterState(filterState)
+        searcher.connectFilterState(filterState, Debouncer(100))
 
         val sliderViewA = RangeSliderView(sliderA)
         val sliderViewB = RangeSliderView(sliderB)
