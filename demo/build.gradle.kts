@@ -49,6 +49,7 @@ android {
         exclude("META-INF/ktor-client-core.kotlin_module")
         exclude("META-INF/ktor-client-serialization.kotlin_module")
         exclude("META-INF/ktor-http-cio.kotlin_module")
+        exclude("META-INF/kotlinx-serialization-runtime.kotlin_module")
     }
     (kotlinOptions as KotlinJvmOptions).apply {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
