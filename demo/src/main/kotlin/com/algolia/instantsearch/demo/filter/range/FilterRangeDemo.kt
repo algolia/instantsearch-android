@@ -10,10 +10,10 @@ import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.range.FilterRangeWidget
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.filter.state.filters
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
 import kotlinx.android.synthetic.main.demo_filter_range.*
 import kotlinx.android.synthetic.main.header_filter.*
 
@@ -21,11 +21,18 @@ import kotlinx.android.synthetic.main.header_filter.*
 class FilterRangeDemo : AppCompatActivity() {
 
     private val searcher = SearcherSingleIndex(stubIndex)
-    private val filterState = FilterState()
     private val price = Attribute("price")
     private val groupID = FilterGroupID(price)
-    private val filters: Map<FilterGroupID, Set<Filter>> = mapOf(groupID to setOf(Filter.Numeric(price, 1..9)))
-    private val widget = FilterRangeWidget(0..10, filterState, price)
+    private val initialBounds = 0..20
+    private val extendedBounds = 0..40
+    private val initialRange = 0..20
+    private val filters = filters {
+        group(groupID) {
+            range(price, initialRange)
+        }
+    }
+    private val filterState = FilterState(filters)
+    private val widget = FilterRangeWidget(filterState, price, range = initialRange, bounds = initialBounds)
     private lateinit var connections: Connections
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +41,6 @@ class FilterRangeDemo : AppCompatActivity() {
 
         searcher.connectFilterState(filterState)
 
-        val initialRange = Range(0..10)
         val sliderViewA = RangeSliderView(sliderA)
         val sliderViewB = RangeSliderView(sliderB)
         val rangeTextView = RangeTextView(rangeLabel)
@@ -44,12 +50,12 @@ class FilterRangeDemo : AppCompatActivity() {
         connections = widget.with(sliderViewA, sliderViewB, rangeTextView, boundsTextView).connect()
 
         buttonChangeBounds.setOnClickListener {
-            widget.viewModel.bounds.value = Range(0..20)
+            widget.viewModel.bounds.value = Range(extendedBounds)
             it.isEnabled = false
             buttonResetBounds.isEnabled = true
         }
         buttonResetBounds.setOnClickListener {
-            widget.viewModel.bounds.value = initialRange
+            widget.viewModel.bounds.value = Range(initialBounds)
             it.isEnabled = false
             buttonChangeBounds.isEnabled = true
         }

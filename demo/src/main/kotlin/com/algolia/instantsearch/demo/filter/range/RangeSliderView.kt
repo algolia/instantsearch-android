@@ -3,7 +3,6 @@ package com.algolia.instantsearch.demo.filter.range
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.demo.R
 import io.apptik.widget.MultiSlider
 
 
@@ -53,13 +52,9 @@ class RangeSliderView(
 
     private fun MultiSlider.Thumb.setThumbValue(value: Int) {
         this.value = value
-        thumb.setTintList(null)
-        range.setTint(slider.resources.getColor(R.color.blue_dark, slider.context.theme))
     }
 
     private fun MultiSlider.Thumb.unsetThumbValue(isMax: Boolean = false) {
-        thumb.setTint(slider.resources.getColor(R.color.blue_dark_a25, slider.context.theme))
-        range.setTint(slider.resources.getColor(R.color.blue_dark_a25, slider.context.theme))
         bounds?.let { value = if (isMax) it.max else it.min }
     }
 }

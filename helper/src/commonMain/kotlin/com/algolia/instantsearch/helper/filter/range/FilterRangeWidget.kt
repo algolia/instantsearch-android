@@ -16,10 +16,17 @@ public class FilterRangeWidget<T>(
 ) : ConnectionImplWidget() where T : Number, T : Comparable<T> {
 
     public constructor(
-        range: ClosedRange<T>,
         filterState: FilterState,
-        attribute: Attribute
-    ) : this(FilterRangeViewModel(Range(range)), filterState, attribute)
+        attribute: Attribute,
+        bounds: ClosedRange<T>? = null,
+        range: ClosedRange<T>? = null
+    ) : this(
+        FilterRangeViewModel(
+            range = range?.let { Range(it) },
+            bounds = bounds?.let { Range(it) }
+        ),
+        filterState, attribute
+    )
 
     override val connections = mutableListOf(viewModel.connectionFilterState(filterState, attribute))
 
