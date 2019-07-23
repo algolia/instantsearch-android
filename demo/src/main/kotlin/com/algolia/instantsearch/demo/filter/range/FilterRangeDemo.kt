@@ -3,7 +3,6 @@ package com.algolia.instantsearch.demo.filter.range
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.Connections
-import com.algolia.instantsearch.core.connection.connect
 import com.algolia.instantsearch.core.connection.disconnect
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.searcher.Debouncer
@@ -24,16 +23,16 @@ class FilterRangeDemo : AppCompatActivity() {
     private val searcher = SearcherSingleIndex(stubIndex)
     private val price = Attribute("price")
     private val groupID = FilterGroupID(price)
-    private val initialBounds = 0..20
-    private val extendedBounds = 0..40
-    private val initialRange = 0..20
+    private val primaryBounds = 0..15
+    private val secondaryBounds = 0..10
+    private val initialRange = 0..15
     private val filters = filters {
         group(groupID) {
             range(price, initialRange)
         }
     }
     private val filterState = FilterState(filters)
-    private val widget = FilterRangeWidget(filterState, price, range = initialRange, bounds = initialBounds)
+    private val widget = FilterRangeWidget(filterState, price, range = initialRange, bounds = primaryBounds)
     private lateinit var connections: Connections
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,20 +41,21 @@ class FilterRangeDemo : AppCompatActivity() {
 
         searcher.connectFilterState(filterState, Debouncer(100))
 
-        val sliderViewA = RangeSliderView(sliderA)
-        val sliderViewB = RangeSliderView(sliderB)
-        val rangeTextView = RangeTextView(rangeLabel)
-        val boundsTextView = BoundsTextView(boundsLabel)
+        val views = arrayOf(
+            RangeSliderView(slider),
+            RangeTextView(rangeLabel),
+            BoundsTextView(boundsLabel)
+        )
 
-        connections = widget.with(sliderViewA, sliderViewB, rangeTextView, boundsTextView)
+        connections = widget.with(*views)
 
         buttonChangeBounds.setOnClickListener {
-            widget.viewModel.bounds.value = Range(extendedBounds)
+            widget.viewModel.bounds.value = Range(secondaryBounds)
             it.isEnabled = false
             buttonResetBounds.isEnabled = true
         }
         buttonResetBounds.setOnClickListener {
-            widget.viewModel.bounds.value = Range(initialBounds)
+            widget.viewModel.bounds.value = Range(primaryBounds)
             it.isEnabled = false
             buttonChangeBounds.isEnabled = true
         }
