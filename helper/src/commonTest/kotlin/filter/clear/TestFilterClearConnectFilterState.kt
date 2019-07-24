@@ -2,7 +2,7 @@ package filter.clear
 
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
-import com.algolia.instantsearch.helper.filter.clear.connectFilterState
+import com.algolia.instantsearch.helper.filter.clear.connectionFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -29,8 +29,9 @@ class TestFilterClearConnectFilterState {
     fun clearSpecifiedEmptyListShouldClearAll() {
         val viewModel = FilterClearViewModel()
         val filterState = FilterState(filters)
+        val connection = viewModel.connectionFilterState(filterState, listOf(), ClearMode.Specified)
 
-        viewModel.connectFilterState(filterState, listOf(), ClearMode.Specified)
+        connection.connect()
         viewModel.eventClear.send(Unit)
         filterState.getFilters().shouldBeEmpty()
     }
@@ -39,8 +40,9 @@ class TestFilterClearConnectFilterState {
     fun clearSpecifiedShouldClearGroup() {
         val viewModel = FilterClearViewModel()
         val filterState = FilterState(filters)
+        val connection = viewModel.connectionFilterState(filterState, listOf(groupIDA), ClearMode.Specified)
 
-        viewModel.connectFilterState(filterState, listOf(groupIDA), ClearMode.Specified)
+        connection.connect()
         viewModel.eventClear.send(Unit)
         filterState shouldEqual FilterState(mapOf(groupIDB to setOf(green)))
     }
@@ -49,8 +51,9 @@ class TestFilterClearConnectFilterState {
     fun clearExceptShouldClearGroup() {
         val viewModel = FilterClearViewModel()
         val filterState = FilterState(filters)
+        val connection = viewModel.connectionFilterState(filterState, listOf(groupIDA), ClearMode.Except)
 
-        viewModel.connectFilterState(filterState, listOf(groupIDA), ClearMode.Except)
+        connection.connect()
         viewModel.eventClear.send(Unit)
         filterState shouldEqual FilterState(mapOf(groupIDA to setOf(red)))
     }
