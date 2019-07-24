@@ -26,9 +26,7 @@ import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
 import com.algolia.instantsearch.helper.android.highlight
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
-import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
-import com.algolia.instantsearch.helper.filter.clear.connectFilterState
-import com.algolia.instantsearch.helper.filter.clear.connectView
+import com.algolia.instantsearch.helper.filter.clear.FilterClearWidget
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
@@ -40,6 +38,7 @@ import com.algolia.instantsearch.helper.stats.StatsViewModel
 import com.algolia.instantsearch.helper.stats.connectSearcher
 import com.algolia.instantsearch.helper.stats.connectView
 import com.algolia.search.client.ClientSearch
+import com.algolia.search.configuration.Compression
 import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -48,13 +47,16 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.serialize.KeyIndexName
 import com.algolia.search.serialize.KeyName
+import io.ktor.client.features.logging.LogLevel
 
 
 val client = ClientSearch(
     ConfigurationSearch(
         ApplicationID("latency"),
         APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        readTimeout = 5000
+        readTimeout = 5000,
+        logLevel = LogLevel.ALL,
+        compression = Compression.None
     )
 )
 
@@ -93,10 +95,7 @@ fun AppCompatActivity.onClearAllThenClearFilters(
     filterState: FilterState,
     filtersClearAll: View
 ) {
-    val viewModel = FilterClearViewModel()
-
-    viewModel.connectView(FilterClearViewImpl(filtersClearAll))
-    viewModel.connectFilterState(filterState)
+    FilterClearWidget(filterState).with(FilterClearViewImpl(filtersClearAll))
 }
 
 fun AppCompatActivity.onErrorThenUpdateFiltersText(
