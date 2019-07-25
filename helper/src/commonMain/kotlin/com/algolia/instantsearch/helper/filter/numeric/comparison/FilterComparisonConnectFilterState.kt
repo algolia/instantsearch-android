@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
 import com.algolia.instantsearch.core.connection.Connection
-import com.algolia.instantsearch.core.number.NumberViewModel
+import com.algolia.instantsearch.core.number.*
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -16,4 +16,11 @@ public fun <T> NumberViewModel<T>.connectionFilterState(
     groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
 ): Connection where T : Number, T : Comparable<T> {
     return FilterComparisonConnectionFilterState(this, filterState, attribute, operator, groupID)
+}
+
+public fun <T> FilterComparisonWidget<T>.connectionView(
+    view: NumberView<T>,
+    presenter: NumberPresenter<T> = NumberPresenterImpl
+): Connection where T : Number, T : Comparable<T> {
+    return viewModel.connectionView(view, presenter)
 }

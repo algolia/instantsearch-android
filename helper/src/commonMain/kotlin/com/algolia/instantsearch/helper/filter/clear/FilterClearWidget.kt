@@ -1,8 +1,6 @@
 package com.algolia.instantsearch.helper.filter.clear
 
-import com.algolia.instantsearch.core.connection.Connection
-import com.algolia.instantsearch.core.connection.connect
-import com.algolia.instantsearch.helper.connection.ConnectionImplWidget
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 
@@ -12,11 +10,17 @@ public class FilterClearWidget(
     public val groupIDs: List<FilterGroupID> = listOf(),
     public val mode: ClearMode = ClearMode.Specified,
     public val viewModel: FilterClearViewModel = FilterClearViewModel()
-) : ConnectionImplWidget() {
+) : ConnectionImpl() {
 
-    override val connections = listOf(viewModel.connectionFilterState(filterState, groupIDs, mode)).connect()
+    private val connectionFilterState = viewModel.connectionFilterState(filterState, groupIDs, mode)
 
-    public fun with(vararg views: FilterClearView): List<Connection> {
-        return views.map(viewModel::connectionView).connect()
+    override fun connect() {
+        super.connect()
+        connectionFilterState.connect()
+    }
+
+    override fun disconnect() {
+        super.disconnect()
+        connectionFilterState.disconnect()
     }
 }

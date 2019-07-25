@@ -2,8 +2,7 @@ package com.algolia.instantsearch.demo.filter.clear
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.connection.Connection
-import com.algolia.instantsearch.core.connection.disconnect
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
@@ -12,7 +11,8 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.filters
 import com.algolia.instantsearch.helper.filter.state.groupOr
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.with
+import com.algolia.instantsearch.helper.searcher.connectionFilterState
+import com.algolia.instantsearch.helper.filter.clear.connectionView
 import com.algolia.search.model.Attribute
 import kotlinx.android.synthetic.main.demo_filter_clear.*
 import kotlinx.android.synthetic.main.demo_filter_toggle_default.toolbar
@@ -39,16 +39,18 @@ class FilterClearDemo : AppCompatActivity() {
     private val widgetClearAll = FilterClearWidget(filterState)
     private val widgetClearSpecified = FilterClearWidget(filterState, listOf(groupColor), ClearMode.Specified)
     private val widgetClearExcept = FilterClearWidget(filterState, listOf(groupColor), ClearMode.Except)
-    private val connections = mutableListOf<Connection>()
+    private val connection = ConnectionHandler(widgetClearSpecified, widgetClearExcept)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_clear)
 
-        connections += searcher.with(filterState)
-        connections += widgetClearAll.with(FilterClearViewImpl(filtersClearAll))
-        connections += widgetClearSpecified.with(FilterClearViewImpl(buttonClearSpecified))
-        connections += widgetClearExcept.with(FilterClearViewImpl(buttonClearExcept))
+        connection.apply {
+            +searcher.connectionFilterState(filterState)
+            +widgetClearAll.connectionView(FilterClearViewImpl(filtersClearAll))
+            +widgetClearSpecified.connectionView(FilterClearViewImpl(buttonClearSpecified))
+            +widgetClearExcept.connectionView(FilterClearViewImpl(buttonClearExcept))
+        }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
@@ -63,9 +65,6 @@ class FilterClearDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
-        connections.disconnect()
-        widgetClearAll.disconnect()
-        widgetClearExcept.disconnect()
-        widgetClearSpecified.disconnect()
+        connection.disconnect()
     }
 }

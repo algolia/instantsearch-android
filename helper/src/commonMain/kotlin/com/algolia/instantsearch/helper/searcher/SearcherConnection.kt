@@ -24,28 +24,14 @@ public fun SearcherForFacets.connectFilterState(
 
 public fun SearcherSingleIndex.connectionFilterState(
     filterState: FilterState,
-    debouncer: Debouncer
+    debouncer: Debouncer = Debouncer(0)
 ): Connection {
     return SearcherSingleConnectionFilterState(this, filterState, debouncer)
 }
 
 public fun SearcherForFacets.connectionFilterState(
     filterState: FilterState,
-    debouncer: Debouncer
+    debouncer: Debouncer = Debouncer(0)
 ): Connection {
     return SearcherForFacetsConnectionFilterState(this, filterState, debouncer)
-}
-
-public fun SearcherSingleIndex.with(
-    filterState: FilterState,
-    debouncer: Debouncer = Debouncer(0)
-): Connection {
-    return connectionFilterState(filterState, debouncer).apply { connect() }
-}
-
-public fun SearcherForFacets.with(
-    filterState: FilterState,
-    debouncer: Debouncer = Debouncer(0)
-): Connection {
-    return connectionFilterState(filterState, debouncer).apply { connect() }
 }

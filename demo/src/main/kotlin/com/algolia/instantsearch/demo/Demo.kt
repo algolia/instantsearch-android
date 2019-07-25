@@ -19,18 +19,19 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
-import com.algolia.instantsearch.core.searchbox.connectView
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
 import com.algolia.instantsearch.helper.android.highlight
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
 import com.algolia.instantsearch.helper.filter.clear.FilterClearWidget
+import com.algolia.instantsearch.helper.filter.clear.connectionView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
-import com.algolia.instantsearch.helper.searchbox.connectSearcher
+import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
+import com.algolia.instantsearch.helper.searchbox.connectionView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.stats.StatsPresenter
@@ -91,9 +92,15 @@ fun AppCompatActivity.onFilterChangedThenUpdateFiltersText(
 
 fun AppCompatActivity.onClearAllThenClearFilters(
     filterState: FilterState,
-    filtersClearAll: View
+    filtersClearAll: View,
+    connection: ConnectionHandler = ConnectionHandler()
 ) {
-    FilterClearWidget(filterState).with(FilterClearViewImpl(filtersClearAll))
+    val widget = FilterClearWidget(filterState)
+
+    connection.apply {
+        +widget
+        +widget.connectionView(FilterClearViewImpl(filtersClearAll))
+    }
 }
 
 fun AppCompatActivity.onErrorThenUpdateFiltersText(
@@ -179,13 +186,15 @@ val Intent.indexName: IndexName get() = IndexName(extras!!.getString(KeyIndexNam
 
 fun <R> AppCompatActivity.configureSearchBox(
     searchView: SearchView,
-    searcher: Searcher<R>
+    searcher: Searcher<R>,
+    connection: ConnectionHandler = ConnectionHandler()
 ) {
-    val searchBoxViewModel = SearchBoxViewModel()
-    val searchBoxView = SearchBoxViewAppCompat(searchView)
+    val widget = SearchBoxWidget(searcher)
 
-    searchBoxViewModel.connectView(searchBoxView)
-    searchBoxViewModel.connectSearcher(searcher)
+    connection.apply {
+        +widget
+        +widget.connectionView(SearchBoxViewAppCompat(searchView))
+    }
 }
 
 fun AppCompatActivity.configureSearchView(

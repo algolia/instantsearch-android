@@ -1,12 +1,7 @@
 package com.algolia.instantsearch.helper.filter.range
 
-import com.algolia.instantsearch.core.connection.Connection
-import com.algolia.instantsearch.core.connection.asList
-import com.algolia.instantsearch.core.connection.connect
-import com.algolia.instantsearch.core.number.range.NumberRangeView
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.core.number.range.connectionView
-import com.algolia.instantsearch.helper.connection.ConnectionImplWidget
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -18,7 +13,7 @@ public class FilterRangeWidget<T>(
     public val filterState: FilterState,
     public val attribute: Attribute,
     public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
-) : ConnectionImplWidget() where T : Number, T : Comparable<T> {
+) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     public constructor(
         filterState: FilterState,
@@ -33,12 +28,15 @@ public class FilterRangeWidget<T>(
         filterState, attribute
     )
 
-    override val connections = viewModel
-        .connectionFilterState(filterState, attribute, groupID)
-        .asList()
-        .connect()
+    private val connectionFilterState = viewModel.connectionFilterState(filterState, attribute, groupID)
 
-    public fun with(vararg views: NumberRangeView<T>): List<Connection> {
-        return views.map(viewModel::connectionView).connect()
+    override fun connect() {
+        super.connect()
+        connectionFilterState.connect()
+    }
+
+    override fun disconnect() {
+        super.disconnect()
+        connectionFilterState.disconnect()
     }
 }

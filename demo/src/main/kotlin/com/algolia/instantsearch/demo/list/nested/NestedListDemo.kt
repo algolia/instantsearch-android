@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
-import com.algolia.instantsearch.core.searchbox.connectView
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.demo.list.actor.Actor
 import com.algolia.instantsearch.demo.list.actor.ActorAdapterNested
@@ -14,7 +13,8 @@ import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieAdapterNested
 import com.algolia.instantsearch.helper.android.list.SearcherMultipleIndexDataSource
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
-import com.algolia.instantsearch.helper.android.searchbox.connectSearcher
+import com.algolia.instantsearch.helper.android.searchbox.SearchBoxWidgetPagedList
+import com.algolia.instantsearch.helper.android.searchbox.connectionView
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.multipleindex.IndexQuery
@@ -37,6 +37,8 @@ class NestedListDemo : AppCompatActivity() {
     private val actorsFactory = SearcherMultipleIndexDataSource.Factory(searcher, 1, Actor.serializer())
     private val movies = LivePagedListBuilder<Int, Movie>(moviesFactory, pagedListConfig).build()
     private val actors = LivePagedListBuilder<Int, Actor>(actorsFactory, pagedListConfig).build()
+    private val widgetSearchBox = SearchBoxWidgetPagedList(searcher, listOf(movies, actors))
+    private val connection = ConnectionHandler(widgetSearchBox)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,12 +60,11 @@ class NestedListDemo : AppCompatActivity() {
             )
         )
 
-        val searchBoxViewModel = SearchBoxViewModel()
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 
-        searchBoxViewModel.connectView(searchBoxView)
-        searchBoxViewModel.connectSearcher(searcher, actors)
-        searchBoxViewModel.connectSearcher(searcher, movies)
+        connection.apply {
+            +widgetSearchBox.connectionView(searchBoxView)
+        }
 
         configureToolbar(toolbar)
         configureSearchView(searchView, getString(R.string.search_movies))
@@ -73,5 +74,6 @@ class NestedListDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

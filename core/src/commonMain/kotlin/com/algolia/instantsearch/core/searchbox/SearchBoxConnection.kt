@@ -4,9 +4,8 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.autoConnect
 
 
-public fun SearchBoxViewModel.connectView(
-    view: SearchBoxView,
-    connect: Boolean = true
+public fun SearchBoxViewModel.connectionView(
+    view: SearchBoxView
 ): Connection {
-    return SearchBoxConnectionView(this, view).autoConnect(connect)
+    return SearchBoxConnectionView(this, view)
 }

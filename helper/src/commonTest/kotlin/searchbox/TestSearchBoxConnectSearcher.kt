@@ -3,7 +3,8 @@ package searchbox
 import blocking
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
-import com.algolia.instantsearch.helper.searchbox.connectSearcher
+import com.algolia.instantsearch.helper.searchbox.SearchMode
+import com.algolia.instantsearch.helper.searchbox.connectionSearcher
 import searcher.MockSearcher
 import shouldEqual
 import kotlin.test.Test
@@ -12,14 +13,15 @@ import kotlin.test.Test
 class TestSearchBoxConnectSearcher {
 
     private val text = "text"
+    private val debouncer = Debouncer(100)
 
     @Test
     fun searchAsYouType() {
         val searcher = MockSearcher()
         val viewModel = SearchBoxViewModel()
-        val debouncer = Debouncer(100)
+        val connection = viewModel.connectionSearcher(searcher, SearchMode.AsYouType, debouncer)
 
-        viewModel.connectSearcher(searcher, searchAsYouType = true, debouncer = debouncer)
+        connection.connect()
         viewModel.query.value = text
         blocking { debouncer.job!!.join() }
         searcher.searchCount shouldEqual 1
@@ -30,8 +32,9 @@ class TestSearchBoxConnectSearcher {
     fun onEventSend() {
         val searcher = MockSearcher()
         val viewModel = SearchBoxViewModel()
+        val connection = viewModel.connectionSearcher(searcher, SearchMode.OnSubmit, debouncer)
 
-        viewModel.connectSearcher(searcher, searchAsYouType = false)
+        connection.connect()
         viewModel.eventSubmit.send(text)
         blocking { searcher.job!!.join() }
         searcher.searchCount shouldEqual 1
@@ -42,9 +45,9 @@ class TestSearchBoxConnectSearcher {
     fun debounce() {
         val searcher = MockSearcher()
         val viewModel = SearchBoxViewModel()
-        val debouncer = Debouncer(100)
+        val connection = viewModel.connectionSearcher(searcher, SearchMode.AsYouType, debouncer)
 
-        viewModel.connectSearcher(searcher, debouncer = debouncer)
+        connection.connect()
         viewModel.query.value = "a"
         viewModel.query.value = "ab"
         viewModel.query.value = "abc"

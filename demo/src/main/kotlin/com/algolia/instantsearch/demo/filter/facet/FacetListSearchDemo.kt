@@ -2,14 +2,14 @@ package com.algolia.instantsearch.demo.filter.facet
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
-import com.algolia.instantsearch.core.searchbox.connectView
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searchbox.connectSearcher
+import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
+import com.algolia.instantsearch.helper.searchbox.connectionView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectFilterState
@@ -25,6 +25,8 @@ class FacetListSearchDemo : AppCompatActivity() {
     private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(stubIndex)
     private val searcherForFacet = SearcherForFacets(stubIndex, brand)
+    private val searchBox = SearchBoxWidget(searcher)
+    private val connection = ConnectionHandler(searchBox)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,20 +50,26 @@ class FacetListSearchDemo : AppCompatActivity() {
         facetViewModel.connectSearcherForFacet(searcherForFacet)
         facetViewModel.connectView(facetView, facetPresenter)
 
-        val searchBoxViewModel = SearchBoxViewModel()
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 
-        searchBoxViewModel.connectView(searchBoxView)
-        searchBoxViewModel.connectSearcher(searcherForFacet)
-
+        connection.apply {
+            +searchBox.connectionView(searchBoxView)
+        }
         configureToolbar(toolbar)
         configureRecyclerView(list, facetView)
         configureSearchView(searchView, getString(R.string.search_brands))
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, brand)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
         searcher.searchAsync()
         searcherForFacet.searchAsync()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        searcher.cancel()
+        searcherForFacet.cancel()
+        connection.disconnect()
     }
 }

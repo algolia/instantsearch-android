@@ -2,14 +2,16 @@ package com.algolia.instantsearch.demo.search
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
-import com.algolia.instantsearch.core.searchbox.connectView
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieAdapter
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
-import com.algolia.instantsearch.helper.searchbox.connectSearcher
+import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
+import com.algolia.instantsearch.helper.searchbox.SearchMode
+import com.algolia.instantsearch.helper.searchbox.connectionView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connectionListAdapter
 import com.algolia.search.helper.deserialize
 import kotlinx.android.synthetic.main.demo_search.*
 import kotlinx.android.synthetic.main.include_search.*
@@ -18,6 +20,8 @@ import kotlinx.android.synthetic.main.include_search.*
 class SearchOnSubmitDemo : AppCompatActivity() {
 
     private val searcher = SearcherSingleIndex(stubIndex)
+    private val widgetSearchBox = SearchBoxWidget(searcher, searchMode = SearchMode.OnSubmit)
+    private val connection = ConnectionHandler(widgetSearchBox)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,15 +29,10 @@ class SearchOnSubmitDemo : AppCompatActivity() {
 
         val adapter = MovieAdapter()
         val searchBoxView = SearchBoxViewAppCompat(searchView)
-        val searchBoxViewModel = SearchBoxViewModel()
 
-        searchBoxViewModel.connectView(searchBoxView)
-        searchBoxViewModel.connectSearcher(searcher, searchAsYouType = false)
-
-        searcher.response.subscribe { response ->
-            if (response != null) {
-                adapter.submitList(response.hits.deserialize(Movie.serializer()))
-            }
+        connection.apply {
+            +widgetSearchBox.connectionView(searchBoxView)
+            +searcher.connectionListAdapter(adapter) { hits -> hits.deserialize(Movie.serializer()) }
         }
 
         configureToolbar(toolbar)
@@ -47,5 +46,6 @@ class SearchOnSubmitDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

@@ -12,3 +12,15 @@ public fun FilterClearViewModel.connectionFilterState(
 ): Connection {
     return FilterClearConnectionFilterState(this, filterState, groupIDs, mode)
 }
+
+public fun FilterClearViewModel.connectionView(
+    view: FilterClearView
+): Connection {
+    return FilterClearConnectionView(this, view)
+}
+
+public fun FilterClearWidget.connectionView(
+    view: FilterClearView
+): Connection {
+    return viewModel.connectionView(view)
+}

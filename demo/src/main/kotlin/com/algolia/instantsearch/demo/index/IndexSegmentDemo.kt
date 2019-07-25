@@ -3,6 +3,7 @@ package com.algolia.instantsearch.demo.index
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.client
 import com.algolia.instantsearch.demo.configureRecyclerView
@@ -14,6 +15,7 @@ import com.algolia.instantsearch.helper.index.IndexSegmentViewModel
 import com.algolia.instantsearch.helper.index.connectSearcher
 import com.algolia.instantsearch.helper.index.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connectionListAdapter
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import kotlinx.android.synthetic.main.demo_index_segment.*
@@ -30,6 +32,7 @@ class IndexSegmentDemo : AppCompatActivity() {
         1 to indexYearAsc,
         2 to indexYearDesc
     )
+    private val connection = ConnectionHandler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,10 +60,8 @@ class IndexSegmentDemo : AppCompatActivity() {
 
         val adapterMovie = MovieAdapter()
 
-        searcher.response.subscribe { response ->
-            if (response != null) {
-                adapterMovie.submitList(response.hits.deserialize(Movie.serializer()))
-            }
+        connection.apply {
+            +searcher.connectionListAdapter(adapterMovie) { hits -> hits.deserialize(Movie.serializer()) }
         }
 
         configureToolbar(toolbar)
@@ -72,5 +73,6 @@ class IndexSegmentDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

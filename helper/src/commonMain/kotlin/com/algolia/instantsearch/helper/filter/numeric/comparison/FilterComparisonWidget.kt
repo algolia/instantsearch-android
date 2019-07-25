@@ -1,10 +1,7 @@
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
-import com.algolia.instantsearch.core.connection.Connection
-import com.algolia.instantsearch.core.connection.asList
-import com.algolia.instantsearch.core.connection.connect
-import com.algolia.instantsearch.core.number.*
-import com.algolia.instantsearch.helper.connection.ConnectionImplWidget
+import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -18,7 +15,7 @@ public class FilterComparisonWidget<T>(
     public val attribute: Attribute,
     public val operator: NumericOperator,
     public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
-) : ConnectionImplWidget() where T : Number, T : Comparable<T> {
+) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     constructor(
         filterState: FilterState,
@@ -28,15 +25,15 @@ public class FilterComparisonWidget<T>(
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
     ) : this(NumberViewModel(number), filterState, attribute, operator, groupID)
 
-    override val connections = viewModel
-        .connectionFilterState(filterState, attribute, operator, groupID)
-        .asList()
-        .connect()
+    private val connectionFilterState = viewModel.connectionFilterState(filterState, attribute, operator, groupID)
 
-    public fun with(
-        vararg views: NumberView<T>,
-        presenter: NumberPresenter<T> = NumberPresenterImpl
-    ): List<Connection> {
-        return views.map { viewModel.connectionView(it, presenter) }.connect()
+    override fun connect() {
+        super.connect()
+        connectionFilterState.connect()
+    }
+
+    override fun disconnect() {
+        super.disconnect()
+        connectionFilterState.disconnect()
     }
 }

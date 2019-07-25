@@ -2,9 +2,11 @@ package com.algolia.instantsearch.demo.highlighting
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connectionListAdapter
 import com.algolia.search.helper.deserialize
 import kotlinx.android.synthetic.main.demo_search.*
 import kotlinx.android.synthetic.main.include_search.*
@@ -13,6 +15,7 @@ import kotlinx.android.synthetic.main.include_search.*
 class HighlightingDemo : AppCompatActivity() {
 
     private val searcher = SearcherSingleIndex(stubIndex)
+    private val connection = ConnectionHandler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,17 +23,15 @@ class HighlightingDemo : AppCompatActivity() {
 
         val adapter = MovieAdapterHighlighted()
 
-        searcher.response.subscribe { response ->
-            if (response != null) {
-                adapter.submitList(response.hits.deserialize(Movie.serializer()))
-            }
+        connection.apply {
+            +searcher.connectionListAdapter(adapter) { hits -> hits.deserialize(Movie.serializer()) }
         }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
         configureRecyclerView(list, adapter)
         configureSearchView(searchView, getString(R.string.search_movies))
-        configureSearchBox(searchView, searcher)
+        configureSearchBox(searchView, searcher, connection)
 
         searcher.searchAsync()
     }
@@ -38,5 +39,6 @@ class HighlightingDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }
