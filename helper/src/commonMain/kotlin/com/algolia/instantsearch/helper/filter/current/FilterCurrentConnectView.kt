@@ -1,13 +1,11 @@
 package com.algolia.instantsearch.helper.filter.current
 
 import com.algolia.instantsearch.core.connection.Connection
-import com.algolia.instantsearch.core.connection.autoConnect
 
 
-public fun FilterCurrentViewModel.connectView(
+public fun FilterCurrentViewModel.connectionView(
     view: FilterCurrentView,
-    presenter: FilterCurrentPresenter = FilterCurrentPresenterImpl(),
-    connect: Boolean = true
+    presenter: FilterCurrentPresenter
 ): Connection {
-    return FilterCurrentConnectionView(this, view, presenter).autoConnect(connect)
+    return FilterCurrentConnectionView(this, view, presenter)
 }

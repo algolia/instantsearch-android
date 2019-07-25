@@ -47,7 +47,6 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.serialize.KeyIndexName
 import com.algolia.search.serialize.KeyName
-import io.ktor.client.features.logging.LogLevel
 
 
 val client = ClientSearch(
