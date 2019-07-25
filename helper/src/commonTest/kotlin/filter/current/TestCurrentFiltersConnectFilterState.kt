@@ -55,7 +55,7 @@ class TestCurrentFiltersConnectFilterState {
     fun onFilterStateChangedShouldUpdateRelevantItems() {
         val viewModel = FilterCurrentViewModel(filterAndIDs)
         val filterState = FilterState(filters)
-        val connection = viewModel.connectionFilterState(filterState, colorID)
+        val connection = viewModel.connectionFilterState(filterState, listOf(colorID))
 
         connection.connect()
         filterState.notify { add(brandID, filterElastic) }
@@ -80,7 +80,7 @@ class TestCurrentFiltersConnectFilterState {
     fun onEventClearWithGroupIDShouldUpdateOnlyThatGroup() {
         val viewModel = FilterCurrentViewModel(filterAndIDs)
         val filterState = FilterState(filters)
-        val connection = viewModel.connectionFilterState(filterState, colorID)
+        val connection = viewModel.connectionFilterState(filterState, listOf(colorID))
 
         connection.connect()
         viewModel.clear()

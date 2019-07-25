@@ -7,7 +7,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 
 public fun FilterCurrentViewModel.connectionFilterState(
     filterState: FilterState,
-    groupID: FilterGroupID?
+    groupID: List<FilterGroupID> = listOf()
 ): Connection {
     return FilterCurrentConnectionFilterState(this, filterState, groupID)
 }

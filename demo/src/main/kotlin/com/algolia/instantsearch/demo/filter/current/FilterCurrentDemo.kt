@@ -41,7 +41,7 @@ class FilterCurrentDemo : AppCompatActivity() {
     private val filterState = FilterState(filters)
     private val searcher = SearcherSingleIndex(stubIndex)
     private val connections = mutableListOf<Connection>()
-    private val widgetCurrentFiltersColor = FilterCurrentWidget(filterState, groupColor)
+    private val widgetCurrentFiltersColor = FilterCurrentWidget(filterState, listOf(groupColor))
     private val widgetCurrentFiltersAll = FilterCurrentWidget(filterState)
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -10,21 +10,21 @@ import com.algolia.search.model.filter.Filter
 
 public class FilterCurrentWidget(
     public val filterState: FilterState,
-    public val groupID: FilterGroupID? = null,
+    public val groupIDs: List<FilterGroupID> = listOf(),
     public val viewModel: FilterCurrentViewModel = FilterCurrentViewModel()
 ) : ConnectionImplWidget() {
 
     public constructor(
         filters: Map<FilterAndID, Filter>,
         filterState: FilterState,
-        groupID: FilterGroupID? = null
+        groupIDs: List<FilterGroupID> = listOf()
     ) : this(
         filterState,
-        groupID,
+        groupIDs,
         FilterCurrentViewModel(filters)
     )
 
-    override val connections = listOf(viewModel.connectionFilterState(filterState, groupID)).connect()
+    override val connections = listOf(viewModel.connectionFilterState(filterState, groupIDs)).connect()
 
     public fun with(
         vararg views: FilterCurrentView,
