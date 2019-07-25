@@ -9,6 +9,10 @@ public class ConnectionHandler(
         vararg connections: Connection
     ) : this(connections.toMutableList())
 
+    init {
+        connections.connect()
+    }
+
     public fun disconnect() {
         connections.disconnect()
     }
@@ -19,12 +23,5 @@ public class ConnectionHandler(
 
     public operator fun List<Connection>.unaryPlus() {
         connections += this.connect()
-    }
-
-    companion object : (ConnectionHandler.() -> Unit) -> List<Connection> {
-
-        override fun invoke(connections: ConnectionHandler.() -> Unit): List<Connection> {
-            return ConnectionHandler().apply(connections).connections
-        }
     }
 }
