@@ -21,7 +21,6 @@ import shouldEqual
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestExtensions {
 
     private val tokenizer = HighlightTokenizer("[", "]")

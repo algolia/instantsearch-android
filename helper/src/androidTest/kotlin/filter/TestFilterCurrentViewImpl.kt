@@ -4,45 +4,39 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
 import com.algolia.instantsearch.helper.android.filter.FilterCurrentViewImpl
-import com.algolia.instantsearch.helper.filter.current.FilterCurrentViewModel
-import com.algolia.instantsearch.helper.filter.current.connectFilterState
-import com.algolia.instantsearch.helper.filter.current.connectView
+import com.algolia.instantsearch.helper.filter.current.FilterAndID
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.google.android.material.chip.ChipGroup
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import shouldEqual
-import shouldNotBeEmpty
 
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestFilterCurrentViewImpl {
 
     private val color = Attribute("color")
     private val groupID = FilterGroupID(color)
     private val filterRed = Filter.Facet(color, "red")
     private val filterGreen = Filter.Facet(color, "green")
-    private val filters = mapOf(groupID to setOf(filterRed, filterGreen))
+    private val filters = listOf(
+        (groupID to filterRed) to "red",
+        (groupID to filterGreen) to "green"
+    )
 
-    private fun chipGroup(): ChipGroup = ChipGroup(applicationContext)
+    private fun view() = FilterCurrentViewImpl(ChipGroup(applicationContext))
 
     @Test
     fun onViewClickCallsClearFilters() {
-        val filterState = FilterState(filters)
-        val viewModel = FilterCurrentViewModel()
-        val view = FilterCurrentViewImpl(chipGroup())
+        val view = view()
+        var selected: FilterAndID? = null
 
-        viewModel.connectFilterState(filterState)
-        viewModel.connectView(view)
-
-        filterState.getFilters().shouldNotBeEmpty()
+        view.onFilterSelected = { selected = it }
+        view.setFilters(filters)
         view.view.getChildAt(0).callOnClick()
-        filterState.getFilters() shouldEqual setOf(filterGreen)
+        selected shouldEqual filters.first().first
     }
 }

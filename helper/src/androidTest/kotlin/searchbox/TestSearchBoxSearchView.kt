@@ -15,7 +15,6 @@ import shouldEqual
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestSearchBoxSearchView {
 
     private val text = "text"

@@ -14,7 +14,6 @@ import shouldEqual
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestSelectableSegmentViewRadioGroup {
 
     private fun view(): FilterSegmentViewRadioGroup {

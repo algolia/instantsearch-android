@@ -13,7 +13,6 @@ import shouldEqual
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestSelectableItemViewCompoundButton {
 
     private fun view() =

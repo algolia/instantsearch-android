@@ -13,7 +13,6 @@ import shouldBeTrue
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestFilterClearViewImpl {
 
     private fun view() = FilterClearViewImpl(View(applicationContext))
