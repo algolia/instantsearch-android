@@ -2,7 +2,7 @@ package filter.facet
 
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
-import com.algolia.instantsearch.helper.filter.facet.connectFilterState
+import com.algolia.instantsearch.helper.filter.facet.connectionFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -28,8 +28,9 @@ class TestFacetListConnectFilterState {
     @Test
     fun connectShouldUpdateSelectionsWithFilterState() {
         val viewModel = FacetListViewModel()
+        val connection = viewModel.connectionFilterState(expectedFilterState, color, groupID)
 
-        viewModel.connectFilterState(expectedFilterState, color, groupID)
+        connection.connect()
         viewModel.selections.value shouldEqual selections
     }
 
@@ -37,8 +38,9 @@ class TestFacetListConnectFilterState {
     fun onSelectionsComputedShouldUpdateFilterState() {
         val viewModel = FacetListViewModel()
         val filterState = FilterState()
+        val connection = viewModel.connectionFilterState(filterState, color, groupID)
 
-        viewModel.connectFilterState(filterState, color, groupID)
+        connection.connect()
         viewModel.select(red.value)
         filterState shouldEqual expectedFilterState
     }
@@ -47,8 +49,9 @@ class TestFacetListConnectFilterState {
     fun onFilterStateChangedShouldUpdateSelections() {
         val viewModel = FacetListViewModel()
         val filterState = FilterState()
+        val connection = viewModel.connectionFilterState(filterState, color, groupID)
 
-        viewModel.connectFilterState(filterState, color, groupID)
+        connection.connect()
         filterState.notify { add(groupID, filterRed) }
         viewModel.selections.value shouldEqual selections
     }
@@ -59,8 +62,9 @@ class TestFacetListConnectFilterState {
         val viewModel = FacetListViewModel(selectionMode = SelectionMode.Single).apply {
             items.value = listOf(red)
         }
+        val connection = viewModel.connectionFilterState(filterState, color, groupID)
 
-        viewModel.connectFilterState(filterState, color, groupID)
+        connection.connect()
         viewModel.selections.value shouldEqual setOf(red.value, green.value)
         viewModel.select(red.value)
         filterState shouldEqual FilterState()
@@ -72,8 +76,9 @@ class TestFacetListConnectFilterState {
         val viewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple).apply {
             items.value = listOf(red)
         }
+        val connection = viewModel.connectionFilterState(filterState, color, groupID)
 
-        viewModel.connectFilterState(filterState, color, groupID)
+        connection.connect()
         viewModel.selections.value shouldEqual setOf(red.value, green.value)
         viewModel.select(red.value)
         filterState shouldEqual FilterState(mapOf(groupID to setOf(filterGreen)))
@@ -85,8 +90,9 @@ class TestFacetListConnectFilterState {
         val viewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple, persistentSelection = true).apply {
             items.value = listOf(red)
         }
+        val connection = viewModel.connectionFilterState(filterState, color, groupID)
 
-        viewModel.connectFilterState(filterState, color, groupID)
+        connection.connect()
         viewModel.selections.value shouldEqual setOf(red.value, green.value)
         viewModel.select(green.value)
         viewModel.selections.value shouldEqual setOf(red.value)

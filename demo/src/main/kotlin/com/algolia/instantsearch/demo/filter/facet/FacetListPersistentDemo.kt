@@ -2,12 +2,11 @@ package com.algolia.instantsearch.demo.filter.facet
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
-import com.algolia.instantsearch.helper.filter.facet.connectFilterState
-import com.algolia.instantsearch.helper.filter.facet.connectSearcher
-import com.algolia.instantsearch.helper.filter.facet.connectView
+import com.algolia.instantsearch.helper.filter.facet.FacetListWidget
+import com.algolia.instantsearch.helper.filter.facet.connectionView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectFilterState
@@ -26,37 +25,45 @@ class FacetListPersistentDemo : AppCompatActivity() {
     private val index = client.initIndex(IndexName("stub"))
     private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(index)
+    private val widgetFacetListColor = FacetListWidget(
+        searcher = searcher,
+        filterState = filterState,
+        attribute = color,
+        selectionMode = SelectionMode.Multiple,
+        persistentSelection = true
+    )
+    private val widgetFacetListCategory = FacetListWidget(
+        searcher = searcher,
+        filterState = filterState,
+        attribute = category,
+        selectionMode = SelectionMode.Single,
+        persistentSelection = true
+    )
+    private val connection = ConnectionHandler(widgetFacetListColor, widgetFacetListCategory)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list_persistent)
 
-        searcher.connectFilterState(filterState)
+        val adapterColor = FacetListAdapter()
+        val adapterCategory = FacetListAdapter()
 
-        val colorViewModel = FacetListViewModel(persistentSelection = true)
-        val colorAdapter = FacetListAdapter()
-
-        colorViewModel.connectFilterState(filterState, color)
-        colorViewModel.connectView(colorAdapter)
-        colorViewModel.connectSearcher(searcher, color)
-
-        val categoryViewModel = FacetListViewModel(selectionMode = SelectionMode.Single, persistentSelection = true)
-        val categoryAdapter = FacetListAdapter()
-
-        categoryViewModel.connectFilterState(filterState, category)
-        categoryViewModel.connectView(categoryAdapter)
-        categoryViewModel.connectSearcher(searcher, category)
+        connection.apply {
+            +searcher.connectFilterState(filterState)
+            +widgetFacetListColor.connectionView(adapterColor)
+            +widgetFacetListCategory.connectionView(adapterCategory)
+        }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
-        configureSearchBox(searchView, searcher)
+        configureSearchBox(searchView, searcher, connection)
         configureSearchView(searchView, getString(R.string.search_items))
-        configureRecyclerView(listTopLeft, colorAdapter)
-        configureRecyclerView(listTopRight, categoryAdapter)
+        configureRecyclerView(listTopLeft, adapterColor)
+        configureRecyclerView(listTopRight, adapterCategory)
         configureTitle(titleTopLeft, getString(R.string.multiple_choice))
         configureTitle(titleTopRight, getString(R.string.single_choice))
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color, category)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
@@ -66,5 +73,6 @@ class FacetListPersistentDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

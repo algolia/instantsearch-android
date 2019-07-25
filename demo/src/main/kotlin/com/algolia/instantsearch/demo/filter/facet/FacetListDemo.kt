@@ -2,7 +2,7 @@ package com.algolia.instantsearch.demo.filter.facet
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.searcher.Debouncer
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.facet.*
@@ -26,43 +26,52 @@ class FacetListDemo : AppCompatActivity() {
     private val groupCategory = groupOr(category)
     private val filterState = filterState { group(groupColor) { facet(color, "green") } }
     private val searcher = SearcherSingleIndex(stubIndex)
+    private val widgetFacetListColor = FacetListWidget(
+        searcher = searcher,
+        filterState = filterState,
+        attribute = color,
+        selectionMode = SelectionMode.Single,
+        groupID = groupColor
+    )
+    private val widgetFacetListPromotions = FacetListWidget(
+        searcher = searcher,
+        filterState = filterState,
+        attribute = promotions,
+        selectionMode = SelectionMode.Multiple,
+        groupID = groupPromotions
+    )
+    private val widgetFacetListCategory = FacetListWidget(
+        searcher = searcher,
+        filterState = filterState,
+        attribute = category,
+        selectionMode = SelectionMode.Multiple,
+        groupID = groupCategory
+    )
+    private val connection = ConnectionHandler(widgetFacetListColor, widgetFacetListPromotions, widgetFacetListCategory)
+    private val colorPresenter = FacetListPresenterImpl(listOf(IsRefined, AlphabeticalAscending), limit = 3)
+    private val colorAdapter = FacetListAdapter()
+    private val promotionPresenter = FacetListPresenterImpl(listOf(CountDescending))
+    private val promotionAdapter = FacetListAdapter()
+    private val categoryPresenter = FacetListPresenterImpl(listOf(CountDescending, AlphabeticalAscending))
+    private val categoryAdapter = FacetListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list)
 
-        searcher.connectFilterState(filterState)
-
-        val colorAViewModel = FacetListViewModel(selectionMode = SelectionMode.Single)
-        val colorAPresenter = FacetListPresenterImpl(listOf(IsRefined, AlphabeticalAscending), limit = 3)
-        val colorAAdapter = FacetListAdapter()
-
-        colorAViewModel.connectFilterState(filterState, color, groupColor)
-        colorAViewModel.connectSearcher(searcher, color)
-        colorAViewModel.connectView(colorAAdapter, colorAPresenter)
-
-        val promotionViewModel = FacetListViewModel()
-        val promotionPresenter = FacetListPresenterImpl(listOf(CountDescending))
-        val promotionAdapter = FacetListAdapter()
-
-        promotionViewModel.connectFilterState(filterState, promotions, groupPromotions)
-        promotionViewModel.connectSearcher(searcher, promotions)
-        promotionViewModel.connectView(promotionAdapter, promotionPresenter)
-
-        val categoryViewModel = FacetListViewModel()
-        val categoryPresenter = FacetListPresenterImpl(listOf(CountDescending, AlphabeticalAscending))
-        val categoryAdapter = FacetListAdapter()
-
-        categoryViewModel.connectFilterState(filterState, category, groupCategory)
-        categoryViewModel.connectSearcher(searcher, category)
-        categoryViewModel.connectView(categoryAdapter, categoryPresenter)
+        connection.apply {
+            +searcher.connectFilterState(filterState)
+            +widgetFacetListColor.connectionView(colorAdapter, colorPresenter)
+            +widgetFacetListPromotions.connectionView(promotionAdapter, promotionPresenter)
+            +widgetFacetListCategory.connectionView(categoryAdapter, categoryPresenter)
+        }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
-        configureRecyclerView(listTopLeft, colorAAdapter)
+        configureRecyclerView(listTopLeft, colorAdapter)
         configureRecyclerView(listTopRight, categoryAdapter)
         configureRecyclerView(listBottomLeft, promotionAdapter)
-        configureTitle(titleTopLeft, formatTitle(colorAPresenter, groupColor))
+        configureTitle(titleTopLeft, formatTitle(colorPresenter, groupColor))
         configureTitle(titleTopRight, formatTitle(categoryPresenter, groupCategory))
         configureTitle(titleBottomLeft, formatTitle(promotionPresenter, groupPromotions))
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color, promotions, category)
@@ -76,6 +85,7 @@ class FacetListDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 
     private fun FacetSortCriterion.format(): String {
@@ -89,7 +99,6 @@ class FacetListDemo : AppCompatActivity() {
     }
 
     private fun formatTitle(presenter: FacetListPresenterImpl, filterGroupID: FilterGroupID): String {
-
         val criteria = presenter.sortBy.joinToString("-") { it.format() }
         val operator = when (filterGroupID.operator) {
             FilterOperator.And -> "And"

@@ -6,7 +6,10 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
-import com.algolia.instantsearch.helper.filter.facet.*
+import com.algolia.instantsearch.helper.filter.facet.FacetListPresenterImpl
+import com.algolia.instantsearch.helper.filter.facet.FacetListWidget
+import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion
+import com.algolia.instantsearch.helper.filter.facet.connectionView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
 import com.algolia.instantsearch.helper.searchbox.connectionView
@@ -26,35 +29,35 @@ class FacetListSearchDemo : AppCompatActivity() {
     private val searcher = SearcherSingleIndex(stubIndex)
     private val searcherForFacet = SearcherForFacets(stubIndex, brand)
     private val searchBox = SearchBoxWidget(searcher)
-    private val connection = ConnectionHandler(searchBox)
+    private val widgetFacetList = FacetListWidget(
+        searcher = searcherForFacet,
+        filterState = filterState,
+        attribute = brand,
+        selectionMode = SelectionMode.Multiple
+    )
+    private val connection = ConnectionHandler(searchBox, widgetFacetList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list_search)
 
         val index = client.initIndex(intent.indexName)
-
-        searcher.connectFilterState(filterState)
-
-        searcher.index = index
-        searcherForFacet.index = index
-
-        val facetViewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple)
+        val searchBoxView = SearchBoxViewAppCompat(searchView)
         val facetView = FacetListAdapter()
         val facetPresenter = FacetListPresenterImpl(
             sortBy = listOf(FacetSortCriterion.IsRefined, FacetSortCriterion.CountDescending),
             limit = 100
         )
 
-        facetViewModel.connectFilterState(filterState, brand)
-        facetViewModel.connectSearcherForFacet(searcherForFacet)
-        facetViewModel.connectView(facetView, facetPresenter)
-
-        val searchBoxView = SearchBoxViewAppCompat(searchView)
+        searcher.index = index
+        searcherForFacet.index = index
 
         connection.apply {
+            +searcher.connectFilterState(filterState)
+            +widgetFacetList.connectionView(facetView, facetPresenter)
             +searchBox.connectionView(searchBoxView)
         }
+
         configureToolbar(toolbar)
         configureRecyclerView(list, facetView)
         configureSearchView(searchView, getString(R.string.search_brands))
