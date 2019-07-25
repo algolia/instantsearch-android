@@ -2,14 +2,14 @@ package com.algolia.instantsearch.demo.filter.list
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.selectable.list.connectView
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
-import com.algolia.instantsearch.helper.filter.list.connectFilterState
+import com.algolia.instantsearch.helper.filter.list.FilterListWidget
+import com.algolia.instantsearch.helper.filter.list.connectionView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupAnd
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.helper.searcher.connectionFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
@@ -34,24 +34,25 @@ class FilterListAllDemo : AppCompatActivity() {
         Filter.Facet(color, "black"),
         Filter.Numeric(price, NumericOperator.Greater, 100)
     )
+    private val widgetFilterList = FilterListWidget.All(allFilters, filterState, groupID = groupAll)
+    private val connection = ConnectionHandler(widgetFilterList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_list)
 
-        searcher.connectFilterState(filterState)
-
-        val viewModelAll = FilterListViewModel.All(allFilters)
         val viewAll = FilterListAdapter<Filter>()
 
-        viewModelAll.connectFilterState(filterState, groupAll)
-        viewModelAll.connectView(viewAll)
+        connection.apply {
+            +searcher.connectionFilterState(filterState)
+            +widgetFilterList.connectionView(viewAll)
+        }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
         configureRecyclerView(listTopLeft, viewAll)
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color, price, tags, all)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
@@ -61,5 +62,6 @@ class FilterListAllDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

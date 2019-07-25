@@ -2,14 +2,14 @@ package com.algolia.instantsearch.demo.filter.list
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.selectable.list.connectView
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
-import com.algolia.instantsearch.helper.filter.list.connectFilterState
+import com.algolia.instantsearch.helper.filter.list.FilterListWidget
+import com.algolia.instantsearch.helper.filter.list.connectionView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupOr
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.helper.searcher.connectionFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import kotlinx.android.synthetic.main.demo_filter_list.*
@@ -30,24 +30,25 @@ class FilterListTagDemo : AppCompatActivity() {
         Filter.Tag("on sale"),
         Filter.Tag("no exchange")
     )
+    private val widgetFilterList = FilterListWidget.Tag(tagFilters, filterState, groupID = groupTags)
+    private val connection = ConnectionHandler(widgetFilterList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_list)
 
-        searcher.connectFilterState(filterState)
-
-        val viewModelTag = FilterListViewModel.Tag(tagFilters)
         val viewTag = FilterListAdapter<Filter.Tag>()
 
-        viewModelTag.connectFilterState(filterState, groupTags)
-        viewModelTag.connectView(viewTag)
+        connection.apply {
+            +searcher.connectionFilterState(filterState)
+            +widgetFilterList.connectionView(viewTag)
+        }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
         configureRecyclerView(listTopLeft, viewTag)
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, tags)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
@@ -57,5 +58,6 @@ class FilterListTagDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

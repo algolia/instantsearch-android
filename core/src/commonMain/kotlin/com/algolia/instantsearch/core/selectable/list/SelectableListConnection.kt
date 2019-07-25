@@ -5,8 +5,7 @@ import com.algolia.instantsearch.core.connection.autoConnect
 
 
 public fun <T> SelectableListViewModel<T, T>.connectView(
-    view: SelectableListView<T>,
-    connect: Boolean = true
+    view: SelectableListView<T>
 ): Connection {
-    return SelectableListConnectionView(this, view).autoConnect(connect)
+    return SelectableListConnectionView(this, view)
 }

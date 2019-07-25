@@ -14,7 +14,6 @@ internal class SelectableListConnectionView<T>(
 
         view.setItems(item)
     }
-
     private val updateSelections: Callback<Set<T>> = { selections ->
         val item = viewModel.items.value.map { it to selections.contains(it) }
 

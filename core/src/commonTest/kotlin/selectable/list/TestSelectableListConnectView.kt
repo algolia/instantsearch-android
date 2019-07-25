@@ -29,9 +29,10 @@ class TestSelectableListConnectView {
     fun connectShouldCallSetItem() {
         val view = MockFilterListViewFacet()
         val viewModel = SelectableListViewModel<String, String>(items, SelectionMode.Multiple)
+        val connection = viewModel.connectView(view)
 
         viewModel.selections.value = selections
-        viewModel.connectView(view)
+        connection.connect()
         view.list shouldEqual listOf(string to true)
     }
 
@@ -39,8 +40,9 @@ class TestSelectableListConnectView {
     fun onItemsChangedShouldCallSetItem() {
         val view = MockFilterListViewFacet()
         val viewModel = SelectableListViewModel<String, String>(emptyList(), SelectionMode.Multiple)
+        val connection = viewModel.connectView(view)
 
-        viewModel.connectView(view)
+        connection.connect()
         viewModel.items.value.shouldBeEmpty()
         viewModel.items.value = items
         view.list shouldEqual listOf(string to false)
@@ -50,8 +52,9 @@ class TestSelectableListConnectView {
     fun onSelectionsChangedShouldCallSetItems() {
         val view = MockFilterListViewFacet()
         val viewModel = SelectableListViewModel<String, String>(items, SelectionMode.Multiple)
+        val connection = viewModel.connectView(view)
 
-        viewModel.connectView(view)
+        connection.connect()
         viewModel.selections.value = selections
         view.list shouldEqual listOf(string to true)
     }
@@ -60,9 +63,10 @@ class TestSelectableListConnectView {
     fun onClickShouldCallOnSelectionsComputed() {
         val view = MockFilterListViewFacet()
         val viewModel = SelectableListViewModel<String, String>(items, SelectionMode.Multiple)
+        val connection = viewModel.connectView(view)
 
         viewModel.eventSelection.subscribe { viewModel.selections.value = it }
-        viewModel.connectView(view)
+        connection.connect()
         view.onSelection.shouldNotBeNull()
         view.onSelection!!(string)
         view.list shouldEqual listOf(string to true)
