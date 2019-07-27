@@ -44,7 +44,7 @@ class PagingSingleIndexDemo : AppCompatActivity() {
         configureSearcher(searcher)
         configureSearchView(searchView, getString(R.string.search_movies))
         configureRecyclerView(list, adapter)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
     }
 
     override fun onDestroy() {

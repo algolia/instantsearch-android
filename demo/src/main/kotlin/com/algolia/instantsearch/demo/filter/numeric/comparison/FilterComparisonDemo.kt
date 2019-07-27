@@ -55,7 +55,7 @@ class FilterComparisonDemo : AppCompatActivity() {
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, price, year)
         onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
 
         searcher.coroutineScope.launch {
             val response = searcher.search()

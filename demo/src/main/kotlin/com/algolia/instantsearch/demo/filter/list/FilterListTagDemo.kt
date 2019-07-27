@@ -50,7 +50,7 @@ class FilterListTagDemo : AppCompatActivity() {
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, tags)
         onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
 
         searcher.searchAsync()
     }

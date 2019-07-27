@@ -50,9 +50,9 @@ class FilterListFacetDemo : AppCompatActivity() {
         configureSearcher(searcher)
         configureRecyclerView(listTopLeft, viewFacet)
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
 
         searcher.searchAsync()
     }

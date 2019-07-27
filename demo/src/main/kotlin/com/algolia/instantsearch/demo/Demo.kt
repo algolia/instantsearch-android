@@ -92,7 +92,7 @@ fun AppCompatActivity.onFilterChangedThenUpdateFiltersText(
 fun AppCompatActivity.onClearAllThenClearFilters(
     filterState: FilterState,
     filtersClearAll: View,
-    connection: ConnectionHandler = ConnectionHandler()
+    connection: ConnectionHandler
 ) {
     val widget = FilterClearWidget(filterState)
 
@@ -114,7 +114,7 @@ fun AppCompatActivity.onErrorThenUpdateFiltersText(
 fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
     searcher: SearcherSingleIndex,
     nbHitsView: TextView,
-    connection: ConnectionHandler = ConnectionHandler()
+    connection: ConnectionHandler
 ) {
     val view = StatsTextViewSpanned(nbHitsView)
     val presenter: StatsPresenter<SpannedString> = { response ->
@@ -189,7 +189,7 @@ val Intent.indexName: IndexName get() = IndexName(extras!!.getString(KeyIndexNam
 fun <R> AppCompatActivity.configureSearchBox(
     searchView: SearchView,
     searcher: Searcher<R>,
-    connection: ConnectionHandler = ConnectionHandler()
+    connection: ConnectionHandler
 ) {
     val widget = SearchBoxWidget(searcher)
 

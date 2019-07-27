@@ -60,7 +60,7 @@ class FilterCurrentDemo : AppCompatActivity() {
         configureToolbar(toolbar)
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color, price, tags)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
         onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onResetThenRestoreFilters(reset, filterState, filters)
 

@@ -56,7 +56,7 @@ class FilterClearDemo : AppCompatActivity() {
         configureSearcher(searcher)
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color, category)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
         onResetThenRestoreFilters(reset, filterState, filters)
 
         searcher.searchAsync()

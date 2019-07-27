@@ -63,7 +63,7 @@ class FacetListSearchDemo : AppCompatActivity() {
         configureSearchView(searchView, getString(R.string.search_brands))
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, brand)
         onClearAllThenClearFilters(filterState, filtersClearAll, connection)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
 
         searcher.searchAsync()
         searcherForFacet.searchAsync()

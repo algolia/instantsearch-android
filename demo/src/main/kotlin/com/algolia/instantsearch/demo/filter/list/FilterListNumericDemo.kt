@@ -51,7 +51,7 @@ class FilterListNumericDemo : AppCompatActivity() {
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, price)
         onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
 
         searcher.searchAsync()
     }

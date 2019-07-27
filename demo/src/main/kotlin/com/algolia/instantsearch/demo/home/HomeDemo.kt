@@ -25,10 +25,6 @@ class HomeDemo : AppCompatActivity() {
 
         val adapter = HomeAdapter()
 
-        configureRecyclerView(list, adapter)
-        configureSearchView(searchView, getString(R.string.search_demos))
-        configureSearchBox(searchView, searcher, connection)
-
         connection.apply {
             +searcher.connectionListAdapter(adapter) { hits ->
                 hits.deserialize(HomeHit.serializer())
@@ -40,11 +36,17 @@ class HomeDemo : AppCompatActivity() {
                     }
             }
         }
+
+        configureRecyclerView(list, adapter)
+        configureSearchView(searchView, getString(R.string.search_demos))
+        configureSearchBox(searchView, searcher, connection)
+
         searcher.searchAsync()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

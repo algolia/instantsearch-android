@@ -75,9 +75,9 @@ class FacetListDemo : AppCompatActivity() {
         configureTitle(titleTopRight, formatTitle(categoryPresenter, groupCategory))
         configureTitle(titleBottomLeft, formatTitle(promotionPresenter, groupPromotions))
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color, promotions, category)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
 
         searcher.searchAsync()
     }

@@ -52,7 +52,7 @@ class FilterToggleDemo : AppCompatActivity() {
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, promotions, size, tags)
         onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
 
         searcher.searchAsync()
     }
