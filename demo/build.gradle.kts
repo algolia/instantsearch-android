@@ -71,7 +71,6 @@ dependencies {
     implementation(MaterialDesign())
     implementation(MultiSlider())
     implementation(AndroidCore("ktx"))
-    implementation(Ktor("client-mock-jvm"))
     implementation(Paging())
     implementation(Lifecycle("extensions"))
     kapt(Lifecycle("compiler"))
