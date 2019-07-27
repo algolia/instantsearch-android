@@ -3,7 +3,7 @@ package stats
 import blocking
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.stats.StatsViewModel
-import com.algolia.instantsearch.helper.stats.connectSearcher
+import com.algolia.instantsearch.helper.stats.connectionSearcher
 import com.algolia.search.model.IndexName
 import mockClient
 import responseSearch
@@ -21,9 +21,10 @@ class TestStatsConnectSearcher {
     fun connectShouldSetItem() {
         val searcher = SearcherSingleIndex(index).also { it.response.value = responseSearch }
         val viewModel = StatsViewModel()
+        val connection = viewModel.connectionSearcher(searcher)
 
         viewModel.response.value.shouldBeNull()
-        viewModel.connectSearcher(searcher)
+        connection.connect()
         viewModel.response.value shouldEqual responseSearch
     }
 
@@ -31,8 +32,9 @@ class TestStatsConnectSearcher {
     fun onResponseChangedShouldSetItem() {
         val searcher = SearcherSingleIndex(index)
         val viewModel = StatsViewModel()
+        val connection = viewModel.connectionSearcher(searcher)
 
-        viewModel.connectSearcher(searcher)
+        connection.connect()
         viewModel.response.value.shouldBeNull()
         blocking { searcher.searchAsync().join() }
         viewModel.response.value shouldEqual responseSearch

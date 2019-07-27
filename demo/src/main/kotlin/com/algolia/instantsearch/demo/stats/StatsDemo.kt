@@ -5,7 +5,9 @@ import android.text.SpannedString
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
+import com.algolia.instantsearch.helper.stats.connectionView
 import com.algolia.instantsearch.helper.android.stats.StatsTextView
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -18,15 +20,15 @@ import kotlinx.android.synthetic.main.include_search.*
 class StatsDemo : AppCompatActivity() {
 
     private val searcher = SearcherSingleIndex(stubIndex)
+    private val widgetStats = StatsWidget(searcher)
+    private val connection = ConnectionHandler(widgetStats)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_stats)
 
-        val statsViewModel = StatsViewModel()
         val statsViewA = StatsTextView(statsA)
         val statsViewB = StatsTextViewSpanned(statsB)
-
         val presenter: StatsPresenter<SpannedString> = { response ->
             buildSpannedString {
                 if (response != null) {
@@ -41,14 +43,15 @@ class StatsDemo : AppCompatActivity() {
             }
         }
 
-        statsViewModel.connectSearcher(searcher)
-        statsViewModel.connectView(statsViewA, true, StatsPresenterImpl())
-        statsViewModel.connectView(statsViewB, true, presenter)
+        connection.apply {
+            +widgetStats.connectionView(statsViewA, StatsPresenterImpl())
+            +widgetStats.connectionView(statsViewB, presenter)
+        }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
         configureSearchView(searchView, getString(R.string.search_movies))
-        configureSearchBox(searchView, searcher)
+        configureSearchBox(searchView, searcher, connection)
 
         searcher.searchAsync()
     }
@@ -56,5 +59,6 @@ class StatsDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

@@ -35,9 +35,8 @@ import com.algolia.instantsearch.helper.searchbox.connectionView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.stats.StatsPresenter
-import com.algolia.instantsearch.helper.stats.StatsViewModel
-import com.algolia.instantsearch.helper.stats.connectSearcher
-import com.algolia.instantsearch.helper.stats.connectView
+import com.algolia.instantsearch.helper.stats.StatsWidget
+import com.algolia.instantsearch.helper.stats.connectionView
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.Compression
 import com.algolia.search.configuration.ConfigurationSearch
@@ -114,9 +113,9 @@ fun AppCompatActivity.onErrorThenUpdateFiltersText(
 
 fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
     searcher: SearcherSingleIndex,
-    nbHitsView: TextView
+    nbHitsView: TextView,
+    connection: ConnectionHandler = ConnectionHandler()
 ) {
-    val viewModel = StatsViewModel()
     val view = StatsTextViewSpanned(nbHitsView)
     val presenter: StatsPresenter<SpannedString> = { response ->
         buildSpannedString {
@@ -126,9 +125,12 @@ fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
             }
         }
     }
+    val widget = StatsWidget(searcher)
 
-    viewModel.connectSearcher(searcher)
-    viewModel.connectView(view, true, presenter)
+    connection.apply {
+        +widget
+        +widget.connectionView(view, presenter)
+    }
 }
 
 fun AppCompatActivity.onResetThenRestoreFilters(
