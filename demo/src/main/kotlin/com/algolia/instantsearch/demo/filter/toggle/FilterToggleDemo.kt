@@ -2,14 +2,14 @@ package com.algolia.instantsearch.demo.filter.toggle
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.filter.FilterToggleViewCompoundButton
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
-import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
-import com.algolia.instantsearch.helper.filter.toggle.connectView
+import com.algolia.instantsearch.helper.filter.toggle.FilterToggleWidget
+import com.algolia.instantsearch.helper.filter.toggle.connectionView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.helper.searcher.connectionFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
@@ -24,36 +24,33 @@ class FilterToggleDemo : AppCompatActivity() {
     private val tags = Attribute("_tags")
     private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(stubIndex)
+    private val filterCoupon = Filter.Facet(promotions, "coupon")
+    private val filterSize = Filter.Numeric(size, NumericOperator.Greater, 40)
+    private val filterVintage = Filter.Tag("vintage")
+    private val widgetCoupon = FilterToggleWidget(filterState, filterCoupon)
+    private val widgetSize = FilterToggleWidget(filterState, filterSize)
+    private val widgetVintage = FilterToggleWidget(filterState, filterVintage)
+    private val connection = ConnectionHandler(widgetCoupon, widgetSize, widgetVintage)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_toggle)
 
-        searcher.connectFilterState(filterState)
-
-        val viewModelCoupon = FilterToggleViewModel(Filter.Facet(promotions, "coupon"))
         val viewCoupon = FilterToggleViewCompoundButton(switchCoupon)
-
-        viewModelCoupon.connectFilterState(filterState)
-        viewModelCoupon.connectView(viewCoupon)
-
-        val viewModelSize = FilterToggleViewModel(Filter.Numeric(size, NumericOperator.Greater, 40))
         val viewSize = FilterToggleViewCompoundButton(checkBoxSize)
+        val viewVintage = FilterToggleViewCompoundButton(checkBoxVintage)
 
-        viewModelSize.connectFilterState(filterState)
-        viewModelSize.connectView(viewSize)
-
-        val viewModelVintage = FilterToggleViewModel(Filter.Tag("vintage"))
-        val viewVintage =
-            FilterToggleViewCompoundButton(checkBoxVintage)
-
-        viewModelVintage.connectFilterState(filterState)
-        viewModelVintage.connectView(viewVintage)
+        connection.apply {
+            +searcher.connectionFilterState(filterState)
+            +widgetCoupon.connectionView(viewCoupon)
+            +widgetSize.connectionView(viewSize)
+            +widgetVintage.connectionView(viewVintage)
+        }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, promotions, size, tags)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
         onResponseChangedThenUpdateNbHits(searcher, nbHits)
 
@@ -63,6 +60,7 @@ class FilterToggleDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }
 

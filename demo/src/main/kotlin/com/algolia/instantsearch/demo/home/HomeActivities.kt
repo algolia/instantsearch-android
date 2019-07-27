@@ -12,7 +12,6 @@ import com.algolia.instantsearch.demo.filter.list.FilterListTagDemo
 import com.algolia.instantsearch.demo.filter.numeric.comparison.FilterComparisonDemo
 import com.algolia.instantsearch.demo.filter.range.FilterRangeDemo
 import com.algolia.instantsearch.demo.filter.segment.FilterSegmentDemo
-import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDefaultDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo
 import com.algolia.instantsearch.demo.hierarchical.HierarchicalDemo
 import com.algolia.instantsearch.demo.highlighting.HighlightingDemo
@@ -30,7 +29,6 @@ val homeActivities = mapOf(
     ObjectID("filter_current") to FilterCurrentDemo::class,
     ObjectID("filter_clear") to FilterClearDemo::class,
     ObjectID("filter_toggle") to FilterToggleDemo::class,
-    ObjectID("filter_toggle_default") to FilterToggleDefaultDemo::class,
     ObjectID("filter_segment") to FilterSegmentDemo::class,
     ObjectID("filter_list_all") to FilterListAllDemo::class,
     ObjectID("filter_list_numeric") to FilterListNumericDemo::class,
