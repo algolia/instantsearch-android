@@ -1,7 +1,7 @@
 package filter.segment
 
 import com.algolia.instantsearch.helper.filter.segment.FilterSegmentViewModel
-import com.algolia.instantsearch.helper.filter.segment.connectFilterState
+import com.algolia.instantsearch.helper.filter.segment.connectionFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -24,8 +24,9 @@ class TestFilterSegmentConnectFilterState {
     @Test
     fun connectShouldUpdateSelectedWithFilterState() {
         val viewModel = FilterSegmentViewModel(filters)
+        val connection = viewModel.connectionFilterState(expectedFilterState, groupID)
 
-        viewModel.connectFilterState(expectedFilterState, groupID)
+        connection.connect()
         viewModel.selected.value shouldEqual id
     }
 
@@ -33,8 +34,9 @@ class TestFilterSegmentConnectFilterState {
     fun onSelectionsComputedShouldUpdateFilterState() {
         val viewModel = FilterSegmentViewModel(filters)
         val filterState = FilterState()
+        val connection = viewModel.connectionFilterState(filterState, groupID)
 
-        viewModel.connectFilterState(filterState, groupID)
+        connection.connect()
         viewModel.eventSelection.send(id)
         filterState shouldEqual expectedFilterState
     }
@@ -43,8 +45,9 @@ class TestFilterSegmentConnectFilterState {
     fun selectingTwiceShouldRemoveFilter() {
         val viewModel = FilterSegmentViewModel(filters)
         val filterState = FilterState()
+        val connection = viewModel.connectionFilterState(filterState, groupID)
 
-        viewModel.connectFilterState(filterState, groupID)
+        connection.connect()
         viewModel.eventSelection.send(id)
         viewModel.eventSelection.send(id)
         filterState.getFilters(groupID).shouldBeEmpty()
@@ -54,8 +57,9 @@ class TestFilterSegmentConnectFilterState {
     fun onFilterStateChangedShouldUpdateSelections() {
         val viewModel = FilterSegmentViewModel(filters)
         val filterState = FilterState()
+        val connection = viewModel.connectionFilterState(filterState, groupID)
 
-        viewModel.connectFilterState(filterState, groupID)
+        connection.connect()
         filterState.notify { add(groupID, red) }
         viewModel.selected.value shouldEqual id
     }

@@ -3,7 +3,7 @@ package selectable.map
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.map.SelectableMapView
 import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel
-import com.algolia.instantsearch.core.selectable.map.connectView
+import com.algolia.instantsearch.core.selectable.map.connectionView
 import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
@@ -37,9 +37,10 @@ class TestSelectableMapConnectView {
     fun connectShouldCallSetSelectedAndSetItem() {
         val view = MockSelectableView()
         val viewModel = SelectableMapViewModel(map)
+        val connection = viewModel.connectionView(view, presenter)
 
         viewModel.selected.value = id
-        viewModel.connectView(view, presenter)
+        connection.connect()
         view.int shouldEqual id
         view.data shouldEqual mapOf(id to output)
     }
@@ -48,8 +49,9 @@ class TestSelectableMapConnectView {
     fun onItemChangedShouldCallSetItem() {
         val view = MockSelectableView()
         val viewModel = SelectableMapViewModel(map)
+        val connection = viewModel.connectionView(view, presenter)
 
-        viewModel.connectView(view, presenter)
+        connection.connect()
         viewModel.map.value = mapOf(1 to 1)
         view.data shouldEqual mapOf(1 to "1")
     }
@@ -58,9 +60,10 @@ class TestSelectableMapConnectView {
     fun onClickShouldCallOnSelectionsComputed() {
         val view = MockSelectableView()
         val viewModel = SelectableMapViewModel(map)
+        val connection = viewModel.connectionView(view, presenter)
 
         viewModel.eventSelection.subscribe { viewModel.selected.value = it }
-        viewModel.connectView(view, presenter)
+        connection.connect()
         view.onSelectionChange.shouldNotBeNull()
         view.onSelectionChange!!(id)
         view.int shouldEqual id
@@ -70,8 +73,9 @@ class TestSelectableMapConnectView {
     fun onSelectedChangedShouldCallSetSelected() {
         val view = MockSelectableView()
         val viewModel = SelectableMapViewModel(map)
+        val connection = viewModel.connectionView(view, presenter)
 
-        viewModel.connectView(view, presenter)
+        connection.connect()
         viewModel.selected.value = id
         view.int shouldEqual id
     }

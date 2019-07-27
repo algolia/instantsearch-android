@@ -6,9 +6,10 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 
 public open class SelectableMapViewModel<K, V>(
-    map: Map<K, V>
+    map: Map<K, V> = mapOf(),
+    selected: K? = null
 ): MapViewModel<K, V>(map) {
 
-    public val selected = SubscriptionValue<K?>(null)
+    public val selected = SubscriptionValue(selected)
     public val eventSelection = SubscriptionEvent<K?>()
 }

@@ -11,9 +11,8 @@ import com.algolia.instantsearch.demo.configureToolbar
 import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieAdapter
 import com.algolia.instantsearch.helper.android.index.IndexSegmentViewAutocomplete
-import com.algolia.instantsearch.helper.index.IndexSegmentViewModel
-import com.algolia.instantsearch.helper.index.connectSearcher
-import com.algolia.instantsearch.helper.index.connectView
+import com.algolia.instantsearch.helper.index.IndexSegmentWidget
+import com.algolia.instantsearch.helper.index.connectionView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectionListAdapter
 import com.algolia.search.helper.deserialize
@@ -32,37 +31,29 @@ class IndexSegmentDemo : AppCompatActivity() {
         1 to indexYearAsc,
         2 to indexYearDesc
     )
-    private val connection = ConnectionHandler()
+    private val widgetIndexSegment = IndexSegmentWidget(indexes, searcher, selected = 0)
+    private val connection = ConnectionHandler(widgetIndexSegment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_index_segment)
 
-        val viewModel = IndexSegmentViewModel(indexes).apply {
-            selected.value = 0
-        }
         val adapter = ArrayAdapter<String>(this, R.layout.menu_item)
-        val view = IndexSegmentViewAutocomplete(
-            autocompleteTextView,
-            adapter
-        )
-
-
-        viewModel.connectSearcher(searcher)
-        viewModel.connectView(view) { index ->
-            when (index) {
-                indexTitle -> "Default"
-                indexYearAsc -> "Year Asc"
-                indexYearDesc -> "Year Desc"
-                else -> index.indexName.raw
-            }
-        }
-
+        val view = IndexSegmentViewAutocomplete(autocompleteTextView, adapter)
         val adapterMovie = MovieAdapter()
 
         connection.apply {
+            +widgetIndexSegment.connectionView(view) { index ->
+                when (index) {
+                    indexTitle -> "Default"
+                    indexYearAsc -> "Year Asc"
+                    indexYearDesc -> "Year Desc"
+                    else -> index.indexName.raw
+                }
+            }
             +searcher.connectionListAdapter(adapterMovie) { hits -> hits.deserialize(Movie.serializer()) }
         }
+
 
         configureToolbar(toolbar)
         configureRecyclerView(list, adapterMovie)
