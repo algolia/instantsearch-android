@@ -26,7 +26,7 @@ internal class NumberRangeConnectionView<T>(
     override fun disconnect() {
         super.disconnect()
         viewModel.bounds.unsubscribe(updateBounds)
-        viewModel.bounds.unsubscribe(updateRange)
+        viewModel.range.unsubscribe(updateRange)
         view.onRangeChanged = null
     }
 }
