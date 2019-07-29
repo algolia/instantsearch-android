@@ -6,12 +6,13 @@ import com.algolia.instantsearch.core.selectable.map.connectView
 import com.algolia.instantsearch.helper.filter.FilterPresenter
 import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 
 
 public fun FilterSegmentViewModel.connectFilterState(
     filterState: FilterState,
-    groupID: FilterGroupID
+    groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
 ): Connection {
     return FilterSegmentConnectionFilterState(this, filterState, groupID)
 }

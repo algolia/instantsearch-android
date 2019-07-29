@@ -4,13 +4,14 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
+import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
 
 
 public class SearchBoxWidget<R>(
     public val searcher: Searcher<R>,
     public val viewModel: SearchBoxViewModel = SearchBoxViewModel(),
     public val searchMode: SearchMode = SearchMode.AsYouType,
-    public val debouncer: Debouncer = Debouncer(100)
+    public val debouncer: Debouncer = Debouncer(debounceSearchInMillis)
 ) : ConnectionImpl() {
 
     private val connectionSearcher = viewModel.connectSearcher(searcher, searchMode, debouncer)

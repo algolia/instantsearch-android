@@ -7,8 +7,8 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 
 public fun FilterClearViewModel.connectFilterState(
     filterState: FilterState,
-    groupIDs: List<FilterGroupID>,
-    mode: ClearMode
+    groupIDs: List<FilterGroupID> = listOf(),
+    mode: ClearMode = ClearMode.Specified
 ): Connection {
     return FilterClearConnectionFilterState(this, filterState, groupIDs, mode)
 }
