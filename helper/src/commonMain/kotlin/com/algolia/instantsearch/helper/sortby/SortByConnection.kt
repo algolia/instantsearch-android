@@ -8,7 +8,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 
 
 public fun SortByViewModel.connectView(
-    view: SelectableMapView<Int, String>,
+    view: SortByView,
     presenter: IndexPresenter = IndexPresenterImpl
 ): Connection {
     return connectView(view, presenter)
@@ -21,7 +21,7 @@ public fun SortByViewModel.connectSearcher(
 }
 
 public fun SortByConnector.connectView(
-    view: SelectableMapView<Int, String>,
+    view: SortByView,
     presenter: IndexPresenter = IndexPresenterImpl
 ): Connection {
     return viewModel.connectView(view, presenter)

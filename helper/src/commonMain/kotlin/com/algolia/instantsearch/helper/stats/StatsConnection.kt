@@ -2,7 +2,16 @@ package com.algolia.instantsearch.helper.stats
 
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import kotlin.jvm.JvmName
 
+
+@JvmName("connectViewString")
+public fun StatsViewModel.connectView(
+    view: StatsView<String>,
+    presenter: StatsPresenter<String> = StatsPresenterImpl()
+) : Connection {
+    return StatsConnectionView<String>(this, view, presenter)
+}
 
 public fun <T> StatsViewModel.connectView(
     view: StatsView<T>,

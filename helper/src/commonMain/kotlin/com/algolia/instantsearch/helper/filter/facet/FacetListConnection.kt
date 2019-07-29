@@ -12,9 +12,17 @@ import com.algolia.search.model.Attribute
 public fun FacetListViewModel.connectFilterState(
     filterState: FilterState,
     attribute: Attribute,
-    groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or)
+    groupID: FilterGroupID
 ): Connection {
     return FacetListConnectionFilterState(this, filterState, attribute, groupID)
+}
+
+public fun FacetListViewModel.connectFilterState(
+    filterState: FilterState,
+    attribute: Attribute,
+    operator: FilterOperator = FilterOperator.Or
+): Connection {
+    return FacetListConnectionFilterState(this, filterState, attribute, FilterGroupID(attribute, operator))
 }
 
 public fun FacetListViewModel.connectSearcher(
