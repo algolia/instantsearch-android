@@ -10,14 +10,13 @@ import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
 import com.algolia.instantsearch.helper.searchbox.connectionView
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
+import com.algolia.instantsearch.core.searcher.connectionView
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.multipleindex.IndexQuery
-import com.algolia.search.model.response.ResponseSearches
 import com.algolia.search.model.search.Query
 import kotlinx.android.synthetic.main.demo_search.*
 import kotlinx.android.synthetic.main.include_search.*
-import com.algolia.instantsearch.core.Callback
 
 
 class MergedListDemo : AppCompatActivity() {
@@ -32,26 +31,23 @@ class MergedListDemo : AppCompatActivity() {
     private val widgetSearchBox = SearchBoxWidget(searcher)
     private val connection = ConnectionHandler(widgetSearchBox)
     private val adapter = MergedListAdapter()
-    private val subscription: Callback<ResponseSearches?> = { response ->
-        if (response != null) {
-            val list = mutableListOf<Any>().apply {
-                add("Actors")
-                addAll(response.results[1].hits.deserialize(Actor.serializer()))
-                add("Movies")
-                addAll(response.results[0].hits.deserialize(Movie.serializer()))
-            }
-            adapter.submitList(list)
-        }
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_search)
 
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 
-        searcher.response.subscribe(subscription)
-
         connection.apply {
+            +searcher.connectionView(adapter::submitList) { response ->
+                if (response != null) {
+                    mutableListOf<Any>().apply {
+                        add("Actors")
+                        addAll(response.results[1].hits.deserialize(Actor.serializer()))
+                        add("Movies")
+                        addAll(response.results[0].hits.deserialize(Movie.serializer()))
+                    }
+                } else emptyList()
+            }
             +widgetSearchBox.connectionView(searchBoxView)
         }
 
@@ -66,6 +62,5 @@ class MergedListDemo : AppCompatActivity() {
         super.onDestroy()
         searcher.cancel()
         connection.disconnect()
-        searcher.response.unsubscribe(subscription)
     }
 }
