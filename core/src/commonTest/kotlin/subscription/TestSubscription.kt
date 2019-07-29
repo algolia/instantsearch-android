@@ -9,8 +9,7 @@ class TestSubscription {
 
     @Test
     fun unsubscribeShouldRemoveSubscription() {
-        val item: SubscriptionEvent<String?> =
-            SubscriptionEvent()
+        val item: SubscriptionEvent<String?> = SubscriptionEvent()
         val listener: (String?) -> Unit = { }
 
         item.subscribe(listener)
@@ -21,8 +20,7 @@ class TestSubscription {
 
     @Test
     fun unsubscribeAllShouldRemoveSubscriptions() {
-        val item: SubscriptionEvent<String?> =
-            SubscriptionEvent()
+        val item: SubscriptionEvent<String?> = SubscriptionEvent()
         val listenerA: (String?) -> Unit = { }
         val listenerB: (String?) -> Unit = { }
 

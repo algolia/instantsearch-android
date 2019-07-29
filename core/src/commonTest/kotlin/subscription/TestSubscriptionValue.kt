@@ -8,8 +8,7 @@ class TestSubscriptionValue {
 
     @Test
     fun setAndGetShouldWork() {
-        val item: SubscriptionValue<String?> =
-            SubscriptionValue(null)
+        val item: SubscriptionValue<String?> = SubscriptionValue(null)
 
         item.value = value
         item.value shouldEqual value
@@ -18,8 +17,7 @@ class TestSubscriptionValue {
 
     @Test
     fun initShouldSetDefaultValue() {
-        val item: SubscriptionValue<String?> =
-            SubscriptionValue(value)
+        val item: SubscriptionValue<String?> = SubscriptionValue(value)
 
         item.value shouldEqual value
     }
@@ -27,8 +25,7 @@ class TestSubscriptionValue {
     @Test
     fun setValueShouldCallSubscriptions() {
         var expected: String? = null
-        val item: SubscriptionValue<String?> =
-            SubscriptionValue(null)
+        val item: SubscriptionValue<String?> = SubscriptionValue(null)
 
         item.subscribe { expected = it }
         item.value = value
@@ -38,8 +35,7 @@ class TestSubscriptionValue {
     @Test
     fun subscribePastShouldCallSubscriptions() {
         var expected: String? = null
-        val item: SubscriptionValue<String?> =
-            SubscriptionValue(value)
+        val item: SubscriptionValue<String?> = SubscriptionValue(value)
 
         item.subscribePast { expected = value }
         expected shouldEqual value

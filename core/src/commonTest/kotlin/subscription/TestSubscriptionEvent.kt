@@ -12,8 +12,7 @@ class TestSubscriptionEvent {
     @Test
     fun sendValueShouldCallSubscription() {
         var expected: String? = null
-        val item: SubscriptionEvent<String?> =
-            SubscriptionEvent()
+        val item: SubscriptionEvent<String?> = SubscriptionEvent()
 
         item.subscribe { expected = it }
         item.send(value)
