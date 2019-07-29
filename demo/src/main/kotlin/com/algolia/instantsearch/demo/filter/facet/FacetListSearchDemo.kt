@@ -15,6 +15,7 @@ import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
 import com.algolia.instantsearch.helper.searchbox.connectionView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connectionFilterState
 import com.algolia.search.model.Attribute
 import kotlinx.android.synthetic.main.demo_facet_list_search.*
 import kotlinx.android.synthetic.main.header_filter.*

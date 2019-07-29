@@ -9,7 +9,7 @@ import com.algolia.instantsearch.helper.android.inflate
 class MovieAdapterPaged : PagedListAdapter<Movie, MovieViewHolder>(MovieDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        return MovieViewHolder(parent.inflate( R.layout.list_item_large))
+        return MovieViewHolder(parent.inflate(R.layout.list_item_large))
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {

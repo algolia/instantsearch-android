@@ -28,8 +28,8 @@ class NestedListDemo : AppCompatActivity() {
     private val searcher = SearcherMultipleIndex(
         client,
         listOf(
-            IndexQuery(IndexName("mobile_demo_movies"), Query()),
-            IndexQuery(IndexName("mobile_demo_actors"), Query())
+            IndexQuery(IndexName("mobile_demo_movies")),
+            IndexQuery(IndexName("mobile_demo_actors"))
         )
     )
     private val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()

@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.list_item_actor.view.*
 
 
-class ActorViewHolderNested(val view: View) : RecyclerView.ViewHolder(view) {
+class ActorViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(actor: Actor) {
         view.actorName.text = actor.name
