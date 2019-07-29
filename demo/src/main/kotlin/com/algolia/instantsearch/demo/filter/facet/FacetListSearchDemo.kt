@@ -15,7 +15,6 @@ import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
 import com.algolia.instantsearch.helper.searchbox.connectionView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import kotlinx.android.synthetic.main.demo_facet_list_search.*
 import kotlinx.android.synthetic.main.header_filter.*
@@ -53,7 +52,7 @@ class FacetListSearchDemo : AppCompatActivity() {
         searcherForFacet.index = index
 
         connection.apply {
-            +searcher.connectFilterState(filterState)
+            +searcher.connectionFilterState(filterState)
             +widgetFacetList.connectionView(facetView, facetPresenter)
             +searchBox.connectionView(searchBoxView)
         }

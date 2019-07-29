@@ -1,11 +1,6 @@
 package com.algolia.instantsearch.core.connection
 
 
-public fun Connection.autoConnect(connect: Boolean): Connection {
-    if (connect) connect()
-    return this
-}
-
 public fun Connection.asList(): List<Connection> {
     return listOf(this)
 }

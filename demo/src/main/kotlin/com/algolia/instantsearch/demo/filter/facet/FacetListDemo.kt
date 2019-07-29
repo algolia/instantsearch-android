@@ -9,7 +9,7 @@ import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion.*
 import com.algolia.instantsearch.helper.filter.state.*
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.helper.searcher.connectionFilterState
 import com.algolia.search.model.Attribute
 import kotlinx.android.synthetic.main.demo_facet_list.*
 import kotlinx.android.synthetic.main.header_filter.*
@@ -60,7 +60,7 @@ class FacetListDemo : AppCompatActivity() {
         setContentView(R.layout.demo_facet_list)
 
         connection.apply {
-            +searcher.connectFilterState(filterState)
+            +searcher.connectionFilterState(filterState)
             +widgetFacetListColor.connectionView(colorAdapter, colorPresenter)
             +widgetFacetListPromotions.connectionView(promotionAdapter, promotionPresenter)
             +widgetFacetListCategory.connectionView(categoryAdapter, categoryPresenter)
