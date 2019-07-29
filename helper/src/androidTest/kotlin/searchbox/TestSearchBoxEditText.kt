@@ -5,7 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
-import com.algolia.instantsearch.core.searchbox.connectionView
+import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewEditText
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,7 +24,7 @@ class TestSearchBoxEditText {
     fun connectShouldUpdateText() {
         val view = view()
         val viewModel = SearchBoxViewModel()
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         viewModel.query.value = text
         connection.connect()
@@ -35,7 +35,7 @@ class TestSearchBoxEditText {
     fun onTextChangedShouldUpdateItem() {
         val view = view()
         val viewModel = SearchBoxViewModel()
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         connection.connect()
         view.editText.setText(text)

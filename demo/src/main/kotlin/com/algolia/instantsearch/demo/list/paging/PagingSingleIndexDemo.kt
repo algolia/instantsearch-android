@@ -12,7 +12,7 @@ import com.algolia.instantsearch.demo.list.movie.MovieAdapterPaged
 import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxWidgetPagedList
-import com.algolia.instantsearch.helper.android.searchbox.connectionView
+import com.algolia.instantsearch.helper.android.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import kotlinx.android.synthetic.main.demo_paging.*
 import kotlinx.android.synthetic.main.include_search.*
@@ -35,7 +35,7 @@ class PagingSingleIndexDemo : AppCompatActivity() {
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 
         connection.apply {
-            +widgetSearchBox.connectionView(searchBoxView)
+            +widgetSearchBox.connectView(searchBoxView)
         }
 
         movies.observe(this, Observer { hits -> adapter.submitList(hits) })

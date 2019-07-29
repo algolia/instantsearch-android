@@ -6,10 +6,10 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.facet.FacetListWidget
-import com.algolia.instantsearch.helper.filter.facet.connectionView
+import com.algolia.instantsearch.helper.filter.facet.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectionFilterState
+import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import kotlinx.android.synthetic.main.demo_facet_list_persistent.*
@@ -49,9 +49,9 @@ class FacetListPersistentDemo : AppCompatActivity() {
         val adapterCategory = FacetListAdapter()
 
         connection.apply {
-            +searcher.connectionFilterState(filterState)
-            +widgetFacetListColor.connectionView(adapterColor)
-            +widgetFacetListCategory.connectionView(adapterCategory)
+            +searcher.connectFilterState(filterState)
+            +widgetFacetListColor.connectView(adapterColor)
+            +widgetFacetListCategory.connectView(adapterCategory)
         }
 
         configureToolbar(toolbar)

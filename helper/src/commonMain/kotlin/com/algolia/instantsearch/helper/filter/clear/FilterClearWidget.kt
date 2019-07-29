@@ -12,7 +12,7 @@ public class FilterClearWidget(
     public val viewModel: FilterClearViewModel = FilterClearViewModel()
 ) : ConnectionImpl() {
 
-    private val connectionFilterState = viewModel.connectionFilterState(filterState, groupIDs, mode)
+    private val connectionFilterState = viewModel.connectFilterState(filterState, groupIDs, mode)
 
     override fun connect() {
         super.connect()

@@ -34,7 +34,7 @@ public abstract class FilterListWidget<T : Filter> internal constructor(
         filterState,
         viewModel,
         groupID,
-        viewModel.connectionFilterState(filterState, groupID)
+        viewModel.connectFilterState(filterState, groupID)
     ) {
 
         constructor(
@@ -53,7 +53,7 @@ public abstract class FilterListWidget<T : Filter> internal constructor(
         filterState,
         viewModel,
         groupID,
-        viewModel.connectionFilterState(filterState, groupID)
+        viewModel.connectFilterState(filterState, groupID)
     ) {
 
         constructor(
@@ -72,7 +72,7 @@ public abstract class FilterListWidget<T : Filter> internal constructor(
         filterState,
         viewModel,
         groupID,
-        viewModel.connectionFilterState(filterState, groupID)
+        viewModel.connectFilterState(filterState, groupID)
     ) {
 
         constructor(
@@ -91,7 +91,7 @@ public abstract class FilterListWidget<T : Filter> internal constructor(
         filterState,
         viewModel,
         groupID,
-        viewModel.connectionFilterState(filterState, groupID)
+        viewModel.connectFilterState(filterState, groupID)
     ) {
 
         constructor(

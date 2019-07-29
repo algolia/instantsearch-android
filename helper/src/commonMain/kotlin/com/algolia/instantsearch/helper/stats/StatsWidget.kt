@@ -15,7 +15,7 @@ public class StatsWidget(
         responseSearch: ResponseSearch
     ) : this(searcher, StatsViewModel(responseSearch))
 
-    private val connectionSearcher = viewModel.connectionSearcher(searcher)
+    private val connectionSearcher = viewModel.connectSearcher(searcher)
 
     override fun connect() {
         super.connect()

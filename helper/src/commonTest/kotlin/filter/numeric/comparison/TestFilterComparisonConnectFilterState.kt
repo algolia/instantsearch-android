@@ -1,7 +1,7 @@
 package filter.numeric.comparison
 
 import com.algolia.instantsearch.core.number.NumberViewModel
-import com.algolia.instantsearch.helper.filter.numeric.comparison.connectionFilterState
+import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -24,7 +24,7 @@ class TestFilterComparisonConnectFilterState {
     fun connectShouldUpdateNumberWithFilterState() {
         val viewModel = NumberViewModel(0..10)
         val filterState = FilterState()
-        val connection = viewModel.connectionFilterState(filterState, price, operator, groupID)
+        val connection = viewModel.connectFilterState(filterState, price, operator, groupID)
 
         connection.connect()
         viewModel.number.value shouldEqual null
@@ -34,7 +34,7 @@ class TestFilterComparisonConnectFilterState {
     fun coerceShouldUpdateFilterState() {
         val viewModel = NumberViewModel(0..10)
         val filterState = FilterState()
-        val connection = viewModel.connectionFilterState(filterState, price, operator, groupID)
+        val connection = viewModel.connectFilterState(filterState, price, operator, groupID)
 
         connection.connect()
         viewModel.coerce(5)

@@ -16,7 +16,7 @@ public class IndexSegmentWidget(
         selected: Int? = null
     ) : this(searcher, IndexSegmentViewModel(indexes, selected))
 
-    private val connectionSearcher = viewModel.connectionSearcher(searcher)
+    private val connectionSearcher = viewModel.connectSearcher(searcher)
 
     override fun connect() {
         super.connect()

@@ -2,7 +2,7 @@ package filter.range
 
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.helper.filter.range.connectionFilterState
+import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
@@ -22,7 +22,7 @@ class TestFilterRangeConnectFilterState {
         val viewModel = NumberRangeViewModel<Int>()
         val filterState = FilterState()
         val range = 0..9
-        val connection = viewModel.connectionFilterState(filterState, attribute, filterGroupID)
+        val connection = viewModel.connectFilterState(filterState, attribute, filterGroupID)
 
         connection.connect()
         viewModel.coerce(Range(range))
@@ -35,7 +35,7 @@ class TestFilterRangeConnectFilterState {
         val viewModel = NumberRangeViewModel<Float>()
         val filterState = FilterState()
         val range = 0f..9f
-        val connection = viewModel.connectionFilterState(filterState, attribute, filterGroupID)
+        val connection = viewModel.connectFilterState(filterState, attribute, filterGroupID)
 
         connection.connect()
         viewModel.range.value.shouldBeNull()
@@ -50,7 +50,7 @@ class TestFilterRangeConnectFilterState {
         val viewModel = NumberRangeViewModel<Long>()
         val filterState = FilterState()
         val range = 0L..9L
-        val connection = viewModel.connectionFilterState(filterState, attribute, filterGroupID)
+        val connection = viewModel.connectFilterState(filterState, attribute, filterGroupID)
 
         connection.connect()
         viewModel.range.value.shouldBeNull()

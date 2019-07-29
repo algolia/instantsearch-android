@@ -7,12 +7,12 @@ import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.range.FilterRangeWidget
-import com.algolia.instantsearch.helper.filter.range.connectionView
+import com.algolia.instantsearch.helper.filter.range.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.filters
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectionFilterState
+import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import kotlinx.android.synthetic.main.demo_filter_range.*
 import kotlinx.android.synthetic.main.header_filter.*
@@ -40,10 +40,10 @@ class FilterRangeDemo : AppCompatActivity() {
         setContentView(R.layout.demo_filter_range)
 
         connection.apply {
-            +searcher.connectionFilterState(filterState, Debouncer(100))
-            +widgetRange.connectionView(RangeSliderView(slider))
-            +widgetRange.connectionView(RangeTextView(rangeLabel))
-            +widgetRange.connectionView(BoundsTextView(boundsLabel))
+            +searcher.connectFilterState(filterState, Debouncer(100))
+            +widgetRange.connectView(RangeSliderView(slider))
+            +widgetRange.connectView(RangeTextView(rangeLabel))
+            +widgetRange.connectView(BoundsTextView(boundsLabel))
         }
 
         buttonChangeBounds.setOnClickListener {

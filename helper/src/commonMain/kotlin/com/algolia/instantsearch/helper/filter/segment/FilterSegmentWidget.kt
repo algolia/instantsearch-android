@@ -20,7 +20,7 @@ public class FilterSegmentWidget(
         groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
     ) : this(filterState, FilterSegmentViewModel(filters, selected), groupID)
 
-    private val connectionFilterState = viewModel.connectionFilterState(filterState, groupID)
+    private val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
 
     override fun connect() {
         super.connect()

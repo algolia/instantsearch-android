@@ -11,8 +11,8 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.filters
 import com.algolia.instantsearch.helper.filter.state.groupOr
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectionFilterState
-import com.algolia.instantsearch.helper.filter.clear.connectionView
+import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.search.model.Attribute
 import kotlinx.android.synthetic.main.demo_filter_clear.*
 import kotlinx.android.synthetic.main.demo_filter_toggle_default.toolbar
@@ -46,10 +46,10 @@ class FilterClearDemo : AppCompatActivity() {
         setContentView(R.layout.demo_filter_clear)
 
         connection.apply {
-            +searcher.connectionFilterState(filterState)
-            +widgetClearAll.connectionView(FilterClearViewImpl(filtersClearAll))
-            +widgetClearSpecified.connectionView(FilterClearViewImpl(buttonClearSpecified))
-            +widgetClearExcept.connectionView(FilterClearViewImpl(buttonClearExcept))
+            +searcher.connectFilterState(filterState)
+            +widgetClearAll.connectView(FilterClearViewImpl(filtersClearAll))
+            +widgetClearSpecified.connectView(FilterClearViewImpl(buttonClearSpecified))
+            +widgetClearExcept.connectView(FilterClearViewImpl(buttonClearExcept))
         }
 
         configureToolbar(toolbar)

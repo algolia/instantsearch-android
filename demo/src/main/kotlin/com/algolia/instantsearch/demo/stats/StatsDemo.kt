@@ -7,7 +7,7 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.stats.connectionView
+import com.algolia.instantsearch.helper.stats.connectView
 import com.algolia.instantsearch.helper.android.stats.StatsTextView
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -44,8 +44,8 @@ class StatsDemo : AppCompatActivity() {
         }
 
         connection.apply {
-            +widgetStats.connectionView(statsViewA, StatsPresenterImpl())
-            +widgetStats.connectionView(statsViewB, presenter)
+            +widgetStats.connectView(statsViewA, StatsPresenterImpl())
+            +widgetStats.connectView(statsViewB, presenter)
         }
 
         configureToolbar(toolbar)

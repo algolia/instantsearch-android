@@ -26,17 +26,17 @@ import com.algolia.instantsearch.helper.android.highlight
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
 import com.algolia.instantsearch.helper.filter.clear.FilterClearWidget
-import com.algolia.instantsearch.helper.filter.clear.connectionView
+import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
-import com.algolia.instantsearch.helper.searchbox.connectionView
+import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.stats.StatsPresenter
 import com.algolia.instantsearch.helper.stats.StatsWidget
-import com.algolia.instantsearch.helper.stats.connectionView
+import com.algolia.instantsearch.helper.stats.connectView
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.Compression
 import com.algolia.search.configuration.ConfigurationSearch
@@ -98,7 +98,7 @@ fun AppCompatActivity.onClearAllThenClearFilters(
 
     connection.apply {
         +widget
-        +widget.connectionView(FilterClearViewImpl(filtersClearAll))
+        +widget.connectView(FilterClearViewImpl(filtersClearAll))
     }
 }
 
@@ -129,7 +129,7 @@ fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
 
     connection.apply {
         +widget
-        +widget.connectionView(view, presenter)
+        +widget.connectView(view, presenter)
     }
 }
 
@@ -195,7 +195,7 @@ fun <R> AppCompatActivity.configureSearchBox(
 
     connection.apply {
         +widget
-        +widget.connectionView(SearchBoxViewAppCompat(searchView))
+        +widget.connectView(SearchBoxViewAppCompat(searchView))
     }
 }
 

@@ -12,7 +12,7 @@ public class LoadingWidget<R>(
     public val debouncer: Debouncer = Debouncer(200)
 ) : ConnectionImpl() {
 
-    private val connectionSearcher = viewModel.connectionSearcher(searcher, debouncer)
+    private val connectionSearcher = viewModel.connectSearcher(searcher, debouncer)
 
     override fun connect() {
         super.connect()

@@ -5,7 +5,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 
 
-public fun FilterClearViewModel.connectionFilterState(
+public fun FilterClearViewModel.connectFilterState(
     filterState: FilterState,
     groupIDs: List<FilterGroupID>,
     mode: ClearMode
@@ -13,14 +13,14 @@ public fun FilterClearViewModel.connectionFilterState(
     return FilterClearConnectionFilterState(this, filterState, groupIDs, mode)
 }
 
-public fun FilterClearViewModel.connectionView(
+public fun FilterClearViewModel.connectView(
     view: FilterClearView
 ): Connection {
     return FilterClearConnectionView(this, view)
 }
 
-public fun FilterClearWidget.connectionView(
+public fun FilterClearWidget.connectView(
     view: FilterClearView
 ): Connection {
-    return viewModel.connectionView(view)
+    return viewModel.connectView(view)
 }

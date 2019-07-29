@@ -5,7 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
 import com.algolia.instantsearch.core.loading.LoadingViewModel
-import com.algolia.instantsearch.core.loading.connectionView
+import com.algolia.instantsearch.core.loading.connectView
 import com.algolia.instantsearch.helper.android.loading.LoadingViewSwipeRefreshLayout
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,7 +24,7 @@ class TestLoadingViewSwipeRefreshLayout {
     fun connectShouldUpdateItem() {
         val view = view()
         val viewModel = LoadingViewModel(true)
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         view.swipeRefreshLayout.isRefreshing.shouldBeFalse()
         connection.connect()

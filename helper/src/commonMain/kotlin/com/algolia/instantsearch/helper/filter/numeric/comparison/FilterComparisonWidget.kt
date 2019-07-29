@@ -25,7 +25,7 @@ public class FilterComparisonWidget<T>(
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
     ) : this(NumberViewModel(number), filterState, attribute, operator, groupID)
 
-    private val connectionFilterState = viewModel.connectionFilterState(filterState, attribute, operator, groupID)
+    private val connectionFilterState = viewModel.connectFilterState(filterState, attribute, operator, groupID)
 
     override fun connect() {
         super.connect()

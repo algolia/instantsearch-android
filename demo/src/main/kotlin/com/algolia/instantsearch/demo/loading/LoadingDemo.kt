@@ -13,9 +13,9 @@ import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSour
 import com.algolia.instantsearch.helper.android.loading.LoadingViewSwipeRefreshLayout
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxWidgetPagedList
-import com.algolia.instantsearch.helper.android.searchbox.connectionView
+import com.algolia.instantsearch.helper.android.searchbox.connectView
 import com.algolia.instantsearch.helper.loading.LoadingWidget
-import com.algolia.instantsearch.helper.loading.connectionView
+import com.algolia.instantsearch.helper.loading.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import kotlinx.android.synthetic.main.demo_loading.*
 import kotlinx.android.synthetic.main.demo_search.list
@@ -42,8 +42,8 @@ class LoadingDemo : AppCompatActivity() {
         val adapter = MovieAdapterPaged()
 
         connection.apply {
-            +widgetLoading.connectionView(view)
-            +widgetSearchBox.connectionView(searchBoxView)
+            +widgetLoading.connectView(view)
+            +widgetSearchBox.connectView(searchBoxView)
         }
         movies.observe(this, Observer { hits -> adapter.submitList(hits) })
 

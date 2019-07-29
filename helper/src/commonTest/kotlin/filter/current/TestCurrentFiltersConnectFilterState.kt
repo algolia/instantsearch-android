@@ -1,7 +1,7 @@
 package filter.current
 
 import com.algolia.instantsearch.helper.filter.current.FilterCurrentViewModel
-import com.algolia.instantsearch.helper.filter.current.connectionFilterState
+import com.algolia.instantsearch.helper.filter.current.connectFilterState
 import com.algolia.instantsearch.helper.filter.current.toFilterAndIds
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -31,7 +31,7 @@ class TestCurrentFiltersConnectFilterState {
     fun connectShouldUpdateItems() {
         val viewModel = FilterCurrentViewModel(filterAndIDs)
         val filterState = FilterState(filters)
-        val connection = viewModel.connectionFilterState(filterState)
+        val connection = viewModel.connectFilterState(filterState)
 
         connection.connect()
         viewModel.map.value shouldEqual filterAndIDs
@@ -41,7 +41,7 @@ class TestCurrentFiltersConnectFilterState {
     fun onFilterStateChangedShouldUpdateItems() {
         val viewModel = FilterCurrentViewModel(filterAndIDs)
         val filterState = FilterState(filters)
-        val connection = viewModel.connectionFilterState(filterState)
+        val connection = viewModel.connectFilterState(filterState)
 
         connection.connect()
         filterState.notify { remove(colorID, filterRed) }
@@ -55,7 +55,7 @@ class TestCurrentFiltersConnectFilterState {
     fun onFilterStateChangedShouldUpdateRelevantItems() {
         val viewModel = FilterCurrentViewModel(filterAndIDs)
         val filterState = FilterState(filters)
-        val connection = viewModel.connectionFilterState(filterState, listOf(colorID))
+        val connection = viewModel.connectFilterState(filterState, listOf(colorID))
 
         connection.connect()
         filterState.notify { add(brandID, filterElastic) }
@@ -69,7 +69,7 @@ class TestCurrentFiltersConnectFilterState {
     fun onEventRemoveShouldUpdateFilterState() {
         val viewModel = FilterCurrentViewModel(filterAndIDs)
         val filterState = FilterState(filters)
-        val connection = viewModel.connectionFilterState(filterState)
+        val connection = viewModel.connectFilterState(filterState)
 
         connection.connect()
         viewModel.remove(colorID to filterRed)
@@ -80,7 +80,7 @@ class TestCurrentFiltersConnectFilterState {
     fun onEventClearWithGroupIDShouldUpdateOnlyThatGroup() {
         val viewModel = FilterCurrentViewModel(filterAndIDs)
         val filterState = FilterState(filters)
-        val connection = viewModel.connectionFilterState(filterState, listOf(colorID))
+        val connection = viewModel.connectFilterState(filterState, listOf(colorID))
 
         connection.connect()
         viewModel.clear()

@@ -3,7 +3,7 @@ package selectable.map
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.map.SelectableMapView
 import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel
-import com.algolia.instantsearch.core.selectable.map.connectionView
+import com.algolia.instantsearch.core.selectable.map.connectView
 import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
@@ -37,7 +37,7 @@ class TestSelectableMapConnectView {
     fun connectShouldCallSetSelectedAndSetItem() {
         val view = MockSelectableView()
         val viewModel = SelectableMapViewModel(map)
-        val connection = viewModel.connectionView(view, presenter)
+        val connection = viewModel.connectView(view, presenter)
 
         viewModel.selected.value = id
         connection.connect()
@@ -49,7 +49,7 @@ class TestSelectableMapConnectView {
     fun onItemChangedShouldCallSetItem() {
         val view = MockSelectableView()
         val viewModel = SelectableMapViewModel(map)
-        val connection = viewModel.connectionView(view, presenter)
+        val connection = viewModel.connectView(view, presenter)
 
         connection.connect()
         viewModel.map.value = mapOf(1 to 1)
@@ -60,7 +60,7 @@ class TestSelectableMapConnectView {
     fun onClickShouldCallOnSelectionsComputed() {
         val view = MockSelectableView()
         val viewModel = SelectableMapViewModel(map)
-        val connection = viewModel.connectionView(view, presenter)
+        val connection = viewModel.connectView(view, presenter)
 
         viewModel.eventSelection.subscribe { viewModel.selected.value = it }
         connection.connect()
@@ -73,7 +73,7 @@ class TestSelectableMapConnectView {
     fun onSelectedChangedShouldCallSetSelected() {
         val view = MockSelectableView()
         val viewModel = SelectableMapViewModel(map)
-        val connection = viewModel.connectionView(view, presenter)
+        val connection = viewModel.connectView(view, presenter)
 
         connection.connect()
         viewModel.selected.value = id

@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectionListAdapter
+import com.algolia.instantsearch.helper.searcher.connectListAdapter
 import com.algolia.search.helper.deserialize
 import kotlinx.android.synthetic.main.demo_search.*
 import kotlinx.android.synthetic.main.include_search.*
@@ -24,7 +24,7 @@ class HighlightingDemo : AppCompatActivity() {
         val adapter = MovieAdapterHighlighted()
 
         connection.apply {
-            +searcher.connectionListAdapter(adapter) { hits -> hits.deserialize(Movie.serializer()) }
+            +searcher.connectListAdapter(adapter) { hits -> hits.deserialize(Movie.serializer()) }
         }
 
         configureToolbar(toolbar)

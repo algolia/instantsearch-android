@@ -3,7 +3,7 @@ package loading
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.loading.LoadingView
 import com.algolia.instantsearch.core.loading.LoadingViewModel
-import com.algolia.instantsearch.core.loading.connectionView
+import com.algolia.instantsearch.core.loading.connectView
 import shouldBeNull
 import shouldBeTrue
 import shouldEqual
@@ -29,7 +29,7 @@ class TestLoadingConnectView {
         val expected = true
         val viewModel = LoadingViewModel(expected)
         val view = MockLoadingView()
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         view.boolean.shouldBeNull()
         connection.connect()
@@ -41,7 +41,7 @@ class TestLoadingConnectView {
         val viewModel = LoadingViewModel()
         val view = MockLoadingView()
         val expected = true
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         connection.connect()
         view.boolean shouldEqual false
@@ -54,7 +54,7 @@ class TestLoadingConnectView {
         val viewModel = LoadingViewModel()
         val view = MockLoadingView()
         var expected = false
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         viewModel.eventReload.subscribe { expected = true }
         view.onReload.shouldBeNull()

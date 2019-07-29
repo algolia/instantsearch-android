@@ -9,7 +9,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.NumericOperator
 
 
-public fun <T> NumberViewModel<T>.connectionFilterState(
+public fun <T> NumberViewModel<T>.connectFilterState(
     filterState: FilterState,
     attribute: Attribute,
     operator: NumericOperator,
@@ -18,9 +18,9 @@ public fun <T> NumberViewModel<T>.connectionFilterState(
     return FilterComparisonConnectionFilterState(this, filterState, attribute, operator, groupID)
 }
 
-public fun <T> FilterComparisonWidget<T>.connectionView(
+public fun <T> FilterComparisonWidget<T>.connectView(
     view: NumberView<T>,
     presenter: NumberPresenter<T> = NumberPresenterImpl
 ): Connection where T : Number, T : Comparable<T> {
-    return viewModel.connectionView(view, presenter)
+    return viewModel.connectView(view, presenter)
 }

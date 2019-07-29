@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.core.number.range.connectionView
+import com.algolia.instantsearch.core.number.range.connectView
 import shouldEqual
 import kotlin.test.Test
 
@@ -33,7 +33,7 @@ class TestNumberRangeConnectView {
     fun connectShouldCallSetItem() {
         val viewModel = NumberRangeViewModel<Int>()
         val view = MockNumberRangeView()
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         viewModel.range.value = Range(0..20)
         connection.connect()
@@ -44,7 +44,7 @@ class TestNumberRangeConnectView {
     fun connectShouldCallSetBounds() {
         val viewModel = NumberRangeViewModel<Int>()
         val view = MockNumberRangeView()
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         viewModel.bounds.value = Range(0..20)
         connection.connect()
@@ -55,7 +55,7 @@ class TestNumberRangeConnectView {
     fun onRangeChangedShouldUpdateRange() {
         val viewModel = NumberRangeViewModel<Int>()
         val view = MockNumberRangeView()
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         connection.connect()
         viewModel.range.value = Range(0..20)
@@ -66,7 +66,7 @@ class TestNumberRangeConnectView {
     fun onBoundsComputedShouldUpdateBounds() {
         val viewModel = NumberRangeViewModel<Int>()
         val view = MockNumberRangeView()
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         connection.connect()
         viewModel.bounds.value = Range(0..20)

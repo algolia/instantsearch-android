@@ -9,7 +9,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 
 
-public fun FacetListViewModel.connectionFilterState(
+public fun FacetListViewModel.connectFilterState(
     filterState: FilterState,
     attribute: Attribute,
     groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or)
@@ -17,29 +17,29 @@ public fun FacetListViewModel.connectionFilterState(
     return FacetListConnectionFilterState(this, filterState, attribute, groupID)
 }
 
-public fun FacetListViewModel.connectionSearcher(
+public fun FacetListViewModel.connectSearcher(
     searcher: SearcherSingleIndex,
     attribute: Attribute
 ): Connection {
     return FacetListConnectionSearcher(this, searcher, attribute)
 }
 
-public fun FacetListViewModel.connectionSearcherForFacet(
+public fun FacetListViewModel.connectSearcherForFacet(
     searcher: SearcherForFacets
 ): Connection {
     return FacetListConnectionSearcherForFacets(this, searcher)
 }
 
-public fun FacetListViewModel.connectionView(
+public fun FacetListViewModel.connectView(
     view: FacetListView,
     presenter: FacetListPresenter? = null
 ): Connection {
     return FacetListConnectionView(this, view, presenter)
 }
 
-public fun FacetListWidget.connectionView(
+public fun FacetListWidget.connectView(
     view: FacetListView,
     presenter: FacetListPresenter? = null
 ): Connection {
-    return viewModel.connectionView(view, presenter)
+    return viewModel.connectView(view, presenter)
 }

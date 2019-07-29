@@ -2,13 +2,13 @@ package com.algolia.instantsearch.helper.filter.range
 
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.number.range.NumberRangeView
-import com.algolia.instantsearch.core.number.range.connectionView
+import com.algolia.instantsearch.core.number.range.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
 
 
-public fun <T> FilterRangeViewModel<T>.connectionFilterState(
+public fun <T> FilterRangeViewModel<T>.connectFilterState(
     filterState: FilterState,
     attribute: Attribute,
     groupID: FilterGroupID
@@ -16,8 +16,8 @@ public fun <T> FilterRangeViewModel<T>.connectionFilterState(
     return FilterRangeConnectionFilterState(this, filterState, attribute, groupID)
 }
 
-public fun <T> FilterRangeWidget<T>.connectionView(
+public fun <T> FilterRangeWidget<T>.connectView(
     view: NumberRangeView<T>
 ): Connection where T : Number, T : Comparable<T> {
-    return viewModel.connectionView(view)
+    return viewModel.connectView(view)
 }

@@ -3,7 +3,7 @@ package selectable
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.SelectableItemView
 import com.algolia.instantsearch.core.selectable.SelectableItemViewModel
-import com.algolia.instantsearch.core.selectable.connectionView
+import com.algolia.instantsearch.core.selectable.connectView
 import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
@@ -35,7 +35,7 @@ class TestFilterToggleConnectView {
     fun connectShouldCallSetIsSelectedAndSetItem() {
         val view = MockSelectableItemView()
         val viewModel = SelectableItemViewModel(input, true)
-        val connection = viewModel.connectionView(view, presenter)
+        val connection = viewModel.connectView(view, presenter)
 
         connection.connect()
         view.boolean shouldEqual true
@@ -46,7 +46,7 @@ class TestFilterToggleConnectView {
     fun onItemChangedShouldCallSetItem() {
         val view = MockSelectableItemView()
         val viewModel = SelectableItemViewModel(input)
-        val connection = viewModel.connectionView(view, presenter)
+        val connection = viewModel.connectView(view, presenter)
 
         connection.connect()
         viewModel.item.value = 1
@@ -57,7 +57,7 @@ class TestFilterToggleConnectView {
     fun onClickShouldCallOnIsSelectedComputed() {
         val view = MockSelectableItemView()
         val viewModel = SelectableItemViewModel(input)
-        val connection = viewModel.connectionView(view, presenter)
+        val connection = viewModel.connectView(view, presenter)
 
         viewModel.eventSelection.subscribe { viewModel.isSelected.value = it }
         connection.connect()
@@ -70,7 +70,7 @@ class TestFilterToggleConnectView {
     fun onIsSelectedChangedShouldCallSetIsSelected() {
         val view = MockSelectableItemView()
         val viewModel = SelectableItemViewModel(input)
-        val connection = viewModel.connectionView(view, presenter)
+        val connection = viewModel.connectView(view, presenter)
 
         connection.connect()
         viewModel.isSelected.value = true

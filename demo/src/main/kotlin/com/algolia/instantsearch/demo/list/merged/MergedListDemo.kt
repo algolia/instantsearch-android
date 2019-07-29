@@ -8,9 +8,9 @@ import com.algolia.instantsearch.demo.list.actor.Actor
 import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
-import com.algolia.instantsearch.helper.searchbox.connectionView
+import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.core.searcher.connectionView
+import com.algolia.instantsearch.core.searcher.connectView
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.multipleindex.IndexQuery
@@ -38,7 +38,7 @@ class MergedListDemo : AppCompatActivity() {
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 
         connection.apply {
-            +searcher.connectionView(adapter::submitList) { response ->
+            +searcher.connectView(adapter::submitList) { response ->
                 if (response != null) {
                     mutableListOf<Any>().apply {
                         add("Actors")
@@ -48,7 +48,7 @@ class MergedListDemo : AppCompatActivity() {
                     }
                 } else emptyList()
             }
-            +widgetSearchBox.connectionView(searchBoxView)
+            +widgetSearchBox.connectView(searchBoxView)
         }
 
         configureToolbar(toolbar)

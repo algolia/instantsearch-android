@@ -22,7 +22,7 @@ public class FilterCurrentWidget(
         FilterCurrentViewModel(filters)
     )
 
-    private val connectionFilterState = viewModel.connectionFilterState(filterState, groupIDs)
+    private val connectionFilterState = viewModel.connectFilterState(filterState, groupIDs)
 
     override fun connect() {
         super.connect()

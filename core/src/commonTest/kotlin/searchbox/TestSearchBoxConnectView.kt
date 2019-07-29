@@ -3,7 +3,7 @@ package searchbox
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
-import com.algolia.instantsearch.core.searchbox.connectionView
+import com.algolia.instantsearch.core.searchbox.connectView
 import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
@@ -35,7 +35,7 @@ class TestSearchBoxConnectView {
     fun connectShouldSetItem() {
         val viewModel = SearchBoxViewModel()
         val view = MockView()
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         viewModel.query.value = text
         connection.connect()
@@ -47,7 +47,7 @@ class TestSearchBoxConnectView {
         val viewModel = SearchBoxViewModel()
         val view = MockView()
         var expected: String? = null
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         viewModel.query.subscribe { expected = it }
         connection.connect()
@@ -62,7 +62,7 @@ class TestSearchBoxConnectView {
         val viewModel = SearchBoxViewModel()
         val view = MockView()
         var expected: String? = null
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         viewModel.eventSubmit.subscribe { expected = it }
         connection.connect()

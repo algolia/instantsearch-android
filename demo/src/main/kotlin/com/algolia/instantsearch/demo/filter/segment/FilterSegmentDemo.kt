@@ -6,11 +6,11 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.filter.FilterSegmentViewRadioGroup
 import com.algolia.instantsearch.helper.filter.segment.FilterSegmentWidget
-import com.algolia.instantsearch.helper.filter.segment.connectionView
+import com.algolia.instantsearch.helper.filter.segment.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupAnd
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectionFilterState
+import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import kotlinx.android.synthetic.main.demo_filter_segment.*
@@ -37,8 +37,8 @@ class FilterSegmentDemo : AppCompatActivity() {
         val viewGender = FilterSegmentViewRadioGroup(radioGroupGender)
 
         connection.apply {
-            +searcher.connectionFilterState(filterState)
-            +widgetFilterSegment.connectionView(viewGender)
+            +searcher.connectFilterState(filterState)
+            +widgetFilterSegment.connectView(viewGender)
         }
 
         configureToolbar(toolbar)

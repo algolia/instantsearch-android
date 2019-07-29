@@ -1,7 +1,7 @@
 package index
 
 import com.algolia.instantsearch.helper.index.IndexSegmentViewModel
-import com.algolia.instantsearch.helper.index.connectionSearcher
+import com.algolia.instantsearch.helper.index.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.IndexName
 import mockClient
@@ -24,7 +24,7 @@ class TestIndexSegmentConnectSearcher {
                 1 to indexB
             )
         ).apply { selected.value = 1 }
-        val connection = viewModel.connectionSearcher(searcher)
+        val connection = viewModel.connectSearcher(searcher)
 
         connection.connect()
         searcher.index shouldEqual indexB
@@ -39,7 +39,7 @@ class TestIndexSegmentConnectSearcher {
                 1 to indexB
             )
         )
-        val connection = viewModel.connectionSearcher(searcher)
+        val connection = viewModel.connectSearcher(searcher)
 
         connection.connect()
         viewModel.eventSelection.send(1)

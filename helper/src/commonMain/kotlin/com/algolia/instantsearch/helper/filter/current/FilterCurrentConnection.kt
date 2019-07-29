@@ -5,21 +5,21 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 
 
-public fun FilterCurrentViewModel.connectionView(
+public fun FilterCurrentViewModel.connectView(
     view: FilterCurrentView,
     presenter: FilterCurrentPresenter
 ): Connection {
     return FilterCurrentConnectionView(this, view, presenter)
 }
 
-public fun FilterCurrentWidget.connectionView(
+public fun FilterCurrentWidget.connectView(
     view: FilterCurrentView,
     presenter: FilterCurrentPresenter = FilterCurrentPresenterImpl()
 ): Connection {
-    return viewModel.connectionView(view, presenter)
+    return viewModel.connectView(view, presenter)
 }
 
-public fun FilterCurrentViewModel.connectionFilterState(
+public fun FilterCurrentViewModel.connectFilterState(
     filterState: FilterState,
     groupID: List<FilterGroupID> = listOf()
 ): Connection {

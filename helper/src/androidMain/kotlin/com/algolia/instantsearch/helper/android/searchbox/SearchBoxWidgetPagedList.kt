@@ -17,7 +17,7 @@ public class SearchBoxWidgetPagedList<R>(
     public val debouncer: Debouncer = Debouncer(100)
 ) : ConnectionImpl() {
 
-    private val connectionSearcher = viewModel.connectionSearcher(searcher, pagedList, searchMode, debouncer)
+    private val connectionSearcher = viewModel.connectSearcher(searcher, pagedList, searchMode, debouncer)
 
     override fun connect() {
         super.connect()

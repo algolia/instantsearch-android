@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.search.model.response.ResponseSearch
 
 
-public fun <T> SearcherSingleIndex.connectionListAdapter(
+public fun <T> SearcherSingleIndex.connectListAdapter(
     adapter: ListAdapter<T, *>,
     transform: (List<ResponseSearch.Hit>) -> List<T>
 ): Connection {

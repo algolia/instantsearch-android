@@ -7,9 +7,9 @@ import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.filter.FilterToggleViewCompoundButton
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleWidget
-import com.algolia.instantsearch.helper.filter.toggle.connectionView
+import com.algolia.instantsearch.helper.filter.toggle.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectionFilterState
+import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
@@ -41,10 +41,10 @@ class FilterToggleDemo : AppCompatActivity() {
         val viewVintage = FilterToggleViewCompoundButton(checkBoxVintage)
 
         connection.apply {
-            +searcher.connectionFilterState(filterState)
-            +widgetCoupon.connectionView(viewCoupon)
-            +widgetSize.connectionView(viewSize)
-            +widgetVintage.connectionView(viewVintage)
+            +searcher.connectFilterState(filterState)
+            +widgetCoupon.connectView(viewCoupon)
+            +widgetSize.connectView(viewSize)
+            +widgetVintage.connectView(viewVintage)
         }
 
         configureToolbar(toolbar)

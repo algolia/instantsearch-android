@@ -5,14 +5,14 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.helper.filter.state.FilterState
 
 
-public fun SearcherSingleIndex.connectionFilterState(
+public fun SearcherSingleIndex.connectFilterState(
     filterState: FilterState,
     debouncer: Debouncer = Debouncer(0)
 ): Connection {
     return SearcherSingleConnectionFilterState(this, filterState, debouncer)
 }
 
-public fun SearcherForFacets.connectionFilterState(
+public fun SearcherForFacets.connectFilterState(
     filterState: FilterState,
     debouncer: Debouncer = Debouncer(0)
 ): Connection {

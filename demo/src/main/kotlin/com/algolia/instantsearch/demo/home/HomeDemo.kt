@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectionListAdapter
+import com.algolia.instantsearch.helper.searcher.connectListAdapter
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
@@ -26,7 +26,7 @@ class HomeDemo : AppCompatActivity() {
         val adapter = HomeAdapter()
 
         connection.apply {
-            +searcher.connectionListAdapter(adapter) { hits ->
+            +searcher.connectListAdapter(adapter) { hits ->
                 hits.deserialize(HomeHit.serializer())
                     .filter { homeActivities.containsKey(it.objectID) }
                     .groupBy { it.type }

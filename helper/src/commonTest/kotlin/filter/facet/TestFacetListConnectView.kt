@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.helper.filter.facet.FacetListItem
 import com.algolia.instantsearch.helper.filter.facet.FacetListView
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
-import com.algolia.instantsearch.helper.filter.facet.connectionView
+import com.algolia.instantsearch.helper.filter.facet.connectView
 import com.algolia.search.model.search.Facet
 import shouldEqual
 import shouldNotBeNull
@@ -33,7 +33,7 @@ class TestFacetListConnectView {
     fun connectShouldCallSetItem() {
         val view = MockSelectableFacetsView()
         val viewModel = FacetListViewModel(facets)
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         viewModel.selections.value = selections
         connection.connect()
@@ -44,7 +44,7 @@ class TestFacetListConnectView {
     fun onItemChangedShouldCallSetItem() {
         val view = MockSelectableFacetsView()
         val viewModel = FacetListViewModel()
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         connection.connect()
         viewModel.items.value = facets
@@ -55,7 +55,7 @@ class TestFacetListConnectView {
     fun onSelectionsChangedShouldCallSetItem() {
         val view = MockSelectableFacetsView()
         val viewModel = FacetListViewModel(facets)
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         connection.connect()
         viewModel.selections.value = selections
@@ -66,7 +66,7 @@ class TestFacetListConnectView {
     fun onClickShouldCallOnSelectionsComputed() {
         val view = MockSelectableFacetsView()
         val viewModel = FacetListViewModel(facets)
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         viewModel.eventSelection.subscribe { viewModel.selections.value = it }
         connection.connect()

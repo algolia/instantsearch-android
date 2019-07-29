@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.list.FilterListWidget
-import com.algolia.instantsearch.helper.filter.list.connectionView
+import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupAnd
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectionFilterState
+import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
@@ -41,8 +41,8 @@ class FilterListNumericDemo : AppCompatActivity() {
         val viewNumeric = FilterListAdapter<Filter.Numeric>()
 
         connection.apply {
-            +searcher.connectionFilterState(filterState)
-            +widgetFilterList.connectionView(viewNumeric)
+            +searcher.connectFilterState(filterState)
+            +widgetFilterList.connectView(viewNumeric)
         }
 
         configureToolbar(toolbar)

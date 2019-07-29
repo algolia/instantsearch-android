@@ -6,12 +6,12 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.filter.FilterCurrentViewImpl
 import com.algolia.instantsearch.helper.filter.current.FilterCurrentWidget
-import com.algolia.instantsearch.helper.filter.current.connectionView
+import com.algolia.instantsearch.helper.filter.current.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.filters
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectionFilterState
+import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.NumericOperator
 import kotlinx.android.synthetic.main.demo_filter_current.*
@@ -50,9 +50,9 @@ class FilterCurrentDemo : AppCompatActivity() {
         setContentView(R.layout.demo_filter_current)
 
         connection.apply {
-            +searcher.connectionFilterState(filterState)
-            +widgetCurrentFiltersAll.connectionView(FilterCurrentViewImpl(chipGroupAll, R.layout.filter_chip))
-            +widgetCurrentFiltersColor.connectionView(FilterCurrentViewImpl(chipGroupColors, R.layout.filter_chip))
+            +searcher.connectFilterState(filterState)
+            +widgetCurrentFiltersAll.connectView(FilterCurrentViewImpl(chipGroupAll, R.layout.filter_chip))
+            +widgetCurrentFiltersColor.connectView(FilterCurrentViewImpl(chipGroupColors, R.layout.filter_chip))
         }
 
 

@@ -5,13 +5,13 @@ import androidx.paging.PagedList
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
-import com.algolia.instantsearch.core.searchbox.connectionView
+import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searchbox.SearchMode
 
 
-public fun <R> SearchBoxViewModel.connectionSearcher(
+public fun <R> SearchBoxViewModel.connectSearcher(
     searcher: Searcher<R>,
     pagedList: List<LiveData<out PagedList<out Any>>>,
     searchAsYouType: SearchMode,
@@ -20,8 +20,8 @@ public fun <R> SearchBoxViewModel.connectionSearcher(
     return SearchBoxConnectionSearcherPagedList(this, searcher, pagedList, searchAsYouType, debouncer)
 }
 
-public fun <R> SearchBoxWidgetPagedList<R>.connectionView(
+public fun <R> SearchBoxWidgetPagedList<R>.connectView(
     view: SearchBoxView
 ): Connection {
-    return viewModel.connectionView(view)
+    return viewModel.connectView(view)
 }

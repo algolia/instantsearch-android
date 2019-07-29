@@ -20,7 +20,7 @@ public class FilterToggleWidget(
         groupID: FilterGroupID = FilterGroupID(filter.attribute, FilterOperator.And)
     ) : this(filterState, FilterToggleViewModel(filter, isSelected), groupID)
 
-    private val connectionFilterState = viewModel.connectionFilterState(filterState, groupID)
+    private val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
 
     override fun connect() {
         super.connect()

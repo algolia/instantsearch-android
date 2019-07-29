@@ -28,7 +28,7 @@ public class FilterRangeWidget<T>(
         filterState, attribute
     )
 
-    private val connectionFilterState = viewModel.connectionFilterState(filterState, attribute, groupID)
+    private val connectionFilterState = viewModel.connectFilterState(filterState, attribute, groupID)
 
     override fun connect() {
         super.connect()

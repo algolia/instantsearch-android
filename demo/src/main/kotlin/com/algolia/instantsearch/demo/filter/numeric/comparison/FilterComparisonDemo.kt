@@ -6,13 +6,13 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.filter.numeric.comparison.FilterComparisonWidget
-import com.algolia.instantsearch.helper.filter.numeric.comparison.connectionView
+import com.algolia.instantsearch.helper.filter.numeric.comparison.connectView
 import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromFacetStatsInt
 import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromFacetStatsLong
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.addFacet
-import com.algolia.instantsearch.helper.searcher.connectionFilterState
+import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.NumericOperator
@@ -45,9 +45,9 @@ class FilterComparisonDemo : AppCompatActivity() {
         val yearView = FilterYearView(demoFilterComparison, year, widgetComparisonYear.operator)
 
         connection.apply {
-            +searcher.connectionFilterState(filterState)
-            +widgetComparisonPrice.connectionView(priceView)
-            +widgetComparisonYear.connectionView(yearView) { year -> year?.toString() ?: "" }
+            +searcher.connectFilterState(filterState)
+            +widgetComparisonPrice.connectView(priceView)
+            +widgetComparisonYear.connectView(yearView) { year -> year?.toString() ?: "" }
         }
 
         configureToolbar(toolbar)

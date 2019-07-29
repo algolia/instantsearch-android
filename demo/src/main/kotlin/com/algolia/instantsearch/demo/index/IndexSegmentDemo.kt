@@ -12,9 +12,9 @@ import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieAdapter
 import com.algolia.instantsearch.helper.android.index.IndexSegmentViewAutocomplete
 import com.algolia.instantsearch.helper.index.IndexSegmentWidget
-import com.algolia.instantsearch.helper.index.connectionView
+import com.algolia.instantsearch.helper.index.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectionListAdapter
+import com.algolia.instantsearch.helper.searcher.connectListAdapter
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import kotlinx.android.synthetic.main.demo_index_segment.*
@@ -43,7 +43,7 @@ class IndexSegmentDemo : AppCompatActivity() {
         val adapterMovie = MovieAdapter()
 
         connection.apply {
-            +widgetIndexSegment.connectionView(view) { index ->
+            +widgetIndexSegment.connectView(view) { index ->
                 when (index) {
                     indexTitle -> "Default"
                     indexYearAsc -> "Year Asc"
@@ -51,7 +51,7 @@ class IndexSegmentDemo : AppCompatActivity() {
                     else -> index.indexName.raw
                 }
             }
-            +searcher.connectionListAdapter(adapterMovie) { hits -> hits.deserialize(Movie.serializer()) }
+            +searcher.connectListAdapter(adapterMovie) { hits -> hits.deserialize(Movie.serializer()) }
         }
 
 

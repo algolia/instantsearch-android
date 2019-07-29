@@ -27,10 +27,10 @@ public class FacetListWidget private constructor(
     }
 
     private val connectionSearcher = when (wrapper) {
-        is Wrapper.Single -> viewModel.connectionSearcher(wrapper.searcher, attribute)
-        is Wrapper.ForFacet -> viewModel.connectionSearcherForFacet(wrapper.searcher)
+        is Wrapper.Single -> viewModel.connectSearcher(wrapper.searcher, attribute)
+        is Wrapper.ForFacet -> viewModel.connectSearcherForFacet(wrapper.searcher)
     }
-    private val connectionFilterState = viewModel.connectionFilterState(filterState, attribute, groupID)
+    private val connectionFilterState = viewModel.connectFilterState(filterState, attribute, groupID)
 
     constructor(
         searcher: SearcherSingleIndex,

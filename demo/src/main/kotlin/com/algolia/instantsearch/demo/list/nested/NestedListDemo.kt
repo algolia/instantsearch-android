@@ -14,11 +14,10 @@ import com.algolia.instantsearch.demo.list.movie.MovieAdapterNested
 import com.algolia.instantsearch.helper.android.list.SearcherMultipleIndexDataSource
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxWidgetPagedList
-import com.algolia.instantsearch.helper.android.searchbox.connectionView
+import com.algolia.instantsearch.helper.android.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.multipleindex.IndexQuery
-import com.algolia.search.model.search.Query
 import kotlinx.android.synthetic.main.demo_search.*
 import kotlinx.android.synthetic.main.include_search.*
 
@@ -63,7 +62,7 @@ class NestedListDemo : AppCompatActivity() {
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 
         connection.apply {
-            +widgetSearchBox.connectionView(searchBoxView)
+            +widgetSearchBox.connectView(searchBoxView)
         }
 
         configureToolbar(toolbar)

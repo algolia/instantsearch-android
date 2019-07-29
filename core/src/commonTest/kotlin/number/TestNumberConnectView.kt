@@ -32,7 +32,7 @@ class TestNumberConnectView {
     fun connectShouldCallSetItem() {
         val view = MockNumberView()
         val viewModel = NumberViewModel(0..10)
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         viewModel.number.value = 5
         connection.connect()
@@ -43,7 +43,7 @@ class TestNumberConnectView {
     fun onSetNumberShouldCallSetItem() {
         val view = MockNumberView()
         val viewModel = NumberViewModel(0..10)
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         connection.connect()
         viewModel.number.value = 5
@@ -54,7 +54,7 @@ class TestNumberConnectView {
     fun onClickShouldCallEventSubscription() {
         val view = MockNumberView()
         val viewModel = NumberViewModel(0..10)
-        val connection = viewModel.connectionView(view)
+        val connection = viewModel.connectView(view)
 
         viewModel.eventNumber.subscribe { viewModel.number.value = it }
         connection.connect()
