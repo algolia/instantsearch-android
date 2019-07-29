@@ -28,7 +28,7 @@ class FacetListSearchDemo : AppCompatActivity() {
     private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(stubIndex)
     private val searcherForFacet = SearcherForFacets(stubIndex, brand)
-    private val searchBox = SearchBoxWidget(searcher)
+    private val searchBox = SearchBoxWidget(searcherForFacet)
     private val widgetFacetList = FacetListWidget(
         searcher = searcherForFacet,
         filterState = filterState,
