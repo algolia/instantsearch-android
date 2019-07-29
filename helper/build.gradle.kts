@@ -105,7 +105,6 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
                 api(AlgoliaClient("jvm"))
-                api(Ktor("client-okhttp"))
             }
         }
         val jvmTest by getting {
