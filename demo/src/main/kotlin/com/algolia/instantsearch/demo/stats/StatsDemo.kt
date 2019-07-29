@@ -43,10 +43,8 @@ class StatsDemo : AppCompatActivity() {
             }
         }
 
-        connection.apply {
-            +widgetStats.connectView(statsViewA, StatsPresenterImpl())
-            +widgetStats.connectView(statsViewB, presenter)
-        }
+        connection += widgetStats.connectView(statsViewA, StatsPresenterImpl())
+        connection += widgetStats.connectView(statsViewB, presenter)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

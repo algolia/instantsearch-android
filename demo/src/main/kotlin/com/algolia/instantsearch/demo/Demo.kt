@@ -96,10 +96,8 @@ fun AppCompatActivity.onClearAllThenClearFilters(
 ) {
     val widget = FilterClearWidget(filterState)
 
-    connection.apply {
-        +widget
-        +widget.connectView(FilterClearViewImpl(filtersClearAll))
-    }
+    connection += widget
+    connection += widget.connectView(FilterClearViewImpl(filtersClearAll))
 }
 
 fun AppCompatActivity.onErrorThenUpdateFiltersText(
@@ -127,10 +125,8 @@ fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
     }
     val widget = StatsWidget(searcher)
 
-    connection.apply {
-        +widget
-        +widget.connectView(view, presenter)
-    }
+    connection += widget
+    connection += widget.connectView(view, presenter)
 }
 
 fun AppCompatActivity.onResetThenRestoreFilters(
@@ -193,10 +189,8 @@ fun <R> AppCompatActivity.configureSearchBox(
 ) {
     val widget = SearchBoxWidget(searcher)
 
-    connection.apply {
-        +widget
-        +widget.connectView(SearchBoxViewAppCompat(searchView))
-    }
+    connection += widget
+    connection += widget.connectView(SearchBoxViewAppCompat(searchView))
 }
 
 fun AppCompatActivity.configureSearchView(

@@ -31,7 +31,7 @@ class FilterListTagDemo : AppCompatActivity() {
         Filter.Tag("no exchange")
     )
     private val widgetFilterList = FilterListWidget.Tag(tagFilters, filterState, groupID = groupTags)
-    private val connection = ConnectionHandler(widgetFilterList)
+    private val connection = ConnectionHandler(widgetFilterList, searcher.connectFilterState(filterState))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +39,7 @@ class FilterListTagDemo : AppCompatActivity() {
 
         val viewTag = FilterListAdapter<Filter.Tag>()
 
-        connection.apply {
-            +searcher.connectFilterState(filterState)
-            +widgetFilterList.connectView(viewTag)
-        }
+        connection += widgetFilterList.connectView(viewTag)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

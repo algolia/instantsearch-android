@@ -43,18 +43,18 @@ class FilterCurrentDemo : AppCompatActivity() {
     private val searcher = SearcherSingleIndex(stubIndex)
     private val widgetCurrentFiltersColor = FilterCurrentWidget(filterState, listOf(groupColor))
     private val widgetCurrentFiltersAll = FilterCurrentWidget(filterState)
-    private val connection = ConnectionHandler(widgetCurrentFiltersColor, widgetCurrentFiltersAll)
+    private val connection = ConnectionHandler(
+        widgetCurrentFiltersColor,
+        widgetCurrentFiltersAll,
+        searcher.connectFilterState(filterState)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_current)
 
-        connection.apply {
-            +searcher.connectFilterState(filterState)
-            +widgetCurrentFiltersAll.connectView(FilterCurrentViewImpl(chipGroupAll, R.layout.filter_chip))
-            +widgetCurrentFiltersColor.connectView(FilterCurrentViewImpl(chipGroupColors, R.layout.filter_chip))
-        }
-
+        connection += widgetCurrentFiltersAll.connectView(FilterCurrentViewImpl(chipGroupAll, R.layout.filter_chip))
+        connection += widgetCurrentFiltersColor.connectView(FilterCurrentViewImpl(chipGroupColors, R.layout.filter_chip))
 
         configureSearcher(searcher)
         configureToolbar(toolbar)

@@ -33,7 +33,7 @@ class FilterListFacetDemo : AppCompatActivity() {
     )
     private val widgetFilterList =
         FilterListWidget.Facet(facetFilters, filterState, SelectionMode.Single, groupID = groupColor)
-    private val connection = ConnectionHandler(widgetFilterList)
+    private val connection = ConnectionHandler(widgetFilterList, searcher.connectFilterState(filterState))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +41,7 @@ class FilterListFacetDemo : AppCompatActivity() {
 
         val viewFacet = FilterListAdapter<Filter.Facet>()
 
-        connection.apply {
-            +searcher.connectFilterState(filterState)
-            +widgetFilterList.connectView(viewFacet)
-        }
+        connection += widgetFilterList.connectView(viewFacet)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

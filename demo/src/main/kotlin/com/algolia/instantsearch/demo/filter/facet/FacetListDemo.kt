@@ -47,7 +47,12 @@ class FacetListDemo : AppCompatActivity() {
         selectionMode = SelectionMode.Multiple,
         groupID = groupCategory
     )
-    private val connection = ConnectionHandler(widgetFacetListColor, widgetFacetListPromotions, widgetFacetListCategory)
+    private val connection = ConnectionHandler(
+        widgetFacetListColor,
+        widgetFacetListPromotions,
+        widgetFacetListCategory,
+        searcher.connectFilterState(filterState)
+    )
     private val colorPresenter = FacetListPresenterImpl(listOf(IsRefined, AlphabeticalAscending), limit = 3)
     private val colorAdapter = FacetListAdapter()
     private val promotionPresenter = FacetListPresenterImpl(listOf(CountDescending))
@@ -59,12 +64,9 @@ class FacetListDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list)
 
-        connection.apply {
-            +searcher.connectFilterState(filterState)
-            +widgetFacetListColor.connectView(colorAdapter, colorPresenter)
-            +widgetFacetListPromotions.connectView(promotionAdapter, promotionPresenter)
-            +widgetFacetListCategory.connectView(categoryAdapter, categoryPresenter)
-        }
+        connection += widgetFacetListColor.connectView(colorAdapter, colorPresenter)
+        connection += widgetFacetListPromotions.connectView(promotionAdapter, promotionPresenter)
+        connection += widgetFacetListCategory.connectView(categoryAdapter, categoryPresenter)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

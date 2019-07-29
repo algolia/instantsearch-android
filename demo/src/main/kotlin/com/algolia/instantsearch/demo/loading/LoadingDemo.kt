@@ -41,10 +41,8 @@ class LoadingDemo : AppCompatActivity() {
         val searchBoxView = SearchBoxViewAppCompat(searchView)
         val adapter = MovieAdapterPaged()
 
-        connection.apply {
-            +widgetLoading.connectView(view)
-            +widgetSearchBox.connectView(searchBoxView)
-        }
+        connection += widgetLoading.connectView(view)
+        connection += widgetSearchBox.connectView(searchBoxView)
         movies.observe(this, Observer { hits -> adapter.submitList(hits) })
 
         configureSearcher(searcher)

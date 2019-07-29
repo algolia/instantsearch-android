@@ -33,18 +33,18 @@ class FilterRangeDemo : AppCompatActivity() {
     }
     private val filterState = FilterState(filters)
     private val widgetRange = FilterRangeWidget(filterState, price, range = initialRange, bounds = primaryBounds)
-    private val connection = ConnectionHandler(widgetRange)
+    private val connection = ConnectionHandler(
+        widgetRange,
+        searcher.connectFilterState(filterState, Debouncer(100))
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_range)
 
-        connection.apply {
-            +searcher.connectFilterState(filterState, Debouncer(100))
-            +widgetRange.connectView(RangeSliderView(slider))
-            +widgetRange.connectView(RangeTextView(rangeLabel))
-            +widgetRange.connectView(BoundsTextView(boundsLabel))
-        }
+        connection += widgetRange.connectView(RangeSliderView(slider))
+        connection += widgetRange.connectView(RangeTextView(rangeLabel))
+        connection += widgetRange.connectView(BoundsTextView(boundsLabel))
 
         buttonChangeBounds.setOnClickListener {
             widgetRange.viewModel.bounds.value = Range(secondaryBounds)

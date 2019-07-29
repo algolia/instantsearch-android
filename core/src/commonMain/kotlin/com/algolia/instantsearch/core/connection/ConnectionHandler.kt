@@ -17,11 +17,11 @@ public class ConnectionHandler(
         connections.disconnect()
     }
 
-    public operator fun Connection.unaryPlus() {
-        connections += this.apply { connect() }
+    public operator fun plusAssign(connection: Connection) {
+        connections += connection.apply { connect() }
     }
 
-    public operator fun List<Connection>.unaryPlus() {
-        connections += this.connect()
+    public operator fun plusAssign(connections: Collection<Connection>) {
+        this.connections += connections.apply { forEach { it.connect() } }
     }
 }

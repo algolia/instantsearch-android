@@ -30,10 +30,8 @@ class SearchAsYouTypeDemo : AppCompatActivity() {
         val adapter = MovieAdapter()
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 
-        connection.apply {
-            +widgetSearchBox.connectView(searchBoxView)
-            +searcher.connectListAdapter(adapter) { hits -> hits.deserialize(Movie.serializer()) }
-        }
+        connection += widgetSearchBox.connectView(searchBoxView)
+        connection += searcher.connectListAdapter(adapter) { hits -> hits.deserialize(Movie.serializer()) }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

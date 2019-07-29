@@ -25,16 +25,14 @@ class HomeDemo : AppCompatActivity() {
 
         val adapter = HomeAdapter()
 
-        connection.apply {
-            +searcher.connectListAdapter(adapter) { hits ->
-                hits.deserialize(HomeHit.serializer())
-                    .filter { homeActivities.containsKey(it.objectID) }
-                    .groupBy { it.type }
-                    .toSortedMap()
-                    .flatMap { (key, value) ->
-                        listOf(HomeItem.Header(key)) + value.map { HomeItem.Item(it) }.sortedBy { it.hit.objectID.raw }
-                    }
-            }
+        connection += searcher.connectListAdapter(adapter) { hits ->
+            hits.deserialize(HomeHit.serializer())
+                .filter { homeActivities.containsKey(it.objectID) }
+                .groupBy { it.type }
+                .toSortedMap()
+                .flatMap { (key, value) ->
+                    listOf(HomeItem.Header(key)) + value.map { HomeItem.Item(it) }.sortedBy { it.hit.objectID.raw }
+                }
         }
 
         configureRecyclerView(list, adapter)

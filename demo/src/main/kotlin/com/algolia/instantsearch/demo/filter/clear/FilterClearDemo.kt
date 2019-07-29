@@ -39,18 +39,19 @@ class FilterClearDemo : AppCompatActivity() {
     private val widgetClearAll = FilterClearWidget(filterState)
     private val widgetClearSpecified = FilterClearWidget(filterState, listOf(groupColor), ClearMode.Specified)
     private val widgetClearExcept = FilterClearWidget(filterState, listOf(groupColor), ClearMode.Except)
-    private val connection = ConnectionHandler(widgetClearSpecified, widgetClearExcept)
+    private val connection = ConnectionHandler(
+        widgetClearSpecified,
+        widgetClearExcept,
+        searcher.connectFilterState(filterState)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_clear)
 
-        connection.apply {
-            +searcher.connectFilterState(filterState)
-            +widgetClearAll.connectView(FilterClearViewImpl(filtersClearAll))
-            +widgetClearSpecified.connectView(FilterClearViewImpl(buttonClearSpecified))
-            +widgetClearExcept.connectView(FilterClearViewImpl(buttonClearExcept))
-        }
+        connection += widgetClearAll.connectView(FilterClearViewImpl(filtersClearAll))
+        connection += widgetClearSpecified.connectView(FilterClearViewImpl(buttonClearSpecified))
+        connection += widgetClearExcept.connectView(FilterClearViewImpl(buttonClearExcept))
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

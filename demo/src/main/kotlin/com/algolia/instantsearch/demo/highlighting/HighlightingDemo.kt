@@ -23,9 +23,7 @@ class HighlightingDemo : AppCompatActivity() {
 
         val adapter = MovieAdapterHighlighted()
 
-        connection.apply {
-            +searcher.connectListAdapter(adapter) { hits -> hits.deserialize(Movie.serializer()) }
-        }
+        connection += searcher.connectListAdapter(adapter) { hits -> hits.deserialize(Movie.serializer()) }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

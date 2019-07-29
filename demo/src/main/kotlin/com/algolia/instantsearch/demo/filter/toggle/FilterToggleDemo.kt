@@ -30,7 +30,12 @@ class FilterToggleDemo : AppCompatActivity() {
     private val widgetCoupon = FilterToggleWidget(filterState, filterCoupon)
     private val widgetSize = FilterToggleWidget(filterState, filterSize)
     private val widgetVintage = FilterToggleWidget(filterState, filterVintage)
-    private val connection = ConnectionHandler(widgetCoupon, widgetSize, widgetVintage)
+    private val connection = ConnectionHandler(
+        widgetCoupon,
+        widgetSize,
+        widgetVintage,
+        searcher.connectFilterState(filterState)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +45,9 @@ class FilterToggleDemo : AppCompatActivity() {
         val viewSize = FilterToggleViewCompoundButton(checkBoxSize)
         val viewVintage = FilterToggleViewCompoundButton(checkBoxVintage)
 
-        connection.apply {
-            +searcher.connectFilterState(filterState)
-            +widgetCoupon.connectView(viewCoupon)
-            +widgetSize.connectView(viewSize)
-            +widgetVintage.connectView(viewVintage)
-        }
+        connection += widgetCoupon.connectView(viewCoupon)
+        connection += widgetSize.connectView(viewSize)
+        connection += widgetVintage.connectView(viewVintage)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

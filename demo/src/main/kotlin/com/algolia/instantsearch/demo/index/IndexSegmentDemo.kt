@@ -42,8 +42,7 @@ class IndexSegmentDemo : AppCompatActivity() {
         val view = IndexSegmentViewAutocomplete(autocompleteTextView, adapter)
         val adapterMovie = MovieAdapter()
 
-        connection.apply {
-            +widgetIndexSegment.connectView(view) { index ->
+        connection += widgetIndexSegment.connectView(view) { index ->
                 when (index) {
                     indexTitle -> "Default"
                     indexYearAsc -> "Year Asc"
@@ -51,9 +50,7 @@ class IndexSegmentDemo : AppCompatActivity() {
                     else -> index.indexName.raw
                 }
             }
-            +searcher.connectListAdapter(adapterMovie) { hits -> hits.deserialize(Movie.serializer()) }
-        }
-
+        connection += searcher.connectListAdapter(adapterMovie) { hits -> hits.deserialize(Movie.serializer()) }
 
         configureToolbar(toolbar)
         configureRecyclerView(list, adapterMovie)

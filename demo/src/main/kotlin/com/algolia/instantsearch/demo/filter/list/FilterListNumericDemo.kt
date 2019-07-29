@@ -32,7 +32,7 @@ class FilterListNumericDemo : AppCompatActivity() {
         Filter.Numeric(price, NumericOperator.Greater, 100)
     )
     private val widgetFilterList = FilterListWidget.Numeric(numericFilters, filterState, groupID = groupPrice)
-    private val connection = ConnectionHandler(widgetFilterList)
+    private val connection = ConnectionHandler(widgetFilterList, searcher.connectFilterState(filterState))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +40,8 @@ class FilterListNumericDemo : AppCompatActivity() {
 
         val viewNumeric = FilterListAdapter<Filter.Numeric>()
 
-        connection.apply {
-            +searcher.connectFilterState(filterState)
-            +widgetFilterList.connectView(viewNumeric)
-        }
+        connection += searcher.connectFilterState(filterState)
+        connection += widgetFilterList.connectView(viewNumeric)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

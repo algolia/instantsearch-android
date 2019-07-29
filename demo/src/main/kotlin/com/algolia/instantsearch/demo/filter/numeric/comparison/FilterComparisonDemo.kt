@@ -32,7 +32,11 @@ class FilterComparisonDemo : AppCompatActivity() {
     private val searcher = SearcherSingleIndex(index)
     private val widgetComparisonPrice = FilterComparisonWidget<Long>(filterState, price, NumericOperator.GreaterOrEquals)
     private val widgetComparisonYear = FilterComparisonWidget<Int>(filterState, year, NumericOperator.Equals)
-    private val connection = ConnectionHandler(widgetComparisonPrice, widgetComparisonYear)
+    private val connection = ConnectionHandler(
+        widgetComparisonPrice,
+        widgetComparisonYear,
+        searcher.connectFilterState(filterState)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,11 +48,8 @@ class FilterComparisonDemo : AppCompatActivity() {
         val priceView = FilterPriceView(demoFilterComparison, price, widgetComparisonPrice.operator)
         val yearView = FilterYearView(demoFilterComparison, year, widgetComparisonYear.operator)
 
-        connection.apply {
-            +searcher.connectFilterState(filterState)
-            +widgetComparisonPrice.connectView(priceView)
-            +widgetComparisonYear.connectView(yearView) { year -> year?.toString() ?: "" }
-        }
+        connection += widgetComparisonPrice.connectView(priceView)
+        connection += widgetComparisonYear.connectView(yearView) { year -> year?.toString() ?: "" }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

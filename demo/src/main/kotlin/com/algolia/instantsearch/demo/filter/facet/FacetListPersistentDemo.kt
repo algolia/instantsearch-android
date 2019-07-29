@@ -39,7 +39,11 @@ class FacetListPersistentDemo : AppCompatActivity() {
         selectionMode = SelectionMode.Single,
         persistentSelection = true
     )
-    private val connection = ConnectionHandler(widgetFacetListColor, widgetFacetListCategory)
+    private val connection = ConnectionHandler(
+        widgetFacetListColor,
+        widgetFacetListCategory,
+        searcher.connectFilterState(filterState)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,11 +52,8 @@ class FacetListPersistentDemo : AppCompatActivity() {
         val adapterColor = FacetListAdapter()
         val adapterCategory = FacetListAdapter()
 
-        connection.apply {
-            +searcher.connectFilterState(filterState)
-            +widgetFacetListColor.connectView(adapterColor)
-            +widgetFacetListCategory.connectView(adapterCategory)
-        }
+        connection += widgetFacetListColor.connectView(adapterColor)
+        connection += widgetFacetListCategory.connectView(adapterCategory)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

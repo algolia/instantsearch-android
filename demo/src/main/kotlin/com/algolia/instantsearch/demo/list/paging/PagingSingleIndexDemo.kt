@@ -34,9 +34,7 @@ class PagingSingleIndexDemo : AppCompatActivity() {
         val adapter = MovieAdapterPaged()
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 
-        connection.apply {
-            +widgetSearchBox.connectView(searchBoxView)
-        }
+        connection += widgetSearchBox.connectView(searchBoxView)
 
         movies.observe(this, Observer { hits -> adapter.submitList(hits) })
 

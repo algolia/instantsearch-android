@@ -35,7 +35,11 @@ class FacetListSearchDemo : AppCompatActivity() {
         attribute = brand,
         selectionMode = SelectionMode.Multiple
     )
-    private val connection = ConnectionHandler(searchBox, widgetFacetList)
+    private val connection = ConnectionHandler(
+        searchBox,
+        widgetFacetList,
+        searcher.connectFilterState(filterState)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,11 +56,8 @@ class FacetListSearchDemo : AppCompatActivity() {
         searcher.index = index
         searcherForFacet.index = index
 
-        connection.apply {
-            +searcher.connectFilterState(filterState)
-            +widgetFacetList.connectView(facetView, facetPresenter)
-            +searchBox.connectView(searchBoxView)
-        }
+        connection += widgetFacetList.connectView(facetView, facetPresenter)
+        connection += searchBox.connectView(searchBoxView)
 
         configureToolbar(toolbar)
         configureRecyclerView(list, facetView)

@@ -28,7 +28,7 @@ class FilterSegmentDemo : AppCompatActivity() {
         R.id.female to Filter.Facet(gender, "female")
     )
     private val widgetFilterSegment = FilterSegmentWidget(filters, filterState, groupID = groupGender)
-    private val connection = ConnectionHandler(widgetFilterSegment)
+    private val connection = ConnectionHandler(widgetFilterSegment, searcher.connectFilterState(filterState))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +36,7 @@ class FilterSegmentDemo : AppCompatActivity() {
 
         val viewGender = FilterSegmentViewRadioGroup(radioGroupGender)
 
-        connection.apply {
-            +searcher.connectFilterState(filterState)
-            +widgetFilterSegment.connectView(viewGender)
-        }
+        connection += widgetFilterSegment.connectView(viewGender)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
