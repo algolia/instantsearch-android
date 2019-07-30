@@ -1,12 +1,12 @@
-package com.algolia.instantsearch.helper.index
+package com.algolia.instantsearch.helper.sortby
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 
 
-internal class IndexSegmentConnectionSearcher(
-    private val viewModel: IndexSegmentViewModel,
+internal class SortByConnectionSearcher(
+    private val viewModel: SortByViewModel,
     private val searcher: SearcherSingleIndex
 ) : ConnectionImpl() {
 
@@ -29,7 +29,7 @@ internal class IndexSegmentConnectionSearcher(
         viewModel.eventSelection.unsubscribe(updateIndex)
     }
 
-    private fun IndexSegmentViewModel.updateSelection(selection: Int? = selected.value) {
+    private fun SortByViewModel.updateSelection(selection: Int? = selected.value) {
         map.value[selection]?.let { searcher.index = it }
     }
 }

@@ -94,7 +94,7 @@
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name=".index.IndexSegmentDemo"
+            android:name=".sortby.SortByDemo"
             android:parentActivityName=".home.HomeDemo" />
 
         <activity

@@ -15,7 +15,7 @@ import com.algolia.instantsearch.demo.filter.segment.FilterSegmentDemo
 import com.algolia.instantsearch.demo.filter.toggle.FilterToggleDemo
 import com.algolia.instantsearch.demo.hierarchical.HierarchicalDemo
 import com.algolia.instantsearch.demo.highlighting.HighlightingDemo
-import com.algolia.instantsearch.demo.index.IndexSegmentDemo
+import com.algolia.instantsearch.demo.sortby.SortByDemo
 import com.algolia.instantsearch.demo.list.merged.MergedListDemo
 import com.algolia.instantsearch.demo.list.nested.NestedListDemo
 import com.algolia.instantsearch.demo.list.paging.PagingSingleIndexDemo
@@ -44,7 +44,7 @@ val homeActivities = mapOf(
     ObjectID("search_on_submit") to SearchOnSubmitDemo::class,
     ObjectID("search_as_you_type") to SearchAsYouTypeDemo::class,
     ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,
-    ObjectID("index_segment") to IndexSegmentDemo::class,
+    ObjectID("sort_by") to SortByDemo::class,
     ObjectID("stats") to StatsDemo::class,
     ObjectID("loading") to LoadingDemo::class,
     ObjectID("nested_list") to NestedListDemo::class,

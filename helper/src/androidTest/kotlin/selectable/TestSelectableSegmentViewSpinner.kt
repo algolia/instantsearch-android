@@ -5,10 +5,9 @@ import android.widget.Spinner
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
-import com.algolia.instantsearch.helper.android.index.IndexSegmentViewSpinner
+import com.algolia.instantsearch.helper.android.sortby.SortByViewSpinner
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import shouldEqual
 
 
@@ -18,12 +17,12 @@ class TestSelectableSegmentViewSpinner {
 
     private val elements = listOf("A", "B", "C")
 
-    private fun view(defaultSelection: Int): IndexSegmentViewSpinner {
+    private fun view(defaultSelection: Int): SortByViewSpinner {
         val adapter = ArrayAdapter<String>(applicationContext, android.R.layout.simple_list_item_1).apply {
             addAll(elements)
         }
 
-        return IndexSegmentViewSpinner(Spinner(applicationContext), adapter, defaultSelection)
+        return SortByViewSpinner(Spinner(applicationContext), adapter, defaultSelection)
     }
 
     @Test

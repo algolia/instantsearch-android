@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.demo.index
+package com.algolia.instantsearch.demo.sortby
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -10,9 +10,9 @@ import com.algolia.instantsearch.demo.configureRecyclerView
 import com.algolia.instantsearch.demo.configureToolbar
 import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieAdapter
-import com.algolia.instantsearch.helper.android.index.IndexSegmentViewAutocomplete
-import com.algolia.instantsearch.helper.index.IndexSegmentWidget
-import com.algolia.instantsearch.helper.index.connectView
+import com.algolia.instantsearch.helper.android.sortby.SortByViewAutocomplete
+import com.algolia.instantsearch.helper.sortby.SortByWidget
+import com.algolia.instantsearch.helper.sortby.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectListAdapter
 import com.algolia.search.helper.deserialize
@@ -20,7 +20,7 @@ import com.algolia.search.model.IndexName
 import kotlinx.android.synthetic.main.demo_index_segment.*
 
 
-class IndexSegmentDemo : AppCompatActivity() {
+class SortByDemo : AppCompatActivity() {
 
     private val indexTitle = client.initIndex(IndexName("mobile_demo_movies"))
     private val indexYearAsc = client.initIndex(IndexName("mobile_demo_movies_year_asc"))
@@ -31,18 +31,18 @@ class IndexSegmentDemo : AppCompatActivity() {
         1 to indexYearAsc,
         2 to indexYearDesc
     )
-    private val widgetIndexSegment = IndexSegmentWidget(indexes, searcher, selected = 0)
-    private val connection = ConnectionHandler(widgetIndexSegment)
+    private val widgetSortBy = SortByWidget(indexes, searcher, selected = 0)
+    private val connection = ConnectionHandler(widgetSortBy)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_index_segment)
 
         val adapter = ArrayAdapter<String>(this, R.layout.menu_item)
-        val view = IndexSegmentViewAutocomplete(autocompleteTextView, adapter)
+        val view = SortByViewAutocomplete(autocompleteTextView, adapter)
         val adapterMovie = MovieAdapter()
 
-        connection += widgetIndexSegment.connectView(view) { index ->
+        connection += widgetSortBy.connectView(view) { index ->
                 when (index) {
                     indexTitle -> "Default"
                     indexYearAsc -> "Year Asc"

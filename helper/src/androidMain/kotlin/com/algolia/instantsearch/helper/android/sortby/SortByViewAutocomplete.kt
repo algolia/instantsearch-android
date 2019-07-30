@@ -1,17 +1,17 @@
-package com.algolia.instantsearch.helper.android.index
+package com.algolia.instantsearch.helper.android.sortby
 
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.helper.index.IndexSegmentView
+import com.algolia.instantsearch.helper.sortby.SortByView
 
 
-public class IndexSegmentViewAutocomplete(
+public class SortByViewAutocomplete(
     val view: AutoCompleteTextView,
     val adapter: ArrayAdapter<String>
-) : IndexSegmentView,
+) : SortByView,
     AdapterView.OnItemClickListener {
 
     override var onSelectionChange: Callback<Int>? = null

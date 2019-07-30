@@ -1,18 +1,18 @@
-package com.algolia.instantsearch.helper.android.index
+package com.algolia.instantsearch.helper.android.sortby
 
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.helper.index.IndexSegmentView
+import com.algolia.instantsearch.helper.sortby.SortByView
 
 
-public class IndexSegmentViewSpinner(
+public class SortByViewSpinner(
     public val spinner: Spinner,
     public val adapter: ArrayAdapter<String>,
     public val defaultSelection: Int = 0
-) : IndexSegmentView,
+) : SortByView,
     AdapterView.OnItemSelectedListener {
 
     override var onSelectionChange: Callback<Int>? = null

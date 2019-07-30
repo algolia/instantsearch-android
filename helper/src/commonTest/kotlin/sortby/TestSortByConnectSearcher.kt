@@ -1,7 +1,7 @@
-package index
+package sortby
 
-import com.algolia.instantsearch.helper.index.IndexSegmentViewModel
-import com.algolia.instantsearch.helper.index.connectSearcher
+import com.algolia.instantsearch.helper.sortby.SortByViewModel
+import com.algolia.instantsearch.helper.sortby.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.IndexName
 import mockClient
@@ -9,7 +9,7 @@ import shouldEqual
 import kotlin.test.Test
 
 
-class TestIndexSegmentConnectSearcher {
+class TestSortByConnectSearcher {
 
     private val client = mockClient()
     private val indexA = client.initIndex(IndexName("A"))
@@ -18,7 +18,7 @@ class TestIndexSegmentConnectSearcher {
     @Test
     fun connectShouldUpdateSearcherIndex() {
         val searcher = SearcherSingleIndex(indexA)
-        val viewModel = IndexSegmentViewModel(
+        val viewModel = SortByViewModel(
             map = mapOf(
                 0 to indexA,
                 1 to indexB
@@ -33,7 +33,7 @@ class TestIndexSegmentConnectSearcher {
     @Test
     fun onSelectedComputedShouldUpdateIndex() {
         val searcher = SearcherSingleIndex(indexA)
-        val viewModel = IndexSegmentViewModel(
+        val viewModel = SortByViewModel(
             map = mapOf(
                 0 to indexA,
                 1 to indexB
