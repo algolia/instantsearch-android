@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.filter.FilterToggleViewCompoundButton
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.toggle.FilterToggleWidget
+import com.algolia.instantsearch.helper.filter.toggle.FilterToggleConnector
 import com.algolia.instantsearch.helper.filter.toggle.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectFilterState
@@ -27,13 +27,13 @@ class FilterToggleDemo : AppCompatActivity() {
     private val filterCoupon = Filter.Facet(promotions, "coupon")
     private val filterSize = Filter.Numeric(size, NumericOperator.Greater, 40)
     private val filterVintage = Filter.Tag("vintage")
-    private val widgetCoupon = FilterToggleWidget(filterState, filterCoupon)
-    private val widgetSize = FilterToggleWidget(filterState, filterSize)
-    private val widgetVintage = FilterToggleWidget(filterState, filterVintage)
+    private val toggleCoupon = FilterToggleConnector(filterState, filterCoupon)
+    private val toggleSize = FilterToggleConnector(filterState, filterSize)
+    private val toggleVintage = FilterToggleConnector(filterState, filterVintage)
     private val connection = ConnectionHandler(
-        widgetCoupon,
-        widgetSize,
-        widgetVintage,
+        toggleCoupon,
+        toggleSize,
+        toggleVintage,
         searcher.connectFilterState(filterState)
     )
 
@@ -45,9 +45,9 @@ class FilterToggleDemo : AppCompatActivity() {
         val viewSize = FilterToggleViewCompoundButton(checkBoxSize)
         val viewVintage = FilterToggleViewCompoundButton(checkBoxVintage)
 
-        connection += widgetCoupon.connectView(viewCoupon)
-        connection += widgetSize.connectView(viewSize)
-        connection += widgetVintage.connectView(viewVintage)
+        connection += toggleCoupon.connectView(viewCoupon)
+        connection += toggleSize.connectView(viewSize)
+        connection += toggleVintage.connectView(viewVintage)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

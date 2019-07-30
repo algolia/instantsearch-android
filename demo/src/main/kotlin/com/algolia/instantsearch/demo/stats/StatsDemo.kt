@@ -20,8 +20,8 @@ import kotlinx.android.synthetic.main.include_search.*
 class StatsDemo : AppCompatActivity() {
 
     private val searcher = SearcherSingleIndex(stubIndex)
-    private val widgetStats = StatsWidget(searcher)
-    private val connection = ConnectionHandler(widgetStats)
+    private val stats = StatsConnector(searcher)
+    private val connection = ConnectionHandler(stats)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +43,8 @@ class StatsDemo : AppCompatActivity() {
             }
         }
 
-        connection += widgetStats.connectView(statsViewA, StatsPresenterImpl())
-        connection += widgetStats.connectView(statsViewB, presenter)
+        connection += stats.connectView(statsViewA, StatsPresenterImpl())
+        connection += stats.connectView(statsViewB, presenter)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

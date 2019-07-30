@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.list.FilterListWidget
+import com.algolia.instantsearch.helper.filter.list.FilterListConnector
 import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupAnd
@@ -24,15 +24,15 @@ class FilterListNumericDemo : AppCompatActivity() {
     private val groupPrice = groupAnd(price)
     private val searcher = SearcherSingleIndex(stubIndex)
     private val filterState = FilterState()
-    private val numericFilters = listOf(
+    private val filters = listOf(
         Filter.Numeric(price, NumericOperator.Less, 5),
         Filter.Numeric(price, 5..10),
         Filter.Numeric(price, 10..25),
         Filter.Numeric(price, 25..100),
         Filter.Numeric(price, NumericOperator.Greater, 100)
     )
-    private val widgetFilterList = FilterListWidget.Numeric(numericFilters, filterState, groupID = groupPrice)
-    private val connection = ConnectionHandler(widgetFilterList, searcher.connectFilterState(filterState))
+    private val filterList = FilterListConnector.Numeric(filters, filterState, groupID = groupPrice)
+    private val connection = ConnectionHandler(filterList, searcher.connectFilterState(filterState))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,7 @@ class FilterListNumericDemo : AppCompatActivity() {
         val viewNumeric = FilterListAdapter<Filter.Numeric>()
 
         connection += searcher.connectFilterState(filterState)
-        connection += widgetFilterList.connectView(viewNumeric)
+        connection += filterList.connectView(viewNumeric)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

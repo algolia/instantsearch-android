@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.list.FilterListWidget
+import com.algolia.instantsearch.helper.filter.list.FilterListConnector
 import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupOr
@@ -23,15 +23,15 @@ class FilterListTagDemo : AppCompatActivity() {
     private val groupTags = groupOr(tags)
     private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(stubIndex)
-    private val tagFilters = listOf(
+    private val filters = listOf(
         Filter.Tag("free shipping"),
         Filter.Tag("coupon"),
         Filter.Tag("free return"),
         Filter.Tag("on sale"),
         Filter.Tag("no exchange")
     )
-    private val widgetFilterList = FilterListWidget.Tag(tagFilters, filterState, groupID = groupTags)
-    private val connection = ConnectionHandler(widgetFilterList, searcher.connectFilterState(filterState))
+    private val filterList = FilterListConnector.Tag(filters, filterState, groupID = groupTags)
+    private val connection = ConnectionHandler(filterList, searcher.connectFilterState(filterState))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +39,7 @@ class FilterListTagDemo : AppCompatActivity() {
 
         val viewTag = FilterListAdapter<Filter.Tag>()
 
-        connection += widgetFilterList.connectView(viewTag)
+        connection += filterList.connectView(viewTag)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

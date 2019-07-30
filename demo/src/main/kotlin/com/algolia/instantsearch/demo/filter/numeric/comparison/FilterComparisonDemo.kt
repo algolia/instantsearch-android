@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.numeric.comparison.FilterComparisonWidget
+import com.algolia.instantsearch.helper.filter.numeric.comparison.FilterComparisonConnector
 import com.algolia.instantsearch.helper.filter.numeric.comparison.connectView
 import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromFacetStatsInt
 import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromFacetStatsLong
@@ -30,11 +30,11 @@ class FilterComparisonDemo : AppCompatActivity() {
     private val index = client.initIndex(IndexName("stub"))
     private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(index)
-    private val widgetComparisonPrice = FilterComparisonWidget<Long>(filterState, price, NumericOperator.GreaterOrEquals)
-    private val widgetComparisonYear = FilterComparisonWidget<Int>(filterState, year, NumericOperator.Equals)
+    private val comparisonPrice = FilterComparisonConnector<Long>(filterState, price, NumericOperator.GreaterOrEquals)
+    private val comparisonYear = FilterComparisonConnector<Int>(filterState, year, NumericOperator.Equals)
     private val connection = ConnectionHandler(
-        widgetComparisonPrice,
-        widgetComparisonYear,
+        comparisonPrice,
+        comparisonYear,
         searcher.connectFilterState(filterState)
     )
 
@@ -45,11 +45,11 @@ class FilterComparisonDemo : AppCompatActivity() {
         searcher.query.addFacet(price)
         searcher.query.addFacet(year)
 
-        val priceView = FilterPriceView(demoFilterComparison, price, widgetComparisonPrice.operator)
-        val yearView = FilterYearView(demoFilterComparison, year, widgetComparisonYear.operator)
+        val priceView = FilterPriceView(demoFilterComparison, price, comparisonPrice.operator)
+        val yearView = FilterYearView(demoFilterComparison, year, comparisonYear.operator)
 
-        connection += widgetComparisonPrice.connectView(priceView)
-        connection += widgetComparisonYear.connectView(yearView) { year -> year?.toString() ?: "" }
+        connection += comparisonPrice.connectView(priceView)
+        connection += comparisonYear.connectView(yearView) { year -> year?.toString() ?: "" }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
@@ -62,10 +62,10 @@ class FilterComparisonDemo : AppCompatActivity() {
             val response = searcher.search()
 
             response.facetStatsOrNull?.let {
-                widgetComparisonPrice.viewModel.setBoundsFromFacetStatsLong(price, it)
-                widgetComparisonYear.viewModel.setBoundsFromFacetStatsInt(year, it)
+                comparisonPrice.viewModel.setBoundsFromFacetStatsLong(price, it)
+                comparisonYear.viewModel.setBoundsFromFacetStatsInt(year, it)
                 withContext(Dispatchers.Main) {
-                    inputHint.text = getInputHint(widgetComparisonYear.viewModel.bounds.value!!)
+                    inputHint.text = getInputHint(comparisonYear.viewModel.bounds.value!!)
                 }
             }
         }

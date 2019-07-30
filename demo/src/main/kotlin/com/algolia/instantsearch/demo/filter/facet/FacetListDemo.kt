@@ -26,21 +26,21 @@ class FacetListDemo : AppCompatActivity() {
     private val groupCategory = groupOr(category)
     private val filterState = filterState { group(groupColor) { facet(color, "green") } }
     private val searcher = SearcherSingleIndex(stubIndex)
-    private val widgetFacetListColor = FacetListWidget(
+    private val facetListColor = FacetListConnector(
         searcher = searcher,
         filterState = filterState,
         attribute = color,
         selectionMode = SelectionMode.Single,
         groupID = groupColor
     )
-    private val widgetFacetListPromotions = FacetListWidget(
+    private val facetListPromotions = FacetListConnector(
         searcher = searcher,
         filterState = filterState,
         attribute = promotions,
         selectionMode = SelectionMode.Multiple,
         groupID = groupPromotions
     )
-    private val widgetFacetListCategory = FacetListWidget(
+    private val facetListCategory = FacetListConnector(
         searcher = searcher,
         filterState = filterState,
         attribute = category,
@@ -48,9 +48,9 @@ class FacetListDemo : AppCompatActivity() {
         groupID = groupCategory
     )
     private val connection = ConnectionHandler(
-        widgetFacetListColor,
-        widgetFacetListPromotions,
-        widgetFacetListCategory,
+        facetListColor,
+        facetListPromotions,
+        facetListCategory,
         searcher.connectFilterState(filterState)
     )
     private val colorPresenter = FacetListPresenterImpl(listOf(IsRefined, AlphabeticalAscending), limit = 3)
@@ -64,9 +64,9 @@ class FacetListDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list)
 
-        connection += widgetFacetListColor.connectView(colorAdapter, colorPresenter)
-        connection += widgetFacetListPromotions.connectView(promotionAdapter, promotionPresenter)
-        connection += widgetFacetListCategory.connectView(categoryAdapter, categoryPresenter)
+        connection += facetListColor.connectView(colorAdapter, colorPresenter)
+        connection += facetListPromotions.connectView(promotionAdapter, promotionPresenter)
+        connection += facetListCategory.connectView(categoryAdapter, categoryPresenter)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

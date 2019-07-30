@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.filter.toggle
+package com.algolia.instantsearch.helper.filter.segment
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
@@ -7,18 +7,18 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
 
 
-public class FilterToggleWidget(
+public class FilterSegmentConnector(
     public val filterState: FilterState,
-    public val viewModel: FilterToggleViewModel,
-    public val groupID: FilterGroupID = FilterGroupID(viewModel.item.value.attribute, FilterOperator.And)
+    public val viewModel: FilterSegmentViewModel = FilterSegmentViewModel(),
+    public val groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
 ) : ConnectionImpl() {
 
     public constructor(
+        filters: Map<Int, Filter>,
         filterState: FilterState,
-        filter: Filter,
-        isSelected: Boolean = false,
-        groupID: FilterGroupID = FilterGroupID(filter.attribute, FilterOperator.And)
-    ) : this(filterState, FilterToggleViewModel(filter, isSelected), groupID)
+        selected: Int? = null,
+        groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
+    ) : this(filterState, FilterSegmentViewModel(filters, selected), groupID)
 
     private val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
 

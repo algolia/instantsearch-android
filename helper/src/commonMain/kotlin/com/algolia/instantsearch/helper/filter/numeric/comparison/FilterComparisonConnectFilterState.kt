@@ -18,7 +18,7 @@ public fun <T> NumberViewModel<T>.connectFilterState(
     return FilterComparisonConnectionFilterState(this, filterState, attribute, operator, groupID)
 }
 
-public fun <T> FilterComparisonWidget<T>.connectView(
+public fun <T> FilterComparisonConnector<T>.connectView(
     view: NumberView<T>,
     presenter: NumberPresenter<T> = NumberPresenterImpl
 ): Connection where T : Number, T : Comparable<T> {

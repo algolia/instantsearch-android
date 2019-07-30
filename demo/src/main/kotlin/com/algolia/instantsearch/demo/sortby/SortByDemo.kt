@@ -11,7 +11,7 @@ import com.algolia.instantsearch.demo.configureToolbar
 import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieAdapter
 import com.algolia.instantsearch.helper.android.sortby.SortByViewAutocomplete
-import com.algolia.instantsearch.helper.sortby.SortByWidget
+import com.algolia.instantsearch.helper.sortby.SortByConnector
 import com.algolia.instantsearch.helper.sortby.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.android.searcher.connectListAdapter
@@ -31,8 +31,8 @@ class SortByDemo : AppCompatActivity() {
         1 to indexYearAsc,
         2 to indexYearDesc
     )
-    private val widgetSortBy = SortByWidget(indexes, searcher, selected = 0)
-    private val connection = ConnectionHandler(widgetSortBy)
+    private val sortBy = SortByConnector(indexes, searcher, selected = 0)
+    private val connection = ConnectionHandler(sortBy)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,7 @@ class SortByDemo : AppCompatActivity() {
         val view = SortByViewAutocomplete(autocompleteTextView, adapter)
         val adapterMovie = MovieAdapter()
 
-        connection += widgetSortBy.connectView(view) { index ->
+        connection += sortBy.connectView(view) { index ->
                 when (index) {
                     indexTitle -> "Default"
                     indexYearAsc -> "Year Asc"

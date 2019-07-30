@@ -13,7 +13,7 @@ import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieAdapterNested
 import com.algolia.instantsearch.helper.android.list.SearcherMultipleIndexDataSource
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
-import com.algolia.instantsearch.helper.android.searchbox.SearchBoxWidgetPagedList
+import com.algolia.instantsearch.helper.android.searchbox.SearchBoxConnectorPagedList
 import com.algolia.instantsearch.helper.android.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.model.IndexName
@@ -36,8 +36,8 @@ class NestedListDemo : AppCompatActivity() {
     private val actorsFactory = SearcherMultipleIndexDataSource.Factory(searcher, 1, Actor.serializer())
     private val movies = LivePagedListBuilder<Int, Movie>(moviesFactory, pagedListConfig).build()
     private val actors = LivePagedListBuilder<Int, Actor>(actorsFactory, pagedListConfig).build()
-    private val widgetSearchBox = SearchBoxWidgetPagedList(searcher, listOf(movies, actors))
-    private val connection = ConnectionHandler(widgetSearchBox)
+    private val searchBox = SearchBoxConnectorPagedList(searcher, listOf(movies, actors))
+    private val connection = ConnectionHandler(searchBox)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,7 @@ class NestedListDemo : AppCompatActivity() {
 
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 
-        connection += widgetSearchBox.connectView(searchBoxView)
+        connection += searchBox.connectView(searchBoxView)
 
         configureToolbar(toolbar)
         configureSearchView(searchView, getString(R.string.search_movies))

@@ -11,7 +11,7 @@ import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieAdapterPaged
 import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
-import com.algolia.instantsearch.helper.android.searchbox.SearchBoxWidgetPagedList
+import com.algolia.instantsearch.helper.android.searchbox.SearchBoxConnectorPagedList
 import com.algolia.instantsearch.helper.android.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import kotlinx.android.synthetic.main.demo_paging.*
@@ -24,8 +24,8 @@ class PagingSingleIndexDemo : AppCompatActivity() {
     private val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Movie.serializer())
     private val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
     private val movies = LivePagedListBuilder<Int, Movie>(dataSourceFactory, pagedListConfig).build()
-    private val widgetSearchBox = SearchBoxWidgetPagedList(searcher, listOf(movies))
-    private val connection = ConnectionHandler(widgetSearchBox)
+    private val searchBox = SearchBoxConnectorPagedList(searcher, listOf(movies))
+    private val connection = ConnectionHandler(searchBox)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class PagingSingleIndexDemo : AppCompatActivity() {
         val adapter = MovieAdapterPaged()
         val searchBoxView = SearchBoxViewAppCompat(searchView)
 
-        connection += widgetSearchBox.connectView(searchBoxView)
+        connection += searchBox.connectView(searchBoxView)
 
         movies.observe(this, Observer { hits -> adapter.submitList(hits) })
 

@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
-import com.algolia.instantsearch.helper.filter.clear.FilterClearWidget
+import com.algolia.instantsearch.helper.filter.clear.FilterClearConnector
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.filters
 import com.algolia.instantsearch.helper.filter.state.groupOr
@@ -36,12 +36,12 @@ class FilterClearDemo : AppCompatActivity() {
     }
     private val filterState = FilterState(filters)
     private val searcher = SearcherSingleIndex(stubIndex)
-    private val widgetClearAll = FilterClearWidget(filterState)
-    private val widgetClearSpecified = FilterClearWidget(filterState, listOf(groupColor), ClearMode.Specified)
-    private val widgetClearExcept = FilterClearWidget(filterState, listOf(groupColor), ClearMode.Except)
+    private val clearAll = FilterClearConnector(filterState)
+    private val clearSpecified = FilterClearConnector(filterState, listOf(groupColor), ClearMode.Specified)
+    private val clearExcept = FilterClearConnector(filterState, listOf(groupColor), ClearMode.Except)
     private val connection = ConnectionHandler(
-        widgetClearSpecified,
-        widgetClearExcept,
+        clearSpecified,
+        clearExcept,
         searcher.connectFilterState(filterState)
     )
 
@@ -49,9 +49,9 @@ class FilterClearDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_clear)
 
-        connection += widgetClearAll.connectView(FilterClearViewImpl(filtersClearAll))
-        connection += widgetClearSpecified.connectView(FilterClearViewImpl(buttonClearSpecified))
-        connection += widgetClearExcept.connectView(FilterClearViewImpl(buttonClearExcept))
+        connection += clearAll.connectView(FilterClearViewImpl(filtersClearAll))
+        connection += clearSpecified.connectView(FilterClearViewImpl(buttonClearSpecified))
+        connection += clearExcept.connectView(FilterClearViewImpl(buttonClearExcept))
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

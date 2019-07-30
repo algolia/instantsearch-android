@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.facet.FacetListWidget
+import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -25,14 +25,14 @@ class FacetListPersistentDemo : AppCompatActivity() {
     private val index = client.initIndex(IndexName("stub"))
     private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(index)
-    private val widgetFacetListColor = FacetListWidget(
+    private val facetListColor = FacetListConnector(
         searcher = searcher,
         filterState = filterState,
         attribute = color,
         selectionMode = SelectionMode.Multiple,
         persistentSelection = true
     )
-    private val widgetFacetListCategory = FacetListWidget(
+    private val facetListCategory = FacetListConnector(
         searcher = searcher,
         filterState = filterState,
         attribute = category,
@@ -40,8 +40,8 @@ class FacetListPersistentDemo : AppCompatActivity() {
         persistentSelection = true
     )
     private val connection = ConnectionHandler(
-        widgetFacetListColor,
-        widgetFacetListCategory,
+        facetListColor,
+        facetListCategory,
         searcher.connectFilterState(filterState)
     )
 
@@ -52,8 +52,8 @@ class FacetListPersistentDemo : AppCompatActivity() {
         val adapterColor = FacetListAdapter()
         val adapterCategory = FacetListAdapter()
 
-        connection += widgetFacetListColor.connectView(adapterColor)
-        connection += widgetFacetListCategory.connectView(adapterCategory)
+        connection += facetListColor.connectView(adapterColor)
+        connection += facetListCategory.connectView(adapterCategory)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

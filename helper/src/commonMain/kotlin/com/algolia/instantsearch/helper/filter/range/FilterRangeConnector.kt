@@ -1,31 +1,34 @@
-package com.algolia.instantsearch.helper.filter.numeric.comparison
+package com.algolia.instantsearch.helper.filter.range
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.core.number.NumberViewModel
+import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.NumericOperator
 
 
-public class FilterComparisonWidget<T>(
-    public val viewModel: NumberViewModel<T>,
+public class FilterRangeConnector<T>(
+    public val viewModel: FilterRangeViewModel<T>,
     public val filterState: FilterState,
     public val attribute: Attribute,
-    public val operator: NumericOperator,
     public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
-    constructor(
+    public constructor(
         filterState: FilterState,
         attribute: Attribute,
-        operator: NumericOperator,
-        number: T? = null,
-        groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
-    ) : this(NumberViewModel(number), filterState, attribute, operator, groupID)
+        bounds: ClosedRange<T>? = null,
+        range: ClosedRange<T>? = null
+    ) : this(
+        FilterRangeViewModel(
+            range = range?.let { Range(it) },
+            bounds = bounds?.let { Range(it) }
+        ),
+        filterState, attribute
+    )
 
-    private val connectionFilterState = viewModel.connectFilterState(filterState, attribute, operator, groupID)
+    private val connectionFilterState = viewModel.connectFilterState(filterState, attribute, groupID)
 
     override fun connect() {
         super.connect()

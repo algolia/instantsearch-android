@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.list.FilterListWidget
+import com.algolia.instantsearch.helper.filter.list.FilterListConnector
 import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupAnd
@@ -31,9 +31,13 @@ class FilterListFacetDemo : AppCompatActivity() {
         Filter.Facet(color, "yellow"),
         Filter.Facet(color, "black")
     )
-    private val widgetFilterList =
-        FilterListWidget.Facet(facetFilters, filterState, SelectionMode.Single, groupID = groupColor)
-    private val connection = ConnectionHandler(widgetFilterList, searcher.connectFilterState(filterState))
+    private val filterList = FilterListConnector.Facet(
+        filters = facetFilters,
+        filterState = filterState,
+        selectionMode = SelectionMode.Single,
+        groupID = groupColor
+    )
+    private val connection = ConnectionHandler(filterList, searcher.connectFilterState(filterState))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +45,7 @@ class FilterListFacetDemo : AppCompatActivity() {
 
         val viewFacet = FilterListAdapter<Filter.Facet>()
 
-        connection += widgetFilterList.connectView(viewFacet)
+        connection += filterList.connectView(viewFacet)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

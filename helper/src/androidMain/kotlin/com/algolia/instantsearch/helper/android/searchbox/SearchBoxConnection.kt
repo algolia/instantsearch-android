@@ -21,7 +21,7 @@ public fun <R> SearchBoxViewModel.connectSearcher(
     return SearchBoxConnectionSearcherPagedList(this, searcher, pagedList, searchAsYouType, debouncer)
 }
 
-public fun <R> SearchBoxWidgetPagedList<R>.connectView(
+public fun <R> SearchBoxConnectorPagedList<R>.connectView(
     view: SearchBoxView
 ): Connection {
     return viewModel.connectView(view)

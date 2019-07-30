@@ -11,7 +11,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 
 
-public class FacetListWidget private constructor(
+public class FacetListConnector private constructor(
     public val filterState: FilterState,
     public val attribute: Attribute,
     public val viewModel: FacetListViewModel,

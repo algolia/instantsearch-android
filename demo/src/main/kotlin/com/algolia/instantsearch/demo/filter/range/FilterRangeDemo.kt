@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.range.FilterRangeWidget
+import com.algolia.instantsearch.helper.filter.range.FilterRangeConnector
 import com.algolia.instantsearch.helper.filter.range.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -32,9 +32,9 @@ class FilterRangeDemo : AppCompatActivity() {
         }
     }
     private val filterState = FilterState(filters)
-    private val widgetRange = FilterRangeWidget(filterState, price, range = initialRange, bounds = primaryBounds)
+    private val range = FilterRangeConnector(filterState, price, range = initialRange, bounds = primaryBounds)
     private val connection = ConnectionHandler(
-        widgetRange,
+        range,
         searcher.connectFilterState(filterState, Debouncer(100))
     )
 
@@ -42,17 +42,17 @@ class FilterRangeDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_range)
 
-        connection += widgetRange.connectView(RangeSliderView(slider))
-        connection += widgetRange.connectView(RangeTextView(rangeLabel))
-        connection += widgetRange.connectView(BoundsTextView(boundsLabel))
+        connection += range.connectView(RangeSliderView(slider))
+        connection += range.connectView(RangeTextView(rangeLabel))
+        connection += range.connectView(BoundsTextView(boundsLabel))
 
         buttonChangeBounds.setOnClickListener {
-            widgetRange.viewModel.bounds.value = Range(secondaryBounds)
+            range.viewModel.bounds.value = Range(secondaryBounds)
             it.isEnabled = false
             buttonResetBounds.isEnabled = true
         }
         buttonResetBounds.setOnClickListener {
-            widgetRange.viewModel.bounds.value = Range(primaryBounds)
+            range.viewModel.bounds.value = Range(primaryBounds)
             it.isEnabled = false
             buttonChangeBounds.isEnabled = true
         }

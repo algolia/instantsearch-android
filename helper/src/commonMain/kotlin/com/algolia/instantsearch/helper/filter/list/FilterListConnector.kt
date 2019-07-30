@@ -9,7 +9,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
 
 
-public abstract class FilterListWidget<T : Filter> internal constructor(
+public abstract class FilterListConnector<T : Filter> internal constructor(
     public val filterState: FilterState,
     public val viewModel: FilterListViewModel<T>,
     public val groupID: FilterGroupID,
@@ -30,7 +30,7 @@ public abstract class FilterListWidget<T : Filter> internal constructor(
         filterState: FilterState,
         viewModel: FilterListViewModel.Facet = FilterListViewModel.Facet(),
         groupID: FilterGroupID = FilterGroupID(FilterOperator.Or)
-    ) : FilterListWidget<Filter.Facet>(
+    ) : FilterListConnector<Filter.Facet>(
         filterState,
         viewModel,
         groupID,
@@ -38,18 +38,18 @@ public abstract class FilterListWidget<T : Filter> internal constructor(
     ) {
 
         constructor(
-            items: List<Filter.Facet>,
+            filters: List<Filter.Facet>,
             filterState: FilterState,
             selectionMode: SelectionMode = SelectionMode.Multiple,
             groupID: FilterGroupID = FilterGroupID(FilterOperator.Or)
-        ) : this(filterState, FilterListViewModel.Facet(items, selectionMode), groupID)
+        ) : this(filterState, FilterListViewModel.Facet(filters, selectionMode), groupID)
     }
 
     class Numeric(
         filterState: FilterState,
         viewModel: FilterListViewModel.Numeric = FilterListViewModel.Numeric(),
         groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
-    ) : FilterListWidget<Filter.Numeric>(
+    ) : FilterListConnector<Filter.Numeric>(
         filterState,
         viewModel,
         groupID,
@@ -57,18 +57,18 @@ public abstract class FilterListWidget<T : Filter> internal constructor(
     ) {
 
         constructor(
-            items: List<Filter.Numeric>,
+            filters: List<Filter.Numeric>,
             filterState: FilterState,
             selectionMode: SelectionMode = SelectionMode.Single,
             groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
-        ) : this(filterState, FilterListViewModel.Numeric(items, selectionMode), groupID)
+        ) : this(filterState, FilterListViewModel.Numeric(filters, selectionMode), groupID)
     }
 
     class Tag(
         filterState: FilterState,
         viewModel: FilterListViewModel.Tag = FilterListViewModel.Tag(),
         groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
-    ) : FilterListWidget<Filter.Tag>(
+    ) : FilterListConnector<Filter.Tag>(
         filterState,
         viewModel,
         groupID,
@@ -76,18 +76,18 @@ public abstract class FilterListWidget<T : Filter> internal constructor(
     ) {
 
         constructor(
-            items: List<Filter.Tag>,
+            filters: List<Filter.Tag>,
             filterState: FilterState,
             selectionMode: SelectionMode = SelectionMode.Multiple,
             groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
-        ) : this(filterState, FilterListViewModel.Tag(items, selectionMode), groupID)
+        ) : this(filterState, FilterListViewModel.Tag(filters, selectionMode), groupID)
     }
 
     class All(
         filterState: FilterState,
         viewModel: FilterListViewModel.All = FilterListViewModel.All(),
         groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
-    ) : FilterListWidget<Filter>(
+    ) : FilterListConnector<Filter>(
         filterState,
         viewModel,
         groupID,
@@ -95,10 +95,10 @@ public abstract class FilterListWidget<T : Filter> internal constructor(
     ) {
 
         constructor(
-            items: List<Filter>,
+            filters: List<Filter>,
             filterState: FilterState,
             selectionMode: SelectionMode = SelectionMode.Multiple,
             groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
-        ) : this(filterState, FilterListViewModel.All(items, selectionMode), groupID)
+        ) : this(filterState, FilterListViewModel.All(filters, selectionMode), groupID)
     }
 }

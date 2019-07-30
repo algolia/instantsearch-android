@@ -1,24 +1,20 @@
-package com.algolia.instantsearch.helper.android.searchbox
+package com.algolia.instantsearch.helper.searchbox
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
-import com.algolia.instantsearch.helper.searchbox.SearchMode
 
 
-public class SearchBoxWidgetPagedList<R>(
+public class SearchBoxConnector<R>(
     public val searcher: Searcher<R>,
-    public val pagedList: List<LiveData<out PagedList<out Any>>>,
     public val viewModel: SearchBoxViewModel = SearchBoxViewModel(),
     public val searchMode: SearchMode = SearchMode.AsYouType,
     public val debouncer: Debouncer = Debouncer(debounceSearchInMillis)
 ) : ConnectionImpl() {
 
-    private val connectionSearcher = viewModel.connectSearcher(searcher, pagedList, searchMode, debouncer)
+    private val connectionSearcher = viewModel.connectSearcher(searcher, searchMode, debouncer)
 
     override fun connect() {
         super.connect()

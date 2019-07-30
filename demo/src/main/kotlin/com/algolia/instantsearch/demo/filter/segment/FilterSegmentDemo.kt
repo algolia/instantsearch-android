@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.filter.FilterSegmentViewRadioGroup
-import com.algolia.instantsearch.helper.filter.segment.FilterSegmentWidget
+import com.algolia.instantsearch.helper.filter.segment.FilterSegmentConnector
 import com.algolia.instantsearch.helper.filter.segment.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupAnd
@@ -27,8 +27,8 @@ class FilterSegmentDemo : AppCompatActivity() {
         R.id.male to Filter.Facet(gender, "male"),
         R.id.female to Filter.Facet(gender, "female")
     )
-    private val widgetFilterSegment = FilterSegmentWidget(filters, filterState, groupID = groupGender)
-    private val connection = ConnectionHandler(widgetFilterSegment, searcher.connectFilterState(filterState))
+    private val filterSegment = FilterSegmentConnector(filters, filterState, groupID = groupGender)
+    private val connection = ConnectionHandler(filterSegment, searcher.connectFilterState(filterState))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class FilterSegmentDemo : AppCompatActivity() {
 
         val viewGender = FilterSegmentViewRadioGroup(radioGroupGender)
 
-        connection += widgetFilterSegment.connectView(viewGender)
+        connection += filterSegment.connectView(viewGender)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)

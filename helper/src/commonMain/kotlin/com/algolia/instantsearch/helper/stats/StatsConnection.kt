@@ -17,7 +17,7 @@ public fun StatsViewModel.connectSearcher(
     return StatsConnectionSearcher(this, searcher)
 }
 
-public fun <T> StatsWidget.connectView(
+public fun <T> StatsConnector.connectView(
     view: StatsView<T>,
     presenter: StatsPresenter<T>
 ): Connection {

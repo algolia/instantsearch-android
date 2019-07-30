@@ -6,12 +6,12 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
+import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.FacetListPresenterImpl
-import com.algolia.instantsearch.helper.filter.facet.FacetListWidget
 import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion
 import com.algolia.instantsearch.helper.filter.facet.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
+import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -28,8 +28,8 @@ class FacetListSearchDemo : AppCompatActivity() {
     private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(stubIndex)
     private val searcherForFacet = SearcherForFacets(stubIndex, brand)
-    private val searchBox = SearchBoxWidget(searcherForFacet)
-    private val widgetFacetList = FacetListWidget(
+    private val searchBox = SearchBoxConnector(searcherForFacet)
+    private val facetList = FacetListConnector(
         searcher = searcherForFacet,
         filterState = filterState,
         attribute = brand,
@@ -37,7 +37,7 @@ class FacetListSearchDemo : AppCompatActivity() {
     )
     private val connection = ConnectionHandler(
         searchBox,
-        widgetFacetList,
+        facetList,
         searcher.connectFilterState(filterState)
     )
 
@@ -56,7 +56,7 @@ class FacetListSearchDemo : AppCompatActivity() {
         searcher.index = index
         searcherForFacet.index = index
 
-        connection += widgetFacetList.connectView(facetView, facetPresenter)
+        connection += facetList.connectView(facetView, facetPresenter)
         connection += searchBox.connectView(searchBoxView)
 
         configureToolbar(toolbar)

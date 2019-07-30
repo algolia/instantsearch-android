@@ -12,7 +12,7 @@ public fun FilterCurrentViewModel.connectView(
     return FilterCurrentConnectionView(this, view, presenter)
 }
 
-public fun FilterCurrentWidget.connectView(
+public fun FilterCurrentConnector.connectView(
     view: FilterCurrentView,
     presenter: FilterCurrentPresenter = FilterCurrentPresenterImpl()
 ): Connection {

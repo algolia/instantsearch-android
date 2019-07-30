@@ -16,7 +16,7 @@ public fun <R> LoadingViewModel.connectSearcher(
     return LoadingConnectionSearcher(this, searcher, debouncer)
 }
 
-public fun <R> LoadingWidget<R>.connectView(
+public fun <R> LoadingConnector<R>.connectView(
     view: LoadingView
 ): Connection {
     return viewModel.connectView(view)

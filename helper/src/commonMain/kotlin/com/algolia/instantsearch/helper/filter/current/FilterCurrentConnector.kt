@@ -6,7 +6,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
 
 
-public class FilterCurrentWidget(
+public class FilterCurrentConnector(
     public val filterState: FilterState,
     public val groupIDs: List<FilterGroupID> = listOf(),
     public val viewModel: FilterCurrentViewModel = FilterCurrentViewModel()

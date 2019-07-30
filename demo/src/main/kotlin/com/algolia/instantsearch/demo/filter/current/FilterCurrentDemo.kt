@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.filter.FilterCurrentViewImpl
-import com.algolia.instantsearch.helper.filter.current.FilterCurrentWidget
+import com.algolia.instantsearch.helper.filter.current.FilterCurrentConnector
 import com.algolia.instantsearch.helper.filter.current.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -41,11 +41,11 @@ class FilterCurrentDemo : AppCompatActivity() {
     }
     private val filterState = FilterState(filters)
     private val searcher = SearcherSingleIndex(stubIndex)
-    private val widgetCurrentFiltersColor = FilterCurrentWidget(filterState, listOf(groupColor))
-    private val widgetCurrentFiltersAll = FilterCurrentWidget(filterState)
+    private val currentFiltersColor = FilterCurrentConnector(filterState, listOf(groupColor))
+    private val currentFiltersAll = FilterCurrentConnector(filterState)
     private val connection = ConnectionHandler(
-        widgetCurrentFiltersColor,
-        widgetCurrentFiltersAll,
+        currentFiltersColor,
+        currentFiltersAll,
         searcher.connectFilterState(filterState)
     )
 
@@ -53,8 +53,8 @@ class FilterCurrentDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_current)
 
-        connection += widgetCurrentFiltersAll.connectView(FilterCurrentViewImpl(chipGroupAll, R.layout.filter_chip))
-        connection += widgetCurrentFiltersColor.connectView(FilterCurrentViewImpl(chipGroupColors, R.layout.filter_chip))
+        connection += currentFiltersAll.connectView(FilterCurrentViewImpl(chipGroupAll, R.layout.filter_chip))
+        connection += currentFiltersColor.connectView(FilterCurrentViewImpl(chipGroupColors, R.layout.filter_chip))
 
         configureSearcher(searcher)
         configureToolbar(toolbar)

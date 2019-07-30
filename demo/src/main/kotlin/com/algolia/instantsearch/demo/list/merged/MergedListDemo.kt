@@ -8,7 +8,7 @@ import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.demo.list.actor.Actor
 import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
-import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
+import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.helper.deserialize
@@ -28,8 +28,8 @@ class MergedListDemo : AppCompatActivity() {
             IndexQuery(IndexName("mobile_demo_actors"), Query(hitsPerPage = 5))
         )
     )
-    private val widgetSearchBox = SearchBoxWidget(searcher)
-    private val connection = ConnectionHandler(widgetSearchBox)
+    private val searchBox = SearchBoxConnector(searcher)
+    private val connection = ConnectionHandler(searchBox)
     private val adapter = MergedListAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,7 @@ class MergedListDemo : AppCompatActivity() {
                 }
             } else emptyList()
         }
-        connection += widgetSearchBox.connectView(searchBoxView)
+        connection += searchBox.connectView(searchBoxView)
 
         configureToolbar(toolbar)
         configureSearchView(searchView, getString(R.string.search_movies))

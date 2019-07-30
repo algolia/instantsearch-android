@@ -23,7 +23,7 @@ public fun FilterToggleViewModel.connectFilterState(
     return FilterToggleConnectionFilterState(this, filterState, groupID)
 }
 
-public fun FilterToggleWidget.connectView(
+public fun FilterToggleConnector.connectView(
     view: FilterToggleView,
     presenter: FilterPresenter = FilterPresenterImpl()
 ): Connection {

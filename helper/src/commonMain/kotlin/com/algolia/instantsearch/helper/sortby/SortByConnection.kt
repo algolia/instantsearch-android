@@ -20,7 +20,7 @@ public fun SortByViewModel.connectSearcher(
     return SortByConnectionSearcher(this, searcher)
 }
 
-public fun SortByWidget.connectView(
+public fun SortByConnector.connectView(
     view: SelectableMapView<Int, String>,
     presenter: IndexPresenter = IndexPresenterImpl
 ): Connection {

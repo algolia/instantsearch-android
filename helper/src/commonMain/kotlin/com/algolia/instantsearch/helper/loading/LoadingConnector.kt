@@ -7,7 +7,7 @@ import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceLoadingInMillis
 
 
-public class LoadingWidget<R>(
+public class LoadingConnector<R>(
     public val searcher: Searcher<R>,
     public val viewModel: LoadingViewModel = LoadingViewModel(),
     public val debouncer: Debouncer = Debouncer(debounceLoadingInMillis)

@@ -5,7 +5,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
 
 
-public class StatsWidget(
+public class StatsConnector(
     public val searcher: SearcherSingleIndex,
     public val viewModel: StatsViewModel = StatsViewModel()
 ) : ConnectionImpl() {

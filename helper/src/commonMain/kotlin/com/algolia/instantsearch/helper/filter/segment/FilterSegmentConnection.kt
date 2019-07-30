@@ -24,7 +24,7 @@ public fun FilterSegmentViewModel.connectView(
     return connectView(view, presenter)
 }
 
-public fun FilterSegmentWidget.connectView(
+public fun FilterSegmentConnector.connectView(
     view: SelectableMapView<Int, String>,
     presenter: FilterPresenter = FilterPresenterImpl()
 ): Connection {

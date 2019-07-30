@@ -37,7 +37,7 @@ public fun FacetListViewModel.connectView(
     return FacetListConnectionView(this, view, presenter)
 }
 
-public fun FacetListWidget.connectView(
+public fun FacetListConnector.connectView(
     view: FacetListView,
     presenter: FacetListPresenter? = null
 ): Connection {

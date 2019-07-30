@@ -46,7 +46,7 @@ internal inline fun <reified T : Filter> FilterListViewModel<T>.connect(
     return FilterListConnectionFilterState(this, filterState, groupID, getSelections)
 }
 
-public fun <T : Filter> FilterListWidget<T>.connectView(
+public fun <T : Filter> FilterListConnector<T>.connectView(
     view: FilterListView<T>
 ): Connection {
     return viewModel.connectView(view)

@@ -11,10 +11,10 @@ import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieAdapterPaged
 import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
 import com.algolia.instantsearch.helper.android.loading.LoadingViewSwipeRefreshLayout
+import com.algolia.instantsearch.helper.android.searchbox.SearchBoxConnectorPagedList
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
-import com.algolia.instantsearch.helper.android.searchbox.SearchBoxWidgetPagedList
 import com.algolia.instantsearch.helper.android.searchbox.connectView
-import com.algolia.instantsearch.helper.loading.LoadingWidget
+import com.algolia.instantsearch.helper.loading.LoadingConnector
 import com.algolia.instantsearch.helper.loading.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import kotlinx.android.synthetic.main.demo_loading.*
@@ -29,9 +29,9 @@ class LoadingDemo : AppCompatActivity() {
     private val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Movie.serializer())
     private val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
     private val movies = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
-    private val widgetLoading = LoadingWidget(searcher)
-    private val widgetSearchBox = SearchBoxWidgetPagedList(searcher, listOf(movies))
-    private val connection = ConnectionHandler(widgetLoading, widgetSearchBox)
+    private val loading = LoadingConnector(searcher)
+    private val searchBox = SearchBoxConnectorPagedList(searcher, listOf(movies))
+    private val connection = ConnectionHandler(loading, searchBox)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +41,8 @@ class LoadingDemo : AppCompatActivity() {
         val searchBoxView = SearchBoxViewAppCompat(searchView)
         val adapter = MovieAdapterPaged()
 
-        connection += widgetLoading.connectView(view)
-        connection += widgetSearchBox.connectView(searchBoxView)
+        connection += loading.connectView(view)
+        connection += searchBox.connectView(searchBoxView)
         movies.observe(this, Observer { hits -> adapter.submitList(hits) })
 
         configureSearcher(searcher)

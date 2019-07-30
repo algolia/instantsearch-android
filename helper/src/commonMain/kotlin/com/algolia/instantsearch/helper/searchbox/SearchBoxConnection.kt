@@ -6,7 +6,6 @@ import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
-import com.algolia.instantsearch.core.searcher.debounceLoadingInMillis
 import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
 
 
@@ -18,7 +17,7 @@ public fun <R> SearchBoxViewModel.connectSearcher(
     return SearchBoxConnectionSearcher(this, searcher, searchMode, debouncer)
 }
 
-public fun <R> SearchBoxWidget<R>.connectView(
+public fun <R> SearchBoxConnector<R>.connectView(
     view: SearchBoxView
 ): Connection {
     return viewModel.connectView(view)

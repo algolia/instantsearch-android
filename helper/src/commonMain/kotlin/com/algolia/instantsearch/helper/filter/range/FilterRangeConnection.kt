@@ -17,7 +17,7 @@ public fun <T> FilterRangeViewModel<T>.connectFilterState(
     return FilterRangeConnectionFilterState(this, filterState, attribute, groupID)
 }
 
-public fun <T> FilterRangeWidget<T>.connectView(
+public fun <T> FilterRangeConnector<T>.connectView(
     view: NumberRangeView<T>
 ): Connection where T : Number, T : Comparable<T> {
     return viewModel.connectView(view)

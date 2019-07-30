@@ -5,7 +5,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.client.Index
 
 
-public class SortByWidget(
+public class SortByConnector(
     public val searcher: SearcherSingleIndex,
     public val viewModel: SortByViewModel = SortByViewModel()
 ) : ConnectionImpl() {

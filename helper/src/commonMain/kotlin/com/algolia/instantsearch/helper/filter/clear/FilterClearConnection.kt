@@ -19,7 +19,7 @@ public fun FilterClearViewModel.connectView(
     return FilterClearConnectionView(this, view)
 }
 
-public fun FilterClearWidget.connectView(
+public fun FilterClearConnector.connectView(
     view: FilterClearView
 ): Connection {
     return viewModel.connectView(view)

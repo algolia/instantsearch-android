@@ -5,7 +5,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 
 
-public class FilterClearWidget(
+public class FilterClearConnector(
     public val filterState: FilterState,
     public val groupIDs: List<FilterGroupID> = listOf(),
     public val mode: ClearMode = ClearMode.Specified,

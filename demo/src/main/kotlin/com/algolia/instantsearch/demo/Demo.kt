@@ -28,17 +28,17 @@ import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
-import com.algolia.instantsearch.helper.filter.clear.FilterClearWidget
+import com.algolia.instantsearch.helper.filter.clear.FilterClearConnector
 import com.algolia.instantsearch.helper.filter.clear.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
-import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
+import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.stats.StatsPresenter
-import com.algolia.instantsearch.helper.stats.StatsWidget
+import com.algolia.instantsearch.helper.stats.StatsConnector
 import com.algolia.instantsearch.helper.stats.connectView
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.Compression
@@ -99,10 +99,10 @@ fun AppCompatActivity.onClearAllThenClearFilters(
     filtersClearAll: View,
     connection: ConnectionHandler
 ) {
-    val widget = FilterClearWidget(filterState)
+    val connector = FilterClearConnector(filterState)
 
-    connection += widget
-    connection += widget.connectView(FilterClearViewImpl(filtersClearAll))
+    connection += connector
+    connection += connector.connectView(FilterClearViewImpl(filtersClearAll))
 }
 
 fun AppCompatActivity.onErrorThenUpdateFiltersText(
@@ -128,10 +128,10 @@ fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
             }
         }
     }
-    val widget = StatsWidget(searcher)
+    val connector = StatsConnector(searcher)
 
-    connection += widget
-    connection += widget.connectView(view, presenter)
+    connection += connector
+    connection += connector.connectView(view, presenter)
 }
 
 fun AppCompatActivity.onResetThenRestoreFilters(
@@ -192,10 +192,10 @@ fun <R> AppCompatActivity.configureSearchBox(
     searcher: Searcher<R>,
     connection: ConnectionHandler
 ) {
-    val widget = SearchBoxWidget(searcher)
+    val connector = SearchBoxConnector(searcher)
 
-    connection += widget
-    connection += widget.connectView(SearchBoxViewAppCompat(searchView))
+    connection += connector
+    connection += connector.connectView(SearchBoxViewAppCompat(searchView))
 }
 
 fun AppCompatActivity.configureSearchView(
