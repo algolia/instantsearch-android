@@ -14,7 +14,7 @@ import com.algolia.instantsearch.helper.android.sortby.SortByViewAutocomplete
 import com.algolia.instantsearch.helper.sortby.SortByWidget
 import com.algolia.instantsearch.helper.sortby.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectListAdapter
+import com.algolia.instantsearch.helper.android.searcher.connectListAdapter
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import kotlinx.android.synthetic.main.demo_index_segment.*

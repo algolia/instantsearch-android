@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectListAdapter
+import com.algolia.instantsearch.helper.android.searcher.connectListAdapter
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query

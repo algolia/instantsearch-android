@@ -3,11 +3,15 @@ package com.algolia.instantsearch.demo
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.text.SpannedString
+import android.text.style.ForegroundColorSpan
 import android.text.style.ImageSpan
+import android.text.style.StyleSpan
 import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
@@ -22,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
-import com.algolia.instantsearch.helper.android.highlight
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
 import com.algolia.instantsearch.helper.filter.clear.FilterClearWidget
@@ -45,6 +48,8 @@ import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
+import com.algolia.search.model.filter.FilterGroup
+import com.algolia.search.model.filter.FilterGroupsConverter
 import com.algolia.search.serialize.KeyIndexName
 import com.algolia.search.serialize.KeyName
 
@@ -229,3 +234,27 @@ fun SearchView.showQueryHintIcon(
 }
 
 fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()
+
+public fun List<FilterGroup<*>>.highlight(
+    converter: FilterGroupsConverter<List<FilterGroup<*>>, String?> = FilterGroupsConverter.SQL.Unquoted,
+    colors: Map<String, Int> = mapOf(),
+    defaultColor: Int = Color.BLACK
+): SpannableStringBuilder {
+    return SpannableStringBuilder().also {
+        var begin = 0
+
+        forEachIndexed { index, group ->
+            val color = colors.getOrElse(group.name ?: "") { defaultColor }
+            val string = converter(listOf(group))
+
+            it.append(string)
+            it.setSpan(ForegroundColorSpan(color), begin, it.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            if (index < lastIndex) {
+                begin = it.length
+                it.append(" AND ")
+                it.setSpan(StyleSpan(Typeface.BOLD), begin, it.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            begin = it.length
+        }
+    }
+}

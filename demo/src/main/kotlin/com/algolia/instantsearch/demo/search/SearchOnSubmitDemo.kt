@@ -11,7 +11,7 @@ import com.algolia.instantsearch.helper.searchbox.SearchBoxWidget
 import com.algolia.instantsearch.helper.searchbox.SearchMode
 import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectListAdapter
+import com.algolia.instantsearch.helper.android.searcher.connectListAdapter
 import com.algolia.search.helper.deserialize
 import kotlinx.android.synthetic.main.demo_search.*
 import kotlinx.android.synthetic.main.include_search.*

@@ -15,7 +15,7 @@ import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieDiffUtil
 import com.algolia.instantsearch.helper.android.inflate
-import com.algolia.instantsearch.helper.highlighting.toSpannedString
+import com.algolia.instantsearch.helper.android.highlighting.toSpannedString
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.list_item_highlighting.view.*
 

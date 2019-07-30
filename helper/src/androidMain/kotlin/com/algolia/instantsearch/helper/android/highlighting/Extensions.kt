@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.highlighting
+package com.algolia.instantsearch.helper.android.highlighting
 
 import android.graphics.Typeface
 import android.text.ParcelableSpan
