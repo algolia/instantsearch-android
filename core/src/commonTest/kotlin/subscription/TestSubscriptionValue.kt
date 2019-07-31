@@ -12,7 +12,6 @@ class TestSubscriptionValue {
 
         item.value = value
         item.value shouldEqual value
-        item.value shouldEqual value
     }
 
     @Test
