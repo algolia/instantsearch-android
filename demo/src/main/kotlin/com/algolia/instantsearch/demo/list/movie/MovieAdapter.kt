@@ -19,7 +19,7 @@ class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieDiffUtil), HitsVie
         if (item != null) holder.bind(item)
     }
 
-    override fun setHits(items: List<Movie>) {
-        submitList(items)
+    override fun setHits(hits: List<Movie>) {
+        submitList(hits)
     }
 }
