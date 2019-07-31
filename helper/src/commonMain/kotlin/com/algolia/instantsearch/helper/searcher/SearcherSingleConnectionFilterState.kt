@@ -10,7 +10,7 @@ import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.search.model.filter.FilterGroupsConverter
 
 
-internal class SearcherSingleConnectionFilterState(
+internal data class SearcherSingleConnectionFilterState(
     private val searcher: SearcherSingleIndex,
     private val filterState: FilterState,
     private val debouncer: Debouncer

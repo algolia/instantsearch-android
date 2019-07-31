@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 
 
-internal class SortByConnectionSearcher(
+internal data class SortByConnectionSearcher(
     private val viewModel: SortByViewModel,
     private val searcher: SearcherSingleIndex
 ) : ConnectionImpl() {

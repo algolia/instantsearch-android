@@ -9,7 +9,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.NumericOperator
 
 
-public class FilterComparisonConnector<T>(
+public data class FilterComparisonConnector<T>(
     public val viewModel: NumberViewModel<T>,
     public val filterState: FilterState,
     public val attribute: Attribute,

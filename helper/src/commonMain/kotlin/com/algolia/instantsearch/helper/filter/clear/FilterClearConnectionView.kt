@@ -3,7 +3,7 @@ package com.algolia.instantsearch.helper.filter.clear
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
-internal class FilterClearConnectionView(
+internal data class FilterClearConnectionView(
     private val viewModel: FilterClearViewModel,
     private val view: FilterClearView
 ) : ConnectionImpl() {

@@ -8,7 +8,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
 
-internal class FilterRangeConnectionFilterState<T>(
+internal data class FilterRangeConnectionFilterState<T>(
     private val viewModel: FilterRangeViewModel<T>,
     private val filterState: FilterState,
     private val attribute: Attribute,

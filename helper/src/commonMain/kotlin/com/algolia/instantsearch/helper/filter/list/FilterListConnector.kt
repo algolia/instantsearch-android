@@ -9,12 +9,12 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
 
 
-public abstract class FilterListConnector<T : Filter> internal constructor(
-    public val filterState: FilterState,
-    public val viewModel: FilterListViewModel<T>,
-    public val groupID: FilterGroupID,
-    private val connectionFilterState: Connection
-) : ConnectionImpl() {
+public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
+
+    public abstract val filterState: FilterState
+    public abstract val viewModel: FilterListViewModel<T>
+    public abstract val groupID: FilterGroupID
+    protected abstract val connectionFilterState: Connection
 
     override fun connect() {
         super.connect()
@@ -26,16 +26,13 @@ public abstract class FilterListConnector<T : Filter> internal constructor(
         connectionFilterState.disconnect()
     }
 
-    class Facet(
-        filterState: FilterState,
-        viewModel: FilterListViewModel.Facet = FilterListViewModel.Facet(),
-        groupID: FilterGroupID = FilterGroupID(FilterOperator.Or)
-    ) : FilterListConnector<Filter.Facet>(
-        filterState,
-        viewModel,
-        groupID,
-        viewModel.connectFilterState(filterState, groupID)
-    ) {
+    data class Facet(
+        override val filterState: FilterState,
+        override val viewModel: FilterListViewModel.Facet = FilterListViewModel.Facet(),
+        override val groupID: FilterGroupID = FilterGroupID(FilterOperator.Or)
+    ) : FilterListConnector<Filter.Facet>() {
+
+        override val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
 
         constructor(
             filters: List<Filter.Facet>,
@@ -45,16 +42,13 @@ public abstract class FilterListConnector<T : Filter> internal constructor(
         ) : this(filterState, FilterListViewModel.Facet(filters, selectionMode), groupID)
     }
 
-    class Numeric(
-        filterState: FilterState,
-        viewModel: FilterListViewModel.Numeric = FilterListViewModel.Numeric(),
-        groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
-    ) : FilterListConnector<Filter.Numeric>(
-        filterState,
-        viewModel,
-        groupID,
-        viewModel.connectFilterState(filterState, groupID)
-    ) {
+    data class Numeric(
+        override val filterState: FilterState,
+        override val viewModel: FilterListViewModel.Numeric = FilterListViewModel.Numeric(),
+        override val groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
+    ) : FilterListConnector<Filter.Numeric>() {
+
+        override val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
 
         constructor(
             filters: List<Filter.Numeric>,
@@ -64,16 +58,13 @@ public abstract class FilterListConnector<T : Filter> internal constructor(
         ) : this(filterState, FilterListViewModel.Numeric(filters, selectionMode), groupID)
     }
 
-    class Tag(
-        filterState: FilterState,
-        viewModel: FilterListViewModel.Tag = FilterListViewModel.Tag(),
-        groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
-    ) : FilterListConnector<Filter.Tag>(
-        filterState,
-        viewModel,
-        groupID,
-        viewModel.connectFilterState(filterState, groupID)
-    ) {
+    data class Tag(
+        override val filterState: FilterState,
+        override val viewModel: FilterListViewModel.Tag = FilterListViewModel.Tag(),
+        override val groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
+    ) : FilterListConnector<Filter.Tag>() {
+
+        override val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
 
         constructor(
             filters: List<Filter.Tag>,
@@ -83,16 +74,13 @@ public abstract class FilterListConnector<T : Filter> internal constructor(
         ) : this(filterState, FilterListViewModel.Tag(filters, selectionMode), groupID)
     }
 
-    class All(
-        filterState: FilterState,
-        viewModel: FilterListViewModel.All = FilterListViewModel.All(),
-        groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
-    ) : FilterListConnector<Filter>(
-        filterState,
-        viewModel,
-        groupID,
-        viewModel.connectFilterState(filterState, groupID)
-    ) {
+    data class All(
+        override val filterState: FilterState,
+        override val viewModel: FilterListViewModel.All = FilterListViewModel.All(),
+        override val groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
+    ) : FilterListConnector<Filter>() {
+
+        override val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
 
         constructor(
             filters: List<Filter>,

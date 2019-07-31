@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searcher.Searcher
 
 
-internal class HitsConnectionView<R, T>(
+internal data class HitsConnectionView<R, T>(
     private val searcher: Searcher<R>,
     private val view: HitsView<T>,
     private val presenter: Presenter<R, List<T>>

@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
 
 
-internal class SelectableListConnectionView<T>(
+internal data class SelectableListConnectionView<T>(
     private val viewModel: SelectableListViewModel<T, T>,
     private val view: SelectableListView<T>
 ) : ConnectionImpl() {

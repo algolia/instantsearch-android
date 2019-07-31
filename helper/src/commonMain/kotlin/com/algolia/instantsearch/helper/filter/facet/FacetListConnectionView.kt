@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
 
 
-internal class FacetListConnectionView(
+internal data class FacetListConnectionView(
     private val viewModel: FacetListViewModel,
     private val view: FacetListView,
     private val presenter: FacetListPresenter?

@@ -6,7 +6,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 
 
-internal class FilterClearConnectionFilterState(
+internal data class FilterClearConnectionFilterState(
     private val viewModel: FilterClearViewModel,
     private val filterState: FilterState,
     private val groupIDs: List<FilterGroupID>,

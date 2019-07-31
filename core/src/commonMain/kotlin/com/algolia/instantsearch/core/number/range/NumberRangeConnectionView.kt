@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
 
 
-internal class NumberRangeConnectionView<T>(
+internal data class NumberRangeConnectionView<T>(
     private val viewModel: NumberRangeViewModel<T>,
     private val view: NumberRangeView<T>
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {

@@ -8,7 +8,7 @@ import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.search.model.filter.Filter
 
 
-internal class FilterCurrentConnectionFilterState(
+internal data class FilterCurrentConnectionFilterState(
     private val viewModel: FilterCurrentViewModel,
     private val filterState: FilterState,
     private val groupIDs: List<FilterGroupID>

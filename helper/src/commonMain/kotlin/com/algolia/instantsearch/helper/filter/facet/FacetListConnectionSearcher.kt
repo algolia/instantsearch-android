@@ -8,7 +8,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
 
 
-internal class FacetListConnectionSearcher(
+internal data class FacetListConnectionSearcher(
     private val viewModel: FacetListViewModel,
     private val searcher: SearcherSingleIndex,
     private val attribute: Attribute

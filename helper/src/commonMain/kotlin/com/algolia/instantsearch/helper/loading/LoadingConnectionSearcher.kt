@@ -7,7 +7,7 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 
 
-internal class LoadingConnectionSearcher<R>(
+internal data class LoadingConnectionSearcher<R>(
     private val viewModel: LoadingViewModel,
     private val searcher: Searcher<R>,
     private val debouncer: Debouncer

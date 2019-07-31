@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.search.model.response.ResponseSearch
 
 
-internal class StatsConnectionView<T>(
+internal data class StatsConnectionView<T>(
     private val viewModel: StatsViewModel,
     private val view: StatsView<T>,
     private val presenter: StatsPresenter<T>

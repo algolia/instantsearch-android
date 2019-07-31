@@ -8,7 +8,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
 
-internal class FacetListConnectionFilterState(
+internal data class FacetListConnectionFilterState(
     private val viewModel: FacetListViewModel,
     private val filterState: FilterState,
     private val attribute: Attribute,

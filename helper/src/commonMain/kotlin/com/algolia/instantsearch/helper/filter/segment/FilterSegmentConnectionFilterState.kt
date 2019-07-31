@@ -7,7 +7,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
 
 
-internal class FilterSegmentConnectionFilterState(
+internal data class FilterSegmentConnectionFilterState(
     private val viewModel: FilterSegmentViewModel,
     private val filterState: FilterState,
     private val groupID: FilterGroupID

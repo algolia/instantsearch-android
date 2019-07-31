@@ -10,7 +10,7 @@ import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
 import com.algolia.instantsearch.helper.searchbox.SearchMode
 
 
-public class SearchBoxConnectorPagedList<R>(
+public data class SearchBoxConnectorPagedList<R>(
     public val searcher: Searcher<R>,
     public val pagedList: List<LiveData<out PagedList<out Any>>>,
     public val viewModel: SearchBoxViewModel = SearchBoxViewModel(),

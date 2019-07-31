@@ -7,7 +7,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
 
 
-public class FilterToggleConnector(
+public data class FilterToggleConnector(
     public val filterState: FilterState,
     public val viewModel: FilterToggleViewModel,
     public val groupID: FilterGroupID = FilterGroupID(viewModel.item.value.attribute, FilterOperator.And)

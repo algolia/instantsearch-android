@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
 
 
-internal class NumberConnectionView<T>(
+internal data class NumberConnectionView<T>(
     private val viewModel: NumberViewModel<T>,
     private val view: NumberView<T>,
     private val presenter: NumberPresenter<T>

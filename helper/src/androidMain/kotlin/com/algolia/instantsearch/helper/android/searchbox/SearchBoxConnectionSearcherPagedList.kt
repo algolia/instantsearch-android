@@ -10,7 +10,7 @@ import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searchbox.SearchMode
 
 
-internal class SearchBoxConnectionSearcherPagedList<R>(
+internal data class SearchBoxConnectionSearcherPagedList<R>(
     private val viewModel: SearchBoxViewModel,
     private val searcher: Searcher<R>,
     private val pagedList: List<LiveData<out PagedList<out Any>>>,

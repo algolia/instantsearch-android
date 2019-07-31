@@ -8,7 +8,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
 
 
-public class FilterRangeConnector<T>(
+public data class FilterRangeConnector<T>(
     public val viewModel: FilterRangeViewModel<T>,
     public val filterState: FilterState,
     public val attribute: Attribute,

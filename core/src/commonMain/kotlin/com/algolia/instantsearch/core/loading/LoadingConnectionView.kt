@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
 
 
-internal class LoadingConnectionView(
+internal data class LoadingConnectionView(
     private val viewModel: LoadingViewModel,
     private val view: LoadingView
 ) : ConnectionImpl() {

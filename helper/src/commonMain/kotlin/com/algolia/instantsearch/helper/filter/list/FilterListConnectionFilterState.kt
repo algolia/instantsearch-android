@@ -10,7 +10,7 @@ import com.algolia.instantsearch.helper.filter.state.add
 import com.algolia.search.model.filter.Filter
 
 
-internal class FilterListConnectionFilterState<T : Filter>(
+internal data class FilterListConnectionFilterState<T : Filter>(
     private val viewModel: FilterListViewModel<T>,
     private val filterState: FilterState,
     private val groupID: FilterGroupID,

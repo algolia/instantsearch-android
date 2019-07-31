@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
 
 
-internal class SelectableItemConnectionView<I, O>(
+internal data class SelectableItemConnectionView<I, O>(
     private val viewModel: SelectableItemViewModel<I>,
     private val view: SelectableItemView<O>,
     private val presenter: Presenter<I, O>

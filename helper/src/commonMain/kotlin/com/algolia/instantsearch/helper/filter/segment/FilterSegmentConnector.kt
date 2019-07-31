@@ -7,7 +7,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
 
 
-public class FilterSegmentConnector(
+public data class FilterSegmentConnector(
     public val filterState: FilterState,
     public val viewModel: FilterSegmentViewModel = FilterSegmentViewModel(),
     public val groupID: FilterGroupID = FilterGroupID(FilterOperator.And)

@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.search.model.filter.Filter
 
 
-internal class FilterCurrentConnectionView(
+internal data class FilterCurrentConnectionView(
     private val viewModel: FilterCurrentViewModel,
     private val view: FilterCurrentView,
     private val presenter: FilterCurrentPresenter = FilterCurrentPresenterImpl()

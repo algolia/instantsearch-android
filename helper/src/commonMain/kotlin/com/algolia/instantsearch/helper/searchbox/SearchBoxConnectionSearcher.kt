@@ -8,7 +8,7 @@ import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
 
 
-internal class SearchBoxConnectionSearcher<R>(
+internal data class SearchBoxConnectionSearcher<R>(
     private val viewModel: SearchBoxViewModel,
     private val searcher: Searcher<R>,
     private val searchMode: SearchMode,

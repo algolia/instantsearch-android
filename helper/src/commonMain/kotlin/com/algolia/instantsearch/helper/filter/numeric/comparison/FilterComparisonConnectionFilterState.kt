@@ -11,7 +11,7 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 
 
-internal class FilterComparisonConnectionFilterState<T>(
+internal data class FilterComparisonConnectionFilterState<T>(
     private val viewModel: NumberViewModel<T>,
     private val filterState: FilterState,
     private val attribute: Attribute,

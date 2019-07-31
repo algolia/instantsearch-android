@@ -6,7 +6,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
 
 
-internal class StatsConnectionSearcher(
+internal data class StatsConnectionSearcher(
     private val viewModel: StatsViewModel,
     private val searcher: SearcherSingleIndex
 ) : ConnectionImpl() {
