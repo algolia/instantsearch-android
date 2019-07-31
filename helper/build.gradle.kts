@@ -12,6 +12,7 @@ import dependency.ui.*
 plugins {
     id("com.android.library")
     id("kotlin-multiplatform")
+    id("kotlinx-serialization")
     id("maven-publish")
     id("com.jfrog.bintray")
 }
