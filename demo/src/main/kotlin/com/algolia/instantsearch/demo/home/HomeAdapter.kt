@@ -4,11 +4,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.helper.android.inflate
 
 
-class HomeAdapter : ListAdapter<HomeItem, HomeViewHolder>(diffUtil) {
+class HomeAdapter : ListAdapter<HomeItem, HomeViewHolder>(diffUtil), HitsView<HomeItem> {
 
     private enum class ViewType {
         Header,
@@ -38,6 +39,10 @@ class HomeAdapter : ListAdapter<HomeItem, HomeViewHolder>(diffUtil) {
             is HomeItem.Header -> ViewType.Header
             is HomeItem.Item -> ViewType.Item
         }.ordinal
+    }
+
+    override fun setHits(hits: List<HomeItem>) {
+        submitList(hits)
     }
 
     companion object {

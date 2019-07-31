@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
+import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.demo.R
 import com.algolia.instantsearch.demo.client
 import com.algolia.instantsearch.demo.configureRecyclerView
@@ -11,10 +12,9 @@ import com.algolia.instantsearch.demo.configureToolbar
 import com.algolia.instantsearch.demo.list.movie.Movie
 import com.algolia.instantsearch.demo.list.movie.MovieAdapter
 import com.algolia.instantsearch.helper.android.sortby.SortByViewAutocomplete
+import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.sortby.SortByConnector
 import com.algolia.instantsearch.helper.sortby.connectView
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.android.searcher.connectListAdapter
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import kotlinx.android.synthetic.main.demo_index_segment.*
@@ -43,14 +43,16 @@ class SortByDemo : AppCompatActivity() {
         val adapterMovie = MovieAdapter()
 
         connection += sortBy.connectView(view) { index ->
-                when (index) {
-                    indexTitle -> "Default"
-                    indexYearAsc -> "Year Asc"
-                    indexYearDesc -> "Year Desc"
-                    else -> index.indexName.raw
-                }
+            when (index) {
+                indexTitle -> "Default"
+                indexYearAsc -> "Year Asc"
+                indexYearDesc -> "Year Desc"
+                else -> index.indexName.raw
             }
-        connection += searcher.connectListAdapter(adapterMovie) { hits -> hits.deserialize(Movie.serializer()) }
+        }
+        connection += searcher.connectHitsView(adapterMovie) { response ->
+            response.hits.deserialize(Movie.serializer())
+        }
 
         configureToolbar(toolbar)
         configureRecyclerView(list, adapterMovie)

@@ -3,9 +3,9 @@ package com.algolia.instantsearch.demo.home
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
+import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.android.searcher.connectListAdapter
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
@@ -18,15 +18,15 @@ class HomeDemo : AppCompatActivity() {
     private val index = client.initIndex(IndexName("mobile_demo_home"))
     private val searcher = SearcherSingleIndex(index, Query(hitsPerPage = 100))
     private val connection = ConnectionHandler()
+    private val adapter = HomeAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_home)
 
-        val adapter = HomeAdapter()
 
-        connection += searcher.connectListAdapter(adapter) { hits ->
-            hits.deserialize(HomeHit.serializer())
+        connection += searcher.connectHitsView(adapter) { response ->
+            response.hits.deserialize(HomeHit.serializer())
                 .filter { homeActivities.containsKey(it.objectID) }
                 .groupBy { it.type }
                 .toSortedMap()
