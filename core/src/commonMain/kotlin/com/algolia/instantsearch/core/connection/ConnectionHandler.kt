@@ -2,7 +2,7 @@ package com.algolia.instantsearch.core.connection
 
 
 public class ConnectionHandler(
-    private val connections: MutableSet<Connection> = mutableSetOf()
+    internal val connections: MutableSet<Connection> = mutableSetOf()
 ) {
 
     public constructor(
