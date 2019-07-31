@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.demo.list.nested
+package com.algolia.instantsearch.demo.list.paging
 
 import android.view.View
 import android.widget.TextView
@@ -7,24 +7,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.demo.autoScrollToStart
 
 
-sealed class NestedListViewHolder(
+sealed class PagingMultipleIndexViewHolder(
     view: View
 ) : RecyclerView.ViewHolder(view) {
 
     data class Header(
         val view: TextView
-    ) : NestedListViewHolder(view) {
+    ) : PagingMultipleIndexViewHolder(view) {
 
-        fun bind(item: NestedListItem.Header) {
+        fun bind(item: PagingMultipleIndexItem.Header) {
             view.text = item.name
         }
     }
 
     data class Movies(
         val view: RecyclerView
-    ) : NestedListViewHolder(view) {
+    ) : PagingMultipleIndexViewHolder(view) {
 
-        fun bind(item: NestedListItem.Movies) {
+        fun bind(item: PagingMultipleIndexItem.Movies) {
             view.let {
                 it.autoScrollToStart(item.adapter)
                 it.adapter = item.adapter
@@ -35,9 +35,9 @@ sealed class NestedListViewHolder(
 
     data class Actors(
         val view: RecyclerView
-    ) : NestedListViewHolder(view) {
+    ) : PagingMultipleIndexViewHolder(view) {
 
-        fun bind(item: NestedListItem.Actors) {
+        fun bind(item: PagingMultipleIndexItem.Actors) {
             view.let {
                 it.autoScrollToStart(item.adapter)
                 it.adapter = item.adapter

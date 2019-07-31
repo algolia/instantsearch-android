@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.demo.list.nested
+package com.algolia.instantsearch.demo.list.paging
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.demo_search.*
 import kotlinx.android.synthetic.main.include_search.*
 
 
-class NestedListDemo : AppCompatActivity() {
+class PagingMultipleIndexDemo : AppCompatActivity() {
 
     private val searcher = SearcherMultipleIndex(
         client,
@@ -45,17 +45,17 @@ class NestedListDemo : AppCompatActivity() {
 
         val adapterActor = ActorAdapterNested()
         val adapterMovie = MovieAdapterNested()
-        val adapter = NestedListAdapter()
+        val adapter = PagingMultipleIndexAdapter()
 
         actors.observe(this, Observer { hits -> adapterActor.submitList(hits) })
         movies.observe(this, Observer { hits -> adapterMovie.submitList(hits) })
 
         adapter.submitList(
             listOf(
-                NestedListItem.Header("Movies"),
-                NestedListItem.Movies(adapterMovie),
-                NestedListItem.Header("Actors"),
-                NestedListItem.Actors(adapterActor)
+                PagingMultipleIndexItem.Header("Movies"),
+                PagingMultipleIndexItem.Movies(adapterMovie),
+                PagingMultipleIndexItem.Header("Actors"),
+                PagingMultipleIndexItem.Actors(adapterActor)
             )
         )
 

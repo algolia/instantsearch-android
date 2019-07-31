@@ -17,7 +17,7 @@ import com.algolia.instantsearch.demo.hierarchical.HierarchicalDemo
 import com.algolia.instantsearch.demo.highlighting.HighlightingDemo
 import com.algolia.instantsearch.demo.sortby.SortByDemo
 import com.algolia.instantsearch.demo.list.merged.MergedListDemo
-import com.algolia.instantsearch.demo.list.nested.NestedListDemo
+import com.algolia.instantsearch.demo.list.paging.PagingMultipleIndexDemo
 import com.algolia.instantsearch.demo.list.paging.PagingSingleIndexDemo
 import com.algolia.instantsearch.demo.loading.LoadingDemo
 import com.algolia.instantsearch.demo.search.SearchAsYouTypeDemo
@@ -40,14 +40,14 @@ val homeActivities = mapOf(
     ObjectID("facet_list_search") to FacetListSearchDemo::class,
     ObjectID("filter_numeric_comparison") to FilterComparisonDemo::class,
     ObjectID("filter_numeric_range") to FilterRangeDemo::class,
-    ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,
     ObjectID("search_on_submit") to SearchOnSubmitDemo::class,
     ObjectID("search_as_you_type") to SearchAsYouTypeDemo::class,
     ObjectID("paging_single_searcher") to PagingSingleIndexDemo::class,
     ObjectID("sort_by") to SortByDemo::class,
     ObjectID("stats") to StatsDemo::class,
     ObjectID("loading") to LoadingDemo::class,
-    ObjectID("nested_list") to NestedListDemo::class,
+    ObjectID("paging_single_index") to PagingSingleIndexDemo::class,
+    ObjectID("paging_multiple_index") to PagingMultipleIndexDemo::class,
     ObjectID("filter_hierarchical") to HierarchicalDemo::class,
     ObjectID("merged_list") to MergedListDemo::class,
     ObjectID("highlighting") to HighlightingDemo::class
