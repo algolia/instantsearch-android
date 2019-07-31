@@ -6,6 +6,7 @@ import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.number.range.connectView
 import shouldEqual
+import kotlin.jvm.JvmName
 import kotlin.test.Test
 
 
@@ -13,16 +14,16 @@ class TestNumberRangeConnectView {
 
     private class MockNumberRangeView : NumberRangeView<Int> {
 
-        public var rangeInt: Range<Int>? = null
+        public var range: Range<Int>? = null
+            @JvmName("_setRange") set
         public var bounds: Range<Int>? = null
             private set
 
         override var onRangeChanged: Callback<Range<Int>>? = null
 
         override fun setRange(range: Range<Int>?) {
-            this.rangeInt = range
+            this.range = range
         }
-
 
         override fun setBounds(bounds: Range<Int>?) {
             this.bounds = bounds
@@ -37,7 +38,7 @@ class TestNumberRangeConnectView {
 
         viewModel.range.value = Range(0..20)
         connection.connect()
-        view.rangeInt shouldEqual viewModel.range.value
+        view.range shouldEqual viewModel.range.value
     }
 
     @Test
@@ -59,7 +60,7 @@ class TestNumberRangeConnectView {
 
         connection.connect()
         viewModel.range.value = Range(0..20)
-        view.rangeInt shouldEqual viewModel.range.value
+        view.range shouldEqual viewModel.range.value
     }
 
     @Test
