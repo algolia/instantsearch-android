@@ -1,29 +1,31 @@
 package com.algolia.instantsearch.core.map
 
-import com.algolia.instantsearch.core.item.ItemViewModel
+import com.algolia.instantsearch.core.subscription.SubscriptionEvent
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 
 public open class MapViewModel<K, V>(
     items: Map<K, V> = mapOf()
-) : ItemViewModel<Map<K, V>>(items) {
+) {
 
-    public var map: Map<K, V>
-        get() = item
-        set(value) {
-            item = value
-        }
+    public val map = SubscriptionValue(items)
+    public val event = SubscriptionEvent<Map<K, V>>()
 
-    public val onMapComputed: MutableList<(Map<K, V>) -> Unit> = mutableListOf()
+    public fun add(entry: Pair<K, V>) {
+        val map = map.value.toMutableMap().apply { put(entry.first, entry.second) }
+
+        event.send(map)
+    }
 
     public fun remove(key: K) {
-        val map = item.toMutableMap().apply { remove(key) }
+        val map = map.value.toMutableMap().apply { remove(key) }
 
-        onMapComputed.forEach { it(map) }
+        event.send(map)
     }
 
     public fun clear() {
-        val map = item.toMutableMap().apply { clear() }
+        val map = map.value.toMutableMap().apply { clear() }
 
-        onMapComputed.forEach { it(map) }
+        event.send(map)
     }
 }

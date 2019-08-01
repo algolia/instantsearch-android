@@ -4,19 +4,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.demo.R
-import com.algolia.instantsearch.demo.inflate
+import com.algolia.instantsearch.helper.android.inflate
 import com.algolia.instantsearch.helper.filter.facet.FacetListItem
 import com.algolia.instantsearch.helper.filter.facet.FacetListView
 import com.algolia.search.model.search.Facet
 
 
-class FacetListAdapter :
-    ListAdapter<FacetListItem, FacetListViewHolder>(diffUtil),
-    FacetListView {
+class FacetListAdapter : ListAdapter<FacetListItem, FacetListViewHolder>(diffUtil), FacetListView {
 
-    override var onClick: ((Facet) -> Unit)? = null
+    override var onSelection: Callback<Facet>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FacetListViewHolder {
         return FacetListViewHolder(parent.inflate(R.layout.list_item_selectable))
@@ -25,11 +24,11 @@ class FacetListAdapter :
     override fun onBindViewHolder(holder: FacetListViewHolder, position: Int) {
         val (facet, selected) = getItem(position)
 
-        holder.bind(facet, selected, View.OnClickListener { onClick?.invoke(facet) })
+        holder.bind(facet, selected, View.OnClickListener { onSelection?.invoke(facet) })
     }
 
-    override fun setItem(item: List<SelectableItem<Facet>>) {
-        submitList(item)
+    override fun setItems(items: List<SelectableItem<Facet>>) {
+        submitList(items)
     }
 
     companion object {

@@ -12,6 +12,7 @@ import dependency.ui.*
 plugins {
     id("com.android.library")
     id("kotlin-multiplatform")
+    id("kotlinx-serialization")
     id("maven-publish")
     id("com.jfrog.bintray")
 }
@@ -105,7 +106,6 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
                 api(AlgoliaClient("jvm"))
-                api(Ktor("client-okhttp"))
             }
         }
         val jvmTest by getting {

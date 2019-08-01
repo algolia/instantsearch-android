@@ -2,6 +2,7 @@ package com.algolia.instantsearch.helper.searcher
 
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -9,7 +10,6 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
-import kotlin.properties.Delegates
 
 
 public class SearcherSingleIndex(
@@ -23,33 +23,17 @@ public class SearcherSingleIndex(
     internal val sequencer = Sequencer()
 
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
+    override val isLoading = SubscriptionValue(false)
+    override val error = SubscriptionValue<Throwable?>(null)
+    override val response = SubscriptionValue<ResponseSearch?>(null)
 
-    public override val onResponseChanged = mutableListOf<(ResponseSearch) -> Unit>()
-    public override val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
-    public override val onLoadingChanged = mutableListOf<(Boolean) -> Unit>()
-
-    public override var loading by Delegates.observable(false) { _, _, newValue ->
-        onLoadingChanged.forEach { it(newValue) }
-    }
-
-    public override var response by Delegates.observable<ResponseSearch?>(null) { _, _, newValue ->
-        if (newValue != null) {
-            onResponseChanged.forEach { it(newValue) }
-        }
-    }
-    public override var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
-        if (newValue != null) {
-            onErrorChanged.forEach { it(newValue) }
-        }
-    }
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        error = throwable
+        error.value = throwable
     }
 
-    internal var computeDisjunctiveParams: (() -> Pair<List<Attribute>, Set<Filter>>) = { listOf<Attribute>() to setOf() }
-
-    internal var hierarchicalFilters: List<Filter.Facet> = listOf()
+    internal var computeDisjunctiveParams = { listOf<Attribute>() to setOf<Filter>() }
+    internal var hierarchicalFilters = listOf<Filter.Facet>()
     internal var hierarchicalAttributes = hierarchicalFilters.map { it.attribute }.distinct()
 
     override fun setQuery(text: String?) {
@@ -67,7 +51,7 @@ public class SearcherSingleIndex(
     override suspend fun search(): ResponseSearch {
         val (disjunctiveAttributes, disjunctiveFilters) = computeDisjunctiveParams()
 
-        withContext(dispatcher) { loading = true }
+        withContext(dispatcher) { isLoading.value = true }
         val response = if (hierarchicalFilters.isNotEmpty()) {
             index.searchHierarchical(
                 query,
@@ -82,8 +66,8 @@ public class SearcherSingleIndex(
             index.searchDisjunctiveFacets(query, disjunctiveAttributes, disjunctiveFilters)
         }
         withContext(dispatcher) {
-            this@SearcherSingleIndex.response = response
-            loading = false
+            this@SearcherSingleIndex.response.value = response
+            isLoading.value = false
         }
         return response
     }

@@ -2,9 +2,9 @@ package com.algolia.instantsearch.demo.filter.list
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
-import com.algolia.instantsearch.helper.filter.list.connectFilterState
+import com.algolia.instantsearch.helper.filter.list.FilterListConnector
 import com.algolia.instantsearch.helper.filter.list.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupAnd
@@ -24,33 +24,32 @@ class FilterListNumericDemo : AppCompatActivity() {
     private val groupPrice = groupAnd(price)
     private val searcher = SearcherSingleIndex(stubIndex)
     private val filterState = FilterState()
-    private val numericFilters = listOf(
+    private val filters = listOf(
         Filter.Numeric(price, NumericOperator.Less, 5),
         Filter.Numeric(price, 5..10),
         Filter.Numeric(price, 10..25),
         Filter.Numeric(price, 25..100),
         Filter.Numeric(price, NumericOperator.Greater, 100)
     )
+    private val filterList = FilterListConnector.Numeric(filters, filterState, groupID = groupPrice)
+    private val connection = ConnectionHandler(filterList, searcher.connectFilterState(filterState))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_list)
 
-        searcher.connectFilterState(filterState)
-
-        val viewModelNumeric = FilterListViewModel.Numeric(numericFilters)
         val viewNumeric = FilterListAdapter<Filter.Numeric>()
 
-        viewModelNumeric.connectFilterState(filterState, groupPrice)
-        viewModelNumeric.connectView(viewNumeric)
+        connection += searcher.connectFilterState(filterState)
+        connection += filterList.connectView(viewNumeric)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
         configureRecyclerView(listTopLeft, viewNumeric)
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, price)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
 
         searcher.searchAsync()
     }
@@ -58,5 +57,6 @@ class FilterListNumericDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

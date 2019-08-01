@@ -9,13 +9,11 @@ import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewEditText
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import shouldEqual
 
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestSearchBoxEditText {
 
     private val text = "text"
@@ -26,9 +24,10 @@ class TestSearchBoxEditText {
     fun connectShouldUpdateText() {
         val view = view()
         val viewModel = SearchBoxViewModel()
+        val connection = viewModel.connectView(view)
 
-        viewModel.item = text
-        viewModel.connectView(view)
+        viewModel.query.value = text
+        connection.connect()
         view.editText.text.toString() shouldEqual text
     }
 
@@ -36,9 +35,10 @@ class TestSearchBoxEditText {
     fun onTextChangedShouldUpdateItem() {
         val view = view()
         val viewModel = SearchBoxViewModel()
+        val connection = viewModel.connectView(view)
 
-        viewModel.connectView(view)
+        connection.connect()
         view.editText.setText(text)
-        viewModel.item shouldEqual text
+        viewModel.query.value shouldEqual text
     }
 }

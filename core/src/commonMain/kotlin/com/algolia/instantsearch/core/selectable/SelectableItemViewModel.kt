@@ -1,21 +1,15 @@
 package com.algolia.instantsearch.core.selectable
 
-import com.algolia.instantsearch.core.item.ItemViewModel
-import kotlin.properties.Delegates
+import com.algolia.instantsearch.core.subscription.SubscriptionEvent
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 
-public open class SelectableItemViewModel<V>(
-    item: V
-) : ItemViewModel<V>(item) {
+public open class SelectableItemViewModel<T>(
+    item: T,
+    isSelected: Boolean = false
+) {
 
-    public val onIsSelectedChanged: MutableList<(Boolean) -> Unit> = mutableListOf()
-    public val onIsSelectedComputed: MutableList<(Boolean) -> Unit> = mutableListOf()
-
-    public var isSelected by Delegates.observable(false) { _, _, newValue ->
-        onIsSelectedChanged.forEach { it(newValue) }
-    }
-
-    public fun computeIsSelected(isSelected: Boolean) {
-        onIsSelectedComputed.forEach { it(isSelected) }
-    }
+    public val item = SubscriptionValue(item)
+    public val isSelected = SubscriptionValue(isSelected)
+    public val eventSelection = SubscriptionEvent<Boolean>()
 }

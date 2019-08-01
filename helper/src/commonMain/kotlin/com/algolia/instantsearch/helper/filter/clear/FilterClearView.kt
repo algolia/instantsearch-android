@@ -1,6 +1,9 @@
 package com.algolia.instantsearch.helper.filter.clear
 
-import com.algolia.instantsearch.core.event.EventView
+import com.algolia.instantsearch.core.Callback
 
 
-public typealias FilterClearView = EventView<Unit>
+public interface FilterClearView {
+
+    public var onClear: Callback<Unit>?
+}

@@ -2,12 +2,13 @@ package com.algolia.instantsearch.demo.filter.numeric.comparison
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.number.NumberViewModel
-import com.algolia.instantsearch.core.number.connectView
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.numeric.comparison.computeBoundsFromFacetStatsInt
-import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
+import com.algolia.instantsearch.helper.filter.numeric.comparison.FilterComparisonConnector
+import com.algolia.instantsearch.helper.filter.numeric.comparison.connectView
+import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromFacetStatsInt
+import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromFacetStatsLong
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.addFacet
@@ -29,44 +30,42 @@ class FilterComparisonDemo : AppCompatActivity() {
     private val index = client.initIndex(IndexName("stub"))
     private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(index)
+    private val comparisonPrice = FilterComparisonConnector<Long>(filterState, price, NumericOperator.GreaterOrEquals)
+    private val comparisonYear = FilterComparisonConnector<Int>(filterState, year, NumericOperator.Equals)
+    private val connection = ConnectionHandler(
+        comparisonPrice,
+        comparisonYear,
+        searcher.connectFilterState(filterState)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_comparison)
 
-        searcher.connectFilterState(filterState)
         searcher.query.addFacet(price)
         searcher.query.addFacet(year)
 
-        val priceOperator = NumericOperator.GreaterOrEquals
-        val priceViewModel = NumberViewModel<Int>()
-        val priceView = FilterPriceView(demoFilterComparison, price, priceOperator)
+        val priceView = FilterPriceView(demoFilterComparison, price, comparisonPrice.operator)
+        val yearView = FilterYearView(demoFilterComparison, year, comparisonYear.operator)
 
-        priceViewModel.connectFilterState(price, priceOperator, filterState)
-        priceViewModel.connectView(priceView)
-
-        val yearOperator = NumericOperator.Equals
-        val yearViewModel = NumberViewModel<Int>()
-        val yearView = FilterYearView(demoFilterComparison, year, yearOperator)
-
-        yearViewModel.connectFilterState(year, yearOperator, filterState)
-        yearViewModel.connectView(yearView) { number -> number?.toString() ?: "" }
+        connection += comparisonPrice.connectView(priceView)
+        connection += comparisonYear.connectView(yearView) { year -> year?.toString() ?: "" }
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, price, year)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
 
         searcher.coroutineScope.launch {
             val response = searcher.search()
 
             response.facetStatsOrNull?.let {
-                priceViewModel.computeBoundsFromFacetStatsInt(price, it)
-                yearViewModel.computeBoundsFromFacetStatsInt(year, it)
+                comparisonPrice.viewModel.setBoundsFromFacetStatsLong(price, it)
+                comparisonYear.viewModel.setBoundsFromFacetStatsInt(year, it)
                 withContext(Dispatchers.Main) {
-                    inputHint.text = getInputHint(yearViewModel.bounds!!)
+                    inputHint.text = getInputHint(comparisonYear.viewModel.bounds.value!!)
                 }
             }
         }
@@ -79,5 +78,6 @@ class FilterComparisonDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

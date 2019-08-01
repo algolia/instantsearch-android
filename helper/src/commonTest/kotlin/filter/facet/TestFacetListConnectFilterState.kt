@@ -28,18 +28,20 @@ class TestFacetListConnectFilterState {
     @Test
     fun connectShouldUpdateSelectionsWithFilterState() {
         val viewModel = FacetListViewModel()
+        val connection = viewModel.connectFilterState(expectedFilterState, color, groupID)
 
-        viewModel.connectFilterState(color, expectedFilterState, groupID)
-        viewModel.selections shouldEqual selections
+        connection.connect()
+        viewModel.selections.value shouldEqual selections
     }
 
     @Test
     fun onSelectionsComputedShouldUpdateFilterState() {
         val viewModel = FacetListViewModel()
         val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState, color, groupID)
 
-        viewModel.connectFilterState(color, filterState, groupID)
-        viewModel.computeSelections(red.value)
+        connection.connect()
+        viewModel.select(red.value)
         filterState shouldEqual expectedFilterState
     }
 
@@ -47,22 +49,24 @@ class TestFacetListConnectFilterState {
     fun onFilterStateChangedShouldUpdateSelections() {
         val viewModel = FacetListViewModel()
         val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState, color, groupID)
 
-        viewModel.connectFilterState(color, filterState, groupID)
+        connection.connect()
         filterState.notify { add(groupID, filterRed) }
-        viewModel.selections shouldEqual selections
+        viewModel.selections.value shouldEqual selections
     }
 
     @Test
     fun selectionModeSingleShouldClearOtherFilters() {
         val filterState = FilterState(filters)
         val viewModel = FacetListViewModel(selectionMode = SelectionMode.Single).apply {
-            item = listOf(red)
+            items.value = listOf(red)
         }
+        val connection = viewModel.connectFilterState(filterState, color, groupID)
 
-        viewModel.connectFilterState(color, filterState, groupID)
-        viewModel.selections shouldEqual setOf(red.value, green.value)
-        viewModel.computeSelections(red.value)
+        connection.connect()
+        viewModel.selections.value shouldEqual setOf(red.value, green.value)
+        viewModel.select(red.value)
         filterState shouldEqual FilterState()
     }
 
@@ -70,12 +74,13 @@ class TestFacetListConnectFilterState {
     fun selectionModeMultipleShouldNotClearOtherFilters() {
         val filterState = FilterState(filters)
         val viewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple).apply {
-            item = listOf(red)
+            items.value = listOf(red)
         }
+        val connection = viewModel.connectFilterState(filterState, color, groupID)
 
-        viewModel.connectFilterState(color, filterState, groupID)
-        viewModel.selections shouldEqual setOf(red.value, green.value)
-        viewModel.computeSelections(red.value)
+        connection.connect()
+        viewModel.selections.value shouldEqual setOf(red.value, green.value)
+        viewModel.select(red.value)
         filterState shouldEqual FilterState(mapOf(groupID to setOf(filterGreen)))
     }
 
@@ -83,12 +88,13 @@ class TestFacetListConnectFilterState {
     fun facetPersistentSelection() {
         val filterState = FilterState(filters)
         val viewModel = FacetListViewModel(selectionMode = SelectionMode.Multiple, persistentSelection = true).apply {
-            item = listOf(red)
+            items.value = listOf(red)
         }
+        val connection = viewModel.connectFilterState(filterState, color, groupID)
 
-        viewModel.connectFilterState(color, filterState, groupID)
-        viewModel.selections shouldEqual setOf(red.value, green.value)
-        viewModel.computeSelections(green.value)
-        viewModel.selections shouldEqual setOf(red.value)
+        connection.connect()
+        viewModel.selections.value shouldEqual setOf(red.value, green.value)
+        viewModel.select(green.value)
+        viewModel.selections.value shouldEqual setOf(red.value)
     }
 }

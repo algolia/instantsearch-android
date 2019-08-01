@@ -1,37 +1,26 @@
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
-import com.algolia.instantsearch.core.number.NumberViewModel
+import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.number.*
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 
 
-public inline fun <reified T> NumberViewModel<T>.connectFilterState(
+public fun <T> NumberViewModel<T>.connectFilterState(
+    filterState: FilterState,
     attribute: Attribute,
     operator: NumericOperator,
-    filterState: FilterState,
     groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
-) where T : Number, T : Comparable<T> {
-    val onChanged: (Filters) -> Unit = { filters ->
-        item = filters
-            .getNumericFilters(groupID)
-            .filter { it.attribute == attribute }
-            .map { it.value }
-            .filterIsInstance<Filter.Numeric.Value.Comparison>()
-            .firstOrNull { it.operator == operator }
-            ?.number as? T?
-    }
+): Connection where T : Number, T : Comparable<T> {
+    return FilterComparisonConnectionFilterState(this, filterState, attribute, operator, groupID)
+}
 
-    onChanged(filterState)
-    filterState.onChanged += onChanged
-    onNumberComputed += { computed ->
-        filterState.notify {
-            item?.let { remove(groupID, Filter.Numeric(attribute, operator, it)) }
-            computed?.let { add(groupID, Filter.Numeric(attribute, operator, it)) }
-        }
-    }
+public fun <T> FilterComparisonConnector<T>.connectView(
+    view: NumberView<T>,
+    presenter: NumberPresenter<T> = NumberPresenterImpl
+): Connection where T : Number, T : Comparable<T> {
+    return viewModel.connectView(view, presenter)
 }

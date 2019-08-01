@@ -7,8 +7,9 @@ import com.algolia.instantsearch.core.tree.toNodes
 import com.algolia.search.model.search.Facet
 import kotlin.math.min
 
+public const val hierarchicalGroupName = "_hierarchical"
 
-val isMatchingFacetNode: (Facet, Node<Facet>) -> Boolean =
+private val isMatchingFacetNode: (Facet, Node<Facet>) -> Boolean =
     { content, node ->
         val regexSeparator = Regex(" . ")
         val splitContent: List<String> = content.value.split(regexSeparator)

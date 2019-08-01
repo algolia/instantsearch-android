@@ -8,13 +8,11 @@ import applicationContext
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import shouldEqual
 
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestStatsTextViewSpanned {
 
     private fun view() = StatsTextViewSpanned(TextView(applicationContext))
@@ -25,7 +23,7 @@ class TestStatsTextViewSpanned {
     fun setItemShouldSetText() {
         val view = view()
 
-        view.setItem(spanned)
+        view.setText(spanned)
         view.view.text shouldEqual spanned
     }
 }

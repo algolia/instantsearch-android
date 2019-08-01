@@ -1,11 +1,13 @@
 package com.algolia.instantsearch.core.tree
 
-import com.algolia.instantsearch.core.item.ItemViewModel
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 
-abstract class TreeViewModel<K, V>(
+public abstract class TreeViewModel<K, V>(
     tree: Tree<V> = Tree()
-) : ItemViewModel<Tree<V>>(tree) {
+) {
+
+    public val tree = SubscriptionValue(tree)
 
     /**
      * Computes selected levels given a hierarchical key.

@@ -9,3 +9,9 @@ public fun Query.addFacet(vararg attribute: Attribute) {
         it += attribute
     }
 }
+
+public fun Query.removeFacet(attribute: Attribute) {
+    facets = facets.orEmpty().toMutableSet().also {
+        it -= attribute
+    }
+}

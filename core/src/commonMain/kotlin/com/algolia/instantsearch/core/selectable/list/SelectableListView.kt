@@ -1,7 +1,11 @@
 package com.algolia.instantsearch.core.selectable.list
 
-import com.algolia.instantsearch.core.event.EventView
-import com.algolia.instantsearch.core.item.ItemView
+import com.algolia.instantsearch.core.Callback
 
 
-public interface SelectableListView<T>: EventView<T>, ItemView<List<SelectableItem<T>>>
+public interface SelectableListView<T> {
+
+    public var onSelection: Callback<T>?
+
+    public fun setItems(items: List<SelectableItem<T>>)
+}

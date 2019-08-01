@@ -3,6 +3,7 @@ package com.algolia.instantsearch.helper.android.searchbox
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 
 
@@ -10,8 +11,8 @@ public class SearchBoxViewEditText(
     public val editText: EditText
 ) : SearchBoxView {
 
-    override var onQueryChanged: ((String?) -> Unit)? = null
-    override var onQuerySubmitted: ((String?) -> Unit)? = null
+    override var onQueryChanged: Callback<String?>? = null
+    override var onQuerySubmitted: Callback<String?>? = null
 
     init {
         editText.addTextChangedListener(object : TextWatcher {
@@ -26,7 +27,7 @@ public class SearchBoxViewEditText(
         })
     }
 
-    override fun setItem(item: String?) {
-        editText.setText(item)
+    override fun setText(text: String?) {
+        editText.setText(text)
     }
 }

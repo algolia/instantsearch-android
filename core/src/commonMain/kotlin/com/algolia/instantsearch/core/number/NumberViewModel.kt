@@ -1,34 +1,35 @@
 package com.algolia.instantsearch.core.number
 
-import com.algolia.instantsearch.core.item.ItemViewModel
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.number.range.coerce
+import com.algolia.instantsearch.core.subscription.SubscriptionEvent
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 
 public open class NumberViewModel<T>(
+    number: T? = null,
     bounds: Range<T>? = null
-) : ItemViewModel<T?>(null) where T : Number, T : Comparable<T> {
+) where T : Number, T : Comparable<T> {
 
-    public val onNumberComputed: MutableList<(T?) -> Unit> = mutableListOf()
+    public val eventNumber = SubscriptionEvent<T?>()
+    public val number = SubscriptionValue(number)
+    public val bounds = SubscriptionValue(bounds).apply {
+        subscribe { coerce(this@NumberViewModel.number.value) }
+    }
 
-    public var bounds: Range<T>? = bounds
-        set(value) {
-            val coerced = item?.coerce(value)
+    public fun coerce(number: T?) {
+        val coerced = number?.coerce(bounds.value)
 
-            field = value
-            if (coerced != item) onNumberComputed.forEach { it(coerced) }
-        }
-
-    public fun computeNumber(number: T?) {
-        val coerced = number?.coerce(bounds)
-
-        onNumberComputed.forEach { it(coerced) }
+        if (coerced != this.number.value) eventNumber.send(coerced)
     }
 
     companion object {
 
-        public operator fun <T> invoke(range: ClosedRange<T>): NumberViewModel<T> where T : Number, T : Comparable<T> {
-            return NumberViewModel(Range(range.start, range.endInclusive))
+        public operator fun <T> invoke(
+            range: ClosedRange<T>,
+            number: T? = null
+        ): NumberViewModel<T> where T : Number, T : Comparable<T> {
+            return NumberViewModel(number, Range(range.start, range.endInclusive))
         }
     }
 }

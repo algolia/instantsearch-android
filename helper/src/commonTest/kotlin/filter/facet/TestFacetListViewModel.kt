@@ -15,11 +15,11 @@ class TestFacetListViewModel  {
     @Test
     fun getFacetListItems() {
         val viewModel = FacetListViewModel().apply {
-            item = listOf(red, green, blue)
-            selections = setOf(blue.value)
+            items.value = listOf(red, green, blue)
+            selections.value = setOf(blue.value)
         }
 
-        viewModel.getFacetListItems() shouldEqual listOf(
+        viewModel.facets.value shouldEqual listOf(
             red to false,
             green to false,
             blue to true
@@ -29,11 +29,11 @@ class TestFacetListViewModel  {
     @Test
     fun getFacetListItemsWithPersistentSelection() {
         val viewModel = FacetListViewModel(persistentSelection = true).apply {
-            item = listOf(red, green)
-            selections = setOf(blue.value)
+            items.value = listOf(red, green)
+            selections.value = setOf(blue.value)
         }
 
-        viewModel.getFacetListItems() shouldEqual listOf(
+        viewModel.facets.value shouldEqual listOf(
             blue.copy(count = 0) to true,
             red to false,
             green to false
@@ -43,11 +43,11 @@ class TestFacetListViewModel  {
     @Test
     fun getFacetListItemsWithoutPersistentSelection() {
         val viewModel = FacetListViewModel().apply {
-            item = listOf(red, green)
-            selections = setOf(blue.value)
+            items.value = listOf(red, green)
+            selections.value = setOf(blue.value)
         }
 
-        viewModel.getFacetListItems() shouldEqual listOf(
+        viewModel.facets.value shouldEqual listOf(
             red to false,
             green to false
         )

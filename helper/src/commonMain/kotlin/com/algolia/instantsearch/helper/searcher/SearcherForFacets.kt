@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.searcher
 
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.search.client.Index
@@ -8,7 +9,6 @@ import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
-import kotlin.properties.Delegates
 
 
 public class SearcherForFacets(
@@ -23,29 +23,13 @@ public class SearcherForFacets(
     internal val sequencer = Sequencer()
 
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
-
-    public override val onResponseChanged = mutableListOf<(ResponseSearchForFacets) -> Unit>()
-    public override val onErrorChanged = mutableListOf<(Throwable) -> Unit>()
-    public override val onLoadingChanged = mutableListOf<(Boolean) -> Unit>()
-
-    public override var loading: Boolean by Delegates.observable(false) { _, _, newValue ->
-        onLoadingChanged.forEach { it(newValue) }
-    }
-
-    public override var response by Delegates.observable<ResponseSearchForFacets?>(null) { _, _, newValue ->
-        if (newValue != null) {
-            onResponseChanged.forEach { it(newValue) }
-        }
-    }
-
-    public override var error by Delegates.observable<Throwable?>(null) { _, _, newValue ->
-        if (newValue != null) {
-            onErrorChanged.forEach { it(newValue) }
-        }
-    }
+    override val isLoading = SubscriptionValue(false)
+    override val error = SubscriptionValue<Throwable?>(null)
+    override val response =
+        SubscriptionValue<ResponseSearchForFacets?>(null)
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        error = throwable
+        error.value = throwable
     }
 
     override fun setQuery(text: String?) {
@@ -54,20 +38,20 @@ public class SearcherForFacets(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(dispatcher + exceptionHandler) {
-            loading = true
+            isLoading.value = true
             withContext(Dispatchers.Default) { search() }
-            loading = false
+            isLoading.value = false
         }.also {
             sequencer.addOperation(it)
         }
     }
 
     override suspend fun search(): ResponseSearchForFacets {
-        withContext(dispatcher) { loading = true }
-        val response =  index.searchForFacets(attribute, facetQuery, query, requestOptions)
+        withContext(dispatcher) { isLoading.value = true }
+        val response = index.searchForFacets(attribute, facetQuery, query, requestOptions)
         withContext(dispatcher) {
-            this@SearcherForFacets.response = response
-            loading = false
+            this@SearcherForFacets.response.value = response
+            isLoading.value = false
         }
         return response
     }

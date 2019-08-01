@@ -1,5 +1,6 @@
 package selectable
 
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.SelectableItemView
 import com.algolia.instantsearch.core.selectable.SelectableItemViewModel
 import com.algolia.instantsearch.core.selectable.connectView
@@ -19,7 +20,7 @@ class TestFilterToggleConnectView {
         var boolean: Boolean? = null
         var string: String? = null
 
-        override var onClick: ((Boolean) -> Unit)? = null
+        override var onSelectionChanged: Callback<Boolean>? = null
 
         override fun setIsSelected(isSelected: Boolean) {
             boolean = isSelected
@@ -33,10 +34,10 @@ class TestFilterToggleConnectView {
     @Test
     fun connectShouldCallSetIsSelectedAndSetItem() {
         val view = MockSelectableItemView()
-        val viewModel = SelectableItemViewModel(input)
+        val viewModel = SelectableItemViewModel(input, true)
+        val connection = viewModel.connectView(view, presenter)
 
-        viewModel.isSelected = true
-        viewModel.connectView(view, presenter)
+        connection.connect()
         view.boolean shouldEqual true
         view.string shouldEqual output
     }
@@ -44,10 +45,11 @@ class TestFilterToggleConnectView {
     @Test
     fun onItemChangedShouldCallSetItem() {
         val view = MockSelectableItemView()
-        val viewModel =  SelectableItemViewModel(input)
+        val viewModel = SelectableItemViewModel(input)
+        val connection = viewModel.connectView(view, presenter)
 
-        viewModel.connectView(view, presenter)
-        viewModel.item = 1
+        connection.connect()
+        viewModel.item.value = 1
         view.string shouldEqual "1"
     }
 
@@ -55,11 +57,12 @@ class TestFilterToggleConnectView {
     fun onClickShouldCallOnIsSelectedComputed() {
         val view = MockSelectableItemView()
         val viewModel = SelectableItemViewModel(input)
+        val connection = viewModel.connectView(view, presenter)
 
-        viewModel.onIsSelectedComputed += { viewModel.isSelected = it }
-        viewModel.connectView(view, presenter)
-        view.onClick.shouldNotBeNull()
-        view.onClick!!(true)
+        viewModel.eventSelection.subscribe { viewModel.isSelected.value = it }
+        connection.connect()
+        view.onSelectionChanged.shouldNotBeNull()
+        view.onSelectionChanged!!(true)
         view.boolean shouldEqual true
     }
 
@@ -67,9 +70,10 @@ class TestFilterToggleConnectView {
     fun onIsSelectedChangedShouldCallSetIsSelected() {
         val view = MockSelectableItemView()
         val viewModel = SelectableItemViewModel(input)
+        val connection = viewModel.connectView(view, presenter)
 
-        viewModel.connectView(view, presenter)
-        viewModel.isSelected = true
+        connection.connect()
+        viewModel.isSelected.value = true
         view.boolean shouldEqual true
     }
 }

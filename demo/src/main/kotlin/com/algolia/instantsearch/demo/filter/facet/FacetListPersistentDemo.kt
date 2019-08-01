@@ -2,11 +2,10 @@ package com.algolia.instantsearch.demo.filter.facet
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
-import com.algolia.instantsearch.helper.filter.facet.connectFilterState
-import com.algolia.instantsearch.helper.filter.facet.connectSearcher
+import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -26,39 +25,48 @@ class FacetListPersistentDemo : AppCompatActivity() {
     private val index = client.initIndex(IndexName("stub"))
     private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(index)
+    private val facetListColor = FacetListConnector(
+        searcher = searcher,
+        filterState = filterState,
+        attribute = color,
+        selectionMode = SelectionMode.Multiple,
+        persistentSelection = true
+    )
+    private val facetListCategory = FacetListConnector(
+        searcher = searcher,
+        filterState = filterState,
+        attribute = category,
+        selectionMode = SelectionMode.Single,
+        persistentSelection = true
+    )
+    private val connection = ConnectionHandler(
+        facetListColor,
+        facetListCategory,
+        searcher.connectFilterState(filterState)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list_persistent)
 
-        searcher.connectFilterState(filterState)
+        val adapterColor = FacetListAdapter()
+        val adapterCategory = FacetListAdapter()
 
-        val colorViewModel = FacetListViewModel(persistentSelection = true)
-        val colorAdapter = FacetListAdapter()
-
-        colorViewModel.connectFilterState(color, filterState)
-        colorViewModel.connectView(colorAdapter)
-        colorViewModel.connectSearcher(color, searcher)
-
-        val categoryViewModel = FacetListViewModel(selectionMode = SelectionMode.Single, persistentSelection = true)
-        val categoryAdapter = FacetListAdapter()
-
-        categoryViewModel.connectFilterState(category, filterState)
-        categoryViewModel.connectView(categoryAdapter)
-        categoryViewModel.connectSearcher(category, searcher)
+        connection += facetListColor.connectView(adapterColor)
+        connection += facetListCategory.connectView(adapterCategory)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
-        configureSearchBox(searchView, searcher)
+        configureSearchBox(searchView, searcher, connection)
         configureSearchView(searchView, getString(R.string.search_items))
-        configureRecyclerView(listTopLeft, colorAdapter)
-        configureRecyclerView(listTopRight, categoryAdapter)
+        configureRecyclerView(listTopLeft, adapterColor)
+        configureRecyclerView(listTopRight, adapterCategory)
         configureTitle(titleTopLeft, getString(R.string.multiple_choice))
         configureTitle(titleTopRight, getString(R.string.single_choice))
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, color, category)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
 
         searcher.searchAsync()
     }
@@ -66,5 +74,6 @@ class FacetListPersistentDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

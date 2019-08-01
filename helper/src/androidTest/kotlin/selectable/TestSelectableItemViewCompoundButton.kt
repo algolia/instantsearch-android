@@ -13,7 +13,6 @@ import shouldEqual
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestSelectableItemViewCompoundButton {
 
     private fun view() =
@@ -40,7 +39,7 @@ class TestSelectableItemViewCompoundButton {
         val view = view()
         var onClickCalled = false
 
-        view.onClick = { onClickCalled = true }
+        view.onSelectionChanged = { onClickCalled = true }
         view.setIsSelected(true)
         onClickCalled shouldEqual false
     }
@@ -50,7 +49,7 @@ class TestSelectableItemViewCompoundButton {
         val view = view()
         var onClickCalled = false
 
-        view.onClick = { onClickCalled = true }
+        view.onSelectionChanged = { onClickCalled = true }
         view.compoundButton.isChecked = true
         onClickCalled shouldEqual true
     }

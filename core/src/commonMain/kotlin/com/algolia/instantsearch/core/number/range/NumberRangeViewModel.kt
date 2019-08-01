@@ -1,30 +1,23 @@
 package com.algolia.instantsearch.core.number.range
 
-import com.algolia.instantsearch.core.event.EventViewModel
-import com.algolia.instantsearch.core.event.EventViewModelImpl
-import com.algolia.instantsearch.core.item.ItemViewModel
+import com.algolia.instantsearch.core.subscription.SubscriptionEvent
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 
-//DISCUSS: minRange?
 public open class NumberRangeViewModel<T>(
+    range: Range<T>? = null,
     bounds: Range<T>? = null
-) : ItemViewModel<Range<T>?>(null),
-    EventViewModel<Range<T>> by EventViewModelImpl<Range<T>>()
-        where T : Number, T : Comparable<T> {
+) where T : Number, T : Comparable<T> {
 
-    public val onRangeComputed: MutableList<(Range<T>?) -> Unit> = mutableListOf()
-    public val onBoundsComputed: MutableList<(Range<T>?) -> Unit> = mutableListOf()
+    public val range = SubscriptionValue(range)
+    public val bounds = SubscriptionValue(bounds).apply {
+        subscribe { coerce(this@NumberRangeViewModel.range.value) }
+    }
+    public val eventRange = SubscriptionEvent<Range<T>?>()
 
-    public var bounds: Range<T>? = bounds
-        set(value) {
-            field = value
-            onBoundsComputed.forEach { it(value) }
-            computeRange(item)
-        }
+    public fun coerce(range: Range<T>?) {
+        val coerced = range?.coerce(bounds.value)
 
-    public fun computeRange(range: Range<T>?) {
-        val coerced = range?.coerce(bounds)
-
-        if (coerced != item) onRangeComputed.forEach { it(coerced) }
+        if (coerced != this.range.value) eventRange.send(coerced)
     }
 }

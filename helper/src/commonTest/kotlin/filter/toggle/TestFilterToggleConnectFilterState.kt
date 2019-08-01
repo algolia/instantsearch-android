@@ -15,26 +15,26 @@ class TestFilterToggleConnectFilterState {
 
     private val color = Attribute("color")
     private val red = Filter.Facet(color, "red")
-    private val blue = Filter.Facet(color, "blue")
     private val groupID = FilterGroupID(color, FilterOperator.And)
     private val expectedFilterState = FilterState(mapOf(groupID to setOf(red)))
-    private val expectedFilterStateDefault = FilterState(mapOf(groupID to setOf(blue)))
 
     @Test
     fun connectShouldUpdateIsSelectedWithFilterState() {
         val viewModel = FilterToggleViewModel(red)
+        val connection = viewModel.connectFilterState(expectedFilterState, groupID = groupID)
 
-        viewModel.connectFilterState(expectedFilterState, groupID = groupID)
-        viewModel.isSelected shouldEqual true
+        connection.connect()
+        viewModel.isSelected.value shouldEqual true
     }
 
     @Test
     fun onSelectionsComputedShouldUpdateFilterState() {
         val viewModel = FilterToggleViewModel(red)
         val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState, groupID = groupID)
 
-        viewModel.connectFilterState(filterState, groupID = groupID)
-        viewModel.computeIsSelected(true)
+        connection.connect()
+        viewModel.eventSelection.send(true)
         filterState shouldEqual expectedFilterState
     }
 
@@ -42,22 +42,10 @@ class TestFilterToggleConnectFilterState {
     fun onFilterStateChangedShouldUpdateSelections() {
         val viewModel = FilterToggleViewModel(red)
         val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState, groupID = groupID)
 
-        viewModel.connectFilterState(filterState, groupID = groupID)
+        connection.connect()
         filterState.notify { add(groupID, red) }
-        viewModel.isSelected shouldEqual true
-    }
-
-    @Test
-    fun connectWithDefaultShouldUpdateFilterState() {
-        val viewModel = FilterToggleViewModel(red)
-        val filterState = FilterState()
-
-        viewModel.connectFilterState(filterState, blue, groupID)
-        filterState shouldEqual expectedFilterStateDefault
-        viewModel.computeIsSelected(true)
-        filterState shouldEqual expectedFilterState
-        viewModel.computeIsSelected(false)
-        filterState shouldEqual expectedFilterStateDefault
+        viewModel.isSelected.value shouldEqual true
     }
 }

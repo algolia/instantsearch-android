@@ -1,5 +1,6 @@
 package filter.facet
 
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.helper.filter.facet.FacetListItem
 import com.algolia.instantsearch.helper.filter.facet.FacetListView
@@ -11,7 +12,7 @@ import shouldNotBeNull
 import kotlin.test.Test
 
 
-class TestFacetListConnectView  {
+class TestFacetListConnectView {
 
     private val red = Facet("red", 1)
     private val facets = listOf(red)
@@ -19,12 +20,12 @@ class TestFacetListConnectView  {
 
     private class MockSelectableFacetsView : FacetListView {
 
-        var items: List<FacetListItem> = listOf()
+        override var onSelection: Callback<Facet>? = null
 
-        override var onClick: ((Facet) -> Unit)? = null
+        var list: List<FacetListItem> = listOf()
 
-        override fun setItem(item: List<SelectableItem<Facet>>) {
-            items = item
+        override fun setItems(items: List<SelectableItem<Facet>>) {
+            list = items
         }
     }
 
@@ -32,41 +33,45 @@ class TestFacetListConnectView  {
     fun connectShouldCallSetItem() {
         val view = MockSelectableFacetsView()
         val viewModel = FacetListViewModel(facets)
+        val connection = viewModel.connectView(view)
 
-        viewModel.selections = selections
-        viewModel.connectView(view)
-        view.items shouldEqual listOf(red to true)
+        viewModel.selections.value = selections
+        connection.connect()
+        view.list shouldEqual listOf(red to true)
     }
 
     @Test
     fun onItemChangedShouldCallSetItem() {
         val view = MockSelectableFacetsView()
         val viewModel = FacetListViewModel()
+        val connection = viewModel.connectView(view)
 
-        viewModel.connectView(view)
-        viewModel.item = facets
-        view.items shouldEqual listOf(red to false)
+        connection.connect()
+        viewModel.items.value = facets
+        view.list shouldEqual listOf(red to false)
     }
 
     @Test
     fun onSelectionsChangedShouldCallSetItem() {
         val view = MockSelectableFacetsView()
         val viewModel = FacetListViewModel(facets)
+        val connection = viewModel.connectView(view)
 
-        viewModel.connectView(view)
-        viewModel.selections = selections
-        view.items shouldEqual listOf(red to true)
+        connection.connect()
+        viewModel.selections.value = selections
+        view.list shouldEqual listOf(red to true)
     }
 
     @Test
     fun onClickShouldCallOnSelectionsComputed() {
         val view = MockSelectableFacetsView()
         val viewModel = FacetListViewModel(facets)
+        val connection = viewModel.connectView(view)
 
-        viewModel.onSelectionsComputed += { viewModel.selections = it }
-        viewModel.connectView(view)
-        view.onClick.shouldNotBeNull()
-        view.onClick!!(red)
-        view.items shouldEqual listOf(red to true)
+        viewModel.eventSelection.subscribe { viewModel.selections.value = it }
+        connection.connect()
+        view.onSelection.shouldNotBeNull()
+        view.onSelection!!(red)
+        view.list shouldEqual listOf(red to true)
     }
 }

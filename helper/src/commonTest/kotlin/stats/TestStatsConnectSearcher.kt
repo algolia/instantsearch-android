@@ -19,22 +19,24 @@ class TestStatsConnectSearcher {
 
     @Test
     fun connectShouldSetItem() {
-        val searcher = SearcherSingleIndex(index).also { it.response = responseSearch }
+        val searcher = SearcherSingleIndex(index).also { it.response.value = responseSearch }
         val viewModel = StatsViewModel()
+        val connection = viewModel.connectSearcher(searcher)
 
-        viewModel.item.shouldBeNull()
-        viewModel.connectSearcher(searcher)
-        viewModel.item shouldEqual responseSearch
+        viewModel.response.value.shouldBeNull()
+        connection.connect()
+        viewModel.response.value shouldEqual responseSearch
     }
 
     @Test
     fun onResponseChangedShouldSetItem() {
         val searcher = SearcherSingleIndex(index)
         val viewModel = StatsViewModel()
+        val connection = viewModel.connectSearcher(searcher)
 
-        viewModel.connectSearcher(searcher)
-        viewModel.item.shouldBeNull()
+        connection.connect()
+        viewModel.response.value.shouldBeNull()
         blocking { searcher.searchAsync().join() }
-        viewModel.item shouldEqual responseSearch
+        viewModel.response.value shouldEqual responseSearch
     }
 }

@@ -34,7 +34,7 @@
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name=".filter.current.CurrentFiltersDemo"
+            android:name=".filter.current.FilterCurrentDemo"
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
@@ -66,10 +66,6 @@
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name=".filter.toggle.FilterToggleDefaultDemo"
-            android:parentActivityName=".home.HomeDemo" />
-
-        <activity
             android:name=".filter.facet.FacetListDemo"
             android:parentActivityName=".home.HomeDemo" />
 
@@ -98,7 +94,7 @@
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name=".index.IndexSegmentDemo"
+            android:name=".sortby.SortByDemo"
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
@@ -110,7 +106,11 @@
             android:parentActivityName=".home.HomeDemo" />
 
         <activity
-            android:name=".list.nested.NestedListDemo"
+            android:name=".list.paging.PagingMultipleIndexDemo"
+            android:parentActivityName=".home.HomeDemo" />
+
+        <activity
+            android:name=".list.merged.MergedListDemo"
             android:parentActivityName=".home.HomeDemo" />
 
         <activity

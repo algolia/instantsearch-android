@@ -4,16 +4,16 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.algolia.instantsearch.demo.R
-import com.algolia.instantsearch.demo.inflate
+import com.algolia.instantsearch.helper.android.inflate
 
 
-class ActorAdapterNested : PagedListAdapter<Actor, ActorViewHolderNested>(this) {
+class ActorAdapterNested : PagedListAdapter<Actor, ActorViewHolder>(this) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorViewHolderNested {
-        return ActorViewHolderNested(parent.inflate(R.layout.list_item_actor))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorViewHolder {
+        return ActorViewHolder(parent.inflate(R.layout.list_item_actor))
     }
 
-    override fun onBindViewHolder(holder: ActorViewHolderNested, position: Int) {
+    override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
         val item = getItem(position)
 
         if (item != null) holder.bind(item)

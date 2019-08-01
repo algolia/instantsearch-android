@@ -1,5 +1,6 @@
 package searchbox
 
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
@@ -14,18 +15,18 @@ class TestSearchBoxConnectView {
 
     private class MockView : SearchBoxView {
 
-        var text: String? = null
+        var string: String? = null
         var queryChanged: String? = null
         var querySubmitted: String? = null
 
-        override fun setItem(item: String?) {
-            text = item
+        override fun setText(text: String?) {
+            string = text
         }
 
-        override var onQueryChanged: ((String?) -> Unit)? = {
+        override var onQueryChanged: Callback<String?>? = {
             queryChanged = it
         }
-        override var onQuerySubmitted: ((String?) -> Unit)? = {
+        override var onQuerySubmitted: Callback<String?>? = {
             querySubmitted = it
         }
     }
@@ -34,37 +35,40 @@ class TestSearchBoxConnectView {
     fun connectShouldSetItem() {
         val viewModel = SearchBoxViewModel()
         val view = MockView()
+        val connection = viewModel.connectView(view)
 
-        viewModel.item = text
-        viewModel.connectView(view)
-        view.text shouldEqual text
+        viewModel.query.value = text
+        connection.connect()
+        view.string shouldEqual text
     }
 
     @Test
-    fun onQueryChangedShouldCallOnItemChanged() {
+    fun onQueryChangedShouldCallSubscription() {
         val viewModel = SearchBoxViewModel()
         val view = MockView()
         var expected: String? = null
+        val connection = viewModel.connectView(view)
 
-        viewModel.onItemChanged += { expected = it }
-        viewModel.connectView(view)
+        viewModel.query.subscribe { expected = it }
+        connection.connect()
         view.onQueryChanged.shouldNotBeNull()
         view.onQueryChanged!!(text)
-        viewModel.item shouldEqual text
+        viewModel.query.value shouldEqual text
         expected shouldEqual text
     }
 
     @Test
-    fun onQuerySubmittedShouldCallOnQuerySubmitted() {
+    fun onQuerySubmittedShouldCallSubscription() {
         val viewModel = SearchBoxViewModel()
         val view = MockView()
         var expected: String? = null
+        val connection = viewModel.connectView(view)
 
-        viewModel.onQuerySubmitted += { expected = it }
-        viewModel.connectView(view)
+        viewModel.eventSubmit.subscribe { expected = it }
+        connection.connect()
         view.onQuerySubmitted.shouldNotBeNull()
         view.onQuerySubmitted!!(text)
-        viewModel.item shouldEqual text
+        viewModel.query.value shouldEqual text
         expected shouldEqual text
     }
 }

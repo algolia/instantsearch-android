@@ -2,7 +2,7 @@ package filter.numeric.comparison
 
 import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.helper.filter.numeric.comparison.computeBoundsFromFacetStatsInt
+import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromFacetStatsInt
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.FacetStats
 import shouldEqual
@@ -17,10 +17,10 @@ class TestFilterComparisonComputeBounds {
     )
 
     @Test
-    fun connectSearcherShouldUpdateBounds() {
+    fun setBoundsFromFacetStatsShouldUpdateBounds() {
         val viewModel = NumberViewModel<Int>()
 
-        viewModel.computeBoundsFromFacetStatsInt(price, facetStats)
-        viewModel.bounds shouldEqual Range(0, 10)
+        viewModel.setBoundsFromFacetStatsInt(price, facetStats)
+        viewModel.bounds.value shouldEqual Range(0, 10)
     }
 }

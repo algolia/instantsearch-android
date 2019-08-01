@@ -13,31 +13,29 @@ class TestSelectableListViewModel {
 
     @Test
     fun singleChoice() {
-        SelectableListViewModel<String, String>(selectionMode = SelectionMode.Single)
-            .apply {
-            item = listOf(valueA, valueB)
-            onSelectionsComputed += { selections = it }
-            computeSelections(valueA)
-            selections shouldEqual setOf(valueA)
-            computeSelections(valueB)
-            selections shouldEqual setOf(valueB)
-            computeSelections(valueB)
-            selections shouldEqual setOf()
+        SelectableListViewModel<String, String>(selectionMode = SelectionMode.Single).apply {
+            items.value = listOf(valueA, valueB)
+            eventSelection.subscribe { selections.value = it }
+            select(valueA)
+            selections.value shouldEqual setOf(valueA)
+            select(valueB)
+            selections.value shouldEqual setOf(valueB)
+            select(valueB)
+            selections.value shouldEqual setOf()
         }
     }
 
     @Test
     fun multipleChoice() {
-        SelectableListViewModel<String, String>(selectionMode = SelectionMode.Multiple)
-            .apply {
-            item = listOf(valueA, valueB)
-            onSelectionsComputed += { selections = it }
-            computeSelections(valueA)
-            selections shouldEqual setOf(valueA)
-            computeSelections(valueB)
-            selections shouldEqual setOf(valueA, valueB)
-            computeSelections(valueB)
-            selections shouldEqual setOf(valueA)
+        SelectableListViewModel<String, String>(selectionMode = SelectionMode.Multiple).apply {
+            items.value = listOf(valueA, valueB)
+            eventSelection.subscribe { selections.value = it }
+            select(valueA)
+            selections.value shouldEqual setOf(valueA)
+            select(valueB)
+            selections.value shouldEqual setOf(valueA, valueB)
+            select(valueB)
+            selections.value shouldEqual setOf(valueA)
         }
     }
 }

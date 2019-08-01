@@ -30,19 +30,21 @@ class TestFacetListConnectSearcherForFacets {
     @Test
     fun connectShouldUpdateItems() {
         val viewModel = FacetListViewModel()
-        val searcher = SearcherForFacets(index, attribute).also { it.response = response }
+        val searcher = SearcherForFacets(index, attribute).also { it.response.value = response }
+        val connection = viewModel.connectSearcherForFacet(searcher)
 
-        viewModel.connectSearcherForFacet(searcher)
-        viewModel.item shouldEqual facets
+        connection.connect()
+        viewModel.items.value shouldEqual facets
     }
 
     @Test
     fun onResponseChangedShouldUpdateItems() {
         val viewModel = FacetListViewModel()
         val searcher = SearcherForFacets(index, attribute)
+        val connection = viewModel.connectSearcherForFacet(searcher)
 
-        viewModel.connectSearcherForFacet(searcher)
+        connection.connect()
         blocking { searcher.searchAsync().join() }
-        viewModel.item shouldEqual facets
+        viewModel.items.value shouldEqual facets
     }
 }

@@ -13,7 +13,6 @@ import shouldEqual
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestStatsTextView {
 
     private fun view() = StatsTextView(TextView(applicationContext))
@@ -24,7 +23,7 @@ class TestStatsTextView {
     fun setItemShouldSetText() {
         val view = view()
 
-        view.setItem(text)
+        view.setText(text)
         view.view.text shouldEqual text
     }
 }

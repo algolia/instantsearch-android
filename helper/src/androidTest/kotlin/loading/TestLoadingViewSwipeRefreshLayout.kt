@@ -16,7 +16,6 @@ import shouldBeTrue
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestLoadingViewSwipeRefreshLayout {
 
     private fun view() = LoadingViewSwipeRefreshLayout(SwipeRefreshLayout(applicationContext))
@@ -25,9 +24,10 @@ class TestLoadingViewSwipeRefreshLayout {
     fun connectShouldUpdateItem() {
         val view = view()
         val viewModel = LoadingViewModel(true)
+        val connection = viewModel.connectView(view)
 
         view.swipeRefreshLayout.isRefreshing.shouldBeFalse()
-        viewModel.connectView(view)
+        connection.connect()
         view.swipeRefreshLayout.isRefreshing.shouldBeTrue()
     }
 }

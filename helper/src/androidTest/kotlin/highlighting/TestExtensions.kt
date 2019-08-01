@@ -12,16 +12,14 @@ import androidx.core.text.inSpans
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
-import com.algolia.instantsearch.helper.highlighting.toSpannedString
+import com.algolia.instantsearch.helper.android.highlighting.toSpannedString
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import shouldEqual
 
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestExtensions {
 
     private val tokenizer = HighlightTokenizer("[", "]")

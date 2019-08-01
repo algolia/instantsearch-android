@@ -1,10 +1,12 @@
 package com.algolia.instantsearch.core.selectable
 
-import com.algolia.instantsearch.core.event.EventView
-import com.algolia.instantsearch.core.item.ItemView
+import com.algolia.instantsearch.core.Callback
 
 
-public interface SelectableItemView<T> : EventView<Boolean>, ItemView<T> {
+public interface SelectableItemView<T> {
 
+    public var onSelectionChanged: Callback<Boolean>?
+
+    public fun setItem(item: T)
     public fun setIsSelected(isSelected: Boolean)
 }

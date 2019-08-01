@@ -2,10 +2,10 @@ package com.algolia.instantsearch.demo.filter.segment
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
 import com.algolia.instantsearch.helper.android.filter.FilterSegmentViewRadioGroup
-import com.algolia.instantsearch.helper.filter.segment.FilterSegmentViewModel
-import com.algolia.instantsearch.helper.filter.segment.connectFilterState
+import com.algolia.instantsearch.helper.filter.segment.FilterSegmentConnector
 import com.algolia.instantsearch.helper.filter.segment.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupAnd
@@ -23,30 +23,27 @@ class FilterSegmentDemo : AppCompatActivity() {
     private val groupGender = groupAnd(gender)
     private val filterState = FilterState()
     private val searcher = SearcherSingleIndex(stubIndex)
+    private val filters = mapOf(
+        R.id.male to Filter.Facet(gender, "male"),
+        R.id.female to Filter.Facet(gender, "female")
+    )
+    private val filterSegment = FilterSegmentConnector(filters, filterState, groupID = groupGender)
+    private val connection = ConnectionHandler(filterSegment, searcher.connectFilterState(filterState))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_filter_segment)
 
-        searcher.connectFilterState(filterState)
-
-        val viewModelGender = FilterSegmentViewModel(
-            items = mapOf(
-                R.id.male to Filter.Facet(gender, "male"),
-                R.id.female to Filter.Facet(gender, "female")
-            )
-        )
         val viewGender = FilterSegmentViewRadioGroup(radioGroupGender)
 
-        viewModelGender.connectFilterState(filterState, groupGender)
-        viewModelGender.connectView(viewGender)
+        connection += filterSegment.connectView(viewGender)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
         onFilterChangedThenUpdateFiltersText(filterState, filtersTextView, gender)
-        onClearAllThenClearFilters(filterState, filtersClearAll)
+        onClearAllThenClearFilters(filterState, filtersClearAll, connection)
         onErrorThenUpdateFiltersText(searcher, filtersTextView)
-        onResponseChangedThenUpdateNbHits(searcher, nbHits)
+        onResponseChangedThenUpdateNbHits(searcher, nbHits, connection)
 
         searcher.searchAsync()
     }
@@ -54,5 +51,6 @@ class FilterSegmentDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

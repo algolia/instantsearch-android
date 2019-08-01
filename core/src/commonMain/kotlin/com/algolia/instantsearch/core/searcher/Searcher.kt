@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.core.searcher
 
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -10,13 +11,9 @@ public interface Searcher<R> {
     public val coroutineScope: CoroutineScope
     public val dispatcher: CoroutineDispatcher
 
-    public var loading: Boolean
-    public var response: R?
-    public var error: Throwable?
-
-    public val onResponseChanged: MutableList<(R) -> Unit>
-    public val onLoadingChanged: MutableList<(Boolean) -> Unit>
-    public val onErrorChanged: MutableList<(Throwable) -> Unit>
+    public val isLoading: SubscriptionValue<Boolean>
+    public val error: SubscriptionValue<Throwable?>
+    public val response: SubscriptionValue<R?>
 
     public fun setQuery(text: String?)
     public fun searchAsync(): Job

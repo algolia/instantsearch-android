@@ -1,12 +1,12 @@
 package com.algolia.instantsearch.core.tree
 
 
-fun <T> Tree<T>.findNode(
+public fun <T> Tree<T>.findNode(
     content: T,
     isMatchingNode: (T, Node<T>) -> Boolean
 ): Node<T>? = children.findNode(content, isMatchingNode)
 
-fun <T> List<Node<T>>.findNode(
+public fun <T> List<Node<T>>.findNode(
     content: T,
     isMatchingNode: (T, Node<T>) -> Boolean
 ): Node<T>? {
@@ -16,13 +16,13 @@ fun <T> List<Node<T>>.findNode(
     return null
 }
 
-fun <T> List<T>.toNodes(
+public fun <T> List<T>.toNodes(
     isMatchingNode: (T, Node<T>) -> Boolean
 ): Tree<T> {
     return map { Node(it) }.asTree(isMatchingNode)
 }
 
-fun <T> List<Node<T>>.asTree(
+public fun <T> List<Node<T>>.asTree(
     isMatchingNode: (T, Node<T>) -> Boolean
 ): Tree<T> = Tree<T>().also { tree ->
     forEach { node ->

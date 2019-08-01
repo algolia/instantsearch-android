@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.stats
 
-import com.algolia.instantsearch.core.item.ItemView
 
+public interface StatsView<T> {
 
-public typealias StatsView = ItemView<String>
+    fun setText(text: T)
+}

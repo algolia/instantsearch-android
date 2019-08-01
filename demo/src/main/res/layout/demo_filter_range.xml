@@ -35,7 +35,7 @@
         android:layout_marginBottom="16dp"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/sliderA"
+        app:layout_constraintBottom_toTopOf="@+id/slider"
         app:layout_constraintEnd_toStartOf="@id/boundsLabel"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
         tools:text="Bounds: 1 to 10" />
 
     <io.apptik.widget.MultiSlider
-        android:id="@+id/sliderA"
+        android:id="@+id/slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -67,25 +67,10 @@
         android:layout_marginBottom="16dp"
         android:thumb="@drawable/thumb"
         app:stepsThumbsApart="1"
-        app:layout_constraintBottom_toTopOf="@id/sliderB"
+        app:layout_constraintBottom_toTopOf="@id/slider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rangeLabel"
-        app:trackColor="@color/grey_light_a35" />
-
-    <io.apptik.widget.MultiSlider
-        android:id="@+id/sliderB"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:thumb="@drawable/thumb"
-        app:stepsThumbsApart="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sliderA"
         app:trackColor="@color/grey_light_a35" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -106,7 +91,7 @@
         android:text="@string/bounds_change"
         app:layout_constraintEnd_toEndOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sliderB" />
+        app:layout_constraintTop_toBottomOf="@id/slider" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonResetBounds"
@@ -119,7 +104,7 @@
         android:text="@string/bounds_reset"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/sliderB" />
+        app:layout_constraintTop_toBottomOf="@id/slider" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/reset"

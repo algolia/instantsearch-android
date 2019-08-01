@@ -1,12 +1,18 @@
 package com.algolia.instantsearch.helper.filter.state
 
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
 
 public class FilterState internal constructor(
-    internal val filters: MutableFilters = MutableFiltersImpl()
+    filters: MutableFilters = MutableFiltersImpl()
 ) : MutableFilters by filters {
+
+    public val filters = SubscriptionValue<Filters>(filters)
+
+    internal var hierarchicalAttributes: List<Attribute> = listOf()
+    internal var hierarchicalFilters: List<Filter.Facet> = listOf()
 
     public constructor() : this(MutableFiltersImpl())
 
@@ -14,28 +20,20 @@ public class FilterState internal constructor(
         map.forEach { (groupID, filters) -> add(groupID, filters) }
     }
 
-    internal var hierarchicalAttributes: List<Attribute> = listOf()
-    internal var hierarchicalFilters: List<Filter.Facet> = listOf()
-
-    public val onChanged: MutableList<(Filters) -> Unit> = mutableListOf()
-
     public fun notify(block: MutableFilters.() -> Unit) {
-        block(filters)
+        block(this)
         notifyChange()
     }
 
     public fun notifyChange() {
-        onChanged.forEach { it(filters) }
+        filters.notifySubscriptions()
     }
 
     override fun equals(other: Any?): Boolean {
-        return if (other is FilterState) filters == other.filters else false
+        return if (other is FilterState) filters.value == other.filters.value else false
     }
 
     override fun hashCode(): Int {
         return filters.hashCode()
     }
-
-    override fun toString(): String =
-        "FilterState(filters=$filters, onStateChanged=${onChanged.size} listener${if (onChanged.size > 1) "s" else ""})"
 }

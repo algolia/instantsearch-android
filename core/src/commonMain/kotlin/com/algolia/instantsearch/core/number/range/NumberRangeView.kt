@@ -1,10 +1,13 @@
 package com.algolia.instantsearch.core.number.range
 
-import com.algolia.instantsearch.core.event.EventView
-import com.algolia.instantsearch.core.item.ItemView
+import com.algolia.instantsearch.core.Callback
 
 
-public interface NumberRangeView<T> : ItemView<Range<T>?>, EventView<Range<T>> where T : Number, T : Comparable<T> {
+public interface NumberRangeView<T> where T : Number, T : Comparable<T> {
 
-    fun setBounds(bounds: Range<T>?)
+    public var onRangeChanged: Callback<Range<T>>?
+
+    public fun setRange(range: Range<T>?)
+
+    public fun setBounds(bounds: Range<T>?)
 }

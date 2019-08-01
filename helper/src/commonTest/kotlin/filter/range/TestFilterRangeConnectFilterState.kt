@@ -12,7 +12,7 @@ import shouldEqual
 import kotlin.test.Test
 
 
-class TestFilterRangeConnectFilterState  {
+class TestFilterRangeConnectFilterState {
 
     private val attribute = Attribute("foo")
     private val filterGroupID = FilterGroupID(attribute)
@@ -22,9 +22,10 @@ class TestFilterRangeConnectFilterState  {
         val viewModel = NumberRangeViewModel<Int>()
         val filterState = FilterState()
         val range = 0..9
+        val connection = viewModel.connectFilterState(filterState, attribute, filterGroupID)
 
-        viewModel.connectFilterState(attribute, filterState)
-        viewModel.computeRange(Range(range))
+        connection.connect()
+        viewModel.coerce(Range(range))
         filterState.getFilters() shouldEqual setOf(Filter.Numeric(attribute, range))
     }
 
@@ -34,13 +35,14 @@ class TestFilterRangeConnectFilterState  {
         val viewModel = NumberRangeViewModel<Float>()
         val filterState = FilterState()
         val range = 0f..9f
+        val connection = viewModel.connectFilterState(filterState, attribute, filterGroupID)
 
-        viewModel.connectFilterState(attribute, filterState)
-        viewModel.item.shouldBeNull()
+        connection.connect()
+        viewModel.range.value.shouldBeNull()
         filterState.notify {
             add(filterGroupID, Filter.Numeric(attribute, range.start, range.endInclusive))
         }
-        viewModel.item shouldEqual Range(range)
+        viewModel.range.value shouldEqual Range(range)
     }
 
     @Test
@@ -48,12 +50,13 @@ class TestFilterRangeConnectFilterState  {
         val viewModel = NumberRangeViewModel<Long>()
         val filterState = FilterState()
         val range = 0L..9L
+        val connection = viewModel.connectFilterState(filterState, attribute, filterGroupID)
 
-        viewModel.connectFilterState(attribute, filterState)
-        viewModel.item.shouldBeNull()
+        connection.connect()
+        viewModel.range.value.shouldBeNull()
         filterState.notify {
             add(filterGroupID, Filter.Numeric(attribute, range, true))
         }
-        viewModel.item shouldEqual Range(range)
+        viewModel.range.value shouldEqual Range(range)
     }
 }

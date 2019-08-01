@@ -29,9 +29,10 @@ class TestFilterClearConnectFilterState {
     fun clearSpecifiedEmptyListShouldClearAll() {
         val viewModel = FilterClearViewModel()
         val filterState = FilterState(filters)
+        val connection = viewModel.connectFilterState(filterState, listOf(), ClearMode.Specified)
 
-        viewModel.connectFilterState(filterState, listOf(), ClearMode.Specified)
-        viewModel.trigger(Unit)
+        connection.connect()
+        viewModel.eventClear.send(Unit)
         filterState.getFilters().shouldBeEmpty()
     }
 
@@ -39,9 +40,10 @@ class TestFilterClearConnectFilterState {
     fun clearSpecifiedShouldClearGroup() {
         val viewModel = FilterClearViewModel()
         val filterState = FilterState(filters)
+        val connection = viewModel.connectFilterState(filterState, listOf(groupIDA), ClearMode.Specified)
 
-        viewModel.connectFilterState(filterState, listOf(groupIDA), ClearMode.Specified)
-        viewModel.trigger(Unit)
+        connection.connect()
+        viewModel.eventClear.send(Unit)
         filterState shouldEqual FilterState(mapOf(groupIDB to setOf(green)))
     }
 
@@ -49,9 +51,10 @@ class TestFilterClearConnectFilterState {
     fun clearExceptShouldClearGroup() {
         val viewModel = FilterClearViewModel()
         val filterState = FilterState(filters)
+        val connection = viewModel.connectFilterState(filterState, listOf(groupIDA), ClearMode.Except)
 
-        viewModel.connectFilterState(filterState, listOf(groupIDA), ClearMode.Except)
-        viewModel.trigger(Unit)
+        connection.connect()
+        viewModel.eventClear.send(Unit)
         filterState shouldEqual FilterState(mapOf(groupIDA to setOf(red)))
     }
 }

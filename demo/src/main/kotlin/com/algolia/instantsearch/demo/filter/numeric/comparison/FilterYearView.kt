@@ -31,7 +31,7 @@ class FilterYearView(
         }
     }
 
-    override fun setItem(item: String) {
-        view.inputEditText.setText(item)
+    override fun setText(text: String) {
+        view.inputEditText.setText(text)
     }
 }

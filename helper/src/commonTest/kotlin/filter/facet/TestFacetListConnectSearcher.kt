@@ -27,27 +27,30 @@ class TestFacetListConnectSearcher {
     fun connectShouldSetQueryFacets() {
         val searcher = SearcherSingleIndex(index)
         val viewModel = FacetListViewModel()
+        val connection = viewModel.connectSearcher(searcher, color)
 
-        viewModel.connectSearcher(color, searcher)
+        connection.connect()
         searcher.query.facets!! shouldEqual setOf(color)
     }
 
     @Test
     fun connectShouldUpdateItems() {
-        val searcher = SearcherSingleIndex(index).also { it.response = response }
+        val searcher = SearcherSingleIndex(index).also { it.response.value = response }
         val viewModel = FacetListViewModel()
+        val connection = viewModel.connectSearcher(searcher, color)
 
-        viewModel.connectSearcher(color, searcher)
-        viewModel.item shouldEqual facets
+        connection.connect()
+        viewModel.items.value shouldEqual facets
     }
 
     @Test
     fun onResponseChangedShouldUpdateItems() {
         val searcher = SearcherSingleIndex(index)
         val viewModel = FacetListViewModel()
+        val connection = viewModel.connectSearcher(searcher, color)
 
-        viewModel.connectSearcher(color, searcher)
+        connection.connect()
         blocking { searcher.searchAsync().join() }
-        viewModel.item shouldEqual facets
+        viewModel.items.value shouldEqual facets
     }
 }

@@ -24,18 +24,20 @@ class TestFilterComparisonConnectFilterState {
     fun connectShouldUpdateNumberWithFilterState() {
         val viewModel = NumberViewModel(0..10)
         val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState, price, operator, groupID)
 
-        viewModel.connectFilterState(price, operator, filterState, groupID)
-        viewModel.item shouldEqual null
+        connection.connect()
+        viewModel.number.value shouldEqual null
     }
 
     @Test
-    fun onSelectionsComputedShouldUpdateFilterState() {
+    fun coerceShouldUpdateFilterState() {
         val viewModel = NumberViewModel(0..10)
         val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState, price, operator, groupID)
 
-        viewModel.connectFilterState(price, operator, filterState, groupID)
-        viewModel.computeNumber(5)
+        connection.connect()
+        viewModel.coerce(5)
         filterState shouldEqual expectedFilterState
     }
 }

@@ -1,13 +1,11 @@
 package com.algolia.instantsearch.core.searchbox
 
-import com.algolia.instantsearch.core.item.ItemViewModel
+import com.algolia.instantsearch.core.subscription.SubscriptionEvent
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 
-public open class SearchBoxViewModel : ItemViewModel<String?>(null) {
+public open class SearchBoxViewModel {
 
-    public fun submitQuery() {
-        onQuerySubmitted.forEach { it(item) }
-    }
-
-    public val onQuerySubmitted: MutableList<(String?) -> Unit> = mutableListOf()
+    public val query = SubscriptionValue<String?>(null)
+    public val eventSubmit = SubscriptionEvent<String?>()
 }

@@ -1,5 +1,6 @@
 package loading
 
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.loading.LoadingView
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.loading.connectView
@@ -16,10 +17,10 @@ class TestLoadingConnectView {
 
         var boolean: Boolean? = null
 
-        override var onClick: ((Unit) -> Unit)? = null
+        override var onReload: Callback<Unit>? = null
 
-        override fun setItem(item: Boolean) {
-            boolean = item
+        override fun setIsLoading(isLoading: Boolean) {
+            boolean = isLoading
         }
     }
 
@@ -28,9 +29,10 @@ class TestLoadingConnectView {
         val expected = true
         val viewModel = LoadingViewModel(expected)
         val view = MockLoadingView()
+        val connection = viewModel.connectView(view)
 
         view.boolean.shouldBeNull()
-        viewModel.connectView(view)
+        connection.connect()
         view.boolean shouldEqual expected
     }
 
@@ -39,25 +41,26 @@ class TestLoadingConnectView {
         val viewModel = LoadingViewModel()
         val view = MockLoadingView()
         val expected = true
+        val connection = viewModel.connectView(view)
 
-        viewModel.connectView(view)
+        connection.connect()
         view.boolean shouldEqual false
-        viewModel.item = expected
+        viewModel.isLoading.value = expected
         view.boolean shouldEqual expected
     }
 
     @Test
-    fun onClickShouldCallOnTriggerChanged() {
+    fun onClickShouldCallEventSubscription() {
         val viewModel = LoadingViewModel()
         val view = MockLoadingView()
         var expected = false
+        val connection = viewModel.connectView(view)
 
-        viewModel.onTriggered += { expected = true }
-        view.onClick.shouldBeNull()
-        viewModel.connectView(view)
-        view.onClick.shouldNotBeNull()
-        view.onClick!!(Unit)
+        viewModel.eventReload.subscribe { expected = true }
+        view.onReload.shouldBeNull()
+        connection.connect()
+        view.onReload.shouldNotBeNull()
+        view.onReload!!(Unit)
         expected.shouldBeTrue()
-
     }
 }

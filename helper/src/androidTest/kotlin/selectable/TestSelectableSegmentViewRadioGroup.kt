@@ -14,7 +14,6 @@ import shouldEqual
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-@Config(manifest = Config.NONE)
 class TestSelectableSegmentViewRadioGroup {
 
     private fun view(): FilterSegmentViewRadioGroup {
@@ -39,7 +38,7 @@ class TestSelectableSegmentViewRadioGroup {
         val text = "text"
         val child = view.radioGroup.getChildAt(0) as RadioButton
 
-        view.setItem(mapOf(child.id to text))
+        view.setMap(mapOf(child.id to text))
         child.text shouldEqual text
     }
 
@@ -48,7 +47,7 @@ class TestSelectableSegmentViewRadioGroup {
         val view = view()
         var onClickCalled = false
 
-        view.onClick = { onClickCalled = true }
+        view.onSelectionChange = { onClickCalled = true }
         view.setSelected(1)
         onClickCalled shouldEqual false
     }
@@ -58,7 +57,7 @@ class TestSelectableSegmentViewRadioGroup {
         val view = view()
         var onClickCalled = false
 
-        view.onClick = { onClickCalled = true }
+        view.onSelectionChange = { onClickCalled = true }
         view.radioGroup.check(1)
         onClickCalled shouldEqual true
     }

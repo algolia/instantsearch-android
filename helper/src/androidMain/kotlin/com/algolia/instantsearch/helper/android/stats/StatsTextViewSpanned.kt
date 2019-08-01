@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.android.stats
 
-import com.algolia.instantsearch.helper.android.item.ItemTextViewSpanned
+import com.algolia.instantsearch.helper.android.item.StatsTextViewSpanned
 
 
-public typealias StatsTextViewSpanned = ItemTextViewSpanned
+public typealias StatsTextViewSpanned = StatsTextViewSpanned

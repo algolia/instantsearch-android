@@ -23,8 +23,8 @@ class TestNumberConnectView {
             }
         }
 
-        override fun setItem(item: String) {
-            string = item
+        override fun setText(text: String) {
+            string = text
         }
     }
 
@@ -32,29 +32,32 @@ class TestNumberConnectView {
     fun connectShouldCallSetItem() {
         val view = MockNumberView()
         val viewModel = NumberViewModel(0..10)
+        val connection = viewModel.connectView(view)
 
-        viewModel.item = 5
-        viewModel.connectView(view)
+        viewModel.number.value = 5
+        connection.connect()
         view.string shouldEqual "5"
     }
 
     @Test
-    fun onItemChangedShouldCallSetItem() {
+    fun onSetNumberShouldCallSetItem() {
         val view = MockNumberView()
         val viewModel = NumberViewModel(0..10)
+        val connection = viewModel.connectView(view)
 
-        viewModel.connectView(view)
-        viewModel.item = 5
+        connection.connect()
+        viewModel.number.value = 5
         view.string shouldEqual "5"
     }
 
     @Test
-    fun onClickShouldCallOnNumberComputed() {
+    fun onClickShouldCallEventSubscription() {
         val view = MockNumberView()
         val viewModel = NumberViewModel(0..10)
+        val connection = viewModel.connectView(view)
 
-        viewModel.onNumberComputed += { viewModel.item = it }
-        viewModel.connectView(view)
+        viewModel.eventNumber.subscribe { viewModel.number.value = it }
+        connection.connect()
         view.onClickIncrement!!()
         view.string shouldEqual "0"
         view.onClickIncrement!!()

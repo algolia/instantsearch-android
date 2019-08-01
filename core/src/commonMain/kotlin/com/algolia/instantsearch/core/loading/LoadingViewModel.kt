@@ -1,11 +1,13 @@
 package com.algolia.instantsearch.core.loading
 
-import com.algolia.instantsearch.core.event.EventViewModel
-import com.algolia.instantsearch.core.event.EventViewModelImpl
-import com.algolia.instantsearch.core.item.ItemViewModel
+import com.algolia.instantsearch.core.subscription.SubscriptionEvent
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 
 public open class LoadingViewModel(
-    loading: Boolean = false
-) : ItemViewModel<Boolean>(loading),
-    EventViewModel<Unit> by EventViewModelImpl()
+    isLoading: Boolean = false
+) {
+
+    public val isLoading = SubscriptionValue(isLoading)
+    public val eventReload = SubscriptionEvent<Unit>()
+}

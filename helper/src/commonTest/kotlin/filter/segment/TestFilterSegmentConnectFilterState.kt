@@ -24,18 +24,20 @@ class TestFilterSegmentConnectFilterState {
     @Test
     fun connectShouldUpdateSelectedWithFilterState() {
         val viewModel = FilterSegmentViewModel(filters)
+        val connection = viewModel.connectFilterState(expectedFilterState, groupID)
 
-        viewModel.connectFilterState(expectedFilterState, groupID)
-        viewModel.selected shouldEqual id
+        connection.connect()
+        viewModel.selected.value shouldEqual id
     }
 
     @Test
     fun onSelectionsComputedShouldUpdateFilterState() {
         val viewModel = FilterSegmentViewModel(filters)
         val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState, groupID)
 
-        viewModel.connectFilterState(filterState, groupID)
-        viewModel.computeSelected(id)
+        connection.connect()
+        viewModel.eventSelection.send(id)
         filterState shouldEqual expectedFilterState
     }
 
@@ -43,10 +45,11 @@ class TestFilterSegmentConnectFilterState {
     fun selectingTwiceShouldRemoveFilter() {
         val viewModel = FilterSegmentViewModel(filters)
         val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState, groupID)
 
-        viewModel.connectFilterState(filterState, groupID)
-        viewModel.computeSelected(id)
-        viewModel.computeSelected(id)
+        connection.connect()
+        viewModel.eventSelection.send(id)
+        viewModel.eventSelection.send(id)
         filterState.getFilters(groupID).shouldBeEmpty()
     }
 
@@ -54,9 +57,10 @@ class TestFilterSegmentConnectFilterState {
     fun onFilterStateChangedShouldUpdateSelections() {
         val viewModel = FilterSegmentViewModel(filters)
         val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState, groupID)
 
-        viewModel.connectFilterState(filterState, groupID)
+        connection.connect()
         filterState.notify { add(groupID, red) }
-        viewModel.selected shouldEqual id
+        viewModel.selected.value shouldEqual id
     }
 }

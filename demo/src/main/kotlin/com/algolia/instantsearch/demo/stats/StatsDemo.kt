@@ -5,15 +5,13 @@ import android.text.SpannedString
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import com.algolia.instantsearch.core.item.connectView
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.demo.*
+import com.algolia.instantsearch.helper.stats.connectView
 import com.algolia.instantsearch.helper.android.stats.StatsTextView
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.stats.StatsPresenter
-import com.algolia.instantsearch.helper.stats.StatsPresenterImpl
-import com.algolia.instantsearch.helper.stats.StatsViewModel
-import com.algolia.instantsearch.helper.stats.connectSearcher
+import com.algolia.instantsearch.helper.stats.*
 import kotlinx.android.synthetic.main.demo_paging.toolbar
 import kotlinx.android.synthetic.main.demo_stats.*
 import kotlinx.android.synthetic.main.include_search.*
@@ -22,15 +20,15 @@ import kotlinx.android.synthetic.main.include_search.*
 class StatsDemo : AppCompatActivity() {
 
     private val searcher = SearcherSingleIndex(stubIndex)
+    private val stats = StatsConnector(searcher)
+    private val connection = ConnectionHandler(stats)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_stats)
 
-        val statsViewModel = StatsViewModel()
         val statsViewA = StatsTextView(statsA)
         val statsViewB = StatsTextViewSpanned(statsB)
-
         val presenter: StatsPresenter<SpannedString> = { response ->
             buildSpannedString {
                 if (response != null) {
@@ -45,14 +43,13 @@ class StatsDemo : AppCompatActivity() {
             }
         }
 
-        statsViewModel.connectSearcher(searcher)
-        statsViewModel.connectView(statsViewA, StatsPresenterImpl())
-        statsViewModel.connectView(statsViewB, presenter)
+        connection += stats.connectView(statsViewA, StatsPresenterImpl())
+        connection += stats.connectView(statsViewB, presenter)
 
         configureToolbar(toolbar)
         configureSearcher(searcher)
         configureSearchView(searchView, getString(R.string.search_movies))
-        configureSearchBox(searchView, searcher)
+        configureSearchBox(searchView, searcher, connection)
 
         searcher.searchAsync()
     }
@@ -60,5 +57,6 @@ class StatsDemo : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searcher.cancel()
+        connection.disconnect()
     }
 }

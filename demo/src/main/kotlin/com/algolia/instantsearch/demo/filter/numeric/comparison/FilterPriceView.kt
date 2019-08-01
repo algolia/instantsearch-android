@@ -14,13 +14,13 @@ class FilterPriceView(
     val view: View,
     val price: Attribute,
     val operator: NumericOperator
-): NumberView<Int> {
+): NumberView<Long> {
 
     init {
         view.stepperText.text = "$price ${operator.raw}"
     }
 
-    override fun setComputation(computation: Computation<Int>) {
+    override fun setComputation(computation: Computation<Long>) {
         view.arrowUp.setOnClickListener {
             computation.increment()
         }
@@ -29,7 +29,7 @@ class FilterPriceView(
         }
     }
 
-    override fun setItem(item: String) {
-        view.stepperNumber.text = item
+    override fun setText(text: String) {
+        view.stepperNumber.text = text
     }
 }
