@@ -58,10 +58,7 @@ import io.ktor.client.features.logging.LogLevel
 val client = ClientSearch(
     ConfigurationSearch(
         ApplicationID("latency"),
-        APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        readTimeout = 30000,
-        logLevel = LogLevel.NONE,
-        compression = Compression.None
+        APIKey("1f6fd3a6fb973cb08419fe7d288fa4db")
     )
 )
 
