@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -27,11 +27,14 @@ public class SearcherSingleIndex(
     override val error = SubscriptionValue<Throwable?>(null)
     override val response = SubscriptionValue<ResponseSearch?>(null)
 
+
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error.value = throwable
     }
 
-    internal var disjunctive: (() -> Pair<List<Attribute>, Set<Filter>>) = { listOf<Attribute>() to setOf() }
+    internal var computeDisjunctiveParams = { listOf<Attribute>() to setOf<Filter>() }
+    internal var hierarchicalFilters = listOf<Filter.Facet>()
+    internal var hierarchicalAttributes = hierarchicalFilters.map { it.attribute }.distinct()
 
     override fun setQuery(text: String?) {
         this.query.query = text
@@ -46,13 +49,21 @@ public class SearcherSingleIndex(
     }
 
     override suspend fun search(): ResponseSearch {
-        val (disjunctiveAttributes, filters) = disjunctive.invoke()
+        val (disjunctiveAttributes, disjunctiveFilters) = computeDisjunctiveParams()
 
         withContext(dispatcher) { isLoading.value = true }
-        val response = if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
+        val response = if (hierarchicalFilters.isNotEmpty()) {
+            index.searchHierarchical(
+                query,
+                disjunctiveAttributes,
+                disjunctiveFilters,
+                hierarchicalAttributes,
+                hierarchicalFilters
+            )
+        } else if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
             index.search(query, requestOptions)
         } else {
-            index.searchDisjunctiveFacets(query, disjunctiveAttributes, filters)
+            index.searchDisjunctiveFacets(query, disjunctiveAttributes, disjunctiveFilters)
         }
         withContext(dispatcher) {
             this@SearcherSingleIndex.response.value = response

@@ -52,6 +52,7 @@ import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.filter.FilterGroupsConverter
 import com.algolia.search.serialize.KeyIndexName
 import com.algolia.search.serialize.KeyName
+import io.ktor.client.features.logging.LogLevel
 
 
 val client = ClientSearch(
@@ -59,6 +60,7 @@ val client = ClientSearch(
         ApplicationID("latency"),
         APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
         readTimeout = 30000,
+        logLevel = LogLevel.NONE,
         compression = Compression.None
     )
 )

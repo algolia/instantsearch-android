@@ -23,11 +23,13 @@ internal data class SearcherSingleConnectionFilterState(
 
     init {
         searcher.updateFilters()
-        searcher.disjunctive = {
+        searcher.computeDisjunctiveParams = {
             val disjunctiveAttributes = filterState.getFacetGroups()
                 .filter { it.key.operator == FilterOperator.Or }
                 .flatMap { group -> group.value.map { it.attribute } }
 
+            searcher.hierarchicalAttributes = filterState.hierarchicalAttributes
+            searcher.hierarchicalFilters = filterState.hierarchicalFilters
             disjunctiveAttributes to filterState.getFilters()
         }
     }

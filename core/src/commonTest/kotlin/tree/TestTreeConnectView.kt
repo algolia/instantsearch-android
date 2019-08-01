@@ -1,5 +1,6 @@
 package tree
 
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.tree.*
 import shouldBeEmpty
 import shouldEqual
@@ -36,10 +37,10 @@ class TestTreeConnectView {
     private class MockTreeView : TreeView<String, List<String>> {
 
         internal var items: List<String> = listOf()
-        override var onClick: ((String) -> Unit)? = null
+        override var onSelectionChanged: Callback<String>? = null
 
-        override fun setItem(item: List<String>) {
-            items = item
+        override fun setTree(tree: List<String>) {
+            items = tree
         }
     }
 
@@ -69,7 +70,7 @@ class TestTreeConnectView {
 
         viewModel.connectView(view, presenter)
         view.items.shouldBeEmpty()
-        viewModel.item = tree
+        viewModel.tree.value = tree
         view.items shouldEqual expectedItems
     }
 
@@ -79,8 +80,8 @@ class TestTreeConnectView {
         val viewModel = MockTreeViewModel(tree)
 
         viewModel.connectView(view, presenter)
-        view.onClick.shouldNotBeNull()
-        view.onClick!!(shoesRunning)
+        view.onSelectionChanged.shouldNotBeNull()
+        view.onSelectionChanged!!(shoesRunning)
         viewModel.selection shouldEqual expectedSelection
     }
 }

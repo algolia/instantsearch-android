@@ -1,11 +1,10 @@
 package com.algolia.instantsearch.helper.hierarchical
 
+import com.algolia.instantsearch.core.subscription.SubscriptionEvent
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.tree.TreeViewModel
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
-import kotlin.properties.Delegates
-
-public const val hierarchicalGroupName = "_hierarchical"
 
 /**
  * @param hierarchicalAttributes attributes of the hierarchy.
@@ -17,16 +16,12 @@ public open class HierarchicalViewModel(
     tree: HierarchicalTree = HierarchicalTree()
 ) : TreeViewModel<String, Facet>(tree) {
 
+    public val selections = SubscriptionValue<List<String>>(listOf())
+    public val eventHierarchicalPath = SubscriptionEvent<HierarchicalPath>()
+
     init {
         if (hierarchicalAttributes.isEmpty())
             throw IllegalArgumentException("HierarchicalAttributes should not be empty")
-    }
-
-    public val onSelectionsChanged: MutableList<(List<String>) -> Unit> = mutableListOf()
-    public val onSelectionsComputed: MutableList<(HierarchicalPath) -> Unit> = mutableListOf()
-
-    public var selections by Delegates.observable(listOf<String>()) { _, _, newValue ->
-        onSelectionsChanged.forEach { it(newValue) }
     }
 
     /**
@@ -41,7 +36,7 @@ public open class HierarchicalViewModel(
             selections.getOrNull(index)?.let { item to it }
         }.filterNotNull()
 
-        onSelectionsComputed.forEach { it(hierarchicalPath) }
+        eventHierarchicalPath.send(hierarchicalPath)
     }
 
     private fun String.toSelectionList(): List<String> = split(separator).fold(listOf()) { acc, s ->

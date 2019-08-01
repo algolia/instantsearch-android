@@ -1,7 +1,11 @@
 package com.algolia.instantsearch.core.tree
 
-import com.algolia.instantsearch.core.event.EventView
-import com.algolia.instantsearch.core.item.ItemView
+import com.algolia.instantsearch.core.Callback
 
 
-public interface TreeView<K, V> : ItemView<V>, EventView<K>
+public interface TreeView<K, V> {
+
+    fun setTree(tree: V)
+
+    var onSelectionChanged: Callback<K>?
+}
