@@ -13,12 +13,10 @@ internal data class HierarchicalConnectionSearcher(
 ) : ConnectionImpl() {
 
     private val updateTree: Callback<ResponseSearch?> = { response ->
-        println(response)
         if (response != null) {
             val facets = response.hierarchicalFacetsOrNull
                 ?: response.facetsOrNull?.filter { it.key == viewModel.hierarchicalAttributes.first() } ?: mapOf()
 
-            println(facets)
             viewModel.tree.value = viewModel.hierarchicalAttributes.mapNotNull { facets[it] }.flatten().toNodes()
         }
     }

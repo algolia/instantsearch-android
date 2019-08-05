@@ -11,7 +11,6 @@ internal data class TreeConnectionView<K, I, O>(
 ): ConnectionImpl() {
 
     private val updateItem: Callback<Tree<I>> = { tree ->
-        println("here")
         view.setTree(presenter(tree))
     }
 
