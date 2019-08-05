@@ -1,13 +1,16 @@
 package com.algolia.instantsearch.helper.searcher
 
+import com.algolia.instantsearch.core.InstantSearch
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.search.client.Index
+import com.algolia.search.dsl.requestOptions
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
+import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.*
 
 
@@ -25,11 +28,14 @@ public class SearcherForFacets(
     override val dispatcher: CoroutineDispatcher = defaultDispatcher
     override val isLoading = SubscriptionValue(false)
     override val error = SubscriptionValue<Throwable?>(null)
-    override val response =
-        SubscriptionValue<ResponseSearchForFacets?>(null)
+    override val response = SubscriptionValue<ResponseSearchForFacets?>(null)
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error.value = throwable
+    }
+
+    private val options = requestOptions(requestOptions) {
+        header(HttpHeaders.UserAgent, InstantSearch.userAgent)
     }
 
     override fun setQuery(text: String?) {
@@ -48,7 +54,7 @@ public class SearcherForFacets(
 
     override suspend fun search(): ResponseSearchForFacets {
         withContext(dispatcher) { isLoading.value = true }
-        val response = index.searchForFacets(attribute, facetQuery, query, requestOptions)
+        val response = index.searchForFacets(attribute, facetQuery, query, options)
         withContext(dispatcher) {
             this@SearcherForFacets.response.value = response
             isLoading.value = false

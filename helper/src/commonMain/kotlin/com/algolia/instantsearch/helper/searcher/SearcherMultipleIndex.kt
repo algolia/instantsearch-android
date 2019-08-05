@@ -1,13 +1,16 @@
 package com.algolia.instantsearch.helper.searcher
 
+import com.algolia.instantsearch.core.InstantSearch
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.search.client.ClientSearch
+import com.algolia.search.dsl.requestOptions
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.response.ResponseSearches
 import com.algolia.search.transport.RequestOptions
+import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.*
 
 
@@ -30,6 +33,10 @@ public class SearcherMultipleIndex(
         error.value = throwable
     }
 
+    private val options = requestOptions(requestOptions) {
+        header(HttpHeaders.UserAgent, InstantSearch.userAgent)
+    }
+
     override fun setQuery(text: String?) {
         queries.forEach { it.query.query = text }
     }
@@ -44,7 +51,7 @@ public class SearcherMultipleIndex(
 
     override suspend fun search(): ResponseSearches {
         withContext(dispatcher) { isLoading.value = true }
-        val response = client.multipleQueries(queries, strategy, requestOptions)
+        val response = client.multipleQueries(queries, strategy, options)
         withContext(dispatcher) {
             this@SearcherMultipleIndex.response.value = response
             isLoading.value = false
