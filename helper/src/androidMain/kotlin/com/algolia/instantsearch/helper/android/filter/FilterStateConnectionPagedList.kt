@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.android.list
+package com.algolia.instantsearch.helper.android.filter
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
@@ -8,7 +8,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
 
 
-internal data class PagedListConnectionFilterState<T>(
+internal data class FilterStateConnectionPagedList<T>(
     private val pagedList: LiveData<PagedList<T>>,
     private val filterState: FilterState
 ) : ConnectionImpl() {

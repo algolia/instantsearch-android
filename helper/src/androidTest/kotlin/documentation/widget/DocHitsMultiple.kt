@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.helper.android.list.SearcherMultipleIndexDataSource
-import com.algolia.instantsearch.helper.android.list.connectFilterState
+import com.algolia.instantsearch.helper.android.filter.connectPagedList
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.client.ClientSearch
@@ -55,8 +55,8 @@ class DocHitsMultiple {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
-            connection += actors.connectFilterState(filterState)
-            connection += movies.connectFilterState(filterState)
+            connection += filterState.connectPagedList(actors)
+            connection += filterState.connectPagedList(movies)
 
             actors.observe(this, Observer { hits -> adapterActor.setHits(hits) })
             movies.observe(this, Observer { hits -> adapterMovie.setHits(hits) })
