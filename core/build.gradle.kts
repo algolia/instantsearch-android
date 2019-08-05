@@ -2,12 +2,20 @@
 import dependency.Library
 import dependency.network.Coroutines
 import dependency.script.AtomicFu
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("kotlin-multiplatform")
     id("maven-publish")
     id("com.jfrog.bintray")
     id("com.github.ben-manes.versions") version "0.21.0"
+    id("com.github.kukuhyoniatmoko.buildconfigkotlin") version "1.0.5"
+}
+
+buildConfigKotlin {
+    sourceSet("metadata") {
+        buildConfig(name = "version", value = Library.version)
+    }
 }
 
 group = Library.group
@@ -31,10 +39,10 @@ kotlin {
     }
     sourceSets {
         val commonMain by getting {
+            kotlin.srcDirs("build/generated/source")
             dependencies {
                 implementation(kotlin("stdlib-common"))
                 implementation(Coroutines("core-common"))
-                implementation(AtomicFu("common"))
             }
         }
         val commonTest by getting {
@@ -81,5 +89,10 @@ bintray {
     }
 }
 
+tasks {
+    withType<KotlinCompile> {
+        dependsOn("generateMetadataBuildConfigKotlin")
+    }
+}
 
 configurations.create("compileClasspath") //FIXME: Workaround for https://youtrack.jetbrains.com/issue/KT-27170
