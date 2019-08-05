@@ -1,16 +1,13 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.core.InstantSearch
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.search.client.Index
-import com.algolia.search.dsl.requestOptions
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
-import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.*
 
 
@@ -34,9 +31,7 @@ public class SearcherForFacets(
         error.value = throwable
     }
 
-    private val options = requestOptions(requestOptions) {
-        header(HttpHeaders.UserAgent, InstantSearch.userAgent)
-    }
+    private val options = requestOptions.withUserAgent()
 
     override fun setQuery(text: String?) {
         facetQuery = text
