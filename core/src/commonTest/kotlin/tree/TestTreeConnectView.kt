@@ -57,9 +57,10 @@ class TestTreeConnectView {
     fun connectShouldCallSetItem() {
         val view = MockTreeView()
         val viewModel = MockTreeViewModel(tree)
+        val connection = viewModel.connectView(view, presenter)
 
         viewModel.selection = shoesRunning
-        viewModel.connectView(view, presenter)
+        connection.connect()
         view.items shouldEqual expectedItems
     }
 
@@ -67,8 +68,9 @@ class TestTreeConnectView {
     fun onItemChangedShouldCallSetItem() {
         val view = MockTreeView()
         val viewModel = MockTreeViewModel(Tree())
+        val connection = viewModel.connectView(view, presenter)
 
-        viewModel.connectView(view, presenter)
+        connection.connect()
         view.items.shouldBeEmpty()
         viewModel.tree.value = tree
         view.items shouldEqual expectedItems
@@ -78,8 +80,9 @@ class TestTreeConnectView {
     fun onClickShouldCallComputeSelections() {
         val view = MockTreeView()
         val viewModel = MockTreeViewModel(tree)
+        val connection = viewModel.connectView(view, presenter)
 
-        viewModel.connectView(view, presenter)
+        connection.connect()
         view.onSelectionChanged.shouldNotBeNull()
         view.onSelectionChanged!!(shoesRunning)
         viewModel.selection shouldEqual expectedSelection

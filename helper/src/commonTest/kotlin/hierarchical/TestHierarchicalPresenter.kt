@@ -37,7 +37,7 @@ class TestHierarchicalPresenter {
     fun presenterShouldTransformAndSortHierarchy() {
         val viewModel = HierarchicalViewModel(listOf(Attribute("foo")), separator, tree)
 
-        presenter(viewModel.item) shouldEqual listOf(
+        presenter(viewModel.tree.value) shouldEqual listOf(
             HierarchicalItem(facetBags, facetBags.toDisplayName(), 0),
             HierarchicalItem(facetShoes, facetShoes.toDisplayName(), 0),
             HierarchicalItem(facetShoesCocktail, facetShoesCocktail.toDisplayName(), 1),

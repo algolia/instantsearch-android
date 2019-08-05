@@ -56,8 +56,9 @@ class TestHierarchicalConnectFilterState {
     fun connectShouldSetHierarchicalAttributes() {
         val viewModel = HierarchicalViewModel(categories, separator, tree)
         val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState)
 
-        viewModel.connectFilterState(filterState)
+        connection.connect()
         filterState.hierarchicalAttributes shouldEqual viewModel.hierarchicalAttributes
     }
 
@@ -65,10 +66,11 @@ class TestHierarchicalConnectFilterState {
     fun onSelectionsComputedShouldUpdateFilterState() {
         val viewModel = HierarchicalViewModel(categories, separator, tree)
         val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState)
 
-        viewModel.connectFilterState(filterState)
+        connection.connect()
         viewModel.computeSelections(selection)
-        filterState.filters shouldEqual expectedFilterState.filters
+        filterState.filters.value shouldEqual expectedFilterState.filters.value
         filterState.hierarchicalFilters shouldEqual expectedFilterState.hierarchicalFilters
     }
 
@@ -76,12 +78,13 @@ class TestHierarchicalConnectFilterState {
     fun onFilterStateChangedShouldUpdateSelections() {
         val viewModel = HierarchicalViewModel(categories, separator, tree)
         val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState)
 
-        viewModel.connectFilterState(filterState)
+        connection.connect()
         filterState.notify {
             remove(groupID, filterShoesRunning)
             add(groupID, filterBags)
         }
-        viewModel.selections shouldEqual listOf(facetBags.value)
+        viewModel.selections.value shouldEqual listOf(facetBags.value)
     }
 }
