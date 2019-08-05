@@ -16,10 +16,26 @@ import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import kotlinx.serialization.Serializable
 import org.junit.Ignore
+import org.junit.Test
 
 
 @Ignore
 class DocHits {
+
+    @Test
+    fun json() {
+        val client = ClientSearch(
+            ApplicationID("YourApplicationID"),
+            APIKey("YourAPIKey")
+        )
+        val index = client.initIndex(IndexName("YourIndexName"))
+        val searcher = SearcherSingleIndex(index)
+        val adapter = MovieAdapter()
+
+        searcher.connectHitsView(adapter) { response ->
+            response.hits.map { hit -> Movie(hit.json.getPrimitive("title").content) }
+        }
+    }
 
     class MyActivity : AppCompatActivity() {
 
@@ -30,13 +46,13 @@ class DocHits {
         val index = client.initIndex(IndexName("YourIndexName"))
         val searcher = SearcherSingleIndex(index)
         val connection = ConnectionHandler()
-        val adapter = MyAdapter()
+        val adapter = MovieAdapter()
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
             connection += searcher.connectHitsView(adapter) { response ->
-                response.hits.deserialize(MyItem.serializer())
+                response.hits.deserialize(Movie.serializer())
             }
             searcher.searchAsync()
         }
@@ -49,38 +65,38 @@ class DocHits {
     }
 
     @Serializable
-    data class MyItem(
+    data class Movie(
         val title: String
     )
 
-    class MyAdapter : RecyclerView.Adapter<MyViewHolder>(), HitsView<MyItem> {
+    class MovieViewHolder(val view: TextView): RecyclerView.ViewHolder(view) {
 
-        private var items: List<MyItem> = listOf()
+        fun bind(data: Movie) {
+            view.text = data.title
+        }
+    }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            return MyViewHolder(TextView(parent.context))
+    class MovieAdapter : RecyclerView.Adapter<MovieViewHolder>(), HitsView<Movie> {
+
+        private var movies: List<Movie> = listOf()
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+            return MovieViewHolder(TextView(parent.context))
         }
 
-        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            val item = items[position]
+        override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+            val movie = movies[position]
 
-            holder.bind(item)
+            holder.bind(movie)
         }
 
-        override fun setHits(hits: List<MyItem>) {
-            items = hits
+        override fun setHits(hits: List<Movie>) {
+            movies = hits
             notifyDataSetChanged()
         }
 
         override fun getItemCount(): Int {
-            return items.size
-        }
-    }
-
-    class MyViewHolder(val view: TextView): RecyclerView.ViewHolder(view) {
-
-        fun bind(data: MyItem) {
-            view.text = data.title
+            return movies.size
         }
     }
 }

@@ -10,8 +10,11 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
+import com.algolia.instantsearch.helper.android.list.connectFilterState
+import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
@@ -32,14 +35,17 @@ class DocHitsPagingSingle {
         )
         val index = client.initIndex(IndexName("YourIndexName"))
         val searcher = SearcherSingleIndex(index)
-        val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, MyItem.serializer())
+        val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Movie.serializer())
         val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
-        val movies = LivePagedListBuilder<Int, MyItem>(dataSourceFactory, pagedListConfig).build()
-        val adapter = MyAdapter()
+        val movies = LivePagedListBuilder<Int, Movie>(dataSourceFactory, pagedListConfig).build()
+        val filterState = FilterState()
+        val adapter = MovieAdapter()
+        val connection = ConnectionHandler()
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
+            connection += movies.connectFilterState(filterState)
             movies.observe(this, Observer { hits -> adapter.setHits(hits) })
             searcher.searchAsync()
         }
@@ -47,56 +53,53 @@ class DocHitsPagingSingle {
         override fun onDestroy() {
             super.onDestroy()
             searcher.cancel()
+            connection.disconnect()
         }
     }
 
     @Serializable
-    data class MyItem(
+    data class Movie(
         val title: String
     )
 
-    class MyAdapter : ListAdapter<MyItem, MyViewHolder>(MyAdapter), HitsView<MyItem> {
+    class MovieViewHolder(val view: TextView) : RecyclerView.ViewHolder(view) {
 
-        private var items: List<MyItem> = listOf()
+        fun bind(data: Movie) {
+            view.text = data.title
+        }
+    }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            return MyViewHolder(TextView(parent.context))
+    class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieAdapter), HitsView<Movie> {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+            return MovieViewHolder(TextView(parent.context))
         }
 
-        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            val item = items[position]
+        override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+            val movie = getItem(position)
 
-            holder.bind(item)
+            holder.bind(movie)
         }
 
-        override fun setHits(hits: List<MyItem>) {
-
-            items = hits
-            notifyDataSetChanged()
+        override fun setHits(hits: List<Movie>) {
+            submitList(hits)
         }
 
-        companion object : DiffUtil.ItemCallback<MyItem>() {
+        companion object : DiffUtil.ItemCallback<Movie>() {
 
             override fun areItemsTheSame(
-                oldItem: MyItem,
-                newItem: MyItem
+                oldItem: Movie,
+                newItem: Movie
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: MyItem,
-                newItem: MyItem
+                oldItem: Movie,
+                newItem: Movie
             ): Boolean {
                 return oldItem.title == newItem.title
             }
-        }
-    }
-
-    class MyViewHolder(val view: TextView) : RecyclerView.ViewHolder(view) {
-
-        fun bind(data: MyItem) {
-            view.text = data.title
         }
     }
 }

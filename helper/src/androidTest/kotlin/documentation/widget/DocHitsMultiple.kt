@@ -10,11 +10,12 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.helper.android.list.SearcherMultipleIndexDataSource
-import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
+import com.algolia.instantsearch.helper.android.list.connectFilterState
+import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -34,25 +35,31 @@ class DocHitsMultiple {
             APIKey("YourAPIKey")
         )
         val index = client.initIndex(IndexName("YourIndexName"))
-        private val searcher = SearcherMultipleIndex(
+        val searcher = SearcherMultipleIndex(
             client,
             listOf(
                 IndexQuery(IndexName("YourIndexName_A")),
                 IndexQuery(IndexName("YourIndexName_B"))
             )
         )
-        private val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
-        private val itemAFactory = SearcherMultipleIndexDataSource.Factory(searcher, 0, MyItemA.serializer())
-        private val itemBFactory = SearcherMultipleIndexDataSource.Factory(searcher, 1, MyItemB.serializer())
-        private val movies = LivePagedListBuilder<Int, MyItemA>(itemAFactory, pagedListConfig).build()
-        private val actors = LivePagedListBuilder<Int, MyItemB>(itemBFactory, pagedListConfig).build()
-        val adapter = DocHits.MyAdapter()
+        val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
+        val movieFactory = SearcherMultipleIndexDataSource.Factory(searcher, 0, Movie.serializer())
+        val actorFactory = SearcherMultipleIndexDataSource.Factory(searcher, 1, Actor.serializer())
+        val movies = LivePagedListBuilder<Int, Movie>(movieFactory, pagedListConfig).build()
+        val actors = LivePagedListBuilder<Int, Actor>(actorFactory, pagedListConfig).build()
+        val adapterMovie = MovieAdapter()
+        val adapterActor = ActorAdapter()
+        val filterState = FilterState()
+        val connection = ConnectionHandler()
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
-            actors.observe(this, Observer { hits ->  })
-            movies.observe(this, Observer { hits ->  })
+            connection += actors.connectFilterState(filterState)
+            connection += movies.connectFilterState(filterState)
+
+            actors.observe(this, Observer { hits -> adapterActor.setHits(hits) })
+            movies.observe(this, Observer { hits -> adapterMovie.setHits(hits) })
 
             searcher.searchAsync()
         }
@@ -60,16 +67,99 @@ class DocHitsMultiple {
         override fun onDestroy() {
             super.onDestroy()
             searcher.cancel()
+            connection.disconnect()
         }
     }
 
     @Serializable
-    data class MyItemA(
+    data class Movie(
         val title: String
     )
 
     @Serializable
-    data class MyItemB(
-        val title: String
+    data class Actor(
+        val name: String
     )
+
+    class MovieViewHolder(val view: TextView) : RecyclerView.ViewHolder(view) {
+
+        fun bind(data: Movie) {
+            view.text = data.title
+        }
+    }
+
+    class ActorViewHolder(val view: TextView) : RecyclerView.ViewHolder(view) {
+
+        fun bind(data: Actor) {
+            view.text = data.name
+        }
+    }
+
+    class ActorAdapter : ListAdapter<Actor, ActorViewHolder>(ActorAdapter), HitsView<Actor> {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorViewHolder {
+            return ActorViewHolder(TextView(parent.context))
+        }
+
+        override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
+            val actor = getItem(position)
+
+            holder.bind(actor)
+        }
+
+        override fun setHits(hits: List<Actor>) {
+            submitList(hits)
+        }
+
+        companion object : DiffUtil.ItemCallback<Actor>() {
+
+            override fun areItemsTheSame(
+                oldItem: Actor,
+                newItem: Actor
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: Actor,
+                newItem: Actor
+            ): Boolean {
+                return oldItem.name == newItem.name
+            }
+        }
+    }
+
+    class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieAdapter), HitsView<Movie> {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+            return MovieViewHolder(TextView(parent.context))
+        }
+
+        override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+            val movie = getItem(position)
+
+            holder.bind(movie)
+        }
+
+        override fun setHits(hits: List<Movie>) {
+            submitList(hits)
+        }
+
+        companion object : DiffUtil.ItemCallback<Movie>() {
+
+            override fun areItemsTheSame(
+                oldItem: Movie,
+                newItem: Movie
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: Movie,
+                newItem: Movie
+            ): Boolean {
+                return oldItem.title == newItem.title
+            }
+        }
+    }
 }
