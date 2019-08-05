@@ -54,19 +54,19 @@ public class SearcherSingleIndex(
         val (disjunctiveAttributes, disjunctiveFilters) = computeDisjunctiveParams()
 
         withContext(dispatcher) { isLoading.value = true }
-        val response = if (hierarchicalFilters.isNotEmpty()) {
+        val response = if (
+            (disjunctiveAttributes.isNotEmpty() || hierarchicalFilters.isNotEmpty())
+            && isDisjunctiveFacetingEnabled
+        ) {
             index.searchHierarchical(
                 query,
                 disjunctiveAttributes,
                 disjunctiveFilters,
                 hierarchicalAttributes,
-                hierarchicalFilters
+                hierarchicalFilters,
+                options
             )
-        } else if (disjunctiveAttributes.isEmpty() || !isDisjunctiveFacetingEnabled) {
-            index.search(query, options)
-        } else {
-            index.searchDisjunctiveFacets(query, disjunctiveAttributes, disjunctiveFilters, options)
-        }
+        } else index.search(query, options)
         withContext(dispatcher) {
             this@SearcherSingleIndex.response.value = response
             isLoading.value = false
