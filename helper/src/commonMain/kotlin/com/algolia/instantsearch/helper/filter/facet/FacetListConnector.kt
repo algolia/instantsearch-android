@@ -11,7 +11,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 
 
-public data class FacetListConnector private constructor(
+public data class FacetListConnector internal constructor(
     public val filterState: FilterState,
     public val attribute: Attribute,
     public val viewModel: FacetListViewModel,
@@ -19,7 +19,7 @@ public data class FacetListConnector private constructor(
     private val wrapper: Wrapper
 ) : ConnectionImpl() {
 
-    private sealed class Wrapper {
+    internal sealed class Wrapper {
 
         class Single(val searcher: SearcherSingleIndex) : Wrapper()
 
@@ -46,7 +46,7 @@ public data class FacetListConnector private constructor(
         attribute: Attribute,
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
         viewModel: FacetListViewModel = FacetListViewModel()
-    ) : this(filterState, attribute, viewModel, groupID, Wrapper.ForFacet(searcher))
+    ) : this(filterState, searcher.attribute, viewModel, groupID, Wrapper.ForFacet(searcher))
 
     constructor(
         searcher: SearcherSingleIndex,
