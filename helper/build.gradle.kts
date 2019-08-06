@@ -91,7 +91,7 @@ kotlin {
             dependencies {
                 api(project(":core"))
                 api(AlgoliaClient())
-                implementation(kotlin("stdlib-common"))
+                api(kotlin("stdlib-common"))
             }
         }
         val commonTest by getting {
@@ -104,7 +104,7 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-jdk8"))
+                api(kotlin("stdlib-jdk8"))
                 api(AlgoliaClient("jvm"))
             }
         }
@@ -119,12 +119,12 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-jdk8"))
-                implementation(AppCompat())
-                implementation(RecyclerView())
-                implementation(MaterialDesign())
-                implementation(AndroidCore("ktx"))
-                implementation(Paging())
+                api(kotlin("stdlib-jdk8"))
+                api(AppCompat())
+                api(RecyclerView())
+                api(MaterialDesign())
+                api(AndroidCore("ktx"))
+                api(Paging())
                 api(Coroutines("android"))
                 api(AlgoliaClient("jvm"))
                 api(Ktor("client-android"))

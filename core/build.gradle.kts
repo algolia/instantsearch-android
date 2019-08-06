@@ -42,8 +42,8 @@ kotlin {
         val commonMain by getting {
             kotlin.srcDirs("build/generated/source")
             dependencies {
-                implementation(kotlin("stdlib-common"))
-                implementation(Coroutines("core-common"))
+                api(kotlin("stdlib-common"))
+                api(Coroutines("core-common"))
                 implementation(AtomicFu("common"))
             }
         }
@@ -55,8 +55,8 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-jdk8"))
-                implementation(Coroutines("core"))
+                api(kotlin("stdlib-jdk8"))
+                api(Coroutines("core"))
                 implementation(AtomicFu())
             }
         }
