@@ -36,7 +36,9 @@ class DocHitsPagingSingle {
         val index = client.initIndex(IndexName("YourIndexName"))
         val searcher = SearcherSingleIndex(index)
         val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Movie.serializer())
-        val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
+        val pagedListConfig = PagedList.Config.Builder()
+            .setPageSize(10) // configure according to your needs
+            .build()
         val movies = LivePagedListBuilder<Int, Movie>(dataSourceFactory, pagedListConfig).build()
         val filterState = FilterState()
         val adapter = MovieAdapter()
@@ -46,7 +48,7 @@ class DocHitsPagingSingle {
             super.onCreate(savedInstanceState)
 
             connection += filterState.connectPagedList(movies)
-            
+
             movies.observe(this, Observer { hits -> adapter.setHits(hits) })
 
             searcher.searchAsync()
