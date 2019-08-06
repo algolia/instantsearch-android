@@ -4,31 +4,52 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.demo.list.movie.Movie
+import com.algolia.instantsearch.demo.filter.facet.FacetListAdapter
+import com.algolia.instantsearch.helper.android.filter.connectPagedList
 import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxConnectorPagedList
-import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
+import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
+import com.algolia.instantsearch.helper.filter.facet.connectView
+import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.helper.stats.StatsConnector
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
+import io.ktor.client.features.logging.LogLevel
 
 
 class SampleViewModel : ViewModel() {
 
-    private val client = ClientSearch(ApplicationID("latency"), APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"))
-    private val index = client.initIndex(IndexName("bestbuy_promo"))
+    val client = ClientSearch(ApplicationID("latency"), APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"), LogLevel.ALL)
+    val index = client.initIndex(IndexName("bestbuy_promo"))
+    val searcher = SearcherSingleIndex(index)
 
-    public val searcher = SearcherSingleIndex(index)
+    val category = Attribute("category")
+    val filterState = FilterState()
 
-    private val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Product.serializer())
-    private val pagedListConfig = PagedList.Config.Builder().setPageSize(50).build()
+    val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Product.serializer())
+    val pagedListConfig = PagedList.Config.Builder().setPageSize(50).build()
+    val products = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
 
-    public val products = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
-    public val searchBox = SearchBoxConnectorPagedList(searcher, listOf(products))
+    val searchBox = SearchBoxConnectorPagedList(searcher, listOf(products))
+    val facetList = FacetListConnector(searcher, filterState, category)
+    val stats = StatsConnector(searcher)
 
-    private val connection = ConnectionHandler(searchBox)
+    val adapterFacet = FacetListAdapter()
+    val adapterProduct = ProductAdapter()
+
+    val connection = ConnectionHandler(
+        searchBox,
+        facetList,
+        stats,
+        searcher.connectFilterState(filterState),
+        facetList.connectView(adapterFacet),
+        filterState.connectPagedList(products)
+    )
 
     override fun onCleared() {
         super.onCleared()
