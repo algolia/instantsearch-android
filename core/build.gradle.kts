@@ -14,6 +14,7 @@ plugins {
 
 buildConfigKotlin {
     sourceSet("metadata") {
+        className("BuildConfiguration")
         buildConfig(name = "version", value = Library.version)
     }
 }
@@ -56,7 +57,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(Coroutines("core"))
-                implementation(AtomicFu("jvm"))
+                implementation(AtomicFu())
             }
         }
         val jvmTest by getting {
