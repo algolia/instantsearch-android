@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.algolia.instantsearch.demo.autoScrollToStart
+import com.algolia.instantsearch.helper.android.list.autoScrollToStart
 
 
 sealed class PagingMultipleIndexViewHolder(
@@ -26,9 +26,9 @@ sealed class PagingMultipleIndexViewHolder(
 
         fun bind(item: PagingMultipleIndexItem.Movies) {
             view.let {
-                it.autoScrollToStart(item.adapter)
                 it.adapter = item.adapter
                 it.layoutManager = LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
+                it.autoScrollToStart(item.adapter)
             }
         }
     }

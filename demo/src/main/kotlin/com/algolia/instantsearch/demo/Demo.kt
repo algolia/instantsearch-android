@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
+import com.algolia.instantsearch.helper.android.list.autoScrollToStart
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
 import com.algolia.instantsearch.helper.filter.clear.FilterClearConnector
@@ -37,11 +38,10 @@ import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.helper.searchbox.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.stats.StatsPresenter
 import com.algolia.instantsearch.helper.stats.StatsConnector
+import com.algolia.instantsearch.helper.stats.StatsPresenter
 import com.algolia.instantsearch.helper.stats.connectView
 import com.algolia.search.client.ClientSearch
-import com.algolia.search.configuration.Compression
 import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -173,16 +173,6 @@ fun AppCompatActivity.configureRecyclerView(
         it.itemAnimator = null
         it.autoScrollToStart(adapter)
     }
-}
-
-fun RecyclerView.autoScrollToStart(adapter: RecyclerView.Adapter<*>) {
-    adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-            if (positionStart == 0) {
-                scrollToPosition(0)
-            }
-        }
-    })
 }
 
 val Intent.indexName: IndexName get() = IndexName(extras!!.getString(KeyIndexName)!!)
