@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.algolia.instantsearch.demo">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".App"
@@ -18,104 +18,108 @@
 
         <activity android:name=".home.HomeDemo">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <activity
             android:name=".highlighting.HighlightingDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.clear.FilterClearDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.current.FilterCurrentDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.toggle.FilterToggleDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.range.FilterRangeDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.segment.FilterSegmentDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.list.FilterListAllDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.list.FilterListFacetDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.list.FilterListNumericDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.list.FilterListTagDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.facet.FacetListDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.facet.FacetListSearchDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.facet.FacetListPersistentDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".filter.numeric.comparison.FilterComparisonDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".search.SearchOnSubmitDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".search.SearchAsYouTypeDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".list.paging.PagingSingleIndexDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".sortby.SortByDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".stats.StatsDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".loading.LoadingDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".list.paging.PagingMultipleIndexDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".list.merged.MergedListDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
 
         <activity
             android:name=".hierarchical.HierarchicalDemo"
-            android:parentActivityName=".home.HomeDemo" />
+            android:parentActivityName=".home.HomeDemo"/>
+
+        <activity
+            android:exported="true"
+            android:name=".guide.SampleActivity"/>
 
     </application>
 

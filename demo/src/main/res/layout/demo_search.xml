@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <include layout="@layout/include_search" />
+        <include layout="@layout/include_search"/>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -27,6 +27,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:listitem="@layout/list_item_large" />
+        tools:listitem="@layout/list_item_large"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
