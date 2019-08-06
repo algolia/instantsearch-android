@@ -43,6 +43,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-common"))
                 implementation(Coroutines("core-common"))
+                implementation(AtomicFu("common"))
             }
         }
         val commonTest by getting {
@@ -55,7 +56,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(Coroutines("core"))
-                implementation(AtomicFu())
+                implementation(AtomicFu("jvm"))
             }
         }
         val jvmTest by getting {
