@@ -34,19 +34,15 @@ class DocHitsMultiple {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
+        val indexMovie = IndexQuery(IndexName("IndexMovie"))
+        val indexActor = IndexQuery(IndexName("IndexActor"))
         val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherMultipleIndex(
-            client,
-            listOf(
-                IndexQuery(IndexName("YourIndexName_A")),
-                IndexQuery(IndexName("YourIndexName_B"))
-            )
-        )
+        val searcher = SearcherMultipleIndex(client, listOf(indexMovie, indexActor))
         val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
-        val movieFactory = SearcherMultipleIndexDataSource.Factory(searcher, 0, Movie.serializer())
-        val actorFactory = SearcherMultipleIndexDataSource.Factory(searcher, 1, Actor.serializer())
-        val movies = LivePagedListBuilder<Int, Movie>(movieFactory, pagedListConfig).build()
-        val actors = LivePagedListBuilder<Int, Actor>(actorFactory, pagedListConfig).build()
+        val movieFactory = SearcherMultipleIndexDataSource.Factory(searcher, indexMovie, Movie.serializer())
+        val actorFactory = SearcherMultipleIndexDataSource.Factory(searcher, indexActor, Actor.serializer())
+        val movies = LivePagedListBuilder(movieFactory, pagedListConfig).build()
+        val actors = LivePagedListBuilder(actorFactory, pagedListConfig).build()
         val adapterMovie = MovieAdapter()
         val adapterActor = ActorAdapter()
         val filterState = FilterState()

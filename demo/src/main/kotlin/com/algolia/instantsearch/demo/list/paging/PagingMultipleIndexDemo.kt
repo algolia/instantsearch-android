@@ -24,18 +24,14 @@ import kotlinx.android.synthetic.main.include_search.*
 
 class PagingMultipleIndexDemo : AppCompatActivity() {
 
-    private val searcher = SearcherMultipleIndex(
-        client,
-        listOf(
-            IndexQuery(IndexName("mobile_demo_movies")),
-            IndexQuery(IndexName("mobile_demo_actors"))
-        )
-    )
+    private val indexMovies = IndexQuery(IndexName("mobile_demo_movies"))
+    private val indexActors = IndexQuery(IndexName("mobile_demo_actors"))
+    private val searcher = SearcherMultipleIndex(client, listOf(indexMovies, indexActors))
     private val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
-    private val moviesFactory = SearcherMultipleIndexDataSource.Factory(searcher, 0, Movie.serializer())
-    private val actorsFactory = SearcherMultipleIndexDataSource.Factory(searcher, 1, Actor.serializer())
-    private val movies = LivePagedListBuilder<Int, Movie>(moviesFactory, pagedListConfig).build()
-    private val actors = LivePagedListBuilder<Int, Actor>(actorsFactory, pagedListConfig).build()
+    private val moviesFactory = SearcherMultipleIndexDataSource.Factory(searcher, indexMovies, Movie.serializer())
+    private val actorsFactory = SearcherMultipleIndexDataSource.Factory(searcher, indexActors, Actor.serializer())
+    private val movies = LivePagedListBuilder(moviesFactory, pagedListConfig).build()
+    private val actors = LivePagedListBuilder(actorsFactory, pagedListConfig).build()
     private val searchBox = SearchBoxConnectorPagedList(searcher, listOf(movies, actors))
     private val connection = ConnectionHandler(searchBox)
 

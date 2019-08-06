@@ -138,6 +138,7 @@ kotlin {
                 implementation(AlgoliaClient("jvm"))
                 implementation(Ktor("client-mock-jvm"))
                 implementation(AppCompat())
+                implementation(Paging())
                 implementation(MaterialDesign())
                 implementation(AndroidCore("ktx"))
                 implementation(SwipeRefreshLayout())
