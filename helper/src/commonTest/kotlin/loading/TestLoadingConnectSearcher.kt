@@ -6,6 +6,7 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.helper.loading.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.IndexName
+import kotlinx.coroutines.Dispatchers
 import mockClient
 import searcher.MockSearcher
 import shouldBeFalse
@@ -20,7 +21,7 @@ class TestLoadingConnectSearcher {
 
     @Test
     fun connectShouldSetItem() {
-        val searcher = SearcherSingleIndex(index)
+        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default)
         val viewModel = LoadingViewModel()
         val expected = true
         val debouncer = Debouncer(200)
@@ -35,7 +36,7 @@ class TestLoadingConnectSearcher {
     @Test
     fun onLoadingChangedShouldSetItem() {
         val debouncer = Debouncer(100)
-        val searcher = SearcherSingleIndex(index)
+        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default)
         val viewModel = LoadingViewModel()
         val expected = true
         val connection = viewModel.connectSearcher(searcher, debouncer)

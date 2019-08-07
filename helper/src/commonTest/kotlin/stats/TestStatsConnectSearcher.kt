@@ -5,6 +5,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.stats.StatsViewModel
 import com.algolia.instantsearch.helper.stats.connectSearcher
 import com.algolia.search.model.IndexName
+import kotlinx.coroutines.Dispatchers
 import mockClient
 import responseSearch
 import shouldBeNull
@@ -19,7 +20,7 @@ class TestStatsConnectSearcher {
 
     @Test
     fun connectShouldSetItem() {
-        val searcher = SearcherSingleIndex(index).also { it.response.value = responseSearch }
+        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default).also { it.response.value = responseSearch }
         val viewModel = StatsViewModel()
         val connection = viewModel.connectSearcher(searcher)
 
@@ -30,7 +31,7 @@ class TestStatsConnectSearcher {
 
     @Test
     fun onResponseChangedShouldSetItem() {
-        val searcher = SearcherSingleIndex(index)
+        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default)
         val viewModel = StatsViewModel()
         val connection = viewModel.connectSearcher(searcher)
 

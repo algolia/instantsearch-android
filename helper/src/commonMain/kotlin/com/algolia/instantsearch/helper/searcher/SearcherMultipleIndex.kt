@@ -16,12 +16,12 @@ public class SearcherMultipleIndex(
     public val queries: List<IndexQuery>,
     public val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     public val requestOptions: RequestOptions? = null,
-    override val coroutineScope: CoroutineScope = SearcherScope()
+    override val coroutineScope: CoroutineScope = SearcherScope(),
+    override val dispatcher: CoroutineDispatcher = defaultDispatcher
 ) : Searcher<ResponseSearches> {
 
     internal val sequencer = Sequencer()
 
-    override val dispatcher: CoroutineDispatcher = defaultDispatcher
     override val isLoading = SubscriptionValue(false)
     override val error = SubscriptionValue<Throwable?>(null)
     override val response = SubscriptionValue<ResponseSearches?>(null)

@@ -17,12 +17,12 @@ public class SearcherSingleIndex(
     public val query: Query = Query(),
     public val requestOptions: RequestOptions? = null,
     public val isDisjunctiveFacetingEnabled: Boolean = true,
-    override val coroutineScope: CoroutineScope = SearcherScope()
+    override val coroutineScope: CoroutineScope = SearcherScope(),
+    override val dispatcher: CoroutineDispatcher = defaultDispatcher
 ) : Searcher<ResponseSearch> {
 
     internal val sequencer = Sequencer()
 
-    override val dispatcher: CoroutineDispatcher = defaultDispatcher
     override val isLoading = SubscriptionValue(false)
     override val error = SubscriptionValue<Throwable?>(null)
     override val response = SubscriptionValue<ResponseSearch?>(null)
