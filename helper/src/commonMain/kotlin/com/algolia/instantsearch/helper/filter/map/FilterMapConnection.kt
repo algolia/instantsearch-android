@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.filter.segment
+package com.algolia.instantsearch.helper.filter.map
 
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.selectable.map.SelectableMapView
@@ -10,21 +10,21 @@ import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 
 
-public fun FilterSegmentViewModel.connectFilterState(
+public fun FilterMapViewModel.connectFilterState(
     filterState: FilterState,
     groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
 ): Connection {
-    return FilterSegmentConnectionFilterState(this, filterState, groupID)
+    return FilterMapConnectionFilterState(this, filterState, groupID)
 }
 
-public fun FilterSegmentViewModel.connectView(
+public fun FilterMapViewModel.connectView(
     view: SelectableMapView<Int, String>,
     presenter: FilterPresenter = FilterPresenterImpl()
 ): Connection {
     return connectView(view, presenter)
 }
 
-public fun FilterSegmentConnector.connectView(
+public fun FilterMapConnector.connectView(
     view: SelectableMapView<Int, String>,
     presenter: FilterPresenter = FilterPresenterImpl()
 ): Connection {

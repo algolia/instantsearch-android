@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.filter.segment
+package com.algolia.instantsearch.helper.filter.map
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
@@ -7,8 +7,8 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
 
 
-internal data class FilterSegmentConnectionFilterState(
-    private val viewModel: FilterSegmentViewModel,
+internal data class FilterMapConnectionFilterState(
+    private val viewModel: FilterMapViewModel,
     private val filterState: FilterState,
     private val groupID: FilterGroupID
 ) : ConnectionImpl() {

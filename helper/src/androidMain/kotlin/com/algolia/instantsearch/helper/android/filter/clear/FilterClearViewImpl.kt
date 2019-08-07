@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.android.filter
+package com.algolia.instantsearch.helper.android.filter.clear
 
 import android.view.View
 import com.algolia.instantsearch.core.Callback

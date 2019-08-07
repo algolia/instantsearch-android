@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.android.filter
+package com.algolia.instantsearch.helper.android.filter.toggle
 
 import android.widget.CompoundButton
 import com.algolia.instantsearch.core.Callback

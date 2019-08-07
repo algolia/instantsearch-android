@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.android.filter
+package com.algolia.instantsearch.helper.android.filter.state
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList

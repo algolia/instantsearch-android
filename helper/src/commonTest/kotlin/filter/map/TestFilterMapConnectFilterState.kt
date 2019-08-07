@@ -1,7 +1,7 @@
-package filter.segment
+package filter.map
 
-import com.algolia.instantsearch.helper.filter.segment.FilterSegmentViewModel
-import com.algolia.instantsearch.helper.filter.segment.connectFilterState
+import com.algolia.instantsearch.helper.filter.map.FilterMapViewModel
+import com.algolia.instantsearch.helper.filter.map.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -12,7 +12,7 @@ import shouldEqual
 import kotlin.test.Test
 
 
-class TestFilterSegmentConnectFilterState {
+class TestFilterMapConnectFilterState {
 
     private val color = Attribute("color")
     private val groupID = FilterGroupID(color, FilterOperator.Or)
@@ -23,7 +23,7 @@ class TestFilterSegmentConnectFilterState {
 
     @Test
     fun connectShouldUpdateSelectedWithFilterState() {
-        val viewModel = FilterSegmentViewModel(filters)
+        val viewModel = FilterMapViewModel(filters)
         val connection = viewModel.connectFilterState(expectedFilterState, groupID)
 
         connection.connect()
@@ -32,7 +32,7 @@ class TestFilterSegmentConnectFilterState {
 
     @Test
     fun onSelectionsComputedShouldUpdateFilterState() {
-        val viewModel = FilterSegmentViewModel(filters)
+        val viewModel = FilterMapViewModel(filters)
         val filterState = FilterState()
         val connection = viewModel.connectFilterState(filterState, groupID)
 
@@ -43,7 +43,7 @@ class TestFilterSegmentConnectFilterState {
 
     @Test
     fun selectingTwiceShouldRemoveFilter() {
-        val viewModel = FilterSegmentViewModel(filters)
+        val viewModel = FilterMapViewModel(filters)
         val filterState = FilterState()
         val connection = viewModel.connectFilterState(filterState, groupID)
 
@@ -55,7 +55,7 @@ class TestFilterSegmentConnectFilterState {
 
     @Test
     fun onFilterStateChangedShouldUpdateSelections() {
-        val viewModel = FilterSegmentViewModel(filters)
+        val viewModel = FilterMapViewModel(filters)
         val filterState = FilterState()
         val connection = viewModel.connectFilterState(filterState, groupID)
 

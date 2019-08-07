@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.helper.android.list.SearcherMultipleIndexDataSource
-import com.algolia.instantsearch.helper.android.filter.connectPagedList
+import com.algolia.instantsearch.helper.android.filter.state.connectPagedList
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.client.ClientSearch

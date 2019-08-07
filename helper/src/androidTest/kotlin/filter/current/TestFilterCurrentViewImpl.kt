@@ -1,9 +1,9 @@
-package filter
+package filter.current
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
-import com.algolia.instantsearch.helper.android.filter.FilterCurrentViewImpl
+import com.algolia.instantsearch.helper.android.filter.current.FilterCurrentViewImpl
 import com.algolia.instantsearch.helper.filter.current.FilterAndID
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.search.model.Attribute
@@ -27,7 +27,8 @@ class TestFilterCurrentViewImpl {
         (groupID to filterGreen) to "green"
     )
 
-    private fun view() = FilterCurrentViewImpl(ChipGroup(applicationContext))
+    private fun view() =
+        FilterCurrentViewImpl(ChipGroup(applicationContext))
 
     @Test
     fun onViewClickCallsClearFilters() {

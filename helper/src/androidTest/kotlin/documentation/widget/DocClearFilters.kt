@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
+import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
 import com.algolia.instantsearch.helper.filter.clear.FilterClearView
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
 import com.algolia.instantsearch.helper.filter.clear.connectFilterState
@@ -38,7 +38,8 @@ class DocClearFilters {
             super.onCreate(savedInstanceState)
 
             val someView = View(this)
-            val view: FilterClearView = FilterClearViewImpl(someView)
+            val view: FilterClearView =
+                FilterClearViewImpl(someView)
 
             connection += searcher.connectFilterState(filterState)
             connection += viewModel.connectFilterState(filterState)

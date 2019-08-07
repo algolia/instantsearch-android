@@ -1,4 +1,4 @@
-package selectable
+package sortby
 
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -13,7 +13,7 @@ import shouldEqual
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-class TestSelectableSegmentViewSpinner {
+class TestSortByViewSpinner {
 
     private val elements = listOf("A", "B", "C")
 

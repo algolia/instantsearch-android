@@ -1,13 +1,12 @@
-package filter
+package filter.clear
 
 import android.view.View
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
-import com.algolia.instantsearch.helper.android.filter.FilterClearViewImpl
+import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import shouldBeTrue
 
 
@@ -15,7 +14,8 @@ import shouldBeTrue
 @RunWith(AndroidJUnit4::class)
 class TestFilterClearViewImpl {
 
-    private fun view() = FilterClearViewImpl(View(applicationContext))
+    private fun view() =
+        FilterClearViewImpl(View(applicationContext))
 
     @Test
     fun onViewClickCallsClearFilters() {

@@ -1,15 +1,15 @@
-package com.algolia.instantsearch.helper.android.filter
+package com.algolia.instantsearch.helper.android.filter.map
 
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.helper.filter.segment.FilterSegmentView
+import com.algolia.instantsearch.helper.filter.map.FilterMapView
 
 
-public class FilterSegmentViewRadioGroup(
+public class FilterMapViewRadioGroup(
     public val radioGroup: RadioGroup
-) : FilterSegmentView,
+) : FilterMapView,
     RadioGroup.OnCheckedChangeListener {
 
     override var onSelectionChange: Callback<Int>? = null

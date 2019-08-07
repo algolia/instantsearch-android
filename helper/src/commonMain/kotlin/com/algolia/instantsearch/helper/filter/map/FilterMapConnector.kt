@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.filter.segment
+package com.algolia.instantsearch.helper.filter.map
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
@@ -7,9 +7,9 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
 
 
-public data class FilterSegmentConnector(
+public data class FilterMapConnector(
     public val filterState: FilterState,
-    public val viewModel: FilterSegmentViewModel = FilterSegmentViewModel(),
+    public val viewModel: FilterMapViewModel = FilterMapViewModel(),
     public val groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
 ) : ConnectionImpl() {
 
@@ -18,7 +18,7 @@ public data class FilterSegmentConnector(
         filterState: FilterState,
         selected: Int? = null,
         groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
-    ) : this(filterState, FilterSegmentViewModel(filters, selected), groupID)
+    ) : this(filterState, FilterMapViewModel(filters, selected), groupID)
 
     private val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
 

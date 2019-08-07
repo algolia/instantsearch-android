@@ -1,23 +1,22 @@
-package selectable
+package filter.map
 
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
-import com.algolia.instantsearch.helper.android.filter.FilterSegmentViewRadioGroup
+import com.algolia.instantsearch.helper.android.filter.map.FilterMapViewRadioGroup
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import shouldEqual
 
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-class TestSelectableSegmentViewRadioGroup {
+class TestSelectableMapViewRadioGroup {
 
-    private fun view(): FilterSegmentViewRadioGroup {
-        return FilterSegmentViewRadioGroup(
+    private fun view(): FilterMapViewRadioGroup {
+        return FilterMapViewRadioGroup(
             RadioGroup(applicationContext).apply {
                 addView(RadioButton(applicationContext))
             }

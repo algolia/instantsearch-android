@@ -1,19 +1,18 @@
-package selectable
+package filter.toggle
 
 import android.widget.Switch
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
-import com.algolia.instantsearch.helper.android.filter.FilterToggleViewCompoundButton
+import com.algolia.instantsearch.helper.android.filter.toggle.FilterToggleViewCompoundButton
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import shouldEqual
 
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
-class TestSelectableItemViewCompoundButton {
+class TestFilterToggleViewCompoundButton {
 
     private fun view() =
         FilterToggleViewCompoundButton(Switch(applicationContext))

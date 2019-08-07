@@ -15,20 +15,20 @@ internal data class SelectableMapConnectionView<K, I, O>(
         return map { it.key to presenter(it.value) }.toMap()
     }
 
-    private val updateSegment: Callback<Map<K, I>> = { segment ->
+    private val updateMap: Callback<Map<K, I>> = { segment ->
         view.setMap(segment.present())
     }
 
     override fun connect() {
         super.connect()
-        viewModel.map.subscribePast(updateSegment)
+        viewModel.map.subscribePast(updateMap)
         viewModel.selected.subscribePast(view::setSelected)
         view.onSelectionChange = (viewModel.eventSelection::send)
     }
 
     override fun disconnect() {
         super.disconnect()
-        viewModel.map.unsubscribe(updateSegment)
+        viewModel.map.unsubscribe(updateMap)
         viewModel.selected.unsubscribe(view::setSelected)
         view.onSelectionChange = null
     }

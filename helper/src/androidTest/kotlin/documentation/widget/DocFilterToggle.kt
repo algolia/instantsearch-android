@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.helper.android.filter.FilterToggleViewCompoundButton
+import com.algolia.instantsearch.helper.android.filter.toggle.FilterToggleViewCompoundButton
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleView
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
@@ -41,7 +41,8 @@ class DocFilterToggle {
             super.onCreate(savedInstanceState)
 
             val checkBox = CheckBox(this)
-            val view: FilterToggleView = FilterToggleViewCompoundButton(checkBox)
+            val view: FilterToggleView =
+                FilterToggleViewCompoundButton(checkBox)
 
             connection += searcher.connectFilterState(filterState)
             connection += viewModel.connectFilterState(filterState)

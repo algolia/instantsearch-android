@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.android.filter
+package com.algolia.instantsearch.helper.android.filter.current
 
 import android.view.View
 import androidx.annotation.LayoutRes
