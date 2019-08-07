@@ -1,12 +1,12 @@
 package documentation.widget
 
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
-import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.core.selectable.list.SelectableItem
+import com.algolia.instantsearch.helper.android.filter.facet.FacetListAdapter
+import com.algolia.instantsearch.helper.android.filter.facet.FacetListViewHolder
 import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -24,16 +24,24 @@ import org.junit.Ignore
 @Ignore
 class DocFacetList {
 
-    private class MyFacetListRecyclerViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(), FacetListView {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = throw Exception()
-        override fun getItemCount(): Int = 0
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = Unit
-        override var onSelection: Callback<Facet>? = null
-        override fun setItems(items: List<SelectableItem<Facet>>) = Unit
-    }
-
     class MyActivity: AppCompatActivity() {
+
+        class MyFacetListViewHolder(view: View): FacetListViewHolder(view) {
+
+            override fun bind(facet: Facet, selected: Boolean, onClickListener: View.OnClickListener) {
+               // Bind your view
+            }
+
+            object Factory: FacetListViewHolder.Factory {
+
+                override fun createViewHolder(parent: ViewGroup): FacetListViewHolder {
+                    // Inflate your layout
+                    val view = View(parent.context)
+
+                    return MyFacetListViewHolder(view)
+                }
+            }
+        }
 
         val client = ClientSearch(
             ApplicationID("YourApplicationID"),
@@ -52,7 +60,7 @@ class DocFacetList {
 
             // Implement the FacetListView interface on the UI component of your choice.
             // For example, a RecyclerView.Adapter
-            val view: FacetListView = MyFacetListRecyclerViewAdapter()
+            val view: FacetListView = FacetListAdapter(MyFacetListViewHolder.Factory)
 
             connection += searcher.connectFilterState(filterState)
             connection += viewModel.connectFilterState(filterState, attribute, FilterOperator.Or)

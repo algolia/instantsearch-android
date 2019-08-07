@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
+import com.algolia.instantsearch.helper.android.filter.facet.FacetListAdapter
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.FacetListPresenterImpl
@@ -47,7 +48,7 @@ class FacetListSearchDemo : AppCompatActivity() {
 
         val index = client.initIndex(intent.indexName)
         val searchBoxView = SearchBoxViewAppCompat(searchView)
-        val facetView = FacetListAdapter()
+        val facetView = FacetListAdapter(FacetListViewHolderImpl.Factory)
         val facetPresenter = FacetListPresenterImpl(
             sortBy = listOf(FacetSortCriterion.IsRefined, FacetSortCriterion.CountDescending),
             limit = 100

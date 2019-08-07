@@ -5,8 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
-import com.algolia.instantsearch.helper.filter.facet.*
+import com.algolia.instantsearch.helper.android.filter.facet.FacetListAdapter
+import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
+import com.algolia.instantsearch.helper.filter.facet.FacetListPresenterImpl
+import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion
 import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion.*
+import com.algolia.instantsearch.helper.filter.facet.connectView
 import com.algolia.instantsearch.helper.filter.state.*
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectFilterState
@@ -54,11 +58,11 @@ class FacetListDemo : AppCompatActivity() {
         searcher.connectFilterState(filterState)
     )
     private val colorPresenter = FacetListPresenterImpl(listOf(IsRefined, AlphabeticalAscending), limit = 3)
-    private val colorAdapter = FacetListAdapter()
+    private val colorAdapter = FacetListAdapter(FacetListViewHolderImpl.Factory)
     private val promotionPresenter = FacetListPresenterImpl(listOf(CountDescending))
-    private val promotionAdapter = FacetListAdapter()
+    private val promotionAdapter = FacetListAdapter(FacetListViewHolderImpl.Factory)
     private val categoryPresenter = FacetListPresenterImpl(listOf(CountDescending, AlphabeticalAscending))
-    private val categoryAdapter = FacetListAdapter()
+    private val categoryAdapter = FacetListAdapter(FacetListViewHolderImpl.Factory)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

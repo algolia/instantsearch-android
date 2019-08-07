@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.demo.filter.facet.FacetListAdapter
+import com.algolia.instantsearch.demo.filter.facet.FacetListViewHolderImpl
 import com.algolia.instantsearch.helper.android.filter.connectPagedList
+import com.algolia.instantsearch.helper.android.filter.facet.FacetListAdapter
 import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxConnectorPagedList
 import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
@@ -39,7 +40,7 @@ class SampleViewModel : ViewModel() {
     val facetList = FacetListConnector(searcher, filterState, category)
     val stats = StatsConnector(searcher)
 
-    val adapterFacet = FacetListAdapter()
+    val adapterFacet = FacetListAdapter(FacetListViewHolderImpl.Factory)
     val adapterProduct = ProductAdapter()
 
     val connection = ConnectionHandler(

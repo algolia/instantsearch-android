@@ -39,6 +39,7 @@ class ProductFragment : Fragment() {
         connection += viewModel.stats.connectView(statsView, StatsPresenterImpl())
 
         productList.let {
+            it.itemAnimator = null
             it.adapter = viewModel.adapterProduct
             it.layoutManager = LinearLayoutManager(requireContext())
             it.autoScrollToStart(viewModel.adapterProduct)

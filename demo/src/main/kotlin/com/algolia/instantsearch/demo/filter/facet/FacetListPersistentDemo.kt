@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.demo.*
+import com.algolia.instantsearch.helper.android.filter.facet.FacetListAdapter
 import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -49,8 +50,8 @@ class FacetListPersistentDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.demo_facet_list_persistent)
 
-        val adapterColor = FacetListAdapter()
-        val adapterCategory = FacetListAdapter()
+        val adapterColor = FacetListAdapter(FacetListViewHolderImpl.Factory)
+        val adapterCategory = FacetListAdapter(FacetListViewHolderImpl.Factory)
 
         connection += facetListColor.connectView(adapterColor)
         connection += facetListCategory.connectView(adapterCategory)

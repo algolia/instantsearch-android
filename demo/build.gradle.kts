@@ -33,7 +33,6 @@ android {
     }
 
     packagingOptions {
-        // TODO: Solve these "More than one file was found with OS independent path 'META-INF/*' in the lib via Proguard
         exclude("META-INF/*.kotlin_module")
     }
     (kotlinOptions as KotlinJvmOptions).apply {

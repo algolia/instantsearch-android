@@ -32,7 +32,7 @@ class ProductAdapter : ListAdapter<Product, ProductViewHolder>(ProductAdapter), 
             oldItem: Product,
             newItem: Product
         ): Boolean {
-            return oldItem == newItem
+            return oldItem::class == newItem::class
         }
 
         override fun areContentsTheSame(

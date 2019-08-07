@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.demo.filter.facet
+package com.algolia.instantsearch.helper.android.filter.facet
 
 import android.view.View
 import android.view.ViewGroup
@@ -6,19 +6,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
-import com.algolia.instantsearch.demo.R
-import com.algolia.instantsearch.helper.android.inflate
 import com.algolia.instantsearch.helper.filter.facet.FacetListItem
 import com.algolia.instantsearch.helper.filter.facet.FacetListView
 import com.algolia.search.model.search.Facet
 
 
-class FacetListAdapter : ListAdapter<FacetListItem, FacetListViewHolder>(diffUtil), FacetListView {
+public class FacetListAdapter(
+    private val factory: FacetListViewHolder.Factory
+) : ListAdapter<FacetListItem, FacetListViewHolder>(diffUtil),
+    FacetListView {
 
     override var onSelection: Callback<Facet>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FacetListViewHolder {
-        return FacetListViewHolder(parent.inflate(R.layout.list_item_selectable))
+        return factory.createViewHolder(parent)
     }
 
     override fun onBindViewHolder(holder: FacetListViewHolder, position: Int) {
