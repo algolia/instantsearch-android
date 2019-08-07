@@ -29,28 +29,27 @@ class SampleViewModel : ViewModel() {
     val index = client.initIndex(IndexName("bestbuy_promo"))
     val searcher = SearcherSingleIndex(index)
 
-    val category = Attribute("category")
-    val filterState = FilterState()
-
     val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Product.serializer())
     val pagedListConfig = PagedList.Config.Builder().setPageSize(50).build()
     val products = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
-
     val searchBox = SearchBoxConnectorPagedList(searcher, listOf(products))
-    val facetList = FacetListConnector(searcher, filterState, category)
     val stats = StatsConnector(searcher)
-
-    val adapterFacet = FacetListAdapter(FacetListViewHolderImpl.Factory)
     val adapterProduct = ProductAdapter()
 
-    val connection = ConnectionHandler(
-        searchBox,
-        facetList,
-        stats,
-        searcher.connectFilterState(filterState),
-        facetList.connectView(adapterFacet),
-        filterState.connectPagedList(products)
-    )
+    val filterState = FilterState()
+    val facetList = FacetListConnector(searcher, filterState, Attribute("category"))
+    val adapterFacet = FacetListAdapter(FacetListViewHolderImpl.Factory)
+
+    val connection = ConnectionHandler()
+
+    init {
+        connection += searchBox
+        connection += stats
+        connection += facetList
+        connection += searcher.connectFilterState(filterState)
+        connection += facetList.connectView(adapterFacet)
+        connection += filterState.connectPagedList(products)
+    }
 
     override fun onCleared() {
         super.onCleared()

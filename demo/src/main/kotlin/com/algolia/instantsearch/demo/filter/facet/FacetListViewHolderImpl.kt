@@ -15,10 +15,12 @@ class FacetListViewHolderImpl(view: View) : FacetListViewHolder(view) {
 
     override fun bind(facet: Facet, selected: Boolean, onClickListener: View.OnClickListener) {
         view.setOnClickListener(onClickListener)
-        view.selectableItemName.text = facet.highlightedOrNull?.let { HighlightTokenizer()(it).toSpannedString() } ?: facet.value
         view.selectableItemSubtitle.text = facet.count.toString()
         view.selectableItemSubtitle.visibility = View.VISIBLE
         view.selectableItemIcon.visibility = if (selected) View.VISIBLE else View.INVISIBLE
+        view.selectableItemName.text = facet.highlightedOrNull?.let {
+            HighlightTokenizer(preTag = "<b>", postTag = "</b>")(it).toSpannedString()
+        } ?: facet.value
     }
 
     object Factory : FacetListViewHolder.Factory {
