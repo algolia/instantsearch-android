@@ -124,6 +124,7 @@ kotlin {
                 api(RecyclerView())
                 api(MaterialDesign())
                 api(AndroidCore("ktx"))
+                api(SwipeRefreshLayout())
                 api(Paging())
                 api(Coroutines("android"))
                 api(AlgoliaClient("jvm"))
