@@ -3,27 +3,25 @@ package com.algolia.instantsearch.helper.android.list
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.search.helper.deserialize
 import com.algolia.search.model.multipleindex.IndexQuery
+import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.DeserializationStrategy
-import java.lang.IllegalArgumentException
 
 
 public class SearcherMultipleIndexDataSource<T>(
     private val searcher: SearcherMultipleIndex,
     private val indexQuery: IndexQuery,
-    private val deserializer: DeserializationStrategy<T>
+    private val transformer: (ResponseSearch.Hit) -> T
 ) : PageKeyedDataSource<Int, T>() {
 
     public class Factory<T>(
         private val searcher: SearcherMultipleIndex,
         private val indexQuery: IndexQuery,
-        private val deserializer: DeserializationStrategy<T>
+        private val transformer: (ResponseSearch.Hit) -> T
     ) : DataSource.Factory<Int, T>() {
 
         override fun create(): DataSource<Int, T> {
-            return SearcherMultipleIndexDataSource(searcher, indexQuery, deserializer)
+            return SearcherMultipleIndexDataSource(searcher, indexQuery, transformer)
         }
     }
 
@@ -42,7 +40,7 @@ public class SearcherMultipleIndexDataSource<T>(
             val response = searcher.search().results[index]
             val nextKey = if (response.nbHits > initialLoadSize) 1 else null
 
-            callback.onResult(response.hits.deserialize(deserializer), 0, response.nbHits, null, nextKey)
+            callback.onResult(response.hits.map(transformer), 0, response.nbHits, null, nextKey)
         }
     }
 
@@ -56,7 +54,7 @@ public class SearcherMultipleIndexDataSource<T>(
             val response = searcher.search().results[index]
             val nextKey = if (page + 1 < response.nbPages) params.key + 1 else null
 
-            callback.onResult(response.hits.deserialize(deserializer), nextKey)
+            callback.onResult(response.hits.map(transformer), nextKey)
         }
     }
 

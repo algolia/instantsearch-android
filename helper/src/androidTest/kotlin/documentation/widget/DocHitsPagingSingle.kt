@@ -7,11 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.helper.android.filter.state.connectPagedList
 import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -35,7 +34,7 @@ class DocHitsPagingSingle {
         )
         val index = client.initIndex(IndexName("YourIndexName"))
         val searcher = SearcherSingleIndex(index)
-        val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher, Movie.serializer())
+        val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher) { it.deserialize(Movie.serializer()) }
         val pagedListConfig = PagedList.Config.Builder()
             .setPageSize(10) // configure according to your needs
             .build()
@@ -49,7 +48,7 @@ class DocHitsPagingSingle {
 
             connection += filterState.connectPagedList(movies)
 
-            movies.observe(this, Observer { hits -> adapter.setHits(hits) })
+            movies.observe(this, Observer { hits -> adapter.submitList(hits) })
 
             searcher.searchAsync()
         }
@@ -73,7 +72,7 @@ class DocHitsPagingSingle {
         }
     }
 
-    class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieAdapter), HitsView<Movie> {
+    class MovieAdapter : PagedListAdapter<Movie, MovieViewHolder>(MovieAdapter) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
             return MovieViewHolder(TextView(parent.context))
@@ -82,11 +81,7 @@ class DocHitsPagingSingle {
         override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
             val movie = getItem(position)
 
-            holder.bind(movie)
-        }
-
-        override fun setHits(hits: List<Movie>) {
-            submitList(hits)
+            if (movie != null) holder.bind(movie)
         }
 
         companion object : DiffUtil.ItemCallback<Movie>() {

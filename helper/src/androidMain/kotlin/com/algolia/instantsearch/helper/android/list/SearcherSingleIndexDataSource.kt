@@ -3,23 +3,22 @@ package com.algolia.instantsearch.helper.android.list
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.search.helper.deserialize
+import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.DeserializationStrategy
 
 
 public class SearcherSingleIndexDataSource<T>(
     private val searcher: SearcherSingleIndex,
-    private val deserializer: DeserializationStrategy<T>
+    private val transformer: (ResponseSearch.Hit) -> T
 ) : PageKeyedDataSource<Int, T>() {
 
     public class Factory<T>(
         private val searcher: SearcherSingleIndex,
-        private val deserializer: DeserializationStrategy<T>
+        private val transformer: (ResponseSearch.Hit) -> T
     ) : DataSource.Factory<Int, T>() {
 
         override fun create(): DataSource<Int, T> {
-            return SearcherSingleIndexDataSource(searcher, deserializer)
+            return SearcherSingleIndexDataSource(searcher, transformer)
         }
     }
 
@@ -33,7 +32,7 @@ public class SearcherSingleIndexDataSource<T>(
             val response = searcher.search()
             val nextKey = if (response.nbHits > initialLoadSize) 1 else null
 
-            callback.onResult(response.hits.deserialize(deserializer), 0, response.nbHits, null, nextKey)
+            callback.onResult(response.hits.map(transformer), 0, response.nbHits, null, nextKey)
         }
     }
 
@@ -47,7 +46,7 @@ public class SearcherSingleIndexDataSource<T>(
             val response = searcher.search()
             val nextKey = if (page + 1 < response.nbPages) params.key + 1 else null
 
-            callback.onResult(response.hits.deserialize(deserializer), nextKey)
+            callback.onResult(response.hits.map(transformer), nextKey)
         }
     }
 

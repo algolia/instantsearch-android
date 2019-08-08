@@ -7,13 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.core.hits.HitsView
-import com.algolia.instantsearch.helper.android.list.SearcherMultipleIndexDataSource
 import com.algolia.instantsearch.helper.android.filter.state.connectPagedList
+import com.algolia.instantsearch.helper.android.list.SearcherMultipleIndexDataSource
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.client.ClientSearch
@@ -39,8 +38,12 @@ class DocHitsMultiple {
         val index = client.initIndex(IndexName("YourIndexName"))
         val searcher = SearcherMultipleIndex(client, listOf(indexMovie, indexActor))
         val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
-        val movieFactory = SearcherMultipleIndexDataSource.Factory(searcher, indexMovie, Movie.serializer())
-        val actorFactory = SearcherMultipleIndexDataSource.Factory(searcher, indexActor, Actor.serializer())
+        val movieFactory = SearcherMultipleIndexDataSource.Factory(searcher, indexMovie) {
+            it.deserialize(Movie.serializer())
+        }
+        val actorFactory = SearcherMultipleIndexDataSource.Factory(searcher, indexActor) {
+            it.deserialize(Actor.serializer())
+        }
         val movies = LivePagedListBuilder(movieFactory, pagedListConfig).build()
         val actors = LivePagedListBuilder(actorFactory, pagedListConfig).build()
         val adapterMovie = MovieAdapter()
@@ -54,8 +57,8 @@ class DocHitsMultiple {
             connection += filterState.connectPagedList(actors)
             connection += filterState.connectPagedList(movies)
 
-            actors.observe(this, Observer { hits -> adapterActor.setHits(hits) })
-            movies.observe(this, Observer { hits -> adapterMovie.setHits(hits) })
+            actors.observe(this, Observer { hits -> adapterActor.submitList(hits) })
+            movies.observe(this, Observer { hits -> adapterMovie.submitList(hits) })
 
             searcher.searchAsync()
         }
@@ -91,7 +94,7 @@ class DocHitsMultiple {
         }
     }
 
-    class ActorAdapter : ListAdapter<Actor, ActorViewHolder>(ActorAdapter), HitsView<Actor> {
+    class ActorAdapter : PagedListAdapter<Actor, ActorViewHolder>(ActorAdapter) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorViewHolder {
             return ActorViewHolder(TextView(parent.context))
@@ -100,11 +103,9 @@ class DocHitsMultiple {
         override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
             val actor = getItem(position)
 
-            holder.bind(actor)
-        }
-
-        override fun setHits(hits: List<Actor>) {
-            submitList(hits)
+            if (actor != null) {
+                holder.bind(actor)
+            }
         }
 
         companion object : DiffUtil.ItemCallback<Actor>() {
@@ -125,7 +126,7 @@ class DocHitsMultiple {
         }
     }
 
-    class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieAdapter), HitsView<Movie> {
+    class MovieAdapter : PagedListAdapter<Movie, MovieViewHolder>(MovieAdapter) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
             return MovieViewHolder(TextView(parent.context))
@@ -134,11 +135,7 @@ class DocHitsMultiple {
         override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
             val movie = getItem(position)
 
-            holder.bind(movie)
-        }
-
-        override fun setHits(hits: List<Movie>) {
-            submitList(hits)
+            if (movie != null) holder.bind(movie)
         }
 
         companion object : DiffUtil.ItemCallback<Movie>() {
