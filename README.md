@@ -1,4 +1,4 @@
-# instantsearch-kotlin
+# Instantsearch Android
 
 Instantsearch for Android and Kotlin projects
 
@@ -10,6 +10,6 @@ repositories {
 }
 
 dependencies {
-  implementation("com.algolia:instantsearch-kotlin-helper-android:$version")
+  implementation("com.algolia:instantsearch-android:2.0.0")
 }
 ```
