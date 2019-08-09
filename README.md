@@ -1,3 +1,5 @@
+<img src="docs/banner.png" alt="InstantSearch Android" />
+
 [![Build Status](https://travis-ci.org/algolia/instantsearch-android.svg?branch=master)](https://travis-ci.org/algolia/instantsearch-android)
 
 InstantSearch family: **InstantSearch Android** | [InstantSearch iOS][instantsearch-ios-github] | [React InstantSearch][react-instantsearch-github] | [InstantSearch.js][instantsearch-js-github] | [Angular InstantSearch][instantsearch-angular-github] | [Vue InstantSearch][instantsearch-vue-github].
@@ -35,8 +37,8 @@ InstantSearch Android is [MIT licensed](LICENSE.md).
 [doc]: https://algolia.com/doc/guides/building-search-ui/what-is-instantsearch/android/
 [getting-started]: https://algolia.com/doc/guides/building-search-ui/getting-started/android/
 [kotlin-client]: https://github.com/algolia/algoliasearch-client-kotlin
-[media-gif]: ./docgen/assets/img/media.gif
-[ecommerce-gif]: ./docgen/assets/img/ecommerce.gif
+[media-gif]: ./docs/media.gif
+[ecommerce-gif]: ./docs/ecommerce.gif
 [media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
 [ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
 [showcase-url]: https://algolia.com/doc/guides/building-search-ui/widgets/showcase/android/
