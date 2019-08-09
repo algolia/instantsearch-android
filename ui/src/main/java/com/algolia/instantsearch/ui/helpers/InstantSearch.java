@@ -48,7 +48,14 @@ import java.util.Set;
 /**
  * Uses the {@link Searcher} to react to changes in your application's interface, like when your user types a new query or interacts with Widgets.
  * You can either use it with a single widget which will receive incoming results, or with several that will interact together in the same activity.
+ *
+ * @deprecated The V1 version of InstantSearch has been <b>deprecated in favor of V2</b>: the new version
+ * offers a better architecture, more features, and is easier to customize.
+ * See our <a href="http://algolia.com/doc/guides/building-search-ui/upgrade-guides/android/">migration guide</a> - the V1 will <b>only get security fixes</b>, while <b>new Algolia features are implemented in V2</b>.
+ *
+ * @see <a href="http://algolia.com/doc/guides/building-search-ui/upgrade-guides/android/">migration guide</a> - the V1 will <b>only get security fixes</b>, while <b>new Algolia features are implemented in V2</b>.
  */
+@Deprecated
 public class InstantSearch {
     //TODO: migrate return void -> return Searcher for chaining methods
     /** Delay before displaying progressbar when the current android API does not support animations. {@literal (API < 14)} */

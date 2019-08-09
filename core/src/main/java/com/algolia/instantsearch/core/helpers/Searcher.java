@@ -55,7 +55,13 @@ import static com.algolia.instantsearch.core.events.ResultEvent.REQUEST_UNKNOWN;
  * The Searcher is responsible of interacting with the Algolia engine: when {@link Searcher#search()} is called,
  * the Searcher will fire a request with the current {@link Searcher#query}, and will forward the search results
  * (or error) to its {@link AlgoliaResultsListener result listeners} (or {@link AlgoliaErrorListener error listeners}).
+ *
+ * @see <a href="http://algolia.com/doc/guides/building-search-ui/upgrade-guides/android/">migration guide</a> - the V1 will <b>only get security fixes</b>, while <b>new Algolia features are implemented in V2</b>.
+ * @deprecated The V1 version of InstantSearch has been <b>deprecated in favor of V2</b>: the new version
+ * offers a better architecture, more features, and is easier to customize.
+ * See our <a href="http://algolia.com/doc/guides/building-search-ui/upgrade-guides/android/">migration guide</a> - the V1 will <b>only get security fixes</b>, while <b>new Algolia features are implemented in V2</b>.
  */
+@Deprecated
 @SuppressWarnings("UnusedReturnValue") // chaining
 public class Searcher {
     private static Map<String, Searcher> instances = new HashMap<>();
