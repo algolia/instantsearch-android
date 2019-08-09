@@ -8,7 +8,7 @@ InstantSearch family: **InstantSearch Android** | [InstantSearch iOS][instantsea
 
 **This version of InstantSearch Android is deprecated in favor of V2**: the new version offers a **better architecture**, **more features**, and is **easier to customize**.   
 
-See our [migration guide][migration-guide] - the V1 will only **get security fixes**, while **new Algolia features are implemented in V2**.
+See our [migration guide][migration-guide] - the V1 will only get **security fixes**, while **new Algolia features are implemented in V2**.
 
 ----
 
