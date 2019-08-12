@@ -23,7 +23,7 @@ public interface Highlightable {
         findHighlight: (JsonObject) -> JsonObject = { it },
         preTag: String = DefaultPreTag,
         postTag: String = DefaultPostTag
-    ): HighlightedString? = getHighlight(key.raw, findHighlight)
+    ): HighlightedString? = getHighlight(key.raw, findHighlight, preTag, postTag)
 
     public fun getHighlight(
         key: String,
@@ -39,7 +39,7 @@ public interface Highlightable {
         findHighlight: (JsonObject) -> JsonObject = { it },
         preTag: String = DefaultPreTag,
         postTag: String = DefaultPostTag
-    ): List<HighlightedString>? = getHighlights(key.raw, findHighlight)
+    ): List<HighlightedString>? = getHighlights(key.raw, findHighlight, preTag, postTag)
 
     public fun getHighlights(
         key: String,
