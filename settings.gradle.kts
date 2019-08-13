@@ -1,4 +1,4 @@
-rootProject.name = "instantsearch-kotlin"
+rootProject.name = "instantsearch-android"
 
 enableFeaturePreview("GRADLE_METADATA")
 

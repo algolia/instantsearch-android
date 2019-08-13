@@ -2,6 +2,7 @@ package com.algolia.instantsearch.helper.android.list
 
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
@@ -25,6 +26,8 @@ public class SearcherMultipleIndexDataSource<T>(
         }
     }
 
+    public val error = SubscriptionValue<Throwable?>(null)
+
     private val index = searcher.queries.indexOf(indexQuery)
     private var initialLoadSize: Int = 30
 
@@ -37,10 +40,14 @@ public class SearcherMultipleIndexDataSource<T>(
         indexQuery.query.hitsPerPage = initialLoadSize
         indexQuery.query.page = 0
         runBlocking {
-            val response = searcher.search().results[index]
-            val nextKey = if (response.nbHits > initialLoadSize) 1 else null
+            try {
+                val response = searcher.search().results[index]
+                val nextKey = if (response.nbHits > initialLoadSize) 1 else null
 
-            callback.onResult(response.hits.map(transformer), 0, response.nbHits, null, nextKey)
+                callback.onResult(response.hits.map(transformer), 0, response.nbHits, null, nextKey)
+            } catch (throwable: Throwable) {
+                error.value = throwable
+            }
         }
     }
 
@@ -51,10 +58,14 @@ public class SearcherMultipleIndexDataSource<T>(
         indexQuery.query.page = page
         indexQuery.query.hitsPerPage = params.requestedLoadSize
         runBlocking {
-            val response = searcher.search().results[index]
-            val nextKey = if (page + 1 < response.nbPages) params.key + 1 else null
+            try {
+                val response = searcher.search().results[index]
+                val nextKey = if (page + 1 < response.nbPages) params.key + 1 else null
 
-            callback.onResult(response.hits.map(transformer), nextKey)
+                callback.onResult(response.hits.map(transformer), nextKey)
+            } catch (throwable: Throwable) {
+                error.value = throwable
+            }
         }
     }
 

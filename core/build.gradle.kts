@@ -80,10 +80,10 @@ bintray {
         repo = "maven"
         name = Library.artifact
         websiteUrl = "https://www.algolia.com/"
-        issueTrackerUrl =  "https://github.com/algolia/instantsearch-kotlin/issues"
+        issueTrackerUrl =  "https://github.com/algolia/instantsearch-android/issues"
         setLicenses("MIT")
         setLabels("Kotlin", "Algolia")
-        vcsUrl = "https://github.com/algolia/instantsearch-kotlin.git"
+        vcsUrl = "https://github.com/algolia/instantsearch-android.git"
         version.apply {
             name = Library.version
             vcsTag = Library.version
