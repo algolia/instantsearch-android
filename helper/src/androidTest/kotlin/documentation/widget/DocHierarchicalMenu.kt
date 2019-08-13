@@ -27,6 +27,7 @@ class DocHierarchicalMenu {
 
     class HierarchicalViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
+        @Suppress("UNUSED_PARAMETER")
         fun bind(item: HierarchicalItem, onClick: View.OnClickListener) {
             // Bind your view
         }
