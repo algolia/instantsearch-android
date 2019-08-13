@@ -24,11 +24,6 @@ Have a look at our [widget showcase][showcase-url] to see concrete examples of a
 
 You can add InstantSearch to your Android application by adding the following line to your `build.gradle`'s dependencies.
 ```groovy
-
-repositories {
-  maven { url = "https://dl.bintray.com/algolia/maven" }
-}
-
 implementation "com.algolia:instantsearch-android:2.0.0"
 ```
 <!--TODO Document using helper-jvm / using core directly -->

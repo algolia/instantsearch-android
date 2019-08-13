@@ -78,10 +78,10 @@ bintray {
     pkg.apply {
         desc = ""
         repo = "maven"
-        name = Library.artifact
+        name = Library.packageName
         websiteUrl = "https://www.algolia.com/"
         issueTrackerUrl =  "https://github.com/algolia/instantsearch-android/issues"
-        setLicenses("MIT")
+        setLicenses("Apache-2.0")
         setLabels("Kotlin", "Algolia")
         vcsUrl = "https://github.com/algolia/instantsearch-android.git"
         version.apply {

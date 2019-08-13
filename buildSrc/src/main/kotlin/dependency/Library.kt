@@ -7,6 +7,8 @@ object Library: Dependency  {
     override val artifact = "instantsearch"
     override val version = "2.0.0"
 
+    val packageName = "$group:$artifact-android"
+
     val artifactCore = "$artifact-core"
     val artifactCoreCommon = "$artifactCore-common"
     val artifactCoreJvm = "$artifactCore-jvm"
