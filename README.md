@@ -4,6 +4,14 @@
 
 InstantSearch family: **InstantSearch Android** | [InstantSearch iOS][instantsearch-ios-github] | [React InstantSearch][react-instantsearch-github] | [InstantSearch.js][instantsearch-js-github] | [Angular InstantSearch][instantsearch-angular-github] | [Vue InstantSearch][instantsearch-vue-github].
 
+# Deprecation
+
+**This version of InstantSearch Android is deprecated in favor of V2**: the new version offers a **better architecture**, **more features**, and is **easier to customize**.   
+
+See our [migration guide][migration-guide] - the V1 will only get **security fixes**, while **new Algolia features are implemented in V2**.
+
+----
+
 
 **InstantSearch Android** is a library providing widgets and helpers to help you build the best instant-search experience on Android with Algolia.
 It is built on top of Algolia's [Android API Client](https://github.com/algolia/algoliasearch-client-android) to provide you a high-level solution to quickly build various search interfaces.
@@ -61,6 +69,7 @@ From [reporting bugs or missing functionality](https://github.com/algolia/instan
 
 InstantSearch Android is [MIT licensed](LICENSE.md).
 
+[migration-guide]: https://algolia.com/doc/guides/building-search-ui/upgrade-guides/android/
 [react-instantsearch-github]: https://github.com/algolia/react-instantsearch/
 [instantsearch-ios-github]: https://github.com/algolia/instantsearch-ios
 [instantsearch-js-github]: https://github.com/algolia/instantsearch.js
