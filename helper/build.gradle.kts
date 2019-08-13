@@ -90,7 +90,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":core"))
-                api(AlgoliaClient())
+                api(AlgoliaClient("common"))
                 api(kotlin("stdlib-common"))
             }
         }
