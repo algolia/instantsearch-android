@@ -27,7 +27,8 @@ public class SearchBoxViewEditText(
         })
     }
 
-    override fun setText(text: String?) {
+    override fun setText(text: String?, submitQuery: Boolean) {
         editText.setText(text)
+        if (submitQuery) onQuerySubmitted?.invoke(text)
     }
 }
