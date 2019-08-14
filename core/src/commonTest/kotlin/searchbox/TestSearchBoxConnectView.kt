@@ -19,7 +19,7 @@ class TestSearchBoxConnectView {
         var queryChanged: String? = null
         var querySubmitted: String? = null
 
-        override fun setText(text: String?) {
+        override fun setText(text: String?, submitQuery: Boolean) {
             string = text
         }
 

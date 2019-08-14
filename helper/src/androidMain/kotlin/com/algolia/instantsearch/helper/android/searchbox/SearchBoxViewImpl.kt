@@ -27,7 +27,7 @@ public class SearchBoxViewImpl(
         })
     }
 
-    override fun setText(text: String?) {
-        searchView.setQuery(text, false)
+    override fun setText(text: String?, submitQuery: Boolean) {
+        searchView.setQuery(text, submitQuery)
     }
 }
