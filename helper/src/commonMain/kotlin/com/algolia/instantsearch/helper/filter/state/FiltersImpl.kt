@@ -1,12 +1,15 @@
 package com.algolia.instantsearch.helper.filter.state
 
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalFilter
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
 
 internal data class FiltersImpl(
     private val facetGroups: Map<FilterGroupID, Set<Filter.Facet>>,
     private val tagGroups: Map<FilterGroupID, Set<Filter.Tag>>,
-    private val numericGroups: Map<FilterGroupID, Set<Filter.Numeric>>
+    private val numericGroups: Map<FilterGroupID, Set<Filter.Numeric>>,
+    private val hierarchicalGroups: Map<Attribute, HierarchicalFilter>
 ) : Filters {
 
     override fun getFacetFilters(groupID: FilterGroupID): Set<Filter.Facet> {
@@ -21,6 +24,10 @@ internal data class FiltersImpl(
         return numericGroups[groupID].orEmpty()
     }
 
+    override fun getHierarchicalFilters(attribute: Attribute): HierarchicalFilter? {
+        return hierarchicalGroups[attribute]
+    }
+
     override fun getFacetGroups(): Map<FilterGroupID, Set<Filter.Facet>> {
         return facetGroups
     }
@@ -33,12 +40,16 @@ internal data class FiltersImpl(
         return numericGroups
     }
 
+    override fun getHierarchicalGroups(): Map<Attribute, HierarchicalFilter> {
+        return hierarchicalGroups
+    }
+
     override fun getGroups(): Map<FilterGroupID, Set<Filter>> {
         return facetGroups + tagGroups + numericGroups
     }
 
     override fun getFilters(groupID: FilterGroupID): Set<Filter> {
-            return getFacetFilters(groupID) + getTagFilters(groupID) + getNumericFilters(groupID)
+        return getFacetFilters(groupID) + getTagFilters(groupID) + getNumericFilters(groupID)
     }
 
     override fun getFilters(): Set<Filter> {
@@ -52,9 +63,5 @@ internal data class FiltersImpl(
             is Filter.Numeric -> numericGroups[groupID]?.contains(filter)
             else -> null
         } ?: false
-    }
-
-    override fun toString(): String {
-        return "FiltersImpl(facetGroups=$facetGroups, tagGroups=$tagGroups, numericGroups=$numericGroups)"
     }
 }

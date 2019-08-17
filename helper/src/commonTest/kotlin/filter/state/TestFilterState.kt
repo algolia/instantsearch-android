@@ -185,7 +185,7 @@ class TestFilterState {
             add(groupAndB, facetB)
         }.toFilterGroups()
 
-        filterGroups shouldEqual listOf(
+        filterGroups shouldEqual setOf(
             FilterGroup.And.Facet(facetA, name = groupAndA.name),
             FilterGroup.And.Facet(facetB, name = groupAndB.name)
         )

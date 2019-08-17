@@ -14,10 +14,11 @@ public data class HierarchicalConnector(
 
     public constructor(
         searcher: SearcherSingleIndex,
+        attribute: Attribute,
         filterState: FilterState,
         hierarchicalAttributes: List<Attribute>,
         separator: String
-    ) : this(searcher, filterState, HierarchicalViewModel(hierarchicalAttributes, separator))
+    ) : this(searcher, filterState, HierarchicalViewModel(attribute, hierarchicalAttributes, separator))
 
     private val connectionSearcher = viewModel.connectSearcher(searcher)
     private val connectionFilterState = viewModel.connectFilterState(filterState)
