@@ -86,7 +86,7 @@ class DocHierarchicalMenu {
             hierarchicalCategoryLvl2
         )
         val separator = " > "
-        val viewModel = HierarchicalViewModel(hierarchicalAttributes, separator)
+        val viewModel = HierarchicalViewModel(hierarchicalCategory, hierarchicalAttributes, separator)
         val connection = ConnectionHandler()
 
         override fun onCreate(savedInstanceState: Bundle?) {

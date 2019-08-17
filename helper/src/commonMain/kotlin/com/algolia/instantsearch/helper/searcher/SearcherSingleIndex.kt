@@ -4,8 +4,7 @@ import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.search.client.Index
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
@@ -32,11 +31,9 @@ public class SearcherSingleIndex(
         error.value = throwable
     }
 
-    internal var computeDisjunctiveParams = { listOf<Attribute>() to setOf<Filter>() }
-    internal var hierarchicalFilters = listOf<Filter.Facet>()
-    internal var hierarchicalAttributes = hierarchicalFilters.map { it.attribute }.distinct()
-
     private val options = requestOptions.withUserAgent()
+
+    internal var filterGroups: Set<FilterGroup<*>> = setOf()
 
     override fun setQuery(text: String?) {
         this.query.query = text
@@ -51,22 +48,12 @@ public class SearcherSingleIndex(
     }
 
     override suspend fun search(): ResponseSearch {
-        val (disjunctiveAttributes, disjunctiveFilters) = computeDisjunctiveParams()
-
         withContext(dispatcher) { isLoading.value = true }
-        val response = if (
-            (disjunctiveAttributes.isNotEmpty() || hierarchicalFilters.isNotEmpty())
-            && isDisjunctiveFacetingEnabled
-        ) {
-            index.searchHierarchical(
-                query,
-                disjunctiveAttributes,
-                disjunctiveFilters,
-                hierarchicalAttributes,
-                hierarchicalFilters,
-                options
-            )
-        } else index.search(query, options)
+        val response = if (isDisjunctiveFacetingEnabled) {
+            index.advancedSearch(query, filterGroups, options)
+        } else {
+            index.search(query, options)
+        }
         withContext(dispatcher) {
             this@SearcherSingleIndex.response.value = response
             isLoading.value = false

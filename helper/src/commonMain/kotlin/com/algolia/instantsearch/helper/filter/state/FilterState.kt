@@ -11,9 +11,6 @@ public class FilterState internal constructor(
 
     public val filters = SubscriptionValue<Filters>(filters)
 
-    internal var hierarchicalAttributes: List<Attribute> = listOf()
-    internal var hierarchicalFilters: List<Filter.Facet> = listOf()
-
     public constructor() : this(MutableFiltersImpl())
 
     public constructor(map: Map<FilterGroupID, Set<Filter>>) : this() {

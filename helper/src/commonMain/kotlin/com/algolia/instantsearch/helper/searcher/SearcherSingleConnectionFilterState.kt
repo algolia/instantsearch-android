@@ -23,15 +23,6 @@ internal data class SearcherSingleConnectionFilterState(
 
     init {
         searcher.updateFilters()
-        searcher.computeDisjunctiveParams = {
-            val disjunctiveAttributes = filterState.getFacetGroups()
-                .filter { it.key.operator == FilterOperator.Or }
-                .flatMap { group -> group.value.map { it.attribute } }
-
-            searcher.hierarchicalAttributes = filterState.hierarchicalAttributes
-            searcher.hierarchicalFilters = filterState.hierarchicalFilters
-            disjunctiveAttributes to filterState.getFilters()
-        }
     }
 
     override fun connect() {
@@ -45,6 +36,7 @@ internal data class SearcherSingleConnectionFilterState(
     }
 
     private fun SearcherSingleIndex.updateFilters(filters: Filters = filterState) {
-        query.filters = FilterGroupsConverter.SQL(filters.toFilterGroups())
+        filterGroups = filters.toFilterGroups()
+        query.filters = FilterGroupsConverter.SQL(filterGroups)
     }
 }

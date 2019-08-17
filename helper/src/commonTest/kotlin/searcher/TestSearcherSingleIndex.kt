@@ -24,7 +24,7 @@ class TestSearcherSingleIndex {
 
     @Test
     fun searchShouldUpdateLoading() {
-        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default)
+        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false, dispatcher = Dispatchers.Default)
         var count = 0
 
         searcher.isLoading.subscribe { if (it) count++ }
@@ -35,7 +35,7 @@ class TestSearcherSingleIndex {
 
     @Test
     fun searchShouldUpdateResponse() {
-        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default)
+        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false, dispatcher = Dispatchers.Default)
         var responded = false
 
         searcher.response.subscribe { responded = true }
