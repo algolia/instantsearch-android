@@ -90,7 +90,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":core"))
-                api(AlgoliaClient())
+                api(AlgoliaClient("common"))
                 api(kotlin("stdlib-common"))
             }
         }
@@ -99,7 +99,7 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation(Ktor("client-mock"))
-                implementation(AlgoliaClient())
+                implementation(AlgoliaClient("common"))
             }
         }
         val jvmMain by getting {
