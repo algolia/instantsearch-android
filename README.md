@@ -3,6 +3,8 @@
 
 [![Build Status](https://travis-ci.org/algolia/instantsearch-android.svg?branch=master)](https://travis-ci.org/algolia/instantsearch-android)
 
+[ ![Download](https://api.bintray.com/packages/algolia/maven/com.algolia%3Ainstantsearch-android/images/download.svg) ](https://bintray.com/algolia/maven/com.algolia%3Ainstantsearch-android/_latestVersion)
+
 InstantSearch family: **InstantSearch Android** | [InstantSearch iOS][instantsearch-ios-github] | [React InstantSearch][react-instantsearch-github] | [InstantSearch.js][instantsearch-js-github] | [Angular InstantSearch][instantsearch-angular-github] | [Vue InstantSearch][instantsearch-vue-github].
 
 **InstantSearch Android** is a library providing widgets and helpers to help you build the best instant-search experience on Android with Algolia.
@@ -24,7 +26,7 @@ Have a look at our [widget showcase][showcase-url] to see concrete examples of a
 
 You can add InstantSearch to your Android application by adding the following line to your `build.gradle`'s dependencies.
 ```groovy
-implementation "com.algolia:instantsearch-android:2.0.0"
+implementation "com.algolia:instantsearch-android:2.0.1"
 ```
 <!--TODO Document using helper-jvm / using core directly -->
 
