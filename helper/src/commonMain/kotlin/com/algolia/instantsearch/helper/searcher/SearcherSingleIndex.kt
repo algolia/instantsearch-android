@@ -16,8 +16,7 @@ public class SearcherSingleIndex(
     public val query: Query = Query(),
     public val requestOptions: RequestOptions? = null,
     public val isDisjunctiveFacetingEnabled: Boolean = true,
-    override val coroutineScope: CoroutineScope = SearcherScope(),
-    override val dispatcher: CoroutineDispatcher = defaultDispatcher
+    override val coroutineScope: CoroutineScope = SearcherScope()
 ) : Searcher<ResponseSearch> {
 
     internal val sequencer = Sequencer()
@@ -26,12 +25,8 @@ public class SearcherSingleIndex(
     override val error = SubscriptionValue<Throwable?>(null)
     override val response = SubscriptionValue<ResponseSearch?>(null)
 
-
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        error.value = throwable
-    }
-
     private val options = requestOptions.withUserAgent()
+    private val exceptionHandler = SearcherExceptionHandler(this)
 
     internal var filterGroups: Set<FilterGroup<*>> = setOf()
 
@@ -40,25 +35,21 @@ public class SearcherSingleIndex(
     }
 
     override fun searchAsync(): Job {
-        return coroutineScope.launch(dispatcher + exceptionHandler) {
-            withContext(Dispatchers.Default) { search() }
+        return coroutineScope.launch(exceptionHandler) {
+            isLoading.value = true
+            response.value = withContext(Dispatchers.Default) { search() }
+            isLoading.value = false
         }.also {
             sequencer.addOperation(it)
         }
     }
 
     override suspend fun search(): ResponseSearch {
-        withContext(dispatcher) { isLoading.value = true }
-        val response = if (isDisjunctiveFacetingEnabled) {
+        return if (isDisjunctiveFacetingEnabled) {
             index.advancedSearch(query, filterGroups, options)
         } else {
             index.search(query, options)
         }
-        withContext(dispatcher) {
-            this@SearcherSingleIndex.response.value = response
-            isLoading.value = false
-        }
-        return response
     }
 
     override fun cancel() {

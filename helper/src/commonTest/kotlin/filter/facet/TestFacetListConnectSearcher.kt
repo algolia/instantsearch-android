@@ -26,7 +26,7 @@ class TestFacetListConnectSearcher {
 
     @Test
     fun connectShouldSetQueryFacets() {
-        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default)
+        val searcher = SearcherSingleIndex(index)
         val viewModel = FacetListViewModel()
         val connection = viewModel.connectSearcher(searcher, color)
 
@@ -36,7 +36,7 @@ class TestFacetListConnectSearcher {
 
     @Test
     fun connectShouldUpdateItems() {
-        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default).also { it.response.value = response }
+        val searcher = SearcherSingleIndex(index).also { it.response.value = response }
         val viewModel = FacetListViewModel()
         val connection = viewModel.connectSearcher(searcher, color)
 
@@ -46,7 +46,7 @@ class TestFacetListConnectSearcher {
 
     @Test
     fun onResponseChangedShouldUpdateItems() {
-        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false, dispatcher = Dispatchers.Default)
+        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false)
         val viewModel = FacetListViewModel()
         val connection = viewModel.connectSearcher(searcher, color)
 
