@@ -8,7 +8,7 @@ plugins {
     id("kotlin-multiplatform")
     id("maven-publish")
     id("com.jfrog.bintray")
-    id("com.github.ben-manes.versions") version "0.21.0"
+    id("com.github.ben-manes.versions") version "0.22.0"
     id("com.github.kukuhyoniatmoko.buildconfigkotlin") version "1.0.5"
 }
 
