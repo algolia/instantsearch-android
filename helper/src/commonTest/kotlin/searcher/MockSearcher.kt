@@ -16,7 +16,6 @@ class MockSearcher : Searcher<Unit> {
     override val error = SubscriptionValue<Throwable?>(null)
     override val response = SubscriptionValue<Unit?>(null)
     override val coroutineScope: CoroutineScope = SearcherScope()
-    override val dispatcher: CoroutineDispatcher = Dispatchers.Default
 
     override fun setQuery(text: String?) {
         string = text

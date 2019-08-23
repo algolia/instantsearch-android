@@ -6,18 +6,20 @@ import kotlinx.coroutines.*
 public class Debouncer(
     public val debounceTimeInMillis: Long
 ) {
-
     public var job: Job? = null
 
-    public fun debounce(coroutineScope: CoroutineScope, dispatcher: CoroutineDispatcher, block: suspend () -> Unit) {
+    public fun debounce(
+        coroutineScope: CoroutineScope,
+        block: suspend () -> Unit
+    ) {
         job?.cancel()
-        job = coroutineScope.launch(dispatcher) {
+        job = coroutineScope.launch {
             delay(debounceTimeInMillis)
             block()
         }
     }
 
     public fun <R> debounce(searcher: Searcher<R>, block: suspend Searcher<R>.() -> Unit) {
-        debounce(searcher.coroutineScope, searcher.dispatcher) { block(searcher) }
+        debounce(searcher.coroutineScope) { block(searcher) }
     }
 }

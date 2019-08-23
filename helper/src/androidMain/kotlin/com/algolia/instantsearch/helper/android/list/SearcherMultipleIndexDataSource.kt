@@ -2,10 +2,10 @@ package com.algolia.instantsearch.helper.android.list
 
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
-import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.runBlocking
 
 
@@ -26,8 +26,6 @@ public class SearcherMultipleIndexDataSource<T>(
         }
     }
 
-    public val error = SubscriptionValue<Throwable?>(null)
-
     private val index = searcher.queries.indexOf(indexQuery)
     private var initialLoadSize: Int = 30
 
@@ -39,14 +37,19 @@ public class SearcherMultipleIndexDataSource<T>(
         initialLoadSize = params.requestedLoadSize
         indexQuery.query.hitsPerPage = initialLoadSize
         indexQuery.query.page = 0
+        searcher.isLoading.value = true
         runBlocking {
             try {
-                val response = searcher.search().results[index]
-                val nextKey = if (response.nbHits > initialLoadSize) 1 else null
+                val response = searcher.search()
+                val result = response.results[index]
+                val nextKey = if (result.nbHits > initialLoadSize) 1 else null
 
-                callback.onResult(response.hits.map(transformer), 0, response.nbHits, null, nextKey)
+                searcher.isLoading.value = false
+                searcher.response.value = response
+                callback.onResult(result.hits.map(transformer), 0, result.nbHits, null, nextKey)
             } catch (throwable: Throwable) {
-                error.value = throwable
+                searcher.error.value = throwable
+                searcher.isLoading.value = false
             }
         }
     }
@@ -57,14 +60,19 @@ public class SearcherMultipleIndexDataSource<T>(
 
         indexQuery.query.page = page
         indexQuery.query.hitsPerPage = params.requestedLoadSize
+        searcher.isLoading.value = true
         runBlocking {
             try {
-                val response = searcher.search().results[index]
-                val nextKey = if (page + 1 < response.nbPages) params.key + 1 else null
+                val response = searcher.search()
+                val result = response.results[index]
+                val nextKey = if (page + 1 < result.nbPages) params.key + 1 else null
 
-                callback.onResult(response.hits.map(transformer), nextKey)
+                searcher.response.value = response
+                searcher.isLoading.value = false
+                callback.onResult(result.hits.map(transformer), nextKey)
             } catch (throwable: Throwable) {
-                error.value = throwable
+                searcher.error.value = throwable
+                searcher.isLoading.value = false
             }
         }
     }

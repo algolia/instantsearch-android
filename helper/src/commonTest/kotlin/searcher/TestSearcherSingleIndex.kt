@@ -24,18 +24,18 @@ class TestSearcherSingleIndex {
 
     @Test
     fun searchShouldUpdateLoading() {
-        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false, dispatcher = Dispatchers.Default)
+        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false)
         var count = 0
 
         searcher.isLoading.subscribe { if (it) count++ }
         searcher.isLoading.value.shouldBeFalse()
-        blocking { searcher.search() }
+        blocking { searcher.searchAsync().join() }
         count shouldEqual 1
     }
 
     @Test
     fun searchShouldUpdateResponse() {
-        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false, dispatcher = Dispatchers.Default)
+        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false)
         var responded = false
 
         searcher.response.subscribe { responded = true }
@@ -48,7 +48,7 @@ class TestSearcherSingleIndex {
 
     @Test
     fun searchShouldUpdateError() {
-        val searcher = SearcherSingleIndex(indexError, dispatcher = Dispatchers.Default)
+        val searcher = SearcherSingleIndex(indexError)
         var error = false
 
         searcher.error.subscribe { error = true }

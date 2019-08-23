@@ -17,7 +17,7 @@ internal data class SearcherForFacetsConnectionFilterState(
 
     private val updateSearcher: Callback<Filters> = { filters ->
         searcher.updateFilters(filters)
-        debouncer.debounce(searcher) { searchAsync() }
+        debouncer.debounce(searcher) { searcher.searchAsync().join() }
     }
 
     init {

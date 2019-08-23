@@ -20,7 +20,7 @@ class TestStatsConnectSearcher {
 
     @Test
     fun connectShouldSetItem() {
-        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default).also { it.response.value = responseSearch }
+        val searcher = SearcherSingleIndex(index).also { it.response.value = responseSearch }
         val viewModel = StatsViewModel()
         val connection = viewModel.connectSearcher(searcher)
 
@@ -31,7 +31,7 @@ class TestStatsConnectSearcher {
 
     @Test
     fun onResponseChangedShouldSetItem() {
-        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false, dispatcher = Dispatchers.Default)
+        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false)
         val viewModel = StatsViewModel()
         val connection = viewModel.connectSearcher(searcher)
 
