@@ -14,9 +14,11 @@ internal data class HierarchicalConnectionFilterState(
 
     private val updateSelections: Callback<Filters> = { filters ->
         val hierarchicalFilter = filters.getHierarchicalFilters(viewModel.attribute)
-        val hierarchicalValue = hierarchicalFilter?.filter?.value as Filter.Facet.Value.String
+        val hierarchicalValue = hierarchicalFilter?.filter?.value as? Filter.Facet.Value.String
 
-        viewModel.selections.value = hierarchicalValue.raw.split(viewModel.separator)
+        hierarchicalValue?.let {
+            viewModel.selections.value = it.raw.split(viewModel.separator)
+        }
     }
 
     private val updateFilterState: Callback<HierarchicalPath> = { selections ->
