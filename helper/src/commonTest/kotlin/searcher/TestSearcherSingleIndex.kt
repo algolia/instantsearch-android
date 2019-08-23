@@ -1,10 +1,8 @@
 package searcher
 
 import blocking
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.IndexName
 import io.ktor.client.engine.mock.respondBadRequest
-import kotlinx.coroutines.Dispatchers
 import mockClient
 import responseSearch
 import shouldBeFalse
@@ -24,7 +22,7 @@ class TestSearcherSingleIndex {
 
     @Test
     fun searchShouldUpdateLoading() {
-        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false)
+        val searcher = TestSearcherSingle(index)
         var count = 0
 
         searcher.isLoading.subscribe { if (it) count++ }
@@ -35,7 +33,7 @@ class TestSearcherSingleIndex {
 
     @Test
     fun searchShouldUpdateResponse() {
-        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false)
+        val searcher = TestSearcherSingle(index)
         var responded = false
 
         searcher.response.subscribe { responded = true }
@@ -48,7 +46,7 @@ class TestSearcherSingleIndex {
 
     @Test
     fun searchShouldUpdateError() {
-        val searcher = SearcherSingleIndex(indexError)
+        val searcher = TestSearcherSingle(indexError)
         var error = false
 
         searcher.error.subscribe { error = true }

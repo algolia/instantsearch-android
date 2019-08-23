@@ -9,6 +9,8 @@ import com.algolia.search.model.IndexName
 import kotlinx.coroutines.Dispatchers
 import mockClient
 import searcher.MockSearcher
+import searcher.TestCoroutineScope
+import searcher.TestSearcherSingle
 import shouldBeFalse
 import shouldEqual
 import kotlin.test.Test
@@ -21,7 +23,7 @@ class TestLoadingConnectSearcher {
 
     @Test
     fun connectShouldSetItem() {
-        val searcher = SearcherSingleIndex(index)
+        val searcher = TestSearcherSingle(index)
         val viewModel = LoadingViewModel()
         val expected = true
         val debouncer = Debouncer(200)
@@ -36,7 +38,7 @@ class TestLoadingConnectSearcher {
     @Test
     fun onLoadingChangedShouldSetItem() {
         val debouncer = Debouncer(100)
-        val searcher = SearcherSingleIndex(index)
+        val searcher = TestSearcherSingle(index)
         val viewModel = LoadingViewModel()
         val expected = true
         val connection = viewModel.connectSearcher(searcher, debouncer)

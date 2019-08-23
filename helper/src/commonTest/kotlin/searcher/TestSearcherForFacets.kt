@@ -1,12 +1,10 @@
 package searcher
 
 import blocking
-import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearchForFacets
 import io.ktor.client.engine.mock.respondBadRequest
-import kotlinx.coroutines.Dispatchers
 import mockClient
 import respondJson
 import shouldBeFalse
@@ -17,7 +15,7 @@ import shouldNotBeNull
 import kotlin.test.Test
 
 
-class TestSearcherForFacets  {
+class TestSearcherForFacets {
 
     private val attribute = Attribute("color")
     private val response = ResponseSearchForFacets(
@@ -32,7 +30,7 @@ class TestSearcherForFacets  {
 
     @Test
     fun searchShouldUpdateLoading() {
-        val searcher = SearcherForFacets(index, attribute)
+        val searcher = TestSearcherForFacets(index, attribute)
         var count = 0
 
         searcher.isLoading.subscribe { if (it) count++ }
@@ -43,7 +41,7 @@ class TestSearcherForFacets  {
 
     @Test
     fun searchShouldUpdateResponse() {
-        val searcher = SearcherForFacets(index, attribute)
+        val searcher = TestSearcherForFacets(index, attribute)
         var responded = false
 
         searcher.response.subscribe { responded = true }
@@ -56,10 +54,10 @@ class TestSearcherForFacets  {
 
     @Test
     fun searchShouldUpdateError() {
-        val searcher = SearcherForFacets(indexError, attribute)
+        val searcher = TestSearcherForFacets(indexError, attribute)
         var error = false
 
-        searcher.error.subscribe {  error = true }
+        searcher.error.subscribe { error = true }
         searcher.error.value.shouldBeNull()
         blocking { searcher.searchAsync().join() }
         searcher.error.value.shouldNotBeNull()

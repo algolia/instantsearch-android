@@ -1,13 +1,12 @@
 package stats
 
 import blocking
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.stats.StatsViewModel
 import com.algolia.instantsearch.helper.stats.connectSearcher
 import com.algolia.search.model.IndexName
-import kotlinx.coroutines.Dispatchers
 import mockClient
 import responseSearch
+import searcher.TestSearcherSingle
 import shouldBeNull
 import shouldEqual
 import kotlin.test.Test
@@ -20,7 +19,9 @@ class TestStatsConnectSearcher {
 
     @Test
     fun connectShouldSetItem() {
-        val searcher = SearcherSingleIndex(index).also { it.response.value = responseSearch }
+        val searcher = TestSearcherSingle(index).also {
+            it.response.value = responseSearch
+        }
         val viewModel = StatsViewModel()
         val connection = viewModel.connectSearcher(searcher)
 
@@ -31,7 +32,7 @@ class TestStatsConnectSearcher {
 
     @Test
     fun onResponseChangedShouldSetItem() {
-        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false)
+        val searcher = TestSearcherSingle(index)
         val viewModel = StatsViewModel()
         val connection = viewModel.connectSearcher(searcher)
 
