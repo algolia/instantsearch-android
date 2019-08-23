@@ -1,9 +1,8 @@
 
 <img src="docs/banner.png" alt="InstantSearch Android" />
 
-[![Build Status](https://travis-ci.org/algolia/instantsearch-android.svg?branch=master)](https://travis-ci.org/algolia/instantsearch-android)
-
 [ ![Download](https://api.bintray.com/packages/algolia/maven/com.algolia%3Ainstantsearch-android/images/download.svg) ](https://bintray.com/algolia/maven/com.algolia%3Ainstantsearch-android/_latestVersion)
+[![Build Status](https://travis-ci.org/algolia/instantsearch-android.svg?branch=master)](https://travis-ci.org/algolia/instantsearch-android)
 
 InstantSearch family: **InstantSearch Android** | [InstantSearch iOS][instantsearch-ios-github] | [React InstantSearch][react-instantsearch-github] | [InstantSearch.js][instantsearch-js-github] | [Angular InstantSearch][instantsearch-angular-github] | [Vue InstantSearch][instantsearch-vue-github].
 
