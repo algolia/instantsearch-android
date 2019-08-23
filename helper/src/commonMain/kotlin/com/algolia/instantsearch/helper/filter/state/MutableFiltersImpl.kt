@@ -1,13 +1,17 @@
 package com.algolia.instantsearch.helper.filter.state
 
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalFilter
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
 
 internal data class MutableFiltersImpl(
     private val facetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(),
     private val tagGroups: MutableMap<FilterGroupID, Set<Filter.Tag>> = mutableMapOf(),
-    private val numericGroups: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf()
-) : MutableFilters, Filters by FiltersImpl(facetGroups, tagGroups, numericGroups) {
+    private val numericGroups: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf(),
+    private val hierarchicalGroups: MutableMap<Attribute, HierarchicalFilter> = mutableMapOf()
+) : MutableFilters, Filters by FiltersImpl(facetGroups, tagGroups, numericGroups, hierarchicalGroups) {
+
 
     private fun <T : Filter> Map<FilterGroupID, Set<T>>.getOrDefault(groupID: FilterGroupID): Set<T> {
         return getOrElse(groupID, { setOf() })
@@ -62,6 +66,10 @@ internal data class MutableFiltersImpl(
         }
     }
 
+    override fun remove(attribute: Attribute) {
+        hierarchicalGroups.remove(attribute)
+    }
+
     override fun <T : Filter> toggle(groupID: FilterGroupID, filter: T) {
         if (contains(groupID, filter)) remove(groupID, filter) else add(groupID, filter)
     }
@@ -77,6 +85,7 @@ internal data class MutableFiltersImpl(
             facetGroups.clear()
             numericGroups.clear()
             tagGroups.clear()
+            hierarchicalGroups.clear()
         }
     }
 
@@ -86,7 +95,7 @@ internal data class MutableFiltersImpl(
         tagGroups.filter { it.key !in groupIDs }.forEach { tagGroups.remove(it.key) }
     }
 
-    override fun toString(): String {
-        return "MutableFiltersImpl(facets=$facetGroups, tags=$tagGroups, numerics=$numericGroups)"
+    override fun add(attribute: Attribute, hierarchicalFilter: HierarchicalFilter) {
+        hierarchicalGroups[attribute] = hierarchicalFilter
     }
 }

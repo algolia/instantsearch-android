@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.helper.filter.state
 
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalFilter
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
 
@@ -11,11 +13,15 @@ public interface Filters {
 
     public fun getNumericFilters(groupID: FilterGroupID): Set<Filter.Numeric>
 
+    public fun getHierarchicalFilters(attribute: Attribute): HierarchicalFilter?
+
     public fun getFacetGroups(): Map<FilterGroupID, Set<Filter.Facet>>
 
     public fun getTagGroups(): Map<FilterGroupID, Set<Filter.Tag>>
 
     public fun getNumericGroups(): Map<FilterGroupID, Set<Filter.Numeric>>
+
+    public fun getHierarchicalGroups(): Map<Attribute, HierarchicalFilter>
 
     public fun getGroups(): Map<FilterGroupID, Set<Filter>>
 

@@ -14,7 +14,7 @@ class TestHierarchicalPresenter {
 
     private val separator = " > "
     private val presenter = HierarchicalPresenterImpl(separator)
-
+    private val attribute = Attribute("type")
     private val facetShoes = Facet("Shoes", 3)
     private val facetShoesRunning = Facet("Shoes > Running", 2)
     private val facetShoesCocktail = Facet("Shoes > Cocktail", 1)
@@ -35,7 +35,7 @@ class TestHierarchicalPresenter {
 
     @Test
     fun presenterShouldTransformAndSortHierarchy() {
-        val viewModel = HierarchicalViewModel(listOf(Attribute("foo")), separator, tree)
+        val viewModel = HierarchicalViewModel(attribute, listOf(Attribute("foo")), separator, tree)
 
         presenter(viewModel.tree.value) shouldEqual listOf(
             HierarchicalItem(facetBags, facetBags.toDisplayName(), 0),

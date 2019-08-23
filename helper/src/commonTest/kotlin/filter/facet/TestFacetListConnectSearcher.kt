@@ -46,7 +46,7 @@ class TestFacetListConnectSearcher {
 
     @Test
     fun onResponseChangedShouldUpdateItems() {
-        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default)
+        val searcher = SearcherSingleIndex(index, isDisjunctiveFacetingEnabled = false, dispatcher = Dispatchers.Default)
         val viewModel = FacetListViewModel()
         val connection = viewModel.connectSearcher(searcher, color)
 

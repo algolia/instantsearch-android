@@ -11,8 +11,9 @@ import com.algolia.search.model.search.Facet
  * These MUST be specified in order, e.g. `["hierarchy.lvl0", "hierarchy.lvl1", "hierarchy.lvl2"]`.
  */
 public open class HierarchicalViewModel(
-    val hierarchicalAttributes: List<Attribute>,
-    val separator: String,
+    public val attribute: Attribute,
+    public val hierarchicalAttributes: List<Attribute>,
+    public val separator: String,
     tree: HierarchicalTree = HierarchicalTree()
 ) : TreeViewModel<String, Facet>(tree) {
 
