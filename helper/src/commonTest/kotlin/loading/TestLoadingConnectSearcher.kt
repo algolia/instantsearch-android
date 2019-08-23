@@ -21,7 +21,7 @@ class TestLoadingConnectSearcher {
 
     @Test
     fun connectShouldSetItem() {
-        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default)
+        val searcher = SearcherSingleIndex(index)
         val viewModel = LoadingViewModel()
         val expected = true
         val debouncer = Debouncer(200)
@@ -36,7 +36,7 @@ class TestLoadingConnectSearcher {
     @Test
     fun onLoadingChangedShouldSetItem() {
         val debouncer = Debouncer(100)
-        val searcher = SearcherSingleIndex(index, dispatcher = Dispatchers.Default)
+        val searcher = SearcherSingleIndex(index)
         val viewModel = LoadingViewModel()
         val expected = true
         val connection = viewModel.connectSearcher(searcher, debouncer)

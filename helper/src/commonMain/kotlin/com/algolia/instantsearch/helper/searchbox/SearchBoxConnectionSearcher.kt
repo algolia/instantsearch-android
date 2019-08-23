@@ -17,7 +17,7 @@ internal data class SearchBoxConnectionSearcher<R>(
 
     private val searchAsYouType: Callback<String?> = { query ->
         searcher.setQuery(query)
-        debouncer.debounce(searcher) { search() }
+        debouncer.debounce(searcher) { searchAsync() }
     }
     private val searchOnSubmit: Callback<String?> = { query ->
         searcher.setQuery(query)
