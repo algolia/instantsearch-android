@@ -1,16 +1,13 @@
 package documentation.widget
 
 import android.os.Bundle
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.*
-import com.algolia.instantsearch.helper.android.filter.toggle.FilterToggleViewCompoundButton
 import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.toggle.FilterToggleView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.addFacet
 import com.algolia.instantsearch.helper.searcher.connectFilterState
@@ -24,7 +21,7 @@ import org.junit.Ignore
 
 
 @Ignore
-class DocFilterComparison  {
+class DocFilterComparison {
 
     class FilterPriceView(
         val textView: TextView,
@@ -32,7 +29,7 @@ class DocFilterComparison  {
         val arrowDown: ImageView,
         val price: Attribute,
         val operator: NumericOperator
-    ): NumberView<Int> {
+    ) : NumberView<Int> {
 
         init {
             textView.text = "$price ${operator.raw}"
@@ -63,7 +60,7 @@ class DocFilterComparison  {
         val filterState = FilterState()
         val price = Attribute("price")
         val operator = NumericOperator.Greater
-        val viewModel = NumberViewModel(0..10)
+        val viewModel = NumberViewModel(range = 0..10)
         val connection = ConnectionHandler()
 
         override fun onCreate(savedInstanceState: Bundle?) {
