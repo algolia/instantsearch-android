@@ -35,6 +35,18 @@ See the [documentation][doc]. You can start with the [Getting Started Guide][get
 
 From [reporting bugs or missing functionality](https://github.com/algolia/instantsearch-android/issues/new) to [fixing a typo or proposing an improvement](https://github.com/algolia/instantsearch-android/compare), all contributions are welcome! Read the [Contributing Guide](https://github.com/algolia/instantsearch-android/blob/master/CONTRIBUTING.md) to setup your development environment.
 
+### Proguard rules
+
+When `minifyEnabled true`, you might get this error:
+
+```Can't locate argument-less serializer for class e.a.b.g.n.c (Kotlin reflection is not available). For generic classes, such as lists, please provide serializer explicitly.```
+
+Add this proguard rule to solve it.
+
+```
+-keep class com.algolia.search.model.** { *; }
+```
+
 # License
 
 InstantSearch Android is [MIT licensed](LICENSE.md).
