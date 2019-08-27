@@ -5,5 +5,5 @@ public object InstantSearch {
 
     public const val version = BuildConfiguration.version
 
-    public const val userAgent = "InstantSearch Android ($version)"
+    public const val userAgent = "InstantSearchAndroid ($version)"
 }
