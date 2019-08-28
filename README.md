@@ -51,7 +51,7 @@ Add this proguard rule to solve it.
 
 # License
 
-InstantSearch Android is [MIT licensed](LICENSE.md).
+InstantSearch Android is [licensed under Apache V2](LICENSE.md).
 
 [doc]: https://algolia.com/doc/guides/building-search-ui/what-is-instantsearch/android/
 [getting-started]: https://algolia.com/doc/guides/building-search-ui/getting-started/android/
