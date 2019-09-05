@@ -29,3 +29,7 @@ allprojects {
         maven { url = URI("https://dl.bintray.com/kotlin/ktor") }
     }
 }
+
+tasks.withType<Test> {
+    maxParallelForks = Runtime.getRuntime().availableProcessors().minus(1).coerceAtLeast(1)
+}
