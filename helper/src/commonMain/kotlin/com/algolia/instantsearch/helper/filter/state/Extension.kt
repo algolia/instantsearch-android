@@ -49,10 +49,10 @@ public fun Filter.Facet.getValue(): String {
     }
 }
 
-internal fun Facet.toFilter(attribute: Attribute): Filter.Facet {
-    return Filter.Facet(attribute, value)
-}
-
 public fun <T> Range<T>.toFilterNumeric(attribute: Attribute): Filter.Numeric where T : Number, T : Comparable<T> {
     return Filter.Numeric(attribute, false, Filter.Numeric.Value.Range(min, max))
+}
+
+public fun Facet.toFilter(attribute: Attribute): Filter.Facet {
+    return Filter.Facet(attribute, value)
 }
