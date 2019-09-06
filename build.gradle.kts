@@ -4,6 +4,7 @@ import java.net.URI
 plugins {
     id("java-library-convention")
     id("maven-publish")
+    id("com.github.ben-manes.versions") version "0.24.0"
 }
 
 buildscript {
@@ -13,8 +14,8 @@ buildscript {
     }
     dependencies {
         classpath(dependency.script.AndroidTools())
-        classpath(kotlin("gradle-plugin", version = "1.3.41"))
-        classpath(kotlin("serialization",  version = "1.3.41"))
+        classpath(kotlin("gradle-plugin", version = "1.3.50"))
+        classpath(kotlin("serialization",  version = "1.3.50"))
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
     }
 }
@@ -28,4 +29,8 @@ allprojects {
         maven { url = URI("https://kotlin.bintray.com/kotlinx") }
         maven { url = URI("https://dl.bintray.com/kotlin/ktor") }
     }
+}
+
+tasks.withType<Test> {
+    maxParallelForks = Runtime.getRuntime().availableProcessors().minus(1).coerceAtLeast(1)
 }

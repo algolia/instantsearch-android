@@ -6,5 +6,5 @@ object AndroidTestRunner: Dependency {
 
     override val group = "androidx.test"
     override val artifact = "runner"
-    override val version = "1.1.0"
+    override val version = "1.2.0"
 }
