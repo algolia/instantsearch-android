@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.core.highlighting
 
 import kotlin.jvm.JvmOverloads
+import kotlin.jvm.JvmSynthetic
 
 /**
  * HighlightTokenizer transform Algolia's `_highlightResult` into structured data easy to use
@@ -20,6 +21,7 @@ public class HighlightTokenizer @JvmOverloads constructor(
      * @param p1 a String to parse.
      * @return a tokenized [HighlightedString].
      */
+    @JvmSynthetic
     override fun invoke(p1: String): HighlightedString = tokenize(p1)
 
 
