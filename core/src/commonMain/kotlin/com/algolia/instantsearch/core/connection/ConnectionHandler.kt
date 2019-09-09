@@ -7,8 +7,11 @@ import kotlin.jvm.JvmSynthetic
  * A handler that gathers connections, offering a convenient way to disconnect them all.
  */
 public class ConnectionHandler(
-    internal val connections: MutableSet<Connection> = mutableSetOf()
+    connections: MutableSet<Connection> = mutableSetOf()
 ) {
+    
+    internal val connections = connections
+        @JvmSynthetic get
 
     public constructor(
         vararg connections: Connection
