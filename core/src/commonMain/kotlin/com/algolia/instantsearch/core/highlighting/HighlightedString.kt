@@ -1,6 +1,9 @@
 package com.algolia.instantsearch.core.highlighting
 
 
+/**
+ * A highlighted string, represented as a list of [tokens] along its [original] string.
+ */
 public data class HighlightedString(
     val original: String,
     val tokens: List<HighlightToken>
