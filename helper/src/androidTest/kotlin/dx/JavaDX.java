@@ -12,11 +12,13 @@ import com.algolia.instantsearch.core.number.NumberPresenterImpl;
 import com.algolia.instantsearch.core.number.NumberViewModel;
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel;
 import com.algolia.instantsearch.core.number.range.Range;
-import com.algolia.instantsearch.core.searcher.Searcher;
 import com.algolia.instantsearch.core.searcher.SearcherConstants;
 import com.algolia.instantsearch.core.subscription.Subscription;
+import com.algolia.instantsearch.core.subscription.SubscriptionValue;
+import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex;
 import com.algolia.search.client.ClientSearch;
 import com.algolia.search.client.Index;
+import com.algolia.search.model.response.ResponseSearch;
 import com.algolia.search.model.search.Query;
 import com.algolia.search.transport.RequestOptions;
 
@@ -25,28 +27,36 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.List;
 
 import kotlin.ranges.LongRange;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 @SuppressWarnings("UnusedAssignment")
 public class JavaDX {
-    private static Searcher searcher;
-    private static Index index;
-    private static Query query;
-    private static ClientSearch client;
-    private static RequestOptions requestOptions;
+
+    private static SearcherSingleIndex searcherSingleIndex;
+    private static Query query = mock(Query.class);
+    private static ClientSearch client = mock(ClientSearch.class);
+    private static RequestOptions requestOptions = new RequestOptions();
 
     //region Test Setup
     @BeforeClass
     public static void setUp() {
         query = new Query();
         requestOptions = new RequestOptions();
-//        client = new ClientSearch(new ApplicationID("foo"), new APIKey("bar"), LogLevel.ALL);
-//        index = client.initIndex(new IndexName("indexName"));
-//        searcher = new SearcherSingleIndex(index, query, requestOptions);
+
+
+        final SubscriptionValue<Throwable> error = new SubscriptionValue<>(new Exception());
+        final SubscriptionValue<ResponseSearch> responseSearch = new SubscriptionValue<>(new ResponseSearch());
+        searcherSingleIndex = mock(SearcherSingleIndex.class);
+        when(searcherSingleIndex.getError()).thenReturn(error);
+        when(searcherSingleIndex.getResponse()).thenReturn(responseSearch);
+        when(searcherSingleIndex.isLoading()).thenReturn(new SubscriptionValue<>(true));
     }
 
 
@@ -68,8 +78,8 @@ public class JavaDX {
     public final void highlighting() {
         // Token
         HighlightToken token = new HighlightToken("foo", true);
-        token.getContent();
-        token.getHighlighted();
+        final String content = token.content;
+        final boolean highlighted = token.highlighted;
 
         // Tokenizer
         HighlightTokenizer tokenizer = new HighlightTokenizer();
@@ -77,14 +87,14 @@ public class JavaDX {
         String postTag = HighlightTags.DefaultPostTag;
         tokenizer = new HighlightTokenizer(preTag);
         tokenizer = new HighlightTokenizer(preTag, postTag);
-        tokenizer.getPreTag();
-        tokenizer.getPostTag();
+        final String preTagGot = tokenizer.preTag;
+        final String postTagGot = tokenizer.postTag;
 
         // String
         final HighlightedString invoke = tokenizer.tokenize("foo<b>bar</b>");
-        invoke.getTokens();
+        final List<HighlightToken> tokens = invoke.tokens;
         invoke.getHighlightedTokens();
-        invoke.getOriginal();
+        final String original = invoke.original;
     }
 
     @Test
@@ -96,8 +106,9 @@ public class JavaDX {
     public void loading() {
         // ViewModel
         LoadingViewModel viewModel = new LoadingViewModel();
-        viewModel.getEventReload();
-        viewModel.isLoading();
+        viewModel.eventReload.subscribe(it -> {
+        });
+        viewModel.isLoading.getValue();
 
         // TODO View
         // TODO Connection
@@ -110,9 +121,9 @@ public class JavaDX {
         initialMap.put("id", "value");
         MapViewModel<String, String> viewModel = new MapViewModel<>(initialMap);
 
-        viewModel.getEvent().subscribe(item -> viewModel.getMap().setValue(item));
+        viewModel.event.subscribe(viewModel.map::setValue);
         viewModel.remove("id");
-        viewModel.getMap().getValue();
+        viewModel.map.getValue();
     }
 
     @Test
@@ -121,10 +132,10 @@ public class JavaDX {
 
         // ViewModel
         NumberViewModel<Integer> viewModel = new NumberViewModel<>();
-        viewModel.getEventNumber().subscribe(item -> viewModel.getNumber().setValue(item));
+        viewModel.eventNumber.subscribe(viewModel.number::setValue);
         viewModel.coerce(-1);
-        viewModel.getNumber().getValue();
-        viewModel.getBounds().setValue(new Range<>(0, 10));
+        viewModel.number.getValue();
+        viewModel.bounds.setValue(new Range<>(0, 10));
 
         // Presenter
         NumberPresenterImpl.INSTANCE.present(10);
@@ -137,13 +148,14 @@ public class JavaDX {
     @Test
     public void number_range() {
         Range<Long> bounds = new Range<>(0L, 100L);
-        Range<Long> range = new Range<Long>(new LongRange(10L, 20L));
+        // FIXME: Why does this display as error but compiles fine?
+        Range<Long> range = Range.Companion.invoke(new LongRange(10L, 20L));
 
         // ViewModel
         NumberRangeViewModel<Long> viewModel = new NumberRangeViewModel<>(range, bounds);
-        viewModel.getEventRange().subscribe(item -> viewModel.getRange().setValue(item));
+        viewModel.eventRange.subscribe(viewModel.range::setValue);
         viewModel.coerce(bounds);
-        viewModel.getRange().getValue();
+        viewModel.range.getValue();
 
         // TODO View
         // TODO Connection
@@ -156,10 +168,30 @@ public class JavaDX {
 
     @Test
     public void searcher() {
+        // Constants
         long constA = SearcherConstants.debounceLoadingInMillis;
         long constB = SearcherConstants.debounceSearchInMillis;
         long constC = SearcherConstants.debounceFilteringInMillis;
 
+        // TODO Debouncer - currently blocked by creation of CoroutineScope, then  needs a refactoring around Function1/Function2
+
+        // Searcher
+
+        searcherSingleIndex.getError().subscribe(System.out::println);
+        searcherSingleIndex.getResponse().getValue();
+        searcherSingleIndex.isLoading().subscribe(it -> System.out.println(it ? "Loading..." : "Done loading"));
+        searcherSingleIndex.setQuery("foo");
+        searcherSingleIndex.searchAsync();
+        searcherSingleIndex.cancel();
+
+        // SearcherSingleIndex
+        final Index index = searcherSingleIndex.index;
+        final Query query = searcherSingleIndex.query;
+        final RequestOptions requestOptions = searcherSingleIndex.requestOptions;
+        final Boolean isDisjunctiveFacetingEnabled = searcherSingleIndex.isDisjunctiveFacetingEnabled;
+
+        // TODO SearcherMultipleIndex
+        // TODO SearcherForFacets
 
     }
 
@@ -172,7 +204,7 @@ public class JavaDX {
     @Test
     public void subscription() {
         Subscription<Boolean> subscription = new Subscription<>();
-        final Subscription.Callback<Boolean> callback = item -> fail("Why not?");
+        final Subscription.Callback<Boolean> callback = it -> fail("Why not?");
         subscription.subscribe(callback);
         subscription.unsubscribe(callback);
         subscription.unsubscribeAll();

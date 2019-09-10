@@ -2,10 +2,7 @@ import dependency.Library
 import dependency.network.AlgoliaClient
 import dependency.network.Coroutines
 import dependency.network.Ktor
-import dependency.test.AndroidTestExt
-import dependency.test.AndroidTestRunner
-import dependency.test.Robolectric
-import dependency.test.SL4J
+import dependency.test.*
 import dependency.ui.*
 
 plugins {
@@ -145,6 +142,8 @@ kotlin {
                 implementation(AndroidTestRunner())
                 implementation(AndroidTestExt())
                 implementation(Robolectric())
+                implementation(MockitoCore())
+                implementation(MockitoInline())
             }
         }
     }
