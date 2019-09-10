@@ -7,8 +7,10 @@ import com.algolia.instantsearch.core.highlighting.DefaultPreTag
 import com.algolia.instantsearch.core.highlighting.HighlightToken
 import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
 import com.algolia.instantsearch.core.loading.LoadingViewModel
+import com.algolia.instantsearch.core.map.MapViewModel
 import com.algolia.instantsearch.core.subscription.Subscription
 import org.junit.AfterClass
+import java.util.HashMap
 import kotlin.test.Test
 
 internal class KotlinDX {
@@ -55,7 +57,11 @@ internal class KotlinDX {
 
     @Test
     fun map() {
-        // TODO
+        val viewModel = MapViewModel(mapOf("id" to "value"))
+
+        viewModel.event.subscribe { viewModel.map.value = it }
+        viewModel.remove("id")
+        viewModel.map.value
     }
 
     @Test
