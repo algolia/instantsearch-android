@@ -6,20 +6,22 @@ import com.algolia.instantsearch.core.highlighting.DefaultPostTag
 import com.algolia.instantsearch.core.highlighting.DefaultPreTag
 import com.algolia.instantsearch.core.highlighting.HighlightToken
 import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
+import com.algolia.instantsearch.core.loading.LoadingViewModel
+import com.algolia.instantsearch.core.subscription.Subscription
 import org.junit.AfterClass
 import kotlin.test.Test
 
 internal class KotlinDX {
 
     @Test
-    fun testConnection() {
+    fun connection() {
         val handler = ConnectionHandler()
         handler += ConnectionImpl()
         handler.disconnect()
     }
 
     @Test
-    fun testHighlighting() {
+    fun highlighting() {
         // Token
         val (content, highlighted) = HighlightToken("foo")
 
@@ -37,6 +39,59 @@ internal class KotlinDX {
         invoke.tokens
         invoke.highlightedTokens
         invoke.original
+    }
+
+    @Test
+    fun hits() {
+        // TODO
+    }
+
+    @Test
+    fun loading() {
+        val viewModel = LoadingViewModel()
+        viewModel.eventReload
+        viewModel.isLoading
+    }
+
+    @Test
+    fun map() {
+        // TODO
+    }
+
+    @Test
+    fun number() {
+        // TODO
+    }
+
+    @Test
+    fun searchbox() {
+        // TODO
+    }
+
+    @Test
+    fun searcher() {
+        // TODO
+    }
+
+    @Test
+    fun searchable() {
+        // TODO
+    }
+
+    @Test
+    fun subscription() {
+        val subscription = Subscription<Boolean>()
+        val block: (Boolean) -> Unit = {
+            val foo = !it
+        }
+        subscription.subscribe(block)
+        subscription.unsubscribe(block)
+        subscription.unsubscribeAll()
+    }
+
+    @Test
+    fun tree() {
+        // TODO
     }
 
     companion object {
