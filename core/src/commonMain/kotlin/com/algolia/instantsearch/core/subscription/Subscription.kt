@@ -22,6 +22,7 @@ public open class Subscription<T> {
      *
      * @param subscription the callback to execute.
      */
+    @JvmSynthetic
     public fun subscribe(subscription: (T) -> Unit) {
         subscriptions += CallbackImpl(subscription)
     }
@@ -31,6 +32,7 @@ public open class Subscription<T> {
      *
      * @param subscription a previously subscribed callback.
      */
+    @JvmSynthetic
     public fun unsubscribe(subscription: (T) -> Unit) {
         subscriptions -= CallbackImpl(subscription)
     }
