@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.core.highlighting
 
+import kotlin.jvm.JvmField
 import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmSynthetic
 
@@ -8,7 +9,9 @@ import kotlin.jvm.JvmSynthetic
  * for building your UI. It can be customized to arbitrary pre/post tags.
  */
 public class HighlightTokenizer @JvmOverloads constructor(
+    @JvmField
     public val preTag: String = DefaultPreTag,
+    @JvmField
     public val postTag: String = DefaultPostTag
 ) : (String) -> HighlightedString {
 

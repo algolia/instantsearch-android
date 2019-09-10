@@ -9,12 +9,18 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
+import kotlin.jvm.JvmField
+import kotlin.jvm.JvmOverloads
 
 
-public class SearcherSingleIndex(
+public class SearcherSingleIndex @JvmOverloads constructor(
+    @JvmField
     public var index: Index,
+    @JvmField
     public val query: Query = Query(),
+    @JvmField
     public val requestOptions: RequestOptions? = null,
+    @JvmField
     public val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope()
 ) : Searcher<ResponseSearch> {
