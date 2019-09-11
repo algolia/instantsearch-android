@@ -21,7 +21,7 @@ public open class HierarchicalViewModel(
     public val eventHierarchicalPath = SubscriptionEvent<HierarchicalPath>()
 
     init {
-        require(!hierarchicalAttributes.isEmpty()) { "HierarchicalAttributes should not be empty" }
+        require(hierarchicalAttributes.isNotEmpty()) { "HierarchicalAttributes should not be empty" }
     }
 
     /**
