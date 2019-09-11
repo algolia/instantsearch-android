@@ -1,3 +1,8 @@
+# 2.0.3
+
+- Fix an issue with `SearcherSingleIndexDataSource` and `SearcherMultipleIndexDataSource` where responses and errors
+were not dispatched to the main thread.
+
 # 2.0.2
 
 - Updated Kotlin client to `1.1.4`
