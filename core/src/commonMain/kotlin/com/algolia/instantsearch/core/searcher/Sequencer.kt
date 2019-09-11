@@ -5,8 +5,16 @@ import kotlinx.coroutines.Job
 import kotlin.jvm.JvmField
 import kotlin.jvm.JvmSynthetic
 
-
+/**
+ * A component that can sequence the operations it receives,
+ * ensuring a [maximum number of concurrent operations][maxOperations]
+ * by canceling its oldest job when a new one arrives.
+ */
 public class Sequencer(
+
+    /**
+     * How many concurrent operations are allowed.
+     */
     @JvmField
     public val maxOperations: Int = 5
 ) {

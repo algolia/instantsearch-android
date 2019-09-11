@@ -13,13 +13,28 @@ import kotlin.jvm.JvmField
 import kotlin.jvm.JvmSynthetic
 
 
+/**
+ * A specialized Searcher made to target several indices.
+ */
 public class SearcherMultipleIndex(
+    /**
+     * The [ClientSearch] used for sending requests.
+     */
     @JvmField
     public val client: ClientSearch,
+    /**
+     * The [queries][IndexQuery] used when searching.
+     */
     @JvmField
     public val queries: List<IndexQuery>,
+    /**
+     * The [strategy][MultipleQueriesStrategy] used for processing queries.
+     */
     @JvmField
     public val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
+    /**
+     * Eventual [options][RequestOptions] applied to the searches.
+     */
     @JvmField
     public val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope()
