@@ -1,5 +1,6 @@
 package dx;
 
+import com.algolia.instantsearch.core.Callback;
 import com.algolia.instantsearch.core.connection.ConnectionHandler;
 import com.algolia.instantsearch.core.connection.ConnectionImpl;
 import com.algolia.instantsearch.core.highlighting.HighlightTags;
@@ -263,7 +264,7 @@ public class JavaDX {
     @Test
     public void subscription() {
         Subscription<Boolean> subscription = new Subscription<>();
-        final Subscription.Callback<Boolean> callback = it -> fail("Why not?");
+        final Callback<Boolean> callback = it -> System.out.println("Hello callback!");
         subscription.subscribe(callback);
         subscription.unsubscribe(callback);
         subscription.unsubscribeAll();

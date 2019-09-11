@@ -2,6 +2,8 @@
 
 package com.algolia.instantsearch.core.subscription
 
+import com.algolia.instantsearch.core.Callback
+import com.algolia.instantsearch.core.CallbackImpl
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmSynthetic
 
@@ -60,19 +62,5 @@ public open class Subscription<T> {
      */
     public fun unsubscribe(callback: Callback<T>) {
         subscriptions -= callback
-    }
-
-    /**
-     * A Callback that can be invoked by any Subscription.
-     */
-    public interface Callback<T> { //TODO: Refactor using global Callback, itself refactored
-        public operator fun invoke(item: T)
-    }
-
-    /**
-     * The default [Callback] implementation.
-     */
-    class CallbackImpl<T>(val block: (T) -> Unit) : Callback<T> {
-        override fun invoke(item: T) = block.invoke(item)
     }
 }

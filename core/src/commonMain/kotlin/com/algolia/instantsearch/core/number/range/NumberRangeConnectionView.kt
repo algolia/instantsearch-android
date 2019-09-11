@@ -1,7 +1,9 @@
 package com.algolia.instantsearch.core.number.range
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
+import com.algolia.instantsearch.core.CallbackImpl
+import com.algolia.instantsearch.core.CallbackRange
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 internal data class NumberRangeConnectionView<T>(
@@ -9,10 +11,10 @@ internal data class NumberRangeConnectionView<T>(
     private val view: NumberRangeView<T>
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
-    private val updateBounds: Callback<Range<T>?> = { bounds ->
+    private val updateBounds: Callback<Range<T>?> = CallbackRange { bounds ->
         view.setBounds(bounds)
     }
-    private val updateRange: Callback<Range<T>?> = { range ->
+    private val updateRange: Callback<Range<T>?> = CallbackRange { range ->
         view.setRange(range)
     }
 
@@ -20,7 +22,7 @@ internal data class NumberRangeConnectionView<T>(
         super.connect()
         viewModel.bounds.subscribePast(updateBounds)
         viewModel.range.subscribePast(updateRange)
-        view.onRangeChanged = (viewModel.eventRange::send)
+        view.onRangeChanged = CallbackRange { viewModel.eventRange.send(it) }
     }
 
     override fun disconnect() {

@@ -1,11 +1,11 @@
 package com.algolia.instantsearch.core.loading
 
-import com.algolia.instantsearch.core.Callback
+import com.algolia.instantsearch.core.CallbackUnit
 
 
 public interface LoadingView {
 
-    var onReload: Callback<Unit>?
+    var onReload: CallbackUnit?
 
     public fun setIsLoading(isLoading: Boolean)
 }

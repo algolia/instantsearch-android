@@ -1,7 +1,9 @@
 package com.algolia.instantsearch.core.loading
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
+import com.algolia.instantsearch.core.CallbackImpl
+import com.algolia.instantsearch.core.CallbackUnit
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 
 internal data class LoadingConnectionView(
@@ -9,14 +11,14 @@ internal data class LoadingConnectionView(
     private val view: LoadingView
 ) : ConnectionImpl() {
 
-    private val updateIsLoading: Callback<Boolean> = { isLoading ->
+    private val updateIsLoading: Callback<Boolean> = CallbackImpl { isLoading ->
         view.setIsLoading(isLoading)
     }
 
     override fun connect() {
         super.connect()
         viewModel.isLoading.subscribePast(updateIsLoading)
-        view.onReload = (viewModel.eventReload::send)
+        view.onReload = CallbackUnit { viewModel.eventReload.send(Unit) }
     }
 
     override fun disconnect() {

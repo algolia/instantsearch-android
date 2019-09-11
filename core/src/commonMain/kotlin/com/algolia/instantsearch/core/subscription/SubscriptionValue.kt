@@ -12,7 +12,7 @@ public class SubscriptionValue<T>(initialValue: T) : Subscription<T>() {
         subscriptions.forEach { it(newValue) }
     }
 
-    public fun subscribePast(subscription: com.algolia.instantsearch.core.Callback<T>) {
+    public fun subscribePast(subscription: Callback<T>) {
         subscription(value)
         subscribe(subscription)
     }
