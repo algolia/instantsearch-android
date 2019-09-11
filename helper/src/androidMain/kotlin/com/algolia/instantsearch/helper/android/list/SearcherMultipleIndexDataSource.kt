@@ -30,7 +30,7 @@ public class SearcherMultipleIndexDataSource<T>(
     private var initialLoadSize: Int = 30
 
     init {
-        if (index == -1) throw IllegalArgumentException("The IndexQuery is not present in SearcherMultipleIndex")
+        require(index != -1) { "The IndexQuery is not present in SearcherMultipleIndex" }
     }
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, T>) {

@@ -12,8 +12,7 @@ public class Sequencer(
 ) {
 
     init {
-        if (maxOperations <= 0)
-            throw IllegalArgumentException("Sequencer maxOperations should be higher than 0.")
+        require(maxOperations > 0) { "Sequencer maxOperations should be higher than 0." }
     }
 
     internal val operations = atomicArrayOfNulls<Job>(maxOperations)
