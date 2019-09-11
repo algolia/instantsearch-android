@@ -7,6 +7,7 @@ import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 
 public class SearcherMultipleIndexDataSource<T>(
@@ -44,12 +45,16 @@ public class SearcherMultipleIndexDataSource<T>(
                 val result = response.results[index]
                 val nextKey = if (result.nbHits > initialLoadSize) 1 else null
 
-                searcher.isLoading.value = false
-                searcher.response.value = response
+                withContext(searcher.coroutineScope.coroutineContext) {
+                    searcher.response.value = response
+                    searcher.isLoading.value = false
+                }
                 callback.onResult(result.hits.map(transformer), 0, result.nbHits, null, nextKey)
             } catch (throwable: Throwable) {
-                searcher.error.value = throwable
-                searcher.isLoading.value = false
+                withContext(searcher.coroutineScope.coroutineContext) {
+                    searcher.error.value = throwable
+                    searcher.isLoading.value = false
+                }
             }
         }
     }
@@ -67,12 +72,16 @@ public class SearcherMultipleIndexDataSource<T>(
                 val result = response.results[index]
                 val nextKey = if (page + 1 < result.nbPages) params.key + 1 else null
 
-                searcher.response.value = response
-                searcher.isLoading.value = false
+                withContext(searcher.coroutineScope.coroutineContext) {
+                    searcher.response.value = response
+                    searcher.isLoading.value = false
+                }
                 callback.onResult(result.hits.map(transformer), nextKey)
             } catch (throwable: Throwable) {
-                searcher.error.value = throwable
-                searcher.isLoading.value = false
+                withContext(searcher.coroutineScope.coroutineContext) {
+                    searcher.error.value = throwable
+                    searcher.isLoading.value = false
+                }
             }
         }
     }
