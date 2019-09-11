@@ -9,18 +9,26 @@ import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
+import kotlin.jvm.JvmField
+import kotlin.jvm.JvmSynthetic
 
 
 public class SearcherForFacets(
+    @JvmField
     public var index: Index,
+    @JvmField
     public val attribute: Attribute,
+    @JvmField
     public val query: Query = Query(),
+    @JvmField
     public var facetQuery: String? = null,
+    @JvmField
     public val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope()
 ) : Searcher<ResponseSearchForFacets> {
 
     internal val sequencer = Sequencer()
+        @JvmSynthetic get
 
     override val isLoading = SubscriptionValue(false)
     override val error = SubscriptionValue<Throwable?>(null)

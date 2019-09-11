@@ -6,11 +6,13 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmSynthetic
 
 
 public interface Searcher<R> {
 
     public val coroutineScope: CoroutineScope
+        @JvmSynthetic get
 
     public val isLoading: SubscriptionValue<Boolean>
     public val error: SubscriptionValue<Throwable?>

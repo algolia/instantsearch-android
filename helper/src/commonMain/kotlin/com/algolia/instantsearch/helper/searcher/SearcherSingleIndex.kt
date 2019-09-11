@@ -11,6 +11,7 @@ import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
 import kotlin.jvm.JvmField
 import kotlin.jvm.JvmOverloads
+import kotlin.jvm.JvmSynthetic
 
 
 public class SearcherSingleIndex @JvmOverloads constructor(
@@ -26,6 +27,7 @@ public class SearcherSingleIndex @JvmOverloads constructor(
 ) : Searcher<ResponseSearch> {
 
     internal val sequencer = Sequencer()
+        @JvmSynthetic get
 
     override val isLoading = SubscriptionValue(false)
     override val error = SubscriptionValue<Throwable?>(null)
@@ -35,6 +37,7 @@ public class SearcherSingleIndex @JvmOverloads constructor(
     private val exceptionHandler = SearcherExceptionHandler(this)
 
     internal var filterGroups: Set<FilterGroup<*>> = setOf()
+        @JvmSynthetic get
 
     override fun setQuery(text: String?) {
         this.query.query = text

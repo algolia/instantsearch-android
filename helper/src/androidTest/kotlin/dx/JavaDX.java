@@ -12,24 +12,37 @@ import com.algolia.instantsearch.core.number.NumberPresenterImpl;
 import com.algolia.instantsearch.core.number.NumberViewModel;
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel;
 import com.algolia.instantsearch.core.number.range.Range;
+import com.algolia.instantsearch.core.searcher.Searcher;
 import com.algolia.instantsearch.core.searcher.SearcherConstants;
+import com.algolia.instantsearch.core.searcher.Sequencer;
 import com.algolia.instantsearch.core.subscription.Subscription;
 import com.algolia.instantsearch.core.subscription.SubscriptionValue;
+import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
+import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex;
 import com.algolia.search.client.ClientSearch;
 import com.algolia.search.client.Index;
+import com.algolia.search.model.Attribute;
+import com.algolia.search.model.multipleindex.IndexQuery;
+import com.algolia.search.model.multipleindex.MultipleQueriesStrategy;
 import com.algolia.search.model.response.ResponseSearch;
+import com.algolia.search.model.response.ResponseSearchForFacets;
+import com.algolia.search.model.response.ResponseSearches;
 import com.algolia.search.model.search.Query;
+import com.algolia.search.model.settings.AttributeForFaceting;
 import com.algolia.search.transport.RequestOptions;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import kotlin.ranges.LongRange;
+import kotlinx.coroutines.Job;
 
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -40,6 +53,10 @@ import static org.mockito.Mockito.when;
 public class JavaDX {
 
     private static SearcherSingleIndex searcherSingleIndex;
+    private static SearcherMultipleIndex searcherMultipleIndex;
+    private static SearcherForFacets searcherForFacets;
+    private static List<Searcher<?>> searchers;
+
     private static Query query = mock(Query.class);
     private static ClientSearch client = mock(ClientSearch.class);
     private static RequestOptions requestOptions = new RequestOptions();
@@ -47,16 +64,27 @@ public class JavaDX {
     //region Test Setup
     @BeforeClass
     public static void setUp() {
-        query = new Query();
-        requestOptions = new RequestOptions();
-
-
+        // region Prepare Searcher mocks
         final SubscriptionValue<Throwable> error = new SubscriptionValue<>(new Exception());
         final SubscriptionValue<ResponseSearch> responseSearch = new SubscriptionValue<>(new ResponseSearch());
+        final SubscriptionValue<ResponseSearches> responseSearches = new SubscriptionValue<>(new ResponseSearches(Collections.singletonList(responseSearch.getValue())));
+        final SubscriptionValue<ResponseSearchForFacets> responseSearchForFacet = new SubscriptionValue<>(new ResponseSearchForFacets(Collections.emptyList(), true, 0));
+
         searcherSingleIndex = mock(SearcherSingleIndex.class);
-        when(searcherSingleIndex.getError()).thenReturn(error);
+        searcherMultipleIndex = mock(SearcherMultipleIndex.class);
+        searcherForFacets = mock(SearcherForFacets.class);
+        searchers = Arrays.asList(searcherSingleIndex, searcherMultipleIndex, searcherForFacets);
+
+        searchers.forEach(searcher -> {
+            when(searcher.getError()).thenReturn(error);
+            when(searcher.isLoading()).thenReturn(new SubscriptionValue<>(true));
+            when(searcher.searchAsync()).thenReturn(mock(Job.class));
+        });
+        //FIXME: Why does IDE say `Cannot resolve method`?
         when(searcherSingleIndex.getResponse()).thenReturn(responseSearch);
-        when(searcherSingleIndex.isLoading()).thenReturn(new SubscriptionValue<>(true));
+        when(searcherMultipleIndex.getResponse()).thenReturn(responseSearches);
+        when(searcherForFacets.getResponse()).thenReturn(responseSearchForFacet);
+        //endregion
     }
 
 
@@ -173,31 +201,62 @@ public class JavaDX {
         long constB = SearcherConstants.debounceSearchInMillis;
         long constC = SearcherConstants.debounceFilteringInMillis;
 
-        // TODO Debouncer - currently blocked by creation of CoroutineScope, then  needs a refactoring around Function1/Function2
+        // TODO Debouncer - currently blocked by creation of CoroutineScope, then needs a refactoring around Function1/Function2
 
         // Searcher
-
-        searcherSingleIndex.getError().subscribe(System.out::println);
-        searcherSingleIndex.getResponse().getValue();
-        searcherSingleIndex.isLoading().subscribe(it -> System.out.println(it ? "Loading..." : "Done loading"));
-        searcherSingleIndex.setQuery("foo");
-        searcherSingleIndex.searchAsync();
-        searcherSingleIndex.cancel();
+        searchers.forEach(searcher -> {
+            searcher.getError().subscribe(System.out::println);
+            searcher.getResponse().getValue();
+            searcher.isLoading().subscribe(it -> System.out.println(it ? "Loading..." : "Done loading"));
+            searcher.setQuery("foo");
+            searcher.searchAsync();
+            searcher.cancel();
+        });
 
         // SearcherSingleIndex
-        final Index index = searcherSingleIndex.index;
-        final Query query = searcherSingleIndex.query;
-        final RequestOptions requestOptions = searcherSingleIndex.requestOptions;
+        //FIXME: Why does IDE report `Incompatible types`?
+        Index index = searcherSingleIndex.index;
+        Query query = searcherSingleIndex.query;
+        RequestOptions requestOptions = searcherSingleIndex.requestOptions;
         final Boolean isDisjunctiveFacetingEnabled = searcherSingleIndex.isDisjunctiveFacetingEnabled;
+        final ResponseSearch responseSearch = searcherSingleIndex.getResponse().getValue();
 
-        // TODO SearcherMultipleIndex
-        // TODO SearcherForFacets
+        //FIXME: Why does IDE report `Incompatible types`?
+        final List<IndexQuery> queries = searcherMultipleIndex.queries;
+        final ClientSearch client = searcherMultipleIndex.client;
+        requestOptions = searcherMultipleIndex.requestOptions;
+        final MultipleQueriesStrategy strategy = searcherMultipleIndex.strategy;
+        final ResponseSearches responseSearches = searcherMultipleIndex.getResponse().getValue();
+
+        // SearcherForFacets
+        index = searcherForFacets.index;
+        final Attribute attribute = searcherForFacets.attribute;
+        query = searcherForFacets.query;
+        final String facetQuery = searcherForFacets.facetQuery;
+        requestOptions = searcherForFacets.requestOptions;
+        final ResponseSearchForFacets responseSearchForFacets = searcherForFacets.getResponse().getValue();
+
+        // Sequencer
+        Sequencer sequencer = new Sequencer();
+        final int maxOperations = sequencer.maxOperations;
+        searchers.forEach(s -> sequencer.addOperation(s.searchAsync()));
+        sequencer.getCurrentOperation();
+        sequencer.cancelAll();
+    }
+
+    @Test
+    public void selectable() {
 
     }
 
     @Test
-    public void searchable() {
-        // TODO
+    public void selectable_list() {
+
+    }
+
+    @Test
+    public void selectable_map() {
+
     }
 
 

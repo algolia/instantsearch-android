@@ -2,9 +2,12 @@ package com.algolia.instantsearch.core.searcher
 
 import kotlinx.atomicfu.atomicArrayOfNulls
 import kotlinx.coroutines.Job
+import kotlin.jvm.JvmField
+import kotlin.jvm.JvmSynthetic
 
 
 public class Sequencer(
+    @JvmField
     public val maxOperations: Int = 5
 ) {
 
@@ -14,9 +17,10 @@ public class Sequencer(
     }
 
     internal val operations = atomicArrayOfNulls<Job>(maxOperations)
+        @JvmSynthetic get
 
     public val currentOperationOrNull: Job?
-        get() {
+        @JvmSynthetic get() {
             val index = (0 until maxOperations).findLast { operations[it].value != null }
 
             return index?.let { operations[it].value }
@@ -37,7 +41,8 @@ public class Sequencer(
             repeat(maxOperations) {
                 if (it == 0) operations[it].value!!.cancel()
 
-                operations[it].value = if (it == maxOperations - 1) operation else operations[it + 1].value
+                operations[it].value =
+                    if (it == maxOperations - 1) operation else operations[it + 1].value
             }
         }
         operation.invokeOnCompletion { operationCompleted(operation) }
@@ -54,7 +59,8 @@ public class Sequencer(
                 val afterIndex = index + it + 1
 
                 if (it < index) operations[it].value!!.cancel()
-                operations[it].value = if (afterIndex < maxOperations) operations[afterIndex].value else null
+                operations[it].value =
+                    if (afterIndex < maxOperations) operations[afterIndex].value else null
             }
         }
     }
