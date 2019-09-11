@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 internal data class SearcherConnectionView<T, R>(
     private val searcher: Searcher<R>,
-    private val view: (T) -> Unit,
+    private val view: Callback<T>,
     private val transform: (R?) -> T
 ) : ConnectionImpl() {
 

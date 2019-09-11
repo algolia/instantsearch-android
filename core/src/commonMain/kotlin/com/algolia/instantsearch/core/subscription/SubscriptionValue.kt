@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.core.subscription
 
+import com.algolia.instantsearch.core.Callback
 import kotlin.properties.Delegates
 
 /**
@@ -11,7 +12,7 @@ public class SubscriptionValue<T>(initialValue: T) : Subscription<T>() {
         subscriptions.forEach { it(newValue) }
     }
 
-    public fun subscribePast(subscription: (T) -> Unit) {
+    public fun subscribePast(subscription: com.algolia.instantsearch.core.Callback<T>) {
         subscription(value)
         subscribe(subscription)
     }
