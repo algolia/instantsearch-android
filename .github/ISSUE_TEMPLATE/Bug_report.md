@@ -26,7 +26,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Environment:**
  - OS: [e.g. iOS / windows / mac / android]
- - Version [e.g. 22]
+ - Library Version [e.g. 1.1.0]
 
 **Additional context**
 Add any other context about the problem here.
