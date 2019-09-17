@@ -1,5 +1,6 @@
 package dx
 
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.highlighting.DefaultPostTag
@@ -8,7 +9,9 @@ import com.algolia.instantsearch.core.highlighting.HighlightToken
 import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.core.hits.connectHitsView
+import com.algolia.instantsearch.core.loading.LoadingView
 import com.algolia.instantsearch.core.loading.LoadingViewModel
+import com.algolia.instantsearch.core.loading.connectView
 import com.algolia.instantsearch.core.map.MapViewModel
 import com.algolia.instantsearch.core.number.Computation
 import com.algolia.instantsearch.core.number.NumberPresenterImpl
@@ -16,6 +19,7 @@ import com.algolia.instantsearch.core.number.decrement
 import com.algolia.instantsearch.core.number.increment
 import com.algolia.instantsearch.core.searcher.*
 import com.algolia.instantsearch.core.subscription.Subscription
+import com.algolia.instantsearch.helper.loading.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -25,6 +29,7 @@ import kotlin.test.Test
 
 internal class KotlinDX {
 
+    //TODO: Maybe it's worth introducing mocked objects to avoid cumbersome nullability
     private var searcherSingleIndex: SearcherSingleIndex? = null
     private var searcherMultipleIndex: SearcherMultipleIndex? = null
     private var searcherForFacets: SearcherForFacets? = null
@@ -81,6 +86,19 @@ internal class KotlinDX {
         val viewModel = LoadingViewModel()
         viewModel.eventReload
         viewModel.isLoading
+
+        val view = object : LoadingView {
+            private var isLoading: Boolean = false
+
+            override var onReload: Callback<Unit>? = null
+
+            override fun setIsLoading(isLoading: Boolean) {
+                this.isLoading = isLoading
+            }
+        }
+        viewModel.connectView(view)
+        searcherSingleIndex?.let { viewModel.connectSearcher(it) }
+        searcherSingleIndex?.let { viewModel.connectSearcher(it, Debouncer(42)) }
     }
 
     @Test

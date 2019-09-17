@@ -15,11 +15,13 @@ import com.algolia.instantsearch.core.number.NumberPresenterImpl;
 import com.algolia.instantsearch.core.number.NumberViewModel;
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel;
 import com.algolia.instantsearch.core.number.range.Range;
+import com.algolia.instantsearch.core.searcher.Debouncer;
 import com.algolia.instantsearch.core.searcher.Searcher;
 import com.algolia.instantsearch.core.searcher.SearcherConstants;
 import com.algolia.instantsearch.core.searcher.Sequencer;
 import com.algolia.instantsearch.core.subscription.Subscription;
 import com.algolia.instantsearch.core.subscription.SubscriptionValue;
+import com.algolia.instantsearch.helper.loading.Loading;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex;
@@ -157,8 +159,28 @@ public class JavaDX {
         });
         viewModel.isLoading.getValue();
 
-        // TODO View
-        // TODO Connection
+        // TODO LoadingView - can't be done without a Java-friendly `Callback()` due to onReload
+//        LoadingView view = new LoadingView() {
+//            @Nullable
+//            @Override
+//            public Function1<Unit, Unit> getOnReload() {
+//                return null;
+//            }
+//
+//            @Override
+//            public void setOnReload(@Nullable Function1<? super Unit, Unit> nonExistentClass) {
+//
+//            }
+//
+//            @Override
+//            public void setIsLoading(boolean isLoading) {
+//
+//            }
+//        }
+//        viewModel.connectView(view)
+        //FIXME: Why does IDE report "Wrong 2nd argument type"?
+        Loading.connectSearcher(viewModel, searcherSingleIndex);
+        Loading.connectSearcher(viewModel, searcherSingleIndex, new Debouncer(42));
     }
 
     @Test
