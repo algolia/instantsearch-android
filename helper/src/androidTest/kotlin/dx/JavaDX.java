@@ -15,6 +15,7 @@ import com.algolia.instantsearch.core.number.NumberPresenterImpl;
 import com.algolia.instantsearch.core.number.NumberViewModel;
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel;
 import com.algolia.instantsearch.core.number.range.Range;
+import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel;
 import com.algolia.instantsearch.core.searcher.Debouncer;
 import com.algolia.instantsearch.core.searcher.Searcher;
 import com.algolia.instantsearch.core.searcher.SearcherConstants;
@@ -190,6 +191,8 @@ public class JavaDX {
 
         // ViewModel
         NumberViewModel<Integer> viewModel = new NumberViewModel<>();
+        viewModel = new NumberViewModel<>(0);
+        viewModel = new NumberViewModel<>(0, new Range<>(0, 10));
         viewModel.eventNumber.subscribe(viewModel.number::setValue);
         viewModel.coerce(-1);
         viewModel.number.getValue();
@@ -225,7 +228,13 @@ public class JavaDX {
 
     @Test
     public void searchbox() {
-        // TODO
+        SearchBoxViewModel viewModel = new SearchBoxViewModel();
+        viewModel.query.subscribe(System.out::println);
+        viewModel.eventSubmit.send("foo");
+
+        // TODO View - can't be done without a Java-friendly `Callback()` due to onQueryXX
+//        SearchBoxView view = new SearchBoxView() {}
+//        SearchBox.connectView(viewModel, view);
     }
 
     @Test

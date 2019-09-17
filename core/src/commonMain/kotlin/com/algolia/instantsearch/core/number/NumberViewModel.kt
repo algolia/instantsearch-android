@@ -5,9 +5,10 @@ import com.algolia.instantsearch.core.number.range.coerce
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmOverloads
 
 
-public open class NumberViewModel<T>(
+public open class NumberViewModel<T> @JvmOverloads constructor(
     number: T? = null,
     bounds: Range<T>? = null
 ) where T : Number, T : Comparable<T> {

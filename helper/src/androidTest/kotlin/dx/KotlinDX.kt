@@ -33,7 +33,10 @@ import com.algolia.search.model.response.ResponseSearch
 import org.junit.AfterClass
 import kotlin.test.Test
 
-@Suppress("UNUSED_VARIABLE") // Variables are created just to assess DX
+@Suppress(
+    "UNUSED_VARIABLE",
+    "VARIABLE_WITH_REDUNDANT_INITIALIZER"
+) // Variables are created just to assess DX
 internal class KotlinDX {
 
     //TODO: Maybe it's worth introducing mocked objects to avoid cumbersome nullability
@@ -132,7 +135,9 @@ internal class KotlinDX {
         computationDouble.decrement(1.0)
 
         // ViewModel
-        val viewModel = NumberViewModel<Int>()
+        var viewModel = NumberViewModel<Int>()
+        viewModel = NumberViewModel(0)
+        viewModel = NumberViewModel(0, Range(0..10))
         viewModel.eventNumber.subscribe { viewModel.number.value = it }
         viewModel.coerce(-1)
         viewModel.number.value

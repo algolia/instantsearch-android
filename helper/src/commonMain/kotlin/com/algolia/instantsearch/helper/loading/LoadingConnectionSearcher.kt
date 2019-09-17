@@ -7,8 +7,7 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 
 /**
- * A connection between a LoadingViewModel and a Searcher,
- * updating the viewModel's state according to the Searcher's requests.
+ * @see connectSearcher
  */
 internal data class LoadingConnectionSearcher<R>(
     private val viewModel: LoadingViewModel,

@@ -6,8 +6,7 @@ import kotlin.jvm.JvmOverloads
 
 
 /**
- * A connection between a NumberViewModel and a NumberView,
- * updating the view when the viewModel's data changes.
+ * @see connectView
  */
 internal data class NumberConnectionView<T> @JvmOverloads constructor(
     private val viewModel: NumberViewModel<T>,
