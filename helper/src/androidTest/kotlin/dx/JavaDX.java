@@ -160,24 +160,9 @@ public class JavaDX {
         viewModel.isLoading.getValue();
 
         // TODO LoadingView - can't be done without a Java-friendly `Callback()` due to onReload
-//        LoadingView view = new LoadingView() {
-//            @Nullable
-//            @Override
-//            public Function1<Unit, Unit> getOnReload() {
-//                return null;
-//            }
-//
-//            @Override
-//            public void setOnReload(@Nullable Function1<? super Unit, Unit> nonExistentClass) {
-//
-//            }
-//
-//            @Override
-//            public void setIsLoading(boolean isLoading) {
-//
-//            }
-//        }
-//        viewModel.connectView(view)
+//        LoadingView view = new LoadingView() {}
+//        Loading.connectView(viewModel, view)
+
         //FIXME: Why does IDE report "Wrong 2nd argument type"?
         Loading.connectSearcher(viewModel, searcherSingleIndex);
         Loading.connectSearcher(viewModel, searcherSingleIndex, new Debouncer(42));
@@ -211,11 +196,13 @@ public class JavaDX {
         viewModel.bounds.setValue(new Range<>(0, 10));
 
         // Presenter
-        NumberPresenterImpl.INSTANCE.present(10);
+        final NumberPresenterImpl presenter = NumberPresenterImpl.INSTANCE;
+        presenter.present(10);
 
-        // TODO View
-
-        // TODO Connection
+        // TODO NumberView - can't be done without a Java-friendly `Computation()` due to setComputation
+//        NumberView<Integer> view = new NumberView<Integer>() {};
+//        Number.connectView(viewModel, view);
+//        Number.connectView(viewModel, view, presenter);
     }
 
     @Test
