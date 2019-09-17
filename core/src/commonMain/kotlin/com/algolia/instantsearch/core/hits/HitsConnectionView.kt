@@ -6,6 +6,10 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searcher.Searcher
 
 
+/**
+ * A connection between a Searcher and a HitsView,
+ * updating the view's data according to the Searcher's responses.
+ */
 internal data class HitsConnectionView<R, T>(
     private val searcher: Searcher<R>,
     private val view: HitsView<T>,
