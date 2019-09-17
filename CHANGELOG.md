@@ -1,3 +1,7 @@
+# 2.1.0
+
+- Added a method `SearcherMultipleIndex.connectFilterState` #182
+
 # 2.0.3
 
 - Fix an issue with `SearcherSingleIndexDataSource` and `SearcherMultipleIndexDataSource` where responses and errors
