@@ -18,6 +18,9 @@ import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.number.range.connectView
+import com.algolia.instantsearch.core.searchbox.SearchBoxView
+import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
+import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.searcher.*
 import com.algolia.instantsearch.core.subscription.Subscription
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
@@ -183,7 +186,17 @@ internal class KotlinDX {
 
     @Test
     fun searchbox() {
-        // TODO
+        val viewModel = SearchBoxViewModel()
+        viewModel.query.subscribe { println(it) }
+        viewModel.eventSubmit.send("foo")
+
+        // TODO View - can't be done without a Java-friendly `Callback()` due to onQueryXX
+        val view = object : SearchBoxView {
+            override var onQueryChanged: Callback<String?>? = null
+            override var onQuerySubmitted: Callback<String?>? = null
+            override fun setText(text: String?, submitQuery: Boolean) {}
+        }
+        viewModel.connectView(view)
     }
 
     @Test
