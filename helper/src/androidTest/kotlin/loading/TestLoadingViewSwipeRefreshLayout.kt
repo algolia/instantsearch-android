@@ -9,7 +9,6 @@ import com.algolia.instantsearch.core.loading.connectView
 import com.algolia.instantsearch.helper.android.loading.LoadingViewSwipeRefreshLayout
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import shouldBeFalse
 import shouldBeTrue
 
