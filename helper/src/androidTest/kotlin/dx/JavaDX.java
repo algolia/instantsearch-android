@@ -1,11 +1,14 @@
 package dx;
 
+import com.algolia.instantsearch.core.connection.Connection;
 import com.algolia.instantsearch.core.connection.ConnectionHandler;
 import com.algolia.instantsearch.core.connection.ConnectionImpl;
 import com.algolia.instantsearch.core.highlighting.HighlightTags;
 import com.algolia.instantsearch.core.highlighting.HighlightToken;
 import com.algolia.instantsearch.core.highlighting.HighlightTokenizer;
 import com.algolia.instantsearch.core.highlighting.HighlightedString;
+import com.algolia.instantsearch.core.hits.Hits;
+import com.algolia.instantsearch.core.hits.HitsView;
 import com.algolia.instantsearch.core.loading.LoadingViewModel;
 import com.algolia.instantsearch.core.map.MapViewModel;
 import com.algolia.instantsearch.core.number.NumberPresenterImpl;
@@ -29,9 +32,9 @@ import com.algolia.search.model.response.ResponseSearch;
 import com.algolia.search.model.response.ResponseSearchForFacets;
 import com.algolia.search.model.response.ResponseSearches;
 import com.algolia.search.model.search.Query;
-import com.algolia.search.model.settings.AttributeForFaceting;
 import com.algolia.search.transport.RequestOptions;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -40,6 +43,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 
 import kotlin.ranges.LongRange;
 import kotlinx.coroutines.Job;
@@ -47,6 +51,8 @@ import kotlinx.coroutines.Job;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+//FIXME: Why is mockito not visible from IDE?
 
 
 @SuppressWarnings("UnusedAssignment")
@@ -127,7 +133,20 @@ public class JavaDX {
 
     @Test
     public void hits() {
-        // TODO All
+        HitsView<ResponseSearch.Hit> hitsView = new HitsView<ResponseSearch.Hit>() {
+            private List<? extends ResponseSearch.Hit> hits;
+
+            @Override
+            public void setHits(@NotNull List<? extends ResponseSearch.Hit> hits) {
+                this.hits = hits;
+            }
+        };
+        final Connection connection = Hits.<ResponseSearch, ResponseSearch.Hit>connectHitsView(searcherSingleIndex,
+                hitsView,
+                it -> it.getHits() // FIXME: Why doesn't IDE see the getHits method?
+        );
+        connection.connect();
+        if (connection.isConnected()) connection.disconnect();
     }
 
     @Test
@@ -156,7 +175,11 @@ public class JavaDX {
 
     @Test
     public void number() {
-        // TODO Computation - will need refactor typealias into interface
+        Integer valueInt = 0;
+//        Computation computation = it -> valueInt = it(valueInt);
+//        computation.increment(1, 1);
+//        computation.decrement(1);
+        //TODO: Refactor Computation as SMI to allow use from Java
 
         // ViewModel
         NumberViewModel<Integer> viewModel = new NumberViewModel<>();
@@ -240,7 +263,8 @@ public class JavaDX {
         Sequencer sequencer = new Sequencer();
         final int maxOperations = sequencer.maxOperations;
         searchers.forEach(s -> sequencer.addOperation(s.searchAsync()));
-        sequencer.getCurrentOperation();
+        //FIXME: Why does IDE report no `cancel` method?
+        sequencer.getCurrentOperation().cancel(new CancellationException());
         sequencer.cancelAll();
     }
 
