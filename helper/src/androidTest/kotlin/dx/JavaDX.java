@@ -57,7 +57,7 @@ import static org.mockito.Mockito.when;
 //FIXME: Why is mockito not visible from IDE?
 
 
-@SuppressWarnings("UnusedAssignment")
+@SuppressWarnings("UnusedAssignment") // Variables are created just to assess DX
 public class JavaDX {
 
     private static SearcherSingleIndex searcherSingleIndex;
@@ -182,11 +182,11 @@ public class JavaDX {
 
     @Test
     public void number() {
+        // TODO Computation - Refactor as SMI to allow use from Java
         Integer valueInt = 0;
 //        Computation computation = it -> valueInt = it(valueInt);
 //        computation.increment(1, 1);
 //        computation.decrement(1);
-        //TODO: Refactor Computation as SMI to allow use from Java
 
         // ViewModel
         NumberViewModel<Integer> viewModel = new NumberViewModel<>();
@@ -207,6 +207,7 @@ public class JavaDX {
 
     @Test
     public void number_range() {
+        // Range
         Range<Long> bounds = new Range<>(0L, 100L);
         // FIXME: Why does this display as error but compiles fine?
         Range<Long> range = Range.Companion.invoke(new LongRange(10L, 20L));
@@ -217,8 +218,9 @@ public class JavaDX {
         viewModel.coerce(bounds);
         viewModel.range.getValue();
 
-        // TODO View
-        // TODO Connection
+        // TODO View - can't be done without a Java-friendly `Callback()` due to onRangeChanged
+//        NumberRangeView view = new NumberRangeView() {}
+//        NumberRange.connectView(viewModel, view);
     }
 
     @Test

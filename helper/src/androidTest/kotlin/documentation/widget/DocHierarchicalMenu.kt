@@ -23,11 +23,11 @@ import org.junit.Ignore
 
 
 @Ignore
+@Suppress("UNUSED_PARAMETER") // Some implementations are left empty for the user to fill
 class DocHierarchicalMenu {
 
     class HierarchicalViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        @Suppress("UNUSED_PARAMETER")
         fun bind(item: HierarchicalItem, onClick: View.OnClickListener) {
             // Bind your view
         }

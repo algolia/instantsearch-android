@@ -13,20 +13,27 @@ import com.algolia.instantsearch.core.loading.LoadingView
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.loading.connectView
 import com.algolia.instantsearch.core.map.MapViewModel
-import com.algolia.instantsearch.core.number.Computation
-import com.algolia.instantsearch.core.number.NumberPresenterImpl
-import com.algolia.instantsearch.core.number.decrement
-import com.algolia.instantsearch.core.number.increment
+import com.algolia.instantsearch.core.number.*
+import com.algolia.instantsearch.core.number.range.NumberRangeView
+import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
+import com.algolia.instantsearch.core.number.range.Range
+import com.algolia.instantsearch.core.number.range.connectView
 import com.algolia.instantsearch.core.searcher.*
 import com.algolia.instantsearch.core.subscription.Subscription
+import com.algolia.instantsearch.helper.filter.range.connectFilterState
+import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterOperator
+import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.loading.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
 import org.junit.AfterClass
 import kotlin.test.Test
 
+@Suppress("UNUSED_VARIABLE") // Variables are created just to assess DX
 internal class KotlinDX {
 
     //TODO: Maybe it's worth introducing mocked objects to avoid cumbersome nullability
@@ -35,6 +42,9 @@ internal class KotlinDX {
     private var searcherForFacets: SearcherForFacets? = null
     private var searchers: List<Searcher<out Any>?> =
         listOf(searcherSingleIndex, searcherMultipleIndex, searcherForFacets)
+
+    private var filterState = FilterState()
+    private var attribute = Attribute("foo")
 
     @Test
     fun connection() {
@@ -67,14 +77,9 @@ internal class KotlinDX {
     @Test
     fun hits() {
         val hitsView = object : HitsView<ResponseSearch.Hit> {
-            private var hits: List<ResponseSearch.Hit>? = null
-
-            override fun setHits(hits: List<ResponseSearch.Hit>) {
-                this.hits = hits
-            }
+            override fun setHits(hits: List<ResponseSearch.Hit>) {}
         }
-        val connection =
-            searcherSingleIndex?.connectHitsView(hitsView) { it: ResponseSearch -> it.hits }
+        val connection = searcherSingleIndex?.connectHitsView(hitsView) { it -> it.hits }
         connection?.let {
             it.connect()
             if (it.isConnected) it.disconnect()
@@ -88,13 +93,8 @@ internal class KotlinDX {
         viewModel.isLoading
 
         val view = object : LoadingView {
-            private var isLoading: Boolean = false
-
             override var onReload: Callback<Unit>? = null
-
-            override fun setIsLoading(isLoading: Boolean) {
-                this.isLoading = isLoading
-            }
+            override fun setIsLoading(isLoading: Boolean) {}
         }
         viewModel.connectView(view)
         searcherSingleIndex?.let { viewModel.connectSearcher(it) }
@@ -103,6 +103,17 @@ internal class KotlinDX {
 
     @Test
     fun map() {
+        // ViewModel
+        val viewModel = MapViewModel(mapOf("id" to "value"))
+
+        viewModel.event.subscribe { viewModel.map.value = it }
+        viewModel.remove("id")
+        viewModel.map.value
+    }
+
+    @Test
+    fun number() {
+        // Computation
         var valueInt: Int? = null
         val computationInt: Computation<Int> = { valueInt = it(valueInt) }
         computationInt.increment(1, 1)
@@ -121,18 +132,48 @@ internal class KotlinDX {
         computationDouble.decrement(1.0)
 
         // ViewModel
-        val viewModel = MapViewModel(mapOf("id" to "value"))
-        viewModel.event.subscribe { viewModel.map.value = it }
-        viewModel.remove("id")
-        viewModel.map.value
+        val viewModel = NumberViewModel<Int>()
+        viewModel.eventNumber.subscribe { viewModel.number.value = it }
+        viewModel.coerce(-1)
+        viewModel.number.value
+        viewModel.bounds.value = Range(0..10)
 
         // Presenter
-        NumberPresenterImpl(10)
+        val presenter = NumberPresenterImpl
+        presenter(10)
+
+        // View
+        val view = object : NumberView<Int> {
+            override fun setText(text: String) {}
+            override fun setComputation(computation: Computation<Int>) {}
+        }
+        viewModel.connectView(view)
+        viewModel.connectView(view, presenter)
     }
 
     @Test
-    fun number() {
-        // TODO
+    fun number_range() {
+        // Range
+        val bounds = Range(0L, 100L)
+        val range = Range(LongRange(10L, 20L))
+
+        // ViewModel
+        val viewModel = NumberRangeViewModel(range, bounds)
+        viewModel.eventRange.subscribe { viewModel.range.value = it }
+        viewModel.coerce(bounds)
+        viewModel.range.value
+
+        val view = object : NumberRangeView<Long> {
+            override var onRangeChanged: Callback<Range<Long>>? = null
+
+            override fun setRange(range: Range<Long>?) {}
+
+            override fun setBounds(bounds: Range<Long>?) {}
+
+        }
+        viewModel.connectView(view)
+        viewModel.connectFilterState(filterState, attribute)
+        viewModel.connectFilterState(filterState, attribute, FilterGroupID(FilterOperator.Or))
     }
 
     @Test

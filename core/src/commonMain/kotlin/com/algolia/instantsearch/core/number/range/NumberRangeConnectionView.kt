@@ -4,6 +4,10 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
 
 
+/**
+ * A connection between a NumberRangeViewModel and a NumberRangeView,
+ * updating the view when the viewModel's data changes.
+ */
 internal data class NumberRangeConnectionView<T>(
     private val viewModel: NumberRangeViewModel<T>,
     private val view: NumberRangeView<T>
