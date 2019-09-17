@@ -1,5 +1,8 @@
+@file:JvmName("Computation")
+
 package com.algolia.instantsearch.core.number
 
+import kotlin.jvm.JvmName
 
 public typealias Computation<T> = (((T?) -> T?) -> Unit)
 
@@ -35,7 +38,7 @@ public fun Computation<Double>.decrement(step: Double = 1.0, default: Double = 0
     this { it?.minus(step) ?: default }
 }
 
-public fun <T: Number> Computation<T>.just(value: T?) {
+public fun <T : Number> Computation<T>.just(value: T?) {
     this { value }
 }
 
