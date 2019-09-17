@@ -1,3 +1,4 @@
+
 package documentation.guide
 
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -10,6 +11,7 @@ import com.algolia.search.model.IndexName
 import org.junit.Test
 
 
+@Suppress("UNUSED_VARIABLE")
 class GuideAnalyticsTag {
 
     private val index = ClientSearch(ApplicationID("app"), APIKey("key")).initIndex(IndexName("index"))
