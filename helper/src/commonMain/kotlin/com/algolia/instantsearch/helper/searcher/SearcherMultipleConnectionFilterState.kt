@@ -26,7 +26,7 @@ internal data class SearcherMultipleConnectionFilterState(
 
     init {
         require(index != -1) {
-            "No Index \"$indexName\" present in searcher current indices ${searcher.queries.map { it.indexName }}."
+            "No Index \"$indexName\" present in searcher current indices: ${searcher.queries.map { it.indexName }}."
         }
         searcher.updateFilters()
     }
