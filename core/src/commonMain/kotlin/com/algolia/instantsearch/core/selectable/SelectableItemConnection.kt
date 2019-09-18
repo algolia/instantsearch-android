@@ -1,7 +1,10 @@
+@file:JvmName("SelectableItem")
+
 package com.algolia.instantsearch.core.selectable
 
 import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.Connection
+import kotlin.jvm.JvmName
 
 /**
  * Connects this SelectableItemViewModel to a SelectableItemView,

@@ -4,7 +4,9 @@ import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
 
-
+/**
+ * @see connectView
+ */
 internal data class SelectableMapConnectionView<K, I, O>(
     private val viewModel: SelectableMapViewModel<K, I>,
     private val view: SelectableMapView<K, O>,

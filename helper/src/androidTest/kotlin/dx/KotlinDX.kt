@@ -26,6 +26,9 @@ import com.algolia.instantsearch.core.selectable.SelectableItemView
 import com.algolia.instantsearch.core.selectable.SelectableItemViewModel
 import com.algolia.instantsearch.core.selectable.connectView
 import com.algolia.instantsearch.core.selectable.list.*
+import com.algolia.instantsearch.core.selectable.map.SelectableMapView
+import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel
+import com.algolia.instantsearch.core.selectable.map.connectView
 import com.algolia.instantsearch.core.subscription.Subscription
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
@@ -287,7 +290,21 @@ internal class KotlinDX {
 
     @Test
     fun selectable_map() {
+        val viewModel = SelectableMapViewModel<String, String>()
+        viewModel.event.subscribe { println(it) }
+        viewModel.eventSelection.subscribe { println("New selection: $it") }
+        viewModel.selected.value = "foo"
+        viewModel.map.value
 
+        val view = object : SelectableMapView<String, String> {
+            override var onSelectionChange: Callback<String>? = null
+
+            override fun setMap(map: Map<String, String>) {}
+
+            override fun setSelected(selected: String?) {}
+
+        }
+        viewModel.connectView(view) { it }
     }
 
     @Test

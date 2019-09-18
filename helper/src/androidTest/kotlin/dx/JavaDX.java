@@ -23,6 +23,7 @@ import com.algolia.instantsearch.core.searcher.Sequencer;
 import com.algolia.instantsearch.core.selectable.SelectableItemViewModel;
 import com.algolia.instantsearch.core.selectable.list.SelectableListViewModel;
 import com.algolia.instantsearch.core.selectable.list.SelectionMode;
+import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel;
 import com.algolia.instantsearch.core.subscription.Subscription;
 import com.algolia.instantsearch.core.subscription.SubscriptionValue;
 import com.algolia.instantsearch.helper.loading.Loading;
@@ -49,6 +50,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CancellationException;
 
 import kotlin.Pair;
@@ -323,7 +325,14 @@ public class JavaDX {
 
     @Test
     public void selectable_map() {
+        SelectableMapViewModel<String, String> viewModel = new SelectableMapViewModel<>();
+        viewModel.event.subscribe(System.out::println);
+        viewModel.eventSelection.subscribe(it -> System.out.println("New selection: " + it));
+        viewModel.selected.setValue("foo");
+        final Map<String, String> value = viewModel.map.getValue();
 
+//        SelectableMapView<String, String> view = new SelectableMapView<String, String>() {}
+//        SelectableItem.connectView(viewModel, view)
     }
 
 
