@@ -25,6 +25,7 @@ import com.algolia.instantsearch.core.searcher.*
 import com.algolia.instantsearch.core.selectable.SelectableItemView
 import com.algolia.instantsearch.core.selectable.SelectableItemViewModel
 import com.algolia.instantsearch.core.selectable.connectView
+import com.algolia.instantsearch.core.selectable.list.*
 import com.algolia.instantsearch.core.subscription.Subscription
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
@@ -266,7 +267,22 @@ internal class KotlinDX {
 
     @Test
     fun selectable_list() {
+        val item = SelectableItem("foo", false)
+        item.first
+        item.second
 
+        val viewModel =
+            SelectableListViewModel<String, String>(selectionMode = SelectionMode.Multiple)
+        viewModel.items.value
+        viewModel.selectionMode.name
+        viewModel.selections.subscribe { println("New selections: $it") }
+        viewModel.eventSelection.subscribe { println("Selected $it") }
+
+        val view = object : SelectableListView<String> {
+            override var onSelection: Callback<String>? = null
+            override fun setItems(items: List<SelectableItem<String>>) {}
+        }
+        viewModel.connectView(view)
     }
 
     @Test

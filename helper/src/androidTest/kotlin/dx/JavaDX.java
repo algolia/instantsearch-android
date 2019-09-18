@@ -21,6 +21,8 @@ import com.algolia.instantsearch.core.searcher.Searcher;
 import com.algolia.instantsearch.core.searcher.SearcherConstants;
 import com.algolia.instantsearch.core.searcher.Sequencer;
 import com.algolia.instantsearch.core.selectable.SelectableItemViewModel;
+import com.algolia.instantsearch.core.selectable.list.SelectableListViewModel;
+import com.algolia.instantsearch.core.selectable.list.SelectionMode;
 import com.algolia.instantsearch.core.subscription.Subscription;
 import com.algolia.instantsearch.core.subscription.SubscriptionValue;
 import com.algolia.instantsearch.helper.loading.Loading;
@@ -49,6 +51,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 
+import kotlin.Pair;
 import kotlin.ranges.LongRange;
 import kotlinx.coroutines.Job;
 
@@ -298,12 +301,24 @@ public class JavaDX {
 
         //TODO View - can't be done without a Java-friendly `Callback()` due to onSelectionChanged
         //SelectableItemView view = new SelectableItemView() {}
-        //SelectableItemConnectionKt.connectView(viewModel, (SelectableItemView)view, (Function1)null.INSTANCE);
+        //SelectableItem.connectView(viewModel, view);
     }
 
     @Test
     public void selectable_list() {
+        Pair<String, Boolean> item = new Pair<>("foo", false);
+        final String first = item.getFirst();
+        final Boolean second = item.getSecond();
 
+        SelectableListViewModel<String, String> viewModel = new SelectableListViewModel<>(SelectionMode.Multiple);
+        final List<String> value = viewModel.items.getValue();
+        final String name = viewModel.getSelectionMode().name();
+        viewModel.selections.subscribe(it -> System.out.println("New selections:" + it));
+        viewModel.eventSelection.subscribe(it -> System.out.println("Selected " + it));
+
+        //TODO View - can't be done without a Java-friendly `Callback()` due to onSelection
+//        SelectableListView view = new SelectableListView<String> {}
+//        SelectableList.connectView(viewModel, view)
     }
 
     @Test

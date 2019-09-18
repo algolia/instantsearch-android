@@ -1,8 +1,11 @@
+@file:JvmName("SelectableItem")
+
 package com.algolia.instantsearch.core.selectable
 
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmName
 import kotlin.jvm.JvmOverloads
 
 /**
