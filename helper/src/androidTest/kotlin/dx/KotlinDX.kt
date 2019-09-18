@@ -22,6 +22,9 @@ import com.algolia.instantsearch.core.searchbox.SearchBoxView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.searcher.*
+import com.algolia.instantsearch.core.selectable.SelectableItemView
+import com.algolia.instantsearch.core.selectable.SelectableItemViewModel
+import com.algolia.instantsearch.core.selectable.connectView
 import com.algolia.instantsearch.core.subscription.Subscription
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
@@ -173,9 +176,7 @@ internal class KotlinDX {
 
         val view = object : NumberRangeView<Long> {
             override var onRangeChanged: Callback<Range<Long>>? = null
-
             override fun setRange(range: Range<Long>?) {}
-
             override fun setBounds(bounds: Range<Long>?) {}
 
         }
@@ -245,11 +246,32 @@ internal class KotlinDX {
         val maxOperations = sequencer.maxOperations
         searchers.forEach { it?.let { sequencer.addOperation(it.searchAsync()) } }
         sequencer.currentOperationOrNull?.cancel()
-        sequencer.cancelAll(); }
+        sequencer.cancelAll()
+    }
 
     @Test
-    fun searchable() {
-        // TODO
+    fun selectable() {
+        val viewModel = SelectableItemViewModel("foo")
+        viewModel.eventSelection.subscribe { println(if (it) "Selected!" else "No more") }
+        viewModel.isSelected.value
+        viewModel.item.value = "bar"
+
+        val view = object : SelectableItemView<String> {
+            override var onSelectionChanged: Callback<Boolean>? = null
+            override fun setItem(item: String) {}
+            override fun setIsSelected(isSelected: Boolean) {}
+        }
+        viewModel.connectView(view) { it }
+    }
+
+    @Test
+    fun selectable_list() {
+
+    }
+
+    @Test
+    fun selectable_map() {
+
     }
 
     @Test

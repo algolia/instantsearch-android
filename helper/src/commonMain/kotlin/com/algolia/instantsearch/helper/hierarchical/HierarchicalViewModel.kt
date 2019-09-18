@@ -7,8 +7,13 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 
 /**
- * @param hierarchicalAttributes attributes of the hierarchy.
- * These MUST be specified in order, e.g. `["hierarchy.lvl0", "hierarchy.lvl1", "hierarchy.lvl2"]`.
+ * A ViewModel storing hierarchical facets, represented as a tree of attributes with facets as leaves.
+ *
+ * @param attribute the faceted Attribute.
+ * @param hierarchicalAttributes attributes for each level of the hierarchy.
+ * **These MUST be specified in order**, e.g. `["hierarchy.lvl0", "hierarchy.lvl1", "hierarchy.lvl2"]`
+ * @param separator the separator used in your category attribute.
+ * @param tree an initial HierarchicalTree.
  */
 public open class HierarchicalViewModel(
     public val attribute: Attribute,
@@ -17,7 +22,13 @@ public open class HierarchicalViewModel(
     tree: HierarchicalTree = HierarchicalTree()
 ) : TreeViewModel<String, Facet>(tree) {
 
+    /**
+     * The currently selected facets.
+     */
     public val selections = SubscriptionValue<List<String>>(listOf())
+    /**
+     * Event fired whenever the hierarchical path changes.
+     */
     public val eventHierarchicalPath = SubscriptionEvent<HierarchicalPath>()
 
     init {

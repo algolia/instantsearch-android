@@ -20,6 +20,7 @@ import com.algolia.instantsearch.core.searcher.Debouncer;
 import com.algolia.instantsearch.core.searcher.Searcher;
 import com.algolia.instantsearch.core.searcher.SearcherConstants;
 import com.algolia.instantsearch.core.searcher.Sequencer;
+import com.algolia.instantsearch.core.selectable.SelectableItemViewModel;
 import com.algolia.instantsearch.core.subscription.Subscription;
 import com.algolia.instantsearch.core.subscription.SubscriptionValue;
 import com.algolia.instantsearch.helper.loading.Loading;
@@ -290,7 +291,14 @@ public class JavaDX {
 
     @Test
     public void selectable() {
+        SelectableItemViewModel<String> viewModel = new SelectableItemViewModel<>("foo");
+        viewModel.eventSelection.subscribe(it -> System.out.println(it ? "Selected" : "No more"));
+        final Boolean value = viewModel.isSelected.getValue();
+        viewModel.item.setValue("bar");
 
+        //TODO View - can't be done without a Java-friendly `Callback()` due to onSelectionChanged
+        //SelectableItemView view = new SelectableItemView() {}
+        //SelectableItemConnectionKt.connectView(viewModel, (SelectableItemView)view, (Function1)null.INSTANCE);
     }
 
     @Test
