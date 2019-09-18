@@ -8,6 +8,11 @@ public class AttributePresenterImpl(
 ) : AttributePresenter {
 
     override fun invoke(attribute: Attribute): String {
-        return transform(attribute)
+        return present(attribute)
     }
+
+    /**
+     * Presents the given [attribute] as a [String].
+     */
+    public fun present(attribute: Attribute) = transform(attribute)
 }

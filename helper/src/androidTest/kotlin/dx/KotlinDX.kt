@@ -31,6 +31,9 @@ import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel
 import com.algolia.instantsearch.core.selectable.map.connectView
 import com.algolia.instantsearch.core.subscription.Subscription
 import com.algolia.instantsearch.core.tree.*
+import com.algolia.instantsearch.helper.attribute.AttributeMatchAndReplace
+import com.algolia.instantsearch.helper.attribute.AttributePresenterImpl
+import com.algolia.instantsearch.helper.filter.FilterPresenter
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
@@ -60,6 +63,7 @@ internal class KotlinDX {
     private var filterState = FilterState()
     private var attribute = Attribute("foo")
 
+    //region Core
     @Test
     fun connection() {
         val handler = ConnectionHandler()
@@ -340,6 +344,27 @@ internal class KotlinDX {
     fun presenter() {
 
     }
+    //endregion
+
+    //region Helper.commonMain
+    @Test
+    fun attribute() {
+        val matchAndReplace = AttributeMatchAndReplace(Attribute("foo"), "bar")
+        val toReplace = Attribute("the fool!")
+        matchAndReplace(toReplace)
+
+        val presenter = AttributePresenterImpl()
+        presenter(toReplace)
+    }
+
+    @Test
+    fun filter() {
+
+    }
+    //endregion
+
+    //region Helper.androidMain
+    //endregion
 
     companion object {
         @AfterClass

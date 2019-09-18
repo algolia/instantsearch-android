@@ -29,6 +29,8 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue;
 import com.algolia.instantsearch.core.tree.Node;
 import com.algolia.instantsearch.core.tree.Tree;
 import com.algolia.instantsearch.core.tree.TreeViewModel;
+import com.algolia.instantsearch.helper.attribute.AttributeMatchAndReplace;
+import com.algolia.instantsearch.helper.attribute.AttributePresenterImpl;
 import com.algolia.instantsearch.helper.loading.Loading;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
@@ -369,5 +371,26 @@ public class JavaDX {
     public void presenter() {
         //TODO: Assess/Improve DX for Presenter, TreePresenter
     }
+    //endregion
+
+    //region Helper.commonMain
+    @Test
+    public void attribute() {
+        AttributeMatchAndReplace matchAndReplace = new AttributeMatchAndReplace(new Attribute("foo"), "bar");
+        //FIXME: Why does IDE report `cannot be applied to`?
+        final Attribute toReplace = new Attribute("the fool!");
+        matchAndReplace.replace(toReplace);
+
+        AttributePresenterImpl presenter = new AttributePresenterImpl();
+        //FIXME: Why does IDE report `cannot be applied to`?
+        presenter.present(toReplace);
+    }
+
+    @Test public void filter() {
+
+    }
+    //endregion
+
+    //region Helper.androidMain
     //endregion
 }

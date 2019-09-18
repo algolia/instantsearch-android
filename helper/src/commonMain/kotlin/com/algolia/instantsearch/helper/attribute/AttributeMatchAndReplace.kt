@@ -9,6 +9,12 @@ public class AttributeMatchAndReplace(
 ) : AttributePresenter {
 
     override fun invoke(attribute: Attribute): String {
-        return if (attribute == match) replacement else attribute.raw
+        return replace(attribute)
     }
+
+    /**
+     * Replaces any [match] by [replacement] in the given [attribute].
+     */
+    public fun replace(attribute: Attribute): String =
+        if (attribute == match) replacement else attribute.raw
 }
