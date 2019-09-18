@@ -26,6 +26,9 @@ import com.algolia.instantsearch.core.selectable.list.SelectionMode;
 import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel;
 import com.algolia.instantsearch.core.subscription.Subscription;
 import com.algolia.instantsearch.core.subscription.SubscriptionValue;
+import com.algolia.instantsearch.core.tree.Node;
+import com.algolia.instantsearch.core.tree.Tree;
+import com.algolia.instantsearch.core.tree.TreeViewModel;
 import com.algolia.instantsearch.helper.loading.Loading;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
@@ -347,7 +350,24 @@ public class JavaDX {
 
     @Test
     public void tree() {
-        // TODO
+        Node<String> node = new Node<>("Foo");
+        Tree<String> tree = new Tree<>(Collections.singletonList(node));
+        final List<Node<String>> children = tree.children;
+
+        TreeViewModel<String, String> viewModel = new TreeViewModel<String, String>() {
+            @Override
+            public void computeSelections(String key) {
+            }
+        };
+
+        //TODO View - can't be done without a Java-friendly `Callback()` due to onSelection
+//        TreeView view = new TreeView() {};
+//        TreeUtils.connectView(viewModel, view);
+    }
+
+    @Test
+    public void presenter() {
+        //TODO: Assess/Improve DX for Presenter, TreePresenter
     }
     //endregion
 }

@@ -30,6 +30,7 @@ import com.algolia.instantsearch.core.selectable.map.SelectableMapView
 import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel
 import com.algolia.instantsearch.core.selectable.map.connectView
 import com.algolia.instantsearch.core.subscription.Subscription
+import com.algolia.instantsearch.core.tree.*
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
@@ -320,7 +321,24 @@ internal class KotlinDX {
 
     @Test
     fun tree() {
-        // TODO
+        val node = Node("Foo")
+        val tree = Tree(mutableListOf(node))
+        tree.children.size
+
+        val viewModel: TreeViewModel<String, String> = object : TreeViewModel<String, String>() {
+            override fun computeSelections(key: String) {}
+        }
+
+        val view = object : TreeView<String, Tree<String>> {
+            override var onSelectionChanged: Callback<String>? = null
+            override fun setTree(tree: Tree<String>) {}
+        }
+        viewModel.connectView(view) { it }
+    }
+
+    @Test
+    fun presenter() {
+
     }
 
     companion object {

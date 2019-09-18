@@ -9,7 +9,7 @@ import kotlin.jvm.JvmName
 
 
 /**
- * Connects this Searcher to a HitsView, updating its data on new search responses.
+ * Connects this Searcher to a HitsView, updating it on new search responses.
  */
 public fun <R, T> Searcher<R>.connectHitsView(
     adapter: HitsView<T>,

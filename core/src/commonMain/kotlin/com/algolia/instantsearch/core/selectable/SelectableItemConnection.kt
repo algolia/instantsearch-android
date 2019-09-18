@@ -8,7 +8,7 @@ import kotlin.jvm.JvmName
 
 /**
  * Connects this SelectableItemViewModel to a SelectableItemView,
- * updating its data when the item or the selection changes.
+ * updating it when the item or the selection changes.
  */
 public fun <I, O> SelectableItemViewModel<I>.connectView(
     view: SelectableItemView<O>,
