@@ -17,6 +17,7 @@ import kotlin.jvm.JvmOverloads
  */
 public open class SelectableListViewModel<K, V> @JvmOverloads constructor(
     items: List<V> = listOf(),
+    @JvmField
     public val selectionMode: SelectionMode
 ) {
 

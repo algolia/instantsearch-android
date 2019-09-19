@@ -7,7 +7,9 @@ import com.algolia.instantsearch.helper.filter.state.*
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
-
+/**
+ * @see connectFilterState
+ */
 internal data class FacetListConnectionFilterState(
     private val viewModel: FacetListViewModel,
     private val filterState: FilterState,

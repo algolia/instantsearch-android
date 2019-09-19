@@ -32,13 +32,13 @@ import com.algolia.instantsearch.core.selectable.map.connectView
 import com.algolia.instantsearch.core.subscription.Subscription
 import com.algolia.instantsearch.core.subscription.send
 import com.algolia.instantsearch.core.tree.*
-import com.algolia.instantsearch.helper.android.filter.current.FilterCurrentViewImpl
 import com.algolia.instantsearch.helper.attribute.AttributeMatchAndReplace
 import com.algolia.instantsearch.helper.attribute.AttributePresenterImpl
 import com.algolia.instantsearch.helper.filter.FilterPresenter
 import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
 import com.algolia.instantsearch.helper.filter.clear.*
 import com.algolia.instantsearch.helper.filter.current.*
+import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
@@ -50,8 +50,8 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.response.ResponseSearch
+import com.algolia.search.model.search.Facet
 import org.junit.AfterClass
-import java.util.HashMap
 import kotlin.test.Test
 
 @Suppress(
@@ -71,6 +71,8 @@ internal class KotlinDX {
     private var attribute = Attribute("attribute")
     private val groupIDs = listOf(FilterGroupID())
     private val filterFacet = Filter.Facet(attribute, "foo", 0, false)
+    private val facet = Facet("facet", 42)
+    private val facets = listOf<Facet>(facet)
 
 
     //region Core
@@ -382,7 +384,6 @@ internal class KotlinDX {
         viewModel.connectFilterState(filterState, groupIDs)
         viewModel.connectFilterState(filterState, groupIDs, ClearMode.Except)
 
-        // TODO View - can't be done without a Java-friendly `Callback()` due to onClear
         val view = object : FilterClearView {
             override var onClear: Callback<Unit>? = null
         }
@@ -396,7 +397,7 @@ internal class KotlinDX {
         viewModel.connectFilterState(filterState)
         viewModel.connectFilterState(filterState, groupIDs)
 
-        val view = object : FilterCurrentView{
+        val view = object : FilterCurrentView {
             override var onFilterSelected: Callback<FilterAndID>? = null
             override fun setFilters(filters: List<Pair<FilterAndID, String>>) {}
         }
@@ -407,6 +408,39 @@ internal class KotlinDX {
         val filterMap = mapOf(FilterAndID(FilterGroupID(), filterFacet) to filterFacet)
         presenter.present(filterMap)
     }
+
+    @Test
+    fun filter_facet() {
+        val facetPairs = listOf(
+            Facet("a", 1, null) to false,
+            Facet("b", 2, null) to false
+        )
+
+        // ViewModel
+        var viewModel = FacetListViewModel()
+        viewModel = FacetListViewModel(facets)
+        viewModel = FacetListViewModel(facets, SelectionMode.Multiple)
+        viewModel = FacetListViewModel(facets, SelectionMode.Multiple, true)
+        viewModel.facets.value = facetPairs
+        val persistentSelection = viewModel.persistentSelection
+        val selectionMode = viewModel.selectionMode
+
+        //TODO: Uncomment once overload resolution ambiguity resolved
+//        viewModel.connectFilterState(filterState, attribute)
+        viewModel.connectFilterState(filterState, attribute, groupIDs[0])
+        viewModel.connectFilterState(filterState, attribute, FilterOperator.Or)
+
+        val view = object : FacetListView {
+            override var onSelection: Callback<Facet>? = null
+            override fun setItems(items: List<SelectableItem<Facet>>) {}
+        }
+        viewModel.connectView(view)
+
+        // Presenter
+        //FIXME: Why does IDE say `cannot be applied to`?
+        FacetListPresenterImpl().present(facetPairs)
+    }
+
     //endregion
 
     //region Helper.androidMain

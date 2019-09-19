@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.tree.TreeViewModel
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
+import kotlin.jvm.JvmOverloads
 
 /**
  * A ViewModel storing hierarchical facets, represented as a tree of attributes with facets as leaves.
@@ -15,7 +16,7 @@ import com.algolia.search.model.search.Facet
  * @param separator the separator used in your category attribute.
  * @param tree an initial HierarchicalTree.
  */
-public open class HierarchicalViewModel(
+public open class HierarchicalViewModel @JvmOverloads constructor(
     public val attribute: Attribute,
     public val hierarchicalAttributes: List<Attribute>,
     public val separator: String,

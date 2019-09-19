@@ -3,7 +3,9 @@ package com.algolia.instantsearch.helper.filter.facet
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
 
-
+/**
+ * @see connectView
+ */
 internal data class FacetListConnectionView(
     private val viewModel: FacetListViewModel,
     private val view: FacetListView,

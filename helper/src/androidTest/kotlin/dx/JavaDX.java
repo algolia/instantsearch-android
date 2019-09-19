@@ -36,8 +36,10 @@ import com.algolia.instantsearch.helper.filter.clear.FilterClear;
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel;
 import com.algolia.instantsearch.helper.filter.current.FilterCurrent;
 import com.algolia.instantsearch.helper.filter.current.FilterCurrentPresenterImpl;
-import com.algolia.instantsearch.helper.filter.current.FilterCurrentView;
 import com.algolia.instantsearch.helper.filter.current.FilterCurrentViewModel;
+import com.algolia.instantsearch.helper.filter.facet.FacetList;
+import com.algolia.instantsearch.helper.filter.facet.FacetListPresenterImpl;
+import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel;
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID;
 import com.algolia.instantsearch.helper.filter.state.FilterOperator;
 import com.algolia.instantsearch.helper.filter.state.FilterState;
@@ -45,7 +47,6 @@ import com.algolia.instantsearch.helper.loading.Loading;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex;
-import com.algolia.instantsearch.helper.stats.StatsViewModel;
 import com.algolia.search.client.ClientSearch;
 import com.algolia.search.client.Index;
 import com.algolia.search.model.Attribute;
@@ -55,6 +56,7 @@ import com.algolia.search.model.multipleindex.MultipleQueriesStrategy;
 import com.algolia.search.model.response.ResponseSearch;
 import com.algolia.search.model.response.ResponseSearchForFacets;
 import com.algolia.search.model.response.ResponseSearches;
+import com.algolia.search.model.search.Facet;
 import com.algolia.search.model.search.Query;
 import com.algolia.search.transport.RequestOptions;
 
@@ -97,6 +99,8 @@ public class JavaDX {
     private static RequestOptions requestOptions = new RequestOptions();
     private static final List<FilterGroupID> groupIDs = Collections.singletonList(new FilterGroupID());
     private static Filter.Facet filterFacet = new Filter.Facet(attribute, "foo", 0, false);
+    private static Facet facet = new Facet("red", 42, null);
+    private List<Facet> facets = Collections.<Facet>singletonList(facet);
 
     //region Test Setup
     @BeforeClass
@@ -246,7 +250,8 @@ public class JavaDX {
         Range<Long> range = Range.Companion.invoke(new LongRange(10L, 20L));
 
         // ViewModel
-        NumberRangeViewModel<Long> viewModel = new NumberRangeViewModel<>(range, bounds);
+        NumberRangeViewModel<Long> viewModel = new NumberRangeViewModel<>(range);
+        viewModel = new NumberRangeViewModel<>(range, bounds);
         viewModel.eventRange.subscribe(viewModel.range::setValue);
         viewModel.coerce(bounds);
         viewModel.range.getValue();
@@ -338,7 +343,7 @@ public class JavaDX {
 
         SelectableListViewModel<String, String> viewModel = new SelectableListViewModel<>(SelectionMode.Multiple);
         final List<String> value = viewModel.items.getValue();
-        final String name = viewModel.getSelectionMode().name();
+        final String name = viewModel.selectionMode.name();
         viewModel.selections.subscribe(it -> System.out.println("New selections:" + it));
         viewModel.eventSelection.subscribe(it -> System.out.println("Selected " + it));
 
@@ -446,11 +451,33 @@ public class JavaDX {
 
     @Test
     public void filter_facet() {
-        // ViewModel
+        List<Pair<Facet, Boolean>> facetPairs = Arrays.asList(
+                new Pair<>(new Facet("a", 1, null), false),
+                new Pair<>(new Facet("b", 2, null), false));
 
-        // View
+        // ViewModel
+        FacetListViewModel viewModel = new FacetListViewModel();
+        viewModel = new FacetListViewModel(facets);
+        viewModel = new FacetListViewModel(facets, SelectionMode.Multiple);
+        viewModel = new FacetListViewModel(facets, SelectionMode.Multiple, true);
+        viewModel.facets.setValue(facetPairs);
+        final boolean persistentSelection = viewModel.persistentSelection;
+        final SelectionMode selectionMode = viewModel.selectionMode;
+
+        //FIXME: Why does IDE say `wrong argument type`?
+//        FacetList.connectFilterState(viewModel, filterState, attribute);
+//        FacetList.connectFilterState(viewModel, filterState, attribute, groupIDs.get(0));
+//
+//        FacetList.connectFilterStateWithOperator(viewModel, filterState, attribute);
+//        FacetList.connectFilterStateWithOperator(viewModel, filterState, attribute, FilterOperator.Or);
+
+        // TODO View - can't be done without a Java-friendly `Callback()` due to onSelection
+//        FacetListView view = new FacetListView() {};
+//        FacetList.connectView(viewModel, view);
 
         // Presenter
+        //FIXME: Why does IDE say `cannot be applied to`?
+        new FacetListPresenterImpl().present(facetPairs);
     }
 
     @Test

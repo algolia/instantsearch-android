@@ -5,7 +5,9 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.search.model.response.ResponseSearchForFacets
 
-
+/**
+ * @see connectSearcherForFacet
+ */
 internal data class FacetListConnectionSearcherForFacets(
     private val viewModel: FacetListViewModel,
     private val searcher: SearcherForFacets

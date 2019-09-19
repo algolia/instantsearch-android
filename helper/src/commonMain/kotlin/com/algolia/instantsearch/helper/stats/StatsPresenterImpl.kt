@@ -1,10 +1,11 @@
 package com.algolia.instantsearch.helper.stats
 
 import com.algolia.search.model.response.ResponseSearch
+import kotlin.jvm.JvmField
 
 
 public class StatsPresenterImpl(
-    private val default: String = ""
+    @JvmField private val default: String = ""
 ) : StatsPresenter<String> {
 
     override fun invoke(response: ResponseSearch?): String {
