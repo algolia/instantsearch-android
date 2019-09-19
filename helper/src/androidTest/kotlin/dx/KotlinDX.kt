@@ -30,10 +30,13 @@ import com.algolia.instantsearch.core.selectable.map.SelectableMapView
 import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel
 import com.algolia.instantsearch.core.selectable.map.connectView
 import com.algolia.instantsearch.core.subscription.Subscription
+import com.algolia.instantsearch.core.subscription.send
 import com.algolia.instantsearch.core.tree.*
 import com.algolia.instantsearch.helper.attribute.AttributeMatchAndReplace
 import com.algolia.instantsearch.helper.attribute.AttributePresenterImpl
 import com.algolia.instantsearch.helper.filter.FilterPresenter
+import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
+import com.algolia.instantsearch.helper.filter.clear.*
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
@@ -43,6 +46,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.response.ResponseSearch
 import org.junit.AfterClass
 import kotlin.test.Test
@@ -359,7 +363,25 @@ internal class KotlinDX {
 
     @Test
     fun filter() {
+        val presenter: FilterPresenter = FilterPresenterImpl()
+        presenter(Filter.Facet(attribute, "foo"))
+    }
 
+    @Test
+    fun filter_clear() {
+        val viewModel = FilterClearViewModel()
+        viewModel.eventClear.send()
+
+        val groupIDs = listOf(FilterGroupID())
+        viewModel.connectFilterState(filterState)
+        viewModel.connectFilterState(filterState, groupIDs)
+        viewModel.connectFilterState(filterState, groupIDs, ClearMode.Except)
+
+        // TODO View - can't be done without a Java-friendly `Callback()` due to onClear
+        val view = object : FilterClearView {
+            override var onClear: Callback<Unit>? = null
+        }
+        viewModel.connectView(view)
     }
     //endregion
 

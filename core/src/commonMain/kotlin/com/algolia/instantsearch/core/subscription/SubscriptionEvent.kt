@@ -15,3 +15,8 @@ public class SubscriptionEvent<T> : Subscription<T>() {
         subscriptions.forEach { it(event) }
     }
 }
+
+/**
+ * Sends an event with no data to every subscriber.
+ */
+public fun SubscriptionEvent<Unit>.send() = send(Unit)

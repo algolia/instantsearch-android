@@ -5,7 +5,9 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 
-
+/**
+ * @see connectFilterState
+ */
 internal data class FilterClearConnectionFilterState(
     private val viewModel: FilterClearViewModel,
     private val filterState: FilterState,

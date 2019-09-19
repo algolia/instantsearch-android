@@ -29,8 +29,16 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue;
 import com.algolia.instantsearch.core.tree.Node;
 import com.algolia.instantsearch.core.tree.Tree;
 import com.algolia.instantsearch.core.tree.TreeViewModel;
+import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl;
 import com.algolia.instantsearch.helper.attribute.AttributeMatchAndReplace;
 import com.algolia.instantsearch.helper.attribute.AttributePresenterImpl;
+import com.algolia.instantsearch.helper.filter.FilterPresenter;
+import com.algolia.instantsearch.helper.filter.clear.ClearMode;
+import com.algolia.instantsearch.helper.filter.clear.FilterClear;
+import com.algolia.instantsearch.helper.filter.clear.FilterClearView;
+import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel;
+import com.algolia.instantsearch.helper.filter.state.FilterGroupID;
+import com.algolia.instantsearch.helper.filter.state.FilterState;
 import com.algolia.instantsearch.helper.loading.Loading;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
@@ -59,6 +67,7 @@ import java.util.Map;
 import java.util.concurrent.CancellationException;
 
 import kotlin.Pair;
+import kotlin.Unit;
 import kotlin.ranges.LongRange;
 import kotlinx.coroutines.Job;
 
@@ -76,6 +85,7 @@ public class JavaDX {
     private static SearcherMultipleIndex searcherMultipleIndex;
     private static SearcherForFacets searcherForFacets;
     private static List<Searcher<?>> searchers;
+    private static FilterState filterState;
 
     private static Query query = mock(Query.class);
     private static ClientSearch client = mock(ClientSearch.class);
@@ -84,6 +94,7 @@ public class JavaDX {
     //region Test Setup
     @BeforeClass
     public static void setUp() {
+        filterState = new FilterState();
         // region Prepare Searcher mocks
         final SubscriptionValue<Throwable> error = new SubscriptionValue<>(new Exception());
         final SubscriptionValue<ResponseSearch> responseSearch = new SubscriptionValue<>(new ResponseSearch());
@@ -387,9 +398,24 @@ public class JavaDX {
     }
 
     @Test public void filter() {
-
+        //FIXME: FilterPresenter cannot be used as-is from Java
     }
     //endregion
+
+    @Test
+    public void filter_clear() {
+        FilterClearViewModel viewModel = new FilterClearViewModel();
+        viewModel.eventClear.send(Unit.INSTANCE);
+
+        final List<FilterGroupID> groupIDs = Collections.singletonList(new FilterGroupID());
+        FilterClear.connectFilterState(viewModel, filterState);
+        FilterClear.connectFilterState(viewModel, filterState, groupIDs);
+        FilterClear.connectFilterState(viewModel, filterState, groupIDs, ClearMode.Except);
+
+        // TODO View - can't be done without a Java-friendly `Callback()` due to onClear
+//        FilterClearView view = new FilterClearView();
+//        FilterClear.connectView(viewModel, view);
+    }
 
     //region Helper.androidMain
     //endregion
