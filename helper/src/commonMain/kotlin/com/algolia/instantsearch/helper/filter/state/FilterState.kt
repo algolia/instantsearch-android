@@ -3,12 +3,16 @@ package com.algolia.instantsearch.helper.filter.state
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
+import kotlin.jvm.JvmField
 
-
+/**
+ * A component storing current filters refining a search.
+ */
 public class FilterState internal constructor(
     filters: MutableFilters = MutableFiltersImpl()
 ) : MutableFilters by filters {
 
+    @JvmField
     public val filters = SubscriptionValue<Filters>(filters)
 
     public constructor() : this(MutableFiltersImpl())

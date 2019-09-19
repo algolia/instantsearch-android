@@ -1,11 +1,12 @@
 package com.algolia.instantsearch.helper.filter.state
 
 import com.algolia.search.model.Attribute
+import kotlin.jvm.JvmOverloads
 
 /**
  * An identifier for a group of filters and its operator.
  */
-public data class FilterGroupID(
+public data class FilterGroupID @JvmOverloads constructor(
     val name: String = "",
     val operator: FilterOperator = FilterOperator.And
 ) {

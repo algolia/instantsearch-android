@@ -43,6 +43,10 @@ import com.algolia.instantsearch.helper.filter.list.FilterListViewModel;
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID;
 import com.algolia.instantsearch.helper.filter.state.FilterOperator;
 import com.algolia.instantsearch.helper.filter.state.FilterState;
+import com.algolia.instantsearch.helper.filter.state.Filters;
+import com.algolia.instantsearch.helper.filter.state.FiltersImpl;
+import com.algolia.instantsearch.helper.filter.state.MutableFilters;
+import com.algolia.instantsearch.helper.filter.state.MutableFiltersImpl;
 import com.algolia.instantsearch.helper.loading.Loading;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
@@ -527,6 +531,9 @@ public class JavaDX {
     @Test
     public void filter_state() {
         FilterGroupID groupID = new FilterGroupID(FilterOperator.Or);
+        groupID = new FilterGroupID("groupID");
+        groupID = new FilterGroupID(attribute, FilterOperator.And);
+        final Filters value = filterState.filters.getValue();
     }
 
 

@@ -479,6 +479,14 @@ internal class KotlinDX {
         viewModel.connectView(view) { it }
     }
 
+    @Test
+    fun filter_state() {
+        var groupID = FilterGroupID(FilterOperator.Or)
+        groupID = FilterGroupID("groupID")
+        groupID = FilterGroupID(attribute, FilterOperator.And)
+        val filters = filterState.filters.value
+    }
+
 
     //endregion
 
