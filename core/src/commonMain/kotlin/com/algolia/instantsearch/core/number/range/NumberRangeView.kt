@@ -3,8 +3,7 @@ package com.algolia.instantsearch.core.number.range
 import com.algolia.instantsearch.core.Callback
 
 /**
- * A View that can display a numeric range and its bounds,
- * and might allow the user to change the range.
+ * A View that can display a numeric range within bounds, and might allow the user to change it.
  */
 public interface NumberRangeView<T> where T : Number, T : Comparable<T> {
 

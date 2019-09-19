@@ -3,8 +3,7 @@ package com.algolia.instantsearch.core.tree
 import com.algolia.instantsearch.core.Callback
 
 /**
- * A View that can display a tree of values,
- * and might allow the user to select/deselect one of them.
+ * A View that can display a tree of values, and might allow the user to select/deselect one of them.
  */
 public interface TreeView<K, V> {
 

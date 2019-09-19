@@ -3,8 +3,7 @@ package com.algolia.instantsearch.core.selectable.map
 import com.algolia.instantsearch.core.Callback
 
 /**
- * A View that can display a map of selectable items,
- * and might allow the user to select one of them.
+ * A View that can display a map of selectable items, and might allow the user to select one.
  */
 public interface SelectableMapView<K, V> {
 

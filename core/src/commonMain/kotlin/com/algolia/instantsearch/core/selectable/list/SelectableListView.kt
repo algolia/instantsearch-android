@@ -3,8 +3,7 @@ package com.algolia.instantsearch.core.selectable.list
 import com.algolia.instantsearch.core.Callback
 
 /**
- * A View that can display a list of selectable items,
- * and might allow the user to select them.
+ * A View that can display a list of selectable items, and might allow the user to select them.
  */
 public interface SelectableListView<T> {
 

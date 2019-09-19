@@ -21,6 +21,7 @@ import com.algolia.instantsearch.core.searcher.Searcher;
 import com.algolia.instantsearch.core.searcher.SearcherConstants;
 import com.algolia.instantsearch.core.searcher.Sequencer;
 import com.algolia.instantsearch.core.selectable.SelectableItemViewModel;
+import com.algolia.instantsearch.core.selectable.list.SelectableList;
 import com.algolia.instantsearch.core.selectable.list.SelectableListViewModel;
 import com.algolia.instantsearch.core.selectable.list.SelectionMode;
 import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel;
@@ -40,6 +41,9 @@ import com.algolia.instantsearch.helper.filter.current.FilterCurrentViewModel;
 import com.algolia.instantsearch.helper.filter.facet.FacetList;
 import com.algolia.instantsearch.helper.filter.facet.FacetListPresenterImpl;
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel;
+import com.algolia.instantsearch.helper.filter.list.FilterList;
+import com.algolia.instantsearch.helper.filter.list.FilterListView;
+import com.algolia.instantsearch.helper.filter.list.FilterListViewModel;
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID;
 import com.algolia.instantsearch.helper.filter.state.FilterOperator;
 import com.algolia.instantsearch.helper.filter.state.FilterState;
@@ -483,10 +487,15 @@ public class JavaDX {
     @Test
     public void filter_list() {
         // ViewModel
+        FilterListViewModel.Facet viewModelFacet = new FilterListViewModel.Facet();
+        List<? extends Filter> filters = viewModelFacet.items.getValue();
+        FilterListViewModel.All viewModelAll = new FilterListViewModel.All();
+        filters = viewModelAll.items.getValue();
 
-        // View
+        // TODO View - can't be done without a Java-friendly `Callback()` due to onSelection
+//        FilterListView.All view = new FilterListView.All() {}
+//        SelectableList.<com.algolia.search.model.filter.Filter>connectView(viewModelAll, null);
 
-        // Presenter
     }
 
 

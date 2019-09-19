@@ -1,8 +1,7 @@
 package com.algolia.instantsearch.core.number
 
 /**
- * A View that can display a number as text,
- * and might allow the user to increment/decrement it.
+ * A View that can display a number as text, and might allow the user to increment/decrement it.
  */
 public interface NumberView<T : Number> {
 

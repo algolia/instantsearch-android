@@ -39,6 +39,8 @@ import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
 import com.algolia.instantsearch.helper.filter.clear.*
 import com.algolia.instantsearch.helper.filter.current.*
 import com.algolia.instantsearch.helper.filter.facet.*
+import com.algolia.instantsearch.helper.filter.list.FilterListView
+import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
@@ -440,6 +442,25 @@ internal class KotlinDX {
         //FIXME: Why does IDE say `cannot be applied to`?
         FacetListPresenterImpl().present(facetPairs)
     }
+
+
+    @Test
+    fun filter_list() {
+        // ViewModel
+        val viewModelFacet = FilterListViewModel.Facet()
+        var filters: List<Filter> = viewModelFacet.items.value
+        val viewModelAll = FilterListViewModel.All()
+        filters = viewModelAll.items.value
+
+        val view = object : FilterListView.All {
+            override var onSelection: Callback<Filter>? = null
+
+            override fun setItems(items: List<SelectableItem<Filter>>) {}
+
+        }
+        viewModelAll.connectView(view)
+    }
+
 
     //endregion
 

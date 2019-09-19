@@ -3,8 +3,7 @@ package com.algolia.instantsearch.core.selectable
 import com.algolia.instantsearch.core.Callback
 
 /**
- * A View that can display a selectable item,
- * and might allow the user to select/deselect it.
+ * A View that can display a selectable item, and might allow the user to select/deselect it.
  *
  */
 public interface SelectableItemView<T> {
