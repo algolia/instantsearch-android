@@ -21,7 +21,6 @@ import com.algolia.instantsearch.core.searcher.Searcher;
 import com.algolia.instantsearch.core.searcher.SearcherConstants;
 import com.algolia.instantsearch.core.searcher.Sequencer;
 import com.algolia.instantsearch.core.selectable.SelectableItemViewModel;
-import com.algolia.instantsearch.core.selectable.list.SelectableList;
 import com.algolia.instantsearch.core.selectable.list.SelectableListViewModel;
 import com.algolia.instantsearch.core.selectable.list.SelectionMode;
 import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel;
@@ -38,11 +37,8 @@ import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel;
 import com.algolia.instantsearch.helper.filter.current.FilterCurrent;
 import com.algolia.instantsearch.helper.filter.current.FilterCurrentPresenterImpl;
 import com.algolia.instantsearch.helper.filter.current.FilterCurrentViewModel;
-import com.algolia.instantsearch.helper.filter.facet.FacetList;
 import com.algolia.instantsearch.helper.filter.facet.FacetListPresenterImpl;
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel;
-import com.algolia.instantsearch.helper.filter.list.FilterList;
-import com.algolia.instantsearch.helper.filter.list.FilterListView;
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel;
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID;
 import com.algolia.instantsearch.helper.filter.state.FilterOperator;
@@ -501,7 +497,8 @@ public class JavaDX {
 
     @Test
     public void filter_map() {
-        // ViewModel
+        // TODO ViewModel - refactor as subclass
+//        FilterMapViewModel viewModel = new FilterMapViewModel();
 
         // View
 

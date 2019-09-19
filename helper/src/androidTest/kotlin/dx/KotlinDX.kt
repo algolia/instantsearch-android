@@ -41,6 +41,8 @@ import com.algolia.instantsearch.helper.filter.current.*
 import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.filter.list.FilterListView
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
+import com.algolia.instantsearch.helper.filter.map.FilterMapViewModel
+import com.algolia.instantsearch.helper.filter.map.connectView
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
@@ -459,6 +461,22 @@ internal class KotlinDX {
 
         }
         viewModelAll.connectView(view)
+    }
+
+
+    @Test
+    fun filter_map() {
+        // ViewModel
+        val viewModel = FilterMapViewModel()
+
+        val view = object : SelectableMapView<Int, Filter> {
+            override var onSelectionChange: Callback<Int>? = null
+
+            override fun setMap(map: Map<Int, Filter>) {}
+
+            override fun setSelected(selected: Int?) {}
+        }
+        viewModel.connectView(view) { it }
     }
 
 
