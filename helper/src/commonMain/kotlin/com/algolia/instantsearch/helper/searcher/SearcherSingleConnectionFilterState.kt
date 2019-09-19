@@ -9,7 +9,9 @@ import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.search.model.filter.FilterGroupsConverter
 
-
+/**
+ * @see connectFilterState
+ */
 internal data class SearcherSingleConnectionFilterState(
     private val searcher: SearcherSingleIndex,
     private val filterState: FilterState,

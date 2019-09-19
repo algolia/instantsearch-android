@@ -2,7 +2,9 @@ package com.algolia.instantsearch.helper.attribute
 
 import com.algolia.search.model.Attribute
 
-
+/**
+ * A default attribute presenter, using their canonical String representation.
+ */
 public class AttributePresenterImpl(
     private val transform: (Attribute) -> String = { attribute -> attribute.raw }
 ) : AttributePresenter {

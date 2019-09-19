@@ -29,23 +29,27 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue;
 import com.algolia.instantsearch.core.tree.Node;
 import com.algolia.instantsearch.core.tree.Tree;
 import com.algolia.instantsearch.core.tree.TreeViewModel;
-import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl;
 import com.algolia.instantsearch.helper.attribute.AttributeMatchAndReplace;
 import com.algolia.instantsearch.helper.attribute.AttributePresenterImpl;
-import com.algolia.instantsearch.helper.filter.FilterPresenter;
 import com.algolia.instantsearch.helper.filter.clear.ClearMode;
 import com.algolia.instantsearch.helper.filter.clear.FilterClear;
-import com.algolia.instantsearch.helper.filter.clear.FilterClearView;
 import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel;
+import com.algolia.instantsearch.helper.filter.current.FilterCurrent;
+import com.algolia.instantsearch.helper.filter.current.FilterCurrentPresenterImpl;
+import com.algolia.instantsearch.helper.filter.current.FilterCurrentView;
+import com.algolia.instantsearch.helper.filter.current.FilterCurrentViewModel;
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID;
+import com.algolia.instantsearch.helper.filter.state.FilterOperator;
 import com.algolia.instantsearch.helper.filter.state.FilterState;
 import com.algolia.instantsearch.helper.loading.Loading;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex;
+import com.algolia.instantsearch.helper.stats.StatsViewModel;
 import com.algolia.search.client.ClientSearch;
 import com.algolia.search.client.Index;
 import com.algolia.search.model.Attribute;
+import com.algolia.search.model.filter.Filter;
 import com.algolia.search.model.multipleindex.IndexQuery;
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy;
 import com.algolia.search.model.response.ResponseSearch;
@@ -87,14 +91,18 @@ public class JavaDX {
     private static List<Searcher<?>> searchers;
     private static FilterState filterState;
 
+    private static Attribute attribute = new Attribute("attribute");
     private static Query query = mock(Query.class);
     private static ClientSearch client = mock(ClientSearch.class);
     private static RequestOptions requestOptions = new RequestOptions();
+    private static final List<FilterGroupID> groupIDs = Collections.singletonList(new FilterGroupID());
+    private static Filter.Facet filterFacet = new Filter.Facet(attribute, "foo", 0, false);
 
     //region Test Setup
     @BeforeClass
     public static void setUp() {
         filterState = new FilterState();
+
         // region Prepare Searcher mocks
         final SubscriptionValue<Throwable> error = new SubscriptionValue<>(new Exception());
         final SubscriptionValue<ResponseSearch> responseSearch = new SubscriptionValue<>(new ResponseSearch());
@@ -295,7 +303,7 @@ public class JavaDX {
 
         // SearcherForFacets
         index = searcherForFacets.index;
-        final Attribute attribute = searcherForFacets.attribute;
+        attribute = searcherForFacets.attribute;
         query = searcherForFacets.query;
         final String facetQuery = searcherForFacets.facetQuery;
         requestOptions = searcherForFacets.requestOptions;
@@ -397,7 +405,8 @@ public class JavaDX {
         presenter.present(toReplace);
     }
 
-    @Test public void filter() {
+    @Test
+    public void filter() {
         //FIXME: FilterPresenter cannot be used as-is from Java
     }
     //endregion
@@ -407,7 +416,6 @@ public class JavaDX {
         FilterClearViewModel viewModel = new FilterClearViewModel();
         viewModel.eventClear.send(Unit.INSTANCE);
 
-        final List<FilterGroupID> groupIDs = Collections.singletonList(new FilterGroupID());
         FilterClear.connectFilterState(viewModel, filterState);
         FilterClear.connectFilterState(viewModel, filterState, groupIDs);
         FilterClear.connectFilterState(viewModel, filterState, groupIDs, ClearMode.Except);
@@ -415,6 +423,96 @@ public class JavaDX {
         // TODO View - can't be done without a Java-friendly `Callback()` due to onClear
 //        FilterClearView view = new FilterClearView();
 //        FilterClear.connectView(viewModel, view);
+    }
+
+    @Test
+    public void filter_current() {
+        // ViewModel
+        FilterCurrentViewModel viewModel = new FilterCurrentViewModel();
+        FilterCurrent.connectFilterState(viewModel, filterState);
+        FilterCurrent.connectFilterState(viewModel, filterState, groupIDs);
+
+        // TODO View - can't be done without a Java-friendly `Callback()` due to onClear
+//        FilterCurrentView view = new FilterCurrentViewImpl();
+//        FilterCurrent.connectView(viewModel, view);
+
+        // Presenter
+        FilterCurrentPresenterImpl presenter = new FilterCurrentPresenterImpl();
+        final HashMap<Pair<FilterGroupID, Filter>, Filter> filterMap = new HashMap<>();
+        filterMap.put(new Pair<>(new FilterGroupID(), filterFacet), filterFacet);
+        //FIXME: Why does IDE say `cannot be applied to`?
+        presenter.present(filterMap);
+    }
+
+    @Test
+    public void filter_facet() {
+        // ViewModel
+
+        // View
+
+        // Presenter
+    }
+
+    @Test
+    public void filter_list() {
+        // ViewModel
+
+        // View
+
+        // Presenter
+    }
+
+
+    @Test
+    public void filter_map() {
+        // ViewModel
+
+        // View
+
+        // Presenter
+    }
+
+
+    @Test
+    public void filter_comparison() {
+        // ViewModel
+
+        // View
+
+        // Presenter
+    }
+
+    @Test
+    public void filter_range() {
+        // ViewModel
+
+        // View
+
+        // Presenter
+    }
+
+    @Test
+    public void filter_state() {
+        FilterGroupID groupID = new FilterGroupID(FilterOperator.Or);
+    }
+
+
+    @Test
+    public void filter_toggle() {
+        // ViewModel
+
+        // View
+
+        // Presenter
+    }
+
+    @Test
+    public void x() {
+        // ViewModel
+
+        // View
+
+        // Presenter
     }
 
     //region Helper.androidMain

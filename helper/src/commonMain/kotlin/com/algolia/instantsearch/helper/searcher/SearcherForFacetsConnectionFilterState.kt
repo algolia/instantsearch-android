@@ -8,7 +8,9 @@ import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.search.model.filter.FilterGroupsConverter
 
-
+/**
+ * @see connectFilterState
+ */
 internal data class SearcherForFacetsConnectionFilterState(
     private val searcher: SearcherForFacets,
     private val filterState: FilterState,

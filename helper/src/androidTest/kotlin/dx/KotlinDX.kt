@@ -32,11 +32,13 @@ import com.algolia.instantsearch.core.selectable.map.connectView
 import com.algolia.instantsearch.core.subscription.Subscription
 import com.algolia.instantsearch.core.subscription.send
 import com.algolia.instantsearch.core.tree.*
+import com.algolia.instantsearch.helper.android.filter.current.FilterCurrentViewImpl
 import com.algolia.instantsearch.helper.attribute.AttributeMatchAndReplace
 import com.algolia.instantsearch.helper.attribute.AttributePresenterImpl
 import com.algolia.instantsearch.helper.filter.FilterPresenter
 import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
 import com.algolia.instantsearch.helper.filter.clear.*
+import com.algolia.instantsearch.helper.filter.current.*
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
@@ -49,6 +51,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.response.ResponseSearch
 import org.junit.AfterClass
+import java.util.HashMap
 import kotlin.test.Test
 
 @Suppress(
@@ -65,7 +68,10 @@ internal class KotlinDX {
         listOf(searcherSingleIndex, searcherMultipleIndex, searcherForFacets)
 
     private var filterState = FilterState()
-    private var attribute = Attribute("foo")
+    private var attribute = Attribute("attribute")
+    private val groupIDs = listOf(FilterGroupID())
+    private val filterFacet = Filter.Facet(attribute, "foo", 0, false)
+
 
     //region Core
     @Test
@@ -372,7 +378,6 @@ internal class KotlinDX {
         val viewModel = FilterClearViewModel()
         viewModel.eventClear.send()
 
-        val groupIDs = listOf(FilterGroupID())
         viewModel.connectFilterState(filterState)
         viewModel.connectFilterState(filterState, groupIDs)
         viewModel.connectFilterState(filterState, groupIDs, ClearMode.Except)
@@ -382,6 +387,25 @@ internal class KotlinDX {
             override var onClear: Callback<Unit>? = null
         }
         viewModel.connectView(view)
+    }
+
+    @Test
+    fun filter_current() {
+        // ViewModel
+        val viewModel = FilterCurrentViewModel()
+        viewModel.connectFilterState(filterState)
+        viewModel.connectFilterState(filterState, groupIDs)
+
+        val view = object : FilterCurrentView{
+            override var onFilterSelected: Callback<FilterAndID>? = null
+            override fun setFilters(filters: List<Pair<FilterAndID, String>>) {}
+        }
+        viewModel.connectView(view)
+
+        // Presenter
+        val presenter = FilterCurrentPresenterImpl()
+        val filterMap = mapOf(FilterAndID(FilterGroupID(), filterFacet) to filterFacet)
+        presenter.present(filterMap)
     }
     //endregion
 
