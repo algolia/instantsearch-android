@@ -4,14 +4,16 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
+import kotlin.jvm.JvmOverloads
 
 
-public data class FilterCurrentConnector(
+public data class FilterCurrentConnector @JvmOverloads constructor(
     public val filterState: FilterState,
     public val groupIDs: List<FilterGroupID> = listOf(),
     public val viewModel: FilterCurrentViewModel = FilterCurrentViewModel()
 ) : ConnectionImpl() {
 
+    @JvmOverloads
     public constructor(
         filters: Map<FilterAndID, Filter>,
         filterState: FilterState,

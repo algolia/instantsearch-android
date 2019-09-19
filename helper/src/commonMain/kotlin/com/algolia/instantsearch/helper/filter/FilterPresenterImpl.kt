@@ -4,9 +4,12 @@ import com.algolia.instantsearch.helper.attribute.AttributePresenter
 import com.algolia.instantsearch.helper.attribute.AttributePresenterImpl
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.NumericOperator
+import kotlin.jvm.JvmOverloads
 
-
-public class FilterPresenterImpl(
+/**
+ * A default Presenter for filters, using their canonical String representation.
+ */
+public class FilterPresenterImpl @JvmOverloads constructor(
     private val attributePresenter: AttributePresenter = AttributePresenterImpl(),
     override val facetString: (Attribute, String, Boolean) -> String = { _, value, _ ->
         value

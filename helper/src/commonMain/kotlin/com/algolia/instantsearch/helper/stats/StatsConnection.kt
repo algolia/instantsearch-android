@@ -3,9 +3,11 @@ package com.algolia.instantsearch.helper.stats
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmOverloads
 
 
 @JvmName("connectViewString")
+@JvmOverloads
 public fun StatsViewModel.connectView(
     view: StatsView<String>,
     presenter: StatsPresenter<String> = StatsPresenterImpl()

@@ -8,7 +8,7 @@ import kotlin.jvm.JvmOverloads
 /**
  * @see connectView
  */
-internal data class NumberConnectionView<T> @JvmOverloads constructor(
+internal data class NumberConnectionView<T>(
     private val viewModel: NumberViewModel<T>,
     private val view: NumberView<T>,
     private val presenter: NumberPresenter<T> = NumberPresenterImpl
