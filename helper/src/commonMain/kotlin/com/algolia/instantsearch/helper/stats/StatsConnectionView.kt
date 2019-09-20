@@ -4,7 +4,9 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
 import com.algolia.search.model.response.ResponseSearch
 
-
+/**
+ * @see connectView
+ */
 internal data class StatsConnectionView<T>(
     private val viewModel: StatsViewModel,
     private val view: StatsView<T>,

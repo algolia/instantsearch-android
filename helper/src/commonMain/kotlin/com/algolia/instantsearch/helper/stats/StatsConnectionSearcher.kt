@@ -6,7 +6,9 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
 import kotlin.jvm.JvmField
 
-
+/**
+ * @see connectSearcher
+ */
 internal data class StatsConnectionSearcher(
     @JvmField
     private val viewModel: StatsViewModel,

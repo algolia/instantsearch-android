@@ -62,6 +62,10 @@ import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex;
 import com.algolia.instantsearch.helper.searcher.Searchers;
 import com.algolia.instantsearch.helper.sortby.SortBy;
+import com.algolia.instantsearch.helper.stats.Stats;
+import com.algolia.instantsearch.helper.stats.StatsPresenterImpl;
+import com.algolia.instantsearch.helper.stats.StatsView;
+import com.algolia.instantsearch.helper.stats.StatsViewModel;
 import com.algolia.search.client.ClientSearch;
 import com.algolia.search.client.Index;
 import com.algolia.search.model.Attribute;
@@ -623,6 +627,8 @@ public class JavaDX {
 //        LoadingView view = new
     }
 
+    // TODO: Assess Kotlin DX for next 4 tests
+
     @Test
     public void searchBox() {
         // ViewModel
@@ -655,7 +661,20 @@ public class JavaDX {
 
     @Test
     public void stats() {
+        StatsViewModel viewModel = new StatsViewModel();
+        final ResponseSearch value = (ResponseSearch) viewModel.response.getValue();
+        Stats.connectSearcher(viewModel, searcherSingleIndex);
 
+        StatsView<String> view = new StatsView<String>() {
+            @Override
+            public void setText(String text) {
+            }
+        };
+        Stats.connectViewString(viewModel, view);
+
+        // TODO: Once refactored Presenter, confirm StatsPresenter DX
+//        StatsPresenterImpl presenter = new StatsPresenterImpl();
+//        presenter.present(value);
     }
     //endregion
 

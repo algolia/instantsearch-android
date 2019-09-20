@@ -32,6 +32,7 @@ import com.algolia.instantsearch.core.selectable.map.connectView
 import com.algolia.instantsearch.core.subscription.Subscription
 import com.algolia.instantsearch.core.subscription.send
 import com.algolia.instantsearch.core.tree.*
+import com.algolia.instantsearch.helper.android.searchbox.connectSearcher
 import com.algolia.instantsearch.helper.attribute.AttributeMatchAndReplace
 import com.algolia.instantsearch.helper.attribute.AttributePresenterImpl
 import com.algolia.instantsearch.helper.filter.FilterPresenter
@@ -52,9 +53,14 @@ import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
 import com.algolia.instantsearch.helper.hierarchical.*
 import com.algolia.instantsearch.helper.index.IndexPresenterImpl
 import com.algolia.instantsearch.helper.loading.connectSearcher
+import com.algolia.instantsearch.helper.searchbox.SearchMode
+import com.algolia.instantsearch.helper.searchbox.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.stats.StatsView
+import com.algolia.instantsearch.helper.stats.StatsViewModel
+import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
@@ -84,6 +90,7 @@ internal class KotlinDX {
     private val facet = Facet("facet", 42)
     private val facets = listOf(facet)
     private val facetStats = mapOf(attribute to FacetStats(0f, 2f, 1f, 3f))
+    private val debouncer = Debouncer(0L)
 
     //region Core
     @Test

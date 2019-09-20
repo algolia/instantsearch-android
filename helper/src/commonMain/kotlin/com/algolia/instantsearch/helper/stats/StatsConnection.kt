@@ -1,3 +1,5 @@
+@file:JvmName("Stats")
+
 package com.algolia.instantsearch.helper.stats
 
 import com.algolia.instantsearch.core.connection.Connection
