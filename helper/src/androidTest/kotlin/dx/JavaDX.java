@@ -28,6 +28,7 @@ import com.algolia.instantsearch.core.subscription.Subscription;
 import com.algolia.instantsearch.core.subscription.SubscriptionValue;
 import com.algolia.instantsearch.core.tree.Node;
 import com.algolia.instantsearch.core.tree.Tree;
+import com.algolia.instantsearch.core.tree.TreeUtils;
 import com.algolia.instantsearch.core.tree.TreeViewModel;
 import com.algolia.instantsearch.helper.attribute.AttributeMatchAndReplace;
 import com.algolia.instantsearch.helper.attribute.AttributePresenterImpl;
@@ -55,6 +56,8 @@ import com.algolia.instantsearch.helper.hierarchical.HierarchicalPresenterImpl;
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel;
 import com.algolia.instantsearch.helper.index.IndexPresenterImpl;
 import com.algolia.instantsearch.helper.loading.Loading;
+import com.algolia.instantsearch.helper.searchbox.SearchBox;
+import com.algolia.instantsearch.helper.searchbox.SearchMode;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex;
@@ -618,6 +621,18 @@ public class JavaDX {
 //        LoadingView view = new
     }
 
+    @Test
+    public void searchBox() {
+        // ViewModel
+        SearchBoxViewModel viewModel = new SearchBoxViewModel();
+
+        SearchBox.<ResponseSearch>connectSearcher(viewModel, searcherSingleIndex);
+        SearchBox.<ResponseSearch>connectSearcher(viewModel, searcherSingleIndex, SearchMode.AsYouType);
+        SearchBox.<ResponseSearch>connectSearcher(viewModel, searcherSingleIndex, SearchMode.AsYouType, new Debouncer(0L));
+
+        //TODO View - can't be done without a Java-friendly `Callback()` due to onQueryXX
+//        SearchBoxView view = new Search
+    }
     //endregion
 
     //region Helper.androidMain

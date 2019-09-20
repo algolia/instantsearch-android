@@ -1,8 +1,10 @@
 @file:JvmName("SearchBox")
+@file:JvmMultifileClass
 
 package com.algolia.instantsearch.core.searchbox
 
 import com.algolia.instantsearch.core.connection.Connection
+import kotlin.jvm.JvmMultifileClass
 import kotlin.jvm.JvmName
 
 

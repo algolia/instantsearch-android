@@ -1,3 +1,6 @@
+@file:JvmName("SearchBox")
+@file:JvmMultifileClass
+
 package com.algolia.instantsearch.helper.searchbox
 
 import com.algolia.instantsearch.core.connection.Connection
@@ -7,7 +10,6 @@ import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
-import kotlin.jvm.JvmOverloads
 
 /**
  * Connects this SearchBoxViewModel to a Searcher, trigerring requests when the query changes
