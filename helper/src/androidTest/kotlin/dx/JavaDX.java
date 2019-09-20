@@ -53,6 +53,7 @@ import com.algolia.instantsearch.helper.hierarchical.HierarchicalFilter;
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalItem;
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalPresenterImpl;
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel;
+import com.algolia.instantsearch.helper.highlighting.Highlightable;
 import com.algolia.instantsearch.helper.loading.Loading;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
@@ -73,6 +74,7 @@ import com.algolia.search.model.search.Query;
 import com.algolia.search.transport.RequestOptions;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -88,6 +90,7 @@ import kotlin.Pair;
 import kotlin.Unit;
 import kotlin.ranges.LongRange;
 import kotlinx.coroutines.Job;
+import kotlinx.serialization.json.JsonObject;
 
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -589,6 +592,14 @@ public class JavaDX {
         HierarchicalPresenterImpl presenter = new HierarchicalPresenterImpl(" > ");
         presenter.present(tree);
     }
+
+
+    @Test
+    public void highlightable() {
+        //TODO: Use @JvmDefault, then confirm DX from Java
+    }
+
+
     //endregion
 
     //region Helper.androidMain

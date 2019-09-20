@@ -8,6 +8,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.serialize.toHighlight
 import com.algolia.search.serialize.toHighlights
 import kotlinx.serialization.json.JsonObject
+import kotlin.jvm.JvmName
 
 
 /**
@@ -18,6 +19,7 @@ public interface Highlightable {
     @Suppress("PropertyName") // Else implementers have to remember to specify @SerialName
     public val _highlightResult: JsonObject?
 
+    //  FIXME: Use @JvmDefault to make Highlightable usable for Java users
     public fun getHighlight(
         key: Attribute,
         findHighlight: (JsonObject) -> JsonObject = { it },
