@@ -11,10 +11,15 @@ import com.algolia.instantsearch.helper.searchbox.SearchMode
 
 
 internal data class SearchBoxConnectionSearcherPagedList<R>(
+    @JvmField
     private val viewModel: SearchBoxViewModel,
+    @JvmField
     private val searcher: Searcher<R>,
+    @JvmField
     private val pagedList: List<LiveData<out PagedList<out Any>>>,
+    @JvmField
     private val searchMode: SearchMode,
+    @JvmField
     private val debouncer: Debouncer
 ) : ConnectionImpl() {
 

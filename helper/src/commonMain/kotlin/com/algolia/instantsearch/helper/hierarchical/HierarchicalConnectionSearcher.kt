@@ -6,7 +6,9 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.addFacet
 import com.algolia.search.model.response.ResponseSearch
 
-
+/**
+ * @see connectSearcher
+ */
 internal data class HierarchicalConnectionSearcher(
     private val viewModel: HierarchicalViewModel,
     private val searcher: SearcherSingleIndex

@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.core.tree
 
+import kotlin.jvm.JvmField
 import kotlin.jvm.JvmOverloads
 
 
@@ -10,6 +11,8 @@ import kotlin.jvm.JvmOverloads
  * @param children optional nodes below this one.
  */
 public data class Node<T> @JvmOverloads constructor(
+    @JvmField
     val content: T,
+    @JvmField
     val children: MutableList<Node<T>> = mutableListOf()
 )

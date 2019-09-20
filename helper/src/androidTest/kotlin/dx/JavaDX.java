@@ -48,6 +48,11 @@ import com.algolia.instantsearch.helper.filter.state.FilterOperator;
 import com.algolia.instantsearch.helper.filter.state.FilterState;
 import com.algolia.instantsearch.helper.filter.state.Filters;
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggle;
+import com.algolia.instantsearch.helper.hierarchical.Hierarchical;
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalFilter;
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalItem;
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalPresenterImpl;
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel;
 import com.algolia.instantsearch.helper.loading.Loading;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
@@ -84,7 +89,6 @@ import kotlin.Unit;
 import kotlin.ranges.LongRange;
 import kotlinx.coroutines.Job;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -540,6 +544,50 @@ public class JavaDX {
         SelectableItemViewModel<Filter> viewModel = new SelectableItemViewModel<>(filterFacet);
         FilterToggle.connectFilterState(viewModel, filterState);
         FilterToggle.connectFilterState(viewModel, filterState, groupIDs.get(0));
+    }
+
+
+    @Test
+    public void hierarchical() {
+        final List<Attribute> hierarchicalAttributes = Collections.singletonList(attribute);
+
+        // Item
+        HierarchicalItem item = new HierarchicalItem(facet, "item", 0);
+        final String displayName = item.displayName;
+        final Facet facet = item.facet;
+        final int level = item.level;
+
+        // Node
+        Node<Facet> hierarchicalNode = new Node<>(facet);
+        final Facet content = hierarchicalNode.content;
+        final List<Node<Facet>> children = hierarchicalNode.children;
+
+        // Filter
+        HierarchicalFilter hierarchicalFilter = new HierarchicalFilter(hierarchicalAttributes, Collections.singletonList(filterFacet), filterFacet);
+        final List<Attribute> attributes = (List<Attribute>) hierarchicalFilter.attributes;
+        final Filter.Facet filter = (Filter.Facet) hierarchicalFilter.filter;
+        final List<Filter.Facet> path = (List<Filter.Facet>) hierarchicalFilter.path;
+
+        // Tree
+                Tree<Facet> tree = new Tree<>(Collections.singletonList(new Node<>(facet)));
+
+        // ViewModel
+        HierarchicalViewModel viewModelMin = new HierarchicalViewModel(attribute,
+                hierarchicalAttributes, " > ");
+        final HierarchicalViewModel viewModel = new HierarchicalViewModel(attribute, hierarchicalAttributes, " > ", tree);
+        final List<String> selections = viewModel.selections.getValue();
+        final List<Attribute> hierarchicalAttributes1 = (List<Attribute>) viewModel.hierarchicalAttributes;
+        final Attribute attribute = (Attribute) viewModel.attribute;
+        viewModel.eventHierarchicalPath.subscribe(it -> {
+            // Put in a never running handler to avoid calling addFacet on mocked Searcher
+            Hierarchical.connectFilterState(viewModel, filterState);
+            Hierarchical.connectSearcher(viewModel, searcherSingleIndex);
+        });
+
+        //TODO View - can't be done without a Java-friendly `Callback()` due to onSelection
+
+        HierarchicalPresenterImpl presenter = new HierarchicalPresenterImpl(" > ");
+        presenter.present(tree);
     }
     //endregion
 

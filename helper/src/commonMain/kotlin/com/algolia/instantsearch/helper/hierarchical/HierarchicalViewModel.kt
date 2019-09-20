@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.tree.TreeViewModel
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
+import kotlin.jvm.JvmField
 import kotlin.jvm.JvmOverloads
 
 /**
@@ -17,8 +18,11 @@ import kotlin.jvm.JvmOverloads
  * @param tree an initial HierarchicalTree.
  */
 public open class HierarchicalViewModel @JvmOverloads constructor(
+    @JvmField
     public val attribute: Attribute,
+    @JvmField
     public val hierarchicalAttributes: List<Attribute>,
+    @JvmField
     public val separator: String,
     tree: HierarchicalTree = HierarchicalTree()
 ) : TreeViewModel<String, Facet>(tree) {
@@ -26,10 +30,12 @@ public open class HierarchicalViewModel @JvmOverloads constructor(
     /**
      * The currently selected facets.
      */
+    @JvmField
     public val selections = SubscriptionValue<List<String>>(listOf())
     /**
      * Event fired whenever the hierarchical path changes.
      */
+    @JvmField
     public val eventHierarchicalPath = SubscriptionEvent<HierarchicalPath>()
 
     init {

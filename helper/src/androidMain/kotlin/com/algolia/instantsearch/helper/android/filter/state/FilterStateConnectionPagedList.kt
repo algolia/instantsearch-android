@@ -9,7 +9,9 @@ import com.algolia.instantsearch.helper.filter.state.Filters
 
 
 internal data class FilterStateConnectionPagedList<T>(
+    @JvmField
     private val pagedList: LiveData<PagedList<T>>,
+    @JvmField
     private val filterState: FilterState
 ) : ConnectionImpl() {
 

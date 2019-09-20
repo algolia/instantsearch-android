@@ -42,7 +42,6 @@ import com.algolia.instantsearch.helper.filter.facet.*
 import com.algolia.instantsearch.helper.filter.list.FilterListView
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.map.FilterMapViewModel
-import com.algolia.instantsearch.helper.filter.map.connectView
 import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
 import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromFacetStatsInt
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
@@ -50,6 +49,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
+import com.algolia.instantsearch.helper.hierarchical.*
 import com.algolia.instantsearch.helper.loading.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
@@ -61,7 +61,6 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 import com.algolia.search.model.search.FacetStats
 import org.junit.AfterClass
-import java.util.HashMap
 import kotlin.test.Test
 
 @Suppress(
@@ -508,6 +507,47 @@ internal class KotlinDX {
         val viewModel = SelectableItemViewModel<Filter>(filterFacet)
         viewModel.connectFilterState(filterState)
         viewModel.connectFilterState(filterState, groupIDs[0])
+    }
+
+    @Test
+    fun hierarchical() {
+        val hierarchicalAttributes = listOf(attribute)
+
+        // Item
+        val (facet, displayName, level) = HierarchicalItem(facet, "item", 0)
+
+        // Node
+        val (content, children) = Node(facet)
+
+        // Filter
+        val (attributes1, path1, filter1) = HierarchicalFilter(
+            hierarchicalAttributes,
+            listOf(filterFacet), filterFacet
+        )
+        val attributes = attributes1
+        val (attribute1, isNegated, value, score) = filter1
+        val path = path1
+
+        // Tree
+        val tree = Tree(mutableListOf(Node(facet)))
+
+        // ViewModel
+        val viewModelMin = HierarchicalViewModel(
+            attribute,
+            hierarchicalAttributes, " > "
+        )
+        val viewModel = HierarchicalViewModel(attribute, hierarchicalAttributes, " > ", tree)
+        val selections = viewModel.selections.value
+        val hierarchicalAttributes1 = viewModel.hierarchicalAttributes
+        val attribute = viewModel.attribute
+        viewModel.eventHierarchicalPath.subscribe { it ->
+            // Put in a never running handler to avoid calling addFacet on mocked Searcher
+            viewModel.connectFilterState(filterState)
+            searcherSingleIndex?.let {viewModel.connectSearcher(it) }
+        }
+
+        val presenter = HierarchicalPresenterImpl(" > ")
+        presenter(tree)
     }
     //endregion
 

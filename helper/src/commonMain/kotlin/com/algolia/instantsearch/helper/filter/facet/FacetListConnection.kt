@@ -46,7 +46,7 @@ public fun FacetListViewModel.connectFilterState(
 
 /**
  * Connects this FacetListViewModel to a Searcher,
- * adding [attribute] to its [faceted attributes][com.algolia.search.model.search.Query.facets]
+ * adding the [attribute] to the searcher's [faceted attributes][com.algolia.search.model.search.Query.facets]
  * and updating the viewModel's data when the facets change.
  */
 public fun FacetListViewModel.connectSearcher(

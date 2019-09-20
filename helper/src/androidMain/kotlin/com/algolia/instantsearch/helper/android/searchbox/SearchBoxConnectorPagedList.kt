@@ -11,10 +11,15 @@ import com.algolia.instantsearch.helper.searchbox.SearchMode
 
 
 public data class SearchBoxConnectorPagedList<R>(
+    @JvmField
     public val searcher: Searcher<R>,
+    @JvmField
     public val pagedList: List<LiveData<out PagedList<out Any>>>,
+    @JvmField
     public val viewModel: SearchBoxViewModel = SearchBoxViewModel(),
+    @JvmField
     public val searchMode: SearchMode = SearchMode.AsYouType,
+    @JvmField
     public val debouncer: Debouncer = Debouncer(debounceSearchInMillis)
 ) : ConnectionImpl() {
 

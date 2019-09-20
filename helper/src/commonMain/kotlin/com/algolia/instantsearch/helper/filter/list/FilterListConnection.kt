@@ -13,7 +13,7 @@ import kotlin.jvm.JvmName
 
 /**
  * Connects this FilterListViewModel.Facet to a FilterState, updating its filters
- * when the selection changes and updating the items when its state changes.
+ * when the selection changes and updating the viewModel's data when its state changes.
  */
 public fun FilterListViewModel.Facet.connectFilterState(
     filterState: FilterState,
@@ -24,7 +24,7 @@ public fun FilterListViewModel.Facet.connectFilterState(
 
 /**
  * Connects this FilterListViewModel.Numeric to a FilterState, updating its filters
- * when the selection changes and updating the items when its state changes.
+ * when the selection changes and updating the viewModel's data when its state changes.
  */
 public fun FilterListViewModel.Numeric.connectFilterState(
     filterState: FilterState,
@@ -36,7 +36,7 @@ public fun FilterListViewModel.Numeric.connectFilterState(
 
 /**
  * Connects this FilterListViewModel.Tag to a FilterState, updating its filters
- * when the selection changes and updating the items when its state changes.
+ * when the selection changes and updating the viewModel's data when its state changes.
  */
 public fun FilterListViewModel.Tag.connectFilterState(
     filterState: FilterState,
@@ -47,7 +47,7 @@ public fun FilterListViewModel.Tag.connectFilterState(
 
 /**
  * Connects this FilterListViewModel to a FilterState, updating its filters
- * when the selection changes and updating the items when its state changes.
+ * when the selection changes and updating the viewModel's data when its state changes.
  */
 public fun FilterListViewModel.All.connectFilterState(
     filterState: FilterState,
