@@ -50,6 +50,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
 import com.algolia.instantsearch.helper.hierarchical.*
+import com.algolia.instantsearch.helper.index.IndexPresenterImpl
 import com.algolia.instantsearch.helper.loading.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
@@ -548,6 +549,34 @@ internal class KotlinDX {
 
         val presenter = HierarchicalPresenterImpl(" > ")
         presenter(tree)
+    }
+
+    @Test
+    fun highlightable() {
+        //TODO: Once @JvmDefault is used, confirm DX from Kotlin
+    }
+
+    @Test
+    fun index() {
+        val presenter = IndexPresenterImpl
+        searcherSingleIndex?.let { presenter(it.index) }
+    }
+
+    @org.junit.Test
+    fun loading2() {
+        // ViewModel
+        var viewModel = LoadingViewModel()
+        viewModel = LoadingViewModel(true)
+        searcherSingleIndex?.let {
+            viewModel.connectSearcher(it)
+            viewModel.connectSearcher(it, Debouncer(0L))
+        }
+
+        //View
+        val view = object : LoadingView {
+            override var onReload: Callback<Unit>? = null
+            override fun setIsLoading(isLoading: Boolean) {}
+        }
     }
     //endregion
 

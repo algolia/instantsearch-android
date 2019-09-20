@@ -53,7 +53,7 @@ import com.algolia.instantsearch.helper.hierarchical.HierarchicalFilter;
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalItem;
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalPresenterImpl;
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel;
-import com.algolia.instantsearch.helper.highlighting.Highlightable;
+import com.algolia.instantsearch.helper.index.IndexPresenterImpl;
 import com.algolia.instantsearch.helper.loading.Loading;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
@@ -74,7 +74,6 @@ import com.algolia.search.model.search.Query;
 import com.algolia.search.transport.RequestOptions;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -90,7 +89,6 @@ import kotlin.Pair;
 import kotlin.Unit;
 import kotlin.ranges.LongRange;
 import kotlinx.coroutines.Job;
-import kotlinx.serialization.json.JsonObject;
 
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -572,7 +570,7 @@ public class JavaDX {
         final List<Filter.Facet> path = (List<Filter.Facet>) hierarchicalFilter.path;
 
         // Tree
-                Tree<Facet> tree = new Tree<>(Collections.singletonList(new Node<>(facet)));
+        Tree<Facet> tree = new Tree<>(Collections.singletonList(new Node<>(facet)));
 
         // ViewModel
         HierarchicalViewModel viewModelMin = new HierarchicalViewModel(attribute,
@@ -599,6 +597,26 @@ public class JavaDX {
         //TODO: Use @JvmDefault, then confirm DX from Java
     }
 
+    @Test
+    public void index() {
+        IndexPresenterImpl presenter = IndexPresenterImpl.INSTANCE;
+        //noinspection ConstantConditions - we assess the DX && compile, without running on mock
+        if (false) {
+            presenter.present(searcherSingleIndex.index);
+        }
+    }
+
+    @Test
+    public void loading2() {
+        // ViewModel
+        LoadingViewModel viewModel = new LoadingViewModel();
+        viewModel = new LoadingViewModel(true);
+        Loading.<ResponseSearch>connectSearcher(viewModel, searcherSingleIndex);
+        Loading.<ResponseSearch>connectSearcher(viewModel, searcherSingleIndex, new Debouncer(0L));
+
+        //TODO View - can't be done without a Java-friendly `Callback()` due to onReload
+//        LoadingView view = new
+    }
 
     //endregion
 

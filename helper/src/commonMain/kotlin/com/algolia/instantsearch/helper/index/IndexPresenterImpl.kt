@@ -6,6 +6,8 @@ import com.algolia.search.client.Index
 public object IndexPresenterImpl : IndexPresenter {
 
     override fun invoke(index: Index): String {
-        return index.indexName.raw
+        return present(index)
     }
+
+    fun present(index: Index) = index.indexName.raw
 }

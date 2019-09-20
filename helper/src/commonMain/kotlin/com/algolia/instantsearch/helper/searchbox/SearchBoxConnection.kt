@@ -7,8 +7,13 @@ import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
+import kotlin.jvm.JvmOverloads
 
-
+/**
+ * Connects this SearchBoxViewModel to a Searcher, trigerring requests when the query changes
+ * according to the current [searchMode].
+ */
+@JvmOverloads
 public fun <R> SearchBoxViewModel.connectSearcher(
     searcher: Searcher<R>,
     searchMode: SearchMode = SearchMode.AsYouType,
