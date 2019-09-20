@@ -9,12 +9,17 @@ import com.algolia.search.model.response.ResponseSearchPlacesMono
 import com.algolia.search.model.search.Language
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
+import kotlin.jvm.JvmField
 
 
 public class SearcherPlaces(
+    @JvmField
     val client: ClientPlaces = ClientPlaces(),
+    @JvmField
     val language: Language = Language.English,
+    @JvmField
     val query: PlacesQuery = PlacesQuery(),
+    @JvmField
     val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope()
 ) : Searcher<ResponseSearchPlacesMono> {

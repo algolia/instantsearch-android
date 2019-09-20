@@ -28,7 +28,6 @@ import com.algolia.instantsearch.core.subscription.Subscription;
 import com.algolia.instantsearch.core.subscription.SubscriptionValue;
 import com.algolia.instantsearch.core.tree.Node;
 import com.algolia.instantsearch.core.tree.Tree;
-import com.algolia.instantsearch.core.tree.TreeUtils;
 import com.algolia.instantsearch.core.tree.TreeViewModel;
 import com.algolia.instantsearch.helper.attribute.AttributeMatchAndReplace;
 import com.algolia.instantsearch.helper.attribute.AttributePresenterImpl;
@@ -61,6 +60,8 @@ import com.algolia.instantsearch.helper.searchbox.SearchMode;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex;
+import com.algolia.instantsearch.helper.searcher.Searchers;
+import com.algolia.instantsearch.helper.sortby.SortBy;
 import com.algolia.search.client.ClientSearch;
 import com.algolia.search.client.Index;
 import com.algolia.search.model.Attribute;
@@ -118,6 +119,7 @@ public class JavaDX {
     private static Facet facet = new Facet("red", 42, null);
     private List<Facet> facets = Collections.singletonList(facet);
     private static Map<Attribute, FacetStats> facetStats = new HashMap<>();
+    private static Debouncer debouncer = new Debouncer(0L);
 
     //region Test Setup
     @BeforeClass
@@ -218,7 +220,7 @@ public class JavaDX {
 
         //FIXME: Why does IDE report "Wrong 2nd argument type"?
         Loading.connectSearcher(viewModel, searcherSingleIndex);
-        Loading.connectSearcher(viewModel, searcherSingleIndex, new Debouncer(42));
+        Loading.connectSearcher(viewModel, searcherSingleIndex, debouncer);
     }
 
     @Test
@@ -615,7 +617,7 @@ public class JavaDX {
         LoadingViewModel viewModel = new LoadingViewModel();
         viewModel = new LoadingViewModel(true);
         Loading.<ResponseSearch>connectSearcher(viewModel, searcherSingleIndex);
-        Loading.<ResponseSearch>connectSearcher(viewModel, searcherSingleIndex, new Debouncer(0L));
+        Loading.<ResponseSearch>connectSearcher(viewModel, searcherSingleIndex, debouncer);
 
         //TODO View - can't be done without a Java-friendly `Callback()` due to onReload
 //        LoadingView view = new
@@ -628,10 +630,32 @@ public class JavaDX {
 
         SearchBox.<ResponseSearch>connectSearcher(viewModel, searcherSingleIndex);
         SearchBox.<ResponseSearch>connectSearcher(viewModel, searcherSingleIndex, SearchMode.AsYouType);
-        SearchBox.<ResponseSearch>connectSearcher(viewModel, searcherSingleIndex, SearchMode.AsYouType, new Debouncer(0L));
+        SearchBox.<ResponseSearch>connectSearcher(viewModel, searcherSingleIndex, SearchMode.AsYouType, debouncer);
 
         //TODO View - can't be done without a Java-friendly `Callback()` due to onQueryXX
 //        SearchBoxView view = new Search
+    }
+
+    @Test
+    public void searcher2() {
+        //noinspection ConstantConditions - we assess the DX && compile, without running on mocks
+        if (false) {
+            Searchers.connectFilterState(searcherSingleIndex, filterState);
+            Searchers.connectFilterState(searcherSingleIndex, filterState, debouncer);
+            Searchers.connectFilterState(searcherForFacets, filterState);
+            Searchers.connectFilterState(searcherForFacets, filterState, debouncer);
+        }
+    }
+
+    @Test
+    public void sortBy() {
+        SelectableMapViewModel<Integer, Index> sortByViewModel = new SelectableMapViewModel<>();
+        SortBy.connectSearcher(sortByViewModel, searcherSingleIndex);
+    }
+
+    @Test
+    public void stats() {
+
     }
     //endregion
 

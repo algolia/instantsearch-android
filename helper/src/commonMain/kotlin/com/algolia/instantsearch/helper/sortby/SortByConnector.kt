@@ -5,7 +5,9 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.client.Index
 import kotlin.jvm.JvmOverloads
 
-
+/**
+ * @see connectSearcher
+ */
 public data class SortByConnector @JvmOverloads constructor(
     public val searcher: SearcherSingleIndex,
     public val viewModel: SortByViewModel = SortByViewModel()

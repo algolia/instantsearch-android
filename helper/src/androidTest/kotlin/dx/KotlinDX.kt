@@ -562,7 +562,7 @@ internal class KotlinDX {
         searcherSingleIndex?.let { presenter(it.index) }
     }
 
-    @org.junit.Test
+    @Test
     fun loading2() {
         // ViewModel
         var viewModel = LoadingViewModel()
