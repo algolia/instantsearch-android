@@ -47,6 +47,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID;
 import com.algolia.instantsearch.helper.filter.state.FilterOperator;
 import com.algolia.instantsearch.helper.filter.state.FilterState;
 import com.algolia.instantsearch.helper.filter.state.Filters;
+import com.algolia.instantsearch.helper.filter.toggle.FilterToggle;
 import com.algolia.instantsearch.helper.loading.Loading;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
@@ -520,22 +521,10 @@ public class JavaDX {
     public void filter_comparison() {
         // ViewModel
         NumberViewModel<Integer> viewModel = new NumberViewModel<>();
-        assertNotNull(attribute);
         FilterComparison.connectFilterState(viewModel, filterState, attribute, NumericOperator.Equals);
         FilterComparison.connectFilterState(viewModel, filterState, attribute, NumericOperator.Equals, groupIDs.get(0));
-
-        // View
-
-        // Presenter
     }
 
-    @Test
-    public void filter_range() {
-        // ViewModel
-        // View
-
-        // Presenter
-    }
 
     @Test
     public void filter_state() {
@@ -548,10 +537,9 @@ public class JavaDX {
     @Test
     public void filter_toggle() {
         // ViewModel
-
-        // View
-
-        // Presenter
+        SelectableItemViewModel<Filter> viewModel = new SelectableItemViewModel<>(filterFacet);
+        FilterToggle.connectFilterState(viewModel, filterState);
+        FilterToggle.connectFilterState(viewModel, filterState, groupIDs.get(0));
     }
     //endregion
 

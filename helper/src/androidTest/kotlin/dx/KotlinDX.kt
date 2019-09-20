@@ -43,17 +43,20 @@ import com.algolia.instantsearch.helper.filter.list.FilterListView
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.map.FilterMapViewModel
 import com.algolia.instantsearch.helper.filter.map.connectView
+import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
 import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromFacetStatsInt
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
 import com.algolia.instantsearch.helper.loading.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
+import com.algolia.search.model.filter.NumericOperator
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 import com.algolia.search.model.search.FacetStats
@@ -466,7 +469,6 @@ internal class KotlinDX {
         viewModelAll.connectView(view)
     }
 
-
     @Test
     fun filter_map() {
         // ViewModel
@@ -482,6 +484,15 @@ internal class KotlinDX {
         viewModel.connectView(view) { it }
     }
 
+
+    @org.junit.Test
+    fun filter_comparison() {
+        // ViewModel
+        val viewModel = NumberViewModel<Int>()
+        viewModel.connectFilterState(filterState, attribute, NumericOperator.Equals)
+        viewModel.connectFilterState(filterState, attribute, NumericOperator.Equals, groupIDs[0])
+    }
+
     @Test
     fun filter_state() {
         var groupID = FilterGroupID(FilterOperator.Or)
@@ -491,6 +502,13 @@ internal class KotlinDX {
     }
 
 
+    @Test
+    fun filter_toggle() {
+        // ViewModel
+        val viewModel = SelectableItemViewModel<Filter>(filterFacet)
+        viewModel.connectFilterState(filterState)
+        viewModel.connectFilterState(filterState, groupIDs[0])
+    }
     //endregion
 
     //region Helper.androidMain

@@ -3,9 +3,10 @@ package com.algolia.instantsearch.helper.stats
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
+import kotlin.jvm.JvmOverloads
 
 
-public data class StatsConnector(
+public data class StatsConnector @JvmOverloads constructor(
     public val searcher: SearcherSingleIndex,
     public val viewModel: StatsViewModel = StatsViewModel()
 ) : ConnectionImpl() {

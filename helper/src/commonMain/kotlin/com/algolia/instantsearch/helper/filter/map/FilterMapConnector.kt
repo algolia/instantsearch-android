@@ -5,9 +5,10 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
+import kotlin.jvm.JvmOverloads
 
 
-public data class FilterMapConnector(
+public data class FilterMapConnector @JvmOverloads constructor(
     public val filterState: FilterState,
     public val viewModel: FilterMapViewModel = FilterMapViewModel(),
     public val groupID: FilterGroupID = FilterGroupID(FilterOperator.And)

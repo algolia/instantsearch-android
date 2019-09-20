@@ -3,9 +3,10 @@ package com.algolia.instantsearch.helper.sortby
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.client.Index
+import kotlin.jvm.JvmOverloads
 
 
-public data class SortByConnector(
+public data class SortByConnector @JvmOverloads constructor(
     public val searcher: SearcherSingleIndex,
     public val viewModel: SortByViewModel = SortByViewModel()
 ) : ConnectionImpl() {
