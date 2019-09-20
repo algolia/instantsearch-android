@@ -141,6 +141,7 @@ public interface FacetListView : SelectableListView<Facet> // Good
 # Remaining tasks for a great Java DX
 
 - Apply each guideline in the Client
+- Apply each guideline in `androidMain`
 - Solve FIXMEs in the DX tests: these highlight an API issue, sometimes only in the IDE (e.g. `Index index = searcherSingleIndex.index;`)
 - Solve TODOs in the DX tests (applying the same pattern to other widgets)
 - Try to leverage [@JvmDefault](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-default/index.html) to expose default implementations on interfaces
