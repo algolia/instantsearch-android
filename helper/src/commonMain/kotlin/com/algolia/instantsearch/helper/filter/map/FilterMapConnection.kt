@@ -11,8 +11,8 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import kotlin.jvm.JvmOverloads
 
 /**
- * Connects this FilterMapViewModel to a FilterState, updating its filter when the selection changes
- * and updating the viewModel's data when the filters change.
+ * Connects this FilterMapViewModel to a FilterState, updating its filters
+ * when the selection changes and updating the viewModel's data when the filterState changes.
  */
 @JvmOverloads
 public fun FilterMapViewModel.connectFilterState(

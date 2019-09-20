@@ -43,6 +43,7 @@ import com.algolia.instantsearch.helper.filter.list.FilterListView
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.map.FilterMapViewModel
 import com.algolia.instantsearch.helper.filter.map.connectView
+import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromFacetStatsInt
 import com.algolia.instantsearch.helper.filter.range.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
@@ -55,7 +56,9 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
+import com.algolia.search.model.search.FacetStats
 import org.junit.AfterClass
+import java.util.HashMap
 import kotlin.test.Test
 
 @Suppress(
@@ -76,8 +79,8 @@ internal class KotlinDX {
     private val groupIDs = listOf(FilterGroupID())
     private val filterFacet = Filter.Facet(attribute, "foo", 0, false)
     private val facet = Facet("facet", 42)
-    private val facets = listOf<Facet>(facet)
-
+    private val facets = listOf(facet)
+    private val facetStats = mapOf(attribute to FacetStats(0f, 2f, 1f, 3f))
 
     //region Core
     @Test
@@ -173,7 +176,7 @@ internal class KotlinDX {
         viewModel.coerce(-1)
         viewModel.number.value
         viewModel.bounds.value = Range(0..10)
-
+        viewModel.setBoundsFromFacetStatsInt(attribute, facetStats)
         // Presenter
         val presenter = NumberPresenterImpl
         presenter(10)
@@ -198,6 +201,8 @@ internal class KotlinDX {
         viewModel.eventRange.subscribe { viewModel.range.value = it }
         viewModel.coerce(bounds)
         viewModel.range.value
+        viewModel.connectFilterState(filterState, attribute)
+        viewModel.connectFilterState(filterState, attribute, FilterGroupID(FilterOperator.Or))
 
         val view = object : NumberRangeView<Long> {
             override var onRangeChanged: Callback<Range<Long>>? = null
@@ -206,8 +211,6 @@ internal class KotlinDX {
 
         }
         viewModel.connectView(view)
-        viewModel.connectFilterState(filterState, attribute)
-        viewModel.connectFilterState(filterState, attribute, FilterGroupID(FilterOperator.Or))
     }
 
     @Test

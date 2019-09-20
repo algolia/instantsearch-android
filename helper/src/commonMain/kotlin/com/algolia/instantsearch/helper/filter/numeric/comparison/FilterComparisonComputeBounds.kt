@@ -1,9 +1,12 @@
+@file:JvmName("ComputeBounds")
+
 package com.algolia.instantsearch.helper.filter.numeric.comparison
 
 import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.FacetStats
+import kotlin.jvm.JvmName
 
 
 private fun <T> NumberViewModel<T>.setBoundsFromFacetStats(
@@ -16,6 +19,9 @@ private fun <T> NumberViewModel<T>.setBoundsFromFacetStats(
     }
 }
 
+/**
+ * Compute bounds for this NumberViewModel based on the given FacetStats for its attribute.
+ */
 public fun NumberViewModel<Int>.setBoundsFromFacetStatsInt(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
@@ -23,6 +29,9 @@ public fun NumberViewModel<Int>.setBoundsFromFacetStatsInt(
     setBoundsFromFacetStats(attribute, facetStats) { it.toInt() }
 }
 
+/**
+ * Compute bounds for this NumberViewModel based on the given FacetStats for its attribute.
+ */
 public fun NumberViewModel<Long>.setBoundsFromFacetStatsLong(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
@@ -30,6 +39,9 @@ public fun NumberViewModel<Long>.setBoundsFromFacetStatsLong(
     setBoundsFromFacetStats(attribute, facetStats) { it.toLong() }
 }
 
+/**
+ * Compute bounds for this NumberViewModel based on the given FacetStats for its attribute.
+ */
 public fun NumberViewModel<Float>.setBoundsFromFacetStatsFloat(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>
@@ -37,6 +49,9 @@ public fun NumberViewModel<Float>.setBoundsFromFacetStatsFloat(
     setBoundsFromFacetStats(attribute, facetStats) { it }
 }
 
+/**
+ * Compute bounds for this NumberViewModel based on the given FacetStats for its attribute.
+ */
 public fun NumberViewModel<Double>.setBoundsFromFacetStatsDouble(
     attribute: Attribute,
     facetStats: Map<Attribute, FacetStats>

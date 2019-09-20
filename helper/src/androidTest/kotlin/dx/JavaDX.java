@@ -40,13 +40,13 @@ import com.algolia.instantsearch.helper.filter.current.FilterCurrentViewModel;
 import com.algolia.instantsearch.helper.filter.facet.FacetListPresenterImpl;
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel;
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel;
+import com.algolia.instantsearch.helper.filter.numeric.comparison.ComputeBounds;
+import com.algolia.instantsearch.helper.filter.numeric.comparison.FilterComparison;
+import com.algolia.instantsearch.helper.filter.range.FilterRange;
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID;
 import com.algolia.instantsearch.helper.filter.state.FilterOperator;
 import com.algolia.instantsearch.helper.filter.state.FilterState;
 import com.algolia.instantsearch.helper.filter.state.Filters;
-import com.algolia.instantsearch.helper.filter.state.FiltersImpl;
-import com.algolia.instantsearch.helper.filter.state.MutableFilters;
-import com.algolia.instantsearch.helper.filter.state.MutableFiltersImpl;
 import com.algolia.instantsearch.helper.loading.Loading;
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets;
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex;
@@ -55,12 +55,14 @@ import com.algolia.search.client.ClientSearch;
 import com.algolia.search.client.Index;
 import com.algolia.search.model.Attribute;
 import com.algolia.search.model.filter.Filter;
+import com.algolia.search.model.filter.NumericOperator;
 import com.algolia.search.model.multipleindex.IndexQuery;
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy;
 import com.algolia.search.model.response.ResponseSearch;
 import com.algolia.search.model.response.ResponseSearchForFacets;
 import com.algolia.search.model.response.ResponseSearches;
 import com.algolia.search.model.search.Facet;
+import com.algolia.search.model.search.FacetStats;
 import com.algolia.search.model.search.Query;
 import com.algolia.search.transport.RequestOptions;
 
@@ -81,6 +83,7 @@ import kotlin.Unit;
 import kotlin.ranges.LongRange;
 import kotlinx.coroutines.Job;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -104,12 +107,14 @@ public class JavaDX {
     private static final List<FilterGroupID> groupIDs = Collections.singletonList(new FilterGroupID());
     private static Filter.Facet filterFacet = new Filter.Facet(attribute, "foo", 0, false);
     private static Facet facet = new Facet("red", 42, null);
-    private List<Facet> facets = Collections.<Facet>singletonList(facet);
+    private List<Facet> facets = Collections.singletonList(facet);
+    private static Map<Attribute, FacetStats> facetStats = new HashMap<>();
 
     //region Test Setup
     @BeforeClass
     public static void setUp() {
         filterState = new FilterState();
+        facetStats.put(attribute, new FacetStats(0, 2, 1, 3));
 
         // region Prepare Searcher mocks
         final SubscriptionValue<Throwable> error = new SubscriptionValue<>(new Exception());
@@ -235,6 +240,7 @@ public class JavaDX {
         viewModel.coerce(-1);
         viewModel.number.getValue();
         viewModel.bounds.setValue(new Range<>(0, 10));
+        ComputeBounds.setBoundsFromFacetStatsInt(viewModel, attribute, facetStats);
 
         // Presenter
         final NumberPresenterImpl presenter = NumberPresenterImpl.INSTANCE;
@@ -259,6 +265,9 @@ public class JavaDX {
         viewModel.eventRange.subscribe(viewModel.range::setValue);
         viewModel.coerce(bounds);
         viewModel.range.getValue();
+
+        FilterRange.connectFilterState(viewModel, filterState, attribute);
+        FilterRange.connectFilterState(viewModel, filterState, attribute, groupIDs.get(0));
 
         // TODO View - can't be done without a Java-friendly `Callback()` due to onRangeChanged
 //        NumberRangeView view = new NumberRangeView() {}
@@ -312,7 +321,7 @@ public class JavaDX {
 
         // SearcherForFacets
         index = searcherForFacets.index;
-        attribute = searcherForFacets.attribute;
+        Attribute attribute = searcherForFacets.attribute;
         query = searcherForFacets.query;
         final String facetQuery = searcherForFacets.facetQuery;
         requestOptions = searcherForFacets.requestOptions;
@@ -418,7 +427,6 @@ public class JavaDX {
     public void filter() {
         //FIXME: FilterPresenter cannot be used as-is from Java
     }
-    //endregion
 
     @Test
     public void filter_clear() {
@@ -505,14 +513,16 @@ public class JavaDX {
 //        FilterMapViewModel viewModel = new FilterMapViewModel();
 
         // View
-
-        // Presenter
     }
 
 
     @Test
     public void filter_comparison() {
         // ViewModel
+        NumberViewModel<Integer> viewModel = new NumberViewModel<>();
+        assertNotNull(attribute);
+        FilterComparison.connectFilterState(viewModel, filterState, attribute, NumericOperator.Equals);
+        FilterComparison.connectFilterState(viewModel, filterState, attribute, NumericOperator.Equals, groupIDs.get(0));
 
         // View
 
@@ -522,7 +532,6 @@ public class JavaDX {
     @Test
     public void filter_range() {
         // ViewModel
-
         // View
 
         // Presenter
@@ -536,7 +545,6 @@ public class JavaDX {
         final Filters value = filterState.filters.getValue();
     }
 
-
     @Test
     public void filter_toggle() {
         // ViewModel
@@ -545,6 +553,10 @@ public class JavaDX {
 
         // Presenter
     }
+    //endregion
+
+    //region Helper.androidMain
+    //endregion
 
     @Test
     public void x() {
@@ -555,6 +567,4 @@ public class JavaDX {
         // Presenter
     }
 
-    //region Helper.androidMain
-    //endregion
 }
