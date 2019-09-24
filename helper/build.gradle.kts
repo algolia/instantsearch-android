@@ -23,8 +23,6 @@ android {
     defaultConfig {
         minSdkVersion(17)
         targetSdkVersion(28)
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,9 +30,8 @@ android {
     testOptions.unitTests.isIncludeAndroidResources = true
 
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        getByName("debug") {
+            matchingFallbacks = listOf("release")
         }
     }
 
@@ -90,7 +87,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":core"))
-                api(AlgoliaClient("common"))
+                api(AlgoliaClient())
                 api(kotlin("stdlib-common"))
             }
         }
@@ -99,7 +96,7 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation(Ktor("client-mock"))
-                implementation(AlgoliaClient("common"))
+                implementation(AlgoliaClient())
             }
         }
         val jvmMain by getting {
@@ -127,7 +124,7 @@ kotlin {
                 api(SwipeRefreshLayout())
                 api(Paging())
                 api(Coroutines("android"))
-                api(AlgoliaClient("jvm"))
+                api(AlgoliaClient("android"))
                 api(Ktor("client-android"))
             }
         }
@@ -136,7 +133,7 @@ kotlin {
                 implementation(project(":core"))
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation(AlgoliaClient("jvm"))
+                implementation(AlgoliaClient("android"))
                 implementation(Ktor("client-mock-jvm"))
                 implementation(AppCompat())
                 implementation(Paging())
