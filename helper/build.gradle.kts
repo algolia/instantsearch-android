@@ -142,8 +142,8 @@ kotlin {
                 implementation(AndroidTestRunner())
                 implementation(AndroidTestExt())
                 implementation(Robolectric())
-                implementation(MockitoCore())
-                implementation(MockitoInline())
+                implementation(Mockito("core"))
+                implementation(Mockito("inline"))
             }
         }
     }
