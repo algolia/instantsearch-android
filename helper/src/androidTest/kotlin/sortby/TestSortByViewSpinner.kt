@@ -1,5 +1,6 @@
 package sortby
 
+import android.os.Build
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -8,10 +9,12 @@ import applicationContext
 import com.algolia.instantsearch.helper.android.sortby.SortByViewSpinner
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import shouldEqual
 
 
 @SmallTest
+@Config(sdk = [Build.VERSION_CODES.P])
 @RunWith(AndroidJUnit4::class)
 class TestSortByViewSpinner {
 

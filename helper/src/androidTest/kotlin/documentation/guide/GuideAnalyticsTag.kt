@@ -8,10 +8,12 @@ import com.algolia.search.dsl.query
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
+import org.junit.Ignore
 import org.junit.Test
 
 
 @Suppress("UNUSED_VARIABLE")
+@Ignore
 class GuideAnalyticsTag {
 
     private val index = ClientSearch(ApplicationID("app"), APIKey("key")).initIndex(IndexName("index"))

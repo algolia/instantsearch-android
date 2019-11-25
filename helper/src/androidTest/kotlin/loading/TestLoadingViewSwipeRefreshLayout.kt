@@ -1,5 +1,6 @@
 package loading
 
+import android.os.Build
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
@@ -9,11 +10,13 @@ import com.algolia.instantsearch.core.loading.connectView
 import com.algolia.instantsearch.helper.android.loading.LoadingViewSwipeRefreshLayout
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import shouldBeFalse
 import shouldBeTrue
 
 
 @SmallTest
+@Config(sdk = [Build.VERSION_CODES.P])
 @RunWith(AndroidJUnit4::class)
 class TestLoadingViewSwipeRefreshLayout {
 
