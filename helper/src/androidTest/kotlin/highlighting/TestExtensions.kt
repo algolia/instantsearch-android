@@ -2,6 +2,7 @@ package highlighting
 
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.Build
 import android.text.ParcelableSpan
 import android.text.SpannedString
 import android.text.style.ForegroundColorSpan
@@ -15,10 +16,12 @@ import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
 import com.algolia.instantsearch.helper.android.highlighting.toSpannedString
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import shouldEqual
 
 
 @SmallTest
+@Config(sdk = [Build.VERSION_CODES.P])
 @RunWith(AndroidJUnit4::class)
 class TestExtensions {
 
