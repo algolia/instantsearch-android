@@ -1,3 +1,10 @@
+# 2.2.0
+
+- Use Kotlin client `1.2.0` and its `-android` artifact.
+- Updated Kotlin to `1.3.60`
+- AutoCompleteTextView integration as a SearchBox #187
+- Add connectFilterState with `SearcherMultipleIndex` #182
+
 # 2.1.0
 
 - Added a method `SearcherMultipleIndex.connectFilterState` #182

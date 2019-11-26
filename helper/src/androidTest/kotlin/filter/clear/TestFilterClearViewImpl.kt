@@ -1,5 +1,6 @@
 package filter.clear
 
+import android.os.Build
 import android.view.View
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
@@ -7,10 +8,12 @@ import applicationContext
 import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import shouldBeTrue
 
 
 @SmallTest
+@Config(sdk = [Build.VERSION_CODES.P])
 @RunWith(AndroidJUnit4::class)
 class TestFilterClearViewImpl {
 

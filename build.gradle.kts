@@ -4,7 +4,7 @@ import java.net.URI
 plugins {
     id("java-library-convention")
     id("maven-publish")
-    id("com.github.ben-manes.versions") version "0.24.0"
+    id("com.github.ben-manes.versions") version "0.27.0"
 }
 
 buildscript {
@@ -14,8 +14,8 @@ buildscript {
     }
     dependencies {
         classpath(dependency.script.AndroidTools())
-        classpath(kotlin("gradle-plugin", version = "1.3.50"))
-        classpath(kotlin("serialization",  version = "1.3.50"))
+        classpath(kotlin("gradle-plugin", version = "1.3.60"))
+        classpath(kotlin("serialization",  version = "1.3.60"))
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
     }
 }

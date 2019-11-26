@@ -18,13 +18,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion(29)
 
     defaultConfig {
         minSdkVersion(17)
-        targetSdkVersion(28)
-        versionCode = 1
-        versionName = "1.0"
+        targetSdkVersion(29)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,9 +30,8 @@ android {
     testOptions.unitTests.isIncludeAndroidResources = true
 
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        getByName("debug") {
+            matchingFallbacks = listOf("release")
         }
     }
 
@@ -127,7 +124,7 @@ kotlin {
                 api(SwipeRefreshLayout())
                 api(Paging())
                 api(Coroutines("android"))
-                api(AlgoliaClient("jvm"))
+                api(AlgoliaClient("android"))
                 api(Ktor("client-android"))
             }
         }
@@ -136,7 +133,7 @@ kotlin {
                 implementation(project(":core"))
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation(AlgoliaClient("jvm"))
+                implementation(AlgoliaClient("android"))
                 implementation(Ktor("client-mock-jvm"))
                 implementation(AppCompat())
                 implementation(Paging())

@@ -1,5 +1,6 @@
 package filter.map
 
+import android.os.Build
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -8,10 +9,12 @@ import applicationContext
 import com.algolia.instantsearch.helper.android.filter.map.FilterMapViewRadioGroup
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import shouldEqual
 
 
 @SmallTest
+@Config(sdk = [Build.VERSION_CODES.P])
 @RunWith(AndroidJUnit4::class)
 class TestSelectableMapViewRadioGroup {
 

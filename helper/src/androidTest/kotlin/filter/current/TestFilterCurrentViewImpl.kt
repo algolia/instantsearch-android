@@ -1,5 +1,6 @@
 package filter.current
 
+import android.os.Build
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
@@ -11,10 +12,12 @@ import com.algolia.search.model.filter.Filter
 import com.google.android.material.chip.ChipGroup
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import shouldEqual
 
 
 @SmallTest
+@Config(sdk = [Build.VERSION_CODES.P])
 @RunWith(AndroidJUnit4::class)
 class TestFilterCurrentViewImpl {
 

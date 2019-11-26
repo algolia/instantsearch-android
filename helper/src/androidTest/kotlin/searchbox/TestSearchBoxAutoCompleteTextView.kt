@@ -1,13 +1,13 @@
 package searchbox
 
 import android.os.Build
-import android.widget.EditText
+import android.widget.AutoCompleteTextView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import applicationContext
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
-import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewEditText
+import com.algolia.instantsearch.helper.android.searchbox.SearchBoxAutoCompleteTextView
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
@@ -17,11 +17,11 @@ import shouldEqual
 @SmallTest
 @Config(sdk = [Build.VERSION_CODES.P])
 @RunWith(AndroidJUnit4::class)
-class TestSearchBoxEditText {
+class TestSearchBoxAutoCompleteTextView {
 
     private val text = "text"
 
-    private fun view() = SearchBoxViewEditText(EditText(applicationContext))
+    private fun view() = SearchBoxAutoCompleteTextView(AutoCompleteTextView(applicationContext))
 
     @Test
     fun connectShouldUpdateText() {
@@ -31,7 +31,7 @@ class TestSearchBoxEditText {
 
         viewModel.query.value = text
         connection.connect()
-        view.editText.text.toString() shouldEqual text
+        view.autoCompleteTextView.text.toString() shouldEqual text
     }
 
     @Test
@@ -41,7 +41,7 @@ class TestSearchBoxEditText {
         val connection = viewModel.connectView(view)
 
         connection.connect()
-        view.editText.setText(text)
+        view.autoCompleteTextView.setText(text)
         viewModel.query.value shouldEqual text
     }
 }
