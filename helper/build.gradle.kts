@@ -1,8 +1,6 @@
 
 import dependency.Library
-import dependency.network.AlgoliaClient
-import dependency.network.Coroutines
-import dependency.network.Ktor
+import dependency.network.*
 import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
