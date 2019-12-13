@@ -2,7 +2,7 @@ package com.algolia.instantsearch.core.connection
 
 
 public class ConnectionHandler(
-    internal val connections: MutableSet<Connection> = mutableSetOf()
+    public val connections: MutableSet<Connection> = mutableSetOf()
 ) {
 
     public constructor(
@@ -23,5 +23,10 @@ public class ConnectionHandler(
 
     public operator fun plusAssign(connections: Collection<Connection>) {
         this.connections += connections.apply { forEach { it.connect() } }
+    }
+
+    public fun clear() {
+        disconnect()
+        connections.clear()
     }
 }

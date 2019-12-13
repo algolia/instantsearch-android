@@ -1,3 +1,8 @@
+# 2.2.1
+
+- Use Kotlin client `1.2.1`
+- Add `clear` method to `ConnectionHandler`
+
 # 2.2.0
 
 - Use Kotlin client `1.2.0` and its `-android` artifact.
