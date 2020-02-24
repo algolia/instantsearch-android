@@ -2,8 +2,8 @@ package searcher
 
 import blocking
 import com.algolia.search.model.IndexName
-import io.ktor.client.engine.mock.respondBadRequest
 import mockClient
+import respondBadRequest
 import responseSearch
 import shouldBeFalse
 import shouldBeNull
@@ -17,7 +17,7 @@ class TestSearcherSingleIndex {
 
     private val client = mockClient()
     private val index = client.initIndex(IndexName("index"))
-    private val clientError = mockClient(respondBadRequest())
+    private val clientError = respondBadRequest()
     private val indexError = clientError.initIndex(IndexName("index"))
 
     @Test
