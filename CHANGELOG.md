@@ -1,3 +1,8 @@
+# 2.3.0
+
+- Use Kotlin client `1.3.1`
+- Updated Ktor to `1.3.0`
+
 # 2.2.2
 
 - Use Kotlin client `1.2.2`

@@ -4,8 +4,8 @@ import blocking
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearchForFacets
-import io.ktor.client.engine.mock.respondBadRequest
 import mockClient
+import respondBadRequest
 import respondJson
 import shouldBeFalse
 import shouldBeNull
@@ -25,7 +25,7 @@ class TestSearcherForFacets {
     )
     private val client = mockClient(respondJson(response, ResponseSearchForFacets.serializer()))
     private val index = client.initIndex(IndexName("index"))
-    private val clientError = mockClient(respondBadRequest())
+    private val clientError = respondBadRequest()
     private val indexError = clientError.initIndex(IndexName("index"))
 
     @Test
