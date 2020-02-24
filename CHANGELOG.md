@@ -1,3 +1,7 @@
+# 2.2.2
+
+- Use Kotlin client `1.2.2`
+
 # 2.2.1
 
 - Use Kotlin client `1.2.1`
