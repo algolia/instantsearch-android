@@ -30,9 +30,13 @@ public class SearcherSingleIndexDataSource<T>(
         searcher.query.hitsPerPage = initialLoadSize
         searcher.query.page = 0
         searcher.isLoading.value = true
+        val queryLoaded = searcher.query.query
         runBlocking {
             try {
                 val response = searcher.search()
+                if (queryLoaded != searcher.query.query) {
+                    invalidate()
+                }
                 val nextKey = if (response.nbHits > initialLoadSize) 1 else null
 
                 withContext(searcher.coroutineScope.coroutineContext) {
