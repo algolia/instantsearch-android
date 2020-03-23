@@ -1,3 +1,7 @@
+# 2.3.1
+
+- Fix PagedList Bug when typing too fast #194
+
 # 2.3.0
 
 - Use Kotlin client `1.3.1`
