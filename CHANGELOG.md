@@ -1,6 +1,12 @@
-# 2.3.2
+# 2.4.0
 
-- Fix `toSpannedString` extension to apply the correct spans.
+### Changed
+- Kotlin `1.3.72`
+- Android Gradle Plugin `3.6.3`
+- Algolia Kotlin Client `1.4.0` (#198)
+
+### Fixed
+- Apply correct spans in `toSpannedString` extension function
 
 # 2.3.1
 
