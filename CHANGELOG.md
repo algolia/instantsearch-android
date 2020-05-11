@@ -1,3 +1,7 @@
+# 2.3.2
+
+- Fix `toSpannedString` extension to apply the correct spans.
+
 # 2.3.1
 
 - Fix PagedList Bug when typing too fast #194
