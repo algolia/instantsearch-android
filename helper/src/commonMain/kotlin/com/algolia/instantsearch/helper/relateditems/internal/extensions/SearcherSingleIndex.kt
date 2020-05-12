@@ -10,7 +10,7 @@ internal fun <T> SearcherSingleIndex.configureRelatedItems(
 ) where T : Indexable {
     query.apply {
         sumOrFiltersScores = true
-        facetFilters = hit.toNegatedFacetFilter()
+        facetFilters = hit.toFacetFilter(true)
         optionalFilters = patterns.toOptionalFilters(hit)
     }
 }

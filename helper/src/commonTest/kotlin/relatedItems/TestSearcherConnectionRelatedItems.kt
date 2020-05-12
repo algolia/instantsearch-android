@@ -45,8 +45,6 @@ class TestSearcherConnectionRelatedItems {
             ),
             searcher.query.optionalFilters
         )
-
-        println(searcher.query)
     }
 
     private fun <T> mockHitsView(): HitsView<T> {

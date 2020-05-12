@@ -4,7 +4,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.groupAnd
 import com.algolia.instantsearch.helper.filter.state.groupOr
 import com.algolia.instantsearch.helper.relateditems.MatchingPattern
-import com.algolia.instantsearch.helper.relateditems.internal.OptionalFilter
+import com.algolia.instantsearch.helper.relateditems.internal.FilterFacetAndID
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroupsConverter
 
@@ -15,19 +15,16 @@ internal fun <T> List<MatchingPattern<T>>.toOptionalFilters(hit: T): List<List<S
 }
 
 /**
- * Create an [OptionalFilter] from a [MatchingPattern].
+ * Create an [FilterFacetAndID] from a [MatchingPattern].
  */
-internal fun <T> MatchingPattern<T>.toOptionalFilter(hit: T): OptionalFilter {
+internal fun <T> MatchingPattern<T>.toOptionalFilter(hit: T): FilterFacetAndID {
     return when (val property = property.get(hit)) {
         is Iterable<*> -> {
             val groupOr = groupOr()
             val list = property.map { value -> Filter.Facet(attribute, value.toString(), score) }.toTypedArray()
-            OptionalFilter(
-                groupOr,
-                list
-            )
+            FilterFacetAndID(groupOr, list)
         }
-        else -> OptionalFilter(
+        else -> FilterFacetAndID(
             groupAnd(),
             arrayOf(Filter.Facet(attribute, property.toString(), score))
         )
