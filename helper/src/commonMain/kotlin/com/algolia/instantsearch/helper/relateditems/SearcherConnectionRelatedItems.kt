@@ -16,7 +16,7 @@ import com.algolia.search.model.response.ResponseSearch
  * @param matchingPatterns list of matching patterns that create scored filters based on the hit’s attributes
  * @param presenter presentation output and format
  */
-public fun <T> SearcherSingleIndex.connectHitsView(
+public fun <T> SearcherSingleIndex.connectRelatedHitsView(
     adapter: HitsView<T>,
     hit: T,
     matchingPatterns: List<MatchingPattern<T>>,
