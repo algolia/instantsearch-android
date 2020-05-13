@@ -10,7 +10,7 @@ import kotlin.reflect.KProperty1
  * @param score filter score
  * @param property hit's property
  */
-data class MatchingPattern<T>(
+public data class MatchingPattern<T>(
     val attribute: Attribute,
     val score: Int,
     val property: KProperty1<T, *>
