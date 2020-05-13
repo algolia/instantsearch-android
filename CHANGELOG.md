@@ -1,5 +1,8 @@
 # 2.4.0
 
+## Added
+- Related items widget
+
 ### Changed
 - Kotlin `1.3.72`
 - Android Gradle Plugin `3.6.3`
