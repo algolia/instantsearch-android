@@ -8,7 +8,9 @@ import com.algolia.search.model.filter.FilterGroup
 
 internal fun <T> FilterState.addMatchingPattern(hit: T, matchingPattern: MatchingPattern<T>) {
     val optionalFilter = matchingPattern.toOptionalFilter(hit)
-    add(optionalFilter.filterGroupID, *optionalFilter.filterFacets)
+    optionalFilter?.let {
+        add(it.filterGroupID, *it.filterFacets)
+    }
 }
 
 internal fun FilterState.toFilterFacetGroup(): Set<FilterGroup<Filter.Facet>> {
