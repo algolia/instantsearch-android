@@ -17,8 +17,9 @@ internal fun <T> List<MatchingPattern<T>>.toOptionalFilters(hit: T): List<List<S
 /**
  * Create an [FilterFacetAndID] from a [MatchingPattern].
  */
-internal fun <T> MatchingPattern<T>.toOptionalFilter(hit: T): FilterFacetAndID {
-    return when (val property = property.get(hit)) {
+internal fun <T> MatchingPattern<T>.toOptionalFilter(hit: T): FilterFacetAndID? {
+    val property = property.get(hit) ?: return null
+    return when (property) {
         is Iterable<*> -> {
             val groupOr = groupOr()
             val list = property.map { value -> Filter.Facet(attribute, value.toString(), score) }.toTypedArray()
