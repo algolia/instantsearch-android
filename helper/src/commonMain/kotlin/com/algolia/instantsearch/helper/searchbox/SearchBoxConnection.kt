@@ -8,7 +8,6 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
 
-
 public fun <R> SearchBoxViewModel.connectSearcher(
     searcher: Searcher<R>,
     searchMode: SearchMode = SearchMode.AsYouType,

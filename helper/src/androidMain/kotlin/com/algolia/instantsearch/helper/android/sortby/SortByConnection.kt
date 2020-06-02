@@ -6,11 +6,10 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.sortby.SortByConnector
 import com.algolia.instantsearch.helper.sortby.SortByViewModel
 
-
 public fun <T> SortByViewModel.connectPagedList(pagedList: LiveData<PagedList<T>>): Connection {
     return SortByConnectionPagedList(this, pagedList)
 }
 
 public fun <T> SortByConnector.connectPagedList(pagedList: LiveData<PagedList<T>>): Connection {
-    return SortByConnectionPagedList(viewModel, pagedList)
+    return viewModel.connectPagedList(pagedList)
 }
