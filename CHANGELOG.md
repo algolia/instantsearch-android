@@ -2,6 +2,7 @@
 
 ## Added
 - Related items widget
+- Connecting `SortByViewModel` to `PagedList`
 
 ### Changed
 - Kotlin `1.3.72`
