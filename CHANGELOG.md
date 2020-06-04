@@ -1,3 +1,21 @@
+# 2.4.0
+
+## Added
+- Related items widget
+- Connecting `SortByViewModel` to `PagedList`
+
+### Changed
+- Kotlin `1.3.72`
+- Android Gradle Plugin `3.6.3`
+- Algolia Kotlin Client `1.4.0` (#198)
+
+### Fixed
+- Apply correct spans in `toSpannedString` extension function
+
+# 2.3.1
+
+- Fix PagedList Bug when typing too fast #194
+
 # 2.3.0
 
 - Use Kotlin client `1.3.1`

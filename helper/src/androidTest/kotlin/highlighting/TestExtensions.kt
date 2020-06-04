@@ -14,6 +14,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
 import com.algolia.instantsearch.helper.android.highlighting.toSpannedString
+import com.algolia.instantsearch.helper.android.highlighting.wrap
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
@@ -26,7 +27,7 @@ import shouldEqual
 class TestExtensions {
 
     private val tokenizer = HighlightTokenizer("[", "]")
-    private val highlightStrings = listOf("foo[ba]r", "foo[ba]r[ba]z")
+    private val highlightStrings = listOf("foo[ba]r", "foo[ba]r[ba]z") // 3 spans
     private val highlights = highlightStrings.map(tokenizer)
     private val defaultSpan = StyleSpan(Typeface.BOLD)
     private val customSpan = ForegroundColorSpan(Color.RED)
@@ -35,13 +36,13 @@ class TestExtensions {
         return listOf(
             buildSpannedString {
                 append("foo")
-                inSpans(span) { append("ba") }
+                inSpans(span.wrap()) { append("ba") }
                 append("r")
             }, buildSpannedString {
                 append("foo")
-                inSpans(span) { append("ba") }
+                inSpans(span.wrap()) { append("ba") }
                 append("r")
-                inSpans(span) { append("ba") }
+                inSpans(span.wrap()) { append("ba") }
                 append("z")
             }
         )
@@ -81,7 +82,7 @@ class TestExtensions {
         val expectedSpannedStrings = expectedSpannedStrings(customSpan)
 
         tested.toString() shouldEqual expectedSpannedStrings.joinToString() // Built strings are the same
-        tested.getSpans<Any>().size shouldEqual 1                           // and tested does still have its span
+        tested.getSpans<Any>().size shouldEqual 3                           // and tested does still have its span
     }
 
     private inline fun <reified T : Any> SpannedString.getSpans(): Array<out T> {
