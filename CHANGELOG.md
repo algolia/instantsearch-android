@@ -1,3 +1,8 @@
+# Unreleased
+
+## Added
+- Support and target Android API 30
+
 # 2.4.0
 
 ## Added
