@@ -45,10 +45,7 @@ public class SearcherSingleIndexDataSource<T>(
                 }
                 callback.onResult(response.hits.map(transformer), 0, response.nbHits, null, nextKey)
             } catch (throwable: Throwable) {
-                withContext(searcher.coroutineScope.coroutineContext) {
-                    searcher.error.value = throwable
-                    searcher.isLoading.value = false
-                }
+                resultError(throwable)
             }
         }
     }
@@ -71,11 +68,15 @@ public class SearcherSingleIndexDataSource<T>(
                 }
                 callback.onResult(response.hits.map(transformer), nextKey)
             } catch (throwable: Throwable) {
-                withContext(searcher.coroutineScope.coroutineContext) {
-                    searcher.error.value = throwable
-                    searcher.isLoading.value = false
-                }
+                resultError(throwable)
             }
+        }
+    }
+
+    private suspend fun resultError(throwable: Throwable) {
+        withContext(searcher.coroutineScope.coroutineContext) {
+            searcher.error.value = throwable
+            searcher.isLoading.value = false
         }
     }
 

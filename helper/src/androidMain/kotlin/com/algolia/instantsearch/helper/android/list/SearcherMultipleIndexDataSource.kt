@@ -50,10 +50,7 @@ public class SearcherMultipleIndexDataSource<T>(
                 }
                 callback.onResult(result.hits.map(transformer), 0, result.nbHits, null, nextKey)
             } catch (throwable: Throwable) {
-                withContext(searcher.coroutineScope.coroutineContext) {
-                    searcher.error.value = throwable
-                    searcher.isLoading.value = false
-                }
+                resultError(throwable)
             }
         }
     }
@@ -77,11 +74,15 @@ public class SearcherMultipleIndexDataSource<T>(
                 }
                 callback.onResult(result.hits.map(transformer), nextKey)
             } catch (throwable: Throwable) {
-                withContext(searcher.coroutineScope.coroutineContext) {
-                    searcher.error.value = throwable
-                    searcher.isLoading.value = false
-                }
+                resultError(throwable)
             }
+        }
+    }
+
+    private suspend fun resultError(throwable: Throwable) {
+        withContext(searcher.coroutineScope.coroutineContext) {
+            searcher.error.value = throwable
+            searcher.isLoading.value = false
         }
     }
 
