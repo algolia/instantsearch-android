@@ -1,7 +1,6 @@
 package dependency
 
-
-object Library: Dependency  {
+object Library : Dependency {
 
     override val group = "com.algolia"
     override val artifact = "instantsearch"
@@ -17,4 +16,9 @@ object Library: Dependency  {
     val artifactHelperCommon = "$artifactHelper-common"
     val artifactHelperJvm = "$artifactHelper-jvm"
     val artifactHelperAndroid = "$artifact-android"
+
+    val artifactInsights = "$artifact-insights"
+    val artifactInsightsCommon = "$artifactInsights-common"
+    val artifactInsightsJvm = "$artifactInsights-jvm"
+    val artifactInsightsAndroid = "$artifactInsights-android"
 }

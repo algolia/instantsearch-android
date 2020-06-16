@@ -2,7 +2,6 @@ package dependency.ui
 
 import dependency.Dependency
 
-
 object SwipeRefreshLayout: Dependency  {
 
     override val group = "androidx.swiperefreshlayout"

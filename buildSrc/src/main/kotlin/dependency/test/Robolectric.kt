@@ -2,7 +2,6 @@ package dependency.test
 
 import dependency.Dependency
 
-
 object Robolectric : Dependency {
 
     override val group = "org.robolectric"
