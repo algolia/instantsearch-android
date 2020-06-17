@@ -7,7 +7,6 @@ import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 
-
 internal class WebServiceHttp(
     private val appId: String,
     private val apiKey: String,
@@ -15,14 +14,6 @@ internal class WebServiceHttp(
     private val connectTimeoutInMilliseconds: Int,
     private val readTimeoutInMilliseconds: Int
 ) : WebService {
-
-
-    enum class Environment(baseUrl: String) {
-        Prod("https://insights.algolia.io"),
-        Debug("http://localhost:8080");
-
-        val url: String = "$baseUrl/1/events"
-    }
 
     override fun send(vararg event: EventInternal): WebService.Response {
         val array = JSONArray(ConverterEventInternalToString.convert(event.toList()).map(::JSONObject))
@@ -59,5 +50,10 @@ internal class WebServiceHttp(
         return "WebServiceHttp(appId='$appId', apiKey='$apiKey', connectTimeoutInMilliseconds=$connectTimeoutInMilliseconds, readTimeoutInMilliseconds=$readTimeoutInMilliseconds)"
     }
 
+    enum class Environment(baseUrl: String) {
+        Prod("https://insights.algolia.io"),
+        Debug("http://localhost:8080");
 
+        val url: String = "$baseUrl/1/events"
+    }
 }
