@@ -1,12 +1,11 @@
 import dependency.Library
 import dependency.lib.AndroidJob
-import dependency.network.AlgoliaClient
-import dependency.network.Ktor
+import dependency.lib.Json
 import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
+import dependency.test.SL4J
 import dependency.ui.AndroidCore
-import dependency.ui.AppCompat
 
 plugins {
     id("com.android.library")
@@ -23,7 +22,7 @@ android {
     defaultConfig {
         minSdkVersion(17)
         targetSdkVersion(30)
-
+        consumerProguardFiles("proguard-rules.pro")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -95,54 +94,43 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(AlgoliaClient("common"))
-                api(kotlin("stdlib-common"))
+                implementation(kotlin("stdlib-common"))
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-                implementation(Ktor("client-mock"))
-                implementation(AlgoliaClient("common"))
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                implementation(kotlin("stdlib-jdk8"))
+                implementation(AndroidCore("ktx"))
+                implementation(AndroidJob())
+            }
+        }
+        val androidTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(kotlin("test-junit"))
+                implementation(AndroidTestRunner())
+                implementation(AndroidTestExt())
+                implementation(Robolectric())
+                implementation(Json())
             }
         }
         val jvmMain by getting {
             dependencies {
-                api(kotlin("stdlib-jdk8"))
-                api(AlgoliaClient("jvm"))
+                implementation(kotlin("stdlib-jdk8"))
+                implementation(Json())
             }
         }
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation(dependency.test.SL4J("simple"))
-                implementation(AlgoliaClient("jvm"))
-                implementation(Ktor("client-mock-jvm"))
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                api(kotlin("stdlib-jdk8"))
-                api(AppCompat())
-                api(AlgoliaClient("android"))
-                api(Ktor("client-android"))
-                implementation(AndroidJob())
-            }
-        }
-        val androidTest by getting {
-            dependencies {
-                implementation(project(":core"))
-                implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
-                implementation(AlgoliaClient("android"))
-                implementation(Ktor("client-mock-jvm"))
-                implementation(AppCompat())
-                implementation(AndroidCore("ktx"))
-                implementation(AndroidTestRunner())
-                implementation(AndroidTestExt())
-                implementation(Robolectric())
+                implementation(SL4J("simple"))
             }
         }
     }

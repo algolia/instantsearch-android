@@ -10,10 +10,7 @@ internal fun WebService.sendEvent(indexName: String, event: EventInternal): Even
     val (errorMessage, code) = try {
         send(event)
     } catch (exception: Exception) {
-        WebService.Response(
-            exception.localizedMessage,
-            -1
-        )
+        WebService.Response(exception.message, -1)
     }
     val message = if (code.isValidHttpCode()) {
         "Sync succeeded for $event."

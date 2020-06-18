@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-
 internal sealed class SharedPreferencesDelegate<T>(
     protected val default: T,
     protected val key: kotlin.String? = null

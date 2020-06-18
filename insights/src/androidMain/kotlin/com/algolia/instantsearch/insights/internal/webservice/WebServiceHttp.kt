@@ -49,11 +49,4 @@ internal class WebServiceHttp(
     override fun toString(): String {
         return "WebServiceHttp(appId='$appId', apiKey='$apiKey', connectTimeoutInMilliseconds=$connectTimeoutInMilliseconds, readTimeoutInMilliseconds=$readTimeoutInMilliseconds)"
     }
-
-    enum class Environment(baseUrl: String) {
-        Prod("https://insights.algolia.io"),
-        Debug("http://localhost:8080");
-
-        val url: String = "$baseUrl/1/events"
-    }
 }
