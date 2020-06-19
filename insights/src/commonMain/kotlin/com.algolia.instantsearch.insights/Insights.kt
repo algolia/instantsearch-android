@@ -3,9 +3,9 @@ package com.algolia.instantsearch.insights
 import com.algolia.instantsearch.insights.event.Event
 import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.instantsearch.insights.event.EventUploader
-import com.algolia.instantsearch.insights.internal.InsightsLogger
+import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.converter.ConverterEventToEventInternal
-import com.algolia.instantsearch.insights.internal.currentTimeMillis
+import com.algolia.instantsearch.insights.internal.extension.currentTimeMillis
 import com.algolia.instantsearch.insights.internal.database.Database
 import com.algolia.instantsearch.insights.internal.event.EventInternal
 import com.algolia.instantsearch.insights.internal.webservice.WebService

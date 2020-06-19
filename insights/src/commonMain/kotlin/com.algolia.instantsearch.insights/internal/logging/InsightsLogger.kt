@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.insights.internal
+package com.algolia.instantsearch.insights.internal.logging
 
 internal object InsightsLogger {
 
@@ -7,17 +7,13 @@ internal object InsightsLogger {
 
     fun log(indexName: String, message: String) {
         if (enabled[indexName] == true) {
-            Log.d(TAG, "Index=$indexName: $message")
+            logd(TAG, "Index=$indexName: $message")
         }
     }
 
     fun log(message: String) {
-        Log.d(TAG, message)
+        logd(TAG, message)
     }
 }
 
-expect class Log {
-    companion object {
-        fun d(tag: String?, msg: String)
-    }
-}
+

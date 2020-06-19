@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.insights.internal.extension
 
 import com.algolia.instantsearch.insights.event.EventResponse
-import com.algolia.instantsearch.insights.internal.InsightsLogger
+import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.database.Database
 import com.algolia.instantsearch.insights.internal.event.EventInternal
 import com.algolia.instantsearch.insights.internal.webservice.WebService

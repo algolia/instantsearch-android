@@ -117,20 +117,17 @@ kotlin {
                 implementation(AndroidTestRunner())
                 implementation(AndroidTestExt())
                 implementation(Robolectric())
-                implementation(Json())
             }
         }
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                implementation(Json())
             }
         }
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation(SL4J("simple"))
             }
         }
     }

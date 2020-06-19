@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.insights.internal.event
 
 import com.algolia.instantsearch.insights.Insights
-import com.algolia.instantsearch.insights.internal.InsightsLogger
+import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.extension.uploadEvents
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobCreator
