@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.insights
 
 import android.os.Build
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.algolia.instantsearch.insights.event.Event
 import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.instantsearch.insights.event.EventUploader
@@ -9,15 +10,17 @@ import com.algolia.instantsearch.insights.internal.converter.ConverterEventToEve
 import com.algolia.instantsearch.insights.internal.converter.ConverterStringToEventInternal
 import com.algolia.instantsearch.insights.internal.event.EventInternal
 import com.algolia.instantsearch.insights.internal.extension.uploadEvents
+import com.algolia.instantsearch.insights.internal.webservice.Environment
 import com.algolia.instantsearch.insights.internal.webservice.WebService
 import com.algolia.instantsearch.insights.internal.webservice.WebServiceHttp
-import com.algolia.instantsearch.insights.internal.webservice.Environment
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.robolectric.annotation.Config
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
-@RunWith(JUnit4::class)
+@RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.Q])
 internal class InsightsTest {
 
@@ -80,20 +83,21 @@ internal class InsightsTest {
         assertEquals(internal, event)
     }
 
+    init {
+        System.setProperty("javax.net.ssl.trustStoreType", "JKS")
+    }
+
     @Test
-    @Ignore("Fix: JUnit4 runner not used when the test run from the command line, throwing an NoSuchAlgorithmException")
     fun testClickEvent() {
         assertEquals(responseOK, webService.send(click))
     }
 
     @Test
-    @Ignore("Fix: JUnit4 runner not used when the test run from the command line, throwing an NoSuchAlgorithmException")
     fun testViewEvent() {
         assertEquals(responseOK, webService.send(view))
     }
 
     @Test
-    @Ignore("Fix: JUnit4 runner not used when the test run from the command line, throwing an NoSuchAlgorithmException")
     fun testConversionEvent() {
         assertEquals(responseOK, webService.send(conversion))
     }
