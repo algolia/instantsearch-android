@@ -4,20 +4,24 @@ import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 
 /**
- * A searcher with tracking capabilities.
+ * A searcher wrapper to enable tracking capabilities.
  */
 public sealed class TrackableSearcher {
 
-    public abstract val indexName: String
-
+    /**
+     * Enable the Click Analytics feature.
+     */
     public abstract fun setClickAnalyticsOn(on: Boolean)
 
+    /**
+     * Subscribe for the Query ID changes.
+     */
     public abstract fun <T : QueryIDContainer> subscribeForQueryIDChange(subscriber: T)
 
+    /**
+     * A searcher wrapper around [SearcherSingleIndex] to enable tracking capabilities.
+     */
     public class SingleIndex(private val searcher: SearcherSingleIndex) : TrackableSearcher() {
-
-        public override val indexName: String
-            get() = searcher.index.indexName.raw // indexQueryState?
 
         public override fun setClickAnalyticsOn(on: Boolean) {
             searcher.query.clickAnalytics = on
@@ -30,10 +34,12 @@ public sealed class TrackableSearcher {
         }
     }
 
-    public class MultiIndex(private val searcher: SearcherMultipleIndex, private val pointer: Int) :
-        TrackableSearcher() {
-        public override val indexName: String
-            get() = searcher.queries[pointer].indexName.raw
+    /**
+     * A searcher wrapper around [SearcherMultipleIndex] to enable tracking capabilities.
+     */
+    public class MultiIndex(
+        private val searcher: SearcherMultipleIndex, private val pointer: Int
+    ) : TrackableSearcher() {
 
         public override fun setClickAnalyticsOn(on: Boolean) {
             searcher.queries[pointer].query.clickAnalytics = on

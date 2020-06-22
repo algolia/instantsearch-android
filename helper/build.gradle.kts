@@ -7,6 +7,7 @@ import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
 import dependency.test.SL4J
+import dependency.test.Mockk
 import dependency.ui.*
 
 plugins {
@@ -98,6 +99,7 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
                 implementation(Ktor("client-mock"))
                 implementation(AlgoliaClient("common"))
+                implementation(Mockk("common"))
             }
         }
         val jvmMain by getting {
@@ -113,6 +115,7 @@ kotlin {
                 implementation(SL4J("simple"))
                 implementation(AlgoliaClient("jvm"))
                 implementation(Ktor("client-mock-jvm"))
+                implementation(Mockk())
             }
         }
         val androidMain by getting {
@@ -144,6 +147,7 @@ kotlin {
                 implementation(AndroidTestRunner())
                 implementation(AndroidTestExt())
                 implementation(Robolectric())
+                implementation(Mockk("android"))
             }
         }
     }

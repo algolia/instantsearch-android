@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.tracker
 
+import com.algolia.instantsearch.helper.filter.state.toFilter
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.insights.FilterTrackable
@@ -120,22 +121,18 @@ public class FilterTracker(
 
     // region Facet tracking methods
     public fun trackClick(facet: Facet, attribute: Attribute, customEventName: String? = null) {
-        val filterFacet = filter(facet, attribute);
+        val filterFacet = facet.toFilter(attribute)
         trackClick(filter = filterFacet, customEventName = customEventName)
     }
 
     public fun trackView(facet: Facet, attribute: Attribute, customEventName: String? = null) {
-        val filterFacet = filter(facet, attribute);
+        val filterFacet = facet.toFilter(attribute)
         trackView(filter = filterFacet, customEventName = customEventName)
     }
 
     public fun trackConversion(facet: Facet, attribute: Attribute, customEventName: String? = null) {
-        val filterFacet = filter(facet, attribute);
+        val filterFacet = facet.toFilter(attribute)
         trackConversion(filter = filterFacet, customEventName = customEventName)
-    }
-
-    private fun filter(facet: Facet, attribute: Attribute): Filter.Facet {
-        return Filter.Facet(attribute = attribute, value = facet.value)
     }
     // endregion
 }
