@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.tracker
 
-public interface QueryIDContainer {
-    var queryID: String?
+internal interface QueryIDContainer {
+
+    public var queryID: String?
 }

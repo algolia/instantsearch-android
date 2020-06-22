@@ -13,9 +13,9 @@ import com.algolia.search.model.indexing.Indexable
 import com.algolia.search.model.search.Facet
 
 public sealed class InsightsTracker<T>(
-    val eventName: String,
-    val searcher: TrackableSearcher,
-    val tracker: T
+    public val eventName: String,
+    public val searcher: TrackableSearcher,
+    public val tracker: T
 )
 
 public class HitsTracker(
@@ -45,7 +45,7 @@ public class HitsTracker(
     }
 
     // region Hits tracking methods
-    fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: String? = null) {
+    public fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: String? = null) {
         val id = queryID ?: return
         tracker.clickedAfterSearch(
             eventName = customEventName ?: eventName,
@@ -55,7 +55,7 @@ public class HitsTracker(
         )
     }
 
-    fun <T : Indexable> trackConvert(hit: T, customEventName: String? = null) {
+    public fun <T : Indexable> trackConvert(hit: T, customEventName: String? = null) {
         val id = queryID ?: return
         tracker.convertedAfterSearch(
             eventName = customEventName ?: eventName,
@@ -64,15 +64,13 @@ public class HitsTracker(
         )
     }
 
-    fun <T : Indexable> trackView(hit: T, customEventName: String? = null) {
+    public fun <T : Indexable> trackView(hit: T, customEventName: String? = null) {
         tracker.viewed(
             eventName = customEventName ?: eventName,
             objectIDs = EventObjects.IDs(hit.objectID.raw)
         )
     }
     // endregion
-
-    companion object
 }
 
 public class FilterTracker(
@@ -95,7 +93,7 @@ public class FilterTracker(
     ) : this(eventName = eventName, searcher = TrackableSearcher.MultiIndex(searcher, pointer), tracker = insights)
 
     // region Filter tracking methods
-    fun <F : Filter> trackClick(filter: F, customEventName: String? = null) {
+    public fun <F : Filter> trackClick(filter: F, customEventName: String? = null) {
         val sqlForm = FilterConverter.SQL(filter)
         tracker.clicked(
             eventName = customEventName ?: eventName,
@@ -103,7 +101,7 @@ public class FilterTracker(
         )
     }
 
-    fun <F : Filter> trackView(filter: F, customEventName: String? = null) {
+    public fun <F : Filter> trackView(filter: F, customEventName: String? = null) {
         val sqlForm = FilterConverter.SQL(filter)
         tracker.viewed(
             eventName = customEventName ?: eventName,
@@ -111,7 +109,7 @@ public class FilterTracker(
         )
     }
 
-    fun <F : Filter> trackConversion(filter: F, customEventName: String? = null) {
+    public fun <F : Filter> trackConversion(filter: F, customEventName: String? = null) {
         val sqlForm = FilterConverter.SQL(filter)
         tracker.converted(
             eventName = customEventName ?: eventName,
@@ -121,17 +119,17 @@ public class FilterTracker(
     // endregion
 
     // region Facet tracking methods
-    fun trackClick(facet: Facet, attribute: Attribute, customEventName: String? = null) {
+    public fun trackClick(facet: Facet, attribute: Attribute, customEventName: String? = null) {
         val filterFacet = filter(facet, attribute);
         trackClick(filter = filterFacet, customEventName = customEventName)
     }
 
-    fun trackView(facet: Facet, attribute: Attribute, customEventName: String? = null) {
+    public fun trackView(facet: Facet, attribute: Attribute, customEventName: String? = null) {
         val filterFacet = filter(facet, attribute);
         trackView(filter = filterFacet, customEventName = customEventName)
     }
 
-    fun trackConversion(facet: Facet, attribute: Attribute, customEventName: String? = null) {
+    public fun trackConversion(facet: Facet, attribute: Attribute, customEventName: String? = null) {
         val filterFacet = filter(facet, attribute);
         trackConversion(filter = filterFacet, customEventName = customEventName)
     }
