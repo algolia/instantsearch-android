@@ -3,11 +3,10 @@ package com.algolia.instantsearch.insights
 import com.algolia.instantsearch.insights.event.Event
 import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.instantsearch.insights.event.EventUploader
-import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.converter.ConverterEventToEventInternal
-import com.algolia.instantsearch.insights.internal.extension.currentTimeMillis
 import com.algolia.instantsearch.insights.internal.database.Database
 import com.algolia.instantsearch.insights.internal.event.EventInternal
+import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.webservice.WebService
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmOverloads
@@ -23,7 +22,7 @@ public class Insights internal constructor(
     private val eventUploader: EventUploader,
     internal val database: Database,
     internal val webService: WebService
-) {
+) : HitsAfterSearchTrackable, FilterTrackable {
 
     /**
      * Change this variable to `true` or `false` to enable or disable logging.
@@ -69,18 +68,11 @@ public class Insights internal constructor(
     }
 
     // region Event tracking methods
-    /**
-     * Tracks a View event, unrelated to a specific search query.
-     *
-     * @param eventName the event's name, **must not be empty**.
-     * @param objectIDs the viewed object(s)' `objectID`.
-     * @param timestamp the time at which the view happened. Defaults to current time.
-     */
     @JvmOverloads
-    public fun viewed(
+    public override fun viewed(
         eventName: String,
         objectIDs: EventObjects.IDs,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long
     ) = viewed(
         Event.View(
             eventName = eventName,
@@ -90,18 +82,11 @@ public class Insights internal constructor(
         )
     )
 
-    /**
-     * Tracks a View event, unrelated to a specific search query.
-     *
-     * @param eventName the event's name, **must not be empty**.
-     * @param filters the clicked filter(s).
-     * @param timestamp the time at which the view happened. Defaults to current time.
-     */
     @JvmOverloads
-    public fun viewed(
+    public override fun viewed(
         eventName: String,
         filters: EventObjects.Filters,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long
     ) = viewed(
         Event.View(
             eventName = eventName,
@@ -111,18 +96,11 @@ public class Insights internal constructor(
         )
     )
 
-    /**
-     * Tracks a click event, unrelated to a specific search query.
-     *
-     * @param eventName the event's name, **must not be empty**.
-     * @param objectIDs the clicked object(s)' `objectID`.
-     * @param timestamp the time at which the click happened. Defaults to current time.
-     */
     @JvmOverloads
-    public fun clicked(
+    public override fun clicked(
         eventName: String,
         objectIDs: EventObjects.IDs,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long
     ) = clicked(
         Event.Click(
             eventName = eventName,
@@ -132,19 +110,11 @@ public class Insights internal constructor(
         )
     )
 
-
-    /**
-     * Tracks a click event, unrelated to a specific search query.
-     *
-     * @param eventName the event's name, **must not be empty**.
-     * @param filters the clicked filter(s).
-     * @param timestamp the time at which the click happened. Defaults to current time.
-     */
     @JvmOverloads
-    public fun clicked(
+    public override fun clicked(
         eventName: String,
         filters: EventObjects.Filters,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long
     ) = clicked(
         Event.Click(
             eventName = eventName,
@@ -154,22 +124,13 @@ public class Insights internal constructor(
         )
     )
 
-    /**
-     * Tracks a Click event after a search has been done.
-     *
-     * @param eventName the event's name, **must not be empty**.
-     * @param queryId the related [query's identifier][https://www.algolia.com/doc/guides/insights-and-analytics/click-analytics/?language=php#identifying-the-query-result-position].
-     * @param objectIDs the object(s)' `objectID`.
-     * @param positions the clicked object(s)' position(s).
-     * @param timestamp the time at which the click happened. Defaults to current time.
-     */
     @JvmOverloads
-    public fun clickedAfterSearch(
+    public override fun clickedAfterSearch(
         eventName: String,
         queryId: String,
         objectIDs: EventObjects.IDs,
         positions: List<Int>,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long
     ) = clicked(
         Event.Click(
             eventName = eventName,
@@ -181,18 +142,11 @@ public class Insights internal constructor(
         )
     )
 
-    /**
-     * Tracks a Conversion event, unrelated to a specific search query.
-     *
-     * @param eventName the event's name, **must not be empty**.
-     * @param timestamp the time at which the conversion happened. Defaults to current time.
-     * @param filters the converted filter(s).
-     */
     @JvmOverloads
-    public fun converted(
+    public override fun converted(
         eventName: String,
         filters: EventObjects.Filters,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long
     ) = converted(
         Event.Conversion(
             eventName = eventName,
@@ -202,18 +156,11 @@ public class Insights internal constructor(
         )
     )
 
-    /**
-     * Tracks a Conversion event, unrelated to a specific search query.
-     *
-     * @param eventName the event's name, **must not be empty**.
-     * @param objectIDs the object(s)' `objectID`.
-     * @param timestamp the time at which the conversion happened. Defaults to current time.
-     */
     @JvmOverloads
-    public fun converted(
+    public override fun converted(
         eventName: String,
         objectIDs: EventObjects.IDs,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long
     ) = converted(
         Event.Conversion(
             eventName = eventName,
@@ -223,20 +170,12 @@ public class Insights internal constructor(
         )
     )
 
-    /**
-     * Tracks a Conversion event after a search has been done.
-     *
-     * @param eventName the event's name, **must not be empty**.
-     * @param queryId the related [query's identifier][https://www.algolia.com/doc/guides/insights-and-analytics/click-analytics/?language=php#identifying-the-query-result-position].
-     * @param objectIDs the object(s)' `objectID`.
-     * @param timestamp the time at which the conversion happened. Defaults to current time.
-     */
     @JvmOverloads
-    public fun convertedAfterSearch(
+    public override fun convertedAfterSearch(
         eventName: String,
         queryId: String,
         objectIDs: EventObjects.IDs,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long
     ) = converted(
         Event.Conversion(
             eventName = eventName,
