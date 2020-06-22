@@ -15,8 +15,7 @@ public fun HitsTracker(
     eventName: String,
     searcher: SearcherSingleIndex,
     client: ClientSearch // TODO: can't access the transport object from the searcher
-): InsightsTracker {
-    val trackableSearcher = TrackableSearcher.SingleIndex(searcher)
+): HitsTracker {
     val insights = Insights.register(
         context = context,
         appId = client.applicationID.raw,
@@ -26,7 +25,7 @@ public fun HitsTracker(
 
     return HitsTracker(
         eventName = eventName,
-        searcher = trackableSearcher,
+        searcher = searcher,
         insights = insights
     )
 }
@@ -38,8 +37,7 @@ public fun HitsTracker(
     searcher: SearcherMultipleIndex,
     pointer: Int,
     client: ClientSearch // TODO: can't access the transport object from the searcher
-): InsightsTracker {
-    val trackableSearcher = TrackableSearcher.MultiIndex(searcher = searcher, pointer = pointer)
+): HitsTracker {
     val insights = Insights.register(
         context = context,
         appId = client.applicationID.raw,
@@ -49,7 +47,8 @@ public fun HitsTracker(
 
     return HitsTracker(
         eventName = eventName,
-        searcher = trackableSearcher,
+        searcher = searcher,
+        pointer = pointer,
         insights = insights
     )
 }

@@ -3,6 +3,7 @@ package com.algolia.instantsearch.insights
 import com.algolia.instantsearch.insights.event.Event
 import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.instantsearch.insights.event.EventUploader
+import com.algolia.instantsearch.insights.FilterTrackable
 import com.algolia.instantsearch.insights.internal.converter.ConverterEventToEventInternal
 import com.algolia.instantsearch.insights.internal.database.Database
 import com.algolia.instantsearch.insights.internal.event.EventInternal
