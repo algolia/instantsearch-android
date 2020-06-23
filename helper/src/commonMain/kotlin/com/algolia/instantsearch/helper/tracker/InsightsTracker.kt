@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.tracker
 
+import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.filter.state.toFilter
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -8,41 +9,45 @@ import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.QueryID
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterConverter
 import com.algolia.search.model.indexing.Indexable
 import com.algolia.search.model.search.Facet
 
 public sealed class InsightsTracker<T>(
-    public val eventName: String,
-    public val searcher: TrackableSearcher,
-    public val tracker: T
+    internal val eventName: String,
+    internal val trackableSearcher: TrackableSearcher<*>,
+    internal val tracker: T
 )
 
 public class HitsTracker(
     eventName: String,
-    searcher: TrackableSearcher,
+    trackableSearcher: TrackableSearcher<*>,
     tracker: HitsAfterSearchTrackable
-) : InsightsTracker<HitsAfterSearchTrackable>(eventName, searcher, tracker), QueryIDContainer {
+) : InsightsTracker<HitsAfterSearchTrackable>(eventName, trackableSearcher, tracker), QueryIDContainer, Connection {
 
-    override var queryID: String? = null
+    override var queryID: QueryID? = null
 
     public constructor(
         eventName: String,
         searcher: SearcherSingleIndex,
         insights: Insights
-    ) : this(eventName = eventName, searcher = TrackableSearcher.SingleIndex(searcher), tracker = insights)
+    ) : this(eventName = eventName, trackableSearcher = TrackableSearcher.SingleIndex(searcher), tracker = insights)
 
     public constructor(
         eventName: String,
         searcher: SearcherMultipleIndex,
         pointer: Int,
         insights: Insights
-    ) : this(eventName = eventName, searcher = TrackableSearcher.MultiIndex(searcher, pointer), tracker = insights)
+    ) : this(
+        eventName = eventName,
+        trackableSearcher = TrackableSearcher.MultiIndex(searcher, pointer),
+        tracker = insights
+    )
 
     init {
-        searcher.subscribeForQueryIDChange(this) // TODO: connector
-        searcher.setClickAnalyticsOn(true)
+        trackableSearcher.setClickAnalyticsOn(true)
     }
 
     // region Hits tracking methods
@@ -50,7 +55,7 @@ public class HitsTracker(
         val id = queryID ?: return
         tracker.clickedAfterSearch(
             eventName = customEventName ?: eventName,
-            queryId = id,
+            queryId = id.raw,
             objectIDs = EventObjects.IDs(hit.objectID.raw),
             positions = listOf(position)
         )
@@ -60,7 +65,7 @@ public class HitsTracker(
         val id = queryID ?: return
         tracker.convertedAfterSearch(
             eventName = customEventName ?: eventName,
-            queryId = id,
+            queryId = id.raw,
             objectIDs = EventObjects.IDs(hit.objectID.raw)
         )
     }
@@ -72,26 +77,46 @@ public class HitsTracker(
         )
     }
     // endregion
+
+    override var isConnected: Boolean = false
+        private set
+
+    private var subscription: TrackingSubscription<*>? = null
+
+    override fun connect() {
+        isConnected = true
+        subscription?.cancel()
+        subscription = trackableSearcher.subscribeForQueryIDChange(this)
+    }
+
+    override fun disconnect() {
+        isConnected = false
+        subscription?.cancel()
+    }
 }
 
 public class FilterTracker(
     eventName: String,
-    searcher: TrackableSearcher,
+    trackableSearcher: TrackableSearcher<*>,
     tracker: FilterTrackable
-) : InsightsTracker<FilterTrackable>(eventName, searcher, tracker) {
+) : InsightsTracker<FilterTrackable>(eventName, trackableSearcher, tracker) {
 
     public constructor(
         eventName: String,
         searcher: SearcherSingleIndex,
         insights: Insights
-    ) : this(eventName = eventName, searcher = TrackableSearcher.SingleIndex(searcher), tracker = insights)
+    ) : this(eventName = eventName, trackableSearcher = TrackableSearcher.SingleIndex(searcher), tracker = insights)
 
     public constructor(
         eventName: String,
         searcher: SearcherMultipleIndex,
         pointer: Int,
         insights: Insights
-    ) : this(eventName = eventName, searcher = TrackableSearcher.MultiIndex(searcher, pointer), tracker = insights)
+    ) : this(
+        eventName = eventName,
+        trackableSearcher = TrackableSearcher.MultiIndex(searcher, pointer),
+        tracker = insights
+    )
 
     // region Filter tracking methods
     public fun <F : Filter> trackClick(filter: F, customEventName: String? = null) {

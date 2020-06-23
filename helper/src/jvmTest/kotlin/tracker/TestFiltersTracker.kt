@@ -14,7 +14,7 @@ import kotlin.test.Test
 class TestFiltersTracker {
 
     private val eventName = "eventName"
-    private val trackableSearcher = mockk<TrackableSearcher>()
+    private val trackableSearcher = mockk<TrackableSearcher<*>>()
     private val filterTrackable = mockk<FilterTrackable>(relaxed = true)
     private val filtersTracker = FilterTracker(eventName, trackableSearcher, filterTrackable)
 

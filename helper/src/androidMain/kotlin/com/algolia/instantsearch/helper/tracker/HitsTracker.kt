@@ -14,7 +14,7 @@ public fun HitsTracker(
     context: Context,
     eventName: String,
     searcher: SearcherSingleIndex,
-    client: ClientSearch // TODO: can't access the transport object from the searcher
+    client: ClientSearch
 ): HitsTracker {
     val insights = Insights.register(
         context = context,
@@ -36,7 +36,7 @@ public fun HitsTracker(
     eventName: String,
     searcher: SearcherMultipleIndex,
     pointer: Int,
-    client: ClientSearch // TODO: can't access the transport object from the searcher
+    client: ClientSearch
 ): HitsTracker {
     val insights = Insights.register(
         context = context,

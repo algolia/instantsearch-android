@@ -95,6 +95,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
+                implementation(project(":insights"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation(Ktor("client-mock"))
@@ -110,6 +111,7 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
+                implementation(project(":insights"))
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
                 implementation(SL4J("simple"))
@@ -135,6 +137,7 @@ kotlin {
         val androidTest by getting {
             dependencies {
                 implementation(project(":core"))
+                implementation(project(":insights"))
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
                 implementation(AlgoliaClient("android"))
@@ -147,7 +150,6 @@ kotlin {
                 implementation(AndroidTestRunner())
                 implementation(AndroidTestExt())
                 implementation(Robolectric())
-                implementation(Mockk("android"))
             }
         }
     }

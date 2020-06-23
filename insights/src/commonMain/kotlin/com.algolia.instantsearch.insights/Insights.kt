@@ -68,7 +68,6 @@ public class Insights internal constructor(
     }
 
     // region Event tracking methods
-    @JvmOverloads
     public override fun viewed(
         eventName: String,
         objectIDs: EventObjects.IDs,
@@ -82,7 +81,6 @@ public class Insights internal constructor(
         )
     )
 
-    @JvmOverloads
     public override fun viewed(
         eventName: String,
         filters: EventObjects.Filters,
@@ -96,7 +94,6 @@ public class Insights internal constructor(
         )
     )
 
-    @JvmOverloads
     public override fun clicked(
         eventName: String,
         objectIDs: EventObjects.IDs,
@@ -110,7 +107,6 @@ public class Insights internal constructor(
         )
     )
 
-    @JvmOverloads
     public override fun clicked(
         eventName: String,
         filters: EventObjects.Filters,
@@ -124,7 +120,6 @@ public class Insights internal constructor(
         )
     )
 
-    @JvmOverloads
     public override fun clickedAfterSearch(
         eventName: String,
         queryId: String,
@@ -142,7 +137,6 @@ public class Insights internal constructor(
         )
     )
 
-    @JvmOverloads
     public override fun converted(
         eventName: String,
         filters: EventObjects.Filters,
@@ -156,7 +150,6 @@ public class Insights internal constructor(
         )
     )
 
-    @JvmOverloads
     public override fun converted(
         eventName: String,
         objectIDs: EventObjects.IDs,
@@ -170,7 +163,6 @@ public class Insights internal constructor(
         )
     )
 
-    @JvmOverloads
     public override fun convertedAfterSearch(
         eventName: String,
         queryId: String,

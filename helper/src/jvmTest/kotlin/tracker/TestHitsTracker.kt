@@ -4,6 +4,7 @@ import com.algolia.instantsearch.helper.tracker.HitsTracker
 import com.algolia.instantsearch.helper.tracker.TrackableSearcher
 import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
 import com.algolia.instantsearch.insights.event.EventObjects
+import com.algolia.search.model.QueryID
 import com.algolia.search.model.indexing.Indexable
 import io.mockk.mockk
 import io.mockk.verify
@@ -13,8 +14,8 @@ import kotlin.test.Test
 class TestHitsTracker {
 
     private val eventName = "eventName"
-    private val queryID = "queryID"
-    private val trackableSearcher = mockk<TrackableSearcher>(relaxed = true)
+    private val queryID = QueryID("queryID")
+    private val trackableSearcher = mockk<TrackableSearcher<*>>(relaxed = true)
     private val searchTrackable = mockk<HitsAfterSearchTrackable>(relaxed = true)
     private val hitsTracker = HitsTracker(eventName, trackableSearcher, searchTrackable)
 
@@ -36,7 +37,7 @@ class TestHitsTracker {
         verify {
             searchTrackable.clickedAfterSearch(
                 eventName = eventName,
-                queryId = queryID,
+                queryId = queryID.raw,
                 objectIDs = objectIDs,
                 positions = positions,
                 timestamp = any()
@@ -55,7 +56,7 @@ class TestHitsTracker {
         verify {
             searchTrackable.convertedAfterSearch(
                 eventName = eventName,
-                queryId = queryID,
+                queryId = queryID.raw,
                 objectIDs = objectIDs,
                 timestamp = any()
             )

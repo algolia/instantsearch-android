@@ -14,7 +14,7 @@ public fun FilterTracker(
     context: Context,
     eventName: String,
     searcher: SearcherSingleIndex,
-    client: ClientSearch // TODO: can't access the transport object from the searcher
+    client: ClientSearch
 ): FilterTracker {
     val insights = Insights.register(
         context = context,
@@ -36,7 +36,7 @@ public fun FilterTracker(
     eventName: String,
     searcher: SearcherMultipleIndex,
     pointer: Int,
-    client: ClientSearch // TODO: can't access the transport object from the searcher
+    client: ClientSearch
 ): FilterTracker {
     val insights = Insights.register(
         context = context,
