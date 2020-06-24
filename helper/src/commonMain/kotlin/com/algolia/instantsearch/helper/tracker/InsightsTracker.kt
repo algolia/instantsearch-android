@@ -2,11 +2,8 @@ package com.algolia.instantsearch.helper.tracker
 
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.filter.state.toFilter
-import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.insights.FilterTrackable
 import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
-import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.QueryID
@@ -15,43 +12,32 @@ import com.algolia.search.model.filter.FilterConverter
 import com.algolia.search.model.indexing.Indexable
 import com.algolia.search.model.search.Facet
 
+/**
+ * A tracker for the Insights operations.
+ */
 public sealed class InsightsTracker<T>(
     internal val eventName: String,
     internal val trackableSearcher: TrackableSearcher<*>,
     internal val tracker: T
 )
 
-public class HitsTracker(
+/**
+ * Tracker of hits events insights.
+ */
+public class HitsDataTracker internal constructor(
     eventName: String,
     trackableSearcher: TrackableSearcher<*>,
     tracker: HitsAfterSearchTrackable
-) : InsightsTracker<HitsAfterSearchTrackable>(eventName, trackableSearcher, tracker), QueryIDContainer, Connection {
+) : HitsTracker, InsightsTracker<HitsAfterSearchTrackable>(eventName, trackableSearcher, tracker), Connection {
 
-    override var queryID: QueryID? = null
-
-    public constructor(
-        eventName: String,
-        searcher: SearcherSingleIndex,
-        insights: Insights
-    ) : this(eventName = eventName, trackableSearcher = TrackableSearcher.SingleIndex(searcher), tracker = insights)
-
-    public constructor(
-        eventName: String,
-        searcher: SearcherMultipleIndex,
-        pointer: Int,
-        insights: Insights
-    ) : this(
-        eventName = eventName,
-        trackableSearcher = TrackableSearcher.MultiIndex(searcher, pointer),
-        tracker = insights
-    )
+    public override var queryID: QueryID? = null
 
     init {
         trackableSearcher.setClickAnalyticsOn(true)
     }
 
     // region Hits tracking methods
-    public fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: String? = null) {
+    public override fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: String?) {
         val id = queryID ?: return
         tracker.clickedAfterSearch(
             eventName = customEventName ?: eventName,
@@ -61,7 +47,7 @@ public class HitsTracker(
         )
     }
 
-    public fun <T : Indexable> trackConvert(hit: T, customEventName: String? = null) {
+    public override fun <T : Indexable> trackConvert(hit: T, customEventName: String?) {
         val id = queryID ?: return
         tracker.convertedAfterSearch(
             eventName = customEventName ?: eventName,
@@ -70,7 +56,7 @@ public class HitsTracker(
         )
     }
 
-    public fun <T : Indexable> trackView(hit: T, customEventName: String? = null) {
+    public override fun <T : Indexable> trackView(hit: T, customEventName: String?) {
         tracker.viewed(
             eventName = customEventName ?: eventName,
             objectIDs = EventObjects.IDs(hit.objectID.raw)
@@ -81,45 +67,31 @@ public class HitsTracker(
     override var isConnected: Boolean = false
         private set
 
-    private var subscription: TrackingSubscription<*>? = null
+    private var subscription: SubscriptionJob<*>? = null
 
     override fun connect() {
-        isConnected = true
         subscription?.cancel()
         subscription = trackableSearcher.subscribeForQueryIDChange(this)
+        isConnected = true
     }
 
     override fun disconnect() {
-        isConnected = false
         subscription?.cancel()
+        isConnected = false
     }
 }
 
-public class FilterTracker(
+/**
+ * Tracker of filter events insights.
+ */
+public class FilterDataTracker internal constructor(
     eventName: String,
     trackableSearcher: TrackableSearcher<*>,
     tracker: FilterTrackable
-) : InsightsTracker<FilterTrackable>(eventName, trackableSearcher, tracker) {
-
-    public constructor(
-        eventName: String,
-        searcher: SearcherSingleIndex,
-        insights: Insights
-    ) : this(eventName = eventName, trackableSearcher = TrackableSearcher.SingleIndex(searcher), tracker = insights)
-
-    public constructor(
-        eventName: String,
-        searcher: SearcherMultipleIndex,
-        pointer: Int,
-        insights: Insights
-    ) : this(
-        eventName = eventName,
-        trackableSearcher = TrackableSearcher.MultiIndex(searcher, pointer),
-        tracker = insights
-    )
+) : FilterTracker, InsightsTracker<FilterTrackable>(eventName, trackableSearcher, tracker) {
 
     // region Filter tracking methods
-    public fun <F : Filter> trackClick(filter: F, customEventName: String? = null) {
+    public override fun <F : Filter> trackClick(filter: F, customEventName: String?) {
         val sqlForm = FilterConverter.SQL(filter)
         tracker.clicked(
             eventName = customEventName ?: eventName,
@@ -127,7 +99,7 @@ public class FilterTracker(
         )
     }
 
-    public fun <F : Filter> trackView(filter: F, customEventName: String? = null) {
+    public override fun <F : Filter> trackView(filter: F, customEventName: String?) {
         val sqlForm = FilterConverter.SQL(filter)
         tracker.viewed(
             eventName = customEventName ?: eventName,
@@ -135,7 +107,7 @@ public class FilterTracker(
         )
     }
 
-    public fun <F : Filter> trackConversion(filter: F, customEventName: String? = null) {
+    public override fun <F : Filter> trackConversion(filter: F, customEventName: String?) {
         val sqlForm = FilterConverter.SQL(filter)
         tracker.converted(
             eventName = customEventName ?: eventName,
@@ -145,17 +117,17 @@ public class FilterTracker(
     // endregion
 
     // region Facet tracking methods
-    public fun trackClick(facet: Facet, attribute: Attribute, customEventName: String? = null) {
+    public override fun trackClick(facet: Facet, attribute: Attribute, customEventName: String?) {
         val filterFacet = facet.toFilter(attribute)
         trackClick(filter = filterFacet, customEventName = customEventName)
     }
 
-    public fun trackView(facet: Facet, attribute: Attribute, customEventName: String? = null) {
+    public override fun trackView(facet: Facet, attribute: Attribute, customEventName: String?) {
         val filterFacet = facet.toFilter(attribute)
         trackView(filter = filterFacet, customEventName = customEventName)
     }
 
-    public fun trackConversion(facet: Facet, attribute: Attribute, customEventName: String? = null) {
+    public override fun trackConversion(facet: Facet, attribute: Attribute, customEventName: String?) {
         val filterFacet = facet.toFilter(attribute)
         trackConversion(filter = filterFacet, customEventName = customEventName)
     }

@@ -5,7 +5,7 @@ import com.algolia.search.model.QueryID
 /**
  * Container for a Query ID.
  */
-internal interface QueryIDContainer {
+public interface QueryIDContainer {
 
     public var queryID: QueryID?
 }
