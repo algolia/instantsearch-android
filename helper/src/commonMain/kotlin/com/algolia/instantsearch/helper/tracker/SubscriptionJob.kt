@@ -11,6 +11,9 @@ public class SubscriptionJob<T>(
     private val subscriber: (T) -> Unit
 ) {
 
+    /**
+     * Current state, true if active, otherwise false.
+     */
     public var isActive: Boolean = false
         internal set
 

@@ -8,21 +8,56 @@ import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.search.model.indexing.Indexable
 
-public interface HitsTracker: QueryIDContainer {
+/**
+ * Tracker of hits events insights.
+ */
+public interface HitsTracker : QueryIDContainer {
 
+    /**
+     * Track a hit click event.
+     *
+     * @param hit hit to track
+     * @param customEventName custom event name, overrides the default value.
+     */
     public fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: String? = null)
 
+    /**
+     * Track a hit convert event.
+     *
+     * @param hit hit to track
+     * @param customEventName custom event name, overrides the default event name
+     */
     public fun <T : Indexable> trackConvert(hit: T, customEventName: String? = null)
 
+    /**
+     * Track a hit view event.
+     *
+     * @param hit hit to track
+     * @param customEventName custom event name, overrides the default event name
+     */
     public fun <T : Indexable> trackView(hit: T, customEventName: String? = null)
 }
 
+/**
+ * Creates a [HitsTracker] object.
+ *
+ * @param eventName default event name
+ * @param trackableSearcher searcher wrapper with tracking capabilities enabled
+ * @param tracker actual events handler
+ */
 public fun HitsTracker(
     eventName: String,
     trackableSearcher: TrackableSearcher<*>,
     tracker: HitsAfterSearchTrackable
 ): HitsTracker = HitsDataTracker(eventName = eventName, trackableSearcher = trackableSearcher, tracker = tracker)
 
+/**
+ * Creates a [HitsTracker] object.
+ *
+ * @param eventName default event name
+ * @param searcher single index searcher
+ * @param insights actual events handler
+ */
 public fun HitsTracker(
     eventName: String,
     searcher: SearcherSingleIndex,
@@ -33,6 +68,14 @@ public fun HitsTracker(
     tracker = insights
 )
 
+/**
+ * Creates a [HitsTracker] object.
+ *
+ * @param eventName default event name
+ * @param searcher multiple index searcher
+ * @param pointer pointer to a specific index position
+ * @param insights actual events handler
+ */
 public fun HitsTracker(
     eventName: String,
     searcher: SearcherMultipleIndex,

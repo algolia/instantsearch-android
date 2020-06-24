@@ -3,9 +3,12 @@ package com.algolia.instantsearch.helper.tracker
 import com.algolia.search.model.QueryID
 
 /**
- * Container for a Query ID.
+ * A container for query ID.
  */
 public interface QueryIDContainer {
 
+    /**
+     * Current query ID.
+     */
     public var queryID: QueryID?
 }
