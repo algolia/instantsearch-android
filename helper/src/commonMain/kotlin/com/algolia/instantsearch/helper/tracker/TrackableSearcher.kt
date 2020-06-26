@@ -3,6 +3,8 @@ package com.algolia.instantsearch.helper.tracker
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.tracker.internal.QueryIDContainer
+import com.algolia.instantsearch.helper.tracker.internal.SubscriptionJob
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.response.ResponseSearches
 
@@ -14,36 +16,39 @@ public sealed class TrackableSearcher<T> where T : Searcher<*> {
     /**
      * Wrapped searcher.
      */
-    internal abstract val searcher: T
+    public abstract val searcher: T
 
     /**
      * Enable the Click Analytics feature.
      *
      * @param on true to enable click analytics feature, false to disable it.
      */
-    public abstract fun setClickAnalyticsOn(on: Boolean)
+    internal abstract fun setClickAnalyticsOn(on: Boolean)
 
     /**
      * Subscribe for the Query ID changes.
      *
      * @param subscriber subscriber for query ID change tracking.
      */
-    public abstract fun <T : QueryIDContainer> subscribeForQueryIDChange(subscriber: T): SubscriptionJob<*>
+    internal abstract fun <T : QueryIDContainer> subscribeForQueryIDChange(subscriber: T): SubscriptionJob<*>
 
     /**
      * A searcher wrapper around [SearcherSingleIndex] to enable tracking capabilities.
      */
     public class SingleIndex(override val searcher: SearcherSingleIndex) : TrackableSearcher<SearcherSingleIndex>() {
 
-        public override fun setClickAnalyticsOn(on: Boolean) {
+        internal override fun setClickAnalyticsOn(on: Boolean) {
             searcher.query.clickAnalytics = on
         }
 
-        public override fun <T : QueryIDContainer> subscribeForQueryIDChange(subscriber: T): SubscriptionJob<ResponseSearch?> {
+        internal override fun <T : QueryIDContainer> subscribeForQueryIDChange(subscriber: T): SubscriptionJob<ResponseSearch?> {
             val onChange: (ResponseSearch?) -> Unit = { response ->
                 subscriber.queryID = response?.queryID
             }
-            return SubscriptionJob(searcher.response, onChange).also { it.start() }
+            return SubscriptionJob(
+                searcher.response,
+                onChange
+            ).also { it.start() }
         }
     }
 
@@ -55,15 +60,18 @@ public sealed class TrackableSearcher<T> where T : Searcher<*> {
         private val pointer: Int
     ) : TrackableSearcher<SearcherMultipleIndex>() {
 
-        public override fun setClickAnalyticsOn(on: Boolean) {
+        internal override fun setClickAnalyticsOn(on: Boolean) {
             searcher.queries[pointer].query.clickAnalytics = on
         }
 
-        public override fun <T : QueryIDContainer> subscribeForQueryIDChange(subscriber: T): SubscriptionJob<ResponseSearches?> {
+        internal override fun <T : QueryIDContainer> subscribeForQueryIDChange(subscriber: T): SubscriptionJob<ResponseSearches?> {
             val onChange: (ResponseSearches?) -> Unit = { response ->
                 subscriber.queryID = response?.results?.get(pointer)?.queryID
             }
-            return SubscriptionJob(searcher.response, onChange).also { it.start() }
+            return SubscriptionJob(
+                searcher.response,
+                onChange
+            ).also { it.start() }
         }
     }
 }

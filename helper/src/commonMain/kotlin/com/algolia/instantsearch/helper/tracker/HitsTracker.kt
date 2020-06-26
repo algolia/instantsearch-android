@@ -2,8 +2,10 @@
 
 package com.algolia.instantsearch.helper.tracker
 
+import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.tracker.internal.HitsDataTracker
 import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.search.model.indexing.Indexable
@@ -11,7 +13,7 @@ import com.algolia.search.model.indexing.Indexable
 /**
  * Tracker of hits events insights.
  */
-public interface HitsTracker : QueryIDContainer {
+public interface HitsTracker : Connection {
 
     /**
      * Track a hit click event.
@@ -49,7 +51,11 @@ public fun HitsTracker(
     eventName: String,
     trackableSearcher: TrackableSearcher<*>,
     tracker: HitsAfterSearchTrackable
-): HitsTracker = HitsDataTracker(eventName = eventName, trackableSearcher = trackableSearcher, tracker = tracker)
+): HitsTracker = HitsDataTracker(
+    eventName = eventName,
+    trackableSearcher = trackableSearcher,
+    tracker = tracker
+)
 
 /**
  * Creates a [HitsTracker] object.

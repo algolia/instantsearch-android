@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.tracker
+package com.algolia.instantsearch.helper.tracker.internal
 
 import com.algolia.instantsearch.core.subscription.Subscription
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 /**
  * Represents a link between a [Subscription] and a subscriber.
  */
-public class SubscriptionJob<T>(
+internal class SubscriptionJob<T>(
     private val subscription: Subscription<T>,
     private val subscriber: (T) -> Unit
 ) {

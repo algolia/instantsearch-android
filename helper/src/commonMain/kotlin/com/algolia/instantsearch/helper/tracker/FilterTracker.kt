@@ -4,6 +4,7 @@ package com.algolia.instantsearch.helper.tracker
 
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.tracker.internal.FilterDataTracker
 import com.algolia.instantsearch.insights.FilterTrackable
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.search.model.Attribute

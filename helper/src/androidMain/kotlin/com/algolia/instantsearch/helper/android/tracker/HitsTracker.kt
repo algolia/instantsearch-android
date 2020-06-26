@@ -1,21 +1,22 @@
 @file:Suppress("FunctionName")
 
-package com.algolia.instantsearch.helper.tracker
+package com.algolia.instantsearch.helper.android.tracker
 
 import android.content.Context
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.tracker.HitsTracker
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.register
 import com.algolia.search.client.ClientSearch
 
 @JvmName("create")
-public fun FilterTracker(
+public fun HitsTracker(
     context: Context,
     eventName: String,
     searcher: SearcherSingleIndex,
     client: ClientSearch
-): FilterTracker {
+): HitsTracker {
     val insights = Insights.register(
         context = context,
         appId = client.applicationID.raw,
@@ -23,7 +24,7 @@ public fun FilterTracker(
         indexName = searcher.index.indexName.raw
     )
 
-    return FilterTracker(
+    return HitsTracker(
         eventName = eventName,
         searcher = searcher,
         insights = insights
@@ -31,13 +32,13 @@ public fun FilterTracker(
 }
 
 @JvmName("create")
-public fun FilterTracker(
+public fun HitsTracker(
     context: Context,
     eventName: String,
     searcher: SearcherMultipleIndex,
     pointer: Int,
     client: ClientSearch
-): FilterTracker {
+): HitsTracker {
     val insights = Insights.register(
         context = context,
         appId = client.applicationID.raw,
@@ -45,7 +46,7 @@ public fun FilterTracker(
         indexName = searcher.queries[pointer].indexName.raw
     )
 
-    return FilterTracker(
+    return HitsTracker(
         eventName = eventName,
         searcher = searcher,
         pointer = pointer,

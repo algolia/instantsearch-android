@@ -1,11 +1,11 @@
-package com.algolia.instantsearch.helper.tracker
+package com.algolia.instantsearch.helper.tracker.internal
 
 import com.algolia.search.model.QueryID
 
 /**
  * A container for query ID.
  */
-public interface QueryIDContainer {
+internal interface QueryIDContainer {
 
     /**
      * Current query ID.
