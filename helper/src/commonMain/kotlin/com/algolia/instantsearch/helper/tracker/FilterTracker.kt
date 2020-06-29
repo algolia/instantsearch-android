@@ -5,7 +5,7 @@ package com.algolia.instantsearch.helper.tracker
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.tracker.internal.FilterDataTracker
-import com.algolia.instantsearch.insights.FilterTrackable
+import com.algolia.instantsearch.helper.tracker.internal.TrackableSearcher
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
@@ -67,23 +67,6 @@ public interface FilterTracker {
      */
     public fun trackConversion(facet: Facet, attribute: Attribute, customEventName: String? = null)
 }
-
-/**
- * Creates a [FilterTracker] object.
- *
- * @param eventName default event name
- * @param trackableSearcher searcher wrapper with tracking capabilities enabled
- * @param tracker actual events handler
- */
-public fun FilterTracker(
-    eventName: String,
-    trackableSearcher: TrackableSearcher<*>,
-    tracker: FilterTrackable
-): FilterTracker = FilterDataTracker(
-    eventName = eventName,
-    trackableSearcher = trackableSearcher,
-    tracker = tracker
-)
 
 /**
  * Creates a [FilterTracker] object.

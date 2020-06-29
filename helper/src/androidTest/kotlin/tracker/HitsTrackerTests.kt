@@ -8,7 +8,7 @@ import appID
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.tracker.HitsTracker
-import com.algolia.instantsearch.helper.tracker.TrackableSearcher
+import com.algolia.instantsearch.helper.tracker.internal.TrackableSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID

@@ -1,22 +1,20 @@
-package com.algolia.instantsearch.helper.tracker
+package com.algolia.instantsearch.helper.tracker.internal
 
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.tracker.internal.QueryIDContainer
-import com.algolia.instantsearch.helper.tracker.internal.SubscriptionJob
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.response.ResponseSearches
 
 /**
  * A searcher wrapper to enable tracking capabilities.
  */
-public sealed class TrackableSearcher<T> where T : Searcher<*> {
+internal sealed class TrackableSearcher<T> where T : Searcher<*> {
 
     /**
      * Wrapped searcher.
      */
-    public abstract val searcher: T
+    internal abstract val searcher: T
 
     /**
      * Enable the Click Analytics feature.
@@ -35,7 +33,7 @@ public sealed class TrackableSearcher<T> where T : Searcher<*> {
     /**
      * A searcher wrapper around [SearcherSingleIndex] to enable tracking capabilities.
      */
-    public class SingleIndex(override val searcher: SearcherSingleIndex) : TrackableSearcher<SearcherSingleIndex>() {
+    internal class SingleIndex(override val searcher: SearcherSingleIndex) : TrackableSearcher<SearcherSingleIndex>() {
 
         internal override fun setClickAnalyticsOn(on: Boolean) {
             searcher.query.clickAnalytics = on
@@ -45,17 +43,14 @@ public sealed class TrackableSearcher<T> where T : Searcher<*> {
             val onChange: (ResponseSearch?) -> Unit = { response ->
                 subscriber.queryID = response?.queryID
             }
-            return SubscriptionJob(
-                searcher.response,
-                onChange
-            ).also { it.start() }
+            return SubscriptionJob(searcher.response, onChange).also { it.start() }
         }
     }
 
     /**
      * A searcher wrapper around [SearcherMultipleIndex] to enable tracking capabilities.
      */
-    public class MultiIndex(
+    internal class MultiIndex(
         override val searcher: SearcherMultipleIndex,
         private val pointer: Int
     ) : TrackableSearcher<SearcherMultipleIndex>() {
@@ -68,10 +63,7 @@ public sealed class TrackableSearcher<T> where T : Searcher<*> {
             val onChange: (ResponseSearches?) -> Unit = { response ->
                 subscriber.queryID = response?.results?.get(pointer)?.queryID
             }
-            return SubscriptionJob(
-                searcher.response,
-                onChange
-            ).also { it.start() }
+            return SubscriptionJob(searcher.response, onChange).also { it.start() }
         }
     }
 }

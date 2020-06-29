@@ -1,7 +1,7 @@
 package tracker
 
 import com.algolia.instantsearch.helper.tracker.FilterTracker
-import com.algolia.instantsearch.helper.tracker.TrackableSearcher
+import com.algolia.instantsearch.helper.tracker.internal.TrackableSearcher
 import com.algolia.instantsearch.insights.FilterTrackable
 import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.search.model.Attribute

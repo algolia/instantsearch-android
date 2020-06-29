@@ -14,13 +14,13 @@ internal class SubscriptionJob<T>(
     /**
      * Current state, true if active, otherwise false.
      */
-    public var isActive: Boolean = false
+    internal var isActive: Boolean = false
         internal set
 
     /**
      * Subscribe the subscriber to the subscription.
      */
-    public fun start() {
+    internal fun start() {
         if (isActive) return
         when (subscription) {
             is SubscriptionValue -> subscription.subscribePast(subscriber)
@@ -32,7 +32,7 @@ internal class SubscriptionJob<T>(
     /**
      * Unsubscribe the subscriber from the subscription.
      */
-    public fun cancel() {
+    internal fun cancel() {
         if (!isActive) return
         subscription.unsubscribe(subscriber)
         isActive = false

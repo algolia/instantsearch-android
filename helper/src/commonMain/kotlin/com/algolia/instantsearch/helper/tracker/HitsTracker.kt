@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.tracker.internal.HitsDataTracker
-import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
+import com.algolia.instantsearch.helper.tracker.internal.TrackableSearcher
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.search.model.indexing.Indexable
 
@@ -39,23 +39,6 @@ public interface HitsTracker : Connection {
      */
     public fun <T : Indexable> trackView(hit: T, customEventName: String? = null)
 }
-
-/**
- * Creates a [HitsTracker] object.
- *
- * @param eventName default event name
- * @param trackableSearcher searcher wrapper with tracking capabilities enabled
- * @param tracker actual events handler
- */
-public fun HitsTracker(
-    eventName: String,
-    trackableSearcher: TrackableSearcher<*>,
-    tracker: HitsAfterSearchTrackable
-): HitsTracker = HitsDataTracker(
-    eventName = eventName,
-    trackableSearcher = trackableSearcher,
-    tracker = tracker
-)
 
 /**
  * Creates a [HitsTracker] object.
