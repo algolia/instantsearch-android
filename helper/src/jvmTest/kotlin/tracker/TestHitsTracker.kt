@@ -1,6 +1,6 @@
 package tracker
 
-import com.algolia.instantsearch.helper.tracker.HitsTracker
+import com.algolia.instantsearch.helper.tracker.internal.HitsDataTracker
 import com.algolia.instantsearch.helper.tracker.internal.TrackableSearcher
 import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
 import com.algolia.instantsearch.insights.event.EventObjects
@@ -17,7 +17,7 @@ class TestHitsTracker {
     private val queryID = QueryID("queryID")
     private val trackableSearcher = mockk<TrackableSearcher<*>>(relaxed = true)
     private val searchTrackable = mockk<HitsAfterSearchTrackable>(relaxed = true)
-    private val hitsTracker = HitsTracker(eventName, trackableSearcher, searchTrackable)
+    private val hitsTracker = HitsDataTracker(eventName, trackableSearcher, searchTrackable)
 
     @BeforeTest
     fun setup() {

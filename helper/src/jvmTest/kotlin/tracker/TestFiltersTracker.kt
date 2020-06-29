@@ -1,6 +1,6 @@
 package tracker
 
-import com.algolia.instantsearch.helper.tracker.FilterTracker
+import com.algolia.instantsearch.helper.tracker.internal.FilterDataTracker
 import com.algolia.instantsearch.helper.tracker.internal.TrackableSearcher
 import com.algolia.instantsearch.insights.FilterTrackable
 import com.algolia.instantsearch.insights.event.EventObjects
@@ -16,7 +16,7 @@ class TestFiltersTracker {
     private val eventName = "eventName"
     private val trackableSearcher = mockk<TrackableSearcher<*>>()
     private val filterTrackable = mockk<FilterTrackable>(relaxed = true)
-    private val filtersTracker = FilterTracker(eventName, trackableSearcher, filterTrackable)
+    private val filtersTracker = FilterDataTracker(eventName, trackableSearcher, filterTrackable)
 
     @Test
     fun testTrackClick() {
