@@ -13,14 +13,10 @@ import com.algolia.search.model.search.Facet
  * Tracker of filter events insights.
  */
 internal class FilterDataTracker(
-    eventName: String,
-    trackableSearcher: TrackableSearcher<*>,
-    tracker: FilterTrackable
-) : FilterTracker, InsightsTracker<FilterTrackable>(
-    eventName = eventName,
-    trackableSearcher = trackableSearcher,
-    tracker = tracker
-) {
+    override val eventName: String,
+    override val trackableSearcher: TrackableSearcher<*>,
+    override val tracker: FilterTrackable
+) : FilterTracker, InsightsTracker<FilterTrackable> {
 
     // region Filter tracking methods
     public override fun <F : Filter> trackClick(filter: F, customEventName: String?) {

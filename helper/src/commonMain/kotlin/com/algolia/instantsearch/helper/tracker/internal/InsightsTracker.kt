@@ -3,8 +3,8 @@ package com.algolia.instantsearch.helper.tracker.internal
 /**
  * Insights class wrapper with tracking capabilities.
  */
-internal abstract class InsightsTracker<T>(
-    internal val eventName: String,
-    internal val trackableSearcher: TrackableSearcher<*>,
-    internal val tracker: T
-)
+internal interface InsightsTracker<T> {
+    public val eventName: String
+    public val trackableSearcher: TrackableSearcher<*>
+    public val tracker: T
+}

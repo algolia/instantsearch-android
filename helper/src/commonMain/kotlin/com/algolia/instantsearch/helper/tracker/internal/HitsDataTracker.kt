@@ -10,14 +10,10 @@ import com.algolia.search.model.indexing.Indexable
  * Tracker of hits events insights.
  */
 internal class HitsDataTracker(
-    eventName: String,
-    trackableSearcher: TrackableSearcher<*>,
-    tracker: HitsAfterSearchTrackable
-) : HitsTracker, QueryIDContainer, InsightsTracker<HitsAfterSearchTrackable>(
-    eventName = eventName,
-    trackableSearcher = trackableSearcher,
-    tracker = tracker
-) {
+    override val eventName: String,
+    override val trackableSearcher: TrackableSearcher<*>,
+    override val tracker: HitsAfterSearchTrackable
+) : HitsTracker, InsightsTracker<HitsAfterSearchTrackable>, QueryIDContainer {
 
     public override var queryID: QueryID? = null
 
