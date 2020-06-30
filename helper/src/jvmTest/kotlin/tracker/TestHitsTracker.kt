@@ -8,6 +8,7 @@ import com.algolia.search.model.QueryID
 import com.algolia.search.model.indexing.Indexable
 import io.mockk.mockk
 import io.mockk.verify
+import searcher.TestCoroutineScope
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
@@ -17,7 +18,7 @@ class TestHitsTracker {
     private val queryID = QueryID("queryID")
     private val trackableSearcher = mockk<TrackableSearcher<*>>(relaxed = true)
     private val searchTrackable = mockk<HitsAfterSearchTrackable>(relaxed = true)
-    private val hitsTracker = HitsDataTracker(eventName, trackableSearcher, searchTrackable)
+    private val hitsTracker = HitsDataTracker(eventName, trackableSearcher, searchTrackable, TestCoroutineScope)
 
     @BeforeTest
     fun setup() {

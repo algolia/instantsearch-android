@@ -9,6 +9,7 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.search.Facet
 import io.mockk.mockk
 import io.mockk.verify
+import searcher.TestCoroutineScope
 import kotlin.test.Test
 
 class TestFiltersTracker {
@@ -16,7 +17,7 @@ class TestFiltersTracker {
     private val eventName = "eventName"
     private val trackableSearcher = mockk<TrackableSearcher<*>>()
     private val filterTrackable = mockk<FilterTrackable>(relaxed = true)
-    private val filtersTracker = FilterDataTracker(eventName, trackableSearcher, filterTrackable)
+    private val filtersTracker = FilterDataTracker(eventName, trackableSearcher, filterTrackable, TestCoroutineScope)
 
     @Test
     fun testTrackClick() {
