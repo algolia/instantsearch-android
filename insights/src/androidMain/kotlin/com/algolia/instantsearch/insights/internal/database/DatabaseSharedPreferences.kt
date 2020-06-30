@@ -16,7 +16,7 @@ internal class DatabaseSharedPreferences(
 
     private fun prefixAlgolia(string: String): String = "Algolia Insights-$string"
 
-    override fun append(event: EventInternal) {
+    public override fun append(event: EventInternal) {
         val events = preferences.events
             .toMutableSet()
             .also { it.add(ConverterEventInternalToString.convert(event)) }
@@ -24,20 +24,19 @@ internal class DatabaseSharedPreferences(
         preferences.events = events
     }
 
-    override fun overwrite(events: List<EventInternal>) {
+    public override fun overwrite(events: List<EventInternal>) {
         preferences.events = ConverterEventInternalToString.convert(events).toSet()
     }
 
-    override fun read(): List<EventInternal> {
+    public override fun read(): List<EventInternal> {
         return ConverterStringToEventInternal.convert(preferences.events.toList())
     }
 
-    override fun count(): Int {
+    public override fun count(): Int {
         return preferences.events.size
     }
 
-    override fun clear() {
+    public override fun clear() {
         preferences.events = setOf()
     }
-
 }

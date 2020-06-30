@@ -1,18 +1,18 @@
 package com.algolia.instantsearch.insights.internal.event
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.algolia.instantsearch.insights.event.EventUploader
-import com.algolia.instantsearch.insights.internal.database.SharedPreferencesDelegate
+import com.algolia.instantsearch.insights.internal.database.InsightsSharedPreferences
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
-internal class EventUploaderAndroidJob(context: Context) : EventUploader {
+internal class EventUploaderAndroidJob(
+    context: Context,
+    private val preferences: InsightsSharedPreferences
+) : EventUploader {
 
-    private val preferences = context.getSharedPreferences("Insights", Context.MODE_PRIVATE)
-    private var SharedPreferences.jobId by SharedPreferencesDelegate.Int(defaultJobId)
     private var repeatIntervalInMinutes = defaultRepeatIntervalInMinutes
 
     init {
@@ -50,7 +50,7 @@ internal class EventUploaderAndroidJob(context: Context) : EventUploader {
     companion object {
         private const val defaultRepeatIntervalInMinutes = 15L
         private const val flexTimeIntervalInMinutes = 5L
-        private const val defaultJobId = -1
+        internal const val defaultJobId = -1
     }
 }
 
