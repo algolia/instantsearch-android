@@ -18,12 +18,12 @@ internal class FilterDataTracker(
     override val eventName: String,
     override val trackableSearcher: TrackableSearcher<*>,
     override val tracker: FilterTrackable,
-    override val coroutineScope: CoroutineScope = InsightsScope()
+    override val trackerScope: CoroutineScope = InsightsScope()
 ) : FilterTracker, InsightsTracker<FilterTrackable> {
 
     // region Filter tracking methods
     public override fun <F : Filter> trackClick(filter: F, customEventName: String?) {
-        coroutineScope.launch {
+        trackerScope.launch {
             val sqlForm = FilterConverter.SQL(filter)
             tracker.clicked(
                 eventName = customEventName ?: eventName,
@@ -33,7 +33,7 @@ internal class FilterDataTracker(
     }
 
     public override fun <F : Filter> trackView(filter: F, customEventName: String?) {
-        coroutineScope.launch {
+        trackerScope.launch {
             val sqlForm = FilterConverter.SQL(filter)
             tracker.viewed(
                 eventName = customEventName ?: eventName,
@@ -43,7 +43,7 @@ internal class FilterDataTracker(
     }
 
     public override fun <F : Filter> trackConversion(filter: F, customEventName: String?) {
-        coroutineScope.launch {
+        trackerScope.launch {
             val sqlForm = FilterConverter.SQL(filter)
             tracker.converted(
                 eventName = customEventName ?: eventName,

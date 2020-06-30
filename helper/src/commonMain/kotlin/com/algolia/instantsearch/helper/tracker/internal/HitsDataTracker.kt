@@ -15,7 +15,7 @@ internal class HitsDataTracker(
     override val eventName: String,
     override val trackableSearcher: TrackableSearcher<*>,
     override val tracker: HitsAfterSearchTrackable,
-    override val coroutineScope: CoroutineScope
+    override val trackerScope: CoroutineScope
 ) : HitsTracker, InsightsTracker<HitsAfterSearchTrackable>, QueryIDContainer {
 
     public override var queryID: QueryID? = null
@@ -26,7 +26,7 @@ internal class HitsDataTracker(
 
     // region Hits tracking methods
     public override fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: String?) {
-        coroutineScope.launch {
+        trackerScope.launch {
             val id = queryID ?: return@launch
             tracker.clickedAfterSearch(
                 eventName = customEventName ?: eventName,
@@ -38,7 +38,7 @@ internal class HitsDataTracker(
     }
 
     public override fun <T : Indexable> trackConvert(hit: T, customEventName: String?) {
-        coroutineScope.launch {
+        trackerScope.launch {
             val id = queryID ?: return@launch
             tracker.convertedAfterSearch(
                 eventName = customEventName ?: eventName,
@@ -49,7 +49,7 @@ internal class HitsDataTracker(
     }
 
     public override fun <T : Indexable> trackView(hit: T, customEventName: String?) {
-        coroutineScope.launch {
+        trackerScope.launch {
             tracker.viewed(
                 eventName = customEventName ?: eventName,
                 objectIDs = EventObjects.IDs(hit.objectID.raw)

@@ -18,6 +18,11 @@ import kotlinx.coroutines.CoroutineScope
 public interface HitsTracker : Connection {
 
     /**
+     * Coroutine scope in which all tracking operations are executed.
+     */
+    val trackerScope: CoroutineScope
+
+    /**
      * Track a hit click event.
      *
      * @param hit hit to track
@@ -58,7 +63,7 @@ public fun HitsTracker(
     eventName = eventName,
     trackableSearcher = TrackableSearcher.SingleIndex(searcher),
     tracker = insights,
-    coroutineScope = coroutineScope
+    trackerScope = coroutineScope
 )
 
 /**
@@ -79,5 +84,5 @@ public fun HitsTracker(
     eventName = eventName,
     trackableSearcher = TrackableSearcher.MultiIndex(searcher, pointer),
     tracker = insights,
-    coroutineScope = coroutineScope
+    trackerScope = coroutineScope
 )

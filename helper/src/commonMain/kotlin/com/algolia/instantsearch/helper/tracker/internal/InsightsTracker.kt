@@ -9,5 +9,5 @@ internal interface InsightsTracker<T> {
     public val eventName: String
     public val trackableSearcher: TrackableSearcher<*>
     public val tracker: T
-    public val coroutineScope: CoroutineScope
+    public val trackerScope: CoroutineScope
 }

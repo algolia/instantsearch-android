@@ -19,6 +19,11 @@ import kotlinx.coroutines.CoroutineScope
 public interface FilterTracker {
 
     /**
+     * Coroutine scope in which all tracking operations are executed.
+     */
+    val trackerScope: CoroutineScope
+
+    /**
      * Track a filter click event.
      *
      * @param filter filter to track
@@ -76,6 +81,7 @@ public interface FilterTracker {
  * @param eventName default event name
  * @param searcher single index searcher
  * @param insights actual events handler
+ * @param coroutineScope coroutine scope to execute tracking operations
  */
 public fun FilterTracker(
     eventName: String,
@@ -86,7 +92,7 @@ public fun FilterTracker(
     eventName = eventName,
     trackableSearcher = TrackableSearcher.SingleIndex(searcher),
     tracker = insights,
-    coroutineScope = coroutineScope
+    trackerScope = coroutineScope
 )
 
 /**
@@ -96,6 +102,7 @@ public fun FilterTracker(
  * @param searcher multiple index searcher
  * @param pointer pointer to a specific index position
  * @param insights actual events handler
+ * @param coroutineScope coroutine scope to execute tracking operations
  */
 public fun FilterTracker(
     eventName: String,
@@ -107,5 +114,5 @@ public fun FilterTracker(
     eventName = eventName,
     trackableSearcher = TrackableSearcher.MultiIndex(searcher, pointer),
     tracker = insights,
-    coroutineScope = coroutineScope
+    trackerScope = coroutineScope
 )
