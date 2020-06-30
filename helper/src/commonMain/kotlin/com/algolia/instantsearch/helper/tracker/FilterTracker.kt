@@ -5,11 +5,13 @@ package com.algolia.instantsearch.helper.tracker
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.tracker.internal.FilterDataTracker
+import com.algolia.instantsearch.helper.tracker.internal.InsightsScope
 import com.algolia.instantsearch.helper.tracker.internal.TrackableSearcher
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.search.Facet
+import kotlinx.coroutines.CoroutineScope
 
 /**
  * Tracker of filter events insights.
@@ -78,11 +80,13 @@ public interface FilterTracker {
 public fun FilterTracker(
     eventName: String,
     searcher: SearcherSingleIndex,
-    insights: Insights
+    insights: Insights,
+    coroutineScope: CoroutineScope = InsightsScope()
 ): FilterTracker = FilterDataTracker(
     eventName = eventName,
     trackableSearcher = TrackableSearcher.SingleIndex(searcher),
-    tracker = insights
+    tracker = insights,
+    coroutineScope = coroutineScope
 )
 
 /**
@@ -97,9 +101,11 @@ public fun FilterTracker(
     eventName: String,
     searcher: SearcherMultipleIndex,
     pointer: Int,
-    insights: Insights
+    insights: Insights,
+    coroutineScope: CoroutineScope = InsightsScope()
 ): FilterTracker = FilterDataTracker(
     eventName = eventName,
     trackableSearcher = TrackableSearcher.MultiIndex(searcher, pointer),
-    tracker = insights
+    tracker = insights,
+    coroutineScope = coroutineScope
 )

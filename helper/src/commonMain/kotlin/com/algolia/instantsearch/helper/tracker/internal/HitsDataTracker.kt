@@ -5,6 +5,8 @@ import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
 import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.search.model.QueryID
 import com.algolia.search.model.indexing.Indexable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * Tracker of hits events insights.
@@ -12,7 +14,8 @@ import com.algolia.search.model.indexing.Indexable
 internal class HitsDataTracker(
     override val eventName: String,
     override val trackableSearcher: TrackableSearcher<*>,
-    override val tracker: HitsAfterSearchTrackable
+    override val tracker: HitsAfterSearchTrackable,
+    override val coroutineScope: CoroutineScope
 ) : HitsTracker, InsightsTracker<HitsAfterSearchTrackable>, QueryIDContainer {
 
     public override var queryID: QueryID? = null
@@ -23,29 +26,35 @@ internal class HitsDataTracker(
 
     // region Hits tracking methods
     public override fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: String?) {
-        val id = queryID ?: return
-        tracker.clickedAfterSearch(
-            eventName = customEventName ?: eventName,
-            queryId = id.raw,
-            objectIDs = EventObjects.IDs(hit.objectID.raw),
-            positions = listOf(position)
-        )
+        coroutineScope.launch {
+            val id = queryID ?: return@launch
+            tracker.clickedAfterSearch(
+                eventName = customEventName ?: eventName,
+                queryId = id.raw,
+                objectIDs = EventObjects.IDs(hit.objectID.raw),
+                positions = listOf(position)
+            )
+        }
     }
 
     public override fun <T : Indexable> trackConvert(hit: T, customEventName: String?) {
-        val id = queryID ?: return
-        tracker.convertedAfterSearch(
-            eventName = customEventName ?: eventName,
-            queryId = id.raw,
-            objectIDs = EventObjects.IDs(hit.objectID.raw)
-        )
+        coroutineScope.launch {
+            val id = queryID ?: return@launch
+            tracker.convertedAfterSearch(
+                eventName = customEventName ?: eventName,
+                queryId = id.raw,
+                objectIDs = EventObjects.IDs(hit.objectID.raw)
+            )
+        }
     }
 
     public override fun <T : Indexable> trackView(hit: T, customEventName: String?) {
-        tracker.viewed(
-            eventName = customEventName ?: eventName,
-            objectIDs = EventObjects.IDs(hit.objectID.raw)
-        )
+        coroutineScope.launch {
+            tracker.viewed(
+                eventName = customEventName ?: eventName,
+                objectIDs = EventObjects.IDs(hit.objectID.raw)
+            )
+        }
     }
     // endregion
 

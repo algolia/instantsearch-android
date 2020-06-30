@@ -6,9 +6,11 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.tracker.internal.HitsDataTracker
+import com.algolia.instantsearch.helper.tracker.internal.InsightsScope
 import com.algolia.instantsearch.helper.tracker.internal.TrackableSearcher
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.search.model.indexing.Indexable
+import kotlinx.coroutines.CoroutineScope
 
 /**
  * Tracker of hits events insights.
@@ -50,11 +52,13 @@ public interface HitsTracker : Connection {
 public fun HitsTracker(
     eventName: String,
     searcher: SearcherSingleIndex,
-    insights: Insights
+    insights: Insights,
+    coroutineScope: CoroutineScope = InsightsScope()
 ): HitsTracker = HitsDataTracker(
     eventName = eventName,
     trackableSearcher = TrackableSearcher.SingleIndex(searcher),
-    tracker = insights
+    tracker = insights,
+    coroutineScope = coroutineScope
 )
 
 /**
@@ -69,9 +73,11 @@ public fun HitsTracker(
     eventName: String,
     searcher: SearcherMultipleIndex,
     pointer: Int,
-    insights: Insights
+    insights: Insights,
+    coroutineScope: CoroutineScope = InsightsScope()
 ): HitsTracker = HitsDataTracker(
     eventName = eventName,
     trackableSearcher = TrackableSearcher.MultiIndex(searcher, pointer),
-    tracker = insights
+    tracker = insights,
+    coroutineScope = coroutineScope
 )

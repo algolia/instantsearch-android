@@ -8,6 +8,8 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterConverter
 import com.algolia.search.model.search.Facet
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * Tracker of filter events insights.
@@ -15,32 +17,39 @@ import com.algolia.search.model.search.Facet
 internal class FilterDataTracker(
     override val eventName: String,
     override val trackableSearcher: TrackableSearcher<*>,
-    override val tracker: FilterTrackable
+    override val tracker: FilterTrackable,
+    override val coroutineScope: CoroutineScope = InsightsScope()
 ) : FilterTracker, InsightsTracker<FilterTrackable> {
 
     // region Filter tracking methods
     public override fun <F : Filter> trackClick(filter: F, customEventName: String?) {
-        val sqlForm = FilterConverter.SQL(filter)
-        tracker.clicked(
-            eventName = customEventName ?: eventName,
-            filters = EventObjects.Filters(sqlForm)
-        )
+        coroutineScope.launch {
+            val sqlForm = FilterConverter.SQL(filter)
+            tracker.clicked(
+                eventName = customEventName ?: eventName,
+                filters = EventObjects.Filters(sqlForm)
+            )
+        }
     }
 
     public override fun <F : Filter> trackView(filter: F, customEventName: String?) {
-        val sqlForm = FilterConverter.SQL(filter)
-        tracker.viewed(
-            eventName = customEventName ?: eventName,
-            filters = EventObjects.Filters(sqlForm)
-        )
+        coroutineScope.launch {
+            val sqlForm = FilterConverter.SQL(filter)
+            tracker.viewed(
+                eventName = customEventName ?: eventName,
+                filters = EventObjects.Filters(sqlForm)
+            )
+        }
     }
 
     public override fun <F : Filter> trackConversion(filter: F, customEventName: String?) {
-        val sqlForm = FilterConverter.SQL(filter)
-        tracker.converted(
-            eventName = customEventName ?: eventName,
-            filters = EventObjects.Filters(sqlForm)
-        )
+        coroutineScope.launch {
+            val sqlForm = FilterConverter.SQL(filter)
+            tracker.converted(
+                eventName = customEventName ?: eventName,
+                filters = EventObjects.Filters(sqlForm)
+            )
+        }
     }
     // endregion
 
