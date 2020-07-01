@@ -70,6 +70,7 @@ kotlin {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
+                freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
             }
         }
     }
@@ -81,6 +82,7 @@ kotlin {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
+                freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
             }
         }
     }
@@ -98,6 +100,7 @@ kotlin {
                 implementation(project(":insights"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation(Coroutines("test"))
                 implementation(Ktor("client-mock"))
                 implementation(AlgoliaClient("common"))
                 implementation(Mockk("common"))

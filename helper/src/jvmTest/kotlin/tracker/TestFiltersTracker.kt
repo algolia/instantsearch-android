@@ -7,12 +7,18 @@ import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.search.Facet
+import extension.MainCoroutineRule
+import extension.runBlocking
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.Rule
 import searcher.TestCoroutineScope
 import kotlin.test.Test
 
 class TestFiltersTracker {
+
+    @get:Rule
+    val coroutineRule = MainCoroutineRule()
 
     private val eventName = "eventName"
     private val trackableSearcher = mockk<TrackableSearcher<*>>()
@@ -20,7 +26,7 @@ class TestFiltersTracker {
     private val filtersTracker = FilterDataTracker(eventName, trackableSearcher, filterTrackable, TestCoroutineScope)
 
     @Test
-    fun testTrackClick() {
+    fun testTrackClick() = coroutineRule.runBlocking {
         val eventName = "customEventName"
         val attribute = "attribute"
         val value = "value"
@@ -39,7 +45,7 @@ class TestFiltersTracker {
     }
 
     @Test
-    fun testTrackClickFacet() {
+    fun testTrackClickFacet() = coroutineRule.runBlocking {
         val eventName = "customEventName"
         val attribute = "attribute"
         val value = "value"
@@ -58,7 +64,7 @@ class TestFiltersTracker {
     }
 
     @Test
-    fun testTrackConversion() {
+    fun testTrackConversion() = coroutineRule.runBlocking {
         val eventName = "customEventName"
         val attribute = "attribute"
         val value = "value"

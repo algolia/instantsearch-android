@@ -6,13 +6,19 @@ import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
 import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.search.model.QueryID
 import com.algolia.search.model.indexing.Indexable
+import extension.MainCoroutineRule
+import extension.runBlocking
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.Rule
 import searcher.TestCoroutineScope
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class TestHitsTracker {
+
+    @get:Rule
+    val coroutineRule = MainCoroutineRule()
 
     private val eventName = "eventName"
     private val queryID = QueryID("queryID")
@@ -26,7 +32,7 @@ class TestHitsTracker {
     }
 
     @Test
-    fun testTrackClick() {
+    fun testTrackClick() = coroutineRule.runBlocking {
         val eventName = "customEventName"
         val hit = mockk<Indexable>(relaxed = true)
         val position = 10
@@ -47,7 +53,7 @@ class TestHitsTracker {
     }
 
     @Test
-    fun testTrackConvert() {
+    fun testTrackConvert() = coroutineRule.runBlocking {
         val eventName = "customEventName"
         val hit = mockk<Indexable>(relaxed = true)
         val objectIDs = EventObjects.IDs(hit.objectID.raw)
@@ -65,7 +71,7 @@ class TestHitsTracker {
     }
 
     @Test
-    fun testTrackView() {
+    fun testTrackView() = coroutineRule.runBlocking {
         val eventName = "customEventName"
         val hit = mockk<Indexable>(relaxed = true)
         val objectIDs = EventObjects.IDs(hit.objectID.raw)
