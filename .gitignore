@@ -6,3 +6,6 @@
 out/
 classes
 local.properties
+bitrise.yml
+.bundle
+fastlane/report.xml
