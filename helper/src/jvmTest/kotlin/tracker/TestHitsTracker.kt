@@ -10,8 +10,8 @@ import extension.MainCoroutineRule
 import extension.runBlocking
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.CoroutineScope
 import org.junit.Rule
-import searcher.TestCoroutineScope
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
@@ -19,12 +19,13 @@ class TestHitsTracker {
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
+    private val testCoroutineScope = CoroutineScope(coroutineRule.testDispatcher)
 
     private val eventName = "eventName"
     private val queryID = QueryID("queryID")
     private val trackableSearcher = mockk<TrackableSearcher<*>>(relaxed = true)
     private val searchTrackable = mockk<HitsAfterSearchTrackable>(relaxed = true)
-    private val hitsTracker = HitsDataTracker(eventName, trackableSearcher, searchTrackable, TestCoroutineScope)
+    private val hitsTracker = HitsDataTracker(eventName, trackableSearcher, searchTrackable, testCoroutineScope)
 
     @BeforeTest
     fun setup() {

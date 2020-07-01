@@ -11,19 +11,20 @@ import extension.MainCoroutineRule
 import extension.runBlocking
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.CoroutineScope
 import org.junit.Rule
-import searcher.TestCoroutineScope
 import kotlin.test.Test
 
 class TestFiltersTracker {
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
+    private val testCoroutineScope = CoroutineScope(coroutineRule.testDispatcher)
 
     private val eventName = "eventName"
     private val trackableSearcher = mockk<TrackableSearcher<*>>()
     private val filterTrackable = mockk<FilterTrackable>(relaxed = true)
-    private val filtersTracker = FilterDataTracker(eventName, trackableSearcher, filterTrackable, TestCoroutineScope)
+    private val filtersTracker = FilterDataTracker(eventName, trackableSearcher, filterTrackable, testCoroutineScope)
 
     @Test
     fun testTrackClick() = coroutineRule.runBlocking {
