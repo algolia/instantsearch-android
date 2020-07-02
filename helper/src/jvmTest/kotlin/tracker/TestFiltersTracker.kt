@@ -28,13 +28,13 @@ class TestFiltersTracker {
 
     @Test
     fun testTrackClick() = coroutineRule.runBlocking {
-        val eventName = "customEventName"
+        val eventName = "eventName"
         val attribute = "attribute"
         val value = "value"
         val filter = Filter.Facet(Attribute(attribute), value)
         val filterSQLForm = EventObjects.Filters("\"$attribute\":\"$value\"")
 
-        filtersTracker.trackClick(filter = filter, customEventName = eventName)
+        filtersTracker.trackClick(filter = filter, eventName = eventName)
 
         verify {
             filterTrackable.clicked(
@@ -47,13 +47,13 @@ class TestFiltersTracker {
 
     @Test
     fun testTrackClickFacet() = coroutineRule.runBlocking {
-        val eventName = "customEventName"
+        val eventName = "eventName"
         val attribute = "attribute"
         val value = "value"
         val facet = Facet(value = value, count = 0)
         val filterSQLForm = EventObjects.Filters("\"$attribute\":\"$value\"")
 
-        filtersTracker.trackClick(facet = facet, attribute = Attribute(attribute), customEventName = eventName)
+        filtersTracker.trackClick(facet = facet, attribute = Attribute(attribute), eventName = eventName)
 
         verify {
             filterTrackable.clicked(
@@ -66,13 +66,13 @@ class TestFiltersTracker {
 
     @Test
     fun testTrackConversion() = coroutineRule.runBlocking {
-        val eventName = "customEventName"
+        val eventName = "eventName"
         val attribute = "attribute"
         val value = "value"
         val filter = Filter.Facet(Attribute(attribute), value)
         val filterSQLForm = EventObjects.Filters("\"$attribute\":\"$value\"")
 
-        filtersTracker.trackConversion(filter = filter, customEventName = eventName)
+        filtersTracker.trackConversion(filter = filter, eventName = eventName)
 
         verify {
             filterTrackable.converted(
@@ -85,13 +85,13 @@ class TestFiltersTracker {
 
     @Test
     fun testTrackConversionFacet() {
-        val eventName = "customEventName"
+        val eventName = "eventName"
         val attribute = "attribute"
         val value = "value"
         val facet = Facet(value = value, count = 0)
         val filterSQLForm = EventObjects.Filters("\"$attribute\":\"$value\"")
 
-        filtersTracker.trackConversion(facet = facet, attribute = Attribute(attribute), customEventName = eventName)
+        filtersTracker.trackConversion(facet = facet, attribute = Attribute(attribute), eventName = eventName)
 
         verify {
             filterTrackable.converted(
@@ -104,13 +104,13 @@ class TestFiltersTracker {
 
     @Test
     fun testTrackView() {
-        val eventName = "customEventName"
+        val eventName = "eventName"
         val attribute = "attribute"
         val value = "value"
         val filter = Filter.Facet(Attribute(attribute), value)
         val filterSQLForm = EventObjects.Filters("\"$attribute\":\"$value\"")
 
-        filtersTracker.trackView(filter = filter, customEventName = eventName)
+        filtersTracker.trackView(filter = filter, eventName = eventName)
 
         verify {
             filterTrackable.viewed(
@@ -123,13 +123,13 @@ class TestFiltersTracker {
 
     @Test
     fun testTrackViewFacet() {
-        val eventName = "customEventName"
+        val eventName = "eventName"
         val attribute = "attribute"
         val value = "value"
         val facet = Facet(value = value, count = 0)
         val filterSQLForm = EventObjects.Filters("\"$attribute\":\"$value\"")
 
-        filtersTracker.trackView(facet = facet, attribute = Attribute(attribute), customEventName = eventName)
+        filtersTracker.trackView(facet = facet, attribute = Attribute(attribute), eventName = eventName)
 
         verify {
             filterTrackable.viewed(

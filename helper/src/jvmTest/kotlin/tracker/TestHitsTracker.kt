@@ -34,13 +34,13 @@ class TestHitsTracker {
 
     @Test
     fun testTrackClick() = coroutineRule.runBlocking {
-        val eventName = "customEventName"
+        val eventName = "eventName"
         val hit = mockk<Indexable>(relaxed = true)
         val position = 10
         val objectIDs = EventObjects.IDs(hit.objectID.raw)
         val positions = listOf(position)
 
-        hitsTracker.trackClick(hit = hit, position = position, customEventName = eventName)
+        hitsTracker.trackClick(hit = hit, position = position, eventName = eventName)
 
         verify {
             searchTrackable.clickedAfterSearch(
@@ -55,11 +55,11 @@ class TestHitsTracker {
 
     @Test
     fun testTrackConvert() = coroutineRule.runBlocking {
-        val eventName = "customEventName"
+        val eventName = "eventName"
         val hit = mockk<Indexable>(relaxed = true)
         val objectIDs = EventObjects.IDs(hit.objectID.raw)
 
-        hitsTracker.trackConvert(hit = hit, customEventName = eventName)
+        hitsTracker.trackConvert(hit = hit, eventName = eventName)
 
         verify {
             searchTrackable.convertedAfterSearch(
@@ -73,11 +73,11 @@ class TestHitsTracker {
 
     @Test
     fun testTrackView() = coroutineRule.runBlocking {
-        val eventName = "customEventName"
+        val eventName = "eventName"
         val hit = mockk<Indexable>(relaxed = true)
         val objectIDs = EventObjects.IDs(hit.objectID.raw)
 
-        hitsTracker.trackView(hit = hit, customEventName = eventName)
+        hitsTracker.trackView(hit = hit, eventName = eventName)
 
         verify {
             searchTrackable.viewed(

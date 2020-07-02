@@ -27,52 +27,52 @@ public interface FilterTracker {
      * Track a filter click event.
      *
      * @param filter filter to track
-     * @param customEventName custom event name, overrides the default event name
+     * @param eventName custom event name, overrides the default event name
      */
-    public fun <F : Filter> trackClick(filter: F, customEventName: String? = null)
+    public fun <F : Filter> trackClick(filter: F, eventName: String? = null)
 
     /**
      * Track a filter view event.
      *
      * @param filter filter to track
-     * @param customEventName custom event name, overrides the default event name
+     * @param eventName custom event name, overrides the default event name
      */
-    public fun <F : Filter> trackView(filter: F, customEventName: String? = null)
+    public fun <F : Filter> trackView(filter: F, eventName: String? = null)
 
     /**
      * Track a filter conversion event.
      *
      * @param filter filter to track
-     * @param customEventName custom event name, overrides the default event name
+     * @param eventName custom event name, overrides the default event name
      */
-    public fun <F : Filter> trackConversion(filter: F, customEventName: String? = null)
+    public fun <F : Filter> trackConversion(filter: F, eventName: String? = null)
 
     /**
      * Track a facet click event.
      *
      * @param facet facet to track
      * @param attribute facet attribute
-     * @param customEventName custom event name, overrides the default event name
+     * @param eventName custom event name, overrides the default event name
      */
-    public fun trackClick(facet: Facet, attribute: Attribute, customEventName: String? = null)
+    public fun trackClick(facet: Facet, attribute: Attribute, eventName: String? = null)
 
     /**
      * Track a facet view event.
      *
      * @param facet facet to track
      * @param attribute facet attribute
-     * @param customEventName custom event name, overrides the default event name
+     * @param eventName custom event name, overrides the default event name
      */
-    public fun trackView(facet: Facet, attribute: Attribute, customEventName: String? = null)
+    public fun trackView(facet: Facet, attribute: Attribute, eventName: String? = null)
 
     /**
      * Track a facet conversion event.
      *
      * @param facet facet to track
      * @param attribute facet attribute
-     * @param customEventName custom event name, overrides the default event name
+     * @param eventName custom event name, overrides the default event name
      */
-    public fun trackConversion(facet: Facet, attribute: Attribute, customEventName: String? = null)
+    public fun trackConversion(facet: Facet, attribute: Attribute, eventName: String? = null)
 }
 
 /**

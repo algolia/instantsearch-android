@@ -25,11 +25,11 @@ internal class HitsDataTracker(
     }
 
     // region Hits tracking methods
-    public override fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: String?) {
+    public override fun <T : Indexable> trackClick(hit: T, position: Int, eventName: String?) {
         trackerScope.launch {
             val id = queryID ?: return@launch
             tracker.clickedAfterSearch(
-                eventName = customEventName ?: eventName,
+                eventName = eventName ?: this@HitsDataTracker.eventName,
                 queryId = id.raw,
                 objectIDs = EventObjects.IDs(hit.objectID.raw),
                 positions = listOf(position)
@@ -37,21 +37,21 @@ internal class HitsDataTracker(
         }
     }
 
-    public override fun <T : Indexable> trackConvert(hit: T, customEventName: String?) {
+    public override fun <T : Indexable> trackConvert(hit: T, eventName: String?) {
         trackerScope.launch {
             val id = queryID ?: return@launch
             tracker.convertedAfterSearch(
-                eventName = customEventName ?: eventName,
+                eventName = eventName ?: this@HitsDataTracker.eventName,
                 queryId = id.raw,
                 objectIDs = EventObjects.IDs(hit.objectID.raw)
             )
         }
     }
 
-    public override fun <T : Indexable> trackView(hit: T, customEventName: String?) {
+    public override fun <T : Indexable> trackView(hit: T, eventName: String?) {
         trackerScope.launch {
             tracker.viewed(
-                eventName = customEventName ?: eventName,
+                eventName = eventName ?: this@HitsDataTracker.eventName,
                 objectIDs = EventObjects.IDs(hit.objectID.raw)
             )
         }

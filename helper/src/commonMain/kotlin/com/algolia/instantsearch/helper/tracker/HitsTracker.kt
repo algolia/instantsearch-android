@@ -26,25 +26,25 @@ public interface HitsTracker : Connection {
      * Track a hit click event.
      *
      * @param hit hit to track
-     * @param customEventName custom event name, overrides the default value.
+     * @param eventName custom event name, overrides the default value.
      */
-    public fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: String? = null)
+    public fun <T : Indexable> trackClick(hit: T, position: Int, eventName: String? = null)
 
     /**
      * Track a hit convert event.
      *
      * @param hit hit to track
-     * @param customEventName custom event name, overrides the default event name
+     * @param eventName custom event name, overrides the default event name
      */
-    public fun <T : Indexable> trackConvert(hit: T, customEventName: String? = null)
+    public fun <T : Indexable> trackConvert(hit: T, eventName: String? = null)
 
     /**
      * Track a hit view event.
      *
      * @param hit hit to track
-     * @param customEventName custom event name, overrides the default event name
+     * @param eventName custom event name, overrides the default event name
      */
-    public fun <T : Indexable> trackView(hit: T, customEventName: String? = null)
+    public fun <T : Indexable> trackView(hit: T, eventName: String? = null)
 }
 
 /**
@@ -53,6 +53,7 @@ public interface HitsTracker : Connection {
  * @param eventName default event name
  * @param searcher single index searcher
  * @param insights actual events handler
+ * @param coroutineScope coroutine scope to execute tracking operations
  */
 public fun HitsTracker(
     eventName: String,
@@ -73,6 +74,7 @@ public fun HitsTracker(
  * @param searcher multiple index searcher
  * @param pointer pointer to a specific index position
  * @param insights actual events handler
+ * @param coroutineScope coroutine scope to execute tracking operations
  */
 public fun HitsTracker(
     eventName: String,
