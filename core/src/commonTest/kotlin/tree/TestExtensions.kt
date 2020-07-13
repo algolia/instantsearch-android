@@ -1,10 +1,14 @@
 package tree
 
-import com.algolia.instantsearch.core.tree.*
+import com.algolia.instantsearch.core.tree.Node
+import com.algolia.instantsearch.core.tree.Tree
+import com.algolia.instantsearch.core.tree.asTree
+import com.algolia.instantsearch.core.tree.findNode
+import com.algolia.instantsearch.core.tree.toNodes
 import shouldBeNull
+import shouldBeTrue
 import shouldEqual
 import kotlin.test.Test
-
 
 class TestHierarchicalNode {
 
@@ -64,6 +68,16 @@ class TestHierarchicalNode {
         nodes shouldEqual Tree(
             mutableListOf(category1, category2.copy(children = mutableListOf(category21, category22)))
         )
+    }
+
+    @Test
+    fun toNodesWithSelectedNode() {
+        val values = listOf(category1.content, category2.content, category21.content, category22.content)
+        val nodes = values.toNodes(isMatchingString) {
+            category21.content == it
+        }
+
+        nodes.children[1].children[0].selected.shouldBeTrue()
     }
 
     @Test

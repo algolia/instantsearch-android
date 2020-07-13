@@ -16,7 +16,7 @@ private val isMatchingFacetNode: (Facet, Node<Facet>) -> Boolean =
         val splitNode: List<String> = node.content.value.split(regexSeparator)
         var isMatching = true
 
-        for (i in 0 until min(splitContent.size,splitNode.size)) {
+        for (i in 0 until min(splitContent.size, splitNode.size)) {
             if (splitContent[i] != splitNode[i]) {
                 isMatching = false
                 break
@@ -29,6 +29,8 @@ internal fun HierarchicalTree.findNode(facet: Facet) = findNode(facet, isMatchin
 
 internal fun List<HierarchicalNode>.findNode(facet: Facet): HierarchicalNode? = findNode(facet, isMatchingFacetNode)
 
-internal fun List<Facet>.toNodes(): HierarchicalTree = toNodes(isMatchingFacetNode)
+internal fun List<Facet>.toNodes(hierarchicalValue: String? = null): HierarchicalTree {
+    return toNodes(isMatchingFacetNode) { hierarchicalValue != null && it.value == hierarchicalValue }
+}
 
 internal fun List<HierarchicalNode>.asTree(): HierarchicalTree = asTree(isMatchingFacetNode)

@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.core.tree
 
-
 public fun <T> Tree<T>.findNode(
     content: T,
     isMatchingNode: (T, Node<T>) -> Boolean
@@ -17,9 +16,10 @@ public fun <T> List<Node<T>>.findNode(
 }
 
 public fun <T> List<T>.toNodes(
-    isMatchingNode: (T, Node<T>) -> Boolean
+    isMatchingNode: (T, Node<T>) -> Boolean,
+    isSelected: ((T) -> Boolean)? = null
 ): Tree<T> {
-    return map { Node(it) }.asTree(isMatchingNode)
+    return map { Node(it, isSelected != null && isSelected.invoke(it)) }.asTree(isMatchingNode)
 }
 
 public fun <T> List<Node<T>>.asTree(
@@ -46,7 +46,6 @@ public fun <I, O> Tree<I>.asTree(
     comparator: Comparator<O>,
     transform: (Node<I>, Int, Boolean) -> O
 ): List<O> = children.asTree(0, transform).sortedWith(comparator)
-
 
 private fun <I, O> List<Node<I>>.asTree(
     level: Int = 0,
