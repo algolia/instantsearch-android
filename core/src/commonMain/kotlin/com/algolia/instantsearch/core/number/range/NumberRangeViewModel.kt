@@ -3,7 +3,6 @@ package com.algolia.instantsearch.core.number.range
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
-
 public open class NumberRangeViewModel<T>(
     range: Range<T>? = null,
     bounds: Range<T>? = null
