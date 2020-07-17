@@ -33,17 +33,11 @@ internal class FilterRangeConnectionSearcherImpl<T>(
         facetStats: Map<Attribute, FacetStats>?,
         mapper: (Number) -> T
     ) where T : Number, T : Comparable<T> {
-
-        val facetStatsOfAttribute = facetStats?.get(attribute)
-        if (facetStatsOfAttribute == null) {
-            bounds.value = null
-            return
+        bounds.value = facetStats?.get(attribute)?.let {
+            val min = mapper(it.min)
+            val max = mapper(it.max)
+            Range(min, max)
         }
-
-        val min = mapper(facetStatsOfAttribute.min)
-        val max = mapper(facetStatsOfAttribute.max)
-
-        bounds.value = Range(min, max)
     }
 
     override fun connect() {

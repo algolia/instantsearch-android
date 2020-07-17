@@ -11,6 +11,7 @@ import kotlin.reflect.KClass
 
 /**
  * Create a connection between a searcher and the filter range components for dynamic behavior.
+ * NOTE: It's preferable the use [connectSearcher] over directly using this function.
  *
  * @param viewModel filter range view model to receive the filter stats updates.
  * @param searcher searcher for facets and results extraction operations.
