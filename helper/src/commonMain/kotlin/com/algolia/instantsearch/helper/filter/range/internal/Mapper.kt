@@ -3,10 +3,12 @@ package com.algolia.instantsearch.helper.filter.range.internal
 import kotlin.reflect.KClass
 
 /**
- * Return a mapper from [Number] to a corresponding numeric type.
+ * Get the corresponding mapper of a numeric type.
+ *
+ * @param clazz the numeric type class to get its mapper.
  */
 @Suppress("UNCHECKED_CAST")
-internal fun <T> mapper(clazz: KClass<T>): (Number) -> T where T : Number, T : Comparable<T> {
+internal fun <T> mapperOf(clazz: KClass<T>): (Number) -> T where T : Number, T : Comparable<T> {
     return when (clazz) {
         Int::class -> { number -> number.toInt() as T }
         Double::class -> { number -> number.toDouble() as T }

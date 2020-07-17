@@ -23,32 +23,58 @@ public fun <T> FilterRangeConnector<T>.connectView(
     return viewModel.connectView(view)
 }
 
+/**
+ * Create a connection between a searcher and the filter range components for dynamic behavior.
+ *
+ * @param searcher searcher for facets and results extraction operations.
+ * @param attribute attribute to dynamically use its facet stats results.
+ */
 public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
-    searcherSingleIndex: SearcherSingleIndex,
+    searcher: SearcherSingleIndex,
     attribute: Attribute
 ): Connection where T : Number, T : Comparable<T> {
-    return viewModel.connectSearcher(searcherSingleIndex, attribute)
+    return viewModel.connectSearcher(searcher, attribute)
 }
 
-public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
-    searcherSingleIndex: SearcherSingleIndex,
-    attribute: Attribute,
-    mapper: (Number) -> T
-): Connection where T : Number, T : Comparable<T> {
-    return viewModel.connectSearcher(searcherSingleIndex, attribute, mapper)
-}
-
+/**
+ * Create a connection between a searcher and the filter range components for dynamic behavior.
+ *
+ * @param searcher searcher for facets and results extraction operations.
+ * @param attribute attribute to dynamically use its facet stats results.
+ */
 public inline fun <reified T> FilterRangeViewModel<T>.connectSearcher(
-    searcherSingleIndex: SearcherSingleIndex,
+    searcher: SearcherSingleIndex,
     attribute: Attribute
 ): Connection where T : Number, T : Comparable<T> {
-    return FilterRangeConnectionSearcher(this, searcherSingleIndex, attribute, T::class)
+    return FilterRangeConnectionSearcher(this, searcher, attribute, T::class)
 }
 
-public inline fun <reified T> FilterRangeViewModel<T>.connectSearcher(
-    searcherSingleIndex: SearcherSingleIndex,
+/**
+ * Create a connection between a searcher and the filter range components for dynamic behavior.
+ *
+ * @param searcher searcher for facets and results extraction operations.
+ * @param attribute attribute to dynamically use its facet stats results.
+ * @param mapper explicit mapper to transform facets stats min/max results to the view model's bounds.
+ */
+public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
+    searcher: SearcherSingleIndex,
     attribute: Attribute,
-    mapper: (Number) -> T
+    noinline mapper: (Number) -> T
 ): Connection where T : Number, T : Comparable<T> {
-    return FilterRangeConnectionSearcher(this, searcherSingleIndex, attribute, T::class)
+    return viewModel.connectSearcher(searcher, attribute, mapper)
+}
+
+/**
+ * Create a connection between a searcher and the filter range components for dynamic behavior.
+ *
+ * @param searcher searcher for facets and results extraction operations.
+ * @param attribute attribute to dynamically use its facet stats results.
+ * @param mapper explicit mapper to transform facets stats min/max results to the view model's bounds.
+ */
+public inline fun <reified T> FilterRangeViewModel<T>.connectSearcher(
+    searcher: SearcherSingleIndex,
+    attribute: Attribute,
+    noinline mapper: (Number) -> T
+): Connection where T : Number, T : Comparable<T> {
+    return FilterRangeConnectionSearcher(this, searcher, attribute, mapper)
 }

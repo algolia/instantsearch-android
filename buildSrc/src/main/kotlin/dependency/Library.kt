@@ -5,7 +5,7 @@ object Library: Dependency  {
 
     override val group = "com.algolia"
     override val artifact = "instantsearch"
-    override val version = "2.5.0-alpha1"
+    override val version = "2.5.0-alpha3"
 
     val packageName = "$group:$artifact-android"
 
