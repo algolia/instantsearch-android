@@ -72,7 +72,7 @@ class TestHierarchicalNode {
 
     @Test
     fun toNodesWithSelectedNode() {
-        val values = listOf(category1.content, category2.content, category21.content, category22.content)
+        val values = listOf(category1, category2, category21, category22).map { it.content }
         val nodes = values.toNodes(isMatchingString) {
             category21.content == it
         }
