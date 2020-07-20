@@ -3,6 +3,7 @@
 ## Added
 - Support and target Android API 30
 - Add selection capability to the hierarchical tree nodes
+- Filter range dynamic behavior based on a searcher state
 
 # 2.4.0
 
