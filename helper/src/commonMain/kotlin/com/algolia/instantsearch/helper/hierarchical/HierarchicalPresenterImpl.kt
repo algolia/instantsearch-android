@@ -13,7 +13,7 @@ public class HierarchicalPresenterImpl(
                 facet = node.content,
                 displayName = node.content.value.split(separator)[level],
                 level = level,
-                selected = node.selected
+                selected = node.isSelected
             )
         }
     }

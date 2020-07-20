@@ -5,13 +5,13 @@ public data class Node<T>(
     val children: MutableList<Node<T>> = mutableListOf()
 ) {
 
-    public var selected: Boolean = false
+    public var isSelected: Boolean = false
 
     constructor(
         content: T,
-        selected: Boolean,
+        isSelected: Boolean,
         children: MutableList<Node<T>> = mutableListOf()
     ) : this(content, children) {
-        this.selected = selected
+        this.isSelected = isSelected
     }
 }

@@ -77,7 +77,7 @@ class TestHierarchicalNode {
             category21.content == it
         }
 
-        nodes.children[1].children[0].selected.shouldBeTrue()
+        nodes.children[1].children[0].isSelected.shouldBeTrue()
     }
 
     @Test
