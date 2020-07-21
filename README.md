@@ -51,6 +51,10 @@ Add this proguard rule to solve it.
 -keep class com.algolia.search.model.** { *; }
 ```
 
+## Troubleshooting
+
+Encountering an issue? Before reaching out to support, we recommend heading to our [FAQ](https://www.algolia.com/doc/guides/building-search-ui/troubleshooting/faq/android/) where you will find answers for the most common issues and gotchas with the library.
+
 # License
 
 InstantSearch Android is [licensed under Apache V2](LICENSE).
