@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.addFacet
 import com.algolia.search.model.response.ResponseSearch
+import com.algolia.search.model.search.Facet
 
 internal data class HierarchicalConnectionSearcher(
     private val viewModel: HierarchicalViewModel,
@@ -17,10 +18,31 @@ internal data class HierarchicalConnectionSearcher(
                 ?: response.facetsOrNull?.filter { it.key == viewModel.hierarchicalAttributes.first() } ?: mapOf()
 
             viewModel.tree.value = viewModel.hierarchicalAttributes
-                .mapNotNull { facets[it] }
+                .mapNotNull { facets[it]?.toMutableList() }
+                .filterUnprefixed()
                 .flatten()
                 .toNodes(selectedHierarchicalValue)
         }
+    }
+
+    /**
+     * Removes results not matching the naming pattern.
+     * This is a workaround to remove unexpected categories in results.
+     *
+     * Let's consider an item with the following filters:
+     * Level 0: [Clothing, Top]
+     * Level 1: [Clothing > Men, Clothing > Women, Top > T-shirts]
+     *
+     * In case of selecting 'Clothing' the tree will be:
+     * Level 0: [Clothing, Furniture]
+     * Level 1: [Clothing > Men, Clothing > Women]
+     */
+    private fun List<MutableList<Facet>>.filterUnprefixed(): List<MutableList<Facet>> {
+        viewModel.hierarchicalPath.value.forEachIndexed { index, (_, item) ->
+            getOrNull(index + 1)?. // Get next level (sub-category)
+            removeAll { !it.value.startsWith(item) } // Remove the items not respecting the prefix convention
+        }
+        return this
     }
 
     private val selectedHierarchicalValue: String?
