@@ -28,6 +28,14 @@ internal data class HierarchicalConnectionSearcher(
     /**
      * Removes results not matching the naming pattern.
      * This is a workaround to remove unexpected categories in results.
+     *
+     * Let's consider an item with the following filters:
+     * Level 0: [Clothing, Top]
+     * Level 1: [Clothing > Men, Clothing > Women, Top > T-shirts]
+     *
+     * In case of selecting 'Clothing' the tree will be:
+     * Level 0: [Clothing, Furniture]
+     * Level 1: [Clothing > Men, Clothing > Women]
      */
     private fun List<MutableList<Facet>>.filterUnprefixed(): List<MutableList<Facet>> {
         viewModel.hierarchicalPath.value.forEachIndexed { index, (_, item) ->
