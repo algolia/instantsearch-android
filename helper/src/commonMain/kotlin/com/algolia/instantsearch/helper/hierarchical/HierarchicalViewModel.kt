@@ -20,6 +20,8 @@ public open class HierarchicalViewModel(
     public val selections = SubscriptionValue<List<String>>(listOf())
     public val eventHierarchicalPath = SubscriptionEvent<HierarchicalPath>()
 
+    internal val hierarchicalPath = SubscriptionValue<HierarchicalPath>(listOf())
+
     init {
         if (hierarchicalAttributes.isEmpty())
             throw IllegalArgumentException("HierarchicalAttributes should not be empty")
@@ -37,6 +39,7 @@ public open class HierarchicalViewModel(
             selections.getOrNull(index)?.let { item to it }
         }.filterNotNull()
 
+        this.hierarchicalPath.value = hierarchicalPath
         eventHierarchicalPath.send(hierarchicalPath)
     }
 
