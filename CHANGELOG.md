@@ -1,4 +1,4 @@
-# Unreleased
+# 2.5.1
 
 # Fixed
 - Filter unexpected items from the hierarchical tree results
