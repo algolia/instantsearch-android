@@ -32,7 +32,7 @@ public class SortByViewSpinner(
         adapter.addAll(map.values)
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+    override fun onNothingSelected(parent: AdapterView<*>?): Unit = Unit
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         onSelectionChange?.invoke(position)

@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.helper.filter.facet
 
-import com.algolia.instantsearch.core.subscription.mergeSubscription
 import com.algolia.instantsearch.core.selectable.list.SelectableListViewModel
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.core.subscription.mergeSubscription
 import com.algolia.search.model.search.Facet
-
 
 public class FacetListViewModel(
     items: List<Facet> = listOf(),
@@ -12,7 +12,7 @@ public class FacetListViewModel(
     public val persistentSelection: Boolean = false
 ) : SelectableListViewModel<String, Facet>(items, selectionMode) {
 
-    public val facets = mergeSubscription(
+    public val facets: SubscriptionValue<List<Pair<Facet, Boolean>>> = mergeSubscription(
         listOf(),
         this.items,
         selections

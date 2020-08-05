@@ -6,20 +6,13 @@ plugins {
     id("kotlin-multiplatform")
     id("maven-publish")
     id("com.jfrog.bintray")
-    id("com.github.kukuhyoniatmoko.buildconfigkotlin") version "1.0.5"
-}
-
-buildConfigKotlin {
-    sourceSet("metadata") {
-        className("BuildConfiguration")
-        buildConfig(name = "version", value = Library.version)
-    }
 }
 
 group = Library.group
 version = Library.version
 
 kotlin {
+    explicitApi()
     metadata {
         mavenPublication {
             artifactId = Library.artifactCoreCommon
@@ -37,11 +30,11 @@ kotlin {
     }
     sourceSets {
         val commonMain by getting {
-            kotlin.srcDirs("build/generated/source")
+            kotlin.srcDirs("$buildDir/generated/sources/templates/kotlin/main")
             dependencies {
                 api(kotlin("stdlib-common"))
-                api(Coroutines("core-common"))
-                implementation(AtomicFu("common"))
+                api(Coroutines("core"))
+                implementation(AtomicFu()) // "TODO: "common" to be fixed in atomicfu next release
             }
         }
         val commonTest by getting {
@@ -53,8 +46,8 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 api(kotlin("stdlib-jdk8"))
-                api(Coroutines("core"))
-                implementation(AtomicFu())
+                api(Coroutines("core-jvm"))
+                implementation(AtomicFu("jvm"))
             }
         }
         val jvmTest by getting {
@@ -77,7 +70,7 @@ bintray {
         repo = "maven"
         name = Library.packageName
         websiteUrl = "https://www.algolia.com/"
-        issueTrackerUrl =  "https://github.com/algolia/instantsearch-android/issues"
+        issueTrackerUrl = "https://github.com/algolia/instantsearch-android/issues"
         setLicenses("Apache-2.0")
         setLabels("Kotlin", "Algolia")
         vcsUrl = "https://github.com/algolia/instantsearch-android.git"
@@ -90,7 +83,14 @@ bintray {
 
 tasks {
     withType<KotlinCompile> {
-        dependsOn("generateMetadataBuildConfigKotlin")
+        dependsOn("copyTemplates")
+    }
+
+    register(name = "copyTemplates", type = Copy::class) {
+        from("src/commonMain/templates")
+        into("$buildDir/generated/sources/templates/kotlin/main")
+        expand("projectVersion" to Library.version)
+        filteringCharset = "UTF-8"
     }
 }
 

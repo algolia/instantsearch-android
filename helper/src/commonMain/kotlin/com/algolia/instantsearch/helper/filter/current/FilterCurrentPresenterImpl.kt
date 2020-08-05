@@ -6,8 +6,8 @@ import com.algolia.search.model.filter.Filter
 
 
 public class FilterCurrentPresenterImpl(
-    val comparator: Comparator<Pair<FilterAndID, String>> = Comparator { a, b -> a.second.compareTo(b.second) },
-    val presenter: FilterPresenter = FilterPresenterImpl()
+    public val comparator: Comparator<Pair<FilterAndID, String>> = Comparator { a, b -> a.second.compareTo(b.second) },
+    public val presenter: FilterPresenter = FilterPresenterImpl()
 ) : FilterCurrentPresenter {
 
     override fun invoke(filterAndIDs: Map<FilterAndID, Filter>): List<Pair<FilterAndID, String>> {

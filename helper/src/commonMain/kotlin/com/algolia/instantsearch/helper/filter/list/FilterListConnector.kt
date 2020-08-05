@@ -8,7 +8,6 @@ import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
 
-
 public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
 
     public abstract val filterState: FilterState
@@ -26,15 +25,15 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
         connectionFilterState.disconnect()
     }
 
-    data class Facet(
+    public data class Facet(
         override val filterState: FilterState,
         override val viewModel: FilterListViewModel.Facet = FilterListViewModel.Facet(),
         override val groupID: FilterGroupID = FilterGroupID(FilterOperator.Or)
     ) : FilterListConnector<Filter.Facet>() {
 
-        override val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
+        override val connectionFilterState: Connection = viewModel.connectFilterState(filterState, groupID)
 
-        constructor(
+        public constructor(
             filters: List<Filter.Facet>,
             filterState: FilterState,
             selectionMode: SelectionMode = SelectionMode.Multiple,
@@ -42,15 +41,15 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
         ) : this(filterState, FilterListViewModel.Facet(filters, selectionMode), groupID)
     }
 
-    data class Numeric(
+    public data class Numeric(
         override val filterState: FilterState,
         override val viewModel: FilterListViewModel.Numeric = FilterListViewModel.Numeric(),
         override val groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
     ) : FilterListConnector<Filter.Numeric>() {
 
-        override val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
+        override val connectionFilterState: Connection = viewModel.connectFilterState(filterState, groupID)
 
-        constructor(
+        public constructor(
             filters: List<Filter.Numeric>,
             filterState: FilterState,
             selectionMode: SelectionMode = SelectionMode.Single,
@@ -58,15 +57,15 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
         ) : this(filterState, FilterListViewModel.Numeric(filters, selectionMode), groupID)
     }
 
-    data class Tag(
+    public data class Tag(
         override val filterState: FilterState,
         override val viewModel: FilterListViewModel.Tag = FilterListViewModel.Tag(),
         override val groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
     ) : FilterListConnector<Filter.Tag>() {
 
-        override val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
+        override val connectionFilterState: Connection = viewModel.connectFilterState(filterState, groupID)
 
-        constructor(
+        public constructor(
             filters: List<Filter.Tag>,
             filterState: FilterState,
             selectionMode: SelectionMode = SelectionMode.Multiple,
@@ -74,15 +73,15 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
         ) : this(filterState, FilterListViewModel.Tag(filters, selectionMode), groupID)
     }
 
-    data class All(
+    public data class All(
         override val filterState: FilterState,
         override val viewModel: FilterListViewModel.All = FilterListViewModel.All(),
         override val groupID: FilterGroupID = FilterGroupID(FilterOperator.And)
     ) : FilterListConnector<Filter>() {
 
-        override val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
+        override val connectionFilterState: Connection = viewModel.connectFilterState(filterState, groupID)
 
-        constructor(
+        public constructor(
             filters: List<Filter>,
             filterState: FilterState,
             selectionMode: SelectionMode = SelectionMode.Multiple,

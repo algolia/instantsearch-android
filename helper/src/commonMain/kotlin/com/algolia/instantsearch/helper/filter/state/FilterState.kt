@@ -9,7 +9,7 @@ public class FilterState internal constructor(
     filters: MutableFilters = MutableFiltersImpl()
 ) : MutableFilters by filters {
 
-    public val filters = SubscriptionValue<Filters>(filters)
+    public val filters: SubscriptionValue<Filters> = SubscriptionValue(filters)
 
     public constructor() : this(MutableFiltersImpl())
 

@@ -8,6 +8,6 @@ public open class LoadingViewModel(
     isLoading: Boolean = false
 ) {
 
-    public val isLoading = SubscriptionValue(isLoading)
-    public val eventReload = SubscriptionEvent<Unit>()
+    public val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(isLoading)
+    public val eventReload: SubscriptionEvent<Unit> = SubscriptionEvent()
 }

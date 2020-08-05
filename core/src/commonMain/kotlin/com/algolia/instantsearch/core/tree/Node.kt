@@ -7,7 +7,7 @@ public data class Node<T>(
 
     public var isSelected: Boolean = false
 
-    constructor(
+    public constructor(
         content: T,
         isSelected: Boolean,
         children: MutableList<Node<T>> = mutableListOf()

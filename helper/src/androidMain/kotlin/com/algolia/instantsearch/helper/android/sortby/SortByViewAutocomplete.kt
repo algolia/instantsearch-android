@@ -9,8 +9,8 @@ import com.algolia.instantsearch.helper.sortby.SortByView
 
 
 public class SortByViewAutocomplete(
-    val view: AutoCompleteTextView,
-    val adapter: ArrayAdapter<String>
+    public val view: AutoCompleteTextView,
+    public val adapter: ArrayAdapter<String>
 ) : SortByView,
     AdapterView.OnItemClickListener {
 

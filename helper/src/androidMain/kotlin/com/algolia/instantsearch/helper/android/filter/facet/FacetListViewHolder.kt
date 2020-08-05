@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.search.model.search.Facet
 
 
-public abstract class FacetListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+public abstract class FacetListViewHolder(public val view: View) : RecyclerView.ViewHolder(view) {
 
     public abstract fun bind(facet: Facet, selected: Boolean, onClickListener: View.OnClickListener)
 
-    interface Factory {
+    public interface Factory {
 
-        fun createViewHolder(parent: ViewGroup): FacetListViewHolder
+        public fun createViewHolder(parent: ViewGroup): FacetListViewHolder
     }
 }

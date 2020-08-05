@@ -16,7 +16,7 @@ import kotlin.test.Test
 
 class TestHighlightable {
 
-    @Serializable
+    /@Serializable
     private data class Pet(val name: String, val nickName: List<String>)
 
     @Serializable

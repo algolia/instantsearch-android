@@ -8,22 +8,25 @@ import com.algolia.search.model.places.PlacesQuery
 import com.algolia.search.model.response.ResponseSearchPlacesMono
 import com.algolia.search.model.search.Language
 import com.algolia.search.transport.RequestOptions
-import kotlinx.coroutines.*
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 public class SearcherPlaces(
-    val client: ClientPlaces = ClientPlaces(),
-    val language: Language = Language.English,
-    val query: PlacesQuery = PlacesQuery(),
-    val requestOptions: RequestOptions? = null,
+    public val client: ClientPlaces = ClientPlaces(),
+    public val language: Language = Language.English,
+    public val query: PlacesQuery = PlacesQuery(),
+    public val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope()
 ) : Searcher<ResponseSearchPlacesMono> {
 
     private val sequencer = Sequencer()
 
-    override val isLoading = SubscriptionValue(false)
-    override val error = SubscriptionValue<Throwable?>(null)
-    override val response = SubscriptionValue<ResponseSearchPlacesMono?>(null)
+    override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
+    override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
+    override val response: SubscriptionValue<ResponseSearchPlacesMono?> = SubscriptionValue(null)
 
     private val exceptionHandler = SearcherExceptionHandler(this)
 

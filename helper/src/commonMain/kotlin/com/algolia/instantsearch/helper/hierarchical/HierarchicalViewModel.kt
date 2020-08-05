@@ -17,8 +17,8 @@ public open class HierarchicalViewModel(
     tree: HierarchicalTree = HierarchicalTree()
 ) : TreeViewModel<String, Facet>(tree) {
 
-    public val selections = SubscriptionValue<List<String>>(listOf())
-    public val eventHierarchicalPath = SubscriptionEvent<HierarchicalPath>()
+    public val selections: SubscriptionValue<List<String>> = SubscriptionValue(listOf())
+    public val eventHierarchicalPath: SubscriptionEvent<HierarchicalPath> = SubscriptionEvent()
 
     internal val hierarchicalPath = SubscriptionValue<HierarchicalPath>(listOf())
 

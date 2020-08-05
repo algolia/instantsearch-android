@@ -11,8 +11,8 @@ import com.google.android.material.chip.ChipGroup
 
 
 public class FilterCurrentViewImpl(
-    val view: ChipGroup,
-    @LayoutRes val chipLayout: Int? = null
+    public val view: ChipGroup,
+    @LayoutRes public val chipLayout: Int? = null
 ) : FilterCurrentView {
 
     override var onFilterSelected: Callback<FilterAndID>? = null

@@ -9,7 +9,7 @@ public data class HierarchicalItem(
     val isSelected: Boolean
 ) {
 
-    constructor(
+    public constructor(
         facet: Facet,
         displayName: String,
         level: Int

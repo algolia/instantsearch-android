@@ -8,11 +8,11 @@ public open class NumberRangeViewModel<T>(
     bounds: Range<T>? = null
 ) where T : Number, T : Comparable<T> {
 
-    public val range = SubscriptionValue(range)
-    public val bounds = SubscriptionValue(bounds).apply {
+    public val range: SubscriptionValue<Range<T>?> = SubscriptionValue(range)
+    public val bounds: SubscriptionValue<Range<T>?> = SubscriptionValue(bounds).apply {
         subscribe { coerce(this@NumberRangeViewModel.range.value) }
     }
-    public val eventRange = SubscriptionEvent<Range<T>?>()
+    public val eventRange: SubscriptionEvent<Range<T>?> = SubscriptionEvent()
 
     public fun coerce(range: Range<T>?) {
         val coerced = range?.coerce(bounds.value)

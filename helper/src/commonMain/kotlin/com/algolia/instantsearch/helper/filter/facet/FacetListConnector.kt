@@ -10,7 +10,6 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 
-
 public data class FacetListConnector internal constructor(
     public val filterState: FilterState,
     public val attribute: Attribute,
@@ -32,7 +31,7 @@ public data class FacetListConnector internal constructor(
     }
     private val connectionFilterState = viewModel.connectFilterState(filterState, attribute, groupID)
 
-    constructor(
+    public constructor(
         searcher: SearcherSingleIndex,
         filterState: FilterState,
         attribute: Attribute,
@@ -40,7 +39,7 @@ public data class FacetListConnector internal constructor(
         viewModel: FacetListViewModel = FacetListViewModel()
     ) : this(filterState, attribute, viewModel, groupID, Wrapper.Single(searcher))
 
-    constructor(
+    public constructor(
         searcher: SearcherForFacets,
         filterState: FilterState,
         attribute: Attribute,
@@ -48,7 +47,7 @@ public data class FacetListConnector internal constructor(
         viewModel: FacetListViewModel = FacetListViewModel()
     ) : this(filterState, searcher.attribute, viewModel, groupID, Wrapper.ForFacet(searcher))
 
-    constructor(
+    public constructor(
         searcher: SearcherSingleIndex,
         filterState: FilterState,
         attribute: Attribute,
@@ -64,7 +63,7 @@ public data class FacetListConnector internal constructor(
         Wrapper.Single(searcher)
     )
 
-    constructor(
+    public constructor(
         searcher: SearcherForFacets,
         filterState: FilterState,
         attribute: Attribute,

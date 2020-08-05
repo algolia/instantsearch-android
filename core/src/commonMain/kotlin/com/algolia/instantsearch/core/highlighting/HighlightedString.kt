@@ -6,7 +6,7 @@ public data class HighlightedString(
     val tokens: List<HighlightToken>
 ) : Comparable<HighlightedString> {
 
-    public val highlightedTokens
+    public val highlightedTokens: List<String>
         get() = tokens.filter { it.highlighted }.map { it.content }
 
     override fun compareTo(other: HighlightedString): Int {
