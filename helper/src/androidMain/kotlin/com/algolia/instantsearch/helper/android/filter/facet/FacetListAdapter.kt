@@ -32,7 +32,7 @@ public class FacetListAdapter(
         submitList(items)
     }
 
-    companion object {
+    public companion object {
 
         private val diffUtil = object : DiffUtil.ItemCallback<FacetListItem>() {
 

@@ -6,9 +6,9 @@ public data class Range<T>(
     public val max: T
 ) where T : Number, T : Comparable<T> {
 
-    companion object {
+    public companion object {
 
-        operator fun <T> invoke(range: ClosedRange<T>): Range<T> where T : Number, T : Comparable<T> {
+        public operator fun <T> invoke(range: ClosedRange<T>): Range<T> where T : Number, T : Comparable<T> {
             return Range(range.start, range.endInclusive)
         }
     }

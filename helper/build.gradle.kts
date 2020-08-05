@@ -55,6 +55,7 @@ group = Library.group
 version = Library.version
 
 kotlin {
+    explicitApi()
     metadata {
         mavenPublication {
             artifactId = Library.artifactHelperCommon

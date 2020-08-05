@@ -8,8 +8,8 @@ public open class MapViewModel<K, V>(
     items: Map<K, V> = mapOf()
 ) {
 
-    public val map = SubscriptionValue(items)
-    public val event = SubscriptionEvent<Map<K, V>>()
+    public val map: SubscriptionValue<Map<K, V>> = SubscriptionValue(items)
+    public val event: SubscriptionEvent<Map<K, V>> = SubscriptionEvent()
 
     public fun add(entry: Pair<K, V>) {
         val map = map.value.toMutableMap().apply { put(entry.first, entry.second) }

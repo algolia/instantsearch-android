@@ -10,6 +10,6 @@ public open class SelectableMapViewModel<K, V>(
     selected: K? = null
 ): MapViewModel<K, V>(map) {
 
-    public val selected = SubscriptionValue(selected)
-    public val eventSelection = SubscriptionEvent<K?>()
+    public val selected: SubscriptionValue<K?> = SubscriptionValue(selected)
+    public val eventSelection: SubscriptionEvent<K?> = SubscriptionEvent<K?>()
 }

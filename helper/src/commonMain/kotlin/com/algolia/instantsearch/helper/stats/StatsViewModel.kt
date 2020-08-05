@@ -6,5 +6,5 @@ import com.algolia.search.model.response.ResponseSearch
 
 public open class StatsViewModel(response: ResponseSearch? = null) {
 
-    val response = SubscriptionValue(response)
+    public val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(response)
 }

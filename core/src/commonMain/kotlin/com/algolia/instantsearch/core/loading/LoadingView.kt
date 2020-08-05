@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.Callback
 
 public interface LoadingView {
 
-    var onReload: Callback<Unit>?
+    public var onReload: Callback<Unit>?
 
     public fun setIsLoading(isLoading: Boolean)
 }

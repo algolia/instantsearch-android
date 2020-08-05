@@ -80,5 +80,5 @@ public class SearcherSingleIndexDataSource<T>(
         }
     }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, T>) = Unit
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, T>): Unit = Unit
 }

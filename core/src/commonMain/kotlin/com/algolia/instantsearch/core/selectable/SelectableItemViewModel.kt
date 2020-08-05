@@ -9,7 +9,7 @@ public open class SelectableItemViewModel<T>(
     isSelected: Boolean = false
 ) {
 
-    public val item = SubscriptionValue(item)
-    public val isSelected = SubscriptionValue(isSelected)
-    public val eventSelection = SubscriptionEvent<Boolean>()
+    public val item: SubscriptionValue<T> = SubscriptionValue(item)
+    public val isSelected: SubscriptionValue<Boolean> = SubscriptionValue(isSelected)
+    public val eventSelection: SubscriptionEvent<Boolean> = SubscriptionEvent<Boolean>()
 }

@@ -1,4 +1,4 @@
 package com.algolia.instantsearch.core
 
 
-typealias Presenter<I, O> = (I) -> O
+public typealias Presenter<I, O> = (I) -> O

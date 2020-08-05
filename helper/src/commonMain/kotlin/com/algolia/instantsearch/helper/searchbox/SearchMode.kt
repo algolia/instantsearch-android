@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.searchbox
 
 
-enum class SearchMode {
+public enum class SearchMode {
     AsYouType,
     OnSubmit
 }

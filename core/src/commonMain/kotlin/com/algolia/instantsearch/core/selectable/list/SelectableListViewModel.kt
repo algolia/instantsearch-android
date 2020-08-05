@@ -11,9 +11,9 @@ public open class SelectableListViewModel<K, V>(
     public val selectionMode: SelectionMode
 ) {
 
-    public val items = SubscriptionValue(items)
-    public val selections = SubscriptionValue<Set<K>>(setOf())
-    public val eventSelection = SubscriptionEvent<Set<K>>()
+    public val items: SubscriptionValue<List<V>> = SubscriptionValue(items)
+    public val selections: SubscriptionValue<Set<K>> = SubscriptionValue(setOf())
+    public val eventSelection: SubscriptionEvent<Set<K>> = SubscriptionEvent()
 
     public fun select(key: K) {
         val selections = selections.value

@@ -3,9 +3,9 @@ package com.algolia.instantsearch.helper.searcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlin.coroutines.CoroutineContext
 
+public class SearcherScope(public val dispatcher: CoroutineDispatcher = defaultDispatcher) : CoroutineScope {
 
-public class SearcherScope(val dispatcher: CoroutineDispatcher = defaultDispatcher) : CoroutineScope {
-
-    override val coroutineContext = SupervisorJob() + dispatcher
+    override val coroutineContext: CoroutineContext = SupervisorJob() + dispatcher
 }

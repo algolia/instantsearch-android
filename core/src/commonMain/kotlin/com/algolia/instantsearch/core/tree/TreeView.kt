@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.Callback
 
 public interface TreeView<K, V> {
 
-    fun setTree(tree: V)
+    public fun setTree(tree: V)
 
-    var onSelectionChanged: Callback<K>?
+    public var onSelectionChanged: Callback<K>?
 }

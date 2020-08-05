@@ -21,9 +21,9 @@ public class SearcherMultipleIndex(
 
     internal val sequencer = Sequencer()
 
-    override val isLoading = SubscriptionValue(false)
-    override val error = SubscriptionValue<Throwable?>(null)
-    override val response = SubscriptionValue<ResponseSearches?>(null)
+    override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
+    override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
+    override val response: SubscriptionValue<ResponseSearches?> = SubscriptionValue(null)
 
     private val options = requestOptions.withUserAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)

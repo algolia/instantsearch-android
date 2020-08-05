@@ -6,6 +6,6 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 public open class SearchBoxViewModel {
 
-    public val query = SubscriptionValue<String?>(null)
-    public val eventSubmit = SubscriptionEvent<String?>()
+    public val query: SubscriptionValue<String?> = SubscriptionValue(null)
+    public val eventSubmit: SubscriptionEvent<String?> = SubscriptionEvent()
 }

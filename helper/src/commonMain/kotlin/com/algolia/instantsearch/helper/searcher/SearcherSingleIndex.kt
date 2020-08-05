@@ -8,8 +8,11 @@ import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
-import kotlinx.coroutines.*
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 public class SearcherSingleIndex(
     public var index: Index,
@@ -21,9 +24,9 @@ public class SearcherSingleIndex(
 
     internal val sequencer = Sequencer()
 
-    override val isLoading = SubscriptionValue(false)
-    override val error = SubscriptionValue<Throwable?>(null)
-    override val response = SubscriptionValue<ResponseSearch?>(null)
+    override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
+    override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
+    override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
 
     private val options = requestOptions.withUserAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)
