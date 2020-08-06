@@ -10,20 +10,21 @@ import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.client.ClientSearch
+import com.algolia.search.client.Index
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Ignore
 import org.junit.Test
 
-
 @Ignore
-class DocHits {
+public class DocHits {
 
     @Test
-    fun json() {
+    public fun json() {
         val client = ClientSearch(
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
@@ -33,20 +34,20 @@ class DocHits {
         val adapter = MovieAdapter()
 
         searcher.connectHitsView(adapter) { response ->
-            response.hits.map { hit -> Movie(hit.json.getPrimitive("title").content) }
+            response.hits.map { hit -> Movie(hit.json.getValue("title").jsonPrimitive.content) }
         }
     }
 
-    class MyActivity : AppCompatActivity() {
+    public class MyActivity : AppCompatActivity() {
 
-        val client = ClientSearch(
+        public val client: ClientSearch = ClientSearch(
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
-        val connection = ConnectionHandler()
-        val adapter = MovieAdapter()
+        public val index: Index = client.initIndex(IndexName("YourIndexName"))
+        public val searcher: SearcherSingleIndex = SearcherSingleIndex(index)
+        public val connection: ConnectionHandler = ConnectionHandler()
+        public val adapter: MovieAdapter = MovieAdapter()
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -65,18 +66,18 @@ class DocHits {
     }
 
     @Serializable
-    data class Movie(
+    public data class Movie(
         val title: String
     )
 
-    class MovieViewHolder(val view: TextView): RecyclerView.ViewHolder(view) {
+    public class MovieViewHolder(public val view: TextView) : RecyclerView.ViewHolder(view) {
 
-        fun bind(data: Movie) {
+        public fun bind(data: Movie) {
             view.text = data.title
         }
     }
 
-    class MovieAdapter : RecyclerView.Adapter<MovieViewHolder>(), HitsView<Movie> {
+    public class MovieAdapter : RecyclerView.Adapter<MovieViewHolder>(), HitsView<Movie> {
 
         private var movies: List<Movie> = listOf()
 
