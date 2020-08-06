@@ -3,7 +3,6 @@ import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.response.ResponseSearchForFacets
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.respondBadRequest
@@ -14,19 +13,21 @@ import io.ktor.http.headersOf
 import io.ktor.utils.io.ByteReadChannel
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 
-val JsonNoDefaults = Json(JsonConfiguration.Stable.copy(encodeDefaults = false))
+val JsonNoDefaults = Json { encodeDefaults = false }
 
 fun mockClient(
     response: HttpResponseData? = null
 ): ClientSearch {
-    val mockEngine = if (response != null) MockEngine { response } else { defaultMockEngine }
+    val mockEngine = if (response != null) MockEngine { response } else {
+        defaultMockEngine
+    }
     return mockClient(mockEngine)
 }
 
 fun mockClient(
-    mockEngine: MockEngine): ClientSearch {
+    mockEngine: MockEngine
+): ClientSearch {
     return ClientSearch(
         ConfigurationSearch(
             ApplicationID("A"),
@@ -40,7 +41,7 @@ fun mockClient(
 fun respondSearch(response: ResponseSearch = responseSearch) = respondJson(response, ResponseSearch.serializer())
 
 fun <T> respondJson(response: T, serializer: KSerializer<T>): MockEngine {
-    val responseString = JsonNoDefaults.stringify(serializer, response)
+    val responseString = JsonNoDefaults.encodeToString(serializer, response)
     return MockEngine {
         respond(
             headers = headersOf(
@@ -67,7 +68,7 @@ fun respondBadRequest(): ClientSearch {
 }
 
 val defaultMockEngine = MockEngine {
-    val responseString = JsonNoDefaults.stringify(ResponseSearch.serializer(), responseSearch)
+    val responseString = JsonNoDefaults.encodeToString(ResponseSearch.serializer(), responseSearch)
 
     respond(
         headers = headersOf(

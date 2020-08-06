@@ -8,15 +8,15 @@ import com.algolia.search.model.search.MatchLevel
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.json
-import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonObject
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestHighlightable {
 
-    /@Serializable
+    @Serializable
     private data class Pet(val name: String, val nickName: List<String>)
 
     @Serializable
@@ -33,20 +33,20 @@ class TestHighlightable {
         age = 42,
         friendNames = listOf("foo", "bar"),
         pet = Pet("fido", listOf("fifi, dodo")),
-        _highlightResult = json {
-            "name" to HighlightResult("<em>to</em>to").toJson()
-            "friendNames" to jsonArray {
-                +HighlightResult("<em>f</em>oo").toJson()
-                +HighlightResult("b<em>a</em>r").toJson()
-            }
-            "age" to HighlightResult("<em>4</em>2").toJson()
-            "pet" to json {
-                "name" to HighlightResult("fi<em>do</em>").toJson()
-                "nicknames" to jsonArray {
-                    +HighlightResult("<em>fifi</em>").toJson()
-                    +HighlightResult("dodo").toJson()
-                }
-            }
+        _highlightResult = buildJsonObject {
+            put("name", HighlightResult("<em>to</em>to").toJson())
+            put("friendNames", buildJsonArray {
+                add(HighlightResult("<em>f</em>oo").toJson())
+                add(HighlightResult("b<em>a</em>r").toJson())
+            })
+            put("age", HighlightResult("<em>4</em>2").toJson())
+            put("pet", buildJsonObject {
+                put("name", HighlightResult("fi<em>do</em>").toJson())
+                put("nicknames", buildJsonArray {
+                    add(HighlightResult("<em>fifi</em>").toJson())
+                    add(HighlightResult("dodo").toJson())
+                })
+            })
         }
     )
 
@@ -95,7 +95,7 @@ class TestHighlightable {
 
     @Test
     fun getHighlightObjectString() {
-        val highlightPetName = friend.getHighlight("name", { it.getObject("pet") })!!
+        val highlightPetName = friend.getHighlight("name", { it.getValue("pet").jsonObject })!!
 
         highlightPetName.original shouldEqual "fi<em>do</em>"
         highlightPetName.tokens shouldEqual listOf(
@@ -106,7 +106,7 @@ class TestHighlightable {
 
     @Test
     fun getHighlightObjectArray() {
-        val highlightPetNicknames = friend.getHighlights("nicknames", { it.getObject("pet") })!!
+        val highlightPetNicknames = friend.getHighlights("nicknames", { it.getValue("pet").jsonObject })!!
 
         highlightPetNicknames[0].let {
             it.original shouldEqual "<em>fifi</em>"
@@ -127,5 +127,6 @@ class TestHighlightable {
         )
     }
 
-    private fun HighlightResult.toJson(): JsonElement = JsonNoDefaults.toJson(HighlightResult.serializer(), this)
+    private fun HighlightResult.toJson(): JsonElement =
+        JsonNoDefaults.encodeToJsonElement(HighlightResult.serializer(), this)
 }
