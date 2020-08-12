@@ -90,14 +90,14 @@ class DocHitsPagingSingle {
                 oldItem: Movie,
                 newItem: Movie
             ): Boolean {
-                return oldItem == newItem
+                return oldItem.title == newItem.title
             }
 
             override fun areContentsTheSame(
                 oldItem: Movie,
                 newItem: Movie
             ): Boolean {
-                return oldItem.title == newItem.title
+                return oldItem == newItem
             }
         }
     }
