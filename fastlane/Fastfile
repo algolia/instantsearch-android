@@ -9,20 +9,139 @@ platform :android do
     gradle(tasks: ["jvmTest"])
   end
 
-  # You can define as many lanes as you want
+  desc "Deploy artifacts to Bintray"
+  lane :deploy do |options|
+    branch = options[:branch] || "master"
+    prepare_git(branch)
 
-  after_all do |lane|
-    # This block is called, only if the executed lane was successful
+    versionFile = "buildSrc/src/main/kotlin/dependency/Library.kt"
+    versionFilePath = "../#{versionFile}"
+    versionRegex = /\d+\.\d+\.\d+/
 
-    # slack(
-    #   message: "Successfully deployed new App Update."
-    # )
+    changelogFilePath = "../CHANGELOG.md"
+    changelogRegex = /Unreleased/
+
+    version = currentVersion(versionFilePath, versionRegex)
+    currentVersion = version.to_str
+    puts "Current version: #{version}"
+
+    version.increment(options[:type])
+    changelog = getChangelog(changelogFilePath, currentVersion, version) rescue "No changelog provided"
+    puts "New version: #{version}"
+    puts "Changelog: #{changelog}"
+
+    editVersion(versionFilePath, versionRegex, version)
+    editVersion(changelogFilePath, changelogRegex, version)
+
+    branchName = "version-#{version}"
+    sh("git checkout -b #{branchName}")
+
+    git_commit(path: [versionFile], message: "Version #{version}")
+    add_git_tag(tag: version.to_str)
+    push_to_git_remote(remote: "origin")
+
+    create_pull_request(
+        repo: "algolia/algoliasearch-client-kotlin",
+        title: "Deploying new version #{version}",
+        head: "#{branchName}",
+        body: changelog
+    )
+
+    set_github_release(
+        repository_name: "algolia/algoliasearch-client-kotlin",
+        api_token: ENV["GITHUB_TOKEN"],
+        name: version.to_ver,
+        tag_name: version.to_ver,
+        description: changelog,
+        commitish: "master"
+    )
+
+    gradle(task: "assemble bintrayUpload")
   end
 
-  error do |lane, exception|
-    # slack(
-    #   message: exception.message,
-    #   success: false
-    # )
+  def prepare_git(branch)
+    if !ENV['BITRISE_BUILD_NUMBER'] # ensure git clean locally but not on Bitrise.
+      ensure_git_status_clean
+    end
+
+    # ensure_git_branch(branch:branch)
+    masterHash = sh("git rev-parse origin/#{branch}")
+    headHash = sh("git rev-parse HEAD")
+
+    if masterHash != headHash
+      raise "Error: Master and Head Hashes do not match, meaning that we are probably not on Master and therefore can't deploy"
+    end
+
+    # checkout master to be able to push tag there.
+    sh("git checkout #{branch}")
+  end
+
+  def currentVersion(versionFile, versionRegex)
+    current = File.read(versionFile)[versionRegex].split(".")
+    Version.new(current[0], current[1], current[2])
+  end
+
+  def editVersion(versionFile, versionRegex, version)
+    text = File.read(versionFile)
+    new_contents = text.gsub(versionRegex, version)
+    File.open(versionFile, "w") { |file| file.puts new_contents }
+  end
+
+  def getChangelog(changelogFile, currentVersion, nextVersion)
+    File.read(changelogFile)[/# Unreleased([^;]*)#{currentVersion}/]
+        .gsub("# #{currentVersion}", "")
+        .gsub("# Unreleased", "# #{nextVersion}")
+  end
+end
+
+class Version
+  attr_accessor :major
+  attr_accessor :minor
+  attr_accessor :patch
+
+  def initialize(major, minor, patch)
+    @major = major.to_i
+    @minor = minor.to_i
+    @patch = patch.to_i
+  end
+
+  def to_s
+    "#{major}.#{minor}.#{patch}"
+  end
+
+  def to_str
+    "#{major}.#{minor}.#{patch}"
+  end
+
+  def to_ver
+    "v#{major}.#{minor}.#{patch}"
+  end
+
+  def increment(type)
+    case type
+    when /patch*/
+      incrementPatch
+    when /minor*/
+      incrementMinor
+    when /major*/
+      incrementMajor
+    else
+      raise "Type needed: major.*|minor.*|patch.*"
+    end
+  end
+
+  def incrementPatch
+    @patch += 1
+  end
+
+  def incrementMinor
+    @minor += 1
+    @patch = 0
+  end
+
+  def incrementMajor
+    @major += 1
+    @minor = 0
+    @patch = 0
   end
 end
