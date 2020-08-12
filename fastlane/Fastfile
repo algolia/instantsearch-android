@@ -40,6 +40,8 @@ platform :android do
     add_git_tag(tag: version.to_str)
     push_to_git_remote(remote: "origin")
 
+    gradle(task: "assemble bintrayUpload")
+
     create_pull_request(
         repo: "algolia/algoliasearch-client-kotlin",
         title: "Deploying new version #{version}",
@@ -55,8 +57,6 @@ platform :android do
         description: changelog,
         commitish: "master"
     )
-
-    gradle(task: "assemble bintrayUpload")
   end
 
   def prepare_git(branch)
