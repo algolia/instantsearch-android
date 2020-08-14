@@ -1,5 +1,3 @@
-
-import dependency.Library
 import dependency.network.AlgoliaClient
 import dependency.network.Coroutines
 import dependency.network.Ktor

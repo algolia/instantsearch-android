@@ -3,45 +3,56 @@ fastlane_version "2.62.1"
 default_platform :android
 
 platform :android do
-  
+
   desc "Runs all the tests"
   lane :test do
-    gradle(tasks: ["jvmTest"])
+    gradle(task: "jvmTest")
   end
 
   desc "Deploy artifacts to Bintray"
   lane :deploy do |options|
+
+    # Prepare Git branch
     branch = options[:branch] || "master"
     prepare_git(branch)
 
-    versionFile = "buildSrc/src/main/kotlin/dependency/Library.kt"
+    # Version params
+    versionFile = "buildSrc/src/main/kotlin/Library.kt"
     versionFilePath = "../#{versionFile}"
     versionRegex = /\d+\.\d+\.\d+/
 
+    # Changelog params
     changelogFilePath = "../CHANGELOG.md"
     changelogRegex = /Unreleased/
 
+    # Get current version and increment it (major, minor or patch)
     version = currentVersion(versionFilePath, versionRegex)
     currentVersion = version.to_str
     puts "Current version: #{version}"
-
     version.increment(options[:type])
-    changelog = getChangelog(changelogFilePath, currentVersion, version) rescue "No changelog provided"
     puts "New version: #{version}"
+
+    # Get current changelog
+    changelog = getChangelog(changelogFilePath, currentVersion, version) rescue "No changelog provided"
     puts "Changelog: #{changelog}"
 
+    # Update library version file and changelog file
     editVersion(versionFilePath, versionRegex, version)
     editVersion(changelogFilePath, changelogRegex, version)
 
+    # Checkout to a new branch
     branchName = "version-#{version}"
     sh("git checkout -b #{branchName}")
 
+    # Commit, add tag and push to origin
     git_commit(path: [versionFile], message: "Version #{version}")
     add_git_tag(tag: version.to_str)
     push_to_git_remote(remote: "origin")
 
+    # Assemble and upload to Bintray
     gradle(task: "assemble bintrayUpload")
 
+    # Create a Github pull request
     create_pull_request(
         repo: "algolia/algoliasearch-client-kotlin",
         title: "Deploying new version #{version}",
@@ -49,6 +60,7 @@ platform :android do
         body: changelog
     )
 
+    # Create a github release
     set_github_release(
         repository_name: "algolia/algoliasearch-client-kotlin",
         api_token: ENV["GITHUB_TOKEN"],
