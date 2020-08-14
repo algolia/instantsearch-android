@@ -1,7 +1,6 @@
-package dependency
+import dependency.Dependency
 
-
-object Library: Dependency  {
+object Library: Dependency {
 
     override val group = "com.algolia"
     override val artifact = "instantsearch"
