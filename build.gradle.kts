@@ -2,7 +2,6 @@
 import java.net.URI
 
 plugins {
-    id("java-library-convention")
     id("maven-publish")
     id("com.github.ben-manes.versions") version "0.27.0"
 }
