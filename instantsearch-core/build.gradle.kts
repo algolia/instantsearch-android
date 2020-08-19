@@ -1,6 +1,7 @@
+import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import dependency.network.Coroutines
 import dependency.script.AtomicFu
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
 
 plugins {
     id("kotlin-multiplatform")
@@ -13,15 +14,7 @@ version = Library.version
 
 kotlin {
     explicitApi()
-    metadata {
-        mavenPublication {
-            artifactId = Library.artifactCoreCommon
-        }
-    }
     jvm {
-        mavenPublication {
-            artifactId = Library.artifactCoreJvm
-        }
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
@@ -32,22 +25,14 @@ kotlin {
         val commonMain by getting {
             kotlin.srcDirs("$buildDir/generated/sources/templates/kotlin/main")
             dependencies {
-                api(kotlin("stdlib-common"))
-                api(Coroutines("core"))
-                implementation(AtomicFu()) // "TODO: "common" to be fixed in atomicfu next release
+                api(Coroutines())
+                implementation(AtomicFu())
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-            }
-        }
-        val jvmMain by getting {
-            dependencies {
-                api(kotlin("stdlib-jdk8"))
-                api(Coroutines("core-jvm"))
-                implementation(AtomicFu("jvm"))
             }
         }
         val jvmTest by getting {
@@ -59,11 +44,23 @@ kotlin {
     }
 }
 
+tasks {
+    withType<KotlinCompileCommon> {
+        dependsOn("copyTemplates")
+    }
+
+    register(name = "copyTemplates", type = Copy::class) {
+        from("src/commonMain/templates")
+        into("$buildDir/generated/sources/templates/kotlin/main")
+        expand("projectVersion" to Library.version)
+        filteringCharset = "UTF-8"
+    }
+}
+
 bintray {
     user = System.getenv("BINTRAY_USER")
     key = System.getenv("BINTRAY_KEY")
     publish = true
-    setPublications("metadata", "jvm")
 
     pkg.apply {
         desc = ""
@@ -81,17 +78,20 @@ bintray {
     }
 }
 
-tasks {
-    withType<KotlinCompile> {
-        dependsOn("copyTemplates")
-    }
-
-    register(name = "copyTemplates", type = Copy::class) {
-        from("src/commonMain/templates")
-        into("$buildDir/generated/sources/templates/kotlin/main")
-        expand("projectVersion" to Library.version)
-        filteringCharset = "UTF-8"
+// Workaround until Bintray gradle plugin caches up:
+// https://github.com/bintray/gradle-bintray-plugin/issues/229#issuecomment-473123891
+tasks.withType<BintrayUploadTask> {
+    doFirst {
+        publishing.publications
+            .filterIsInstance<MavenPublication>()
+            .forEach { publication ->
+                val moduleFile = buildDir.resolve("publications/${publication.name}/module.json")
+                if (moduleFile.exists()) {
+                    publication.artifact(object :
+                        org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact(moduleFile) {
+                        override fun getDefaultExtension() = "module"
+                    })
+                }
+            }
     }
 }
-
-configurations.create("compileClasspath") //FIXME: Workaround for https://youtrack.jetbrains.com/issue/KT-27170

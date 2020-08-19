@@ -1,11 +1,15 @@
 import dependency.network.AlgoliaClient
-import dependency.network.Coroutines
 import dependency.network.Ktor
 import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
 import dependency.test.SL4J
-import dependency.ui.*
+import dependency.ui.AndroidCore
+import dependency.ui.AppCompat
+import dependency.ui.MaterialDesign
+import dependency.ui.Paging
+import dependency.ui.RecyclerView
+import dependency.ui.SwipeRefreshLayout
 
 plugins {
     id("com.android.library")
@@ -56,25 +60,7 @@ version = Library.version
 
 kotlin {
     explicitApi()
-    metadata {
-        mavenPublication {
-            artifactId = Library.artifactHelperCommon
-        }
-    }
-    jvm {
-        mavenPublication {
-            artifactId = Library.artifactHelperJvm
-        }
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
-    }
     android {
-        mavenPublication {
-            artifactId = Library.artifactHelperAndroid
-        }
         publishLibraryVariants("release")
         compilations.all {
             kotlinOptions {
@@ -85,9 +71,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":core"))
+                api(project(":instantsearch-core"))
                 api(AlgoliaClient())
-                api(kotlin("stdlib-common"))
             }
         }
         val commonTest by getting {
@@ -98,41 +83,21 @@ kotlin {
                 implementation(AlgoliaClient())
             }
         }
-        val jvmMain by getting {
-            dependencies {
-                api(kotlin("stdlib-jdk8"))
-                api(AlgoliaClient("jvm"))
-            }
-        }
-        val jvmTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
-                implementation(SL4J("simple"))
-                implementation(AlgoliaClient("jvm"))
-                implementation(Ktor("client-mock-jvm"))
-            }
-        }
         val androidMain by getting {
             dependencies {
-                api(kotlin("stdlib-jdk8"))
                 api(AppCompat())
                 api(RecyclerView())
                 api(MaterialDesign())
                 api(AndroidCore("ktx"))
                 api(SwipeRefreshLayout())
                 api(Paging())
-                api(Coroutines("android"))
-                api(AlgoliaClient("android"))
                 api(Ktor("client-android"))
             }
         }
         val androidTest by getting {
             dependencies {
-                implementation(project(":core"))
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation(AlgoliaClient("android"))
                 implementation(Ktor("client-mock-jvm"))
                 implementation(AppCompat())
                 implementation(Paging())
@@ -158,7 +123,7 @@ bintray {
         repo = "maven"
         name = Library.packageName
         websiteUrl = "https://www.algolia.com/"
-        issueTrackerUrl =  "https://github.com/algolia/instantsearch-android/issues"
+        issueTrackerUrl = "https://github.com/algolia/instantsearch-android/issues"
         setLicenses("Apache-2.0")
         setLabels("Kotlin", "Algolia")
         vcsUrl = "https://github.com/algolia/instantsearch-android.git"
@@ -168,5 +133,3 @@ bintray {
         }
     }
 }
-
-configurations.create("compileClasspath") //FIXME: Workaround for https://youtrack.jetbrains.com/issue/KT-27170
