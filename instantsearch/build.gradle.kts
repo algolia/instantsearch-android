@@ -1,5 +1,6 @@
 import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import dependency.network.AlgoliaClient
+import dependency.network.Coroutines
 import dependency.network.Ktor
 import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
@@ -87,6 +88,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                implementation(Coroutines("android"))
                 api(AppCompat())
                 api(RecyclerView())
                 api(MaterialDesign())
