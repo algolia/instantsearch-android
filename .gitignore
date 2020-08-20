@@ -4,6 +4,7 @@
 .DS_STORE
 *.iml
 local.properties
+*.hprof
 
 # fastlane
 **/fastlane/report.xml
