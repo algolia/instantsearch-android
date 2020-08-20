@@ -1,9 +1,9 @@
+import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import dependency.network.AlgoliaClient
 import dependency.network.Ktor
 import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
-import dependency.test.SL4J
 import dependency.ui.AndroidCore
 import dependency.ui.AppCompat
 import dependency.ui.MaterialDesign
@@ -25,7 +25,6 @@ android {
     defaultConfig {
         minSdkVersion(17)
         targetSdkVersion(30)
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -62,6 +61,9 @@ kotlin {
     explicitApi()
     android {
         publishLibraryVariants("release")
+        mavenPublication {
+            artifactId = Library.androidArtifact
+        }
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
@@ -116,7 +118,7 @@ bintray {
     user = System.getenv("BINTRAY_USER")
     key = System.getenv("BINTRAY_KEY")
     publish = true
-    setPublications("metadata", "jvm", "androidRelease")
+    setPublications("metadata", "androidRelease")
 
     pkg.apply {
         desc = ""
@@ -133,3 +135,23 @@ bintray {
         }
     }
 }
+
+// Workaround until Bintray gradle plugin caches up:
+// https://github.com/bintray/gradle-bintray-plugin/issues/229#issuecomment-473123891
+tasks.withType<BintrayUploadTask> {
+    doFirst {
+        publishing.publications
+            .filterIsInstance<MavenPublication>()
+            .forEach { publication ->
+                val moduleFile = buildDir.resolve("publications/${publication.name}/module.json")
+                if (moduleFile.exists()) {
+                    publication.artifact(object :
+                        org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact(moduleFile) {
+                        override fun getDefaultExtension() = "module"
+                    })
+                }
+            }
+    }
+}
+
+configurations.create("compileClasspath") //FIXME: Workaround for https://youtrack.jetbrains.com/issue/KT-27170
