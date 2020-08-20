@@ -25,7 +25,7 @@ kotlin {
         val commonMain by getting {
             kotlin.srcDirs("$buildDir/generated/sources/templates/kotlin/main")
             dependencies {
-                api(Coroutines())
+                api(Coroutines("core"))
                 implementation(AtomicFu())
             }
         }
