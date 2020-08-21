@@ -6,10 +6,13 @@ plugins {
 }
 
 repositories {
+    mavenCentral()
     jcenter()
 }
 
 dependencies {
+    api(gradleApi())
+    api(gradleKotlinDsl())
     implementation(kotlin("stdlib-jdk8"))
 }
 

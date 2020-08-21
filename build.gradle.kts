@@ -15,13 +15,11 @@ buildscript {
         classpath(dependency.script.AndroidTools())
         classpath(kotlin("gradle-plugin", version = "1.4.0"))
         classpath(kotlin("serialization",  version = "1.4.0"))
-        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
     }
 }
 
 allprojects {
     repositories {
-        mavenLocal()
         mavenCentral()
         google()
         jcenter()
