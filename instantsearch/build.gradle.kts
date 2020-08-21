@@ -10,7 +10,7 @@ import dependency.ui.MaterialDesign
 import dependency.ui.Paging
 import dependency.ui.RecyclerView
 import dependency.ui.SwipeRefreshLayout
-import publish.MavenPublishing
+import java.net.URI
 
 plugins {
     id("com.android.library")
@@ -116,7 +116,61 @@ kotlin {
 }
 
 publishing {
-    MavenPublishing.configurePublish(this, project)
+    repositories {
+        maven {
+            url = URI("https://api.bintray.com/maven/algolia/maven/com.algolia:instantsearch-android/;publish=0")
+            credentials {
+                username = System.getenv("BINTRAY_USER")
+                password = System.getenv("BINTRAY_KEY")
+            }
+        }
+    }
+
+    publications.withType<MavenPublication>().all {
+        groupId = Library.group
+        version = Library.version
+
+        val pomArtifactId = project.findMandatoryProperty("POM_ARTIFACT_ID")
+        artifactId = when (name) {
+            "kotlinMultiplatform" -> pomArtifactId
+            else -> "$pomArtifactId-$name"
+        }
+        pom.name.set(name)
+        pom.description.set(description)
+
+        pom.url.set(project.findOptionalProperty("POM_SCM_URL"))
+        pom.inceptionYear.set(project.findOptionalProperty("POM_INCEPTION_YEAR"))
+
+        pom.scm {
+            url.set(project.findOptionalProperty("POM_SCM_URL"))
+            connection.set(project.findOptionalProperty("POM_SCM_CONNECTION"))
+            developerConnection.set(project.findOptionalProperty("POM_SCM_DEV_CONNECTION"))
+        }
+
+        pom.licenses {
+            license {
+                name.set(project.findOptionalProperty("POM_LICENCE_NAME"))
+                url.set(project.findOptionalProperty("POM_LICENCE_URL"))
+                distribution.set(project.findOptionalProperty("POM_LICENCE_DIST"))
+            }
+        }
+
+        pom.developers {
+            developer {
+                id.set(project.findOptionalProperty("POM_DEVELOPER_ID"))
+                name.set(project.findOptionalProperty("POM_DEVELOPER_NAME"))
+                url.set(project.findOptionalProperty("POM_DEVELOPER_URL"))
+                email.set(project.findOptionalProperty("POM_DEVELOPER_EMAIL"))
+            }
+        }
+    }
 }
+
+fun Project.findMandatoryProperty(propertyName: String): String {
+    val value = this.findOptionalProperty(propertyName)
+    return requireNotNull(value) { "Please define \"$propertyName\" in your gradle.properties file" }
+}
+
+fun Project.findOptionalProperty(propertyName: String) = findProperty(propertyName)?.toString()
 
 configurations.create("compileClasspath") //FIXME: Workaround for https://youtrack.jetbrains.com/issue/KT-27170
