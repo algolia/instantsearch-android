@@ -1,4 +1,3 @@
-import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import dependency.network.AlgoliaClient
 import dependency.network.Coroutines
 import dependency.network.Ktor
@@ -11,13 +10,13 @@ import dependency.ui.MaterialDesign
 import dependency.ui.Paging
 import dependency.ui.RecyclerView
 import dependency.ui.SwipeRefreshLayout
+import publish.MavenPublishing
 
 plugins {
     id("com.android.library")
     id("kotlin-multiplatform")
     id("kotlinx-serialization")
     id("maven-publish")
-    id("com.jfrog.bintray")
 }
 
 android {
@@ -116,44 +115,8 @@ kotlin {
     }
 }
 
-bintray {
-    user = System.getenv("BINTRAY_USER")
-    key = System.getenv("BINTRAY_KEY")
-    publish = true
-    setPublications("metadata", "androidRelease")
-
-    pkg.apply {
-        desc = ""
-        repo = "maven"
-        name = Library.packageName
-        websiteUrl = "https://www.algolia.com/"
-        issueTrackerUrl = "https://github.com/algolia/instantsearch-android/issues"
-        setLicenses("Apache-2.0")
-        setLabels("Kotlin", "Algolia")
-        vcsUrl = "https://github.com/algolia/instantsearch-android.git"
-        version.apply {
-            name = Library.version
-            vcsTag = Library.version
-        }
-    }
-}
-
-// Workaround until Bintray gradle plugin caches up:
-// https://github.com/bintray/gradle-bintray-plugin/issues/229#issuecomment-473123891
-tasks.withType<BintrayUploadTask> {
-    doFirst {
-        publishing.publications
-            .filterIsInstance<MavenPublication>()
-            .forEach { publication ->
-                val moduleFile = buildDir.resolve("publications/${publication.name}/module.json")
-                if (moduleFile.exists()) {
-                    publication.artifact(object :
-                        org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact(moduleFile) {
-                        override fun getDefaultExtension() = "module"
-                    })
-                }
-            }
-    }
+publishing {
+    MavenPublishing.configurePublish(this, project)
 }
 
 configurations.create("compileClasspath") //FIXME: Workaround for https://youtrack.jetbrains.com/issue/KT-27170
