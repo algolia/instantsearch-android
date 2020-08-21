@@ -1,5 +1,6 @@
 import dependency.network.Coroutines
 import dependency.script.AtomicFu
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import publish.MavenPublishing
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
 
@@ -44,6 +45,10 @@ kotlin {
 }
 
 tasks {
+    withType<KotlinCompile> {
+        dependsOn("copyTemplates")
+    }
+
     withType<KotlinCompileCommon> {
         dependsOn("copyTemplates")
     }
