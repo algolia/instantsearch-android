@@ -1,3 +1,9 @@
+# 2.6.0
+
+# Changed
+- Kotlin `1.4.0`
+- Algolia Kotlin Client `1.5.0`
+
 # 2.5.1
 
 # Fixed
