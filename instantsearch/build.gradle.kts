@@ -61,9 +61,6 @@ kotlin {
     explicitApi()
     android {
         publishLibraryVariants("release")
-        mavenPublication {
-            artifactId = Library.androidArtifact
-        }
         compilations.all {
             kotlinOptions {
                 jvmTarget = "1.8"
