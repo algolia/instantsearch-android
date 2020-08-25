@@ -8,7 +8,5 @@ pluginManagement {
 }
 rootProject.name = "instantsearch-android"
 
-enableFeaturePreview("GRADLE_METADATA")
-
 include(":instantsearch-core")
-include(":instantsearch")
+include(":instantsearch-android")
