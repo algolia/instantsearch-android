@@ -6,7 +6,7 @@ platform :android do
 
   desc "Runs all the tests"
   lane :test do
-    gradle(task: "jvmTest")
+    gradle(task: "test")
   end
 
   desc "Deploy artifacts to Bintray"
@@ -50,7 +50,7 @@ platform :android do
     push_to_git_remote(remote: "origin")
 
     # Assemble and upload to Bintray
-    gradle(task: "assemble bintrayUpload")
+    gradle(task: "assemble uploadArchives")
 
     # Create a Github pull request
     create_pull_request(
