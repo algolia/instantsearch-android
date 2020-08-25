@@ -8,5 +8,5 @@ pluginManagement {
 }
 rootProject.name = "instantsearch-android"
 
-include(":instantsearch-core")
+include(":instantsearch-android-core")
 include(":instantsearch-android")

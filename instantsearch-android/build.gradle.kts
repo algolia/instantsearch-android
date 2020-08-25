@@ -10,7 +10,6 @@ import dependency.ui.MaterialDesign
 import dependency.ui.Paging
 import dependency.ui.RecyclerView
 import dependency.ui.SwipeRefreshLayout
-import java.net.URI
 
 plugins {
     id("com.android.library")
@@ -59,7 +58,7 @@ group = Library.group
 version = Library.version
 
 dependencies {
-    api(project(":instantsearch-core"))
+    api(project(":instantsearch-android-core"))
     api(AlgoliaClient())
     api(Ktor("client-android"))
     api(AndroidCore("ktx"))
