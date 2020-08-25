@@ -15,8 +15,12 @@ buildscript {
         classpath(dependency.script.AndroidTools())
         classpath(kotlin("gradle-plugin", version = "1.4.0"))
         classpath(kotlin("serialization",  version = "1.4.0"))
+        classpath("com.vanniktech:gradle-maven-publish-plugin:0.12.0")
     }
 }
+
+project.extensions.extraProperties.set("GROUP", Library.group)
+project.extensions.extraProperties.set("VERSION_NAME", Library.version)
 
 allprojects {
     repositories {
