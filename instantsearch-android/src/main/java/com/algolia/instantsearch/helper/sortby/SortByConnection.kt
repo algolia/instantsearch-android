@@ -19,6 +19,12 @@ public fun SortByViewModel.connectSearcher(
     return SortByConnectionSearcher(this, searcher)
 }
 
+/**
+ * Connects a view to the SortBy widget.
+ *
+ * @param view the view that will render the list of indices
+ * @param presenter defines the way we want to display an index, taking as input an Index and returning a String.
+ */
 public fun SortByConnector.connectView(
     view: SortByView,
     presenter: IndexPresenter = IndexPresenterImpl,

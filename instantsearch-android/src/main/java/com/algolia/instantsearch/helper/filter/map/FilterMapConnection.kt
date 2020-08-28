@@ -23,6 +23,12 @@ public fun FilterMapViewModel.connectView(
     return connectView(view, presenter)
 }
 
+/**
+ * Create a connection between a view and the filter map components.
+ *
+ * @param view the view that renders the filter map
+ * @param presenter defines the way we want to display filters
+ */
 public fun FilterMapConnector.connectView(
     view: SelectableMapView<Int, String>,
     presenter: FilterPresenter = FilterPresenterImpl(),

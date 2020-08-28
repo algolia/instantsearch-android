@@ -18,6 +18,11 @@ public fun FilterClearViewModel.connectView(
     return FilterClearConnectionView(this, view)
 }
 
+/**
+ * Create a connection between a view to the filter clear components.
+ *
+ * @param view the view that will render the clear filter UI
+ */
 public fun FilterClearConnector.connectView(
     view: FilterClearView,
 ): Connection {

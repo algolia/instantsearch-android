@@ -15,6 +15,11 @@ public fun <R> LoadingViewModel.connectSearcher(
     return LoadingConnectionSearcher(this, searcher, debouncer)
 }
 
+/**
+ * Create a connection between a view and the loading components.
+ *
+ * @param view the concrete view displayed during loading
+ */
 public fun <R> LoadingConnector<R>.connectView(
     view: LoadingView,
 ): Connection {

@@ -3,6 +3,9 @@ package com.algolia.instantsearch.helper.filter.state
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.search.model.filter.Filter
 
+/**
+ * Holds the state of the filters.
+ */
 public class FilterState internal constructor(
     filters: MutableFilters = MutableFiltersImpl(),
 ) : MutableFilters by filters {

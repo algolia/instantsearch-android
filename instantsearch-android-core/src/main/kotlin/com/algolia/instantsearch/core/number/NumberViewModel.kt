@@ -5,6 +5,9 @@ import com.algolia.instantsearch.core.number.range.coerce
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
+/**
+ * The logic applied to the numeric value.
+ */
 public open class NumberViewModel<T>(
     number: T? = null,
     bounds: Range<T>? = null

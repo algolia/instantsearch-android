@@ -8,6 +8,11 @@ import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
 
+/**
+ * Filtering view that displays any kind of tag filters and lets the user refine the search results by selecting them.
+ * Compared to the RefinementList, which takes its values from the search response facets, this widget displays filters
+ * that you add yourself.
+ */
 public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
 
     public abstract val filterState: FilterState
@@ -25,6 +30,13 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
         connectionFilterState.disconnect()
     }
 
+    /**
+     * [Documentation](https://www.algolia.com/doc/api-reference/widgets/filter-list-facet/android/)
+     *
+     * @param filterState The FilterState that will hold your filters.
+     * @param viewModel The logic applied to the tag filters.
+     * @param groupID The identifier of the group of filters.
+     */
     public data class Facet(
         override val filterState: FilterState,
         override val viewModel: FilterListViewModel.Facet = FilterListViewModel.Facet(),
@@ -33,6 +45,12 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
 
         override val connectionFilterState: Connection = viewModel.connectFilterState(filterState, groupID)
 
+        /**
+         * @param filters The logic applied to the tag filters.
+         * @param filterState The FilterState that will hold your filters.
+         * @param selectionMode Whether the list can have Single or Multiple selections.
+         * @param groupID The identifier of the group of filters.
+         */
         public constructor(
             filters: List<Filter.Facet>,
             filterState: FilterState,
@@ -41,6 +59,13 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
         ) : this(filterState, FilterListViewModel.Facet(filters, selectionMode), groupID)
     }
 
+    /**
+     * [Documentation](https://www.algolia.com/doc/api-reference/widgets/filter-list-numeric/android/)
+     *
+     * @param filterState The FilterState that will hold your filters.
+     * @param viewModel The logic applied to the tag filters.
+     * @param groupID The identifier of the group of filters.
+     */
     public data class Numeric(
         override val filterState: FilterState,
         override val viewModel: FilterListViewModel.Numeric = FilterListViewModel.Numeric(),
@@ -49,6 +74,12 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
 
         override val connectionFilterState: Connection = viewModel.connectFilterState(filterState, groupID)
 
+        /**
+         * @param filters The logic applied to the tag filters.
+         * @param filterState The FilterState that will hold your filters.
+         * @param selectionMode Whether the list can have Single or Multiple selections.
+         * @param groupID The identifier of the group of filters.
+         */
         public constructor(
             filters: List<Filter.Numeric>,
             filterState: FilterState,
@@ -57,6 +88,13 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
         ) : this(filterState, FilterListViewModel.Numeric(filters, selectionMode), groupID)
     }
 
+    /**
+     * [Documentation](https://www.algolia.com/doc/api-reference/widgets/filter-list-tag/android/)
+     *
+     * @param filterState The FilterState that will hold your filters.
+     * @param viewModel The logic applied to the tag filters.
+     * @param groupID The identifier of the group of filters.
+     */
     public data class Tag(
         override val filterState: FilterState,
         override val viewModel: FilterListViewModel.Tag = FilterListViewModel.Tag(),
@@ -65,6 +103,12 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
 
         override val connectionFilterState: Connection = viewModel.connectFilterState(filterState, groupID)
 
+        /**
+         * @param filters The logic applied to the tag filters.
+         * @param filterState The FilterState that will hold your filters.
+         * @param selectionMode Whether the list can have Single or Multiple selections.
+         * @param groupID The identifier of the group of filters.
+         */
         public constructor(
             filters: List<Filter.Tag>,
             filterState: FilterState,
@@ -73,6 +117,13 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
         ) : this(filterState, FilterListViewModel.Tag(filters, selectionMode), groupID)
     }
 
+    /**
+     * [Documentation](https://www.algolia.com/doc/api-reference/widgets/filter-list/android/)
+     *
+     * @param filterState The FilterState that will hold your filters.
+     * @param viewModel The logic applied to the tag filters.
+     * @param groupID The identifier of the group of filters.
+     */
     public data class All(
         override val filterState: FilterState,
         override val viewModel: FilterListViewModel.All = FilterListViewModel.All(),
@@ -81,6 +132,12 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
 
         override val connectionFilterState: Connection = viewModel.connectFilterState(filterState, groupID)
 
+        /**
+         * @param filters The logic applied to the tag filters.
+         * @param filterState The FilterState that will hold your filters.
+         * @param selectionMode Whether the list can have Single or Multiple selections.
+         * @param groupID The identifier of the group of filters.
+         */
         public constructor(
             filters: List<Filter>,
             filterState: FilterState,

@@ -16,6 +16,11 @@ public fun <R> SearchBoxViewModel.connectSearcher(
     return SearchBoxConnectionSearcher(this, searcher, searchMode, debouncer)
 }
 
+/**
+ * Create a connection between a view and the searchbox.
+ *
+ * @param view the view that handles the input
+ */
 public fun <R> SearchBoxConnector<R>.connectView(
     view: SearchBoxView,
 ): Connection {

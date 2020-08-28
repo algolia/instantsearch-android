@@ -21,6 +21,12 @@ public fun <T> NumberViewModel<T>.connectFilterState(
     return FilterComparisonConnectionFilterState(this, filterState, attribute, operator, groupID)
 }
 
+/**
+ * Create a connection between a view and the filter numeric comparison components.
+ *
+ * @param view the view that renders the numeric value
+ * @param presenter defines the way we want to display the numeric value
+ */
 public fun <T> FilterComparisonConnector<T>.connectView(
     view: NumberView<T>,
     presenter: NumberPresenter<T> = NumberPresenterImpl,
