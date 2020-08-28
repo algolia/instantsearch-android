@@ -44,6 +44,11 @@ internal inline fun <reified T : Filter> FilterListViewModel<T>.connect(
     return FilterListConnectionFilterState(this, filterState, groupID, getSelections)
 }
 
+/**
+ * Connects a view to the Filter List widget.
+ *
+ * @param view the view that will render the filters
+ */
 public fun <T : Filter> FilterListConnector<T>.connectView(
     view: FilterListView<T>,
 ): Connection {

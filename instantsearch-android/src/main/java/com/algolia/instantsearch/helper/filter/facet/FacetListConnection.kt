@@ -44,6 +44,12 @@ public fun FacetListViewModel.connectView(
     return FacetListConnectionView(this, view, presenter)
 }
 
+/**
+ * Create a connection between a view to the refinement list components.
+ *
+ * @param view
+ * @param presenter
+ */
 public fun FacetListConnector.connectView(
     view: FacetListView,
     presenter: FacetListPresenter? = null,

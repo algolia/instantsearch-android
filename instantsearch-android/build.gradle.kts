@@ -41,7 +41,9 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs = listOf("-Xexplicit-api=warning")
     }
+    kotlin.explicitApi()
 
     testOptions {
         unitTests {
@@ -49,10 +51,6 @@ android {
             it.isReturnDefaultValues = true
         }
     }
-}
-
-kotlin {
-    explicitApi()
 }
 
 group = Library.group

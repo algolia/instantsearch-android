@@ -17,6 +17,11 @@ public fun <T> FilterRangeViewModel<T>.connectFilterState(
     return FilterRangeConnectionFilterState(this, filterState, attribute, groupID)
 }
 
+/**
+ * Create a connection between a view and the filter range components
+ *
+ * @param view the view that will render the numeric range filter
+ */
 public fun <T> FilterRangeConnector<T>.connectView(
     view: NumberRangeView<T>,
 ): Connection where T : Number, T : Comparable<T> {

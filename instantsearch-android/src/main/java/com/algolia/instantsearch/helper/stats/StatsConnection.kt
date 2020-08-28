@@ -24,6 +24,12 @@ public fun StatsViewModel.connectSearcher(
     return StatsConnectionSearcher(this, searcher)
 }
 
+/**
+ * Connects a view to the Stats widget.
+ *
+ * @param view the view that will render the facets
+ * @param presenter controls the sorting and other settings of the facet list view
+ */
 public fun <T> StatsConnector.connectView(
     view: StatsView<T>,
     presenter: StatsPresenter<T>,

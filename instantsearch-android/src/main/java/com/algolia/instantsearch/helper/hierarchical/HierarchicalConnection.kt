@@ -13,6 +13,13 @@ public fun HierarchicalViewModel.connectSearcher(searcher: SearcherSingleIndex):
     return HierarchicalConnectionSearcher(this, searcher)
 }
 
+/**
+ * Create a connection between a view and the hierarchical menu components
+ *
+ * @param view the view that will render the hierarchical menu
+ * @param presenter defines the way we want to display the list of [HierarchicalItem]. A HierarchicalItem contains
+ * a Facet, its level and a displayName.
+ */
 public fun HierarchicalConnector.connectView(
     view: HierarchicalView,
     presenter: HierarchicalPresenter<List<HierarchicalItem>>,

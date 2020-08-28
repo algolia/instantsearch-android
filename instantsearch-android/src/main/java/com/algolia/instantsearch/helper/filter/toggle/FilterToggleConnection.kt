@@ -22,6 +22,12 @@ public fun FilterToggleViewModel.connectFilterState(
     return FilterToggleConnectionFilterState(this, filterState, groupID)
 }
 
+/**
+ * Create a connection between a view and the filter toggle components
+ *
+ * @param view the view that will render the filter toggle
+ * @param presenter a presenter describing how to display a filter
+ */
 public fun FilterToggleConnector.connectView(
     view: FilterToggleView,
     presenter: FilterPresenter = FilterPresenterImpl(),
