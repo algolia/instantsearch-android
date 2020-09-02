@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.core.number
 
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.core.number.range.coerce
+import com.algolia.instantsearch.core.number.range.internal.coerce
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
@@ -10,7 +10,7 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
  */
 public open class NumberViewModel<T>(
     number: T? = null,
-    bounds: Range<T>? = null
+    bounds: Range<T>? = null,
 ) where T : Number, T : Comparable<T> {
 
     public val eventNumber: SubscriptionEvent<T?> = SubscriptionEvent()
@@ -29,7 +29,7 @@ public open class NumberViewModel<T>(
 
         public operator fun <T> invoke(
             range: ClosedRange<T>,
-            number: T? = null
+            number: T? = null,
         ): NumberViewModel<T> where T : Number, T : Comparable<T> {
             return NumberViewModel(number, Range(range.start, range.endInclusive))
         }

@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.selectable.map.connectView
 import com.algolia.instantsearch.helper.index.IndexPresenter
 import com.algolia.instantsearch.helper.index.IndexPresenterImpl
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.sortby.internal.SortByConnectionSearcher
 
 public fun SortByViewModel.connectView(
     view: SortByView,

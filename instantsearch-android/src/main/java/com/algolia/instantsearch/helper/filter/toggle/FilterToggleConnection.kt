@@ -7,6 +7,7 @@ import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.filter.toggle.internal.FilterToggleConnectionFilterState
 
 public fun FilterToggleViewModel.connectView(
     view: FilterToggleView,

@@ -7,6 +7,7 @@ import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
+import com.algolia.instantsearch.helper.searchbox.internal.SearchBoxConnectionSearcher
 
 public fun <R> SearchBoxViewModel.connectSearcher(
     searcher: Searcher<R>,

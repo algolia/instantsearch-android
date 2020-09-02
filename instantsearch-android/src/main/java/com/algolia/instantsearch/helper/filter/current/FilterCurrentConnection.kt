@@ -1,6 +1,8 @@
 package com.algolia.instantsearch.helper.filter.current
 
 import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.helper.filter.current.internal.FilterCurrentConnectionFilterState
+import com.algolia.instantsearch.helper.filter.current.internal.FilterCurrentConnectionView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 

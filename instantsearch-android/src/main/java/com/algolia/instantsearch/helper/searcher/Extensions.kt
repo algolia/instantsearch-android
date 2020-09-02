@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.searcher
 
 import com.algolia.instantsearch.core.InstantSearch
+import com.algolia.instantsearch.helper.searcher.internal.osVersion
 import com.algolia.search.dsl.requestOptions
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Query

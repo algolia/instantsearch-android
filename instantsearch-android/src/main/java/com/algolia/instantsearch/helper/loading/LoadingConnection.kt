@@ -7,6 +7,7 @@ import com.algolia.instantsearch.core.loading.connectView
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceLoadingInMillis
+import com.algolia.instantsearch.helper.loading.internal.LoadingConnectionSearcher
 
 public fun <R> LoadingViewModel.connectSearcher(
     searcher: Searcher<R>,
