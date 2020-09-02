@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.filter.state
 
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.filter.state.internal.MutableFiltersImpl
 import com.algolia.search.model.filter.Filter
 
 /**

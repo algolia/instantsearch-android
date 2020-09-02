@@ -3,6 +3,8 @@ package com.algolia.instantsearch.helper.hierarchical
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.tree.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.hierarchical.internal.HierarchicalConnectionFilterState
+import com.algolia.instantsearch.helper.hierarchical.internal.HierarchicalConnectionSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 
 public fun HierarchicalViewModel.connectFilterState(filterState: FilterState): Connection {

@@ -2,6 +2,8 @@ package com.algolia.instantsearch.helper.filter.list
 
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.selectable.list.connectView
+import com.algolia.instantsearch.helper.filter.list.internal.FilterListConnectionFilterState
+import com.algolia.instantsearch.helper.filter.list.internal.connect
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState

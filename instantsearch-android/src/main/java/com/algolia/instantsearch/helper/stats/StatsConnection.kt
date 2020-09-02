@@ -2,6 +2,8 @@ package com.algolia.instantsearch.helper.stats
 
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.stats.internal.StatsConnectionSearcher
+import com.algolia.instantsearch.helper.stats.internal.StatsConnectionView
 
 @JvmName("connectViewString")
 public fun StatsViewModel.connectView(

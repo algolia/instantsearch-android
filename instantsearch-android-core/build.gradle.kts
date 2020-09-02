@@ -12,6 +12,10 @@ plugins {
 group = Library.group
 version = Library.version
 
+kotlin {
+    explicitApi()
+}
+
 sourceSets {
     main {
         java.srcDirs("$buildDir/generated/sources/templates/kotlin/main")
