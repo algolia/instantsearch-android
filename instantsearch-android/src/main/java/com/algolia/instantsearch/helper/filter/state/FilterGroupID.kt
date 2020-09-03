@@ -2,6 +2,9 @@ package com.algolia.instantsearch.helper.filter.state
 
 import com.algolia.search.model.Attribute
 
+/**
+ * Identifier of a group of filters.
+ */
 public data class FilterGroupID(
     val name: String = "",
     val operator: FilterOperator = FilterOperator.And,

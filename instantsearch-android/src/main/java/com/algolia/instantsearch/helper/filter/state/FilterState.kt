@@ -5,7 +5,9 @@ import com.algolia.instantsearch.helper.filter.state.internal.MutableFiltersImpl
 import com.algolia.search.model.filter.Filter
 
 /**
- * Holds the state of the filters.
+ * A FilterState is a class that holds one or several filters, organized in groups. The FilterState can be modified
+ * at any moment by adding or removing filters, which will be applied to searches performed by the connected Searcher.
+ * [Documentation](https://www.algolia.com/doc/api-reference/widgets/filter-state/android/)
  */
 public class FilterState internal constructor(
     filters: MutableFilters = MutableFiltersImpl(),
