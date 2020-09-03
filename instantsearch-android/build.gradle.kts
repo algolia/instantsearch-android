@@ -43,7 +43,6 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += listOf("-Xexplicit-api=warning")
     }
-    kotlin.explicitApi()
 
     testOptions {
         unitTests {

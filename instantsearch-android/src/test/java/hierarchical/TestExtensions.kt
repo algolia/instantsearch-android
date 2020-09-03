@@ -1,7 +1,7 @@
 package hierarchical
 
 import com.algolia.instantsearch.core.tree.Node
-import com.algolia.instantsearch.helper.hierarchical.findNode
+import com.algolia.instantsearch.helper.hierarchical.internal.findNode
 import com.algolia.search.model.search.Facet
 import shouldBeNull
 import shouldEqual
