@@ -2,6 +2,7 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 
 buildscript {
     repositories {
+        mavenCentral()
         google()
         jcenter()
     }

@@ -12,10 +12,6 @@ plugins {
 group = Library.group
 version = Library.version
 
-kotlin {
-    explicitApi()
-}
-
 sourceSets {
     main {
         java.srcDirs("$buildDir/generated/sources/templates/kotlin/main")
@@ -41,6 +37,19 @@ tasks {
         into("$buildDir/generated/sources/templates/kotlin/main")
         expand("projectVersion" to Library.version)
         filteringCharset = "UTF-8"
+    }
+
+    named<KotlinCompile>("compileKotlin") {
+        kotlinOptions {
+            jvmTarget = "1.8"
+            freeCompilerArgs += listOf("-Xexplicit-api=strict")
+        }
+    }
+
+    named<KotlinCompile>("compileTestKotlin") {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
     }
 }
 
