@@ -38,19 +38,12 @@ See the [documentation][doc]. You can start with the [Getting Started Guide][get
 
 From [reporting bugs or missing functionality](https://github.com/algolia/instantsearch-android/issues/new) to [fixing a typo or proposing an improvement](https://github.com/algolia/instantsearch-android/compare), all contributions are welcome! Read the [Contributing Guide](https://github.com/algolia/instantsearch-android/blob/master/CONTRIBUTING.md) to setup your development environment.
 
-### Proguard rules
+### R8 / Proguard rules
 
-When proguard `minifyEnabled` option is set to `true` , you might get this error:
+If you use this library in an Android project which uses R8, there is nothing you have to do. The specific rules are 
+already bundled into the JAR, which can be interpreted by R8 automatically.
 
-```
-Can't locate argument-less serializer for class e.a.b.g.n.c (Kotlin reflection is not available). For generic classes, such as lists, please provide serializer explicitly.
-```
-
-Add this proguard rule to solve it.
-
-```
--keep class com.algolia.search.model.** { *; }
-```
+If however, you don’t use R8 you might also need rules from [Algolia Kotlin Client](https://github.com/algolia/algoliasearch-client-kotlin#r8--proguard-rules) which is a dependency of this library.
 
 ## Troubleshooting
 
