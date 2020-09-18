@@ -1,5 +1,5 @@
 import dependency.network.Coroutines
-import dependency.script.AtomicFu
+import dependency.lib.AtomicFu
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
 
