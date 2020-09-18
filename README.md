@@ -34,16 +34,16 @@ implementation "com.algolia:instantsearch-android:$instantsearch_version"
 
 See the [documentation][doc]. You can start with the [Getting Started Guide][getting-started].
 
-# Contributing
-
-From [reporting bugs or missing functionality](https://github.com/algolia/instantsearch-android/issues/new) to [fixing a typo or proposing an improvement](https://github.com/algolia/instantsearch-android/compare), all contributions are welcome! Read the [Contributing Guide](https://github.com/algolia/instantsearch-android/blob/master/CONTRIBUTING.md) to setup your development environment.
-
 ### R8 / Proguard rules
 
 If you use this library in an Android project which uses R8, there is nothing you have to do. The specific rules are 
 already bundled into the JAR, which can be interpreted by R8 automatically.
 
 If however, you don’t use R8, then you might need rules from [Algolia Kotlin Client](https://github.com/algolia/algoliasearch-client-kotlin#r8--proguard-rules) which is a dependency of this library.
+
+## Contributing
+
+From [reporting bugs or missing functionality](https://github.com/algolia/instantsearch-android/issues/new) to [fixing a typo or proposing an improvement](https://github.com/algolia/instantsearch-android/compare), all contributions are welcome! Read the [Contributing Guide](https://github.com/algolia/instantsearch-android/blob/master/CONTRIBUTING.md) to setup your development environment.
 
 ## Troubleshooting
 
