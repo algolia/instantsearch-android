@@ -1,4 +1,4 @@
-package dependency.script
+package dependency.plugin
 
 import dependency.Dependency
 

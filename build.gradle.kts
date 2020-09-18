@@ -3,7 +3,6 @@ import java.net.URI
 
 plugins {
     id("maven-publish")
-    id("com.github.ben-manes.versions") version "0.27.0"
 }
 
 buildscript {
@@ -12,10 +11,10 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath(dependency.script.AndroidTools())
-        classpath(kotlin("gradle-plugin", version = "1.4.0"))
-        classpath(kotlin("serialization",  version = "1.4.0"))
-        classpath("com.vanniktech:gradle-maven-publish-plugin:0.12.0")
+        classpath(kotlin("gradle-plugin", version = "1.4.10"))
+        classpath(kotlin("serialization",  version = "1.4.10"))
+        classpath(dependency.plugin.AndroidTools())
+        classpath(dependency.plugin.GradleMavenPublish())
     }
 }
 
