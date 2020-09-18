@@ -43,7 +43,7 @@ From [reporting bugs or missing functionality](https://github.com/algolia/instan
 If you use this library in an Android project which uses R8, there is nothing you have to do. The specific rules are 
 already bundled into the JAR, which can be interpreted by R8 automatically.
 
-If however, you don’t use R8 you might also need rules from [Algolia Kotlin Client](https://github.com/algolia/algoliasearch-client-kotlin#r8--proguard-rules) which is a dependency of this library.
+If however, you don’t use R8, then you might need rules from [Algolia Kotlin Client](https://github.com/algolia/algoliasearch-client-kotlin#r8--proguard-rules) which is a dependency of this library.
 
 ## Troubleshooting
 
