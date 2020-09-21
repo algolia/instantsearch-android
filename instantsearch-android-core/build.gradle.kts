@@ -25,12 +25,11 @@ dependencies {
 }
 
 tasks {
-    withType<KotlinCompile> {
+    named<KotlinCompile>("compileKotlin") {
         dependsOn("copyTemplates")
-    }
-
-    withType<KotlinCompileCommon> {
-        dependsOn("copyTemplates")
+        kotlinOptions {
+            freeCompilerArgs = freeCompilerArgs + listOf("-Xexplicit-api=strict")
+        }
     }
 
     register(name = "copyTemplates", type = Copy::class) {
