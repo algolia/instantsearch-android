@@ -11,8 +11,10 @@ buildscript {
     }
 }
 
-project.extensions.extraProperties.set("GROUP", Library.group)
-project.extensions.extraProperties.set("VERSION_NAME", Library.version)
+project.extensions.extraProperties.apply {
+    set("GROUP", Library.group)
+    set("VERSION_NAME", Library.version)
+}
 
 allprojects {
     repositories {
