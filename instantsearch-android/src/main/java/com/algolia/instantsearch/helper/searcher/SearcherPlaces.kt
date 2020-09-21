@@ -19,7 +19,7 @@ public class SearcherPlaces(
     public val language: Language = Language.English,
     public val query: PlacesQuery = PlacesQuery(),
     public val requestOptions: RequestOptions? = null,
-    override val coroutineScope: CoroutineScope = SearcherScope()
+    override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : Searcher<ResponseSearchPlacesMono> {
 
     private val sequencer = Sequencer()

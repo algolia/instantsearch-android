@@ -1,13 +1,12 @@
 package com.algolia.instantsearch.helper.filter.facet
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
-
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 internal data class FacetListConnectionView(
     private val viewModel: FacetListViewModel,
     private val view: FacetListView,
-    private val presenter: FacetListPresenter?
+    private val presenter: FacetListPresenter?,
 ) : ConnectionImpl() {
 
     private val updateFacets: Callback<List<FacetListItem>> = { facets ->

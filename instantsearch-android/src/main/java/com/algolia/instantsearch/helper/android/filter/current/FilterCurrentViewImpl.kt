@@ -9,10 +9,9 @@ import com.algolia.instantsearch.helper.filter.current.FilterCurrentView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
-
 public class FilterCurrentViewImpl(
     public val view: ChipGroup,
-    @LayoutRes public val chipLayout: Int? = null
+    @LayoutRes public val chipLayout: Int? = null,
 ) : FilterCurrentView {
 
     override var onFilterSelected: Callback<FilterAndID>? = null

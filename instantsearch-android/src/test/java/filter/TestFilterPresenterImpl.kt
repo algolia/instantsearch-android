@@ -7,7 +7,6 @@ import com.algolia.search.model.filter.NumericOperator
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestFilterPresenterImpl {
 
     private val attribute = Attribute("color")

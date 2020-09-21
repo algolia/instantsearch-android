@@ -9,7 +9,6 @@ import searcher.MockSearcher
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestSearchBoxConnectSearcher {
 
     private val text = "text"

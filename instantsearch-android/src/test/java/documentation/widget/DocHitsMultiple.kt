@@ -23,7 +23,6 @@ import com.algolia.search.model.multipleindex.IndexQuery
 import kotlinx.serialization.Serializable
 import org.junit.Ignore
 
-
 @Ignore
 class DocHitsMultiple {
 
@@ -72,12 +71,12 @@ class DocHitsMultiple {
 
     @Serializable
     data class Movie(
-        val title: String
+        val title: String,
     )
 
     @Serializable
     data class Actor(
-        val name: String
+        val name: String,
     )
 
     class MovieViewHolder(val view: TextView) : RecyclerView.ViewHolder(view) {
@@ -112,14 +111,14 @@ class DocHitsMultiple {
 
             override fun areItemsTheSame(
                 oldItem: Actor,
-                newItem: Actor
+                newItem: Actor,
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
                 oldItem: Actor,
-                newItem: Actor
+                newItem: Actor,
             ): Boolean {
                 return oldItem.name == newItem.name
             }
@@ -142,14 +141,14 @@ class DocHitsMultiple {
 
             override fun areItemsTheSame(
                 oldItem: Movie,
-                newItem: Movie
+                newItem: Movie,
             ): Boolean {
                 return oldItem.title == newItem.title
             }
 
             override fun areContentsTheSame(
                 oldItem: Movie,
-                newItem: Movie
+                newItem: Movie,
             ): Boolean {
                 return oldItem == newItem
             }

@@ -8,7 +8,6 @@ import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
 
-
 class TestSearchBoxConnectView {
 
     private val text = "text"

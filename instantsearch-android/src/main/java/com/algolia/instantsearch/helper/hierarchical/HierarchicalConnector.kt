@@ -5,11 +5,10 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 
-
 public data class HierarchicalConnector(
     public val searcher: SearcherSingleIndex,
     public val filterState: FilterState,
-    public val viewModel: HierarchicalViewModel
+    public val viewModel: HierarchicalViewModel,
 ) : ConnectionImpl() {
 
     public constructor(
@@ -17,7 +16,7 @@ public data class HierarchicalConnector(
         attribute: Attribute,
         filterState: FilterState,
         hierarchicalAttributes: List<Attribute>,
-        separator: String
+        separator: String,
     ) : this(searcher, filterState, HierarchicalViewModel(attribute, hierarchicalAttributes, separator))
 
     private val connectionSearcher = viewModel.connectSearcher(searcher)

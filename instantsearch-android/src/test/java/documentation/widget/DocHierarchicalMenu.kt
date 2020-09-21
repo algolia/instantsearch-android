@@ -11,7 +11,12 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.tree.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.hierarchical.*
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalItem
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalPresenterImpl
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalView
+import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel
+import com.algolia.instantsearch.helper.hierarchical.connectFilterState
+import com.algolia.instantsearch.helper.hierarchical.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectFilterState
 import com.algolia.search.client.ClientSearch
@@ -20,7 +25,6 @@ import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import org.junit.Ignore
-
 
 @Ignore
 class DocHierarchicalMenu {

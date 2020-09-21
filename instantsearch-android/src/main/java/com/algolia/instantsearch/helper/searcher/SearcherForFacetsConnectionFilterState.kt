@@ -8,11 +8,10 @@ import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.search.model.filter.FilterGroupsConverter
 
-
 internal data class SearcherForFacetsConnectionFilterState(
     private val searcher: SearcherForFacets,
     private val filterState: FilterState,
-    private val debouncer: Debouncer
+    private val debouncer: Debouncer,
 ) : ConnectionImpl() {
 
     private val updateSearcher: Callback<Filters> = { filters ->

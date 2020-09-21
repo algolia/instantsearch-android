@@ -9,7 +9,7 @@ import com.algolia.search.model.search.Facet
 public class FacetListViewModel(
     items: List<Facet> = listOf(),
     selectionMode: SelectionMode = SelectionMode.Multiple,
-    public val persistentSelection: Boolean = false
+    public val persistentSelection: Boolean = false,
 ) : SelectableListViewModel<String, Facet>(items, selectionMode) {
 
     public val facets: SubscriptionValue<List<Pair<Facet, Boolean>>> = mergeSubscription(

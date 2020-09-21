@@ -5,7 +5,6 @@ import com.algolia.instantsearch.helper.attribute.AttributePresenterImpl
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.NumericOperator
 
-
 public class FilterPresenterImpl(
     private val attributePresenter: AttributePresenter = AttributePresenterImpl(),
     override val facetString: (Attribute, String, Boolean) -> String = { _, value, _ ->
@@ -23,7 +22,5 @@ public class FilterPresenterImpl(
     },
     override val numericRange: (Attribute, Number, Number, Boolean) -> String = { attribute, lowerBound, upperBound, _ ->
         "${attributePresenter(attribute)}: $lowerBound to $upperBound"
-    }
+    },
 ) : FilterPresenter
-
-

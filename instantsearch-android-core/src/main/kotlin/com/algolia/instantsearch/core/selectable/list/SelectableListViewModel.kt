@@ -1,10 +1,9 @@
 package com.algolia.instantsearch.core.selectable.list
 
-import com.algolia.instantsearch.core.subscription.SubscriptionEvent
-import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.selectable.list.SelectionMode.Multiple
 import com.algolia.instantsearch.core.selectable.list.SelectionMode.Single
-
+import com.algolia.instantsearch.core.subscription.SubscriptionEvent
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 public open class SelectableListViewModel<K, V>(
     items: List<V> = listOf(),

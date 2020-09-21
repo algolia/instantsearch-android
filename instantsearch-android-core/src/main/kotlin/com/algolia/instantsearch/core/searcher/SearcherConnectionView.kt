@@ -3,7 +3,6 @@ package com.algolia.instantsearch.core.searcher
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 
-
 internal data class SearcherConnectionView<T, R>(
     private val searcher: Searcher<R>,
     private val view: (T) -> Unit,

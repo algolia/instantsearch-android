@@ -1,14 +1,13 @@
 package com.algolia.instantsearch.helper.filter.current
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.search.model.filter.Filter
-
 
 internal data class FilterCurrentConnectionView(
     private val viewModel: FilterCurrentViewModel,
     private val view: FilterCurrentView,
-    private val presenter: FilterCurrentPresenter = FilterCurrentPresenterImpl()
+    private val presenter: FilterCurrentPresenter = FilterCurrentPresenterImpl(),
 ) : ConnectionImpl() {
 
     private val updateFilters: Callback<Map<FilterAndID, Filter>> = { filters ->

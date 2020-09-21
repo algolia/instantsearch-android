@@ -8,7 +8,7 @@ import com.algolia.instantsearch.helper.sortby.SortByViewModel
 
 internal class SortByConnectionPagedList<T>(
     private val viewModel: SortByViewModel,
-    private val pagedList: LiveData<PagedList<T>>
+    private val pagedList: LiveData<PagedList<T>>,
 ) : ConnectionImpl() {
 
     private val onSelection: Callback<Int?> = {

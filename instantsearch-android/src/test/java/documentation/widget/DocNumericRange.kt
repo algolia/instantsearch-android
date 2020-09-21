@@ -19,7 +19,6 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
-
 @Ignore
 class DocNumericRange {
 

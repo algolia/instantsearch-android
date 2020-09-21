@@ -1,4 +1,3 @@
-
 package documentation.guide
 
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -10,7 +9,6 @@ import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import org.junit.Ignore
 import org.junit.Test
-
 
 @Suppress("UNUSED_VARIABLE")
 @Ignore

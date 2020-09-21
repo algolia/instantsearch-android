@@ -1,14 +1,13 @@
 package com.algolia.instantsearch.helper.stats
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
 
-
 internal data class StatsConnectionSearcher(
     private val viewModel: StatsViewModel,
-    private val searcher: SearcherSingleIndex
+    private val searcher: SearcherSingleIndex,
 ) : ConnectionImpl() {
 
     private val updateResponse: Callback<ResponseSearch?> = { response ->

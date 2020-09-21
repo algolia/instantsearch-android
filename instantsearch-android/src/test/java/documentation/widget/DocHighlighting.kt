@@ -19,13 +19,12 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 import org.junit.Ignore
 
-
 @Ignore
 class DocHighlighting {
 
     @Serializable
     data class MyMovie(
-        override val _highlightResult: JsonObject?
+        override val _highlightResult: JsonObject?,
     ) : Highlightable {
 
         public val highlightedTitle: HighlightedString?

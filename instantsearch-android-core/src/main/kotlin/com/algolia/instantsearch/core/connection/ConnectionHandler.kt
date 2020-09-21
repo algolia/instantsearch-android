@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.core.connection
 
-
 public class ConnectionHandler(
     public val connections: MutableSet<Connection> = mutableSetOf()
 ) {

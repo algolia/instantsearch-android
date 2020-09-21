@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.core.number.range
 
-
-internal fun <T> Range<T>.coerce(bounds: Range<T>?): Range<T> where T: Number, T: Comparable<T> {
+internal fun <T> Range<T>.coerce(bounds: Range<T>?): Range<T> where T : Number, T : Comparable<T> {
     return bounds?.let {
         val coercedMin = min.coerceIn(it.min, it.max)
         val coercedMax = max.coerceIn(it.min, it.max)
@@ -10,6 +9,6 @@ internal fun <T> Range<T>.coerce(bounds: Range<T>?): Range<T> where T: Number, T
     } ?: this
 }
 
-internal fun <T> T.coerce(bounds: Range<T>?): T where T: Number, T: Comparable<T> {
+internal fun <T> T.coerce(bounds: Range<T>?): T where T : Number, T : Comparable<T> {
     return bounds?.let { coerceIn(it.min, it.max) } ?: this
 }

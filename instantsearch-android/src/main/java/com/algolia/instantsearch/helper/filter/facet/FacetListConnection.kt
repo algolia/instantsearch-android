@@ -8,11 +8,10 @@ import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 
-
 public fun FacetListViewModel.connectFilterState(
     filterState: FilterState,
     attribute: Attribute,
-    groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or)
+    groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
 ): Connection {
     return FacetListConnectionFilterState(this, filterState, attribute, groupID)
 }
@@ -20,34 +19,34 @@ public fun FacetListViewModel.connectFilterState(
 public fun FacetListViewModel.connectFilterState(
     filterState: FilterState,
     attribute: Attribute,
-    operator: FilterOperator = FilterOperator.Or
+    operator: FilterOperator = FilterOperator.Or,
 ): Connection {
     return FacetListConnectionFilterState(this, filterState, attribute, FilterGroupID(attribute, operator))
 }
 
 public fun FacetListViewModel.connectSearcher(
     searcher: SearcherSingleIndex,
-    attribute: Attribute
+    attribute: Attribute,
 ): Connection {
     return FacetListConnectionSearcher(this, searcher, attribute)
 }
 
 public fun FacetListViewModel.connectSearcherForFacet(
-    searcher: SearcherForFacets
+    searcher: SearcherForFacets,
 ): Connection {
     return FacetListConnectionSearcherForFacets(this, searcher)
 }
 
 public fun FacetListViewModel.connectView(
     view: FacetListView,
-    presenter: FacetListPresenter? = null
+    presenter: FacetListPresenter? = null,
 ): Connection {
     return FacetListConnectionView(this, view, presenter)
 }
 
 public fun FacetListConnector.connectView(
     view: FacetListView,
-    presenter: FacetListPresenter? = null
+    presenter: FacetListPresenter? = null,
 ): Connection {
     return viewModel.connectView(view, presenter)
 }

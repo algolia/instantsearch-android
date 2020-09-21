@@ -6,11 +6,10 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceLoadingInMillis
 
-
 public data class LoadingConnector<R>(
     public val searcher: Searcher<R>,
     public val viewModel: LoadingViewModel = LoadingViewModel(),
-    public val debouncer: Debouncer = Debouncer(debounceLoadingInMillis)
+    public val debouncer: Debouncer = Debouncer(debounceLoadingInMillis),
 ) : ConnectionImpl() {
 
     private val connectionSearcher = viewModel.connectSearcher(searcher, debouncer)

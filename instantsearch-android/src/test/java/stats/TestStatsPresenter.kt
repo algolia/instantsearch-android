@@ -5,7 +5,6 @@ import com.algolia.search.model.response.ResponseSearch
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestStatsPresenter {
 
     @Test

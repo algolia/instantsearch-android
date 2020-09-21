@@ -1,12 +1,15 @@
 package selectable.list
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.selectable.list.*
+import com.algolia.instantsearch.core.selectable.list.SelectableItem
+import com.algolia.instantsearch.core.selectable.list.SelectableListView
+import com.algolia.instantsearch.core.selectable.list.SelectableListViewModel
+import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.core.selectable.list.connectView
 import shouldBeEmpty
 import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
-
 
 class TestSelectableListConnectView {
 

@@ -1,7 +1,6 @@
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import kotlin.test.Test
 
-
 class TestSubscriptionValue {
 
     private val value = "value"

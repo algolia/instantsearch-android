@@ -4,9 +4,8 @@ import android.widget.CompoundButton
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleView
 
-
 public class FilterToggleViewCompoundButton(
-    public val compoundButton: CompoundButton
+    public val compoundButton: CompoundButton,
 ) : FilterToggleView,
     CompoundButton.OnCheckedChangeListener {
 

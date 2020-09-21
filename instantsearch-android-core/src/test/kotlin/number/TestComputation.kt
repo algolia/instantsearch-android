@@ -5,7 +5,6 @@ import com.algolia.instantsearch.core.number.increment
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestComputation {
 
     @Test

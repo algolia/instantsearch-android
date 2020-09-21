@@ -1,12 +1,10 @@
 package com.algolia.instantsearch.helper.filter.state
 
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
-import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
-
 public class FilterState internal constructor(
-    filters: MutableFilters = MutableFiltersImpl()
+    filters: MutableFilters = MutableFiltersImpl(),
 ) : MutableFilters by filters {
 
     public val filters: SubscriptionValue<Filters> = SubscriptionValue(filters)

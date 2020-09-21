@@ -5,7 +5,6 @@ import shouldBeNull
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestSelectableMapViewModel {
 
     private val items = mapOf(0 to "A", 1 to "B")

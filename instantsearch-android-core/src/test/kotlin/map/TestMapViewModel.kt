@@ -4,7 +4,6 @@ import com.algolia.instantsearch.core.map.MapViewModel
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestMapViewModel {
 
     private val id = "id"

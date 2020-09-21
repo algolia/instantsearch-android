@@ -13,7 +13,6 @@ import shouldBeTrue
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestFilterState {
 
     private val nameA = "nameA"

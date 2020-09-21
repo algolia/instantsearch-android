@@ -26,7 +26,7 @@ import org.junit.Ignore
 class DocFilterMap {
 
     class FilterMapViewRadioGroup(
-        val radioGroup: RadioGroup
+        val radioGroup: RadioGroup,
     ) : FilterMapView,
         RadioGroup.OnCheckedChangeListener {
 

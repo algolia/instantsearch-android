@@ -13,7 +13,6 @@ import shouldBeNull
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestHierarchicalConnectFilterState {
 
     private val separator = " > "

@@ -8,16 +8,15 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceLoadingInMillis
 
-
 public fun <R> LoadingViewModel.connectSearcher(
     searcher: Searcher<R>,
-    debouncer: Debouncer = Debouncer(debounceLoadingInMillis)
+    debouncer: Debouncer = Debouncer(debounceLoadingInMillis),
 ): Connection {
     return LoadingConnectionSearcher(this, searcher, debouncer)
 }
 
 public fun <R> LoadingConnector<R>.connectView(
-    view: LoadingView
+    view: LoadingView,
 ): Connection {
     return viewModel.connectView(view)
 }

@@ -8,7 +8,6 @@ import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
 
-
 class TestSelectableMapConnectView {
 
     private val input = 0

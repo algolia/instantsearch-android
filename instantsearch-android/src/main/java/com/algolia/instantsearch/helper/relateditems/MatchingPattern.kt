@@ -13,5 +13,5 @@ import kotlin.reflect.KProperty1
 public data class MatchingPattern<T>(
     val attribute: Attribute,
     val score: Int,
-    val property: KProperty1<T, *>
+    val property: KProperty1<T, *>,
 )

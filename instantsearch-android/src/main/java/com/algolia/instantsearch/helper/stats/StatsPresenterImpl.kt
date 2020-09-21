@@ -2,9 +2,8 @@ package com.algolia.instantsearch.helper.stats
 
 import com.algolia.search.model.response.ResponseSearch
 
-
 public class StatsPresenterImpl(
-    private val default: String = ""
+    private val default: String = "",
 ) : StatsPresenter<String> {
 
     override fun invoke(response: ResponseSearch?): String {

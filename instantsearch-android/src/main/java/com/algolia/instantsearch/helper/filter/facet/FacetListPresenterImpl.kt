@@ -1,9 +1,8 @@
 package com.algolia.instantsearch.helper.filter.facet
 
-
 public class FacetListPresenterImpl(
     public val sortBy: List<FacetSortCriterion> = listOf(FacetSortCriterion.CountDescending),
-    public val limit: Int = 5
+    public val limit: Int = 5,
 ) : FacetListPresenter {
 
     private val comparator = Comparator<FacetListItem> { (facetA, isSelectedA), (facetB, isSelectedB) ->

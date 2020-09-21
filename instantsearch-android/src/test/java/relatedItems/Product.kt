@@ -9,5 +9,5 @@ internal data class Product(
     override val objectID: ObjectID,
     val name: String,
     val brand: String,
-    val categories: List<String>
+    val categories: List<String>,
 ) : Indexable

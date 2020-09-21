@@ -10,7 +10,7 @@ import androidx.core.text.inSpans
 import com.algolia.instantsearch.core.highlighting.HighlightedString
 
 public fun HighlightedString.toSpannedString(
-    span: ParcelableSpan = StyleSpan(Typeface.BOLD)
+    span: ParcelableSpan = StyleSpan(Typeface.BOLD),
 ): SpannedString = buildSpannedString {
     tokens.forEach { (part, isHighlighted) ->
         if (isHighlighted) inSpans(span.wrap()) { append(part) }
@@ -25,7 +25,7 @@ public fun HighlightedString.toSpannedString(
 internal fun ParcelableSpan.wrap(): Any = if (this is CharacterStyle) CharacterStyle.wrap(this) else this
 
 public fun List<HighlightedString>.toSpannedString(
-    span: ParcelableSpan = StyleSpan(Typeface.BOLD)
+    span: ParcelableSpan = StyleSpan(Typeface.BOLD),
 ): SpannedString {
     return buildSpannedString {
         this@toSpannedString.map { it.toSpannedString(span) }.forEachIndexed { index, spanned ->

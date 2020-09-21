@@ -1,6 +1,11 @@
 import kotlin.reflect.KClass
-import kotlin.test.*
-
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 internal infix fun <T> T.shouldEqual(expected: T) {
     assertEquals(expected, this)

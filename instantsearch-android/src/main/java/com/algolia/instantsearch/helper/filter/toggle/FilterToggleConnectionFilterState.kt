@@ -6,11 +6,10 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
 
-
 internal data class FilterToggleConnectionFilterState(
     private val viewModel: FilterToggleViewModel,
     private val filterState: FilterState,
-    private val groupID: FilterGroupID
+    private val groupID: FilterGroupID,
 ) : ConnectionImpl() {
 
     private val updateIsSelected: Callback<Filters> = { filters ->

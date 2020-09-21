@@ -11,7 +11,6 @@ import shouldBeNull
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestStatsConnectSearcher {
 
     private val client = mockClient()

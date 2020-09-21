@@ -5,7 +5,6 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 
-
 public interface FilterPresenter : Presenter<Filter, String> {
 
     public val facetString: (Attribute, String, Boolean) -> String

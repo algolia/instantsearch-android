@@ -6,13 +6,12 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import instrumented.applicationContext
 import com.algolia.instantsearch.helper.android.sortby.SortByViewSpinner
+import instrumented.applicationContext
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import shouldEqual
-
 
 @SmallTest
 @Config(sdk = [Build.VERSION_CODES.P])

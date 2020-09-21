@@ -21,7 +21,7 @@ internal class FilterRangeConnectionSearcherImpl<T>(
     private val viewModel: FilterRangeViewModel<T>,
     private val searcher: SearcherSingleIndex,
     private val attribute: Attribute,
-    private val mapper: (Number) -> T
+    private val mapper: (Number) -> T,
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     private val responseSubscription: (ResponseSearch?) -> Unit = { response ->
@@ -31,7 +31,7 @@ internal class FilterRangeConnectionSearcherImpl<T>(
     private fun <T> FilterRangeViewModel<T>.computeBoundsFromFacetStats(
         attribute: Attribute,
         facetStats: Map<Attribute, FacetStats>?,
-        mapper: (Number) -> T
+        mapper: (Number) -> T,
     ) where T : Number, T : Comparable<T> {
         bounds.value = facetStats?.get(attribute)?.let {
             val min = mapper(it.min)

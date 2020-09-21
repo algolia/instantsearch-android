@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.core.number.range
 
-
 public data class Range<T>(
     public val min: T,
     public val max: T

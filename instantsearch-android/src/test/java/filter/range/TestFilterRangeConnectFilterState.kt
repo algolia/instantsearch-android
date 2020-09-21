@@ -11,7 +11,6 @@ import shouldBeNull
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestFilterRangeConnectFilterState {
 
     private val attribute = Attribute("foo")
@@ -28,7 +27,6 @@ class TestFilterRangeConnectFilterState {
         viewModel.coerce(Range(range))
         filterState.getFilters() shouldEqual setOf(Filter.Numeric(attribute, range))
     }
-
 
     @Test
     fun onFilterStateChangedShouldUpdateRange() {

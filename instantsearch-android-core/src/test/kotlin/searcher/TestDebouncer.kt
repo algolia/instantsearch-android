@@ -2,11 +2,9 @@ package searcher
 
 import blocking
 import com.algolia.instantsearch.core.searcher.Debouncer
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
 import shouldEqual
 import kotlin.test.Test
-
 
 class TestDebouncer {
 

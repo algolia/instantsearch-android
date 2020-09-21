@@ -20,7 +20,6 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
 import org.junit.Ignore
 
-
 @Ignore
 class DocFilterListFacet {
 

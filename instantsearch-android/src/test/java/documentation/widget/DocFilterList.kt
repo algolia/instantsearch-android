@@ -21,7 +21,6 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 import org.junit.Ignore
 
-
 @Ignore
 class DocFilterList {
 

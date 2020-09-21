@@ -20,7 +20,7 @@ public fun <T> SearcherSingleIndex.connectRelatedHitsView(
     adapter: HitsView<T>,
     hit: T,
     matchingPatterns: List<MatchingPattern<T>>,
-    presenter: Presenter<ResponseSearch, List<T>>
+    presenter: Presenter<ResponseSearch, List<T>>,
 ): Connection where T : Indexable {
     return RelatedItemsConnectionView(this, adapter, hit, matchingPatterns, presenter)
 }

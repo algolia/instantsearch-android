@@ -8,7 +8,6 @@ import com.algolia.search.model.search.FacetStats
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestFilterComparisonComputeBounds {
 
     private val price = Attribute("price")

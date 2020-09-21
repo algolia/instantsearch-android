@@ -3,7 +3,6 @@ package com.algolia.instantsearch.helper.filter.state
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
-
 public fun groupOr(attribute: Attribute): FilterGroupID {
     return groupOr(attribute.raw)
 }

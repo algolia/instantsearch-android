@@ -4,7 +4,6 @@ import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestSearchBoxViewModel {
 
     @Test

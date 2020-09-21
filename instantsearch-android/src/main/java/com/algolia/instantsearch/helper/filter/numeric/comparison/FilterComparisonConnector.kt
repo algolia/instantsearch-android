@@ -13,7 +13,7 @@ public data class FilterComparisonConnector<T>(
     public val filterState: FilterState,
     public val attribute: Attribute,
     public val operator: NumericOperator,
-    public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
+    public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     public constructor(
@@ -21,7 +21,7 @@ public data class FilterComparisonConnector<T>(
         attribute: Attribute,
         operator: NumericOperator,
         number: T? = null,
-        groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
+        groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
     ) : this(NumberViewModel(number), filterState, attribute, operator, groupID)
 
     private val connectionFilterState = viewModel.connectFilterState(filterState, attribute, operator, groupID)

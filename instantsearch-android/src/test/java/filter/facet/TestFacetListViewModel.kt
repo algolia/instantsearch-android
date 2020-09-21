@@ -5,8 +5,7 @@ import com.algolia.search.model.search.Facet
 import shouldEqual
 import kotlin.test.Test
 
-
-class TestFacetListViewModel  {
+class TestFacetListViewModel {
 
     private val red = Facet("red", 1)
     private val green = Facet("green", 2)

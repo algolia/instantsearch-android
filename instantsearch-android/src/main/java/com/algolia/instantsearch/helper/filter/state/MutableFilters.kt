@@ -4,7 +4,6 @@ import com.algolia.instantsearch.helper.hierarchical.HierarchicalFilter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
-
 public interface MutableFilters : Filters {
 
     public fun <T : Filter> add(groupID: FilterGroupID, vararg filters: T)

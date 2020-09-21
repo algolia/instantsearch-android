@@ -10,7 +10,6 @@ import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
 
-
 class TestLoadingConnectView {
 
     private class MockLoadingView : LoadingView {

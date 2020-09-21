@@ -5,7 +5,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.core.number.*
+import com.algolia.instantsearch.core.number.Computation
+import com.algolia.instantsearch.core.number.NumberView
+import com.algolia.instantsearch.core.number.NumberViewModel
+import com.algolia.instantsearch.core.number.connectView
+import com.algolia.instantsearch.core.number.decrement
+import com.algolia.instantsearch.core.number.increment
 import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -19,7 +24,6 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.NumericOperator
 import org.junit.Ignore
 
-
 @Ignore
 class DocFilterComparison {
 
@@ -28,7 +32,7 @@ class DocFilterComparison {
         val arrowUp: ImageView,
         val arrowDown: ImageView,
         val price: Attribute,
-        val operator: NumericOperator
+        val operator: NumericOperator,
     ) : NumberView<Int> {
 
         init {

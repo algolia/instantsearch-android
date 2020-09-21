@@ -6,18 +6,17 @@ import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
 
-
 public data class FilterToggleConnector(
     public val filterState: FilterState,
     public val viewModel: FilterToggleViewModel,
-    public val groupID: FilterGroupID = FilterGroupID(viewModel.item.value.attribute, FilterOperator.And)
+    public val groupID: FilterGroupID = FilterGroupID(viewModel.item.value.attribute, FilterOperator.And),
 ) : ConnectionImpl() {
 
     public constructor(
         filterState: FilterState,
         filter: Filter,
         isSelected: Boolean = false,
-        groupID: FilterGroupID = FilterGroupID(filter.attribute, FilterOperator.And)
+        groupID: FilterGroupID = FilterGroupID(filter.attribute, FilterOperator.And),
     ) : this(filterState, FilterToggleViewModel(filter, isSelected), groupID)
 
     private val connectionFilterState = viewModel.connectFilterState(filterState, groupID)

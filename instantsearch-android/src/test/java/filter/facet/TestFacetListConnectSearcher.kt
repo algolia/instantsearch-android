@@ -3,18 +3,15 @@ package filter.facet
 import blocking
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.helper.filter.facet.connectSearcher
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 import mockClient
 import respondSearch
-import searcher.TestCoroutineScope
 import searcher.TestSearcherSingle
 import shouldEqual
 import kotlin.test.Test
-
 
 class TestFacetListConnectSearcher {
 

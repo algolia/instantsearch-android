@@ -9,13 +9,12 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searchbox.SearchMode
 
-
 internal data class SearchBoxConnectionSearcherPagedList<R>(
     private val viewModel: SearchBoxViewModel,
     private val searcher: Searcher<R>,
     private val pagedList: List<LiveData<out PagedList<out Any>>>,
     private val searchMode: SearchMode,
-    private val debouncer: Debouncer
+    private val debouncer: Debouncer,
 ) : ConnectionImpl() {
 
     private val searchAsYouType: Callback<String?> = { query ->

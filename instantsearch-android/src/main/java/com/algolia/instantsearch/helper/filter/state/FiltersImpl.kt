@@ -4,12 +4,11 @@ import com.algolia.instantsearch.helper.hierarchical.HierarchicalFilter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
-
 internal data class FiltersImpl(
     private val facetGroups: Map<FilterGroupID, Set<Filter.Facet>>,
     private val tagGroups: Map<FilterGroupID, Set<Filter.Tag>>,
     private val numericGroups: Map<FilterGroupID, Set<Filter.Numeric>>,
-    private val hierarchicalGroups: Map<Attribute, HierarchicalFilter>
+    private val hierarchicalGroups: Map<Attribute, HierarchicalFilter>,
 ) : Filters {
 
     override fun getFacetFilters(groupID: FilterGroupID): Set<Filter.Facet> {

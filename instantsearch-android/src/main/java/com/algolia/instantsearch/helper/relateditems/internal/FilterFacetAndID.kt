@@ -5,5 +5,5 @@ import com.algolia.search.model.filter.Filter
 
 internal class FilterFacetAndID(
     val filterGroupID: FilterGroupID,
-    val filterFacets: Array<Filter.Facet>
+    val filterFacets: Array<Filter.Facet>,
 )

@@ -12,13 +12,13 @@ import com.algolia.search.model.Attribute
 public fun <T> FilterRangeViewModel<T>.connectFilterState(
     filterState: FilterState,
     attribute: Attribute,
-    groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
+    groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
 ): Connection where T : Number, T : Comparable<T> {
     return FilterRangeConnectionFilterState(this, filterState, attribute, groupID)
 }
 
 public fun <T> FilterRangeConnector<T>.connectView(
-    view: NumberRangeView<T>
+    view: NumberRangeView<T>,
 ): Connection where T : Number, T : Comparable<T> {
     return viewModel.connectView(view)
 }
@@ -31,7 +31,7 @@ public fun <T> FilterRangeConnector<T>.connectView(
  */
 public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
     searcher: SearcherSingleIndex,
-    attribute: Attribute
+    attribute: Attribute,
 ): Connection where T : Number, T : Comparable<T> {
     return viewModel.connectSearcher(searcher, attribute)
 }
@@ -44,7 +44,7 @@ public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
  */
 public inline fun <reified T> FilterRangeViewModel<T>.connectSearcher(
     searcher: SearcherSingleIndex,
-    attribute: Attribute
+    attribute: Attribute,
 ): Connection where T : Number, T : Comparable<T> {
     return FilterRangeConnectionSearcher(this, searcher, attribute, T::class)
 }
@@ -59,7 +59,7 @@ public inline fun <reified T> FilterRangeViewModel<T>.connectSearcher(
 public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
     searcher: SearcherSingleIndex,
     attribute: Attribute,
-    noinline mapper: (Number) -> T
+    noinline mapper: (Number) -> T,
 ): Connection where T : Number, T : Comparable<T> {
     return viewModel.connectSearcher(searcher, attribute, mapper)
 }
@@ -74,7 +74,7 @@ public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
 public inline fun <reified T> FilterRangeViewModel<T>.connectSearcher(
     searcher: SearcherSingleIndex,
     attribute: Attribute,
-    noinline mapper: (Number) -> T
+    noinline mapper: (Number) -> T,
 ): Connection where T : Number, T : Comparable<T> {
     return FilterRangeConnectionSearcher(this, searcher, attribute, mapper)
 }

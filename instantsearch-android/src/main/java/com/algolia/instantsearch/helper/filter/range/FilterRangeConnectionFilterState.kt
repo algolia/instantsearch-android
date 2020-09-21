@@ -1,18 +1,20 @@
 package com.algolia.instantsearch.helper.filter.range
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.helper.filter.state.*
+import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.filter.state.Filters
+import com.algolia.instantsearch.helper.filter.state.toFilterNumeric
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
-
 
 internal data class FilterRangeConnectionFilterState<T>(
     private val viewModel: FilterRangeViewModel<T>,
     private val filterState: FilterState,
     private val attribute: Attribute,
-    private val groupID: FilterGroupID
+    private val groupID: FilterGroupID,
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     @Suppress("UNCHECKED_CAST")

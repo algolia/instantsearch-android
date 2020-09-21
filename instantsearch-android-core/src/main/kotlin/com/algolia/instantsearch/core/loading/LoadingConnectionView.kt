@@ -1,8 +1,7 @@
 package com.algolia.instantsearch.core.loading
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
-
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 
 internal data class LoadingConnectionView(
     private val viewModel: LoadingViewModel,

@@ -7,7 +7,6 @@ import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import io.ktor.http.HttpHeaders
 
-
 public fun Query.addFacet(vararg attribute: Attribute) {
     facets = facets.orEmpty().toMutableSet().also {
         it += attribute

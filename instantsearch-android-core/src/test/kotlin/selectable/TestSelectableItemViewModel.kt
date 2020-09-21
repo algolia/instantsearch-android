@@ -5,7 +5,6 @@ import shouldBeFalse
 import shouldBeTrue
 import kotlin.test.Test
 
-
 class TestSelectableItemViewModel {
 
     private val valueA = "valueA"

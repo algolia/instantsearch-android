@@ -1,7 +1,9 @@
 package com.algolia.instantsearch.core.searcher
 
-import kotlinx.coroutines.*
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 public class Debouncer(
     public val debounceTimeInMillis: Long
