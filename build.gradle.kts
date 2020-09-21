@@ -1,6 +1,3 @@
-
-import java.net.URI
-
 buildscript {
     repositories {
         google()
@@ -22,9 +19,6 @@ allprojects {
         mavenCentral()
         google()
         jcenter()
-        maven { url = URI("https://dl.bintray.com/algolia/maven") }
-        maven { url = URI("https://kotlin.bintray.com/kotlinx") }
-        maven { url = URI("https://dl.bintray.com/kotlin/ktor") }
     }
 }
 
