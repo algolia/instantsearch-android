@@ -1,7 +1,7 @@
 # 2.6.0
 
 ## Changed
-- Kotlin `1.4.0`
+- Kotlin `1.4.10`
 - Algolia Kotlin Client `1.5.0`
 - Android minimum SDK to 21
 
