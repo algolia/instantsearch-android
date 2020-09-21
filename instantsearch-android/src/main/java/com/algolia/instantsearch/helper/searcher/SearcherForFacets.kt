@@ -8,8 +8,11 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
-import kotlinx.coroutines.*
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 public class SearcherForFacets(
     public var index: Index,
@@ -17,7 +20,7 @@ public class SearcherForFacets(
     public val query: Query = Query(),
     public var facetQuery: String? = null,
     public val requestOptions: RequestOptions? = null,
-    override val coroutineScope: CoroutineScope = SearcherScope()
+    override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : Searcher<ResponseSearchForFacets> {
 
     internal val sequencer = Sequencer()

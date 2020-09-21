@@ -6,7 +6,7 @@ import com.algolia.search.model.indexing.Indexable
 
 internal fun <T> SearcherSingleIndex.configureRelatedItems(
     hit: T,
-    patterns: List<MatchingPattern<T>>
+    patterns: List<MatchingPattern<T>>,
 ) where T : Indexable {
     query.apply {
         sumOrFiltersScores = true

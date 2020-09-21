@@ -3,12 +3,11 @@ package com.algolia.instantsearch.core.tree
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 
-
 internal data class TreeConnectionView<K, I, O>(
     private val viewModel: TreeViewModel<K, I>,
     private val view: TreeView<K, O>,
     private val presenter: TreePresenter<I, O>
-): ConnectionImpl() {
+) : ConnectionImpl() {
 
     private val updateItem: Callback<Tree<I>> = { tree ->
         view.setTree(presenter(tree))

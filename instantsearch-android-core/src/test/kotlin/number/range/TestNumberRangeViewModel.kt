@@ -5,7 +5,6 @@ import com.algolia.instantsearch.core.number.range.Range
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestNumberRangeViewModel {
 
     @Test

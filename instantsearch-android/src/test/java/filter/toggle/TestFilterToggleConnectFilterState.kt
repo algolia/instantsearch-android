@@ -10,7 +10,6 @@ import com.algolia.search.model.filter.Filter
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestFilterToggleConnectFilterState {
 
     private val color = Attribute("color")

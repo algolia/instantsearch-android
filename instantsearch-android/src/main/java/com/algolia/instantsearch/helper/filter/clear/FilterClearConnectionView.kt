@@ -2,10 +2,9 @@ package com.algolia.instantsearch.helper.filter.clear
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 
-
 internal data class FilterClearConnectionView(
     private val viewModel: FilterClearViewModel,
-    private val view: FilterClearView
+    private val view: FilterClearView,
 ) : ConnectionImpl() {
 
     override fun connect() {

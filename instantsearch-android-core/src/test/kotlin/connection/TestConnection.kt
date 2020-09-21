@@ -9,7 +9,6 @@ import shouldBeTrue
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestConnection {
 
     private val viewModel = LoadingViewModel()

@@ -7,15 +7,14 @@ import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-
 public class SearcherSingleIndexDataSource<T>(
     private val searcher: SearcherSingleIndex,
-    private val transformer: (ResponseSearch.Hit) -> T
+    private val transformer: (ResponseSearch.Hit) -> T,
 ) : PageKeyedDataSource<Int, T>() {
 
     public class Factory<T>(
         private val searcher: SearcherSingleIndex,
-        private val transformer: (ResponseSearch.Hit) -> T
+        private val transformer: (ResponseSearch.Hit) -> T,
     ) : DataSource.Factory<Int, T>() {
 
         override fun create(): DataSource<Int, T> {

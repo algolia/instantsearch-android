@@ -4,7 +4,6 @@ import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestSubscription {
 
     @Test

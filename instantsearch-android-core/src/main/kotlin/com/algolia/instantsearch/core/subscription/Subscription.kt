@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.core.subscription
 
-
 public open class Subscription<T> {
 
     internal val subscriptions: MutableSet<(T) -> Unit> = mutableSetOf()

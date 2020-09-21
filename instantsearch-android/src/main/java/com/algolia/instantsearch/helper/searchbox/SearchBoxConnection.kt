@@ -11,13 +11,13 @@ import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
 public fun <R> SearchBoxViewModel.connectSearcher(
     searcher: Searcher<R>,
     searchMode: SearchMode = SearchMode.AsYouType,
-    debouncer: Debouncer = Debouncer(debounceSearchInMillis)
+    debouncer: Debouncer = Debouncer(debounceSearchInMillis),
 ): Connection {
     return SearchBoxConnectionSearcher(this, searcher, searchMode, debouncer)
 }
 
 public fun <R> SearchBoxConnector<R>.connectView(
-    view: SearchBoxView
+    view: SearchBoxView,
 ): Connection {
     return viewModel.connectView(view)
 }

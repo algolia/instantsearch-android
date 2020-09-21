@@ -17,7 +17,7 @@ import kotlinx.serialization.json.Json
 val JsonNoDefaults = Json { encodeDefaults = false }
 
 fun mockClient(
-    response: HttpResponseData? = null
+    response: HttpResponseData? = null,
 ): ClientSearch {
     val mockEngine = if (response != null) MockEngine { response } else {
         defaultMockEngine
@@ -26,7 +26,7 @@ fun mockClient(
 }
 
 fun mockClient(
-    mockEngine: MockEngine
+    mockEngine: MockEngine,
 ): ClientSearch {
     return ClientSearch(
         ConfigurationSearch(

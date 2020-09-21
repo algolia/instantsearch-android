@@ -3,7 +3,6 @@ package com.algolia.instantsearch.core.searcher
 import kotlinx.atomicfu.atomicArrayOfNulls
 import kotlinx.coroutines.Job
 
-
 public class Sequencer(
     public val maxOperations: Int = 5
 ) {

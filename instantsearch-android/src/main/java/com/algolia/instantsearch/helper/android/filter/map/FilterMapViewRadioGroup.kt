@@ -6,9 +6,8 @@ import android.widget.RadioGroup
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.helper.filter.map.FilterMapView
 
-
 public class FilterMapViewRadioGroup(
-    public val radioGroup: RadioGroup
+    public val radioGroup: RadioGroup,
 ) : FilterMapView,
     RadioGroup.OnCheckedChangeListener {
 

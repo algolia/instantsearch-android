@@ -7,7 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.helper.android.filter.facet.FacetListAdapter
 import com.algolia.instantsearch.helper.android.filter.facet.FacetListViewHolder
-import com.algolia.instantsearch.helper.filter.facet.*
+import com.algolia.instantsearch.helper.filter.facet.FacetListPresenterImpl
+import com.algolia.instantsearch.helper.filter.facet.FacetListView
+import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
+import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion
+import com.algolia.instantsearch.helper.filter.facet.connectFilterState
+import com.algolia.instantsearch.helper.filter.facet.connectSearcher
+import com.algolia.instantsearch.helper.filter.facet.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -20,19 +26,18 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Facet
 import org.junit.Ignore
 
-
 @Ignore
 class DocFacetList {
 
-    class MyActivity: AppCompatActivity() {
+    class MyActivity : AppCompatActivity() {
 
-        class MyFacetListViewHolder(view: View): FacetListViewHolder(view) {
+        class MyFacetListViewHolder(view: View) : FacetListViewHolder(view) {
 
             override fun bind(facet: Facet, selected: Boolean, onClickListener: View.OnClickListener) {
-               // Bind your view
+                // Bind your view
             }
 
-            object Factory: FacetListViewHolder.Factory {
+            object Factory : FacetListViewHolder.Factory {
 
                 override fun createViewHolder(parent: ViewGroup): FacetListViewHolder {
                     // Inflate your layout

@@ -7,7 +7,6 @@ import kotlinx.coroutines.launch
 import kotlin.random.Random
 import kotlin.test.Test
 
-
 class TestSequencer {
 
     private val maxOperations = 5

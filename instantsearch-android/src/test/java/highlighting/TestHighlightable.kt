@@ -25,7 +25,7 @@ class TestHighlightable {
         val age: Int,
         val friendNames: List<String>,
         val pet: Pet,
-        override val _highlightResult: JsonObject?
+        override val _highlightResult: JsonObject?,
     ) : Highlightable
 
     private val friend = Friend(
@@ -35,18 +35,27 @@ class TestHighlightable {
         pet = Pet("fido", listOf("fifi, dodo")),
         _highlightResult = buildJsonObject {
             put("name", HighlightResult("<em>to</em>to").toJson())
-            put("friendNames", buildJsonArray {
-                add(HighlightResult("<em>f</em>oo").toJson())
-                add(HighlightResult("b<em>a</em>r").toJson())
-            })
+            put(
+                "friendNames",
+                buildJsonArray {
+                    add(HighlightResult("<em>f</em>oo").toJson())
+                    add(HighlightResult("b<em>a</em>r").toJson())
+                }
+            )
             put("age", HighlightResult("<em>4</em>2").toJson())
-            put("pet", buildJsonObject {
-                put("name", HighlightResult("fi<em>do</em>").toJson())
-                put("nicknames", buildJsonArray {
-                    add(HighlightResult("<em>fifi</em>").toJson())
-                    add(HighlightResult("dodo").toJson())
-                })
-            })
+            put(
+                "pet",
+                buildJsonObject {
+                    put("name", HighlightResult("fi<em>do</em>").toJson())
+                    put(
+                        "nicknames",
+                        buildJsonArray {
+                            add(HighlightResult("<em>fifi</em>").toJson())
+                            add(HighlightResult("dodo").toJson())
+                        }
+                    )
+                }
+            )
         }
     )
 

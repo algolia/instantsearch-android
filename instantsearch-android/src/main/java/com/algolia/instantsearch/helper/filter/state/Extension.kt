@@ -6,31 +6,32 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.search.Facet
 
-
 public fun Filters.toFilterGroups(): Set<FilterGroup<*>> {
-    return (getFacetGroups().map { (key, value) ->
-        when (key.operator) {
-            FilterOperator.And -> FilterGroup.And.Facet(value, key.name)
-            FilterOperator.Or -> FilterGroup.Or.Facet(value, key.name)
+    return (
+        getFacetGroups().map { (key, value) ->
+            when (key.operator) {
+                FilterOperator.And -> FilterGroup.And.Facet(value, key.name)
+                FilterOperator.Or -> FilterGroup.Or.Facet(value, key.name)
+            }
+        } + getTagGroups().map { (key, value) ->
+            when (key.operator) {
+                FilterOperator.And -> FilterGroup.And.Tag(value, key.name)
+                FilterOperator.Or -> FilterGroup.Or.Tag(value, key.name)
+            }
+        } + getNumericGroups().map { (key, value) ->
+            when (key.operator) {
+                FilterOperator.And -> FilterGroup.And.Numeric(value, key.name)
+                FilterOperator.Or -> FilterGroup.Or.Numeric(value, key.name)
+            }
+        } + getHierarchicalGroups().map { (key, value) ->
+            FilterGroup.And.Hierarchical(
+                filters = setOf(value.filter),
+                path = value.path,
+                attributes = value.attributes,
+                name = key.raw
+            )
         }
-    } + getTagGroups().map { (key, value) ->
-        when (key.operator) {
-            FilterOperator.And -> FilterGroup.And.Tag(value, key.name)
-            FilterOperator.Or -> FilterGroup.Or.Tag(value, key.name)
-        }
-    } + getNumericGroups().map { (key, value) ->
-        when (key.operator) {
-            FilterOperator.And -> FilterGroup.And.Numeric(value, key.name)
-            FilterOperator.Or -> FilterGroup.Or.Numeric(value, key.name)
-        }
-    } + getHierarchicalGroups().map { (key, value) ->
-        FilterGroup.And.Hierarchical(
-            filters = setOf(value.filter),
-            path = value.path,
-            attributes = value.attributes,
-            name = key.raw
-        )
-    }).toSet()
+        ).toSet()
 }
 
 public inline fun <reified T : Filter> MutableFilters.add(groupID: FilterGroupID, filters: Set<T>) {

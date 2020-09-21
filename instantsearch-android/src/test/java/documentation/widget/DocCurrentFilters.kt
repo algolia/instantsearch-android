@@ -18,7 +18,6 @@ import com.algolia.search.model.IndexName
 import com.google.android.material.chip.ChipGroup
 import org.junit.Ignore
 
-
 @Ignore
 class DocCurrentFilters {
 

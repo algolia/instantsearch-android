@@ -7,7 +7,6 @@ import com.algolia.instantsearch.core.tree.asTree
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestTreePresenter {
 
     private val book = "Book"
@@ -29,22 +28,26 @@ class TestTreePresenter {
     private val tree = Tree(
         mutableListOf(
             Node(
-                book, mutableListOf(
+                book,
+                mutableListOf(
                     Node(bookScienceFiction),
                     Node(bookRomance)
                 )
             ),
             Node(furniture),
             Node(
-                clothing, mutableListOf(
+                clothing,
+                mutableListOf(
                     Node(
-                        clothingMen, mutableListOf(
+                        clothingMen,
+                        mutableListOf(
                             Node(clothingMenHats),
                             Node(clothingMenShirts)
                         )
                     ),
                     Node(
-                        clothingWomen, mutableListOf(
+                        clothingWomen,
+                        mutableListOf(
                             Node(clothingWomenShoes),
                             Node(clothingWomenBags)
                         )

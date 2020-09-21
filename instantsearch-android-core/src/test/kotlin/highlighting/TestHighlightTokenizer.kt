@@ -6,7 +6,6 @@ import shouldBeTrue
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestHighlightTokenizer {
 
     /*

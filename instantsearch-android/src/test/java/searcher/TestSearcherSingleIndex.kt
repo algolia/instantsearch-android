@@ -12,7 +12,6 @@ import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
 
-
 class TestSearcherSingleIndex {
 
     private val client = mockClient()

@@ -15,7 +15,7 @@ internal data class RelatedItemsConnectionView<T>(
     private val view: HitsView<T>,
     private val hit: T,
     private val matchingPatterns: List<MatchingPattern<T>>,
-    private val presenter: Presenter<ResponseSearch, List<T>>
+    private val presenter: Presenter<ResponseSearch, List<T>>,
 ) : ConnectionImpl() where T : Indexable {
 
     init {

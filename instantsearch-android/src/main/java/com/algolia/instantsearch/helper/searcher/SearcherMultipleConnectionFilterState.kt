@@ -9,12 +9,11 @@ import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterGroupsConverter
 
-
 internal data class SearcherMultipleConnectionFilterState(
     private val searcher: SearcherMultipleIndex,
     private val filterState: FilterState,
     private val indexName: IndexName,
-    private val debouncer: Debouncer
+    private val debouncer: Debouncer,
 ) : ConnectionImpl() {
 
     private val updateSearcher: Callback<Filters> = { filters ->

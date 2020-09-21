@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.core.highlighting
 
-
 /**
  * A token from a highlighted string.
  */

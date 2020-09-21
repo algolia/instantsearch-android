@@ -22,7 +22,6 @@ import com.algolia.search.model.IndexName
 import kotlinx.serialization.Serializable
 import org.junit.Ignore
 
-
 @Ignore
 class DocHitsPagingSingle {
 
@@ -62,7 +61,7 @@ class DocHitsPagingSingle {
 
     @Serializable
     data class Movie(
-        val title: String
+        val title: String,
     )
 
     class MovieViewHolder(val view: TextView) : RecyclerView.ViewHolder(view) {
@@ -88,14 +87,14 @@ class DocHitsPagingSingle {
 
             override fun areItemsTheSame(
                 oldItem: Movie,
-                newItem: Movie
+                newItem: Movie,
             ): Boolean {
                 return oldItem.title == newItem.title
             }
 
             override fun areContentsTheSame(
                 oldItem: Movie,
-                newItem: Movie
+                newItem: Movie,
             ): Boolean {
                 return oldItem == newItem
             }

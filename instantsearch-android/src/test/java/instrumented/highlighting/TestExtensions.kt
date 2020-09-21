@@ -20,7 +20,6 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import shouldEqual
 
-
 @SmallTest
 @Config(sdk = [Build.VERSION_CODES.P])
 @RunWith(AndroidJUnit4::class)
@@ -38,7 +37,8 @@ class TestExtensions {
                 append("foo")
                 inSpans(span.wrap()) { append("ba") }
                 append("r")
-            }, buildSpannedString {
+            },
+            buildSpannedString {
                 append("foo")
                 inSpans(span.wrap()) { append("ba") }
                 append("r")
@@ -82,7 +82,7 @@ class TestExtensions {
         val expectedSpannedStrings = expectedSpannedStrings(customSpan)
 
         tested.toString() shouldEqual expectedSpannedStrings.joinToString() // Built strings are the same
-        tested.getSpans<Any>().size shouldEqual 3                           // and tested does still have its span
+        tested.getSpans<Any>().size shouldEqual 3 // and tested does still have its span
     }
 
     private inline fun <reified T : Any> SpannedString.getSpans(): Array<out T> {

@@ -8,7 +8,6 @@ import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
 
-
 class TestFilterToggleConnectView {
 
     private val input = 0

@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.core.highlighting
 
-
 public data class HighlightedString(
     val original: String,
     val tokens: List<HighlightToken>

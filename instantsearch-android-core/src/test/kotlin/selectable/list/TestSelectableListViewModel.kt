@@ -5,7 +5,6 @@ import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestSelectableListViewModel {
 
     private val valueA = "valueA"

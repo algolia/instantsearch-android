@@ -2,7 +2,6 @@ package com.algolia.instantsearch.core.tree
 
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
-
 public abstract class TreeViewModel<K, V>(
     tree: Tree<V> = Tree()
 ) {

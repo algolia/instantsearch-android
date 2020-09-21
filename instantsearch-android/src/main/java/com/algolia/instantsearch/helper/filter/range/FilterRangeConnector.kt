@@ -7,19 +7,18 @@ import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
 
-
 public data class FilterRangeConnector<T>(
     public val viewModel: FilterRangeViewModel<T>,
     public val filterState: FilterState,
     public val attribute: Attribute,
-    public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And)
+    public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
     public constructor(
         filterState: FilterState,
         attribute: Attribute,
         bounds: ClosedRange<T>? = null,
-        range: ClosedRange<T>? = null
+        range: ClosedRange<T>? = null,
     ) : this(
         FilterRangeViewModel(
             range = range?.let { Range(it) },

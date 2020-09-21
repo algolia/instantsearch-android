@@ -2,7 +2,6 @@ package com.algolia.instantsearch.core.selectable.map
 
 import com.algolia.instantsearch.core.Callback
 
-
 public interface SelectableMapView<K, V> {
 
     public var onSelectionChange: Callback<K>?

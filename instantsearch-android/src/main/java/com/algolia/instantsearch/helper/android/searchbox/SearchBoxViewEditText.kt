@@ -6,9 +6,8 @@ import android.widget.EditText
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 
-
 public class SearchBoxViewEditText(
-    public val editText: EditText
+    public val editText: EditText,
 ) : SearchBoxView {
 
     override var onQueryChanged: Callback<String?>? = null

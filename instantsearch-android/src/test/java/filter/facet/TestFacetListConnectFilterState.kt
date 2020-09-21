@@ -12,7 +12,6 @@ import com.algolia.search.model.search.Facet
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestFacetListConnectFilterState {
 
     private val color = Attribute("color")

@@ -4,7 +4,6 @@ import com.algolia.instantsearch.core.number.NumberPresenterImpl
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestNumberPresenter {
 
     @Test

@@ -4,15 +4,14 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
 
-
 public data class StatsConnector(
     public val searcher: SearcherSingleIndex,
-    public val viewModel: StatsViewModel = StatsViewModel()
+    public val viewModel: StatsViewModel = StatsViewModel(),
 ) : ConnectionImpl() {
 
     public constructor(
         searcher: SearcherSingleIndex,
-        responseSearch: ResponseSearch
+        responseSearch: ResponseSearch,
     ) : this(searcher, StatsViewModel(responseSearch))
 
     private val connectionSearcher = viewModel.connectSearcher(searcher)

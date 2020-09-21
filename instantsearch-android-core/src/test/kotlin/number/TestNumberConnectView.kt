@@ -1,9 +1,12 @@
 package number
 
-import com.algolia.instantsearch.core.number.*
+import com.algolia.instantsearch.core.number.NumberView
+import com.algolia.instantsearch.core.number.NumberViewModel
+import com.algolia.instantsearch.core.number.connectView
+import com.algolia.instantsearch.core.number.decrement
+import com.algolia.instantsearch.core.number.increment
 import shouldEqual
 import kotlin.test.Test
-
 
 class TestNumberConnectView {
 

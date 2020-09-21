@@ -6,10 +6,9 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.search.model.filter.Filter
 
-
 internal data class HierarchicalConnectionFilterState(
     private val viewModel: HierarchicalViewModel,
-    private val filterState: FilterState
+    private val filterState: FilterState,
 ) : ConnectionImpl() {
 
     private val updateSelections: Callback<Filters> = { filters ->

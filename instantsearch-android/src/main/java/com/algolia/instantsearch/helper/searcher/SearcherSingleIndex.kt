@@ -19,7 +19,7 @@ public class SearcherSingleIndex(
     public val query: Query = Query(),
     public val requestOptions: RequestOptions? = null,
     public val isDisjunctiveFacetingEnabled: Boolean = true,
-    override val coroutineScope: CoroutineScope = SearcherScope()
+    override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : Searcher<ResponseSearch> {
 
     internal val sequencer = Sequencer()

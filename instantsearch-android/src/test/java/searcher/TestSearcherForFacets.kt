@@ -14,7 +14,6 @@ import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
 
-
 class TestSearcherForFacets {
 
     private val attribute = Attribute("color")

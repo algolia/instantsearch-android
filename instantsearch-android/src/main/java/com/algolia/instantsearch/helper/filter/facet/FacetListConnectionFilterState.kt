@@ -1,18 +1,22 @@
 package com.algolia.instantsearch.helper.filter.facet
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
-import com.algolia.instantsearch.helper.filter.state.*
+import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.filter.state.Filters
+import com.algolia.instantsearch.helper.filter.state.add
+import com.algolia.instantsearch.helper.filter.state.getValue
+import com.algolia.instantsearch.helper.filter.state.remove
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
-
 
 internal data class FacetListConnectionFilterState(
     private val viewModel: FacetListViewModel,
     private val filterState: FilterState,
     private val attribute: Attribute,
-    private val groupID: FilterGroupID
+    private val groupID: FilterGroupID,
 ) : ConnectionImpl() {
 
     private val updateSelections: Callback<Filters> = { filters ->

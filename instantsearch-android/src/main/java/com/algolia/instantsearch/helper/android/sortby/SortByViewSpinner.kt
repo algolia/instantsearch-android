@@ -7,11 +7,10 @@ import android.widget.Spinner
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.helper.sortby.SortByView
 
-
 public class SortByViewSpinner(
     public val spinner: Spinner,
     public val adapter: ArrayAdapter<String>,
-    public val defaultSelection: Int = 0
+    public val defaultSelection: Int = 0,
 ) : SortByView,
     AdapterView.OnItemSelectedListener {
 

@@ -4,14 +4,12 @@ import com.algolia.instantsearch.helper.hierarchical.HierarchicalFilter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
-
 internal data class MutableFiltersImpl(
     private val facetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(),
     private val tagGroups: MutableMap<FilterGroupID, Set<Filter.Tag>> = mutableMapOf(),
     private val numericGroups: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf(),
-    private val hierarchicalGroups: MutableMap<Attribute, HierarchicalFilter> = mutableMapOf()
+    private val hierarchicalGroups: MutableMap<Attribute, HierarchicalFilter> = mutableMapOf(),
 ) : MutableFilters, Filters by FiltersImpl(facetGroups, tagGroups, numericGroups, hierarchicalGroups) {
-
 
     private fun <T : Filter> Map<FilterGroupID, Set<T>>.getOrDefault(groupID: FilterGroupID): Set<T> {
         return getOrElse(groupID, { setOf() })
@@ -20,7 +18,7 @@ internal data class MutableFiltersImpl(
     private fun <T : Filter> MutableMap<FilterGroupID, Set<T>>.modify(
         groupID: FilterGroupID,
         filter: T,
-        operator: Set<T>.(T) -> Set<T>
+        operator: Set<T>.(T) -> Set<T>,
     ) {
         val set = getOrDefault(groupID).operator(filter)
 

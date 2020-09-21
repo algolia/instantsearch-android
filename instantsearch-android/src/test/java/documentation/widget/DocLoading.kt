@@ -16,11 +16,10 @@ import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
-
 @Ignore
 class DocLoading {
 
-    class MyActivity: AppCompatActivity() {
+    class MyActivity : AppCompatActivity() {
 
         val client = ClientSearch(
             ApplicationID("YourApplicationID"),

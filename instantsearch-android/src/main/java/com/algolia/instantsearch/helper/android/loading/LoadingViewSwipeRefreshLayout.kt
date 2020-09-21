@@ -3,9 +3,8 @@ package com.algolia.instantsearch.helper.android.loading
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.algolia.instantsearch.core.loading.LoadingView
 
-
 public class LoadingViewSwipeRefreshLayout(
-    public val swipeRefreshLayout: SwipeRefreshLayout
+    public val swipeRefreshLayout: SwipeRefreshLayout,
 ) : LoadingView {
 
     override var onReload: ((Unit) -> Unit)? = null

@@ -1,16 +1,15 @@
 package com.algolia.instantsearch.helper.filter.clear
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.Callback
+import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
-
 
 internal data class FilterClearConnectionFilterState(
     private val viewModel: FilterClearViewModel,
     private val filterState: FilterState,
     private val groupIDs: List<FilterGroupID>,
-    private val mode: ClearMode
+    private val mode: ClearMode,
 ) : ConnectionImpl() {
 
     private val updateFilterState: Callback<Unit> = {

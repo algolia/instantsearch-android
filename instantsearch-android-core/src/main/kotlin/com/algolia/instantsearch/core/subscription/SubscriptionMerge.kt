@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.core.subscription
 
-
 public fun <R, S, T> mergeSubscription(
     initialValue: T,
     subscriptionA: SubscriptionValue<R>,

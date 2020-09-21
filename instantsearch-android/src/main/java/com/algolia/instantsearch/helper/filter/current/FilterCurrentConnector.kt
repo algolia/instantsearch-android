@@ -5,17 +5,16 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
 
-
 public data class FilterCurrentConnector(
     public val filterState: FilterState,
     public val groupIDs: List<FilterGroupID> = listOf(),
-    public val viewModel: FilterCurrentViewModel = FilterCurrentViewModel()
+    public val viewModel: FilterCurrentViewModel = FilterCurrentViewModel(),
 ) : ConnectionImpl() {
 
     public constructor(
         filters: Map<FilterAndID, Filter>,
         filterState: FilterState,
-        groupIDs: List<FilterGroupID> = listOf()
+        groupIDs: List<FilterGroupID> = listOf(),
     ) : this(
         filterState,
         groupIDs,

@@ -15,7 +15,6 @@ import shouldEqual
 import shouldFailWith
 import kotlin.test.Test
 
-
 class TestSearcherMultipleIndex {
 
     private val client = mockClient(respondJson(ResponseSearches(listOf()), ResponseSearches.serializer()))

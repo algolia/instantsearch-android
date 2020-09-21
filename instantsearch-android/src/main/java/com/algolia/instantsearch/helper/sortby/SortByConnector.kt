@@ -4,16 +4,15 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.client.Index
 
-
 public data class SortByConnector(
     public val searcher: SearcherSingleIndex,
-    public val viewModel: SortByViewModel = SortByViewModel()
+    public val viewModel: SortByViewModel = SortByViewModel(),
 ) : ConnectionImpl() {
 
     public constructor(
         indexes: Map<Int, Index>,
         searcher: SearcherSingleIndex,
-        selected: Int? = null
+        selected: Int? = null,
     ) : this(searcher, SortByViewModel(indexes, selected))
 
     private val connectionSearcher = viewModel.connectSearcher(searcher)

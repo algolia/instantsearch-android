@@ -11,7 +11,6 @@ import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
 
-
 class TestFacetListConnectView {
 
     private val red = Facet("red", 1)

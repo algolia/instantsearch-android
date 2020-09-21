@@ -5,9 +5,8 @@ import com.algolia.search.dsl.filtering.DSLGroupFilter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
-
 public class FilterGroupsDSL(
-    private val groups: MutableMap<FilterGroupID, Set<Filter>> = mutableMapOf()
+    private val groups: MutableMap<FilterGroupID, Set<Filter>> = mutableMapOf(),
 ) {
 
     public fun or(name: String = "", block: DSLGroupFilter.() -> Unit) {

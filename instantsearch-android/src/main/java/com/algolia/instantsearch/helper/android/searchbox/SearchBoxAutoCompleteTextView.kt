@@ -6,9 +6,8 @@ import android.widget.AutoCompleteTextView
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 
-
 public class SearchBoxAutoCompleteTextView(
-    public val autoCompleteTextView: AutoCompleteTextView
+    public val autoCompleteTextView: AutoCompleteTextView,
 ) : SearchBoxView {
 
     override var onQueryChanged: Callback<String?>? = null

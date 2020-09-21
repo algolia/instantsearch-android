@@ -8,13 +8,12 @@ import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searcher.Searcher
 
-
 @RequiresApi(Build.VERSION_CODES.Q)
 internal data class HitsArrayAdapterConnection<R, T>(
     private val searcher: Searcher<R>,
     private val adapter: HitsArrayAdapter<T>,
     private val view: AutoCompleteTextView,
-    private val presenter: Presenter<R, List<T>>
+    private val presenter: Presenter<R, List<T>>,
 ) : ConnectionImpl() {
 
     init {

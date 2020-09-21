@@ -15,7 +15,7 @@ public data class FacetListConnector internal constructor(
     public val attribute: Attribute,
     public val viewModel: FacetListViewModel,
     public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
-    private val wrapper: Wrapper
+    private val wrapper: Wrapper,
 ) : ConnectionImpl() {
 
     internal sealed class Wrapper {
@@ -36,7 +36,7 @@ public data class FacetListConnector internal constructor(
         filterState: FilterState,
         attribute: Attribute,
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
-        viewModel: FacetListViewModel = FacetListViewModel()
+        viewModel: FacetListViewModel = FacetListViewModel(),
     ) : this(filterState, attribute, viewModel, groupID, Wrapper.Single(searcher))
 
     public constructor(
@@ -44,7 +44,7 @@ public data class FacetListConnector internal constructor(
         filterState: FilterState,
         attribute: Attribute,
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
-        viewModel: FacetListViewModel = FacetListViewModel()
+        viewModel: FacetListViewModel = FacetListViewModel(),
     ) : this(filterState, searcher.attribute, viewModel, groupID, Wrapper.ForFacet(searcher))
 
     public constructor(
@@ -54,7 +54,7 @@ public data class FacetListConnector internal constructor(
         selectionMode: SelectionMode = SelectionMode.Multiple,
         items: List<Facet> = listOf(),
         persistentSelection: Boolean = false,
-        groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or)
+        groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
     ) : this(
         filterState,
         attribute,
@@ -70,7 +70,7 @@ public data class FacetListConnector internal constructor(
         selectionMode: SelectionMode = SelectionMode.Multiple,
         items: List<Facet> = listOf(),
         persistentSelection: Boolean = false,
-        groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or)
+        groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
     ) : this(
         filterState,
         attribute,

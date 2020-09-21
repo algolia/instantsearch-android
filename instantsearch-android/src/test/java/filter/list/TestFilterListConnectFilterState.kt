@@ -11,7 +11,6 @@ import com.algolia.search.model.filter.Filter
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestFilterListConnectFilterState {
 
     private val color = Attribute("color")

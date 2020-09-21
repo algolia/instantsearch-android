@@ -12,7 +12,6 @@ import shouldBeEmpty
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestFilterClearConnectFilterState {
 
     private val color = Attribute("color")

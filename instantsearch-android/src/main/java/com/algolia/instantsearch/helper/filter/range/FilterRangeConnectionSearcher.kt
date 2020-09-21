@@ -22,7 +22,7 @@ public fun <T> FilterRangeConnectionSearcher(
     viewModel: FilterRangeViewModel<T>,
     searcher: SearcherSingleIndex,
     attribute: Attribute,
-    clazz: KClass<T>
+    clazz: KClass<T>,
 ): Connection where T : Number, T : Comparable<T> {
     return FilterRangeConnectionSearcherImpl(viewModel, searcher, attribute, mapperOf(clazz))
 }
@@ -39,7 +39,7 @@ public fun <T> FilterRangeConnectionSearcher(
     viewModel: FilterRangeViewModel<T>,
     searcher: SearcherSingleIndex,
     attribute: Attribute,
-    mapper: (Number) -> T
+    mapper: (Number) -> T,
 ): Connection where T : Number, T : Comparable<T> {
     return FilterRangeConnectionSearcherImpl(viewModel, searcher, attribute, mapper)
 }

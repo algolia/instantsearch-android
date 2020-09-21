@@ -4,13 +4,12 @@ import android.os.Build
 import android.widget.Switch
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import instrumented.applicationContext
 import com.algolia.instantsearch.helper.android.filter.toggle.FilterToggleViewCompoundButton
+import instrumented.applicationContext
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import shouldEqual
-
 
 @SmallTest
 @Config(sdk = [Build.VERSION_CODES.P])

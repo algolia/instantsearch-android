@@ -9,7 +9,7 @@ import com.algolia.search.model.search.Facet
 
 internal data class HierarchicalConnectionSearcher(
     private val viewModel: HierarchicalViewModel,
-    private val searcher: SearcherSingleIndex
+    private val searcher: SearcherSingleIndex,
 ) : ConnectionImpl() {
 
     private val updateTree: Callback<ResponseSearch?> = { response ->
@@ -39,8 +39,8 @@ internal data class HierarchicalConnectionSearcher(
      */
     private fun List<MutableList<Facet>>.filterUnprefixed(): List<MutableList<Facet>> {
         viewModel.hierarchicalPath.value.forEachIndexed { index, (_, item) ->
-            getOrNull(index + 1)?. // Get next level (sub-category)
-            removeAll { !it.value.startsWith(item) } // Remove the items not respecting the prefix convention
+            getOrNull(index + 1) // Get next level (sub-category)
+                ?.removeAll { !it.value.startsWith(item) } // Remove the items not respecting the prefix convention
         }
         return this
     }

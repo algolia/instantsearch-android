@@ -67,7 +67,7 @@ public class DocHits {
 
     @Serializable
     public data class Movie(
-        val title: String
+        val title: String,
     )
 
     public class MovieViewHolder(public val view: TextView) : RecyclerView.ViewHolder(view) {

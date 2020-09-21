@@ -1,12 +1,17 @@
 package tree
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.tree.*
+import com.algolia.instantsearch.core.tree.Node
+import com.algolia.instantsearch.core.tree.Tree
+import com.algolia.instantsearch.core.tree.TreePresenter
+import com.algolia.instantsearch.core.tree.TreeView
+import com.algolia.instantsearch.core.tree.TreeViewModel
+import com.algolia.instantsearch.core.tree.asTree
+import com.algolia.instantsearch.core.tree.connectView
 import shouldBeEmpty
 import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
-
 
 class TestTreeConnectView {
 

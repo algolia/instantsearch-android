@@ -4,9 +4,8 @@ import androidx.appcompat.widget.SearchView
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 
-
 public class SearchBoxViewAppCompat(
-    public val searchView: SearchView
+    public val searchView: SearchView,
 ) : SearchBoxView {
 
     override var onQueryChanged: Callback<String?>? = null

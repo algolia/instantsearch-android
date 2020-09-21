@@ -14,7 +14,7 @@ public open class HierarchicalViewModel(
     public val attribute: Attribute,
     public val hierarchicalAttributes: List<Attribute>,
     public val separator: String,
-    tree: HierarchicalTree = HierarchicalTree()
+    tree: HierarchicalTree = HierarchicalTree(),
 ) : TreeViewModel<String, Facet>(tree) {
 
     public val selections: SubscriptionValue<List<String>> = SubscriptionValue(listOf())

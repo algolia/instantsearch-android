@@ -11,7 +11,6 @@ import com.algolia.search.model.filter.NumericOperator
 import shouldEqual
 import kotlin.test.Test
 
-
 class TestFilterComparisonConnectFilterState {
 
     private val price = Attribute("price")

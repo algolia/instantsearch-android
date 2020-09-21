@@ -1,6 +1,10 @@
 package documentation.widget
 
-import com.algolia.instantsearch.helper.filter.state.*
+import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterOperator
+import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.filter.state.add
+import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroupsConverter
@@ -8,7 +12,6 @@ import com.algolia.search.model.search.Query
 import org.junit.Ignore
 import org.junit.Test
 import kotlin.test.assertEquals
-
 
 @Ignore
 class DocFilterState {

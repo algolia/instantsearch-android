@@ -10,9 +10,8 @@ import com.algolia.instantsearch.helper.filter.facet.FacetListItem
 import com.algolia.instantsearch.helper.filter.facet.FacetListView
 import com.algolia.search.model.search.Facet
 
-
 public class FacetListAdapter(
-    private val factory: FacetListViewHolder.Factory
+    private val factory: FacetListViewHolder.Factory,
 ) : ListAdapter<FacetListItem, FacetListViewHolder>(diffUtil),
     FacetListView {
 
@@ -38,14 +37,14 @@ public class FacetListAdapter(
 
             override fun areItemsTheSame(
                 oldItem: FacetListItem,
-                newItem: FacetListItem
+                newItem: FacetListItem,
             ): Boolean {
                 return oldItem::class == newItem::class
             }
 
             override fun areContentsTheSame(
                 oldItem: FacetListItem,
-                newItem: FacetListItem
+                newItem: FacetListItem,
             ): Boolean {
                 return oldItem == newItem
             }
