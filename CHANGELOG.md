@@ -1,6 +1,13 @@
+# 2.6.0
+
+## Changed
+- Kotlin `1.4.10`
+- Algolia Kotlin Client `1.5.0`
+- Android minimum SDK to 21
+
 # 2.5.1
 
-# Fixed
+## Fixed
 - Filter unexpected items from the hierarchical tree results
 
 # 2.5.0

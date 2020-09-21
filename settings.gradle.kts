@@ -1,6 +1,4 @@
 rootProject.name = "instantsearch-android"
 
-enableFeaturePreview("GRADLE_METADATA")
-
-include(":core")
-include(":helper")
+include(":instantsearch-android-core")
+include(":instantsearch-android")

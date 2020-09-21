@@ -29,27 +29,21 @@ implementation "com.algolia:instantsearch-android:$instantsearch_version"
 ```
 <!--TODO Document using helper-jvm / using core directly -->
 
-⚠️ Important: starting from version `2.4.0`, the library is compatible only with kotlin version `1.3.70` or higher; for previous versions of kotlin, please use version `2.3.1` of the library.
+⚠️ Important: starting from version `2.4.0`, the library is compatible only with kotlin version `1.3.70` or higher; for previous versions of kotlin, please use version `2.3.1` of the library.  
+ℹ️ Please follow the [migration guide](docs/guide/Migration_2.5.x_2.6.x.md) to migrate from `2.5.x` or below to the latest version.
 
 See the [documentation][doc]. You can start with the [Getting Started Guide][getting-started].
 
-# Contributing
+### R8 / Proguard rules
+
+If you use this library in an Android project which uses R8, there is nothing you have to do. The specific rules are 
+already bundled into the JAR, which can be interpreted by R8 automatically.
+
+If however, you don’t use R8, then you might need rules from [Algolia Kotlin Client](https://github.com/algolia/algoliasearch-client-kotlin#r8--proguard-rules) which is a dependency of this library.
+
+## Contributing
 
 From [reporting bugs or missing functionality](https://github.com/algolia/instantsearch-android/issues/new) to [fixing a typo or proposing an improvement](https://github.com/algolia/instantsearch-android/compare), all contributions are welcome! Read the [Contributing Guide](https://github.com/algolia/instantsearch-android/blob/master/CONTRIBUTING.md) to setup your development environment.
-
-### Proguard rules
-
-When proguard `minifyEnabled` option is set to `true` , you might get this error:
-
-```
-Can't locate argument-less serializer for class e.a.b.g.n.c (Kotlin reflection is not available). For generic classes, such as lists, please provide serializer explicitly.
-```
-
-Add this proguard rule to solve it.
-
-```
--keep class com.algolia.search.model.** { *; }
-```
 
 ## Troubleshooting
 
