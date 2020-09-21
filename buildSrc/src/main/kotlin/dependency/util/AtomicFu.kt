@@ -1,4 +1,4 @@
-package dependency.lib
+package dependency.util
 
 import dependency.Dependency
 
