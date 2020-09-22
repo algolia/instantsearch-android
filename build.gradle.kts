@@ -1,10 +1,4 @@
-import java.net.URI
-
-plugins {
-    id("java-library-convention")
-    id("maven-publish")
-    id("com.github.ben-manes.versions") version "0.27.0"
-}
+import com.diffplug.gradle.spotless.SpotlessExtension
 
 buildscript {
     repositories {
@@ -12,22 +6,33 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath(dependency.script.AndroidTools())
-        classpath(kotlin("gradle-plugin", version = "1.3.72"))
-        classpath(kotlin("serialization", version = "1.3.72"))
-        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
+        classpath(kotlin("gradle-plugin", version = "1.4.10"))
+        classpath(kotlin("serialization",  version = "1.4.10"))
+        classpath(dependency.plugin.AndroidTools())
+        classpath(dependency.plugin.GradleMavenPublish())
+        classpath(dependency.plugin.Spotless())
     }
 }
 
-allprojects {
+project.extensions.extraProperties.apply {
+    set("GROUP", Library.group)
+    set("VERSION_NAME", Library.version)
+}
+
+subprojects {
+    apply(plugin = "com.diffplug.spotless")
     repositories {
+        mavenCentral()
         google()
         jcenter()
-        mavenCentral()
-        maven { url = URI("https://dl.bintray.com/algolia/maven") }
-        maven { url = URI("https://kotlin.bintray.com/kotlinx") }
-        maven { url = URI("https://dl.bintray.com/kotlin/ktor") }
-        maven { url = URI("https://oss.sonatype.org/content/repositories/snapshots") }
+    }
+    configure<SpotlessExtension> {
+        kotlin {
+            target("**/*.kt")
+            ktlint("0.39.0")
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
     }
 }
 

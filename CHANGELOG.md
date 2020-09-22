@@ -1,7 +1,21 @@
-# Unreleased
+# 2.6.0
+
+## Changed
+- Kotlin `1.4.10`
+- Algolia Kotlin Client `1.5.0`
+- Android minimum SDK to 21
+
+# 2.5.1
+
+## Fixed
+- Filter unexpected items from the hierarchical tree results
+
+# 2.5.0
 
 ## Added
 - Support and target Android API 30
+- Add selection capability to the hierarchical tree nodes
+- Filter range dynamic behavior based on a searcher state
 
 # 2.4.0
 

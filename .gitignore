@@ -1,11 +1,16 @@
 /build
-.idea/
+/.idea
 .gradle
 .DS_STORE
 *.iml
-out/
-classes
 local.properties
-bitrise.yml
-.bundle
-fastlane/report.xml
+*.hprof
+
+# fastlane
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+
+# bitrise
+.bitrise.yml
