@@ -1,15 +1,9 @@
-import dependency.network.AlgoliaClient
-import dependency.network.Coroutines
-import dependency.network.Ktor
+import dependency.lib.AndroidJob
 import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
 import dependency.ui.AndroidCore
-import dependency.ui.AppCompat
-import dependency.ui.MaterialDesign
-import dependency.ui.Paging
-import dependency.ui.RecyclerView
-import dependency.ui.SwipeRefreshLayout
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("com.android.library")
@@ -40,6 +34,11 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+        //freeCompilerArgs = freeCompilerArgs + listOf("-Xexplicit-api=strict")
+    }
+
+    sourceSets.getByName("main") {
+        java.srcDirs("$buildDir/generated/sources/templates/kotlin/main")
     }
 
     testOptions {
@@ -50,8 +49,17 @@ android {
     }
 }
 
-kotlin {
-    explicitApi()
+tasks {
+    withType<KotlinCompile> {
+        dependsOn("copyTemplates")
+    }
+
+    register(name = "copyTemplates", type = Copy::class) {
+        from("src/main/templates")
+        into("$buildDir/generated/sources/templates/kotlin/main")
+        expand("version" to Library.version)
+        filteringCharset = "UTF-8"
+    }
 }
 
 group = Library.group
@@ -59,19 +67,11 @@ version = Library.version
 
 dependencies {
     api(project(":instantsearch-android-core"))
-    api(AlgoliaClient())
-    api(Ktor("client-android"))
     api(AndroidCore("ktx"))
-    api(AppCompat())
-    api(RecyclerView())
-    api(MaterialDesign())
-    api(SwipeRefreshLayout())
-    api(Paging())
-    api(Coroutines("android"))
+    api(AndroidJob())
 
     testImplementation(kotlin("test-junit"))
     testImplementation(kotlin("test-annotations-common"))
-    testImplementation(Ktor("client-mock-jvm"))
     testImplementation(AndroidTestRunner())
     testImplementation(AndroidTestExt())
     testImplementation(Robolectric())
