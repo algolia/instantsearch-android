@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.insights.event
 
-public enum class EventKey(val key: String) {
+public enum class EventKey(public val key: String) {
     EventType("eventType"),
     EventName("eventName"),
     IndexName("index"),

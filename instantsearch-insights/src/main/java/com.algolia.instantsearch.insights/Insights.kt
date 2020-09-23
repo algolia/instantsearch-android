@@ -77,7 +77,7 @@ public class Insights internal constructor(
         eventName: String,
         objectIDs: EventObjects.IDs,
         timestamp: Long,
-    ) = viewed(
+    ): Unit = viewed(
         Event.View(
             eventName = eventName,
             userToken = userTokenOrThrow(),
@@ -90,7 +90,7 @@ public class Insights internal constructor(
         eventName: String,
         filters: EventObjects.Filters,
         timestamp: Long,
-    ) = viewed(
+    ): Unit = viewed(
         Event.View(
             eventName = eventName,
             userToken = userTokenOrThrow(),
@@ -103,7 +103,7 @@ public class Insights internal constructor(
         eventName: String,
         objectIDs: EventObjects.IDs,
         timestamp: Long,
-    ) = clicked(
+    ): Unit = clicked(
         Event.Click(
             eventName = eventName,
             userToken = userTokenOrThrow(),
@@ -116,7 +116,7 @@ public class Insights internal constructor(
         eventName: String,
         filters: EventObjects.Filters,
         timestamp: Long,
-    ) = clicked(
+    ): Unit = clicked(
         Event.Click(
             eventName = eventName,
             userToken = userTokenOrThrow(),
@@ -131,7 +131,7 @@ public class Insights internal constructor(
         objectIDs: EventObjects.IDs,
         positions: List<Int>,
         timestamp: Long,
-    ) = clicked(
+    ): Unit = clicked(
         Event.Click(
             eventName = eventName,
             userToken = userTokenOrThrow(),
@@ -146,7 +146,7 @@ public class Insights internal constructor(
         eventName: String,
         filters: EventObjects.Filters,
         timestamp: Long,
-    ) = converted(
+    ): Unit = converted(
         Event.Conversion(
             eventName = eventName,
             userToken = userTokenOrThrow(),
@@ -159,7 +159,7 @@ public class Insights internal constructor(
         eventName: String,
         objectIDs: EventObjects.IDs,
         timestamp: Long,
-    ) = converted(
+    ): Unit = converted(
         Event.Conversion(
             eventName = eventName,
             userToken = userTokenOrThrow(),
@@ -173,7 +173,7 @@ public class Insights internal constructor(
         queryId: String,
         objectIDs: EventObjects.IDs,
         timestamp: Long,
-    ) = converted(
+    ): Unit = converted(
         Event.Conversion(
             eventName = eventName,
             userToken = userTokenOrThrow(),
@@ -186,17 +186,17 @@ public class Insights internal constructor(
     /**
      * Tracks a View event constructed manually.
      */
-    public fun viewed(event: Event.View) = track(event)
+    public fun viewed(event: Event.View): Unit = track(event)
 
     /**
      * Tracks a Click event constructed manually.
      */
-    public fun clicked(event: Event.Click) = track(event)
+    public fun clicked(event: Event.Click): Unit = track(event)
 
     /**
      * Tracks a Conversion event, constructed manually.
      */
-    public fun converted(event: Event.Conversion) = track(event)
+    public fun converted(event: Event.Conversion): Unit = track(event)
 
     /**
      * Method for tracking an event.
@@ -222,15 +222,15 @@ public class Insights internal constructor(
         return "Insights(indexName='$indexName', webService=$webService)"
     }
 
-    companion object {
+    public companion object {
 
         internal val insightsMap = mutableMapOf<String, Insights>()
 
         /**
          * Register your index with a given appId and apiKey.
-         * @param context A [Context].
-         * @param appId The given app id for which you want to track the events.
-         * @param apiKey The API Key for your `appId`.
+         * @param eventUploader event uploader
+         * @param database local storage
+         * @param webService web service
          * @param indexName The index that is being tracked.
          * @param configuration A [Configuration] class.
          * @return An [Insights] instance.
@@ -313,7 +313,6 @@ public class Insights internal constructor(
          * @param appId The given app id for which you want to track the events.
          * @param apiKey The API Key for your `appId`.
          * @param indexName The index that is being tracked.
-         * @param configuration A [Configuration] class.
          * @return An [Insights] instance.
          */
         @JvmStatic
@@ -357,8 +356,8 @@ public class Insights internal constructor(
      * @param readTimeoutInMilliseconds Maximum amount of time in milliseconds before a read timeout.
      */
     public class Configuration @JvmOverloads constructor(
-        val connectTimeoutInMilliseconds: Int,
-        val readTimeoutInMilliseconds: Int,
-        val defaultUserToken: String? = null,
+        public val connectTimeoutInMilliseconds: Int,
+        public val readTimeoutInMilliseconds: Int,
+        public val defaultUserToken: String? = null,
     )
 }
