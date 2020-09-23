@@ -10,7 +10,7 @@ import kotlin.math.max
 
 internal class EventUploaderAndroidJob(
     context: Context,
-    private val preferences: InsightsSharedPreferences
+    private val preferences: InsightsSharedPreferences,
 ) : EventUploader {
 
     private var repeatIntervalInMinutes = defaultRepeatIntervalInMinutes
@@ -53,4 +53,3 @@ internal class EventUploaderAndroidJob(
         internal const val defaultJobId = -1
     }
 }
-

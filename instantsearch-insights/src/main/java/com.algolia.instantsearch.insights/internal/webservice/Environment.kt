@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.insights.internal.webservice;
+package com.algolia.instantsearch.insights.internal.webservice
 
 internal enum class Environment(baseUrl: String) {
     Prod("https://insights.algolia.io"),
@@ -6,4 +6,3 @@ internal enum class Environment(baseUrl: String) {
 
     val url: String = "$baseUrl/1/events"
 }
-

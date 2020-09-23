@@ -124,7 +124,7 @@ internal class InsightsTest {
         }
         val insights =
             Insights(indexName, uploader, database, webService)
-        insights.userToken = "foo" //TODO: git stash apply to use default UUID token
+        insights.userToken = "foo" // TODO: git stash apply to use default UUID token
 
         insights.clicked(eventClick.eventName, eventClick.eventObjects as EventObjects.IDs)
         insights.clickedAfterSearch(
@@ -191,7 +191,7 @@ internal class InsightsTest {
     inner class MinBatchSizeEventUploader(
         events: MutableList<EventInternal>,
         webService: MockWebService,
-        private val database: MockDatabase
+        private val database: MockDatabase,
     ) : AssertingEventUploader(events, webService, database) {
 
         override fun startOneTimeUpload() {
@@ -257,7 +257,7 @@ internal class InsightsTest {
     inner class IntegrationEventUploader(
         events: MutableList<EventInternal>,
         private val webService: MockWebService,
-        private val database: MockDatabase
+        private val database: MockDatabase,
     ) : AssertingEventUploader(events, webService, database) {
 
         override fun startOneTimeUpload() {
@@ -287,7 +287,6 @@ internal class InsightsTest {
                     database.read(),
                     "failed 6"
                 ) // expect added third
-
             }
             webService.uploadEvents(database, indexName)
             when (count) {
@@ -307,7 +306,7 @@ internal class InsightsTest {
     abstract inner class AssertingEventUploader(
         private val events: MutableList<EventInternal>,
         private val webService: MockWebService,
-        private val database: MockDatabase
+        private val database: MockDatabase,
     ) : EventUploader {
 
         protected var count: Int = 0

@@ -9,7 +9,7 @@ import com.algolia.instantsearch.insights.internal.extension.sharedPreferences
 
 internal class DatabaseSharedPreferences(
     context: Context,
-    override val indexName: String
+    override val indexName: String,
 ) : Database {
 
     private val preferences = context.sharedPreferences(prefixAlgolia(indexName))

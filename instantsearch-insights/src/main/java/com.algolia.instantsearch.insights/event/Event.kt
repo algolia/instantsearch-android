@@ -8,7 +8,7 @@ public sealed class Event {
         val timestamp: Long,
         val eventObjects: EventObjects,
         val queryId: String? = null,
-        val positions: List<Int>? = null
+        val positions: List<Int>? = null,
     ) : Event()
 
     data class View(
@@ -16,7 +16,7 @@ public sealed class Event {
         val userToken: String,
         val timestamp: Long,
         val eventObjects: EventObjects,
-        val queryId: String? = null
+        val queryId: String? = null,
     ) : Event()
 
     data class Conversion(
@@ -24,6 +24,6 @@ public sealed class Event {
         val userToken: String,
         val timestamp: Long,
         val eventObjects: EventObjects,
-        val queryId: String? = null
+        val queryId: String? = null,
     ) : Event()
 }

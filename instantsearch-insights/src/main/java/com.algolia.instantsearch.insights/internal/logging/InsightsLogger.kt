@@ -15,5 +15,3 @@ internal object InsightsLogger {
         logd(TAG, message)
     }
 }
-
-

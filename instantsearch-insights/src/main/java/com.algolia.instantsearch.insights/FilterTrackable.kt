@@ -15,7 +15,7 @@ public interface FilterTrackable {
     public fun viewed(
         eventName: String,
         filters: EventObjects.Filters,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long = currentTimeMillis,
     )
 
     /**
@@ -28,7 +28,7 @@ public interface FilterTrackable {
     public fun clicked(
         eventName: String,
         filters: EventObjects.Filters,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long = currentTimeMillis,
     )
 
     /**
@@ -41,6 +41,6 @@ public interface FilterTrackable {
     public fun converted(
         eventName: String,
         filters: EventObjects.Filters,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long = currentTimeMillis,
     )
 }

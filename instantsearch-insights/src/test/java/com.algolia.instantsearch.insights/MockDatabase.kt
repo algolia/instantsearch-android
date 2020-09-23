@@ -5,7 +5,7 @@ import com.algolia.instantsearch.insights.internal.event.EventInternal
 
 internal class MockDatabase(
     override val indexName: String,
-    private val events: MutableList<EventInternal>
+    private val events: MutableList<EventInternal>,
 ) : Database {
 
     override fun append(event: EventInternal) {

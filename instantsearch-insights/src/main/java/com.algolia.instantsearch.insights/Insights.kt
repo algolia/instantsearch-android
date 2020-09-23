@@ -2,7 +2,6 @@ package com.algolia.instantsearch.insights
 
 import android.content.Context
 import android.util.Log
-import com.algolia.instantsearch.insights.Insights.Configuration
 import com.algolia.instantsearch.insights.event.Event
 import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.instantsearch.insights.event.EventUploader
@@ -17,9 +16,6 @@ import com.algolia.instantsearch.insights.internal.webservice.Environment
 import com.algolia.instantsearch.insights.internal.webservice.WebService
 import com.algolia.instantsearch.insights.internal.webservice.WebServiceHttp
 import java.util.UUID
-import kotlin.jvm.JvmName
-import kotlin.jvm.JvmOverloads
-import kotlin.jvm.JvmStatic
 
 /**
  * Main class used for interacting with the InstantSearch Insights library.
@@ -30,7 +26,7 @@ public class Insights internal constructor(
     private val indexName: String,
     private val eventUploader: EventUploader,
     internal val database: Database,
-    internal val webService: WebService
+    internal val webService: WebService,
 ) : HitsAfterSearchTrackable, FilterTrackable {
 
     /**
@@ -80,7 +76,7 @@ public class Insights internal constructor(
     public override fun viewed(
         eventName: String,
         objectIDs: EventObjects.IDs,
-        timestamp: Long
+        timestamp: Long,
     ) = viewed(
         Event.View(
             eventName = eventName,
@@ -93,7 +89,7 @@ public class Insights internal constructor(
     public override fun viewed(
         eventName: String,
         filters: EventObjects.Filters,
-        timestamp: Long
+        timestamp: Long,
     ) = viewed(
         Event.View(
             eventName = eventName,
@@ -106,7 +102,7 @@ public class Insights internal constructor(
     public override fun clicked(
         eventName: String,
         objectIDs: EventObjects.IDs,
-        timestamp: Long
+        timestamp: Long,
     ) = clicked(
         Event.Click(
             eventName = eventName,
@@ -119,7 +115,7 @@ public class Insights internal constructor(
     public override fun clicked(
         eventName: String,
         filters: EventObjects.Filters,
-        timestamp: Long
+        timestamp: Long,
     ) = clicked(
         Event.Click(
             eventName = eventName,
@@ -134,7 +130,7 @@ public class Insights internal constructor(
         queryId: String,
         objectIDs: EventObjects.IDs,
         positions: List<Int>,
-        timestamp: Long
+        timestamp: Long,
     ) = clicked(
         Event.Click(
             eventName = eventName,
@@ -149,7 +145,7 @@ public class Insights internal constructor(
     public override fun converted(
         eventName: String,
         filters: EventObjects.Filters,
-        timestamp: Long
+        timestamp: Long,
     ) = converted(
         Event.Conversion(
             eventName = eventName,
@@ -162,7 +158,7 @@ public class Insights internal constructor(
     public override fun converted(
         eventName: String,
         objectIDs: EventObjects.IDs,
-        timestamp: Long
+        timestamp: Long,
     ) = converted(
         Event.Conversion(
             eventName = eventName,
@@ -176,7 +172,7 @@ public class Insights internal constructor(
         eventName: String,
         queryId: String,
         objectIDs: EventObjects.IDs,
-        timestamp: Long
+        timestamp: Long,
     ) = converted(
         Event.Conversion(
             eventName = eventName,
@@ -230,7 +226,6 @@ public class Insights internal constructor(
 
         internal val insightsMap = mutableMapOf<String, Insights>()
 
-
         /**
          * Register your index with a given appId and apiKey.
          * @param context A [Context].
@@ -245,7 +240,7 @@ public class Insights internal constructor(
             database: Database,
             webService: WebService,
             indexName: String,
-            configuration: Configuration = Configuration(5000, 5000)
+            configuration: Configuration = Configuration(5000, 5000),
         ): Insights {
 
             val insights = Insights(indexName, eventUploader, database, webService)
@@ -296,7 +291,7 @@ public class Insights internal constructor(
             appId: String,
             apiKey: String,
             indexName: String,
-            configuration: Configuration
+            configuration: Configuration,
         ): Insights {
             val preferences = InsightsSharedPreferences(context)
             val eventUploader = EventUploaderAndroidJob(context, preferences)
@@ -326,7 +321,7 @@ public class Insights internal constructor(
             context: Context,
             appId: String,
             apiKey: String,
-            indexName: String
+            indexName: String,
         ): Insights {
             val sharedPreferences = InsightsSharedPreferences(context)
             val eventUploader = EventUploaderAndroidJob(context, sharedPreferences)
@@ -364,6 +359,6 @@ public class Insights internal constructor(
     public class Configuration @JvmOverloads constructor(
         val connectTimeoutInMilliseconds: Int,
         val readTimeoutInMilliseconds: Int,
-        val defaultUserToken: String? = null
+        val defaultUserToken: String? = null,
     )
 }

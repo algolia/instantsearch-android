@@ -6,7 +6,7 @@ import kotlin.reflect.KProperty
 
 internal sealed class SharedPreferencesDelegate<T>(
     protected val default: T,
-    protected val key: kotlin.String? = null
+    protected val key: kotlin.String? = null,
 ) : ReadWriteProperty<SharedPreferences, T> {
 
     class Int(default: kotlin.Int, key: kotlin.String? = null) : SharedPreferencesDelegate<kotlin.Int>(default, key) {
@@ -20,7 +20,8 @@ internal sealed class SharedPreferencesDelegate<T>(
         }
     }
 
-    class String(default: kotlin.String? = null, key: kotlin.String? = null) : SharedPreferencesDelegate<kotlin.String?>(default, key) {
+    class String(default: kotlin.String? = null, key: kotlin.String? = null) :
+        SharedPreferencesDelegate<kotlin.String?>(default, key) {
 
         override fun getValue(thisRef: SharedPreferences, property: KProperty<*>): kotlin.String? {
             return thisRef.getString(key ?: property.name, default)
@@ -31,7 +32,8 @@ internal sealed class SharedPreferencesDelegate<T>(
         }
     }
 
-    class StringSet(default: Set<kotlin.String>, key: kotlin.String? = null) : SharedPreferencesDelegate<Set<kotlin.String>>(default, key) {
+    class StringSet(default: Set<kotlin.String>, key: kotlin.String? = null) :
+        SharedPreferencesDelegate<Set<kotlin.String>>(default, key) {
 
         override fun getValue(thisRef: SharedPreferences, property: KProperty<*>): Set<kotlin.String> {
             return thisRef.getStringSet(key ?: property.name, default) ?: setOf()

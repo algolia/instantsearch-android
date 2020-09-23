@@ -15,7 +15,7 @@ public interface HitsAfterSearchTrackable {
     public fun viewed(
         eventName: String,
         objectIDs: EventObjects.IDs,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long = currentTimeMillis,
     )
 
     /**
@@ -28,7 +28,7 @@ public interface HitsAfterSearchTrackable {
     public fun clicked(
         eventName: String,
         objectIDs: EventObjects.IDs,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long = currentTimeMillis,
     )
 
     /**
@@ -41,9 +41,8 @@ public interface HitsAfterSearchTrackable {
     public fun converted(
         eventName: String,
         objectIDs: EventObjects.IDs,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long = currentTimeMillis,
     )
-
 
     /**
      * Tracks a Click event after a search has been done.
@@ -59,7 +58,7 @@ public interface HitsAfterSearchTrackable {
         queryId: String,
         objectIDs: EventObjects.IDs,
         positions: List<Int>,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long = currentTimeMillis,
     )
 
     /**
@@ -74,6 +73,6 @@ public interface HitsAfterSearchTrackable {
         eventName: String,
         queryId: String,
         objectIDs: EventObjects.IDs,
-        timestamp: Long = currentTimeMillis
+        timestamp: Long = currentTimeMillis,
     )
 }

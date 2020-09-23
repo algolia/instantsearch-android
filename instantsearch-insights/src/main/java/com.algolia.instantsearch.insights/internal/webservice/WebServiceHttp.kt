@@ -12,7 +12,7 @@ internal class WebServiceHttp(
     private val apiKey: String,
     private val environment: Environment,
     private val connectTimeoutInMilliseconds: Int,
-    private val readTimeoutInMilliseconds: Int
+    private val readTimeoutInMilliseconds: Int,
 ) : WebService {
 
     override fun send(vararg event: EventInternal): WebService.Response {

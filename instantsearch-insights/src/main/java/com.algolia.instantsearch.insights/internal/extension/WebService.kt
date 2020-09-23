@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.insights.internal.extension
 
 import com.algolia.instantsearch.insights.event.EventResponse
-import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.database.Database
 import com.algolia.instantsearch.insights.internal.event.EventInternal
+import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.webservice.WebService
 
 internal fun WebService.sendEvent(indexName: String, event: EventInternal): EventResponse {
@@ -27,7 +27,6 @@ internal fun WebService.sendEvent(indexName: String, event: EventInternal): Even
 internal fun WebService.sendEvents(indexName: String, events: List<EventInternal>): List<EventResponse> {
     return events.map { event -> sendEvent(indexName, event) }
 }
-
 
 internal fun WebService.uploadEvents(database: Database, indexName: String): List<EventResponse> {
     val events = database.read()

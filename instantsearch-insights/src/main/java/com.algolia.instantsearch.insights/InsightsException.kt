@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.insights
 
-
 /**
  * InstantSearch Insights exceptions.
  */
@@ -16,5 +15,5 @@ sealed class InsightsException(override val message: String? = null) : Exception
      * Will be thrown when you call [`insights.{viewed,clicked,converted}{AfterSearch}()`][Insights.viewed] without [setting an userToken][Insights.userToken] first.
      */
     class NoUserToken : InsightsException("You need to set Insights.userToken first.")
-    //TODO: Remove exception once default userToken
+    // TODO: Remove exception once default userToken
 }

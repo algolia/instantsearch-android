@@ -1,6 +1,9 @@
 package com.algolia.instantsearch.insights.internal.converter
 
-import com.algolia.instantsearch.insights.event.*
+import com.algolia.instantsearch.insights.event.Event
+import com.algolia.instantsearch.insights.event.EventKey
+import com.algolia.instantsearch.insights.event.EventObjects
+import com.algolia.instantsearch.insights.event.EventType
 import com.algolia.instantsearch.insights.internal.event.EventInternal
 import com.algolia.instantsearch.insights.internal.extension.toList
 import org.json.JSONArray

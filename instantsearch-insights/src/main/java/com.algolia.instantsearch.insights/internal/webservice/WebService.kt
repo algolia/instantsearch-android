@@ -6,7 +6,7 @@ internal interface WebService {
 
     data class Response(
         val errorMessage: String?,
-        val code: Int
+        val code: Int,
     )
 
     fun send(vararg event: EventInternal): Response
