@@ -34,7 +34,8 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        //freeCompilerArgs = freeCompilerArgs + listOf("-Xexplicit-api=strict")
+        //replace after https://youtrack.jetbrains.com/issue/KT-37652
+        freeCompilerArgs = freeCompilerArgs + listOf("-Xexplicit-api=warning")
     }
 
     sourceSets.getByName("main") {
@@ -50,6 +51,7 @@ android {
 }
 
 tasks {
+
     withType<KotlinCompile> {
         dependsOn("copyTemplates")
     }
