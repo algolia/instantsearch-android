@@ -1,4 +1,5 @@
 import dependency.lib.AndroidJob
+import dependency.network.AlgoliaClient
 import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
@@ -68,9 +69,9 @@ group = Library.group
 version = Library.version
 
 dependencies {
-    api(project(":instantsearch-android-core"))
-    api(AndroidCore("ktx"))
-    api(AndroidJob())
+    implementation(AndroidCore("ktx"))
+    implementation(AndroidJob())
+    implementation(AlgoliaClient())
 
     testImplementation(kotlin("test-junit"))
     testImplementation(kotlin("test-annotations-common"))

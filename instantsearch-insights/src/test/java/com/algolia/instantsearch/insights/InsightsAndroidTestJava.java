@@ -4,13 +4,14 @@ import android.content.Context;
 import android.os.Build;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import com.algolia.instantsearch.insights.event.Event;
-import com.algolia.instantsearch.insights.event.EventObjects;
+import com.algolia.search.model.IndexName;
+import com.algolia.search.model.insights.EventName;
+import com.algolia.search.model.insights.UserToken;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -25,7 +26,8 @@ public class InsightsAndroidTestJava {
     @Test
     public void testInitShouldFail() {
         try {
-            Insights.shared("index");
+            IndexName index = new IndexName("index");
+            Insights.shared(index);
         } catch (Exception exception) {
             assertEquals(exception.getClass(), InsightsException.IndexNotRegistered.class);
         }
@@ -33,18 +35,17 @@ public class InsightsAndroidTestJava {
 
     @Test
     public void testInitShouldWork() {
-        Insights insights = Insights.register(context, "testApp", "testKey", "index", configuration);
+        IndexName index = new IndexName("index");
+        Insights insights = Insights.register(context, "testApp", "testKey", index, configuration);
+        insights.setUserToken(new UserToken("foobarbaz"));
         Insights insightsShared = Insights.shared();
         assertNotNull("shared Insights should have been registered", insightsShared);
-        Event.Click click = new Event.Click(
-            "",
-            "",
-            0,
-            new EventObjects.IDs(),
-            "",
-            new ArrayList<Integer>()
-        );
         assertEquals(insights, insightsShared);
-        insightsShared.track(click);
+
+        insightsShared.clickedObjectIDs(
+            new EventName("eventName"),
+            Collections.emptyList(),
+            0L
+        );
     }
 }

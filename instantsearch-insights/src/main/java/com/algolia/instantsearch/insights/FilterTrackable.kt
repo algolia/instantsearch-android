@@ -1,7 +1,8 @@
 package com.algolia.instantsearch.insights
 
-import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.instantsearch.insights.internal.extension.currentTimeMillis
+import com.algolia.search.model.filter.Filter
+import com.algolia.search.model.insights.EventName
 
 public interface FilterTrackable {
 
@@ -12,9 +13,9 @@ public interface FilterTrackable {
      * @param filters the clicked filter(s).
      * @param timestamp the time at which the view happened. Defaults to current time.
      */
-    public fun viewed(
-        eventName: String,
-        filters: EventObjects.Filters,
+    public fun viewedFilters(
+        eventName: EventName,
+        filters: List<Filter.Facet>,
         timestamp: Long = currentTimeMillis,
     )
 
@@ -25,9 +26,9 @@ public interface FilterTrackable {
      * @param filters the clicked filter(s).
      * @param timestamp the time at which the click happened. Defaults to current time.
      */
-    public fun clicked(
-        eventName: String,
-        filters: EventObjects.Filters,
+    public fun clickedFilters(
+        eventName: EventName,
+        filters: List<Filter.Facet>,
         timestamp: Long = currentTimeMillis,
     )
 
@@ -38,9 +39,9 @@ public interface FilterTrackable {
      * @param timestamp the time at which the conversion happened. Defaults to current time.
      * @param filters the converted filter(s).
      */
-    public fun converted(
-        eventName: String,
-        filters: EventObjects.Filters,
+    public fun convertedFilters(
+        eventName: EventName,
+        filters: List<Filter.Facet>,
         timestamp: Long = currentTimeMillis,
     )
 }

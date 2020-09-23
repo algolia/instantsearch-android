@@ -6,15 +6,16 @@ import com.algolia.instantsearch.insights.internal.converter.ConverterStringToEv
 import com.algolia.instantsearch.insights.internal.event.EventInternal
 import com.algolia.instantsearch.insights.internal.extension.events
 import com.algolia.instantsearch.insights.internal.extension.sharedPreferences
+import com.algolia.search.model.IndexName
 
 internal class DatabaseSharedPreferences(
     context: Context,
-    override val indexName: String,
+    override val indexName: IndexName,
 ) : Database {
 
     private val preferences = context.sharedPreferences(prefixAlgolia(indexName))
 
-    private fun prefixAlgolia(string: String): String = "Algolia Insights-$string"
+    private fun prefixAlgolia(string: IndexName): String = "Algolia Insights-$string"
 
     public override fun append(event: EventInternal) {
         val events = preferences.events

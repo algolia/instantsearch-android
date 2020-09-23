@@ -2,8 +2,6 @@ package com.algolia.instantsearch.insights
 
 import android.content.Context
 import android.util.Log
-import com.algolia.instantsearch.insights.event.Event
-import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.instantsearch.insights.event.EventUploader
 import com.algolia.instantsearch.insights.internal.converter.ConverterEventToEventInternal
 import com.algolia.instantsearch.insights.internal.database.Database
@@ -15,6 +13,13 @@ import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.webservice.Environment
 import com.algolia.instantsearch.insights.internal.webservice.WebService
 import com.algolia.instantsearch.insights.internal.webservice.WebServiceHttp
+import com.algolia.search.model.IndexName
+import com.algolia.search.model.ObjectID
+import com.algolia.search.model.QueryID
+import com.algolia.search.model.filter.Filter
+import com.algolia.search.model.insights.EventName
+import com.algolia.search.model.insights.InsightsEvent
+import com.algolia.search.model.insights.UserToken
 import java.util.UUID
 
 /**
@@ -23,7 +28,7 @@ import java.util.UUID
  * Once registered, you can simply call `Insights.shared(index: String)` to send your events.
  */
 public class Insights internal constructor(
-    private val indexName: String,
+    private val indexName: IndexName,
     private val eventUploader: EventUploader,
     internal val database: Database,
     internal val webService: WebService,
@@ -59,9 +64,9 @@ public class Insights internal constructor(
      * Depending if the user is logged-in or not, several strategies can be used from a sessionId to a technical identifier.
      * You should always send pseudonymous or anonymous userTokens.
      */
-    public var userToken: String? = null
+    public var userToken: UserToken? = null
 
-    private fun userTokenOrThrow(): String = userToken ?: throw InsightsException.NoUserToken()
+    private fun userTokenOrThrow(): UserToken = userToken ?: throw InsightsException.NoUserToken()
 
     /**
      * Change this variable to change the default amount of event sent at once.
@@ -73,138 +78,147 @@ public class Insights internal constructor(
     }
 
     // region Event tracking methods
-    public override fun viewed(
-        eventName: String,
-        objectIDs: EventObjects.IDs,
+    public override fun viewedObjectIDs(
+        eventName: EventName,
+        objectIDs: List<ObjectID>,
         timestamp: Long,
     ): Unit = viewed(
-        Event.View(
+        InsightsEvent.View(
+            indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
             timestamp = timestamp,
-            eventObjects = objectIDs
+            resources = InsightsEvent.Resources.ObjectIDs(objectIDs)
         )
     )
 
-    public override fun viewed(
-        eventName: String,
-        filters: EventObjects.Filters,
+    public override fun viewedFilters(
+        eventName: EventName,
+        filters: List<Filter.Facet>,
         timestamp: Long,
     ): Unit = viewed(
-        Event.View(
+        InsightsEvent.View(
+            indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
             timestamp = timestamp,
-            eventObjects = filters
+            resources = InsightsEvent.Resources.Filters(filters)
         )
     )
 
-    public override fun clicked(
-        eventName: String,
-        objectIDs: EventObjects.IDs,
+    public override fun clickedObjectIDs(
+        eventName: EventName,
+        objectIDs: List<ObjectID>,
         timestamp: Long,
     ): Unit = clicked(
-        Event.Click(
+        InsightsEvent.Click(
+            indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
             timestamp = timestamp,
-            eventObjects = objectIDs
+            resources = InsightsEvent.Resources.ObjectIDs(objectIDs)
         )
     )
 
-    public override fun clicked(
-        eventName: String,
-        filters: EventObjects.Filters,
+    public override fun clickedFilters(
+        eventName: EventName,
+        filters: List<Filter.Facet>,
         timestamp: Long,
     ): Unit = clicked(
-        Event.Click(
+        InsightsEvent.Click(
+            indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
             timestamp = timestamp,
-            eventObjects = filters
+            resources = InsightsEvent.Resources.Filters(filters)
         )
     )
 
-    public override fun clickedAfterSearch(
-        eventName: String,
-        queryId: String,
-        objectIDs: EventObjects.IDs,
+    public override fun clickedObjectIDsAfterSearch(
+        eventName: EventName,
+        queryID: QueryID,
+        objectIDs: List<ObjectID>,
         positions: List<Int>,
         timestamp: Long,
     ): Unit = clicked(
-        Event.Click(
+        InsightsEvent.Click(
+            indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
             timestamp = timestamp,
-            eventObjects = objectIDs,
-            queryId = queryId,
+            resources = InsightsEvent.Resources.ObjectIDs(objectIDs),
+            queryID = queryID,
             positions = positions
         )
     )
 
-    public override fun converted(
-        eventName: String,
-        filters: EventObjects.Filters,
+    public override fun convertedFilters(
+        eventName: EventName,
+        filters: List<Filter.Facet>,
         timestamp: Long,
     ): Unit = converted(
-        Event.Conversion(
+        InsightsEvent.Conversion(
+            indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
             timestamp = timestamp,
-            eventObjects = filters
+            resources = InsightsEvent.Resources.Filters(filters)
         )
     )
 
-    public override fun converted(
-        eventName: String,
-        objectIDs: EventObjects.IDs,
+    public override fun convertedObjectIDs(
+        eventName: EventName,
+        objectIDs: List<ObjectID>,
         timestamp: Long,
     ): Unit = converted(
-        Event.Conversion(
+        InsightsEvent.Conversion(
+            indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
             timestamp = timestamp,
-            eventObjects = objectIDs
+            resources = InsightsEvent.Resources.ObjectIDs(objectIDs)
         )
     )
 
-    public override fun convertedAfterSearch(
-        eventName: String,
-        queryId: String,
-        objectIDs: EventObjects.IDs,
+    public override fun convertedObjectIDsAfterSearch(
+        eventName: EventName,
+        queryID: QueryID,
+        objectIDs: List<ObjectID>,
         timestamp: Long,
     ): Unit = converted(
-        Event.Conversion(
+        InsightsEvent.Conversion(
+            indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
             timestamp = timestamp,
-            eventObjects = objectIDs,
-            queryId = queryId
+            resources = InsightsEvent.Resources.ObjectIDs(objectIDs),
+            queryID = queryID
         )
     )
 
     /**
      * Tracks a View event constructed manually.
      */
-    public fun viewed(event: Event.View): Unit = track(event)
+    public fun viewed(event: InsightsEvent.View): Unit = track(event)
 
     /**
      * Tracks a Click event constructed manually.
      */
-    public fun clicked(event: Event.Click): Unit = track(event)
+    public fun clicked(event: InsightsEvent.Click): Unit = track(event)
 
     /**
      * Tracks a Conversion event, constructed manually.
      */
-    public fun converted(event: Event.Conversion): Unit = track(event)
+    public fun converted(event: InsightsEvent.Conversion): Unit = track(event)
 
     /**
      * Method for tracking an event.
      * For a complete description of events see our [documentation][https://www.algolia.com/doc/rest-api/insights/?language=android#push-events].
-     * @param [event] An [Event] that you want to track.
+     * @param [event] An event that you want to track.
      */
-    public fun track(event: Event) {
-        track(ConverterEventToEventInternal.convert(event to indexName))
+    public fun track(event: InsightsEvent) {
+        val insightsEvent = ConverterEventToEventInternal.convert(event to event.indexName)
+        track(insightsEvent)
     }
 
     private fun track(event: EventInternal) {
@@ -224,7 +238,7 @@ public class Insights internal constructor(
 
     public companion object {
 
-        internal val insightsMap = mutableMapOf<String, Insights>()
+        internal val insightsMap = mutableMapOf<IndexName, Insights>()
 
         /**
          * Register your index with a given appId and apiKey.
@@ -239,7 +253,7 @@ public class Insights internal constructor(
             eventUploader: EventUploader,
             database: Database,
             webService: WebService,
-            indexName: String,
+            indexName: IndexName,
             configuration: Configuration = Configuration(5000, 5000),
         ): Insights {
 
@@ -263,7 +277,7 @@ public class Insights internal constructor(
          * @throws InsightsException.IndexNotRegistered if no index was registered as [indexName] before.
          */
         @JvmStatic
-        public fun shared(indexName: String): Insights {
+        public fun shared(indexName: IndexName): Insights {
             return insightsMap[indexName]
                 ?: throw InsightsException.IndexNotRegistered()
         }
@@ -290,7 +304,7 @@ public class Insights internal constructor(
             context: Context,
             appId: String,
             apiKey: String,
-            indexName: String,
+            indexName: IndexName,
             configuration: Configuration,
         ): Insights {
             val preferences = InsightsSharedPreferences(context)
@@ -320,12 +334,12 @@ public class Insights internal constructor(
             context: Context,
             appId: String,
             apiKey: String,
-            indexName: String,
+            indexName: IndexName,
         ): Insights {
             val sharedPreferences = InsightsSharedPreferences(context)
             val eventUploader = EventUploaderAndroidJob(context, sharedPreferences)
             val database = DatabaseSharedPreferences(context, indexName)
-            val userToken: String = storedUserToken(sharedPreferences)
+            val userToken = UserToken(storedUserToken(sharedPreferences))
             Log.d("Insights", "Insights user token: $userToken")
             val configuration = Configuration(5000, 5000, userToken)
 
@@ -358,6 +372,6 @@ public class Insights internal constructor(
     public class Configuration @JvmOverloads constructor(
         public val connectTimeoutInMilliseconds: Int,
         public val readTimeoutInMilliseconds: Int,
-        public val defaultUserToken: String? = null,
+        public val defaultUserToken: UserToken? = null,
     )
 }

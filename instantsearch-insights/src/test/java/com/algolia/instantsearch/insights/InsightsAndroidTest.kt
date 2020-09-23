@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.algolia.search.model.IndexName
 import com.evernote.android.job.JobManager
 import org.junit.Before
 import org.junit.Test
@@ -32,7 +33,8 @@ class InsightsAndroidTest {
     @Test
     fun testSharedWithoutRegister() {
         try {
-            Insights.shared("index")
+            val indexName = IndexName("index")
+            Insights.shared(indexName)
         } catch (exception: Exception) {
             assertTrue(exception is InsightsException.IndexNotRegistered)
         }
@@ -40,22 +42,25 @@ class InsightsAndroidTest {
 
     @Test
     fun testSharedAfterRegister() {
-        val insights = Insights.register(context, "testApp", "testKey", "indexSharedAfter", configuration)
+        val indexName = IndexName("indexSharedAfter")
+        val insights = Insights.register(context, "testApp", "testKey", indexName, configuration)
         val insightsShared = Insights.shared
         assertEquals(insights, insightsShared)
     }
 
     @Test
     fun testSharedNamedAfterRegister() {
-        val insights = Insights.register(context, "testApp", "testKey", "indexSharedNamedAfter", configuration)
-        val insightsShared = Insights.shared("indexSharedNamedAfter")
+        val indexName = IndexName("indexSharedNamedAfter")
+        val insights = Insights.register(context, "testApp", "testKey", indexName, configuration)
+        val insightsShared = Insights.shared(indexName)
         assertEquals(insights, insightsShared)
     }
 
     @Test
     fun testRegisterGlobalUserToken() {
-        Insights.register(context, "testApp", "testKey", "indexGlobalUserToken", configuration)
-        val insightsShared = Insights.shared("indexGlobalUserToken")
+        val indexName = IndexName("indexGlobalUserToken")
+        Insights.register(context, "testApp", "testKey", indexName, configuration)
+        val insightsShared = Insights.shared(indexName)
         assertEquals(configuration.defaultUserToken, insightsShared.userToken)
     }
 }

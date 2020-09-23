@@ -1,10 +1,11 @@
 package com.algolia.instantsearch.insights.internal.database
 
 import com.algolia.instantsearch.insights.internal.event.EventInternal
+import com.algolia.search.model.IndexName
 
 internal interface Database {
 
-    val indexName: String
+    val indexName: IndexName
 
     fun append(event: EventInternal)
 

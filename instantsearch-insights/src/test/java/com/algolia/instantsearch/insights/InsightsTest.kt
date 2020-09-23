@@ -2,8 +2,6 @@ package com.algolia.instantsearch.insights
 
 import android.os.Build
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.algolia.instantsearch.insights.event.Event
-import com.algolia.instantsearch.insights.event.EventObjects
 import com.algolia.instantsearch.insights.event.EventUploader
 import com.algolia.instantsearch.insights.internal.converter.ConverterEventInternalToString
 import com.algolia.instantsearch.insights.internal.converter.ConverterEventToEventInternal
@@ -13,6 +11,14 @@ import com.algolia.instantsearch.insights.internal.extension.uploadEvents
 import com.algolia.instantsearch.insights.internal.webservice.Environment
 import com.algolia.instantsearch.insights.internal.webservice.WebService
 import com.algolia.instantsearch.insights.internal.webservice.WebServiceHttp
+import com.algolia.search.model.Attribute
+import com.algolia.search.model.IndexName
+import com.algolia.search.model.ObjectID
+import com.algolia.search.model.QueryID
+import com.algolia.search.model.filter.Filter
+import com.algolia.search.model.insights.EventName
+import com.algolia.search.model.insights.InsightsEvent
+import com.algolia.search.model.insights.UserToken
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import kotlin.test.Test
@@ -25,43 +31,48 @@ import kotlin.test.assertTrue
 internal class InsightsTest {
 
     private val responseOK = WebService.Response(null, 200)
-    private val eventA = "EventA"
-    private val eventB = "EventB"
-    private val eventC = "EventC"
-    private val indexName = "latency"
+    private val eventA = EventName("EventA")
+    private val eventB = EventName("EventB")
+    private val eventC = EventName("EventC")
+    private val indexName = IndexName("latency")
     private val appId = System.getenv("ALGOLIA_APPLICATION_ID")
     private val apiKey = System.getenv("ALGOLIA_API_KEY")
-    private val queryId = "6de2f7eaa537fa93d8f8f05b927953b1"
-    private val userToken = "foobarbaz"
+    private val queryID = QueryID("6de2f7eaa537fa93d8f8f05b927953b1")
+    private val userToken = UserToken("foobarbaz")
     private val positions = listOf(1)
-    private val objectIDs = EventObjects.IDs("54675051")
-    private val filters = EventObjects.Filters("foo:bar")
+    private val objectIDs = listOf(ObjectID("54675051"))
+    private val resourcesObjectIDs = InsightsEvent.Resources.ObjectIDs(objectIDs)
+    private val filters = listOf(Filter.Facet(Attribute("foo"), "bar"))
+    private val resourcesFilters = InsightsEvent.Resources.Filters(filters)
     private val timestamp = System.currentTimeMillis()
     private val configuration = Insights.Configuration(
         connectTimeoutInMilliseconds = 5000,
         readTimeoutInMilliseconds = 5000
     )
-    private val eventClick = Event.Click(
-        eventA,
-        userToken,
-        timestamp,
-        objectIDs,
-        queryId,
-        positions
+    private val eventClick = InsightsEvent.Click(
+        eventName = eventA,
+        indexName = indexName,
+        userToken = userToken,
+        timestamp = timestamp,
+        queryID = queryID,
+        resources = resourcesObjectIDs,
+        positions = positions
     )
-    private val eventConversion = Event.Conversion(
-        eventB,
-        userToken,
-        timestamp,
-        objectIDs,
-        queryId
+    private val eventConversion = InsightsEvent.Conversion(
+        eventName = eventB,
+        indexName = indexName,
+        userToken = userToken,
+        timestamp = timestamp,
+        resources = resourcesObjectIDs,
+        queryID = queryID
     )
-    private val eventView = Event.View(
-        eventC,
-        userToken,
-        timestamp,
-        filters,
-        queryId
+    private val eventView = InsightsEvent.View(
+        eventName = eventC,
+        indexName = indexName,
+        userToken = userToken,
+        timestamp = timestamp,
+        resources = resourcesFilters,
+        queryID = queryID
     )
     private val click = ConverterEventToEventInternal.convert(eventClick to indexName)
     private val conversion = ConverterEventToEventInternal.convert(eventConversion to indexName)
@@ -124,22 +135,21 @@ internal class InsightsTest {
         }
         val insights =
             Insights(indexName, uploader, database, webService)
-        insights.userToken = "foo" // TODO: git stash apply to use default UUID token
-
-        insights.clicked(eventClick.eventName, eventClick.eventObjects as EventObjects.IDs)
-        insights.clickedAfterSearch(
-            eventClick.eventName,
-            eventClick.queryId!!,
-            eventClick.eventObjects as EventObjects.IDs,
-            eventClick.positions!!
+        insights.userToken = UserToken("foo") // TODO: git stash apply to use default UUID token
+        insights.clickedObjectIDs(eventClick.eventName, objectIDs)
+        insights.clickedObjectIDsAfterSearch(
+            eventName = eventClick.eventName,
+            queryID = eventClick.queryID!!,
+            objectIDs = objectIDs,
+            positions = eventClick.positions!!
         )
-        insights.converted(eventConversion.eventName, eventClick.eventObjects as EventObjects.IDs)
-        insights.convertedAfterSearch(
-            eventConversion.eventName,
-            eventConversion.queryId!!,
-            eventClick.eventObjects as EventObjects.IDs
+        insights.convertedObjectIDs(eventConversion.eventName, objectIDs)
+        insights.convertedObjectIDsAfterSearch(
+            eventName = eventConversion.eventName,
+            queryID = eventConversion.queryID!!,
+            objectIDs = objectIDs
         )
-        insights.viewed(eventView.eventName, eventView.eventObjects as EventObjects.Filters)
+        insights.viewedFilters(eventView.eventName, filters)
     }
 
     @Test
@@ -232,22 +242,22 @@ internal class InsightsTest {
         insights.userToken = userToken // Given an userToken
 
         // When adding events without explicitly-provided userToken
-        insights.clickedAfterSearch(
+        insights.clickedObjectIDsAfterSearch(
             eventName = eventA,
-            queryId = queryId,
+            queryID = queryID,
             objectIDs = objectIDs,
             positions = positions,
             timestamp = timestamp
         )
-        insights.clicked(
+        insights.clickedObjectIDs(
             eventName = eventA,
             timestamp = timestamp,
             objectIDs = objectIDs
         )
-        insights.convertedAfterSearch(
+        insights.convertedObjectIDsAfterSearch(
             eventName = eventB,
             timestamp = timestamp,
-            queryId = queryId,
+            queryID = queryID,
             objectIDs = objectIDs
         )
         webService.code = 200 // Given a working web service
@@ -261,11 +271,12 @@ internal class InsightsTest {
     ) : AssertingEventUploader(events, webService, database) {
 
         override fun startOneTimeUpload() {
-            val clickEventNotForSearch = Event.Click(
+            val clickEventNotForSearch = InsightsEvent.Click(
                 eventName = eventA,
+                indexName = indexName,
                 userToken = userToken,
                 timestamp = timestamp,
-                eventObjects = objectIDs,
+                resources = resourcesObjectIDs,
                 positions = null // A Click event not for Search has no positions
             )
             val clickEventInternal = ConverterEventToEventInternal.convert(clickEventNotForSearch to indexName)
