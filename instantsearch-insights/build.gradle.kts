@@ -1,5 +1,6 @@
 import dependency.lib.AndroidJob
 import dependency.network.AlgoliaClient
+import dependency.network.Ktor
 import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
@@ -72,12 +73,14 @@ dependencies {
     implementation(AndroidCore("ktx"))
     implementation(AndroidJob())
     implementation(AlgoliaClient())
+    implementation(Ktor("client-android"))
 
     testImplementation(kotlin("test-junit"))
     testImplementation(kotlin("test-annotations-common"))
     testImplementation(AndroidTestRunner())
     testImplementation(AndroidTestExt())
     testImplementation(Robolectric())
+    testImplementation(Ktor("client-mock-jvm"))
 }
 
 mavenPublish.targets.getByName("uploadArchives") {

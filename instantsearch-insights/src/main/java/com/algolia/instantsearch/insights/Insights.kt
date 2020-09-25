@@ -3,14 +3,11 @@ package com.algolia.instantsearch.insights
 import android.content.Context
 import android.util.Log
 import com.algolia.instantsearch.insights.event.EventUploader
-import com.algolia.instantsearch.insights.internal.converter.ConverterEventToEventInternal
 import com.algolia.instantsearch.insights.internal.database.Database
 import com.algolia.instantsearch.insights.internal.database.DatabaseSharedPreferences
 import com.algolia.instantsearch.insights.internal.database.InsightsSharedPreferences
-import com.algolia.instantsearch.insights.internal.event.EventInternal
 import com.algolia.instantsearch.insights.internal.event.EventUploaderAndroidJob
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
-import com.algolia.instantsearch.insights.internal.webservice.Environment
 import com.algolia.instantsearch.insights.internal.webservice.WebService
 import com.algolia.instantsearch.insights.internal.webservice.WebServiceHttp
 import com.algolia.search.model.IndexName
@@ -217,11 +214,6 @@ public class Insights internal constructor(
      * @param [event] An event that you want to track.
      */
     public fun track(event: InsightsEvent) {
-        val insightsEvent = ConverterEventToEventInternal.convert(event to event.indexName)
-        track(insightsEvent)
-    }
-
-    private fun track(event: EventInternal) {
         if (enabled) {
             database.append(event)
             if (database.count() >= minBatchSize) {
@@ -313,7 +305,6 @@ public class Insights internal constructor(
             val webService = WebServiceHttp(
                 appId = appId,
                 apiKey = apiKey,
-                environment = Environment.Prod,
                 connectTimeoutInMilliseconds = configuration.connectTimeoutInMilliseconds,
                 readTimeoutInMilliseconds = configuration.readTimeoutInMilliseconds
             )
@@ -346,7 +337,6 @@ public class Insights internal constructor(
             val webService = WebServiceHttp(
                 appId = appId,
                 apiKey = apiKey,
-                environment = Environment.Prod,
                 connectTimeoutInMilliseconds = configuration.connectTimeoutInMilliseconds,
                 readTimeoutInMilliseconds = configuration.readTimeoutInMilliseconds
             )
@@ -370,8 +360,8 @@ public class Insights internal constructor(
      * @param readTimeoutInMilliseconds Maximum amount of time in milliseconds before a read timeout.
      */
     public class Configuration @JvmOverloads constructor(
-        public val connectTimeoutInMilliseconds: Int,
-        public val readTimeoutInMilliseconds: Int,
+        public val connectTimeoutInMilliseconds: Long,
+        public val readTimeoutInMilliseconds: Long,
         public val defaultUserToken: UserToken? = null,
     )
 }

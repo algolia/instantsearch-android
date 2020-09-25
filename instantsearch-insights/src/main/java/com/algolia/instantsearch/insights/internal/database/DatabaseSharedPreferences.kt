@@ -1,12 +1,12 @@
 package com.algolia.instantsearch.insights.internal.database
 
 import android.content.Context
-import com.algolia.instantsearch.insights.internal.converter.ConverterEventInternalToString
-import com.algolia.instantsearch.insights.internal.converter.ConverterStringToEventInternal
-import com.algolia.instantsearch.insights.internal.event.EventInternal
+import com.algolia.instantsearch.insights.internal.database.mapper.InsightsEventDOMapper
+import com.algolia.instantsearch.insights.internal.database.mapper.InsightsEventsMapper
 import com.algolia.instantsearch.insights.internal.extension.events
 import com.algolia.instantsearch.insights.internal.extension.sharedPreferences
 import com.algolia.search.model.IndexName
+import com.algolia.search.model.insights.InsightsEvent
 
 internal class DatabaseSharedPreferences(
     context: Context,
@@ -17,27 +17,37 @@ internal class DatabaseSharedPreferences(
 
     private fun prefixAlgolia(string: IndexName): String = "Algolia Insights-$string"
 
-    public override fun append(event: EventInternal) {
+    override fun append(event: InsightsEvent) {
         val events = preferences.events
             .toMutableSet()
-            .also { it.add(ConverterEventInternalToString.convert(event)) }
+            .also {
+                val eventDO = InsightsEventsMapper.map(event)
+                val eventDOString = InsightsEventDOMapper.map(eventDO)
+                it.add(eventDOString)
+            }
 
         preferences.events = events
     }
 
-    public override fun overwrite(events: List<EventInternal>) {
-        preferences.events = ConverterEventInternalToString.convert(events).toSet()
+    override fun overwrite(events: List<InsightsEvent>) {
+        preferences.events = events.map {
+            val eventDO = InsightsEventsMapper.map(it)
+            InsightsEventDOMapper.map(eventDO)
+        }.toSet()
     }
 
-    public override fun read(): List<EventInternal> {
-        return ConverterStringToEventInternal.convert(preferences.events.toList())
+    override fun read(): List<InsightsEvent> {
+        return preferences.events.map {
+            val eventDOString = InsightsEventDOMapper.unmap(it)
+            InsightsEventsMapper.unmap(eventDOString)
+        }
     }
 
-    public override fun count(): Int {
+    override fun count(): Int {
         return preferences.events.size
     }
 
-    public override fun clear() {
+    override fun clear() {
         preferences.events = setOf()
     }
 }

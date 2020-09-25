@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.insights.internal.webservice
 
-import com.algolia.instantsearch.insights.internal.event.EventInternal
+import com.algolia.search.model.insights.InsightsEvent
+import io.ktor.client.statement.HttpResponse
 
 internal interface WebService {
 
@@ -9,5 +10,5 @@ internal interface WebService {
         val code: Int,
     )
 
-    fun send(vararg event: EventInternal): Response
+    suspend fun send(vararg events: InsightsEvent): HttpResponse
 }

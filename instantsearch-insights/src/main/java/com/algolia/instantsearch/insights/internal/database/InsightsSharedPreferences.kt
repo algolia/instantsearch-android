@@ -23,6 +23,6 @@ internal class InsightsSharedPreferences(context: Context) {
         }
 
     companion object {
-        private const val INSIGHTS_SHARED_PREFS = "Insights"
+        private const val INSIGHTS_SHARED_PREFS = "InsightsEvents"
     }
 }

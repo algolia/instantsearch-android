@@ -4,11 +4,12 @@ import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.algolia.instantsearch.insights.internal.converter.ConverterEventToEventInternal
 import com.algolia.instantsearch.insights.internal.database.DatabaseSharedPreferences
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.ObjectID
 import com.algolia.search.model.QueryID
+import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
@@ -31,6 +32,11 @@ class AndroidTestDatabaseSharedPreferences {
     private val positions = listOf(1)
     private val objectIDs = listOf(ObjectID("54675051"))
     private val timestamp = System.currentTimeMillis()
+    private val facets = listOf(
+        Filter.Facet(attribute = Attribute("attributeString"), isNegated = true, score = 1, value = "value"),
+        Filter.Facet(attribute = Attribute("attributeNum"), isNegated = true, value = 1),
+        Filter.Facet(attribute = Attribute("attributeBoolean"), isNegated = false, value = true)
+    )
     private val eventClick = InsightsEvent.Click(
         indexName = indexName,
         eventName = eventA,
@@ -39,7 +45,7 @@ class AndroidTestDatabaseSharedPreferences {
         userToken = userToken,
         positions = positions,
         queryID = queryId
-    ) to indexName
+    )
     private val eventConversion = InsightsEvent.Conversion(
         indexName = indexName,
         eventName = eventB,
@@ -47,33 +53,28 @@ class AndroidTestDatabaseSharedPreferences {
         timestamp = timestamp,
         resources = InsightsEvent.Resources.ObjectIDs(objectIDs),
         queryID = queryId
-    ) to indexName
+    )
     private val eventView = InsightsEvent.View(
         indexName = indexName,
         eventName = eventC,
         timestamp = timestamp,
-        resources = InsightsEvent.Resources.ObjectIDs(objectIDs),
+        resources = InsightsEvent.Resources.Filters(facets),
         queryID = queryId,
         userToken = userToken
-    ) to indexName
-    private val click = ConverterEventToEventInternal.convert(eventClick)
-    private val view = ConverterEventToEventInternal.convert(eventView)
-    private val conversion = ConverterEventToEventInternal.convert(eventConversion)
+    )
 
     @Test
     fun test() {
         val events = listOf(
-            click,
-            conversion
+            eventClick,
+            eventConversion
         )
         val database = DatabaseSharedPreferences(context, indexName)
 
         database.overwrite(events)
-
         assertTrue(database.read().containsAll(events))
 
-        database.append(view)
-
-        assertTrue(database.read().containsAll(events.plus(view)))
+        database.append(eventView)
+        assertTrue(database.read().containsAll(events.plus(eventView)))
     }
 }
