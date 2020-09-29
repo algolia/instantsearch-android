@@ -13,27 +13,20 @@ import kotlin.coroutines.CoroutineContext
 
 internal class MockWebService : WebService {
 
-    var code: Int = 200
+    var code: HttpStatusCode = HttpStatusCode.OK
 
     override suspend fun send(vararg events: InsightsEvent): HttpResponse {
         return object : HttpResponse() {
-            override val status: HttpStatusCode
-                get() = HttpStatusCode.OK
+            override val status: HttpStatusCode get() = code
+            override val content: ByteReadChannel get() = ByteReadChannel.Empty
 
-            override val call: HttpClientCall
-                get() = throw NotImplementedError()
-            override val content: ByteReadChannel
-                get() = throw NotImplementedError()
-            override val coroutineContext: CoroutineContext
-                get() = throw NotImplementedError()
-            override val headers: Headers
-                get() = throw NotImplementedError()
-            override val requestTime: GMTDate
-                get() = throw NotImplementedError()
-            override val responseTime: GMTDate
-                get() = throw NotImplementedError()
-            override val version: HttpProtocolVersion
-                get() = throw NotImplementedError()
+            // not needed for tests
+            override val call: HttpClientCall get() = throw NotImplementedError()
+            override val coroutineContext: CoroutineContext get() = throw NotImplementedError()
+            override val headers: Headers get() = throw NotImplementedError()
+            override val requestTime: GMTDate get() = throw NotImplementedError()
+            override val responseTime: GMTDate get() = throw NotImplementedError()
+            override val version: HttpProtocolVersion get() = throw NotImplementedError()
         }
     }
 }

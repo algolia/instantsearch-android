@@ -125,7 +125,8 @@ internal class InsightsTest {
                     trackedEvents.contains(eventClick),
                     "The converted event should have been tracked through converted and convertedAfterSearch"
                 )
-                assertTrue(trackedEvents.contains(eventClick), "The viewed event should have been tracked through viewed")
+                assertTrue(trackedEvents.contains(eventClick),
+                    "The viewed event should have been tracked through viewed")
             }
         }
         val insights =
@@ -222,18 +223,19 @@ internal class InsightsTest {
         val database = MockDatabase(indexName, events)
         val webService = MockWebService()
         val uploader = IntegrationEventUploader(events, webService, database)
-        val insights =
-            Insights(indexName, uploader, database, webService)
-        insights.minBatchSize = 1
+        val insights = Insights(indexName, uploader, database, webService).apply {
+            minBatchSize = 1
+        }
+        val errorHttpStatusCode = HttpStatusCode(value = -1, description = "error!")
 
-        webService.code = 200 // Given a working web service
+        webService.code = HttpStatusCode.OK // Given a working web service
         insights.track(eventClick)
-        webService.code = -1 // Given a web service that errors
+        webService.code = errorHttpStatusCode // Given a web service that errors
         insights.track(eventConversion)
-        webService.code = 400 // Given a working web service returning an HTTP error
+        webService.code = HttpStatusCode.BadRequest // Given a working web service returning an HTTP error
         insights.track(eventView) // When tracking an event
 
-        webService.code = -1 // Given a web service that errors
+        webService.code = errorHttpStatusCode// Given a web service that errors
         insights.userToken = userToken // Given an userToken
 
         // When adding events without explicitly-provided userToken
@@ -255,7 +257,7 @@ internal class InsightsTest {
             queryID = queryID,
             objectIDs = objectIDs
         )
-        webService.code = 200 // Given a working web service
+        webService.code = HttpStatusCode.OK // Given a working web service
         insights.viewed(eventView)
     }
 
@@ -277,18 +279,22 @@ internal class InsightsTest {
 
             when (count) {
                 0 -> assertEquals(listOf(eventClick), database.read(), "failed 0") // expect added first
-                1 -> assertEquals(listOf(eventConversion), database.read(), "failed 1") // expect flush then added second
+                1 -> assertEquals(listOf(eventConversion),
+                    database.read(),
+                    "failed 1") // expect flush then added second
                 2 -> assertEquals(listOf(eventConversion, eventView), database.read(), "failed 2")
 
                 3 -> assertEquals(listOf(eventClick), database.read(), "failed 3") // expect flush then added first
-                4 -> assertEquals(listOf(eventClick), database.read(), "failed 4") // expect added first
+                4 -> assertEquals(listOf(eventClick, clickEventNotForSearch),
+                    database.read(),
+                    "failed 4") // expect added first
                 5 -> assertEquals(
-                    listOf(eventClick, eventConversion),
+                    listOf(eventClick, clickEventNotForSearch, eventConversion),
                     database.read(),
                     "failed 5"
                 ) // expect added second
                 6 -> assertEquals(
-                    listOf(eventClick, eventConversion, eventView),
+                    listOf(eventClick, clickEventNotForSearch, eventConversion, eventView),
                     database.read(),
                     "failed 6"
                 ) // expect added third
@@ -300,8 +306,9 @@ internal class InsightsTest {
                 2 -> assert(database.read().isEmpty()) // expect flushed events
 
                 3 -> assertEquals(listOf(eventClick), database.read()) // expect kept first
-                4 -> assertEquals(listOf(eventClick), database.read()) // expect kept first2
-                5 -> assertEquals(listOf(eventClick, eventConversion), database.read()) // expect kept second
+                4 -> assertEquals(listOf(eventClick, clickEventNotForSearch), database.read()) // expect kept first2
+                5 -> assertEquals(listOf(eventClick, clickEventNotForSearch, eventConversion),
+                    database.read()) // expect kept second
                 6 -> assert(database.read().isEmpty()) // expect flushed events
             }
             count++
