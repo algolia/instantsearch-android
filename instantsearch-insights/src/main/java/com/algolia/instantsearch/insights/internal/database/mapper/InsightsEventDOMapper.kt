@@ -12,9 +12,7 @@ internal object InsightsEventDOMapper : Mapper<InsightsEventDO, String> {
                 entry.value?.let {
                     when (it) {
                         is Collection<*> -> put(entry.key, JSONArray(it))
-                        is Map<*, *> -> {
-                            put(entry.key, JSONObject(it))
-                        }
+                        is Map<*, *> -> put(entry.key, JSONObject(it))
                         else -> put(entry.key, it)
                     }
                 }
@@ -36,7 +34,6 @@ internal object InsightsEventDOMapper : Mapper<InsightsEventDO, String> {
     private fun jsonMap(key: String, jsonObject: JSONObject): Pair<String, Any?> {
         return when (jsonObject.get(key)) {
             is JSONArray -> key to jsonObject.getJSONArray(key).toList()
-            is JSONObject -> key to jsonObject.getJSONObject(key).toMap()
             else -> key to jsonObject.get(key)
         }
     }

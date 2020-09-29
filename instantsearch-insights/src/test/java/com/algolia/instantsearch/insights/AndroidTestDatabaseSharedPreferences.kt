@@ -75,6 +75,8 @@ class AndroidTestDatabaseSharedPreferences {
         assertTrue(database.read().containsAll(events))
 
         database.append(eventView)
+        val actual = database.read()
+        val expected = events.plus(eventView)
         assertTrue(database.read().containsAll(events.plus(eventView)))
     }
 }
