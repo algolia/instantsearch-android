@@ -46,15 +46,20 @@ internal object FilterFacetMapper : Mapper<Filter.Facet, FilterFacetDO> {
                 attribute = attribute,
                 value = value as String,
                 isNegated = isNegated,
-                score = score)
-            ValueType.Boolean -> Filter.Facet(attribute = attribute,
+                score = score
+            )
+            ValueType.Boolean -> Filter.Facet(
+                attribute = attribute,
                 value = value as Boolean,
                 isNegated = isNegated,
-                score = score)
-            ValueType.Number -> Filter.Facet(attribute = attribute,
+                score = score
+            )
+            ValueType.Number -> Filter.Facet(
+                attribute = attribute,
                 value = value as Number,
                 isNegated = isNegated,
-                score = score)
+                score = score
+            )
         }
     }
 }

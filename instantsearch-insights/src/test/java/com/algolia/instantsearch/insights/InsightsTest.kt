@@ -2,7 +2,7 @@ package com.algolia.instantsearch.insights
 
 import android.os.Build
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.algolia.instantsearch.insights.event.EventUploader
+import com.algolia.instantsearch.insights.internal.event.EventUploader
 import com.algolia.instantsearch.insights.internal.extension.uploadEvents
 import com.algolia.instantsearch.insights.internal.webservice.WebService
 import com.algolia.instantsearch.insights.internal.webservice.WebServiceHttp
@@ -125,8 +125,10 @@ internal class InsightsTest {
                     trackedEvents.contains(eventClick),
                     "The converted event should have been tracked through converted and convertedAfterSearch"
                 )
-                assertTrue(trackedEvents.contains(eventClick),
-                    "The viewed event should have been tracked through viewed")
+                assertTrue(
+                    trackedEvents.contains(eventClick),
+                    "The viewed event should have been tracked through viewed"
+                )
             }
         }
         val insights =
@@ -235,7 +237,7 @@ internal class InsightsTest {
         webService.code = HttpStatusCode.BadRequest // Given a working web service returning an HTTP error
         insights.track(eventView) // When tracking an event
 
-        webService.code = errorHttpStatusCode// Given a web service that errors
+        webService.code = errorHttpStatusCode // Given a web service that errors
         insights.userToken = userToken // Given an userToken
 
         // When adding events without explicitly-provided userToken
@@ -279,15 +281,21 @@ internal class InsightsTest {
 
             when (count) {
                 0 -> assertEquals(listOf(eventClick), database.read(), "failed 0") // expect added first
-                1 -> assertEquals(listOf(eventConversion),
-                    database.read(),
-                    "failed 1") // expect flush then added second
+                1 ->
+                    assertEquals(
+                        listOf(eventConversion),
+                        database.read(),
+                        "failed 1"
+                    ) // expect flush then added second
                 2 -> assertEquals(listOf(eventConversion, eventView), database.read(), "failed 2")
 
                 3 -> assertEquals(listOf(eventClick), database.read(), "failed 3") // expect flush then added first
-                4 -> assertEquals(listOf(eventClick, clickEventNotForSearch),
-                    database.read(),
-                    "failed 4") // expect added first
+                4 ->
+                    assertEquals(
+                        listOf(eventClick, clickEventNotForSearch),
+                        database.read(),
+                        "failed 4"
+                    ) // expect added first
                 5 -> assertEquals(
                     listOf(eventClick, clickEventNotForSearch, eventConversion),
                     database.read(),
@@ -307,8 +315,11 @@ internal class InsightsTest {
 
                 3 -> assertEquals(listOf(eventClick), database.read()) // expect kept first
                 4 -> assertEquals(listOf(eventClick, clickEventNotForSearch), database.read()) // expect kept first2
-                5 -> assertEquals(listOf(eventClick, clickEventNotForSearch, eventConversion),
-                    database.read()) // expect kept second
+                5 ->
+                    assertEquals(
+                        listOf(eventClick, clickEventNotForSearch, eventConversion),
+                        database.read()
+                    ) // expect kept second
                 6 -> assert(database.read().isEmpty()) // expect flushed events
             }
             count++

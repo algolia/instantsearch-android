@@ -2,10 +2,10 @@ package com.algolia.instantsearch.insights
 
 import android.content.Context
 import android.util.Log
-import com.algolia.instantsearch.insights.event.EventUploader
 import com.algolia.instantsearch.insights.internal.database.Database
 import com.algolia.instantsearch.insights.internal.database.DatabaseSharedPreferences
 import com.algolia.instantsearch.insights.internal.database.InsightsSharedPreferences
+import com.algolia.instantsearch.insights.internal.event.EventUploader
 import com.algolia.instantsearch.insights.internal.event.EventUploaderAndroidJob
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.webservice.WebService

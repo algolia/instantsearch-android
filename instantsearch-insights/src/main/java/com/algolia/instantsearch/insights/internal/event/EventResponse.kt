@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.insights.event
+package com.algolia.instantsearch.insights.internal.event
 
 import com.algolia.search.model.insights.InsightsEvent
 

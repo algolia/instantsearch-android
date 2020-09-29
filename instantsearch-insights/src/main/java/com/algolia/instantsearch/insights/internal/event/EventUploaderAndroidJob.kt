@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.insights.internal.event
 
 import android.content.Context
-import com.algolia.instantsearch.insights.event.EventUploader
 import com.algolia.instantsearch.insights.internal.database.InsightsSharedPreferences
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
