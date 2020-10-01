@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
-@Config(sdk = Build.VERSION_CODES.Q)
+@Config(sdk = Build.VERSION_CODES.P)
 public class InsightsAndroidTestJava {
 
     private Context context = ApplicationProvider.getApplicationContext();
