@@ -1,6 +1,6 @@
-package com.algolia.instantsearch.insights.internal.database.mapper
+package com.algolia.instantsearch.insights.internal.data.local.mapper
 
-import com.algolia.instantsearch.insights.internal.database.model.InsightsEventDO
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
 import org.json.JSONArray
 import org.json.JSONObject
 

@@ -1,8 +1,8 @@
-package com.algolia.instantsearch.insights.internal.database.mapper
+package com.algolia.instantsearch.insights.internal.data.local.mapper
 
-import com.algolia.instantsearch.insights.internal.database.model.FacetKey
-import com.algolia.instantsearch.insights.internal.database.model.FilterFacetDO
-import com.algolia.instantsearch.insights.internal.database.model.ValueType
+import com.algolia.instantsearch.insights.internal.data.local.model.FacetKey
+import com.algolia.instantsearch.insights.internal.data.local.model.FilterFacetDO
+import com.algolia.instantsearch.insights.internal.data.local.model.ValueType
 import com.algolia.search.helper.toAttribute
 import com.algolia.search.model.filter.Filter
 

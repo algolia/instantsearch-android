@@ -1,13 +1,11 @@
 package com.algolia.instantsearch.insights
 
-import com.algolia.instantsearch.insights.internal.database.Database
-import com.algolia.search.model.IndexName
+import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepository
 import com.algolia.search.model.insights.InsightsEvent
 
-internal class MockDatabase(
-    override val indexName: IndexName,
+internal class MockLocalRepository(
     private val events: MutableList<InsightsEvent>,
-) : Database {
+) : InsightsLocalRepository {
 
     override fun append(event: InsightsEvent) {
         events.add(event)

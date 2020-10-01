@@ -37,7 +37,7 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         //replace after https://youtrack.jetbrains.com/issue/KT-37652
-        freeCompilerArgs = freeCompilerArgs + listOf("-Xexplicit-api=warning")
+        freeCompilerArgs = freeCompilerArgs + listOf("-Xexplicit-api=warning", "-Xopt-in=kotlin.RequiresOptIn")
     }
 
     sourceSets.getByName("main") {

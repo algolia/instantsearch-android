@@ -2,10 +2,16 @@ package com.algolia.instantsearch.insights
 
 import android.os.Build
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.algolia.instantsearch.insights.internal.event.EventUploader
-import com.algolia.instantsearch.insights.internal.extension.uploadEvents
-import com.algolia.instantsearch.insights.internal.webservice.WebService
-import com.algolia.instantsearch.insights.internal.webservice.WebServiceHttp
+import com.algolia.instantsearch.insights.internal.data.distant.InsightsDistantRepository
+import com.algolia.instantsearch.insights.internal.data.distant.InsightsHttpRepository
+import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepository
+import com.algolia.instantsearch.insights.internal.saver.InsightsEventSaver
+import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
+import com.algolia.instantsearch.insights.internal.worker.InsightsWorker
+import com.algolia.search.client.ClientInsights
+import com.algolia.search.configuration.ConfigurationInsights
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.ObjectID
@@ -14,7 +20,6 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
-import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.runBlocking
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
@@ -27,7 +32,6 @@ import kotlin.test.assertTrue
 @Config(sdk = [Build.VERSION_CODES.Q])
 internal class InsightsTest {
 
-    private val responseOK = WebService.Response(null, 200)
     private val eventA = EventName("EventA")
     private val eventB = EventName("EventB")
     private val eventC = EventName("EventC")
@@ -72,13 +76,17 @@ internal class InsightsTest {
         queryID = queryID
     )
 
-    private val webService
-        get() = WebServiceHttp(
-            appId = appId,
-            apiKey = apiKey,
-            connectTimeoutInMilliseconds = configuration.connectTimeoutInMilliseconds,
-            readTimeoutInMilliseconds = configuration.readTimeoutInMilliseconds
+    private val clientInsights = ClientInsights(
+        ConfigurationInsights(
+            applicationID = ApplicationID(appId),
+            apiKey = APIKey(apiKey),
+            writeTimeout = configuration.connectTimeoutInMilliseconds,
+            readTimeout = configuration.readTimeoutInMilliseconds
         )
+    )
+
+    private val webService
+        get() = InsightsHttpRepository(clientInsights)
 
     init {
         System.setProperty("javax.net.ssl.trustStoreType", "JKS")
@@ -88,7 +96,7 @@ internal class InsightsTest {
     fun testClickEvent() {
         runBlocking {
             val response = webService.send(eventClick)
-            assertEquals(HttpStatusCode.OK, response.status)
+            assertEquals(200, response.code)
         }
     }
 
@@ -96,7 +104,7 @@ internal class InsightsTest {
     fun testViewEvent() {
         runBlocking {
             val response = webService.send(eventView)
-            assertEquals(HttpStatusCode.OK, response.status)
+            assertEquals(200, response.code)
         }
     }
 
@@ -104,18 +112,18 @@ internal class InsightsTest {
     fun testConversionEvent() {
         runBlocking {
             val response = webService.send(eventConversion)
-            assertEquals(HttpStatusCode.OK, response.status)
+            assertEquals(200, response.code)
         }
     }
 
     @Test
     fun testMethods() {
         val events = mutableListOf(eventClick, eventConversion, eventView)
-        val database = MockDatabase(indexName, events)
-        val webService = MockWebService()
-        val uploader = object : AssertingEventUploader(events, webService, database) {
+        val localRepository = MockLocalRepository(events)
+        val distantRepository = MockDistantRepository()
+        val eventUploader = object : AssertingWorker(events, distantRepository, localRepository) {
             override fun startOneTimeUpload() {
-                val trackedEvents = database.read()
+                val trackedEvents = localRepository.read()
                 assertEquals(5, trackedEvents.size, "Five events should have been tracked")
                 assertTrue(
                     trackedEvents.contains(eventClick),
@@ -131,8 +139,9 @@ internal class InsightsTest {
                 )
             }
         }
-        val insights =
-            Insights(indexName, uploader, database, webService)
+        val saver = InsightsEventSaver(localRepository)
+        val uploader = InsightsEventUploader(localRepository, distantRepository)
+        val insights = Insights(indexName, eventUploader, saver, uploader)
         insights.userToken = UserToken("foo") // TODO: git stash apply to use default UUID token
         insights.clickedObjectIDs(eventClick.eventName, objectIDs)
         insights.clickedObjectIDsAfterSearch(
@@ -153,17 +162,18 @@ internal class InsightsTest {
     @Test
     fun testEnabled() {
         val events = mutableListOf(eventClick, eventConversion, eventView)
-        val database = MockDatabase(indexName, events)
-        val webService = MockWebService()
-        val uploader = object : AssertingEventUploader(events, webService, database) {
+        val localRepository = MockLocalRepository(events)
+        val distantRepository = MockDistantRepository()
+        val eventUploader = object : AssertingWorker(events, distantRepository, localRepository) {
             override fun startOneTimeUpload() {
-                val trackedEvents = database.read()
+                val trackedEvents = localRepository.read()
                 assertFalse(trackedEvents.contains(eventClick), "The first event should have been ignored")
                 assertTrue(trackedEvents.contains(eventConversion), "The second event should be uploaded")
             }
         }
-        val insights =
-            Insights(indexName, uploader, database, webService)
+        val saver = InsightsEventSaver(localRepository)
+        val uploader = InsightsEventUploader(localRepository, distantRepository)
+        val insights = Insights(indexName, eventUploader, saver, uploader)
         insights.minBatchSize = 1 // Given an Insights that uploads every event
 
         insights.enabled = false // When a firstEvent is sent with insight disabled
@@ -175,11 +185,12 @@ internal class InsightsTest {
     @Test
     fun testMinBatchSize() {
         val events = mutableListOf(eventClick, eventConversion, eventView)
-        val database = MockDatabase(indexName, events)
-        val webService = MockWebService()
-        val uploader = MinBatchSizeEventUploader(events, webService, database)
-        val insights =
-            Insights(indexName, uploader, database, webService)
+        val localRepository = MockLocalRepository(events)
+        val distantRepository = MockDistantRepository()
+        val eventUploader = MinBatchSizeWorker(events, distantRepository, localRepository)
+        val saver = InsightsEventSaver(localRepository)
+        val uploader = InsightsEventUploader(localRepository, distantRepository)
+        val insights = Insights(indexName, eventUploader, saver, uploader)
 
         // Given a minBatchSize of one and one event
         insights.minBatchSize = 1
@@ -196,11 +207,11 @@ internal class InsightsTest {
         insights.track(eventClick)
     }
 
-    inner class MinBatchSizeEventUploader(
+    inner class MinBatchSizeWorker(
         events: MutableList<InsightsEvent>,
-        webService: MockWebService,
-        private val database: MockDatabase,
-    ) : AssertingEventUploader(events, webService, database) {
+        webService: MockDistantRepository,
+        private val database: InsightsLocalRepository,
+    ) : AssertingWorker(events, webService, database) {
 
         override fun startOneTimeUpload() {
             when (count) {
@@ -222,22 +233,23 @@ internal class InsightsTest {
     @Test
     fun testIntegration() {
         val events = mutableListOf(eventClick, eventConversion, eventView)
-        val database = MockDatabase(indexName, events)
-        val webService = MockWebService()
-        val uploader = IntegrationEventUploader(events, webService, database)
-        val insights = Insights(indexName, uploader, database, webService).apply {
+        val localRepository = MockLocalRepository(events)
+        val distantRepository = MockDistantRepository()
+        val eventUploader = IntegrationWorker(events, distantRepository, localRepository)
+        val saver = InsightsEventSaver(localRepository)
+        val uploader = InsightsEventUploader(localRepository, distantRepository)
+        val insights = Insights(indexName, eventUploader, saver, uploader).apply {
             minBatchSize = 1
         }
-        val errorHttpStatusCode = HttpStatusCode(value = -1, description = "error!")
 
-        webService.code = HttpStatusCode.OK // Given a working web service
+        distantRepository.code = 200 // Given a working web service
         insights.track(eventClick)
-        webService.code = errorHttpStatusCode // Given a web service that errors
+        distantRepository.code = -1 // Given a web service that errors
         insights.track(eventConversion)
-        webService.code = HttpStatusCode.BadRequest // Given a working web service returning an HTTP error
+        distantRepository.code = 400 // Given a working web service returning an HTTP error
         insights.track(eventView) // When tracking an event
 
-        webService.code = errorHttpStatusCode // Given a web service that errors
+        distantRepository.code = -1 // Given a web service that errors
         insights.userToken = userToken // Given an userToken
 
         // When adding events without explicitly-provided userToken
@@ -259,15 +271,15 @@ internal class InsightsTest {
             queryID = queryID,
             objectIDs = objectIDs
         )
-        webService.code = HttpStatusCode.OK // Given a working web service
+        distantRepository.code = 200 // Given a working web service
         insights.viewed(eventView)
     }
 
-    inner class IntegrationEventUploader(
+    inner class IntegrationWorker(
         events: MutableList<InsightsEvent>,
-        private val webService: MockWebService,
-        private val database: MockDatabase,
-    ) : AssertingEventUploader(events, webService, database) {
+        webService: InsightsDistantRepository,
+        private val database: InsightsLocalRepository,
+    ) : AssertingWorker(events, webService, database) {
 
         override fun startOneTimeUpload() {
             val clickEventNotForSearch = InsightsEvent.Click(
@@ -307,7 +319,7 @@ internal class InsightsTest {
                     "failed 6"
                 ) // expect added third
             }
-            webService.uploadEvents(database, indexName)
+            uploader.uploadAll()
             when (count) {
                 0 -> assert(database.read().isEmpty()) // expect flushed first
                 1 -> assertEquals(listOf(eventConversion), database.read()) // expect kept second
@@ -326,18 +338,19 @@ internal class InsightsTest {
         }
     }
 
-    abstract inner class AssertingEventUploader(
+    abstract inner class AssertingWorker(
         private val events: MutableList<InsightsEvent>,
-        private val webService: MockWebService,
-        private val database: MockDatabase,
-    ) : EventUploader {
+        distantRepository: InsightsDistantRepository,
+        private val localRepository: InsightsLocalRepository,
+    ) : InsightsWorker {
 
         protected var count: Int = 0
+        protected val uploader = InsightsEventUploader(localRepository, distantRepository)
 
         override fun startPeriodicUpload() {
-            assertEquals(events, database.read())
-            webService.uploadEvents(database, indexName)
-            assert(database.read().isEmpty())
+            assertEquals(events, localRepository.read())
+            uploader.uploadAll()
+            assert(localRepository.read().isEmpty())
         }
     }
 }

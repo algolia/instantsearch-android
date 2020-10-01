@@ -4,7 +4,8 @@ import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.algolia.instantsearch.insights.internal.database.DatabaseSharedPreferences
+import com.algolia.instantsearch.insights.internal.data.local.InsightsPrefsRepository
+import com.algolia.instantsearch.insights.internal.extension.insightsSharedPreferences
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.ObjectID
@@ -69,14 +70,13 @@ class AndroidTestDatabaseSharedPreferences {
             eventClick,
             eventConversion
         )
-        val database = DatabaseSharedPreferences(context, indexName)
+
+        val database = InsightsPrefsRepository(context.insightsSharedPreferences(indexName))
 
         database.overwrite(events)
         assertTrue(database.read().containsAll(events))
 
         database.append(eventView)
-        val actual = database.read()
-        val expected = events.plus(eventView)
         assertTrue(database.read().containsAll(events.plus(eventView)))
     }
 }

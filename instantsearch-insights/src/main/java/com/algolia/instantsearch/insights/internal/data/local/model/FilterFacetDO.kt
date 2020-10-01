@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.insights.internal.database.model
+package com.algolia.instantsearch.insights.internal.data.local.model
 
 internal typealias FilterFacetDO = Map<String, Any?>
 

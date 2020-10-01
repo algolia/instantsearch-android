@@ -1,21 +1,20 @@
-package com.algolia.instantsearch.insights.internal.event
+package com.algolia.instantsearch.insights.internal.worker
 
-import android.content.Context
-import com.algolia.instantsearch.insights.internal.database.InsightsSharedPreferences
+import com.algolia.instantsearch.insights.internal.data.settings.InsightsSettings
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
 
-internal class EventUploaderAndroidJob(
-    context: Context,
-    private val preferences: InsightsSharedPreferences,
-) : EventUploader {
+internal class WorkerAndroidJob(
+    jobManager: JobManager,
+    private val settings: InsightsSettings,
+) : InsightsWorker {
 
     private var repeatIntervalInMinutes = defaultRepeatIntervalInMinutes
 
     init {
-        JobManager.create(context).addJobCreator(EventJobCreator())
+        jobManager.addJobCreator(EventJobCreator())
     }
 
     override fun setInterval(intervalInMinutes: Long) {
@@ -23,7 +22,7 @@ internal class EventUploaderAndroidJob(
     }
 
     override fun startPeriodicUpload() {
-        if (preferences.jobId == defaultJobId) {
+        if (settings.jobId == defaultJobId) {
             val jobId = JobRequest
                 .Builder(EventJobCreator.Tag.Periodic.name)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
@@ -33,7 +32,7 @@ internal class EventUploaderAndroidJob(
                 )
                 .build()
                 .schedule()
-            preferences.jobId = jobId
+            settings.jobId = jobId
         }
     }
 

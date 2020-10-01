@@ -1,6 +1,6 @@
-package com.algolia.instantsearch.insights.internal.event
+package com.algolia.instantsearch.insights.internal.worker
 
-internal interface EventUploader {
+internal interface InsightsWorker {
 
     fun setInterval(intervalInMinutes: Long) = Unit
 

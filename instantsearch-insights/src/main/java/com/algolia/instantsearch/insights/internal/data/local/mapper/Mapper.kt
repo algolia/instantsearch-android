@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.insights.internal.database.mapper
+package com.algolia.instantsearch.insights.internal.data.local.mapper
 
 internal interface Mapper<T, R> {
 

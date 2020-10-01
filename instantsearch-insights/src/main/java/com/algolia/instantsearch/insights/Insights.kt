@@ -2,14 +2,24 @@ package com.algolia.instantsearch.insights
 
 import android.content.Context
 import android.util.Log
-import com.algolia.instantsearch.insights.internal.database.Database
-import com.algolia.instantsearch.insights.internal.database.DatabaseSharedPreferences
-import com.algolia.instantsearch.insights.internal.database.InsightsSharedPreferences
-import com.algolia.instantsearch.insights.internal.event.EventUploader
-import com.algolia.instantsearch.insights.internal.event.EventUploaderAndroidJob
+import com.algolia.instantsearch.insights.internal.data.distant.InsightsDistantRepository
+import com.algolia.instantsearch.insights.internal.data.distant.InsightsHttpRepository
+import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepository
+import com.algolia.instantsearch.insights.internal.data.local.InsightsPrefsRepository
+import com.algolia.instantsearch.insights.internal.data.settings.InsightsEventSettings
+import com.algolia.instantsearch.insights.internal.data.settings.InsightsSettings
+import com.algolia.instantsearch.insights.internal.extension.insightsSharedPreferences
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
-import com.algolia.instantsearch.insights.internal.webservice.WebService
-import com.algolia.instantsearch.insights.internal.webservice.WebServiceHttp
+import com.algolia.instantsearch.insights.internal.saver.InsightsEventSaver
+import com.algolia.instantsearch.insights.internal.saver.InsightsSaver
+import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
+import com.algolia.instantsearch.insights.internal.uploader.InsightsUploader
+import com.algolia.instantsearch.insights.internal.worker.InsightsWorker
+import com.algolia.instantsearch.insights.internal.worker.WorkerAndroidJob
+import com.algolia.search.client.ClientInsights
+import com.algolia.search.configuration.ConfigurationInsights
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.ObjectID
 import com.algolia.search.model.QueryID
@@ -17,6 +27,7 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
+import com.evernote.android.job.JobManager
 import java.util.UUID
 
 /**
@@ -26,9 +37,9 @@ import java.util.UUID
  */
 public class Insights internal constructor(
     private val indexName: IndexName,
-    private val eventUploader: EventUploader,
-    internal val database: Database,
-    internal val webService: WebService,
+    private val worker: InsightsWorker,
+    private val saver: InsightsSaver,
+    internal val uploader: InsightsUploader,
 ) : HitsAfterSearchTrackable, FilterTrackable {
 
     /**
@@ -52,7 +63,7 @@ public class Insights internal constructor(
      */
     public var debouncingIntervalInMinutes: Long? = null
         set(value) {
-            value?.let { eventUploader.setInterval(value) }
+            value?.let { worker.setInterval(value) }
         }
 
     /**
@@ -71,7 +82,7 @@ public class Insights internal constructor(
     public var minBatchSize: Int = 10
 
     init {
-        eventUploader.startPeriodicUpload()
+        worker.startPeriodicUpload()
     }
 
     // region Event tracking methods
@@ -215,50 +226,19 @@ public class Insights internal constructor(
      */
     public fun track(event: InsightsEvent) {
         if (enabled) {
-            database.append(event)
-            if (database.count() >= minBatchSize) {
-                eventUploader.startOneTimeUpload()
+            saver.save(event)
+            if (saver.size() >= minBatchSize) {
+                worker.startOneTimeUpload()
             }
         }
     }
 
     // endregion
 
-    override fun toString(): String {
-        return "Insights(indexName='$indexName', webService=$webService)"
-    }
-
     public companion object {
 
+        private const val INSIGHTS_SHARED_PREFS = "InsightsEvents"
         internal val insightsMap = mutableMapOf<IndexName, Insights>()
-
-        /**
-         * Register your index with a given appId and apiKey.
-         * @param eventUploader event uploader
-         * @param database local storage
-         * @param webService web service
-         * @param indexName The index that is being tracked.
-         * @param configuration A [Configuration] class.
-         * @return An [Insights] instance.
-         */
-        internal fun register(
-            eventUploader: EventUploader,
-            database: Database,
-            webService: WebService,
-            indexName: IndexName,
-            configuration: Configuration = Configuration(5000, 5000),
-        ): Insights {
-
-            val insights = Insights(indexName, eventUploader, database, webService)
-            insights.userToken = configuration.defaultUserToken
-
-            val previousInsights = insightsMap.put(indexName, insights)
-            previousInsights?.let {
-                InsightsLogger.log("Registering new Insights for indexName $indexName. Previous instance: $insights")
-            }
-            shared = insights
-            return insights
-        }
 
         /**
          * Access an already registered `Insights` without having to pass the `apiKey` and `appId`.
@@ -299,17 +279,12 @@ public class Insights internal constructor(
             indexName: IndexName,
             configuration: Configuration,
         ): Insights {
-            val preferences = InsightsSharedPreferences(context)
-            val eventUploader = EventUploaderAndroidJob(context, preferences)
-            val database = DatabaseSharedPreferences(context, indexName)
-            val webService = WebServiceHttp(
-                appId = appId,
-                apiKey = apiKey,
-                connectTimeoutInMilliseconds = configuration.connectTimeoutInMilliseconds,
-                readTimeoutInMilliseconds = configuration.readTimeoutInMilliseconds
-            )
-
-            return register(eventUploader, database, webService, indexName, configuration)
+            val settings = InsightsEventSettings(insightsSettingsPrefs(context))
+            val jobManager = JobManager.create(context)
+            val localRepository = InsightsPrefsRepository(context.insightsSharedPreferences(indexName))
+            val clientInsights = clientInsights(appId, apiKey, configuration)
+            val distantRepository = InsightsHttpRepository(clientInsights)
+            return register(indexName, localRepository, distantRepository, jobManager, settings, configuration)
         }
 
         /**
@@ -327,30 +302,68 @@ public class Insights internal constructor(
             apiKey: String,
             indexName: IndexName,
         ): Insights {
-            val sharedPreferences = InsightsSharedPreferences(context)
-            val eventUploader = EventUploaderAndroidJob(context, sharedPreferences)
-            val database = DatabaseSharedPreferences(context, indexName)
-            val userToken = UserToken(storedUserToken(sharedPreferences))
+            val localRepository = InsightsPrefsRepository(context.insightsSharedPreferences(indexName))
+            val settings = InsightsEventSettings(insightsSettingsPrefs(context))
+            val userToken = UserToken(storedUserToken(settings))
             Log.d("Insights", "Insights user token: $userToken")
             val configuration = Configuration(5000, 5000, userToken)
-
-            val webService = WebServiceHttp(
-                appId = appId,
-                apiKey = apiKey,
-                connectTimeoutInMilliseconds = configuration.connectTimeoutInMilliseconds,
-                readTimeoutInMilliseconds = configuration.readTimeoutInMilliseconds
-            )
-
-            return register(eventUploader, database, webService, indexName, configuration)
+            val clientInsights = clientInsights(appId, apiKey, configuration)
+            val distantRepository = InsightsHttpRepository(clientInsights)
+            val jobManager = JobManager.create(context)
+            return register(indexName, localRepository, distantRepository, jobManager, settings, configuration)
         }
 
-        private fun storedUserToken(preferences: InsightsSharedPreferences): String {
-            val userToken = preferences.userToken
+        /**
+         * Register your index with a given appId and apiKey.
+         * @param indexName The index that is being tracked.
+         * @param localRepository local storage
+         * @param distantRepository server storage
+         * @param jobManager jobs scheduler
+         * @param settings settings storage
+         * @param configuration A [Configuration] class.
+         * @return An [Insights] instance.
+         */
+        internal fun register(
+            indexName: IndexName,
+            localRepository: InsightsLocalRepository,
+            distantRepository: InsightsDistantRepository,
+            jobManager: JobManager,
+            settings: InsightsSettings,
+            configuration: Configuration = Configuration(5000, 5000),
+        ): Insights {
+            val saver = InsightsEventSaver(localRepository)
+            val uploader = InsightsEventUploader(localRepository, distantRepository)
+            val worker = WorkerAndroidJob(jobManager, settings)
+            val insights = Insights(indexName, worker, saver, uploader)
+            insights.userToken = configuration.defaultUserToken
+            insightsMap.put(indexName, insights)?.let {
+                InsightsLogger.log("Registering new Insights for indexName $indexName. Previous instance: $it")
+            }
+            shared = insights
+            return insights
+        }
+
+        private fun insightsSettingsPrefs(context: Context) =
+            context.getSharedPreferences(INSIGHTS_SHARED_PREFS, Context.MODE_PRIVATE)
+
+        private fun storedUserToken(settings: InsightsSettings): String {
+            val userToken = settings.userToken
             if (userToken != null) return userToken
 
             return UUID.randomUUID().toString().also {
-                preferences.userToken = it
+                settings.userToken = it
             }
+        }
+
+        private fun clientInsights(appId: String, apiKey: String, configuration: Configuration): ClientInsights {
+            return ClientInsights(
+                ConfigurationInsights(
+                    applicationID = ApplicationID(appId),
+                    apiKey = APIKey(apiKey),
+                    writeTimeout = configuration.connectTimeoutInMilliseconds,
+                    readTimeout = configuration.readTimeoutInMilliseconds
+                )
+            )
         }
     }
 

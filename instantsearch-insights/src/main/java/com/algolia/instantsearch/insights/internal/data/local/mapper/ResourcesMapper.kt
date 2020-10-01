@@ -1,6 +1,6 @@
-package com.algolia.instantsearch.insights.internal.database.mapper
+package com.algolia.instantsearch.insights.internal.data.local.mapper
 
-import com.algolia.instantsearch.insights.internal.database.model.EventKey
+import com.algolia.instantsearch.insights.internal.data.local.model.EventKey
 import com.algolia.search.helper.toObjectID
 import com.algolia.search.model.insights.InsightsEvent
 

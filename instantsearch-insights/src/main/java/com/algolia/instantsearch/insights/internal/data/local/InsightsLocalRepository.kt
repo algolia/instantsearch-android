@@ -1,11 +1,8 @@
-package com.algolia.instantsearch.insights.internal.database
+package com.algolia.instantsearch.insights.internal.data.local
 
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.insights.InsightsEvent
 
-internal interface Database {
-
-    val indexName: IndexName
+internal interface InsightsLocalRepository {
 
     fun append(event: InsightsEvent)
 
