@@ -2,6 +2,7 @@ package com.algolia.instantsearch.insights
 
 import android.content.Context
 import android.util.Log
+import androidx.work.WorkManager
 import com.algolia.instantsearch.insights.internal.data.distant.InsightsDistantRepository
 import com.algolia.instantsearch.insights.internal.data.distant.InsightsHttpRepository
 import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepository
@@ -14,8 +15,8 @@ import com.algolia.instantsearch.insights.internal.saver.InsightsEventSaver
 import com.algolia.instantsearch.insights.internal.saver.InsightsSaver
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
 import com.algolia.instantsearch.insights.internal.uploader.InsightsUploader
-import com.algolia.instantsearch.insights.internal.worker.InsightsWorker
-import com.algolia.instantsearch.insights.internal.worker.WorkerAndroidJob
+import com.algolia.instantsearch.insights.internal.worker.InsightsManager
+import com.algolia.instantsearch.insights.internal.worker.InsightsWorkManager
 import com.algolia.search.client.ClientInsights
 import com.algolia.search.configuration.ConfigurationInsights
 import com.algolia.search.model.APIKey
@@ -27,7 +28,6 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
-import com.evernote.android.job.JobManager
 import java.util.UUID
 
 /**
@@ -37,7 +37,7 @@ import java.util.UUID
  */
 public class Insights internal constructor(
     private val indexName: IndexName,
-    private val worker: InsightsWorker,
+    private val worker: InsightsManager,
     private val saver: InsightsSaver,
     internal val uploader: InsightsUploader,
 ) : HitsAfterSearchTrackable, FilterTrackable {
@@ -279,12 +279,11 @@ public class Insights internal constructor(
             indexName: IndexName,
             configuration: Configuration,
         ): Insights {
-            val settings = InsightsEventSettings(insightsSettingsPrefs(context))
-            val jobManager = JobManager.create(context)
             val localRepository = InsightsPrefsRepository(context.insightsSharedPreferences(indexName))
-            val clientInsights = clientInsights(appId, apiKey, configuration)
-            val distantRepository = InsightsHttpRepository(clientInsights)
-            return register(indexName, localRepository, distantRepository, jobManager, settings, configuration)
+            val distantRepository = InsightsHttpRepository(clientInsights(appId, apiKey, configuration))
+            val workManager = WorkManager.getInstance(context)
+            val settings = InsightsEventSettings(insightsSettingsPrefs(context))
+            return register(indexName, localRepository, distantRepository, workManager, settings, configuration)
         }
 
         /**
@@ -307,10 +306,9 @@ public class Insights internal constructor(
             val userToken = UserToken(storedUserToken(settings))
             Log.d("Insights", "Insights user token: $userToken")
             val configuration = Configuration(5000, 5000, userToken)
-            val clientInsights = clientInsights(appId, apiKey, configuration)
-            val distantRepository = InsightsHttpRepository(clientInsights)
-            val jobManager = JobManager.create(context)
-            return register(indexName, localRepository, distantRepository, jobManager, settings, configuration)
+            val distantRepository = InsightsHttpRepository(clientInsights(appId, apiKey, configuration))
+            val workManager = WorkManager.getInstance(context)
+            return register(indexName, localRepository, distantRepository, workManager, settings, configuration)
         }
 
         /**
@@ -327,13 +325,13 @@ public class Insights internal constructor(
             indexName: IndexName,
             localRepository: InsightsLocalRepository,
             distantRepository: InsightsDistantRepository,
-            jobManager: JobManager,
+            workManager: WorkManager,
             settings: InsightsSettings,
             configuration: Configuration = Configuration(5000, 5000),
         ): Insights {
             val saver = InsightsEventSaver(localRepository)
             val uploader = InsightsEventUploader(localRepository, distantRepository)
-            val worker = WorkerAndroidJob(jobManager, settings)
+            val worker = InsightsWorkManager(workManager, settings)
             val insights = Insights(indexName, worker, saver, uploader)
             insights.userToken = configuration.defaultUserToken
             insightsMap.put(indexName, insights)?.let {

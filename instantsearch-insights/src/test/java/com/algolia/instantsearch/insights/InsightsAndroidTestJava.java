@@ -7,12 +7,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.algolia.search.model.IndexName;
 import com.algolia.search.model.insights.EventName;
 import com.algolia.search.model.insights.UserToken;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 
 import java.util.Collections;
 
+import static com.algolia.instantsearch.insights.util.WorkerManagerKt.setupWorkManager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -22,6 +24,11 @@ public class InsightsAndroidTestJava {
 
     private Context context = ApplicationProvider.getApplicationContext();
     private Insights.Configuration configuration = new Insights.Configuration(5000, 5000);
+
+    @Before
+    public void init() {
+        setupWorkManager();
+    }
 
     @Test
     public void testInitShouldFail() {

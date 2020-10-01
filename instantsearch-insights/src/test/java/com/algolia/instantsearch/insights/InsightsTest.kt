@@ -7,7 +7,7 @@ import com.algolia.instantsearch.insights.internal.data.distant.InsightsHttpRepo
 import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepository
 import com.algolia.instantsearch.insights.internal.saver.InsightsEventSaver
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
-import com.algolia.instantsearch.insights.internal.worker.InsightsWorker
+import com.algolia.instantsearch.insights.internal.worker.InsightsManager
 import com.algolia.search.client.ClientInsights
 import com.algolia.search.configuration.ConfigurationInsights
 import com.algolia.search.model.APIKey
@@ -342,7 +342,7 @@ internal class InsightsTest {
         private val events: MutableList<InsightsEvent>,
         distantRepository: InsightsDistantRepository,
         private val localRepository: InsightsLocalRepository,
-    ) : InsightsWorker {
+    ) : InsightsManager {
 
         protected var count: Int = 0
         protected val uploader = InsightsEventUploader(localRepository, distantRepository)

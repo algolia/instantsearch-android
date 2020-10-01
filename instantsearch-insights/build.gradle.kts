@@ -1,4 +1,4 @@
-import dependency.lib.AndroidJob
+import dependency.lib.Work
 import dependency.network.AlgoliaClient
 import dependency.network.Ktor
 import dependency.test.AndroidTestExt
@@ -71,9 +71,9 @@ version = Library.version
 
 dependencies {
     implementation(AndroidCore("ktx"))
-    implementation(AndroidJob())
     implementation(AlgoliaClient())
     implementation(Ktor("client-android"))
+    implementation(Work("runtime-ktx"))
 
     testImplementation(kotlin("test-junit"))
     testImplementation(kotlin("test-annotations-common"))
@@ -81,6 +81,7 @@ dependencies {
     testImplementation(AndroidTestExt())
     testImplementation(Robolectric())
     testImplementation(Ktor("client-mock-jvm"))
+    testImplementation(Work("testing"))
 }
 
 mavenPublish.targets.getByName("uploadArchives") {

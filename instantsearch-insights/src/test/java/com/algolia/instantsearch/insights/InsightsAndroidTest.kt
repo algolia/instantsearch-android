@@ -4,8 +4,8 @@ import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.algolia.instantsearch.insights.util.setupWorkManager
 import com.algolia.search.model.IndexName
-import com.evernote.android.job.JobManager
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,9 +25,7 @@ class InsightsAndroidTest {
 
     @Before
     fun init() {
-        val declaredField = JobManager::class.java.getDeclaredField("instance")
-        declaredField.isAccessible = true
-        declaredField.set(null, null)
+        setupWorkManager()
     }
 
     @Test
