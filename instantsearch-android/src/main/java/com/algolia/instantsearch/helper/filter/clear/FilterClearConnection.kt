@@ -1,6 +1,8 @@
 package com.algolia.instantsearch.helper.filter.clear
 
 import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.helper.filter.clear.internal.FilterClearConnectionFilterState
+import com.algolia.instantsearch.helper.filter.clear.internal.FilterClearConnectionView
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 
@@ -18,6 +20,11 @@ public fun FilterClearViewModel.connectView(
     return FilterClearConnectionView(this, view)
 }
 
+/**
+ * Create a connection between a view to the filter clear components.
+ *
+ * @param view the view that will render the clear filter UI
+ */
 public fun FilterClearConnector.connectView(
     view: FilterClearView,
 ): Connection {

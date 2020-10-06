@@ -6,6 +6,13 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceLoadingInMillis
 
+/**
+ * Components that show a loading indicator during pending requests.
+ *
+ * @param searcher the Searcher that handles your searches.
+ * @param viewModel the logic applied to the loading indicator.
+ * @param debouncer delays searcher operations by a specified time duration.
+ */
 public data class LoadingConnector<R>(
     public val searcher: Searcher<R>,
     public val viewModel: LoadingViewModel = LoadingViewModel(),

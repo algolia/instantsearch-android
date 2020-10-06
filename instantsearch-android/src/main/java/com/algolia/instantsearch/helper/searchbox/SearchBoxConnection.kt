@@ -7,6 +7,7 @@ import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
+import com.algolia.instantsearch.helper.searchbox.internal.SearchBoxConnectionSearcher
 
 public fun <R> SearchBoxViewModel.connectSearcher(
     searcher: Searcher<R>,
@@ -16,6 +17,11 @@ public fun <R> SearchBoxViewModel.connectSearcher(
     return SearchBoxConnectionSearcher(this, searcher, searchMode, debouncer)
 }
 
+/**
+ * Create a connection between a view and the searchbox.
+ *
+ * @param view the view that handles the input
+ */
 public fun <R> SearchBoxConnector<R>.connectView(
     view: SearchBoxView,
 ): Connection {

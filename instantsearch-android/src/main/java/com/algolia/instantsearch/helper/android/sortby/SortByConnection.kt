@@ -3,6 +3,7 @@ package com.algolia.instantsearch.helper.android.sortby
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.helper.android.sortby.internal.SortByConnectionPagedList
 import com.algolia.instantsearch.helper.sortby.SortByConnector
 import com.algolia.instantsearch.helper.sortby.SortByViewModel
 

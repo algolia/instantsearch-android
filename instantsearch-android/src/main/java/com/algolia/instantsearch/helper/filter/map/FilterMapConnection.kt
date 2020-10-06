@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.selectable.map.SelectableMapView
 import com.algolia.instantsearch.core.selectable.map.connectView
 import com.algolia.instantsearch.helper.filter.FilterPresenter
 import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
+import com.algolia.instantsearch.helper.filter.map.internal.FilterMapConnectionFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -23,6 +24,12 @@ public fun FilterMapViewModel.connectView(
     return connectView(view, presenter)
 }
 
+/**
+ * Create a connection between a view and the filter map components.
+ *
+ * @param view the view that renders the filter map
+ * @param presenter defines the way we want to display filters
+ */
 public fun FilterMapConnector.connectView(
     view: SelectableMapView<Int, String>,
     presenter: FilterPresenter = FilterPresenterImpl(),

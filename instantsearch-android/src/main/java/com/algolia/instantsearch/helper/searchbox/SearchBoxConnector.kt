@@ -6,6 +6,15 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
 
+/**
+ * The SearchBox is used to perform a text-based query.
+ *
+ * @param searcher the Searcher that handles your searches
+ * @param viewModel the business logic that handles new search inputs
+ * @param searchMode searchMode.AsYouType` will trigger a search on each keystroke. `SearchMode.OnSubmit` will trigger
+ * a search on submitting the query
+ * @param debouncer delays searcher operations by a specified time duration
+ */
 public data class SearchBoxConnector<R>(
     public val searcher: Searcher<R>,
     public val viewModel: SearchBoxViewModel = SearchBoxViewModel(),

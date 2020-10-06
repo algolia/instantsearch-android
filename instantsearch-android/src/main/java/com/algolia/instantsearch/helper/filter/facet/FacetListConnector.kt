@@ -10,6 +10,13 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 
+/**
+ * RefinementList is a filtering view that displays facets, and lets the user refine their search results by filtering
+ * on specific values.
+ * Requirements: The attribute provided to the widget must be added in attributes for faceting, either on the dashboard
+ * or using attributesForFaceting with the API.
+ * [Documentation](https://www.algolia.com/doc/api-reference/widgets/refinement-list/android/)
+ */
 public data class FacetListConnector internal constructor(
     public val filterState: FilterState,
     public val attribute: Attribute,

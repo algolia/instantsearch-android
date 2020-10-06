@@ -3,6 +3,8 @@ package com.algolia.instantsearch.helper.searcher
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
+import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
@@ -14,6 +16,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * The component handling search requests and managing the search sessions.
+ * This implementation searches in multiple indices.
+ * This is useful for a federated search, or query suggestions search experience.
+ */
 public class SearcherMultipleIndex(
     public val client: ClientSearch,
     public val queries: List<IndexQuery>,
