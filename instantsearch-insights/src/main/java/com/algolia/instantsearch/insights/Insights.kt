@@ -19,6 +19,9 @@ import com.algolia.instantsearch.insights.internal.worker.InsightsManager
 import com.algolia.instantsearch.insights.internal.worker.InsightsWorkManager
 import com.algolia.search.client.ClientInsights
 import com.algolia.search.configuration.ConfigurationInsights
+import com.algolia.search.helper.toAPIKey
+import com.algolia.search.helper.toApplicationID
+import com.algolia.search.helper.toIndexName
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
@@ -276,6 +279,26 @@ public class Insights internal constructor(
             context: Context,
             appId: String,
             apiKey: String,
+            indexName: String,
+            configuration: Configuration,
+        ): Insights {
+            return register(context, appId.toApplicationID(), apiKey.toAPIKey(), indexName.toIndexName(), configuration)
+        }
+
+        /**
+         * Register your index with a given appId and apiKey.
+         * @param context A [Context].
+         * @param appId The given app id for which you want to track the events.
+         * @param apiKey The API Key for your `appId`.
+         * @param indexName The index that is being tracked.
+         * @param configuration A [Configuration] class.
+         * @return An [Insights] instance.
+         */
+        @JvmStatic
+        public fun register(
+            context: Context,
+            appId: ApplicationID,
+            apiKey: APIKey,
             indexName: IndexName,
             configuration: Configuration,
         ): Insights {
@@ -299,6 +322,24 @@ public class Insights internal constructor(
             context: Context,
             appId: String,
             apiKey: String,
+            indexName: String,
+        ): Insights {
+            return register(context, appId.toApplicationID(), apiKey.toAPIKey(), indexName.toIndexName())
+        }
+
+        /**
+         * Register your index with a given appId and apiKey.
+         * @param context A [Context].
+         * @param appId The given app id for which you want to track the events.
+         * @param apiKey The API Key for your `appId`.
+         * @param indexName The index that is being tracked.
+         * @return An [Insights] instance.
+         */
+        @JvmStatic
+        public fun register(
+            context: Context,
+            appId: ApplicationID,
+            apiKey: APIKey,
             indexName: IndexName,
         ): Insights {
             val localRepository = InsightsPrefsRepository(context.insightsSharedPreferences(indexName))
@@ -353,11 +394,11 @@ public class Insights internal constructor(
             }
         }
 
-        private fun clientInsights(appId: String, apiKey: String, configuration: Configuration): ClientInsights {
+        private fun clientInsights(appId: ApplicationID, apiKey: APIKey, configuration: Configuration): ClientInsights {
             return ClientInsights(
                 ConfigurationInsights(
-                    applicationID = ApplicationID(appId),
-                    apiKey = APIKey(apiKey),
+                    applicationID = appId,
+                    apiKey = apiKey,
                     writeTimeout = configuration.connectTimeoutInMilliseconds,
                     readTimeout = configuration.readTimeoutInMilliseconds
                 )

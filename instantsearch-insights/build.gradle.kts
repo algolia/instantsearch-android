@@ -66,8 +66,8 @@ tasks {
     }
 }
 
-group = Library.group
-version = Library.version
+group = Insights.group
+version = Insights.version
 
 dependencies {
     implementation(AndroidCore("ktx"))
