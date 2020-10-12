@@ -60,7 +60,7 @@ version = Library.version
 
 dependencies {
     api(project(":instantsearch-android-core"))
-    api(project(":instantsearch-insights"))
+    api(project(":instantsearch-android-insights"))
     api(AlgoliaClient())
     api(Ktor("client-android"))
     api(AndroidCore("ktx"))
