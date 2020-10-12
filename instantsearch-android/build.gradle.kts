@@ -3,6 +3,7 @@ import dependency.network.Coroutines
 import dependency.network.Ktor
 import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
+import dependency.test.Mockk
 import dependency.test.Robolectric
 import dependency.ui.AndroidCore
 import dependency.ui.AppCompat
@@ -59,6 +60,7 @@ version = Library.version
 
 dependencies {
     api(project(":instantsearch-android-core"))
+    api(project(":instantsearch-insights"))
     api(AlgoliaClient())
     api(Ktor("client-android"))
     api(AndroidCore("ktx"))
@@ -71,10 +73,12 @@ dependencies {
 
     testImplementation(kotlin("test-junit"))
     testImplementation(kotlin("test-annotations-common"))
+    testImplementation(Coroutines("test"))
     testImplementation(Ktor("client-mock-jvm"))
     testImplementation(AndroidTestRunner())
     testImplementation(AndroidTestExt())
     testImplementation(Robolectric())
+    testImplementation(Mockk())
 }
 
 mavenPublish.targets.getByName("uploadArchives") {

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Build;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import com.algolia.search.model.APIKey;
+import com.algolia.search.model.ApplicationID;
 import com.algolia.search.model.IndexName;
 import com.algolia.search.model.insights.EventName;
 import com.algolia.search.model.insights.UserToken;
@@ -43,7 +45,9 @@ public class InsightsAndroidTestJava {
     @Test
     public void testInitShouldWork() {
         IndexName index = new IndexName("index");
-        Insights insights = Insights.register(context, "testApp", "testKey", index, configuration);
+        ApplicationID appId = new ApplicationID("appId");
+        APIKey apiKey = new APIKey("apiKey");
+        Insights insights = Insights.register(context, appId, apiKey, index, configuration);
         insights.setUserToken(new UserToken("foobarbaz"));
         Insights insightsShared = Insights.shared();
         assertNotNull("shared Insights should have been registered", insightsShared);

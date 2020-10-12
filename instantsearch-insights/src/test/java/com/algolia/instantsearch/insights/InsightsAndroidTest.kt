@@ -5,6 +5,8 @@ import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.algolia.instantsearch.insights.util.setupWorkManager
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import org.junit.Before
 import org.junit.Test
@@ -22,6 +24,9 @@ class InsightsAndroidTest {
         connectTimeoutInMilliseconds = 5000,
         readTimeoutInMilliseconds = 5000
     )
+
+    private val appId = ApplicationID("appId")
+    private val apiKey = APIKey("apiKey")
 
     @Before
     fun init() {
@@ -41,7 +46,7 @@ class InsightsAndroidTest {
     @Test
     fun testSharedAfterRegister() {
         val indexName = IndexName("indexSharedAfter")
-        val insights = Insights.register(context, "testApp", "testKey", indexName, configuration)
+        val insights = Insights.register(context, appId, apiKey, indexName, configuration)
         val insightsShared = Insights.shared
         assertEquals(insights, insightsShared)
     }
@@ -49,7 +54,7 @@ class InsightsAndroidTest {
     @Test
     fun testSharedNamedAfterRegister() {
         val indexName = IndexName("indexSharedNamedAfter")
-        val insights = Insights.register(context, "testApp", "testKey", indexName, configuration)
+        val insights = Insights.register(context, appId, apiKey, indexName, configuration)
         val insightsShared = Insights.shared(indexName)
         assertEquals(insights, insightsShared)
     }
@@ -57,7 +62,7 @@ class InsightsAndroidTest {
     @Test
     fun testRegisterGlobalUserToken() {
         val indexName = IndexName("indexGlobalUserToken")
-        Insights.register(context, "testApp", "testKey", indexName, configuration)
+        Insights.register(context, appId, apiKey, indexName, configuration)
         val insightsShared = Insights.shared(indexName)
         assertEquals(configuration.defaultUserToken, insightsShared.userToken)
     }

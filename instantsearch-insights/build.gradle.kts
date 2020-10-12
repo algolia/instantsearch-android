@@ -70,8 +70,8 @@ group = Insights.group
 version = Insights.version
 
 dependencies {
+    api(AlgoliaClient())
     implementation(AndroidCore("ktx"))
-    implementation(AlgoliaClient())
     implementation(Ktor("client-android"))
     implementation(Work("runtime-ktx"))
 
