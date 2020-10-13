@@ -8,7 +8,15 @@ public open class Subscription<T> {
         subscriptions += subscription
     }
 
+    public fun subscribe(subscription: Collection<(T) -> Unit>) {
+        subscriptions += subscription
+    }
+
     public fun unsubscribe(subscription: (T) -> Unit) {
+        subscriptions -= subscription
+    }
+
+    public fun unsubscribe(subscription: Collection<(T) -> Unit>) {
         subscriptions -= subscription
     }
 
