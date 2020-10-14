@@ -59,12 +59,4 @@ class TestQueryRuleCustomData {
 
         viewModel.item.value shouldEqual customData2
     }
-
-    @Test
-    fun testImplicitSerializer() {
-        val explicit = QueryRuleCustomDataViewModel(TestModel.serializer())
-        val implicit = QueryRuleCustomDataViewModel<TestModel>()
-
-        explicit.serializer shouldEqual implicit.serializer
-    }
 }
