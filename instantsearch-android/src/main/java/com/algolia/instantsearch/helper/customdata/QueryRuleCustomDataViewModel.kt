@@ -22,7 +22,7 @@ public class QueryRuleCustomDataViewModel<T>(
 
     public fun extractModel(responseSearch: ResponseSearch) {
         item.value = responseSearch.userDataOrNull?.asSequence()
-            ?.mapNotNull { tryOrNull<T> { Json.decodeFromJsonElement(deserializer, it) } }
+            ?.mapNotNull { tryOrNull { Json.decodeFromJsonElement(deserializer, it) } }
             ?.firstOrNull()
     }
 }
