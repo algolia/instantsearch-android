@@ -6,6 +6,7 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import kotlinx.serialization.DeserializationStrategy
 
 /**
  * Component that displays custom data from rules.
@@ -46,7 +47,29 @@ public class QueryRuleCustomDataConnector<T> @PublishedApi internal constructor(
     }
 }
 
+// region function builders
+
 /**
+ * Create an instance of [QueryRuleCustomDataConnector]
+ *
+ * @param searcher searcher that handles your searches
+ * @param deserializer deserializes the model into a value of type T
+ * @param initialItem initial item
+ * @param presenter defines the way we want to interact with a model
+ */
+public fun <T> QueryRuleCustomDataConnector(
+    searcher: SearcherSingleIndex,
+    deserializer: DeserializationStrategy<T>,
+    initialItem: T? = null,
+    presenter: QueryRuleCustomDataPresenter<T>,
+): QueryRuleCustomDataConnector<T> {
+    val viewModel = QueryRuleCustomDataViewModel(deserializer, initialItem)
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher), presenter)
+}
+
+/**
+ * Create an instance of [QueryRuleCustomDataConnector].
+ *
  * @param searcher searcher that handles your searches
  * @param viewModel logic applied to the custom model
  * @param presenter defines the way we want to interact with a model
@@ -60,6 +83,8 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
 }
 
 /**
+ * Create an instance of [QueryRuleCustomDataConnector].
+ *
  * @param searcher searcher that handles your searches
  * @param queryIndex Index of query from response of which the user data will be extracted
  * @param viewModel logic applied to the custom model
@@ -73,3 +98,25 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
 ): QueryRuleCustomDataConnector<T> {
     return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex), presenter)
 }
+
+/**
+ * Create an instance of [QueryRuleCustomDataConnector].
+ *
+ * @param searcher searcher that handles your searches
+ * @param queryIndex index of query from response of which the user data will be extracted
+ * @param deserializer deserializes the model into a value of type T
+ * @param initialItem initial item
+ * @param presenter defines the way we want to interact with a model
+ */
+public fun <T> QueryRuleCustomDataConnector(
+    searcher: SearcherMultipleIndex,
+    queryIndex: Int,
+    deserializer: DeserializationStrategy<T>,
+    initialItem: T? = null,
+    presenter: QueryRuleCustomDataPresenter<T>,
+): QueryRuleCustomDataConnector<T> {
+    val viewModel = QueryRuleCustomDataViewModel(deserializer, initialItem)
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex), presenter)
+}
+
+// endregion
