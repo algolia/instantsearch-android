@@ -13,16 +13,14 @@ import kotlinx.serialization.DeserializationStrategy
  * [Documentation](https://www.algolia.com/doc/api-reference/widgets/query-rule-custom-data/android/)
  *
  * @param viewModel logic applied to the custom model
- * @param presenter defines the way we want to interact with a model
  * @param searcherConnection connection between the view model and a searcher
  */
 public class QueryRuleCustomDataConnector<T> @PublishedApi internal constructor(
     public val viewModel: QueryRuleCustomDataViewModel<T>,
     private val searcherConnection: Connection,
-    presenter: QueryRuleCustomDataPresenter<T>,
 ) : ConnectionImpl() {
 
-    private val presenters: MutableSet<QueryRuleCustomDataPresenter<T>> = mutableSetOf(presenter)
+    private val presenters: MutableSet<QueryRuleCustomDataPresenter<T>> = mutableSetOf()
 
     override fun connect() {
         super.connect()
@@ -61,10 +59,12 @@ public fun <T> QueryRuleCustomDataConnector(
     searcher: SearcherSingleIndex,
     deserializer: DeserializationStrategy<T>,
     initialItem: T? = null,
-    presenter: QueryRuleCustomDataPresenter<T>,
+    presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {
     val viewModel = QueryRuleCustomDataViewModel(deserializer, initialItem)
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher), presenter)
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher)).also {
+        if (presenter != null) it.subscribe(presenter)
+    }
 }
 
 /**
@@ -77,9 +77,11 @@ public fun <T> QueryRuleCustomDataConnector(
 public inline fun <reified T> QueryRuleCustomDataConnector(
     searcher: SearcherSingleIndex,
     viewModel: QueryRuleCustomDataViewModel<T> = QueryRuleCustomDataViewModel(),
-    noinline presenter: QueryRuleCustomDataPresenter<T>,
+    noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher), presenter)
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher)).also {
+        if (presenter != null) it.subscribe(presenter)
+    }
 }
 
 /**
@@ -94,9 +96,11 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,
     viewModel: QueryRuleCustomDataViewModel<T> = QueryRuleCustomDataViewModel(),
-    noinline presenter: QueryRuleCustomDataPresenter<T>,
+    noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex), presenter)
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
+        if (presenter != null) it.subscribe(presenter)
+    }
 }
 
 /**
@@ -113,10 +117,12 @@ public fun <T> QueryRuleCustomDataConnector(
     queryIndex: Int,
     deserializer: DeserializationStrategy<T>,
     initialItem: T? = null,
-    presenter: QueryRuleCustomDataPresenter<T>,
+    presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {
     val viewModel = QueryRuleCustomDataViewModel(deserializer, initialItem)
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex), presenter)
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
+        if (presenter != null) it.subscribe(presenter)
+    }
 }
 
 // endregion
