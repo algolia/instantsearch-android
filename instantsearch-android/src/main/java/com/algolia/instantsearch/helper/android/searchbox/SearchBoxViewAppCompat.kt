@@ -16,6 +16,7 @@ public class SearchBoxViewAppCompat(
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 onQuerySubmitted?.invoke(query)
+                searchView.clearFocus();
                 return false
             }
 
