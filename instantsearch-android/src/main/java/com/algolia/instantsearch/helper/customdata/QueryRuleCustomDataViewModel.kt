@@ -30,9 +30,9 @@ public class QueryRuleCustomDataViewModel<T>(
 /**
  * Component encapsulating the logic applied to the custom model
  *
- * @param item initial item
+ * @param initialItem initial item
  */
 @Suppress("FunctionName")
-public inline fun <reified T> QueryRuleCustomDataViewModel(item: T? = null): QueryRuleCustomDataViewModel<T> {
-    return QueryRuleCustomDataViewModel(serializer(), item)
+public inline fun <reified T> QueryRuleCustomDataViewModel(initialItem: T? = null): QueryRuleCustomDataViewModel<T> {
+    return QueryRuleCustomDataViewModel(serializer(), initialItem)
 }

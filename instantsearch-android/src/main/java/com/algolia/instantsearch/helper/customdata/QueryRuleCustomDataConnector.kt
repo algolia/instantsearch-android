@@ -85,6 +85,46 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
 }
 
 /**
+ * Create an instance of [QueryRuleCustomDataConnector]
+ *
+ * @param searcher searcher that handles your searches
+ * @param initialItem initial item
+ * @param presenter defines the way we want to interact with a model
+ */
+public inline fun <reified T> QueryRuleCustomDataConnector(
+    searcher: SearcherSingleIndex,
+    initialItem: T?,
+    noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
+): QueryRuleCustomDataConnector<T> {
+    val viewModel = QueryRuleCustomDataViewModel(initialItem)
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher)).also {
+        if (presenter != null) it.subscribe(presenter)
+    }
+}
+
+/**
+ * Create an instance of [QueryRuleCustomDataConnector].
+ *
+ * @param searcher searcher that handles your searches
+ * @param queryIndex index of query from response of which the user data will be extracted
+ * @param deserializer deserializes the model into a value of type T
+ * @param initialItem initial item
+ * @param presenter defines the way we want to interact with a model
+ */
+public fun <T> QueryRuleCustomDataConnector(
+    searcher: SearcherMultipleIndex,
+    queryIndex: Int,
+    deserializer: DeserializationStrategy<T>,
+    initialItem: T? = null,
+    presenter: QueryRuleCustomDataPresenter<T>? = null,
+): QueryRuleCustomDataConnector<T> {
+    val viewModel = QueryRuleCustomDataViewModel(deserializer, initialItem)
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
+        if (presenter != null) it.subscribe(presenter)
+    }
+}
+
+/**
  * Create an instance of [QueryRuleCustomDataConnector].
  *
  * @param searcher searcher that handles your searches
@@ -107,19 +147,17 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
  * Create an instance of [QueryRuleCustomDataConnector].
  *
  * @param searcher searcher that handles your searches
- * @param queryIndex index of query from response of which the user data will be extracted
- * @param deserializer deserializes the model into a value of type T
+ * @param queryIndex Index of query from response of which the user data will be extracted
  * @param initialItem initial item
  * @param presenter defines the way we want to interact with a model
  */
-public fun <T> QueryRuleCustomDataConnector(
+public inline fun <reified T> QueryRuleCustomDataConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,
-    deserializer: DeserializationStrategy<T>,
-    initialItem: T? = null,
-    presenter: QueryRuleCustomDataPresenter<T>? = null,
+    initialItem: T?,
+    noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {
-    val viewModel = QueryRuleCustomDataViewModel(deserializer, initialItem)
+    val viewModel = QueryRuleCustomDataViewModel(initialItem)
     return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
         if (presenter != null) it.subscribe(presenter)
     }
