@@ -1,3 +1,8 @@
+# Unreleased
+
+# Added
+- Query rule custom data widget
+
 # 2.6.0
 
 ## Changed
