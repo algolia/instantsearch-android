@@ -6,7 +6,9 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.subscription.MainCoroutineRule
 import com.algolia.instantsearch.extension.subscription.asFlow
 import com.algolia.instantsearch.extension.subscription.asLiveData
+import com.algolia.instantsearch.extension.subscription.asStateFlow
 import com.algolia.instantsearch.extension.subscription.runBlocking
+import com.algolia.instantsearch.extension.subscription.testCoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -29,12 +31,11 @@ class SubscriptionValueTest {
             val initialValue = 1 // should be ignored
             val subscriptionValue = SubscriptionValue(initialValue)
             val results = mutableListOf<Int>()
-            coroutineScope {
-                val job = subscriptionValue.asFlow()
+            testCoroutineScope {
+                subscriptionValue.asFlow()
                     .onEach { results.add(it) }
                     .launchIn(this)
                 subscriptionValue.value = 2 // first element
-                job.cancel()
             }
             assertEquals(1, results.size)
         }
@@ -46,12 +47,11 @@ class SubscriptionValueTest {
             val initialValue = 1 // first (current) element
             val subscriptionValue = SubscriptionValue(initialValue)
             val results = mutableListOf<Int>()
-            coroutineScope {
-                val job = subscriptionValue.asFlow(past = true)
+            testCoroutineScope {
+                subscriptionValue.asFlow(past = true)
                     .onEach { results.add(it) }
                     .launchIn(this)
                 subscriptionValue.value = 2 // second element
-                job.cancel()
             }
             assertEquals(2, results.size)
         }
@@ -123,6 +123,22 @@ class SubscriptionValueTest {
             subscriptionValue.value = 2 // should be ignored
 
             assertNotEquals(1, results.size)
+        }
+    }
+
+    @Test
+    fun testStateFlow() {
+        coroutineRule.runBlocking {
+            val initialValue = 1 // first element
+            val subscriptionValue = SubscriptionValue(initialValue)
+            val results = mutableListOf<Int>()
+            testCoroutineScope {
+                subscriptionValue.asStateFlow(this)
+                    .onEach { results.add(it) }
+                    .launchIn(this)
+                subscriptionValue.value = 2 // second element
+            }
+            assertEquals(2, results.size)
         }
     }
 }

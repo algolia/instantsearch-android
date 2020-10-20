@@ -40,6 +40,7 @@ android {
 dependencies {
     api(project(":instantsearch-android"))
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0-M1")
 
     testImplementation(kotlin("test-junit"))
     testImplementation(kotlin("test-annotations-common"))
