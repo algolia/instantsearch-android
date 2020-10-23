@@ -225,7 +225,7 @@ public class Insights internal constructor(
     /**
      * Method for tracking an event.
      * For a complete description of events see our [documentation][https://www.algolia.com/doc/rest-api/insights/?language=android#push-events].
-     * @param [event] An event that you want to track.
+     * @param event An event that you want to track.
      */
     public fun track(event: InsightsEvent) {
         if (enabled) {
@@ -248,8 +248,8 @@ public class Insights internal constructor(
          *
          * If the index was not register before, it will throw an [InsightsException.IndexNotRegistered] exception.
          * @param indexName The index that is being tracked.
-         * @return An [Insights] instance.
-         * @throws InsightsException.IndexNotRegistered if no index was registered as [indexName] before.
+         * @return An Insights instance.
+         * @throws InsightsException.IndexNotRegistered if no index was registered as indexName before.
          */
         @JvmStatic
         public fun shared(indexName: IndexName): Insights {
@@ -267,12 +267,12 @@ public class Insights internal constructor(
 
         /**
          * Register your index with a given appId and apiKey.
-         * @param context A [Context].
+         * @param context An Android Context.
          * @param appId The given app id for which you want to track the events.
          * @param apiKey The API Key for your `appId`.
          * @param indexName The index that is being tracked.
-         * @param configuration A [Configuration] class.
-         * @return An [Insights] instance.
+         * @param configuration A Configuration class.
+         * @return An Insights instance.
          */
         @JvmStatic
         public fun register(
@@ -287,12 +287,12 @@ public class Insights internal constructor(
 
         /**
          * Register your index with a given appId and apiKey.
-         * @param context A [Context].
+         * @param context An Android Context.
          * @param appId The given app id for which you want to track the events.
          * @param apiKey The API Key for your `appId`.
          * @param indexName The index that is being tracked.
-         * @param configuration A [Configuration] class.
-         * @return An [Insights] instance.
+         * @param configuration A Configuration class.
+         * @return An Insights instance.
          */
         @JvmStatic
         public fun register(
@@ -311,11 +311,11 @@ public class Insights internal constructor(
 
         /**
          * Register your index with a given appId and apiKey.
-         * @param context A [Context].
+         * @param context An Android context.
          * @param appId The given app id for which you want to track the events.
          * @param apiKey The API Key for your `appId`.
          * @param indexName The index that is being tracked.
-         * @return An [Insights] instance.
+         * @return An Insights instance.
          */
         @JvmStatic
         public fun register(
@@ -329,11 +329,11 @@ public class Insights internal constructor(
 
         /**
          * Register your index with a given appId and apiKey.
-         * @param context A [Context].
+         * @param context An Android Context.
          * @param appId The given app id for which you want to track the events.
          * @param apiKey The API Key for your `appId`.
          * @param indexName The index that is being tracked.
-         * @return An [Insights] instance.
+         * @return An Insights instance.
          */
         @JvmStatic
         public fun register(
@@ -359,8 +359,8 @@ public class Insights internal constructor(
          * @param distantRepository server storage
          * @param jobManager jobs scheduler
          * @param settings settings storage
-         * @param configuration A [Configuration] class.
-         * @return An [Insights] instance.
+         * @param configuration A Configuration class.
+         * @return An Insights instance.
          */
         internal fun register(
             indexName: IndexName,
