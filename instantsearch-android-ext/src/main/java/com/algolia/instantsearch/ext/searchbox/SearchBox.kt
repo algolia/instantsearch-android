@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.extension.searchbox
+package com.algolia.instantsearch.ext.searchbox
 
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector

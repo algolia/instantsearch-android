@@ -1,14 +1,13 @@
-package com.algolia.instantsearch.extension.subscription.subscription
+package com.algolia.instantsearch.ext.subscription.subscription
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
-import com.algolia.instantsearch.core.subscription.SubscriptionValue
-import com.algolia.instantsearch.extension.subscription.MainCoroutineRule
-import com.algolia.instantsearch.extension.subscription.asFlow
-import com.algolia.instantsearch.extension.subscription.asLiveData
-import com.algolia.instantsearch.extension.subscription.runBlocking
-import com.algolia.instantsearch.extension.subscription.testCoroutineScope
+import com.algolia.instantsearch.ext.subscription.MainCoroutineRule
+import com.algolia.instantsearch.ext.subscription.asFlow
+import com.algolia.instantsearch.ext.subscription.asLiveData
+import com.algolia.instantsearch.ext.subscription.runBlocking
+import com.algolia.instantsearch.ext.subscription.testCoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.junit.Rule

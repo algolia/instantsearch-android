@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.extension.internal
+package com.algolia.instantsearch.ext.internal
 
 import kotlinx.coroutines.channels.SendChannel
 

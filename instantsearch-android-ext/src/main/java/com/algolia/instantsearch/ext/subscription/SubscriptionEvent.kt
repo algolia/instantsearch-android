@@ -1,9 +1,9 @@
-package com.algolia.instantsearch.extension.subscription
+package com.algolia.instantsearch.ext.subscription
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
-import com.algolia.instantsearch.extension.internal.offerCatching
+import com.algolia.instantsearch.ext.internal.offerCatching
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

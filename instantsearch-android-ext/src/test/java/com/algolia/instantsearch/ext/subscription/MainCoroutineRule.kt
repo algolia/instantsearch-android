@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.extension.subscription
+package com.algolia.instantsearch.ext.subscription
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

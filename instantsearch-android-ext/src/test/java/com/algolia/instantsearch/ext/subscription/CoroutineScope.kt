@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.extension.subscription
+package com.algolia.instantsearch.ext.subscription
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelChildren

@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.extension.customdata
+package com.algolia.instantsearch.ext.customdata
 
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataConnector
