@@ -1,4 +1,4 @@
-# Unreleased
+# 2.7.0
 
 # Added
 - Query rule custom data widget
