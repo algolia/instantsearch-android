@@ -3,7 +3,6 @@ package com.algolia.instantsearch.extension.subscription.subscription
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
-import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.subscription.MainCoroutineRule
 import com.algolia.instantsearch.extension.subscription.asFlow
 import com.algolia.instantsearch.extension.subscription.asLiveData
