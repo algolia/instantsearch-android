@@ -12,6 +12,7 @@ buildscript {
         classpath(dependency.plugin.AndroidTools())
         classpath(dependency.plugin.GradleMavenPublish())
         classpath(dependency.plugin.Spotless())
+        classpath(dependency.plugin.Dokka())
     }
 }
 
