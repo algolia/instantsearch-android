@@ -1,4 +1,3 @@
-import com.diffplug.gradle.spotless.SpotlessExtension
 import dependency.network.Coroutines
 import dependency.util.AtomicFu
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile

@@ -1,4 +1,3 @@
-import com.diffplug.gradle.spotless.SpotlessExtension
 import dependency.network.AlgoliaClient
 import dependency.network.Coroutines
 import dependency.network.Ktor
