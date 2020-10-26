@@ -1,8 +1,8 @@
-package com.algolia.instantsearch.insights.internal.saver
+package com.algolia.instantsearch.insights.internal.cache
 
 import com.algolia.search.model.insights.InsightsEvent
 
-internal interface InsightsSaver {
+internal interface InsightsCache {
 
     fun save(event: InsightsEvent)
 

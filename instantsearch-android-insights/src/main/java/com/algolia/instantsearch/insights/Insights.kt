@@ -11,8 +11,8 @@ import com.algolia.instantsearch.insights.internal.data.settings.InsightsEventSe
 import com.algolia.instantsearch.insights.internal.data.settings.InsightsSettings
 import com.algolia.instantsearch.insights.internal.extension.insightsSharedPreferences
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
-import com.algolia.instantsearch.insights.internal.saver.InsightsEventSaver
-import com.algolia.instantsearch.insights.internal.saver.InsightsSaver
+import com.algolia.instantsearch.insights.internal.cache.InsightsEventCache
+import com.algolia.instantsearch.insights.internal.cache.InsightsCache
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
 import com.algolia.instantsearch.insights.internal.uploader.InsightsUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
@@ -41,7 +41,7 @@ import java.util.UUID
 public class Insights internal constructor(
     private val indexName: IndexName,
     private val worker: InsightsManager,
-    private val saver: InsightsSaver,
+    private val cache: InsightsCache,
     internal val uploader: InsightsUploader,
 ) : HitsAfterSearchTrackable, FilterTrackable {
 
@@ -229,8 +229,8 @@ public class Insights internal constructor(
      */
     public fun track(event: InsightsEvent) {
         if (enabled) {
-            saver.save(event)
-            if (saver.size() >= minBatchSize) {
+            cache.save(event)
+            if (cache.size() >= minBatchSize) {
                 worker.startOneTimeUpload()
             }
         }
@@ -370,7 +370,7 @@ public class Insights internal constructor(
             settings: InsightsSettings,
             configuration: Configuration = Configuration(5000, 5000),
         ): Insights {
-            val saver = InsightsEventSaver(localRepository)
+            val saver = InsightsEventCache(localRepository)
             val uploader = InsightsEventUploader(localRepository, distantRepository)
             val worker = InsightsWorkManager(workManager, settings)
             val insights = Insights(indexName, worker, saver, uploader)

@@ -5,7 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.algolia.instantsearch.insights.internal.data.distant.InsightsDistantRepository
 import com.algolia.instantsearch.insights.internal.data.distant.InsightsHttpRepository
 import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepository
-import com.algolia.instantsearch.insights.internal.saver.InsightsEventSaver
+import com.algolia.instantsearch.insights.internal.cache.InsightsEventCache
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
 import com.algolia.search.client.ClientInsights
@@ -139,9 +139,9 @@ internal class InsightsTest {
                 )
             }
         }
-        val saver = InsightsEventSaver(localRepository)
+        val cache = InsightsEventCache(localRepository)
         val uploader = InsightsEventUploader(localRepository, distantRepository)
-        val insights = Insights(indexName, eventUploader, saver, uploader)
+        val insights = Insights(indexName, eventUploader, cache, uploader)
         insights.userToken = UserToken("foo") // TODO: git stash apply to use default UUID token
         insights.clickedObjectIDs(eventClick.eventName, objectIDs)
         insights.clickedObjectIDsAfterSearch(
@@ -171,9 +171,9 @@ internal class InsightsTest {
                 assertTrue(trackedEvents.contains(eventConversion), "The second event should be uploaded")
             }
         }
-        val saver = InsightsEventSaver(localRepository)
+        val cache = InsightsEventCache(localRepository)
         val uploader = InsightsEventUploader(localRepository, distantRepository)
-        val insights = Insights(indexName, eventUploader, saver, uploader)
+        val insights = Insights(indexName, eventUploader, cache, uploader)
         insights.minBatchSize = 1 // Given an Insights that uploads every event
 
         insights.enabled = false // When a firstEvent is sent with insight disabled
@@ -188,9 +188,9 @@ internal class InsightsTest {
         val localRepository = MockLocalRepository(events)
         val distantRepository = MockDistantRepository()
         val eventUploader = MinBatchSizeWorker(events, distantRepository, localRepository)
-        val saver = InsightsEventSaver(localRepository)
+        val cache = InsightsEventCache(localRepository)
         val uploader = InsightsEventUploader(localRepository, distantRepository)
-        val insights = Insights(indexName, eventUploader, saver, uploader)
+        val insights = Insights(indexName, eventUploader, cache, uploader)
 
         // Given a minBatchSize of one and one event
         insights.minBatchSize = 1
@@ -236,9 +236,9 @@ internal class InsightsTest {
         val localRepository = MockLocalRepository(events)
         val distantRepository = MockDistantRepository()
         val eventUploader = IntegrationWorker(events, distantRepository, localRepository)
-        val saver = InsightsEventSaver(localRepository)
+        val cache = InsightsEventCache(localRepository)
         val uploader = InsightsEventUploader(localRepository, distantRepository)
-        val insights = Insights(indexName, eventUploader, saver, uploader).apply {
+        val insights = Insights(indexName, eventUploader, cache, uploader).apply {
             minBatchSize = 1
         }
 
