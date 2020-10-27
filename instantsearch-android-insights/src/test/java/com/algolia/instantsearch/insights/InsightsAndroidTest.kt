@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.algolia.instantsearch.insights.exception.InsightsException
 import com.algolia.instantsearch.insights.util.setupWorkManager
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID

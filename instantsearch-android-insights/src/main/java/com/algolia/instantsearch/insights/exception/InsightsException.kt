@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.insights
+package com.algolia.instantsearch.insights.exception
 
 /**
  * InstantSearch Insights exceptions.

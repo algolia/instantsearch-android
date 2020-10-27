@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import com.algolia.instantsearch.insights.exception.InsightsException;
 import com.algolia.search.model.APIKey;
 import com.algolia.search.model.ApplicationID;
 import com.algolia.search.model.IndexName;
@@ -25,7 +26,7 @@ import static org.junit.Assert.assertNotNull;
 public class InsightsAndroidTestJava {
 
     private Context context = ApplicationProvider.getApplicationContext();
-    private Insights.Configuration configuration = new Insights.Configuration(5000, 5000);
+    private Insights.Configuration configuration = new Insights.Configuration(5000, 5000, new UserToken("foobarbaz"));
 
     @Before
     public void init() {
@@ -48,7 +49,6 @@ public class InsightsAndroidTestJava {
         ApplicationID appId = new ApplicationID("appId");
         APIKey apiKey = new APIKey("apiKey");
         Insights insights = Insights.register(context, appId, apiKey, index, configuration);
-        insights.setUserToken(new UserToken("foobarbaz"));
         Insights insightsShared = Insights.shared();
         assertNotNull("shared Insights should have been registered", insightsShared);
         assertEquals(insights, insightsShared);

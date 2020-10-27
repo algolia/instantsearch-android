@@ -11,3 +11,10 @@ internal fun Context.sharedPreferences(name: String, mode: Int = Context.MODE_PR
 }
 
 internal fun Context.insightsSharedPreferences(indexName: IndexName) = sharedPreferences("Algolia Insights-$indexName")
+
+/**
+ * Get Insights Settings Shared Preferences.
+ */
+internal fun Context.insightsSettingsPreferences(): SharedPreferences {
+    return getSharedPreferences("InsightsEvents", Context.MODE_PRIVATE)
+}
