@@ -1,30 +1,38 @@
+# 2.7.1
+
+### Changed
+- Algolia Kotlin Client `1.5.1`
+- Kotlin Coroutines `1.4.0`
+- Ktor `1.4.1`
+- Ktor Http engine to OkHttp
+
 # 2.7.0
 
-# Added
+### Added
 - Query rule custom data widget
 
 # 2.6.0
 
-## Changed
+### Changed
 - Kotlin `1.4.10`
 - Algolia Kotlin Client `1.5.0`
 - Android minimum SDK to 21
 
 # 2.5.1
 
-## Fixed
+### Fixed
 - Filter unexpected items from the hierarchical tree results
 
 # 2.5.0
 
-## Added
+### Added
 - Support and target Android API 30
 - Add selection capability to the hierarchical tree nodes
 - Filter range dynamic behavior based on a searcher state
 
 # 2.4.0
 
-## Added
+### Added
 - Related items widget
 - Connecting `SortByViewModel` to `PagedList`
 
