@@ -57,7 +57,7 @@ version = Library.version
 dependencies {
     api(project(":instantsearch-android-core"))
     api(AlgoliaClient())
-    api(Ktor("client-android"))
+    api(Ktor("client-okhttp"))
     api(AndroidCore("ktx"))
     api(AppCompat())
     api(RecyclerView())
