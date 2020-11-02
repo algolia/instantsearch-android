@@ -3,6 +3,8 @@ package com.algolia.instantsearch.helper.searcher
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
+import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.search.client.Index
 import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.response.ResponseSearch
@@ -14,6 +16,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * The component handling search requests and managing the search sessions.
+ * This implementation searches a single index.
+ */
 public class SearcherSingleIndex(
     public var index: Index,
     public val query: Query = Query(),

@@ -50,7 +50,7 @@ platform :android do
     push_to_git_remote(remote: "origin")
 
     # Assemble and upload to Bintray
-    gradle(task: "assemble uploadArchives")
+    gradle(task: "assemble uploadArchives --no-daemon --no-parallel")
 
     # Create a Github pull request
     create_pull_request(

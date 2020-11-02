@@ -2,6 +2,8 @@ package com.algolia.instantsearch.helper.filter.list
 
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.selectable.list.connectView
+import com.algolia.instantsearch.helper.filter.list.internal.FilterListConnectionFilterState
+import com.algolia.instantsearch.helper.filter.list.internal.connect
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -44,6 +46,11 @@ internal inline fun <reified T : Filter> FilterListViewModel<T>.connect(
     return FilterListConnectionFilterState(this, filterState, groupID, getSelections)
 }
 
+/**
+ * Connects a view to the Filter List widget.
+ *
+ * @param view the view that will render the filters
+ */
 public fun <T : Filter> FilterListConnector<T>.connectView(
     view: FilterListView<T>,
 ): Connection {

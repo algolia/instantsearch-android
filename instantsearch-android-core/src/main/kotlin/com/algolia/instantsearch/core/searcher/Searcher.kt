@@ -4,6 +4,10 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
+/**
+ * The Searcher is the main component of InstantSearch Android.
+ * It wraps an Algolia API Client and provides a level of abstraction over it.
+ */
 public interface Searcher<R> {
 
     public val coroutineScope: CoroutineScope

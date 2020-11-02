@@ -7,6 +7,16 @@ import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.Attribute
 
+/**
+ * Filter Numeric Range is a filtering view made to filter between two numeric values.
+ * The most common interface for this is a slider.
+ * [Documentation](https://www.algolia.com/doc/api-reference/widgets/range-slider/android/)
+ *
+ * @param viewModel the logic applied to the numeric ranges.
+ * @param filterState the FilterState that will hold your filters
+ * @param attribute the attribute to filter
+ * @param groupID the identifier of the group of filters
+ */
 public data class FilterRangeConnector<T>(
     public val viewModel: FilterRangeViewModel<T>,
     public val filterState: FilterState,
@@ -14,6 +24,12 @@ public data class FilterRangeConnector<T>(
     public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
 
+    /**
+     * @param filterState the FilterState that will hold your filters
+     * @param attribute the attribute to filter
+     * @param bounds the limits of the acceptable range within which values will be coerced
+     * @param range the range of values withing the bounds
+     */
     public constructor(
         filterState: FilterState,
         attribute: Attribute,

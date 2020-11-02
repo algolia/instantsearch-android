@@ -4,6 +4,9 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.debounceFilteringInMillis
 import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.searcher.internal.SearcherForFacetsConnectionFilterState
+import com.algolia.instantsearch.helper.searcher.internal.SearcherMultipleConnectionFilterState
+import com.algolia.instantsearch.helper.searcher.internal.SearcherSingleConnectionFilterState
 import com.algolia.search.model.IndexName
 
 public fun SearcherSingleIndex.connectFilterState(

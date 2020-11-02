@@ -1,3 +1,8 @@
+# 2.7.0
+
+# Added
+- Query rule custom data widget
+
 # 2.6.0
 
 ## Changed

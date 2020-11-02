@@ -1,4 +1,3 @@
-import com.diffplug.gradle.spotless.SpotlessExtension
 import dependency.network.AlgoliaClient
 import dependency.network.Coroutines
 import dependency.network.Ktor
@@ -41,6 +40,7 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs += listOf("-Xexplicit-api=warning")
     }
 
     testOptions {
@@ -49,10 +49,6 @@ android {
             it.isReturnDefaultValues = true
         }
     }
-}
-
-kotlin {
-    explicitApi()
 }
 
 group = Library.group

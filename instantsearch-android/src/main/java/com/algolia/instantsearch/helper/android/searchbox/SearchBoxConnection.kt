@@ -9,6 +9,7 @@ import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
+import com.algolia.instantsearch.helper.android.searchbox.internal.SearchBoxConnectionSearcherPagedList
 import com.algolia.instantsearch.helper.searchbox.SearchMode
 
 public fun <R> SearchBoxViewModel.connectSearcher(

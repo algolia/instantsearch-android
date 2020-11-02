@@ -3,6 +3,7 @@ package com.algolia.instantsearch.helper.searcher
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.search.client.ClientPlaces
 import com.algolia.search.model.places.PlacesQuery
 import com.algolia.search.model.response.ResponseSearchPlacesMono
@@ -14,6 +15,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * The component handling search requests and managing the search sessions.
+ * This implementation searches for places.
+ */
 public class SearcherPlaces(
     public val client: ClientPlaces = ClientPlaces(),
     public val language: Language = Language.English,

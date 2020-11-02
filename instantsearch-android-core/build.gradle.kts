@@ -1,4 +1,3 @@
-import com.diffplug.gradle.spotless.SpotlessExtension
 import dependency.network.Coroutines
 import dependency.util.AtomicFu
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -37,6 +36,19 @@ tasks {
         into("$buildDir/generated/sources/templates/kotlin/main")
         expand("projectVersion" to Library.version)
         filteringCharset = "UTF-8"
+    }
+
+    named<KotlinCompile>("compileKotlin") {
+        kotlinOptions {
+            jvmTarget = "1.8"
+            freeCompilerArgs += listOf("-Xexplicit-api=strict")
+        }
+    }
+
+    named<KotlinCompile>("compileTestKotlin") {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
     }
 }
 

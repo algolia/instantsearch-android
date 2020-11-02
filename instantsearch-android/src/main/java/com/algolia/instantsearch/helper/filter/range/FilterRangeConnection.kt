@@ -3,6 +3,7 @@ package com.algolia.instantsearch.helper.filter.range
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.connectView
+import com.algolia.instantsearch.helper.filter.range.internal.FilterRangeConnectionFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -17,6 +18,11 @@ public fun <T> FilterRangeViewModel<T>.connectFilterState(
     return FilterRangeConnectionFilterState(this, filterState, attribute, groupID)
 }
 
+/**
+ * Create a connection between a view and the filter range components
+ *
+ * @param view the view that will render the numeric range filter
+ */
 public fun <T> FilterRangeConnector<T>.connectView(
     view: NumberRangeView<T>,
 ): Connection where T : Number, T : Comparable<T> {
