@@ -1,4 +1,4 @@
-import dependency.network.Coroutines
+import dependency.async.Coroutines
 import dependency.util.AtomicFu
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 

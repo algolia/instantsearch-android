@@ -1,4 +1,4 @@
-package dependency.ui
+package dependency.android
 
 import dependency.Dependency
 

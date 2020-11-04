@@ -1,3 +1,7 @@
+import dependency.android.AndroidArchCore
+import dependency.async.Coroutines
+import dependency.async.LiveData
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -39,11 +43,12 @@ android {
 
 dependencies {
     api(project(":instantsearch-android"))
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0-M1")
+    implementation(LiveData())
+    implementation(Coroutines("core"))
 
     testImplementation(kotlin("test-junit"))
     testImplementation(kotlin("test-annotations-common"))
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9")
-    testImplementation("android.arch.core:core-testing:2.1.0")
+    testImplementation(kotlin("test-annotations-common"))
+    testImplementation(Coroutines("test"))
+    testImplementation(AndroidArchCore("testing"))
 }

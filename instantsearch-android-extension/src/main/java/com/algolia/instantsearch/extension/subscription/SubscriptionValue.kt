@@ -37,7 +37,6 @@ public fun <T> SubscriptionValue<T>.asFlow(past: Boolean = false): Flow<T> {
  * @param scope the coroutine scope in which sharing is started.
  * @param started the strategy that controls when sharing is started and stopped.
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 public fun <T> SubscriptionValue<T>.asStateFlow(
     scope: CoroutineScope,
     started: SharingStarted = SharingStarted.Lazily,

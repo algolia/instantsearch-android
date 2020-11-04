@@ -1,15 +1,15 @@
 import dependency.network.AlgoliaClient
-import dependency.network.Coroutines
+import dependency.async.Coroutines
 import dependency.network.Ktor
 import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
 import dependency.test.Robolectric
-import dependency.ui.AndroidCore
-import dependency.ui.AppCompat
-import dependency.ui.MaterialDesign
-import dependency.ui.Paging
-import dependency.ui.RecyclerView
-import dependency.ui.SwipeRefreshLayout
+import dependency.android.AndroidCore
+import dependency.android.AppCompat
+import dependency.android.MaterialDesign
+import dependency.android.Paging
+import dependency.android.RecyclerView
+import dependency.android.SwipeRefreshLayout
 
 plugins {
     id("com.android.library")
