@@ -1,3 +1,8 @@
+# 2.7.2
+
+### Changed
+- Algolia Kotlin Client `1.5.2`
+
 # 2.7.1
 
 ### Changed
