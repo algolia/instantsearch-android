@@ -11,17 +11,19 @@ import kotlinx.coroutines.withContext
 public class SearcherMultipleIndexDataSource<T>(
     private val searcher: SearcherMultipleIndex,
     private val indexQuery: IndexQuery,
+    private val loadEmptyQueries: Boolean = true,
     private val transformer: (ResponseSearch.Hit) -> T,
 ) : PageKeyedDataSource<Int, T>() {
 
     public class Factory<T>(
         private val searcher: SearcherMultipleIndex,
         private val indexQuery: IndexQuery,
+        private val loadEmptyQueries: Boolean = true,
         private val transformer: (ResponseSearch.Hit) -> T,
     ) : DataSource.Factory<Int, T>() {
 
         override fun create(): DataSource<Int, T> {
-            return SearcherMultipleIndexDataSource(searcher, indexQuery, transformer)
+            return SearcherMultipleIndexDataSource(searcher, indexQuery, loadEmptyQueries, transformer)
         }
     }
 
@@ -33,10 +35,13 @@ public class SearcherMultipleIndexDataSource<T>(
     }
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, T>) {
+        if (!loadEmptyQueries && isAllQueriesNullOrEmpty()) return
+
         initialLoadSize = params.requestedLoadSize
         indexQuery.query.hitsPerPage = initialLoadSize
         indexQuery.query.page = 0
         searcher.isLoading.value = true
+
         runBlocking {
             try {
                 val response = searcher.search()
@@ -51,6 +56,12 @@ public class SearcherMultipleIndexDataSource<T>(
             } catch (throwable: Throwable) {
                 resultError(throwable)
             }
+        }
+    }
+
+    private fun isAllQueriesNullOrEmpty(): Boolean {
+        return searcher.queries.all { index ->
+            index.query.query.isNullOrEmpty()
         }
     }
 
