@@ -1,3 +1,8 @@
+# Unreleased
+
+### Added
+- Enable/disable loading in PagedList's dataSource (#220)
+
 # 2.7.2
 
 ### Changed
