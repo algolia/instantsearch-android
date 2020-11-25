@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
@@ -21,12 +20,12 @@ import kotlinx.coroutines.withContext
  * This implementation searches a single index.
  */
 public class SearcherSingleIndex(
-    public var index: Index,
-    public val query: Query = Query(),
-    public val requestOptions: RequestOptions? = null,
+    public override var index: Index,
+    public override val query: Query = Query(),
+    public override val requestOptions: RequestOptions? = null,
     public val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : Searcher<ResponseSearch> {
+) : SearcherIndex<Query> {
 
     internal val sequencer = Sequencer()
 

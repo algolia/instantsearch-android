@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.helper.searcher
 
 import com.algolia.instantsearch.core.ExperimentalInstantSearch
-import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
@@ -21,11 +20,11 @@ import kotlinx.coroutines.withContext
  */
 @ExperimentalInstantSearch
 public class SearcherAnswers(
-    public var index: Index,
-    public val answersQuery: AnswersQuery = AnswersQuery(""),
-    public val requestOptions: RequestOptions? = null,
+    public override var index: Index,
+    public override val query: AnswersQuery = AnswersQuery(""),
+    public override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope,
-) : Searcher<ResponseSearch> {
+) : SearcherIndex<AnswersQuery> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
@@ -36,7 +35,7 @@ public class SearcherAnswers(
     private val exceptionHandler = SearcherExceptionHandler(this)
 
     override fun setQuery(text: String?) {
-        text?.let { answersQuery.query = it }
+        text?.let { query.query = it }
     }
 
     override fun searchAsync(): Job {
@@ -50,7 +49,7 @@ public class SearcherAnswers(
     }
 
     override suspend fun search(): ResponseSearch {
-        return index.findAnswers(answersQuery = answersQuery, requestOptions = options)
+        return index.findAnswers(answersQuery = query, requestOptions = options)
     }
 
     override fun cancel() {
