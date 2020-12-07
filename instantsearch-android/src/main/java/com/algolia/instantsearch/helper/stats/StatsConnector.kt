@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.stats
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.search.model.response.ResponseSearch
 
 /**
@@ -19,7 +19,7 @@ import com.algolia.search.model.response.ResponseSearch
  * @param viewModel the logic applied to the stats
  */
 public data class StatsConnector(
-    public val searcher: SearcherSingleIndex,
+    public val searcher: SearcherIndex<ResponseSearch>,
     public val viewModel: StatsViewModel = StatsViewModel(),
 ) : ConnectionImpl() {
 
@@ -28,7 +28,7 @@ public data class StatsConnector(
      * @param responseSearch the initial search response
      */
     public constructor(
-        searcher: SearcherSingleIndex,
+        searcher: SearcherIndex<ResponseSearch>,
         responseSearch: ResponseSearch,
     ) : this(searcher, StatsViewModel(responseSearch))
 
