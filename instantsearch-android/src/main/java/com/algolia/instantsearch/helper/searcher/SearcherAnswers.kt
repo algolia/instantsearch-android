@@ -21,9 +21,9 @@ import kotlinx.coroutines.withContext
 @ExperimentalInstantSearch
 public class SearcherAnswers(
     public override var index: Index,
-    public override val query: AnswersQuery = AnswersQuery(""),
+    public override val request: AnswersQuery = AnswersQuery(""),
     public override val requestOptions: RequestOptions? = null,
-    override val coroutineScope: CoroutineScope,
+    override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : SearcherIndex<AnswersQuery> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
@@ -35,7 +35,7 @@ public class SearcherAnswers(
     private val exceptionHandler = SearcherExceptionHandler(this)
 
     override fun setQuery(text: String?) {
-        text?.let { query.query = it }
+        text?.let { request.query = it }
     }
 
     override fun searchAsync(): Job {
@@ -49,7 +49,7 @@ public class SearcherAnswers(
     }
 
     override suspend fun search(): ResponseSearch {
-        return index.findAnswers(answersQuery = query, requestOptions = options)
+        return index.findAnswers(answersQuery = request, requestOptions = options)
     }
 
     override fun cancel() {

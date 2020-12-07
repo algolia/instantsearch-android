@@ -8,7 +8,7 @@ internal fun <T> SearcherSingleIndex.configureRelatedItems(
     hit: T,
     patterns: List<MatchingPattern<T>>,
 ) where T : Indexable {
-    query.apply {
+    request.apply {
         sumOrFiltersScores = true
         facetFilters = hit.toFacetFilter(true)
         optionalFilters = patterns.toOptionalFilters(hit)

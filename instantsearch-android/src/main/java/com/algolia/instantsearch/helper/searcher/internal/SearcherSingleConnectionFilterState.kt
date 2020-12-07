@@ -36,6 +36,6 @@ internal data class SearcherSingleConnectionFilterState(
 
     private fun SearcherSingleIndex.updateFilters(filters: Filters = filterState) {
         filterGroups = filters.toFilterGroups()
-        query.filters = FilterGroupsConverter.SQL(filterGroups)
+        request.filters = FilterGroupsConverter.SQL(filterGroups)
     }
 }

@@ -18,7 +18,14 @@ public interface SearcherIndex<T> : Searcher<ResponseSearch> {
     /**
      * Query to run.
      */
+    public val request: T
+
+    /**
+     * Query to run.
+     */
+    @Deprecated("renamed to `request`", ReplaceWith("request"))
     public val query: T
+        get() = request
 
     /**
      * Additional/Custom request options.

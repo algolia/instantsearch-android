@@ -21,7 +21,7 @@ import kotlinx.coroutines.withContext
  */
 public class SearcherSingleIndex(
     public override var index: Index,
-    public override val query: Query = Query(),
+    public override val request: Query = Query(),
     public override val requestOptions: RequestOptions? = null,
     public val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
@@ -39,7 +39,7 @@ public class SearcherSingleIndex(
     internal var filterGroups: Set<FilterGroup<*>> = setOf()
 
     override fun setQuery(text: String?) {
-        this.query.query = text
+        this.request.query = text
     }
 
     override fun searchAsync(): Job {
@@ -54,13 +54,27 @@ public class SearcherSingleIndex(
 
     override suspend fun search(): ResponseSearch {
         return if (isDisjunctiveFacetingEnabled) {
-            index.advancedSearch(query, filterGroups, options)
+            index.advancedSearch(request, filterGroups, options)
         } else {
-            index.search(query, options)
+            index.search(request, options)
         }
     }
 
     override fun cancel() {
         sequencer.cancelAll()
+    }
+
+    public companion object {
+
+        /**
+         * Creates [SearcherSingleIndex] instance.
+         */
+        public operator fun invoke(
+            index: Index,
+            query: Query = Query(),
+            requestOptions: RequestOptions? = null,
+            isDisjunctiveFacetingEnabled: Boolean = true,
+            coroutineScope: CoroutineScope = SearcherScope(),
+        ): SearcherSingleIndex = invoke(index, query, requestOptions, isDisjunctiveFacetingEnabled, coroutineScope)
     }
 }
