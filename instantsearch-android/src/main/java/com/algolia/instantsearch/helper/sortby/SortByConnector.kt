@@ -3,7 +3,6 @@ package com.algolia.instantsearch.helper.sortby
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.search.client.Index
-import com.algolia.search.model.response.ResponseSearch
 
 /**
  * SortBy displays a list of indices, allowing a user to change the way hits are sorted (using replica indices).
@@ -15,7 +14,7 @@ import com.algolia.search.model.response.ResponseSearch
  * @param viewModel the logic applied to the index sorting/switching
  */
 public data class SortByConnector(
-    public val searcher: SearcherIndex<ResponseSearch>,
+    public val searcher: SearcherIndex<*>,
     public val viewModel: SortByViewModel = SortByViewModel(),
 ) : ConnectionImpl() {
 
@@ -26,7 +25,7 @@ public data class SortByConnector(
      */
     public constructor(
         indexes: Map<Int, Index>,
-        searcher: SearcherIndex<ResponseSearch>,
+        searcher: SearcherIndex<*>,
         selected: Int? = null,
     ) : this(searcher, SortByViewModel(indexes, selected))
 

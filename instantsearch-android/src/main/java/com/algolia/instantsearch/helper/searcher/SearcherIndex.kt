@@ -2,13 +2,14 @@ package com.algolia.instantsearch.helper.searcher
 
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.search.client.Index
+import com.algolia.search.model.params.CommonSearchParameters
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.transport.RequestOptions
 
 /**
  * Single index searcher.
  */
-public interface SearcherIndex<T> : Searcher<ResponseSearch> {
+public interface SearcherIndex<T : CommonSearchParameters> : Searcher<ResponseSearch> {
 
     /**
      * Searcher's Index.

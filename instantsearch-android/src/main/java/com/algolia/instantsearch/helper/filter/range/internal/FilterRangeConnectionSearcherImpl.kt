@@ -3,11 +3,11 @@ package com.algolia.instantsearch.helper.filter.range.internal
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.helper.filter.range.FilterRangeViewModel
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.params.CommonSearchParameters
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.FacetStats
-import com.algolia.search.model.search.Query
 
 /**
  * Connection implementation between a Searcher and filter range components to enable a dynamic behavior.
@@ -19,7 +19,7 @@ import com.algolia.search.model.search.Query
  */
 internal class FilterRangeConnectionSearcherImpl<T>(
     private val viewModel: FilterRangeViewModel<T>,
-    private val searcher: SearcherSingleIndex,
+    private val searcher: SearcherIndex<*>,
     private val attribute: Attribute,
     private val mapper: (Number) -> T,
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {
@@ -46,7 +46,7 @@ internal class FilterRangeConnectionSearcherImpl<T>(
         searcher.response.subscribePast(responseSubscription)
     }
 
-    private fun Query.updateQueryFacets(attribute: Attribute) {
+    private fun CommonSearchParameters.updateQueryFacets(attribute: Attribute) {
         val current = facets?.toMutableSet() ?: mutableSetOf()
         facets = if (!current.contains(attribute)) current + attribute else setOf(attribute)
     }

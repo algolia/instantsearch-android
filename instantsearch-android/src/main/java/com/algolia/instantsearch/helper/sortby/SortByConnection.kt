@@ -6,7 +6,6 @@ import com.algolia.instantsearch.helper.index.IndexPresenter
 import com.algolia.instantsearch.helper.index.IndexPresenterImpl
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.instantsearch.helper.sortby.internal.SortByConnectionSearcher
-import com.algolia.search.model.response.ResponseSearch
 
 public fun SortByViewModel.connectView(
     view: SortByView,
@@ -16,7 +15,7 @@ public fun SortByViewModel.connectView(
 }
 
 public fun SortByViewModel.connectSearcher(
-    searcher: SearcherIndex<ResponseSearch>,
+    searcher: SearcherIndex<*>,
 ): Connection {
     return SortByConnectionSearcher(this, searcher)
 }

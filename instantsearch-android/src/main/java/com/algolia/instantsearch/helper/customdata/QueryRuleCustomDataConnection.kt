@@ -5,14 +5,13 @@ import com.algolia.instantsearch.helper.customdata.internal.QueryRuleCustomDataC
 import com.algolia.instantsearch.helper.customdata.internal.QueryRuleCustomDataConnectionSingleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.search.model.response.ResponseSearch
 
 /**
  * Create a connection between a view model and a searcher.
  *
  * @param searcher searcher to connect
  */
-public fun <T> QueryRuleCustomDataViewModel<T>.connectSearcher(searcher: SearcherIndex<ResponseSearch>): Connection {
+public fun <T> QueryRuleCustomDataViewModel<T>.connectSearcher(searcher: SearcherIndex<*>): Connection {
     return QueryRuleCustomDataConnectionSingleIndex(this, searcher)
 }
 

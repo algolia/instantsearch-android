@@ -8,7 +8,7 @@ import com.algolia.search.model.response.ResponseSearch
 
 internal data class StatsConnectionSearcher(
     private val viewModel: StatsViewModel,
-    private val searcher: SearcherIndex<ResponseSearch>,
+    private val searcher: SearcherIndex<*>,
 ) : ConnectionImpl() {
 
     private val updateResponse: Callback<ResponseSearch?> = { response ->

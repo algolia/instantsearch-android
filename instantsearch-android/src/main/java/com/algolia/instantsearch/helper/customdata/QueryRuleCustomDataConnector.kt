@@ -6,7 +6,6 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.search.model.response.ResponseSearch
 import kotlinx.serialization.DeserializationStrategy
 
 /**
@@ -57,7 +56,7 @@ public class QueryRuleCustomDataConnector<T> @PublishedApi internal constructor(
  * @param presenter defines the way we want to interact with a model
  */
 public fun <T> QueryRuleCustomDataConnector(
-    searcher: SearcherIndex<ResponseSearch>,
+    searcher: SearcherIndex<*>,
     deserializer: DeserializationStrategy<T>,
     initialItem: T? = null,
     presenter: QueryRuleCustomDataPresenter<T>? = null,
@@ -76,7 +75,7 @@ public fun <T> QueryRuleCustomDataConnector(
  * @param presenter defines the way we want to interact with a model
  */
 public inline fun <reified T> QueryRuleCustomDataConnector(
-    searcher: SearcherIndex<ResponseSearch>,
+    searcher: SearcherIndex<*>,
     viewModel: QueryRuleCustomDataViewModel<T> = QueryRuleCustomDataViewModel(),
     noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {
@@ -93,7 +92,7 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
  * @param presenter defines the way we want to interact with a model
  */
 public inline fun <reified T> QueryRuleCustomDataConnector(
-    searcher: SearcherIndex<ResponseSearch>,
+    searcher: SearcherIndex<*>,
     initialItem: T?,
     noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {

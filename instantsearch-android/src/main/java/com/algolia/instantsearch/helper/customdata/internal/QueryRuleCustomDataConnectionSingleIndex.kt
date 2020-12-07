@@ -14,7 +14,7 @@ import com.algolia.search.model.response.ResponseSearch
  */
 internal class QueryRuleCustomDataConnectionSingleIndex<T>(
     val viewModel: QueryRuleCustomDataViewModel<T>,
-    val searcher: SearcherIndex<ResponseSearch>,
+    val searcher: SearcherIndex<*>,
 ) : ConnectionImpl() {
 
     private val callback: Callback<ResponseSearch?> = { response ->

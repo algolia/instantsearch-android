@@ -5,9 +5,9 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.instantsearch.helper.sortby.SortByViewModel
 
-internal data class SortByConnectionSearcher<T>(
+internal data class SortByConnectionSearcher(
     private val viewModel: SortByViewModel,
-    private val searcher: SearcherIndex<T>,
+    private val searcher: SearcherIndex<*>,
 ) : ConnectionImpl() {
 
     init {

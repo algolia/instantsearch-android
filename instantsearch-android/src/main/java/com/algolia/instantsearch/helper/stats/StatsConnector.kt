@@ -19,7 +19,7 @@ import com.algolia.search.model.response.ResponseSearch
  * @param viewModel the logic applied to the stats
  */
 public data class StatsConnector(
-    public val searcher: SearcherIndex<ResponseSearch>,
+    public val searcher: SearcherIndex<*>,
     public val viewModel: StatsViewModel = StatsViewModel(),
 ) : ConnectionImpl() {
 
@@ -28,7 +28,7 @@ public data class StatsConnector(
      * @param responseSearch the initial search response
      */
     public constructor(
-        searcher: SearcherIndex<ResponseSearch>,
+        searcher: SearcherIndex<*>,
         responseSearch: ResponseSearch,
     ) : this(searcher, StatsViewModel(responseSearch))
 
