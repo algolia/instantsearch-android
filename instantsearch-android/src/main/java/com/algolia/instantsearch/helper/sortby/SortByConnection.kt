@@ -4,8 +4,9 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.selectable.map.connectView
 import com.algolia.instantsearch.helper.index.IndexPresenter
 import com.algolia.instantsearch.helper.index.IndexPresenterImpl
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.instantsearch.helper.sortby.internal.SortByConnectionSearcher
+import com.algolia.search.model.response.ResponseSearch
 
 public fun SortByViewModel.connectView(
     view: SortByView,
@@ -15,7 +16,7 @@ public fun SortByViewModel.connectView(
 }
 
 public fun SortByViewModel.connectSearcher(
-    searcher: SearcherSingleIndex,
+    searcher: SearcherIndex<ResponseSearch>,
 ): Connection {
     return SortByConnectionSearcher(this, searcher)
 }

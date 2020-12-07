@@ -2,12 +2,12 @@ package com.algolia.instantsearch.helper.sortby.internal
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.instantsearch.helper.sortby.SortByViewModel
 
-internal data class SortByConnectionSearcher(
+internal data class SortByConnectionSearcher<T>(
     private val viewModel: SortByViewModel,
-    private val searcher: SearcherSingleIndex,
+    private val searcher: SearcherIndex<T>,
 ) : ConnectionImpl() {
 
     init {
