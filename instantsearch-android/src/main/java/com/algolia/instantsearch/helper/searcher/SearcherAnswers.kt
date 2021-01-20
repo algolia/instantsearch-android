@@ -8,6 +8,7 @@ import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.search.client.Index
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.AnswersQuery
+import com.algolia.search.model.search.Language
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,7 @@ import kotlinx.coroutines.withContext
 @ExperimentalInstantSearch
 public class SearcherAnswers(
     public override var index: Index,
-    public override val request: AnswersQuery = AnswersQuery(""),
+    public override val request: AnswersQuery = AnswersQuery("", listOf(Language.English)),
     public override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : SearcherIndex<AnswersQuery> {
