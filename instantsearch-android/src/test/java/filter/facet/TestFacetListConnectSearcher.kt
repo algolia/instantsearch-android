@@ -29,7 +29,7 @@ class TestFacetListConnectSearcher {
         val connection = viewModel.connectSearcher(searcher, color)
 
         connection.connect()
-        searcher.request.facets!! shouldEqual setOf(color)
+        searcher.query.facets!! shouldEqual setOf(color)
     }
 
     @Test

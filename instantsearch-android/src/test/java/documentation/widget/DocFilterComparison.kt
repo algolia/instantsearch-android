@@ -75,7 +75,7 @@ class DocFilterComparison {
             val arrowDown = ImageView(this)
             val view: NumberView<Int> = FilterPriceView(textView, arrowUp, arrowDown, price, operator)
 
-            searcher.request.addFacet(price)
+            searcher.query.addFacet(price)
 
             connection += searcher.connectFilterState(filterState)
             connection += viewModel.connectView(view)

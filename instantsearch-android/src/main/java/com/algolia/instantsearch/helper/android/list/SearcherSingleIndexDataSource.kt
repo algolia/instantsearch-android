@@ -28,17 +28,17 @@ public class SearcherSingleIndexDataSource<T>(
     private var initialLoadSize: Int = 30
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, T>) {
-        val queryLoaded = searcher.request.query
-        if (!triggerSearchForQuery(searcher.request)) return
+        val queryLoaded = searcher.query.query
+        if (!triggerSearchForQuery(searcher.query)) return
 
         initialLoadSize = params.requestedLoadSize
-        searcher.request.hitsPerPage = initialLoadSize
-        searcher.request.page = 0
+        searcher.query.hitsPerPage = initialLoadSize
+        searcher.query.page = 0
         searcher.isLoading.value = true
         runBlocking {
             try {
                 val response = searcher.search()
-                if (queryLoaded != searcher.request.query) {
+                if (queryLoaded != searcher.query.query) {
                     invalidate()
                 }
                 val nextKey = if (response.nbHits > initialLoadSize) 1 else null
@@ -58,8 +58,8 @@ public class SearcherSingleIndexDataSource<T>(
         val initialOffset = (initialLoadSize / params.requestedLoadSize) - 1
         val page = params.key + initialOffset
 
-        searcher.request.page = page
-        searcher.request.hitsPerPage = params.requestedLoadSize
+        searcher.query.page = page
+        searcher.query.hitsPerPage = params.requestedLoadSize
         searcher.isLoading.value = true
         runBlocking {
             try {

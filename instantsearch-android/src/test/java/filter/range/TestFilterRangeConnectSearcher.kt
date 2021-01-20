@@ -25,7 +25,7 @@ class TestFilterRangeConnectSearcher {
         val connection = viewModel.connectSearcher(searcher, attribute)
         connection.connect()
 
-        val facets = searcher.request.facets!!
+        val facets = searcher.query.facets!!
         facets.contains(attribute).shouldBeTrue()
     }
 

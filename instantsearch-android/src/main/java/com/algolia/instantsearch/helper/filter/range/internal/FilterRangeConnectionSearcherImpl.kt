@@ -42,7 +42,7 @@ internal class FilterRangeConnectionSearcherImpl<T>(
 
     override fun connect() {
         super.connect()
-        searcher.request.updateQueryFacets(attribute)
+        searcher.query.updateQueryFacets(attribute)
         searcher.response.subscribePast(responseSubscription)
     }
 

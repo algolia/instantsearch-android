@@ -54,7 +54,7 @@ internal data class HierarchicalConnectionSearcher(
         }
 
     init {
-        searcher.request.addFacet(*viewModel.hierarchicalAttributes.toTypedArray())
+        searcher.query.addFacet(*viewModel.hierarchicalAttributes.toTypedArray())
     }
 
     override fun connect() {

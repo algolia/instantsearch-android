@@ -33,8 +33,8 @@ class TestSearcherConnectionRelatedItems {
         }
 
         connection.connect()
-        assertTrue(searcher.request.sumOrFiltersScores!!)
-        assertEquals(listOf(listOf("objectID:-${product.objectID}")), searcher.request.facetFilters)
+        assertTrue(searcher.query.sumOrFiltersScores!!)
+        assertEquals(listOf(listOf("objectID:-${product.objectID}")), searcher.query.facetFilters)
         assertEquals(
             listOf(
                 listOf("${patternBrand.attribute}:${product.brand}<score=${patternBrand.score}>"),
@@ -43,7 +43,7 @@ class TestSearcherConnectionRelatedItems {
                     "${patternCategories.attribute}:${product.categories[1]}<score=${patternCategories.score}>"
                 )
             ),
-            searcher.request.optionalFilters
+            searcher.query.optionalFilters
         )
     }
 

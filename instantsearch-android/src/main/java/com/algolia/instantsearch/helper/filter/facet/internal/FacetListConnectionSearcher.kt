@@ -23,7 +23,7 @@ internal data class FacetListConnectionSearcher(
     }
 
     init {
-        searcher.request.addFacet(attribute)
+        searcher.query.addFacet(attribute)
     }
 
     override fun connect() {

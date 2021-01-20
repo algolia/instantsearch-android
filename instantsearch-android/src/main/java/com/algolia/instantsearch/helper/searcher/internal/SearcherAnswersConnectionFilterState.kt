@@ -38,6 +38,6 @@ internal data class SearcherAnswersConnectionFilterState(
 
     private fun SearcherAnswers.updateFilters(filters: Filters = filterState) {
         val filterGroups = filters.toFilterGroups()
-        request.filters = FilterGroupsConverter.SQL(filterGroups)
+        query.filters = FilterGroupsConverter.SQL(filterGroups)
     }
 }

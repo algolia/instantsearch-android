@@ -22,7 +22,7 @@ import kotlinx.coroutines.withContext
 @ExperimentalInstantSearch
 public class SearcherAnswers(
     public override var index: Index,
-    public override val request: AnswersQuery = AnswersQuery("", listOf(Language.English)),
+    public override val query: AnswersQuery = AnswersQuery("", listOf(Language.English)),
     public override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : SearcherIndex<AnswersQuery> {
@@ -36,7 +36,7 @@ public class SearcherAnswers(
     private val exceptionHandler = SearcherExceptionHandler(this)
 
     override fun setQuery(text: String?) {
-        text?.let { request.query = it }
+        text?.let { query.query = it }
     }
 
     override fun searchAsync(): Job {
@@ -50,7 +50,7 @@ public class SearcherAnswers(
     }
 
     override suspend fun search(): ResponseSearch {
-        return index.findAnswers(answersQuery = request, requestOptions = options)
+        return index.findAnswers(answersQuery = query, requestOptions = options)
     }
 
     override fun cancel() {
