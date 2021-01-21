@@ -1,13 +1,14 @@
 package com.algolia.instantsearch.helper.searcher
 
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.search.client.Index
-import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.Query
+import com.algolia.search.model.search.AnswersQuery
+import com.algolia.search.model.search.Language
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,30 +17,26 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * The component handling search requests and managing the search sessions.
- * This implementation searches a single index.
+ * The component handling Algolia Answers search requests and managing the search sessions.
  */
-public class SearcherSingleIndex(
+@ExperimentalInstantSearch
+public class SearcherAnswers(
     public override var index: Index,
-    public override val query: Query = Query(),
+    public override val query: AnswersQuery = AnswersQuery("", listOf(Language.English)),
     public override val requestOptions: RequestOptions? = null,
-    public val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : SearcherIndex<Query> {
-
-    internal val sequencer = Sequencer()
+) : SearcherIndex<AnswersQuery> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
 
+    private val sequencer = Sequencer()
     private val options = requestOptions.withUserAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)
 
-    internal var filterGroups: Set<FilterGroup<*>> = setOf()
-
     override fun setQuery(text: String?) {
-        this.query.query = text
+        text?.let { query.query = it }
     }
 
     override fun searchAsync(): Job {
@@ -53,28 +50,10 @@ public class SearcherSingleIndex(
     }
 
     override suspend fun search(): ResponseSearch {
-        return if (isDisjunctiveFacetingEnabled) {
-            index.advancedSearch(query, filterGroups, options)
-        } else {
-            index.search(query, options)
-        }
+        return index.findAnswers(answersQuery = query, requestOptions = options)
     }
 
     override fun cancel() {
         sequencer.cancelAll()
-    }
-
-    public companion object {
-
-        /**
-         * Creates [SearcherSingleIndex] instance.
-         */
-        public operator fun invoke(
-            index: Index,
-            query: Query = Query(),
-            requestOptions: RequestOptions? = null,
-            isDisjunctiveFacetingEnabled: Boolean = true,
-            coroutineScope: CoroutineScope = SearcherScope(),
-        ): SearcherSingleIndex = invoke(index, query, requestOptions, isDisjunctiveFacetingEnabled, coroutineScope)
     }
 }

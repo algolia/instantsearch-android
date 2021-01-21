@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.stats
 
 import com.algolia.instantsearch.core.connection.Connection
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.instantsearch.helper.stats.internal.StatsConnectionSearcher
 import com.algolia.instantsearch.helper.stats.internal.StatsConnectionView
 
@@ -10,7 +10,7 @@ public fun StatsViewModel.connectView(
     view: StatsView<String>,
     presenter: StatsPresenter<String> = StatsPresenterImpl(),
 ): Connection {
-    return StatsConnectionView<String>(this, view, presenter)
+    return StatsConnectionView(this, view, presenter)
 }
 
 public fun <T> StatsViewModel.connectView(
@@ -21,7 +21,7 @@ public fun <T> StatsViewModel.connectView(
 }
 
 public fun StatsViewModel.connectSearcher(
-    searcher: SearcherSingleIndex,
+    searcher: SearcherIndex<*>,
 ): Connection {
     return StatsConnectionSearcher(this, searcher)
 }
