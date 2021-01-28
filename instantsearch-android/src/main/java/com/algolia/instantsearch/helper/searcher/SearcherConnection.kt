@@ -1,9 +1,11 @@
 package com.algolia.instantsearch.helper.searcher
 
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.debounceFilteringInMillis
 import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.searcher.internal.SearcherAnswersConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.SearcherForFacetsConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.SearcherMultipleConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.SearcherSingleConnectionFilterState
@@ -21,6 +23,14 @@ public fun SearcherForFacets.connectFilterState(
     debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
 ): Connection {
     return SearcherForFacetsConnectionFilterState(this, filterState, debouncer)
+}
+
+@ExperimentalInstantSearch
+public fun SearcherAnswers.connectFilterState(
+    filterState: FilterState,
+    debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
+): Connection {
+    return SearcherAnswersConnectionFilterState(this, filterState, debouncer)
 }
 
 public fun SearcherMultipleIndex.connectFilterState(

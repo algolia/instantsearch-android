@@ -1,5 +1,7 @@
 package searcher
 
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
+import com.algolia.instantsearch.helper.searcher.SearcherAnswers
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -18,5 +20,11 @@ fun TestSearcherSingle(index: Index) = SearcherSingleIndex(
 fun TestSearcherForFacets(index: Index, attribute: Attribute) = SearcherForFacets(
     index = index,
     attribute = attribute,
+    coroutineScope = TestCoroutineScope
+)
+
+@OptIn(ExperimentalInstantSearch::class)
+fun TestSearcherAnswers(index: Index) = SearcherAnswers(
+    index = index,
     coroutineScope = TestCoroutineScope
 )

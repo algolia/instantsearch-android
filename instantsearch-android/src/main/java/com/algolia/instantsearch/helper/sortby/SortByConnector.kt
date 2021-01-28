@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.sortby
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.search.client.Index
 
 /**
@@ -14,7 +14,7 @@ import com.algolia.search.client.Index
  * @param viewModel the logic applied to the index sorting/switching
  */
 public data class SortByConnector(
-    public val searcher: SearcherSingleIndex,
+    public val searcher: SearcherIndex<*>,
     public val viewModel: SortByViewModel = SortByViewModel(),
 ) : ConnectionImpl() {
 
@@ -25,7 +25,7 @@ public data class SortByConnector(
      */
     public constructor(
         indexes: Map<Int, Index>,
-        searcher: SearcherSingleIndex,
+        searcher: SearcherIndex<*>,
         selected: Int? = null,
     ) : this(searcher, SortByViewModel(indexes, selected))
 

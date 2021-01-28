@@ -40,7 +40,11 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += listOf("-Xexplicit-api=warning")
+        freeCompilerArgs += listOf(
+            "-Xexplicit-api=warning",
+            "-Xopt-in=kotlin.RequiresOptIn",
+            "-Xopt-in=com.algolia.search.ExperimentalAlgoliaClientAPI"
+        )
     }
 
     testOptions {

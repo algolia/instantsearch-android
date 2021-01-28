@@ -1,3 +1,13 @@
+# 2.8.0
+
+### Changed
+- Kotlin `1.4.21`
+- Kotlin Coroutines `1.4.2`
+- Ktor `1.5.1`
+
+### Experimental
+- Add support for answers search client and IS widgets
+
 # 2.7.3
 
 ### Added
