@@ -79,7 +79,6 @@ dependencies {
 }
 
 mavenPublish.targets.getByName("uploadArchives") {
-    releaseRepositoryUrl = "https://api.bintray.com/maven/algolia/maven/com.algolia:instantsearch-android/;publish=0"
-    repositoryUsername = System.getenv("BINTRAY_USER")
-    repositoryPassword = System.getenv("BINTRAY_KEY")
+    repositoryUsername = System.getenv("SONATYPE_USER")
+    repositoryPassword = System.getenv("SONATYPE_KEY")
 }
