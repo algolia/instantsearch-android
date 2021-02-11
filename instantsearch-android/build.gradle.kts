@@ -15,8 +15,9 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlinx-serialization")
-    id("com.vanniktech.maven.publish")
 }
+
+apply(from = "../gradle/gradle-maven-publish.gradle")
 
 android {
     compileSdkVersion(30)
@@ -72,10 +73,4 @@ dependencies {
     testImplementation(AndroidTestRunner())
     testImplementation(AndroidTestExt())
     testImplementation(Robolectric())
-}
-
-mavenPublish.targets.getByName("uploadArchives") {
-    releaseRepositoryUrl = "https://api.bintray.com/maven/algolia/maven/com.algolia:instantsearch-android/;publish=0"
-    repositoryUsername = System.getenv("BINTRAY_USER")
-    repositoryPassword = System.getenv("BINTRAY_KEY")
 }
