@@ -5,8 +5,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm")
     id("java-library")
-    id("com.vanniktech.maven.publish")
 }
+
+apply(from = "../gradle/gradle-maven-publish.gradle")
 
 group = Library.group
 version = Library.version
@@ -44,10 +45,4 @@ tasks {
             jvmTarget = "1.8"
         }
     }
-}
-
-mavenPublish.targets.getByName("uploadArchives") {
-    releaseRepositoryUrl = "https://api.bintray.com/maven/algolia/maven/com.algolia:instantsearch-android/;publish=0"
-    repositoryUsername = System.getenv("BINTRAY_USER")
-    repositoryPassword = System.getenv("BINTRAY_KEY")
 }
