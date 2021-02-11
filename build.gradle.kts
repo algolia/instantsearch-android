@@ -6,10 +6,9 @@ buildscript {
         google()
         jcenter { //TODO: remove when the dependencies below are migrated
             content {
-               includeModule("org.jetbrains.dokka","dokka-gradle-plugin")
-               includeModule("org.jetbrains.dokka","dokka-core")
-               includeModule("org.jetbrains.trove4j","trove4j")
-               includeModule("org.jetbrains","markdown")
+                includeGroup("org.jetbrains.dokka")
+                includeModule("org.jetbrains.trove4j", "trove4j")
+                includeModule("org.jetbrains", "markdown")
             }
         }
     }
@@ -35,7 +34,10 @@ subprojects {
         google()
         jcenter { //TODO: remove when the dependencies below are migrated
             content {
-                includeModule("org.jetbrains.trove4j","trove4j")
+                includeGroup("org.jetbrains.dokka")
+                includeModule("org.jetbrains.trove4j", "trove4j")
+                includeModule("org.jetbrains", "markdown")
+                includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
             }
         }
     }

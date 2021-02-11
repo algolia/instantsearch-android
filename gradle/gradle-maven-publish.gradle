@@ -2,11 +2,17 @@ apply plugin: "com.vanniktech.maven.publish"
 apply plugin: "org.jetbrains.dokka"
 
 mavenPublish {
+    def username = System.getenv("SONATYPE_USER")
+    def password = System.getenv("SONATYPE_KEY")
     targets {
         uploadArchives {
-            repositoryUsername = System.getenv("SONATYPE_USER")
-            repositoryPassword = System.getenv("SONATYPE_KEY")
+            repositoryUsername = username
+            repositoryPassword = password
         }
+    }
+    nexus {
+        repositoryUsername = username
+        repositoryPassword = password
     }
 }
 
