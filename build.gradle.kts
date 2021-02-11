@@ -4,7 +4,14 @@ buildscript {
     repositories {
         mavenCentral()
         google()
-        jcenter()
+        jcenter { //TODO: remove when the dependencies below are migrated
+            content {
+               includeModule("org.jetbrains.dokka","dokka-gradle-plugin")
+               includeModule("org.jetbrains.dokka","dokka-core")
+               includeModule("org.jetbrains.trove4j","trove4j")
+               includeModule("org.jetbrains","markdown")
+            }
+        }
     }
     dependencies {
         classpath(kotlin("gradle-plugin", version = "1.4.21"))
@@ -26,7 +33,11 @@ subprojects {
     repositories {
         mavenCentral()
         google()
-        jcenter()
+        jcenter { //TODO: remove when the dependencies below are migrated
+            content {
+                includeModule("org.jetbrains.trove4j","trove4j")
+            }
+        }
     }
     configure<SpotlessExtension> {
         kotlin {
