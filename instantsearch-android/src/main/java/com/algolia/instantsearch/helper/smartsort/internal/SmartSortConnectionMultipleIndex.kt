@@ -1,22 +1,22 @@
-package com.algolia.instantsearch.helper.dynamic.internal
+package com.algolia.instantsearch.helper.smartsort.internal
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.core.dynamic.DynamicSortPriority
-import com.algolia.instantsearch.core.dynamic.DynamicSortViewModel
+import com.algolia.instantsearch.core.smartsort.SmartSortPriority
+import com.algolia.instantsearch.core.smartsort.SmartSortViewModel
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.model.response.ResponseSearches
 
 /**
- * Connection between dynamic sort's view model and a multiple index searcher.
+ * Connection between smart sort's view model and a multiple index searcher.
  */
-internal class DynamicSortToggleConnectionMultipleIndex(
-    val viewModel: DynamicSortViewModel,
+internal class SmartSortConnectionMultipleIndex(
+    val viewModel: SmartSortViewModel,
     val searcher: SearcherMultipleIndex,
     private val queryIndex: Int,
 ) : ConnectionImpl() {
 
-    private val priorityCallback: Callback<DynamicSortPriority?> = callback@{ priority ->
+    private val priorityCallback: Callback<SmartSortPriority?> = callback@{ priority ->
         if (priority == null) return@callback
         searcher.queries[queryIndex].query.relevancyStrictness = priority.relevancyStrictness
         searcher.searchAsync()
@@ -29,7 +29,7 @@ internal class DynamicSortToggleConnectionMultipleIndex(
                 viewModel.priority.value = null
                 return@callback
             }
-        val dynamicSortPriority = DynamicSortPriority.of(receivedRelevancyStrictness)
+        val dynamicSortPriority = SmartSortPriority.of(receivedRelevancyStrictness)
         if (dynamicSortPriority != viewModel.priority.value) {
             viewModel.priority.value = dynamicSortPriority
         }
