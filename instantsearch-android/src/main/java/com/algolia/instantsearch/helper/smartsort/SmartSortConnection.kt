@@ -1,11 +1,13 @@
 package com.algolia.instantsearch.helper.smartsort
 
 import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.smartsort.SmartSortView
 import com.algolia.instantsearch.core.smartsort.SmartSortViewModel
-import com.algolia.instantsearch.helper.smartsort.internal.SmartSortConnectionMultipleIndex
-import com.algolia.instantsearch.helper.smartsort.internal.SmartSortConnectionSingleIndex
+import com.algolia.instantsearch.core.smartsort.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.smartsort.internal.SmartSortConnectionMultipleIndex
+import com.algolia.instantsearch.helper.smartsort.internal.SmartSortConnectionSingleIndex
 
 /**
  * Create a connection between a view model and a searcher.
@@ -27,4 +29,11 @@ public fun SmartSortViewModel.connectSearcher(
     queryIndex: Int,
 ): Connection {
     return SmartSortConnectionMultipleIndex(this, searcher, queryIndex)
+}
+
+/**
+ * TODO
+ */
+public fun SmartSortConnector.connectView(view: SmartSortView): Connection {
+    return viewModel.connectView(view)
 }
