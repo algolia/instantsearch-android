@@ -1,5 +1,11 @@
 # Unreleased
 
+### Added
+- Dynamic sort widget (#229)
+
+### Changed
+- Algolia Kotlin Client `1.7.0`
+
 ### Fixed
 - `Subscription`: subscriptions list thread-safety
 
