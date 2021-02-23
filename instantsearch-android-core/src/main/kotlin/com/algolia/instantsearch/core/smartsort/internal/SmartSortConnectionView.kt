@@ -21,7 +21,7 @@ internal class SmartSortConnectionView(
 ) : ConnectionImpl() {
 
     val callback: Callback<SmartSortPriority?> = { priority ->
-        view.setPriority(presenter?.invoke(priority) ?: priority)
+        view.priority(presenter?.invoke(priority) ?: priority)
     }
 
     override fun connect() {

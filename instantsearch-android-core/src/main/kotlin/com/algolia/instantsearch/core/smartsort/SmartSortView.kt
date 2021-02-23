@@ -14,5 +14,5 @@ public interface SmartSortView {
     /**
      * Set a priority to the view.
      */
-    public fun setPriority(priority: SmartSortPriority?)
+    public fun priority(priority: SmartSortPriority?)
 }
