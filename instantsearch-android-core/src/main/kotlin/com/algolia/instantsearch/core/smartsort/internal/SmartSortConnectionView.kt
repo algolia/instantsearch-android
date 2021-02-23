@@ -14,14 +14,14 @@ import com.algolia.instantsearch.core.smartsort.SmartSortViewModel
  * @param view the view that will render smart sort toggle
  * @param presenter defines the way we want to interact with a priority value
  */
-internal class SmartSortConnectionView(
+internal class SmartSortConnectionView<T>(
     private val viewModel: SmartSortViewModel,
-    private val view: SmartSortView,
-    private val presenter: SmartSortPresenter?,
+    private val view: SmartSortView<T>,
+    private val presenter: SmartSortPresenter<T>,
 ) : ConnectionImpl() {
 
     val callback: Callback<SmartSortPriority?> = { priority ->
-        view.priority(presenter?.invoke(priority) ?: priority)
+        view.updateView(presenter(priority))
     }
 
     override fun connect() {

@@ -39,6 +39,6 @@ public fun SmartSortViewModel.connectSearcher(
  * @param view the view that will smart sort state.
  * @param presenter defines the way we want to interact with a priority value
  */
-public fun SmartSortConnector.connectView(view: SmartSortView, presenter: SmartSortPresenter? = null): Connection {
+public fun <T> SmartSortConnector.connectView(view: SmartSortView<T>, presenter: SmartSortPresenter<T>): Connection {
     return viewModel.connectView(view, presenter)
 }
