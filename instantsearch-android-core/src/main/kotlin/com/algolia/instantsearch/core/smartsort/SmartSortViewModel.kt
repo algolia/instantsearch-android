@@ -13,7 +13,7 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
  * between these options.
  */
 public class SmartSortViewModel(
-    priority: SmartSortPriority? = null
+    priority: SmartSortPriority? = null,
 ) {
 
     /**

@@ -11,5 +11,8 @@ public interface SmartSortView {
      */
     public var didToggle: (() -> Unit)?
 
+    /**
+     * Set a priority to the view.
+     */
     public fun setPriority(priority: SmartSortPriority?)
 }

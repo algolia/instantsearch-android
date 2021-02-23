@@ -7,7 +7,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.smartsort.connectSearcher
 
 internal class SmartSortConnectorMultipleIndex(
-    searcher: SearcherMultipleIndex,
+    override val searcher: SearcherMultipleIndex,
     queryIndex: Int,
     override val viewModel: SmartSortViewModel = SmartSortViewModel(),
 ) : ConnectionImpl(), SmartSortConnector {

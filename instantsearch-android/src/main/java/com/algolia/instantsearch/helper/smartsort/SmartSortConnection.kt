@@ -2,6 +2,7 @@ package com.algolia.instantsearch.helper.smartsort
 
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.smartsort.SmartSortConnector
+import com.algolia.instantsearch.core.smartsort.SmartSortPresenter
 import com.algolia.instantsearch.core.smartsort.SmartSortView
 import com.algolia.instantsearch.core.smartsort.SmartSortViewModel
 import com.algolia.instantsearch.core.smartsort.connectView
@@ -36,7 +37,8 @@ public fun SmartSortViewModel.connectSearcher(
  * Connects a view to the Smart sort widget.
  *
  * @param view the view that will smart sort state.
+ * @param presenter defines the way we want to interact with a priority value
  */
-public fun SmartSortConnector.connectView(view: SmartSortView): Connection {
-    return viewModel.connectView(view)
+public fun SmartSortConnector.connectView(view: SmartSortView, presenter: SmartSortPresenter? = null): Connection {
+    return viewModel.connectView(view, presenter)
 }
