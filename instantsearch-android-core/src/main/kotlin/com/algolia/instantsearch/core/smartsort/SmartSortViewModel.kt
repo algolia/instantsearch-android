@@ -5,12 +5,11 @@ import com.algolia.instantsearch.core.smartsort.SmartSortPriority.Relevancy
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 /**
- * The component that stores the currently applied smart sort priority applied to the search in
- * the dynamically sorted index (virtual replica) and provides the interface to toggle this value.
+ * The component that stores the currently applied smart sort priority applied to the search in the dynamically sorted
+ * index (virtual replica) and provides the interface to toggle this value.
  *
- * Usage of the dynamically sorted index introduces the trade-off between the number of results and
- * the relevancy of results. DynamicSortToggle components provide a convenient interface to switch
- * between these options.
+ * Usage of the dynamically sorted index introduces the trade-off between the number of results and the relevancy
+ * of results. Smart sort components provide a convenient interface to switch between these options.
  */
 public class SmartSortViewModel(
     priority: SmartSortPriority? = null,
