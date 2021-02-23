@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.helper.smartsort.internal
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.smartsort.SmartSortConnector
 import com.algolia.instantsearch.core.smartsort.SmartSortViewModel
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.smartsort.SmartSortConnector
 import com.algolia.instantsearch.helper.smartsort.connectSearcher
 
 internal class SmartSortConnectorMultipleIndex(
