@@ -5,7 +5,7 @@ import kotlin.properties.Delegates
 public class SubscriptionValue<T>(initialValue: T) : Subscription<T>() {
 
     public var value: T by Delegates.observable(initialValue) { _, _, newValue ->
-        subscriptions.forEach { it(newValue) }
+        notifyAll(newValue)
     }
 
     public fun subscribePast(subscription: (T) -> Unit) {
@@ -14,6 +14,6 @@ public class SubscriptionValue<T>(initialValue: T) : Subscription<T>() {
     }
 
     public fun notifySubscriptions() {
-        subscriptions.forEach { it(value) }
+        notifyAll(value)
     }
 }

@@ -1,8 +1,10 @@
 package com.algolia.instantsearch.core.subscription
 
+import java.util.concurrent.CopyOnWriteArraySet
+
 public open class Subscription<T> {
 
-    internal val subscriptions: MutableSet<(T) -> Unit> = mutableSetOf()
+    internal val subscriptions: MutableSet<(T) -> Unit> = CopyOnWriteArraySet()
 
     public fun subscribe(subscription: (T) -> Unit) {
         subscriptions += subscription
@@ -22,5 +24,9 @@ public open class Subscription<T> {
 
     public fun unsubscribeAll() {
         subscriptions.clear()
+    }
+
+    public fun notifyAll(value: T) {
+        subscriptions.onEach { it(value) }
     }
 }
