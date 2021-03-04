@@ -29,7 +29,10 @@ tasks {
         dependsOn("copyTemplates")
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs += listOf("-Xexplicit-api=strict")
+            freeCompilerArgs += listOf(
+                "-Xexplicit-api=strict",
+                "-Xopt-in=kotlin.RequiresOptIn"
+            )
         }
     }
 
