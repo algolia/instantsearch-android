@@ -1,3 +1,8 @@
+# Unreleased
+
+### Fixed
+- `Subscription`: subscriptions list thread-safety
+
 # 2.8.0
 
 ### Changed
