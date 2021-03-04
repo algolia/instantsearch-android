@@ -1,7 +1,7 @@
 # Unreleased
 
 ### Added
-- Smart sort widget (#229)
+- Relevant sort widget (#229)
 
 ### Changed
 - Algolia Kotlin Client `1.7.0`

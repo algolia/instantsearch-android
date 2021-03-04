@@ -1,15 +1,15 @@
-package com.algolia.instantsearch.helper.smartsort.internal
+package com.algolia.instantsearch.helper.relevantsort.internal
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.core.smartsort.SmartSortConnector
-import com.algolia.instantsearch.core.smartsort.SmartSortViewModel
+import com.algolia.instantsearch.core.relevantsort.RelevantSortConnector
+import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.smartsort.connectSearcher
+import com.algolia.instantsearch.helper.relevantsort.connectSearcher
 
-internal class SmartSortConnectorSingleIndex(
+internal class RelevantSortConnectorSingleIndex(
     override val searcher: SearcherSingleIndex,
-    override val viewModel: SmartSortViewModel = SmartSortViewModel(),
-) : ConnectionImpl(), SmartSortConnector {
+    override val viewModel: RelevantSortViewModel = RelevantSortViewModel(),
+) : ConnectionImpl(), RelevantSortConnector {
 
     private val connectionSearcher = viewModel.connectSearcher(searcher)
 
