@@ -1,4 +1,4 @@
-# Unreleased
+# 2.9.0
 
 ### Added
 - Relevant sort widget (#229)
