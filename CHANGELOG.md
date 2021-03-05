@@ -1,3 +1,16 @@
+# 2.9.0
+
+### Added
+- Relevant sort widget (#229)
+
+### Changed
+- Algolia Kotlin Client `1.7.0`
+- Kotlin `1.4.31`
+- Ktor `1.5.2`
+
+### Fixed
+- `Subscription`: subscriptions list thread-safety
+
 # 2.8.0
 
 ### Changed
