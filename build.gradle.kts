@@ -13,8 +13,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath(kotlin("gradle-plugin", version = "1.4.21"))
-        classpath(kotlin("serialization", version = "1.4.21"))
+        classpath(kotlin("gradle-plugin", version = "1.4.31"))
+        classpath(kotlin("serialization", version = "1.4.31"))
         classpath(dependency.plugin.AndroidTools())
         classpath(dependency.plugin.GradleMavenPublish())
         classpath(dependency.plugin.Spotless())
