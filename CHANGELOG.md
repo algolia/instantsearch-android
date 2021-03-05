@@ -5,6 +5,8 @@
 
 ### Changed
 - Algolia Kotlin Client `1.7.0`
+- Kotlin `1.4.31`
+- Ktor `1.5.2`
 
 ### Fixed
 - `Subscription`: subscriptions list thread-safety
