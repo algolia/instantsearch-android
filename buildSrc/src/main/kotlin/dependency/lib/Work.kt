@@ -6,5 +6,5 @@ object Work : Dependency {
 
     override val group = "androidx.work"
     override val artifact = "work"
-    override val version = "2.4.0"
+    override val version = "2.5.0"
 }
