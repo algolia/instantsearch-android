@@ -9,7 +9,7 @@ import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 internal class InsightsWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
 
     override fun doWork(): Result {
-        InsightsLogger.log("Worker started with indices ${InsightsMap.keys}.")
+        InsightsLogger.log("Worker started with indices ${InsightsMap.keys} from work request $id.")
         val hasAnyEventFailed = InsightsMap
             .map { it.value.uploader.uploadAll().isEmpty() }
             .any { !it }
