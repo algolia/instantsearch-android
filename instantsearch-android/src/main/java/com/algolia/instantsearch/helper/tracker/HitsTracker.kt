@@ -21,7 +21,7 @@ public interface HitsTracker : Connection {
     /**
      * Coroutine scope in which all tracking operations are executed.
      */
-    val trackerScope: CoroutineScope
+    public val trackerScope: CoroutineScope
 
     /**
      * Track a hit click event.

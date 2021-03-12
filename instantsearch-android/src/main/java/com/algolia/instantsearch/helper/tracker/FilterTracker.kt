@@ -22,7 +22,7 @@ public interface FilterTracker {
     /**
      * Coroutine scope in which all tracking operations are executed.
      */
-    val trackerScope: CoroutineScope
+    public val trackerScope: CoroutineScope
 
     /**
      * Track a filter click event.
