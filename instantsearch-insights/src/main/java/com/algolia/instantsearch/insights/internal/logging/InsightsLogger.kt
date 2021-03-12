@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.insights.internal.logging
 
+import android.util.Log
 import com.algolia.search.model.IndexName
 
 internal object InsightsLogger {
@@ -9,11 +10,11 @@ internal object InsightsLogger {
 
     fun log(indexName: IndexName, message: String) {
         if (enabled[indexName] == true) {
-            logd(TAG, "Index=$indexName: $message")
+            Log.d(TAG, "Index=$indexName: $message")
         }
     }
 
     fun log(message: String) {
-        logd(TAG, message)
+        Log.d(TAG, message)
     }
 }

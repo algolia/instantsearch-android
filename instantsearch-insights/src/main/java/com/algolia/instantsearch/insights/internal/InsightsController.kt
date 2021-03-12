@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.insights.internal
 
-import android.util.Log
 import androidx.work.WorkManager
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.exception.InsightsException
@@ -215,7 +214,7 @@ internal class InsightsController(
                 it.userToken = configuration.defaultUserToken
                 Insights.shared = it
                 InsightsMap[indexName] = it
-                Log.d("Insights", "Registering new Insights for indexName $indexName. Previous instance: $it")
+                InsightsLogger.log("Registering new Insights for indexName $indexName. Previous instance: $it")
             }
         }
     }
