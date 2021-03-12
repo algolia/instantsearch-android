@@ -1,5 +1,4 @@
 apply plugin: "com.vanniktech.maven.publish"
-apply plugin: "org.jetbrains.dokka"
 
 mavenPublish {
     def username = System.getenv("SONATYPE_USER")

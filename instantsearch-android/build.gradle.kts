@@ -56,9 +56,6 @@ android {
     }
 }
 
-group = Library.group
-version = Library.version
-
 dependencies {
     api(project(":instantsearch-android-core"))
     api(project(":instantsearch-android-insights"))

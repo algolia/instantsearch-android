@@ -9,9 +9,6 @@ plugins {
 
 apply(from = "../gradle/gradle-maven-publish.gradle")
 
-group = Library.group
-version = Library.version
-
 sourceSets {
     main {
         java.srcDirs("$buildDir/generated/sources/templates/kotlin/main")
