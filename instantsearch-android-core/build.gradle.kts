@@ -5,8 +5,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm")
     id("java-library")
-    id("com.vanniktech.maven.publish")
 }
+
+apply(from = "../gradle/gradle-maven-publish.gradle")
 
 group = Library.group
 version = Library.version
@@ -27,7 +28,11 @@ tasks {
     named<KotlinCompile>("compileKotlin") {
         dependsOn("copyTemplates")
         kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + listOf("-Xexplicit-api=strict")
+            jvmTarget = "1.8"
+            freeCompilerArgs += listOf(
+                "-Xexplicit-api=strict",
+                "-Xopt-in=kotlin.RequiresOptIn"
+            )
         }
     }
 
@@ -38,22 +43,9 @@ tasks {
         filteringCharset = "UTF-8"
     }
 
-    named<KotlinCompile>("compileKotlin") {
-        kotlinOptions {
-            jvmTarget = "1.8"
-            freeCompilerArgs += listOf("-Xexplicit-api=strict")
-        }
-    }
-
     named<KotlinCompile>("compileTestKotlin") {
         kotlinOptions {
             jvmTarget = "1.8"
         }
     }
-}
-
-mavenPublish.targets.getByName("uploadArchives") {
-    releaseRepositoryUrl = "https://api.bintray.com/maven/algolia/maven/com.algolia:instantsearch-android/;publish=0"
-    repositoryUsername = System.getenv("BINTRAY_USER")
-    repositoryPassword = System.getenv("BINTRAY_KEY")
 }

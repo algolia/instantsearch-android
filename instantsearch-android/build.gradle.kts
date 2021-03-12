@@ -3,7 +3,6 @@ import dependency.network.Coroutines
 import dependency.network.Ktor
 import dependency.test.AndroidTestExt
 import dependency.test.AndroidTestRunner
-import dependency.test.Mockk
 import dependency.test.Robolectric
 import dependency.ui.AndroidCore
 import dependency.ui.AppCompat
@@ -16,8 +15,9 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlinx-serialization")
-    id("com.vanniktech.maven.publish")
 }
+
+apply(from = "../gradle/gradle-maven-publish.gradle")
 
 android {
     compileSdkVersion(30)
@@ -41,7 +41,11 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += listOf("-Xexplicit-api=warning")
+        freeCompilerArgs += listOf(
+            "-Xexplicit-api=warning",
+            "-Xopt-in=kotlin.RequiresOptIn",
+            "-Xopt-in=com.algolia.search.ExperimentalAlgoliaClientAPI"
+        )
     }
 
     testOptions {
@@ -57,9 +61,8 @@ version = Library.version
 
 dependencies {
     api(project(":instantsearch-android-core"))
-    api(project(":instantsearch-android-insights"))
     api(AlgoliaClient())
-    api(Ktor("client-android"))
+    api(Ktor("client-okhttp"))
     api(AndroidCore("ktx"))
     api(AppCompat())
     api(RecyclerView())
@@ -70,16 +73,8 @@ dependencies {
 
     testImplementation(kotlin("test-junit"))
     testImplementation(kotlin("test-annotations-common"))
-    testImplementation(Coroutines("test"))
     testImplementation(Ktor("client-mock-jvm"))
     testImplementation(AndroidTestRunner())
     testImplementation(AndroidTestExt())
     testImplementation(Robolectric())
-    testImplementation(Mockk())
-}
-
-mavenPublish.targets.getByName("uploadArchives") {
-    releaseRepositoryUrl = "https://api.bintray.com/maven/algolia/maven/com.algolia:instantsearch-android/;publish=0"
-    repositoryUsername = System.getenv("BINTRAY_USER")
-    repositoryPassword = System.getenv("BINTRAY_KEY")
 }

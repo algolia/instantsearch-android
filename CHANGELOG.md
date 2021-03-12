@@ -1,30 +1,71 @@
+# 2.9.0
+
+### Added
+- Relevant sort widget (#229)
+
+### Changed
+- Algolia Kotlin Client `1.7.0`
+- Kotlin `1.4.31`
+- Ktor `1.5.2`
+
+### Fixed
+- `Subscription`: subscriptions list thread-safety
+
+# 2.8.0
+
+### Changed
+- Kotlin `1.4.21`
+- Kotlin Coroutines `1.4.2`
+- Ktor `1.5.1`
+
+### Experimental
+- Add support for answers search client and IS widgets
+
+# 2.7.3
+
+### Added
+- Enable/disable loading in PagedList's dataSource (#220)
+
+# 2.7.2
+
+### Changed
+- Algolia Kotlin Client `1.5.2`
+
+# 2.7.1
+
+### Changed
+- Algolia Kotlin Client `1.5.1`
+- Kotlin Coroutines `1.4.0`
+- Ktor `1.4.1`
+- Ktor Http engine to OkHttp
+
 # 2.7.0
 
-# Added
+### Added
 - Query rule custom data widget
 
 # 2.6.0
 
-## Changed
+### Changed
 - Kotlin `1.4.10`
 - Algolia Kotlin Client `1.5.0`
 - Android minimum SDK to 21
 
 # 2.5.1
 
-## Fixed
+### Fixed
 - Filter unexpected items from the hierarchical tree results
 
 # 2.5.0
 
-## Added
+### Added
 - Support and target Android API 30
 - Add selection capability to the hierarchical tree nodes
 - Filter range dynamic behavior based on a searcher state
 
 # 2.4.0
 
-## Added
+### Added
 - Related items widget
 - Connecting `SortByViewModel` to `PagedList`
 
