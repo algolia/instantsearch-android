@@ -58,7 +58,7 @@ android {
 
 dependencies {
     api(project(":instantsearch-android-core"))
-    api(project(":instantsearch-android-insights"))
+    api(project(":instantsearch-insights"))
     api(AlgoliaClient())
     api(Ktor("client-okhttp"))
     api(AndroidCore("ktx"))
