@@ -26,6 +26,13 @@ public class SearcherSingleIndexDataSource<T>(
     }
 
     private var initialLoadSize: Int = 30
+    private var retry: (() -> Any)? = null
+
+    public fun retryAllFailed() {
+        val prevRetry = retry
+        retry = null
+        prevRetry?.invoke()
+    }
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, T>) {
         val queryLoaded = searcher.query.query
@@ -37,6 +44,7 @@ public class SearcherSingleIndexDataSource<T>(
         searcher.isLoading.value = true
         runBlocking {
             try {
+                retry = null
                 val response = searcher.search()
                 if (queryLoaded != searcher.query.query) {
                     invalidate()
@@ -49,6 +57,7 @@ public class SearcherSingleIndexDataSource<T>(
                 }
                 callback.onResult(response.hits.map(transformer), 0, response.nbHits, null, nextKey)
             } catch (throwable: Throwable) {
+                retry = { loadInitial(params, callback) }
                 resultError(throwable)
             }
         }
@@ -63,6 +72,7 @@ public class SearcherSingleIndexDataSource<T>(
         searcher.isLoading.value = true
         runBlocking {
             try {
+                retry = null
                 val response = searcher.search()
                 val nextKey = if (page + 1 < response.nbPages) params.key + 1 else null
 
@@ -72,6 +82,7 @@ public class SearcherSingleIndexDataSource<T>(
                 }
                 callback.onResult(response.hits.map(transformer), nextKey)
             } catch (throwable: Throwable) {
+                retry = { loadAfter(params, callback) }
                 resultError(throwable)
             }
         }
