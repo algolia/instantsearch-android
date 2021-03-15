@@ -36,7 +36,7 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         //replace after https://youtrack.jetbrains.com/issue/KT-37652
-        freeCompilerArgs = freeCompilerArgs + listOf("-Xexplicit-api=warning", "-Xopt-in=kotlin.RequiresOptIn")
+        freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
     }
 
     sourceSets.getByName("main") {
@@ -62,6 +62,12 @@ tasks {
         into("$buildDir/generated/sources/templates/kotlin/main")
         expand("version" to Library.version)
         filteringCharset = "UTF-8"
+    }
+
+    withType<KotlinCompile> {
+        if ("UnitTest" !in name) {
+            kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
+        }
     }
 }
 
