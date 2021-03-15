@@ -30,7 +30,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
-@Config(sdk = [Build.VERSION_CODES.Q])
+@Config(sdk = [Build.VERSION_CODES.P])
 internal class InsightsTest {
 
     private val eventA = EventName("EventA")
