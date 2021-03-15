@@ -6,5 +6,5 @@ object Robolectric : Dependency {
 
     override val group = "org.robolectric"
     override val artifact = "robolectric"
-    override val version = "4.4"
+    override val version = "4.5.1"
 }
