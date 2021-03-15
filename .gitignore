@@ -5,6 +5,7 @@
 *.iml
 local.properties
 *.hprof
+.bundle/
 
 # fastlane
 **/fastlane/report.xml
@@ -14,3 +15,4 @@ local.properties
 
 # bitrise
 .bitrise.yml
+bitrise.yml

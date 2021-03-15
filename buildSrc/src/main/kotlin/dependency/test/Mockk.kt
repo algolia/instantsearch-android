@@ -6,5 +6,5 @@ object Mockk : Dependency {
 
     override val group = "io.mockk"
     override val artifact = "mockk"
-    override val version = "1.10.0"
+    override val version = "1.10.6"
 }
