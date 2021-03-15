@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.helper.android.list
 
 import androidx.paging.DataSource
-import androidx.paging.PageKeyedDataSource
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
@@ -12,7 +11,7 @@ public class SearcherSingleIndexDataSource<T>(
     private val searcher: SearcherSingleIndex,
     private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
     private val transformer: (ResponseSearch.Hit) -> T,
-) : PageKeyedDataSource<Int, T>() {
+) : RetryablePageKeyedDataSource<Int, T>() {
 
     public class Factory<T>(
         private val searcher: SearcherSingleIndex,
@@ -26,13 +25,6 @@ public class SearcherSingleIndexDataSource<T>(
     }
 
     private var initialLoadSize: Int = 30
-    private var retry: (() -> Any)? = null
-
-    public fun retryAllFailed() {
-        val prevRetry = retry
-        retry = null
-        prevRetry?.invoke()
-    }
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, T>) {
         val queryLoaded = searcher.query.query
@@ -44,7 +36,6 @@ public class SearcherSingleIndexDataSource<T>(
         searcher.isLoading.value = true
         runBlocking {
             try {
-                retry = null
                 val response = searcher.search()
                 if (queryLoaded != searcher.query.query) {
                     invalidate()
@@ -55,6 +46,7 @@ public class SearcherSingleIndexDataSource<T>(
                     searcher.response.value = response
                     searcher.isLoading.value = false
                 }
+                retry = null
                 callback.onResult(response.hits.map(transformer), 0, response.nbHits, null, nextKey)
             } catch (throwable: Throwable) {
                 retry = { loadInitial(params, callback) }
@@ -72,7 +64,6 @@ public class SearcherSingleIndexDataSource<T>(
         searcher.isLoading.value = true
         runBlocking {
             try {
-                retry = null
                 val response = searcher.search()
                 val nextKey = if (page + 1 < response.nbPages) params.key + 1 else null
 
@@ -80,6 +71,7 @@ public class SearcherSingleIndexDataSource<T>(
                     searcher.response.value = response
                     searcher.isLoading.value = false
                 }
+                retry = null
                 callback.onResult(response.hits.map(transformer), nextKey)
             } catch (throwable: Throwable) {
                 retry = { loadAfter(params, callback) }

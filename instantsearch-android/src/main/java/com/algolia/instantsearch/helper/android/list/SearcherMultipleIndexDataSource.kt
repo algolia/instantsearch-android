@@ -13,7 +13,7 @@ public class SearcherMultipleIndexDataSource<T>(
     private val indexQuery: IndexQuery,
     private val triggerSearchForQueries: ((List<IndexQuery>) -> Boolean) = { true },
     private val transformer: (ResponseSearch.Hit) -> T,
-) : PageKeyedDataSource<Int, T>() {
+) : RetryablePageKeyedDataSource<Int, T>() {
 
     public class Factory<T>(
         private val searcher: SearcherMultipleIndex,
@@ -52,8 +52,10 @@ public class SearcherMultipleIndexDataSource<T>(
                     searcher.response.value = response
                     searcher.isLoading.value = false
                 }
+                retry = null
                 callback.onResult(result.hits.map(transformer), 0, result.nbHits, null, nextKey)
             } catch (throwable: Throwable) {
+                retry = { loadInitial(params, callback) }
                 resultError(throwable)
             }
         }
@@ -76,8 +78,10 @@ public class SearcherMultipleIndexDataSource<T>(
                     searcher.response.value = response
                     searcher.isLoading.value = false
                 }
+                retry = null
                 callback.onResult(result.hits.map(transformer), nextKey)
             } catch (throwable: Throwable) {
+                retry = { loadAfter(params, callback) }
                 resultError(throwable)
             }
         }
