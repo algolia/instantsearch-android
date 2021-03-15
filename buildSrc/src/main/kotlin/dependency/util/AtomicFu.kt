@@ -2,7 +2,6 @@ package dependency.util
 
 import dependency.Dependency
 
-
 object AtomicFu: Dependency {
 
     override val group = "org.jetbrains.kotlinx"

@@ -1,23 +1,13 @@
-import dependency.network.AlgoliaClient
-import dependency.network.Coroutines
-import dependency.network.Ktor
-import dependency.test.AndroidTestExt
-import dependency.test.AndroidTestRunner
-import dependency.test.Robolectric
-import dependency.ui.AndroidCore
-import dependency.ui.AppCompat
-import dependency.ui.MaterialDesign
-import dependency.ui.Paging
-import dependency.ui.RecyclerView
-import dependency.ui.SwipeRefreshLayout
+import dependency.network.*
+import dependency.test.*
+import dependency.ui.*
 
 plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlinx-serialization")
+    id("com.vanniktech.maven.publish")
 }
-
-apply(from = "../gradle/gradle-maven-publish.gradle")
 
 android {
     compileSdkVersion(30)
@@ -42,7 +32,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += listOf(
-            "-Xexplicit-api=warning",
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=com.algolia.search.ExperimentalAlgoliaClientAPI"
         )
@@ -56,11 +45,15 @@ android {
     }
 }
 
-group = Library.group
-version = Library.version
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    if ("UnitTest" !in name) {
+        kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
+    }
+}
 
 dependencies {
     api(project(":instantsearch-android-core"))
+    api(project(":instantsearch-insights"))
     api(AlgoliaClient())
     api(Ktor("client-okhttp"))
     api(AndroidCore("ktx"))
@@ -77,4 +70,6 @@ dependencies {
     testImplementation(AndroidTestRunner())
     testImplementation(AndroidTestExt())
     testImplementation(Robolectric())
+    testImplementation(Coroutines("test"))
+    testImplementation(Mockk())
 }

@@ -5,12 +5,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm")
     id("java-library")
+    id ("com.vanniktech.maven.publish")
 }
-
-apply(from = "../gradle/gradle-maven-publish.gradle")
-
-group = Library.group
-version = Library.version
 
 sourceSets {
     main {
