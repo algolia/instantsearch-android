@@ -1,6 +1,8 @@
 package com.algolia.instantsearch.helper.android.list
 
 import androidx.paging.PageKeyedDataSource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * A [PageKeyedDataSource] with retry capability.
@@ -12,9 +14,13 @@ public abstract class RetryablePageKeyedDataSource<Key, Value> : PageKeyedDataSo
     /**
      * Retries the latest call.
      */
-    public fun retry() {
+    public suspend fun retry() {
         val prevRetry = retry
         retry = null
-        prevRetry?.invoke()
+        if (prevRetry != null) {
+            withContext(Dispatchers.IO) {
+                prevRetry()
+            }
+        }
     }
 }
