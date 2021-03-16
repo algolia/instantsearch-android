@@ -12,19 +12,24 @@ import kotlinx.coroutines.withContext
 public class SearcherSingleIndexDataSource<T>(
     private val searcher: SearcherSingleIndex,
     private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
-    private val transformer: (ResponseSearch.Hit) -> T,
     retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val transformer: (ResponseSearch.Hit) -> T,
 ) : RetryablePageKeyedDataSource<Int, T>(retryDispatcher) {
 
     public class Factory<T>(
         private val searcher: SearcherSingleIndex,
         private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
+        private val retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
         private val transformer: (ResponseSearch.Hit) -> T,
-        private val retryDispatcher: CoroutineDispatcher = Dispatchers.IO
     ) : DataSource.Factory<Int, T>() {
 
         override fun create(): DataSource<Int, T> {
-            return SearcherSingleIndexDataSource(searcher, triggerSearchForQuery, transformer, retryDispatcher)
+            return SearcherSingleIndexDataSource(
+                searcher = searcher,
+                triggerSearchForQuery = triggerSearchForQuery,
+                retryDispatcher = retryDispatcher,
+                transformer = transformer
+            )
         }
     }
 

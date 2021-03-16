@@ -13,25 +13,25 @@ public class SearcherMultipleIndexDataSource<T>(
     private val searcher: SearcherMultipleIndex,
     private val indexQuery: IndexQuery,
     private val triggerSearchForQueries: ((List<IndexQuery>) -> Boolean) = { true },
-    private val transformer: (ResponseSearch.Hit) -> T,
     retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val transformer: (ResponseSearch.Hit) -> T,
 ) : RetryablePageKeyedDataSource<Int, T>(retryDispatcher) {
 
     public class Factory<T>(
         private val searcher: SearcherMultipleIndex,
         private val indexQuery: IndexQuery,
         private val triggerSearchForQueries: ((List<IndexQuery>) -> Boolean) = { true },
-        private val transformer: (ResponseSearch.Hit) -> T,
         private val retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
+        private val transformer: (ResponseSearch.Hit) -> T,
     ) : DataSource.Factory<Int, T>() {
 
         override fun create(): DataSource<Int, T> {
             return SearcherMultipleIndexDataSource(
-                searcher,
-                indexQuery,
-                triggerSearchForQueries,
-                transformer,
-                retryDispatcher
+                searcher = searcher,
+                indexQuery = indexQuery,
+                triggerSearchForQueries = triggerSearchForQueries,
+                transformer = transformer,
+                retryDispatcher = retryDispatcher
             )
         }
     }
