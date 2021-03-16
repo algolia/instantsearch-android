@@ -1,10 +1,11 @@
 package com.algolia.instantsearch.helper.android.list
 
 import androidx.paging.DataSource
-import androidx.paging.PageKeyedDataSource
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
@@ -13,17 +14,25 @@ public class SearcherMultipleIndexDataSource<T>(
     private val indexQuery: IndexQuery,
     private val triggerSearchForQueries: ((List<IndexQuery>) -> Boolean) = { true },
     private val transformer: (ResponseSearch.Hit) -> T,
-) : RetryablePageKeyedDataSource<Int, T>() {
+    retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
+) : RetryablePageKeyedDataSource<Int, T>(retryDispatcher) {
 
     public class Factory<T>(
         private val searcher: SearcherMultipleIndex,
         private val indexQuery: IndexQuery,
         private val triggerSearchForQueries: ((List<IndexQuery>) -> Boolean) = { true },
         private val transformer: (ResponseSearch.Hit) -> T,
+        private val retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
     ) : DataSource.Factory<Int, T>() {
 
         override fun create(): DataSource<Int, T> {
-            return SearcherMultipleIndexDataSource(searcher, indexQuery, triggerSearchForQueries, transformer)
+            return SearcherMultipleIndexDataSource(
+                searcher,
+                indexQuery,
+                triggerSearchForQueries,
+                transformer,
+                retryDispatcher
+            )
         }
     }
 
