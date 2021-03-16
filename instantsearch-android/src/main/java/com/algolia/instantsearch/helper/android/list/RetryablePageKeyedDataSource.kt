@@ -14,9 +14,8 @@ public abstract class RetryablePageKeyedDataSource<Key, Value>(private val retry
     internal var retry: (() -> Any)? = null
 
     public suspend fun retry() {
-        val prevRetry = retry
-        retry = null
-        if (prevRetry != null) {
+        retry?.let { prevRetry ->
+            retry = null
             withContext(retryDispatcher) {
                 prevRetry()
             }
@@ -27,9 +26,8 @@ public abstract class RetryablePageKeyedDataSource<Key, Value>(private val retry
      * Retries the latest call.
      */
     public fun retryAsync() {
-        val prevRetry = retry
-        retry = null
-        if (prevRetry != null) {
+        retry?.let { prevRetry ->
+            retry = null
             retryDispatcher.asExecutor().execute {
                 prevRetry()
             }
