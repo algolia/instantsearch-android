@@ -1,3 +1,9 @@
+# 2.10.0
+
+### Added
+- Integration of `InstantSearch Insights` library
+- Add `retry` to paging data sources
+
 # 2.9.0
 
 ### Added
