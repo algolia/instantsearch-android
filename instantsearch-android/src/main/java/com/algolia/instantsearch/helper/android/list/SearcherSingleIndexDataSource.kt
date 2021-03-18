@@ -1,27 +1,35 @@
 package com.algolia.instantsearch.helper.android.list
 
 import androidx.paging.DataSource
-import androidx.paging.PageKeyedDataSource
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 public class SearcherSingleIndexDataSource<T>(
     private val searcher: SearcherSingleIndex,
     private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
+    retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val transformer: (ResponseSearch.Hit) -> T,
-) : PageKeyedDataSource<Int, T>() {
+) : RetryablePageKeyedDataSource<Int, T>(retryDispatcher) {
 
     public class Factory<T>(
         private val searcher: SearcherSingleIndex,
         private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
+        private val retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
         private val transformer: (ResponseSearch.Hit) -> T,
     ) : DataSource.Factory<Int, T>() {
 
         override fun create(): DataSource<Int, T> {
-            return SearcherSingleIndexDataSource(searcher, triggerSearchForQuery, transformer)
+            return SearcherSingleIndexDataSource(
+                searcher = searcher,
+                triggerSearchForQuery = triggerSearchForQuery,
+                retryDispatcher = retryDispatcher,
+                transformer = transformer
+            )
         }
     }
 
@@ -47,8 +55,10 @@ public class SearcherSingleIndexDataSource<T>(
                     searcher.response.value = response
                     searcher.isLoading.value = false
                 }
+                retry = null
                 callback.onResult(response.hits.map(transformer), 0, response.nbHits, null, nextKey)
             } catch (throwable: Throwable) {
+                retry = { loadInitial(params, callback) }
                 resultError(throwable)
             }
         }
@@ -70,8 +80,10 @@ public class SearcherSingleIndexDataSource<T>(
                     searcher.response.value = response
                     searcher.isLoading.value = false
                 }
+                retry = null
                 callback.onResult(response.hits.map(transformer), nextKey)
             } catch (throwable: Throwable) {
+                retry = { loadAfter(params, callback) }
                 resultError(throwable)
             }
         }

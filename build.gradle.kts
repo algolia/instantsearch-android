@@ -54,3 +54,7 @@ subprojects {
 tasks.withType<Test> {
     maxParallelForks = Runtime.getRuntime().availableProcessors().minus(1).coerceAtLeast(1)
 }
+
+tasks.register<Delete>("clean") {
+    delete(rootProject.buildDir)
+}
