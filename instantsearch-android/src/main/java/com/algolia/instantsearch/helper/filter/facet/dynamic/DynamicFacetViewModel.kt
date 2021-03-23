@@ -12,10 +12,10 @@ public class DynamicFacetViewModel(
     selections: FacetSelections,
 ) {
 
-    public var facetOrder: FacetMerchandising by Delegates.observable(facetOrder) { _, _, newValue ->
+    public var facetOrder: FacetMerchandising by Delegates.observable(facetOrder) { _, oldValue, newValue ->
         onFacetOrderUpdated.send(FacetMerchandising(prepareFacetOrder(newValue)))
     }
-    public var selections: FacetSelections by Delegates.observable(selections) { _, _, newValue ->
+    public var selections: FacetSelections by Delegates.observable(selections) { _, oldValue, newValue ->
         onSelectionsUpdated.send(newValue)
     }
     public var shouldShowFacetForAttribute: (Attribute, Facet) -> (Boolean) = { _, _ -> true }
@@ -32,15 +32,13 @@ public class DynamicFacetViewModel(
         }.filter { it.facets.isNotEmpty() }
     }
 
-    public fun isSelected(facetValue: String, attribute: Attribute): Boolean {
+    public fun isSelected(attribute: Attribute, facetValue: String): Boolean {
         return selections[attribute]?.contains(facetValue) ?: false
     }
 
-    public fun toggleSelection(facetValue: String, attribute: Attribute) {
-        val currentSelections = selections[attribute] ?: mutableSetOf()
-        currentSelections.run {
-            if (contains(facetValue)) remove(facetValue) else add(facetValue)
-            if (isEmpty()) selections.remove(attribute) else selections[attribute] = currentSelections
-        }
+    public fun toggleSelection(attribute: Attribute, facetValue: String) {
+        val current = selections[attribute]?.toMutableSet() ?: mutableSetOf()
+        if (current.contains(facetValue)) current.remove(facetValue) else current.add(facetValue)
+        if (current.isEmpty()) selections.remove(attribute) else selections[attribute] = current
     }
 }

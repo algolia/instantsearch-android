@@ -8,7 +8,7 @@ public interface DynamicFacetView {
 
     public fun commit(facetOrder: List<AttributedFacets>)
 
-    public fun commit(selections: Map<Attribute, Set<String>>)
+    public fun commit(selections: FacetSelections)
 
     public var didSelect: ((Attribute, Facet) -> Unit)?
 }
