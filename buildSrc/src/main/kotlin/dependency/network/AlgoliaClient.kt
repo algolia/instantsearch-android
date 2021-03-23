@@ -6,5 +6,5 @@ object AlgoliaClient : Dependency {
 
     override val group = "com.algolia"
     override val artifact = "algoliasearch-client-kotlin"
-    override val version = "1.7.0"
+    override val version = "1.8.0-alpha01"
 }

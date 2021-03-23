@@ -30,6 +30,7 @@ project.extensions.extraProperties.apply {
 subprojects {
     apply(plugin = "com.diffplug.spotless")
     repositories {
+        mavenLocal()
         mavenCentral()
         google()
         jcenter { //TODO: remove when the dependencies below are migrated
