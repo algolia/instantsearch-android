@@ -56,7 +56,7 @@ public class SearcherSingleIndexDataSource<T>(
                     searcher.isLoading.value = false
                 }
                 retry = null
-                callback.onResult(response.hits.map(transformer), 0, response.nbHits, null, nextKey)
+                callback.onResult(response.hits.map(transformer), 0, response.hits.size, null, nextKey)
             } catch (throwable: Throwable) {
                 retry = { loadInitial(params, callback) }
                 resultError(throwable)
