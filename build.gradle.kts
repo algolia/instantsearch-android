@@ -1,6 +1,7 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 
 buildscript {
+    val kotlinVersion by extra("1.4.32")
     repositories {
         mavenCentral()
         google()
@@ -13,8 +14,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath(kotlin("gradle-plugin", version = "1.4.31"))
-        classpath(kotlin("serialization", version = "1.4.31"))
+        classpath(kotlin("gradle-plugin", version = kotlinVersion))
+        classpath(kotlin("serialization", version = kotlinVersion))
         classpath(dependency.plugin.AndroidTools())
         classpath(dependency.plugin.GradleMavenPublish())
         classpath(dependency.plugin.Spotless())
@@ -38,6 +39,7 @@ subprojects {
                 includeModule("org.jetbrains.trove4j", "trove4j")
                 includeModule("org.jetbrains", "markdown")
                 includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
+                includeModule("org.jetbrains.kotlinx", "kotlinx-collections-immutable-jvm")
             }
         }
     }

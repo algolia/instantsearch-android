@@ -1,0 +1,57 @@
+import dependency.compose.*
+
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+    id("com.vanniktech.maven.publish")
+}
+
+android {
+    compileSdkVersion(30)
+
+    defaultConfig {
+        minSdkVersion(21)
+        targetSdkVersion(30)
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    testOptions.unitTests.isIncludeAndroidResources = true
+
+    libraryVariants.all {
+        generateBuildConfigProvider.configure { enabled = false }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        useIR = true
+        freeCompilerArgs += listOf(
+            "-Xopt-in=kotlin.RequiresOptIn"
+        )
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    testOptions.unitTests {
+        it.isIncludeAndroidResources = true
+        it.isReturnDefaultValues = true
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    if ("UnitTest" !in name) {
+        kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
+    }
+}
+
+dependencies {
+    api(project(":instantsearch-android"))
+    implementation(UI())
+    implementation(Paging())
+}
