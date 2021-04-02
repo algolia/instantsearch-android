@@ -11,9 +11,9 @@ public class SearcherSingleIndexPager<T : Any>(
     searcher: SearcherSingleIndex,
     pagingConfig: PagingConfig = PagingConfig(pageSize = 10),
     transformer: (ResponseSearch) -> List<T>
-) {
+) : SearcherPager<T> {
 
-    public val flow: Flow<PagingData<T>> = Pager(pagingConfig) {
+    override val flow: Flow<PagingData<T>> = Pager(pagingConfig) {
         SearcherSingleIndexPagingSource(
             searcher = searcher,
             transformer = transformer
@@ -22,11 +22,11 @@ public class SearcherSingleIndexPager<T : Any>(
 
     private var reset: (() -> Unit)? = null
 
-    public fun reset() {
+    override fun reset() {
         reset?.invoke()
     }
 
-    public fun onReset(reset: () -> Unit) {
+    override fun onReset(reset: () -> Unit) {
         this.reset = reset
     }
 }
