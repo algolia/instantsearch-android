@@ -12,6 +12,7 @@ import kotlinx.coroutines.withContext
 public class SearcherSingleIndexDataSource<T>(
     private val searcher: SearcherSingleIndex,
     private val emptyQuerySearchEnabled:  Boolean =  true ,
+    private val triggerSearchForQuery: ((Query) -> Boolean),
     retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val transformer: (ResponseSearch.Hit) -> T,
 ) : RetryablePageKeyedDataSource<Int, T>(retryDispatcher) {
@@ -19,6 +20,7 @@ public class SearcherSingleIndexDataSource<T>(
     public class Factory<T>(
         private val searcher: SearcherSingleIndex,
         private val emptyQuerySearchEnabled:  Boolean =  true,
+        private val triggerSearchForQuery: ((Query) -> Boolean),
         private val retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
         private val transformer: (ResponseSearch.Hit) -> T,
     ) : DataSource.Factory<Int, T>() {
@@ -27,6 +29,7 @@ public class SearcherSingleIndexDataSource<T>(
             return SearcherSingleIndexDataSource(
                 searcher = searcher,
                 emptyQuerySearchEnabled = emptyQuerySearchEnabled,
+                triggerSearchForQuery = triggerSearchForQuery,
                 retryDispatcher = retryDispatcher,
                 transformer = transformer
             )
@@ -37,6 +40,9 @@ public class SearcherSingleIndexDataSource<T>(
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, T>) {
         val queryLoaded = searcher.query.query
+
+        if (!triggerSearchForQuery(searcher.query)) return
+
         if (!emptyQuerySearchEnabled && queryLoaded.isNullOrEmpty()) return
 
         initialLoadSize = params.requestedLoadSize
