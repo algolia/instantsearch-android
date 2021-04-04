@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 public class SearcherSingleIndexDataSource<T>(
     private val searcher: SearcherSingleIndex,
     private val emptyQuerySearchEnabled:  Boolean =  true ,
-    private val triggerSearchForQuery: ((Query) -> Boolean),
+    private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
     retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val transformer: (ResponseSearch.Hit) -> T,
 ) : RetryablePageKeyedDataSource<Int, T>(retryDispatcher) {
@@ -20,7 +20,7 @@ public class SearcherSingleIndexDataSource<T>(
     public class Factory<T>(
         private val searcher: SearcherSingleIndex,
         private val emptyQuerySearchEnabled:  Boolean =  true,
-        private val triggerSearchForQuery: ((Query) -> Boolean),
+        private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
         private val retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
         private val transformer: (ResponseSearch.Hit) -> T,
     ) : DataSource.Factory<Int, T>() {
