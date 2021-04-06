@@ -2,29 +2,33 @@ package com.algolia.instantsearch.core.connection
 
 public class ConnectionHandler(
     public val connections: MutableSet<Connection> = mutableSetOf()
-) {
+) : ConnectionManager {
 
     public constructor(
         vararg connections: Connection
     ) : this(connections.toMutableSet())
 
     init {
+        connect()
+    }
+
+    override fun connect() {
         connections.forEach { it.connect() }
     }
 
-    public fun disconnect() {
+    override fun disconnect() {
         connections.forEach { it.disconnect() }
     }
 
-    public operator fun plusAssign(connection: Connection) {
+    override operator fun plusAssign(connection: Connection) {
         connections += connection.apply { connect() }
     }
 
-    public operator fun plusAssign(connections: Collection<Connection>) {
+    override operator fun plusAssign(connections: Collection<Connection>) {
         this.connections += connections.apply { forEach { it.connect() } }
     }
 
-    public fun clear() {
+    override fun clear() {
         disconnect()
         connections.clear()
     }
