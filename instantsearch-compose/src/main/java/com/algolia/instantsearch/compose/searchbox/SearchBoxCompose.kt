@@ -1,13 +1,12 @@
 package com.algolia.instantsearch.compose.searchbox
 
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.algolia.instantsearch.compose.searchbox.internal.SearchBoxComposeImpl
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 
 public interface SearchBoxCompose : SearchBoxView {
-    public val query: State<String>
+    public val query: MutableState<String>
     public fun onValueChange(query: String, isSubmit: Boolean)
 }
 
