@@ -20,13 +20,13 @@ public class SearcherSingleIndexPager<T : Any>(
         )
     }.flow
 
-    private var reset: (() -> Unit)? = null
+    private var callback: (() -> Unit)? = null
 
-    override fun reset() {
-        reset?.invoke()
+    override fun notifyFacetChanged() {
+        callback?.invoke()
     }
 
-    override fun onReset(reset: () -> Unit) {
-        this.reset = reset
+    override fun onFacetChange(callback: () -> Unit) {
+        this.callback = callback
     }
 }

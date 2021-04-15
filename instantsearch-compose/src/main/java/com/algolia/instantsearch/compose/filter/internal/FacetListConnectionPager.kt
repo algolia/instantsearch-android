@@ -11,7 +11,7 @@ internal class FacetListConnectionPager<T : Any>(
 ) : ConnectionImpl() {
 
     private val callback: (List<Pair<Facet, Boolean>>) -> Unit = {
-        pager.reset()
+        pager.notifyFacetChanged()
     }
 
     override fun connect() {
