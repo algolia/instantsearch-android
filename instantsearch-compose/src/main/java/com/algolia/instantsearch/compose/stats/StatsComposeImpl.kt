@@ -7,7 +7,7 @@ import com.algolia.instantsearch.compose.stats.internal.StatsComposeImpl
 import com.algolia.instantsearch.helper.stats.StatsView
 
 public interface StatsCompose<T> : StatsView<T> {
-    public val state: State<T>
+    public val stats: State<T>
 }
 
 public fun <T> StatsCompose(state: MutableState<T>): StatsCompose<T> {
@@ -15,5 +15,5 @@ public fun <T> StatsCompose(state: MutableState<T>): StatsCompose<T> {
 }
 
 public fun StatsTextCompose(state: MutableState<String> = mutableStateOf("")): StatsCompose<String> {
-    return StatsCompose(state)
+    return StatsComposeImpl(state)
 }
