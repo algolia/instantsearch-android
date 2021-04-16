@@ -1,6 +1,16 @@
-import dependency.network.*
-import dependency.test.*
-import dependency.ui.*
+import dependency.network.AlgoliaClient
+import dependency.network.Coroutines
+import dependency.network.Ktor
+import dependency.test.AndroidTestExt
+import dependency.test.AndroidTestRunner
+import dependency.test.Mockk
+import dependency.test.Robolectric
+import dependency.ui.AndroidCore
+import dependency.ui.AppCompat
+import dependency.ui.MaterialDesign
+import dependency.ui.Paging
+import dependency.ui.RecyclerView
+import dependency.ui.SwipeRefreshLayout
 
 plugins {
     id("com.android.library")
@@ -37,11 +47,9 @@ android {
         )
     }
 
-    testOptions {
-        unitTests {
-            it.isIncludeAndroidResources = true
-            it.isReturnDefaultValues = true
-        }
+    testOptions.unitTests.apply {
+        isIncludeAndroidResources = true
+        isReturnDefaultValues = true
     }
 }
 

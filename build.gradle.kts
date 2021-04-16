@@ -5,13 +5,6 @@ buildscript {
     repositories {
         mavenCentral()
         google()
-        jcenter { //TODO: remove when the dependencies below are migrated
-            content {
-                includeGroup("org.jetbrains.dokka")
-                includeModule("org.jetbrains.trove4j", "trove4j")
-                includeModule("org.jetbrains", "markdown")
-            }
-        }
     }
     dependencies {
         classpath(kotlin("gradle-plugin", version = kotlinVersion))

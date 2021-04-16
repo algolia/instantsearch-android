@@ -1,4 +1,5 @@
-import dependency.compose.*
+import dependency.compose.Paging
+import dependency.compose.UI
 
 plugins {
     id("com.android.library")
@@ -38,9 +39,9 @@ android {
         compose = true
     }
 
-    testOptions.unitTests {
-        it.isIncludeAndroidResources = true
-        it.isReturnDefaultValues = true
+    testOptions.unitTests.apply {
+        isIncludeAndroidResources = true
+        isReturnDefaultValues = true
     }
 }
 

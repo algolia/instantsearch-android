@@ -43,11 +43,9 @@ android {
         java.srcDirs("$buildDir/generated/sources/templates/kotlin/main")
     }
 
-    testOptions {
-        unitTests {
-            it.isIncludeAndroidResources = true
-            it.isReturnDefaultValues = true
-        }
+    testOptions.unitTests.apply {
+        isIncludeAndroidResources = true
+        isReturnDefaultValues = true
     }
 }
 
