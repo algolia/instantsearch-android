@@ -1,10 +1,16 @@
 package com.algolia.instantsearch.compose.paging
 
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
 public class SearcherSingleIndexPager<T : Any>(
@@ -22,11 +28,25 @@ public class SearcherSingleIndexPager<T : Any>(
 
     private var callback: (() -> Unit)? = null
 
-    override fun notifyFacetChanged() {
+    override fun notifySearcherChanged() {
         callback?.invoke()
     }
 
-    override fun onFacetChange(callback: () -> Unit) {
+    internal fun onSearcherChange(callback: () -> Unit) {
         this.callback = callback
     }
+}
+
+/**
+ * Collects values values from SearcherSingleIndexPager.
+ */
+@Composable
+public fun <T : Any> SearcherSingleIndexPager<T>.collectAsSearcherLazyPaging(
+    state: LazyListState = rememberLazyListState(),
+    scope: CoroutineScope = rememberCoroutineScope()
+): SearcherLazyPaging<T> {
+    val pagingItems = flow.collectAsLazyPagingItems()
+    val searcherLazyPaging = SearcherLazyPaging(pagingItems, state, scope)
+    onSearcherChange { searcherLazyPaging.resetAsync() }
+    return searcherLazyPaging
 }

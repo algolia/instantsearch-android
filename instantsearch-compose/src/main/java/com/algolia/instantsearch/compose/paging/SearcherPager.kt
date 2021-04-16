@@ -7,7 +7,5 @@ public interface SearcherPager<T : Any> {
 
     public val flow: Flow<PagingData<T>>
 
-    public fun notifyFacetChanged()
-
-    public fun onFacetChange(callback: () -> Unit)
+    public fun notifySearcherChanged()
 }
