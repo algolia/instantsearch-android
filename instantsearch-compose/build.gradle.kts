@@ -1,5 +1,4 @@
-import dependency.compose.Paging
-import dependency.compose.UI
+import dependency.compose.*
 
 plugins {
     id("com.android.library")
@@ -55,4 +54,5 @@ dependencies {
     api(project(":instantsearch-android"))
     implementation(UI())
     implementation(Paging())
+    implementation(Material())
 }
