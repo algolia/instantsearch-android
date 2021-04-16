@@ -18,7 +18,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import com.algolia.instantsearch.compose.R
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 public fun SearchBox(
     modifier: Modifier = Modifier,
@@ -30,6 +29,7 @@ public fun SearchBox(
     Card(modifier = modifier) {
         TextField(
             value = text.value,
+            textStyle = textStyle.merge(TextStyle(textDecoration = TextDecoration.None)),
             onValueChange = {
                 val isSubmit = it.endsWith("\n")
                 val value = if (isSubmit) it.removeSuffix("\n") else it
@@ -43,7 +43,6 @@ public fun SearchBox(
                     tint = MaterialTheme.colors.onBackground
                 )
             },
-            textStyle = textStyle.merge(TextStyle(textDecoration = TextDecoration.None)),
             placeholder = {
                 Text(
                     text = stringResource(R.string.search_box_hint),
@@ -51,30 +50,40 @@ public fun SearchBox(
                 )
             },
             trailingIcon = {
-                AnimatedVisibility(
-                    visible = text.value.isNotEmpty(),
-                    enter = slideInHorizontally(
-                        initialOffsetX = { fullWidth -> fullWidth / 3 },
-                        animationSpec = tween(100, easing = LinearOutSlowInEasing)
-                    ) + fadeIn(),
-                    exit = slideOutHorizontally(
-                        targetOffsetX = { fullWidth -> fullWidth / 3 },
-                        animationSpec = tween(100, easing = LinearOutSlowInEasing)
-                    ) + fadeOut()
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.clickable(onClick = {
-                            text.value = ""
-                            onValueChange("", false)
-                        })
-                    )
+                val visible = query.value.isNotEmpty()
+                SearchClearIcon(visible) {
+                    text.value = ""
+                    onValueChange("", false)
                 }
             },
             maxLines = 1,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.background)
+        )
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+internal fun SearchClearIcon(
+    visible: Boolean,
+    onClick: () -> Unit
+) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = slideInHorizontally(
+            initialOffsetX = { fullWidth -> fullWidth / 3 },
+            animationSpec = tween(100, easing = LinearOutSlowInEasing)
+        ) + fadeIn(),
+        exit = slideOutHorizontally(
+            targetOffsetX = { fullWidth -> fullWidth / 3 },
+            animationSpec = tween(100, easing = LinearOutSlowInEasing)
+        ) + fadeOut()
+    ) {
+        Icon(
+            imageVector = Icons.Default.Close,
+            contentDescription = null,
+            tint = MaterialTheme.colors.onBackground,
+            modifier = Modifier.clickable(onClick = onClick)
         )
     }
 }
