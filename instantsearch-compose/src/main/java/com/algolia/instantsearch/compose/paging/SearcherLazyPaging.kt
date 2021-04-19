@@ -1,9 +1,6 @@
 package com.algolia.instantsearch.compose.paging
 
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.paging.compose.LazyPagingItems
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -32,15 +29,5 @@ public data class SearcherLazyPaging<T : Any>(
      */
     public fun resetAsync() {
         scope.launch { reset() }
-    }
-
-    public companion object {
-
-        @Composable
-        public operator fun <T : Any> invoke(pagingItems: LazyPagingItems<T>): SearcherLazyPaging<T> {
-            val state = rememberLazyListState()
-            val scope = rememberCoroutineScope()
-            return SearcherLazyPaging(pagingItems, state, scope)
-        }
     }
 }

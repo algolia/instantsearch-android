@@ -13,9 +13,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.R
 
 @Composable
@@ -23,10 +25,11 @@ public fun SearchBox(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     onValueChange: (String, Boolean) -> Unit = { _, _ -> },
-    query: MutableState<String> = mutableStateOf("")
+    query: MutableState<String> = mutableStateOf(""),
+    colors: TextFieldColors = SearchColors()
 ) {
     val text = rememberSaveable { query }
-    Card(modifier = modifier) {
+    Card(modifier = modifier, elevation = 4.dp) {
         TextField(
             value = text.value,
             textStyle = textStyle.merge(TextStyle(textDecoration = TextDecoration.None)),
@@ -57,9 +60,19 @@ public fun SearchBox(
                 }
             },
             maxLines = 1,
-            colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.background)
+            colors = colors,
         )
     }
+}
+
+@Composable
+internal fun SearchColors(): TextFieldColors {
+    return TextFieldDefaults.textFieldColors(
+        backgroundColor = MaterialTheme.colors.background,
+        focusedIndicatorColor = Color.Transparent,
+        unfocusedIndicatorColor = Color.Transparent,
+        disabledIndicatorColor = Color.Transparent,
+    )
 }
 
 @OptIn(ExperimentalAnimationApi::class)
