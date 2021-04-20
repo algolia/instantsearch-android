@@ -4,6 +4,9 @@ import androidx.compose.runtime.MutableState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxCompose
 import com.algolia.instantsearch.core.Callback
 
+/**
+ * [SearchBoxCompose] implementation.
+ */
 internal class SearchBoxComposeImpl(
     override val query: MutableState<String>
 ) : SearchBoxCompose {

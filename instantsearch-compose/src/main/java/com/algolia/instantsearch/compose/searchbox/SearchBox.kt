@@ -1,25 +1,30 @@
 package com.algolia.instantsearch.compose.searchbox
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.R
+import com.algolia.instantsearch.compose.searchbox.internal.SearchClearIcon
+import com.algolia.instantsearch.compose.searchbox.internal.SearchColors
 
+/**
+ * Implementation of Search Box.
+ *
+ * @param modifier Modifier to be applied
+ * @param textStyle the style to be applied to the input text
+ * @param onValueChange the callback that is triggered when each text update
+ * @param query the text shown in the text field
+ * @param colors will be used to resolve color of the text, content and background
+ */
 @Composable
 public fun SearchBox(
     modifier: Modifier = Modifier,
@@ -61,42 +66,6 @@ public fun SearchBox(
             },
             maxLines = 1,
             colors = colors,
-        )
-    }
-}
-
-@Composable
-internal fun SearchColors(): TextFieldColors {
-    return TextFieldDefaults.textFieldColors(
-        backgroundColor = MaterialTheme.colors.background,
-        focusedIndicatorColor = Color.Transparent,
-        unfocusedIndicatorColor = Color.Transparent,
-        disabledIndicatorColor = Color.Transparent,
-    )
-}
-
-@OptIn(ExperimentalAnimationApi::class)
-@Composable
-internal fun SearchClearIcon(
-    visible: Boolean,
-    onClick: () -> Unit
-) {
-    AnimatedVisibility(
-        visible = visible,
-        enter = slideInHorizontally(
-            initialOffsetX = { fullWidth -> fullWidth / 3 },
-            animationSpec = tween(100, easing = LinearOutSlowInEasing)
-        ) + fadeIn(),
-        exit = slideOutHorizontally(
-            targetOffsetX = { fullWidth -> fullWidth / 3 },
-            animationSpec = tween(100, easing = LinearOutSlowInEasing)
-        ) + fadeOut()
-    ) {
-        Icon(
-            imageVector = Icons.Default.Close,
-            contentDescription = null,
-            tint = MaterialTheme.colors.onBackground,
-            modifier = Modifier.clickable(onClick = onClick)
         )
     }
 }

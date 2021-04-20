@@ -5,6 +5,12 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.withContext
 
+/**
+ * Implementation of [PagingSource] with [SearcherSingleIndex].
+ *
+ * @param searcher single index searcher
+ * @param transformer mapping applied to search responses
+ */
 public class SearcherSingleIndexPagingSource<T : Any>(
     private val searcher: SearcherSingleIndex,
     private val transformer: (ResponseSearch) -> List<T>

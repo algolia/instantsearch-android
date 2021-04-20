@@ -13,6 +13,13 @@ import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * [SearcherPager] implementation for [SearcherSingleIndex].
+ *
+ * @param searcher single index searcher
+ * @param pagingConfig configure loading behavior within a Pager
+ * @param transformer mapping applied to search responses
+ */
 public class SearcherSingleIndexPager<T : Any>(
     searcher: SearcherSingleIndex,
     pagingConfig: PagingConfig = PagingConfig(pageSize = 10),
@@ -38,7 +45,10 @@ public class SearcherSingleIndexPager<T : Any>(
 }
 
 /**
- * Collects values values from SearcherSingleIndexPager.
+ * Collects values values from [SearcherSingleIndexPager].
+ *
+ * @param state controls and observes list scrolling
+ * @param scope coroutine scope to run async operations
  */
 @Composable
 public fun <T : Any> SearcherSingleIndexPager<T>.collectAsSearcherLazyPaging(

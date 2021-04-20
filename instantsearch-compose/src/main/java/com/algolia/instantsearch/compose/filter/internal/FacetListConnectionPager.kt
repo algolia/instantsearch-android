@@ -5,6 +5,9 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
 import com.algolia.search.model.search.Facet
 
+/**
+ * Connection implementation between [FacetListViewModel] and [SearcherPager].
+ */
 internal class FacetListConnectionPager<T : Any>(
     private val facetListViewModel: FacetListViewModel,
     private val pager: SearcherPager<T>

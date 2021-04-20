@@ -6,6 +6,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import com.algolia.instantsearch.core.highlighting.HighlightedString
 
+/**
+ * Converts a [HighlightedString] to [AnnotatedString].
+ *
+ * @param spanStyle applied highlighting style
+ */
 public fun HighlightedString.toAnnotatedString(spanStyle: SpanStyle = SpanStyle(fontWeight = FontWeight.Bold)): AnnotatedString {
     return with(AnnotatedString.Builder()) {
         tokens.forEach { (part, isHighlighted) ->
@@ -21,6 +26,9 @@ public fun HighlightedString.toAnnotatedString(spanStyle: SpanStyle = SpanStyle(
     }
 }
 
+/**
+ * Converts a list of [HighlightedString] to a list of [AnnotatedString].
+ */
 public fun List<HighlightedString>.toAnnotatedString(
     spanStyle: SpanStyle = SpanStyle(fontWeight = FontWeight.Bold)
 ): AnnotatedString {

@@ -6,10 +6,20 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
 
-public fun <T : Any> FacetListConnector.connectSearcherPager(pager: SearcherPager<T>): Connection {
-    return viewModel.connectSearcherPager(pager)
+/**
+ * Create a connection between a searcher pager and the facet list components.
+ *
+ * @param searcherPager pager to be connected
+ */
+public fun <T : Any> FacetListConnector.connectSearcherPager(searcherPager: SearcherPager<T>): Connection {
+    return viewModel.connectSearcherPager(searcherPager)
 }
 
-public fun <T : Any> FacetListViewModel.connectSearcherPager(pager: SearcherPager<T>): Connection {
-    return FacetListConnectionPager(this, pager)
+/**
+ * Create a connection between a searcher pager and the facet list view model.
+ *
+ * @param searcherPager pager to be connected
+ */
+public fun <T : Any> FacetListViewModel.connectSearcherPager(searcherPager: SearcherPager<T>): Connection {
+    return FacetListConnectionPager(this, searcherPager)
 }

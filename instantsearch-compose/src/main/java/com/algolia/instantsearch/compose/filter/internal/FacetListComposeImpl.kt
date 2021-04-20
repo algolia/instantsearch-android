@@ -7,6 +7,9 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.search.model.search.Facet
 
+/**
+ * [FacetListCompose] implementation.
+ */
 internal class FacetListComposeImpl(
     private val mutableFacets: MutableState<List<SelectableItem<Facet>>>
 ) : FacetListCompose {
