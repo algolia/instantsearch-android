@@ -1,6 +1,7 @@
 import dependency.network.*
 import dependency.test.*
 import dependency.ui.*
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("com.android.library")
@@ -31,7 +32,7 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += listOf(
+        freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=com.algolia.search.ExperimentalAlgoliaClientAPI"
         )
@@ -45,9 +46,9 @@ android {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType<KotlinCompile> {
     if ("UnitTest" !in name) {
-        kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
+        //kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
     }
 }
 

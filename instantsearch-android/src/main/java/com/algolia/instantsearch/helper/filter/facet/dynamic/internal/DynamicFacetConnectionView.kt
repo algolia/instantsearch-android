@@ -5,15 +5,15 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetView
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetViewModel
 import com.algolia.instantsearch.helper.filter.facet.dynamic.FacetSelections
-import com.algolia.search.model.rule.FacetMerchandising
+import com.algolia.search.model.rule.AttributedFacets
 
 internal class DynamicFacetConnectionView(
     val viewModel: DynamicFacetViewModel,
     val view: DynamicFacetView,
 ) : ConnectionImpl() {
 
-    private val facetOrderSubscription: Callback<FacetMerchandising> = { facetMerchandising ->
-        view.commit(facetMerchandising.facetOrder)
+    private val facetOrderSubscription: Callback<List<AttributedFacets>> = { facetOrder ->
+        view.commit(facetOrder)
     }
 
     private val facetSelectionsSubscription: Callback<FacetSelections> = { facetSelections ->

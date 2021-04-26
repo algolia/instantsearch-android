@@ -4,8 +4,11 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetViewModel
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.rule.FacetMerchandising
+import com.algolia.search.model.rule.AttributedFacets
+import com.algolia.search.model.rule.FacetOrdering
+import com.algolia.search.model.search.Facet
 
 internal class DynamicFacetConnectionSearcherIndex(
     val viewModel: DynamicFacetViewModel,
@@ -13,12 +16,23 @@ internal class DynamicFacetConnectionSearcherIndex(
 ) : ConnectionImpl() {
 
     private val responseSubscription: Callback<ResponseSearch?> = { response ->
-        val facetMerchandising = response?.rules?.consequence?.renderingContent?.facetMerchandising
-        viewModel.facetOrder = facetMerchandising ?: FacetMerchandising()
+        val facetOrdering = response?.rules?.consequence?.renderingContent?.facetMerchandising?.facetOrdering
+        val facets = response?.facets
+        viewModel.facetOrder = buildOrder(facetOrdering, facets)
+    }
+
+    private fun buildOrder(
+        facetOrdering: FacetOrdering?,
+        facets: Map<Attribute, List<Facet>>?
+    ): List<AttributedFacets> {
+        if (facetOrdering != null && facets != null) {
+            return BuildOrder(facetOrdering, facets).invoke()
+        }
+        return emptyList()
     }
 
     private val errorSubscription: Callback<Throwable?> = { _ ->
-        viewModel.facetOrder = FacetMerchandising()
+        viewModel.facetOrder = emptyList()
     }
 
     override fun connect() {
