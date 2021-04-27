@@ -5,7 +5,9 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetView
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetViewModel
 import com.algolia.instantsearch.helper.filter.facet.dynamic.FacetSelections
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.rule.AttributedFacets
+import com.algolia.search.model.search.Facet
 
 internal class DynamicFacetConnectionView(
     val viewModel: DynamicFacetViewModel,
@@ -20,11 +22,13 @@ internal class DynamicFacetConnectionView(
         view.commit(facetSelections)
     }
 
+    private val didSelect: (Attribute, Facet) -> Unit = { attribute, facet ->
+        viewModel.toggleSelection(attribute = attribute, facetValue = facet.value)
+    }
+
     override fun connect() {
         super.connect()
-        view.didSelect = { attribute, facet ->
-            viewModel.toggleSelection(attribute = attribute, facetValue = facet.value)
-        }
+        view.didSelect = didSelect
         facetOrderSubscribePast()
         facetSelectionsSubscribePast()
     }
