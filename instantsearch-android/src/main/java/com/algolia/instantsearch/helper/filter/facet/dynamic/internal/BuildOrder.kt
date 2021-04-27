@@ -72,7 +72,7 @@ internal class BuildOrder(
                 else -> {
                     when (sortBy ?: SortRule.Alpha) {
                         SortRule.Alpha -> valuePath(left).compareTo(valuePath(right))
-                        SortRule.Count -> countPath(left).compareTo(countPath(right))
+                        SortRule.Count -> countPath(left).compareToReverse(countPath(right))
                     }
                 }
             }
@@ -83,6 +83,8 @@ internal class BuildOrder(
         val value = indexOfFirst(predicate)
         return if (value >= 0) value else null
     }
+
+    private fun <T> Comparable<T>.compareToReverse(other: T): Int = compareTo(other) * -1
 
     companion object {
         private const val WILDCARD = "*"
