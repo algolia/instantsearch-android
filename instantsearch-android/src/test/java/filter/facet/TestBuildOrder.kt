@@ -82,7 +82,7 @@ class TestBuildOrder {
     @Test
     fun testSortFacetsByCount() {
         val order = FacetOrdering(facets = OrderingRule(sortBy = SortRule.Count), facetValues = emptyMap())
-        assertEquals(listOf("brand", "color", "size", "country"), withOrder(order).map { it.attribute.raw })
+        assertEquals(listOf("country", "size", "color", "brand"), withOrder(order).map { it.attribute.raw })
     }
 
     @Test
@@ -121,7 +121,7 @@ class TestBuildOrder {
 
     @Test
     fun testSortFacetValuesByCount() {
-        val expectedFacetValues = facets[Attribute("country")]?.sortedBy { it.count }?.map { it.value }
+        val expectedFacetValues = facets[Attribute("country")]?.sortedByDescending { it.count }?.map { it.value }
         val order = FacetOrdering(facets = OrderingRule(), facetValues= mapOf("country" to OrderingRule(sortBy = SortRule.Count)))
         assertEquals(expectedFacetValues, withOrder(order).first { it.attribute.raw == "country" }.facets.map { it.value })
     }

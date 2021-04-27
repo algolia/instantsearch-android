@@ -37,7 +37,15 @@ public class DynamicFacetViewModel(
 
     public fun toggleSelection(attribute: Attribute, facetValue: String) {
         val current = selections[attribute]?.toMutableSet() ?: mutableSetOf()
-        if (current.contains(facetValue)) current.remove(facetValue) else current.add(facetValue)
-        if (current.isEmpty()) selections.remove(attribute) else selections[attribute] = current
+        current.setFacetValue(facetValue)
+        current.setSelection(attribute)
+    }
+
+    private fun MutableSet<String>.setFacetValue(facetValue: String) {
+        if (contains(facetValue)) remove(facetValue) else add(facetValue)
+    }
+
+    private fun MutableSet<String>.setSelection(attribute: Attribute) {
+        selections = if (isEmpty()) selections - attribute else selections + (attribute to this)
     }
 }
