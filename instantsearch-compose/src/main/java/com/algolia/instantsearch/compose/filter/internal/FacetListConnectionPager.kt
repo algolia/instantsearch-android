@@ -13,17 +13,17 @@ internal class FacetListConnectionPager<T : Any>(
     private val pager: SearcherPager<T>
 ) : ConnectionImpl() {
 
-    private val callback: (List<Pair<Facet, Boolean>>) -> Unit = {
+    private val facetsSubscription: (List<Pair<Facet, Boolean>>) -> Unit = {
         pager.notifySearcherChanged()
     }
 
     override fun connect() {
         super.connect()
-        facetListViewModel.facets.subscribe(callback)
+        facetListViewModel.facets.subscribe(facetsSubscription)
     }
 
     override fun disconnect() {
         super.disconnect()
-        facetListViewModel.facets.unsubscribe(callback)
+        facetListViewModel.facets.unsubscribe(facetsSubscription)
     }
 }
