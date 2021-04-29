@@ -33,14 +33,14 @@ public class SearcherSingleIndexPager<T : Any>(
         )
     }.flow
 
-    private var callback: (() -> Unit)? = null
+    private var searcherChangeCallback: (() -> Unit)? = null
 
     override fun notifySearcherChanged() {
-        callback?.invoke()
+        searcherChangeCallback?.invoke()
     }
 
     internal fun onSearcherChange(callback: () -> Unit) {
-        this.callback = callback
+        this.searcherChangeCallback = callback
     }
 }
 
