@@ -24,10 +24,6 @@ android {
 
     testOptions.unitTests.isIncludeAndroidResources = true
 
-    libraryVariants.all {
-        generateBuildConfigProvider.configure { enabled = false }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -39,15 +35,17 @@ android {
         freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
     }
 
+    buildFeatures {
+        buildConfig = false
+    }
+
     sourceSets.getByName("main") {
         java.srcDirs("$buildDir/generated/sources/templates/kotlin/main")
     }
 
-    testOptions {
-        unitTests {
-            it.isIncludeAndroidResources = true
-            it.isReturnDefaultValues = true
-        }
+    testOptions.unitTests.apply {
+        isIncludeAndroidResources = true
+        isReturnDefaultValues = true
     }
 }
 
