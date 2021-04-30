@@ -12,7 +12,6 @@ buildscript {
         classpath(dependency.plugin.AndroidTools())
         classpath(dependency.plugin.GradleMavenPublish())
         classpath(dependency.plugin.Spotless())
-        classpath(dependency.plugin.Dokka())
     }
 }
 
@@ -26,15 +25,6 @@ subprojects {
     repositories {
         mavenCentral()
         google()
-        jcenter { //TODO: remove when the dependencies below are migrated
-            content {
-                includeGroup("org.jetbrains.dokka")
-                includeModule("org.jetbrains.trove4j", "trove4j")
-                includeModule("org.jetbrains", "markdown")
-                includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
-                includeModule("org.jetbrains.kotlinx", "kotlinx-collections-immutable-jvm")
-            }
-        }
     }
     configure<SpotlessExtension> {
         kotlin {
