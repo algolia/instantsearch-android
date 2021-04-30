@@ -17,10 +17,6 @@ android {
 
     testOptions.unitTests.isIncludeAndroidResources = true
 
-    libraryVariants.all {
-        generateBuildConfigProvider.configure { enabled = false }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -35,6 +31,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = false
         compose = true
     }
 

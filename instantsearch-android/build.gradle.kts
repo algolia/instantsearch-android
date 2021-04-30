@@ -30,10 +30,6 @@ android {
 
     testOptions.unitTests.isIncludeAndroidResources = true
 
-    libraryVariants.all {
-        generateBuildConfigProvider.configure { enabled = false }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -45,6 +41,10 @@ android {
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=com.algolia.search.ExperimentalAlgoliaClientAPI"
         )
+    }
+
+    buildFeatures {
+        buildConfig = false
     }
 
     testOptions.unitTests.apply {

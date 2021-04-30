@@ -24,10 +24,6 @@ android {
 
     testOptions.unitTests.isIncludeAndroidResources = true
 
-    libraryVariants.all {
-        generateBuildConfigProvider.configure { enabled = false }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -37,6 +33,10 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         //replace after https://youtrack.jetbrains.com/issue/KT-37652
         freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
+    }
+
+    buildFeatures {
+        buildConfig = false
     }
 
     sourceSets.getByName("main") {
