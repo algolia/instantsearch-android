@@ -49,14 +49,14 @@ public class SearcherSingleIndexDataSource<T>(
                 if (queryLoaded != searcher.query.query) {
                     invalidate()
                 }
-                val nextKey = if (response.nbHits > initialLoadSize) 1 else null
+                val nextKey = if (response.hits.size > initialLoadSize) 1 else null
 
                 withContext(searcher.coroutineScope.coroutineContext) {
                     searcher.response.value = response
                     searcher.isLoading.value = false
                 }
                 retry = null
-                callback.onResult(response.hits.map(transformer), 0, response.nbHits, null, nextKey)
+                callback.onResult(response.hits.map(transformer), 0, response.hits.size, null, nextKey)
             } catch (throwable: Throwable) {
                 retry = { loadInitial(params, callback) }
                 resultError(throwable)
