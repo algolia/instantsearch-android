@@ -6,10 +6,10 @@ import com.algolia.instantsearch.core.relevantsort.RelevantSortPresenter
 import com.algolia.instantsearch.core.relevantsort.RelevantSortView
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.core.relevantsort.connectView
-import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.relevantsort.internal.RelevantSortConnectionMultipleIndex
 import com.algolia.instantsearch.helper.relevantsort.internal.RelevantSortConnectionSingleIndex
+import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
+import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 
 /**
  * Create a connection between a view model and a searcher.

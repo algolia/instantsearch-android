@@ -68,9 +68,11 @@ class TestQueryRuleCustomData {
         val initialModel = TestModel(number = 10, text = "test1")
 
         // explicit
-        QueryRuleCustomDataConnector(searcher = searcher,
+        QueryRuleCustomDataConnector(
+            searcher = searcher,
             deserializer = TestModel.serializer(),
-            initialItem = initialModel) {
+            initialItem = initialModel
+        ) {
             it shouldEqual initialModel
         }
 
@@ -90,8 +92,10 @@ class TestQueryRuleCustomData {
         }
 
         // w/ ViewModel
-        QueryRuleCustomDataConnector(searcher = searcher,
-            viewModel = QueryRuleCustomDataViewModel(initialItem = initialModel)) {
+        QueryRuleCustomDataConnector(
+            searcher = searcher,
+            viewModel = QueryRuleCustomDataViewModel(initialItem = initialModel)
+        ) {
             it shouldEqual initialModel
         }
     }

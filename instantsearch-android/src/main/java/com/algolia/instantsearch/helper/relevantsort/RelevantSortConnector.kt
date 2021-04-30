@@ -2,10 +2,10 @@ package com.algolia.instantsearch.helper.relevantsort
 
 import com.algolia.instantsearch.core.relevantsort.RelevantSortConnector
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
-import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.relevantsort.internal.RelevantSortConnectorMultipleIndex
 import com.algolia.instantsearch.helper.relevantsort.internal.RelevantSortConnectorSingleIndex
+import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
+import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 
 /**
  * Creates a [RelevantSortConnector] instance.

@@ -10,7 +10,6 @@ import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
-
 import com.algolia.search.model.Attribute
 
 public fun FacetListViewModel.connectFilterState(

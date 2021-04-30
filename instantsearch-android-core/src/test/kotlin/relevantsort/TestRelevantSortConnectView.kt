@@ -5,8 +5,8 @@ import com.algolia.instantsearch.core.relevantsort.RelevantSortPriorityView
 import com.algolia.instantsearch.core.relevantsort.RelevantSortView
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.core.relevantsort.connectView
-import kotlin.test.Test
 import shouldEqual
+import kotlin.test.Test
 
 class TestRelevantSortConnectView {
 

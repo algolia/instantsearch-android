@@ -1,4 +1,5 @@
 package com.algolia.instantsearch.compose.paging
+
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
