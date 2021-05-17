@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color
  * Search Box default colors.
  */
 @Composable
-internal fun SearchColors(): TextFieldColors {
+internal fun searchColors(): TextFieldColors {
     return TextFieldDefaults.textFieldColors(
         backgroundColor = MaterialTheme.colors.background,
         focusedIndicatorColor = Color.Transparent,

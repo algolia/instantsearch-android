@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.compose.searchbox
 
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalTextStyle
@@ -16,11 +18,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.R
 import com.algolia.instantsearch.compose.searchbox.internal.SearchClearIcon
-import com.algolia.instantsearch.compose.searchbox.internal.SearchColors
+import com.algolia.instantsearch.compose.searchbox.internal.searchColors
 
 /**
  * Implementation of Search Box.
@@ -37,18 +41,18 @@ public fun SearchBox(
     textStyle: TextStyle = LocalTextStyle.current,
     onValueChange: (String, Boolean) -> Unit = { _, _ -> },
     query: MutableState<String> = mutableStateOf(""),
-    colors: TextFieldColors = SearchColors()
+    colors: TextFieldColors = searchColors(),
+    placeHolderText: String = stringResource(R.string.search_box_hint),
+    elevation: Dp = 1.dp,
 ) {
     val text = rememberSaveable { query }
-    Card(modifier = modifier, elevation = 4.dp) {
+    Card(modifier = modifier, elevation = elevation) {
         TextField(
             value = text.value,
             textStyle = textStyle.merge(TextStyle(textDecoration = TextDecoration.None)),
             onValueChange = {
-                val isSubmit = it.endsWith("\n")
-                val value = if (isSubmit) it.removeSuffix("\n") else it
-                text.value = value
-                onValueChange(value, isSubmit)
+                text.value = it
+                onValueChange(it, false)
             },
             leadingIcon = {
                 Icon(
@@ -59,7 +63,7 @@ public fun SearchBox(
             },
             placeholder = {
                 Text(
-                    text = stringResource(R.string.search_box_hint),
+                    text = placeHolderText,
                     color = MaterialTheme.colors.onBackground.copy(alpha = 0.2f)
                 )
             },
@@ -70,8 +74,14 @@ public fun SearchBox(
                     onValueChange("", false)
                 }
             },
-            maxLines = 1,
+            singleLine = true,
             colors = colors,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    onValueChange(text.value, true)
+                }
+            )
         )
     }
 }
