@@ -71,9 +71,9 @@ tasks {
 
 dependencies {
     api(project(":instantsearch-insights-core"))
-    api(AlgoliaClient())
+
+    implementation(Ktor("client-okhttp"))
     implementation(AndroidCore("ktx"))
-    implementation(Ktor("client-android"))
     implementation(Work("runtime-ktx"))
 
     testImplementation(kotlin("test-junit"))

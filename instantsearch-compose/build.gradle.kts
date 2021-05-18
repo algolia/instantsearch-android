@@ -1,4 +1,6 @@
-import dependency.compose.*
+import dependency.compose.Material
+import dependency.compose.Paging
+import dependency.compose.UI
 
 plugins {
     id("com.android.library")
@@ -7,11 +9,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
 
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(30)
+        minSdk = 21
+        targetSdk = 30
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -48,7 +50,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 dependencies {
-    api(project(":instantsearch-android"))
+    api(project(":instantsearch-android-runtime"))
     implementation(UI())
     implementation(Paging())
     implementation(Material())

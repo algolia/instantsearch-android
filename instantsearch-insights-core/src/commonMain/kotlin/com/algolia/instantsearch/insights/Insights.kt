@@ -83,4 +83,6 @@ public interface Insights : HitsAfterSearchTrackable, FilterTrackable {
          */
         public val defaultUserToken: UserToken? = null,
     )
+
+    public companion object
 }

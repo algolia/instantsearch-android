@@ -1,7 +1,7 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 
 buildscript {
-    val kotlinVersion by extra("1.4.30")
+    val kotlinVersion by extra("1.4.32")
     repositories {
         mavenCentral()
         google()

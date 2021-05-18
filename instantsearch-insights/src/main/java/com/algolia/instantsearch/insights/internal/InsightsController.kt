@@ -13,6 +13,7 @@ import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploade
 import com.algolia.instantsearch.insights.internal.uploader.InsightsUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
 import com.algolia.instantsearch.insights.internal.worker.InsightsWorkManager
+import com.algolia.instantsearch.insights.shared
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.ObjectID
 import com.algolia.search.model.QueryID
@@ -212,7 +213,7 @@ internal class InsightsController(
             val worker = InsightsWorkManager(workManager, settings)
             return InsightsController(indexName, worker, saver, uploader).also {
                 it.userToken = configuration.defaultUserToken
-                sharedInsights = it
+                Insights.shared = it
                 InsightsMap[indexName] = it
                 InsightsLogger.log("Registering new Insights for indexName $indexName. Previous instance: $it")
             }

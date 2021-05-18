@@ -14,16 +14,16 @@ dependencies {
     testImplementation(kotlin("test-annotations-common"))
     testImplementation(dependency.network.Ktor("client-mock-jvm"))
     testImplementation(Coroutines("test"))
+    testImplementation(dependency.test.Mockk())
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = "1.8"
         freeCompilerArgs += listOf(
-            "-Xexplicit-api=strict",
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=com.algolia.search.ExperimentalAlgoliaClientAPI"
         )
     }
-    //if ("UnitTest" !in name) kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
+    if (!name.contains("test", true)) kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
 }

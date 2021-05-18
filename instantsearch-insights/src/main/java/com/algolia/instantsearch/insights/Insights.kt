@@ -29,14 +29,15 @@ import com.algolia.search.model.IndexName
  * @return An Insights instance.
  * @throws InsightsException.IndexNotRegistered if no index was registered as indexName before.
  */
-public fun Insights.shared(indexName: IndexName): Insights {
+@JvmName("shared")
+public fun Insights.Companion.shared(indexName: IndexName): Insights {
     return InsightsMap[indexName] ?: throw InsightsException.IndexNotRegistered()
 }
 
 /**
  * Access the latest registered `Insights` instance, if any.
  */
-public var Insights.shared: Insights?
+public var Insights.Companion.shared: Insights?
     get() = if (sharedInsights != null) sharedInsights else throw InsightsException.IndexNotRegistered()
     set(value) {
         sharedInsights = value
@@ -51,7 +52,8 @@ public var Insights.shared: Insights?
  * @param indexName The index that is being tracked.
  * @param configuration A Configuration class.
  */
-public fun Insights.register(
+@JvmName("register")
+public fun Insights.Companion.register(
     context: Context,
     appId: String,
     apiKey: String,
@@ -70,7 +72,8 @@ public fun Insights.register(
  * @param indexName The index that is being tracked.
  * @param configuration insights configuration
  */
-public fun Insights.register(
+@JvmName("register")
+public fun Insights.Companion.register(
     context: Context,
     appId: ApplicationID,
     apiKey: APIKey,

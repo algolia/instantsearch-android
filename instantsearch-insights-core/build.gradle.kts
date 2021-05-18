@@ -1,24 +1,30 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    kotlin("jvm")
+    kotlin("multiplatform")
     id("com.vanniktech.maven.publish")
 }
 
-dependencies {
-    api(dependency.network.AlgoliaClient())
-    //testImplementation(kotlin("test-junit"))
-    //testImplementation(kotlin("test-annotations-common"))
-    //testImplementation(dependency.network.Ktor("client-mock-jvm"))
-    //testImplementation(Coroutines("test"))
-}
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs += listOf(
-            "-Xexplicit-api=strict",
-            "-Xopt-in=kotlin.RequiresOptIn",
-        )
+kotlin {
+    explicitApi()
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+        testRuns["test"].executionTask.configure {
+            useJUnit()
+        }
+    }
+    sourceSets {
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+        }
+        val commonMain by getting {
+            dependencies {
+                api(dependency.network.AlgoliaClient())
+            }
+        }
+        val commonTest by getting
+        val jvmMain by getting
+        val jvmTest by getting
     }
 }

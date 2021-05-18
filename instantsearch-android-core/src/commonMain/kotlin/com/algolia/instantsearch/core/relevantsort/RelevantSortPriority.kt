@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.core.relevantsort
 
+import kotlin.jvm.JvmStatic
+
 /**
  * Represents the priority to apply to the search in the dynamically sorted index
  *

@@ -1,47 +1,57 @@
 import dependency.network.Coroutines
 import dependency.util.AtomicFu
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
 
 plugins {
-    kotlin("jvm")
-    id("java-library")
+    kotlin("multiplatform")
     id ("com.vanniktech.maven.publish")
 }
 
-sourceSets {
-    main {
-        java.srcDirs("$buildDir/generated/sources/templates/kotlin/main")
+kotlin {
+    explicitApi()
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+        testRuns["test"].executionTask.configure {
+            useJUnit()
+        }
     }
-}
-
-dependencies {
-    implementation(Coroutines("core"))
-    implementation(AtomicFu())
-    testImplementation(kotlin("test-junit"))
+    sourceSets {
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+        }
+        val commonMain by getting {
+            dependencies {
+                implementation(Coroutines("core"))
+                implementation(AtomicFu())
+            }
+            kotlin.srcDir("$buildDir/generated/sources/templates/kotlin/main")
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
+        }
+        val jvmMain by getting
+        val jvmTest by getting {
+            dependencies {
+                implementation(kotlin("test-junit"))
+            }
+        }
+    }
 }
 
 tasks {
-    named<KotlinCompile>("compileKotlin") {
+    named<KotlinCompileCommon>("compileKotlinMetadata") {
         dependsOn("copyTemplates")
-        kotlinOptions {
-            jvmTarget = "1.8"
-            freeCompilerArgs += listOf(
-                "-Xexplicit-api=strict",
-                "-Xopt-in=kotlin.RequiresOptIn"
-            )
-        }
     }
 
     register(name = "copyTemplates", type = Copy::class) {
-        from("src/main/templates")
+        from("src/commonMain/templates")
         into("$buildDir/generated/sources/templates/kotlin/main")
         expand("projectVersion" to Library.version)
         filteringCharset = "UTF-8"
-    }
-
-    named<KotlinCompile>("compileTestKotlin") {
-        kotlinOptions {
-            jvmTarget = "1.8"
-        }
     }
 }

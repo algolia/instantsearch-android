@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.core.subscription
 
-import java.util.concurrent.CopyOnWriteArraySet
+import com.algolia.instantsearch.core.internal.frozenCopyOnWriteSet
 
 public open class Subscription<T> {
 
-    internal val subscriptions: MutableSet<(T) -> Unit> = CopyOnWriteArraySet()
+    internal val subscriptions: MutableSet<(T) -> Unit> = frozenCopyOnWriteSet()
 
     public fun subscribe(subscription: (T) -> Unit) {
         subscriptions += subscription
