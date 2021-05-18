@@ -70,6 +70,7 @@ tasks {
 }
 
 dependencies {
+    api(project(":instantsearch-insights-core"))
     api(AlgoliaClient())
     implementation(AndroidCore("ktx"))
     implementation(Ktor("client-android"))

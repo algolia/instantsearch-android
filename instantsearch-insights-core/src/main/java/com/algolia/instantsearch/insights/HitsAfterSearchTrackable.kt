@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.insights
 
-import com.algolia.instantsearch.insights.internal.extension.currentTimeMillis
+import com.algolia.instantsearch.insights.internal.currentTimeMillis
 import com.algolia.search.model.ObjectID
 import com.algolia.search.model.QueryID
 import com.algolia.search.model.insights.EventName

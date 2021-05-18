@@ -27,7 +27,7 @@ You can add InstantSearch to your Android application by adding the following li
 ```groovy
 implementation "com.algolia:instantsearch-android:$instantsearch_version"
 ```
-<!--TODO Document using helper-jvm / using core directly -->
+<!--TODO Document using com.algolia.instantsearch.helper.helper-jvm / using core directly -->
 
 ⚠️ Important: starting from version `2.4.0`, the library is compatible only with kotlin version `1.3.70` or higher; for previous versions of kotlin, please use version `2.3.1` of the library.  
 ℹ️ Please follow the [migration guide](docs/guide/Migration_2.5.x_2.6.x.md) to migrate from `2.5.x` or below to the latest version.

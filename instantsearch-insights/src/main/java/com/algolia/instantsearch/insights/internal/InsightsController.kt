@@ -212,7 +212,7 @@ internal class InsightsController(
             val worker = InsightsWorkManager(workManager, settings)
             return InsightsController(indexName, worker, saver, uploader).also {
                 it.userToken = configuration.defaultUserToken
-                Insights.shared = it
+                sharedInsights = it
                 InsightsMap[indexName] = it
                 InsightsLogger.log("Registering new Insights for indexName $indexName. Previous instance: $it")
             }

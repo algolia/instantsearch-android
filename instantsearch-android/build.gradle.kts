@@ -60,7 +60,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 dependencies {
-    api(project(":instantsearch-android-core"))
+    api(project(":instantsearch-android-runtime"))
     api(project(":instantsearch-insights"))
     api(AlgoliaClient())
     api(Ktor("client-okhttp"))
