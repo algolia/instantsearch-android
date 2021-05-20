@@ -50,7 +50,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 dependencies {
-    api(project(":instantsearch-android-runtime"))
+    api(project(":instantsearch"))
     implementation(UI())
     implementation(Paging())
     implementation(Material())
