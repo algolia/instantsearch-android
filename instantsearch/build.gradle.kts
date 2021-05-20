@@ -76,7 +76,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":instantsearch-android-core"))
-                api(project(":instantsearch-insights-core"))
+                api(project(":instantsearch-insights"))
                 api(AlgoliaClient())
             }
         }
@@ -99,7 +99,6 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                api(project(":instantsearch-insights"))
                 api(Ktor("client-okhttp"))
                 api(AndroidCore("ktx"))
                 api(AppCompat())

@@ -1,86 +1,104 @@
-import dependency.lib.Work
-import dependency.network.AlgoliaClient
-import dependency.network.Ktor
-import dependency.test.AndroidTestExt
-import dependency.test.AndroidTestRunner
-import dependency.test.Robolectric
-import dependency.ui.AndroidCore
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
+    kotlin("multiplatform")
     id("com.android.library")
-    id("kotlin-android")
     id("com.vanniktech.maven.publish")
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
 
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(30)
+        minSdk = 21
+        targetSdk = 30
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     testOptions.unitTests.isIncludeAndroidResources = true
+
+    buildTypes {
+        getByName("debug") {
+            matchingFallbacks += "release"
+        }
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-        //replace after https://youtrack.jetbrains.com/issue/KT-37652
-        freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
-    }
-
     buildFeatures {
         buildConfig = false
-    }
-
-    sourceSets.getByName("main") {
-        java.srcDirs("$buildDir/generated/sources/templates/kotlin/main")
     }
 
     testOptions.unitTests.apply {
         isIncludeAndroidResources = true
         isReturnDefaultValues = true
     }
-}
 
-tasks {
-
-    withType<KotlinCompile> {
-        dependsOn("copyTemplates")
-    }
-
-    register(name = "copyTemplates", type = Copy::class) {
-        from("src/main/templates")
-        into("$buildDir/generated/sources/templates/kotlin/main")
-        expand("version" to Library.version)
-        filteringCharset = "UTF-8"
-    }
-
-    withType<KotlinCompile> {
-        if ("UnitTest" !in name) {
-            kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
+    sourceSets {
+        getByName("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
         }
     }
+
+    // @see: https://youtrack.jetbrains.com/issue/KT-43944
+    configurations {
+        create("testApi")
+        create("testDebugApi")
+        create("testReleaseApi")
+    }
 }
 
-dependencies {
-    api(project(":instantsearch-insights-core"))
-
-    implementation(Ktor("client-okhttp"))
-    implementation(AndroidCore("ktx"))
-    implementation(Work("runtime-ktx"))
-
-    testImplementation(kotlin("test-junit"))
-    testImplementation(kotlin("test-annotations-common"))
-    testImplementation(AndroidTestRunner())
-    testImplementation(AndroidTestExt())
-    testImplementation(Robolectric())
-    testImplementation(Ktor("client-mock-jvm"))
-    testImplementation(Work("testing"))
+kotlin {
+    explicitApi()
+    android()
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+        testRuns["test"].executionTask.configure {
+            useJUnit()
+        }
+    }
+    android {
+        compilations.all { kotlinOptions.jvmTarget = "1.8" }
+        //mavenPublication { artifactId = "instantsearch-insights-android" }
+        publishLibraryVariants("release")
+    }
+    jvm {
+        compilations.all { kotlinOptions.jvmTarget = "1.8" }
+        testRuns["test"].executionTask.configure { useJUnit() }
+    }
+    sourceSets {
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+        }
+        val commonMain by getting {
+            dependencies {
+                api(dependency.network.AlgoliaClient())
+            }
+        }
+        val commonTest by getting
+        val jvmMain by getting
+        val jvmTest by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(dependency.network.Ktor("client-okhttp"))
+                implementation(dependency.ui.AndroidCore("ktx"))
+                implementation(dependency.lib.Work("runtime-ktx"))
+            }
+        }
+        val androidTest by getting {
+            dependencies {
+                implementation(kotlin("test-junit"))
+                implementation(kotlin("test-annotations-common"))
+                implementation(dependency.test.AndroidTestRunner())
+                implementation(dependency.test.AndroidTestExt())
+                implementation(dependency.test.Robolectric())
+                implementation(dependency.network.Ktor("client-mock-jvm"))
+                implementation(dependency.lib.Work("testing"))
+            }
+        }
+        androidMain.dependsOn(jvmMain)
+    }
 }
