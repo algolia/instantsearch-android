@@ -61,7 +61,6 @@ kotlin {
     explicitApi()
     android {
         compilations.all { kotlinOptions.jvmTarget = "1.8" }
-        mavenPublication { artifactId = Library.artifact }
         publishLibraryVariants("release")
     }
     jvm {
@@ -75,7 +74,7 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                api(project(":instantsearch-android-core"))
+                api(project(":instantsearch-core"))
                 api(project(":instantsearch-insights"))
                 api(AlgoliaClient())
             }
