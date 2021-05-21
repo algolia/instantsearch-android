@@ -28,7 +28,8 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         useIR = true
         freeCompilerArgs += listOf(
-            "-Xopt-in=kotlin.RequiresOptIn"
+            "-Xopt-in=kotlin.RequiresOptIn",
+            "-Xexplicit-api=strict"
         )
     }
 
@@ -40,12 +41,6 @@ android {
     testOptions.unitTests.apply {
         isIncludeAndroidResources = true
         isReturnDefaultValues = true
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    if ("UnitTest" !in name) {
-        kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
     }
 }
 

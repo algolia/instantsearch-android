@@ -1,6 +1,16 @@
-import dependency.network.*
-import dependency.test.*
-import dependency.ui.*
+import dependency.network.AlgoliaClient
+import dependency.network.Coroutines
+import dependency.network.Ktor
+import dependency.test.AndroidTestExt
+import dependency.test.AndroidTestRunner
+import dependency.test.Mockk
+import dependency.test.Robolectric
+import dependency.ui.AndroidCore
+import dependency.ui.AppCompat
+import dependency.ui.MaterialDesign
+import dependency.ui.Paging
+import dependency.ui.RecyclerView
+import dependency.ui.SwipeRefreshLayout
 
 plugins {
     kotlin("multiplatform")
@@ -21,7 +31,7 @@ android {
     testOptions.unitTests.isIncludeAndroidResources = true
 
     buildTypes {
-        getByName("debug") {
+        val debug by getting {
             matchingFallbacks += "release"
         }
     }
@@ -61,7 +71,7 @@ kotlin {
     explicitApi()
     android {
         compilations.all { kotlinOptions.jvmTarget = "1.8" }
-        publishLibraryVariants("release")
+        publishAllLibraryVariants()
     }
     jvm {
         compilations.all { kotlinOptions.jvmTarget = "1.8" }

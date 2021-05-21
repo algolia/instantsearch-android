@@ -16,7 +16,7 @@ android {
     testOptions.unitTests.isIncludeAndroidResources = true
 
     buildTypes {
-        getByName("debug") {
+        val debug by getting {
             matchingFallbacks += "release"
         }
     }
@@ -51,7 +51,6 @@ android {
 
 kotlin {
     explicitApi()
-    android()
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
@@ -62,7 +61,6 @@ kotlin {
     }
     android {
         compilations.all { kotlinOptions.jvmTarget = "1.8" }
-        //mavenPublication { artifactId = "instantsearch-insights-android" }
         publishLibraryVariants("release")
     }
     jvm {
