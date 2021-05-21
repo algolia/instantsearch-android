@@ -38,7 +38,7 @@ class InsightsAndroidTest {
     fun testSharedWithoutRegister() {
         try {
             val indexName = IndexName("index")
-            Insights.shared(indexName)
+            sharedInsights(indexName)
         } catch (exception: Exception) {
             assertTrue(exception is InsightsException.IndexNotRegistered)
         }
@@ -47,24 +47,23 @@ class InsightsAndroidTest {
     @Test
     fun testSharedAfterRegister() {
         val indexName = IndexName("indexSharedAfter")
-        val insights = Insights.register(context, appId, apiKey, indexName, configuration)
-        val insightsShared = Insights.shared
-        assertEquals(insights, insightsShared)
+        val insights = registerInsights(context, appId, apiKey, indexName, configuration)
+        assertEquals(insights, sharedInsights)
     }
 
     @Test
     fun testSharedNamedAfterRegister() {
         val indexName = IndexName("indexSharedNamedAfter")
-        val insights = Insights.register(context, appId, apiKey, indexName, configuration)
-        val insightsShared = Insights.shared(indexName)
+        val insights = registerInsights(context, appId, apiKey, indexName, configuration)
+        val insightsShared = sharedInsights(indexName)
         assertEquals(insights, insightsShared)
     }
 
     @Test
     fun testRegisterGlobalUserToken() {
         val indexName = IndexName("indexGlobalUserToken")
-        Insights.register(context, appId, apiKey, indexName, configuration)
-        val insightsShared = Insights.shared(indexName)
+        registerInsights(context, appId, apiKey, indexName, configuration)
+        val insightsShared = sharedInsights(indexName)
         assertEquals(configuration.defaultUserToken, insightsShared.userToken)
     }
 }
