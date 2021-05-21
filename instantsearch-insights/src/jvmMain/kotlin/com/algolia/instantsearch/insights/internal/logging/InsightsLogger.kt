@@ -1,20 +1,21 @@
 package com.algolia.instantsearch.insights.internal.logging
 
-import android.util.Log
+import com.algolia.instantsearch.insights.Insights
 import com.algolia.search.model.IndexName
+import org.slf4j.LoggerFactory
 
 internal actual object InsightsLogger {
 
-    private const val TAG = "Algolia Insights"
+    private val logger = LoggerFactory.getLogger(Insights::class.java)
     actual var enabled: MutableMap<IndexName, Boolean> = mutableMapOf()
 
     actual fun log(indexName: IndexName, message: String) {
         if (enabled[indexName] == true) {
-            Log.d(TAG, "Index=$indexName: $message")
+            logger.debug("Index=$indexName: $message")
         }
     }
 
     actual fun log(message: String) {
-        Log.d(TAG, message)
+        logger.debug(message)
     }
 }

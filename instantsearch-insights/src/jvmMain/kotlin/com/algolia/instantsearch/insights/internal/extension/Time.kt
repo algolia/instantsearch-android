@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.insights.internal
+package com.algolia.instantsearch.insights.internal.extension
 
 internal actual val currentTimeMillis: Long
     get() = System.currentTimeMillis()

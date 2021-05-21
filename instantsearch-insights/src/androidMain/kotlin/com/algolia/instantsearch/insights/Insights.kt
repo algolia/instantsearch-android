@@ -12,6 +12,7 @@ import com.algolia.instantsearch.insights.internal.extension.clientInsights
 import com.algolia.instantsearch.insights.internal.extension.defaultConfiguration
 import com.algolia.instantsearch.insights.internal.extension.insightsSettingsPreferences
 import com.algolia.instantsearch.insights.internal.extension.insightsSharedPreferences
+import com.algolia.instantsearch.insights.internal.registerInsightsController
 import com.algolia.search.helper.toAPIKey
 import com.algolia.search.helper.toApplicationID
 import com.algolia.search.helper.toIndexName
@@ -78,7 +79,7 @@ public fun registerInsights(
     val config = configuration ?: defaultConfiguration(settings)
     val distantRepository = InsightsHttpRepository(clientInsights(appId, apiKey, config))
     val workManager = WorkManager.getInstance(context)
-    return InsightsController.register(
+    return registerInsightsController(
         indexName = indexName,
         localRepository = localRepository,
         distantRepository = distantRepository,

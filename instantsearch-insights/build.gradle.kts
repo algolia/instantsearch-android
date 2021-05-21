@@ -51,6 +51,11 @@ android {
 
 kotlin {
     explicitApi()
+    android {
+        compilations.all { kotlinOptions.jvmTarget = "1.8" }
+        publishAllLibraryVariants()
+        publishLibraryVariantsGroupedByFlavor = true
+    }
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
@@ -58,15 +63,6 @@ kotlin {
         testRuns["test"].executionTask.configure {
             useJUnit()
         }
-    }
-    android {
-        compilations.all { kotlinOptions.jvmTarget = "1.8" }
-        publishAllLibraryVariants()
-        publishLibraryVariantsGroupedByFlavor = true
-    }
-    jvm {
-        compilations.all { kotlinOptions.jvmTarget = "1.8" }
-        testRuns["test"].executionTask.configure { useJUnit() }
     }
     sourceSets {
         all {
@@ -78,8 +74,16 @@ kotlin {
             }
         }
         val commonTest by getting
-        val jvmMain by getting
-        val jvmTest by getting
+        val jvmMain by getting {
+            dependencies {
+                implementation("org.slf4j:slf4j-api:1.7.30")
+            }
+        }
+        val jvmTest by getting {
+            dependencies {
+                implementation("ch.qos.logback:logback-classic:1.2.3")
+            }
+        }
         val androidMain by getting {
             dependencies {
                 implementation(dependency.network.Ktor("client-okhttp"))
@@ -98,6 +102,5 @@ kotlin {
                 implementation(dependency.lib.Work("testing"))
             }
         }
-        androidMain.dependsOn(jvmMain)
     }
 }

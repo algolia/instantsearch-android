@@ -2,14 +2,13 @@ package com.algolia.instantsearch.insights.internal.extension
 
 import android.util.Log
 import com.algolia.instantsearch.insights.Insights
-import com.algolia.instantsearch.insights.internal.data.settings.InsightsEventSettings
 import com.algolia.instantsearch.insights.internal.data.settings.InsightsSettings
 import com.algolia.search.client.ClientInsights
 import com.algolia.search.configuration.ConfigurationInsights
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.insights.UserToken
-import java.util.UUID
+import java.util.*
 
 /**
  * Create new Insights API Client.
@@ -32,7 +31,7 @@ internal fun clientInsights(
 /**
  * Generate a default insights configuration.
  */
-internal fun defaultConfiguration(settings: InsightsEventSettings): Insights.Configuration {
+internal fun defaultConfiguration(settings: InsightsSettings): Insights.Configuration {
     val userToken = UserToken(settings.storedUserToken())
     Log.d("Insights", "Insights user token: $userToken")
     return Insights.Configuration(5000, 5000, userToken)
