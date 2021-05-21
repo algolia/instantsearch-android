@@ -30,9 +30,9 @@ android {
 
     testOptions.unitTests.isIncludeAndroidResources = true
 
-    buildTypes {
-        val debug by getting {
-            matchingFallbacks += "release"
+    buildTypes{
+        val release by getting {
+            isMinifyEnabled = false
         }
     }
 
@@ -72,6 +72,7 @@ kotlin {
     android {
         compilations.all { kotlinOptions.jvmTarget = "1.8" }
         publishAllLibraryVariants()
+        publishLibraryVariantsGroupedByFlavor = true
     }
     jvm {
         compilations.all { kotlinOptions.jvmTarget = "1.8" }
