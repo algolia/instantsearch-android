@@ -7,6 +7,7 @@ import com.algolia.instantsearch.insights.internal.cache.InsightsEventCache
 import com.algolia.instantsearch.insights.internal.data.distant.InsightsDistantRepository
 import com.algolia.instantsearch.insights.internal.data.distant.InsightsHttpRepository
 import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepository
+import com.algolia.instantsearch.insights.internal.extension.randomUUID
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
 import com.algolia.search.client.ClientInsights
@@ -21,13 +22,13 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
-import kotlinx.coroutines.runBlocking
-import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlinx.coroutines.runBlocking
+import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.P])
@@ -40,7 +41,7 @@ internal class InsightsTest {
     private val appId = System.getenv("ALGOLIA_APPLICATION_ID")
     private val apiKey = System.getenv("ALGOLIA_API_KEY")
     private val queryID = QueryID("6de2f7eaa537fa93d8f8f05b927953b1")
-    private val userToken = UserToken("foobarbaz")
+    private val userToken = UserToken(randomUUID())
     private val positions = listOf(1)
     private val objectIDs = listOf(ObjectID("54675051"))
     private val resourcesObjectIDs = InsightsEvent.Resources.ObjectIDs(objectIDs)
@@ -283,59 +284,61 @@ internal class InsightsTest {
     ) : AssertingWorker(events, webService, database) {
 
         override fun startOneTimeUpload() {
-            val clickEventNotForSearch = InsightsEvent.Click(
-                eventName = eventA,
-                indexName = indexName,
-                userToken = userToken,
-                timestamp = timestamp,
-                resources = resourcesObjectIDs,
-                positions = null // A Click event not for Search has no positions
-            )
+            runBlocking {
+                val clickEventNotForSearch = InsightsEvent.Click(
+                    eventName = eventA,
+                    indexName = indexName,
+                    userToken = userToken,
+                    timestamp = timestamp,
+                    resources = resourcesObjectIDs,
+                    positions = null // A Click event not for Search has no positions
+                )
 
-            when (count) {
-                0 -> assertEquals(listOf(eventClick), database.read(), "failed 0") // expect added first
-                1 ->
-                    assertEquals(
-                        listOf(eventConversion),
-                        database.read(),
-                        "failed 1"
-                    ) // expect flush then added second
-                2 -> assertEquals(listOf(eventConversion, eventView), database.read(), "failed 2")
+                when (count) {
+                    0 -> assertEquals(listOf(eventClick), database.read(), "failed 0") // expect added first
+                    1 ->
+                        assertEquals(
+                            listOf(eventConversion),
+                            database.read(),
+                            "failed 1"
+                        ) // expect flush then added second
+                    2 -> assertEquals(listOf(eventConversion, eventView), database.read(), "failed 2")
 
-                3 -> assertEquals(listOf(eventClick), database.read(), "failed 3") // expect flush then added first
-                4 ->
-                    assertEquals(
-                        listOf(eventClick, clickEventNotForSearch),
-                        database.read(),
-                        "failed 4"
-                    ) // expect added first
-                5 -> assertEquals(
-                    listOf(eventClick, clickEventNotForSearch, eventConversion),
-                    database.read(),
-                    "failed 5"
-                ) // expect added second
-                6 -> assertEquals(
-                    listOf(eventClick, clickEventNotForSearch, eventConversion, eventView),
-                    database.read(),
-                    "failed 6"
-                ) // expect added third
-            }
-            uploader.uploadAll()
-            when (count) {
-                0 -> assert(database.read().isEmpty()) // expect flushed first
-                1 -> assertEquals(listOf(eventConversion), database.read()) // expect kept second
-                2 -> assert(database.read().isEmpty()) // expect flushed events
-
-                3 -> assertEquals(listOf(eventClick), database.read()) // expect kept first
-                4 -> assertEquals(listOf(eventClick, clickEventNotForSearch), database.read()) // expect kept first2
-                5 ->
-                    assertEquals(
+                    3 -> assertEquals(listOf(eventClick), database.read(), "failed 3") // expect flush then added first
+                    4 ->
+                        assertEquals(
+                            listOf(eventClick, clickEventNotForSearch),
+                            database.read(),
+                            "failed 4"
+                        ) // expect added first
+                    5 -> assertEquals(
                         listOf(eventClick, clickEventNotForSearch, eventConversion),
-                        database.read()
-                    ) // expect kept second
-                6 -> assert(database.read().isEmpty()) // expect flushed events
+                        database.read(),
+                        "failed 5"
+                    ) // expect added second
+                    6 -> assertEquals(
+                        listOf(eventClick, clickEventNotForSearch, eventConversion, eventView),
+                        database.read(),
+                        "failed 6"
+                    ) // expect added third
+                }
+                uploader.uploadAll()
+                when (count) {
+                    0 -> assert(database.read().isEmpty()) // expect flushed first
+                    1 -> assertEquals(listOf(eventConversion), database.read()) // expect kept second
+                    2 -> assert(database.read().isEmpty()) // expect flushed events
+
+                    3 -> assertEquals(listOf(eventClick), database.read()) // expect kept first
+                    4 -> assertEquals(listOf(eventClick, clickEventNotForSearch), database.read()) // expect kept first2
+                    5 ->
+                        assertEquals(
+                            listOf(eventClick, clickEventNotForSearch, eventConversion),
+                            database.read()
+                        ) // expect kept second
+                    6 -> assert(database.read().isEmpty()) // expect flushed events
+                }
+                count++
             }
-            count++
         }
     }
 
@@ -349,9 +352,11 @@ internal class InsightsTest {
         protected val uploader = InsightsEventUploader(localRepository, distantRepository)
 
         override fun startPeriodicUpload() {
-            assertEquals(events, localRepository.read())
-            uploader.uploadAll()
-            assert(localRepository.read().isEmpty())
+            runBlocking {
+                assertEquals(events, localRepository.read())
+                uploader.uploadAll()
+                assert(localRepository.read().isEmpty())
+            }
         }
     }
 }

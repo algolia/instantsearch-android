@@ -4,5 +4,5 @@ import com.algolia.instantsearch.insights.internal.event.EventResponse
 
 internal interface InsightsUploader {
 
-    fun uploadAll(): List<EventResponse>
+    suspend fun uploadAll(): List<EventResponse>
 }

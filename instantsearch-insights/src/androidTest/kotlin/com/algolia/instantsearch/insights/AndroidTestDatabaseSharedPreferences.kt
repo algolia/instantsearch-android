@@ -6,6 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.algolia.instantsearch.insights.internal.data.local.InsightsPrefsRepository
 import com.algolia.instantsearch.insights.internal.extension.insightsSharedPreferences
+import com.algolia.instantsearch.insights.internal.extension.randomUUID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.ObjectID
@@ -14,10 +15,10 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
+import kotlin.test.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.P])
@@ -29,13 +30,13 @@ class AndroidTestDatabaseSharedPreferences {
     private val eventC = EventName("EventC")
     private val indexName = IndexName("latency")
     private val queryId = QueryID("6de2f7eaa537fa93d8f8f05b927953b1")
-    private val userToken = UserToken("foobarbaz")
+    private val userToken = UserToken(randomUUID())
     private val positions = listOf(1)
     private val objectIDs = listOf(ObjectID("54675051"))
     private val timestamp = System.currentTimeMillis()
     private val facets = listOf(
         Filter.Facet(attribute = Attribute("attributeString"), isNegated = true, score = 1, value = "value"),
-        Filter.Facet(attribute = Attribute("attributeNum"), isNegated = true, value = 1),
+        Filter.Facet(attribute = Attribute("attributeNum"), isNegated = true, value = 1.0),
         Filter.Facet(attribute = Attribute("attributeBoolean"), isNegated = false, value = true)
     )
     private val eventClick = InsightsEvent.Click(

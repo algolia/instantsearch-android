@@ -10,6 +10,7 @@ import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsWorkManager
 import com.algolia.instantsearch.insights.shared
+import com.algolia.instantsearch.insights.sharedInsights
 import com.algolia.search.model.IndexName
 
 internal fun registerInsightsController(
@@ -25,7 +26,7 @@ internal fun registerInsightsController(
     val worker = InsightsWorkManager(workManager, settings)
     return InsightsController(indexName, worker, saver, uploader).also {
         it.userToken = configuration.defaultUserToken
-        Insights.shared = it
+        sharedInsights = it
         InsightsMap[indexName] = it
         InsightsLogger.log("Registering new Insights for indexName $indexName. Previous instance: $it")
     }

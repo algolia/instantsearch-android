@@ -1,23 +1,28 @@
 package com.algolia.instantsearch.insights.internal.data.local.model
 
-internal typealias FilterFacetDO = Map<String, Any?>
+import com.algolia.search.model.Attribute
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonPrimitive
 
-internal enum class FacetKey(val raw: String) {
-    Attribute("attribute"),
-    IsNegated("isNegated"),
-    Value("value"),
-    ValueType("valueType"),
-    Score("score")
-}
+@Serializable
+internal data class FilterFacetDO(
+    @SerialName("attribute") val attribute: Attribute,
+    @SerialName("isNegated") val isNegated: Boolean,
+    @SerialName("value") val value: JsonPrimitive,
+    @SerialName("valueType") val valueType: ValueType,
+    @SerialName("score") val score: Int?
+) {
 
-internal enum class ValueType(val raw: kotlin.String) {
-    String("string"),
-    Boolean("boolean"),
-    Number("number");
+    @Serializable
+    internal enum class ValueType {
+        @SerialName("string")
+        String,
 
-    companion object {
-        fun of(value: kotlin.String): ValueType {
-            return values().first { it.raw == value }
-        }
+        @SerialName("boolean")
+        Boolean,
+
+        @SerialName("number")
+        Number;
     }
 }

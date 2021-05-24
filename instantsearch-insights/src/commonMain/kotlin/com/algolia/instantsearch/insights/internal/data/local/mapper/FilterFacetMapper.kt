@@ -1,29 +1,30 @@
 package com.algolia.instantsearch.insights.internal.data.local.mapper
 
-import com.algolia.instantsearch.insights.internal.data.local.model.FacetKey
 import com.algolia.instantsearch.insights.internal.data.local.model.FilterFacetDO
-import com.algolia.instantsearch.insights.internal.data.local.model.ValueType
-import com.algolia.search.helper.toAttribute
+import com.algolia.instantsearch.insights.internal.data.local.model.FilterFacetDO.ValueType
 import com.algolia.search.model.filter.Filter
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.double
+import kotlinx.serialization.json.jsonPrimitive
 
 internal object FilterFacetMapper : Mapper<Filter.Facet, FilterFacetDO> {
 
-    @OptIn(ExperimentalStdlibApi::class)
     override fun map(input: Filter.Facet): FilterFacetDO {
-        return buildMap {
-            put(FacetKey.Attribute.raw, input.attribute.raw)
-            put(FacetKey.IsNegated.raw, input.isNegated)
-            put(FacetKey.Value.raw, input.value.getRaw())
-            put(FacetKey.ValueType.raw, input.value.getType().raw)
-            input.score?.let { put(FacetKey.Score.raw, it) }
-        }
+        return FilterFacetDO(
+            attribute = input.attribute,
+            isNegated = input.isNegated,
+            value = input.value.asJsonPrimitive(),
+            valueType = input.value.getType(),
+            score = input.score
+        )
     }
 
-    private fun Filter.Facet.Value.getRaw(): Any {
+    private fun Filter.Facet.Value.asJsonPrimitive(): JsonPrimitive {
         return when (this) {
-            is Filter.Facet.Value.String -> raw
-            is Filter.Facet.Value.Boolean -> raw
-            is Filter.Facet.Value.Number -> raw
+            is Filter.Facet.Value.String -> JsonPrimitive(raw)
+            is Filter.Facet.Value.Boolean -> JsonPrimitive(raw)
+            is Filter.Facet.Value.Number -> JsonPrimitive(raw)
         }
     }
 
@@ -36,30 +37,28 @@ internal object FilterFacetMapper : Mapper<Filter.Facet, FilterFacetDO> {
     }
 
     override fun unmap(input: FilterFacetDO): Filter.Facet {
-        val attribute = input.getValue(FacetKey.Attribute.raw).toString().toAttribute()
-        val isNegated = input.getValue(FacetKey.IsNegated.raw) as Boolean
-        val valueType = ValueType.of((input.getValue(FacetKey.ValueType.raw) as String))
-        val value = input.getValue(FacetKey.Value.raw)
-        val score = input[FacetKey.Score.raw] as Int?
-        return when (valueType) {
-            ValueType.String -> Filter.Facet(
-                attribute = attribute,
-                value = value as String,
-                isNegated = isNegated,
-                score = score
-            )
-            ValueType.Boolean -> Filter.Facet(
-                attribute = attribute,
-                value = value as Boolean,
-                isNegated = isNegated,
-                score = score
-            )
-            ValueType.Number -> Filter.Facet(
-                attribute = attribute,
-                value = value as Number,
-                isNegated = isNegated,
-                score = score
-            )
+        val primitiveValue = input.value.jsonPrimitive
+        return input.run {
+            when (input.valueType) {
+                ValueType.String -> Filter.Facet(
+                    attribute = attribute,
+                    value = primitiveValue.content,
+                    isNegated = isNegated,
+                    score = score
+                )
+                ValueType.Boolean -> Filter.Facet(
+                    attribute = attribute,
+                    value = primitiveValue.boolean,
+                    isNegated = isNegated,
+                    score = score
+                )
+                ValueType.Number -> Filter.Facet(
+                    attribute = attribute,
+                    value = primitiveValue.double,
+                    isNegated = isNegated,
+                    score = score
+                )
+            }
         }
     }
 }

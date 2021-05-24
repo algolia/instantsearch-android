@@ -35,7 +35,7 @@ internal class InsightsWorkManager(
             .setConstraints(constraints)
             .build()
         workManager.enqueueUniquePeriodicWork(WORK_NAME_PERIODIC, ExistingPeriodicWorkPolicy.KEEP, workRequest)
-        val wordId = workRequest.id
+        val wordId = workRequest.id.toString()
         settings.workId = wordId
         InsightsLogger.log("Unique periodic upload enqueued with id: $wordId")
     }
