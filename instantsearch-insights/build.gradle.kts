@@ -78,6 +78,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation("org.slf4j:slf4j-api:1.7.30")
+                implementation(dependency.network.Ktor("client-okhttp"))
             }
         }
         val jvmTest by getting {
