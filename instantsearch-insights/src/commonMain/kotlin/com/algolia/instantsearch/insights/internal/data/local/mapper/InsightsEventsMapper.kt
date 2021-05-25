@@ -10,35 +10,43 @@ internal object InsightsEventsMapper : Mapper<InsightsEvent, InsightsEventDO> {
 
     override fun map(input: InsightsEvent): InsightsEventDO {
         val builder = InsightsEventDO.Builder()
-        when (input) {
-            is InsightsEvent.View -> builder.eventType = View
-            is InsightsEvent.Conversion -> builder.eventType = Conversion
-            is InsightsEvent.Click -> {
-                builder.eventType = Click
-                builder.positions = input.positions
-            }
-        }
+        builder.eventType(input)
         builder.eventName = input.eventName
         builder.indexName = input.indexName
         builder.timestamp = input.timestamp
         builder.queryID = input.queryID
         builder.userToken = input.userToken
-        when (val resources = input.resources) {
-            is InsightsEvent.Resources.ObjectIDs -> builder.objectIDs = resources.objectIDs
-            is InsightsEvent.Resources.Filters -> builder.filters = resources.filters.map { FilterFacetMapper.map(it) }
-        }
+        builder.resources(input)
         return builder.build()
+    }
+
+    private fun InsightsEventDO.Builder.resources(input: InsightsEvent) {
+        when (val resources = input.resources) {
+            is InsightsEvent.Resources.ObjectIDs -> objectIDs = resources.objectIDs
+            is InsightsEvent.Resources.Filters -> filters = resources.filters.map { FilterFacetMapper.map(it) }
+        }
+    }
+
+    private fun InsightsEventDO.Builder.eventType(input: InsightsEvent) {
+        when (input) {
+            is InsightsEvent.View -> eventType = View
+            is InsightsEvent.Conversion -> eventType = Conversion
+            is InsightsEvent.Click -> {
+                eventType = Click
+                positions = input.positions
+            }
+        }
     }
 
     override fun unmap(input: InsightsEventDO): InsightsEvent {
         return when (input.eventType) {
-            Click -> input.toClick()
-            View -> input.toView()
-            Conversion -> input.toConversion()
+            Click -> input.toClickEvent()
+            View -> input.toViewEvent()
+            Conversion -> input.toConversionEvent()
         }
     }
 
-    private fun InsightsEventDO.toClick(): InsightsEvent.Click {
+    private fun InsightsEventDO.toClickEvent(): InsightsEvent.Click {
         return InsightsEvent.Click(
             eventName = eventName,
             indexName = indexName,
@@ -50,7 +58,7 @@ internal object InsightsEventsMapper : Mapper<InsightsEvent, InsightsEventDO> {
         )
     }
 
-    private fun InsightsEventDO.toView(): InsightsEvent.View {
+    private fun InsightsEventDO.toViewEvent(): InsightsEvent.View {
         return InsightsEvent.View(
             eventName = eventName,
             indexName = indexName,
@@ -61,7 +69,7 @@ internal object InsightsEventsMapper : Mapper<InsightsEvent, InsightsEventDO> {
         )
     }
 
-    private fun InsightsEventDO.toConversion(): InsightsEvent.Conversion {
+    private fun InsightsEventDO.toConversionEvent(): InsightsEvent.Conversion {
         return InsightsEvent.Conversion(
             eventName = eventName,
             indexName = indexName,
