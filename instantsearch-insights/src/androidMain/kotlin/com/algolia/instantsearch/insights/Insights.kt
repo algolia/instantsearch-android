@@ -3,7 +3,6 @@ package com.algolia.instantsearch.insights
 import android.content.Context
 import androidx.work.WorkManager
 import com.algolia.instantsearch.insights.exception.InsightsException
-import com.algolia.instantsearch.insights.internal.InsightsController
 import com.algolia.instantsearch.insights.internal.InsightsMap
 import com.algolia.instantsearch.insights.internal.data.distant.InsightsHttpRepository
 import com.algolia.instantsearch.insights.internal.data.local.InsightsPrefsRepository
@@ -112,7 +111,6 @@ public var Insights.Companion.shared: Insights?
     set(value) {
         sharedInsights = value
     }
-
 
 /**
  * Register your index with a given appId and apiKey.

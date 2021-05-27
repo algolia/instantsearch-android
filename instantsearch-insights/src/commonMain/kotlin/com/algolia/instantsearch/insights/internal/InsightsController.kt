@@ -3,12 +3,7 @@ package com.algolia.instantsearch.insights.internal
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.exception.InsightsException
 import com.algolia.instantsearch.insights.internal.cache.InsightsCache
-import com.algolia.instantsearch.insights.internal.cache.InsightsEventCache
-import com.algolia.instantsearch.insights.internal.data.distant.InsightsDistantRepository
-import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepository
-import com.algolia.instantsearch.insights.internal.data.settings.InsightsSettings
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
-import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
 import com.algolia.instantsearch.insights.internal.uploader.InsightsUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
 import com.algolia.search.model.IndexName

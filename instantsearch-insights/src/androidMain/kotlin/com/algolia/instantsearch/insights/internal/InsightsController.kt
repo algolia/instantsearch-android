@@ -9,7 +9,6 @@ import com.algolia.instantsearch.insights.internal.data.settings.InsightsSetting
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsWorkManager
-import com.algolia.instantsearch.insights.shared
 import com.algolia.instantsearch.insights.sharedInsights
 import com.algolia.search.model.IndexName
 
