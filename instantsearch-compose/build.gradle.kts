@@ -1,4 +1,6 @@
-import dependency.compose.*
+import dependency.compose.Material
+import dependency.compose.Paging
+import dependency.compose.UI
 
 plugins {
     id("com.android.library")
@@ -7,11 +9,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
 
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(30)
+        minSdk = 21
+        targetSdk = 30
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,7 +28,8 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         useIR = true
         freeCompilerArgs += listOf(
-            "-Xopt-in=kotlin.RequiresOptIn"
+            "-Xopt-in=kotlin.RequiresOptIn",
+            "-Xexplicit-api=strict"
         )
     }
 
@@ -41,14 +44,8 @@ android {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    if ("UnitTest" !in name) {
-        kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
-    }
-}
-
 dependencies {
-    api(project(":instantsearch-android"))
+    api(project(":instantsearch"))
     implementation(UI())
     implementation(Paging())
     implementation(Material())
