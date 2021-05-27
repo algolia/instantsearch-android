@@ -29,13 +29,15 @@ import com.algolia.instantsearch.compose.searchbox.internal.SearchClearIcon
 import com.algolia.instantsearch.compose.searchbox.internal.searchColors
 
 /**
- * Implementation of Search Box.
+ * Search Box compose component.
  *
  * @param modifier Modifier to be applied
  * @param textStyle the style to be applied to the input text
  * @param onValueChange the callback that is triggered when each text update
  * @param query the text shown in the text field
  * @param colors will be used to resolve color of the text, content and background
+ * @param placeHolderText the placeholder to be displayed when the the input text is empty
+ * @param elevation controls the size of the shadow below the surface
  */
 @Composable
 public fun SearchBox(
