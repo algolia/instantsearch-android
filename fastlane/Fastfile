@@ -49,12 +49,12 @@ platform :android do
     add_git_tag(tag: version.to_str)
     push_to_git_remote(remote: "origin")
 
-    # Assemble and upload to Bintray
-    gradle(task: "assemble uploadArchives --no-daemon --no-parallel")
+    # Assemble and upload to maven central
+    gradle(task: "assemble publish --no-daemon --no-parallel")
 
     # Create a Github pull request
     create_pull_request(
-        repo: "algolia/algoliasearch-client-kotlin",
+        repo: "algolia/instantsearch-android",
         title: "Deploying new version #{version}",
         head: "#{branchName}",
         body: changelog
@@ -62,12 +62,11 @@ platform :android do
 
     # Create a github release
     set_github_release(
-        repository_name: "algolia/algoliasearch-client-kotlin",
+        repository_name: "algolia/instantsearch-android",
         api_token: ENV["GITHUB_TOKEN"],
         name: version.to_str,
         tag_name: version.to_str,
-        description: changelog,
-        commitish: "master"
+        description: changelog
     )
   end
 
