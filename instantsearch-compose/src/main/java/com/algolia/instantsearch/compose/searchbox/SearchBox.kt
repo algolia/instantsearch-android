@@ -13,10 +13,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -44,18 +42,17 @@ public fun SearchBox(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     onValueChange: (String, Boolean) -> Unit = { _, _ -> },
-    query: MutableState<String> = mutableStateOf(""),
+    query: MutableState<String> = rememberSaveable { mutableStateOf("") },
     colors: TextFieldColors = searchColors(),
     placeHolderText: String = stringResource(R.string.search_box_hint),
     elevation: Dp = 1.dp,
 ) {
-    var text by rememberSaveable { query }
     Card(modifier = modifier, elevation = elevation) {
         TextField(
-            value = text,
+            value = query.value,
             textStyle = textStyle.merge(TextStyle(textDecoration = TextDecoration.None)),
             onValueChange = {
-                text = it
+                query.value = it
                 onValueChange(it, false)
             },
             leadingIcon = {
@@ -74,7 +71,7 @@ public fun SearchBox(
             trailingIcon = {
                 val visible = query.value.isNotEmpty()
                 SearchClearIcon(visible) {
-                    text = ""
+                    query.value = ""
                     onValueChange("", false)
                 }
             },
@@ -83,7 +80,7 @@ public fun SearchBox(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    onValueChange(text, true)
+                    onValueChange(query.value, true)
                 }
             )
         )
