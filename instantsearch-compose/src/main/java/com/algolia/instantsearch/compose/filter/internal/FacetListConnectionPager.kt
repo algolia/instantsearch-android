@@ -7,14 +7,17 @@ import com.algolia.search.model.search.Facet
 
 /**
  * Connection implementation between [FacetListViewModel] and [SearcherPager].
+ *
+ * @param facetListViewModel facet list view model handling selections
+ * @param searchPager search pages generation logic handler
  */
 internal class FacetListConnectionPager<T : Any>(
     private val facetListViewModel: FacetListViewModel,
-    private val pager: SearcherPager<T>
+    private val searchPager: SearcherPager<T>
 ) : ConnectionImpl() {
 
     private val facetsSubscription: (List<Pair<Facet, Boolean>>) -> Unit = {
-        pager.notifySearcherChanged()
+        searchPager.notifySearcherChanged()
     }
 
     override fun connect() {

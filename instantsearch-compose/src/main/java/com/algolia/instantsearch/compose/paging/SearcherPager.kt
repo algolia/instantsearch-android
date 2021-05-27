@@ -4,7 +4,7 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Pager for Search.
+ * Pager for Search. Handles data paging logic and reset on searcher changes.
  */
 public interface SearcherPager<T : Any> {
 

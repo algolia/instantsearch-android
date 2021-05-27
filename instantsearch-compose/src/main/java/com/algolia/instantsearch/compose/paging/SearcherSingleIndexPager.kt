@@ -56,7 +56,7 @@ public fun <T : Any> SearcherSingleIndexPager<T>.collectAsSearcherLazyPaging(
     scope: CoroutineScope = rememberCoroutineScope()
 ): SearcherLazyPaging<T> {
     val pagingItems = flow.collectAsLazyPagingItems()
-    val searcherLazyPaging = SearcherLazyPaging(pagingItems, state, scope)
-    onSearcherChange { searcherLazyPaging.resetAsync() }
-    return searcherLazyPaging
+    return SearcherLazyPaging(pagingItems, state, scope).apply {
+        onSearcherChange { resetAsync() }
+    }
 }

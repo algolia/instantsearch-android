@@ -7,6 +7,10 @@ import kotlinx.coroutines.launch
 
 /**
  * Class wrapping Searcher's Lazy Paging items and state.
+ *
+ * @param pagingItems responsible for accessing the data from PagingData
+ * @param listState controls and observes list scrolling
+ * @param scope coroutine scope for async tasks
  */
 public data class SearcherLazyPaging<T : Any>(
     public val pagingItems: LazyPagingItems<T>,
@@ -28,6 +32,8 @@ public data class SearcherLazyPaging<T : Any>(
      * This is done typically by refreshing the content and scrolling to the top.
      */
     public fun resetAsync() {
-        scope.launch { reset() }
+        scope.launch {
+            reset()
+        }
     }
 }
