@@ -5,10 +5,10 @@ import com.algolia.instantsearch.compose.searchbox.internal.SearchBoxComposeImpl
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 
 /**
- * Search Box view for compose.
+ * Search Box  view for compose.
  */
 @Stable
-public interface SearchBoxCompose : SearchBoxView {
+public interface SearchQuery : SearchBoxView {
 
     /**
      * Search box query.
@@ -33,10 +33,10 @@ public interface SearchBoxCompose : SearchBoxView {
 }
 
 /**
- * Creates an instance of [SearchBoxCompose].
+ * Creates an instance of [SearchQuery].
  *
  * @param query default query value
  */
-public fun SearchBoxCompose(query: String = ""): SearchBoxCompose {
+public fun SearchQuery(query: String = ""): SearchQuery {
     return SearchBoxComposeImpl(query)
 }
