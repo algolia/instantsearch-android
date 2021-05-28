@@ -16,6 +16,10 @@ public interface FacetListCompose : FacetListView {
      * State holding selectable facets list value.
      */
     public var facets: List<SelectableItem<Facet>>
+
+    override fun setItems(items: List<SelectableItem<Facet>>) {
+        this.facets = items
+    }
 }
 
 /**

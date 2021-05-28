@@ -18,25 +18,5 @@ internal class FacetListComposeImpl(
 ) : FacetListCompose {
 
     override var facets by mutableStateOf(facets)
-
     override var onSelection: Callback<Facet>? = null
-
-    override fun setItems(items: List<SelectableItem<Facet>>) {
-        this.facets = items
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        other as FacetListComposeImpl
-        if (facets != other.facets) return false
-        if (onSelection != other.onSelection) return false
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = facets.hashCode()
-        result = 31 * result + (onSelection?.hashCode() ?: 0)
-        return result
-    }
 }

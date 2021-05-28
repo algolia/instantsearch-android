@@ -16,13 +16,4 @@ internal class SearchBoxComposeImpl(
     override var query by mutableStateOf(query)
     override var onQueryChanged: Callback<String?>? = null
     override var onQuerySubmitted: Callback<String?>? = null
-
-    override fun setText(text: String?, submitQuery: Boolean) {
-        query = text ?: ""
-    }
-
-    override fun onValueChange(query: String, isSubmit: Boolean) {
-        val onQuery = if (isSubmit) onQuerySubmitted else onQueryChanged
-        onQuery?.invoke(query)
-    }
 }
