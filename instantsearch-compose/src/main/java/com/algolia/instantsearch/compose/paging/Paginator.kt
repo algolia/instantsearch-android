@@ -5,15 +5,13 @@ package com.algolia.instantsearch.compose.paging
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.algolia.instantsearch.compose.paging.internal.SearcherPaginator
+import com.algolia.instantsearch.compose.paging.internal.SearcherLazyPagingHits
 import com.algolia.instantsearch.compose.paging.internal.SearcherSingleIndexPaginator
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -22,8 +20,7 @@ import kotlinx.coroutines.flow.Flow
 public interface Paginator<T : Any> {
 
     /**
-     * A cold Flow of [PagingData].
-     * Emits new instances of [PagingData] once they become invalidated.
+     * A cold Flow of [PagingData], emits new instances of [PagingData] once they become invalidated.
      */
     public val flow: Flow<PagingData<T>>
 
@@ -49,18 +46,14 @@ public fun <T : Any> Paginator(
 }
 
 /**
- * Collects values values from [SearcherSingleIndexPaginator].
+ * Collects values values from [Paginator].
  *
  * @param state controls and observes list scrolling
- * @param scope coroutine scope to run async operations
  */
 @Composable
-public fun <T : Any> Paginator<T>.collectAsSearcherLazyPaging(
-    state: LazyListState = rememberLazyListState(),
-    scope: CoroutineScope = rememberCoroutineScope()
-): SearcherLazyPaging<T> {
+public fun <T : Any> Paginator<T>.collectAsLazyListPagingHits(
+    state: LazyListState = rememberLazyListState()
+): LazyListPagingHits<T> {
     val pagingItems = flow.collectAsLazyPagingItems()
-    return SearcherLazyPaging(pagingItems, state, scope).apply {
-        if (this is SearcherPaginator<*>) onSearcherChange { resetAsync() }
-    }
+    return SearcherLazyPagingHits(pagingItems, state, this)
 }
