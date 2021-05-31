@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 /**
  * Pager for Search. Handles data paging logic and reset on searcher changes.
  */
-public interface SearcherPager<T : Any> {
+public interface Paginator<T : Any> {
 
     /**
      * A cold Flow of PagingData, which emits new instances of PagingData once they become invalidated.
@@ -16,5 +16,5 @@ public interface SearcherPager<T : Any> {
     /**
      * Notify searcher's configuration has changed.
      */
-    public fun notifySearcherChanged()
+    public fun invalidate()
 }

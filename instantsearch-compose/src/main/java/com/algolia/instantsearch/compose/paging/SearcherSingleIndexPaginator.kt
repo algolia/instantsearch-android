@@ -14,17 +14,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
 /**
- * [SearcherPager] implementation for [SearcherSingleIndex].
+ * [Paginator] implementation for [SearcherSingleIndex].
  *
  * @param searcher single index searcher
  * @param pagingConfig configure loading behavior within a Pager
  * @param transformer mapping applied to search responses
  */
-public class SearcherSingleIndexPager<T : Any>(
+public class SearcherSingleIndexPaginator<T : Any>(
     searcher: SearcherSingleIndex,
     pagingConfig: PagingConfig = PagingConfig(pageSize = 10),
     transformer: (ResponseSearch) -> List<T>
-) : SearcherPager<T> {
+) : Paginator<T> {
 
     override val flow: Flow<PagingData<T>> = Pager(pagingConfig) {
         SearcherSingleIndexPagingSource(
@@ -35,7 +35,7 @@ public class SearcherSingleIndexPager<T : Any>(
 
     private var searcherChangeCallback: (() -> Unit)? = null
 
-    override fun notifySearcherChanged() {
+    override fun invalidate() {
         searcherChangeCallback?.invoke()
     }
 
@@ -45,13 +45,13 @@ public class SearcherSingleIndexPager<T : Any>(
 }
 
 /**
- * Collects values values from [SearcherSingleIndexPager].
+ * Collects values values from [SearcherSingleIndexPaginator].
  *
  * @param state controls and observes list scrolling
  * @param scope coroutine scope to run async operations
  */
 @Composable
-public fun <T : Any> SearcherSingleIndexPager<T>.collectAsSearcherLazyPaging(
+public fun <T : Any> SearcherSingleIndexPaginator<T>.collectAsSearcherLazyPaging(
     state: LazyListState = rememberLazyListState(),
     scope: CoroutineScope = rememberCoroutineScope()
 ): SearcherLazyPaging<T> {
