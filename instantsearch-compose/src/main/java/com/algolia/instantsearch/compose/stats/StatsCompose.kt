@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package com.algolia.instantsearch.compose.stats
 
 import androidx.compose.runtime.Stable

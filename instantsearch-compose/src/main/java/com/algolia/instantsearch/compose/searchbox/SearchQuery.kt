@@ -5,7 +5,7 @@ import com.algolia.instantsearch.compose.searchbox.internal.SearchBoxComposeImpl
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 
 /**
- * Search Box  view for compose.
+ * Search box query component for compose.
  */
 @Stable
 public interface SearchQuery : SearchBoxView {

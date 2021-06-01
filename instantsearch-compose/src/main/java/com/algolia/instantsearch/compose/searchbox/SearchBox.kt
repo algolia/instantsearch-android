@@ -28,8 +28,8 @@ import com.algolia.instantsearch.compose.searchbox.internal.searchColors
  *
  * @param modifier Modifier to be applied
  * @param textStyle the style to be applied to the input text
- * @param searchQuery the callback that is triggered when each text update
- * @param query the text shown in the text field
+ * @param searchQuery search box query component
+ * @param onValueChange callback triggered on each text update
  * @param colors will be used to resolve color of the text, content and background
  * @param placeHolderText the placeholder to be displayed when the the input text is empty
  * @param elevation controls the size of the shadow below the surface
