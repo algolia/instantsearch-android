@@ -1,6 +1,6 @@
-package com.algolia.instantsearch.compose.filter
+package com.algolia.instantsearch.compose.filter.list
 
-import com.algolia.instantsearch.compose.filter.internal.FacetListConnectionPager
+import com.algolia.instantsearch.compose.filter.list.internal.FacetListConnectionPager
 import com.algolia.instantsearch.compose.paging.Paginator
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
