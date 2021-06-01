@@ -12,9 +12,6 @@ import androidx.compose.material.TextFieldColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -27,31 +24,33 @@ import com.algolia.instantsearch.compose.searchbox.internal.SearchClearIcon
 import com.algolia.instantsearch.compose.searchbox.internal.searchColors
 
 /**
- * Implementation of Search Box.
+ * Search Box compose component.
  *
  * @param modifier Modifier to be applied
  * @param textStyle the style to be applied to the input text
- * @param onValueChange the callback that is triggered when each text update
+ * @param searchQuery the callback that is triggered when each text update
  * @param query the text shown in the text field
  * @param colors will be used to resolve color of the text, content and background
+ * @param placeHolderText the placeholder to be displayed when the the input text is empty
+ * @param elevation controls the size of the shadow below the surface
  */
 @Composable
 public fun SearchBox(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     onValueChange: (String, Boolean) -> Unit = { _, _ -> },
-    query: MutableState<String> = mutableStateOf(""),
+    searchQuery: SearchQuery = SearchQuery(),
     colors: TextFieldColors = searchColors(),
     placeHolderText: String = stringResource(R.string.search_box_hint),
     elevation: Dp = 1.dp,
 ) {
-    val text = rememberSaveable { query }
     Card(modifier = modifier, elevation = elevation) {
         TextField(
-            value = text.value,
+            value = searchQuery.query,
             textStyle = textStyle.merge(TextStyle(textDecoration = TextDecoration.None)),
             onValueChange = {
-                text.value = it
+                searchQuery.query = it
+                searchQuery.onValueChange(it, false)
                 onValueChange(it, false)
             },
             leadingIcon = {
@@ -68,9 +67,10 @@ public fun SearchBox(
                 )
             },
             trailingIcon = {
-                val visible = query.value.isNotEmpty()
+                val visible = searchQuery.query.isNotEmpty()
                 SearchClearIcon(visible) {
-                    text.value = ""
+                    searchQuery.query = ""
+                    searchQuery.onValueChange("", false)
                     onValueChange("", false)
                 }
             },
@@ -79,7 +79,8 @@ public fun SearchBox(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    onValueChange(text.value, true)
+                    searchQuery.onValueChange(searchQuery.query, true)
+                    onValueChange(searchQuery.query, true)
                 }
             )
         )

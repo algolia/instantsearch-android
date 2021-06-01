@@ -28,13 +28,17 @@ public fun HighlightedString.toAnnotatedString(spanStyle: SpanStyle = SpanStyle(
 
 /**
  * Converts a list of [HighlightedString] to a list of [AnnotatedString].
+ *
+ * @param spanStyle applied highlighting style
  */
 public fun List<HighlightedString>.toAnnotatedString(
     spanStyle: SpanStyle = SpanStyle(fontWeight = FontWeight.Bold)
 ): AnnotatedString {
     return with(AnnotatedString.Builder()) {
         map { it.toAnnotatedString(spanStyle) }.forEachIndexed { index, annotated ->
-            if (index > 0) append(", ")
+            if (index > 0) {
+                append(", ")
+            }
             append(annotated)
         }
 

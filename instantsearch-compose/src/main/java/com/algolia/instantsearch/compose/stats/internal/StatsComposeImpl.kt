@@ -1,16 +1,14 @@
 package com.algolia.instantsearch.compose.stats.internal
 
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.algolia.instantsearch.compose.stats.StatsCompose
 
 /**
  * [StatsCompose] implementation.
  */
-internal class StatsComposeImpl<T>(
-    override val stats: MutableState<T>
-) : StatsCompose<T> {
+internal class StatsComposeImpl<T>(stats: T) : StatsCompose<T> {
 
-    override fun setText(text: T) {
-        stats.value = text
-    }
+    override var stats by mutableStateOf(stats)
 }

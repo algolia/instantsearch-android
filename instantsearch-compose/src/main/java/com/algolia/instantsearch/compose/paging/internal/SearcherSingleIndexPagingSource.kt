@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.compose.paging
+package com.algolia.instantsearch.compose.paging.internal
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
  * @param searcher single index searcher
  * @param transformer mapping applied to search responses
  */
-public class SearcherSingleIndexPagingSource<T : Any>(
+internal class SearcherSingleIndexPagingSource<T : Any>(
     private val searcher: SearcherSingleIndex,
     private val transformer: (ResponseSearch) -> List<T>
 ) : PagingSource<Int, T>() {
