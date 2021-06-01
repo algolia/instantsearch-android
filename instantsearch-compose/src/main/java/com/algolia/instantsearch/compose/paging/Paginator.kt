@@ -2,13 +2,8 @@
 
 package com.algolia.instantsearch.compose.paging
 
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.Composable
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.algolia.instantsearch.compose.paging.internal.SearcherLazyPagingHits
 import com.algolia.instantsearch.compose.paging.internal.SearcherSingleIndexPaginator
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
@@ -43,17 +38,4 @@ public fun <T : Any> Paginator(
     transformer: (ResponseSearch) -> List<T>
 ): Paginator<T> {
     return SearcherSingleIndexPaginator(searcher, pagingConfig, transformer)
-}
-
-/**
- * Collects values values from [Paginator].
- *
- * @param state controls and observes list scrolling
- */
-@Composable
-public fun <T : Any> Paginator<T>.collectAsLazyListPagingHits(
-    state: LazyListState = rememberLazyListState()
-): LazyListPagingHits<T> {
-    val pagingItems = flow.collectAsLazyPagingItems()
-    return SearcherLazyPagingHits(pagingItems, state, this)
 }

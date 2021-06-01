@@ -9,7 +9,7 @@ import com.algolia.search.model.search.Facet
  * Connection implementation between [FacetListViewModel] and [Paginator].
  *
  * @param facetListViewModel facet list view model handling selections
- * @param paginator search pages generation logic handler
+ * @param paginator component handling Paged data
  */
 internal class FacetListConnectionPager<T : Any>(
     private val facetListViewModel: FacetListViewModel,
