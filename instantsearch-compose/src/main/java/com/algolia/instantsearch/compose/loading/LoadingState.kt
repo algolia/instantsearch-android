@@ -11,7 +11,7 @@ public interface LoadingState : LoadingView {
     /**
      * true when loading, false otherwise.
      */
-    public var loading: Boolean
+    public val loading: Boolean
 
     /**
      * Request a reload. Used typically for swipe to refresh.
@@ -24,6 +24,6 @@ public interface LoadingState : LoadingView {
  *
  * @param initial the initial value
  */
-public fun LoadingCompose(initial: Boolean): LoadingState {
+public fun LoadingState(initial: Boolean = false): LoadingState {
     return LoadingStateImpl(initial)
 }
