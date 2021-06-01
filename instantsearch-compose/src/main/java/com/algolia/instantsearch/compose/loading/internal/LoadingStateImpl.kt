@@ -5,6 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.algolia.instantsearch.compose.loading.LoadingState
 
+/**
+ * Implementation of [LoadingState]
+ *
+ * @param loading initial value
+ */
 internal class LoadingStateImpl(loading: Boolean) : LoadingState {
 
     override var loading: Boolean by mutableStateOf(loading)
