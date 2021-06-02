@@ -23,7 +23,7 @@ internal class FilterToggleStateImpl(
         this.isSelected = isSelected
     }
 
-    override fun onSelectionChanged(isSelected: Boolean) {
+    override fun selectionChanged(isSelected: Boolean) {
         onSelectionChanged?.invoke(isSelected)
     }
 }

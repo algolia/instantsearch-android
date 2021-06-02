@@ -19,7 +19,7 @@ public interface SearchQuery : SearchBoxView {
      * @param query received query input
      * @param isSubmit true if the value is a submit, otherwise false
      */
-    public fun onValueChange(query: String, isSubmit: Boolean)
+    public fun valueChanged(query: String, isSubmit: Boolean)
 }
 
 /**
