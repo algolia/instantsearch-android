@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.compose.paging.internal
+package com.algolia.instantsearch.compose.list.internal
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
