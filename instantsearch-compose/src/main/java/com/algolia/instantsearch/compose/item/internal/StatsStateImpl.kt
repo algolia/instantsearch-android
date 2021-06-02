@@ -1,9 +1,9 @@
-package com.algolia.instantsearch.compose.stats.internal
+package com.algolia.instantsearch.compose.item.internal
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.algolia.instantsearch.compose.stats.StatsState
+import com.algolia.instantsearch.compose.item.StatsState
 
 /**
  * [StatsState] implementation.
