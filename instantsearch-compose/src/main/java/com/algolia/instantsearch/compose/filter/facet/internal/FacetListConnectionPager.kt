@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.compose.filter.list.internal
+package com.algolia.instantsearch.compose.filter.facet.internal
 
 import com.algolia.instantsearch.compose.paging.Paginator
 import com.algolia.instantsearch.core.connection.ConnectionImpl
