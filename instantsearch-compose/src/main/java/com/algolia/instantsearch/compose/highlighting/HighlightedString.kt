@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.compose.highlight
+package com.algolia.instantsearch.compose.highlighting
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
