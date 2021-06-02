@@ -1,10 +1,10 @@
 @file:Suppress("FunctionName")
 
-package com.algolia.instantsearch.compose.paging
+package com.algolia.instantsearch.compose.list
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.algolia.instantsearch.compose.paging.internal.SearcherSingleIndexPaginator
+import com.algolia.instantsearch.compose.list.internal.SearcherSingleIndexPaginator
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.flow.Flow

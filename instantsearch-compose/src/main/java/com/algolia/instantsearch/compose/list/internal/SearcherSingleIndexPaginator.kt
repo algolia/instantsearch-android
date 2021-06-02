@@ -1,9 +1,9 @@
-package com.algolia.instantsearch.compose.paging.internal
+package com.algolia.instantsearch.compose.list.internal
 
 import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.algolia.instantsearch.compose.paging.Paginator
+import com.algolia.instantsearch.compose.list.Paginator
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
 
