@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.helper.filter.facet.dynamic.internal
 
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.rule.AttributedFacets
 import com.algolia.search.model.rule.FacetOrdering
 import com.algolia.search.model.rule.OrderingRule
 import com.algolia.search.model.rule.SortRule

@@ -3,8 +3,8 @@ package com.algolia.instantsearch.helper.filter.facet.dynamic
 import com.algolia.instantsearch.core.selectable.list.SelectableListViewModel
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
+import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.rule.AttributedFacets
 import com.algolia.search.model.search.Facet
 import kotlin.properties.Delegates
 
@@ -46,7 +46,7 @@ public class DynamicFacetViewModel(
     /**
      * Event triggered when the facets values selection changed by the business logic.
      */
-    public val onSelectionsComputed: SubscriptionEvent<SelectionsPerAttribute> = SubscriptionEvent()
+    public val onSelectionsComputed: SubscriptionValue<SelectionsPerAttribute> = SubscriptionValue(mutableMapOf())
 
     /**
      * Mapping between a facet attribute and a facet values selection mode.
@@ -109,10 +109,11 @@ public class DynamicFacetViewModel(
     private fun createFacetList(attribute: Attribute): SelectableListViewModel<String, Facet> {
         val selectionMode = selectionModeForAttribute[attribute] ?: SelectionMode.Single
         val facetList = SelectableListViewModel<String, Facet>(selectionMode = selectionMode)
+        // TODO: Subscription handling
         facetList.eventSelection.subscribe { selection ->
-            // TODO: Subscription handling + mutable map
-            selections[attribute] = selection
-            onSelectionsComputed.send(selections)
+            val currentSelections = selections.toMutableMap()
+            currentSelections[attribute] = selection
+            onSelectionsComputed.value = currentSelections
         }
         onSelectionsChanged.subscribe { selections ->
             facetList.selections.value = selections[attribute] ?: emptySet()

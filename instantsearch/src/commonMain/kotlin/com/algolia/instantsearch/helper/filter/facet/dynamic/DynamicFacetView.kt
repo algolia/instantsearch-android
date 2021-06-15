@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.helper.filter.facet.dynamic
 
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.rule.AttributedFacets
 import com.algolia.search.model.search.Facet
 
 /**
@@ -12,7 +11,7 @@ public interface DynamicFacetView {
     /**
      * Update the list of attributed facets.
      */
-    public fun setFacetOrder(facetOrder: List<AttributedFacets>)
+    public fun setOrderedFacets(facetOrder: List<AttributedFacets>)
 
     /**
      * Update the facet selections.

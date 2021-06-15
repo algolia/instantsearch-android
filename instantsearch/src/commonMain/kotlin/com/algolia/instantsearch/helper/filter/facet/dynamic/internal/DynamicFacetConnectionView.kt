@@ -2,35 +2,46 @@ package com.algolia.instantsearch.helper.filter.facet.dynamic.internal
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetView
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetViewModel
 import com.algolia.instantsearch.helper.filter.facet.dynamic.SelectionsPerAttribute
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.rule.AttributedFacets
 import com.algolia.search.model.search.Facet
 
+/**
+ * Connection between a dynamic facets business logic and a controller.
+ *
+ * @param viewModel dynamic facets business logic
+ * @param view view of the ordered list of facets and handling user interaction
+ */
 internal class DynamicFacetConnectionView(
     val viewModel: DynamicFacetViewModel,
     val view: DynamicFacetView,
 ) : ConnectionImpl() {
 
-    private val facetOrderSubscription: Callback<List<AttributedFacets>> = { facetOrder ->
-        view.setFacetOrder(facetOrder)
-    }
-
-    private val facetSelectionsSubscription: Callback<SelectionsPerAttribute> = { facetSelections ->
-        view.setSelections(facetSelections)
-    }
-
     private val didSelect: (Attribute, Facet) -> Unit = { attribute, facet ->
         viewModel.toggleSelection(attribute = attribute, facetValue = facet.value)
+    }
+
+    private val selectionsChangedSubscription: Callback<SelectionsPerAttribute> = { selections ->
+        view.setSelections(selections)
+    }
+
+    private val facetOrderSubscription: Callback<List<AttributedFacets>> = { orderedFacets ->
+        view.setOrderedFacets(orderedFacets)
     }
 
     override fun connect() {
         super.connect()
         view.didSelect = didSelect
-        facetOrderSubscribePast()
         facetSelectionsSubscribePast()
+        facetOrderSubscribePast()
+    }
+
+    private fun facetSelectionsSubscribePast() {
+        selectionsChangedSubscription.invoke(viewModel.selections)
+        viewModel.onSelectionsChanged.subscribe(selectionsChangedSubscription)
     }
 
     private fun facetOrderSubscribePast() {
@@ -38,15 +49,10 @@ internal class DynamicFacetConnectionView(
         viewModel.onFacetOrderChanged.subscribe(facetOrderSubscription)
     }
 
-    private fun facetSelectionsSubscribePast() {
-        facetSelectionsSubscription.invoke(viewModel.selections)
-        viewModel.onSelectionsChanged.subscribe(facetSelectionsSubscription)
-    }
-
     override fun disconnect() {
         super.disconnect()
         view.didSelect = null
+        viewModel.onSelectionsChanged.unsubscribe(selectionsChangedSubscription)
         viewModel.onFacetOrderChanged.unsubscribe(facetOrderSubscription)
-        viewModel.onSelectionsChanged.unsubscribe(facetSelectionsSubscription)
     }
 }
