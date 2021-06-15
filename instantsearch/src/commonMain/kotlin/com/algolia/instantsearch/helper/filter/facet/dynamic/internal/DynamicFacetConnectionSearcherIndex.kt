@@ -2,14 +2,20 @@ package com.algolia.instantsearch.helper.filter.facet.dynamic.internal
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetViewModel
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.rule.AttributedFacets
 import com.algolia.search.model.rule.FacetOrdering
 import com.algolia.search.model.search.Facet
 
+/**
+ * Connection between a dynamic facets business logic and a searcher.
+ *
+ * @param viewModel dynamic facets business logic
+ * @param searcher searcher that handles your searches
+ */
 internal class DynamicFacetConnectionSearcherIndex(
     val viewModel: DynamicFacetViewModel,
     val searcher: SearcherIndex<*>,
@@ -22,7 +28,7 @@ internal class DynamicFacetConnectionSearcherIndex(
     }
 
     private fun buildOrder(ordering: FacetOrdering?, facets: Map<Attribute, List<Facet>>?): List<AttributedFacets> {
-        return if (ordering != null && facets != null) BuildOrder(ordering, facets).invoke() else emptyList()
+        return if (ordering != null && facets != null) facetsOrder(facets, ordering) else emptyList()
     }
 
     private val errorSubscription: Callback<Throwable?> = { _ ->

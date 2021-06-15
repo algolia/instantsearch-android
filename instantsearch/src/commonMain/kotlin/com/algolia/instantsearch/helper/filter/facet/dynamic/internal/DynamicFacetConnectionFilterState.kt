@@ -14,9 +14,9 @@ import com.algolia.search.model.filter.Filter
 /**
  * Connection between a dynamic facets business logic and a filter state.
  *
- * @param viewModel Dynamic facets business logic
- * @param filterState FilterState that holds your filters
- * @param groupIDForAttribute Mapping between a facet attribute and a filter group where corresponding facet filters stored in the filter state
+ * @param viewModel dynamic facets business logic
+ * @param filterState filterState that holds your filters
+ * @param groupIDForAttribute mapping between a facet attribute and a filter group where corresponding facet filters stored in the filter state
  */
 internal class DynamicFacetConnectionFilterState(
     val viewModel: DynamicFacetViewModel,
