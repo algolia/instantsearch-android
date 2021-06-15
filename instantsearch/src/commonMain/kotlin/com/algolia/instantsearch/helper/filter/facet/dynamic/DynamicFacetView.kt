@@ -4,11 +4,23 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.rule.AttributedFacets
 import com.algolia.search.model.search.Facet
 
+/**
+ * View presenting the ordered list of facets and handling user interaction.
+ */
 public interface DynamicFacetView {
 
-    public fun commit(facetOrder: List<AttributedFacets>)
+    /**
+     * Update the list of attributed facets.
+     */
+    public fun setFacetOrder(facetOrder: List<AttributedFacets>)
 
-    public fun commit(selections: FacetSelections)
+    /**
+     * Update the facet selections.
+     */
+    public fun setSelections(selections: SelectionsPerAttribute)
 
+    /**
+     * Callback to trigger when user selects a facet.
+     */
     public var didSelect: ((Attribute, Facet) -> Unit)?
 }

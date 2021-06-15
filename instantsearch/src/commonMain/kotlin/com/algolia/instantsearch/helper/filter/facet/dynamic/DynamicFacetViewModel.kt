@@ -1,51 +1,122 @@
 package com.algolia.instantsearch.helper.filter.facet.dynamic
 
+import com.algolia.instantsearch.core.selectable.list.SelectableListViewModel
+import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.rule.AttributedFacets
 import com.algolia.search.model.search.Facet
 import kotlin.properties.Delegates
 
+/**
+ * Dynamic facets business logic.
+ * Provides an ordered list of attributed facets, facet selections and events.
+ */
 public class DynamicFacetViewModel(
-    facetOrder: List<AttributedFacets>,
-    selections: FacetSelections,
+    orderedFacets: List<AttributedFacets> = emptyList(),
+    selections: SelectionsPerAttribute = mutableMapOf(),
+    selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap()
 ) {
 
-    public var facetOrder: List<AttributedFacets> by Delegates.observable(facetOrder) { _, _, newValue ->
-        onFacetOrderUpdated.send(prepareFacetOrder(newValue))
-    }
-    public var selections: FacetSelections by Delegates.observable(selections) { _, oldValue, newValue ->
-        onSelectionsUpdated.send(newValue)
-    }
-    public var shouldShowFacetForAttribute: (Attribute, Facet) -> (Boolean) = { _, _ -> true }
-
-    public val onFacetOrderUpdated: SubscriptionEvent<List<AttributedFacets>> = SubscriptionEvent()
-    public val onSelectionsUpdated: SubscriptionEvent<FacetSelections> = SubscriptionEvent()
-
-    private fun prepareFacetOrder(facetOrder: List<AttributedFacets>): List<AttributedFacets> {
-        return facetOrder.map { attributedFacets ->
-            val filteredFacets = attributedFacets.facets.filter { facet ->
-                shouldShowFacetForAttribute(attributedFacets.attribute, facet)
-            }
-            AttributedFacets(attribute = attributedFacets.attribute, facets = filteredFacets)
-        }.filter { it.facets.isNotEmpty() }
+    /**
+     * Ordered list of attributed facets.
+     */
+    public var orderedFacets: List<AttributedFacets> by Delegates.observable(orderedFacets) { _, _, newValue ->
+        onFacetOrderChanged.send(newValue)
+        updateFacetLists()
     }
 
+    /**
+     * Mapping between a facet attribute and a set of selected facet values.
+     */
+    public var selections: SelectionsPerAttribute by Delegates.observable(selections) { _, _, newValue ->
+        onSelectionsChanged.send(newValue)
+    }
+
+    /**
+     * Event triggered when the facet order changed externally.
+     */
+    public val onFacetOrderChanged: SubscriptionEvent<List<AttributedFacets>> = SubscriptionEvent()
+
+    /**
+     * Event triggered when the facets values selection changed externally.
+     */
+    public val onSelectionsChanged: SubscriptionEvent<SelectionsPerAttribute> = SubscriptionEvent()
+
+    /**
+     * Event triggered when the facets values selection changed by the business logic.
+     */
+    public val onSelectionsComputed: SubscriptionEvent<SelectionsPerAttribute> = SubscriptionEvent()
+
+    /**
+     * Mapping between a facet attribute and a facet values selection mode.
+     * If not provided, the default selection mode is `single`.
+     */
+    public val selectionModeForAttribute: Map<Attribute, SelectionMode> = selectionModeForAttribute
+
+    /**
+     * Storage for selectable facet list logic per attribute.
+     */
+    private var facetListPerAttribute: MutableMap<Attribute, SelectableListViewModel<String, Facet>> = mutableMapOf()
+
+    init {
+        updateFacetLists()
+    }
+
+    /**
+     * Returns a selection state of facet value for attribute.
+     *
+     * @param attribute facet attribute
+     * @param facetValue facet value
+     */
     public fun isSelected(attribute: Attribute, facetValue: String): Boolean {
         return selections[attribute]?.contains(facetValue) ?: false
     }
 
+    /**
+     * Toggle the selection state of facet value for attribute.
+     *
+     * @param attribute facet attribute
+     * @param facetValue facet value
+     */
     public fun toggleSelection(attribute: Attribute, facetValue: String) {
-        val current = selections[attribute]?.toMutableSet() ?: mutableSetOf()
-        current.setFacetValue(facetValue)
-        current.setSelection(attribute)
+        facetListPerAttribute[attribute]?.select(facetValue)
     }
 
-    private fun MutableSet<String>.setFacetValue(facetValue: String) {
-        if (contains(facetValue)) remove(facetValue) else add(facetValue)
+    /**
+     * Update all facet lists.
+     */
+    private fun updateFacetLists() {
+        orderedFacets.forEach { attributedFacet ->
+            val attribute = attributedFacet.attribute
+            val facetList: SelectableListViewModel<String, Facet> = getOrCreateSelectableFacetList(attribute)
+            facetList.items.value = attributedFacet.facets
+            facetList.selections.value = selections[attribute] ?: emptySet()
+        }
     }
 
-    private fun MutableSet<String>.setSelection(attribute: Attribute) {
-        selections = if (isEmpty()) selections - attribute else selections + (attribute to this)
+    /**
+     * Get or create a facet selectable list for a given attribute.
+     */
+    private fun getOrCreateSelectableFacetList(attribute: Attribute): SelectableListViewModel<String, Facet> {
+        return facetListPerAttribute[attribute]
+            ?: createFacetList(attribute).also { facetListPerAttribute[attribute] = it }
+    }
+
+    /**
+     * Create a facet selectable list for a given attribute.
+     */
+    private fun createFacetList(attribute: Attribute): SelectableListViewModel<String, Facet> {
+        val selectionMode = selectionModeForAttribute[attribute] ?: SelectionMode.Single
+        val facetList = SelectableListViewModel<String, Facet>(selectionMode = selectionMode)
+        facetList.eventSelection.subscribe { selection ->
+            // TODO: Subscription handling + mutable map
+            selections[attribute] = selection
+            onSelectionsComputed.send(selections)
+        }
+        onSelectionsChanged.subscribe { selections ->
+            facetList.selections.value = selections[attribute] ?: emptySet()
+        }
+        return facetList
     }
 }
