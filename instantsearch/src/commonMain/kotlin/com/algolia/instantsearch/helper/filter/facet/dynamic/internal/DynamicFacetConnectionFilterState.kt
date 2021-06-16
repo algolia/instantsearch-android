@@ -4,6 +4,7 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetViewModel
 import com.algolia.instantsearch.helper.filter.facet.dynamic.SelectionsPerAttribute
+import com.algolia.instantsearch.helper.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -16,12 +17,13 @@ import com.algolia.search.model.filter.Filter
  *
  * @param viewModel dynamic facets business logic
  * @param filterState filterState that holds your filters
- * @param groupIDForAttribute mapping between a facet attribute and a filter group where corresponding facet filters stored in the filter state
+ * @param filterGroupForAttribute mapping between a facet attribute and a descriptor of a filter group where the corresponding facet filters stored in the filter state.
+ * If no filter group descriptor provided, the filters for attribute will be automatically stored in the conjunctive (`and`) group with the facet attribute name.
  */
 internal class DynamicFacetConnectionFilterState(
     val viewModel: DynamicFacetViewModel,
     val filterState: FilterState,
-    val groupIDForAttribute: Map<Attribute, FilterGroupID>
+    val filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor>
 ) : ConnectionImpl() {
 
     private val filterStateSubscription: Callback<Filters> = {
@@ -53,7 +55,11 @@ internal class DynamicFacetConnectionFilterState(
     }
 
     private fun groupID(attribute: Attribute): FilterGroupID {
-        return groupIDForAttribute[attribute] ?: FilterGroupID(attribute = attribute, operator = FilterOperator.And)
+        val (groupName, refinementOperator) = filterGroupForAttribute[attribute] ?: attribute.raw to FilterOperator.And
+        return when (refinementOperator) {
+            FilterOperator.And -> FilterGroupID(groupName, FilterOperator.And)
+            FilterOperator.Or -> FilterGroupID(groupName, FilterOperator.Or)
+        }
     }
 
     override fun connect() {
