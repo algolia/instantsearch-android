@@ -36,7 +36,7 @@ private fun order(facets: List<Facet>, rule: FacetValuesOrder): List<Facet> {
     val remainingFacets = facets.filter { !pinnedFacets.contains(it) }
     val facetsTail: List<Facet> = when (rule.sortRemainingBy) {
         SortRule.Alpha -> remainingFacets.sortedBy { it.value }
-        SortRule.Count -> remainingFacets.sortedByDescending { it.value }
+        SortRule.Count -> remainingFacets.sortedByDescending { it.count }
         SortRule.Hidden -> emptyList()
     }
     return pinnedFacets + facetsTail
