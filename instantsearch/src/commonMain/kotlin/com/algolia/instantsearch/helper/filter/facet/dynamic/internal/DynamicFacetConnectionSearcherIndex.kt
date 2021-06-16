@@ -22,7 +22,7 @@ internal class DynamicFacetConnectionSearcherIndex(
 ) : ConnectionImpl() {
 
     private val responseSubscription: Callback<ResponseSearch?> = { response ->
-        val facetOrdering = response?.renderingContent?.facetOrdering
+        val facetOrdering = response?.renderingContentOrNull?.facetOrdering
         val facets = response?.facetsOrNull
         viewModel.orderedFacets = buildOrder(facetOrdering, facets)
     }
