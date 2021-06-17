@@ -89,7 +89,7 @@ public class DynamicFacetViewModel(
     private fun updateFacetLists() {
         orderedFacets.forEach { attributedFacet ->
             val attribute = attributedFacet.attribute
-            val facetList: SelectableListViewModel<String, Facet> = getOrCreateSelectableFacetList(attribute)
+            val facetList = getOrCreateSelectableFacetList(attribute)
             facetList.items.value = attributedFacet.facets
             facetList.selections.value = selections[attribute] ?: emptySet()
         }
@@ -109,7 +109,6 @@ public class DynamicFacetViewModel(
     private fun createFacetList(attribute: Attribute): SelectableListViewModel<String, Facet> {
         val selectionMode = selectionModeForAttribute[attribute] ?: SelectionMode.Single
         val facetList = SelectableListViewModel<String, Facet>(selectionMode = selectionMode)
-        // TODO: Subscription handling
         facetList.eventSelection.subscribe { selection ->
             val currentSelections = selections.toMutableMap()
             currentSelections[attribute] = selection

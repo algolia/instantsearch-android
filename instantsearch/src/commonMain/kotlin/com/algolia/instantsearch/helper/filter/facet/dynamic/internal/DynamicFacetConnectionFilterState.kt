@@ -40,16 +40,16 @@ internal class DynamicFacetConnectionFilterState(
             .asSequence()
             .filterIsInstance<Filter.Facet>()
             .filter { it.attribute == attribute && !it.isNegated }
-            .map { it.value.toString() }
+            .map { it.value.raw.toString() }
             .toSet()
     }
 
     private val onSelectionsComputedSubscription: Callback<SelectionsPerAttribute> = { selectionsPerAttribute ->
         selectionsPerAttribute.onEach { (attribute, selections) ->
             val groupID = groupID(attribute)
-            val filters = selections.map { Filter.Facet(attribute, it) }
-            filterState.remove(attribute) // TODO: groupID + attribute
-            filterState.add(groupID, *filters.toTypedArray())
+            val filters = selections.map { Filter.Facet(attribute, it) }.toTypedArray()
+            filterState.clear(groupID)
+            filterState.add(groupID, *filters)
         }
         filterState.notifyChange()
     }
