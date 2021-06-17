@@ -22,18 +22,28 @@ public fun DynamicFacetViewModel.connectSearcher(searcher: SearcherIndex<*>): Co
  * Establishes connection with a FilterState.
  *
  * @param filterState filter state to connect
- * @param filterGroupForAttribute mapping between a facet attribute and a descriptor of a filter group where the corresponding facet filters stored in the filter state.
- * If no filter group descriptor provided, the filters for attribute will be automatically stored in the conjunctive (`and`) group with the facet attribute name.
+ * @param filterGroupForAttribute mapping between a facet attribute and a descriptor of a filter group where the
+ * corresponding facet filters stored in the filter state. If no filter group descriptor provided, the filters for
+ * attribute will be automatically stored in the conjunctive (`and`) group with the facet attribute name.
  */
 public fun DynamicFacetViewModel.connectFilterState(filterState: FilterState, filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap()): Connection {
     return DynamicFacetConnectionFilterState(this, filterState, filterGroupForAttribute)
 }
 
 /**
- * Establishes connection with a DynamicFacetsController implementation.
+ * Establishes connection with a [DynamicFacetView] implementation.
  *
- * @param view DynamicFacetView to connect
+ * @param view view to connect
  */
 public fun DynamicFacetViewModel.connectView(view: DynamicFacetView): Connection {
     return DynamicFacetConnectionView(this, view)
+}
+
+/**
+ * Establishes a connection with a [DynamicFacetView] implementation.
+ *
+ * @param view view to connect
+ */
+public fun DynamicFacetConnector.connectView(view: DynamicFacetView): Connection {
+    return viewModel.connectView(view)
 }

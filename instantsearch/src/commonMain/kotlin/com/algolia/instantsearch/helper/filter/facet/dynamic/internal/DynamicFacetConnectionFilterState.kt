@@ -17,8 +17,9 @@ import com.algolia.search.model.filter.Filter
  *
  * @param viewModel dynamic facets business logic
  * @param filterState filterState that holds your filters
- * @param filterGroupForAttribute mapping between a facet attribute and a descriptor of a filter group where the corresponding facet filters stored in the filter state.
- * If no filter group descriptor provided, the filters for attribute will be automatically stored in the conjunctive (`and`) group with the facet attribute name.
+ * @param filterGroupForAttribute mapping between a facet attribute and a descriptor of a filter group where the
+ * corresponding facet filters stored in the filter state. If no filter group descriptor provided, the filters for
+ * attribute will be automatically stored in the conjunctive (`and`) group with the facet attribute name.
  */
 internal class DynamicFacetConnectionFilterState(
     val viewModel: DynamicFacetViewModel,
