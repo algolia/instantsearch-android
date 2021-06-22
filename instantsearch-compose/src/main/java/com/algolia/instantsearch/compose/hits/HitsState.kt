@@ -13,14 +13,14 @@ public interface HitsState<T> : HitsView<T> {
     /**
      * Hits list.
      */
-    public val hitsList: List<T>
+    public val hits: List<T>
 }
 
 /**
  * Creates an instance of [HitsState].
  *
- * @param hitsList initial hits list value
+ * @param hits initial hits list value
  */
-public fun <T> HitsState(hitsList: List<T>): HitsState<T> {
-    return HitsStateImpl(hitsList)
+public fun <T> HitsState(hits: List<T>): HitsState<T> {
+    return HitsStateImpl(hits)
 }

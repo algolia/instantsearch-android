@@ -13,7 +13,6 @@ import com.algolia.instantsearch.compose.loading.LoadingState
 internal class LoadingStateImpl(loading: Boolean) : LoadingState {
 
     override var loading: Boolean by mutableStateOf(loading)
-
     override var onReload: ((Unit) -> Unit)? = null
 
     override fun reload() {

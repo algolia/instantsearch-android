@@ -10,18 +10,19 @@ import com.algolia.instantsearch.helper.filter.current.FilterAndID
 /**
  * Implementation of [FilterCurrentState].
  *
- * @param filtersList initial value
+ * @param filters initial value
  */
 internal class FilterCurrentStateImpl(
-    filtersList: List<Pair<FilterAndID, String>>
+    filters: List<Pair<FilterAndID, String>>
 ) : FilterCurrentState {
 
-    override var filtersList: List<Pair<FilterAndID, String>> by mutableStateOf(filtersList)
+    @set:JvmName("_filters")
+    override var filters: List<Pair<FilterAndID, String>> by mutableStateOf(filters)
 
     override var onFilterSelected: Callback<FilterAndID>? = null
 
     override fun setFilters(filters: List<Pair<FilterAndID, String>>) {
-        this.filtersList = filters
+        this.filters = filters
     }
 
     override fun filterSelected(filterAndID: FilterAndID) {

@@ -12,10 +12,10 @@ import com.algolia.instantsearch.compose.number.relevantsort.RelevantSortState
  */
 internal class RelevantSortStateImpl<T>(value: T) : RelevantSortState<T> {
 
-    override var value: T by mutableStateOf(value)
+    override var sort: T by mutableStateOf(value)
     override var didToggle: (() -> Unit)? = null
 
     override fun updateView(input: T) {
-        this.value = input
+        this.sort = input
     }
 }

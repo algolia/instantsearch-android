@@ -11,13 +11,13 @@ public interface RelevantSortState<T> : RelevantSortView<T> {
     /**
      * Current value of relevant sort.
      */
-    public val value: T
+    public val sort: T
 }
 
 /**
  * Creates an instance of [RelevantSortState].
  *
- * @param value initial value
+ * @param value initial sort value
  */
 public fun <T> RelevantSortState(value: T): RelevantSortState<T> {
     return RelevantSortStateImpl(value)
