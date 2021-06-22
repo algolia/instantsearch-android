@@ -9,9 +9,9 @@ import com.algolia.instantsearch.helper.filter.map.FilterMapView
 public interface FilterMapState : FilterMapView {
 
     /**
-     * List of radio options.
+     * Radio options values.
      */
-    public val radioOptions: List<String>
+    public val radioOptions: Map<Int, String>
 
     /**
      * Index of selected option, or `null` if none is selected.
@@ -30,6 +30,6 @@ public interface FilterMapState : FilterMapView {
  *  @param radioOptions radio options list
  *  @param selectedOption selected option index
  */
-public fun FilterMapState(radioOptions: List<String> = emptyList(), selectedOption: Int? = null): FilterMapState {
+public fun FilterMapState(radioOptions: Map<Int, String> = emptyMap(), selectedOption: Int? = null): FilterMapState {
     return FilterMapStateImpl(radioOptions, selectedOption)
 }

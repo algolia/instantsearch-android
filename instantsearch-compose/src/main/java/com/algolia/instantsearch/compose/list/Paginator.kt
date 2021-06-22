@@ -10,7 +10,7 @@ import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Component handling Paged data.
+ * Component handling [PagingData].
  */
 public interface Paginator<T : Any> {
 
