@@ -17,8 +17,9 @@ internal class FilterMapStateImpl(
     selectedOption: Int?
 ) : FilterMapState {
 
-    override var radioOptions: Map<Int, String> by mutableStateOf(radioOptions)
-    override var selectedOption: Int? by mutableStateOf(selectedOption)
+    @set:JvmName("_selected")
+    override var selected: Int? by mutableStateOf(selectedOption)
+    override var options: Map<Int, String> by mutableStateOf(radioOptions)
     override var onSelectionChange: Callback<Int>? = null
 
     override fun optionSelected(selected: Int) {
@@ -26,10 +27,10 @@ internal class FilterMapStateImpl(
     }
 
     override fun setMap(map: Map<Int, String>) {
-        this.radioOptions = map
+        this.options = map
     }
 
     override fun setSelected(selected: Int?) {
-        this.selectedOption = selected
+        this.selected = selected
     }
 }

@@ -22,8 +22,8 @@ public interface LoadingState : LoadingView {
 /**
  * Creates an instance of [LoadingState].
  *
- * @param initial the initial value
+ * @param loading initial loading value
  */
-public fun LoadingState(initial: Boolean = false): LoadingState {
-    return LoadingStateImpl(initial)
+public fun LoadingState(loading: Boolean = false): LoadingState {
+    return LoadingStateImpl(loading)
 }

@@ -27,8 +27,8 @@ public interface SortByState : SortByView {
 /**
  * Creates an instance of [SortByState].
  *
- * @param options sort by option values
- * @param selectedOption index of selected option
+ * @param options intial sort by option values
+ * @param selectedOption initial index of selected option
  */
 public fun SortByState(options: Map<Int, String> = emptyMap(), selectedOption: Int? = null): SortByState {
     return SortByStateImpl(options, selectedOption)

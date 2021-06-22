@@ -12,7 +12,7 @@ public interface FilterCurrentState : FilterCurrentView {
     /**
      * List of current filters.
      */
-    public var filtersList: List<Pair<FilterAndID, String>>
+    public val filters: List<Pair<FilterAndID, String>>
 
     /**
      * Trigger a filter selection.

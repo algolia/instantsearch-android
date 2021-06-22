@@ -12,9 +12,10 @@ import com.algolia.instantsearch.compose.hits.HitsState
  */
 internal class HitsStateImpl<T>(hitsList: List<T>) : HitsState<T> {
 
-    override var hitsList: List<T> by mutableStateOf(hitsList)
+    @set:JvmName("_hits")
+    override var hits: List<T> by mutableStateOf(hitsList)
 
     override fun setHits(hits: List<T>) {
-        this.hitsList = hits
+        this.hits = hits
     }
 }
