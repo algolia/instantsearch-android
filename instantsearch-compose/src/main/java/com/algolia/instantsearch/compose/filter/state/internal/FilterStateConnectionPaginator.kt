@@ -8,8 +8,11 @@ import com.algolia.instantsearch.helper.filter.state.Filters
 
 /**
  * Connection between [Paginator] and [FilterState].
+ *
+ * @param paginator PagingData handler to connect
+ * @param filterState FilterState to connect
  */
-internal data class FilterStateConnectionPagingData<T : Any>(
+internal data class FilterStateConnectionPaginator<T : Any>(
     private val paginator: Paginator<T>,
     private val filterState: FilterState,
 ) : ConnectionImpl() {

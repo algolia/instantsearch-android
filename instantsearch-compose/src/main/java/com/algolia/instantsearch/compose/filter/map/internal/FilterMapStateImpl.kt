@@ -13,11 +13,11 @@ import com.algolia.instantsearch.core.Callback
  * @param selectedOption selected option index
  */
 internal class FilterMapStateImpl(
-    radioOptions: List<String>,
+    radioOptions: Map<Int, String>,
     selectedOption: Int?
 ) : FilterMapState {
 
-    override var radioOptions: List<String> by mutableStateOf(radioOptions)
+    override var radioOptions: Map<Int, String> by mutableStateOf(radioOptions)
     override var selectedOption: Int? by mutableStateOf(selectedOption)
     override var onSelectionChange: Callback<Int>? = null
 
@@ -26,9 +26,7 @@ internal class FilterMapStateImpl(
     }
 
     override fun setMap(map: Map<Int, String>) {
-        val options = radioOptions.toMutableList()
-        map.onEach { (index, value) -> options[index] = value }
-        this.radioOptions = options
+        this.radioOptions = map
     }
 
     override fun setSelected(selected: Int?) {
