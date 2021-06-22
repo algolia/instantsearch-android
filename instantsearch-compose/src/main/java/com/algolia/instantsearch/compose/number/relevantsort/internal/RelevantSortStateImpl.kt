@@ -1,9 +1,9 @@
-package com.algolia.instantsearch.compose.relevantsort.internal
+package com.algolia.instantsearch.compose.number.relevantsort.internal
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.algolia.instantsearch.compose.relevantsort.RelevantSortState
+import com.algolia.instantsearch.compose.number.relevantsort.RelevantSortState
 
 /**
  * Implementation of [RelevantSortState].
