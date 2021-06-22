@@ -8,7 +8,7 @@ import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.helper.searchbox.SearchMode
 
 /**
- * Create a connection between a paginator and the search box components.
+ * Create a connection between [Paginator] and [SearchBoxConnector].
  *
  * @param paginator paginator to be connected
  */
@@ -17,7 +17,7 @@ public fun <R, T : Any> SearchBoxConnector<R>.connectPaginator(paginator: Pagina
 }
 
 /**
- * Create a connection between a paginator and the search box view model.
+ * Create a connection between [Paginator] and [SearchBoxViewModel].
  *
  * @param paginator paginator to be connected
  */

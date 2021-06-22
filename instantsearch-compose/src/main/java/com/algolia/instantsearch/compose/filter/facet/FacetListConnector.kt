@@ -7,7 +7,7 @@ import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
 
 /**
- * Create a connection between a paginator and the facet list components.
+ * Create a connection between [Paginator] and [FacetListConnector].
  *
  * @param paginator paginator to be connected
  */
@@ -16,7 +16,7 @@ public fun <T : Any> FacetListConnector.connectPaginator(paginator: Paginator<T>
 }
 
 /**
- * Create a connection between a paginator and the facet list view model.
+ * Create a connection between [Paginator] and [FacetListViewModel].
  *
  * @param paginator paginator to be connected
  */
