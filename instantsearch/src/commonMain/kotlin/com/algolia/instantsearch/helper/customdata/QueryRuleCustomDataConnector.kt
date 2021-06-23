@@ -20,28 +20,14 @@ public class QueryRuleCustomDataConnector<T> @PublishedApi internal constructor(
     private val searcherConnection: Connection,
 ) : ConnectionImpl() {
 
-    private val presenters: MutableSet<QueryRuleCustomDataPresenter<T>> = mutableSetOf()
-
     override fun connect() {
         super.connect()
         searcherConnection.connect()
-        viewModel.item.subscribe(presenters)
     }
 
     override fun disconnect() {
         super.disconnect()
         searcherConnection.disconnect()
-        viewModel.item.unsubscribe(presenters)
-    }
-
-    /**
-     * Subscribe a presenter to the widget
-     *
-     * @param presenter defines the way we want to interact with a model
-     */
-    public fun subscribe(presenter: QueryRuleCustomDataPresenter<T>) {
-        viewModel.item.subscribe(presenter)
-        presenters += presenter
     }
 }
 
@@ -53,18 +39,14 @@ public class QueryRuleCustomDataConnector<T> @PublishedApi internal constructor(
  * @param searcher searcher that handles your searches
  * @param deserializer deserializes the model into a value of type T
  * @param initialItem initial item
- * @param presenter defines the way we want to interact with a model
  */
 public fun <T> QueryRuleCustomDataConnector(
     searcher: SearcherIndex<*>,
     deserializer: DeserializationStrategy<T>,
-    initialItem: T? = null,
-    presenter: QueryRuleCustomDataPresenter<T>? = null,
+    initialItem: T? = null
 ): QueryRuleCustomDataConnector<T> {
     val viewModel = QueryRuleCustomDataViewModel(deserializer, initialItem)
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher)).also {
-        if (presenter != null) it.subscribe(presenter)
-    }
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher))
 }
 
 /**
@@ -72,16 +54,12 @@ public fun <T> QueryRuleCustomDataConnector(
  *
  * @param searcher searcher that handles your searches
  * @param viewModel logic applied to the custom model
- * @param presenter defines the way we want to interact with a model
  */
 public inline fun <reified T> QueryRuleCustomDataConnector(
     searcher: SearcherIndex<*>,
-    viewModel: QueryRuleCustomDataViewModel<T> = QueryRuleCustomDataViewModel(),
-    noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
+    viewModel: QueryRuleCustomDataViewModel<T> = QueryRuleCustomDataViewModel()
 ): QueryRuleCustomDataConnector<T> {
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher)).also {
-        if (presenter != null) it.subscribe(presenter)
-    }
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher))
 }
 
 /**
@@ -89,17 +67,13 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
  *
  * @param searcher searcher that handles your searches
  * @param initialItem initial item
- * @param presenter defines the way we want to interact with a model
  */
 public inline fun <reified T> QueryRuleCustomDataConnector(
     searcher: SearcherIndex<*>,
-    initialItem: T?,
-    noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
+    initialItem: T?
 ): QueryRuleCustomDataConnector<T> {
     val viewModel = QueryRuleCustomDataViewModel(initialItem)
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher)).also {
-        if (presenter != null) it.subscribe(presenter)
-    }
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher))
 }
 
 /**
@@ -115,13 +89,10 @@ public fun <T> QueryRuleCustomDataConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,
     deserializer: DeserializationStrategy<T>,
-    initialItem: T? = null,
-    presenter: QueryRuleCustomDataPresenter<T>? = null,
+    initialItem: T? = null
 ): QueryRuleCustomDataConnector<T> {
     val viewModel = QueryRuleCustomDataViewModel(deserializer, initialItem)
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
-        if (presenter != null) it.subscribe(presenter)
-    }
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex))
 }
 
 /**
@@ -130,17 +101,13 @@ public fun <T> QueryRuleCustomDataConnector(
  * @param searcher searcher that handles your searches
  * @param queryIndex Index of query from response of which the user data will be extracted
  * @param viewModel logic applied to the custom model
- * @param presenter defines the way we want to interact with a model
  */
 public inline fun <reified T> QueryRuleCustomDataConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,
-    viewModel: QueryRuleCustomDataViewModel<T> = QueryRuleCustomDataViewModel(),
-    noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
+    viewModel: QueryRuleCustomDataViewModel<T> = QueryRuleCustomDataViewModel()
 ): QueryRuleCustomDataConnector<T> {
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
-        if (presenter != null) it.subscribe(presenter)
-    }
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex))
 }
 
 /**
@@ -149,18 +116,14 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
  * @param searcher searcher that handles your searches
  * @param queryIndex Index of query from response of which the user data will be extracted
  * @param initialItem initial item
- * @param presenter defines the way we want to interact with a model
  */
 public inline fun <reified T> QueryRuleCustomDataConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,
     initialItem: T?,
-    noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {
     val viewModel = QueryRuleCustomDataViewModel(initialItem)
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
-        if (presenter != null) it.subscribe(presenter)
-    }
+    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex))
 }
 
 // endregion

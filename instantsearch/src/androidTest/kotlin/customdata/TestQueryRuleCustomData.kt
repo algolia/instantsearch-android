@@ -1,8 +1,10 @@
 package customdata
 
 import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataConnector
+import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataView
 import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataViewModel
 import com.algolia.instantsearch.helper.customdata.connectSearcher
+import com.algolia.instantsearch.helper.customdata.connectView
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.IndexName
@@ -22,6 +24,11 @@ class TestQueryRuleCustomData {
     internal data class TestModel(val number: Int, val text: String)
 
     private val client = mockClient()
+    private val view = object : QueryRuleCustomDataView<Any?> {
+        override fun setModel(model: Any?) {
+            // NO OP.
+        }
+    }
 
     @Test
     fun testSingleIndexSearcherConnection() {
@@ -72,32 +79,33 @@ class TestQueryRuleCustomData {
             searcher = searcher,
             deserializer = TestModel.serializer(),
             initialItem = initialModel
-        ) {
+        ).connectView(view) {
             it shouldEqual initialModel
-        }
+        }.connect()
 
         // minimal
-        QueryRuleCustomDataConnector<TestModel>(searcher = searcher) {
-            it shouldEqual initialModel
-        }
+        QueryRuleCustomDataConnector<TestModel>(searcher = searcher).connectView(view) {
+            it shouldEqual null
+        }.connect()
+
 
         // w/ initial
-        QueryRuleCustomDataConnector(searcher = searcher, initialItem = initialModel) {
+        QueryRuleCustomDataConnector(searcher = searcher, initialItem = initialModel).connectView(view) {
             it shouldEqual initialModel
-        }
+        }.connect()
 
-        // without initial
-        QueryRuleCustomDataConnector<TestModel>(searcher = searcher) {
-            it shouldEqual initialModel
-        }
+        //// without initial
+        QueryRuleCustomDataConnector<TestModel>(searcher = searcher).connectView(view) {
+            it shouldEqual null
+        }.connect()
 
         // w/ ViewModel
         QueryRuleCustomDataConnector(
             searcher = searcher,
             viewModel = QueryRuleCustomDataViewModel(initialItem = initialModel)
-        ) {
+        ).connectView(view) {
             it shouldEqual initialModel
-        }
+        }.connect()
     }
 
     @Test
@@ -114,32 +122,32 @@ class TestQueryRuleCustomData {
             queryIndex = queryIndex,
             deserializer = TestModel.serializer(),
             initialItem = initialModel
-        ) {
+        ).connectView(view) {
             it shouldEqual initialModel
-        }
+        }.connect()
 
         // minimal
-        QueryRuleCustomDataConnector<TestModel>(searcher = searcher, queryIndex = queryIndex) {
-            it shouldEqual initialModel
-        }
+        QueryRuleCustomDataConnector<TestModel>(searcher = searcher, queryIndex = queryIndex).connectView(view) {
+            it shouldEqual null
+        }.connect()
 
         // w/ initial
-        QueryRuleCustomDataConnector(searcher = searcher, queryIndex = queryIndex, initialItem = initialModel) {
+        QueryRuleCustomDataConnector(searcher = searcher, queryIndex = queryIndex, initialItem = initialModel).connectView(view) {
             it shouldEqual initialModel
-        }
+        }.connect()
 
         // without initial
-        QueryRuleCustomDataConnector<TestModel>(searcher = searcher, queryIndex = queryIndex) {
-            it shouldEqual initialModel
-        }
+        QueryRuleCustomDataConnector<TestModel>(searcher = searcher, queryIndex = queryIndex).connectView(view) {
+            it shouldEqual null
+        }.connect()
 
         // w/ ViewModel
         QueryRuleCustomDataConnector(
             searcher = searcher,
             queryIndex = queryIndex,
             viewModel = QueryRuleCustomDataViewModel(initialItem = initialModel)
-        ) {
+        ).connectView(view) {
             it shouldEqual initialModel
-        }
+        }.connect()
     }
 }

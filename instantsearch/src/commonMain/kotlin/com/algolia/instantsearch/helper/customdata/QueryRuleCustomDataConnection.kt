@@ -3,6 +3,7 @@ package com.algolia.instantsearch.helper.customdata
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.customdata.internal.QueryRuleCustomDataConnectionMultipleIndex
 import com.algolia.instantsearch.helper.customdata.internal.QueryRuleCustomDataConnectionSingleIndex
+import com.algolia.instantsearch.helper.customdata.internal.QueryRuleCustomDataConnectionView
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 
@@ -26,4 +27,24 @@ public fun <T> QueryRuleCustomDataViewModel<T>.connectSearcher(
     queryIndex: Int,
 ): Connection {
     return QueryRuleCustomDataConnectionMultipleIndex(this, searcher, queryIndex)
+}
+
+/**
+ * Creates a connection between a view model and view.
+ */
+public fun <T, R> QueryRuleCustomDataViewModel<T>.connectView(
+    view: QueryRuleCustomDataView<R>,
+    presenter: QueryRuleCustomDataPresenter<T, R>
+): Connection {
+    return QueryRuleCustomDataConnectionView(this, view, presenter)
+}
+
+/**
+ * Creates a connection between a connector and view.
+ */
+public fun <T, R> QueryRuleCustomDataConnector<T>.connectView(
+    view: QueryRuleCustomDataView<R>,
+    presenter: QueryRuleCustomDataPresenter<T, R>
+): Connection {
+    return QueryRuleCustomDataConnectionView(viewModel, view, presenter)
 }
