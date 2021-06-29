@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.filter.facet.dynamic
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
@@ -23,6 +24,25 @@ public class DynamicFacetConnector(
     public val viewModel: DynamicFacetViewModel = DynamicFacetViewModel(),
     filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap()
 ) : ConnectionImpl() {
+
+    /**
+     * @param searcher searcher handling searches
+     * @param filterState filterState holding filters
+     * @param orderedFacets ordered list of attributed facets
+     * @param selections mapping between a facet attribute and a set of selected facet values
+     * @param selectionModeForAttribute Mapping between a facet attribute and a facet values selection mode
+     * @param filterGroupForAttribute mapping between a facet attribute and a descriptor of a filter group where the
+     * corresponding facet filters stored in the filter state. If no filter group descriptor provided, the filters for
+     * attribute will be automatically stored in the conjunctive (`and`) group with the facet attribute name.
+     */
+    public constructor(
+        searcher: SearcherIndex<*>,
+        filterState: FilterState,
+        orderedFacets: List<AttributedFacets> = emptyList(),
+        selections: SelectionsPerAttribute = mutableMapOf(),
+        selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap(),
+        filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap()
+    ) : this(searcher, filterState, DynamicFacetViewModel(orderedFacets, selections, selectionModeForAttribute), filterGroupForAttribute)
 
     private val searcherConnection = viewModel.connectSearcher(searcher)
     private val filterStateConnection = viewModel.connectFilterState(filterState, filterGroupForAttribute)

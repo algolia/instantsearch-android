@@ -11,6 +11,10 @@ import kotlin.properties.Delegates
 /**
  * Dynamic facets business logic.
  * Provides an ordered list of attributed facets, facet selections and events.
+ *
+ * @param orderedFacets ordered list of attributed facets
+ * @param selections mapping between a facet attribute and a set of selected facet values
+ * @param selectionModeForAttribute Mapping between a facet attribute and a facet values selection mode
  */
 public class DynamicFacetViewModel(
     orderedFacets: List<AttributedFacets> = emptyList(),
