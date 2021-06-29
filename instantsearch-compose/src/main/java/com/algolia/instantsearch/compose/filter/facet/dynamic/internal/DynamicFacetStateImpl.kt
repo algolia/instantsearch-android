@@ -3,22 +3,22 @@ package com.algolia.instantsearch.compose.filter.facet.dynamic.internal
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.algolia.instantsearch.compose.filter.facet.dynamic.DynamicFacet
+import com.algolia.instantsearch.compose.filter.facet.dynamic.DynamicFacetState
 import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.SelectionsPerAttribute
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 
 /**
- * [DynamicFacet] implementation.
+ * [DynamicFacetState] implementation.
  *
  * @param facetOrder list of attributed facets to present
  * @param facetSelections mapping between a facet attribute and a set of selected facet values
  */
-internal class DynamicFacetImpl(
+internal class DynamicFacetStateImpl(
     facetOrder: List<AttributedFacets> = emptyList(),
     facetSelections: SelectionsPerAttribute = emptyMap()
-) : DynamicFacet {
+) : DynamicFacetState {
 
     override var facetOrder: List<AttributedFacets> by mutableStateOf(facetOrder)
 

@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.compose.filter.facet.dynamic
 
-import com.algolia.instantsearch.compose.filter.facet.dynamic.internal.DynamicFacetImpl
+import com.algolia.instantsearch.compose.filter.facet.dynamic.internal.DynamicFacetStateImpl
 import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetView
 import com.algolia.instantsearch.helper.filter.facet.dynamic.SelectionsPerAttribute
@@ -10,7 +10,7 @@ import com.algolia.search.model.search.Facet
 /**
  * [DynamicFacetView] for compose.
  */
-public interface DynamicFacet : DynamicFacetView {
+public interface DynamicFacetState : DynamicFacetView {
 
     /**
      * List of attributed facets.
@@ -41,14 +41,14 @@ public interface DynamicFacet : DynamicFacetView {
 }
 
 /**
- * Creates an instance of [DynamicFacet].
+ * Creates an instance of [DynamicFacetState].
  *
  * @param facetOrder list of attributed facets to present
  * @param facetSelections mapping between a facet attribute and a set of selected facet values
  */
-public fun DynamicFacet(
+public fun DynamicFacetState(
     facetOrder: List<AttributedFacets> = emptyList(),
     facetSelections: SelectionsPerAttribute = emptyMap()
-): DynamicFacet {
-    return DynamicFacetImpl(facetOrder, facetSelections)
+): DynamicFacetState {
+    return DynamicFacetStateImpl(facetOrder, facetSelections)
 }
