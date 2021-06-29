@@ -1,6 +1,4 @@
-import dependency.compose.Material
-import dependency.compose.Paging
-import dependency.compose.UI
+import dependency.compose.*
 
 plugins {
     id("com.android.library")
@@ -41,6 +39,10 @@ android {
     testOptions.unitTests.apply {
         isIncludeAndroidResources = true
         isReturnDefaultValues = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Compose.version
     }
 }
 
