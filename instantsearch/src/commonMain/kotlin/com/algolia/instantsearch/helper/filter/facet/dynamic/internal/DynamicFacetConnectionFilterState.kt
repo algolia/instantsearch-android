@@ -56,7 +56,7 @@ internal class DynamicFacetConnectionFilterState(
     }
 
     private fun groupID(attribute: Attribute): FilterGroupID {
-        val (groupName, refinementOperator) = filterGroupForAttribute[attribute] ?: attribute.raw to FilterOperator.And
+        val (groupName, refinementOperator) = filterGroupForAttribute[attribute] ?: attribute to FilterOperator.And
         return when (refinementOperator) {
             FilterOperator.And -> FilterGroupID(groupName, FilterOperator.And)
             FilterOperator.Or -> FilterGroupID(groupName, FilterOperator.Or)
