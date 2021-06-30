@@ -16,7 +16,7 @@ import kotlin.properties.Delegates
  * @param selections mapping between a facet attribute and a set of selected facet values
  * @param selectionModeForAttribute Mapping between a facet attribute and a facet values selection mode
  */
-public class DynamicFacetViewModel(
+public class DynamicFacetListViewModel(
     orderedFacets: List<AttributedFacets> = emptyList(),
     selections: SelectionsPerAttribute = mutableMapOf(),
     selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap()

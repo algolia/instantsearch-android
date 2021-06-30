@@ -6,7 +6,7 @@ import com.algolia.search.model.search.Facet
 /**
  * View presenting the ordered list of facets and handling user interaction.
  */
-public interface DynamicFacetView {
+public interface DynamicFacetListView {
 
     /**
      * Update the list of attributed facets.

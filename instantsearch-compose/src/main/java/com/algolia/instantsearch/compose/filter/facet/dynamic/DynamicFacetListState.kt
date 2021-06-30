@@ -1,16 +1,16 @@
 package com.algolia.instantsearch.compose.filter.facet.dynamic
 
-import com.algolia.instantsearch.compose.filter.facet.dynamic.internal.DynamicFacetStateImpl
+import com.algolia.instantsearch.compose.filter.facet.dynamic.internal.DynamicFacetListStateImpl
 import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
-import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetView
+import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetListView
 import com.algolia.instantsearch.helper.filter.facet.dynamic.SelectionsPerAttribute
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 
 /**
- * [DynamicFacetView] for compose.
+ * [DynamicFacetListView] for compose.
  */
-public interface DynamicFacetState : DynamicFacetView {
+public interface DynamicFacetListState : DynamicFacetListView {
 
     /**
      * List of attributed facets.
@@ -41,14 +41,14 @@ public interface DynamicFacetState : DynamicFacetView {
 }
 
 /**
- * Creates an instance of [DynamicFacetState].
+ * Creates an instance of [DynamicFacetListState].
  *
  * @param facetOrder list of attributed facets to present
  * @param facetSelections mapping between a facet attribute and a set of selected facet values
  */
-public fun DynamicFacetState(
+public fun DynamicFacetListState(
     facetOrder: List<AttributedFacets> = emptyList(),
     facetSelections: SelectionsPerAttribute = emptyMap()
-): DynamicFacetState {
-    return DynamicFacetStateImpl(facetOrder, facetSelections)
+): DynamicFacetListState {
+    return DynamicFacetListStateImpl(facetOrder, facetSelections)
 }

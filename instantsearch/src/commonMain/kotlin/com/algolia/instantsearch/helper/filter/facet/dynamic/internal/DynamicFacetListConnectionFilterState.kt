@@ -2,7 +2,7 @@ package com.algolia.instantsearch.helper.filter.facet.dynamic.internal
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetViewModel
+import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetListViewModel
 import com.algolia.instantsearch.helper.filter.facet.dynamic.SelectionsPerAttribute
 import com.algolia.instantsearch.helper.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
@@ -21,8 +21,8 @@ import com.algolia.search.model.filter.Filter
  * corresponding facet filters stored in the filter state. If no filter group descriptor provided, the filters for
  * attribute will be automatically stored in the conjunctive (`and`) group with the facet attribute name.
  */
-internal class DynamicFacetConnectionFilterState(
-    val viewModel: DynamicFacetViewModel,
+internal class DynamicFacetListConnectionFilterState(
+    val viewModel: DynamicFacetListViewModel,
     val filterState: FilterState,
     val filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor>
 ) : ConnectionImpl() {

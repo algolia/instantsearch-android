@@ -18,10 +18,10 @@ import com.algolia.search.model.Attribute
  * corresponding facet filters stored in the filter state. If no filter group descriptor provided, the filters for
  * attribute will be automatically stored in the conjunctive (`and`) group with the facet attribute name.
  */
-public class DynamicFacetConnector(
+public class DynamicFacetListConnector(
     public val searcher: SearcherIndex<*>,
     public val filterState: FilterState,
-    public val viewModel: DynamicFacetViewModel = DynamicFacetViewModel(),
+    public val viewModel: DynamicFacetListViewModel = DynamicFacetListViewModel(),
     filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap()
 ) : ConnectionImpl() {
 
@@ -42,7 +42,7 @@ public class DynamicFacetConnector(
         selections: SelectionsPerAttribute = mutableMapOf(),
         selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap(),
         filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap()
-    ) : this(searcher, filterState, DynamicFacetViewModel(orderedFacets, selections, selectionModeForAttribute), filterGroupForAttribute)
+    ) : this(searcher, filterState, DynamicFacetListViewModel(orderedFacets, selections, selectionModeForAttribute), filterGroupForAttribute)
 
     private val searcherConnection = viewModel.connectSearcher(searcher)
     private val filterStateConnection = viewModel.connectFilterState(filterState, filterGroupForAttribute)
