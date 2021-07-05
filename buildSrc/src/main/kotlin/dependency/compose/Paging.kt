@@ -6,5 +6,5 @@ object Paging : Dependency {
 
     override val group = "androidx.paging"
     override val artifact = "paging-compose"
-    override val version = "1.0.0-alpha09"
+    override val version = "1.0.0-alpha11"
 }
