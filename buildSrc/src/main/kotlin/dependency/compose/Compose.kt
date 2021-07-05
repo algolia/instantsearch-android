@@ -8,6 +8,6 @@ interface Compose : Dependency {
         get() = Compose.version
 
     companion object {
-        const val version = "1.0.0-beta09"
+        const val version = "1.0.0-rc01"
     }
 }
