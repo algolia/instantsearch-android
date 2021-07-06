@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package com.algolia.instantsearch.compose.number.relevantsort
 
 import com.algolia.instantsearch.compose.number.relevantsort.internal.RelevantSortStateImpl

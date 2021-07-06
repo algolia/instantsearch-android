@@ -1,5 +1,3 @@
-@file:Suppress("FunctionName")
-
 package com.algolia.instantsearch.compose.filter.toggle
 
 import com.algolia.instantsearch.compose.filter.toggle.internal.FilterToggleStateImpl

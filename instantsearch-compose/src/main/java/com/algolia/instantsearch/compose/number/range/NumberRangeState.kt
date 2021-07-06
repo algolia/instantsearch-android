@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package com.algolia.instantsearch.compose.number.range
 
 import com.algolia.instantsearch.compose.number.range.internal.NumberRangeStateImpl
