@@ -18,6 +18,7 @@ buildscript {
 subprojects {
     apply(plugin = "com.diffplug.spotless")
     repositories {
+        mavenLocal()
         mavenCentral()
         google()
     }
