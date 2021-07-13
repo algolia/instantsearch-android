@@ -1,5 +1,3 @@
-import dependency.compose.*
-
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -42,13 +40,13 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Compose.version
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 }
 
 dependencies {
     api(project(":instantsearch"))
-    implementation(UI())
-    implementation(Paging())
-    implementation(Material())
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.paging)
+    implementation(libs.androidx.compose.material)
 }
