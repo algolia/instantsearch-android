@@ -50,7 +50,7 @@ public fun SearchBox(
             textStyle = textStyle.merge(TextStyle(textDecoration = TextDecoration.None)),
             onValueChange = {
                 searchQuery.query = it
-                searchQuery.onValueChange(it, false)
+                searchQuery.changeValue(it, false)
                 onValueChange(it, false)
             },
             leadingIcon = {
@@ -70,7 +70,7 @@ public fun SearchBox(
                 val visible = searchQuery.query.isNotEmpty()
                 SearchClearIcon(visible) {
                     searchQuery.query = ""
-                    searchQuery.onValueChange("", false)
+                    searchQuery.changeValue("", false)
                     onValueChange("", false)
                 }
             },
@@ -79,7 +79,7 @@ public fun SearchBox(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    searchQuery.onValueChange(searchQuery.query, true)
+                    searchQuery.changeValue(searchQuery.query, true)
                     onValueChange(searchQuery.query, true)
                 }
             )
