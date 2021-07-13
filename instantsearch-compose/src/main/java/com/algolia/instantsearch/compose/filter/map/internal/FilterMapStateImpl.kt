@@ -22,7 +22,7 @@ internal class FilterMapStateImpl(
     override var options: Map<Int, String> by mutableStateOf(radioOptions)
     override var onSelectionChange: Callback<Int>? = null
 
-    override fun optionSelected(selected: Int) {
+    override fun selectOption(selected: Int) {
         onSelectionChange?.invoke(selected)
     }
 

@@ -21,7 +21,7 @@ public interface FilterMapState : FilterMapView {
     /**
      * Callback on option Select.
      */
-    public fun optionSelected(selected: Int)
+    public fun selectOption(selected: Int)
 }
 
 /**

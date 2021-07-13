@@ -21,7 +21,7 @@ public interface SortByState : SortByView {
     /**
      * Callback on sort by option selected.
      */
-    public fun optionSelected(index: Int?)
+    public fun selectOption(index: Int?)
 }
 
 /**

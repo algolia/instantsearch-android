@@ -23,7 +23,7 @@ internal class SearchBoxComposeImpl(
      * @param query received query input
      * @param isSubmit true if the value is a submit, otherwise false
      */
-    override fun valueChanged(query: String, isSubmit: Boolean) {
+    override fun changeValue(query: String, isSubmit: Boolean) {
         val onQuery = if (isSubmit) onQuerySubmitted else onQueryChanged
         onQuery?.invoke(query)
     }

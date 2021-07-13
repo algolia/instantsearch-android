@@ -25,7 +25,7 @@ internal class FilterCurrentStateImpl(
         this.filters = filters
     }
 
-    override fun filterSelected(filterAndID: FilterAndID) {
+    override fun selectFilter(filterAndID: FilterAndID) {
         onFilterSelected?.invoke(filterAndID)
     }
 }

@@ -29,7 +29,7 @@ internal class SortByStateImpl(
         this.selectedOption = selected
     }
 
-    override fun optionSelected(index: Int?) {
+    override fun selectOption(index: Int?) {
         this.selectedOption = index
     }
 }

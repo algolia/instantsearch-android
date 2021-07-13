@@ -19,7 +19,7 @@ public interface FilterCurrentState : FilterCurrentView {
      *
      * @param filterAndID selected filter
      */
-    public fun filterSelected(filterAndID: FilterAndID)
+    public fun selectFilter(filterAndID: FilterAndID)
 }
 
 /**

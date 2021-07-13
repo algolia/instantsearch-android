@@ -23,7 +23,7 @@ public interface FilterToggleState : FilterToggleView {
      *
      * @param isSelected the new checked state of buttonView.
      */
-    public fun selectionChanged(isSelected: Boolean)
+    public fun changeSelection(isSelected: Boolean)
 }
 
 /**
