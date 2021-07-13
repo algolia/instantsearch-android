@@ -1,6 +1,3 @@
-import dependency.network.Coroutines
-import dependency.util.AtomicFu
-
 plugins {
     kotlin("multiplatform")
     id("com.vanniktech.maven.publish")
@@ -19,8 +16,8 @@ kotlin {
         val commonMain by getting {
             kotlin.srcDir("$buildDir/generated/sources/templates/kotlin/main")
             dependencies {
-                implementation(Coroutines("core"))
-                implementation(AtomicFu())
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.atomicfu)
             }
         }
         val commonTest by getting {
@@ -42,7 +39,8 @@ tasks {
     val copyTemplates = register<Copy>("copyTemplates") {
         from("src/commonMain/templates")
         into("$buildDir/generated/sources/templates/kotlin/main")
-        expand("projectVersion" to Library.version)
+        val version = project.extensions.extraProperties["VERSION_NAME"] as String // require clean build
+        expand("projectVersion" to version)
         filteringCharset = "UTF-8"
     }
 

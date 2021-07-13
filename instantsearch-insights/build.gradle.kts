@@ -71,37 +71,37 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                api(dependency.network.AlgoliaClient())
+                api(libs.algolia.client)
             }
         }
         val commonTest by getting
         val jvmMain by getting {
             dependencies {
-                implementation("org.slf4j:slf4j-api:1.7.30")
-                implementation(dependency.network.Ktor("client-okhttp"))
+                implementation(libs.slf4j)
+                implementation(libs.ktor.client.okhttp)
             }
         }
         val jvmTest by getting {
             dependencies {
-                implementation("ch.qos.logback:logback-classic:1.2.3")
+                implementation(libs.logback.classic)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation(dependency.network.Ktor("client-okhttp"))
-                implementation(dependency.ui.AndroidCore("ktx"))
-                implementation(dependency.lib.Work("runtime-ktx"))
+                implementation(libs.ktor.client.okhttp)
+                implementation(libs.androidx.core)
+                implementation(libs.androidx.work)
             }
         }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation(kotlin("test-annotations-common"))
-                implementation(dependency.test.AndroidTestRunner())
-                implementation(dependency.test.AndroidTestExt())
-                implementation(dependency.test.Robolectric())
-                implementation(dependency.network.Ktor("client-mock-jvm"))
-                implementation(dependency.lib.Work("testing"))
+                implementation(libs.test.androidx.runner)
+                implementation(libs.test.androidx.ext)
+                implementation(libs.test.robolectric)
+                implementation(libs.test.ktor.client.mock)
+                implementation(libs.test.androidx.work)
             }
         }
     }

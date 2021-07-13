@@ -9,15 +9,10 @@ buildscript {
     dependencies {
         classpath(kotlin("gradle-plugin", version = kotlinVersion))
         classpath(kotlin("serialization", version = kotlinVersion))
-        classpath(dependency.plugin.AndroidTools())
-        classpath(dependency.plugin.GradleMavenPublish())
-        classpath(dependency.plugin.Spotless())
+        classpath("com.android.tools.build:gradle:7.0.0-beta05")
+        classpath("com.vanniktech:gradle-maven-publish-plugin:0.17.0")
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:5.14.0")
     }
-}
-
-project.extensions.extraProperties.apply {
-    set("GROUP", Library.group)
-    set("VERSION_NAME", Library.version)
 }
 
 subprojects {

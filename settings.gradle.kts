@@ -1,4 +1,5 @@
 rootProject.name = "instantsearch-android"
+enableFeaturePreview("VERSION_CATALOGS")
 
 include(":instantsearch")
 include(":instantsearch-core")

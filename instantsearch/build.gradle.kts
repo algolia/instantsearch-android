@@ -1,17 +1,3 @@
-import dependency.network.AlgoliaClient
-import dependency.network.Coroutines
-import dependency.network.Ktor
-import dependency.test.AndroidTestExt
-import dependency.test.AndroidTestRunner
-import dependency.test.Mockk
-import dependency.test.Robolectric
-import dependency.ui.AndroidCore
-import dependency.ui.AppCompat
-import dependency.ui.MaterialDesign
-import dependency.ui.Paging
-import dependency.ui.RecyclerView
-import dependency.ui.SwipeRefreshLayout
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -30,7 +16,7 @@ android {
 
     testOptions.unitTests.isIncludeAndroidResources = true
 
-    buildTypes{
+    buildTypes {
         val release by getting {
             isMinifyEnabled = false
         }
@@ -87,45 +73,42 @@ kotlin {
             dependencies {
                 api(project(":instantsearch-core"))
                 api(project(":instantsearch-insights"))
-                api(AlgoliaClient())
+                implementation(libs.algolia.client)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-                implementation(Coroutines("test"))
-                implementation(Ktor("client-mock"))
-
+                implementation(libs.test.coroutines)
+                implementation(libs.test.ktor.client.mock)
             }
         }
         val jvmMain by getting
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation(Mockk())
-                implementation(Ktor("client-mock-jvm"))
+                implementation(libs.test.mockk)
             }
         }
         val androidMain by getting {
             dependencies {
-                api(Ktor("client-okhttp"))
-                api(AndroidCore("ktx"))
-                api(AppCompat())
-                api(RecyclerView())
-                api(MaterialDesign())
-                api(SwipeRefreshLayout())
-                api(Paging())
-                api(Coroutines("android"))
+                api(libs.ktor.client.okhttp)
+                api(libs.androidx.core)
+                api(libs.androidx.appcompat)
+                api(libs.androidx.swiperefreshlayout)
+                api(libs.androidx.paging)
+                api(libs.kotlinx.coroutines.android)
+                api(libs.google.material)
             }
         }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation(AndroidTestRunner())
-                implementation(AndroidTestExt())
-                implementation(Robolectric())
-                implementation(Mockk())
+                implementation(libs.test.androidx.runner)
+                implementation(libs.test.androidx.ext)
+                implementation(libs.test.robolectric)
+                implementation(libs.test.mockk)
             }
         }
     }
