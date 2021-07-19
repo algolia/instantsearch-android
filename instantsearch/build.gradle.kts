@@ -14,8 +14,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    testOptions.unitTests.isIncludeAndroidResources = true
-
     buildTypes {
         val release by getting {
             isMinifyEnabled = false

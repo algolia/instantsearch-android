@@ -13,8 +13,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    testOptions.unitTests.isIncludeAndroidResources = true
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -22,7 +20,6 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        useIR = true
         freeCompilerArgs += listOf(
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xexplicit-api=strict"
@@ -44,9 +41,14 @@ android {
     }
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 dependencies {
     api(project(":instantsearch"))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.paging)
     implementation(libs.androidx.compose.material)
+    testImplementation(kotlin("test"))
 }
