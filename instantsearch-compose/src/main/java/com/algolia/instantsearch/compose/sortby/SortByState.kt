@@ -16,12 +16,7 @@ public interface SortByState : SortByView {
     /**
      * Index of selected option or `null` if none is selected.
      */
-    public val selectedOption: Int?
-
-    /**
-     * Callback on sort by option selected.
-     */
-    public fun selectOption(index: Int?)
+    public val selected: Int?
 }
 
 /**
