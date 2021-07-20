@@ -12,24 +12,28 @@ import com.algolia.search.model.search.Facet
 /**
  * [DynamicFacetListState] implementation.
  *
- * @param facetOrder list of attributed facets to present
- * @param facetSelections mapping between a facet attribute and a set of selected facet values
+ * @param orderedFacets list of attributed facets to present
+ * @param selections mapping between a facet attribute and a set of selected facet values
  */
 internal class DynamicFacetListStateImpl(
-    facetOrder: List<AttributedFacets> = emptyList(),
-    facetSelections: SelectionsPerAttribute = emptyMap()
+    orderedFacets: List<AttributedFacets> = emptyList(),
+    selections: SelectionsPerAttribute = emptyMap()
 ) : DynamicFacetListState {
 
-    override var facetOrder: List<AttributedFacets> by mutableStateOf(facetOrder)
+    @set:JvmName("_selections")
+    override var selections: SelectionsPerAttribute by mutableStateOf(selections)
 
-    override var facetSelections: SelectionsPerAttribute by mutableStateOf(facetSelections)
+    @set:JvmName("_orderedFacets")
+    override var orderedFacets: List<AttributedFacets> by mutableStateOf(orderedFacets)
+
+    override var didSelect: ((Attribute, Facet) -> Unit)? = null
 
     override fun setOrderedFacets(facetOrder: List<AttributedFacets>) {
-        this.facetOrder = facetOrder
+        this.orderedFacets = facetOrder
     }
 
     override fun setSelections(selections: SelectionsPerAttribute) {
-        this.facetSelections = selections
+        this.selections = selections
     }
 
     override fun toggle(facet: Facet, attribute: Attribute) {
@@ -37,8 +41,6 @@ internal class DynamicFacetListStateImpl(
     }
 
     override fun isSelected(facet: Facet, attribute: Attribute): Boolean {
-        return facetSelections[attribute]?.contains(facet.value) == true
+        return selections[attribute]?.contains(facet.value) == true
     }
-
-    override var didSelect: ((Attribute, Facet) -> Unit)? = null
 }

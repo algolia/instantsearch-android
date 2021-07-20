@@ -13,14 +13,14 @@ import com.algolia.search.model.search.Facet
 public interface DynamicFacetListState : DynamicFacetListView {
 
     /**
-     * List of attributed facets.
+     * List of attributed facets to present.
      */
-    public val facetOrder: List<AttributedFacets>
+    public val orderedFacets: List<AttributedFacets>
 
     /**
      * Mapping between a facet attribute and a set of selected facet values.
      */
-    public val facetSelections: SelectionsPerAttribute
+    public val selections: SelectionsPerAttribute
 
     /**
      * Toggle facet selection.
@@ -43,12 +43,12 @@ public interface DynamicFacetListState : DynamicFacetListView {
 /**
  * Creates an instance of [DynamicFacetListState].
  *
- * @param facetOrder list of attributed facets to present
- * @param facetSelections mapping between a facet attribute and a set of selected facet values
+ * @param orderedFacets list of attributed facets to present
+ * @param selections mapping between a facet attribute and a set of selected facet values
  */
 public fun DynamicFacetListState(
-    facetOrder: List<AttributedFacets> = emptyList(),
-    facetSelections: SelectionsPerAttribute = emptyMap()
+    orderedFacets: List<AttributedFacets> = emptyList(),
+    selections: SelectionsPerAttribute = emptyMap()
 ): DynamicFacetListState {
-    return DynamicFacetListStateImpl(facetOrder, facetSelections)
+    return DynamicFacetListStateImpl(orderedFacets, selections)
 }
