@@ -1,6 +1,6 @@
 [versions]
 algolia-client = "1.9.0"
-compose = "1.0.0-rc01"
+compose = "1.0.0-rc02"
 paging-compose = "1.0.0-alpha11"
 coroutines = "1.5.0-native-mt"
 ktor = "1.6.1"

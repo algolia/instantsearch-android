@@ -17,8 +17,9 @@ internal class SortByStateImpl(
     selectedOption: Int?
 ) : SortByState {
 
+    @set:JvmName("_select")
+    override var selected: Int? by mutableStateOf(selectedOption)
     override var options: Map<Int, String> by mutableStateOf(options)
-    override var selectedOption: Int? by mutableStateOf(selectedOption)
     override var onSelectionChange: Callback<Int>? = null
 
     override fun setMap(map: Map<Int, String>) {
@@ -26,10 +27,6 @@ internal class SortByStateImpl(
     }
 
     override fun setSelected(selected: Int?) {
-        this.selectedOption = selected
-    }
-
-    override fun selectOption(index: Int?) {
-        this.selectedOption = index
+        this.selected = selected
     }
 }
