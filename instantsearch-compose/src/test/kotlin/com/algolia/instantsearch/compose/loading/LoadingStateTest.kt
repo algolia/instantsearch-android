@@ -9,8 +9,8 @@ public class LoadingStateTest {
     @Test
     public fun testLoading() {
         val loadingState = LoadingState(false)
+        loadingState.onReload = { loadingState.setIsLoading(true) }
         Snapshot.takeSnapshot {
-            loadingState.onReload = { loadingState.setIsLoading(true) }
             loadingState.reload()
             assertEquals(true, loadingState.loading)
         }
