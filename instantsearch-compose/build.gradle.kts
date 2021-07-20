@@ -42,7 +42,7 @@ android {
 }
 
 tasks.withType<Test> {
-    useJUnitPlatform()
+    useJUnit()
 }
 
 dependencies {
@@ -50,5 +50,5 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.paging)
     implementation(libs.androidx.compose.material)
-    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit"))
 }
