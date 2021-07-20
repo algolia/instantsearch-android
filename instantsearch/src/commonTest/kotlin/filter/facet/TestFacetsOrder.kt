@@ -102,7 +102,7 @@ class TestFacetsOrder {
         val expectedFacetValues = facets[Attribute("country")]?.sortedByDescending { it.count }?.map { it.value }
         val order = FacetOrdering(
             facets = FacetsOrder(order = listOf("country")),
-            values = mapOf(Attribute("country") to FacetValuesOrder(sortRemainingBy = SortRule.Count))
+            values = mapOf(Attribute("country") to FacetValuesOrder(order = emptyList(), sortRemainingBy = SortRule.Count))
         )
         assertEquals(expectedFacetValues, withOrder(order).first { it.attribute.raw == "country" }.facets.map { it.value })
     }
