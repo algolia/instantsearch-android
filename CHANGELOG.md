@@ -1,15 +1,16 @@
 # Unreleased
 
 ### Added
-- InstantSearch Compose
+- InstantSearch Compose (#243)
+- Dynamic Facet List (#244)
 
 ### Fixed
 - Unexpected behaviour of paging sorted index (#234)
 
 ### Changed
-- Kotlin `1.4.30`
-- Kotlin Coroutines `1.4.3`
-- Ktor `1.5.4`
+- Kotlin `1.5.10`
+- Kotlin Coroutines `1.5.0`
+- Ktor `1.6.1`
 
 # 2.10.0
 

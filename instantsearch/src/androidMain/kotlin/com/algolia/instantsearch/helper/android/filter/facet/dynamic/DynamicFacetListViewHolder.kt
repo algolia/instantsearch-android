@@ -27,7 +27,6 @@ public abstract class DynamicFacetListViewHolder(public val view: View) : Recycl
          * @returns a new view holder that holds a View of the given view type
          */
         public fun createViewHolder(parent: ViewGroup, viewType: ViewType): DynamicFacetListViewHolder
-
     }
 
     /**
