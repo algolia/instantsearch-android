@@ -50,7 +50,6 @@ class TestSearchBoxConnectSearcher {
         viewModel.query.value = "a"
         viewModel.query.value = "ab"
         viewModel.query.value = "abc"
-        debouncer.job
         blocking { debouncer.job!!.join() }
         searcher.searchCount shouldEqual 1
         searcher.string shouldEqual "abc"
