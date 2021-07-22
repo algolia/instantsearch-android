@@ -16,19 +16,20 @@ import com.algolia.search.model.search.Facet
  */
 public class DynamicFacetListAdapter(
     private val factory: DynamicFacetListViewHolder.Factory,
-) : ListAdapter<DynamicFacetModel, DynamicFacetListViewHolder>(DiffUtil), DynamicFacetListView {
+) : ListAdapter<DynamicFacetModel, DynamicFacetListViewHolder<out DynamicFacetModel>>(DiffUtil), DynamicFacetListView {
 
     override var didSelect: ((Attribute, Facet) -> Unit)? = null
     private var facetSelections: SelectionsPerAttribute = emptyMap()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DynamicFacetListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DynamicFacetListViewHolder<out DynamicFacetModel> {
         return factory.createViewHolder(parent, DynamicFacetListViewHolder.ViewType.values()[viewType])
     }
 
-    override fun onBindViewHolder(holder: DynamicFacetListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DynamicFacetListViewHolder<out DynamicFacetModel>, position: Int) {
+        @Suppress("UNCHECKED_CAST")
         when (val item = getItem(position)) {
-            is DynamicFacetModel.Header -> holder.bind(item)
-            is DynamicFacetModel.Item -> holder.bind(item) {
+            is DynamicFacetModel.Header -> (holder as? DynamicFacetListHeaderViewHolder)?.bind(item)
+            is DynamicFacetModel.Item -> (holder as? DynamicFacetListItemViewHolder)?.bind(item) {
                 didSelect?.let { it(item.attribute, item.facet) }
             }
         }
