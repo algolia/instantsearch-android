@@ -1,35 +1,54 @@
 package com.algolia.instantsearch.compose.searchbox.internal
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.algolia.instantsearch.compose.searchbox.SearchQuery
 
 /**
  * Search Box default colors.
  */
 @Composable
-internal fun searchColors(): TextFieldColors {
+internal fun defaultSearchColors(): TextFieldColors {
     return TextFieldDefaults.textFieldColors(
-        backgroundColor = MaterialTheme.colors.background,
+        backgroundColor = MaterialTheme.colors.surface,
         focusedIndicatorColor = Color.Transparent,
         unfocusedIndicatorColor = Color.Transparent,
         disabledIndicatorColor = Color.Transparent,
+        leadingIconColor = MaterialTheme.colors.onSurface,
+        placeholderColor = MaterialTheme.colors.onSurface.copy(alpha = 0.2f)
     )
+}
+
+@Composable
+internal fun SearchIcon() {
+    Icon(
+        imageVector = Icons.Filled.Search,
+        contentDescription = null,
+    )
+}
+
+@Composable
+internal fun SearchClearIcon(searchQuery: SearchQuery, onValueChange: (String, Boolean) -> Unit) {
+    val visible = searchQuery.query.isNotEmpty()
+    SearchClearIcon(visible) {
+        searchQuery.query = ""
+        searchQuery.changeValue("", false)
+        onValueChange("", false)
+    }
 }
 
 /**
@@ -56,7 +75,11 @@ internal fun SearchClearIcon(
             imageVector = Icons.Default.Close,
             contentDescription = null,
             tint = MaterialTheme.colors.onBackground,
-            modifier = Modifier.clickable(onClick = onClick)
+            modifier = Modifier.clickable(
+                onClick = onClick,
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+            ),
         )
     }
 }

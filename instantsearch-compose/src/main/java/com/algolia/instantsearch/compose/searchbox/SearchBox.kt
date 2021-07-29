@@ -2,15 +2,7 @@ package com.algolia.instantsearch.compose.searchbox
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldColors
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,7 +13,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.R
 import com.algolia.instantsearch.compose.searchbox.internal.SearchClearIcon
-import com.algolia.instantsearch.compose.searchbox.internal.searchColors
+import com.algolia.instantsearch.compose.searchbox.internal.SearchIcon
+import com.algolia.instantsearch.compose.searchbox.internal.defaultSearchColors
 
 /**
  * Search Box compose component.
@@ -40,9 +33,11 @@ public fun SearchBox(
     textStyle: TextStyle = LocalTextStyle.current,
     onValueChange: (String, Boolean) -> Unit = { _, _ -> },
     searchQuery: SearchQuery = SearchQuery(),
-    colors: TextFieldColors = searchColors(),
-    placeHolderText: String = stringResource(R.string.search_box_hint),
+    colors: TextFieldColors = defaultSearchColors(),
+    placeHolderText: String = stringResource(R.string.alg_is_compose_search_box_hint),
     elevation: Dp = 1.dp,
+    leadingIcon: @Composable (() -> Unit)? = { SearchIcon() },
+    clearIcon: @Composable (() -> Unit)? = { SearchClearIcon(searchQuery, onValueChange) },
 ) {
     Card(modifier = modifier, elevation = elevation) {
         TextField(
@@ -53,27 +48,11 @@ public fun SearchBox(
                 searchQuery.changeValue(it, false)
                 onValueChange(it, false)
             },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = null,
-                    tint = MaterialTheme.colors.onBackground
-                )
-            },
+            leadingIcon = leadingIcon,
             placeholder = {
-                Text(
-                    text = placeHolderText,
-                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.2f)
-                )
+                Text(text = placeHolderText)
             },
-            trailingIcon = {
-                val visible = searchQuery.query.isNotEmpty()
-                SearchClearIcon(visible) {
-                    searchQuery.query = ""
-                    searchQuery.changeValue("", false)
-                    onValueChange("", false)
-                }
-            },
+            trailingIcon = clearIcon,
             singleLine = true,
             colors = colors,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
