@@ -39,7 +39,7 @@ public fun SearchBox(
     leadingIcon: @Composable (() -> Unit)? = { SearchIcon() },
     clearIcon: @Composable (() -> Unit)? = { SearchClearIcon(searchQuery, onValueChange) },
 ) {
-    Card(modifier = modifier, elevation = elevation) {
+    Surface(modifier = modifier, elevation = elevation) {
         TextField(
             value = searchQuery.query,
             textStyle = textStyle.merge(TextStyle(textDecoration = TextDecoration.None)),
