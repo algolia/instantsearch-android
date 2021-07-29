@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -14,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.R
 import com.algolia.instantsearch.compose.searchbox.internal.SearchClearIcon
 import com.algolia.instantsearch.compose.searchbox.internal.SearchIcon
-import com.algolia.instantsearch.compose.searchbox.internal.defaultSearchColors
 
 /**
  * Search Box compose component.
@@ -33,7 +33,7 @@ public fun SearchBox(
     textStyle: TextStyle = LocalTextStyle.current,
     onValueChange: (String, Boolean) -> Unit = { _, _ -> },
     searchQuery: SearchQuery = SearchQuery(),
-    colors: TextFieldColors = defaultSearchColors(),
+    colors: TextFieldColors = defaultSearchBoxColors(),
     placeHolderText: String = stringResource(R.string.alg_is_compose_search_box_hint),
     elevation: Dp = 1.dp,
     leadingIcon: @Composable (() -> Unit)? = { SearchIcon() },
@@ -64,4 +64,21 @@ public fun SearchBox(
             )
         )
     }
+}
+
+@Composable
+public fun defaultSearchBoxColors(
+    textColor: Color = LocalContentColor.current.copy(LocalContentAlpha.current),
+    backgroundColor: Color = MaterialTheme.colors.surface,
+    onBackgroundColor: Color = MaterialTheme.colors.onSurface,
+): TextFieldColors {
+    return TextFieldDefaults.textFieldColors(
+        textColor = textColor,
+        backgroundColor = backgroundColor,
+        focusedIndicatorColor = Color.Transparent,
+        unfocusedIndicatorColor = Color.Transparent,
+        disabledIndicatorColor = Color.Transparent,
+        leadingIconColor = onBackgroundColor,
+        placeholderColor = onBackgroundColor.copy(alpha = 0.2f),
+    )
 }

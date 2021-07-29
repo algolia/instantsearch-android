@@ -18,21 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.algolia.instantsearch.compose.searchbox.SearchQuery
 
-/**
- * Search Box default colors.
- */
-@Composable
-internal fun defaultSearchColors(): TextFieldColors {
-    return TextFieldDefaults.textFieldColors(
-        backgroundColor = MaterialTheme.colors.surface,
-        focusedIndicatorColor = Color.Transparent,
-        unfocusedIndicatorColor = Color.Transparent,
-        disabledIndicatorColor = Color.Transparent,
-        leadingIconColor = MaterialTheme.colors.onSurface,
-        placeholderColor = MaterialTheme.colors.onSurface.copy(alpha = 0.2f)
-    )
-}
-
 @Composable
 internal fun SearchIcon() {
     Icon(
