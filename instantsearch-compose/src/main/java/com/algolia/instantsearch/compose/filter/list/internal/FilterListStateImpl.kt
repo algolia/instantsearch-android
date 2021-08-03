@@ -14,13 +14,14 @@ import com.algolia.search.model.filter.Filter
  * @param filters initial filters list value
  */
 internal class FilterListStateImpl<T : Filter>(
-    filters: List<SelectableItem<T>>
+    items: List<SelectableItem<T>>
 ) : FilterListState<T> {
 
-    override var filters: List<SelectableItem<T>> by mutableStateOf(filters)
+    @set:JvmName("_items")
+    override var items: List<SelectableItem<T>> by mutableStateOf(items)
     override var onSelection: Callback<T>? = null
 
     override fun setItems(items: List<SelectableItem<T>>) {
-        this.filters = items
+        this.items = items
     }
 }

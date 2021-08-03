@@ -14,13 +14,14 @@ import com.algolia.search.model.search.Facet
  * @param facets initial facets list value
  */
 internal class FacetListStateImpl(
-    facets: List<SelectableItem<Facet>>
+    items: List<SelectableItem<Facet>>
 ) : FacetListState {
 
-    override var facets by mutableStateOf(facets)
+    @set:JvmName("_items")
+    override var items by mutableStateOf(items)
     override var onSelection: Callback<Facet>? = null
 
     override fun setItems(items: List<SelectableItem<Facet>>) {
-        this.facets = items
+        this.items = items
     }
 }
