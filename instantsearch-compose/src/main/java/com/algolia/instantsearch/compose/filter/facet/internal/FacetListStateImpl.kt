@@ -11,7 +11,7 @@ import com.algolia.search.model.search.Facet
 /**
  * [FacetListState] implementation.
  *
- * @param facets state holding selectable facets list value
+ * @param facets initial facets list value
  */
 internal class FacetListStateImpl(
     facets: List<SelectableItem<Facet>>
