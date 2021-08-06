@@ -1,8 +1,8 @@
 @file:Suppress("FunctionName")
 
-package com.algolia.instantsearch.compose.selectable
+package com.algolia.instantsearch.compose.selectable.list
 
-import com.algolia.instantsearch.compose.selectable.internal.SelectableListStateImpl
+import com.algolia.instantsearch.compose.selectable.list.internal.SelectableListStateImpl
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.core.selectable.list.SelectableListView
 

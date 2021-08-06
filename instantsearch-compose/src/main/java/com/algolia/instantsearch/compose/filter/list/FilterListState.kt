@@ -3,7 +3,7 @@
 package com.algolia.instantsearch.compose.filter.list
 
 import com.algolia.instantsearch.compose.filter.list.internal.FilterListStateImpl
-import com.algolia.instantsearch.compose.selectable.SelectableListState
+import com.algolia.instantsearch.compose.selectable.list.SelectableListState
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.helper.filter.list.FilterListView
 import com.algolia.search.model.filter.Filter

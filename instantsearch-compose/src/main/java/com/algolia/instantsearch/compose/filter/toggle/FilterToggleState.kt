@@ -1,22 +1,14 @@
 package com.algolia.instantsearch.compose.filter.toggle
 
 import com.algolia.instantsearch.compose.filter.toggle.internal.FilterToggleStateImpl
+import com.algolia.instantsearch.compose.selectable.SelectableItemState
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleView
 
 /**
  * [FilterToggleView] for compose.
  */
-public interface FilterToggleState : FilterToggleView {
+public interface FilterToggleState : FilterToggleView, SelectableItemState<String> {
 
-    /**
-     * Text to be displayed.
-     */
-    public val text: String
-
-    /**
-     * The button state, True if checked, otherwise false.
-     */
-    public val isSelected: Boolean
 
     /**
      * Change the selected state.

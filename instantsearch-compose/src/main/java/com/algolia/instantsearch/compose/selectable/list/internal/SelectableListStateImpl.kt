@@ -1,9 +1,9 @@
-package com.algolia.instantsearch.compose.selectable.internal
+package com.algolia.instantsearch.compose.selectable.list.internal
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.algolia.instantsearch.compose.selectable.SelectableListState
+import com.algolia.instantsearch.compose.selectable.list.SelectableListState
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 

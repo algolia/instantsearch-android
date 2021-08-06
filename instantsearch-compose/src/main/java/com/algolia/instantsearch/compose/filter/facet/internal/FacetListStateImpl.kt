@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.compose.filter.facet.internal
 
 import com.algolia.instantsearch.compose.filter.facet.FacetListState
-import com.algolia.instantsearch.compose.selectable.SelectableListState
+import com.algolia.instantsearch.compose.selectable.list.SelectableListState
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.search.model.search.Facet
 

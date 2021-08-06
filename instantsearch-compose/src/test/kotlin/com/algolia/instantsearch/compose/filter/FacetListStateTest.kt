@@ -16,8 +16,8 @@ public class FacetListStateTest {
         Snapshot.takeSnapshot {
             val elements = listOf(Facet("android", 1) to true)
             facetListState.setItems(elements)
-            assertEquals(elements, facetListState.facets)
+            assertEquals(elements, facetListState.items)
         }
-        assertEquals(init, facetListState.facets)
+        assertEquals(init, facetListState.items)
     }
 }
