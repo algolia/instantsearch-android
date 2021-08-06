@@ -24,6 +24,6 @@ public interface FilterToggleState : FilterToggleView, SelectableItemState<Strin
  * @param text initial text value
  * @param isSelected initial selection value
  */
-public fun FilterToggleState(text: String, isSelected: Boolean = false): FilterToggleState {
+public fun FilterToggleState(text: String = "", isSelected: Boolean = false): FilterToggleState {
     return FilterToggleStateImpl(text, isSelected)
 }
