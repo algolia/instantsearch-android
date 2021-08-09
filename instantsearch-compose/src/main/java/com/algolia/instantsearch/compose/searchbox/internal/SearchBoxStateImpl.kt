@@ -3,15 +3,15 @@ package com.algolia.instantsearch.compose.searchbox.internal
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.algolia.instantsearch.compose.searchbox.SearchQuery
+import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.Callback
 
 /**
- * [SearchQuery] implementation.
+ * [SearchBoxState] implementation.
  */
-internal class SearchBoxComposeImpl(
+internal class SearchBoxStateImpl(
     query: String
-) : SearchQuery {
+) : SearchBoxState {
 
     override var query by mutableStateOf(query)
     override var onQueryChanged: Callback<String?>? = null

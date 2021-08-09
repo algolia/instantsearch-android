@@ -21,7 +21,7 @@ import com.algolia.instantsearch.compose.searchbox.internal.SearchIcon
  *
  * @param modifier Modifier to be applied
  * @param textStyle the style to be applied to the input text
- * @param searchQuery search box query component
+ * @param searchBoxState search box query component
  * @param onValueChange callback triggered on each text update
  * @param colors will be used to resolve color of the text, content and background
  * @param placeHolderText the placeholder to be displayed when the the input text is empty
@@ -32,20 +32,20 @@ public fun SearchBox(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     onValueChange: (String, Boolean) -> Unit = { _, _ -> },
-    searchQuery: SearchQuery = SearchQuery(),
+    searchBoxState: SearchBoxState = SearchBoxState(),
     colors: TextFieldColors = defaultSearchBoxColors(),
     placeHolderText: String = stringResource(R.string.alg_is_compose_search_box_hint),
     elevation: Dp = 1.dp,
     leadingIcon: @Composable (() -> Unit)? = { SearchIcon() },
-    clearIcon: @Composable (() -> Unit)? = { SearchClearIcon(searchQuery, onValueChange) },
+    clearIcon: @Composable (() -> Unit)? = { SearchClearIcon(searchBoxState, onValueChange) },
 ) {
     Surface(modifier = modifier, elevation = elevation) {
         TextField(
-            value = searchQuery.query,
+            value = searchBoxState.query,
             textStyle = textStyle.merge(TextStyle(textDecoration = TextDecoration.None)),
             onValueChange = {
-                searchQuery.query = it
-                searchQuery.changeValue(it, false)
+                searchBoxState.query = it
+                searchBoxState.changeValue(it, false)
                 onValueChange(it, false)
             },
             leadingIcon = leadingIcon,
@@ -58,8 +58,8 @@ public fun SearchBox(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    searchQuery.changeValue(searchQuery.query, true)
-                    onValueChange(searchQuery.query, true)
+                    searchBoxState.changeValue(searchBoxState.query, true)
+                    onValueChange(searchBoxState.query, true)
                 }
             )
         )

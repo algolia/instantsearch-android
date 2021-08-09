@@ -4,8 +4,11 @@ package com.algolia.instantsearch.compose.list
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.algolia.instantsearch.compose.list.internal.SearcherMultipleIndexPaginator
 import com.algolia.instantsearch.compose.list.internal.SearcherSingleIndexPaginator
+import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.flow.Flow
 
@@ -35,7 +38,24 @@ public interface Paginator<T : Any> {
 public fun <T : Any> Paginator(
     searcher: SearcherSingleIndex,
     pagingConfig: PagingConfig = PagingConfig(pageSize = 10),
-    transformer: (ResponseSearch) -> List<T>
+    transformer: (ResponseSearch.Hit) -> T
 ): Paginator<T> {
     return SearcherSingleIndexPaginator(searcher, pagingConfig, transformer)
+}
+
+/**
+ * Paginator for [SearcherMultipleIndex].
+ *
+ * @param searcher multiple index searcher
+ * @param indexQuery query associated to a specific index
+ * @param pagingConfig configure loading behavior within a Pager
+ * @param transformer mapping applied to search responses
+ */
+public fun <T : Any> Paginator(
+    searcher: SearcherMultipleIndex,
+    indexQuery: IndexQuery,
+    pagingConfig: PagingConfig = PagingConfig(pageSize = 10),
+    transformer: (ResponseSearch.Hit) -> T
+): Paginator<T> {
+    return SearcherMultipleIndexPaginator(searcher, indexQuery, pagingConfig, transformer)
 }

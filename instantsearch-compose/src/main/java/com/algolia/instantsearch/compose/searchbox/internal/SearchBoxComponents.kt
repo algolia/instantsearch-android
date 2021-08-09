@@ -7,16 +7,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.TextFieldColors
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.algolia.instantsearch.compose.searchbox.SearchQuery
+import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 
 @Composable
 internal fun SearchIcon() {
@@ -27,11 +24,11 @@ internal fun SearchIcon() {
 }
 
 @Composable
-internal fun SearchClearIcon(searchQuery: SearchQuery, onValueChange: (String, Boolean) -> Unit) {
-    val visible = searchQuery.query.isNotEmpty()
+internal fun SearchClearIcon(searchBoxState: SearchBoxState, onValueChange: (String, Boolean) -> Unit) {
+    val visible = searchBoxState.query.isNotEmpty()
     SearchClearIcon(visible) {
-        searchQuery.query = ""
-        searchQuery.changeValue("", false)
+        searchBoxState.query = ""
+        searchBoxState.changeValue("", false)
         onValueChange("", false)
     }
 }
