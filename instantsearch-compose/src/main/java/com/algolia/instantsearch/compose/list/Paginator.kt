@@ -4,8 +4,9 @@ package com.algolia.instantsearch.compose.list
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.algolia.instantsearch.compose.list.internal.SearcherMultipleIndexPaginator
-import com.algolia.instantsearch.compose.list.internal.SearcherSingleIndexPaginator
+import com.algolia.instantsearch.compose.list.internal.SearcherMultipleIndexPagingSource
+import com.algolia.instantsearch.compose.list.internal.SearcherPaginator
+import com.algolia.instantsearch.compose.list.internal.SearcherSingleIndexPagingSource
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.multipleindex.IndexQuery
@@ -39,9 +40,10 @@ public fun <T : Any> Paginator(
     searcher: SearcherSingleIndex,
     pagingConfig: PagingConfig = PagingConfig(pageSize = 10),
     transformer: (ResponseSearch.Hit) -> T
-): Paginator<T> {
-    return SearcherSingleIndexPaginator(searcher, pagingConfig, transformer)
-}
+): Paginator<T> = SearcherPaginator(
+    pagingConfig = pagingConfig,
+    pagingSourceFactory = { SearcherSingleIndexPagingSource(searcher, transformer) }
+)
 
 /**
  * Paginator for [SearcherMultipleIndex].
@@ -56,6 +58,7 @@ public fun <T : Any> Paginator(
     indexQuery: IndexQuery,
     pagingConfig: PagingConfig = PagingConfig(pageSize = 10),
     transformer: (ResponseSearch.Hit) -> T
-): Paginator<T> {
-    return SearcherMultipleIndexPaginator(searcher, indexQuery, pagingConfig, transformer)
-}
+): Paginator<T> = SearcherPaginator(
+    pagingConfig = pagingConfig,
+    pagingSourceFactory = { SearcherMultipleIndexPagingSource(searcher, indexQuery, transformer) }
+)
