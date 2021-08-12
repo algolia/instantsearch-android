@@ -11,15 +11,7 @@ public interface SearchBoxState : SearchBoxView {
     /**
      * Search box query.
      */
-    public var query: String
-
-    /**
-     * the callback to be triggered on text update
-     *
-     * @param query received query input
-     * @param isSubmit true if the value is a submit, otherwise false
-     */
-    public fun changeValue(query: String, isSubmit: Boolean)
+    public val query: String
 }
 
 /**
@@ -30,9 +22,3 @@ public interface SearchBoxState : SearchBoxView {
 public fun SearchBoxState(query: String = ""): SearchBoxState {
     return SearchBoxStateImpl(query)
 }
-
-@Deprecated("use SearchBoxState instead", replaceWith = ReplaceWith("SearchBoxState"))
-public typealias SearchQuery = SearchBoxState
-
-@Deprecated("use SearchBoxState instead", replaceWith = ReplaceWith("SearchBoxState(query)"))
-public fun SearchQuery(query: String = ""): SearchQuery = SearchBoxState(query)

@@ -27,8 +27,7 @@ internal fun SearchIcon() {
 internal fun SearchClearIcon(searchBoxState: SearchBoxState, onValueChange: (String, Boolean) -> Unit) {
     val visible = searchBoxState.query.isNotEmpty()
     SearchClearIcon(visible) {
-        searchBoxState.query = ""
-        searchBoxState.changeValue("", false)
+        searchBoxState.setText("")
         onValueChange("", false)
     }
 }

@@ -44,8 +44,7 @@ public fun SearchBox(
             value = searchBoxState.query,
             textStyle = textStyle.merge(TextStyle(textDecoration = TextDecoration.None)),
             onValueChange = {
-                searchBoxState.query = it
-                searchBoxState.changeValue(it, false)
+                searchBoxState.setText(it)
                 onValueChange(it, false)
             },
             leadingIcon = leadingIcon,
@@ -58,7 +57,7 @@ public fun SearchBox(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    searchBoxState.changeValue(searchBoxState.query, true)
+                    searchBoxState.onQuerySubmitted?.invoke(searchBoxState.query)
                     onValueChange(searchBoxState.query, true)
                 }
             )
