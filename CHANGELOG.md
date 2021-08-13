@@ -1,4 +1,4 @@
-# Unreleased
+# 2.11.0
 
 ### Added
 - InstantSearch Compose (#243)
@@ -8,9 +8,9 @@
 - Unexpected behaviour of paging sorted index (#234)
 
 ### Changed
-- Kotlin `1.5.10`
+- Kotlin `1.5.21`
 - Kotlin Coroutines `1.5.0`
-- Ktor `1.6.1`
+- Ktor `1.6.2`
 
 # 2.10.0
 
