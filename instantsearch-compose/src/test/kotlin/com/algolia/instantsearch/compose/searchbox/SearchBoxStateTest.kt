@@ -4,20 +4,20 @@ import androidx.compose.runtime.snapshots.Snapshot
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-public class SearchQueryTest {
+public class SearchBoxStateTest {
 
     @Test
     public fun test() {
         var query: String? = null
         val init = ""
-        val searchQuery = SearchQuery(init)
-        searchQuery.onQueryChanged = { query = it }
+        val searchBoxState = SearchBoxState(init)
+        searchBoxState.onQueryChanged = { query = it }
         Snapshot.takeSnapshot {
             val text = "phone"
-            searchQuery.setText(text, true)
-            assertEquals(text, searchQuery.query)
+            searchBoxState.setText(text)
+            assertEquals(text, searchBoxState.query)
             assertEquals(text, query)
         }
-        assertEquals(init, searchQuery.query)
+        assertEquals(init, searchBoxState.query)
     }
 }

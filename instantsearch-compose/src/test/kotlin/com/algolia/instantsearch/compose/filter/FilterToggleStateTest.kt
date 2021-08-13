@@ -13,13 +13,13 @@ public class FilterToggleStateTest {
 
     @Test
     public fun testText() {
-        assertEquals(initText, filterToggleState.text)
+        assertEquals(initText, filterToggleState.item)
         Snapshot.takeSnapshot {
             val item = "selected"
             filterToggleState.setItem(item)
-            assertEquals(item, filterToggleState.text)
+            assertEquals(item, filterToggleState.item)
         }
-        assertEquals(initText, filterToggleState.text)
+        assertEquals(initText, filterToggleState.item)
     }
 
     @Test

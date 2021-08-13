@@ -21,6 +21,6 @@ public interface HitsState<T> : HitsView<T> {
  *
  * @param hits initial hits list value
  */
-public fun <T> HitsState(hits: List<T>): HitsState<T> {
+public fun <T> HitsState(hits: List<T> = emptyList()): HitsState<T> {
     return HitsStateImpl(hits)
 }

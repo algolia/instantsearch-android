@@ -39,6 +39,8 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
+
+    resourcePrefix = "alg_is_compose_"
 }
 
 tasks.withType<Test> {
