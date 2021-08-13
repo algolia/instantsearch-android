@@ -12,23 +12,18 @@ import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploade
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
 import com.algolia.search.client.ClientInsights
 import com.algolia.search.configuration.ConfigurationInsights
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.ObjectID
-import com.algolia.search.model.QueryID
+import com.algolia.search.model.*
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
-import kotlinx.coroutines.runBlocking
-import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlinx.coroutines.runBlocking
+import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.P])
@@ -38,8 +33,8 @@ internal class InsightsTest {
     private val eventB = EventName("EventB")
     private val eventC = EventName("EventC")
     private val indexName = IndexName("latency")
-    private val appId = System.getenv("ALGOLIA_APPLICATION_ID")
-    private val apiKey = System.getenv("ALGOLIA_API_KEY")
+    private val appId = requireNotNull(System.getenv("ALGOLIA_APPLICATION_ID"))
+    private val apiKey = requireNotNull(System.getenv("ALGOLIA_API_KEY"))
     private val queryID = QueryID("6de2f7eaa537fa93d8f8f05b927953b1")
     private val userToken = UserToken(randomUUID())
     private val positions = listOf(1)
