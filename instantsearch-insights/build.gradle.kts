@@ -42,6 +42,8 @@ android {
         }
     }
 
+    resourcePrefix = "alg_is_insights_"
+
     // @see: https://youtrack.jetbrains.com/issue/KT-43944
     configurations {
         create("testApi")
