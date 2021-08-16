@@ -15,8 +15,9 @@ android {
     }
 
     buildTypes {
-        val release by getting {
+        getByName("release"){
             isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
 
@@ -56,7 +57,6 @@ android {
 kotlin {
     explicitApi()
     android {
-        compilations.all { kotlinOptions.jvmTarget = "1.8" }
         publishAllLibraryVariants()
         publishLibraryVariantsGroupedByFlavor = true
     }
