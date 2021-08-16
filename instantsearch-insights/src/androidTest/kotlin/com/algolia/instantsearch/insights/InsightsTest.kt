@@ -12,18 +12,23 @@ import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploade
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
 import com.algolia.search.client.ClientInsights
 import com.algolia.search.configuration.ConfigurationInsights
-import com.algolia.search.model.*
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
+import com.algolia.search.model.Attribute
+import com.algolia.search.model.IndexName
+import com.algolia.search.model.ObjectID
+import com.algolia.search.model.QueryID
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
+import kotlinx.coroutines.runBlocking
+import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import kotlinx.coroutines.runBlocking
-import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.P])

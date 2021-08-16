@@ -9,7 +9,6 @@ import com.algolia.instantsearch.helper.filter.toggle.FilterToggleView
  */
 public interface FilterToggleState : FilterToggleView, SelectableItemState<String> {
 
-
     /**
      * Change the selected state.
      *

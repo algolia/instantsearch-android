@@ -3,15 +3,12 @@ package com.algolia.instantsearch.helper.android.filter.facet.dynamic
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.reflect.KClass
-import kotlin.reflect.KType
-import kotlin.reflect.typeOf
 
 /**
  * Dynamic facet list view holder.
  */
 public abstract class DynamicFacetListViewHolder<T>(public val view: View) :
-    RecyclerView.ViewHolder(view) where T: DynamicFacetModel {
+    RecyclerView.ViewHolder(view) where T : DynamicFacetModel {
 
     /**
      * Binds a [DynamicFacetModel] to a view.
