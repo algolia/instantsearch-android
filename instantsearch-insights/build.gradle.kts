@@ -1,31 +1,24 @@
-import dependency.lib.Work
-import dependency.network.AlgoliaClient
-import dependency.network.Ktor
-import dependency.test.AndroidTestExt
-import dependency.test.AndroidTestRunner
-import dependency.test.Robolectric
-import dependency.ui.AndroidCore
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
+    kotlin("multiplatform")
     id("com.android.library")
-    id("kotlin-android")
+    id("kotlinx-serialization")
     id("com.vanniktech.maven.publish")
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 30
 
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(30)
+        minSdk = 21
+        targetSdk = 30
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    testOptions.unitTests.isIncludeAndroidResources = true
-
-    libraryVariants.all {
-        generateBuildConfigProvider.configure { enabled = false }
+    buildTypes {
+        getByName("release"){
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        }
     }
 
     compileOptions {
@@ -33,55 +26,83 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-        //replace after https://youtrack.jetbrains.com/issue/KT-37652
-        freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
+    buildFeatures {
+        buildConfig = false
     }
 
-    sourceSets.getByName("main") {
-        java.srcDirs("$buildDir/generated/sources/templates/kotlin/main")
+    testOptions.unitTests.apply {
+        isIncludeAndroidResources = true
+        isReturnDefaultValues = true
     }
 
-    testOptions {
-        unitTests {
-            it.isIncludeAndroidResources = true
-            it.isReturnDefaultValues = true
+    sourceSets {
+        getByName("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
         }
+    }
+
+    resourcePrefix = "alg_is_insights_"
+
+    // @see: https://youtrack.jetbrains.com/issue/KT-43944
+    configurations {
+        create("testApi")
+        create("testDebugApi")
+        create("testReleaseApi")
     }
 }
 
-tasks {
-
-    withType<KotlinCompile> {
-        dependsOn("copyTemplates")
+kotlin {
+    explicitApi()
+    android {
+        publishAllLibraryVariants()
+        publishLibraryVariantsGroupedByFlavor = true
     }
-
-    register(name = "copyTemplates", type = Copy::class) {
-        from("src/main/templates")
-        into("$buildDir/generated/sources/templates/kotlin/main")
-        expand("version" to Library.version)
-        filteringCharset = "UTF-8"
-    }
-
-    withType<KotlinCompile> {
-        if ("UnitTest" !in name) {
-            kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+        testRuns["test"].executionTask.configure {
+            useJUnit()
         }
     }
-}
-
-dependencies {
-    api(AlgoliaClient())
-    implementation(AndroidCore("ktx"))
-    implementation(Ktor("client-android"))
-    implementation(Work("runtime-ktx"))
-
-    testImplementation(kotlin("test-junit"))
-    testImplementation(kotlin("test-annotations-common"))
-    testImplementation(AndroidTestRunner())
-    testImplementation(AndroidTestExt())
-    testImplementation(Robolectric())
-    testImplementation(Ktor("client-mock-jvm"))
-    testImplementation(Work("testing"))
+    sourceSets {
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+        }
+        val commonMain by getting {
+            dependencies {
+                api(libs.algolia.client)
+            }
+        }
+        val commonTest by getting
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.slf4j)
+                implementation(libs.ktor.client.okhttp)
+            }
+        }
+        val jvmTest by getting {
+            dependencies {
+                implementation(libs.logback.classic)
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.okhttp)
+                implementation(libs.androidx.core)
+                implementation(libs.androidx.work)
+            }
+        }
+        val androidTest by getting {
+            dependencies {
+                implementation(kotlin("test-junit"))
+                implementation(kotlin("test-annotations-common"))
+                implementation(libs.test.androidx.runner)
+                implementation(libs.test.androidx.ext)
+                implementation(libs.test.robolectric)
+                implementation(libs.test.ktor.client.mock)
+                implementation(libs.test.androidx.work)
+            }
+        }
+    }
 }

@@ -1,11 +1,22 @@
-<!-- Thanks for submitting a pull request! Please provide enough information
-so that others can review your pull request. -->
+| Q                 | A
+| ----------------- | ----------
+| Bug fix?          | yes/no
+| New feature?      | yes/no    <!-- please update the /CHANGELOG.md file -->
+| BC breaks?        | no
+| Related Issue     | Fix #...  <!-- will close issue automatically, if any -->
+| Need Doc update   | yes/no
 
-# Summary
-<!-- Explain the **motivation** for making this change. What existing problem
-does the pull request solve? Are there any linked issues? -->
 
-# Result
-<!-- Demonstrate the code is solid.
-Example: The exact commands you ran and their output,
-screenshots / videos if the pull request changes UI. -->
+## Describe your change
+
+<!-- 
+    Please describe your change, add as much detail as 
+    necessary to understand your code.
+-->
+
+## What problem is this fixing?
+
+<!-- 
+    Please include everything needed to understand the problem, 
+    its context and consequences, and, if possible, how to recreate it.
+-->
