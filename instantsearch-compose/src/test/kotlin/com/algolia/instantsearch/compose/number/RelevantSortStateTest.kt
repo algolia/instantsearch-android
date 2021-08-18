@@ -24,7 +24,7 @@ public class RelevantSortStateTest {
     @Test
     public fun testPrioritySort() {
         val init = RelevantSortPriority.Relevancy
-        val relevantSortState = RelevantSortPriorityState()
+        val relevantSortState = RelevantSortPriorityState(init)
         Snapshot.takeSnapshot {
             val value = RelevantSortPriority.HitsCount
             relevantSortState.updateView(value)
