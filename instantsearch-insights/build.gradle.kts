@@ -33,6 +33,12 @@ android {
     testOptions.unitTests.apply {
         isIncludeAndroidResources = true
         isReturnDefaultValues = true
+        all {
+            it.testLogging {
+                events("failed")
+                setExceptionFormat("full")
+            }
+        }
     }
 
     sourceSets {
@@ -58,12 +64,8 @@ kotlin {
         publishLibraryVariantsGroupedByFlavor = true
     }
     jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
-        }
-        testRuns["test"].executionTask.configure {
-            useJUnit()
-        }
+        compilations.all { kotlinOptions.jvmTarget = "1.8" }
+        testRuns["test"].executionTask.configure { useJUnit() }
     }
     sourceSets {
         all {
@@ -74,9 +76,15 @@ kotlin {
                 api(libs.algolia.client)
             }
         }
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
+        }
         val jvmMain by getting {
             dependencies {
+                implementation(kotlin("test-junit"))
                 implementation(libs.slf4j)
                 implementation(libs.ktor.client.okhttp)
             }
