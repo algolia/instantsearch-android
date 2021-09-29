@@ -4,6 +4,7 @@ import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
+import com.algolia.instantsearch.helper.searcher.multi.MultiSearchComponent
 import com.algolia.search.client.Index
 import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.response.ResponseSearch
@@ -25,7 +26,7 @@ public class SearcherSingleIndex(
     public override val requestOptions: RequestOptions? = null,
     public val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : SearcherIndex<Query> {
+) : SearcherIndex<Query>, MultiSearchComponent<Any, ResponseSearch> {
 
     internal val sequencer = Sequencer()
 
@@ -78,3 +79,6 @@ public class SearcherSingleIndex(
         ): SearcherSingleIndex = invoke(index, query, requestOptions, isDisjunctiveFacetingEnabled, coroutineScope)
     }
 }
+
+// TODO: rename SearcherSingleIndex
+public typealias HitsSearcher = SearcherSingleIndex

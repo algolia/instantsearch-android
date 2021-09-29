@@ -5,8 +5,10 @@ import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
+import com.algolia.instantsearch.helper.searcher.multi.MultiSearchComponent
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
@@ -27,7 +29,7 @@ public class SearcherForFacets(
     public var facetQuery: String? = null,
     public val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : Searcher<ResponseSearchForFacets> {
+) : MultiSearchComponent<Any, ResponseSearchForFacets> {
 
     internal val sequencer = Sequencer()
 
@@ -60,3 +62,5 @@ public class SearcherForFacets(
         sequencer.cancelAll()
     }
 }
+
+public typealias FacetsSearcher = SearcherForFacets
