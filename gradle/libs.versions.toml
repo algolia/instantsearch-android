@@ -29,12 +29,12 @@ androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "s
 google-material = { group = "com.google.android.material", name = "material", version = "1.4.0" }
 
 # test
-test-androidx-ext = { group = "androidx.test.ext", name = "junit", version = "1.1.1" }
-test-androidx-runner = { group = "androidx.test", name = "runner", version = "1.2.0" }
+test-androidx-ext = { group = "androidx.test.ext", name = "junit", version = "1.1.3" }
+test-androidx-runner = { group = "androidx.test", name = "runner", version = "1.4.0" }
 test-androidx-espresso = { group = "androidx.test.espresso", name = "espresso", version = "3.2.0" }
 test-androidx-work = { group = "androidx.work", name = "work-testing", version.ref = "work" }
-test-robolectric = { group = "org.robolectric", name = "robolectric", version = "4.5.1" }
-test-mockk = { group = "io.mockk", name = "mockk", version = "1.10.6" }
+test-robolectric = { group = "org.robolectric", name = "robolectric", version = "4.6.1" }
+test-mockk = { group = "io.mockk", name = "mockk", version = "1.12.0" }
 test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 test-ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
 
