@@ -22,6 +22,8 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
+import java.time.LocalDateTime
+import java.time.ZoneId
 import kotlinx.coroutines.runBlocking
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
@@ -37,6 +39,7 @@ internal class InsightsTest {
     private val eventA = EventName("EventA")
     private val eventB = EventName("EventB")
     private val eventC = EventName("EventC")
+    private val eventD = EventName("EventD")
     private val indexName = IndexName("latency")
     private val appId = requireNotNull(System.getenv("ALGOLIA_APPLICATION_ID"))
     private val apiKey = requireNotNull(System.getenv("ALGOLIA_API_KEY"))
@@ -76,6 +79,15 @@ internal class InsightsTest {
         timestamp = timestamp,
         resources = resourcesFilters,
         queryID = queryID
+    )
+    private val expiredEventClick = InsightsEvent.Click(
+        eventName = eventD,
+        indexName = indexName,
+        userToken = userToken,
+        timestamp = LocalDateTime.now().atZone(ZoneId.systemDefault()).minusDays(4).toInstant().toEpochMilli(),
+        queryID = queryID,
+        resources = resourcesObjectIDs,
+        positions = positions
     )
 
     private val clientInsights = ClientInsights(
@@ -234,7 +246,7 @@ internal class InsightsTest {
      */
     @Test
     fun testIntegration() {
-        val events = mutableListOf(eventClick, eventConversion, eventView)
+        val events = mutableListOf(eventClick, eventConversion, eventView, expiredEventClick)
         val localRepository = MockLocalRepository(events)
         val distantRepository = MockDistantRepository()
         val eventUploader = IntegrationWorker(events, distantRepository, localRepository)
