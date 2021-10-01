@@ -2,6 +2,7 @@ package com.algolia.instantsearch.compose.list.internal
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.withContext
@@ -12,6 +13,7 @@ import kotlinx.coroutines.withContext
  * @param searcher single index searcher
  * @param transformer mapping applied to search responses
  */
+@ExperimentalInstantSearch
 internal class SearcherSingleIndexPagingSource<T : Any>(
     private val searcher: SearcherSingleIndex,
     private val transformer: (ResponseSearch.Hit) -> T
