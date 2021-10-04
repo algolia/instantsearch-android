@@ -1,3 +1,15 @@
+# 2.11.1
+
+### Added
+- `RelevantSortPriorityState`: convenience alias of `RelevantSortState<RelevantSortPriority?>` (#254)
+
+### Fixed
+- Ignore insights events older than 4 days (#257)
+- Searcher single index (v2) paging (#260)
+
+### Changed
+- compose: mark `Paginator` as experimental 
+
 # 2.11.0
 
 ### Added
