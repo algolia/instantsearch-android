@@ -2,6 +2,7 @@ package com.algolia.instantsearch.compose.filter.facet
 
 import com.algolia.instantsearch.compose.filter.facet.internal.FacetListConnectionPager
 import com.algolia.instantsearch.compose.list.Paginator
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
@@ -11,6 +12,7 @@ import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
  *
  * @param paginator paginator to be connected
  */
+@ExperimentalInstantSearch
 public fun <T : Any> FacetListConnector.connectPaginator(paginator: Paginator<T>): Connection {
     return viewModel.connectPaginator(paginator)
 }
@@ -20,6 +22,7 @@ public fun <T : Any> FacetListConnector.connectPaginator(paginator: Paginator<T>
  *
  * @param paginator paginator to be connected
  */
+@ExperimentalInstantSearch
 public fun <T : Any> FacetListViewModel.connectPaginator(paginator: Paginator<T>): Connection {
     return FacetListConnectionPager(this, paginator)
 }

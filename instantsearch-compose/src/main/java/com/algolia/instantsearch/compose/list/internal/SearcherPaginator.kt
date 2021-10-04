@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import com.algolia.instantsearch.compose.list.Paginator
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 
 /**
  * [Paginator] implementation for Searcher.
@@ -12,6 +13,7 @@ import com.algolia.instantsearch.compose.list.Paginator
  * @param pagingConfig configure loading behavior within a Pager
  * @param pagingSourceFactory searcher paging source factory
  */
+@ExperimentalInstantSearch
 internal class SearcherPaginator<T : Any>(
     pagingConfig: PagingConfig = PagingConfig(pageSize = 10),
     pagingSourceFactory: () -> PagingSource<Int, T>

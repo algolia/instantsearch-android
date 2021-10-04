@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.compose.filter.facet.internal
 
 import com.algolia.instantsearch.compose.list.Paginator
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
 import com.algolia.search.model.search.Facet
@@ -11,6 +12,7 @@ import com.algolia.search.model.search.Facet
  * @param facetListViewModel facet list view model handling selections
  * @param paginator component handling Paged data
  */
+@ExperimentalInstantSearch
 internal class FacetListConnectionPager<T : Any>(
     private val facetListViewModel: FacetListViewModel,
     private val paginator: Paginator<T>
