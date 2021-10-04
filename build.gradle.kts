@@ -38,3 +38,10 @@ tasks.withType<Test> {
 tasks.register<Delete>("clean") {
     delete(rootProject.buildDir)
 }
+
+tasks.register("runDebugUnitTest") {
+    dependsOn(":instantsearch-core:jvmTest")
+    dependsOn(":instantsearch:testDebugUnitTest")
+    dependsOn(":instantsearch-insights:testDebugUnitTest")
+    dependsOn(":instantsearch-compose:testDebugUnitTest")
+}

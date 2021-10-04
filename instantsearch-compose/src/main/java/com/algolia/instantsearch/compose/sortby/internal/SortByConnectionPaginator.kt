@@ -2,6 +2,7 @@ package com.algolia.instantsearch.compose.sortby.internal
 
 import com.algolia.instantsearch.compose.list.Paginator
 import com.algolia.instantsearch.core.Callback
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.sortby.SortByViewModel
 
@@ -11,6 +12,7 @@ import com.algolia.instantsearch.helper.sortby.SortByViewModel
  * @param viewModel SortBy ViewModel to connect
  * @param paginator PagingData handler to connect
  */
+@ExperimentalInstantSearch
 internal class SortByConnectionPaginator<T : Any>(
     private val viewModel: SortByViewModel,
     private val paginator: Paginator<T>,

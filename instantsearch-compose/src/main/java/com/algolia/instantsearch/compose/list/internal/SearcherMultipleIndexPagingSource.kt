@@ -2,6 +2,7 @@ package com.algolia.instantsearch.compose.list.internal
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
@@ -15,6 +16,7 @@ import kotlinx.coroutines.withContext
  * @param indexQuery query associated to a specific index
  * @param transformer mapping applied to search responses
  */
+@ExperimentalInstantSearch
 internal class SearcherMultipleIndexPagingSource<T : Any>(
     private val searcher: SearcherMultipleIndex,
     private val indexQuery: IndexQuery,
