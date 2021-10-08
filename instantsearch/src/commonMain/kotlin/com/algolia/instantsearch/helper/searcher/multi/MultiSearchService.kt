@@ -1,5 +1,5 @@
 package com.algolia.instantsearch.helper.searcher.multi
 
-public interface MultiSearchService {
-    // TODO: ????
-}
+import com.algolia.instantsearch.core.searcher.Searcher
+
+public interface SearcherMulti<R> : Searcher<MultiResult<R>>

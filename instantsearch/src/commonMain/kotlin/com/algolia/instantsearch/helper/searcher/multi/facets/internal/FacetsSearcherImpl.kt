@@ -1,14 +1,14 @@
-package com.algolia.instantsearch.helper.searcher
+package com.algolia.instantsearch.helper.searcher.multi.facets.internal
 
-import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
-import com.algolia.search.client.Index
-import com.algolia.search.model.Attribute
+import com.algolia.instantsearch.helper.searcher.multi.facets.FacetsSearcher
+import com.algolia.search.client.ClientSearch
+import com.algolia.search.model.multipleindex.FacetIndexQuery
 import com.algolia.search.model.response.ResponseSearchForFacets
-import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,26 +20,24 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches for facet values.
  */
-public class SearcherForFacets(
-    public var index: Index,
-    public val attribute: Attribute,
-    public val query: Query = Query(),
-    public var facetQuery: String? = null,
-    public val requestOptions: RequestOptions? = null,
+internal class FacetsSearcherImpl(
+    client: ClientSearch,
+    override val indexedQuery: FacetIndexQuery,
+    requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : Searcher<ResponseSearchForFacets> {
-
-    internal val sequencer = Sequencer()
+) : FacetsSearcher {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearchForFacets?> = SubscriptionValue(null)
 
+    private val service = FacetsService(client)
     private val options = requestOptions.withUserAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)
+    private val sequencer = Sequencer()
 
     override fun setQuery(text: String?) {
-        facetQuery = text
+        indexedQuery.query.query = text
     }
 
     override fun searchAsync(): Job {
@@ -53,7 +51,7 @@ public class SearcherForFacets(
     }
 
     override suspend fun search(): ResponseSearchForFacets {
-        return index.searchForFacets(attribute, facetQuery, query, options)
+        return service.search(indexedQuery, options)
     }
 
     override fun cancel() {
