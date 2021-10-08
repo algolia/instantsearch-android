@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.searcher.internal.service
+package com.algolia.instantsearch.helper.searcher.multi.internal
 
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.multipleindex.IndexedQuery
@@ -10,13 +10,12 @@ internal class MultiSearchService(
     private val client: ClientSearch
 ) : SearchService<MultiSearchService.Request, ResponseMultiSearch> {
 
-    override suspend fun search(request: Request): ResponseMultiSearch {
-        return client.search(request.queries, request.strategy, request.requestOptions)
-    }
-
     data class Request(
         val queries: List<IndexedQuery>,
         val strategy: MultipleQueriesStrategy? = null,
-        val requestOptions: RequestOptions? = null
     )
+
+    override suspend fun search(request: Request, requestOptions: RequestOptions?): ResponseMultiSearch {
+        return client.search(request.queries, request.strategy, requestOptions)
+    }
 }

@@ -12,5 +12,5 @@ public interface MultiSearchComponent<out Request : IndexedQuery, Response : Res
     /**
      * The component query as [IndexedQuery]
      */
-    public val indexedQuery: Request
+    val indexedQuery: Request
 }

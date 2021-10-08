@@ -3,6 +3,7 @@ package com.algolia.instantsearch.helper.searcher.multi.hits
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearchComponent
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
+import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearcherImpl
 import com.algolia.instantsearch.helper.searcher.multi.hits.internal.HitsSearcherImpl
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
 import com.algolia.search.client.ClientSearch

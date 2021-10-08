@@ -2,7 +2,7 @@ package com.algolia.instantsearch.helper.searcher.multi.facets
 
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearchComponent
-import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
+import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearcherImpl
 import com.algolia.instantsearch.helper.searcher.multi.facets.internal.FacetsSearcherImpl
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
 import com.algolia.search.client.ClientSearch
@@ -41,7 +41,7 @@ public fun FacetsSearcher(
 /**
  * Adds a [FacetsSearcher].
  */
-fun MultiSearcher.addFacetsSearcher(
+fun MultiSearcherImpl.addFacetsSearcher(
     indexName: IndexName,
     attribute: Attribute,
     query: Query = Query(),
