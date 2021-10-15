@@ -200,4 +200,4 @@ to the variable `debouncingIntervalInMinutes`. Any value below 15 will be ignore
 
 ## License
 
-InstantSearch Android Insights is [MIT licensed](LICENSE.md).
+InstantSearch Android is [licensed under Apache V2](/LICENSE).
