@@ -42,6 +42,7 @@ Once that you registered your **index** with the **Application ID** and the **AP
 metrics
 
 * Create a `HitsTracker` to track hits events:
+
 ```kotlin
 val hitsTracker = HitsTracker(
     eventName = EventName("hits"),
@@ -49,7 +50,9 @@ val hitsTracker = HitsTracker(
     insights = sharedInsights(indexName)
 )
 ```
+
 * Create a `FilterTracker` for filter events:
+
 ```kotlin
 val filterTracker = FilterTracker(
     eventName = EventName("demo"),
@@ -57,6 +60,7 @@ val filterTracker = FilterTracker(
     insights = sharedInsights(IndexName)
 )
 ```
+
 #### View events
 
 | Tracker | Command |
@@ -82,16 +86,14 @@ val filterTracker = FilterTracker(
 
 By default, events are only sent by batches of 10. You can customize this setting with `minBatchSize`:
 
-**Kotlin**
-
 ```kotlin
-Insights.shared?.minBatchSize = 1 // Sends each event as soon as it is tracked
-```
-
-**Java**
-
-```java
-Insights.shared().setMinBatchSize(1); // Sends each event as soon as it is tracked
+registerInsights(context, appID, apiKey, indexName, configuration).apply {
+    minBatchSize = 1
+}
+// or:
+sharedInsights(indexName).apply {
+    minBatchSize = 1
+}
 ```
 
 ### User tracking
