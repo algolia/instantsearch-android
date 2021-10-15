@@ -67,20 +67,26 @@ filterTracker.trackView(facet)
 
 #### Click events
 
-**Kotlin**
-
+**Hits**
 ```kotlin
-Insights.shared?.clicked("eventName", EventObjects.IDs("objectID1", "objectID2"))
-Insights.shared?.clicked("eventName", EventObjects.Filters("foo:bar", "foo:baz"))
-Insights.shared?.clickedAfterSearch("eventName", "queryID", EventObjects.IDs("objectID1", "objectID2"), listOf(0, 3))
+val hitsTracker = HitsTracker(
+    eventName = EventName("hits"),
+    searcher = searcher,
+    insights = sharedInsights(indexName)
+)
+
+hitsTracker.trackClick(hit, position)
 ```
 
-**Java**
+**Filters**
+```kotlin
+val filterTracker = FilterTracker(
+    eventName = EventName("demo"),
+    searcher = searcher,
+    insights = sharedInsights(IndexName)
+)
 
-```java
-Insights.shared().clicked("eventName",new EventObjects.IDs("objectID1","objectID2"));
-    Insights.shared().clicked("eventName",new EventObjects.Filters("foo:bar","foo:baz"));
-    Insights.shared().clickedAfterSearch("eventName","queryID",new EventObjects.IDs("objectID1","objectID2"),Arrays.asList(0,3));
+filterTracker.trackClick(facet)
 ```
 
 #### Conversion events
