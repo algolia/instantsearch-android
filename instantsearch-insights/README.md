@@ -63,7 +63,6 @@ val filterTracker = FilterTracker(
 | --- | --- |
 | Hits | `hitsTracker.trackView(hit)` |
 | Filters | `filterTracker.trackView(facet)` |
-```
 
 #### Click events
 
@@ -74,35 +73,10 @@ val filterTracker = FilterTracker(
 
 #### Conversion events
 
-**Kotlin**
-
-```kotlin
-Insights.shared?.converted("eventName", EventObjects.IDs("objectID1", "objectID2"))
-Insights.shared?.converted("eventName", EventObjects.Filters("foo:bar", "foo:baz"))
-Insights.shared?.convertedAfterSearch("eventName", "queryID", EventObjects.IDs("objectID1", "objectID2"))
-```
-
-**Hits**
-```kotlin
-val hitsTracker = HitsTracker(
-    eventName = EventName("hits"),
-    searcher = searcher,
-    insights = sharedInsights(indexName)
-)
-
-hitsTracker.trackConvert(hit)
-```
-
-**Filters**
-```kotlin
-val filterTracker = FilterTracker(
-    eventName = EventName("demo"),
-    searcher = searcher,
-    insights = sharedInsights(IndexName)
-)
-
-filterTracker.trackClick(facet)
-```
+| Tracker | Command |
+| --- | --- |
+| Hits | `hitsTracker.trackConvert(hit)` |
+| Filters | `filterTracker.trackConversion(facet)` |
 
 ### Event Batching
 
