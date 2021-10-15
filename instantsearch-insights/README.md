@@ -41,53 +41,36 @@ registerInsights(context, appID, apiKey, indexName, configuration)
 Once that you registered your **index** with the **Application ID** and the **API Key** you can easily start sending
 metrics
 
-#### View events
-
-**Hits**
+* Create a `HitsTracker` to track hits events:
 ```kotlin
 val hitsTracker = HitsTracker(
     eventName = EventName("hits"),
     searcher = searcher,
     insights = sharedInsights(indexName)
 )
-
-hitsTracker.trackView(hit)
 ```
-
-**Filters**
+* Create a `FilterTracker` for filter events:
 ```kotlin
 val filterTracker = FilterTracker(
     eventName = EventName("demo"),
     searcher = searcher,
     insights = sharedInsights(IndexName)
 )
+```
+#### View events
 
-filterTracker.trackView(facet)
+| Tracker | Command |
+| --- | --- |
+| Hits | `hitsTracker.trackView(hit)` |
+| Filters | `filterTracker.trackView(facet)` |
 ```
 
 #### Click events
 
-**Hits**
-```kotlin
-val hitsTracker = HitsTracker(
-    eventName = EventName("hits"),
-    searcher = searcher,
-    insights = sharedInsights(indexName)
-)
-
-hitsTracker.trackClick(hit, position)
-```
-
-**Filters**
-```kotlin
-val filterTracker = FilterTracker(
-    eventName = EventName("demo"),
-    searcher = searcher,
-    insights = sharedInsights(IndexName)
-)
-
-filterTracker.trackClick(facet)
-```
+| Tracker | Command |
+| --- | --- |
+| Hits | `hitsTracker.trackClick(hit, position)` |
+| Filters | `filterTracker.trackClick(facet)` |
 
 #### Conversion events
 
@@ -99,12 +82,26 @@ Insights.shared?.converted("eventName", EventObjects.Filters("foo:bar", "foo:baz
 Insights.shared?.convertedAfterSearch("eventName", "queryID", EventObjects.IDs("objectID1", "objectID2"))
 ```
 
-**Java**
+**Hits**
+```kotlin
+val hitsTracker = HitsTracker(
+    eventName = EventName("hits"),
+    searcher = searcher,
+    insights = sharedInsights(indexName)
+)
 
-```java
-Insights.shared().converted("eventName",new EventObjects.IDs("objectID1","objectID2"));
-    Insights.shared().converted("eventName",new EventObjects.Filters("foo:bar","foo:baz"));
-    Insights.shared().convertedAfterSearch("eventName","queryID",new EventObjects.IDs("objectID1","objectID2"));
+hitsTracker.trackConvert(hit)
+```
+
+**Filters**
+```kotlin
+val filterTracker = FilterTracker(
+    eventName = EventName("demo"),
+    searcher = searcher,
+    insights = sharedInsights(IndexName)
+)
+
+filterTracker.trackClick(facet)
 ```
 
 ### Event Batching
