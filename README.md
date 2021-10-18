@@ -38,7 +38,7 @@ You can add InstantSearch Insights to your Android application by adding the fol
 implementation "com.algolia:instantsearch-insights-android:$instantsearch_version"
 ```
 
-Please refer to the library's [readme](instantsearch/README.md) for more details.
+Please refer to the library's [readme](instantsearch-insights/README.md) for more details.
 
 ### R8 / Proguard rules
 
