@@ -6,6 +6,7 @@ build
 local.properties
 *.hprof
 .bundle/
+local.settings.gradle.kts
 
 # fastlane
 **/fastlane/report.xml
