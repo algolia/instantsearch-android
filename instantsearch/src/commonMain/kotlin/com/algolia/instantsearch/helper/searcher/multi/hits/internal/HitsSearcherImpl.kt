@@ -7,10 +7,9 @@ import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandl
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.instantsearch.helper.searcher.multi.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.IndexName
+import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,11 +32,12 @@ internal class HitsSearcherImpl(
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
 
-
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val hitsService = HitsService(client)
     private val sequencer = Sequencer()
     private val options = requestOptions.withUserAgent()
+
+    internal var filterGroups: Set<FilterGroup<*>> = setOf()
 
     override fun setQuery(text: String?) {
         indexedQuery.query.query = text
@@ -54,7 +54,7 @@ internal class HitsSearcherImpl(
     }
 
     override suspend fun search(): ResponseSearch {
-        return hitsService.search(indexedQuery, options)
+        return hitsService.search(HitsService.Request(indexedQuery, filterGroups), options)
     }
 
     override fun cancel() {

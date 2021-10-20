@@ -11,13 +11,17 @@ internal class HitsService(
     val client: ClientSearch
 ) : SearchService<HitsService.Request, ResponseSearch> {
 
-    private val searchService = AdvancedSearchService(client)
-
     override suspend fun search(request: Request, requestOptions: RequestOptions?): ResponseSearch {
         val (query, filterGroups) = request
         return when {
-            filterGroups != null -> searchService.search(query, filterGroups, requestOptions)
+            filterGroups.isNotEmpty() -> multiSearch(request, requestOptions)
             else -> indexSearch(request.indexQuery, requestOptions)
+        }
+    }
+
+    private suspend fun multiSearch(request: Request, requestOptions: RequestOptions?): ResponseSearch {
+        return advancedSearch(request.indexQuery, request.filterGroups) { queries ->
+            client.search(requests = queries, requestOptions = requestOptions)
         }
     }
 
@@ -28,6 +32,6 @@ internal class HitsService(
 
     data class Request(
         val indexQuery: IndexQuery,
-        val filterGroups: Set<FilterGroup<*>>? = null
+        val filterGroups: Set<FilterGroup<*>> = emptySet()
     )
 }
