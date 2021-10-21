@@ -1,5 +1,5 @@
 [versions]
-algolia-client = "1.11.1-beta01"
+algolia-client = "1.9.2"
 compose = "1.0.1"
 paging-compose = "1.0.0-alpha13"
 coroutines = "1.5.0-native-mt"

@@ -62,8 +62,10 @@ internal class MultiSearcherImpl(
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
             setLoading(true)
-            val response = withContext(Dispatchers.Default) { search() }
-            setResponse(response)
+            val (queries, completion) = collect()
+            val request = MultiSearchService.Request(queries, strategy)
+            val response = withContext(Dispatchers.Default) { searchService.search(request, options) }
+            completion(response.asResultSearchList())
             setLoading(false)
         }.also {
             sequencer.addOperation(it)
@@ -77,48 +79,25 @@ internal class MultiSearcherImpl(
         }
     }
 
-    private fun setResponse(response: ResponseMultiSearch) {
-        this.response.value = response
-        components.zip(response.results).forEach { (component, result) ->
-            component.response.value = result.response
-        }
-    }
-
     override fun cancel() {
         sequencer.cancelAll()
     }
 
-    fun collect(): Pair<List<IndexedQuery>, (List<SubscriptionValue<ResultSearch>>) -> Unit> {
-        val (requests, completions) = components.map { it.collect() }.unzip()
-
+    /**
+     * Collects lists of requests and callbacks from all its search components.
+     */
+    private fun collect(): Pair<List<IndexedQuery>, (List<ResultSearch>) -> Unit> {
+        val (requests, completions: List<(List<ResultSearch>) -> Unit>) = components.map { it.collect() }.unzip()
         val rangePerCompletion = completions.zip(requests.flatRanges())
-
         val requestsList = requests.flatten()
-        val completionsList: (List<MultiResult<Any>>) -> Unit = { result: List<MultiResult<Any>> ->
+        val completionsList: (List<ResultSearch>) -> Unit = { results ->
             rangePerCompletion.map { (completion, range) ->
-                val resultForCompletion = result.map { it }
+                val resultForCompletion = results.slice(range)
                 completion(resultForCompletion)
             }
         }
-
-        //return requestsList to completionsList
-        return TODO()
+        return requestsList to completionsList
     }
-
-    /*   fun collect(): Pair<List<IndexedQuery>>, (List<MultiResult<Any>>) -> Unit> {
-           val (requests, completions) = components.map { it.collect() }.unzip()
-           val rangePerCompletion = completions.zip(requests.flatRanges())
-
-           val requestsList = requests.flatten()
-           val completionsList: (List<MultiResult<Any>>) -> Unit = { result: List<MultiResult<Any>> ->
-               rangePerCompletion.map { (completion, range) ->
-                   val resultForCompletion = result.map { it }
-                   completion(resultForCompletion)
-               }
-           }
-
-           return requestsList to completionsList
-       }*/
 
     /**
      * Maps the nested lists to the ranges corresponding to the positions of the nested list elements in the flatten list

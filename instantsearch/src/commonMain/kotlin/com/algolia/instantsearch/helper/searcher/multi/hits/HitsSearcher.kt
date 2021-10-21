@@ -33,7 +33,7 @@ public fun HitsSearcher(
     coroutineScope: CoroutineScope = SearcherScope(),
 ): HitsSearcher = HitsSearcherImpl(
     client = client,
-    indexedQueries = IndexQuery(indexName, query),
+    indexedQuery = IndexQuery(indexName, query),
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
 )

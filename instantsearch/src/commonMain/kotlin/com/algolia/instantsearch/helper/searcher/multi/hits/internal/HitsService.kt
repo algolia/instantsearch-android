@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.searcher.multi.hits.internal
 
 import com.algolia.instantsearch.helper.searcher.multi.internal.SearchService
+import com.algolia.instantsearch.helper.searcher.multi.internal.asResponseSearchList
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.dsl.filters
 import com.algolia.search.model.Attribute
@@ -9,7 +10,6 @@ import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.filter.FilterGroupsConverter
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.response.ResultMultiSearch
 import com.algolia.search.model.search.Facet
 import com.algolia.search.model.search.FacetStats
 import com.algolia.search.transport.RequestOptions
@@ -37,7 +37,7 @@ internal class HitsService(
     ): ResponseSearch {
         val (queries, disjunctiveFacetCount) = advancedQueryOf(indexQuery, filterGroups)
         val response = client.search(requests = queries, requestOptions = requestOptions)
-        val responses = response.results.map { (it as ResultMultiSearch.Hits).response }
+        val responses = response.asResponseSearchList()
         return aggregateResult(responses, disjunctiveFacetCount)
     }
 
