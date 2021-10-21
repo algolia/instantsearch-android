@@ -23,7 +23,7 @@ import kotlinx.coroutines.withContext
  */
 internal class HitsSearcherImpl(
     client: ClientSearch,
-    val indexedQuery: IndexQuery,
+    override val indexedQuery: IndexQuery,
     requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : HitsSearcher {
@@ -43,7 +43,10 @@ internal class HitsSearcherImpl(
         indexedQuery.query.query = text
     }
 
-    override val indexedQueries = TODO() //if (filterGroups.isEmpty()) listOf(indexedQuery) else advancedSearch()
+    override fun collect(): Pair<List<IndexQuery>, (List<ResponseSearch>) -> Unit> {
+        val (queries, disjunctiveFacetCount) = hitsService.advancedQueryOf(indexedQuery, filterGroups)
+        return queries to { response.value = hitsService.aggregateResult(it, disjunctiveFacetCount) }
+    }
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
@@ -56,7 +59,7 @@ internal class HitsSearcherImpl(
     }
 
     override suspend fun search(): ResponseSearch {
-        return hitsService.search(HitsService.Request(indexedQueries, filterGroups), options)
+        return hitsService.search(HitsService.Request(indexedQuery, filterGroups), options)
     }
 
     override fun cancel() {

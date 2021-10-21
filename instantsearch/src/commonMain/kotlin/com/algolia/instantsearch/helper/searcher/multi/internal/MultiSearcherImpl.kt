@@ -54,7 +54,7 @@ internal class MultiSearcherImpl(
     }
 
     override suspend fun search(): ResponseMultiSearch {
-        val queries = components.map { it.indexedQueries }
+        val queries = components.map { it.indexedQuery }
         val request = MultiSearchService.Request(queries, strategy)
         return searchService.search(request, options)
     }
@@ -89,7 +89,7 @@ internal class MultiSearcherImpl(
     }
 
     fun collect(): Pair<List<IndexedQuery>, (List<SubscriptionValue<ResultSearch>>) -> Unit> {
-        val (requests, completions) = components.map { it.indexedQueries to it.response }.unzip()
+        val (requests, completions) = components.map { it.collect() }.unzip()
 
         val rangePerCompletion = completions.zip(requests.flatRanges())
 
@@ -120,8 +120,10 @@ internal class MultiSearcherImpl(
            return requestsList to completionsList
        }*/
 
-    /// Maps the nested lists to the ranges corresponding to the positions of the nested list elements in the flatten list
-    /// Example: [["a", "b", "c"], ["d", "e"], ["f", "g", "h"]] -> [0..<3, 3..<5, 5..<8]
+    /**
+     * Maps the nested lists to the ranges corresponding to the positions of the nested list elements in the flatten list
+     * Example: [["a", "b", "c"], ["d", "e"], ["f", "g", "h"]] -> [0..<3, 3..<5, 5..<8]
+     */
     private fun <T> List<List<T>>.flatRanges(): List<IntRange> {
         val ranges = mutableListOf<IntRange>()
         var offset = 0

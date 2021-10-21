@@ -22,7 +22,7 @@ import kotlinx.coroutines.withContext
  */
 internal class FacetsSearcherImpl(
     client: ClientSearch,
-    override val indexedQueries: FacetIndexQuery,
+    override val indexedQuery: FacetIndexQuery,
     requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : FacetsSearcher {
@@ -36,8 +36,12 @@ internal class FacetsSearcherImpl(
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
 
+    override fun collect(): Pair<List<FacetIndexQuery>, (List<ResponseSearchForFacets>) -> Unit> {
+        return listOf(indexedQuery) to { response.value = it.first() }
+    }
+
     override fun setQuery(text: String?) {
-        indexedQueries.query.query = text
+        indexedQuery.query.query = text
     }
 
     override fun searchAsync(): Job {
@@ -51,7 +55,7 @@ internal class FacetsSearcherImpl(
     }
 
     override suspend fun search(): ResponseSearchForFacets {
-        return service.search(indexedQueries, options)
+        return service.search(indexedQuery, options)
     }
 
     override fun cancel() {

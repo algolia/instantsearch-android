@@ -12,5 +12,10 @@ public interface MultiSearchComponent<out Request : IndexedQuery, Response : Res
     /**
      * The component query as [IndexedQuery]
      */
-    public val indexedQueries: List<Request>
+    public val indexedQuery: Request
+
+    /**
+     * Collects requests list and a callback for responses list.
+     */
+    public fun collect(): Pair<List<Request>, (List<Response>) -> Unit>
 }
