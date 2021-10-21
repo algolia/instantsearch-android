@@ -5,6 +5,7 @@ import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
+import com.algolia.search.model.response.ResultMultiSearch
 import com.algolia.search.transport.RequestOptions
 
 internal class HitsService(
@@ -14,14 +15,15 @@ internal class HitsService(
     override suspend fun search(request: Request, requestOptions: RequestOptions?): ResponseSearch {
         val (query, filterGroups) = request
         return when {
-            filterGroups.isNotEmpty() -> multiSearch(request, requestOptions)
+            request.filterGroups.isNotEmpty() -> multiSearch(request, requestOptions)
             else -> indexSearch(request.indexQuery, requestOptions)
         }
     }
 
     private suspend fun multiSearch(request: Request, requestOptions: RequestOptions?): ResponseSearch {
         return advancedSearch(request.indexQuery, request.filterGroups) { queries ->
-            client.search(requests = queries, requestOptions = requestOptions)
+            val response = client.search(requests = queries, requestOptions = requestOptions)
+            response.results.map { (it as ResultMultiSearch.Hits).response }
         }
     }
 

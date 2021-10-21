@@ -33,7 +33,7 @@ public fun FacetsSearcher(
     coroutineScope: CoroutineScope = SearcherScope(),
 ): FacetsSearcher = FacetsSearcherImpl(
     client = client,
-    indexedQuery = FacetIndexQuery(indexName, query, attribute, facetQuery),
+    indexedQueries = FacetIndexQuery(indexName, query, attribute, facetQuery),
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
 )

@@ -6,10 +6,7 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.filter.FilterGroupsConverter
 import com.algolia.search.model.multipleindex.IndexQuery
-import com.algolia.search.model.multipleindex.IndexedQuery
-import com.algolia.search.model.response.ResponseMultiSearch
 import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.response.ResultMultiSearch
 import com.algolia.search.model.search.Facet
 import com.algolia.search.model.search.FacetStats
 
@@ -19,8 +16,17 @@ import com.algolia.search.model.search.FacetStats
 internal suspend fun advancedSearch(
     indexQuery: IndexQuery,
     filterGroups: Set<FilterGroup<*>>,
-    search: suspend (List<IndexedQuery>) -> ResponseMultiSearch
+    search: suspend (List<IndexQuery>) -> List<ResponseSearch>
 ): ResponseSearch {
+    val advancedQuery = advancedQueryOf(indexQuery, filterGroups)
+    val responses = search(advancedQuery.queries)
+    return responses.aggregateResult(advancedQuery.disjunctiveFacetCount)
+}
+
+/**
+ * Builds an [AdvancedQuery] based on [IndexQuery] and [FilterGroup]s.
+ */
+internal fun advancedQueryOf(indexQuery: IndexQuery, filterGroups: Set<FilterGroup<*>>): AdvancedQuery {
     val filtersAnd = filterGroups.filterIsInstance<FilterGroup.And<*>>().flatten()
     val filtersOr = filterGroups.filterIsInstance<FilterGroup.Or<*>>().flatten()
     val disjunctiveFacets = filtersOr.map { it.attribute }.toSet()
@@ -56,8 +62,7 @@ internal suspend fun advancedSearch(
             }
     }
     val queries = listOf(queryForResults) + queriesForDisjunctiveFacets + queriesForHierarchicalFacets
-    val response = search(queries)
-    return response.aggregateResult(disjunctiveFacets.size)
+    return AdvancedQuery(queries, disjunctiveFacets.size)
 }
 
 private fun IndexQuery.setFilters(groups: Set<FilterGroup<*>>): IndexQuery {
@@ -101,14 +106,16 @@ private fun IndexQuery.setFacets(facet: Attribute?): IndexQuery {
     return this
 }
 
-private fun ResponseMultiSearch.aggregateResult(disjunctiveFacetCount: Int): ResponseSearch {
-    val responses = results.map { (it as ResultMultiSearch.Hits).response }
-    val resultsDisjunctiveFacets = responses.subList(1, 1 + disjunctiveFacetCount)
-    val resultHierarchicalFacets = responses.subList(1 + disjunctiveFacetCount, responses.size)
+/**
+ * Aggregate multiple [ResponseSearch]s into one [ResponseSearch].
+ */
+private fun List<ResponseSearch>.aggregateResult(disjunctiveFacetCount: Int): ResponseSearch {
+    val resultsDisjunctiveFacets = subList(1, 1 + disjunctiveFacetCount)
+    val resultHierarchicalFacets = subList(1 + disjunctiveFacetCount, size)
     val facets = resultsDisjunctiveFacets.aggregateFacets()
-    val facetStats = responses.aggregateFacetStats()
+    val facetStats = aggregateFacetStats()
     val hierarchicalFacets = resultHierarchicalFacets.aggregateFacets()
-    return responses.first().copy(
+    return first().copy(
         facetStatsOrNull = if (facetStats.isEmpty()) null else facetStats,
         disjunctiveFacetsOrNull = facets,
         hierarchicalFacetsOrNull = if (hierarchicalFacets.isEmpty()) null else hierarchicalFacets,
@@ -127,3 +134,12 @@ private fun List<ResponseSearch>.aggregateFacetStats(): Map<Attribute, FacetStat
         result.facetStatsOrNull?.let { acc + it } ?: acc
     }
 }
+
+/**
+ * Advanced query composed of a list of queries.
+ * (query for hits + queries for disjunctive facets + queries for hierarchical facets).
+ */
+internal class AdvancedQuery(
+    val queries: List<IndexQuery>,
+    val disjunctiveFacetCount: Int
+)

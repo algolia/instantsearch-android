@@ -54,7 +54,7 @@ internal class MultiSearcherImpl(
     }
 
     override suspend fun search(): ResponseMultiSearch {
-        val queries = components.map { it.indexedQuery }
+        val queries = components.map { it.indexedQueries }
         val request = MultiSearchService.Request(queries, strategy)
         return searchService.search(request, options)
     }
@@ -88,9 +88,10 @@ internal class MultiSearcherImpl(
         sequencer.cancelAll()
     }
 
-/*    fun collect(): Pair<List<IndexedQuery>>, (List<MultiResult<Any>>) -> Unit> {
-        val (requests, completions) = components.map { it.collect() }.unzip()
-        val rangePerCompletion = completions.zip(flatRanges(requests))
+    fun collect(): Pair<List<IndexedQuery>, (List<SubscriptionValue<ResultSearch>>) -> Unit> {
+        val (requests, completions) = components.map { it.indexedQueries to it.response }.unzip()
+
+        val rangePerCompletion = completions.zip(requests.flatRanges())
 
         val requestsList = requests.flatten()
         val completionsList: (List<MultiResult<Any>>) -> Unit = { result: List<MultiResult<Any>> ->
@@ -100,19 +101,35 @@ internal class MultiSearcherImpl(
             }
         }
 
-        return requestsList to completionsList
+        //return requestsList to completionsList
+        return TODO()
     }
+
+    /*   fun collect(): Pair<List<IndexedQuery>>, (List<MultiResult<Any>>) -> Unit> {
+           val (requests, completions) = components.map { it.collect() }.unzip()
+           val rangePerCompletion = completions.zip(requests.flatRanges())
+
+           val requestsList = requests.flatten()
+           val completionsList: (List<MultiResult<Any>>) -> Unit = { result: List<MultiResult<Any>> ->
+               rangePerCompletion.map { (completion, range) ->
+                   val resultForCompletion = result.map { it }
+                   completion(resultForCompletion)
+               }
+           }
+
+           return requestsList to completionsList
+       }*/
 
     /// Maps the nested lists to the ranges corresponding to the positions of the nested list elements in the flatten list
     /// Example: [["a", "b", "c"], ["d", "e"], ["f", "g", "h"]] -> [0..<3, 3..<5, 5..<8]
-    private fun <T> flatRanges(list: List<List<T>>): List<IntRange> {
+    private fun <T> List<List<T>>.flatRanges(): List<IntRange> {
         val ranges = mutableListOf<IntRange>()
         var offset = 0
-        for (sublist in list) {
+        for (sublist in this) {
             val nextOffset = offset + sublist.size
             ranges += offset..sublist.size
             offset = nextOffset
         }
         return ranges
-    }*/
+    }
 }
