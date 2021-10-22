@@ -2,7 +2,6 @@ package com.algolia.instantsearch.helper.searcher.multi.hits
 
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
-import com.algolia.instantsearch.helper.searcher.multi.AbstractMultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.hits.internal.HitsSearcherImpl
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
@@ -42,7 +41,7 @@ public fun HitsSearcher(
 /**
  * Adds a [HitsSearcher] to the [MultiSearcher] instance.
  */
-public fun AbstractMultiSearcher.addHitsSearcher(
+public fun MultiSearcher.addHitsSearcher(
     indexName: IndexName,
     query: Query = Query(),
     requestOptions: RequestOptions? = null
