@@ -5,8 +5,10 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
-import com.algolia.instantsearch.helper.searcher.multi.MultiSearchComponent
+import com.algolia.instantsearch.helper.searcher.multi.AbstractMultiSearcher
+import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
+import com.algolia.instantsearch.helper.searcher.multi.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.multipleindex.IndexedQuery
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
@@ -27,7 +29,7 @@ internal class MultiSearcherImpl(
     val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope()
-) : MultiSearcher() {
+) : AbstractMultiSearcher() {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)

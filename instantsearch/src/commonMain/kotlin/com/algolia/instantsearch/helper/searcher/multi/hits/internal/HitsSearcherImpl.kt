@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
+import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.instantsearch.helper.searcher.multi.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.filter.FilterGroup
@@ -26,7 +27,7 @@ internal class HitsSearcherImpl(
     override val indexedQuery: IndexQuery,
     requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : HitsSearcher {
+) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)

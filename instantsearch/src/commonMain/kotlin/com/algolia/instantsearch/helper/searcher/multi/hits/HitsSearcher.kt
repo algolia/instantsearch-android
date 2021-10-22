@@ -1,7 +1,8 @@
 package com.algolia.instantsearch.helper.searcher.multi.hits
 
+import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
-import com.algolia.instantsearch.helper.searcher.multi.MultiSearchComponent
+import com.algolia.instantsearch.helper.searcher.multi.AbstractMultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.hits.internal.HitsSearcherImpl
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
@@ -18,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
  * The component handling search requests and managing the search sessions.
  * This implementation searches for hits.
  */
-public interface HitsSearcher : MultiSearchComponent<IndexQuery, ResponseSearch> {
+public interface HitsSearcher : Searcher<ResponseSearch> {
     public var filterGroups: Set<FilterGroup<*>> // TODO() make it internal, modifiable with filter state connections
 }
 
@@ -41,17 +42,15 @@ public fun HitsSearcher(
 /**
  * Adds a [HitsSearcher] to the [MultiSearcher] instance.
  */
-@Suppress("UNCHECKED_CAST")
-public fun MultiSearcher.addHitsSearcher(
+public fun AbstractMultiSearcher.addHitsSearcher(
     indexName: IndexName,
     query: Query = Query(),
     requestOptions: RequestOptions? = null
 ): HitsSearcher {
-    return HitsSearcher(
+    return HitsSearcherImpl(
         client = client,
-        indexName = indexName,
-        query = query,
+        indexedQuery = IndexQuery(indexName, query),
         requestOptions = requestOptions,
-        coroutineScope = coroutineScope
+        coroutineScope = coroutineScope,
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }

@@ -14,18 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 /**
  * Extracts queries from queries sources, performs search request and dispatches the results to the corresponding receivers.
  */
-public abstract class MultiSearcher : Searcher<ResponseMultiSearch> {
-
-    /**
-     * Client to perform operations on indices.
-     */
-    internal abstract val client: ClientSearch
-
-    /**
-     * Adds a search component to the multi-searcher.
-     */
-    internal abstract fun addSearcher(component: MultiSearchComponent<IndexedQuery, ResultSearch>): MultiSearchComponent<IndexedQuery, ResultSearch>
-}
+public interface MultiSearcher : Searcher<ResponseMultiSearch>
 
 /**
  * Creates an instance of [MultiSearcher].

@@ -1,7 +1,8 @@
 package com.algolia.instantsearch.helper.searcher.multi.facets
 
+import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
-import com.algolia.instantsearch.helper.searcher.multi.MultiSearchComponent
+import com.algolia.instantsearch.helper.searcher.multi.AbstractMultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.facets.internal.FacetsSearcherImpl
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
@@ -18,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
  * The component handling search requests and managing the search sessions.
  * This implementation searches for facet values.
  */
-public interface FacetsSearcher : MultiSearchComponent<FacetIndexQuery, ResponseSearchForFacets>
+public interface FacetsSearcher : Searcher<ResponseSearchForFacets>
 
 /**
  * Creates an instance of [FacetsSearcher].
@@ -41,20 +42,17 @@ public fun FacetsSearcher(
 /**
  * Adds a [FacetsSearcher] to the [MultiSearcher] instance.
  */
-public fun MultiSearcher.addFacetsSearcher(
+public fun AbstractMultiSearcher.addFacetsSearcher(
     indexName: IndexName,
     attribute: Attribute,
     query: Query = Query(),
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null
 ): FacetsSearcher {
-    return FacetsSearcher(
+    return FacetsSearcherImpl(
         client = client,
-        indexName = indexName,
-        attribute = attribute,
-        query = query,
-        facetQuery = facetQuery,
+        indexedQuery = FacetIndexQuery(indexName, query, attribute, facetQuery),
         requestOptions = requestOptions,
-        coroutineScope = coroutineScope
+        coroutineScope = coroutineScope,
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }

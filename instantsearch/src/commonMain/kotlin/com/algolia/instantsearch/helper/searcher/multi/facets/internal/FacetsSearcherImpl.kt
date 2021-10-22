@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
+import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.instantsearch.helper.searcher.multi.facets.FacetsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.multipleindex.FacetIndexQuery
@@ -25,7 +26,7 @@ internal class FacetsSearcherImpl(
     override val indexedQuery: FacetIndexQuery,
     requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : FacetsSearcher {
+) : FacetsSearcher, MultiSearchComponent<FacetIndexQuery, ResponseSearchForFacets> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
