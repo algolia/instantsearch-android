@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.searcher.multi.hits.internal
 
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.SearcherScope
@@ -22,6 +23,7 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches a single index.
  */
+@ExperimentalInstantSearch
 internal class HitsSearcherImpl(
     client: ClientSearch,
     override val indexedQuery: IndexQuery,

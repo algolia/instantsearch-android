@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.searcher.multi
 
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
@@ -15,7 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 /**
  *  Extracts queries from queries sources, performs search request and dispatches the results to the corresponding receivers.
  */
-// TODO: mark this as experimental
+@ExperimentalInstantSearch
 public abstract class MultiSearcher : Searcher<ResponseMultiSearch> {
 
     /**
@@ -31,7 +32,13 @@ public abstract class MultiSearcher : Searcher<ResponseMultiSearch> {
 
 /**
  * Creates an instance of [MultiSearcher].
+ *
+ * @param client search client instance
+ * @param strategy multi-queries search strategy
+ * @param requestOptions request local configuration
+ * @param coroutineScope scope of coroutine operations
  */
+@ExperimentalInstantSearch
 public fun MultiSearcher(
     client: ClientSearch,
     strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,

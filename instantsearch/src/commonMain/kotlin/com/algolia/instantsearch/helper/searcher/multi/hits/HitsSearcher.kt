@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.searcher.multi.hits
 
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
@@ -18,13 +19,21 @@ import kotlinx.coroutines.CoroutineScope
  * The component handling search requests and managing the search sessions.
  * This implementation searches for hits.
  */
+@ExperimentalInstantSearch
 public interface HitsSearcher : Searcher<ResponseSearch> {
     public var filterGroups: Set<FilterGroup<*>> // TODO() make it internal, modifiable with filter state connections
 }
 
 /**
  * Creates an instance of [HitsSearcher].
+ *
+ * @param client search client instance
+ * @param indexName index name
+ * @param query the query used for search
+ * @param requestOptions request local configuration
+ * @param coroutineScope scope of coroutine operations
  */
+@ExperimentalInstantSearch
 public fun HitsSearcher(
     client: ClientSearch,
     indexName: IndexName,
@@ -40,7 +49,12 @@ public fun HitsSearcher(
 
 /**
  * Adds a [HitsSearcher] to the [MultiSearcher] instance.
+ *
+ * @param indexName index name
+ * @param query the query used for search
+ * @param requestOptions request local configuration
  */
+@ExperimentalInstantSearch
 public fun MultiSearcher.addHitsSearcher(
     indexName: IndexName,
     query: Query = Query(),

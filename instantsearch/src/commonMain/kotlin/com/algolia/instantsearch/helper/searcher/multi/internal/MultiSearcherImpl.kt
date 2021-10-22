@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.searcher.multi.internal
 
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.SearcherScope
@@ -22,6 +23,7 @@ import kotlinx.coroutines.withContext
 /**
  * Extracts queries from queries sources, performs search request and dispatches the results to the corresponding receivers.
  */
+@ExperimentalInstantSearch
 internal class MultiSearcherImpl(
     override val client: ClientSearch,
     val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
