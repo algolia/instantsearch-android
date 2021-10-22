@@ -6,10 +6,16 @@ import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.response.ResponseMultiSearch
 import com.algolia.search.transport.RequestOptions
 
+/**
+ * Search service for multi search operations.
+ */
 internal class MultiSearchService(
     private val client: ClientSearch
 ) : SearchService<MultiSearchService.Request, ResponseMultiSearch> {
 
+    /**
+     * Request for multi search operations.
+     */
     data class Request(
         val queries: List<IndexedQuery>,
         val strategy: MultipleQueriesStrategy? = null,

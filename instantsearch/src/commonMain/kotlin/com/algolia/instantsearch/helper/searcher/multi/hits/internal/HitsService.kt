@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.searcher.multi.hits.internal
 
 import com.algolia.instantsearch.helper.searcher.multi.internal.SearchService
-import com.algolia.instantsearch.helper.searcher.multi.internal.asResponseSearchList
+import com.algolia.instantsearch.helper.searcher.multi.internal.extension.asResponseSearchList
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.dsl.filters
 import com.algolia.search.model.Attribute
@@ -14,6 +14,9 @@ import com.algolia.search.model.search.Facet
 import com.algolia.search.model.search.FacetStats
 import com.algolia.search.transport.RequestOptions
 
+/**
+ * Search service for hits.
+ */
 internal class HitsService(
     val client: ClientSearch
 ) : SearchService<HitsService.Request, ResponseSearch> {

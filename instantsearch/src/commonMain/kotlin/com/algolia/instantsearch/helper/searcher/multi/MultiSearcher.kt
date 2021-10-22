@@ -26,7 +26,7 @@ public abstract class MultiSearcher : Searcher<ResponseMultiSearch> {
     /**
      * Adds a search component to the multi-searcher.
      */
-    internal abstract fun addSearcher(component: MultiSearchComponent<IndexedQuery, ResultSearch>): MultiSearchComponent<IndexedQuery, ResultSearch>
+    internal abstract fun addSearcher(component: MultiSearchComponent<IndexedQuery, ResultSearch>)
 }
 
 /**

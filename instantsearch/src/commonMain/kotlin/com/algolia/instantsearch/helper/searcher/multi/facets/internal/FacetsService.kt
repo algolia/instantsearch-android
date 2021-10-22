@@ -6,6 +6,9 @@ import com.algolia.search.model.multipleindex.FacetIndexQuery
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.transport.RequestOptions
 
+/**
+ * Search service for facets.
+ */
 internal class FacetsService(
     val client: ClientSearch
 ) : SearchService<FacetIndexQuery, ResponseSearchForFacets> {

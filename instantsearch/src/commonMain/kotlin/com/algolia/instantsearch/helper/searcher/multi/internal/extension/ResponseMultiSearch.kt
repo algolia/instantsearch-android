@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.searcher.multi.internal
+package com.algolia.instantsearch.helper.searcher.multi.internal.extension
 
 import com.algolia.search.model.response.ResponseMultiSearch
 import com.algolia.search.model.response.ResponseSearch

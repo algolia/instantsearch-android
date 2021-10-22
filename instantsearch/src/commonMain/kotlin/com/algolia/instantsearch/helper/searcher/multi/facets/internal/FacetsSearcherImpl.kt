@@ -5,9 +5,10 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
-import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.instantsearch.helper.searcher.multi.facets.FacetsSearcher
+import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.search.client.ClientSearch
+import com.algolia.search.model.IndexName
 import com.algolia.search.model.multipleindex.FacetIndexQuery
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.transport.RequestOptions
@@ -27,6 +28,9 @@ internal class FacetsSearcherImpl(
     requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : FacetsSearcher, MultiSearchComponent<FacetIndexQuery, ResponseSearchForFacets> {
+
+    override var indexName: IndexName by indexedQuery::indexName
+    override var facetQuery: String? by indexedQuery::facetQuery
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
@@ -62,4 +66,6 @@ internal class FacetsSearcherImpl(
     override fun cancel() {
         sequencer.cancelAll()
     }
+
+
 }

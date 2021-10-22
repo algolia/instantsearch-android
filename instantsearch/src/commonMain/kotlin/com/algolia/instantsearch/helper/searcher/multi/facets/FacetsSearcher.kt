@@ -18,7 +18,18 @@ import kotlinx.coroutines.CoroutineScope
  * The component handling search requests and managing the search sessions.
  * This implementation searches for facet values.
  */
-public interface FacetsSearcher : Searcher<ResponseSearchForFacets>
+public interface FacetsSearcher : Searcher<ResponseSearchForFacets> {
+
+    /**
+     * Index name to perform search.
+     */
+    public var indexName: IndexName
+
+    /**
+     * Facet query.
+     */
+    public var facetQuery: String?
+}
 
 /**
  * Creates an instance of [FacetsSearcher].

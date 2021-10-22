@@ -6,6 +6,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
+import com.algolia.instantsearch.helper.searcher.multi.internal.extension.asResultSearchList
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.multipleindex.IndexedQuery
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
@@ -54,9 +55,8 @@ internal class MultiSearcherImpl(
      *
      * @param component multi search component to add
      */
-    override fun addSearcher(component: MultiSearchComponent<IndexedQuery, ResultSearch>): MultiSearchComponent<IndexedQuery, ResultSearch> {
+    override fun addSearcher(component: MultiSearchComponent<IndexedQuery, ResultSearch>) {
         components += component
-        return component
     }
 
     override fun setQuery(text: String?) {
@@ -73,16 +73,21 @@ internal class MultiSearcherImpl(
         return coroutineScope.launch(exceptionHandler) {
             isLoading.value = true
             val (queries, completion) = collect()
-            val request = MultiSearchService.Request(queries, strategy)
-            val response = withContext(Dispatchers.Default) { searchService.search(request, options) }
-            setResponse(response, completion)
+            val response = withContext(Dispatchers.Default) {
+                val request = MultiSearchService.Request(queries, strategy)
+                searchService.search(request, options)
+            }
+            onSearchResponse(response, completion)
             isLoading.value = false
         }.also {
             sequencer.addOperation(it)
         }
     }
 
-    private fun setResponse(response: ResponseMultiSearch, completion: (List<ResultSearch>) -> Unit) {
+    /**
+     * Sets response search and dispatches the results to the multi-search components.
+     */
+    private fun onSearchResponse(response: ResponseMultiSearch, completion: (List<ResultSearch>) -> Unit) {
         this.response.value = response
         completion(response.asResultSearchList())
     }
@@ -109,7 +114,7 @@ internal class MultiSearcherImpl(
 
     /**
      * Maps the nested lists to the ranges corresponding to the positions of the nested list elements in the flatten list
-     * Example: [["a", "b", "c"], ["d", "e"], ["f", "g", "h"]] -> [0..<3, 3..<5, 5..<8]
+     * Example: [["a", "b", "c"], ["d", "e"], ["f", "g", "h"]] -> [0..2, 3..4, 5..7]
      */
     private fun <T> List<List<T>>.flatRanges(): List<IntRange> {
         val ranges = mutableListOf<IntRange>()
