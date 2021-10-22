@@ -37,7 +37,7 @@ internal class FacetsSearcherImpl(
     private val sequencer = Sequencer()
 
     override fun collect(): Pair<List<FacetIndexQuery>, (List<ResponseSearchForFacets>) -> Unit> {
-        return listOf(indexedQuery) to { response.value = it.first() }
+        return listOf(indexedQuery) to { response.value = it.firstOrNull() }
     }
 
     override fun setQuery(text: String?) {

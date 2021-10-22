@@ -39,6 +39,17 @@ internal class MultiSearcherImpl(
     private val searchService = MultiSearchService(client)
     private val options = requestOptions.withUserAgent()
 
+    init {
+        isLoading.subscribe { loading ->
+            components.forEach { it.isLoading.value = loading }
+        }
+
+        error.subscribe { throwable ->
+            components.forEach { it.error.value = throwable }
+            isLoading.value = false
+        }
+    }
+
     /**
      * Add a searcher component.
      *
@@ -61,22 +72,20 @@ internal class MultiSearcherImpl(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
-            setLoading(true)
+            isLoading.value = true
             val (queries, completion) = collect()
             val request = MultiSearchService.Request(queries, strategy)
             val response = withContext(Dispatchers.Default) { searchService.search(request, options) }
-            completion(response.asResultSearchList())
-            setLoading(false)
+            setResponse(response, completion)
+            isLoading.value = false
         }.also {
             sequencer.addOperation(it)
         }
     }
 
-    private fun setLoading(isLoading: Boolean) {
-        this.isLoading.value = isLoading
-        components.forEach {
-            it.isLoading.value = isLoading
-        }
+    private fun setResponse(response: ResponseMultiSearch, completion: (List<ResultSearch>) -> Unit) {
+        this.response.value = response
+        completion(response.asResultSearchList())
     }
 
     override fun cancel() {
@@ -108,7 +117,7 @@ internal class MultiSearcherImpl(
         var offset = 0
         for (sublist in this) {
             val nextOffset = offset + sublist.size
-            ranges += offset..sublist.size
+            ranges += offset until nextOffset
             offset = nextOffset
         }
         return ranges

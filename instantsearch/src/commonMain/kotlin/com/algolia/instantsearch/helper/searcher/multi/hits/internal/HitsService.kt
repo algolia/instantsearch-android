@@ -59,7 +59,7 @@ internal class HitsService(
         val filtersOrFacet = filtersOr.filterIsInstance<Filter.Facet>()
         val filtersOrTag = filtersOr.filterIsInstance<Filter.Tag>()
         val filtersOrNumeric = filtersOr.filterIsInstance<Filter.Numeric>()
-        val queryForResults = indexQuery.copy().setFilters(filterGroups)
+        val queryForResults = indexQuery.clone().setFilters(filterGroups)
         val queriesForDisjunctiveFacets = disjunctiveFacets.map { attribute ->
             val groups = filterGroups.map { group ->
                 if (group is FilterGroup.Or.Facet) {
@@ -67,7 +67,7 @@ internal class HitsService(
                 } else group
             }
 
-            indexQuery.copy()
+            indexQuery.clone()
                 .setFacets(attribute)
                 .optimize()
                 .setFilters(groups.toSet())
@@ -76,7 +76,7 @@ internal class HitsService(
             it.attributes
                 .take(it.path.size + 1)
                 .mapIndexed { index, attribute ->
-                    indexQuery.copy()
+                    indexQuery.clone()
                         .filters(
                             filtersAnd.combine(it.path.getOrNull(index - 1)).minus(it.path.last()),
                             filtersOrFacet,
@@ -89,6 +89,10 @@ internal class HitsService(
         }
         val queries = listOf(queryForResults) + queriesForDisjunctiveFacets + queriesForHierarchicalFacets
         return AdvancedQuery(queries, disjunctiveFacets.size)
+    }
+
+    private fun IndexQuery.clone(): IndexQuery {
+        return copy(query = query.copy())
     }
 
     private fun IndexQuery.setFilters(groups: Set<FilterGroup<*>>): IndexQuery {
