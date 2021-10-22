@@ -6,12 +6,14 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
-import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.instantsearch.helper.searcher.multi.hits.HitsSearcher
+import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.search.client.ClientSearch
+import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
+import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,11 +28,13 @@ import kotlinx.coroutines.withContext
 @ExperimentalInstantSearch
 internal class HitsSearcherImpl(
     client: ClientSearch,
-    override val indexedQuery: IndexQuery,
-    requestOptions: RequestOptions? = null,
+    override var indexName: IndexName,
+    override val query: Query,
+    override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
+    override val indexedQuery: IndexQuery get() = IndexQuery(indexName, query)
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
@@ -43,7 +47,7 @@ internal class HitsSearcherImpl(
     override var filterGroups: Set<FilterGroup<*>> = setOf()
 
     override fun setQuery(text: String?) {
-        indexedQuery.query.query = text
+        this.query.query = text
     }
 
     override fun collect(): Pair<List<IndexQuery>, (List<ResponseSearch>) -> Unit> {

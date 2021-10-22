@@ -9,9 +9,11 @@ import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.instantsearch.helper.searcher.multi.facets.FacetsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.search.client.ClientSearch
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.multipleindex.FacetIndexQuery
 import com.algolia.search.model.response.ResponseSearchForFacets
+import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,14 +28,15 @@ import kotlinx.coroutines.withContext
 @ExperimentalInstantSearch
 internal class FacetsSearcherImpl(
     client: ClientSearch,
-    override val indexedQuery: FacetIndexQuery,
-    requestOptions: RequestOptions? = null,
+    override var indexName: IndexName,
+    override val query: Query,
+    override val attribute: Attribute,
+    override var facetQuery: String? = null,
+    override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : FacetsSearcher, MultiSearchComponent<FacetIndexQuery, ResponseSearchForFacets> {
 
-    override var indexName: IndexName by indexedQuery::indexName
-    override var facetQuery: String? by indexedQuery::facetQuery
-
+    override val indexedQuery get() = FacetIndexQuery(indexName, query, attribute, facetQuery)
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearchForFacets?> = SubscriptionValue(null)
@@ -48,7 +51,7 @@ internal class FacetsSearcherImpl(
     }
 
     override fun setQuery(text: String?) {
-        indexedQuery.query.query = text
+        this.query.query = text
     }
 
     override fun searchAsync(): Job {

@@ -9,7 +9,6 @@ import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchCom
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
@@ -21,6 +20,22 @@ import kotlinx.coroutines.CoroutineScope
  */
 @ExperimentalInstantSearch
 public interface HitsSearcher : Searcher<ResponseSearch> {
+
+    /**
+     * Index name for search operations
+     */
+    public var indexName: IndexName
+
+    /**
+     * Query to run.
+     */
+    public val query: Query
+
+    /**
+     * Additional/Custom request options.
+     */
+    public val requestOptions: RequestOptions?
+
     public var filterGroups: Set<FilterGroup<*>> // TODO() make it internal, modifiable with filter state connections
 }
 
@@ -42,7 +57,8 @@ public fun HitsSearcher(
     coroutineScope: CoroutineScope = SearcherScope(),
 ): HitsSearcher = HitsSearcherImpl(
     client = client,
-    indexedQuery = IndexQuery(indexName, query),
+    indexName = indexName,
+    query = query,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
 )
@@ -62,7 +78,8 @@ public fun MultiSearcher.addHitsSearcher(
 ): HitsSearcher {
     return HitsSearcherImpl(
         client = client,
-        indexedQuery = IndexQuery(indexName, query),
+        indexName = indexName,
+        query = query,
         requestOptions = requestOptions,
         coroutineScope = coroutineScope,
     ).also { addSearcher(it.asMultiSearchComponent()) }

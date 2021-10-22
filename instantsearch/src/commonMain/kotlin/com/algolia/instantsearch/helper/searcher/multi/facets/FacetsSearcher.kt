@@ -9,7 +9,6 @@ import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchCom
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.multipleindex.FacetIndexQuery
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
@@ -23,14 +22,29 @@ import kotlinx.coroutines.CoroutineScope
 public interface FacetsSearcher : Searcher<ResponseSearchForFacets> {
 
     /**
-     * Index name to perform search.
+     * Index name for search operations
      */
     public var indexName: IndexName
 
     /**
-     * Facet query.
+     * Facets attribute.
+     */
+    public val attribute: Attribute
+
+    /**
+     * Query to run.
+     */
+    public val query: Query
+
+    /**
+     * Facets query.
      */
     public var facetQuery: String?
+
+    /**
+     * Additional/Custom request options.
+     */
+    public val requestOptions: RequestOptions?
 }
 
 /**
@@ -55,7 +69,10 @@ public fun FacetsSearcher(
     coroutineScope: CoroutineScope = SearcherScope(),
 ): FacetsSearcher = FacetsSearcherImpl(
     client = client,
-    indexedQuery = FacetIndexQuery(indexName, query, attribute, facetQuery),
+    indexName = indexName,
+    query = query,
+    attribute = attribute,
+    facetQuery = facetQuery,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
 )
@@ -79,7 +96,10 @@ public fun MultiSearcher.addFacetsSearcher(
 ): FacetsSearcher {
     return FacetsSearcherImpl(
         client = client,
-        indexedQuery = FacetIndexQuery(indexName, query, attribute, facetQuery),
+        indexName = indexName,
+        query = query,
+        attribute = attribute,
+        facetQuery = facetQuery,
         requestOptions = requestOptions,
         coroutineScope = coroutineScope,
     ).also { addSearcher(it.asMultiSearchComponent()) }
