@@ -15,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 /**
  *  Extracts queries from queries sources, performs search request and dispatches the results to the corresponding receivers.
  */
+// TODO: mark this as experimental
 public abstract class MultiSearcher : Searcher<ResponseMultiSearch> {
 
     /**
