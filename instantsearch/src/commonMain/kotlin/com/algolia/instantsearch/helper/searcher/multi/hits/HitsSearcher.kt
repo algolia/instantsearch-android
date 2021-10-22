@@ -19,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
  * This implementation searches for hits.
  */
 public interface HitsSearcher : MultiSearchComponent<IndexQuery, ResponseSearch> {
-    public var filterGroups: Set<FilterGroup<*>>
+    public var filterGroups: Set<FilterGroup<*>> // TODO() make it internal, modifiable with filter state connections
 }
 
 /**
