@@ -35,8 +35,6 @@ public interface HitsSearcher : Searcher<ResponseSearch> {
      * Additional/Custom request options.
      */
     public val requestOptions: RequestOptions?
-
-    public var filterGroups: Set<FilterGroup<*>> // TODO() make it internal, modifiable with filter state connections
 }
 
 /**

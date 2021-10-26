@@ -44,7 +44,7 @@ internal class HitsSearcherImpl(
     private val sequencer = Sequencer()
     private val options = requestOptions.withUserAgent()
 
-    override var filterGroups: Set<FilterGroup<*>> = setOf()
+    internal val filterGroups: Set<FilterGroup<*>> = setOf()
 
     override fun setQuery(text: String?) {
         this.query.query = text
