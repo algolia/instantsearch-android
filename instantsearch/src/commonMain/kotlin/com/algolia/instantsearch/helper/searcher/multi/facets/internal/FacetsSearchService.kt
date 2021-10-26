@@ -9,7 +9,7 @@ import com.algolia.search.transport.RequestOptions
 /**
  * Search service for facets.
  */
-internal class FacetsService(
+internal class FacetsSearchService(
     val client: ClientSearch
 ) : SearchService<FacetIndexQuery, ResponseSearchForFacets> {
 

@@ -41,7 +41,7 @@ internal class FacetsSearcherImpl(
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearchForFacets?> = SubscriptionValue(null)
 
-    private val service = FacetsService(client)
+    private val service = FacetsSearchService(client)
     private val options = requestOptions.withUserAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()

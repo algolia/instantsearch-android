@@ -17,9 +17,9 @@ import com.algolia.search.transport.RequestOptions
 /**
  * Search service for hits.
  */
-internal class HitsService(
+internal class HitsSearchService(
     val client: ClientSearch
-) : SearchService<HitsService.Request, ResponseSearch> {
+) : SearchService<HitsSearchService.Request, ResponseSearch> {
 
     override suspend fun search(request: Request, requestOptions: RequestOptions?): ResponseSearch {
         val (indexQuery, filterGroups, isDisjunctiveFacetingEnabled) = request

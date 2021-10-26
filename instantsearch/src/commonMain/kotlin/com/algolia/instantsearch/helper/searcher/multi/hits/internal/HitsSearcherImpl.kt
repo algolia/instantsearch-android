@@ -40,7 +40,7 @@ internal class HitsSearcherImpl(
     override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
 
     private val exceptionHandler = SearcherExceptionHandler(this)
-    private val hitsService = HitsService(client)
+    private val hitsService = HitsSearchService(client)
     private val sequencer = Sequencer()
     private val options = requestOptions.withUserAgent()
 
@@ -66,7 +66,7 @@ internal class HitsSearcherImpl(
     }
 
     override suspend fun search(): ResponseSearch {
-        return hitsService.search(HitsService.Request(indexedQuery, filterGroups), options)
+        return hitsService.search(HitsSearchService.Request(indexedQuery, filterGroups), options)
     }
 
     override fun cancel() {
