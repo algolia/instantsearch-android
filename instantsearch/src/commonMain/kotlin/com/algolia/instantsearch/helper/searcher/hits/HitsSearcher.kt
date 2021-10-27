@@ -1,10 +1,10 @@
-package com.algolia.instantsearch.helper.searcher.multi.hits
+package com.algolia.instantsearch.helper.searcher.hits
 
 import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
-import com.algolia.instantsearch.helper.searcher.multi.hits.internal.DefaultHitsSearcher
+import com.algolia.instantsearch.helper.searcher.hits.internal.DefaultHitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.IndexName

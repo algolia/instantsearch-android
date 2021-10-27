@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.searcher.multi.hits.internal
+package com.algolia.instantsearch.helper.searcher.hits.internal
 
 import com.algolia.instantsearch.helper.searcher.multi.internal.SearchService
 import com.algolia.instantsearch.helper.searcher.multi.internal.extension.asResponseSearchList

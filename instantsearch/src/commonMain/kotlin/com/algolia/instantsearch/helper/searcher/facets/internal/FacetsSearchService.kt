@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.searcher.multi.facets.internal
+package com.algolia.instantsearch.helper.searcher.facets.internal
 
 import com.algolia.instantsearch.helper.searcher.multi.internal.SearchService
 import com.algolia.search.client.ClientSearch
