@@ -5,6 +5,8 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.debounceFilteringInMillis
 import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.helper.searcher.internal.HitsSearcherConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.SearcherAnswersConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.SearcherForFacetsConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.SearcherMultipleConnectionFilterState
@@ -39,4 +41,12 @@ public fun SearcherMultipleIndex.connectFilterState(
     debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
 ): Connection {
     return SearcherMultipleConnectionFilterState(this, filterState, indexName, debouncer)
+}
+
+@ExperimentalInstantSearch
+public fun HitsSearcher.connectFilterState(
+    filterState: FilterState,
+    debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
+): Connection {
+    return HitsSearcherConnectionFilterState(this, filterState, debouncer)
 }
