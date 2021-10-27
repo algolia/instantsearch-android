@@ -18,13 +18,14 @@ import com.algolia.search.transport.RequestOptions
  * Search service for hits.
  */
 internal class HitsSearchService(
-    val client: ClientSearch
+    val client: ClientSearch,
+    var filterGroups: Set<FilterGroup<*>> = setOf()
 ) : SearchService<HitsSearchService.Request, ResponseSearch> {
 
     override suspend fun search(request: Request, requestOptions: RequestOptions?): ResponseSearch {
-        val (indexQuery, filterGroups, isDisjunctiveFacetingEnabled) = request
+        val (indexQuery, isDisjunctiveFacetingEnabled) = request
         return if (isDisjunctiveFacetingEnabled) {
-            multiSearch(indexQuery, filterGroups, requestOptions)
+            multiSearch(indexQuery, requestOptions)
         } else {
             indexSearch(indexQuery, requestOptions)
         }
@@ -35,10 +36,9 @@ internal class HitsSearchService(
      */
     private suspend fun multiSearch(
         indexQuery: IndexQuery,
-        filterGroups: Set<FilterGroup<*>>,
         requestOptions: RequestOptions?
     ): ResponseSearch {
-        val (queries, disjunctiveFacetCount) = advancedQueryOf(indexQuery, filterGroups)
+        val (queries, disjunctiveFacetCount) = advancedQueryOf(indexQuery)
         val response = client.search(requests = queries, requestOptions = requestOptions)
         val responses = response.asResponseSearchList()
         return aggregateResult(responses, disjunctiveFacetCount)
@@ -55,7 +55,7 @@ internal class HitsSearchService(
     /**
      * Builds an [AdvancedQuery] based on [IndexQuery] and [FilterGroup]s.
      */
-    internal fun advancedQueryOf(indexQuery: IndexQuery, filterGroups: Set<FilterGroup<*>>): AdvancedQuery {
+    internal fun advancedQueryOf(indexQuery: IndexQuery): AdvancedQuery {
         val filtersAnd = filterGroups.filterIsInstance<FilterGroup.And<*>>().flatten()
         val filtersOr = filterGroups.filterIsInstance<FilterGroup.Or<*>>().flatten()
         val disjunctiveFacets = filtersOr.map { it.attribute }.toSet()
@@ -173,7 +173,6 @@ internal class HitsSearchService(
      */
     internal data class Request(
         val indexQuery: IndexQuery,
-        val filterGroups: Set<FilterGroup<*>> = emptySet(),
         val isDisjunctiveFacetingEnabled: Boolean = true
     )
 

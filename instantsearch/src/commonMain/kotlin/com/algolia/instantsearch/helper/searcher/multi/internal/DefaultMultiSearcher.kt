@@ -24,7 +24,7 @@ import kotlinx.coroutines.withContext
  * Extracts queries from queries sources, performs search request and dispatches the results to the corresponding receivers.
  */
 @ExperimentalInstantSearch
-internal class MultiSearcherImpl(
+internal class DefaultMultiSearcher(
     override val client: ClientSearch,
     val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     val requestOptions: RequestOptions? = null,

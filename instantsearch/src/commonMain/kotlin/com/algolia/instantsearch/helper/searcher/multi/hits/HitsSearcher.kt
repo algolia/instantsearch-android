@@ -4,11 +4,10 @@ import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
-import com.algolia.instantsearch.helper.searcher.multi.hits.internal.HitsSearcherImpl
+import com.algolia.instantsearch.helper.searcher.multi.hits.internal.DefaultHitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
@@ -53,7 +52,7 @@ public fun HitsSearcher(
     query: Query = Query(),
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
-): HitsSearcher = HitsSearcherImpl(
+): HitsSearcher = DefaultHitsSearcher(
     client = client,
     indexName = indexName,
     query = query,
@@ -74,7 +73,7 @@ public fun MultiSearcher.addHitsSearcher(
     query: Query = Query(),
     requestOptions: RequestOptions? = null
 ): HitsSearcher {
-    return HitsSearcherImpl(
+    return DefaultHitsSearcher(
         client = client,
         indexName = indexName,
         query = query,

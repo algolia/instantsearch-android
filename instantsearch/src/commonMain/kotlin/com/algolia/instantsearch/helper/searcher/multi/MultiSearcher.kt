@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
-import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearcherImpl
+import com.algolia.instantsearch.helper.searcher.multi.internal.DefaultMultiSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.multipleindex.IndexedQuery
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
@@ -44,7 +44,7 @@ public fun MultiSearcher(
     strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope()
-): MultiSearcher = MultiSearcherImpl(
+): MultiSearcher = DefaultMultiSearcher(
     client = client,
     strategy = strategy,
     requestOptions = requestOptions,

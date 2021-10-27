@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
-import com.algolia.instantsearch.helper.searcher.multi.facets.internal.FacetsSearcherImpl
+import com.algolia.instantsearch.helper.searcher.multi.facets.internal.DefaultFacetsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.Attribute
@@ -67,7 +67,7 @@ public fun FacetsSearcher(
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
-): FacetsSearcher = FacetsSearcherImpl(
+): FacetsSearcher = DefaultFacetsSearcher(
     client = client,
     indexName = indexName,
     query = query,
@@ -94,7 +94,7 @@ public fun MultiSearcher.addFacetsSearcher(
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null
 ): FacetsSearcher {
-    return FacetsSearcherImpl(
+    return DefaultFacetsSearcher(
         client = client,
         indexName = indexName,
         query = query,

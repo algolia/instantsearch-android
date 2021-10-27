@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.searcher.multi.hits.internal
+package com.algolia.instantsearch.helper.searcher.multi.facets.internal
 
 import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
@@ -6,13 +6,13 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
-import com.algolia.instantsearch.helper.searcher.multi.hits.HitsSearcher
+import com.algolia.instantsearch.helper.searcher.multi.facets.FacetsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.search.client.ClientSearch
+import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.multipleindex.IndexQuery
-import com.algolia.search.model.response.ResponseSearch
+import com.algolia.search.model.multipleindex.FacetIndexQuery
+import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
@@ -23,36 +23,35 @@ import kotlinx.coroutines.withContext
 
 /**
  * The component handling search requests and managing the search sessions.
- * This implementation searches a single index.
+ * This implementation searches for facet values.
  */
 @ExperimentalInstantSearch
-internal class HitsSearcherImpl(
+internal class DefaultFacetsSearcher(
     client: ClientSearch,
     override var indexName: IndexName,
     override val query: Query,
+    override val attribute: Attribute,
+    override var facetQuery: String? = null,
     override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
+) : FacetsSearcher, MultiSearchComponent<FacetIndexQuery, ResponseSearchForFacets> {
 
-    override val indexedQuery: IndexQuery get() = IndexQuery(indexName, query)
+    override val indexedQuery get() = FacetIndexQuery(indexName, query, attribute, facetQuery)
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
-    override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
+    override val response: SubscriptionValue<ResponseSearchForFacets?> = SubscriptionValue(null)
 
-    private val exceptionHandler = SearcherExceptionHandler(this)
-    private val hitsService = HitsSearchService(client)
-    private val sequencer = Sequencer()
+    private val service = FacetsSearchService(client)
     private val options = requestOptions.withUserAgent()
+    private val exceptionHandler = SearcherExceptionHandler(this)
+    private val sequencer = Sequencer()
 
-    internal val filterGroups: Set<FilterGroup<*>> = setOf()
+    override fun collect(): Pair<List<FacetIndexQuery>, (List<ResponseSearchForFacets>) -> Unit> {
+        return listOf(indexedQuery) to { response.value = it.firstOrNull() }
+    }
 
     override fun setQuery(text: String?) {
         this.query.query = text
-    }
-
-    override fun collect(): Pair<List<IndexQuery>, (List<ResponseSearch>) -> Unit> {
-        val (queries, disjunctiveFacetCount) = hitsService.advancedQueryOf(indexedQuery, filterGroups)
-        return queries to { response.value = hitsService.aggregateResult(it, disjunctiveFacetCount) }
     }
 
     override fun searchAsync(): Job {
@@ -65,11 +64,13 @@ internal class HitsSearcherImpl(
         }
     }
 
-    override suspend fun search(): ResponseSearch {
-        return hitsService.search(HitsSearchService.Request(indexedQuery, filterGroups), options)
+    override suspend fun search(): ResponseSearchForFacets {
+        return service.search(indexedQuery, options)
     }
 
     override fun cancel() {
         sequencer.cancelAll()
     }
+
+
 }
