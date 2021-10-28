@@ -3,6 +3,7 @@ package com.algolia.instantsearch.helper.searcher
 import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Debouncer
+import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceFilteringInMillis
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
@@ -44,9 +45,9 @@ public fun SearcherMultipleIndex.connectFilterState(
 }
 
 @ExperimentalInstantSearch
-public fun HitsSearcher.connectFilterState(
+public fun <T> HitsSearcher.connectFilterState(
     filterState: FilterState,
     debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
-): Connection {
+): Connection where T : Searcher<*>, T : QueryHolder, T : FilterGroupsHolder {
     return HitsSearcherConnectionFilterState(this, filterState, debouncer)
 }
