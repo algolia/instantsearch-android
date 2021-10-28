@@ -34,17 +34,17 @@ internal class DefaultHitsSearcher(
     override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
+    private val hitsService = HitsSearchService(client)
+
     override val indexedQuery: IndexQuery get() = IndexQuery(indexName, query)
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
+    override var filterGroups: Set<FilterGroup<*>> by hitsService::filterGroups
 
     private val exceptionHandler = SearcherExceptionHandler(this)
-    private val hitsService = HitsSearchService(client)
     private val sequencer = Sequencer()
     private val options = requestOptions.withUserAgent()
-
-    internal var filterGroups: Set<FilterGroup<*>> by hitsService::filterGroups
 
     override fun setQuery(text: String?) {
         this.query.query = text
