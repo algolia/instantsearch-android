@@ -9,7 +9,6 @@ import com.algolia.search.model.response.ResultSearch
  */
 internal interface MultiSearchComponent<out Request : IndexedQuery, Response : ResultSearch> : Searcher<Response> {
 
-
     /**
      * Collects requests list and a callback for responses list.
      */

@@ -71,6 +71,4 @@ internal class DefaultFacetsSearcher(
     override fun cancel() {
         sequencer.cancelAll()
     }
-
-
 }
