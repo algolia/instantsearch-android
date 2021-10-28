@@ -3,10 +3,11 @@ package com.algolia.instantsearch.helper.searcher
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Debouncer
-import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceFilteringInMillis
 import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.helper.searcher.internal.FacetsSearcherConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.HitsSearcherConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.SearcherAnswersConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.SearcherForFacetsConnectionFilterState
@@ -45,9 +46,17 @@ public fun SearcherMultipleIndex.connectFilterState(
 }
 
 @ExperimentalInstantSearch
-public fun <T> HitsSearcher.connectFilterState(
+public fun HitsSearcher.connectFilterState(
     filterState: FilterState,
     debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
-): Connection where T : Searcher<*>, T : QueryHolder, T : FilterGroupsHolder {
+): Connection {
     return HitsSearcherConnectionFilterState(this, filterState, debouncer)
+}
+
+@ExperimentalInstantSearch
+public fun FacetsSearcher.connectFilterState(
+    filterState: FilterState,
+    debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
+): Connection {
+    return FacetsSearcherConnectionFilterState(this, filterState, debouncer)
 }
