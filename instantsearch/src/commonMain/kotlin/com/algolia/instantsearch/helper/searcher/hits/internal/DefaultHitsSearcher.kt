@@ -4,9 +4,9 @@ import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.SearcherScope
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.IndexName
@@ -31,12 +31,12 @@ internal class DefaultHitsSearcher(
     override var indexName: IndexName,
     override val query: Query,
     override val requestOptions: RequestOptions? = null,
+    override val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
     private val hitsService = HitsSearchService(client)
 
-    override val indexedQuery: IndexQuery get() = IndexQuery(indexName, query)
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
@@ -45,14 +45,10 @@ internal class DefaultHitsSearcher(
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
     private val options = requestOptions.withUserAgent()
+    private val indexedQuery: IndexQuery get() = IndexQuery(indexName, query)
 
     override fun setQuery(text: String?) {
         this.query.query = text
-    }
-
-    override fun collect(): Pair<List<IndexQuery>, (List<ResponseSearch>) -> Unit> {
-        val (queries, disjunctiveFacetCount) = hitsService.advancedQueryOf(indexedQuery)
-        return queries to { response.value = hitsService.aggregateResult(it, disjunctiveFacetCount) }
     }
 
     override fun searchAsync(): Job {
@@ -66,7 +62,22 @@ internal class DefaultHitsSearcher(
     }
 
     override suspend fun search(): ResponseSearch {
-        return hitsService.search(HitsSearchService.Request(indexedQuery), options)
+        return hitsService.search(HitsSearchService.Request(indexedQuery, isDisjunctiveFacetingEnabled), options)
+    }
+
+    override fun collect(): Pair<List<IndexQuery>, (List<ResponseSearch>) -> Unit> {
+        return if (isDisjunctiveFacetingEnabled) disjunctiveSearch() else singleQuerySearch()
+    }
+
+    private fun disjunctiveSearch(): Pair<List<IndexQuery>, (List<ResponseSearch>) -> Unit> {
+        val (queries, disjunctiveFacetCount) = hitsService.advancedQueryOf(indexedQuery)
+        return queries to { response.value = hitsService.aggregateResult(it, disjunctiveFacetCount) }
+    }
+
+    private fun singleQuerySearch() = listOf(indexedQuery) to ::onSingleQuerySearchResponse
+
+    private fun onSingleQuerySearchResponse(responses: List<ResponseSearch>) {
+        response.value = responses.firstOrNull()
     }
 
     override fun cancel() {

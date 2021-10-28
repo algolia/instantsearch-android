@@ -173,7 +173,7 @@ internal class HitsSearchService(
      */
     internal data class Request(
         val indexQuery: IndexQuery,
-        val isDisjunctiveFacetingEnabled: Boolean = true
+        val isDisjunctiveFacetingEnabled: Boolean
     )
 
     /**

@@ -34,6 +34,11 @@ public interface HitsSearcher : Searcher<ResponseSearch> {
      * Additional/Custom request options.
      */
     public val requestOptions: RequestOptions?
+
+    /**
+     * Flag defining if disjunctive faceting is enabled.
+     */
+    public val isDisjunctiveFacetingEnabled: Boolean
 }
 
 /**
@@ -51,12 +56,14 @@ public fun HitsSearcher(
     indexName: IndexName,
     query: Query = Query(),
     requestOptions: RequestOptions? = null,
+    isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
 ): HitsSearcher = DefaultHitsSearcher(
     client = client,
     indexName = indexName,
     query = query,
     requestOptions = requestOptions,
+    isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
     coroutineScope = coroutineScope,
 )
 
@@ -71,13 +78,15 @@ public fun HitsSearcher(
 public fun MultiSearcher.addHitsSearcher(
     indexName: IndexName,
     query: Query = Query(),
-    requestOptions: RequestOptions? = null
+    requestOptions: RequestOptions? = null,
+    isDisjunctiveFacetingEnabled: Boolean = true,
 ): HitsSearcher {
     return DefaultHitsSearcher(
         client = client,
         indexName = indexName,
         query = query,
         requestOptions = requestOptions,
+        isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
         coroutineScope = coroutineScope,
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }

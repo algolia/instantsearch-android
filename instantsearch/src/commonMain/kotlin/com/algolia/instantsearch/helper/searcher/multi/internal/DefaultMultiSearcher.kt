@@ -66,7 +66,7 @@ internal class DefaultMultiSearcher(
     }
 
     override suspend fun search(): ResponseMultiSearch {
-        val queries = components.map { it.indexedQuery }
+        val queries = components.flatMap { it.collect().first }
         val request = MultiSearchService.Request(queries, strategy)
         return searchService.search(request, options)
     }
