@@ -7,7 +7,6 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.search.model.filter.FilterGroupsConverter
 

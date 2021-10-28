@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.searcher
 
+import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceHitsSearcher
@@ -20,13 +21,14 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches a single index.
  */
+@OptIn(ExperimentalInstantSearch::class)
 public class SearcherSingleIndex(
     public override var index: Index,
     public override val query: Query = Query(),
     public override val requestOptions: RequestOptions? = null,
     public val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : SearcherIndex<Query> {
+) : SearcherIndex<Query>, QueryHolder, FilterGroupsHolder {
 
     internal val sequencer = Sequencer()
 
@@ -37,7 +39,7 @@ public class SearcherSingleIndex(
     private val options get() = requestOptions.withUserAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)
 
-    internal var filterGroups: Set<FilterGroup<*>> = setOf()
+    override var filterGroups: Set<FilterGroup<*>> = setOf()
 
     init {
         traceHitsSearcher()
