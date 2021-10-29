@@ -9,17 +9,12 @@ import com.algolia.search.transport.RequestOptions
 /**
  * Single index searcher.
  */
-public interface SearcherIndex<T : CommonSearchParameters> : Searcher<ResponseSearch> {
+public interface SearcherIndex<T : CommonSearchParameters> : Searcher<ResponseSearch>, QueryHolder<T> {
 
     /**
      * Searcher's Index.
      */
     public var index: Index
-
-    /**
-     * Query to run.
-     */
-    public val query: T
 
     /**
      * Additional/Custom request options.
