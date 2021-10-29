@@ -8,6 +8,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.instantsearch.helper.searcher.SearcherAnswers
+import com.algolia.search.ExperimentalAlgoliaClientAPI
 import com.algolia.search.model.filter.FilterGroupsConverter
 
 @ExperimentalInstantSearch
@@ -36,6 +37,7 @@ internal data class SearcherAnswersConnectionFilterState(
         filterState.filters.unsubscribe(updateSearcher)
     }
 
+    @OptIn(ExperimentalAlgoliaClientAPI::class)
     private fun SearcherAnswers.updateFilters(filters: Filters = filterState) {
         val filterGroups = filters.toFilterGroups()
         query.filters = FilterGroupsConverter.SQL(filterGroups)
