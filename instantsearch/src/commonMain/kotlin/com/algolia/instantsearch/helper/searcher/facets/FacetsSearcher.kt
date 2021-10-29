@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.searcher.facets
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.core.searcher.Searcher
+import com.algolia.instantsearch.helper.searcher.SearcherQuery
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.facets.internal.DefaultFacetsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
@@ -19,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
  * This implementation searches for facet values.
  */
 @ExperimentalInstantSearch
-public interface FacetsSearcher : Searcher<ResponseSearchForFacets> {
+public interface FacetsSearcher : SearcherQuery<Query, ResponseSearchForFacets> {
 
     /**
      * Index name for search operations
@@ -32,19 +32,9 @@ public interface FacetsSearcher : Searcher<ResponseSearchForFacets> {
     public val attribute: Attribute
 
     /**
-     * Query to run.
-     */
-    public val query: Query
-
-    /**
      * Facets query.
      */
     public var facetQuery: String?
-
-    /**
-     * Additional/Custom request options.
-     */
-    public val requestOptions: RequestOptions?
 }
 
 /**

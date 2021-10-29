@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceFacetsSearcher
@@ -24,11 +23,11 @@ import kotlinx.coroutines.withContext
 public class SearcherForFacets(
     public var index: Index,
     public val attribute: Attribute,
-    public val query: Query = Query(),
+    public override val query: Query = Query(),
     public var facetQuery: String? = null,
-    public val requestOptions: RequestOptions? = null,
+    public override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : Searcher<ResponseSearchForFacets> {
+) : SearcherQuery<Query, ResponseSearchForFacets> {
 
     internal val sequencer = Sequencer()
 
