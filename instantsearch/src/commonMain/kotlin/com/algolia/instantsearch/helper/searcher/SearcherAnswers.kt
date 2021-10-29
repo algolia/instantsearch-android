@@ -6,6 +6,7 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceAnswersSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
+import com.algolia.search.ExperimentalAlgoliaClientAPI
 import com.algolia.search.client.Index
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.AnswersQuery
@@ -21,6 +22,7 @@ import kotlinx.coroutines.withContext
  * The component handling Algolia Answers search requests and managing the search sessions.
  */
 @ExperimentalInstantSearch
+@OptIn(ExperimentalAlgoliaClientAPI::class)
 public class SearcherAnswers(
     public override var index: Index,
     public override val query: AnswersQuery = AnswersQuery("", listOf(Language.English)),
