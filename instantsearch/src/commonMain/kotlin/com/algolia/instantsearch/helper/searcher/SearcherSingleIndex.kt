@@ -25,7 +25,7 @@ public class SearcherSingleIndex(
     public override val requestOptions: RequestOptions? = null,
     public val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : SearcherIndex<Query> {
+) : SearcherIndex<Query>, FilterGroupsHolder {
 
     internal val sequencer = Sequencer()
 
@@ -36,7 +36,7 @@ public class SearcherSingleIndex(
     private val options = requestOptions.withUserAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)
 
-    internal var filterGroups: Set<FilterGroup<*>> = setOf()
+    override var filterGroups: Set<FilterGroup<*>> = setOf()
 
     override fun setQuery(text: String?) {
         this.query.query = text

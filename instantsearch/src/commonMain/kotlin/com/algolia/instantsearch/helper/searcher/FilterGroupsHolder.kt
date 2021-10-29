@@ -1,12 +1,10 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.search.model.filter.FilterGroup
 
 /**
  * Component holding filter groups set.
  */
-@ExperimentalInstantSearch
 public interface FilterGroupsHolder {
 
     /**
