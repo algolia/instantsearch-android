@@ -5,27 +5,13 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.debounceFilteringInMillis
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.FacetsSearcherConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.HitsSearcherConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.SearcherAnswersConnectionFilterState
+import com.algolia.instantsearch.helper.searcher.internal.SearcherForFacets
+import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
 import com.algolia.instantsearch.helper.searcher.internal.SearcherMultipleConnectionFilterState
 import com.algolia.search.model.IndexName
-
-public fun SearcherSingleIndex.connectFilterState(
-    filterState: FilterState,
-    debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
-): Connection {
-    return HitsSearcherConnectionFilterState(this, filterState, debouncer)
-}
-
-public fun SearcherForFacets.connectFilterState(
-    filterState: FilterState,
-    debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
-): Connection {
-    return FacetsSearcherConnectionFilterState(this, filterState, debouncer)
-}
 
 @ExperimentalInstantSearch
 public fun SearcherAnswers.connectFilterState(
@@ -44,27 +30,26 @@ public fun SearcherMultipleIndex.connectFilterState(
 }
 
 /**
- * Connection between hits searcher and filter state.
+ * Connection between hits searcher (w/ filter groups) capabilities and filter state.
  *
  * @param filterState the [FilterState] holding your filters
  * @param debouncer delays searcher operations by a specified time duration.
  */
-@ExperimentalInstantSearch
-public fun HitsSearcher.connectFilterState(
+public fun <S> S.connectFilterState(
     filterState: FilterState,
     debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
-): Connection {
+): Connection where S : SearcherForHits, S : FilterGroupsHolder {
     return HitsSearcherConnectionFilterState(this, filterState, debouncer)
 }
 
 /**
- * Connection between facets searcher and filter state.
+ * Connection between searcher for facets and filter state.
  *
  * @param filterState the [FilterState] holding your filters
  * @param debouncer delays searcher operations by a specified time duration.
  */
-@ExperimentalInstantSearch
-public fun FacetsSearcher.connectFilterState(
+@JvmName("filterStateForFacets")
+public fun SearcherForFacets.connectFilterState(
     filterState: FilterState,
     debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
 ): Connection {
