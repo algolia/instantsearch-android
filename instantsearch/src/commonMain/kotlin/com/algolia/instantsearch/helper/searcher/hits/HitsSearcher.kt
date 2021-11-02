@@ -2,14 +2,13 @@ package com.algolia.instantsearch.helper.searcher.hits
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.helper.searcher.FilterGroupsHolder
-import com.algolia.instantsearch.helper.searcher.SearcherQuery
 import com.algolia.instantsearch.helper.searcher.SearcherScope
+import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
 import com.algolia.instantsearch.helper.searcher.hits.internal.DefaultHitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +18,7 @@ import kotlinx.coroutines.CoroutineScope
  * This implementation searches for hits.
  */
 @ExperimentalInstantSearch
-public interface HitsSearcher : SearcherQuery<Query, ResponseSearch>, FilterGroupsHolder {
+public interface HitsSearcher : SearcherForHits, FilterGroupsHolder {
 
     /**
      * Index name for search operations

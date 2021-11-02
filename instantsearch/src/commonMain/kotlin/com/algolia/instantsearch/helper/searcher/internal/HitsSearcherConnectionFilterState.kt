@@ -7,17 +7,16 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
 import com.algolia.instantsearch.helper.searcher.FilterGroupsHolder
-import com.algolia.instantsearch.helper.searcher.SearcherQuery
 import com.algolia.search.model.filter.FilterGroupsConverter
 
 /**
  * Connection between Hits Searcher (searcher w/ query and filterGroups) and filter state.
  */
-internal data class HitsSearcherConnectionFilterState<S, R>(
+internal data class HitsSearcherConnectionFilterState<S>(
     private val searcher: S,
     private val filterState: FilterState,
     private val debouncer: Debouncer,
-) : ConnectionImpl() where S : SearcherQuery<*, R>, S : FilterGroupsHolder {
+) : ConnectionImpl() where S : SearcherForHits, S : FilterGroupsHolder {
 
     private val updateSearcher: Callback<Filters> = { filters ->
         searcher.updateFilters(filters)

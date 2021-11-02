@@ -7,17 +7,16 @@ import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
-import com.algolia.instantsearch.helper.searcher.SearcherQuery
 import com.algolia.search.model.filter.FilterGroupsConverter
 
 /**
  * Connection between facets searcher (searcher w/ query) and filter state.
  */
-internal data class FacetsSearcherConnectionFilterState<S, R>(
-    private val searcher: S,
+internal data class FacetsSearcherConnectionFilterState(
+    private val searcher: SearcherForFacets,
     private val filterState: FilterState,
     private val debouncer: Debouncer,
-) : ConnectionImpl() where  S : SearcherQuery<*, R> {
+) : ConnectionImpl() {
 
     private val updateSearcher: Callback<Filters> = { filters ->
         searcher.updateFilters(filters)
@@ -38,7 +37,7 @@ internal data class FacetsSearcherConnectionFilterState<S, R>(
         filterState.filters.unsubscribe(updateSearcher)
     }
 
-    private fun S.updateFilters(filters: Filters = filterState) {
+    private fun SearcherForFacets.updateFilters(filters: Filters = filterState) {
         query.filters = FilterGroupsConverter.SQL(filters.toFilterGroups())
     }
 }
