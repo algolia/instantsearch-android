@@ -8,9 +8,9 @@ import com.algolia.search.model.search.Query
 /**
  * Convenience implementation of [SearcherQuery] with [Query] and [ResponseSearch].
  */
-internal typealias SearcherForHits = SearcherQuery<Query, ResponseSearch>
+internal typealias SearcherForHits<T> = SearcherQuery<T, ResponseSearch>
 
 /**
  * Convenience implementation of [SearcherQuery] with [Query] and [ResponseSearchForFacets].
  */
-internal typealias SearcherForFacets = SearcherQuery<Query, ResponseSearchForFacets>
+internal typealias SearcherForFacets<T> = SearcherQuery<T, ResponseSearchForFacets>

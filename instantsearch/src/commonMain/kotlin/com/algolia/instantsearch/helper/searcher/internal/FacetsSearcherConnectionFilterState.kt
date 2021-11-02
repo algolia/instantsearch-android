@@ -13,7 +13,7 @@ import com.algolia.search.model.filter.FilterGroupsConverter
  * Connection between facets searcher (searcher w/ query) and filter state.
  */
 internal data class FacetsSearcherConnectionFilterState(
-    private val searcher: SearcherForFacets,
+    private val searcher: SearcherForFacets<*>,
     private val filterState: FilterState,
     private val debouncer: Debouncer,
 ) : ConnectionImpl() {
@@ -37,7 +37,7 @@ internal data class FacetsSearcherConnectionFilterState(
         filterState.filters.unsubscribe(updateSearcher)
     }
 
-    private fun SearcherForFacets.updateFilters(filters: Filters = filterState) {
+    private fun SearcherForFacets<*>.updateFilters(filters: Filters = filterState) {
         query.filters = FilterGroupsConverter.SQL(filters.toFilterGroups())
     }
 }

@@ -3,12 +3,12 @@ package com.algolia.instantsearch.helper.filter.facet.internal
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
-import com.algolia.instantsearch.helper.searcher.SearcherForFacets
+import com.algolia.instantsearch.helper.searcher.SearcherQuery
 import com.algolia.search.model.response.ResponseSearchForFacets
 
 internal data class FacetListConnectionSearcherForFacets(
     private val viewModel: FacetListViewModel,
-    private val searcher: SearcherForFacets,
+    private val searcher: SearcherQuery<*, ResponseSearchForFacets>,
 ) : ConnectionImpl() {
 
     private val updateItems: Callback<ResponseSearchForFacets?> = { response ->

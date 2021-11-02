@@ -18,7 +18,7 @@ internal data class RelatedItemsConnectionView<S, T>(
     private val hit: T,
     private val matchingPatterns: List<MatchingPattern<T>>,
     private val presenter: Presenter<ResponseSearch, List<T>>,
-) : ConnectionImpl() where T : Indexable, S : SearcherForHits {
+) : ConnectionImpl() where T : Indexable, S : SearcherForHits<*> {
 
     init {
         searcher.configureRelatedItems(hit, matchingPatterns)
@@ -41,7 +41,7 @@ internal data class RelatedItemsConnectionView<S, T>(
         searcher.response.unsubscribe(callback)
     }
 
-    private fun <T> SearcherForHits.configureRelatedItems(
+    private fun <T> SearcherForHits<*>.configureRelatedItems(
         hit: T,
         patterns: List<MatchingPattern<T>>,
     ) where T : Indexable {

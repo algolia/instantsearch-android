@@ -38,7 +38,7 @@ public fun SearcherMultipleIndex.connectFilterState(
 public fun <S> S.connectFilterState(
     filterState: FilterState,
     debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
-): Connection where S : SearcherForHits, S : FilterGroupsHolder {
+): Connection where S : SearcherForHits<*>, S : FilterGroupsHolder {
     return HitsSearcherConnectionFilterState(this, filterState, debouncer)
 }
 
@@ -49,7 +49,7 @@ public fun <S> S.connectFilterState(
  * @param debouncer delays searcher operations by a specified time duration.
  */
 @JvmName("filterStateForFacets")
-public fun SearcherForFacets.connectFilterState(
+public fun SearcherForFacets<*>.connectFilterState(
     filterState: FilterState,
     debouncer: Debouncer = Debouncer(debounceFilteringInMillis),
 ): Connection {

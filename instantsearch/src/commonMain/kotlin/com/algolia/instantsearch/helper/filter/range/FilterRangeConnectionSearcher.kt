@@ -20,7 +20,7 @@ import kotlin.reflect.KClass
  */
 public fun <T> FilterRangeConnectionSearcher(
     viewModel: FilterRangeViewModel<T>,
-    searcher: SearcherForHits,
+    searcher: SearcherForHits<*>,
     attribute: Attribute,
     clazz: KClass<T>,
 ): Connection where T : Number, T : Comparable<T> {
@@ -37,7 +37,7 @@ public fun <T> FilterRangeConnectionSearcher(
  */
 public fun <T> FilterRangeConnectionSearcher(
     viewModel: FilterRangeViewModel<T>,
-    searcher: SearcherForHits,
+    searcher: SearcherForHits<*>,
     attribute: Attribute,
     mapper: (Number) -> T,
 ): Connection where T : Number, T : Comparable<T> {

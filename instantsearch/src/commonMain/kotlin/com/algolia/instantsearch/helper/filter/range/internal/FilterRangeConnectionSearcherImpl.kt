@@ -19,7 +19,7 @@ import com.algolia.search.model.search.FacetStats
  */
 internal class FilterRangeConnectionSearcherImpl<T>(
     private val viewModel: FilterRangeViewModel<T>,
-    private val searcher: SearcherForHits,
+    private val searcher: SearcherForHits<*>,
     private val attribute: Attribute,
     private val mapper: (Number) -> T,
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {

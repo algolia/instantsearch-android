@@ -16,7 +16,7 @@ internal data class HitsSearcherConnectionFilterState<S>(
     private val searcher: S,
     private val filterState: FilterState,
     private val debouncer: Debouncer,
-) : ConnectionImpl() where S : SearcherForHits, S : FilterGroupsHolder {
+) : ConnectionImpl() where S : SearcherForHits<*>, S : FilterGroupsHolder {
 
     private val updateSearcher: Callback<Filters> = { filters ->
         searcher.updateFilters(filters)

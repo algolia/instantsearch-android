@@ -8,9 +8,10 @@ import com.algolia.instantsearch.helper.filter.facet.internal.FacetListConnectio
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherForFacets
-import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.SearcherQuery
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.response.ResponseSearch
+import com.algolia.search.model.response.ResponseSearchForFacets
 
 public fun FacetListViewModel.connectFilterState(
     filterState: FilterState,
@@ -29,14 +30,14 @@ public fun FacetListViewModel.connectFilterState(
 }
 
 public fun FacetListViewModel.connectSearcher(
-    searcher: SearcherForHits,
+    searcher: SearcherQuery<*, ResponseSearch>,
     attribute: Attribute,
 ): Connection {
     return FacetListConnectionSearcher(this, searcher, attribute)
 }
 
 public fun FacetListViewModel.connectSearcherForFacet(
-    searcher: SearcherForFacets,
+    searcher: SearcherQuery<*, ResponseSearchForFacets>,
 ): Connection {
     return FacetListConnectionSearcherForFacets(this, searcher)
 }

@@ -8,7 +8,10 @@ import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
+import com.algolia.instantsearch.helper.searcher.SearcherQuery
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.response.ResponseSearch
+import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Facet
 
 /**
@@ -28,9 +31,9 @@ public data class FacetListConnector internal constructor(
 
     internal sealed class Wrapper {
 
-        class Single(val searcher: SearcherIndex<*>) : Wrapper()
+        class Single(val searcher: SearcherQuery<*, ResponseSearch>) : Wrapper()
 
-        class ForFacet(val searcher: SearcherForFacets) : Wrapper()
+        class ForFacet(val searcher: SearcherQuery<*, ResponseSearchForFacets>) : Wrapper()
     }
 
     init {

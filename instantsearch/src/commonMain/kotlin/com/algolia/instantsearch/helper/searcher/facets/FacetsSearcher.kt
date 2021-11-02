@@ -2,8 +2,8 @@ package com.algolia.instantsearch.helper.searcher.facets
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.helper.searcher.SearcherScope
-import com.algolia.instantsearch.helper.searcher.internal.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.facets.internal.DefaultFacetsSearcher
+import com.algolia.instantsearch.helper.searcher.internal.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
 import com.algolia.search.client.ClientSearch
@@ -18,7 +18,7 @@ import kotlinx.coroutines.CoroutineScope
  * This implementation searches for facet values.
  */
 @ExperimentalInstantSearch
-public interface FacetsSearcher : SearcherForFacets {
+public interface FacetsSearcher : SearcherForFacets<Query> {
 
     /**
      * Index name for search operations
