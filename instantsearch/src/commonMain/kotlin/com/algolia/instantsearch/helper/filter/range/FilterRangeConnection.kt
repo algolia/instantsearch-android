@@ -7,9 +7,8 @@ import com.algolia.instantsearch.helper.filter.range.internal.FilterRangeConnect
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherQuery
+import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.response.ResponseSearch
 
 public fun <T> FilterRangeViewModel<T>.connectFilterState(
     filterState: FilterState,
@@ -37,7 +36,7 @@ public fun <T> FilterRangeConnector<T>.connectView(
  * @param attribute attribute to dynamically use its facet stats results.
  */
 public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
-    searcher: SearcherQuery<*, ResponseSearch>,
+    searcher: SearcherForHits,
     attribute: Attribute,
 ): Connection where T : Number, T : Comparable<T> {
     return viewModel.connectSearcher(searcher, attribute)
@@ -50,7 +49,7 @@ public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
  * @param attribute attribute to dynamically use its facet stats results.
  */
 public inline fun <reified T> FilterRangeViewModel<T>.connectSearcher(
-    searcher: SearcherQuery<*, ResponseSearch>,
+    searcher: SearcherForHits,
     attribute: Attribute,
 ): Connection where T : Number, T : Comparable<T> {
     return FilterRangeConnectionSearcher(this, searcher, attribute, T::class)
@@ -64,7 +63,7 @@ public inline fun <reified T> FilterRangeViewModel<T>.connectSearcher(
  * @param mapper explicit mapper to transform facets stats min/max results to the view model's bounds.
  */
 public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
-    searcher: SearcherQuery<*, ResponseSearch>,
+    searcher: SearcherForHits,
     attribute: Attribute,
     noinline mapper: (Number) -> T,
 ): Connection where T : Number, T : Comparable<T> {
@@ -79,7 +78,7 @@ public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
  * @param mapper explicit mapper to transform facets stats min/max results to the view model's bounds.
  */
 public inline fun <reified T> FilterRangeViewModel<T>.connectSearcher(
-    searcher: SearcherQuery<*, ResponseSearch>,
+    searcher: SearcherForHits,
     attribute: Attribute,
     noinline mapper: (Number) -> T,
 ): Connection where T : Number, T : Comparable<T> {

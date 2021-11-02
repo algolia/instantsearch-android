@@ -4,6 +4,7 @@ import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceFacetsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
+import com.algolia.instantsearch.helper.searcher.internal.SearcherForFacets as SearcherFacets
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
@@ -27,9 +28,9 @@ public class SearcherForFacets(
     public var facetQuery: String? = null,
     public override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : SearcherQuery<Query, ResponseSearchForFacets> {
+) : SearcherFacets {
 
-    internal val sequencer = Sequencer()
+    private val sequencer = Sequencer()
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
