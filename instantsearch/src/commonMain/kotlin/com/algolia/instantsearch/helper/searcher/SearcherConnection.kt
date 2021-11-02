@@ -12,6 +12,7 @@ import com.algolia.instantsearch.helper.searcher.internal.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
 import com.algolia.instantsearch.helper.searcher.internal.SearcherMultipleConnectionFilterState
 import com.algolia.search.model.IndexName
+import kotlin.jvm.JvmName
 
 @ExperimentalInstantSearch
 public fun SearcherAnswers.connectFilterState(

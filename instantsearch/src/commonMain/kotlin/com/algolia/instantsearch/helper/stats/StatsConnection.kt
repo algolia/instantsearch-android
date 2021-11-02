@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.stats.internal.StatsConnectionSearcher
 import com.algolia.instantsearch.helper.stats.internal.StatsConnectionView
 import com.algolia.search.model.response.ResponseSearch
+import kotlin.jvm.JvmName
 
 @JvmName("connectViewString")
 public fun StatsViewModel.connectView(
