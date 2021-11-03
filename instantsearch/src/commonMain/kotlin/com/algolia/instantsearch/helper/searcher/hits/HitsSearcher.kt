@@ -2,6 +2,7 @@ package com.algolia.instantsearch.helper.searcher.hits
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.helper.searcher.FilterGroupsHolder
+import com.algolia.instantsearch.helper.searcher.IndexNameHolder
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.hits.internal.DefaultHitsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
@@ -18,12 +19,7 @@ import kotlinx.coroutines.CoroutineScope
  * This implementation searches for hits.
  */
 @ExperimentalInstantSearch
-public interface HitsSearcher : SearcherForHits<Query>, FilterGroupsHolder {
-
-    /**
-     * Index name for search operations
-     */
-    public var indexName: IndexName
+public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterGroupsHolder {
 
     /**
      * Flag defining if disjunctive faceting is enabled.
