@@ -1,5 +1,4 @@
 import com.google.protobuf.gradle.*
-import org.jetbrains.kotlin.daemon.client.KotlinCompilerClient.compile
 
 plugins {
     kotlin("jvm")
@@ -7,7 +6,11 @@ plugins {
 }
 
 dependencies {
-    implementation("com.google.protobuf:protobuf-kotlin:3.19.1")
+    api("com.google.protobuf:protobuf-kotlin:3.19.1")
+}
+
+kotlin {
+    explicitApi()
 }
 
 protobuf {

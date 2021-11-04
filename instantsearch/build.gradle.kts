@@ -84,6 +84,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                implementation(project(":telemetry"))
                 api(libs.ktor.client.okhttp)
                 api(libs.androidx.core)
                 api(libs.androidx.appcompat)

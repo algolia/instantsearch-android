@@ -1,18 +1,20 @@
 syntax = "proto3";
 
+option java_multiple_files = true;
+
 package com.algolia.instantsearch.telemetry;
 
-message TelemetrySchema {
-    repeated TelemetryComponent components = 700;
+message Schema {
+    repeated Component components = 700;
 }
 
-message TelemetryComponent {
-    TelemetryComponentType type = 600;
-    repeated TelemetryComponentParams parameters = 601;
+message Component {
+    ComponentType type = 600;
+    repeated ComponentParam parameters = 601;
     bool isConnector = 602;
 }
 
-enum TelemetryComponentType {
+enum ComponentType {
     UNKNOWN = 0;
     hitsSearcher = 1;
     facetSearcher = 2;
@@ -36,7 +38,7 @@ enum TelemetryComponentType {
     relevantSort = 20;
     sortBy = 21;
 }
-enum TelemetryComponentParams {
+enum ComponentParam {
     undefined = 0;
     apiKey = 1;
     appID = 2;
