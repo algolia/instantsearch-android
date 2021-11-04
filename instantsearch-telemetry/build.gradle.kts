@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly("com.google.protobuf:protobuf-kotlin-lite:3.19.1")
+    api("com.google.protobuf:protobuf-kotlin-lite:3.19.1")
     testImplementation(kotlin("test-junit"))
 }
 
