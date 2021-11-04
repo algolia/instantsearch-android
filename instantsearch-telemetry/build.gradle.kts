@@ -6,7 +6,8 @@ plugins {
 }
 
 dependencies {
-    api("com.google.protobuf:protobuf-kotlin:3.19.1")
+    compileOnly("com.google.protobuf:protobuf-kotlin-lite:3.19.1")
+    testImplementation(kotlin("test-junit"))
 }
 
 kotlin {
@@ -20,6 +21,7 @@ protobuf {
     generateProtoTasks {
         all().forEach { task ->
             task.builtins {
+                getByName("java") { option("lite") }
                 id("kotlin")
             }
         }
