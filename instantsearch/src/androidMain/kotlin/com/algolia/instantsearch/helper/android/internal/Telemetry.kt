@@ -10,6 +10,6 @@ import com.algolia.instantsearch.telemetry.Telemetry
 internal val telemetry = Telemetry()
 
 /**
- * Encode [Schema] to base64 string.
+ * Encodes [Schema] byte array representation as base64 string.
  */
-internal fun Schema.encodeBase64(): String = Base64.encodeToString(toByteArray(), Base64.DEFAULT)
+internal fun Schema.encodeBase64(): String = Base64.encodeToString(toByteArray(), Base64.URL_SAFE)
