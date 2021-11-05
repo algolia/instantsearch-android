@@ -15,7 +15,11 @@ public interface Telemetry {
     /**
      * Track a component by its [ComponentType] and [ComponentParam].
      */
-    public fun trace(componentType: ComponentType, componentParams: List<ComponentParam>)
+    public fun trace(
+        componentType: ComponentType,
+        componentParams: List<ComponentParam> = emptyList(),
+        isConnector: Boolean = false
+    )
 }
 
 /**

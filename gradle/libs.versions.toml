@@ -5,6 +5,7 @@ paging-compose = "1.0.0-alpha14"
 coroutines = "1.5.2-native-mt"
 ktor = "1.6.6"
 work = "2.7.1"
+serialization = "1.2.2"
 
 [libraries]
 # network
@@ -12,9 +13,10 @@ algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", 
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 
 # kotlin
+kotlinx-atomicfu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version = "0.16.2" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
-kotlinx-atomicfu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version = "0.16.2" }
+kotlinx-serialization-protobuf = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-protobuf", version.ref = "serialization" }
 
 # android
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
