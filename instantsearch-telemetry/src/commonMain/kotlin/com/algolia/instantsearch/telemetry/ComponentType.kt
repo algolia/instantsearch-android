@@ -1,0 +1,26 @@
+package com.algolia.instantsearch.telemetry
+
+public expect enum class ComponentType {
+    UNKNOWN,
+    hitsSearcher,
+    facetSearcher,
+    multiSearcher,
+    answersSearcher,
+    filterState,
+    dynamicFacets,
+    hierarchicalFacets,
+    facetList,
+    filterClear,
+    filterList,
+    filterToggle,
+    numberFilter,
+    numberRangeFilter,
+    currentFilters,
+    hits,
+    loading,
+    stats,
+    queryInput,
+    queryRuleCustomData,
+    relevantSort,
+    sortBy,
+}

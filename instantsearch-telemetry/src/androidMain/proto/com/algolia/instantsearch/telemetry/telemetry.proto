@@ -3,19 +3,19 @@ syntax = "proto3";
 option java_multiple_files = true;
 option java_outer_classname = "TelemetryProto";
 
-package com.algolia.instantsearch.telemetry;
+package com.algolia.instantsearch.telemetry3;
 
-message TelemetrySchema {
-    repeated TelemetryComponent components = 700;
+message Schema {
+    repeated Component components = 700;
 }
 
-message TelemetryComponent {
-    TelemetryComponentType type = 600;
-    repeated TelemetryComponentParam parameters = 601;
+message Component {
+    ComponentType type = 600;
+    repeated ComponentParam parameters = 601;
     bool isConnector = 602;
 }
 
-enum TelemetryComponentType {
+enum ComponentType {
     UNKNOWN = 0;
     hitsSearcher = 1;
     facetSearcher = 2;
@@ -39,7 +39,7 @@ enum TelemetryComponentType {
     relevantSort = 20;
     sortBy = 21;
 }
-enum TelemetryComponentParam {
+enum ComponentParam {
     undefined = 0;
     apiKey = 1;
     appID = 2;
