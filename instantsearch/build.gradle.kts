@@ -42,16 +42,6 @@ android {
     }
 
     resourcePrefix = "alg_is_"
-
-    // @see: https://youtrack.jetbrains.com/issue/KT-43944
-    configurations {
-        create("androidTestApi")
-        create("androidTestDebugApi")
-        create("androidTestReleaseApi")
-        create("testApi")
-        create("testDebugApi")
-        create("testReleaseApi")
-    }
 }
 
 kotlin {
@@ -66,8 +56,7 @@ kotlin {
     }
     sourceSets {
         all {
-            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
-            languageSettings.useExperimentalAnnotation("com.algolia.search.ExperimentalAlgoliaClientAPI")
+            languageSettings.optIn("com.algolia.search.ExperimentalAlgoliaClientAPI")
         }
         val commonMain by getting {
             dependencies {

@@ -48,13 +48,6 @@ android {
     }
 
     resourcePrefix = "alg_is_insights_"
-
-    // @see: https://youtrack.jetbrains.com/issue/KT-43944
-    configurations {
-        create("testApi")
-        create("testDebugApi")
-        create("testReleaseApi")
-    }
 }
 
 kotlin {
@@ -69,7 +62,7 @@ kotlin {
     }
     sourceSets {
         all {
-            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+            languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
         }
         val commonMain by getting {
             dependencies {
