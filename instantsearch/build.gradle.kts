@@ -56,6 +56,8 @@ kotlin {
     }
     sourceSets {
         all {
+            languageSettings.optIn("kotlin.RequiresOptIn")
+            languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             languageSettings.optIn("com.algolia.search.ExperimentalAlgoliaClientAPI")
         }
         val commonMain by getting {
