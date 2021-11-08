@@ -2,7 +2,7 @@
 algolia-client = "1.12.0"
 compose = "1.0.5"
 paging-compose = "1.0.0-alpha14"
-coroutines = "1.5.0-native-mt"
+coroutines = "1.5.2-native-mt"
 ktor = "1.6.5"
 work = "2.7.0"
 
