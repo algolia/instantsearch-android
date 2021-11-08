@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.searcher.hits
 
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.FilterGroupsHolder
 import com.algolia.instantsearch.helper.searcher.SearcherScope

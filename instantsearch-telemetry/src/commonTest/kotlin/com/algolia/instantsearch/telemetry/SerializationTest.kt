@@ -1,15 +1,16 @@
 package com.algolia.instantsearch.telemetry
 
+import com.algolia.instantsearch.InternalInstantSearch
 import com.algolia.instantsearch.telemetry.ComponentParam.*
 import com.algolia.instantsearch.telemetry.ComponentType.FacetList
 import com.algolia.instantsearch.telemetry.ComponentType.HitsSearcher
-import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.encodeToByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
 
+@OptIn(InternalInstantSearch::class)
 class SerializationTest {
 
     @Test
@@ -27,7 +28,9 @@ class SerializationTest {
     }
 
     private fun ByteArray.toAsciiHexString() = joinToString("") {
-        if (it in 32..127) it.toInt().toChar().toString() else
-            "{${it.toUByte().toString(16).padStart(2, '0').uppercase()}}"
+        when (it) {
+            in 32..127 -> it.toInt().toChar().toString()
+            else -> "{${it.toUByte().toString(16).padStart(2, '0').uppercase()}}"
+        }
     }
 }

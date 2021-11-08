@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.debounceFilteringInMillis

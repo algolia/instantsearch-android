@@ -1,10 +1,12 @@
 package com.algolia.instantsearch.telemetry
 
+import com.algolia.instantsearch.InternalInstantSearch
 import com.algolia.instantsearch.telemetry.internal.DefaultTelemetry
 
 /**
  * Controller to handle components telemetry operations.
  */
+@InternalInstantSearch
 public interface Telemetry {
 
     /**
@@ -25,4 +27,5 @@ public interface Telemetry {
 /**
  * Creates an instance of [Telemetry].
  */
+@InternalInstantSearch
 public fun Telemetry(): Telemetry = DefaultTelemetry()

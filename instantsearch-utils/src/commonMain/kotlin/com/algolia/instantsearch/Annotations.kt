@@ -5,7 +5,7 @@ package com.algolia.instantsearch
  *
  * Any usage of a declaration annotated with `@ExperimentalInstantSearch` must be accepted either by
  * annotating that usage with the [OptIn] annotation, e.g. `@OptIn(ExperimentalInstantSearch::class)`,
- * or by using the compiler argument `-Xopt-in=com.algolia.instantsearch.core.ExperimentalInstantSearch`.
+ * or by using the compiler argument `-Xopt-in=com.algolia.instantsearch.utils.ExperimentalInstantSearch`.
  */
 @Target(
     AnnotationTarget.CLASS,
@@ -23,3 +23,24 @@ package com.algolia.instantsearch
 @Retention(AnnotationRetention.BINARY)
 @RequiresOptIn(message = "This Instant Search API is experimental, It can be incompatibly changed in the future.")
 public annotation class ExperimentalInstantSearch
+
+/**
+ * API marked with this annotation is internal, and it is not intended to be used outside Instant Search.
+ * It could be modified or removed without any notice. Using it could cause undefined behaviour and/or any unexpected
+ * effects.
+ */
+@Target(
+    AnnotationTarget.CLASS,
+    AnnotationTarget.TYPEALIAS,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.CONSTRUCTOR,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.PROPERTY_SETTER
+)
+@RequiresOptIn(
+    level = RequiresOptIn.Level.ERROR,
+    message = "This API is internal in Instant Search and should not be used. It could be removed or changed without notice."
+)
+public annotation class InternalInstantSearch

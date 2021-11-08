@@ -59,10 +59,12 @@ kotlin {
             languageSettings.optIn("kotlin.RequiresOptIn")
             languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             languageSettings.optIn("com.algolia.search.ExperimentalAlgoliaClientAPI")
+            languageSettings.optIn("com.algolia.instantsearch.InternalInstantSearch")
         }
         val commonMain by getting {
             dependencies {
                 api(project(":instantsearch-core"))
+                api(project(":instantsearch-utils"))
                 api(project(":instantsearch-insights"))
                 implementation(libs.algolia.client)
             }

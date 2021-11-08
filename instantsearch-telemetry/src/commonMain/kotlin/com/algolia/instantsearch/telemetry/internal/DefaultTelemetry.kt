@@ -1,10 +1,12 @@
 package com.algolia.instantsearch.telemetry.internal
 
 import com.algolia.instantsearch.telemetry.*
+import com.algolia.instantsearch.InternalInstantSearch
 
 /**
  * Default [Telemetry] implementation.
  */
+@InternalInstantSearch
 internal class DefaultTelemetry : Telemetry {
 
     private val telemetryComponents = mutableMapOf<ComponentType, DataContainer>()

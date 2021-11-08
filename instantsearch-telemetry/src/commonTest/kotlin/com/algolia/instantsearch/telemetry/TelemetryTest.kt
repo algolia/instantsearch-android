@@ -1,8 +1,10 @@
 package com.algolia.instantsearch.telemetry
 
+import com.algolia.instantsearch.InternalInstantSearch
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+@OptIn(InternalInstantSearch::class)
 class TelemetryTest {
 
     @Test

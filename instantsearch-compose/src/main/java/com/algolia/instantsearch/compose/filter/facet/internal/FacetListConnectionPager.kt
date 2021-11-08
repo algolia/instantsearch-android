@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.compose.filter.facet.internal
 
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.compose.list.Paginator
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
 import com.algolia.search.model.search.Facet

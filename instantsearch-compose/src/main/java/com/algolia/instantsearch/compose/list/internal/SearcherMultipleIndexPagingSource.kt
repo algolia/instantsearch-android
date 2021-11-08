@@ -2,7 +2,7 @@ package com.algolia.instantsearch.compose.list.internal
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch

@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.search.model.filter.FilterGroup
 
 /**

@@ -12,10 +12,12 @@ kotlin {
     sourceSets {
         all {
             languageSettings.optIn("kotlin.RequiresOptIn")
+            languageSettings.optIn("com.algolia.instantsearch.ExperimentalInstantSearch")
         }
         val commonMain by getting {
             kotlin.srcDir("$buildDir/generated/sources/templates/kotlin/main")
             dependencies {
+                implementation(project(":instantsearch-utils"))
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.atomicfu)
             }

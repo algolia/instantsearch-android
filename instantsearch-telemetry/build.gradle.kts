@@ -10,24 +10,24 @@ kotlin {
     }
     sourceSets {
         all {
-            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
-            languageSettings.useExperimentalAnnotation("kotlinx.serialization.ExperimentalSerializationApi")
+            languageSettings.optIn("kotlin.RequiresOptIn")
+            languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
         }
         val commonMain by getting {
             dependencies {
+                implementation(project(":instantsearch-utils"))
                 implementation(libs.kotlinx.serialization.protobuf)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+                implementation(libs.test.kotlin.common)
+                implementation(libs.test.kotlin.annotations)
             }
         }
-        val jvmMain by getting
         val jvmTest by getting {
             dependencies {
-                implementation(kotlin("test-junit"))
+                implementation(libs.test.kotlin.junit)
             }
         }
     }

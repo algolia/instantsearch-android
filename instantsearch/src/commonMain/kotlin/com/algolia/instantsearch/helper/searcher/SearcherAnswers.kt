@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
@@ -10,11 +10,7 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.AnswersQuery
 import com.algolia.search.model.search.Language
 import com.algolia.search.transport.RequestOptions
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 /**
  * The component handling Algolia Answers search requests and managing the search sessions.
