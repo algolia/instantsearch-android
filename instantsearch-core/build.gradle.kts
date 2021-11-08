@@ -22,14 +22,14 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+                implementation(libs.test.kotlin.common)
+                implementation(libs.test.kotlin.annotations)
             }
         }
         val jvmMain by getting
         val jvmTest by getting {
             dependencies {
-                implementation(kotlin("test-junit"))
+                implementation(libs.test.kotlin.junit)
             }
         }
     }
