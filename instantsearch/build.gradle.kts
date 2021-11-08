@@ -42,16 +42,6 @@ android {
     }
 
     resourcePrefix = "alg_is_"
-
-    // @see: https://youtrack.jetbrains.com/issue/KT-43944
-    configurations {
-        create("androidTestApi")
-        create("androidTestDebugApi")
-        create("androidTestReleaseApi")
-        create("testApi")
-        create("testDebugApi")
-        create("testReleaseApi")
-    }
 }
 
 kotlin {
@@ -66,8 +56,7 @@ kotlin {
     }
     sourceSets {
         all {
-            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
-            languageSettings.useExperimentalAnnotation("com.algolia.search.ExperimentalAlgoliaClientAPI")
+            languageSettings.optIn("com.algolia.search.ExperimentalAlgoliaClientAPI")
         }
         val commonMain by getting {
             dependencies {
@@ -78,8 +67,8 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+                implementation(libs.test.kotlin.common)
+                implementation(libs.test.kotlin.annotations)
                 implementation(libs.test.coroutines)
                 implementation(libs.test.ktor.client.mock)
             }
@@ -87,7 +76,7 @@ kotlin {
         val jvmMain by getting
         val jvmTest by getting {
             dependencies {
-                implementation(kotlin("test-junit"))
+                implementation(libs.test.kotlin.junit)
                 implementation(libs.test.mockk)
             }
         }
@@ -104,7 +93,7 @@ kotlin {
         }
         val androidTest by getting {
             dependencies {
-                implementation(kotlin("test-junit"))
+                implementation(libs.test.kotlin.junit)
                 implementation(libs.test.androidx.runner)
                 implementation(libs.test.androidx.ext)
                 implementation(libs.test.robolectric)
