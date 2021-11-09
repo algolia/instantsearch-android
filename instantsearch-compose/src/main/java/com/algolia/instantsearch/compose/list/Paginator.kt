@@ -7,10 +7,12 @@ import androidx.paging.PagingData
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.compose.list.internal.SearcherMultipleIndexPagingSource
 import com.algolia.instantsearch.compose.list.internal.SearcherPaginator
-import com.algolia.instantsearch.compose.list.internal.SearcherSingleIndexPagingSource
+import com.algolia.instantsearch.compose.list.internal.SearcherPagingSource
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
 import com.algolia.search.model.multipleindex.IndexQuery
+import com.algolia.search.model.params.SearchParameters
 import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.flow.Flow
 
@@ -40,12 +42,12 @@ public interface Paginator<T : Any> {
  */
 @ExperimentalInstantSearch
 public fun <T : Any> Paginator(
-    searcher: SearcherSingleIndex,
+    searcher: SearcherForHits<SearchParameters>,
     pagingConfig: PagingConfig = PagingConfig(pageSize = 10),
     transformer: (ResponseSearch.Hit) -> T
 ): Paginator<T> = SearcherPaginator(
     pagingConfig = pagingConfig,
-    pagingSourceFactory = { SearcherSingleIndexPagingSource(searcher, transformer) }
+    pagingSourceFactory = { SearcherPagingSource(searcher, transformer) }
 )
 
 /**
@@ -56,6 +58,7 @@ public fun <T : Any> Paginator(
  * @param pagingConfig configure loading behavior within a Pager
  * @param transformer mapping applied to search responses
  */
+@Deprecated(message = "Use SearcherForHits instead")
 @ExperimentalInstantSearch
 public fun <T : Any> Paginator(
     searcher: SearcherMultipleIndex,

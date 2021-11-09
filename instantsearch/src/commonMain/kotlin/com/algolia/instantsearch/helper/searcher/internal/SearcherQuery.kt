@@ -5,12 +5,14 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Query
 
+// TODO: to be exposed as @Internal
+
 /**
  * Convenience implementation of [SearcherQuery] with [Query] and [ResponseSearch].
  */
-internal typealias SearcherForHits<T> = SearcherQuery<T, ResponseSearch>
+public typealias SearcherForHits<T> = SearcherQuery<T, ResponseSearch>
 
 /**
  * Convenience implementation of [SearcherQuery] with [Query] and [ResponseSearchForFacets].
  */
-internal typealias SearcherForFacets<T> = SearcherQuery<T, ResponseSearchForFacets>
+public typealias SearcherForFacets<T> = SearcherQuery<T, ResponseSearchForFacets>

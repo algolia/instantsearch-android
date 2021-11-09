@@ -7,7 +7,7 @@ import com.algolia.search.transport.RequestOptions
 /**
  * Searcher with request capabilities.
  */
-public interface SearcherQuery<out T : CommonSearchParameters, S> : Searcher<S> {
+public interface SearcherQuery<out T : CommonSearchParameters, R> : Searcher<R> {
 
     /**
      * Query for search operations.
