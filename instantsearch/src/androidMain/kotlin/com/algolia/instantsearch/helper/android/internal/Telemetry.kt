@@ -2,13 +2,7 @@ package com.algolia.instantsearch.helper.android.internal
 
 import android.util.Base64
 import com.algolia.instantsearch.telemetry.Schema
-import com.algolia.instantsearch.telemetry.Telemetry
 import com.algolia.instantsearch.telemetry.toByteArray
-
-/**
- * Global telemetry controller.
- */
-internal val telemetry = Telemetry()
 
 /**
  * Encodes [Schema] byte array representation as base64 string.

@@ -12,6 +12,7 @@ kotlin {
         all {
             languageSettings.optIn("kotlin.RequiresOptIn")
             languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
+            languageSettings.optIn("com.algolia.instantsearch.Internal")
         }
         val commonMain by getting {
             dependencies {

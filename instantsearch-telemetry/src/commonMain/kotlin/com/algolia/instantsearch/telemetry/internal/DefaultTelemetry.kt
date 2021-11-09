@@ -1,18 +1,20 @@
 package com.algolia.instantsearch.telemetry.internal
 
 import com.algolia.instantsearch.telemetry.*
-import com.algolia.instantsearch.InternalInstantSearch
 
 /**
  * Default [Telemetry] implementation.
  */
-@InternalInstantSearch
 internal class DefaultTelemetry : Telemetry {
 
     private val telemetryComponents = mutableMapOf<ComponentType, DataContainer>()
 
-    override fun trace(componentType: ComponentType, componentParams: List<ComponentParam>, isConnector: Boolean) {
-        telemetryComponents[componentType] = DataContainer(componentParams, isConnector)
+    override fun trace(componentType: ComponentType, vararg componentParams: ComponentParam) {
+        telemetryComponents[componentType] = DataContainer(componentParams.toList(), false)
+    }
+
+    override fun traceConnector(componentType: ComponentType, vararg componentParams: ComponentParam) {
+        telemetryComponents[componentType] = DataContainer(componentParams.toList(), true)
     }
 
     override fun schema(): Schema {

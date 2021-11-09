@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.telemetry
 
-import com.algolia.instantsearch.InternalInstantSearch
+import com.algolia.instantsearch.Internal
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.protobuf.ProtoNumber
 
-@InternalInstantSearch
+@Internal
 @Serializable
 public enum class ComponentType {
 

@@ -59,7 +59,7 @@ kotlin {
             languageSettings.optIn("kotlin.RequiresOptIn")
             languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             languageSettings.optIn("com.algolia.search.ExperimentalAlgoliaClientAPI")
-            languageSettings.optIn("com.algolia.instantsearch.InternalInstantSearch")
+            languageSettings.optIn("com.algolia.instantsearch.Internal")
         }
         val commonMain by getting {
             dependencies {

@@ -1,12 +1,12 @@
 package com.algolia.instantsearch.telemetry
 
-import com.algolia.instantsearch.InternalInstantSearch
+import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.telemetry.internal.DefaultTelemetry
 
 /**
  * Controller to handle components telemetry operations.
  */
-@InternalInstantSearch
+@Internal
 public interface Telemetry {
 
     /**
@@ -19,13 +19,20 @@ public interface Telemetry {
      */
     public fun trace(
         componentType: ComponentType,
-        componentParams: List<ComponentParam> = emptyList(),
-        isConnector: Boolean = false
+        vararg componentParams: ComponentParam
+    )
+
+    /**
+     * Track a component by its [ComponentType] and [ComponentParam].
+     */
+    public fun traceConnector(
+        componentType: ComponentType,
+        vararg componentParams: ComponentParam
     )
 }
 
 /**
  * Creates an instance of [Telemetry].
  */
-@InternalInstantSearch
+@Internal
 public fun Telemetry(): Telemetry = DefaultTelemetry()

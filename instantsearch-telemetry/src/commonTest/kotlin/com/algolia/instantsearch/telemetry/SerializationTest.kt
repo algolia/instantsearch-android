@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.telemetry
 
-import com.algolia.instantsearch.InternalInstantSearch
+import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.telemetry.ComponentParam.*
 import com.algolia.instantsearch.telemetry.ComponentType.FacetList
 import com.algolia.instantsearch.telemetry.ComponentType.HitsSearcher
@@ -10,14 +10,14 @@ import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.encodeToByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
 
-@OptIn(InternalInstantSearch::class)
+@OptIn(Internal::class)
 class SerializationTest {
 
     @Test
     fun serializationTest() {
         val telemetry = Telemetry()
-        telemetry.trace(FacetList, listOf(Facets, SelectionMode))
-        telemetry.trace(HitsSearcher, listOf(Client, IndexName))
+        telemetry.trace(FacetList, Facets, SelectionMode)
+        telemetry.trace(HitsSearcher, Client, IndexName)
         val schema = telemetry.schema()
         val bytes = ProtoBuf.encodeToByteArray(schema)
         val decoded = ProtoBuf.decodeFromByteArray<Schema>(bytes)
