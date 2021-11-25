@@ -1,14 +1,15 @@
 package com.algolia.instantsearch.helper.searcher.hits.internal
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
+import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.extension.traceSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
-import com.algolia.instantsearch.telemetry.Telemetry
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterGroup
@@ -26,6 +27,7 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches a single index.
  */
+
 @ExperimentalInstantSearch
 internal class DefaultHitsSearcher(
     client: ClientSearch,
@@ -49,7 +51,7 @@ internal class DefaultHitsSearcher(
     private val indexedQuery: IndexQuery get() = IndexQuery(indexName, query)
 
     init {
-        Telemetry()
+        GlobalTelemetry.traceSearcher(this)
     }
 
     override fun setQuery(text: String?) {

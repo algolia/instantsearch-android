@@ -19,7 +19,7 @@ public interface Telemetry {
      */
     public fun traceViewModel(
         componentType: ComponentType,
-        vararg componentParams: ComponentParam
+        componentParams: List<ComponentParam> = emptyList()
     )
 
     /**
@@ -27,7 +27,7 @@ public interface Telemetry {
      */
     public fun traceConnector(
         componentType: ComponentType,
-        vararg componentParams: ComponentParam
+        componentParams: List<ComponentParam> = emptyList()
     )
 }
 

@@ -7,11 +7,11 @@ import com.algolia.instantsearch.telemetry.ComponentParam.IndexName
 import com.algolia.instantsearch.telemetry.ComponentParam.SelectionMode
 import com.algolia.instantsearch.telemetry.ComponentType.FacetList
 import com.algolia.instantsearch.telemetry.ComponentType.HitsSearcher
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.encodeToByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 @OptIn(Internal::class)
 class SerializationTest {
@@ -19,8 +19,8 @@ class SerializationTest {
     @Test
     fun serializationTest() {
         val telemetry = Telemetry()
-        telemetry.traceViewModel(FacetList, Facets, SelectionMode)
-        telemetry.traceViewModel(HitsSearcher, Client, IndexName)
+        telemetry.traceViewModel(FacetList, listOf(Facets, SelectionMode))
+        telemetry.traceViewModel(HitsSearcher, listOf(Client, IndexName))
         val schema = telemetry.schema()
         val bytes = ProtoBuf.encodeToByteArray(schema)
         val decoded = ProtoBuf.decodeFromByteArray<Schema>(bytes)

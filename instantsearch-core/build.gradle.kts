@@ -8,9 +8,11 @@ kotlin {
     jvm()
     sourceSets {
         all {
-            languageSettings.optIn("kotlin.RequiresOptIn")
-            languageSettings.optIn("com.algolia.instantsearch.Internal")
-            languageSettings.optIn("com.algolia.instantsearch.ExperimentalInstantSearch")
+            languageSettings {
+                optIn("kotlin.RequiresOptIn")
+                optIn("com.algolia.instantsearch.Internal")
+                optIn("com.algolia.instantsearch.ExperimentalInstantSearch")
+            }
         }
         val commonMain by getting {
             kotlin.srcDir("$buildDir/generated/sources/templates/kotlin/main")

@@ -1,6 +1,11 @@
 package com.algolia.instantsearch.telemetry
 
 import com.algolia.instantsearch.Internal
+import com.algolia.instantsearch.telemetry.ComponentParam.Client
+import com.algolia.instantsearch.telemetry.ComponentParam.Facets
+import com.algolia.instantsearch.telemetry.ComponentParam.IndexName
+import com.algolia.instantsearch.telemetry.ComponentParam.SelectionMode
+import com.algolia.instantsearch.telemetry.ComponentParam.Undefined
 import com.algolia.instantsearch.telemetry.ComponentType.FacetList
 import com.algolia.instantsearch.telemetry.ComponentType.HitsSearcher
 import kotlin.test.Test
@@ -12,9 +17,9 @@ class TelemetryTest {
     @Test
     fun schemaBuildTest() {
         val telemetry = Telemetry()
-        telemetry.traceConnector(FacetList, Facets, SelectionMode)
-        telemetry.traceViewModel(HitsSearcher, Client, IndexName, Undefined)
-        telemetry.traceConnector(HitsSearcher, Client, IndexName)
+        telemetry.traceConnector(FacetList, listOf(Facets, SelectionMode))
+        telemetry.traceViewModel(HitsSearcher, listOf(Client, IndexName, Undefined))
+        telemetry.traceConnector(HitsSearcher, listOf(Client, IndexName))
 
         val schema = telemetry.schema()
         assertEquals(2, schema.components.size)

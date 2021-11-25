@@ -53,10 +53,13 @@ kotlin {
     }
     sourceSets {
         all {
-            languageSettings.optIn("kotlin.RequiresOptIn")
-            languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
-            languageSettings.optIn("com.algolia.search.ExperimentalAlgoliaClientAPI")
-            languageSettings.optIn("com.algolia.instantsearch.Internal")
+            languageSettings {
+                optIn("kotlin.RequiresOptIn")
+                optIn("com.algolia.instantsearch.Internal")
+                optIn("com.algolia.instantsearch.ExperimentalInstantSearch")
+                optIn("com.algolia.search.ExperimentalAlgoliaClientAPI")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
         }
         val commonMain by getting {
             dependencies {
@@ -84,7 +87,6 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation(project(":instantsearch-telemetry"))
                 api(libs.ktor.client.okhttp)
                 api(libs.androidx.core)
                 api(libs.androidx.appcompat)

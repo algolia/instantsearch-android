@@ -5,6 +5,7 @@ import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.helper.loading.LoadingConnector
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.telemetry.ComponentParam
 import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.search.model.IndexName
 import mockClient
@@ -24,5 +25,13 @@ class TestTelemetry {
         val components = GlobalTelemetry.schema().components.filter { it.type == ComponentType.Loading }
         assertEquals(components.size, 1)
         assertEquals(components.first().parameters, emptyList())
+    }
+
+    @Test
+    fun testHitsSearcher() {
+        HitsSearcher(client, indexName, isDisjunctiveFacetingEnabled = false)
+        val components = GlobalTelemetry.schema().components.filter { it.type == ComponentType.HitsSearcher }
+        assertEquals(components.size, 1)
+        assertEquals(components.first().parameters, listOf(ComponentParam.IsDisjunctiveFacetingEnabled))
     }
 }
