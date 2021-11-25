@@ -64,8 +64,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":instantsearch-core"))
-                api(project(":instantsearch-utils"))
                 api(project(":instantsearch-insights"))
+                implementation(project(":instantsearch-utils"))
+                implementation(project(":instantsearch-telemetry"))
                 implementation(libs.algolia.client)
             }
         }
