@@ -5,10 +5,7 @@ plugins {
 
 kotlin {
     explicitApi()
-    jvm {
-        compilations.all { kotlinOptions.jvmTarget = "1.8" }
-        testRuns["test"].executionTask.configure { useJUnit() }
-    }
+    jvm()
     sourceSets {
         all {
             languageSettings.optIn("kotlin.RequiresOptIn")

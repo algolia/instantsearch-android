@@ -46,13 +46,10 @@ android {
 
 kotlin {
     explicitApi()
+    jvm()
     android {
         publishAllLibraryVariants()
         publishLibraryVariantsGroupedByFlavor = true
-    }
-    jvm {
-        compilations.all { kotlinOptions.jvmTarget = "1.8" }
-        testRuns["test"].executionTask.configure { useJUnit() }
     }
     sourceSets {
         all {
