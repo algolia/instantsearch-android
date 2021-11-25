@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceLoadingInMillis
-import com.algolia.instantsearch.telemetry.ComponentType
+import com.algolia.instantsearch.telemetry.ComponentType.Loading
 
 /**
  * Components that show a loading indicator during pending requests.
@@ -22,7 +22,7 @@ public data class LoadingConnector<R>(
 ) : ConnectionImpl() {
 
     init {
-        GlobalTelemetry.traceViewModel(ComponentType.Loading)
+        GlobalTelemetry.traceConnector(Loading)
     }
 
     private val connectionSearcher = viewModel.connectSearcher(searcher, debouncer)
