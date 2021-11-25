@@ -1,8 +1,10 @@
 package com.algolia.instantsearch.helper.searcher.facets.internal
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
+import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.extension.traceFacetsSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
@@ -45,6 +47,10 @@ internal class DefaultFacetsSearcher(
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
     private val indexedQuery get() = FacetIndexQuery(indexName, query, attribute, facetQuery)
+
+    init {
+        GlobalTelemetry.traceFacetsSearcher(this)
+    }
 
     override fun collect(): Pair<List<FacetIndexQuery>, (List<ResponseSearchForFacets>) -> Unit> {
         return listOf(indexedQuery) to { response.value = it.firstOrNull() }

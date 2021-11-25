@@ -46,5 +46,6 @@ public enum class ComponentParam {
     @ProtoNumber(35) Strategy,
     @ProtoNumber(36) GroupIDs,
     @ProtoNumber(37) RequestOptions,
+    @ProtoNumber(38) FacetsQuery,
     // @formatter:on
 }

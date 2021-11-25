@@ -1,8 +1,10 @@
 package com.algolia.instantsearch.helper.searcher
 
+import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.extension.traceFacetsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.search.client.Index
@@ -37,6 +39,10 @@ public class SearcherForFacets(
 
     private val options = requestOptions.withUserAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)
+
+    init {
+        GlobalTelemetry.traceFacetsSearcher(this)
+    }
 
     override fun setQuery(text: String?) {
         facetQuery = text
