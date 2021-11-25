@@ -7,70 +7,33 @@ import kotlinx.serialization.protobuf.ProtoNumber
 @Internal
 @Serializable
 public enum class ComponentType {
-
-    @ProtoNumber(0)
-    Unknown,
-
-    @ProtoNumber(1)
-    HitsSearcher,
-
-    @ProtoNumber(2)
-    FacetSearcher,
-
-    @ProtoNumber(3)
-    MultiSearcher,
-
-    @ProtoNumber(4)
-    AnswersSearcher,
-
-    @ProtoNumber(5)
-    FilterState,
-
-    @ProtoNumber(6)
-    DynamicFacets,
-
-    @ProtoNumber(7)
-    HierarchicalFacets,
-
-    @ProtoNumber(8)
-    FacetList,
-
-    @ProtoNumber(9)
-    FilterClear,
-
-    @ProtoNumber(10)
-    FilterList,
-
-    @ProtoNumber(11)
-    FilterToggle,
-
-    @ProtoNumber(12)
-    NumberFilter,
-
-    @ProtoNumber(13)
-    NumberRangeFilter,
-
-    @ProtoNumber(14)
-    CurrentFilters,
-
-    @ProtoNumber(15)
-    Hits,
-
-    @ProtoNumber(16)
-    Loading,
-
-    @ProtoNumber(17)
-    Stats,
-
-    @ProtoNumber(18)
-    QueryInput,
-
-    @ProtoNumber(19)
-    QueryRuleCustomData,
-
-    @ProtoNumber(20)
-    RelevantSort,
-
-    @ProtoNumber(21)
-    SortBy,
+    // @formatter:off
+    @ProtoNumber(0) Unknown,
+    @ProtoNumber(1) HitsSearcher,
+    @ProtoNumber(2) FacetSearcher,
+    @ProtoNumber(3) MultiSearcher,
+    @ProtoNumber(4) AnswersSearcher,
+    @ProtoNumber(5) FilterState,
+    @ProtoNumber(6) DynamicFacets,        // Dynamic Facets
+    @ProtoNumber(7) HierarchicalFacets,   // Hierarchical Menu
+    @ProtoNumber(8) FacetList,            // Refinement List
+    @ProtoNumber(9) FilterClear,          // Clear Filters
+    @ProtoNumber(10) FacetFilterList,     // Filter List (Facet)
+    @ProtoNumber(11) NumericFilterList,   // Filter List (Numeric)
+    @ProtoNumber(12) TagFilterList,       // Filter List (Tag)
+    @ProtoNumber(13) FilterToggle,        // Filter Toggle
+    @ProtoNumber(14) NumberFilter,        // Filter Numeric Comparison
+    @ProtoNumber(15) NumberRangeFilter,   // Filter Numeric Range
+    @ProtoNumber(16) CurrentFilters,      // Current Filters
+    @ProtoNumber(17) Hits,                // Hits
+    @ProtoNumber(18) Loading,             // Loading
+    @ProtoNumber(19) Stats,               // Stats
+    @ProtoNumber(20) SearchBox,           // SearchBox
+    @ProtoNumber(21) QueryRuleCustomData, // QueryRuleCustomData
+    @ProtoNumber(22) RelevantSort,        // RelevantSort
+    @ProtoNumber(23) SortBy,              // SortBy
+    @ProtoNumber(24) RelatedItems,        // Related items
+    @ProtoNumber(25) FilterMap,           // Filter Map
+    @ProtoNumber(26) MultiHits,           // Multi Hits
+    // @formatter:on
 }
