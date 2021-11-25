@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.loading
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.core.internal.telemetry
+import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
@@ -22,7 +22,7 @@ public data class LoadingConnector<R>(
 ) : ConnectionImpl() {
 
     init {
-        telemetry.trace(ComponentType.Loading)
+        GlobalTelemetry.traceViewModel(ComponentType.Loading)
     }
 
     private val connectionSearcher = viewModel.connectSearcher(searcher, debouncer)

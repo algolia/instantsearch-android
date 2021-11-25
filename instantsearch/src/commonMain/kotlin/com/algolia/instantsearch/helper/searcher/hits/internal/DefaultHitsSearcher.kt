@@ -8,6 +8,7 @@ import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
+import com.algolia.instantsearch.telemetry.Telemetry
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterGroup
@@ -46,6 +47,10 @@ internal class DefaultHitsSearcher(
     private val sequencer = Sequencer()
     private val options = requestOptions.withUserAgent()
     private val indexedQuery: IndexQuery get() = IndexQuery(indexName, query)
+
+    init {
+        Telemetry()
+    }
 
     override fun setQuery(text: String?) {
         this.query.query = text

@@ -17,7 +17,7 @@ public interface Telemetry {
     /**
      * Track a component by its [ComponentType] and [ComponentParam].
      */
-    public fun trace(
+    public fun traceViewModel(
         componentType: ComponentType,
         vararg componentParams: ComponentParam
     )
