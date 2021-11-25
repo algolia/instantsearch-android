@@ -1,6 +1,10 @@
 package com.algolia.instantsearch.telemetry.internal
 
-import com.algolia.instantsearch.telemetry.*
+import com.algolia.instantsearch.telemetry.Component
+import com.algolia.instantsearch.telemetry.ComponentParam
+import com.algolia.instantsearch.telemetry.ComponentType
+import com.algolia.instantsearch.telemetry.Schema
+import com.algolia.instantsearch.telemetry.Telemetry
 
 /**
  * Default [Telemetry] implementation.

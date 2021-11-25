@@ -22,11 +22,11 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
-import java.time.LocalDateTime
-import java.time.ZoneId
 import kotlinx.coroutines.runBlocking
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
+import java.time.LocalDateTime
+import java.time.ZoneId
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

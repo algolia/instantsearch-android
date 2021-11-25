@@ -10,7 +10,11 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.AnswersQuery
 import com.algolia.search.model.search.Language
 import com.algolia.search.transport.RequestOptions
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * The component handling Algolia Answers search requests and managing the search sessions.

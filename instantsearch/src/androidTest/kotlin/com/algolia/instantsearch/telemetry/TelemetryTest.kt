@@ -6,6 +6,6 @@ class TelemetryTest {
 
     @Test
     fun encoding() {
-        val telemetry = Telemetry()
+        TODO()
     }
 }

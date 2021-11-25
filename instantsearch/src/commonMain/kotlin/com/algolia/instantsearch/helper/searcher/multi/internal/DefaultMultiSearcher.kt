@@ -14,7 +14,11 @@ import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.response.ResponseMultiSearch
 import com.algolia.search.model.response.ResultSearch
 import com.algolia.search.transport.RequestOptions
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Extracts queries from queries sources, performs search request and dispatches the results to the corresponding receivers.

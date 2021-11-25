@@ -15,7 +15,11 @@ import com.algolia.search.model.multipleindex.FacetIndexQuery
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * The component handling search requests and managing the search sessions.

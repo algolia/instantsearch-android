@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.telemetry
 
 import com.algolia.instantsearch.Internal
-import com.algolia.instantsearch.telemetry.ComponentParam.*
 import com.algolia.instantsearch.telemetry.ComponentType.FacetList
 import com.algolia.instantsearch.telemetry.ComponentType.HitsSearcher
 import kotlin.test.Test

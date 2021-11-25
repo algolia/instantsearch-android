@@ -1,14 +1,17 @@
 package com.algolia.instantsearch.telemetry
 
 import com.algolia.instantsearch.Internal
-import com.algolia.instantsearch.telemetry.ComponentParam.*
+import com.algolia.instantsearch.telemetry.ComponentParam.Client
+import com.algolia.instantsearch.telemetry.ComponentParam.Facets
+import com.algolia.instantsearch.telemetry.ComponentParam.IndexName
+import com.algolia.instantsearch.telemetry.ComponentParam.SelectionMode
 import com.algolia.instantsearch.telemetry.ComponentType.FacetList
 import com.algolia.instantsearch.telemetry.ComponentType.HitsSearcher
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.encodeToByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @OptIn(Internal::class)
 class SerializationTest {

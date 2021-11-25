@@ -13,11 +13,11 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 import java.time.ZoneId
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.runBlocking
 
 public class TestInsightsEventUploader {
 
@@ -106,7 +106,6 @@ public class TestInsightsEventUploader {
         override fun clear() {
             insightsEvents.clear()
         }
-
     }
 
     private class TestInsightsDistantRepository : InsightsDistantRepository {
