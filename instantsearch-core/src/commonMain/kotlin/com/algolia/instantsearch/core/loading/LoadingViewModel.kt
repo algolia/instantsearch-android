@@ -10,7 +10,7 @@ public open class LoadingViewModel(
 ) {
 
     init {
-        GlobalTelemetry.traceViewModel(Loading)
+        GlobalTelemetry.traceWidget(Loading)
     }
 
     public val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(isLoading)

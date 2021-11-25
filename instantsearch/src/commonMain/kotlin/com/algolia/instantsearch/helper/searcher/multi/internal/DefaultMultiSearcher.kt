@@ -1,8 +1,10 @@
 package com.algolia.instantsearch.helper.searcher.multi.internal
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
+import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.extension.traceMultiSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
@@ -16,6 +18,7 @@ import com.algolia.search.model.response.ResultSearch
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -50,6 +53,10 @@ internal class DefaultMultiSearcher(
             components.forEach { it.error.value = throwable }
             isLoading.value = false
         }
+    }
+
+    init {
+        GlobalTelemetry.traceMultiSearcher(this)
     }
 
     /**

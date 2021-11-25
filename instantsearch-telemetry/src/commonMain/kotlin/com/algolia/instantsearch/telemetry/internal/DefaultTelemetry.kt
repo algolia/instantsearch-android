@@ -13,7 +13,7 @@ internal class DefaultTelemetry : Telemetry {
 
     private val telemetryComponents = mutableMapOf<ComponentType, DataContainer>()
 
-    override fun traceViewModel(componentType: ComponentType, componentParams: List<ComponentParam>) {
+    override fun traceWidget(componentType: ComponentType, componentParams: List<ComponentParam>) {
         if (telemetryComponents[componentType]?.isConnector == true) return
         telemetryComponents[componentType] = DataContainer(componentParams, false)
     }

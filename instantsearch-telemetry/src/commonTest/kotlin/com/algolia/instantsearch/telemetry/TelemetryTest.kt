@@ -18,7 +18,7 @@ class TelemetryTest {
     fun schemaBuildTest() {
         val telemetry = Telemetry()
         telemetry.traceConnector(FacetList, listOf(Facets, SelectionMode))
-        telemetry.traceViewModel(HitsSearcher, listOf(Client, IndexName, Undefined))
+        telemetry.traceWidget(HitsSearcher, listOf(Client, IndexName, Undefined))
         telemetry.traceConnector(HitsSearcher, listOf(Client, IndexName))
 
         val schema = telemetry.schema()
