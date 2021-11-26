@@ -2,6 +2,8 @@ package com.algolia.instantsearch.helper.filter.facet.dynamic
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.helper.extension.traceDynamicFacet
+import com.algolia.instantsearch.helper.extension.traceDynamicFacetConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
@@ -43,6 +45,10 @@ public class DynamicFacetListConnector(
         selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap(),
         filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap()
     ) : this(searcher, filterState, DynamicFacetListViewModel(orderedFacets, selections, selectionModeForAttribute), filterGroupForAttribute)
+
+    init {
+        traceDynamicFacetConnector(filterGroupForAttribute)
+    }
 
     private val searcherConnection = viewModel.connectSearcher(searcher)
     private val filterStateConnection = viewModel.connectFilterState(filterState, filterGroupForAttribute)
