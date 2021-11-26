@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.hierarchical
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.helper.extension.traceHierarchicalFacetsConnector
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.Attribute
@@ -34,6 +35,10 @@ public data class HierarchicalConnector(
         hierarchicalAttributes: List<Attribute>,
         separator: String,
     ) : this(searcher, filterState, HierarchicalViewModel(attribute, hierarchicalAttributes, separator))
+
+    init {
+        traceHierarchicalFacetsConnector()
+    }
 
     private val connectionSearcher = viewModel.connectSearcher(searcher)
     private val connectionFilterState = viewModel.connectFilterState(filterState)

@@ -40,7 +40,7 @@ public class SearcherMultipleIndex(
     private val exceptionHandler = SearcherExceptionHandler(this)
 
     init {
-        traceMultiSearcher(this)
+        traceMultiSearcher()
     }
 
     override fun setQuery(text: String?) {

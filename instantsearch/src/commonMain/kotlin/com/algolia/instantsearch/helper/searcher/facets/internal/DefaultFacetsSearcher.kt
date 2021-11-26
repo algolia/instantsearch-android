@@ -48,7 +48,7 @@ internal class DefaultFacetsSearcher(
     private val indexedQuery get() = FacetIndexQuery(indexName, query, attribute, facetQuery)
 
     init {
-        traceFacetsSearcher(this)
+        traceFacetsSearcher()
     }
 
     override fun collect(): Pair<List<FacetIndexQuery>, (List<ResponseSearchForFacets>) -> Unit> {

@@ -40,7 +40,7 @@ public class SearcherForFacets(
     private val exceptionHandler = SearcherExceptionHandler(this)
 
     init {
-        traceFacetsSearcher(this)
+        traceFacetsSearcher()
     }
 
     override fun setQuery(text: String?) {

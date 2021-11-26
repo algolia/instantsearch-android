@@ -3,6 +3,7 @@ package com.algolia.instantsearch.helper.hierarchical
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.tree.TreeViewModel
+import com.algolia.instantsearch.helper.extension.traceHierarchicalFacets
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 
@@ -23,8 +24,8 @@ public open class HierarchicalViewModel(
     internal val hierarchicalPath = SubscriptionValue<HierarchicalPath>(listOf())
 
     init {
-        if (hierarchicalAttributes.isEmpty())
-            throw IllegalArgumentException("HierarchicalAttributes should not be empty")
+        if (hierarchicalAttributes.isEmpty()) throw IllegalArgumentException("HierarchicalAttributes should not be empty")
+        traceHierarchicalFacets()
     }
 
     /**

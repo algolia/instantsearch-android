@@ -40,7 +40,7 @@ public class SearcherSingleIndex(
     internal var filterGroups: Set<FilterGroup<*>> = setOf()
 
     init {
-        traceHitsSearcher(this)
+        traceHitsSearcher()
     }
 
     override fun setQuery(text: String?) {

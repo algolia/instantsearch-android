@@ -50,7 +50,7 @@ internal class DefaultHitsSearcher(
     private val indexedQuery: IndexQuery get() = IndexQuery(indexName, query)
 
     init {
-        traceHitsSearcher(this)
+        traceHitsSearcher()
     }
 
     override fun setQuery(text: String?) {

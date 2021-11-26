@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.internal.traceLoading
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
-public class LoadingViewModel(
+public open class LoadingViewModel(
     isLoading: Boolean = false
 ) {
     init {

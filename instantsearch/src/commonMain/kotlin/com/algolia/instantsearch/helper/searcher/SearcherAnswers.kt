@@ -37,7 +37,7 @@ public class SearcherAnswers(
     private val exceptionHandler = SearcherExceptionHandler(this)
 
     init {
-        traceAnswersSearcher(this)
+        traceAnswersSearcher()
     }
 
     override fun setQuery(text: String?) {

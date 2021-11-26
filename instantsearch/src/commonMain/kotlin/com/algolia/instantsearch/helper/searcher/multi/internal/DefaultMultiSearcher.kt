@@ -54,7 +54,7 @@ internal class DefaultMultiSearcher(
     }
 
     init {
-        traceMultiSearcher(this)
+        traceMultiSearcher()
     }
 
     /**
