@@ -6,6 +6,7 @@ import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.loading.LoadingConnector
+import com.algolia.instantsearch.helper.searcher.SearcherAnswers
 import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
@@ -15,6 +16,7 @@ import com.algolia.instantsearch.telemetry.Telemetry
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
+import com.algolia.search.transport.RequestOptions
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import mockClient
@@ -75,6 +77,16 @@ class TestTelemetry {
         assertEquals(1, components.size)
         val component = components.first()
         assertEquals(emptySet(), component.parameters)
+        assertEquals(false, component.isConnector)
+    }
+
+    @Test
+    fun testAnswersSearcher() {
+        SearcherAnswers(client.initIndex(indexName), requestOptions = RequestOptions())
+        val components = GlobalTelemetry.componentsFor(ComponentType.AnswersSearcher)
+        assertEquals(1, components.size)
+        val component = components.first()
+        assertEquals(setOf(ComponentParam.RequestOptions), component.parameters)
         assertEquals(false, component.isConnector)
     }
 

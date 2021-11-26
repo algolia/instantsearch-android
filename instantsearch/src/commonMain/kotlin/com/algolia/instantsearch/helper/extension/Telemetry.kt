@@ -5,6 +5,7 @@ package com.algolia.instantsearch.helper.extension
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.core.internal.GlobalTelemetry
+import com.algolia.instantsearch.helper.searcher.SearcherAnswers
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -77,4 +78,10 @@ internal fun traceFilterState() {
 /** Telemetry: trace loading connector */
 internal fun traceLoadingConnector() {
     GlobalTelemetry.traceConnector(ComponentType.Loading)
+}
+
+/** Telemetry: trace answers searcher */
+internal fun traceAnswersSearcher(searcher: SearcherAnswers) {
+    val params = if (searcher.requestOptions != null) setOf(ComponentParam.RequestOptions) else emptySet()
+    GlobalTelemetry.trace(ComponentType.AnswersSearcher, params)
 }

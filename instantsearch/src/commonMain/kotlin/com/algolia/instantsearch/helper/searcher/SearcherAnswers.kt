@@ -3,6 +3,7 @@ package com.algolia.instantsearch.helper.searcher
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.extension.traceAnswersSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.search.client.Index
@@ -34,6 +35,10 @@ public class SearcherAnswers(
     private val sequencer = Sequencer()
     private val options = requestOptions.withUserAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)
+
+    init {
+        traceAnswersSearcher(this)
+    }
 
     override fun setQuery(text: String?) {
         text?.let { query.query = it }
