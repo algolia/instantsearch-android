@@ -8,9 +8,8 @@ import com.algolia.instantsearch.telemetry.ComponentType.Loading
 public open class LoadingViewModel(
     isLoading: Boolean = false
 ) {
-
     init {
-        GlobalTelemetry.traceWidget(Loading)
+        GlobalTelemetry.trace(Loading)
     }
 
     public val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(isLoading)

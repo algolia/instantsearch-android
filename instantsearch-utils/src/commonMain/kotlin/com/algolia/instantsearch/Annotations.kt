@@ -20,7 +20,6 @@ package com.algolia.instantsearch
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.TYPEALIAS
 )
-@Retention(AnnotationRetention.BINARY)
 @RequiresOptIn(message = "This Instant Search API is experimental, It can be incompatibly changed in the future.")
 public annotation class ExperimentalInstantSearch
 
@@ -41,6 +40,6 @@ public annotation class ExperimentalInstantSearch
 )
 @RequiresOptIn(
     level = RequiresOptIn.Level.ERROR,
-    message = "This API is internal in Instant Search and should not be used. It could be removed or changed without notice."
+    message = "This API is internal in InstantSearch and should not be used. It could be removed or changed without notice."
 )
 public annotation class Internal

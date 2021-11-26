@@ -17,7 +17,7 @@ kotlin {
         val commonMain by getting {
             kotlin.srcDir("$buildDir/generated/sources/templates/kotlin/main")
             dependencies {
-                implementation(project(":instantsearch-utils"))
+                api(project(":instantsearch-utils"))
                 implementation(project(":instantsearch-telemetry"))
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.atomicfu)

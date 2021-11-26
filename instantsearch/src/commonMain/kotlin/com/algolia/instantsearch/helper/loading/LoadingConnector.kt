@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.helper.loading
 
+import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.loading.LoadingViewModel
@@ -15,6 +16,7 @@ import com.algolia.instantsearch.telemetry.ComponentType.Loading
  * @param viewModel the logic applied to the loading indicator.
  * @param debouncer delays searcher operations by a specified time duration.
  */
+@OptIn(Internal::class)
 public data class LoadingConnector<R>(
     public val searcher: Searcher<R>,
     public val viewModel: LoadingViewModel = LoadingViewModel(),

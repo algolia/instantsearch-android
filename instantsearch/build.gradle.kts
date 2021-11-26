@@ -65,7 +65,7 @@ kotlin {
             dependencies {
                 api(project(":instantsearch-core"))
                 api(project(":instantsearch-insights"))
-                implementation(project(":instantsearch-utils"))
+                api(project(":instantsearch-utils"))
                 implementation(project(":instantsearch-telemetry"))
                 implementation(libs.algolia.client)
             }

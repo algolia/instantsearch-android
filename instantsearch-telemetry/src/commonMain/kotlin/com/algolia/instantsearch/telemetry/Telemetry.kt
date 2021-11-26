@@ -17,7 +17,7 @@ public interface Telemetry {
     /**
      * Track a component by its [ComponentType] and [ComponentParam].
      */
-    public fun traceWidget(
+    public fun trace(
         componentType: ComponentType,
         componentParams: List<ComponentParam> = emptyList()
     )

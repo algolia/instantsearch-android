@@ -4,7 +4,6 @@ package com.algolia.instantsearch.helper.extension
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.Internal
-import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -21,7 +20,7 @@ internal fun Telemetry.traceSearcher(searcher: HitsSearcher) {
         if (!searcher.isDisjunctiveFacetingEnabled) add(ComponentParam.IsDisjunctiveFacetingEnabled)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
-    GlobalTelemetry.traceWidget(ComponentType.HitsSearcher, params)
+    trace(ComponentType.HitsSearcher, params)
 }
 
 // TODO: to be merged with traceSearcher for HitsSearcher
@@ -30,7 +29,7 @@ internal fun Telemetry.traceSearcher(searcher: SearcherSingleIndex) {
         if (!searcher.isDisjunctiveFacetingEnabled) add(ComponentParam.IsDisjunctiveFacetingEnabled)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
-    GlobalTelemetry.traceWidget(ComponentType.HitsSearcher, params)
+    trace(ComponentType.HitsSearcher, params)
 }
 
 internal fun Telemetry.traceFacetsSearcher(searcher: FacetsSearcher) {
@@ -38,7 +37,7 @@ internal fun Telemetry.traceFacetsSearcher(searcher: FacetsSearcher) {
         if (searcher.facetQuery != null) add(ComponentParam.FacetsQuery)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
-    GlobalTelemetry.traceWidget(ComponentType.FacetSearcher, params)
+    trace(ComponentType.FacetSearcher, params)
 }
 
 // TODO: to be merged with traceFacetsSearcher for FacetsSearcher
@@ -47,7 +46,7 @@ internal fun Telemetry.traceFacetsSearcher(searcher: SearcherForFacets) {
         if (searcher.facetQuery != null) add(ComponentParam.FacetsQuery)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
-    GlobalTelemetry.traceWidget(ComponentType.FacetSearcher, params)
+    trace(ComponentType.FacetSearcher, params)
 }
 
 internal fun Telemetry.traceMultiSearcher(searcher: DefaultMultiSearcher) {
@@ -55,7 +54,7 @@ internal fun Telemetry.traceMultiSearcher(searcher: DefaultMultiSearcher) {
         if (searcher.strategy != MultipleQueriesStrategy.None) add(ComponentParam.Strategy)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
-    GlobalTelemetry.traceWidget(ComponentType.MultiSearcher, params)
+    trace(ComponentType.MultiSearcher, params)
 }
 
 // TODO: to be merged with traceMultiSearcher for DefaultMultiSearcher
@@ -64,5 +63,5 @@ internal fun Telemetry.traceMultiSearcher(searcher: SearcherMultipleIndex) {
         if (searcher.strategy != MultipleQueriesStrategy.None) add(ComponentParam.Strategy)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
-    GlobalTelemetry.traceWidget(ComponentType.MultiSearcher, params)
+    trace(ComponentType.MultiSearcher, params)
 }
