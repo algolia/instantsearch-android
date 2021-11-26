@@ -1,9 +1,8 @@
 package com.algolia.instantsearch.helper.filter.state
 
-import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.extension.traceFilterState
 import com.algolia.instantsearch.helper.filter.state.internal.MutableFiltersImpl
-import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.search.model.filter.Filter
 
 /**
@@ -20,7 +19,7 @@ public class FilterState internal constructor(
     public constructor() : this(MutableFiltersImpl())
 
     init {
-        GlobalTelemetry.trace(ComponentType.FilterState)
+        traceFilterState()
     }
 
     public constructor(map: Map<FilterGroupID, Set<Filter>>) : this() {

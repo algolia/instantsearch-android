@@ -17,9 +17,9 @@ class TelemetryTest {
     @Test
     fun schemaBuildTest() {
         val telemetry = Telemetry()
-        telemetry.traceConnector(FacetList, listOf(Facets, SelectionMode))
-        telemetry.trace(HitsSearcher, listOf(Client, IndexName, Undefined))
-        telemetry.traceConnector(HitsSearcher, listOf(Client, IndexName))
+        telemetry.traceConnector(FacetList, setOf(Facets, SelectionMode))
+        telemetry.trace(HitsSearcher, setOf(Client, IndexName, Undefined))
+        telemetry.traceConnector(HitsSearcher, setOf(Client, IndexName))
 
         val schema = telemetry.schema()
         assertEquals(2, schema.components.size)

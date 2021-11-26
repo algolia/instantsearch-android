@@ -19,7 +19,7 @@ public interface Telemetry {
      */
     public fun trace(
         componentType: ComponentType,
-        componentParams: List<ComponentParam> = emptyList()
+        componentParams: Set<ComponentParam> = emptySet()
     )
 
     /**
@@ -27,7 +27,7 @@ public interface Telemetry {
      */
     public fun traceConnector(
         componentType: ComponentType,
-        componentParams: List<ComponentParam> = emptyList()
+        componentParams: Set<ComponentParam> = emptySet()
     )
 }
 

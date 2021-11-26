@@ -19,8 +19,8 @@ class SerializationTest {
     @Test
     fun serializationTest() {
         val telemetry = Telemetry()
-        telemetry.trace(FacetList, listOf(Facets, SelectionMode))
-        telemetry.trace(HitsSearcher, listOf(Client, IndexName))
+        telemetry.trace(FacetList, setOf(Facets, SelectionMode))
+        telemetry.trace(HitsSearcher, setOf(Client, IndexName))
         val schema = telemetry.schema()
         val bytes = ProtoBuf.encodeToByteArray(schema)
         val decoded = ProtoBuf.decodeFromByteArray<Schema>(bytes)

@@ -17,7 +17,7 @@ import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 
 /** Telemetry: trace hits searcher */
 internal fun traceHitsSearcher(searcher: HitsSearcher) {
-    val params = buildList {
+    val params = buildSet {
         if (!searcher.isDisjunctiveFacetingEnabled) add(ComponentParam.IsDisjunctiveFacetingEnabled)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
@@ -26,7 +26,7 @@ internal fun traceHitsSearcher(searcher: HitsSearcher) {
 
 /** Telemetry: trace hits searcher */ // TODO: to be merged with traceSearcher for HitsSearcher
 internal fun traceHitsSearcher(searcher: SearcherSingleIndex) {
-    val params = buildList {
+    val params = buildSet {
         if (!searcher.isDisjunctiveFacetingEnabled) add(ComponentParam.IsDisjunctiveFacetingEnabled)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
@@ -35,7 +35,7 @@ internal fun traceHitsSearcher(searcher: SearcherSingleIndex) {
 
 /** Telemetry: trace facets searcher */
 internal fun traceFacetsSearcher(searcher: FacetsSearcher) {
-    val params = buildList {
+    val params = buildSet {
         if (searcher.facetQuery != null) add(ComponentParam.FacetsQuery)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
@@ -44,7 +44,7 @@ internal fun traceFacetsSearcher(searcher: FacetsSearcher) {
 
 /** Telemetry: trace facets searcher */ // TODO: to be merged with traceFacetsSearcher for FacetsSearcher
 internal fun traceFacetsSearcher(searcher: SearcherForFacets) {
-    val params = buildList {
+    val params = buildSet {
         if (searcher.facetQuery != null) add(ComponentParam.FacetsQuery)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
@@ -53,7 +53,7 @@ internal fun traceFacetsSearcher(searcher: SearcherForFacets) {
 
 /** Telemetry: trace multi-searcher */
 internal fun traceMultiSearcher(searcher: DefaultMultiSearcher) {
-    val params = buildList {
+    val params = buildSet {
         if (searcher.strategy != MultipleQueriesStrategy.None) add(ComponentParam.Strategy)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
@@ -62,9 +62,19 @@ internal fun traceMultiSearcher(searcher: DefaultMultiSearcher) {
 
 /** Telemetry: trace multi-searcher */ // TODO: to be merged with traceMultiSearcher for DefaultMultiSearcher
 internal fun traceMultiSearcher(searcher: SearcherMultipleIndex) {
-    val params = buildList {
+    val params = buildSet {
         if (searcher.strategy != MultipleQueriesStrategy.None) add(ComponentParam.Strategy)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
     GlobalTelemetry.trace(ComponentType.MultiSearcher, params)
+}
+
+/** Telemetry: trace filter state */
+internal fun traceFilterState() {
+    GlobalTelemetry.trace(ComponentType.FilterState)
+}
+
+/** Telemetry: trace loading connector */
+internal fun traceLoadingConnector() {
+    GlobalTelemetry.traceConnector(ComponentType.Loading)
 }

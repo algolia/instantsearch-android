@@ -3,6 +3,8 @@ package telemetry
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.core.internal.GlobalTelemetry
+import com.algolia.instantsearch.core.loading.LoadingViewModel
+import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.loading.LoadingConnector
 import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
@@ -26,11 +28,12 @@ class TestTelemetry {
     @Test
     fun testLoading() {
         val searcher = HitsSearcher(client, indexName)
-        LoadingConnector(searcher)
+        val viewModel = LoadingViewModel(isLoading = true)
+        LoadingConnector(searcher, viewModel)
         val components = GlobalTelemetry.componentsFor(ComponentType.Loading)
         assertEquals(1, components.size)
         val component = components.first()
-        assertEquals(emptyList(), component.parameters)
+        assertEquals(setOf(ComponentParam.IsLoading), component.parameters)
         assertEquals(true, component.isConnector)
     }
 
@@ -40,7 +43,7 @@ class TestTelemetry {
         val components = GlobalTelemetry.componentsFor(ComponentType.HitsSearcher)
         assertEquals(1, components.size)
         val component = components.first()
-        assertEquals(listOf(ComponentParam.IsDisjunctiveFacetingEnabled), component.parameters)
+        assertEquals(setOf(ComponentParam.IsDisjunctiveFacetingEnabled), component.parameters)
         assertEquals(false, component.isConnector)
     }
 
@@ -50,7 +53,7 @@ class TestTelemetry {
         val components = GlobalTelemetry.componentsFor(ComponentType.FacetSearcher)
         assertEquals(1, components.size)
         val component = components.first()
-        assertEquals(listOf(ComponentParam.FacetsQuery), component.parameters)
+        assertEquals(setOf(ComponentParam.FacetsQuery), component.parameters)
         assertEquals(false, component.isConnector)
 
     }
@@ -61,9 +64,18 @@ class TestTelemetry {
         val components = GlobalTelemetry.componentsFor(ComponentType.MultiSearcher)
         assertEquals(1, components.size)
         val component = components.first()
-        assertEquals(listOf(ComponentParam.Strategy), component.parameters)
+        assertEquals(setOf(ComponentParam.Strategy), component.parameters)
         assertEquals(false, component.isConnector)
+    }
 
+    @Test
+    fun testFilterState() {
+        FilterState()
+        val components = GlobalTelemetry.componentsFor(ComponentType.FilterState)
+        assertEquals(1, components.size)
+        val component = components.first()
+        assertEquals(emptySet(), component.parameters)
+        assertEquals(false, component.isConnector)
     }
 
     private fun Telemetry.componentsFor(type: ComponentType) = schema().components.filter { it.type == type }

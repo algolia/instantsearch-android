@@ -8,7 +8,7 @@ public class LoadingViewModel(
     isLoading: Boolean = false
 ) {
     init {
-        traceLoading(this)
+        traceLoading(isLoading)
     }
 
     public val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(isLoading)
