@@ -1,3 +1,14 @@
+# 2.11.2
+
+### Fixed
+- Android 12 support: update `work-runtime` to `2.7.1`
+
+### Changed
+- Compile target to Android 12 (API level 31) 
+- Kotlin API Client `1.12.0`
+- Kotlin `1.5.31`
+- Compose `1.0.5`
+
 # 2.11.1
 
 ### Added
