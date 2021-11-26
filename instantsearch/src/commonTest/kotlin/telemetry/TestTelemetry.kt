@@ -5,6 +5,7 @@ import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetListConnector
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
@@ -23,6 +24,7 @@ import com.algolia.instantsearch.telemetry.Telemetry
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
+import com.algolia.search.model.search.Facet
 import com.algolia.search.transport.RequestOptions
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -116,6 +118,24 @@ class TestTelemetry {
         HierarchicalConnector(searcherSingleIndex, attribute, filterState, listOf(attribute), "")
         val component = GlobalTelemetry.validateAndGet(ComponentType.HierarchicalFacets)
         assertEquals(emptySet(), component.parameters)
+        assertEquals(true, component.isConnector)
+    }
+
+    @Test
+    fun testFacetList() {
+        FacetListConnector(
+            searcherSingleIndex,
+            filterState,
+            attribute,
+            SelectionMode.Single,
+            listOf(Facet("facet", 1)),
+            true
+        )
+        val component = GlobalTelemetry.validateAndGet(ComponentType.FacetList)
+        assertEquals(
+            setOf(ComponentParam.Items, ComponentParam.SelectionMode, ComponentParam.PersistentSelection),
+            component.parameters
+        )
         assertEquals(true, component.isConnector)
     }
 

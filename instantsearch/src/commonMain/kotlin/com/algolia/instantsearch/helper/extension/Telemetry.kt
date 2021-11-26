@@ -20,6 +20,7 @@ import com.algolia.instantsearch.telemetry.ComponentParam
 import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
+import com.algolia.search.model.search.Facet
 
 /** Telemetry: trace hits searcher */
 internal fun HitsSearcher.traceHitsSearcher() {
@@ -120,4 +121,18 @@ internal fun traceHierarchicalFacets() {
 /** Telemetry: trace hierarchical menu connector */
 internal fun traceHierarchicalFacetsConnector() {
     GlobalTelemetry.traceConnector(ComponentType.HierarchicalFacets)
+}
+
+/** Telemetry: trace facets list */
+internal fun traceFacetList(items: List<Facet>, selectionMode: SelectionMode, persistentSelection: Boolean) {
+    val params = buildSet {
+        if (items != emptyList<Facet>()) add(ComponentParam.Items)
+        if (selectionMode != SelectionMode.Multiple) add(ComponentParam.SelectionMode)
+        if (persistentSelection) add(ComponentParam.PersistentSelection)
+    }
+    GlobalTelemetry.trace(ComponentType.FacetList, params)
+}
+
+internal fun traceFacetListConnector() {
+    GlobalTelemetry.traceConnector(ComponentType.FacetList)
 }
