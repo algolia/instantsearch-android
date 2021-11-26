@@ -39,7 +39,7 @@ test-kotlin-common = { module = "org.jetbrains.kotlin:kotlin-test-common" }
 test-kotlin-annotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common" }
 test-kotlin-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
 test-mockk = { group = "io.mockk", name = "mockk", version = "1.12.0" }
-test-robolectric = { group = "org.robolectric", name = "robolectric", version = "4.6.1" }
+test-robolectric = { group = "org.robolectric", name = "robolectric", version = "4.7.2" }
 
 # logging
 slf4j = { group = "org.slf4j", name = "slf4j-api", version = "1.7.30" }
