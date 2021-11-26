@@ -1,14 +1,10 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.Internal
-import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
-import com.algolia.instantsearch.helper.extension.traceSearcher
+import com.algolia.instantsearch.helper.extension.traceHitsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
-import com.algolia.instantsearch.telemetry.ComponentParam
-import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.search.client.Index
 import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.response.ResponseSearch
@@ -44,7 +40,7 @@ public class SearcherSingleIndex(
     internal var filterGroups: Set<FilterGroup<*>> = setOf()
 
     init {
-        GlobalTelemetry.traceSearcher(this)
+        traceHitsSearcher(this)
     }
 
     override fun setQuery(text: String?) {

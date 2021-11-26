@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.helper.searcher.facets.internal
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceFacetsSearcher
@@ -49,7 +48,7 @@ internal class DefaultFacetsSearcher(
     private val indexedQuery get() = FacetIndexQuery(indexName, query, attribute, facetQuery)
 
     init {
-        GlobalTelemetry.traceFacetsSearcher(this)
+        traceFacetsSearcher(this)
     }
 
     override fun collect(): Pair<List<FacetIndexQuery>, (List<ResponseSearchForFacets>) -> Unit> {

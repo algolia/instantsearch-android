@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
@@ -41,7 +40,7 @@ public class SearcherForFacets(
     private val exceptionHandler = SearcherExceptionHandler(this)
 
     init {
-        GlobalTelemetry.traceFacetsSearcher(this)
+        traceFacetsSearcher(this)
     }
 
     override fun setQuery(text: String?) {

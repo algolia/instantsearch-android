@@ -1,10 +1,9 @@
 package com.algolia.instantsearch.helper.searcher.hits.internal
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
-import com.algolia.instantsearch.helper.extension.traceSearcher
+import com.algolia.instantsearch.helper.extension.traceHitsSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
@@ -51,7 +50,7 @@ internal class DefaultHitsSearcher(
     private val indexedQuery: IndexQuery get() = IndexQuery(indexName, query)
 
     init {
-        GlobalTelemetry.traceSearcher(this)
+        traceHitsSearcher(this)
     }
 
     override fun setQuery(text: String?) {

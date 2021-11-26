@@ -1,7 +1,9 @@
 package com.algolia.instantsearch.helper.filter.state
 
+import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.filter.state.internal.MutableFiltersImpl
+import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.search.model.filter.Filter
 
 /**
@@ -16,6 +18,10 @@ public class FilterState internal constructor(
     public val filters: SubscriptionValue<Filters> = SubscriptionValue(filters)
 
     public constructor() : this(MutableFiltersImpl())
+
+    init {
+        GlobalTelemetry.trace(ComponentType.FilterState)
+    }
 
     public constructor(map: Map<FilterGroupID, Set<Filter>>) : this() {
         map.forEach { (groupID, filters) -> add(groupID, filters) }

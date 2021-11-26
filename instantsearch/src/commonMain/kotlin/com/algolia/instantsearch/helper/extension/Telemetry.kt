@@ -4,6 +4,7 @@ package com.algolia.instantsearch.helper.extension
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.Internal
+import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -12,56 +13,58 @@ import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.DefaultMultiSearcher
 import com.algolia.instantsearch.telemetry.ComponentParam
 import com.algolia.instantsearch.telemetry.ComponentType
-import com.algolia.instantsearch.telemetry.Telemetry
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 
-internal fun Telemetry.traceSearcher(searcher: HitsSearcher) {
+/** Telemetry: trace hits searcher */
+internal fun traceHitsSearcher(searcher: HitsSearcher) {
     val params = buildList {
         if (!searcher.isDisjunctiveFacetingEnabled) add(ComponentParam.IsDisjunctiveFacetingEnabled)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
-    trace(ComponentType.HitsSearcher, params)
+    GlobalTelemetry.trace(ComponentType.HitsSearcher, params)
 }
 
-// TODO: to be merged with traceSearcher for HitsSearcher
-internal fun Telemetry.traceSearcher(searcher: SearcherSingleIndex) {
+/** Telemetry: trace hits searcher */ // TODO: to be merged with traceSearcher for HitsSearcher
+internal fun traceHitsSearcher(searcher: SearcherSingleIndex) {
     val params = buildList {
         if (!searcher.isDisjunctiveFacetingEnabled) add(ComponentParam.IsDisjunctiveFacetingEnabled)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
-    trace(ComponentType.HitsSearcher, params)
+    GlobalTelemetry.trace(ComponentType.HitsSearcher, params)
 }
 
-internal fun Telemetry.traceFacetsSearcher(searcher: FacetsSearcher) {
+/** Telemetry: trace facets searcher */
+internal fun traceFacetsSearcher(searcher: FacetsSearcher) {
     val params = buildList {
         if (searcher.facetQuery != null) add(ComponentParam.FacetsQuery)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
-    trace(ComponentType.FacetSearcher, params)
+    GlobalTelemetry.trace(ComponentType.FacetSearcher, params)
 }
 
-// TODO: to be merged with traceFacetsSearcher for FacetsSearcher
-internal fun Telemetry.traceFacetsSearcher(searcher: SearcherForFacets) {
+/** Telemetry: trace facets searcher */ // TODO: to be merged with traceFacetsSearcher for FacetsSearcher
+internal fun traceFacetsSearcher(searcher: SearcherForFacets) {
     val params = buildList {
         if (searcher.facetQuery != null) add(ComponentParam.FacetsQuery)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
-    trace(ComponentType.FacetSearcher, params)
+    GlobalTelemetry.trace(ComponentType.FacetSearcher, params)
 }
 
-internal fun Telemetry.traceMultiSearcher(searcher: DefaultMultiSearcher) {
+/** Telemetry: trace multi-searcher */
+internal fun traceMultiSearcher(searcher: DefaultMultiSearcher) {
     val params = buildList {
         if (searcher.strategy != MultipleQueriesStrategy.None) add(ComponentParam.Strategy)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
-    trace(ComponentType.MultiSearcher, params)
+    GlobalTelemetry.trace(ComponentType.MultiSearcher, params)
 }
 
-// TODO: to be merged with traceMultiSearcher for DefaultMultiSearcher
-internal fun Telemetry.traceMultiSearcher(searcher: SearcherMultipleIndex) {
+/** Telemetry: trace multi-searcher */ // TODO: to be merged with traceMultiSearcher for DefaultMultiSearcher
+internal fun traceMultiSearcher(searcher: SearcherMultipleIndex) {
     val params = buildList {
         if (searcher.strategy != MultipleQueriesStrategy.None) add(ComponentParam.Strategy)
         if (searcher.requestOptions != null) add(ComponentParam.RequestOptions)
     }
-    trace(ComponentType.MultiSearcher, params)
+    GlobalTelemetry.trace(ComponentType.MultiSearcher, params)
 }

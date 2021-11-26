@@ -1,15 +1,14 @@
 package com.algolia.instantsearch.core.loading
 
-import com.algolia.instantsearch.core.internal.GlobalTelemetry
+import com.algolia.instantsearch.core.internal.traceLoading
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
-import com.algolia.instantsearch.telemetry.ComponentType.Loading
 
-public open class LoadingViewModel(
+public class LoadingViewModel(
     isLoading: Boolean = false
 ) {
     init {
-        GlobalTelemetry.trace(Loading)
+        traceLoading(this)
     }
 
     public val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(isLoading)
