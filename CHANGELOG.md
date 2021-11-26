@@ -5,6 +5,7 @@
 
 ### Changed
 - Compile target to Android 12 (API level 31) 
+- Kotlin API Client `1.12.0`
 - Kotlin `1.5.31`
 - Compose `1.0.5`
 
