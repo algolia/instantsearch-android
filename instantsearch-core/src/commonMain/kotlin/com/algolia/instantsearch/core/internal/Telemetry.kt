@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalStdlibApi::class)
+
 package com.algolia.instantsearch.core.internal
 
 import com.algolia.instantsearch.Internal
@@ -21,7 +23,6 @@ internal fun traceFilterToggle(isSelected: Boolean) {
     GlobalTelemetry.trace(ComponentType.FilterToggle, params)
 }
 
-@OptIn(ExperimentalStdlibApi::class)
 internal fun traceNumberFilter(
     hasNumber: Boolean,
     hasBounds: Boolean
@@ -31,4 +32,12 @@ internal fun traceNumberFilter(
         if (hasBounds) add(ComponentParam.Bounds)
     }
     GlobalTelemetry.trace(ComponentType.NumberFilter, params)
+}
+
+internal fun traceNumberRangeFilter(hasRange: Boolean, hasBounds: Boolean) {
+    val params = buildSet {
+        if (hasRange) add(ComponentParam.Range)
+        if (hasBounds) add(ComponentParam.Bounds)
+    }
+    GlobalTelemetry.trace(ComponentType.NumberRangeFilter, params)
 }
