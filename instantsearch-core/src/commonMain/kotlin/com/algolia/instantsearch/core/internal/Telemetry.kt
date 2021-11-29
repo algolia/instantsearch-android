@@ -14,3 +14,9 @@ internal fun traceLoading(isLoading: Boolean) {
     val params = if (isLoading) setOf(ComponentParam.IsLoading) else emptySet()
     GlobalTelemetry.trace(ComponentType.Loading, params)
 }
+
+/** Telemetry: trace filter toggle */
+internal fun traceFilterToggle(isSelected: Boolean) {
+    val params = if (isSelected) setOf(ComponentParam.IsSelected) else emptySet()
+    GlobalTelemetry.trace(ComponentType.FilterToggle, params)
+}

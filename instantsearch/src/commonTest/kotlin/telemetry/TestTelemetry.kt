@@ -14,6 +14,7 @@ import com.algolia.instantsearch.helper.filter.list.FilterListConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.helper.filter.toggle.FilterToggleConnector
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalConnector
 import com.algolia.instantsearch.helper.loading.LoadingConnector
 import com.algolia.instantsearch.helper.searcher.SearcherAnswers
@@ -66,9 +67,8 @@ class TestTelemetry {
         val searcher = HitsSearcher(client, indexName)
         val viewModel = LoadingViewModel(isLoading = true)
         LoadingConnector(searcher, viewModel)
-        val component = GlobalTelemetry.validateAndGet(ComponentType.Loading)
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.Loading)
         assertEquals(setOf(ComponentParam.IsLoading), component.parameters)
-        assertEquals(true, component.isConnector)
     }
 
     @Test
@@ -106,7 +106,7 @@ class TestTelemetry {
             selectionModeForAttribute = mapOf(attribute to SelectionMode.Single),
             filterGroupForAttribute = mapOf(attribute to (attribute to FilterOperator.Or))
         )
-        val component = GlobalTelemetry.validateAndGet(ComponentType.DynamicFacets)
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.DynamicFacets)
         assertEquals(
             setOf(
                 ComponentParam.OrderedFacets,
@@ -115,15 +115,13 @@ class TestTelemetry {
                 ComponentParam.FilterGroupForAttribute
             ), component.parameters
         )
-        assertEquals(true, component.isConnector)
     }
 
     @Test
     fun testHierarchicalFacets() {
         HierarchicalConnector(searcherSingleIndex, attribute, filterState, listOf(attribute), "")
-        val component = GlobalTelemetry.validateAndGet(ComponentType.HierarchicalFacets)
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.HierarchicalFacets)
         assertEquals(emptySet(), component.parameters)
-        assertEquals(true, component.isConnector)
     }
 
     @Test
@@ -136,57 +134,96 @@ class TestTelemetry {
             listOf(Facet("facet", 1)),
             true
         )
-        val component = GlobalTelemetry.validateAndGet(ComponentType.FacetList)
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.FacetList)
         assertEquals(
             setOf(ComponentParam.Items, ComponentParam.SelectionMode, ComponentParam.PersistentSelection),
             component.parameters
         )
-        assertEquals(true, component.isConnector)
     }
 
     @Test
     fun testFilterClear() {
         FilterClearConnector(filterState, listOf(FilterGroupID(attribute)), ClearMode.Except)
-        val component = GlobalTelemetry.validateAndGet(ComponentType.FilterClear)
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.FilterClear)
         assertEquals(setOf(ComponentParam.GroupIDs, ComponentParam.ClearMode), component.parameters)
-        assertEquals(true, component.isConnector)
     }
 
     @Test
     fun testFacetFilterList() {
-        FilterListConnector.Facet(listOf(Filter.Facet(attribute, "attr")), filterState, SelectionMode.Single, FilterGroupID(FilterOperator.And))
-        val component = GlobalTelemetry.validateAndGet(ComponentType.FacetFilterList)
-        assertEquals(setOf(ComponentParam.Items, ComponentParam.SelectionMode, ComponentParam.Operator), component.parameters)
-        assertEquals(true, component.isConnector)
+        FilterListConnector.Facet(
+            listOf(Filter.Facet(attribute, "attr")),
+            filterState,
+            SelectionMode.Single,
+            FilterGroupID(FilterOperator.And)
+        )
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.FacetFilterList)
+        assertEquals(
+            setOf(ComponentParam.Items, ComponentParam.SelectionMode, ComponentParam.Operator),
+            component.parameters
+        )
     }
 
     @Test
     fun testNumericFilterList() {
-        FilterListConnector.Numeric(listOf(Filter.Numeric(attribute, 1..4)), filterState, SelectionMode.Multiple, FilterGroupID(FilterOperator.Or))
-        val component = GlobalTelemetry.validateAndGet(ComponentType.NumericFilterList)
-        assertEquals(setOf(ComponentParam.Items, ComponentParam.SelectionMode, ComponentParam.Operator), component.parameters)
-        assertEquals(true, component.isConnector)
+        FilterListConnector.Numeric(
+            listOf(Filter.Numeric(attribute, 1..4)),
+            filterState,
+            SelectionMode.Multiple,
+            FilterGroupID(FilterOperator.Or)
+        )
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.NumericFilterList)
+        assertEquals(
+            setOf(ComponentParam.Items, ComponentParam.SelectionMode, ComponentParam.Operator),
+            component.parameters
+        )
     }
 
     @Test
     fun testTagFilterList() {
-        FilterListConnector.Tag(listOf(Filter.Tag("tag")), filterState, SelectionMode.Single, FilterGroupID(FilterOperator.Or))
-        val component = GlobalTelemetry.validateAndGet(ComponentType.TagFilterList)
-        assertEquals(setOf(ComponentParam.Items, ComponentParam.SelectionMode, ComponentParam.Operator), component.parameters)
-        assertEquals(true, component.isConnector)
+        FilterListConnector.Tag(
+            listOf(Filter.Tag("tag")),
+            filterState,
+            SelectionMode.Single,
+            FilterGroupID(FilterOperator.Or)
+        )
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.TagFilterList)
+        assertEquals(
+            setOf(ComponentParam.Items, ComponentParam.SelectionMode, ComponentParam.Operator),
+            component.parameters
+        )
     }
 
     @Test
     fun testFilterList() {
-        FilterListConnector.All(listOf(Filter.Tag("tag")), filterState, SelectionMode.Single, FilterGroupID(FilterOperator.Or))
-        val component = GlobalTelemetry.validateAndGet(ComponentType.FilterList)
-        assertEquals(setOf(ComponentParam.Items, ComponentParam.SelectionMode, ComponentParam.Operator), component.parameters)
-        assertEquals(true, component.isConnector)
+        FilterListConnector.All(
+            listOf(Filter.Tag("tag")),
+            filterState,
+            SelectionMode.Single,
+            FilterGroupID(FilterOperator.Or)
+        )
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.FilterList)
+        assertEquals(
+            setOf(ComponentParam.Items, ComponentParam.SelectionMode, ComponentParam.Operator),
+            component.parameters
+        )
+    }
+
+    @Test
+    fun testFilterToggle() {
+        FilterToggleConnector(filterState, Filter.Facet(attribute, "attr"), true, FilterGroupID(FilterOperator.Or))
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.FilterToggle)
+        assertEquals(setOf(ComponentParam.Operator, ComponentParam.IsSelected), component.parameters)
     }
 
     private fun Telemetry.validateAndGet(type: ComponentType): Component {
         val components = schema().components.filter { it.type == type }
         assertEquals(1, components.size)
         return components.first()
+    }
+
+    private fun Telemetry.validateConnectorAndGet(type: ComponentType): Component {
+        val component = validateAndGet(type)
+        assertEquals(true, component.isConnector)
+        return component
     }
 }

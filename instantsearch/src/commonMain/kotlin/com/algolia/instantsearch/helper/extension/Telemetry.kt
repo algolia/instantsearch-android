@@ -15,6 +15,7 @@ import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
+import com.algolia.instantsearch.helper.filter.toggle.FilterToggleConnector
 import com.algolia.instantsearch.helper.searcher.SearcherAnswers
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
@@ -225,4 +226,10 @@ internal fun FilterListConnector.All.traceFilterListConnector() {
         if (groupID.operator != FilterOperator.And) add(ComponentParam.Operator)
     }
     GlobalTelemetry.traceConnector(ComponentType.FilterList, params)
+}
+
+/** Telemetry: trace filter toggle connector */
+internal fun FilterToggleConnector.traceFilterToggleConnector() {
+    val params = if (groupID.operator != FilterOperator.And) setOf(ComponentParam.Operator) else emptySet()
+    GlobalTelemetry.traceConnector(ComponentType.FilterToggle, params)
 }
