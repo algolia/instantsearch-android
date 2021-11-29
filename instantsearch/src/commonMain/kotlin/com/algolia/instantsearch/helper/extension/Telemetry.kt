@@ -10,8 +10,11 @@ import com.algolia.instantsearch.helper.filter.clear.ClearMode
 import com.algolia.instantsearch.helper.filter.clear.FilterClearConnector
 import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.SelectionsPerAttribute
+import com.algolia.instantsearch.helper.filter.list.FilterListConnector
+import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.searcher.SearcherAnswers
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
@@ -22,6 +25,7 @@ import com.algolia.instantsearch.helper.searcher.multi.internal.DefaultMultiSear
 import com.algolia.instantsearch.telemetry.ComponentParam
 import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.search.Facet
 
@@ -153,4 +157,72 @@ internal fun FilterClearConnector.traceFilterClearConnector() {
         if (mode != ClearMode.Specified) add(ComponentParam.ClearMode)
     }
     GlobalTelemetry.traceConnector(ComponentType.FilterClear, params)
+}
+
+/** Telemetry: trace facet filter list */
+internal fun FilterListViewModel.Facet.traceFacetFilterList() {
+    val params = buildSet {
+        if (items.value != emptyList<Filter.Facet>()) add(ComponentParam.Items)
+        if (selectionMode != SelectionMode.Multiple) add(ComponentParam.SelectionMode)
+    }
+    GlobalTelemetry.trace(ComponentType.FacetFilterList, params)
+}
+
+/** Telemetry: trace facet filter list connector */
+internal fun FilterListConnector.Facet.traceFacetFilterListConnector() {
+    val params = buildSet {
+        if (groupID.operator != FilterOperator.Or) add(ComponentParam.Operator)
+    }
+    GlobalTelemetry.traceConnector(ComponentType.FacetFilterList, params)
+}
+
+/** Telemetry: trace numeric filter list */
+internal fun FilterListViewModel.Numeric.traceNumericFilterList() {
+    val params = buildSet {
+        if (items.value != emptyList<Filter.Numeric>()) add(ComponentParam.Items)
+        if (selectionMode != SelectionMode.Single) add(ComponentParam.SelectionMode)
+    }
+    GlobalTelemetry.trace(ComponentType.NumericFilterList, params)
+}
+
+/** Telemetry: trace facet filter list connector */
+internal fun FilterListConnector.Numeric.traceNumericFilterListConnector() {
+    val params = buildSet {
+        if (groupID.operator != FilterOperator.And) add(ComponentParam.Operator)
+    }
+    GlobalTelemetry.traceConnector(ComponentType.NumericFilterList, params)
+}
+
+/** Telemetry: tag numeric filter list */
+internal fun FilterListViewModel.Tag.traceTagFilterList() {
+    val params = buildSet {
+        if (items.value != emptyList<Filter.Tag>()) add(ComponentParam.Items)
+        if (selectionMode != SelectionMode.Multiple) add(ComponentParam.SelectionMode)
+    }
+    GlobalTelemetry.trace(ComponentType.TagFilterList, params)
+}
+
+/** Telemetry: tag numeric filter list connector */
+internal fun FilterListConnector.Tag.traceTagFilterListConnector() {
+    val params = buildSet {
+        if (groupID.operator != FilterOperator.And) add(ComponentParam.Operator)
+    }
+    GlobalTelemetry.traceConnector(ComponentType.TagFilterList, params)
+}
+
+/** Telemetry: trace filter list (all) */
+internal fun FilterListViewModel.All.traceFilterList() {
+    val params = buildSet {
+        if (items.value != emptyList<Filter>()) add(ComponentParam.Items)
+        if (selectionMode != SelectionMode.Multiple) add(ComponentParam.SelectionMode)
+    }
+    GlobalTelemetry.trace(ComponentType.FilterList, params)
+}
+
+/** Telemetry: trace filter list connector (all) */
+internal fun FilterListConnector.All.traceFilterListConnector() {
+    val params = buildSet {
+        if (groupID.operator != FilterOperator.And) add(ComponentParam.Operator)
+    }
+    GlobalTelemetry.traceConnector(ComponentType.FilterList, params)
 }

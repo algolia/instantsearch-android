@@ -35,5 +35,6 @@ public enum class ComponentType {
     @ProtoNumber(24) RelatedItems, // Related items
     @ProtoNumber(25) FilterMap, // Filter Map
     @ProtoNumber(26) MultiHits, // Multi Hits
+    @ProtoNumber(27) FilterList, // Filter List (All)
     // @formatter:on
 }
