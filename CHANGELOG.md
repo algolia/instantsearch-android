@@ -1,3 +1,11 @@
+# 2.11.3
+
+### Changed
+- Ktor `1.6.6`
+
+### Fixed
+- `instantsearch-android` AAR artifact publish
+
 # 2.11.2
 
 ### Fixed
