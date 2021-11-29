@@ -20,3 +20,15 @@ internal fun traceFilterToggle(isSelected: Boolean) {
     val params = if (isSelected) setOf(ComponentParam.IsSelected) else emptySet()
     GlobalTelemetry.trace(ComponentType.FilterToggle, params)
 }
+
+@OptIn(ExperimentalStdlibApi::class)
+internal fun traceNumberFilter(
+    hasNumber: Boolean,
+    hasBounds: Boolean
+) {
+    val params = buildSet {
+        if (hasNumber) add(ComponentParam.Number)
+        if (hasBounds) add(ComponentParam.Bounds)
+    }
+    GlobalTelemetry.trace(ComponentType.NumberFilter, params)
+}

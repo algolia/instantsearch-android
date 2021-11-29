@@ -4,6 +4,8 @@ import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.loading.LoadingViewModel
+import com.algolia.instantsearch.core.number.NumberViewModel
+import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
 import com.algolia.instantsearch.helper.filter.clear.FilterClearConnector
@@ -11,6 +13,7 @@ import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetListConnector
 import com.algolia.instantsearch.helper.filter.list.FilterListConnector
+import com.algolia.instantsearch.helper.filter.numeric.comparison.FilterComparisonConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -29,6 +32,7 @@ import com.algolia.instantsearch.telemetry.Telemetry
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
+import com.algolia.search.model.filter.NumericOperator
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.search.Facet
 import com.algolia.search.transport.RequestOptions
@@ -213,6 +217,19 @@ class TestTelemetry {
         FilterToggleConnector(filterState, Filter.Facet(attribute, "attr"), true, FilterGroupID(FilterOperator.Or))
         val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.FilterToggle)
         assertEquals(setOf(ComponentParam.Operator, ComponentParam.IsSelected), component.parameters)
+    }
+
+    @Test
+    fun testNumberRangeFilter() {
+        FilterComparisonConnector(
+            NumberViewModel(12, Range(10, 42)),
+            filterState,
+            attribute,
+            NumericOperator.Greater,
+            FilterGroupID(FilterOperator.Or)
+        )
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.NumberFilter)
+        assertEquals(setOf(ComponentParam.Operator, ComponentParam.Number, ComponentParam.Bounds), component.parameters)
     }
 
     private fun Telemetry.validateAndGet(type: ComponentType): Component {
