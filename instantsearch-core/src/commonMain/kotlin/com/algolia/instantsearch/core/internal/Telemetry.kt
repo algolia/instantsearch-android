@@ -23,6 +23,7 @@ internal fun traceFilterToggle(isSelected: Boolean) {
     GlobalTelemetry.trace(ComponentType.FilterToggle, params)
 }
 
+/** Telemetry: trace number filter */
 internal fun traceNumberFilter(
     hasNumber: Boolean,
     hasBounds: Boolean
@@ -34,10 +35,17 @@ internal fun traceNumberFilter(
     GlobalTelemetry.trace(ComponentType.NumberFilter, params)
 }
 
+/** Telemetry: trace number range filter */
 internal fun traceNumberRangeFilter(hasRange: Boolean, hasBounds: Boolean) {
     val params = buildSet {
         if (hasRange) add(ComponentParam.Range)
         if (hasBounds) add(ComponentParam.Bounds)
     }
     GlobalTelemetry.trace(ComponentType.NumberRangeFilter, params)
+}
+
+/** Telemetry: trace current filters */
+internal fun traceCurrentFilters(hasItems: Boolean) {
+    val params = if (hasItems) setOf(ComponentParam.Items) else emptySet()
+    GlobalTelemetry.trace(ComponentType.CurrentFilters, params)
 }

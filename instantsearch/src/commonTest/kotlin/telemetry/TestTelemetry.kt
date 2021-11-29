@@ -9,6 +9,7 @@ import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
 import com.algolia.instantsearch.helper.filter.clear.FilterClearConnector
+import com.algolia.instantsearch.helper.filter.current.FilterCurrentConnector
 import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetListConnector
@@ -244,6 +245,15 @@ class TestTelemetry {
         )
         val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.NumberRangeFilter)
         assertEquals(setOf(ComponentParam.Operator, ComponentParam.Range, ComponentParam.Bounds), component.parameters)
+    }
+
+    @Test
+    fun testCurrentFilters() {
+        val filter = Filter.Facet(attribute, "attr")
+        val filterGroupID = FilterGroupID(attribute, FilterOperator.And)
+        FilterCurrentConnector(mapOf((filterGroupID to filter) to filter), filterState, listOf(filterGroupID))
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.CurrentFilters)
+        assertEquals(setOf(ComponentParam.GroupIDs, ComponentParam.Items), component.parameters)
     }
 
     private fun Telemetry.validateAndGet(type: ComponentType): Component {
