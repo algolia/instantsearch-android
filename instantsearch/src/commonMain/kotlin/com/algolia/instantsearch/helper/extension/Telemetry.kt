@@ -6,9 +6,12 @@ import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.helper.filter.clear.ClearMode
+import com.algolia.instantsearch.helper.filter.clear.FilterClearConnector
 import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.SelectionsPerAttribute
 import com.algolia.instantsearch.helper.filter.state.FilterGroupDescriptor
+import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.searcher.SearcherAnswers
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
@@ -133,6 +136,21 @@ internal fun traceFacetList(items: List<Facet>, selectionMode: SelectionMode, pe
     GlobalTelemetry.trace(ComponentType.FacetList, params)
 }
 
+/** Telemetry: trace facets list connector */
 internal fun traceFacetListConnector() {
     GlobalTelemetry.traceConnector(ComponentType.FacetList)
+}
+
+/** Telemetry: trace filter clear */
+internal fun traceFilterClear() {
+    GlobalTelemetry.trace(ComponentType.FilterClear)
+}
+
+/** Telemetry: trace filter clear connector */
+internal fun FilterClearConnector.traceFilterClearConnector() {
+    val params = buildSet {
+        if (groupIDs != emptyList<FilterGroupID>()) add(ComponentParam.GroupIDs)
+        if (mode != ClearMode.Specified) add(ComponentParam.ClearMode)
+    }
+    GlobalTelemetry.traceConnector(ComponentType.FilterClear, params)
 }

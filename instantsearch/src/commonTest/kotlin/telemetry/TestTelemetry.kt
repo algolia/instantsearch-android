@@ -5,9 +5,12 @@ import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.helper.filter.clear.ClearMode
+import com.algolia.instantsearch.helper.filter.clear.FilterClearConnector
 import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetListConnector
+import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalConnector
@@ -136,6 +139,14 @@ class TestTelemetry {
             setOf(ComponentParam.Items, ComponentParam.SelectionMode, ComponentParam.PersistentSelection),
             component.parameters
         )
+        assertEquals(true, component.isConnector)
+    }
+
+    @Test
+    fun testFilterClear() {
+        FilterClearConnector(filterState, listOf(FilterGroupID(attribute)), ClearMode.Except)
+        val component = GlobalTelemetry.validateAndGet(ComponentType.FilterClear)
+        assertEquals(setOf(ComponentParam.GroupIDs, ComponentParam.ClearMode), component.parameters)
         assertEquals(true, component.isConnector)
     }
 
