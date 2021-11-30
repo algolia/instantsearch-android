@@ -7,6 +7,7 @@ import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataConnector
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
 import com.algolia.instantsearch.helper.filter.clear.FilterClearConnector
 import com.algolia.instantsearch.helper.filter.current.FilterCurrentConnector
@@ -262,6 +263,13 @@ class TestTelemetry {
         StatsConnector(searcherSingleIndex)
         val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.Stats)
         assertEquals(emptySet(), component.parameters)
+    }
+
+    @Test
+    fun testQueryRuleCustomData() {
+        QueryRuleCustomDataConnector(searcherSingleIndex, "init")
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.QueryRuleCustomData)
+        assertEquals(setOf(ComponentParam.Item), component.parameters)
     }
 
     private fun Telemetry.validateAndGet(type: ComponentType): Component {

@@ -264,3 +264,14 @@ internal fun traceStats() {
 internal fun traceStatsConnector() {
     GlobalTelemetry.traceConnector(ComponentType.Stats)
 }
+
+/** Telemetry: trace query rule custom data */
+internal fun traceQueryRuleCustomData(hasItem: Boolean) {
+    val params = if (hasItem) setOf(ComponentParam.Item) else emptySet()
+    GlobalTelemetry.trace(ComponentType.QueryRuleCustomData, params)
+}
+
+/** Telemetry: trace query rule custom data connector */
+internal fun traceQueryRuleCustomDataConnector() {
+    GlobalTelemetry.traceConnector(ComponentType.QueryRuleCustomData)
+}
