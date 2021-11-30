@@ -2,12 +2,14 @@ package telemetry
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.Internal
+import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
+import com.algolia.instantsearch.core.searcher.connectView
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataConnector
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
@@ -323,6 +325,13 @@ class TestTelemetry {
             listOf(SimpleProduct(ObjectID("objectId"), "brand"))
         }
         val component = GlobalTelemetry.validateAndGet(ComponentType.RelatedItems)
+        assertEquals(emptySet(), component.parameters)
+    }
+
+    @Test
+    fun testHits() {
+        searcherSingleIndex.connectHitsView(mockHitsView()) { it.hits }
+        val component = GlobalTelemetry.validateAndGet(ComponentType.Hits)
         assertEquals(emptySet(), component.parameters)
     }
 

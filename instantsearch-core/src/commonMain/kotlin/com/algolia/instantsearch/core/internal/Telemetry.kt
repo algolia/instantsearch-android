@@ -70,3 +70,8 @@ internal fun traceFilterMap() {
 internal fun traceSearchBox() {
     GlobalTelemetry.trace(ComponentType.SearchBox)
 }
+
+/** Telemetry: trace hits */
+internal fun traceHits() {
+    GlobalTelemetry.trace(ComponentType.Hits)
+}
