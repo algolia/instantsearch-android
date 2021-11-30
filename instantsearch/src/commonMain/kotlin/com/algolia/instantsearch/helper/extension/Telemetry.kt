@@ -254,3 +254,13 @@ internal fun FilterCurrentConnector.traceCurrentFilters() {
     val params = if (groupIDs != emptyList<FilterGroupID>()) setOf(ComponentParam.GroupIDs) else emptySet()
     GlobalTelemetry.traceConnector(ComponentType.CurrentFilters, params)
 }
+
+/** Telemetry: trace stats */
+internal fun traceStats() {
+    GlobalTelemetry.trace(ComponentType.Stats)
+}
+
+/** Telemetry: trace stats */
+internal fun traceStatsConnector() {
+    GlobalTelemetry.traceConnector(ComponentType.Stats)
+}

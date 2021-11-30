@@ -28,6 +28,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
+import com.algolia.instantsearch.helper.stats.StatsConnector
 import com.algolia.instantsearch.telemetry.Component
 import com.algolia.instantsearch.telemetry.ComponentParam
 import com.algolia.instantsearch.telemetry.ComponentType
@@ -254,6 +255,13 @@ class TestTelemetry {
         FilterCurrentConnector(mapOf((filterGroupID to filter) to filter), filterState, listOf(filterGroupID))
         val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.CurrentFilters)
         assertEquals(setOf(ComponentParam.GroupIDs, ComponentParam.Items), component.parameters)
+    }
+
+    @Test
+    fun testStats() {
+        StatsConnector(searcherSingleIndex)
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.Stats)
+        assertEquals(emptySet(), component.parameters)
     }
 
     private fun Telemetry.validateAndGet(type: ComponentType): Component {
