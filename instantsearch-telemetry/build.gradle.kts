@@ -8,9 +8,11 @@ kotlin {
     jvm()
     sourceSets {
         all {
-            languageSettings.optIn("kotlin.RequiresOptIn")
-            languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
-            languageSettings.optIn("com.algolia.instantsearch.Internal")
+            languageSettings {
+                optIn("kotlin.RequiresOptIn")
+                optIn("kotlinx.serialization.ExperimentalSerializationApi")
+                optIn("com.algolia.instantsearch.Internal")
+            }
         }
         val commonMain by getting {
             dependencies {

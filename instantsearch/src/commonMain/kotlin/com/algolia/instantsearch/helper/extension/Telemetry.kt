@@ -38,10 +38,9 @@ import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.search.Facet
 import io.ktor.util.*
 
-internal fun telemetryHeader(): String {
+internal fun telemetrySchema(): String? {
     @OptIn(InternalAPI::class) // TODO: replace `encodeBase64` with internal implementation
-    val schema = GlobalTelemetry.schema().toByteArray().encodeBase64()
-    return "Telemetry ($schema)"
+    return GlobalTelemetry.schema()?.toByteArray()?.encodeBase64()?.let { "Telemetry($it)" }
 }
 
 /** Telemetry: trace hits searcher */

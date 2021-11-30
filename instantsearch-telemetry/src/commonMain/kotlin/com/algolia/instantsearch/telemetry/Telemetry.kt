@@ -11,8 +11,9 @@ public interface Telemetry {
 
     /**
      * Get telemetry [Schema].
+     * Returns `null` is telemetry is not [enabled].
      */
-    public fun schema(): Schema
+    public fun schema(): Schema?
 
     /**
      * Track a component by its [ComponentType] and [ComponentParam].
@@ -29,6 +30,11 @@ public interface Telemetry {
         componentType: ComponentType,
         componentParams: Set<ComponentParam> = emptySet()
     )
+
+    /**
+     * Flag to enable/disable telemetry tracing.
+     */
+    public var enabled: Boolean
 }
 
 /**
