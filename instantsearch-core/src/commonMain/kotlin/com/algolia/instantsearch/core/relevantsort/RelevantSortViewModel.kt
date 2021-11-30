@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.core.relevantsort
 
+import com.algolia.instantsearch.core.internal.traceRelevantSort
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority.HitsCount
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority.Relevancy
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
@@ -22,6 +23,10 @@ public class RelevantSortViewModel(
      * been connected to a searcher, or the searched index is not the virtual replica.
      */
     public val priority: SubscriptionValue<RelevantSortPriority?> = SubscriptionValue(priority)
+
+    init {
+        traceRelevantSort(priority != null)
+    }
 
     /**
      * Switch the relevant sort priority to the opposite one.

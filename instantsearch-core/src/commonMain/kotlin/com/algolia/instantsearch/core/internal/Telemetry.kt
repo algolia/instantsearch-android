@@ -49,3 +49,9 @@ internal fun traceCurrentFilters(hasItems: Boolean) {
     val params = if (hasItems) setOf(ComponentParam.Items) else emptySet()
     GlobalTelemetry.trace(ComponentType.CurrentFilters, params)
 }
+
+/** Telemetry: trace relevant sort */
+internal fun traceRelevantSort(hasPriority: Boolean) {
+    val params = if (hasPriority) setOf(ComponentParam.Priority) else emptySet()
+    GlobalTelemetry.trace(ComponentType.RelevantSort, params)
+}

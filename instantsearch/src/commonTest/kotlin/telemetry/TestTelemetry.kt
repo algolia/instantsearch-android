@@ -6,6 +6,8 @@ import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.number.range.Range
+import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority
+import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataConnector
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
@@ -24,6 +26,7 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleConnector
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalConnector
 import com.algolia.instantsearch.helper.loading.LoadingConnector
+import com.algolia.instantsearch.helper.relevantsort.RelevantSortConnector
 import com.algolia.instantsearch.helper.searcher.SearcherAnswers
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
@@ -270,6 +273,13 @@ class TestTelemetry {
         QueryRuleCustomDataConnector(searcherSingleIndex, "init")
         val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.QueryRuleCustomData)
         assertEquals(setOf(ComponentParam.Item), component.parameters)
+    }
+
+    @Test
+    fun testRelevantSort() {
+        RelevantSortConnector(searcherSingleIndex, RelevantSortViewModel(RelevantSortPriority.HitsCount))
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.RelevantSort)
+        assertEquals(setOf(ComponentParam.Priority), component.parameters)
     }
 
     private fun Telemetry.validateAndGet(type: ComponentType): Component {

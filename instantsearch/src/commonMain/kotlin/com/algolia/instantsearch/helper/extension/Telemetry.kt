@@ -275,3 +275,8 @@ internal fun traceQueryRuleCustomData(hasItem: Boolean) {
 internal fun traceQueryRuleCustomDataConnector() {
     GlobalTelemetry.traceConnector(ComponentType.QueryRuleCustomData)
 }
+
+/** Telemetry: trace relevant sort connector */
+internal fun traceRelevantSortConnector() {
+    GlobalTelemetry.traceConnector(ComponentType.RelevantSort)
+}
