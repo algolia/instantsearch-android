@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
+import com.algolia.instantsearch.helper.extension.traceSearchBoxConnector
 
 /**
  * The SearchBox is used to perform a text-based query.
@@ -23,6 +24,10 @@ public data class SearchBoxConnector<R>(
 ) : ConnectionImpl() {
 
     private val connectionSearcher = viewModel.connectSearcher(searcher, searchMode, debouncer)
+
+    init {
+        traceSearchBoxConnector()
+    }
 
     override fun connect() {
         super.connect()

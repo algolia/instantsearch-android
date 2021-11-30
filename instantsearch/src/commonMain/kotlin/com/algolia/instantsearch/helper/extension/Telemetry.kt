@@ -20,6 +20,8 @@ import com.algolia.instantsearch.helper.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleConnector
+import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
+import com.algolia.instantsearch.helper.searchbox.SearchMode
 import com.algolia.instantsearch.helper.searcher.SearcherAnswers
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
@@ -282,12 +284,19 @@ internal fun traceRelevantSortConnector() {
     GlobalTelemetry.traceConnector(ComponentType.RelevantSort)
 }
 
-/** Telemetry: trace sort by */
+/** Telemetry: trace sort by connector */
 internal fun traceSortByConnector() {
     GlobalTelemetry.traceConnector(ComponentType.SortBy)
 }
 
+/** Telemetry: trace filter map connector */
 internal fun FilterMapConnector.traceFilterMapConnector() {
     val params = if (groupID.operator != FilterOperator.And) setOf(ComponentParam.Operator) else emptySet()
     GlobalTelemetry.traceConnector(ComponentType.FilterMap, params)
+}
+
+/** Telemetry: trace filter map connector */
+internal fun SearchBoxConnector<*>.traceSearchBoxConnector() {
+    val params = if (searchMode != SearchMode.AsYouType) setOf(ComponentParam.SearchMode) else emptySet()
+    GlobalTelemetry.traceConnector(ComponentType.SearchBox, params)
 }

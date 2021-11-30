@@ -28,6 +28,8 @@ import com.algolia.instantsearch.helper.filter.toggle.FilterToggleConnector
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalConnector
 import com.algolia.instantsearch.helper.loading.LoadingConnector
 import com.algolia.instantsearch.helper.relevantsort.RelevantSortConnector
+import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
+import com.algolia.instantsearch.helper.searchbox.SearchMode
 import com.algolia.instantsearch.helper.searcher.SearcherAnswers
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
@@ -296,6 +298,13 @@ class TestTelemetry {
         FilterMapConnector(filterState, groupID = FilterGroupID(FilterOperator.Or))
         val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.FilterMap)
         assertEquals(setOf(ComponentParam.Operator), component.parameters)
+    }
+
+    @Test
+    fun testSearchBox() {
+        SearchBoxConnector(searcherSingleIndex, searchMode = SearchMode.OnSubmit)
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.SearchBox)
+        assertEquals(setOf(ComponentParam.SearchMode), component.parameters)
     }
 
     private fun Telemetry.validateAndGet(type: ComponentType): Component {

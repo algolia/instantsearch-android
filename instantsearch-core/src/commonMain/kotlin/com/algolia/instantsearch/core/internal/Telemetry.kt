@@ -65,3 +65,8 @@ internal fun traceSortBy() {
 internal fun traceFilterMap() {
     GlobalTelemetry.trace(ComponentType.FilterMap)
 }
+
+/** Telemetry: trace search box */
+internal fun traceSearchBox() {
+    GlobalTelemetry.trace(ComponentType.SearchBox)
+}
