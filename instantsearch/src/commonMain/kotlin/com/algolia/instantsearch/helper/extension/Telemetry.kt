@@ -280,3 +280,8 @@ internal fun traceQueryRuleCustomDataConnector() {
 internal fun traceRelevantSortConnector() {
     GlobalTelemetry.traceConnector(ComponentType.RelevantSort)
 }
+
+/** Telemetry: trace sort by */
+internal fun traceSortByConnector() {
+    GlobalTelemetry.traceConnector(ComponentType.SortBy)
+}

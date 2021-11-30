@@ -55,3 +55,8 @@ internal fun traceRelevantSort(hasPriority: Boolean) {
     val params = if (hasPriority) setOf(ComponentParam.Priority) else emptySet()
     GlobalTelemetry.trace(ComponentType.RelevantSort, params)
 }
+
+/** Telemetry: trace sort by */
+internal fun traceSortBy() {
+    GlobalTelemetry.trace(ComponentType.SortBy)
+}
