@@ -27,6 +27,8 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.toggle.FilterToggleConnector
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalConnector
 import com.algolia.instantsearch.helper.loading.LoadingConnector
+import com.algolia.instantsearch.helper.relateditems.MatchingPattern
+import com.algolia.instantsearch.helper.relateditems.connectRelatedHitsView
 import com.algolia.instantsearch.helper.relevantsort.RelevantSortConnector
 import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.helper.searchbox.SearchMode
@@ -43,6 +45,7 @@ import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.instantsearch.telemetry.Telemetry
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
+import com.algolia.search.model.ObjectID
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
@@ -51,6 +54,8 @@ import com.algolia.search.transport.RequestOptions
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import mockClient
+import relatedItems.SimpleProduct
+import relatedItems.mockHitsView
 
 @OptIn(ExperimentalInstantSearch::class, Internal::class)
 class TestTelemetry {
@@ -307,15 +312,29 @@ class TestTelemetry {
         assertEquals(setOf(ComponentParam.SearchMode), component.parameters)
     }
 
+    @Test
+    fun testRelatedItems() {
+        val patternBrand = MatchingPattern(Attribute("attBrand"), 1, SimpleProduct::brand)
+        searcherSingleIndex.connectRelatedHitsView(
+            mockHitsView(),
+            SimpleProduct(ObjectID("id"), "brand"),
+            listOf(patternBrand)
+        ) {
+            listOf(SimpleProduct(ObjectID("objectId"), "brand"))
+        }
+        val component = GlobalTelemetry.validateAndGet(ComponentType.RelatedItems)
+        assertEquals(emptySet(), component.parameters)
+    }
+
     private fun Telemetry.validateAndGet(type: ComponentType): Component {
         val components = schema().components.filter { it.type == type }
-        assertEquals(1, components.size)
+        assertEquals(1, components.size, "should be only one component of type $type")
         return components.first()
     }
 
     private fun Telemetry.validateConnectorAndGet(type: ComponentType): Component {
         val component = validateAndGet(type)
-        assertEquals(true, component.isConnector)
+        assertEquals(true, component.isConnector, "the component is not a connector")
         return component
     }
 }

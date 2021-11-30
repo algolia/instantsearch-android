@@ -300,3 +300,8 @@ internal fun SearchBoxConnector<*>.traceSearchBoxConnector() {
     val params = if (searchMode != SearchMode.AsYouType) setOf(ComponentParam.SearchMode) else emptySet()
     GlobalTelemetry.traceConnector(ComponentType.SearchBox, params)
 }
+
+/** Telemetry: trace related items */
+internal fun traceRelatedItems() {
+    GlobalTelemetry.trace(ComponentType.RelatedItems)
+}
