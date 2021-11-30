@@ -17,6 +17,7 @@ import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetListConnector
 import com.algolia.instantsearch.helper.filter.list.FilterListConnector
+import com.algolia.instantsearch.helper.filter.map.FilterMapConnector
 import com.algolia.instantsearch.helper.filter.numeric.comparison.FilterComparisonConnector
 import com.algolia.instantsearch.helper.filter.range.FilterRangeConnector
 import com.algolia.instantsearch.helper.filter.range.FilterRangeViewModel
@@ -32,6 +33,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
+import com.algolia.instantsearch.helper.sortby.SortByConnector
 import com.algolia.instantsearch.helper.stats.StatsConnector
 import com.algolia.instantsearch.telemetry.Component
 import com.algolia.instantsearch.telemetry.ComponentParam
@@ -280,6 +282,20 @@ class TestTelemetry {
         RelevantSortConnector(searcherSingleIndex, RelevantSortViewModel(RelevantSortPriority.HitsCount))
         val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.RelevantSort)
         assertEquals(setOf(ComponentParam.Priority), component.parameters)
+    }
+
+    @Test
+    fun testSortBy() {
+        SortByConnector(searcherSingleIndex)
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.SortBy)
+        assertEquals(emptySet(), component.parameters)
+    }
+
+    @Test
+    fun testFilterMap() {
+        FilterMapConnector(filterState, groupID = FilterGroupID(FilterOperator.Or))
+        val component = GlobalTelemetry.validateConnectorAndGet(ComponentType.FilterMap)
+        assertEquals(setOf(ComponentParam.Operator), component.parameters)
     }
 
     private fun Telemetry.validateAndGet(type: ComponentType): Component {

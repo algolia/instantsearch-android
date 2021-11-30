@@ -60,3 +60,8 @@ internal fun traceRelevantSort(hasPriority: Boolean) {
 internal fun traceSortBy() {
     GlobalTelemetry.trace(ComponentType.SortBy)
 }
+
+/** Telemetry: trace filter map */
+internal fun traceFilterMap() {
+    GlobalTelemetry.trace(ComponentType.FilterMap)
+}

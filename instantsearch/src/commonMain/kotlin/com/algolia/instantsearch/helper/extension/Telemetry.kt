@@ -13,6 +13,7 @@ import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.SelectionsPerAttribute
 import com.algolia.instantsearch.helper.filter.list.FilterListConnector
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
+import com.algolia.instantsearch.helper.filter.map.FilterMapConnector
 import com.algolia.instantsearch.helper.filter.numeric.comparison.FilterComparisonConnector
 import com.algolia.instantsearch.helper.filter.range.FilterRangeConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupDescriptor
@@ -284,4 +285,9 @@ internal fun traceRelevantSortConnector() {
 /** Telemetry: trace sort by */
 internal fun traceSortByConnector() {
     GlobalTelemetry.traceConnector(ComponentType.SortBy)
+}
+
+internal fun FilterMapConnector.traceFilterMapConnector() {
+    val params = if (groupID.operator != FilterOperator.And) setOf(ComponentParam.Operator) else emptySet()
+    GlobalTelemetry.traceConnector(ComponentType.FilterMap, params)
 }
