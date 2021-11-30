@@ -31,10 +31,18 @@ import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.DefaultMultiSearcher
 import com.algolia.instantsearch.telemetry.ComponentParam
 import com.algolia.instantsearch.telemetry.ComponentType
+import com.algolia.instantsearch.telemetry.toByteArray
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.search.Facet
+import io.ktor.util.*
+
+internal fun telemetryHeader(): String {
+    @OptIn(InternalAPI::class) // TODO: replace `encodeBase64` with internal implementation
+    val schema = GlobalTelemetry.schema().toByteArray().encodeBase64()
+    return "Telemetry ($schema)"
+}
 
 /** Telemetry: trace hits searcher */
 internal fun HitsSearcher.traceHitsSearcher() {
