@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("kotlinx-serialization")
+    id("com.vanniktech.maven.publish")
 }
 
 kotlin {
