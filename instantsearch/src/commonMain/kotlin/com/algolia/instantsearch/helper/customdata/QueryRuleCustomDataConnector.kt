@@ -4,7 +4,6 @@ package com.algolia.instantsearch.helper.customdata
 
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.helper.extension.traceQueryRuleCustomData
 import com.algolia.instantsearch.helper.extension.traceQueryRuleCustomDataConnector
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex

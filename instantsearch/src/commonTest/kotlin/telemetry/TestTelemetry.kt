@@ -9,7 +9,6 @@ import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
-import com.algolia.instantsearch.core.searcher.connectView
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataConnector
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
@@ -53,11 +52,11 @@ import com.algolia.search.model.filter.NumericOperator
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.search.Facet
 import com.algolia.search.transport.RequestOptions
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import mockClient
 import relatedItems.SimpleProduct
 import relatedItems.mockHitsView
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @OptIn(ExperimentalInstantSearch::class, Internal::class)
 class TestTelemetry {
@@ -100,7 +99,6 @@ class TestTelemetry {
         val component = GlobalTelemetry.validateAndGet(ComponentType.FacetSearcher)
         assertEquals(setOf(ComponentParam.FacetsQuery), component.parameters)
         assertEquals(false, component.isConnector)
-
     }
 
     @Test
@@ -136,7 +134,8 @@ class TestTelemetry {
                 ComponentParam.Selections,
                 ComponentParam.SelectionModeForAttribute,
                 ComponentParam.FilterGroupForAttribute
-            ), component.parameters
+            ),
+            component.parameters
         )
     }
 

@@ -1,14 +1,11 @@
 package com.algolia.instantsearch.helper.loading
 
-import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.debounceLoadingInMillis
 import com.algolia.instantsearch.helper.extension.traceLoadingConnector
-import com.algolia.instantsearch.telemetry.ComponentType.Loading
 
 /**
  * Components that show a loading indicator during pending requests.

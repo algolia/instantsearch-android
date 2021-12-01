@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.helper.filter.clear
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.helper.extension.traceFilterClear
 import com.algolia.instantsearch.helper.extension.traceFilterClearConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState

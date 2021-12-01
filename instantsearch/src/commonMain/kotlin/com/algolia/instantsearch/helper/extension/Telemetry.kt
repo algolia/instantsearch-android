@@ -36,7 +36,8 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.search.Facet
-import io.ktor.util.*
+import io.ktor.util.InternalAPI
+import io.ktor.util.encodeBase64
 
 internal fun telemetrySchema(): String? {
     @OptIn(InternalAPI::class) // TODO: replace `encodeBase64` with internal implementation

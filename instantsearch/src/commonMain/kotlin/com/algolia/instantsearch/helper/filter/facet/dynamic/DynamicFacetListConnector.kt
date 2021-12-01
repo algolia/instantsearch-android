@@ -2,7 +2,6 @@ package com.algolia.instantsearch.helper.filter.facet.dynamic
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
-import com.algolia.instantsearch.helper.extension.traceDynamicFacet
 import com.algolia.instantsearch.helper.extension.traceDynamicFacetConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.helper.filter.state.FilterState
