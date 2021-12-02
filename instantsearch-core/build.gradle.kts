@@ -18,7 +18,7 @@ kotlin {
             kotlin.srcDir("$buildDir/generated/sources/templates/kotlin/main")
             dependencies {
                 api(project(":instantsearch-utils"))
-                implementation(project(":instantsearch-telemetry"))
+                api(libs.algolia.telemetry)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.atomicfu)
             }

@@ -33,14 +33,21 @@ import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.DefaultMultiSearcher
 import com.algolia.instantsearch.telemetry.ComponentParam
 import com.algolia.instantsearch.telemetry.ComponentType
+import com.algolia.instantsearch.telemetry.Schema
 import com.algolia.instantsearch.telemetry.toByteArray
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.search.Facet
 
+/** Get telemetry schema header **/
 internal fun telemetrySchema(): String? {
-    return GlobalTelemetry.schema()?.toByteArray()?.gzip()?.base64()?.let { "Telemetry($it)" }
+    return GlobalTelemetry.schema()?.compress()?.let { "Telemetry($it)" }
+}
+
+/** Compress [Schema] structure (gzip + base64) */
+private fun Schema.compress(): String {
+    return toByteArray().gzip().base64()
 }
 
 /** Telemetry: trace hits searcher */

@@ -66,8 +66,8 @@ kotlin {
                 api(project(":instantsearch-core"))
                 api(project(":instantsearch-insights"))
                 api(project(":instantsearch-utils"))
-                api(project(":instantsearch-telemetry"))
                 implementation(libs.algolia.client)
+                implementation(libs.algolia.telemetry)
             }
         }
         val commonTest by getting {
