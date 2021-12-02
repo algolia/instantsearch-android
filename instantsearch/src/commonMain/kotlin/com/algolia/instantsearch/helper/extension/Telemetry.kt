@@ -6,6 +6,8 @@ import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.core.internal.GlobalTelemetry
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.encode.base64
+import com.algolia.instantsearch.encode.gzip
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
 import com.algolia.instantsearch.helper.filter.clear.FilterClearConnector
 import com.algolia.instantsearch.helper.filter.current.FilterCurrentConnector
@@ -36,12 +38,9 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.search.Facet
-import io.ktor.util.InternalAPI
-import io.ktor.util.encodeBase64
 
 internal fun telemetrySchema(): String? {
-    @OptIn(InternalAPI::class) // TODO: replace `encodeBase64` with internal implementation
-    return GlobalTelemetry.schema()?.toByteArray()?.encodeBase64()?.let { "Telemetry($it)" }
+    return GlobalTelemetry.schema()?.toByteArray()?.gzip()?.base64()?.let { "Telemetry($it)" }
 }
 
 /** Telemetry: trace hits searcher */
