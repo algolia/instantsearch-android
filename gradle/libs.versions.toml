@@ -6,7 +6,7 @@ coroutines = "1.5.2-native-mt"
 ktor = "1.6.6"
 work = "2.7.1"
 serialization = "1.2.2"
-telemetry = "0.1.0-beta01"
+telemetry = "0.1.0-SNAPSHOT"
 
 [libraries]
 # network
@@ -32,7 +32,7 @@ androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "s
 google-material = { group = "com.google.android.material", name = "material", version = "1.4.0" }
 
 # misc
-algolia-telemetry =  { group = "com.algolia", name = "instantsearch-telemetry", version.ref = "telemetry" }
+algolia-telemetry = { group = "com.algolia", name = "instantsearch-telemetry", version.ref = "telemetry" }
 
 # test
 test-androidx-ext = { group = "androidx.test.ext", name = "junit", version = "1.1.3" }

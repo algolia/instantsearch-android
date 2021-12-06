@@ -18,9 +18,9 @@ buildscript {
 subprojects {
     apply(plugin = "com.diffplug.spotless")
     repositories {
-        mavenLocal()
         mavenCentral()
         google()
+        maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
     }
     configure<SpotlessExtension> {
         kotlin {

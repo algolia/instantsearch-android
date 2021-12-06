@@ -15,10 +15,9 @@ kotlin {
             }
         }
         val commonMain by getting {
-            kotlin.srcDir("$buildDir/generated/sources/templates/kotlin/main")
             dependencies {
                 api(project(":instantsearch-utils"))
-                api(libs.algolia.telemetry)
+                implementation(libs.algolia.telemetry)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.atomicfu)
             }
@@ -29,7 +28,6 @@ kotlin {
                 implementation(libs.test.kotlin.annotations)
             }
         }
-        val jvmMain by getting
         val jvmTest by getting {
             dependencies {
                 implementation(libs.test.kotlin.junit)
@@ -46,8 +44,5 @@ tasks {
         expand("projectVersion" to version)
         filteringCharset = "UTF-8"
     }
-
-    named<Task>("compileKotlinMetadata") { dependsOn(copyTemplates) }
-    named<Task>("compileKotlinJvm") { dependsOn(copyTemplates) }
-    named<Task>("sourcesJar") { dependsOn(copyTemplates) }
+    kotlin.sourceSets.commonMain.get().kotlin.srcDir(copyTemplates)
 }
