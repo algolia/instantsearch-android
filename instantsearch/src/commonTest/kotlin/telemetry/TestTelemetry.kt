@@ -335,7 +335,7 @@ class TestTelemetry {
     }
 
     private fun Telemetry.validateAndGet(type: ComponentType): Component {
-        val components = schema().components.filter { it.type == type }
+        val components = schema()?.components?.filter { it.type == type } ?: error("component of type $type not found")
         assertEquals(1, components.size, "should be only one component of type $type")
         return components.first()
     }
