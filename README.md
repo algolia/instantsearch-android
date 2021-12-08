@@ -44,6 +44,19 @@ already bundled into the JAR, which can be interpreted by R8 automatically.
 
 If however, you don’t use R8, then you might need rules from [Algolia Kotlin Client](https://github.com/algolia/algoliasearch-client-kotlin#r8--proguard-rules) which is a dependency of this library.
 
+## Telemetry
+
+In order to understand how you use InstantSearch so we can improve it and prioritize the further development, InstantSearch gathers the telemetry data.
+
+The collected telemetry data:
+- The name of InstantSearch components you use (e.g. `FacetsSearcher`, `FilterState`)
+- Overriden default parameters (e.g. you instantiate `FacetsSearcher` with `facetQuery = "myQuery"`. Default `facetQuery` value is `null`, so the name of parameter `facetQuery` will be sent. **The value of the parameter won't be sent.**)
+
+If you prefer the telemetry data not to be collected, you can opt it out as follows:
+```kotlin
+Telemetry.shared.enabled = false
+```
+
 ## Contributing
 
 From [reporting bugs or missing functionality](https://github.com/algolia/instantsearch-android/issues/new) to [fixing a typo or proposing an improvement](https://github.com/algolia/instantsearch-android/compare), all contributions are welcome! Read the [Contributing Guide](https://github.com/algolia/instantsearch-android/blob/master/CONTRIBUTING.md) to setup your development environment.

@@ -1,6 +1,5 @@
 package telemetry
 
-import android.os.Build
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.core.hits.connectHitsView
@@ -53,11 +52,11 @@ import com.algolia.search.model.filter.NumericOperator
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.search.Facet
 import com.algolia.search.transport.RequestOptions
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import mockClient
 import relatedItems.SimpleProduct
 import relatedItems.mockHitsView
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 @OptIn(ExperimentalInstantSearch::class, Internal::class)
 class TestTelemetry { // instrumented because it uses android's Base64
