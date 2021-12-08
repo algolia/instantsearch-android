@@ -1,5 +1,6 @@
 package telemetry
 
+import android.os.Build
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.core.hits.connectHitsView
@@ -59,7 +60,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalInstantSearch::class, Internal::class)
-class TestTelemetry {
+class TestTelemetry { // instrumented because it uses android's Base64
 
     val client = mockClient()
     val indexName = IndexName("myIndex")

@@ -48,6 +48,7 @@ public class SearcherSingleIndex(
     }
 
     override fun searchAsync(): Job {
+        println(options)
         return coroutineScope.launch(exceptionHandler) {
             isLoading.value = true
             response.value = withContext(Dispatchers.Default) { search() }
