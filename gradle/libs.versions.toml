@@ -1,23 +1,24 @@
 [versions]
 algolia-client = "1.12.0"
+algolia-telemetry = "0.1.0-SNAPSHOT"
 compose = "1.0.5"
 paging-compose = "1.0.0-alpha14"
 coroutines = "1.5.2-native-mt"
 ktor = "1.6.6"
 work = "2.7.1"
-serialization = "1.2.2"
-telemetry = "0.1.0-SNAPSHOT"
 
 [libraries]
-# network
+# algolia
 algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version.ref = "algolia-client" }
+algolia-telemetry = { group = "com.algolia", name = "instantsearch-telemetry", version.ref = "algolia-telemetry" }
+
+# network
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 
 # kotlin
 kotlinx-atomicfu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version = "0.16.2" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
-kotlinx-serialization-protobuf = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-protobuf", version.ref = "serialization" }
 
 # android
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
@@ -31,8 +32,7 @@ androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview"
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version = "1.1.0" }
 google-material = { group = "com.google.android.material", name = "material", version = "1.4.0" }
 
-# misc
-algolia-telemetry = { group = "com.algolia", name = "instantsearch-telemetry", version.ref = "telemetry" }
+
 
 # test
 test-androidx-ext = { group = "androidx.test.ext", name = "junit", version = "1.1.3" }
