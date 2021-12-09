@@ -2,25 +2,20 @@
 
 package com.algolia.instantsearch.core.internal
 
-import com.algolia.instantsearch.Internal
 import com.algolia.instantsearch.telemetry.ComponentParam
 import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.instantsearch.telemetry.Telemetry
 
-/** Global telemetry controller */
-@Internal
-public val GlobalTelemetry: Telemetry = Telemetry()
-
 /** Telemetry: trace loading widget **/
 internal fun traceLoading(isLoading: Boolean) {
     val params = if (isLoading) setOf(ComponentParam.IsLoading) else emptySet()
-    GlobalTelemetry.trace(ComponentType.Loading, params)
+    Telemetry.shared.trace(ComponentType.Loading, params)
 }
 
 /** Telemetry: trace filter toggle */
 internal fun traceFilterToggle(isSelected: Boolean) {
     val params = if (isSelected) setOf(ComponentParam.IsSelected) else emptySet()
-    GlobalTelemetry.trace(ComponentType.FilterToggle, params)
+    Telemetry.shared.trace(ComponentType.FilterToggle, params)
 }
 
 /** Telemetry: trace number filter */
@@ -32,7 +27,7 @@ internal fun traceNumberFilter(
         if (hasNumber) add(ComponentParam.Number)
         if (hasBounds) add(ComponentParam.Bounds)
     }
-    GlobalTelemetry.trace(ComponentType.NumberFilter, params)
+    Telemetry.shared.trace(ComponentType.NumberFilter, params)
 }
 
 /** Telemetry: trace number range filter */
@@ -41,37 +36,37 @@ internal fun traceNumberRangeFilter(hasRange: Boolean, hasBounds: Boolean) {
         if (hasRange) add(ComponentParam.Range)
         if (hasBounds) add(ComponentParam.Bounds)
     }
-    GlobalTelemetry.trace(ComponentType.NumberRangeFilter, params)
+    Telemetry.shared.trace(ComponentType.NumberRangeFilter, params)
 }
 
 /** Telemetry: trace current filters */
 internal fun traceCurrentFilters(hasItems: Boolean) {
     val params = if (hasItems) setOf(ComponentParam.Items) else emptySet()
-    GlobalTelemetry.trace(ComponentType.CurrentFilters, params)
+    Telemetry.shared.trace(ComponentType.CurrentFilters, params)
 }
 
 /** Telemetry: trace relevant sort */
 internal fun traceRelevantSort(hasPriority: Boolean) {
     val params = if (hasPriority) setOf(ComponentParam.Priority) else emptySet()
-    GlobalTelemetry.trace(ComponentType.RelevantSort, params)
+    Telemetry.shared.trace(ComponentType.RelevantSort, params)
 }
 
 /** Telemetry: trace sort by */
 internal fun traceSortBy() {
-    GlobalTelemetry.trace(ComponentType.SortBy)
+    Telemetry.shared.trace(ComponentType.SortBy)
 }
 
 /** Telemetry: trace filter map */
 internal fun traceFilterMap() {
-    GlobalTelemetry.trace(ComponentType.FilterMap)
+    Telemetry.shared.trace(ComponentType.FilterMap)
 }
 
 /** Telemetry: trace search box */
 internal fun traceSearchBox() {
-    GlobalTelemetry.trace(ComponentType.SearchBox)
+    Telemetry.shared.trace(ComponentType.SearchBox)
 }
 
 /** Telemetry: trace hits */
 internal fun traceHits() {
-    GlobalTelemetry.trace(ComponentType.Hits)
+    Telemetry.shared.trace(ComponentType.Hits)
 }

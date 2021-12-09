@@ -54,7 +54,7 @@ The collected telemetry data:
 
 If you prefer the telemetry data not to be collected, you can opt it out as follows:
 ```kotlin
-SharedTelemetry.enabled = false
+Telemetry.shared.enabled = false
 ```
 
 ## Contributing

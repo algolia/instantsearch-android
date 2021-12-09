@@ -1,6 +1,6 @@
 [versions]
 algolia-client = "1.12.0"
-algolia-telemetry = "0.1.0-beta01"
+algolia-telemetry = "0.1.0-SNAPSHOT"
 compose = "1.0.5"
 paging-compose = "1.0.0-alpha14"
 coroutines = "1.5.2-native-mt"

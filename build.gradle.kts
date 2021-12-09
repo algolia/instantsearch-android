@@ -20,6 +20,7 @@ subprojects {
     repositories {
         mavenCentral()
         google()
+        maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
     }
     configure<SpotlessExtension> {
         kotlin {
