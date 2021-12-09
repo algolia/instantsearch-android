@@ -13,5 +13,6 @@ internal fun RequestOptions?.withUserAgentTelemetry(): RequestOptions {
 }
 
 private fun userAgent(telemetry: String? = null): String {
-    return if (telemetry == null) "$osVersion; ${InstantSearch.userAgent}" else "$osVersion; ${InstantSearch.userAgent}; $telemetry"
+    val baseUserAgent = "$osVersion; ${InstantSearch.userAgent}"
+    return telemetry?.let { "$baseUserAgent; $it" } ?: baseUserAgent
 }
