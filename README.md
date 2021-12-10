@@ -48,8 +48,8 @@ If however, you don’t use R8, then you might need rules from [Algolia Kotlin C
 In order to inform how InstantSearch can be improved and prioritize its future development, the following data points are collected:
 
 - version of InstantSearch
-- the name of the instantiated InstantSearch components (e.g. `HitsSearcher`, `FilterState`)
-- the name of the components for which the default value has been overridden - this excludes the value itself, that do not get tracked. (e.g. By default the `isDisjunctiveFacetingEnabled` value is set to true, but in the case it gets instantiated to false, then the telemetry will track that the `isDisjunctiveFacetingEnabled` parameter received a custom value)
+- the name of the instantiated InstantSearch components (e.g. `FacetsSearcher`, `FilterState`)
+- the name of the components for which the default value has been overridden - this excludes the value itself, that do not get tracked. (e.g. By default the `facetQuery` value is set to `null`, but in the case it gets instantiated with a different value, then the telemetry will track that the `facetQuery` parameter received a custom value)
 
 We **do not** collect any metrics which may contain sensitive data, but you can opt out at any time by passing: `Telemetry.shared.enabled = false`
 
