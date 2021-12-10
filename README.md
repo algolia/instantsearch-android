@@ -45,17 +45,13 @@ already bundled into the JAR, which can be interpreted by R8 automatically.
 If however, you don’t use R8, then you might need rules from [Algolia Kotlin Client](https://github.com/algolia/algoliasearch-client-kotlin#r8--proguard-rules) which is a dependency of this library.
 
 ## Telemetry
+In order to inform how InstantSearch can be improved and prioritize its future development, the following data points are collected:
 
-In order to understand how you use InstantSearch so we can improve it and prioritize the further development, InstantSearch gathers the telemetry data.
+- version of InstantSearch
+- the name of the instantiated InstantSearch components (e.g. `HitsSearcher`, `FilterState`)
+- the name of the components for which the default value has been overridden - this excludes the value itself, that do not get tracked. (e.g. By default the `isDisjunctiveFacetingEnabled` value is set to true, but in the case it gets instantiated to false, then the telemetry will track that the `isDisjunctiveFacetingEnabled` parameter received a custom value)
 
-The collected telemetry data:
-- The name of InstantSearch components you use (e.g. `FacetsSearcher`, `FilterState`)
-- Overriden default parameters (e.g. you instantiate `FacetsSearcher` with `facetQuery = "myQuery"`. Default `facetQuery` value is `null`, so the name of parameter `facetQuery` will be sent. **The value of the parameter won't be sent.**)
-
-If you prefer the telemetry data not to be collected, you can opt it out as follows:
-```kotlin
-Telemetry.shared.enabled = false
-```
+We **do not** collect any metrics which may contain sensitive data, but you can opt out at any time by passing: `Telemetry.shared.isEnabled = false`
 
 ## Contributing
 
