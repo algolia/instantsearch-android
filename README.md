@@ -49,7 +49,7 @@ In order to inform how InstantSearch can be improved and prioritize its future d
 
 - version of InstantSearch
 - the name of the instantiated InstantSearch components (e.g. `HitsSearcher`, `FilterState`)
-- the name of the components for which the default value has been overridden - this excludes the value itself, that do not get tracked. (e.g. By default the `facets` value of `FacetListConnector` is set to an empty list, but in the case it gets instantiated to non-empty list of facets, then the telemetry will track that the `facets` parameter received a custom value)
+- the name of the components for which the default value has been overridden - this excludes the value itself, that do not get tracked. (e.g. By default the `facets` value of `FacetListConnector` is set to an empty list, but in the case it gets instantiated to a non-empty list of facets, then the telemetry will track that the `facets` parameter received a custom value, not the value itself)
 
 We **do not** collect any metrics which may contain sensitive data, but you can opt out at any time by passing: `Telemetry.shared.enabled = false`
 
