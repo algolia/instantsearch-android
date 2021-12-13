@@ -5,8 +5,8 @@ package com.algolia.instantsearch.helper.customdata
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.extension.traceQueryRuleCustomDataConnector
-import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
+import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
 import kotlinx.serialization.DeserializationStrategy
 
 /**
@@ -61,7 +61,7 @@ public class QueryRuleCustomDataConnector<T> @PublishedApi internal constructor(
  * @param presenter defines the way we want to interact with a model
  */
 public fun <T> QueryRuleCustomDataConnector(
-    searcher: SearcherIndex<*>,
+    searcher: SearcherForHits<*>,
     deserializer: DeserializationStrategy<T>,
     initialItem: T? = null,
     presenter: QueryRuleCustomDataPresenter<T>? = null,
@@ -80,7 +80,7 @@ public fun <T> QueryRuleCustomDataConnector(
  * @param presenter defines the way we want to interact with a model
  */
 public inline fun <reified T> QueryRuleCustomDataConnector(
-    searcher: SearcherIndex<*>,
+    searcher: SearcherForHits<*>,
     viewModel: QueryRuleCustomDataViewModel<T> = QueryRuleCustomDataViewModel(),
     noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {
@@ -97,7 +97,7 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
  * @param presenter defines the way we want to interact with a model
  */
 public inline fun <reified T> QueryRuleCustomDataConnector(
-    searcher: SearcherIndex<*>,
+    searcher: SearcherForHits<*>,
     initialItem: T?,
     noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {
@@ -116,6 +116,7 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
  * @param initialItem initial item
  * @param presenter defines the way we want to interact with a model
  */
+@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public fun <T> QueryRuleCustomDataConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,
@@ -124,6 +125,7 @@ public fun <T> QueryRuleCustomDataConnector(
     presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {
     val viewModel = QueryRuleCustomDataViewModel(deserializer, initialItem)
+    @Suppress("DEPRECATION")
     return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
         if (presenter != null) it.subscribe(presenter)
     }
@@ -137,12 +139,14 @@ public fun <T> QueryRuleCustomDataConnector(
  * @param viewModel logic applied to the custom model
  * @param presenter defines the way we want to interact with a model
  */
+@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public inline fun <reified T> QueryRuleCustomDataConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,
     viewModel: QueryRuleCustomDataViewModel<T> = QueryRuleCustomDataViewModel(),
     noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {
+    @Suppress("DEPRECATION")
     return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
         if (presenter != null) it.subscribe(presenter)
     }
@@ -156,6 +160,7 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
  * @param initialItem initial item
  * @param presenter defines the way we want to interact with a model
  */
+@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public inline fun <reified T> QueryRuleCustomDataConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,
@@ -163,6 +168,7 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
     noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
 ): QueryRuleCustomDataConnector<T> {
     val viewModel = QueryRuleCustomDataViewModel(initialItem)
+    @Suppress("DEPRECATION")
     return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
         if (presenter != null) it.subscribe(presenter)
     }
