@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.extension.traceQueryRuleCustomDataConnector
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import kotlinx.serialization.DeserializationStrategy
 
 /**

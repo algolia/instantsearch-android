@@ -8,7 +8,7 @@ import com.algolia.instantsearch.helper.extension.traceRelatedItems
 import com.algolia.instantsearch.helper.relateditems.MatchingPattern
 import com.algolia.instantsearch.helper.relateditems.internal.extensions.toFacetFilter
 import com.algolia.instantsearch.helper.relateditems.internal.extensions.toOptionalFilters
-import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.indexing.Indexable
 import com.algolia.search.model.response.ResponseSearch
 

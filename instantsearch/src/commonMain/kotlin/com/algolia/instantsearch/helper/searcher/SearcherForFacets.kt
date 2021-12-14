@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceFacetsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
-import com.algolia.instantsearch.helper.searcher.internal.SearcherForFacets as SearcherFacets
+import com.algolia.instantsearch.helper.searcher.util.SearcherForFacets as SearcherFacets
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
@@ -21,6 +21,7 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches for facet values.
  */
+@Deprecated("use FacetsSearcher instead")
 public class SearcherForFacets(
     public var index: Index,
     public val attribute: Attribute,

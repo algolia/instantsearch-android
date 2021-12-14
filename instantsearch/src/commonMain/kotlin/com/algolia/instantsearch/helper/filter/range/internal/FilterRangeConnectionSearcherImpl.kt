@@ -3,7 +3,7 @@ package com.algolia.instantsearch.helper.filter.range.internal
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.helper.filter.range.FilterRangeViewModel
-import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.params.CommonSearchParameters
 import com.algolia.search.model.response.ResponseSearch

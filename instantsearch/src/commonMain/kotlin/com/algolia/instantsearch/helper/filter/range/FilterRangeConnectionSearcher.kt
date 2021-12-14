@@ -5,7 +5,7 @@ package com.algolia.instantsearch.helper.filter.range
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.filter.range.internal.FilterRangeConnectionSearcherImpl
 import com.algolia.instantsearch.helper.filter.range.internal.mapperOf
-import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.Attribute
 import kotlin.reflect.KClass
 

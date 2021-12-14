@@ -10,7 +10,7 @@ import com.algolia.instantsearch.compose.list.internal.SearcherPaginator
 import com.algolia.instantsearch.compose.list.internal.SearcherPagingSource
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.params.SearchParameters
 import com.algolia.search.model.response.ResponseSearch

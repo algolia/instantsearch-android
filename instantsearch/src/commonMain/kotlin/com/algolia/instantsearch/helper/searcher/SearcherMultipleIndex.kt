@@ -22,6 +22,7 @@ import kotlinx.coroutines.withContext
  * This implementation searches in multiple indices.
  * This is useful for a federated search, or query suggestions search experience.
  */
+@Deprecated("use MultiSearcher instead")
 public class SearcherMultipleIndex(
     public val client: ClientSearch,
     public val queries: List<IndexQuery>,

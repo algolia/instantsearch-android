@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.customdata.internal.QueryRuleCustomDataConnectionMultipleIndex
 import com.algolia.instantsearch.helper.customdata.internal.QueryRuleCustomDataConnectionSearcherForHits
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 
 /**
  * Create a connection between a view model and a searcher.

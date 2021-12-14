@@ -20,6 +20,7 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches a single index.
  */
+@Deprecated("use HitsSearcher instead")
 public class SearcherSingleIndex(
     public override var index: Index,
     public override val query: Query = Query(),

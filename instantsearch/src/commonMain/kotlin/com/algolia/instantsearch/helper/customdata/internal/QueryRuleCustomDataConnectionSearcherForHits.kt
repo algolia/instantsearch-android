@@ -3,7 +3,7 @@ package com.algolia.instantsearch.helper.customdata.internal
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataViewModel
-import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.response.ResponseSearch
 
 /**
