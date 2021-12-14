@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.extension.traceDynamicFacetConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.Attribute
 
 /**
@@ -20,7 +20,7 @@ import com.algolia.search.model.Attribute
  * attribute will be automatically stored in the conjunctive (`and`) group with the facet attribute name.
  */
 public class DynamicFacetListConnector(
-    public val searcher: SearcherIndex<*>,
+    public val searcher: SearcherForHits<*>,
     public val filterState: FilterState,
     public val viewModel: DynamicFacetListViewModel = DynamicFacetListViewModel(),
     filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap()
@@ -37,7 +37,7 @@ public class DynamicFacetListConnector(
      * attribute will be automatically stored in the conjunctive (`and`) group with the facet attribute name.
      */
     public constructor(
-        searcher: SearcherIndex<*>,
+        searcher: SearcherForHits<*>,
         filterState: FilterState,
         orderedFacets: List<AttributedFacets> = emptyList(),
         selections: SelectionsPerAttribute = mutableMapOf(),

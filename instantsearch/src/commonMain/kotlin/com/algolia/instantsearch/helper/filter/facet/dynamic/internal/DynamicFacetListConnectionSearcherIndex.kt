@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetListViewModel
-import com.algolia.instantsearch.helper.searcher.SearcherIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.rule.FacetOrdering
@@ -18,7 +18,7 @@ import com.algolia.search.model.search.Facet
  */
 internal class DynamicFacetListConnectionSearcherIndex(
     val viewModel: DynamicFacetListViewModel,
-    val searcher: SearcherIndex<*>,
+    val searcher: SearcherForHits<*>,
 ) : ConnectionImpl() {
 
     private val responseSubscription: Callback<ResponseSearch?> = { response ->
