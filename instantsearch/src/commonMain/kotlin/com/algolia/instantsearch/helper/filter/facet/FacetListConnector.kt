@@ -6,12 +6,9 @@ import com.algolia.instantsearch.helper.extension.traceFacetListConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherForFacets
-import com.algolia.instantsearch.helper.searcher.SearcherIndex
-import com.algolia.instantsearch.helper.searcher.SearcherQuery
+import com.algolia.instantsearch.helper.searcher.util.SearcherForFacets
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Facet
 
 /**
@@ -31,9 +28,9 @@ public data class FacetListConnector internal constructor(
 
     internal sealed class Wrapper {
 
-        class Single(val searcher: SearcherQuery<*, ResponseSearch>) : Wrapper()
+        class Single(val searcher: SearcherForHits<*>) : Wrapper()
 
-        class ForFacet(val searcher: SearcherQuery<*, ResponseSearchForFacets>) : Wrapper()
+        class ForFacet(val searcher: SearcherForFacets<*>) : Wrapper()
     }
 
     init {
@@ -47,7 +44,7 @@ public data class FacetListConnector internal constructor(
     private val connectionFilterState = viewModel.connectFilterState(filterState, attribute, groupID)
 
     public constructor(
-        searcher: SearcherIndex<*>,
+        searcher: SearcherForHits<*>,
         filterState: FilterState,
         attribute: Attribute,
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
@@ -55,7 +52,7 @@ public data class FacetListConnector internal constructor(
     ) : this(filterState, attribute, viewModel, groupID, Wrapper.Single(searcher))
 
     public constructor(
-        searcher: SearcherForFacets,
+        searcher: SearcherForFacets<*>,
         filterState: FilterState,
         attribute: Attribute,
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
@@ -63,7 +60,7 @@ public data class FacetListConnector internal constructor(
     ) : this(filterState, searcher.attribute, viewModel, groupID, Wrapper.ForFacet(searcher))
 
     public constructor(
-        searcher: SearcherIndex<*>,
+        searcher: SearcherForHits<*>,
         filterState: FilterState,
         attribute: Attribute,
         selectionMode: SelectionMode = SelectionMode.Multiple,
@@ -79,7 +76,7 @@ public data class FacetListConnector internal constructor(
     )
 
     public constructor(
-        searcher: SearcherForFacets,
+        searcher: SearcherForFacets<*>,
         filterState: FilterState,
         attribute: Attribute,
         selectionMode: SelectionMode = SelectionMode.Multiple,
