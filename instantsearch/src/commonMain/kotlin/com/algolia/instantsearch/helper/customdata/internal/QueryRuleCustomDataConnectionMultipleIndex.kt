@@ -13,6 +13,7 @@ import com.algolia.search.model.response.ResponseSearches
  * @param viewModel logic applied to the custom model
  * @param queryIndex index of query from response of which the user data will be extracted
  */
+@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 internal class QueryRuleCustomDataConnectionMultipleIndex<T>(
     val viewModel: QueryRuleCustomDataViewModel<T>,
     val searcher: SearcherMultipleIndex,

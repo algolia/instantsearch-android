@@ -10,6 +10,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterGroupsConverter
 
+@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 internal data class SearcherMultipleConnectionFilterState(
     private val searcher: SearcherMultipleIndex,
     private val filterState: FilterState,

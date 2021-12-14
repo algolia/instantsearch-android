@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
+@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public class SearcherMultipleIndexDataSource<T>(
     private val searcher: SearcherMultipleIndex,
     private val indexQuery: IndexQuery,

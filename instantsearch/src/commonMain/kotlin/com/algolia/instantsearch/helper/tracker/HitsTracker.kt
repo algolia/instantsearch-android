@@ -4,7 +4,7 @@ package com.algolia.instantsearch.helper.tracker
 
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.instantsearch.helper.tracker.internal.HitsDataTracker
 import com.algolia.instantsearch.helper.tracker.internal.InsightsScope
 import com.algolia.instantsearch.helper.tracker.internal.TrackableSearcher
@@ -57,12 +57,12 @@ public interface HitsTracker : Connection {
  */
 public fun HitsTracker(
     eventName: EventName,
-    searcher: SearcherSingleIndex,
+    searcher: SearcherForHits<*>,
     insights: Insights,
     coroutineScope: CoroutineScope = InsightsScope(),
 ): HitsTracker = HitsDataTracker(
     eventName = eventName,
-    trackableSearcher = TrackableSearcher.SingleIndex(searcher),
+    trackableSearcher = TrackableSearcher.HitsSearcher(searcher),
     tracker = insights,
     trackerScope = coroutineScope
 )
@@ -75,6 +75,7 @@ public fun HitsTracker(
  * @param pointer pointer to a specific index position
  * @param insights actual events handler
  */
+@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public fun HitsTracker(
     eventName: EventName,
     searcher: SearcherMultipleIndex,

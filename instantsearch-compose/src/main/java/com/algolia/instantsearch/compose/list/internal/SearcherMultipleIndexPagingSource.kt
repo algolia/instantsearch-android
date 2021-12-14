@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
  * @param indexQuery query associated to a specific index
  * @param transformer mapping applied to search responses
  */
-@Deprecated("will be replaced by SearcherPagingSource")
+@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 @ExperimentalInstantSearch
 internal class SearcherMultipleIndexPagingSource<T : Any>(
     private val searcher: SearcherMultipleIndex,
