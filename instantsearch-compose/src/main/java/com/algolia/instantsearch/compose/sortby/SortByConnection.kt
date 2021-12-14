@@ -4,8 +4,11 @@ import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.compose.list.Paginator
 import com.algolia.instantsearch.compose.sortby.internal.SortByConnectionPaginator
 import com.algolia.instantsearch.core.connection.Connection
-import com.algolia.instantsearch.helper.sortby.SortByConnector
-import com.algolia.instantsearch.helper.sortby.SortByViewModel
+import com.algolia.instantsearch.core.searcher.Searcher
+import com.algolia.instantsearch.helper.searcher.IndexNameHolder
+import com.algolia.instantsearch.helper.sortby.searcher.SortByConnector
+import com.algolia.instantsearch.helper.sortby.searcher.SortByViewModel
+
 
 /**
  * Creates a connection between [Paginator] and [SortByViewModel].
@@ -23,6 +26,8 @@ public fun <T : Any> SortByViewModel.connectPagedList(paginator: Paginator<T>): 
  * @param paginator paginator to be connected
  */
 @ExperimentalInstantSearch
-public fun <T : Any> SortByConnector.connectPagedList(paginator: Paginator<T>): Connection {
+public fun <S, T> SortByConnector<S>.connectPagedList(
+    paginator: Paginator<T>
+): Connection where S : Searcher<*>, S : IndexNameHolder, T : Any {
     return viewModel.connectPagedList(paginator)
 }

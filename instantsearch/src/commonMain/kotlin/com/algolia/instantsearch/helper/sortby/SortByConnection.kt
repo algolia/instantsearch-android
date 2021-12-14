@@ -5,17 +5,18 @@ import com.algolia.instantsearch.core.selectable.map.connectView
 import com.algolia.instantsearch.helper.index.IndexPresenter
 import com.algolia.instantsearch.helper.index.IndexPresenterImpl
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
+import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.sortby.internal.SortByConnectionSearcher
 
 public fun SortByViewModel.connectView(
     view: SortByView,
-    presenter: IndexPresenter = IndexPresenterImpl,
+    presenter: IndexPresenter = IndexPresenterImpl
 ): Connection {
     return connectView(view, presenter)
 }
 
 public fun SortByViewModel.connectSearcher(
-    searcher: SearcherIndex<*>,
+    searcher: SearcherSingleIndex,
 ): Connection {
     return SortByConnectionSearcher(this, searcher)
 }
@@ -28,7 +29,7 @@ public fun SortByViewModel.connectSearcher(
  */
 public fun SortByConnector.connectView(
     view: SortByView,
-    presenter: IndexPresenter = IndexPresenterImpl,
+    presenter: IndexPresenter = IndexPresenterImpl
 ): Connection {
     return viewModel.connectView(view, presenter)
 }

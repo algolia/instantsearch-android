@@ -18,7 +18,6 @@ import kotlinx.coroutines.CoroutineScope
  * The component handling search requests and managing the search sessions.
  * This implementation searches for facet values.
  */
-@ExperimentalInstantSearch
 public interface FacetsSearcher : SearcherForFacets<Query>, IndexNameHolder {
 
     /**
@@ -38,7 +37,6 @@ public interface FacetsSearcher : SearcherForFacets<Query>, IndexNameHolder {
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
  */
-@ExperimentalInstantSearch
 public fun FacetsSearcher(
     client: ClientSearch,
     indexName: IndexName,
@@ -66,7 +64,6 @@ public fun FacetsSearcher(
  * @param facetQuery the facet query used to search for facets
  * @param requestOptions request local configuration
  */
-@ExperimentalInstantSearch
 public fun MultiSearcher.addFacetsSearcher(
     indexName: IndexName,
     attribute: Attribute,

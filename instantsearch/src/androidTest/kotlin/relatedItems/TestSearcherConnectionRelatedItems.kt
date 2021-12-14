@@ -3,6 +3,7 @@ package relatedItems
 import com.algolia.instantsearch.helper.relateditems.MatchingPattern
 import com.algolia.instantsearch.helper.relateditems.connectRelatedHitsView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
@@ -12,14 +13,13 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class TestSearcherConnectionRelatedItems {
+internal class TestSearcherConnectionRelatedItems {
 
     private val client = mockClient()
-    private val index = client.initIndex(IndexName("Index"))
 
     @Test
     fun connect() {
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("Index"))
         val adapter = mockHitsView<Product>()
 
         val patternBrand = MatchingPattern(Attribute("attBrand"), 1, Product::brand)

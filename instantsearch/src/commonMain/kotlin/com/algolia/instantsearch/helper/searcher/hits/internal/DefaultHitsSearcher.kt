@@ -26,7 +26,6 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches a single index.
  */
-
 @ExperimentalInstantSearch
 internal class DefaultHitsSearcher(
     client: ClientSearch,

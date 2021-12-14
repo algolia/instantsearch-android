@@ -27,7 +27,6 @@ public fun RelevantSortConnector(
  * @param queryIndex index of query from response of which the user data will be extracted
  * @param viewModel component handling relevant sort logic
  */
-@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public fun RelevantSortConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,

@@ -58,7 +58,6 @@ public fun <T : Any> Paginator(
  * @param pagingConfig configure loading behavior within a Pager
  * @param transformer mapping applied to search responses
  */
-@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 @ExperimentalInstantSearch
 public fun <T : Any> Paginator(
     searcher: SearcherMultipleIndex,

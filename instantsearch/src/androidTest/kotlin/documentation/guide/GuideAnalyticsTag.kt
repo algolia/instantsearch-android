@@ -1,6 +1,6 @@
 package documentation.guide
 
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.dsl.analyticsTags
 import com.algolia.search.dsl.query
@@ -12,9 +12,9 @@ import org.junit.Test
 
 @Suppress("UNUSED_VARIABLE")
 @Ignore
-class GuideAnalyticsTag {
+internal class GuideAnalyticsTag {
 
-    private val index = ClientSearch(ApplicationID("app"), APIKey("key")).initIndex(IndexName("index"))
+    private val client = ClientSearch(ApplicationID("app"), APIKey("key"))
 
     @Suppress("UNUSED_VARIABLE")
     @Test
@@ -25,7 +25,7 @@ class GuideAnalyticsTag {
             }
         }
 
-        val searcher = SearcherSingleIndex(index, query)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"), query)
     }
 
     fun getAgeGroup(birthYear: Int): String {
@@ -53,7 +53,7 @@ class GuideAnalyticsTag {
             }
         }
 
-        val searcher = SearcherSingleIndex(index, query)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"), query)
     }
 
     @Test
@@ -65,6 +65,6 @@ class GuideAnalyticsTag {
             }
         }
 
-        val searcher = SearcherSingleIndex(index, query)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"), query)
     }
 }

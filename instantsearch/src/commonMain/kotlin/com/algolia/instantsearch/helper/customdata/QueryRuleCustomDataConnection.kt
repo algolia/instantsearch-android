@@ -21,7 +21,6 @@ public fun <T> QueryRuleCustomDataViewModel<T>.connectSearcher(searcher: Searche
  * @param searcher searcher to connect
  * @param queryIndex index of query from response of which the user data will be extracted
  */
-@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public fun <T> QueryRuleCustomDataViewModel<T>.connectSearcher(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,

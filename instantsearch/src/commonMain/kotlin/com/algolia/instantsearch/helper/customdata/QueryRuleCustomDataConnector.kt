@@ -116,7 +116,6 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
  * @param initialItem initial item
  * @param presenter defines the way we want to interact with a model
  */
-@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public fun <T> QueryRuleCustomDataConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,
@@ -139,7 +138,6 @@ public fun <T> QueryRuleCustomDataConnector(
  * @param viewModel logic applied to the custom model
  * @param presenter defines the way we want to interact with a model
  */
-@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public inline fun <reified T> QueryRuleCustomDataConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,
@@ -160,7 +158,6 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
  * @param initialItem initial item
  * @param presenter defines the way we want to interact with a model
  */
-@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public inline fun <reified T> QueryRuleCustomDataConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,

@@ -7,10 +7,10 @@ import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.helper.android.sortby.SortByViewAutocomplete
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.sortby.SortByViewModel
-import com.algolia.instantsearch.helper.sortby.connectSearcher
-import com.algolia.instantsearch.helper.sortby.connectView
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.helper.sortby.searcher.SortByViewModel
+import com.algolia.instantsearch.helper.sortby.searcher.connectSearcher
+import com.algolia.instantsearch.helper.sortby.searcher.connectView
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -18,7 +18,7 @@ import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
 @Ignore
-class DocSortBy {
+internal class DocSortBy {
 
     class MyActivity : AppCompatActivity() {
 
@@ -26,10 +26,10 @@ class DocSortBy {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val indexAsc = client.initIndex(IndexName("YourIndexName_ASC"))
-        val indexDesc = client.initIndex(IndexName("YourIndexName_DESC"))
-        val searcher = SearcherSingleIndex(index)
+        val index = IndexName("YourIndexName")
+        val indexAsc = IndexName("YourIndexName_ASC")
+        val indexDesc = IndexName("YourIndexName_DESC")
+        val searcher = HitsSearcher(client, index)
         val indexes = mapOf(
             0 to index,
             1 to indexAsc,

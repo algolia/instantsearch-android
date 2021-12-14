@@ -9,8 +9,8 @@ import com.algolia.instantsearch.helper.filter.current.FilterCurrentViewModel
 import com.algolia.instantsearch.helper.filter.current.connectFilterState
 import com.algolia.instantsearch.helper.filter.current.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -19,7 +19,7 @@ import com.google.android.material.chip.ChipGroup
 import org.junit.Ignore
 
 @Ignore
-class DocCurrentFilters {
+internal class DocCurrentFilters {
 
     class MyActivity : AppCompatActivity() {
 
@@ -27,8 +27,7 @@ class DocCurrentFilters {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
         val viewModel = FilterCurrentViewModel()
         val connection = ConnectionHandler()

@@ -9,7 +9,7 @@ import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.helper.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.helper.searchbox.connectSearcher
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -17,7 +17,7 @@ import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
 @Ignore
-class DocSearchBox {
+internal class DocSearchBox {
 
     class MyActivity : AppCompatActivity() {
 
@@ -25,8 +25,7 @@ class DocSearchBox {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val viewModel = SearchBoxViewModel()
         val connection = ConnectionHandler()
 

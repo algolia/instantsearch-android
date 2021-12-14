@@ -7,7 +7,6 @@ import com.algolia.instantsearch.helper.extension.traceRelevantSortConnector
 import com.algolia.instantsearch.helper.relevantsort.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 
-@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 internal class RelevantSortConnectorMultipleIndex(
     override val searcher: SearcherMultipleIndex,
     queryIndex: Int,

@@ -51,7 +51,6 @@ internal sealed class TrackableSearcher<T> where T : Searcher<*> {
     /**
      * A searcher wrapper around [SearcherMultipleIndex] to enable tracking capabilities.
      */
-    @Deprecated("Use Searchers aggregated with MultiSearcher instead")
     internal class MultiIndex(
         override val searcher: SearcherMultipleIndex,
         private val pointer: Int

@@ -2,6 +2,7 @@ package com.algolia.instantsearch.helper.android.list
 
 import androidx.paging.DataSource
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import kotlinx.coroutines.CoroutineDispatcher
@@ -10,14 +11,14 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 public class SearcherSingleIndexDataSource<T>(
-    private val searcher: SearcherSingleIndex,
+    private val searcher: SearcherForHits<Query>,
     private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
     retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val transformer: (ResponseSearch.Hit) -> T,
 ) : RetryablePageKeyedDataSource<Int, T>(retryDispatcher) {
 
     public class Factory<T>(
-        private val searcher: SearcherSingleIndex,
+        private val searcher: SearcherForHits<Query>,
         private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
         private val retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
         private val transformer: (ResponseSearch.Hit) -> T,

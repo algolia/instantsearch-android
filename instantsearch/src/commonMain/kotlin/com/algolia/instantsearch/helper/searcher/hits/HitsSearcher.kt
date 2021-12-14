@@ -18,7 +18,6 @@ import kotlinx.coroutines.CoroutineScope
  * The component handling search requests and managing the search sessions.
  * This implementation searches for hits.
  */
-@ExperimentalInstantSearch
 public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterGroupsHolder {
 
     /**
@@ -36,7 +35,6 @@ public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterG
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
  */
-@ExperimentalInstantSearch
 public fun HitsSearcher(
     client: ClientSearch,
     indexName: IndexName,
@@ -60,7 +58,6 @@ public fun HitsSearcher(
  * @param query the query used for search
  * @param requestOptions request local configuration
  */
-@ExperimentalInstantSearch
 public fun MultiSearcher.addHitsSearcher(
     indexName: IndexName,
     query: Query = Query(),

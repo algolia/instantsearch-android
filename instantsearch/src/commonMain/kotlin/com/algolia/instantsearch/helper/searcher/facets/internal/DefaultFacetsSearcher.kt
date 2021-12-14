@@ -26,7 +26,6 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches for facet values.
  */
-@ExperimentalInstantSearch
 internal class DefaultFacetsSearcher(
     client: ClientSearch,
     override var indexName: IndexName,

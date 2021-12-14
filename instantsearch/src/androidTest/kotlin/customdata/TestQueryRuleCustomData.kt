@@ -4,11 +4,14 @@ import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataConnector
 import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataViewModel
 import com.algolia.instantsearch.helper.customdata.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.helper.searcher.hits.addHitsSearcher
+import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.multipleindex.IndexQuery
+import com.algolia.search.model.response.ResponseMultiSearch
 import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.response.ResponseSearches
+import com.algolia.search.model.response.ResultMultiSearch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -16,7 +19,7 @@ import mockClient
 import org.junit.Test
 import shouldEqual
 
-class TestQueryRuleCustomData {
+internal class TestQueryRuleCustomData {
 
     @Serializable
     internal data class TestModel(val number: Int, val text: String)
@@ -25,8 +28,7 @@ class TestQueryRuleCustomData {
 
     @Test
     fun testSingleIndexSearcherConnection() {
-        val index = client.initIndex(IndexName("A"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("A"))
         val viewModel = QueryRuleCustomDataViewModel(TestModel.serializer())
         viewModel.connectSearcher(searcher).connect()
         val customData = TestModel(number = 10, text = "test")
@@ -39,32 +41,30 @@ class TestQueryRuleCustomData {
 
     @Test
     fun testMultiIndexSearcherConnection() {
-        val indexA = IndexQuery(IndexName("IndexMovie"))
-        val indexB = IndexQuery(IndexName("IndexActor"))
-        val searcher = SearcherMultipleIndex(client, listOf(indexA, indexB))
+        val multiSearcher = MultiSearcher(client)
+        val searcherMovie = multiSearcher.addHitsSearcher(IndexName("IndexMovie"))
 
         val viewModel = QueryRuleCustomDataViewModel(TestModel.serializer())
-        viewModel.connectSearcher(searcher, 1).connect()
+        viewModel.connectSearcher(searcherMovie).connect()
         val customData1 = TestModel(number = 10, text = "test1")
         val customData2 = TestModel(number = 20, text = "test2")
 
         val userData1 = Json.encodeToJsonElement(TestModel.serializer(), customData1).jsonObject
         val userData2 = Json.encodeToJsonElement(TestModel.serializer(), customData2).jsonObject
 
-        searcher.response.value = ResponseSearches(
+        multiSearcher.response.value = ResponseMultiSearch(
             listOf(
-                ResponseSearch(userDataOrNull = listOf(userData1)),
-                ResponseSearch(userDataOrNull = listOf(userData2))
+                ResultMultiSearch.Hits(ResponseSearch(userDataOrNull = listOf(userData1))),
+                ResultMultiSearch.Hits(ResponseSearch(userDataOrNull = listOf(userData2))),
             )
         )
 
-        viewModel.item.value shouldEqual customData2
+        viewModel.item.value shouldEqual customData1
     }
 
     @Test
     fun testFunctionBuildersSingleIndex() {
-        val index = client.initIndex(IndexName("A"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("A"))
         val initialModel = TestModel(number = 10, text = "test1")
 
         // explicit
@@ -104,6 +104,8 @@ class TestQueryRuleCustomData {
     fun testFunctionBuildersMultipleIndex() {
         val indexA = IndexQuery(IndexName("IndexMovie"))
         val indexB = IndexQuery(IndexName("IndexActor"))
+
+        @Suppress("DEPRECATION")
         val searcher = SearcherMultipleIndex(client, listOf(indexA, indexB))
         val queryIndex = 1
         val initialModel = TestModel(number = 10, text = "test1")

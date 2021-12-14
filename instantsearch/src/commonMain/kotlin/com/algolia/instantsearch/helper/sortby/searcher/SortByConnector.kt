@@ -2,7 +2,6 @@
 
 package com.algolia.instantsearch.helper.sortby.searcher
 
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.IndexNameHolder
@@ -16,7 +15,6 @@ import com.algolia.search.model.IndexName
  *
  * [Documentation](https://www.algolia.com/doc/api-reference/widgets/sort-by/android/)
  */
-@ExperimentalInstantSearch
 public interface SortByConnector<S> : Connection where S : Searcher<*>, S : IndexNameHolder {
 
     /**
@@ -36,7 +34,6 @@ public interface SortByConnector<S> : Connection where S : Searcher<*>, S : Inde
  * @param searcher the Searcher that handles your searches
  * @param viewModel the logic applied to the index sorting/switching
  */
-@ExperimentalInstantSearch
 public fun <S> SortByConnector(
     searcher: S,
     viewModel: SortByViewModel
@@ -49,7 +46,6 @@ public fun <S> SortByConnector(
  * @param searcher the Searcher that handles your searches
  * @param selected the index to select. By default, none is selected.
  */
-@ExperimentalInstantSearch
 public fun <S> SortByConnector(
     searcher: S,
     indexes: Map<Int, IndexName>,

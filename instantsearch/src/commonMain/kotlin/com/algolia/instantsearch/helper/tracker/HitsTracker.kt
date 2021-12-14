@@ -75,7 +75,6 @@ public fun HitsTracker(
  * @param pointer pointer to a specific index position
  * @param insights actual events handler
  */
-@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public fun HitsTracker(
     eventName: EventName,
     searcher: SearcherMultipleIndex,

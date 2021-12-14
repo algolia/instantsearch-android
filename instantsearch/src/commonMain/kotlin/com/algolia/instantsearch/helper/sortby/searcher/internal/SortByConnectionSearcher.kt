@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.helper.sortby.searcher.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.IndexNameHolder
@@ -10,7 +9,6 @@ import com.algolia.instantsearch.helper.sortby.searcher.SortByViewModel
 /**
  * Sort by widget connection to a searcher.
  */
-@ExperimentalInstantSearch
 internal data class SortByConnectionSearcher<S>(
     private val viewModel: SortByViewModel,
     private val searcher: S,

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.core.hits.connectHitsView
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.client.Index
 import com.algolia.search.helper.deserialize
@@ -29,8 +29,7 @@ public class DocHits {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val adapter = MovieAdapter()
 
         searcher.connectHitsView(adapter) { response ->
@@ -45,7 +44,7 @@ public class DocHits {
             APIKey("YourAPIKey")
         )
         public val index: Index = client.initIndex(IndexName("YourIndexName"))
-        public val searcher: SearcherSingleIndex = SearcherSingleIndex(index)
+        public val searcher: HitsSearcher = HitsSearcher(client, IndexName("YourIndexName"))
         public val connection: ConnectionHandler = ConnectionHandler()
         public val adapter: MovieAdapter = MovieAdapter()
 

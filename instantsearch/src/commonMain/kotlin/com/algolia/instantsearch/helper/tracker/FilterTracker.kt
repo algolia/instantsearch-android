@@ -105,7 +105,6 @@ public fun FilterTracker(
  * @param insights actual events handler
  * @param coroutineScope coroutine scope to execute tracking operations
  */
-@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public fun FilterTracker(
     eventName: EventName,
     searcher: SearcherMultipleIndex,

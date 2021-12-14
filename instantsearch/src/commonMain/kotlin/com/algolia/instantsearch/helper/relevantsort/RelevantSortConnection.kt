@@ -27,7 +27,6 @@ public fun RelevantSortViewModel.connectSearcher(searcher: SearcherForHits<Query
  * @param searcher searcher to connect
  * @param queryIndex query index
  */
-@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 public fun RelevantSortViewModel.connectSearcher(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,

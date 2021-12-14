@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.helper.sortby.searcher
 
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.selectable.map.connectView
@@ -13,7 +12,6 @@ import com.algolia.instantsearch.helper.sortby.searcher.internal.SortByConnectio
 /**
  * Connects a view to the SortBy widget.
  */
-@ExperimentalInstantSearch
 public fun <S> SortByConnector<S>.connectView(
     view: SortByView,
     presenter: IndexNamePresenter = DefaultIndexPresenter,
@@ -24,7 +22,6 @@ public fun <S> SortByConnector<S>.connectView(
 /**
  * Connects a view to the SortBy view model.
  */
-@ExperimentalInstantSearch
 public fun SortByViewModel.connectView(
     view: SortByView,
     presenter: IndexNamePresenter = DefaultIndexPresenter,
@@ -35,7 +32,6 @@ public fun SortByViewModel.connectView(
 /**
  * Connects a searcher to the SortBy view model.
  */
-@ExperimentalInstantSearch
 public fun <S> SortByViewModel.connectSearcher(
     searcher: S,
 ): Connection where S : Searcher<*>, S : IndexNameHolder {

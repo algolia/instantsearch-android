@@ -10,7 +10,6 @@ import com.algolia.search.model.response.ResponseSearches
 /**
  * Connection between relevant sort's view model and a multiple index searcher.
  */
-@Deprecated("Use Searchers aggregated with MultiSearcher instead")
 internal class RelevantSortConnectionMultipleIndex(
     val viewModel: RelevantSortViewModel,
     val searcher: SearcherMultipleIndex,
