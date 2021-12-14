@@ -5,13 +5,13 @@ import com.algolia.instantsearch.core.tree.connectView
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.hierarchical.internal.HierarchicalConnectionFilterState
 import com.algolia.instantsearch.helper.hierarchical.internal.HierarchicalConnectionSearcher
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.internal.SearcherForHits
 
 public fun HierarchicalViewModel.connectFilterState(filterState: FilterState): Connection {
     return HierarchicalConnectionFilterState(this, filterState)
 }
 
-public fun HierarchicalViewModel.connectSearcher(searcher: SearcherSingleIndex): Connection {
+public fun HierarchicalViewModel.connectSearcher(searcher: SearcherForHits<*>): Connection {
     return HierarchicalConnectionSearcher(this, searcher)
 }
 
