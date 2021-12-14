@@ -45,13 +45,18 @@ already bundled into the JAR, which can be interpreted by R8 automatically.
 If however, you don’t use R8, then you might need rules from [Algolia Kotlin Client](https://github.com/algolia/algoliasearch-client-kotlin#r8--proguard-rules) which is a dependency of this library.
 
 ## Telemetry
-In order to inform how InstantSearch can be improved and prioritize its future development, the following data points are collected:
+InstantSearch Android collects data points at runtime. This helps the InstantSearch team improve and prioritize future development.
 
-- version of InstantSearch
-- the name of the instantiated InstantSearch components (e.g. `HitsSearcher`, `FilterState`)
-- the name of the components for which the default value has been overridden - this excludes the value itself, that do not get tracked. (e.g. By default the `facets` value of `FacetListConnector` is set to an empty list, but in the case it gets instantiated to a non-empty list of facets, then the telemetry will track that the `facets` parameter received a custom value, not the value itself)
+Here's an exhaustive list of the collected data:
 
-We **do not** collect any metrics which may contain sensitive data, but you can opt out at any time by passing: `Telemetry.shared.enabled = false`
+- InstantSearch version
+- The name of the instantiated InstantSearch components, for example, `HitsSearcher`, `FilterState`
+- The name of the components with custom parameters (overridden defaults). InstantSearch doesn't collect the values of those parameters. For example, the default of the `facets` value in `FacetListInteractor` is an empty list. If you instantiate it with a list of facets, then the telemetry tracks that the `facets` parameter received a custom value, but not the value itself.
+
+InstantSearch doesn't collect any sensitive or personal data. However, you can still opt out of the telemetry collection with the following code:
+```kotlin
+Telemetry.shared.enabled = false
+```
 
 ## Contributing
 
