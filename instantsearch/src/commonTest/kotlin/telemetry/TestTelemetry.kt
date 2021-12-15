@@ -61,7 +61,7 @@ import relatedItems.mockHitsView
 class TestTelemetry { // instrumented because it uses android's Base64
 
     val client = mockClient()
-    val indexName = ComponentParam.IndexName("myIndex")
+    val indexName = IndexName("myIndex")
 
     val filterState = FilterState()
     val searcherSingleIndex = SearcherSingleIndex(client.initIndex(indexName), isDisjunctiveFacetingEnabled = false)
