@@ -4,7 +4,7 @@ algolia-telemetry = "0.1.0"
 compose = "1.0.5"
 paging-compose = "1.0.0-alpha14"
 coroutines = "1.5.2-native-mt"
-ktor = "1.6.6"
+ktor = "1.6.7"
 work = "2.7.1"
 
 [libraries]
