@@ -42,4 +42,4 @@ public annotation class ExperimentalInstantSearch
     level = RequiresOptIn.Level.ERROR,
     message = "This API is internal in InstantSearch and should not be used. It could be removed or changed without notice."
 )
-public annotation class Internal
+public annotation class InternalInstantSearch

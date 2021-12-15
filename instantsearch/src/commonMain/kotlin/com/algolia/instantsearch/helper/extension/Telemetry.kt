@@ -1,9 +1,9 @@
-@file:OptIn(Internal::class, ExperimentalInstantSearch::class, ExperimentalStdlibApi::class)
+@file:OptIn(InternalInstantSearch::class, ExperimentalInstantSearch::class, ExperimentalStdlibApi::class)
 
 package com.algolia.instantsearch.helper.extension
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.Internal
+import com.algolia.instantsearch.InternalInstantSearch
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.encode.gzip
 import com.algolia.instantsearch.helper.filter.clear.ClearMode
@@ -38,7 +38,6 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.search.Facet
-import io.ktor.util.InternalAPI
 import io.ktor.util.encodeBase64
 
 /** Get telemetry schema header **/
@@ -47,7 +46,7 @@ internal fun telemetrySchema(): String? {
 }
 
 /** Compress [Schema] structure (gzip + base64) */
-@OptIn(InternalAPI::class)
+@OptIn(io.ktor.util.InternalAPI::class)
 private fun Schema.compress(): String {
     return toByteArray().gzip().encodeBase64() // TODO: replace ktor's encodeBase64
 }

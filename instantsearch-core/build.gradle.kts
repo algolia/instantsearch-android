@@ -10,7 +10,7 @@ kotlin {
         all {
             languageSettings {
                 optIn("kotlin.RequiresOptIn")
-                optIn("com.algolia.instantsearch.Internal")
+                optIn("com.algolia.instantsearch.InternalInstantSearch")
                 optIn("com.algolia.instantsearch.ExperimentalInstantSearch")
             }
         }
