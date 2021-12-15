@@ -1,7 +1,7 @@
 package telemetry
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.Internal
+import com.algolia.instantsearch.InternalInstantSearch
 import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.number.NumberViewModel
@@ -57,11 +57,11 @@ import mockClient
 import relatedItems.SimpleProduct
 import relatedItems.mockHitsView
 
-@OptIn(ExperimentalInstantSearch::class, Internal::class)
+@OptIn(ExperimentalInstantSearch::class, InternalInstantSearch::class)
 class TestTelemetry { // instrumented because it uses android's Base64
 
     val client = mockClient()
-    val indexName = IndexName("myIndex")
+    val indexName = ComponentParam.IndexName("myIndex")
 
     val filterState = FilterState()
     val searcherSingleIndex = SearcherSingleIndex(client.initIndex(indexName), isDisjunctiveFacetingEnabled = false)

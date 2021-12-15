@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.encode
 
-import com.algolia.instantsearch.Internal
+import com.algolia.instantsearch.InternalInstantSearch
 
 /**
  * Applies GZIP compression to a [ByteArray]
  */
-@Internal
+@InternalInstantSearch
 public expect fun ByteArray.gzip(): ByteArray
