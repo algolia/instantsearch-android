@@ -42,7 +42,7 @@ import io.ktor.util.encodeBase64
 
 /** Get telemetry schema header **/
 internal fun telemetrySchema(): String? {
-    return Telemetry.shared.schema()?.compress()?.let { "Telemetry($it)" }
+    return Telemetry.shared.schema()?.compress()?.let { "ISTelemetry($it)" }
 }
 
 /** Compress [Schema] structure (gzip + base64) */

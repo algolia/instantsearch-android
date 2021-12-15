@@ -7,7 +7,7 @@ import com.algolia.instantsearch.helper.extension.traceHitsSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
-import com.algolia.instantsearch.helper.searcher.internal.withUserAgentTelemetry
+import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.IndexName
@@ -46,7 +46,7 @@ internal class DefaultHitsSearcher(
 
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
-    private val options get() = requestOptions.withUserAgentTelemetry()
+    private val options get() = requestOptions.withUserAgent()
     private val indexedQuery: IndexQuery get() = IndexQuery(indexName, query)
 
     init {
