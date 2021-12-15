@@ -56,10 +56,7 @@ kotlin {
         publishAllLibraryVariants()
         publishLibraryVariantsGroupedByFlavor = true
     }
-    jvm {
-        compilations.all { kotlinOptions.jvmTarget = "1.8" }
-        testRuns["test"].executionTask.configure { useJUnit() }
-    }
+    jvm()
     sourceSets {
         all {
             languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")

@@ -4,6 +4,7 @@ import com.algolia.instantsearch.core.selectable.list.SelectableListViewModel
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.extension.traceDynamicFacet
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import kotlin.properties.Delegates
@@ -21,6 +22,10 @@ public class DynamicFacetListViewModel(
     selections: SelectionsPerAttribute = mutableMapOf(),
     selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap()
 ) {
+
+    init {
+        traceDynamicFacet(orderedFacets, selections, selectionModeForAttribute)
+    }
 
     /**
      * Ordered list of attributed facets.

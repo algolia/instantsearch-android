@@ -3,8 +3,9 @@ package com.algolia.instantsearch.helper.searcher
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.extension.traceFacetsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
-import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
+import com.algolia.instantsearch.helper.searcher.internal.withUserAgentTelemetry
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearchForFacets
@@ -35,8 +36,12 @@ public class SearcherForFacets(
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearchForFacets?> = SubscriptionValue(null)
 
-    private val options = requestOptions.withUserAgent()
+    private val options get() = requestOptions.withUserAgentTelemetry()
     private val exceptionHandler = SearcherExceptionHandler(this)
+
+    init {
+        traceFacetsSearcher()
+    }
 
     override fun setQuery(text: String?) {
         facetQuery = text

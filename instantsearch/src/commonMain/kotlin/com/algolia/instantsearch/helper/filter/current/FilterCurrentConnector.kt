@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.filter.current
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.helper.extension.traceCurrentFilters
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.search.model.filter.Filter
@@ -16,7 +17,7 @@ import com.algolia.search.model.filter.Filter
  */
 public data class FilterCurrentConnector(
     public val filterState: FilterState,
-    public val groupIDs: List<FilterGroupID> = listOf(),
+    public val groupIDs: List<FilterGroupID> = emptyList(),
     public val viewModel: FilterCurrentViewModel = FilterCurrentViewModel(),
 ) : ConnectionImpl() {
 
@@ -36,6 +37,10 @@ public data class FilterCurrentConnector(
     )
 
     private val connectionFilterState = viewModel.connectFilterState(filterState, groupIDs)
+
+    init {
+        traceCurrentFilters()
+    }
 
     override fun connect() {
         super.connect()

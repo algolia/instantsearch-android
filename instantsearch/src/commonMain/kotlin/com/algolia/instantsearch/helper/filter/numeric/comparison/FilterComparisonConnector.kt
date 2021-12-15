@@ -2,6 +2,7 @@ package com.algolia.instantsearch.helper.filter.numeric.comparison
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.number.NumberViewModel
+import com.algolia.instantsearch.helper.extension.traceNumberFilterConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -41,6 +42,10 @@ public data class FilterComparisonConnector<T>(
     ) : this(NumberViewModel(number), filterState, attribute, operator, groupID)
 
     private val connectionFilterState = viewModel.connectFilterState(filterState, attribute, operator, groupID)
+
+    init {
+        traceNumberFilterConnector()
+    }
 
     override fun connect() {
         super.connect()

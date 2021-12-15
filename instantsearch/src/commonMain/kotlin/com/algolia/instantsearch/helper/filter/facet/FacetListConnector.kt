@@ -2,6 +2,7 @@ package com.algolia.instantsearch.helper.filter.facet
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.helper.extension.traceFacetListConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -30,6 +31,10 @@ public data class FacetListConnector internal constructor(
         class Single(val searcher: SearcherIndex<*>) : Wrapper()
 
         class ForFacet(val searcher: SearcherForFacets) : Wrapper()
+    }
+
+    init {
+        traceFacetListConnector()
     }
 
     private val connectionSearcher = when (wrapper) {

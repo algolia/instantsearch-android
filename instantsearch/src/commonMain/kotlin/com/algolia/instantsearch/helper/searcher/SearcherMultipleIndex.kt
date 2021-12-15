@@ -3,8 +3,9 @@ package com.algolia.instantsearch.helper.searcher
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.extension.traceMultiSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
-import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
+import com.algolia.instantsearch.helper.searcher.internal.withUserAgentTelemetry
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
@@ -35,8 +36,12 @@ public class SearcherMultipleIndex(
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearches?> = SubscriptionValue(null)
 
-    private val options = requestOptions.withUserAgent()
+    private val options get() = requestOptions.withUserAgentTelemetry()
     private val exceptionHandler = SearcherExceptionHandler(this)
+
+    init {
+        traceMultiSearcher()
+    }
 
     override fun setQuery(text: String?) {
         queries.forEach { it.query.query = text }

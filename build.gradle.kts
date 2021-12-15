@@ -24,7 +24,7 @@ subprojects {
     configure<SpotlessExtension> {
         kotlin {
             target("**/*.kt")
-            ktlint("0.41.0")
+            ktlint("0.43.0")
             trimTrailingWhitespace()
             endWithNewline()
         }

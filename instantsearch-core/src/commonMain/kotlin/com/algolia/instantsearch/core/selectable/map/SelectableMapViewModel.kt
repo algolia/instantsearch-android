@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 
 public open class SelectableMapViewModel<K, V>(
-    map: Map<K, V> = mapOf(),
+    map: Map<K, V> = emptyMap(),
     selected: K? = null
 ) : MapViewModel<K, V>(map) {
 

@@ -1,12 +1,13 @@
 package com.algolia.instantsearch.helper.searcher.facets.internal
 
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import com.algolia.instantsearch.helper.extension.traceFacetsSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
-import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
+import com.algolia.instantsearch.helper.searcher.internal.withUserAgentTelemetry
 import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.Attribute
@@ -41,10 +42,14 @@ internal class DefaultFacetsSearcher(
     override val response: SubscriptionValue<ResponseSearchForFacets?> = SubscriptionValue(null)
 
     private val service = FacetsSearchService(client)
-    private val options = requestOptions.withUserAgent()
+    private val options get() = requestOptions.withUserAgentTelemetry()
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
     private val indexedQuery get() = FacetIndexQuery(indexName, query, attribute, facetQuery)
+
+    init {
+        traceFacetsSearcher()
+    }
 
     override fun collect(): Pair<List<FacetIndexQuery>, (List<ResponseSearchForFacets>) -> Unit> {
         return listOf(indexedQuery) to { response.value = it.firstOrNull() }

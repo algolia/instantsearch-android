@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.helper.searcher.internal
 
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.helper.filter.state.FilterState

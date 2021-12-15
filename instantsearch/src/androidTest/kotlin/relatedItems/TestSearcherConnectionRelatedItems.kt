@@ -1,6 +1,5 @@
 package relatedItems
 
-import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.helper.relateditems.MatchingPattern
 import com.algolia.instantsearch.helper.relateditems.connectRelatedHitsView
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -45,13 +44,5 @@ class TestSearcherConnectionRelatedItems {
             ),
             searcher.query.optionalFilters
         )
-    }
-
-    private fun <T> mockHitsView(): HitsView<T> {
-        return object : HitsView<T> {
-            override fun setHits(hits: List<T>) {
-                // Ignored.
-            }
-        }
     }
 }

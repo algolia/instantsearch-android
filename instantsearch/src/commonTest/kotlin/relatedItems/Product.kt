@@ -5,9 +5,14 @@ import com.algolia.search.model.indexing.Indexable
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class Product(
+data class Product(
     override val objectID: ObjectID,
     val name: String,
     val brand: String,
     val categories: List<String>,
+) : Indexable
+
+data class SimpleProduct(
+    override val objectID: ObjectID,
+    val brand: String
 ) : Indexable

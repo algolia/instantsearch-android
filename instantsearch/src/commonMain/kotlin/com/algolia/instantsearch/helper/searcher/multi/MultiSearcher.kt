@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.helper.searcher.multi
 
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.multi.internal.DefaultMultiSearcher
