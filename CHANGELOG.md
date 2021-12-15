@@ -1,3 +1,15 @@
+# 2.11.4
+
+# Added
+- *Experimental*: `MultiSearch`, `HitsSearcher` and `FacetsSearcher`
+- Telemetry collection
+
+# Changed
+- Ktor `1.6.7`
+- atomicfu `0.16.3`
+- androidx core `1.7.0`
+- androidx appcompat `1.4.0`
+
 # 2.11.3
 
 ### Changed
