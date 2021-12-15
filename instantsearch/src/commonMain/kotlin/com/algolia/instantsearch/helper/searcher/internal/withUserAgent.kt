@@ -6,13 +6,15 @@ import com.algolia.search.dsl.requestOptions
 import com.algolia.search.transport.RequestOptions
 import io.ktor.http.HttpHeaders
 
-internal fun RequestOptions?.withUserAgentTelemetry(): RequestOptions {
+internal fun RequestOptions?.withUserAgent(): RequestOptions {
     return requestOptions(this) {
-        header(HttpHeaders.UserAgent, userAgent(telemetrySchema()))
+        header(HttpHeaders.UserAgent, userAgent())
     }
 }
 
-private fun userAgent(telemetry: String? = null): String {
-    val baseUserAgent = "$osVersion; ${InstantSearch.userAgent}"
-    return telemetry?.let { "$baseUserAgent; $it" } ?: baseUserAgent
+private fun userAgent(): String {
+    return buildString {
+        append("$osVersion; ${InstantSearch.userAgent}")
+        telemetrySchema()?.let { append("; $it") }
+    }
 }

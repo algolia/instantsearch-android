@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceMultiSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
-import com.algolia.instantsearch.helper.searcher.internal.withUserAgentTelemetry
+import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.extension.asResultSearchList
 import com.algolia.search.client.ClientSearch
@@ -40,7 +40,7 @@ internal class DefaultMultiSearcher(
     private val components: MutableList<MultiSearchComponent<IndexedQuery, ResultSearch>> = mutableListOf()
     private val sequencer = Sequencer()
     private val searchService = MultiSearchService(client)
-    private val options get() = requestOptions.withUserAgentTelemetry()
+    private val options get() = requestOptions.withUserAgent()
 
     init {
         isLoading.subscribe { loading ->
