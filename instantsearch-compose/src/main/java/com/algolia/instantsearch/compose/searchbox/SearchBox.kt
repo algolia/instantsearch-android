@@ -12,11 +12,15 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -48,12 +52,15 @@ public fun SearchBox(
     clearIcon: @Composable (() -> Unit)? = { SearchClearIcon(searchBoxState, onValueChange) },
 ) {
     Surface(modifier = modifier, elevation = elevation) {
+        val textValue by derivedStateOf { TextFieldValue(searchBoxState.query, TextRange(searchBoxState.query.length)) }
         TextField(
-            value = searchBoxState.query,
+            value = textValue,
             textStyle = textStyle.merge(TextStyle(textDecoration = TextDecoration.None)),
             onValueChange = {
-                searchBoxState.setText(it)
-                onValueChange(it, false)
+                if (it.text != searchBoxState.query) {
+                    searchBoxState.setText(it.text)
+                    onValueChange(it.text, false)
+                }
             },
             leadingIcon = leadingIcon,
             placeholder = {
@@ -65,7 +72,7 @@ public fun SearchBox(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    searchBoxState.onQuerySubmitted?.invoke(searchBoxState.query)
+                    searchBoxState.setText(searchBoxState.query, true)
                     onValueChange(searchBoxState.query, true)
                 }
             )

@@ -1,7 +1,7 @@
 [versions]
 algolia-client = "1.12.0"
 algolia-telemetry = "0.1.0"
-compose = "1.0.5"
+compose = "1.1.0-rc01"
 paging-compose = "1.0.0-alpha14"
 coroutines = "1.5.2-native-mt"
 ktor = "1.6.7"
