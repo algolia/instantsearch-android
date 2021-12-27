@@ -4,8 +4,8 @@ import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.compose.list.Paginator
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 
 /**
  * [Paginator] implementation for Searcher.

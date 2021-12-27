@@ -46,24 +46,26 @@ android {
 
 kotlin {
     explicitApi()
+    jvm()
     android {
         publishAllLibraryVariants()
         publishLibraryVariantsGroupedByFlavor = true
     }
-    jvm {
-        compilations.all { kotlinOptions.jvmTarget = "1.8" }
-        testRuns["test"].executionTask.configure { useJUnit() }
-    }
     sourceSets {
         all {
-            languageSettings.optIn("kotlin.RequiresOptIn")
-            languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
-            languageSettings.optIn("com.algolia.search.ExperimentalAlgoliaClientAPI")
+            languageSettings {
+                optIn("kotlin.RequiresOptIn")
+                optIn("com.algolia.instantsearch.InternalInstantSearch")
+                optIn("com.algolia.instantsearch.ExperimentalInstantSearch")
+                optIn("com.algolia.search.ExperimentalAlgoliaClientAPI")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
         }
         val commonMain by getting {
             dependencies {
                 api(project(":instantsearch-core"))
                 api(project(":instantsearch-insights"))
+                api(project(":instantsearch-utils"))
                 implementation(libs.algolia.client)
             }
         }

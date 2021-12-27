@@ -1,6 +1,5 @@
 package searcher
 
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.helper.searcher.SearcherAnswers
 import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherScope
@@ -23,7 +22,7 @@ fun TestSearcherForFacets(index: Index, attribute: Attribute) = SearcherForFacet
     coroutineScope = TestCoroutineScope
 )
 
-@OptIn(ExperimentalInstantSearch::class)
+@OptIn(com.algolia.instantsearch.ExperimentalInstantSearch::class)
 fun TestSearcherAnswers(index: Index) = SearcherAnswers(
     index = index,
     coroutineScope = TestCoroutineScope

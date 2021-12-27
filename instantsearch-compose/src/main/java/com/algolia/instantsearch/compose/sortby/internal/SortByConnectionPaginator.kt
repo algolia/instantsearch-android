@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.compose.sortby.internal
 
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.compose.list.Paginator
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.sortby.SortByViewModel
 

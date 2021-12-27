@@ -1,7 +1,6 @@
 package searcher
 
 import blocking
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.search.model.IndexName
 import mockClient
 import respondBadRequest
@@ -13,7 +12,7 @@ import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
 
-@OptIn(ExperimentalInstantSearch::class)
+@OptIn(com.algolia.instantsearch.ExperimentalInstantSearch::class)
 class TestSearcherAnswers {
 
     private val client = mockClient()

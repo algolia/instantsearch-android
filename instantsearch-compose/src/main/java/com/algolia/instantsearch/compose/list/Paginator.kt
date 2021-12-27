@@ -4,10 +4,10 @@ package com.algolia.instantsearch.compose.list
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.compose.list.internal.SearcherMultipleIndexPagingSource
 import com.algolia.instantsearch.compose.list.internal.SearcherPaginator
 import com.algolia.instantsearch.compose.list.internal.SearcherSingleIndexPagingSource
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.search.model.multipleindex.IndexQuery

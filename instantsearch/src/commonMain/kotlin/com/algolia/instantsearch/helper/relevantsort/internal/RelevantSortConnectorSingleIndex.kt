@@ -3,6 +3,7 @@ package com.algolia.instantsearch.helper.relevantsort.internal
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.relevantsort.RelevantSortConnector
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
+import com.algolia.instantsearch.helper.extension.traceRelevantSortConnector
 import com.algolia.instantsearch.helper.relevantsort.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 
@@ -12,6 +13,10 @@ internal class RelevantSortConnectorSingleIndex(
 ) : ConnectionImpl(), RelevantSortConnector {
 
     private val connectionSearcher = viewModel.connectSearcher(searcher)
+
+    init {
+        traceRelevantSortConnector()
+    }
 
     override fun connect() {
         super.connect()

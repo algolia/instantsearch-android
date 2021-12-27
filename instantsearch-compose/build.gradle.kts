@@ -56,6 +56,7 @@ tasks.withType<Test> {
 
 dependencies {
     api(project(":instantsearch"))
+    api(project(":instantsearch-utils"))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.paging)
     implementation(libs.androidx.compose.material)

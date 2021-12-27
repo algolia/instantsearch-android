@@ -4,6 +4,7 @@ package com.algolia.instantsearch.helper.customdata
 
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.helper.extension.traceQueryRuleCustomDataConnector
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import kotlinx.serialization.DeserializationStrategy
@@ -21,6 +22,10 @@ public class QueryRuleCustomDataConnector<T> @PublishedApi internal constructor(
 ) : ConnectionImpl() {
 
     private val presenters: MutableSet<QueryRuleCustomDataPresenter<T>> = mutableSetOf()
+
+    init {
+        traceQueryRuleCustomDataConnector()
+    }
 
     override fun connect() {
         super.connect()

@@ -1,28 +1,32 @@
 [versions]
 algolia-client = "1.12.0"
+algolia-telemetry = "0.1.0"
 compose = "1.0.5"
 paging-compose = "1.0.0-alpha14"
 coroutines = "1.5.2-native-mt"
-ktor = "1.6.6"
+ktor = "1.6.7"
 work = "2.7.1"
 
 [libraries]
-# network
+# algolia
 algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version.ref = "algolia-client" }
+algolia-telemetry = { group = "com.algolia", name = "instantsearch-telemetry", version.ref = "algolia-telemetry" }
+
+# network
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 
 # kotlin
+kotlinx-atomicfu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version = "0.16.3" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
-kotlinx-atomicfu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version = "0.16.2" }
 
 # android
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose" }
 androidx-compose-paging = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose" }
 androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
-androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.6.0" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.3.1" }
+androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.7.0" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.4.0" }
 androidx-paging = { group = "androidx.paging", name = "paging-runtime", version = "2.1.2" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version = "1.2.1" }
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version = "1.1.0" }
@@ -38,9 +42,9 @@ test-ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.
 test-kotlin-common = { module = "org.jetbrains.kotlin:kotlin-test-common" }
 test-kotlin-annotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common" }
 test-kotlin-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
-test-mockk = { group = "io.mockk", name = "mockk", version = "1.12.0" }
+test-mockk = { group = "io.mockk", name = "mockk", version = "1.12.1" }
 test-robolectric = { group = "org.robolectric", name = "robolectric", version = "4.7.2" }
 
 # logging
-slf4j = { group = "org.slf4j", name = "slf4j-api", version = "1.7.30" }
-logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.2.3" }
+slf4j = { group = "org.slf4j", name = "slf4j-api", version = "1.7.32" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.2.8" }

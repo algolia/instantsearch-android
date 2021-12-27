@@ -3,6 +3,10 @@ package com.algolia.instantsearch.helper.filter.list
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.helper.extension.traceFacetFilterListConnector
+import com.algolia.instantsearch.helper.extension.traceFilterListConnector
+import com.algolia.instantsearch.helper.extension.traceNumericFilterListConnector
+import com.algolia.instantsearch.helper.extension.traceTagFilterListConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -57,6 +61,10 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
             selectionMode: SelectionMode = SelectionMode.Multiple,
             groupID: FilterGroupID = FilterGroupID(FilterOperator.Or),
         ) : this(filterState, FilterListViewModel.Facet(filters, selectionMode), groupID)
+
+        init {
+            traceFacetFilterListConnector()
+        }
     }
 
     /**
@@ -86,6 +94,10 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
             selectionMode: SelectionMode = SelectionMode.Single,
             groupID: FilterGroupID = FilterGroupID(FilterOperator.And),
         ) : this(filterState, FilterListViewModel.Numeric(filters, selectionMode), groupID)
+
+        init {
+            traceNumericFilterListConnector()
+        }
     }
 
     /**
@@ -115,6 +127,10 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
             selectionMode: SelectionMode = SelectionMode.Multiple,
             groupID: FilterGroupID = FilterGroupID(FilterOperator.And),
         ) : this(filterState, FilterListViewModel.Tag(filters, selectionMode), groupID)
+
+        init {
+            traceTagFilterListConnector()
+        }
     }
 
     /**
@@ -144,5 +160,9 @@ public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
             selectionMode: SelectionMode = SelectionMode.Multiple,
             groupID: FilterGroupID = FilterGroupID(FilterOperator.And),
         ) : this(filterState, FilterListViewModel.All(filters, selectionMode), groupID)
+
+        init {
+            traceFilterListConnector()
+        }
     }
 }

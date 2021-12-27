@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.compose.filter.state
 
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.compose.filter.state.internal.FilterStateConnectionPaginator
 import com.algolia.instantsearch.compose.list.Paginator
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.filter.state.FilterState
 

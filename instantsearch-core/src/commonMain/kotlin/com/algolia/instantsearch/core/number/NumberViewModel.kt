@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.core.number
 
+import com.algolia.instantsearch.core.internal.traceNumberFilter
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.number.range.internal.coerce
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
@@ -17,6 +18,10 @@ public open class NumberViewModel<T>(
     public val number: SubscriptionValue<T?> = SubscriptionValue(number)
     public val bounds: SubscriptionValue<Range<T>?> = SubscriptionValue(bounds).apply {
         subscribe { coerce(this@NumberViewModel.number.value) }
+    }
+
+    init {
+        traceNumberFilter(number != null, bounds != null)
     }
 
     public fun coerce(number: T?) {

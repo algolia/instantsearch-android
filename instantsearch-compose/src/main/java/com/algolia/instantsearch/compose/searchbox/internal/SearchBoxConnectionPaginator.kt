@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.compose.searchbox.internal
 
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.compose.list.Paginator
-import com.algolia.instantsearch.core.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.helper.searchbox.SearchMode

@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.filter.toggle
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.helper.extension.traceFilterToggleConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
@@ -35,6 +36,10 @@ public data class FilterToggleConnector(
     ) : this(filterState, FilterToggleViewModel(filter, isSelected), groupID)
 
     private val connectionFilterState = viewModel.connectFilterState(filterState, groupID)
+
+    init {
+        traceFilterToggleConnector()
+    }
 
     override fun connect() {
         super.connect()

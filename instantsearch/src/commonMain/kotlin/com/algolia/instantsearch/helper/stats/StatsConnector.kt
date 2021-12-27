@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.stats
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.helper.extension.traceStatsConnector
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.search.model.response.ResponseSearch
 
@@ -33,6 +34,10 @@ public data class StatsConnector(
     ) : this(searcher, StatsViewModel(responseSearch))
 
     private val connectionSearcher = viewModel.connectSearcher(searcher)
+
+    init {
+        traceStatsConnector()
+    }
 
     override fun connect() {
         super.connect()

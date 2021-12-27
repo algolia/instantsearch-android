@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.helper.sortby
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.helper.extension.traceSortByConnector
 import com.algolia.instantsearch.helper.searcher.SearcherIndex
 import com.algolia.search.client.Index
 
@@ -30,6 +31,10 @@ public data class SortByConnector(
     ) : this(searcher, SortByViewModel(indexes, selected))
 
     private val connectionSearcher = viewModel.connectSearcher(searcher)
+
+    init {
+        traceSortByConnector()
+    }
 
     override fun connect() {
         super.connect()

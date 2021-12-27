@@ -4,6 +4,7 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.hits.HitsView
+import com.algolia.instantsearch.helper.extension.traceRelatedItems
 import com.algolia.instantsearch.helper.relateditems.MatchingPattern
 import com.algolia.instantsearch.helper.relateditems.internal.extensions.configureRelatedItems
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
@@ -20,6 +21,7 @@ internal data class RelatedItemsConnectionView<T>(
 
     init {
         searcher.configureRelatedItems(hit, matchingPatterns)
+        traceRelatedItems()
     }
 
     private val callback: Callback<ResponseSearch?> = { response ->
