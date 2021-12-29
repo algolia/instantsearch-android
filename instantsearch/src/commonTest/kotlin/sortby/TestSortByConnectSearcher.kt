@@ -1,8 +1,8 @@
 package sortby
 
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.helper.sortby.searcher.SortByViewModel
-import com.algolia.instantsearch.helper.sortby.searcher.connectSearcher
+import com.algolia.instantsearch.helper.sortby.SortByViewModel
+import com.algolia.instantsearch.helper.sortby.connectSearcher
 import com.algolia.search.model.IndexName
 import kotlin.test.Test
 import mockClient

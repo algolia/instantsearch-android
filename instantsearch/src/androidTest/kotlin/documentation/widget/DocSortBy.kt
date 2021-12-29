@@ -8,9 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.helper.android.sortby.SortByViewAutocomplete
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.helper.sortby.searcher.SortByViewModel
-import com.algolia.instantsearch.helper.sortby.searcher.connectSearcher
-import com.algolia.instantsearch.helper.sortby.searcher.connectView
+import com.algolia.instantsearch.helper.sortby.SortByViewModel
+import com.algolia.instantsearch.helper.sortby.connectSearcher
+import com.algolia.instantsearch.helper.sortby.connectView
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.helper.sortby.searcher.SortByViewModel
+import com.algolia.instantsearch.helper.sortby.SortByViewModel
 
 internal class SortByConnectionPagedList<T>(
     private val viewModel: SortByViewModel,

@@ -1,11 +1,11 @@
-package com.algolia.instantsearch.helper.sortby.searcher.internal
+package com.algolia.instantsearch.helper.sortby.internal
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.IndexNameHolder
-import com.algolia.instantsearch.helper.sortby.searcher.SortByConnector
-import com.algolia.instantsearch.helper.sortby.searcher.SortByViewModel
-import com.algolia.instantsearch.helper.sortby.searcher.connectSearcher
+import com.algolia.instantsearch.helper.sortby.SortByConnector
+import com.algolia.instantsearch.helper.sortby.SortByViewModel
+import com.algolia.instantsearch.helper.sortby.connectSearcher
 
 /**
  * Default Sort By widget implementation.

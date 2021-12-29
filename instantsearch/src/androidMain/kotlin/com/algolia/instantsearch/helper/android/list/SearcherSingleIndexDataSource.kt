@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.helper.android.list
 
 import androidx.paging.DataSource
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query

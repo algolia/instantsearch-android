@@ -6,8 +6,8 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.android.sortby.internal.SortByConnectionPagedList
 import com.algolia.instantsearch.helper.searcher.IndexNameHolder
-import com.algolia.instantsearch.helper.sortby.searcher.SortByConnector
-import com.algolia.instantsearch.helper.sortby.searcher.SortByViewModel
+import com.algolia.instantsearch.helper.sortby.SortByConnector
+import com.algolia.instantsearch.helper.sortby.SortByViewModel
 
 
 public fun <T> SortByViewModel.connectPagedList(pagedList: LiveData<PagedList<T>>): Connection {
