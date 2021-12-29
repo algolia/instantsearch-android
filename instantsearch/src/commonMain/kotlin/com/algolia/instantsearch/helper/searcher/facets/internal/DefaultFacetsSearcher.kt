@@ -56,7 +56,7 @@ internal class DefaultFacetsSearcher(
     }
 
     override fun setQuery(text: String?) {
-        this.query.query = text
+        facetQuery = text
     }
 
     override fun searchAsync(): Job {
