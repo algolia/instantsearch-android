@@ -21,8 +21,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.R
-import com.algolia.instantsearch.compose.searchbox.internal.SearchClearIcon
-import com.algolia.instantsearch.compose.searchbox.internal.SearchIcon
+import com.algolia.instantsearch.compose.searchbox.internal.DefaultLeadingIcon
+import com.algolia.instantsearch.compose.searchbox.internal.DefaultTrailingIcon
 
 /**
  * Search Box compose component.
@@ -38,14 +38,15 @@ import com.algolia.instantsearch.compose.searchbox.internal.SearchIcon
 @Composable
 public fun SearchBox(
     modifier: Modifier = Modifier,
-    textStyle: TextStyle = LocalTextStyle.current,
-    onValueChange: (String, Boolean) -> Unit = { _, _ -> },
     searchBoxState: SearchBoxState = SearchBoxState(),
-    colors: TextFieldColors = defaultSearchBoxColors(),
+    onValueChange: ((String, Boolean) -> Unit)? = null,
+    enabled: Boolean = true,
+    textStyle: TextStyle = LocalTextStyle.current,
     placeHolderText: String = stringResource(R.string.alg_is_compose_search_box_hint),
+    colors: TextFieldColors = defaultSearchBoxColors(),
+    leadingIcon: @Composable (() -> Unit)? = { DefaultLeadingIcon() },
+    trailingIcon: @Composable (() -> Unit)? = { DefaultTrailingIcon(searchBoxState) },
     elevation: Dp = 1.dp,
-    leadingIcon: @Composable (() -> Unit)? = { SearchIcon() },
-    clearIcon: @Composable (() -> Unit)? = { SearchClearIcon(searchBoxState, onValueChange) },
 ) {
     Surface(modifier = modifier, elevation = elevation) {
         TextField(
@@ -53,20 +54,21 @@ public fun SearchBox(
             textStyle = textStyle.merge(TextStyle(textDecoration = TextDecoration.None)),
             onValueChange = {
                 searchBoxState.setText(it)
-                onValueChange(it, false)
+                onValueChange?.invoke(it, false)
             },
             leadingIcon = leadingIcon,
             placeholder = {
                 Text(text = placeHolderText)
             },
-            trailingIcon = clearIcon,
+            trailingIcon = trailingIcon,
             singleLine = true,
+            enabled = enabled,
             colors = colors,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    searchBoxState.onQuerySubmitted?.invoke(searchBoxState.query)
-                    onValueChange(searchBoxState.query, true)
+                    searchBoxState.setText(searchBoxState.query, true)
+                    onValueChange?.invoke(searchBoxState.query, true)
                 }
             )
         )
