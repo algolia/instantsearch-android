@@ -67,7 +67,7 @@ public fun SearchBox(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    searchBoxState.onQuerySubmitted?.invoke(searchBoxState.query)
+                    searchBoxState.setText(searchBoxState.query, true)
                     onValueChange?.invoke(searchBoxState.query, true)
                 }
             )

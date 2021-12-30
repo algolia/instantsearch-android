@@ -28,7 +28,7 @@ internal fun DefaultTrailingIcon(searchBoxState: SearchBoxState) {
             contentDescription = null,
             tint = MaterialTheme.colors.onBackground,
             modifier = Modifier.clickable(
-                onClick = { searchBoxState.setText("") },
+                onClick = { searchBoxState.setText(null) },
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
             )

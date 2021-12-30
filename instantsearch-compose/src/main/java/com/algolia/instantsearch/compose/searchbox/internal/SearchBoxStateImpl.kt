@@ -19,7 +19,7 @@ internal class SearchBoxStateImpl(
     override var onQuerySubmitted: Callback<String?>? = null
 
     override fun setText(text: String?, submitQuery: Boolean) {
-        query = text ?: ""
-        if (submitQuery) onQuerySubmitted?.invoke(text) else onQueryChanged?.invoke(query)
+        this.query = text ?: ""
+        if (submitQuery) onQuerySubmitted?.invoke(text) else onQueryChanged?.invoke(text)
     }
 }
