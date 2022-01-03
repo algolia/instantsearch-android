@@ -7,7 +7,8 @@ import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.helper.relevantsort.internal.RelevantSortConnectorMultipleIndex
 import com.algolia.instantsearch.helper.relevantsort.internal.RelevantSortConnectorSingleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
+import com.algolia.search.model.search.Query
 
 /**
  * Creates a [RelevantSortConnector] instance.
@@ -16,7 +17,7 @@ import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
  * @param viewModel component handling relevant sort logic
  */
 public fun RelevantSortConnector(
-    searcher: SearcherSingleIndex,
+    searcher: SearcherForHits<Query>,
     viewModel: RelevantSortViewModel = RelevantSortViewModel(),
 ): RelevantSortConnector {
     return RelevantSortConnectorSingleIndex(searcher, viewModel)

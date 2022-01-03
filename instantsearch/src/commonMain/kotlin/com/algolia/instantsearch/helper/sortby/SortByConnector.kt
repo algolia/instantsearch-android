@@ -36,7 +36,7 @@ public interface SortByConnector<S> : Connection where S : Searcher<*>, S : Inde
  */
 public fun <S> SortByConnector(
     searcher: S,
-    viewModel: SortByViewModel
+    viewModel: SortByViewModel = SortByViewModel(),
 ): SortByConnector<S> where S : Searcher<*>, S : IndexNameHolder = DefaultSortByConnector(searcher, viewModel)
 
 /**
