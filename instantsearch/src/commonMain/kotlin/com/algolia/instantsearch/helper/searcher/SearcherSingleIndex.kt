@@ -72,18 +72,4 @@ public class SearcherSingleIndex(
     override fun cancel() {
         sequencer.cancelAll()
     }
-
-    public companion object {
-
-        /**
-         * Creates [SearcherSingleIndex] instance.
-         */
-        public operator fun invoke(
-            index: Index,
-            query: Query = Query(),
-            requestOptions: RequestOptions? = null,
-            isDisjunctiveFacetingEnabled: Boolean = true,
-            coroutineScope: CoroutineScope = SearcherScope(),
-        ): SearcherSingleIndex = invoke(index, query, requestOptions, isDisjunctiveFacetingEnabled, coroutineScope)
-    }
 }

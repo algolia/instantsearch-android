@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.algolia.instantsearch.helper.relevantsort
 
 import com.algolia.instantsearch.core.connection.Connection

@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.algolia.instantsearch.helper.searcher
 
 import com.algolia.instantsearch.ExperimentalInstantSearch

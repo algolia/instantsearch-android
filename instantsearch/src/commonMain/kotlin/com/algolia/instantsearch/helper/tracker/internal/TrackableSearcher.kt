@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.algolia.instantsearch.helper.tracker.internal
 
 import com.algolia.instantsearch.core.searcher.Searcher
@@ -51,6 +53,7 @@ internal sealed class TrackableSearcher<T> where T : Searcher<*> {
     /**
      * A searcher wrapper around [SearcherMultipleIndex] to enable tracking capabilities.
      */
+    @Deprecated("Use multiple HitsSearcher aggregated with MultiSearcher instead of SearcherMultipleIndex")
     internal class MultiIndex(
         override val searcher: SearcherMultipleIndex,
         private val pointer: Int

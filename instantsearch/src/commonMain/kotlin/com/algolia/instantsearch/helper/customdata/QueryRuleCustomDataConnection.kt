@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.algolia.instantsearch.helper.customdata
 
 import com.algolia.instantsearch.core.connection.Connection

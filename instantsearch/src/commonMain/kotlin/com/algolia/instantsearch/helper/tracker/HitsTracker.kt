@@ -1,4 +1,4 @@
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "DEPRECATION")
 
 package com.algolia.instantsearch.helper.tracker
 
@@ -75,6 +75,7 @@ public fun HitsTracker(
  * @param pointer pointer to a specific index position
  * @param insights actual events handler
  */
+@Deprecated("Use multiple HitsSearcher aggregated with MultiSearcher instead of SearcherMultipleIndex")
 public fun HitsTracker(
     eventName: EventName,
     searcher: SearcherMultipleIndex,

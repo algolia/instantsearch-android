@@ -1,4 +1,5 @@
 @file:OptIn(InternalInstantSearch::class, ExperimentalInstantSearch::class, ExperimentalStdlibApi::class)
+@file:Suppress("DEPRECATION")
 
 package com.algolia.instantsearch.helper.extension
 

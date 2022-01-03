@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.algolia.instantsearch.helper.relevantsort
 
 import com.algolia.instantsearch.core.relevantsort.RelevantSortConnector
@@ -27,6 +29,7 @@ public fun RelevantSortConnector(
  * @param queryIndex index of query from response of which the user data will be extracted
  * @param viewModel component handling relevant sort logic
  */
+@Deprecated("Use multiple HitsSearcher aggregated with MultiSearcher instead of SearcherMultipleIndex")
 public fun RelevantSortConnector(
     searcher: SearcherMultipleIndex,
     queryIndex: Int,

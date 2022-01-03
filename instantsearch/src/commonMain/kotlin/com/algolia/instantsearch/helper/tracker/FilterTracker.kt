@@ -1,4 +1,4 @@
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "DEPRECATION")
 
 package com.algolia.instantsearch.helper.tracker
 
@@ -105,6 +105,7 @@ public fun FilterTracker(
  * @param insights actual events handler
  * @param coroutineScope coroutine scope to execute tracking operations
  */
+@Deprecated("Use multiple HitsSearcher aggregated with MultiSearcher instead of SearcherMultipleIndex")
 public fun FilterTracker(
     eventName: EventName,
     searcher: SearcherMultipleIndex,
