@@ -3,10 +3,10 @@ package customdata
 import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataConnector
 import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataViewModel
 import com.algolia.instantsearch.helper.customdata.connectSearcher
-import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.helper.searcher.hits.addHitsSearcher
+import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -75,18 +75,13 @@ internal class TestQueryRuleCustomData {
 
     @Test
     fun testFunctionBuildersMultipleIndex() {
-        val indexA = IndexQuery(IndexName("IndexMovie"))
-        val indexB = IndexQuery(IndexName("IndexActor"))
-
-        @Suppress("DEPRECATION")
-        val searcher = SearcherMultipleIndex(client, listOf(indexA, indexB))
-        val queryIndex = 1
+        val multiSearcher = MultiSearcher(client)
+        val hitsSearcher = multiSearcher.addHitsSearcher(IndexName("IndexMovie"))
         val initialModel = TestModel(number = 10, text = "test1")
 
         // explicit
         QueryRuleCustomDataConnector(
-            searcher = searcher,
-            queryIndex = queryIndex,
+            searcher = hitsSearcher,
             deserializer = TestModel.serializer(),
             initialItem = initialModel
         ) {
@@ -94,24 +89,18 @@ internal class TestQueryRuleCustomData {
         }
 
         // minimal
-        QueryRuleCustomDataConnector<TestModel>(searcher = searcher, queryIndex = queryIndex) {
-            it shouldEqual initialModel
-        }
-
-        // w/ initial
-        QueryRuleCustomDataConnector(searcher = searcher, queryIndex = queryIndex, initialItem = initialModel) {
+        QueryRuleCustomDataConnector<TestModel>(searcher = hitsSearcher) {
             it shouldEqual initialModel
         }
 
         // without initial
-        QueryRuleCustomDataConnector<TestModel>(searcher = searcher, queryIndex = queryIndex) {
+        QueryRuleCustomDataConnector<TestModel>(searcher = hitsSearcher) {
             it shouldEqual initialModel
         }
 
         // w/ ViewModel
         QueryRuleCustomDataConnector(
-            searcher = searcher,
-            queryIndex = queryIndex,
+            searcher = hitsSearcher,
             viewModel = QueryRuleCustomDataViewModel(initialItem = initialModel)
         ) {
             it shouldEqual initialModel

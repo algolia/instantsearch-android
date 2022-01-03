@@ -2,16 +2,15 @@ package filter.range
 
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
 import com.algolia.instantsearch.helper.filter.range.connectSearcher
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.FacetStats
+import kotlin.test.Test
 import mockClient
 import shouldBeTrue
 import shouldEqual
-import kotlin.test.Test
 
 class TestFilterRangeConnectSearcher {
 
@@ -32,7 +31,7 @@ class TestFilterRangeConnectSearcher {
     @Test
     fun onSearchResultUpdateBounds() {
         val viewModel = NumberRangeViewModel<Int>()
-        val searcher =  HitsSearcher(client, IndexName("Index"))
+        val searcher = HitsSearcher(client, IndexName("Index"))
         val connection = viewModel.connectSearcher(searcher, attribute)
         connection.connect()
 
@@ -48,7 +47,7 @@ class TestFilterRangeConnectSearcher {
     @Test
     fun onSearchResultUpdateBoundsCustom() {
         val viewModel = NumberRangeViewModel<Double>()
-        val searcher =  HitsSearcher(client, IndexName("Index"))
+        val searcher = HitsSearcher(client, IndexName("Index"))
         val connection = viewModel.connectSearcher(searcher, attribute) { it.toDouble() }
         connection.connect()
 
