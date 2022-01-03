@@ -1,13 +1,13 @@
 package com.algolia.instantsearch.helper.searcher.hits
 
-import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.helper.searcher.FilterGroupsHolder
 import com.algolia.instantsearch.helper.searcher.IndexNameHolder
 import com.algolia.instantsearch.helper.searcher.SearcherScope
+import com.algolia.instantsearch.helper.searcher.hits.internal.DefaultHitsSearchService
 import com.algolia.instantsearch.helper.searcher.hits.internal.DefaultHitsSearcher
-import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
@@ -43,7 +43,7 @@ public fun HitsSearcher(
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
 ): HitsSearcher = DefaultHitsSearcher(
-    client = client,
+    searchService = DefaultHitsSearchService(client),
     indexName = indexName,
     query = query,
     requestOptions = requestOptions,
@@ -65,7 +65,7 @@ public fun MultiSearcher.addHitsSearcher(
     isDisjunctiveFacetingEnabled: Boolean = true,
 ): HitsSearcher {
     return DefaultHitsSearcher(
-        client = client,
+        searchService = DefaultHitsSearchService(client),
         indexName = indexName,
         query = query,
         requestOptions = requestOptions,

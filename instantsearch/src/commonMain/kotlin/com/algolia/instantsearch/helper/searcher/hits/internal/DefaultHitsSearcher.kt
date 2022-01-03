@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.helper.searcher.hits.internal
 
-import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceHitsSearcher
@@ -9,7 +8,6 @@ import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
-import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.multipleindex.IndexQuery
@@ -26,9 +24,8 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches a single index.
  */
-@ExperimentalInstantSearch
 internal class DefaultHitsSearcher(
-    client: ClientSearch,
+    private val searchService: HitsSearchService,
     override var indexName: IndexName,
     override val query: Query,
     override val requestOptions: RequestOptions? = null,
@@ -36,12 +33,10 @@ internal class DefaultHitsSearcher(
     override val coroutineScope: CoroutineScope = SearcherScope(),
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
-    private val hitsService = HitsSearchService(client)
-
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
-    override var filterGroups: Set<FilterGroup<*>> by hitsService::filterGroups
+    override var filterGroups: Set<FilterGroup<*>> by searchService::filterGroups
 
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
@@ -67,7 +62,7 @@ internal class DefaultHitsSearcher(
     }
 
     override suspend fun search(): ResponseSearch {
-        return hitsService.search(HitsSearchService.Request(indexedQuery, isDisjunctiveFacetingEnabled), options)
+        return searchService.search(HitsSearchService.Request(indexedQuery, isDisjunctiveFacetingEnabled), options)
     }
 
     override fun collect(): Pair<List<IndexQuery>, (List<ResponseSearch>) -> Unit> {
@@ -75,8 +70,8 @@ internal class DefaultHitsSearcher(
     }
 
     private fun disjunctiveSearch(): Pair<List<IndexQuery>, (List<ResponseSearch>) -> Unit> {
-        val (queries, disjunctiveFacetCount) = hitsService.advancedQueryOf(indexedQuery)
-        return queries to { response.value = hitsService.aggregateResult(it, disjunctiveFacetCount) }
+        val (queries, disjunctiveFacetCount) = searchService.advancedQueryOf(indexedQuery)
+        return queries to { response.value = searchService.aggregateResult(it, disjunctiveFacetCount) }
     }
 
     private fun singleQuerySearch() = listOf(indexedQuery) to ::onSingleQuerySearchResponse

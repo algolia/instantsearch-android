@@ -2,6 +2,7 @@ package com.algolia.instantsearch.helper.searcher.multi
 
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherScope
+import com.algolia.instantsearch.helper.searcher.multi.internal.DefaultMultiSearchService
 import com.algolia.instantsearch.helper.searcher.multi.internal.DefaultMultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
 import com.algolia.search.client.ClientSearch
@@ -42,7 +43,7 @@ public fun MultiSearcher(
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope()
 ): MultiSearcher = DefaultMultiSearcher(
-    client = client,
+    searchService = DefaultMultiSearchService(client),
     strategy = strategy,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,

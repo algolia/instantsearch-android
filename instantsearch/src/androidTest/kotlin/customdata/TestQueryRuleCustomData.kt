@@ -5,13 +5,9 @@ import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataViewModel
 import com.algolia.instantsearch.helper.customdata.connectSearcher
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.helper.searcher.hits.addHitsSearcher
-import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.multipleindex.IndexQuery
-import com.algolia.search.model.response.ResponseMultiSearch
 import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.response.ResultMultiSearch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -37,29 +33,6 @@ internal class TestQueryRuleCustomData {
         searcher.response.value = ResponseSearch(userDataOrNull = listOf(userData))
 
         viewModel.item.value shouldEqual customData
-    }
-
-    @Test
-    fun testMultiIndexSearcherConnection() {
-        val multiSearcher = MultiSearcher(client)
-        val searcherMovie = multiSearcher.addHitsSearcher(IndexName("IndexMovie"))
-
-        val viewModel = QueryRuleCustomDataViewModel(TestModel.serializer())
-        viewModel.connectSearcher(searcherMovie).connect()
-        val customData1 = TestModel(number = 10, text = "test1")
-        val customData2 = TestModel(number = 20, text = "test2")
-
-        val userData1 = Json.encodeToJsonElement(TestModel.serializer(), customData1).jsonObject
-        val userData2 = Json.encodeToJsonElement(TestModel.serializer(), customData2).jsonObject
-
-        multiSearcher.response.value = ResponseMultiSearch(
-            listOf(
-                ResultMultiSearch.Hits(ResponseSearch(userDataOrNull = listOf(userData1))),
-                ResultMultiSearch.Hits(ResponseSearch(userDataOrNull = listOf(userData2))),
-            )
-        )
-
-        viewModel.item.value shouldEqual customData1
     }
 
     @Test

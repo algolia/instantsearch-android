@@ -9,9 +9,21 @@ import com.algolia.search.transport.RequestOptions
 /**
  * Search service for facets.
  */
-internal class FacetsSearchService(
+internal interface FacetsSearchService : SearchService<FacetIndexQuery, ResponseSearchForFacets> {
+
+    /**
+     * Client to perform search operations.
+     */
     val client: ClientSearch
-) : SearchService<FacetIndexQuery, ResponseSearchForFacets> {
+}
+
+
+/**
+ * Default implementation of [FacetsSearchService].
+ */
+internal class DefaultFacetsSearchService(
+    override val client: ClientSearch
+) : FacetsSearchService {
 
     override suspend fun search(request: FacetIndexQuery, requestOptions: RequestOptions?): ResponseSearchForFacets {
         val index = client.initIndex(request.indexName)
