@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceHitsSearcher
@@ -21,8 +20,10 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches a single index.
  */
-@OptIn(ExperimentalInstantSearch::class)
-@Deprecated("use HitsSearcher instead")
+@Deprecated(
+    message = "use HitsSearcher instead",
+    replaceWith = ReplaceWith("HitsSearcher", "com.algolia.instantsearch.helper.searcher.hits.HitsSearcher")
+)
 public class SearcherSingleIndex(
     public override var index: Index,
     public override val query: Query = Query(),

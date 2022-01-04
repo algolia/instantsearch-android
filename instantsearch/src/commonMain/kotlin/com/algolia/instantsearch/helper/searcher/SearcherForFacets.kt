@@ -21,7 +21,10 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches for facet values.
  */
-@Deprecated("use FacetsSearcher instead")
+@Deprecated(
+    message = "use FacetsSearcher instead",
+    replaceWith = ReplaceWith("FacetsSearcher", "com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher")
+)
 public class SearcherForFacets(
     public var index: Index,
     public override val attribute: Attribute,
