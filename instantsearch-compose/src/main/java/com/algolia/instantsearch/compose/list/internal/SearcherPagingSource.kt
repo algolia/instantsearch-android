@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
  */
 @ExperimentalInstantSearch
 internal class SearcherPagingSource<T : Any>(
-    private val searcher: SearcherForHits<SearchParameters>,
+    private val searcher: SearcherForHits<out SearchParameters>,
     private val transformer: (ResponseSearch.Hit) -> T
 ) : PagingSource<Int, T>() {
 

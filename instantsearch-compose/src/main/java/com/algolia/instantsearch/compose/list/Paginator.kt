@@ -38,7 +38,7 @@ public interface Paginator<T : Any> {
  */
 @ExperimentalInstantSearch
 public fun <T : Any> Paginator(
-    searcher: SearcherForHits<SearchParameters>,
+    searcher: SearcherForHits<out SearchParameters>,
     pagingConfig: PagingConfig = PagingConfig(pageSize = 10),
     transformer: (ResponseSearch.Hit) -> T
 ): Paginator<T> = SearcherPaginator(
