@@ -14,5 +14,5 @@ public fun <R, T> Searcher<R>.connectHitsArrayAdapter(
     view: AutoCompleteTextView,
     presenter: Presenter<R, List<T>>,
 ): Connection {
-    return HitsArrayAdapterConnection<R, T>(this, adapter, view, presenter)
+    return HitsArrayAdapterConnection(this, adapter, view, presenter)
 }
