@@ -9,6 +9,8 @@ import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
 import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.client.ClientSearch
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
@@ -44,6 +46,33 @@ public fun HitsSearcher(
     coroutineScope: CoroutineScope = SearcherScope(),
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client),
+    indexName = indexName,
+    query = query,
+    requestOptions = requestOptions,
+    isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
+    coroutineScope = coroutineScope,
+)
+
+/**
+ * Creates an instance of [HitsSearcher].
+ *
+ * @param applicationID application ID
+ * @param apiKey API Key
+ * @param indexName index name
+ * @param query the query used for search
+ * @param requestOptions request local configuration
+ * @param coroutineScope scope of coroutine operations
+ */
+public fun HitsSearcher(
+    applicationID: ApplicationID,
+    apiKey: APIKey,
+    indexName: IndexName,
+    query: Query = Query(),
+    requestOptions: RequestOptions? = null,
+    isDisjunctiveFacetingEnabled: Boolean = true,
+    coroutineScope: CoroutineScope = SearcherScope(),
+): HitsSearcher = DefaultHitsSearcher(
+    searchService = DefaultHitsSearchService(client = ClientSearch(applicationID, apiKey)),
     indexName = indexName,
     query = query,
     requestOptions = requestOptions,
