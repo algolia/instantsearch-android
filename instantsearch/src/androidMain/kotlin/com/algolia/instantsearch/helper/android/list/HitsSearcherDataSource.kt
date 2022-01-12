@@ -12,14 +12,15 @@ import kotlinx.coroutines.withContext
 /**
  * Data source for [SearcherForHits].
  */
-public class HitsSearcherDataSource<T>(
+@Deprecated("HitsSearcherDataSource is deprecated and has been replaced by Paginator")
+public class HitsSearcherDataSource<T : Any>(
     private val searcher: SearcherForHits<Query>,
     private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
     retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val transformer: (ResponseSearch.Hit) -> T,
 ) : RetryablePageKeyedDataSource<Int, T>(retryDispatcher) {
 
-    public class Factory<T>(
+    public class Factory<T : Any>(
         private val searcher: SearcherForHits<Query>,
         private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
         private val retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
