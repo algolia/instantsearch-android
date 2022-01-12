@@ -1,27 +1,25 @@
 @file:Suppress("FunctionName")
 
-package com.algolia.instantsearch.compose.list
+package com.algolia.instantsearch.helper.android.list
 
+import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.compose.list.internal.SearcherPaginator
-import com.algolia.instantsearch.compose.list.internal.SearcherPagingSource
+import com.algolia.instantsearch.helper.android.list.internal.SearcherPaginator
+import com.algolia.instantsearch.helper.android.list.internal.SearcherPagingSource
 import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.params.SearchParameters
 import com.algolia.search.model.response.ResponseSearch
-import kotlinx.coroutines.flow.Flow
 
 /**
  * Component handling [PagingData].
  */
-@ExperimentalInstantSearch
 public interface Paginator<T : Any> {
 
     /**
-     * A cold Flow of [PagingData], emits new instances of [PagingData] once they become invalidated.
+     * Primary entry point into Paging.
      */
-    public val flow: Flow<PagingData<T>>
+    public val pager: Pager<Int, T>
 
     /**
      * Signal the [Paginator] to stop loading.
@@ -36,7 +34,6 @@ public interface Paginator<T : Any> {
  * @param pagingConfig configure loading behavior within a Pager
  * @param transformer mapping applied to search responses
  */
-@ExperimentalInstantSearch
 public fun <T : Any> Paginator(
     searcher: SearcherForHits<out SearchParameters>,
     pagingConfig: PagingConfig = PagingConfig(pageSize = 10),

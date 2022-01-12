@@ -8,7 +8,8 @@ import kotlinx.coroutines.withContext
 /**
  * A [PageKeyedDataSource] with retry capability.
  */
-public abstract class RetryablePageKeyedDataSource<Key, Value>(private val retryDispatcher: CoroutineDispatcher) :
+@Deprecated("RetryablePageKeyedDataSource is deprecated and has been replaced by Paginator")
+public abstract class RetryablePageKeyedDataSource<Key : Any, Value : Any>(private val retryDispatcher: CoroutineDispatcher) :
     PageKeyedDataSource<Key, Value>() {
 
     internal var retry: (() -> Any)? = null
