@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.helper.android.filter.state.connectPagedList
-import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
+import com.algolia.instantsearch.helper.android.list.HitsSearcherDataSource
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.hits.addHitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
@@ -37,10 +37,10 @@ internal class DocHitsMultiple {
         val searcherActor = multiSearcher.addHitsSearcher(IndexName("IndexActor"))
 
         val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
-        val movieFactory = SearcherSingleIndexDataSource.Factory(searcherMovie) {
+        val movieFactory = HitsSearcherDataSource.Factory(searcherMovie) {
             it.deserialize(Movie.serializer())
         }
-        val actorFactory = SearcherSingleIndexDataSource.Factory(searcherActor) {
+        val actorFactory = HitsSearcherDataSource.Factory(searcherActor) {
             it.deserialize(Actor.serializer())
         }
         val movies = LivePagedListBuilder(movieFactory, pagedListConfig).build()

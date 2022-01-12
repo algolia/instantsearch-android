@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.helper.android.filter.state.connectPagedList
-import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
+import com.algolia.instantsearch.helper.android.list.HitsSearcherDataSource
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
@@ -31,7 +31,7 @@ internal class DocHitsPagingSingle {
             APIKey("YourAPIKey")
         )
         val searcher = HitsSearcher(client, IndexName("YourIndexName"))
-        val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher) { it.deserialize(Movie.serializer()) }
+        val dataSourceFactory = HitsSearcherDataSource.Factory(searcher) { it.deserialize(Movie.serializer()) }
         val pagedListConfig = PagedList.Config.Builder()
             .setPageSize(10) // configure according to your needs
             .build()
