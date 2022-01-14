@@ -10,14 +10,44 @@ import kotlinx.coroutines.Job
  */
 public interface Searcher<R> {
 
+    /**
+     * Searcher's coroutine scope.
+     */
     public val coroutineScope: CoroutineScope
 
+    /**
+     * Loading status subscription value.
+     */
     public val isLoading: SubscriptionValue<Boolean>
+
+    /**
+     * Error subscription value. Notifies all subscribers when an error occurs.
+     */
     public val error: SubscriptionValue<Throwable?>
+
+    /**
+     * Error subscription value. Notifies all subscribers when a response is received.
+     */
     public val response: SubscriptionValue<R?>
 
+    /**
+     * Sets the query to the string provided.
+     */
     public fun setQuery(text: String?)
+
+    /**
+     * Triggers asynchronous search operation with [coroutineScope].
+     * Updates [response]/[error] on result.
+     */
     public fun searchAsync(): Job
+
+    /**
+     * Triggers the search and returns a search response.
+     */
     public suspend fun search(): R
+
+    /**
+     * Cancels the ongoing search requests.
+     */
     public fun cancel()
 }

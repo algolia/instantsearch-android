@@ -1,34 +1,38 @@
 package com.algolia.instantsearch.helper.sortby
 
 import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.selectable.map.connectView
-import com.algolia.instantsearch.helper.index.IndexPresenter
-import com.algolia.instantsearch.helper.index.IndexPresenterImpl
-import com.algolia.instantsearch.helper.searcher.SearcherIndex
+import com.algolia.instantsearch.helper.index.DefaultIndexPresenter
+import com.algolia.instantsearch.helper.index.IndexNamePresenter
+import com.algolia.instantsearch.helper.searcher.IndexNameHolder
 import com.algolia.instantsearch.helper.sortby.internal.SortByConnectionSearcher
 
+/**
+ * Connects a view to the SortBy widget.
+ */
+public fun <S> SortByConnector<S>.connectView(
+    view: SortByView,
+    presenter: IndexNamePresenter = DefaultIndexPresenter,
+): Connection where S : Searcher<*>, S : IndexNameHolder {
+    return viewModel.connectView(view, presenter)
+}
+
+/**
+ * Connects a view to the SortBy view model.
+ */
 public fun SortByViewModel.connectView(
     view: SortByView,
-    presenter: IndexPresenter = IndexPresenterImpl,
+    presenter: IndexNamePresenter = DefaultIndexPresenter,
 ): Connection {
     return connectView(view, presenter)
 }
 
-public fun SortByViewModel.connectSearcher(
-    searcher: SearcherIndex<*>,
-): Connection {
-    return SortByConnectionSearcher(this, searcher)
-}
-
 /**
- * Connects a view to the SortBy widget.
- *
- * @param view the view that will render the list of indices
- * @param presenter defines the way we want to display an index, taking as input an Index and returning a String.
+ * Connects a searcher to the SortBy view model.
  */
-public fun SortByConnector.connectView(
-    view: SortByView,
-    presenter: IndexPresenter = IndexPresenterImpl,
-): Connection {
-    return viewModel.connectView(view, presenter)
+public fun <S> SortByViewModel.connectSearcher(
+    searcher: S,
+): Connection where S : Searcher<*>, S : IndexNameHolder {
+    return SortByConnectionSearcher(this, searcher)
 }

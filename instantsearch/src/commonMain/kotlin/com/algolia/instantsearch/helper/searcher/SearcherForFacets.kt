@@ -1,11 +1,11 @@
 package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceFacetsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
+import com.algolia.instantsearch.helper.searcher.util.SearcherForFacets as SearcherFacets
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearchForFacets
@@ -21,16 +21,20 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches for facet values.
  */
+@Deprecated(
+    message = "use FacetsSearcher instead",
+    replaceWith = ReplaceWith("FacetsSearcher", "com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher")
+)
 public class SearcherForFacets(
     public var index: Index,
-    public val attribute: Attribute,
-    public val query: Query = Query(),
+    public override val attribute: Attribute,
+    public override val query: Query = Query(),
     public var facetQuery: String? = null,
-    public val requestOptions: RequestOptions? = null,
+    public override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : Searcher<ResponseSearchForFacets> {
+) : SearcherFacets<Query> {
 
-    internal val sequencer = Sequencer()
+    private val sequencer = Sequencer()
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)

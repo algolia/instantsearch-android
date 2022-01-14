@@ -10,8 +10,8 @@ import com.algolia.instantsearch.helper.filter.list.FilterListView
 import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
 import com.algolia.instantsearch.helper.filter.list.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -22,7 +22,7 @@ import com.algolia.search.model.filter.NumericOperator
 import org.junit.Ignore
 
 @Ignore
-class DocFilterList {
+internal class DocFilterList {
 
     private class MyFilterListRecyclerViewAdapter : FilterListView.All {
 
@@ -37,8 +37,7 @@ class DocFilterList {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
         val color = Attribute("color")
         val price = Attribute("price")

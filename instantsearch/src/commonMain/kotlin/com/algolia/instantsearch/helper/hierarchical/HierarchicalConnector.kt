@@ -3,7 +3,7 @@ package com.algolia.instantsearch.helper.hierarchical
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.extension.traceHierarchicalFacetsConnector
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.Attribute
 
 /**
@@ -16,7 +16,7 @@ import com.algolia.search.model.Attribute
  * @param viewModel the logic applied to the hierarchical facets
  */
 public data class HierarchicalConnector(
-    public val searcher: SearcherSingleIndex,
+    public val searcher: SearcherForHits<*>,
     public val filterState: FilterState,
     public val viewModel: HierarchicalViewModel,
 ) : ConnectionImpl() {
@@ -29,7 +29,7 @@ public data class HierarchicalConnector(
      * @param separator The string separating the facets in the hierarchical facets. Usually something like " > "
      */
     public constructor(
-        searcher: SearcherSingleIndex,
+        searcher: SearcherForHits<*>,
         attribute: Attribute,
         filterState: FilterState,
         hierarchicalAttributes: List<Attribute>,

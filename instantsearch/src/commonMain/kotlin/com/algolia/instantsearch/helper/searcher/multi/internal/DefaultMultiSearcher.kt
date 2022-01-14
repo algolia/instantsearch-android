@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.helper.searcher.multi.internal
 
-import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceMultiSearcher
@@ -24,14 +23,14 @@ import kotlinx.coroutines.withContext
 /**
  * Extracts queries from queries sources, performs search request and dispatches the results to the corresponding receivers.
  */
-@ExperimentalInstantSearch
 internal class DefaultMultiSearcher(
-    override val client: ClientSearch,
-    val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
-    val requestOptions: RequestOptions? = null,
+    private val searchService: MultiSearchService,
+    internal val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
+    internal val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope()
 ) : MultiSearcher() {
 
+    override val client: ClientSearch get() = searchService.client
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseMultiSearch?> = SubscriptionValue(null)
@@ -39,7 +38,6 @@ internal class DefaultMultiSearcher(
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val components: MutableList<MultiSearchComponent<IndexedQuery, ResultSearch>> = mutableListOf()
     private val sequencer = Sequencer()
-    private val searchService = MultiSearchService(client)
     private val options get() = requestOptions.withUserAgent()
 
     init {

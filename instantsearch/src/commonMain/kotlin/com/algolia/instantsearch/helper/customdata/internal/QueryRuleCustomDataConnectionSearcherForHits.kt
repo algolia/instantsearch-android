@@ -3,7 +3,7 @@ package com.algolia.instantsearch.helper.customdata.internal
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataViewModel
-import com.algolia.instantsearch.helper.searcher.SearcherIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.response.ResponseSearch
 
 /**
@@ -12,9 +12,9 @@ import com.algolia.search.model.response.ResponseSearch
  * @param searcher searcher that handles your searches
  * @param viewModel logic applied to the custom model
  */
-internal class QueryRuleCustomDataConnectionSingleIndex<T>(
+internal class QueryRuleCustomDataConnectionSearcherForHits<T>(
     val viewModel: QueryRuleCustomDataViewModel<T>,
-    val searcher: SearcherIndex<*>,
+    val searcher: SearcherForHits<*>,
 ) : ConnectionImpl() {
 
     private val callback: Callback<ResponseSearch?> = { response ->

@@ -13,9 +13,9 @@ import com.algolia.instantsearch.core.number.decrement
 import com.algolia.instantsearch.core.number.increment
 import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.addFacet
 import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -25,7 +25,7 @@ import com.algolia.search.model.filter.NumericOperator
 import org.junit.Ignore
 
 @Ignore
-class DocFilterComparison {
+internal class DocFilterComparison {
 
     class FilterPriceView(
         val textView: TextView,
@@ -59,8 +59,7 @@ class DocFilterComparison {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
         val price = Attribute("price")
         val operator = NumericOperator.Greater

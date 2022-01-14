@@ -1,15 +1,17 @@
 package com.algolia.instantsearch.helper.searcher.hits
 
-import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.FilterGroupsHolder
+import com.algolia.instantsearch.helper.searcher.IndexNameHolder
 import com.algolia.instantsearch.helper.searcher.SearcherScope
+import com.algolia.instantsearch.helper.searcher.hits.internal.DefaultHitsSearchService
 import com.algolia.instantsearch.helper.searcher.hits.internal.DefaultHitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.client.ClientSearch
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
@@ -18,23 +20,7 @@ import kotlinx.coroutines.CoroutineScope
  * The component handling search requests and managing the search sessions.
  * This implementation searches for hits.
  */
-@ExperimentalInstantSearch
-public interface HitsSearcher : Searcher<ResponseSearch>, FilterGroupsHolder {
-
-    /**
-     * Index name for search operations
-     */
-    public var indexName: IndexName
-
-    /**
-     * Query to run.
-     */
-    public val query: Query
-
-    /**
-     * Additional/Custom request options.
-     */
-    public val requestOptions: RequestOptions?
+public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterGroupsHolder {
 
     /**
      * Flag defining if disjunctive faceting is enabled.
@@ -51,7 +37,6 @@ public interface HitsSearcher : Searcher<ResponseSearch>, FilterGroupsHolder {
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
  */
-@ExperimentalInstantSearch
 public fun HitsSearcher(
     client: ClientSearch,
     indexName: IndexName,
@@ -60,7 +45,34 @@ public fun HitsSearcher(
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
 ): HitsSearcher = DefaultHitsSearcher(
-    client = client,
+    searchService = DefaultHitsSearchService(client),
+    indexName = indexName,
+    query = query,
+    requestOptions = requestOptions,
+    isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
+    coroutineScope = coroutineScope,
+)
+
+/**
+ * Creates an instance of [HitsSearcher].
+ *
+ * @param applicationID application ID
+ * @param apiKey API Key
+ * @param indexName index name
+ * @param query the query used for search
+ * @param requestOptions request local configuration
+ * @param coroutineScope scope of coroutine operations
+ */
+public fun HitsSearcher(
+    applicationID: ApplicationID,
+    apiKey: APIKey,
+    indexName: IndexName,
+    query: Query = Query(),
+    requestOptions: RequestOptions? = null,
+    isDisjunctiveFacetingEnabled: Boolean = true,
+    coroutineScope: CoroutineScope = SearcherScope(),
+): HitsSearcher = DefaultHitsSearcher(
+    searchService = DefaultHitsSearchService(client = ClientSearch(applicationID, apiKey)),
     indexName = indexName,
     query = query,
     requestOptions = requestOptions,
@@ -75,7 +87,6 @@ public fun HitsSearcher(
  * @param query the query used for search
  * @param requestOptions request local configuration
  */
-@ExperimentalInstantSearch
 public fun MultiSearcher.addHitsSearcher(
     indexName: IndexName,
     query: Query = Query(),
@@ -83,7 +94,7 @@ public fun MultiSearcher.addHitsSearcher(
     isDisjunctiveFacetingEnabled: Boolean = true,
 ): HitsSearcher {
     return DefaultHitsSearcher(
-        client = client,
+        searchService = DefaultHitsSearchService(client),
         indexName = indexName,
         query = query,
         requestOptions = requestOptions,

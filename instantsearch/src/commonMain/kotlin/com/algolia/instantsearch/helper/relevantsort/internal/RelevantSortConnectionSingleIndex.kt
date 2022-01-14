@@ -4,15 +4,16 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.response.ResponseSearch
+import com.algolia.search.model.search.Query
 
 /**
  * Connection between relevant sort's view model and a single index searcher.
  */
 internal class RelevantSortConnectionSingleIndex(
     val viewModel: RelevantSortViewModel,
-    val searcher: SearcherSingleIndex,
+    val searcher: SearcherForHits<Query>,
 ) : ConnectionImpl() {
 
     private val priorityCallback: Callback<RelevantSortPriority?> = callback@{ priority ->

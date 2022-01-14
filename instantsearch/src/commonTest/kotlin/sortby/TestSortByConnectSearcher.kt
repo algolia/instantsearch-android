@@ -1,47 +1,47 @@
 package sortby
 
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.sortby.SortByViewModel
 import com.algolia.instantsearch.helper.sortby.connectSearcher
 import com.algolia.search.model.IndexName
+import kotlin.test.Test
 import mockClient
 import shouldEqual
-import kotlin.test.Test
 
 class TestSortByConnectSearcher {
 
     private val client = mockClient()
-    private val indexA = client.initIndex(IndexName("A"))
-    private val indexB = client.initIndex(IndexName("B"))
+    private val indexNameA = IndexName("A")
+    private val indexNameB = IndexName("B")
 
     @Test
     fun connectShouldUpdateSearcherIndex() {
-        val searcher = SearcherSingleIndex(indexA)
+        val searcher = HitsSearcher(client, indexNameA)
         val viewModel = SortByViewModel(
             map = mapOf(
-                0 to indexA,
-                1 to indexB
+                0 to indexNameA,
+                1 to indexNameB
             )
         ).apply { selected.value = 1 }
         val connection = viewModel.connectSearcher(searcher)
 
         connection.connect()
-        searcher.index shouldEqual indexB
+        searcher.indexName shouldEqual indexNameB
     }
 
     @Test
     fun onSelectedComputedShouldUpdateIndex() {
-        val searcher = SearcherSingleIndex(indexA)
+        val searcher = HitsSearcher(client, indexNameA)
         val viewModel = SortByViewModel(
             map = mapOf(
-                0 to indexA,
-                1 to indexB
+                0 to indexNameA,
+                1 to indexNameB
             )
         )
         val connection = viewModel.connectSearcher(searcher)
 
         connection.connect()
         viewModel.eventSelection.send(1)
-        searcher.index shouldEqual indexB
+        searcher.indexName shouldEqual indexNameB
     }
 }

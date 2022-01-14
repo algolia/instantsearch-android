@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.algolia.instantsearch.helper.searcher.internal
 
 import com.algolia.instantsearch.core.Callback

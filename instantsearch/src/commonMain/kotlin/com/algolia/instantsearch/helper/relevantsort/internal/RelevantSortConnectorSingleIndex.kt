@@ -5,10 +5,11 @@ import com.algolia.instantsearch.core.relevantsort.RelevantSortConnector
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.helper.extension.traceRelevantSortConnector
 import com.algolia.instantsearch.helper.relevantsort.connectSearcher
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
+import com.algolia.search.model.search.Query
 
 internal class RelevantSortConnectorSingleIndex(
-    override val searcher: SearcherSingleIndex,
+    override val searcher: SearcherForHits<Query>,
     override val viewModel: RelevantSortViewModel = RelevantSortViewModel(),
 ) : ConnectionImpl(), RelevantSortConnector {
 

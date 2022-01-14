@@ -3,14 +3,14 @@ package com.algolia.instantsearch.helper.hierarchical.internal
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.addFacet
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 
 internal data class HierarchicalConnectionSearcher(
     private val viewModel: HierarchicalViewModel,
-    private val searcher: SearcherSingleIndex,
+    private val searcher: SearcherForHits<*>,
 ) : ConnectionImpl() {
 
     private val updateTree: Callback<ResponseSearch?> = { response ->

@@ -1,6 +1,9 @@
 package com.algolia.instantsearch.helper.sortby
 
 import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel
-import com.algolia.search.client.Index
+import com.algolia.search.model.IndexName
 
-public typealias SortByViewModel = SelectableMapViewModel<Int, Index>
+/**
+ * Sort by view model with index selecting capabilities.
+ */
+public typealias SortByViewModel = SelectableMapViewModel<Int, IndexName>

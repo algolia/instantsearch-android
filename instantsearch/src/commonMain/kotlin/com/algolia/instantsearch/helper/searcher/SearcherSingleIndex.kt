@@ -20,13 +20,17 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches a single index.
  */
+@Deprecated(
+    message = "use HitsSearcher instead",
+    replaceWith = ReplaceWith("HitsSearcher", "com.algolia.instantsearch.helper.searcher.hits.HitsSearcher")
+)
 public class SearcherSingleIndex(
     public override var index: Index,
     public override val query: Query = Query(),
     public override val requestOptions: RequestOptions? = null,
     public val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : SearcherIndex<Query> {
+) : SearcherIndex<Query>, FilterGroupsHolder {
 
     internal val sequencer = Sequencer()
 
@@ -37,7 +41,7 @@ public class SearcherSingleIndex(
     private val options get() = requestOptions.withUserAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)
 
-    internal var filterGroups: Set<FilterGroup<*>> = setOf()
+    override var filterGroups: Set<FilterGroup<*>> = setOf()
 
     init {
         traceHitsSearcher()
@@ -68,19 +72,5 @@ public class SearcherSingleIndex(
 
     override fun cancel() {
         sequencer.cancelAll()
-    }
-
-    public companion object {
-
-        /**
-         * Creates [SearcherSingleIndex] instance.
-         */
-        public operator fun invoke(
-            index: Index,
-            query: Query = Query(),
-            requestOptions: RequestOptions? = null,
-            isDisjunctiveFacetingEnabled: Boolean = true,
-            coroutineScope: CoroutineScope = SearcherScope(),
-        ): SearcherSingleIndex = invoke(index, query, requestOptions, isDisjunctiveFacetingEnabled, coroutineScope)
     }
 }

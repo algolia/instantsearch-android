@@ -33,7 +33,6 @@ import com.algolia.instantsearch.helper.relevantsort.RelevantSortConnector
 import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.helper.searchbox.SearchMode
 import com.algolia.instantsearch.helper.searcher.SearcherAnswers
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
@@ -64,7 +63,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     val indexName = IndexName("myIndex")
 
     val filterState = FilterState()
-    val searcherSingleIndex = SearcherSingleIndex(client.initIndex(indexName), isDisjunctiveFacetingEnabled = false)
+    val hitsSearcher = HitsSearcher(client, indexName, isDisjunctiveFacetingEnabled = false)
     val attribute = Attribute("attr")
 
     @Test
@@ -119,7 +118,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     @Test
     fun testDynamicFilters() {
         DynamicFacetListConnector(
-            searcher = searcherSingleIndex,
+            searcher = hitsSearcher,
             filterState = filterState,
             orderedFacets = listOf(AttributedFacets(attribute, listOf())),
             selections = mapOf(attribute to setOf()),
@@ -140,7 +139,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     @Test
     fun testHierarchicalFacets() {
-        HierarchicalConnector(searcherSingleIndex, attribute, filterState, listOf(attribute), "")
+        HierarchicalConnector(hitsSearcher, attribute, filterState, listOf(attribute), "")
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.HierarchicalFacets)
         assertEquals(emptySet(), component.parameters)
     }
@@ -148,7 +147,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     @Test
     fun testFacetList() {
         FacetListConnector(
-            searcherSingleIndex,
+            hitsSearcher,
             filterState,
             attribute,
             SelectionMode.Single,
@@ -272,28 +271,28 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     @Test
     fun testStats() {
-        StatsConnector(searcherSingleIndex)
+        StatsConnector(hitsSearcher)
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.Stats)
         assertEquals(emptySet(), component.parameters)
     }
 
     @Test
     fun testQueryRuleCustomData() {
-        QueryRuleCustomDataConnector(searcherSingleIndex, "init")
+        QueryRuleCustomDataConnector(hitsSearcher, "init")
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.QueryRuleCustomData)
         assertEquals(setOf(ComponentParam.Item), component.parameters)
     }
 
     @Test
     fun testRelevantSort() {
-        RelevantSortConnector(searcherSingleIndex, RelevantSortViewModel(RelevantSortPriority.HitsCount))
+        RelevantSortConnector(hitsSearcher, RelevantSortViewModel(RelevantSortPriority.HitsCount))
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.RelevantSort)
         assertEquals(setOf(ComponentParam.Priority), component.parameters)
     }
 
     @Test
     fun testSortBy() {
-        SortByConnector(searcherSingleIndex)
+        SortByConnector(hitsSearcher)
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.SortBy)
         assertEquals(emptySet(), component.parameters)
     }
@@ -307,7 +306,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     @Test
     fun testSearchBox() {
-        SearchBoxConnector(searcherSingleIndex, searchMode = SearchMode.OnSubmit)
+        SearchBoxConnector(hitsSearcher, searchMode = SearchMode.OnSubmit)
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.SearchBox)
         assertEquals(setOf(ComponentParam.SearchMode), component.parameters)
     }
@@ -315,7 +314,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     @Test
     fun testRelatedItems() {
         val patternBrand = MatchingPattern(Attribute("attBrand"), 1, SimpleProduct::brand)
-        searcherSingleIndex.connectRelatedHitsView(
+        hitsSearcher.connectRelatedHitsView(
             mockHitsView(),
             SimpleProduct(ObjectID("id"), "brand"),
             listOf(patternBrand)
@@ -328,7 +327,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     @Test
     fun testHits() {
-        searcherSingleIndex.connectHitsView(mockHitsView()) { it.hits }
+        hitsSearcher.connectHitsView(mockHitsView()) { it.hits }
         val component = Telemetry.shared.validateAndGet(ComponentType.Hits)
         assertEquals(emptySet(), component.parameters)
     }

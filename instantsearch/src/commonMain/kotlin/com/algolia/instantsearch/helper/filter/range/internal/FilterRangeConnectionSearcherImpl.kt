@@ -3,7 +3,7 @@ package com.algolia.instantsearch.helper.filter.range.internal
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.helper.filter.range.FilterRangeViewModel
-import com.algolia.instantsearch.helper.searcher.SearcherIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.params.CommonSearchParameters
 import com.algolia.search.model.response.ResponseSearch
@@ -19,7 +19,7 @@ import com.algolia.search.model.search.FacetStats
  */
 internal class FilterRangeConnectionSearcherImpl<T>(
     private val viewModel: FilterRangeViewModel<T>,
-    private val searcher: SearcherIndex<*>,
+    private val searcher: SearcherForHits<*>,
     private val attribute: Attribute,
     private val mapper: (Number) -> T,
 ) : ConnectionImpl() where T : Number, T : Comparable<T> {

@@ -12,19 +12,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.helper.android.filter.state.connectPagedList
-import com.algolia.instantsearch.helper.android.list.SearcherMultipleIndexDataSource
+import com.algolia.instantsearch.helper.android.list.HitsSearcherDataSource
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
+import com.algolia.instantsearch.helper.searcher.hits.addHitsSearcher
+import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.multipleindex.IndexQuery
 import kotlinx.serialization.Serializable
 import org.junit.Ignore
 
 @Ignore
-class DocHitsMultiple {
+internal class DocHitsMultiple {
 
     class MyActivity : AppCompatActivity() {
 
@@ -32,15 +32,15 @@ class DocHitsMultiple {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val indexMovie = IndexQuery(IndexName("IndexMovie"))
-        val indexActor = IndexQuery(IndexName("IndexActor"))
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherMultipleIndex(client, listOf(indexMovie, indexActor))
+        val multiSearcher = MultiSearcher(client)
+        val searcherMovie = multiSearcher.addHitsSearcher(IndexName("IndexMovie"))
+        val searcherActor = multiSearcher.addHitsSearcher(IndexName("IndexActor"))
+
         val pagedListConfig = PagedList.Config.Builder().setPageSize(10).build()
-        val movieFactory = SearcherMultipleIndexDataSource.Factory(searcher, indexMovie) {
+        val movieFactory = HitsSearcherDataSource.Factory(searcherMovie) {
             it.deserialize(Movie.serializer())
         }
-        val actorFactory = SearcherMultipleIndexDataSource.Factory(searcher, indexActor) {
+        val actorFactory = HitsSearcherDataSource.Factory(searcherActor) {
             it.deserialize(Actor.serializer())
         }
         val movies = LivePagedListBuilder(movieFactory, pagedListConfig).build()
@@ -59,12 +59,12 @@ class DocHitsMultiple {
             actors.observe(this, Observer { hits -> adapterActor.submitList(hits) })
             movies.observe(this, Observer { hits -> adapterMovie.submitList(hits) })
 
-            searcher.searchAsync()
+            multiSearcher.searchAsync()
         }
 
         override fun onDestroy() {
             super.onDestroy()
-            searcher.cancel()
+            multiSearcher.cancel()
             connection.disconnect()
         }
     }

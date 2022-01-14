@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.algolia.instantsearch.helper.relevantsort
 
 import com.algolia.instantsearch.core.connection.Connection
@@ -9,14 +11,15 @@ import com.algolia.instantsearch.core.relevantsort.connectView
 import com.algolia.instantsearch.helper.relevantsort.internal.RelevantSortConnectionMultipleIndex
 import com.algolia.instantsearch.helper.relevantsort.internal.RelevantSortConnectionSingleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
+import com.algolia.search.model.search.Query
 
 /**
  * Create a connection between a view model and a searcher.
  *
  * @param searcher searcher to connect
  */
-public fun RelevantSortViewModel.connectSearcher(searcher: SearcherSingleIndex): Connection {
+public fun RelevantSortViewModel.connectSearcher(searcher: SearcherForHits<Query>): Connection {
     return RelevantSortConnectionSingleIndex(this, searcher)
 }
 
@@ -39,6 +42,9 @@ public fun RelevantSortViewModel.connectSearcher(
  * @param view the view that will relevant sort state.
  * @param presenter defines the way we want to interact with a priority value
  */
-public fun <T> RelevantSortConnector.connectView(view: RelevantSortView<T>, presenter: RelevantSortPresenter<T>): Connection {
+public fun <T> RelevantSortConnector.connectView(
+    view: RelevantSortView<T>,
+    presenter: RelevantSortPresenter<T>
+): Connection {
     return viewModel.connectView(view, presenter)
 }

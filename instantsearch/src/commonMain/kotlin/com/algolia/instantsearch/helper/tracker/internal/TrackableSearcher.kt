@@ -1,8 +1,11 @@
+@file:Suppress("DEPRECATION")
+
 package com.algolia.instantsearch.helper.tracker.internal
 
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
 import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.response.ResponseSearches
 
@@ -33,13 +36,13 @@ internal sealed class TrackableSearcher<T> where T : Searcher<*> {
     /**
      * A searcher wrapper around [SearcherSingleIndex] to enable tracking capabilities.
      */
-    internal class SingleIndex(override val searcher: SearcherSingleIndex) : TrackableSearcher<SearcherSingleIndex>() {
+    internal class HitsSearcher(override val searcher: SearcherForHits<*>) : TrackableSearcher<SearcherForHits<*>>() {
 
-        internal override fun setClickAnalyticsOn(on: Boolean) {
+        override fun setClickAnalyticsOn(on: Boolean) {
             searcher.query.clickAnalytics = on
         }
 
-        internal override fun <T : QueryIDContainer> subscribeForQueryIDChange(subscriber: T): SubscriptionJob<ResponseSearch?> {
+        override fun <T : QueryIDContainer> subscribeForQueryIDChange(subscriber: T): SubscriptionJob<ResponseSearch?> {
             val onChange: (ResponseSearch?) -> Unit = { response ->
                 subscriber.queryID = response?.queryID
             }
@@ -50,6 +53,7 @@ internal sealed class TrackableSearcher<T> where T : Searcher<*> {
     /**
      * A searcher wrapper around [SearcherMultipleIndex] to enable tracking capabilities.
      */
+    @Deprecated("Use multiple HitsSearcher aggregated with MultiSearcher instead of SearcherMultipleIndex")
     internal class MultiIndex(
         override val searcher: SearcherMultipleIndex,
         private val pointer: Int

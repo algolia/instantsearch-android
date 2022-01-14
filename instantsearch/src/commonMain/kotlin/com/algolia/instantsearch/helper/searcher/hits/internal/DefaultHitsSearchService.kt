@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.helper.searcher.hits.internal
 
+import com.algolia.instantsearch.helper.searcher.hits.internal.HitsSearchService.AdvancedQuery
+import com.algolia.instantsearch.helper.searcher.hits.internal.HitsSearchService.Request
 import com.algolia.instantsearch.helper.searcher.multi.internal.SearchService
 import com.algolia.instantsearch.helper.searcher.multi.internal.extension.asResponseSearchList
 import com.algolia.search.client.ClientSearch
@@ -17,10 +19,53 @@ import com.algolia.search.transport.RequestOptions
 /**
  * Search service for hits.
  */
-internal class HitsSearchService(
-    val client: ClientSearch,
-    var filterGroups: Set<FilterGroup<*>> = setOf()
-) : SearchService<HitsSearchService.Request, ResponseSearch> {
+internal interface HitsSearchService : SearchService<Request, ResponseSearch> {
+
+    /**
+     * Client to perform search operations.
+     */
+    val client: ClientSearch
+
+    /**
+     * Contains a [Set] of [FilterGroup], used for disjunctive and hierarchical faceting.
+     */
+    var filterGroups: Set<FilterGroup<*>>
+
+    /**
+     * Builds an [AdvancedQuery] based on [IndexQuery] and [FilterGroup]s.
+     */
+    fun advancedQueryOf(indexQuery: IndexQuery): AdvancedQuery
+
+    /**
+     * Aggregate multiple [ResponseSearch]s into one [ResponseSearch].
+     */
+    fun aggregateResult(responses: List<ResponseSearch>, disjunctiveFacetCount: Int): ResponseSearch
+
+    /**
+     * Hits service's request.
+     */
+    data class Request(
+        val indexQuery: IndexQuery,
+        val isDisjunctiveFacetingEnabled: Boolean
+    )
+
+    /**
+     * Advanced query composed of a list of queries.
+     * (query for hits + queries for disjunctive facets + queries for hierarchical facets).
+     */
+    data class AdvancedQuery(
+        val queries: List<IndexQuery>,
+        val disjunctiveFacetCount: Int
+    )
+}
+
+/**
+ * Default implementation of [HitsSearchService].
+ */
+internal class DefaultHitsSearchService(
+    override val client: ClientSearch,
+    override var filterGroups: Set<FilterGroup<*>> = setOf()
+) : HitsSearchService {
 
     override suspend fun search(request: Request, requestOptions: RequestOptions?): ResponseSearch {
         val (indexQuery, isDisjunctiveFacetingEnabled) = request
@@ -52,10 +97,7 @@ internal class HitsSearchService(
         return index.search(indexQuery.query, requestOptions)
     }
 
-    /**
-     * Builds an [AdvancedQuery] based on [IndexQuery] and [FilterGroup]s.
-     */
-    internal fun advancedQueryOf(indexQuery: IndexQuery): AdvancedQuery {
+    override fun advancedQueryOf(indexQuery: IndexQuery): AdvancedQuery {
         val filtersAnd = filterGroups.filterIsInstance<FilterGroup.And<*>>().flatten()
         val filtersOr = filterGroups.filterIsInstance<FilterGroup.Or<*>>().flatten()
         val disjunctiveFacets = filtersOr.map { it.attribute }.toSet()
@@ -139,10 +181,7 @@ internal class HitsSearchService(
         return this
     }
 
-    /**
-     * Aggregate multiple [ResponseSearch]s into one [ResponseSearch].
-     */
-    internal fun aggregateResult(responses: List<ResponseSearch>, disjunctiveFacetCount: Int): ResponseSearch {
+    override fun aggregateResult(responses: List<ResponseSearch>, disjunctiveFacetCount: Int): ResponseSearch {
         val resultsDisjunctiveFacets = responses.subList(1, 1 + disjunctiveFacetCount)
         val resultHierarchicalFacets = responses.subList(1 + disjunctiveFacetCount, responses.size)
         val facets = resultsDisjunctiveFacets.aggregateFacets()
@@ -167,21 +206,4 @@ internal class HitsSearchService(
             result.facetStatsOrNull?.let { acc + it } ?: acc
         }
     }
-
-    /**
-     * Hits service's request.
-     */
-    internal data class Request(
-        val indexQuery: IndexQuery,
-        val isDisjunctiveFacetingEnabled: Boolean
-    )
-
-    /**
-     * Advanced query composed of a list of queries.
-     * (query for hits + queries for disjunctive facets + queries for hierarchical facets).
-     */
-    internal data class AdvancedQuery(
-        val queries: List<IndexQuery>,
-        val disjunctiveFacetCount: Int
-    )
 }

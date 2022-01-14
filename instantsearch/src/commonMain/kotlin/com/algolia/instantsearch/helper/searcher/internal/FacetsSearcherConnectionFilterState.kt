@@ -3,21 +3,25 @@ package com.algolia.instantsearch.helper.searcher.internal
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searcher.Debouncer
+import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
 import com.algolia.instantsearch.helper.filter.state.toFilterGroups
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.util.SearcherForFacets
 import com.algolia.search.model.filter.FilterGroupsConverter
 
-internal data class SearcherSingleConnectionFilterState(
-    private val searcher: SearcherSingleIndex,
+/**
+ * Connection between facets searcher (searcher w/ query) and filter state.
+ */
+internal data class FacetsSearcherConnectionFilterState(
+    private val searcher: SearcherForFacets<*>,
     private val filterState: FilterState,
     private val debouncer: Debouncer,
 ) : ConnectionImpl() {
 
     private val updateSearcher: Callback<Filters> = { filters ->
         searcher.updateFilters(filters)
-        debouncer.debounce(searcher) { searchAsync() }
+        debouncer.debounce(searcher as Searcher<*>) { searcher.searchAsync().join() }
     }
 
     init {
@@ -34,8 +38,7 @@ internal data class SearcherSingleConnectionFilterState(
         filterState.filters.unsubscribe(updateSearcher)
     }
 
-    private fun SearcherSingleIndex.updateFilters(filters: Filters = filterState) {
-        filterGroups = filters.toFilterGroups()
-        query.filters = FilterGroupsConverter.SQL(filterGroups)
+    private fun SearcherForFacets<*>.updateFilters(filters: Filters = filterState) {
+        query.filters = FilterGroupsConverter.SQL(filters.toFilterGroups())
     }
 }

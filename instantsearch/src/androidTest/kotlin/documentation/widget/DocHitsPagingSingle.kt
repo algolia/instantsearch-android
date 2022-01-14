@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
@@ -12,9 +11,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.helper.android.filter.state.connectPagedList
-import com.algolia.instantsearch.helper.android.list.SearcherSingleIndexDataSource
+import com.algolia.instantsearch.helper.android.list.HitsSearcherDataSource
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -23,7 +22,7 @@ import kotlinx.serialization.Serializable
 import org.junit.Ignore
 
 @Ignore
-class DocHitsPagingSingle {
+internal class DocHitsPagingSingle {
 
     class MyActivity : AppCompatActivity() {
 
@@ -31,13 +30,12 @@ class DocHitsPagingSingle {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
-        val dataSourceFactory = SearcherSingleIndexDataSource.Factory(searcher) { it.deserialize(Movie.serializer()) }
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val dataSourceFactory = HitsSearcherDataSource.Factory(searcher) { it.deserialize(Movie.serializer()) }
         val pagedListConfig = PagedList.Config.Builder()
             .setPageSize(10) // configure according to your needs
             .build()
-        val movies = LivePagedListBuilder<Int, Movie>(dataSourceFactory, pagedListConfig).build()
+        val movies = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
         val filterState = FilterState()
         val adapter = MovieAdapter()
         val connection = ConnectionHandler()
@@ -47,7 +45,7 @@ class DocHitsPagingSingle {
 
             connection += filterState.connectPagedList(movies)
 
-            movies.observe(this, Observer { hits -> adapter.submitList(hits) })
+            movies.observe(this) { hits -> adapter.submitList(hits) }
 
             searcher.searchAsync()
         }

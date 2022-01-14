@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.helper.searcher.facets.internal
 
-import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceFacetsSearcher
@@ -9,7 +8,6 @@ import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
 import com.algolia.instantsearch.helper.searcher.multi.internal.MultiSearchComponent
-import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.multipleindex.FacetIndexQuery
@@ -26,9 +24,8 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches for facet values.
  */
-@ExperimentalInstantSearch
 internal class DefaultFacetsSearcher(
-    client: ClientSearch,
+    private val searchService: FacetsSearchService,
     override var indexName: IndexName,
     override val query: Query,
     override val attribute: Attribute,
@@ -41,7 +38,6 @@ internal class DefaultFacetsSearcher(
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearchForFacets?> = SubscriptionValue(null)
 
-    private val service = FacetsSearchService(client)
     private val options get() = requestOptions.withUserAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
@@ -70,7 +66,7 @@ internal class DefaultFacetsSearcher(
     }
 
     override suspend fun search(): ResponseSearchForFacets {
-        return service.search(indexedQuery, options)
+        return searchService.search(indexedQuery, options)
     }
 
     override fun cancel() {
