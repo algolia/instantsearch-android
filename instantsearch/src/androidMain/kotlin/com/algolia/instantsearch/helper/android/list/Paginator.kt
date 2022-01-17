@@ -2,9 +2,11 @@
 
 package com.algolia.instantsearch.helper.android.list
 
+import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.algolia.instantsearch.helper.android.list.internal.SearcherPaginator
 import com.algolia.instantsearch.helper.android.list.internal.SearcherPagingSource
 import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
@@ -48,3 +50,8 @@ public fun <T : Any> Paginator(
  * A cold Flow of [PagingData], emits new instances of [PagingData] once they become invalidated.
  */
 public val <T : Any> Paginator<T>.flow: Flow<PagingData<T>> get() = pager.flow
+
+/**
+ * A [LiveData] of [PagingData], which mirrors the stream provided by [Paginator.flow], but exposes it as a [LiveData].
+ */
+public val <T : Any> Paginator<T>.liveData: LiveData<PagingData<T>> get() = pager.liveData
