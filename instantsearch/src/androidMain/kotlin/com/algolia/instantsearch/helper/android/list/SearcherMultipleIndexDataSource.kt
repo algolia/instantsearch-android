@@ -12,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 @Deprecated("Use multiple HitsSearcher aggregated with MultiSearcher instead of SearcherMultipleIndex")
-public class SearcherMultipleIndexDataSource<T>(
+public class SearcherMultipleIndexDataSource<T : Any>(
     private val searcher: SearcherMultipleIndex,
     private val indexQuery: IndexQuery,
     private val triggerSearchForQueries: ((List<IndexQuery>) -> Boolean) = { true },
@@ -20,7 +20,7 @@ public class SearcherMultipleIndexDataSource<T>(
     private val transformer: (ResponseSearch.Hit) -> T,
 ) : RetryablePageKeyedDataSource<Int, T>(retryDispatcher) {
 
-    public class Factory<T>(
+    public class Factory<T : Any>(
         private val searcher: SearcherMultipleIndex,
         private val indexQuery: IndexQuery,
         private val triggerSearchForQueries: ((List<IndexQuery>) -> Boolean) = { true },

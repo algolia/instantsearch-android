@@ -7,7 +7,7 @@ import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.filter.state.Filters
 
-internal data class FilterStateConnectionPagedList<T>(
+internal data class FilterStateConnectionPagedList<T : Any>(
     private val pagedList: LiveData<PagedList<T>>,
     private val filterState: FilterState,
 ) : ConnectionImpl() {

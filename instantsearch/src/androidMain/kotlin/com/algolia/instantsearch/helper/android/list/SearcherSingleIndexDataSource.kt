@@ -10,7 +10,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 @Deprecated("use HitsSearcherDataSource instead", ReplaceWith("HitsSearcherDataSource"))
-public class SearcherSingleIndexDataSource<T>(
+public class SearcherSingleIndexDataSource<T : Any>(
     private val searcher: SearcherForHits<Query>,
     private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
     retryDispatcher: CoroutineDispatcher = Dispatchers.IO,
@@ -18,7 +18,7 @@ public class SearcherSingleIndexDataSource<T>(
 ) : RetryablePageKeyedDataSource<Int, T>(retryDispatcher) {
 
     @Deprecated("use HitsSearcherDataSource.Factory instead")
-    public class Factory<T>(
+    public class Factory<T : Any>(
         private val searcher: SearcherForHits<Query>,
         private val triggerSearchForQuery: ((Query) -> Boolean) = { true },
         private val retryDispatcher: CoroutineDispatcher = Dispatchers.IO,

@@ -1,18 +1,16 @@
-package com.algolia.instantsearch.compose.sortby.internal
+package com.algolia.instantsearch.helper.android.sortby.internal
 
-import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.compose.list.Paginator
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.helper.android.list.Paginator
 import com.algolia.instantsearch.helper.sortby.SortByViewModel
 
 /**
  * Connection between [Paginator] and [SortByViewModel].
  *
- * @param viewModel SortBy ViewModel to connect
- * @param paginator PagingData handler to connect
+ * @param paginator paginator handler to connect
+ * @param viewModel view model to connect
  */
-@ExperimentalInstantSearch
 internal class SortByConnectionPaginator<T : Any>(
     private val viewModel: SortByViewModel,
     private val paginator: Paginator<T>,
