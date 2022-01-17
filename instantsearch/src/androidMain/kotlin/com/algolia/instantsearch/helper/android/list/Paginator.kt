@@ -10,6 +10,7 @@ import com.algolia.instantsearch.helper.android.list.internal.SearcherPagingSour
 import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.params.SearchParameters
 import com.algolia.search.model.response.ResponseSearch
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Component handling [PagingData].
@@ -42,3 +43,8 @@ public fun <T : Any> Paginator(
     pagingConfig = pagingConfig,
     pagingSourceFactory = { SearcherPagingSource(searcher, transformer) }
 )
+
+/**
+ * A cold Flow of [PagingData], emits new instances of [PagingData] once they become invalidated.
+ */
+public val <T : Any> Paginator<T>.flow: Flow<PagingData<T>> get() = pager.flow
