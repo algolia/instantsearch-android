@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         classpath(kotlin("gradle-plugin", version = kotlinVersion))
         classpath(kotlin("serialization", version = kotlinVersion))
-        classpath("com.android.tools.build:gradle:7.0.3")
+        classpath("com.android.tools.build:gradle:7.1.0")
         classpath("com.vanniktech:gradle-maven-publish-plugin:0.18.0")
         classpath("com.diffplug.spotless:spotless-plugin-gradle:5.15.0")
     }
