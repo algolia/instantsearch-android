@@ -7,11 +7,11 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Facet
-import kotlin.test.Test
 import mockClient
 import respondJson
 import searcher.TestSearcherForFacets
 import shouldEqual
+import kotlin.test.Test
 
 class TestFacetListConnectSearcherForFacets {
 

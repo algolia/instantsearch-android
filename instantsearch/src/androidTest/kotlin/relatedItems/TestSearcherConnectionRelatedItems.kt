@@ -7,10 +7,10 @@ import com.algolia.search.helper.deserialize
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.ObjectID
+import mockClient
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import mockClient
 
 internal class TestSearcherConnectionRelatedItems {
 

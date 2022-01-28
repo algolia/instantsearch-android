@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.searcher.util;
+package com.algolia.instantsearch.helper.searcher.util
 
 import com.algolia.instantsearch.helper.searcher.SearcherQuery
 import com.algolia.search.model.Attribute

@@ -5,7 +5,6 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.helper.extension.traceFacetsSearcher
 import com.algolia.instantsearch.helper.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.helper.searcher.internal.withUserAgent
-import com.algolia.instantsearch.helper.searcher.util.SearcherForFacets as SearcherFacets
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.response.ResponseSearchForFacets
@@ -16,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.algolia.instantsearch.helper.searcher.util.SearcherForFacets as SearcherFacets
 
 /**
  * The component handling search requests and managing the search sessions.

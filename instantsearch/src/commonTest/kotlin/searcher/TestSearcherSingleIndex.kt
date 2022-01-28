@@ -2,7 +2,6 @@ package searcher
 
 import blocking
 import com.algolia.search.model.IndexName
-import kotlin.test.Test
 import mockClient
 import respondBadRequest
 import responseSearch
@@ -11,6 +10,7 @@ import shouldBeNull
 import shouldBeTrue
 import shouldEqual
 import shouldNotBeNull
+import kotlin.test.Test
 
 class TestSearcherSingleIndex {
 

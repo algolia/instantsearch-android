@@ -17,7 +17,6 @@ internal interface FacetsSearchService : SearchService<FacetIndexQuery, Response
     val client: ClientSearch
 }
 
-
 /**
  * Default implementation of [FacetsSearchService].
  */

@@ -4,12 +4,12 @@ import blocking
 import com.algolia.instantsearch.helper.stats.StatsViewModel
 import com.algolia.instantsearch.helper.stats.connectSearcher
 import com.algolia.search.model.IndexName
-import kotlin.test.Test
 import mockClient
 import responseSearch
 import searcher.TestSearcherSingle
 import shouldBeNull
 import shouldEqual
+import kotlin.test.Test
 
 class TestStatsConnectSearcher {
 

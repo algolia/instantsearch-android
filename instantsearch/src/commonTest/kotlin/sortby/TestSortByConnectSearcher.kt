@@ -4,9 +4,9 @@ import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.sortby.SortByViewModel
 import com.algolia.instantsearch.helper.sortby.connectSearcher
 import com.algolia.search.model.IndexName
-import kotlin.test.Test
 import mockClient
 import shouldEqual
+import kotlin.test.Test
 
 class TestSortByConnectSearcher {
 

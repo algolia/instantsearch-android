@@ -10,9 +10,9 @@ import com.algolia.instantsearch.helper.filter.state.FilterState
 import com.algolia.instantsearch.helper.searcher.internal.FacetsSearcherConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.HitsSearcherConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.internal.SearcherAnswersConnectionFilterState
+import com.algolia.instantsearch.helper.searcher.internal.SearcherMultipleConnectionFilterState
 import com.algolia.instantsearch.helper.searcher.util.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
-import com.algolia.instantsearch.helper.searcher.internal.SearcherMultipleConnectionFilterState
 import com.algolia.search.model.IndexName
 import kotlin.jvm.JvmName
 

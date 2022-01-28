@@ -9,7 +9,6 @@ import com.algolia.instantsearch.helper.searcher.IndexNameHolder
 import com.algolia.instantsearch.helper.sortby.SortByConnector
 import com.algolia.instantsearch.helper.sortby.SortByViewModel
 
-
 /**
  * Creates a connection between [Paginator] and [SortByViewModel].
  *

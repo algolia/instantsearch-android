@@ -7,10 +7,10 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.FacetStats
-import kotlin.test.Test
 import mockClient
 import shouldBeTrue
 import shouldEqual
+import kotlin.test.Test
 
 class TestFilterRangeConnectSearcher {
 

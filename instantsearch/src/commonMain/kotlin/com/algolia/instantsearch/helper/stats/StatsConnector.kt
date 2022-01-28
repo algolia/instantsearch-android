@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.helper.stats
 
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.helper.extension.traceStatsConnector
 import com.algolia.instantsearch.core.searcher.Searcher
+import com.algolia.instantsearch.helper.extension.traceStatsConnector
 import com.algolia.search.model.response.ResponseSearch
 
 /**

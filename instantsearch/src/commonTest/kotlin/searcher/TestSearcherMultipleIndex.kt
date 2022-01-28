@@ -8,11 +8,11 @@ import com.algolia.instantsearch.helper.searcher.hits.addHitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearches
-import kotlin.test.Test
 import mockClient
 import respondJson
 import shouldBeNull
 import shouldEqual
+import kotlin.test.Test
 
 class TestSearcherMultipleIndex {
 
