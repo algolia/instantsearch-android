@@ -51,3 +51,6 @@ jobs:
 
             -   name: Run tests
                 run: ./gradlew runDebugUnitTest
+                env:
+                    ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
+                    ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
