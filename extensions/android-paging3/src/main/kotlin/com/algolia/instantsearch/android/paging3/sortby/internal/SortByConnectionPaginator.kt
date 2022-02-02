@@ -1,7 +1,7 @@
-package com.algolia.instantsearch.compose.sortby.internal
+package com.algolia.instantsearch.android.paging3.sortby.internal
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.compose.list.Paginator
+import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.sortby.SortByViewModel

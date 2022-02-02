@@ -1,8 +1,8 @@
-package com.algolia.instantsearch.compose.filter.state
+package com.algolia.instantsearch.android.paging3.filterstate
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.compose.filter.state.internal.FilterStateConnectionPaginator
-import com.algolia.instantsearch.compose.list.Paginator
+import com.algolia.instantsearch.android.paging3.Paginator
+import com.algolia.instantsearch.android.paging3.filterstate.internal.FilterStateConnectionPaginator
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.filter.state.FilterState
 

@@ -1,11 +1,11 @@
-package com.algolia.instantsearch.compose.list.internal
+package com.algolia.instantsearch.android.paging3.internal
 
 import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.compose.list.Paginator
+import com.algolia.instantsearch.android.paging3.Paginator
 
 /**
  * [Paginator] implementation for Searcher.

@@ -1,12 +1,12 @@
 @file:Suppress("FunctionName")
 
-package com.algolia.instantsearch.compose.list
+package com.algolia.instantsearch.android.paging3
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.compose.list.internal.SearcherPaginator
-import com.algolia.instantsearch.compose.list.internal.SearcherPagingSource
+import com.algolia.instantsearch.android.paging3.internal.SearcherPaginator
+import com.algolia.instantsearch.android.paging3.internal.SearcherPagingSource
 import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
 import com.algolia.search.model.params.SearchParameters
 import com.algolia.search.model.response.ResponseSearch
