@@ -12,6 +12,7 @@ import com.algolia.instantsearch.core.searcher.debounceSearchInMillis
 import com.algolia.instantsearch.helper.android.searchbox.internal.SearchBoxConnectionSearcherPagedList
 import com.algolia.instantsearch.helper.searchbox.SearchMode
 
+@Deprecated("use Paginator from InstantSearch Android Paging3 extension package instead")
 public fun <R> SearchBoxViewModel.connectSearcher(
     searcher: Searcher<R>,
     pagedList: List<LiveData<out PagedList<out Any>>>,
