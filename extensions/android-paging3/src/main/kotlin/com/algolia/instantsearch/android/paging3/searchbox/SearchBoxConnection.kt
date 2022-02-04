@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.compose.searchbox
+package com.algolia.instantsearch.android.paging3.searchbox
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.android.paging3.Paginator
