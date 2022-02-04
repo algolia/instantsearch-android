@@ -91,7 +91,7 @@ kotlin {
                 api(libs.androidx.core)
                 api(libs.androidx.appcompat)
                 api(libs.androidx.swiperefreshlayout)
-                api(libs.androidx.paging)
+                api(libs.androidx.paging2)
                 api(libs.kotlinx.coroutines.android)
                 api(libs.google.material)
             }

@@ -47,6 +47,6 @@ android {
 dependencies {
     api(project(":instantsearch"))
     api(project(":instantsearch-utils"))
-    api(libs.androidx.paging.common)
+    api(libs.androidx.paging3.common)
     testImplementation(kotlin("test-junit"))
 }
