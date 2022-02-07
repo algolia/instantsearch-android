@@ -1,0 +1,56 @@
+name: Build
+
+on: [push]
+
+env:
+    GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
+
+concurrency:
+    group: ${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+            -   uses: actions/setup-java@v2
+                with:
+                    distribution: temurin
+                    java-version: 11
+
+            -   name: Setup Gradle
+                uses: gradle/gradle-build-action@v2
+                with:
+                    gradle-version: wrapper
+            -   name: Run lint
+                run: ./gradlew spotlessCheck
+
+    tests:
+        name: Tests
+        needs: lint
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+
+            -   name: Configure JDK
+                uses: actions/setup-java@v2
+                with:
+                    distribution: temurin
+                    java-version: 11
+
+            -   name: Setup Android SDK
+                uses: android-actions/setup-android@v2
+
+            -   name: Setup Gradle
+                uses: gradle/gradle-build-action@v2
+                with:
+                    gradle-version: wrapper
+
+            -   name: Run tests
+                run: ./gradlew runDebugUnitTest
+                env:
+                    ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
+                    ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
