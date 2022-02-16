@@ -13,7 +13,6 @@ import com.algolia.instantsearch.android.paging3.Paginator
  * @param pagingConfig configure loading behavior within a Pager
  * @param pagingSourceFactory searcher paging source factory
  */
-@ExperimentalInstantSearch
 internal class SearcherPaginator<T : Any>(
     pagingConfig: PagingConfig = PagingConfig(pageSize = 10),
     pagingSourceFactory: () -> PagingSource<Int, T>
