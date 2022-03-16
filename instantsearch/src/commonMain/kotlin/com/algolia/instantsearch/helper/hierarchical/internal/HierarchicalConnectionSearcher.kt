@@ -3,8 +3,8 @@ package com.algolia.instantsearch.helper.hierarchical.internal
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel
-import com.algolia.instantsearch.helper.searcher.addFacet
 import com.algolia.instantsearch.helper.searcher.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.addFacet
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Facet
 
