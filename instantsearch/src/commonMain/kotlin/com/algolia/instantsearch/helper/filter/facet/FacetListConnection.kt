@@ -8,8 +8,8 @@ import com.algolia.instantsearch.helper.filter.facet.internal.FacetListConnectio
 import com.algolia.instantsearch.helper.filter.state.FilterGroupID
 import com.algolia.instantsearch.helper.filter.state.FilterOperator
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.util.SearcherForFacets
-import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.SearcherForFacets
+import com.algolia.instantsearch.helper.searcher.SearcherForHits
 import com.algolia.search.model.Attribute
 
 public fun FacetListViewModel.connectFilterState(

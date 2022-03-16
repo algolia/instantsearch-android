@@ -1,12 +1,12 @@
 package com.algolia.instantsearch.helper.searcher.facets
 
 import com.algolia.instantsearch.helper.searcher.IndexNameHolder
+import com.algolia.instantsearch.helper.searcher.SearcherForFacets
 import com.algolia.instantsearch.helper.searcher.SearcherScope
 import com.algolia.instantsearch.helper.searcher.facets.internal.DefaultFacetsSearchService
 import com.algolia.instantsearch.helper.searcher.facets.internal.DefaultFacetsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
-import com.algolia.instantsearch.helper.searcher.util.SearcherForFacets
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID

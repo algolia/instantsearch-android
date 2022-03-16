@@ -5,8 +5,7 @@ package com.algolia.instantsearch.helper.customdata
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.extension.traceQueryRuleCustomDataConnector
-import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.SearcherForHits
 import kotlinx.serialization.DeserializationStrategy
 
 /**
@@ -106,72 +105,4 @@ public inline fun <reified T> QueryRuleCustomDataConnector(
         if (presenter != null) it.subscribe(presenter)
     }
 }
-
-/**
- * Create an instance of [QueryRuleCustomDataConnector].
- *
- * @param searcher searcher that handles your searches
- * @param queryIndex index of query from response of which the user data will be extracted
- * @param deserializer deserializes the model into a value of type T
- * @param initialItem initial item
- * @param presenter defines the way we want to interact with a model
- */
-@Deprecated("Use multiple HitsSearcher aggregated with MultiSearcher instead of SearcherMultipleIndex")
-public fun <T> QueryRuleCustomDataConnector(
-    searcher: SearcherMultipleIndex,
-    queryIndex: Int,
-    deserializer: DeserializationStrategy<T>,
-    initialItem: T? = null,
-    presenter: QueryRuleCustomDataPresenter<T>? = null,
-): QueryRuleCustomDataConnector<T> {
-    val viewModel = QueryRuleCustomDataViewModel(deserializer, initialItem)
-    @Suppress("DEPRECATION")
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
-        if (presenter != null) it.subscribe(presenter)
-    }
-}
-
-/**
- * Create an instance of [QueryRuleCustomDataConnector].
- *
- * @param searcher searcher that handles your searches
- * @param queryIndex Index of query from response of which the user data will be extracted
- * @param viewModel logic applied to the custom model
- * @param presenter defines the way we want to interact with a model
- */
-@Deprecated("Use multiple HitsSearcher aggregated with MultiSearcher instead of SearcherMultipleIndex")
-public inline fun <reified T> QueryRuleCustomDataConnector(
-    searcher: SearcherMultipleIndex,
-    queryIndex: Int,
-    viewModel: QueryRuleCustomDataViewModel<T> = QueryRuleCustomDataViewModel(),
-    noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
-): QueryRuleCustomDataConnector<T> {
-    @Suppress("DEPRECATION")
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
-        if (presenter != null) it.subscribe(presenter)
-    }
-}
-
-/**
- * Create an instance of [QueryRuleCustomDataConnector].
- *
- * @param searcher searcher that handles your searches
- * @param queryIndex Index of query from response of which the user data will be extracted
- * @param initialItem initial item
- * @param presenter defines the way we want to interact with a model
- */
-@Deprecated("Use multiple HitsSearcher aggregated with MultiSearcher instead of SearcherMultipleIndex")
-public inline fun <reified T> QueryRuleCustomDataConnector(
-    searcher: SearcherMultipleIndex,
-    queryIndex: Int,
-    initialItem: T?,
-    noinline presenter: QueryRuleCustomDataPresenter<T>? = null,
-): QueryRuleCustomDataConnector<T> {
-    val viewModel = QueryRuleCustomDataViewModel(initialItem)
-    @Suppress("DEPRECATION")
-    return QueryRuleCustomDataConnector(viewModel, viewModel.connectSearcher(searcher, queryIndex)).also {
-        if (presenter != null) it.subscribe(presenter)
-    }
-}
-
 // endregion

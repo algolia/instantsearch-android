@@ -7,7 +7,7 @@ import com.algolia.instantsearch.helper.searcher.hits.internal.DefaultHitsSearch
 import com.algolia.instantsearch.helper.searcher.hits.internal.DefaultHitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.asMultiSearchComponent
-import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.SearcherForHits
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID

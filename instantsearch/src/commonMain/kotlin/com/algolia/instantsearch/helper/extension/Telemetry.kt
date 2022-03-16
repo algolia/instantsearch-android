@@ -24,9 +24,6 @@ import com.algolia.instantsearch.helper.filter.toggle.FilterToggleConnector
 import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.helper.searchbox.SearchMode
 import com.algolia.instantsearch.helper.searcher.SearcherAnswers
-import com.algolia.instantsearch.helper.searcher.SearcherForFacets
-import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
 import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.helper.searcher.multi.internal.DefaultMultiSearcher
@@ -61,15 +58,6 @@ internal fun HitsSearcher.traceHitsSearcher() {
     Telemetry.shared.trace(ComponentType.HitsSearcher, params)
 }
 
-/** Telemetry: trace hits searcher */ // TODO: to be merged with traceSearcher for HitsSearcher
-internal fun SearcherSingleIndex.traceHitsSearcher() {
-    val params = buildSet {
-        if (!isDisjunctiveFacetingEnabled) add(ComponentParam.IsDisjunctiveFacetingEnabled)
-        if (requestOptions != null) add(ComponentParam.RequestOptions)
-    }
-    Telemetry.shared.trace(ComponentType.HitsSearcher, params)
-}
-
 /** Telemetry: trace facets searcher */
 internal fun FacetsSearcher.traceFacetsSearcher() {
     val params = buildSet {
@@ -79,26 +67,8 @@ internal fun FacetsSearcher.traceFacetsSearcher() {
     Telemetry.shared.trace(ComponentType.FacetSearcher, params)
 }
 
-/** Telemetry: trace facets searcher */ // TODO: to be merged with traceFacetsSearcher for FacetsSearcher
-internal fun SearcherForFacets.traceFacetsSearcher() {
-    val params = buildSet {
-        if (facetQuery != null) add(ComponentParam.FacetsQuery)
-        if (requestOptions != null) add(ComponentParam.RequestOptions)
-    }
-    Telemetry.shared.trace(ComponentType.FacetSearcher, params)
-}
-
 /** Telemetry: trace multi-searcher */
 internal fun DefaultMultiSearcher.traceMultiSearcher() {
-    val params = buildSet {
-        if (strategy != MultipleQueriesStrategy.None) add(ComponentParam.Strategy)
-        if (requestOptions != null) add(ComponentParam.RequestOptions)
-    }
-    Telemetry.shared.trace(ComponentType.MultiSearcher, params)
-}
-
-/** Telemetry: trace multi-searcher */ // TODO: to be merged with traceMultiSearcher for DefaultMultiSearcher
-internal fun SearcherMultipleIndex.traceMultiSearcher() {
     val params = buildSet {
         if (strategy != MultipleQueriesStrategy.None) add(ComponentParam.Strategy)
         if (requestOptions != null) add(ComponentParam.RequestOptions)

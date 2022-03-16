@@ -1,36 +1,33 @@
-@file:Suppress("DEPRECATION")
-
 package com.algolia.instantsearch.helper.relevantsort.internal
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
-import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.search.model.response.ResponseSearches
+import com.algolia.instantsearch.helper.searcher.SearcherForHits
+import com.algolia.search.model.response.ResponseSearch
+import com.algolia.search.model.search.Query
 
 /**
- * Connection between relevant sort's view model and a multiple index searcher.
+ * Connection between relevant sort's view model and a single index searcher.
  */
-internal class RelevantSortConnectionMultipleIndex(
+internal class RelevantSortConnectionSearcherForHits(
     val viewModel: RelevantSortViewModel,
-    val searcher: SearcherMultipleIndex,
-    private val queryIndex: Int,
+    val searcher: SearcherForHits<Query>,
 ) : ConnectionImpl() {
 
     private val priorityCallback: Callback<RelevantSortPriority?> = callback@{ priority ->
         if (priority == null) return@callback
-        searcher.queries[queryIndex].query.relevancyStrictness = priority.relevancyStrictness
+        searcher.query.relevancyStrictness = priority.relevancyStrictness
         searcher.searchAsync()
     }
 
-    private val responseCallback: Callback<ResponseSearches?> = callback@{ responses ->
-        if (responses == null) return@callback
-        val receivedRelevancyStrictness =
-            responses.results[queryIndex].appliedRelevancyStrictnessOrNull ?: run {
-                viewModel.priority.value = null
-                return@callback
-            }
+    private val responseCallback: Callback<ResponseSearch?> = callback@{ response ->
+        if (response == null) return@callback
+        val receivedRelevancyStrictness = response.appliedRelevancyStrictnessOrNull ?: run {
+            viewModel.priority.value = null
+            return@callback
+        }
         val dynamicSortPriority = RelevantSortPriority.of(receivedRelevancyStrictness)
         if (dynamicSortPriority != viewModel.priority.value) {
             viewModel.priority.value = dynamicSortPriority

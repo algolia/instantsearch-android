@@ -3,7 +3,7 @@ package com.algolia.instantsearch.helper.hierarchical
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.helper.extension.traceHierarchicalFacetsConnector
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.SearcherForHits
 import com.algolia.search.model.Attribute
 
 /**

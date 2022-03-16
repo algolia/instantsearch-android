@@ -1,6 +1,5 @@
-package com.algolia.instantsearch.helper.searcher.util
+package com.algolia.instantsearch.helper.searcher
 
-import com.algolia.instantsearch.helper.searcher.SearcherQuery
 import com.algolia.search.model.params.CommonSearchParameters
 import com.algolia.search.model.response.ResponseSearch
 

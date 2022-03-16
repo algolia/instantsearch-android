@@ -2,8 +2,7 @@
 
 package com.algolia.instantsearch.helper.tracker
 
-import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.SearcherForHits
 import com.algolia.instantsearch.helper.tracker.internal.FilterDataTracker
 import com.algolia.instantsearch.helper.tracker.internal.InsightsScope
 import com.algolia.instantsearch.helper.tracker.internal.TrackableSearcher
@@ -92,29 +91,6 @@ public fun FilterTracker(
 ): FilterTracker = FilterDataTracker(
     eventName = eventName,
     trackableSearcher = TrackableSearcher.HitsSearcher(searcher),
-    tracker = insights,
-    trackerScope = coroutineScope
-)
-
-/**
- * Creates a [FilterTracker] object.
- *
- * @param eventName default event name
- * @param searcher multiple index searcher
- * @param pointer pointer to a specific index position
- * @param insights actual events handler
- * @param coroutineScope coroutine scope to execute tracking operations
- */
-@Deprecated("Use multiple HitsSearcher aggregated with MultiSearcher instead of SearcherMultipleIndex")
-public fun FilterTracker(
-    eventName: EventName,
-    searcher: SearcherMultipleIndex,
-    pointer: Int,
-    insights: Insights,
-    coroutineScope: CoroutineScope = InsightsScope(),
-): FilterTracker = FilterDataTracker(
-    eventName = eventName,
-    trackableSearcher = TrackableSearcher.MultiIndex(searcher, pointer),
     tracker = insights,
     trackerScope = coroutineScope
 )

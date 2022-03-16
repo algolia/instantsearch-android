@@ -8,10 +8,8 @@ import com.algolia.instantsearch.core.relevantsort.RelevantSortPresenter
 import com.algolia.instantsearch.core.relevantsort.RelevantSortView
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.core.relevantsort.connectView
-import com.algolia.instantsearch.helper.relevantsort.internal.RelevantSortConnectionMultipleIndex
-import com.algolia.instantsearch.helper.relevantsort.internal.RelevantSortConnectionSingleIndex
-import com.algolia.instantsearch.helper.searcher.SearcherMultipleIndex
-import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
+import com.algolia.instantsearch.helper.relevantsort.internal.RelevantSortConnectionSearcherForHits
+import com.algolia.instantsearch.helper.searcher.SearcherForHits
 import com.algolia.search.model.search.Query
 
 /**
@@ -20,20 +18,7 @@ import com.algolia.search.model.search.Query
  * @param searcher searcher to connect
  */
 public fun RelevantSortViewModel.connectSearcher(searcher: SearcherForHits<Query>): Connection {
-    return RelevantSortConnectionSingleIndex(this, searcher)
-}
-
-/**
- * Create a connection between a view model and a searcher.
- *
- * @param searcher searcher to connect
- * @param queryIndex query index
- */
-public fun RelevantSortViewModel.connectSearcher(
-    searcher: SearcherMultipleIndex,
-    queryIndex: Int,
-): Connection {
-    return RelevantSortConnectionMultipleIndex(this, searcher, queryIndex)
+    return RelevantSortConnectionSearcherForHits(this, searcher)
 }
 
 /**

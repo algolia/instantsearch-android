@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.helper.extension.traceDynamicFacetConnector
 import com.algolia.instantsearch.helper.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.util.SearcherForHits
+import com.algolia.instantsearch.helper.searcher.SearcherForHits
 import com.algolia.search.model.Attribute
 
 /**
