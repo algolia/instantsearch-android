@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.android.paging3.searchbox.internal
 
-import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
@@ -13,7 +12,6 @@ import com.algolia.instantsearch.helper.searchbox.SearchMode
  * @param paginator component handling Paged data
  * @param searchMode selected search mode
  */
-@ExperimentalInstantSearch
 internal class SearchBoxConnectionPaginator<T : Any>(
     private val viewModel: SearchBoxViewModel,
     private val paginator: Paginator<T>,

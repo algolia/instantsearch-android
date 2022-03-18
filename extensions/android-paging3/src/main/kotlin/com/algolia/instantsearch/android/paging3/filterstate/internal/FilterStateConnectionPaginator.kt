@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.android.paging3.filterstate.internal
 
-import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
@@ -13,7 +12,6 @@ import com.algolia.instantsearch.helper.filter.state.Filters
  * @param paginator PagingData handler to connect
  * @param filterState FilterState to connect
  */
-@ExperimentalInstantSearch
 internal data class FilterStateConnectionPaginator<T : Any>(
     private val paginator: Paginator<T>,
     private val filterState: FilterState,

@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.android.paging3.searchbox
 
-import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.android.paging3.searchbox.internal.SearchBoxConnectionPaginator
 import com.algolia.instantsearch.core.connection.Connection
@@ -13,7 +12,6 @@ import com.algolia.instantsearch.helper.searchbox.SearchMode
  *
  * @param paginator paginator to be connected
  */
-@ExperimentalInstantSearch
 public fun <R, T : Any> SearchBoxConnector<R>.connectPaginator(paginator: Paginator<T>): Connection {
     return viewModel.connectPaginator(paginator, searchMode)
 }
@@ -23,7 +21,6 @@ public fun <R, T : Any> SearchBoxConnector<R>.connectPaginator(paginator: Pagina
  *
  * @param paginator paginator to be connected
  */
-@ExperimentalInstantSearch
 public fun <T : Any> SearchBoxViewModel.connectPaginator(
     paginator: Paginator<T>,
     searchMode: SearchMode = SearchMode.AsYouType
