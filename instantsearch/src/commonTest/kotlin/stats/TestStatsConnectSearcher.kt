@@ -1,8 +1,8 @@
 package stats
 
 import blocking
-import com.algolia.instantsearch.helper.stats.StatsViewModel
-import com.algolia.instantsearch.helper.stats.connectSearcher
+import com.algolia.instantsearch.stats.StatsViewModel
+import com.algolia.instantsearch.stats.connectSearcher
 import com.algolia.search.model.IndexName
 import mockClient
 import responseSearch

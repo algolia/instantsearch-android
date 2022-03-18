@@ -1,11 +1,11 @@
 package filter.facet
 
-import com.algolia.instantsearch.helper.filter.facet.FacetListPresenterImpl
-import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion.AlphabeticalAscending
-import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion.AlphabeticalDescending
-import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion.CountAscending
-import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion.CountDescending
-import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion.IsRefined
+import com.algolia.instantsearch.filter.facet.FacetListPresenterImpl
+import com.algolia.instantsearch.filter.facet.FacetSortCriterion.AlphabeticalAscending
+import com.algolia.instantsearch.filter.facet.FacetSortCriterion.AlphabeticalDescending
+import com.algolia.instantsearch.filter.facet.FacetSortCriterion.CountAscending
+import com.algolia.instantsearch.filter.facet.FacetSortCriterion.CountDescending
+import com.algolia.instantsearch.filter.facet.FacetSortCriterion.IsRefined
 import com.algolia.search.model.search.Facet
 import shouldEqual
 import kotlin.test.Test

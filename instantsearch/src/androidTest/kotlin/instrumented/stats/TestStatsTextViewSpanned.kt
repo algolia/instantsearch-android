@@ -5,7 +5,7 @@ import android.text.SpannedString
 import android.widget.TextView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.algolia.instantsearch.helper.android.stats.StatsTextViewSpanned
+import com.algolia.instantsearch.android.stats.StatsTextViewSpanned
 import instrumented.applicationContext
 import org.junit.Test
 import org.junit.runner.RunWith

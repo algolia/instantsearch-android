@@ -1,6 +1,6 @@
 package relatedItems
 
-import com.algolia.instantsearch.helper.relateditems.MatchingPattern
+import com.algolia.instantsearch.relateditems.MatchingPattern
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.ObjectID
 import kotlin.test.Test

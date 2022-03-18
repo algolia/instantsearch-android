@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.compose.filter.current
 
 import com.algolia.instantsearch.compose.filter.current.internal.FilterCurrentStateImpl
-import com.algolia.instantsearch.helper.filter.current.FilterAndID
-import com.algolia.instantsearch.helper.filter.current.FilterCurrentView
+import com.algolia.instantsearch.filter.current.FilterAndID
+import com.algolia.instantsearch.filter.current.FilterCurrentView
 
 /**
  * [FilterCurrentView] for compose.

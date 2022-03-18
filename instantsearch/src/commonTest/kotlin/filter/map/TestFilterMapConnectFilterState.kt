@@ -1,10 +1,10 @@
 package filter.map
 
-import com.algolia.instantsearch.helper.filter.map.FilterMapViewModel
-import com.algolia.instantsearch.helper.filter.map.connectFilterState
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterOperator
-import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.filter.map.FilterMapViewModel
+import com.algolia.instantsearch.filter.map.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterGroupID
+import com.algolia.instantsearch.filter.state.FilterOperator
+import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import shouldBeEmpty

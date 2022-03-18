@@ -2,7 +2,7 @@ package filter.numeric.comparison
 
 import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.helper.filter.numeric.comparison.setBoundsFromFacetStatsInt
+import com.algolia.instantsearch.filter.numeric.comparison.setBoundsFromFacetStatsInt
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.FacetStats
 import shouldEqual

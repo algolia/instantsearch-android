@@ -2,8 +2,8 @@ package com.algolia.instantsearch.compose.filter
 
 import androidx.compose.runtime.snapshots.Snapshot
 import com.algolia.instantsearch.compose.filter.current.FilterCurrentState
-import com.algolia.instantsearch.helper.filter.current.FilterAndID
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
+import com.algolia.instantsearch.filter.current.FilterAndID
+import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import kotlin.test.Test

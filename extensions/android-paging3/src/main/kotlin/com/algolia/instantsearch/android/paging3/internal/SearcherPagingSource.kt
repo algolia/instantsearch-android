@@ -2,7 +2,7 @@ package com.algolia.instantsearch.android.paging3.internal
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.algolia.instantsearch.helper.searcher.SearcherForHits
+import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.search.model.params.SearchParameters
 import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.withContext

@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.compose.filter.clear
 
 import com.algolia.instantsearch.compose.filter.clear.internal.FilterClearImpl
-import com.algolia.instantsearch.helper.filter.clear.FilterClearView
+import com.algolia.instantsearch.filter.clear.FilterClearView
 
 /**
  * [FilterClearView] for compose.

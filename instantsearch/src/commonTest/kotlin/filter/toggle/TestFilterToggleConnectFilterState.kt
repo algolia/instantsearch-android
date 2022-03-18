@@ -1,10 +1,10 @@
 package filter.toggle
 
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterOperator
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.toggle.FilterToggleViewModel
-import com.algolia.instantsearch.helper.filter.toggle.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterGroupID
+import com.algolia.instantsearch.filter.state.FilterOperator
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.filter.toggle.FilterToggleViewModel
+import com.algolia.instantsearch.filter.toggle.connectFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import shouldEqual

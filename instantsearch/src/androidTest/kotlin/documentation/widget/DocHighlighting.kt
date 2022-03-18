@@ -6,9 +6,9 @@ import android.text.style.BackgroundColorSpan
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.highlighting.HighlightedString
-import com.algolia.instantsearch.helper.android.highlighting.toSpannedString
-import com.algolia.instantsearch.helper.highlighting.Highlightable
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.android.highlighting.toSpannedString
+import com.algolia.instantsearch.highlighting.Highlightable
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.APIKey

@@ -1,11 +1,11 @@
 package searcher
 
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.state.filters
-import com.algolia.instantsearch.helper.filter.state.groupAnd
-import com.algolia.instantsearch.helper.searcher.connectFilterState
-import com.algolia.instantsearch.helper.searcher.hits.addHitsSearcher
-import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.filter.state.filters
+import com.algolia.instantsearch.filter.state.groupAnd
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.addHitsSearcher
+import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearches
 import mockClient

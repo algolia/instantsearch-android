@@ -3,7 +3,7 @@
 package com.algolia.instantsearch.compose.customdata
 
 import com.algolia.instantsearch.compose.customdata.internal.QueryRuleCustomDataStateImpl
-import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataPresenter
+import com.algolia.instantsearch.customdata.QueryRuleCustomDataPresenter
 
 /**
  * [QueryRuleCustomDataPresenter] for compose.

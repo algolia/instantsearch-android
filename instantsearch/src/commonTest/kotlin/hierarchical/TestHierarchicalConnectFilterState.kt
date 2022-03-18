@@ -2,11 +2,10 @@ package hierarchical
 
 import com.algolia.instantsearch.core.tree.Node
 import com.algolia.instantsearch.core.tree.Tree
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.state.toFilter
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalFilter
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel
-import com.algolia.instantsearch.helper.hierarchical.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.hierarchical.HierarchicalFilter
+import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
+import com.algolia.instantsearch.hierarchical.connectFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import shouldBeNull

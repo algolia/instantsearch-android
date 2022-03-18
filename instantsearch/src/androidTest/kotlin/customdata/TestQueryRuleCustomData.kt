@@ -1,11 +1,11 @@
 package customdata
 
-import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataConnector
-import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataViewModel
-import com.algolia.instantsearch.helper.customdata.connectSearcher
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.helper.searcher.hits.addHitsSearcher
-import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
+import com.algolia.instantsearch.customdata.QueryRuleCustomDataConnector
+import com.algolia.instantsearch.customdata.QueryRuleCustomDataViewModel
+import com.algolia.instantsearch.customdata.connectSearcher
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.searcher.hits.addHitsSearcher
+import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearch
 import kotlinx.serialization.Serializable

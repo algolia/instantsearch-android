@@ -2,7 +2,7 @@ package com.algolia.instantsearch.compose.filter
 
 import androidx.compose.runtime.snapshots.Snapshot
 import com.algolia.instantsearch.compose.filter.facet.dynamic.DynamicFacetListState
-import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
+import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import kotlin.test.Test

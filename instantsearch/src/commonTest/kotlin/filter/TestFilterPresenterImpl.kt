@@ -1,6 +1,6 @@
 package filter
 
-import com.algolia.instantsearch.helper.filter.FilterPresenterImpl
+import com.algolia.instantsearch.filter.FilterPresenterImpl
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator

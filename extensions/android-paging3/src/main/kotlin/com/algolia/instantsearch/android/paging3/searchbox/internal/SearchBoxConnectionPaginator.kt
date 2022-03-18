@@ -3,7 +3,7 @@ package com.algolia.instantsearch.android.paging3.searchbox.internal
 import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
-import com.algolia.instantsearch.helper.searchbox.SearchMode
+import com.algolia.instantsearch.searchbox.SearchMode
 
 /**
  * Connection implementation between [SearchBoxViewModel] and [Paginator].

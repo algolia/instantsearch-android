@@ -4,8 +4,8 @@ import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.android.paging3.searchbox.internal.SearchBoxConnectionPaginator
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
-import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
-import com.algolia.instantsearch.helper.searchbox.SearchMode
+import com.algolia.instantsearch.searchbox.SearchBoxConnector
+import com.algolia.instantsearch.searchbox.SearchMode
 
 /**
  * Create a connection between [Paginator] and [SearchBoxConnector].

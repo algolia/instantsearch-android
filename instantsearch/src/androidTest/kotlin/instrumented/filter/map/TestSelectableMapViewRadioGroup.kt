@@ -5,7 +5,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.algolia.instantsearch.helper.android.filter.map.FilterMapViewRadioGroup
+import com.algolia.instantsearch.android.filter.map.FilterMapViewRadioGroup
 import instrumented.applicationContext
 import org.junit.Test
 import org.junit.runner.RunWith

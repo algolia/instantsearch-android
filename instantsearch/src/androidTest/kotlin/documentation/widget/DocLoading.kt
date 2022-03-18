@@ -7,9 +7,9 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.loading.LoadingView
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.loading.connectView
-import com.algolia.instantsearch.helper.android.loading.LoadingViewSwipeRefreshLayout
-import com.algolia.instantsearch.helper.loading.connectSearcher
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.android.loading.LoadingViewSwipeRefreshLayout
+import com.algolia.instantsearch.loading.connectSearcher
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID

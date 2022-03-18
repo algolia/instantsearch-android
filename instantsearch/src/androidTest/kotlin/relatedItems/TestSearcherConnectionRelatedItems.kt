@@ -1,8 +1,8 @@
 package relatedItems
 
-import com.algolia.instantsearch.helper.relateditems.MatchingPattern
-import com.algolia.instantsearch.helper.relateditems.connectRelatedHitsView
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.relateditems.MatchingPattern
+import com.algolia.instantsearch.relateditems.connectRelatedHitsView
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName

@@ -1,10 +1,9 @@
 package filter.current
 
-import com.algolia.instantsearch.helper.filter.current.FilterCurrentViewModel
-import com.algolia.instantsearch.helper.filter.current.connectFilterState
-import com.algolia.instantsearch.helper.filter.current.internal.toFilterAndIds
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.filter.current.FilterCurrentViewModel
+import com.algolia.instantsearch.filter.current.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterGroupID
+import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import shouldEqual

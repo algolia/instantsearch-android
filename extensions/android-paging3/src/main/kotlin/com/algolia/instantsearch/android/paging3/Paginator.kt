@@ -9,7 +9,7 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.algolia.instantsearch.android.paging3.internal.SearcherPaginator
 import com.algolia.instantsearch.android.paging3.internal.SearcherPagingSource
-import com.algolia.instantsearch.helper.searcher.SearcherForHits
+import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.search.model.params.SearchParameters
 import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.flow.Flow

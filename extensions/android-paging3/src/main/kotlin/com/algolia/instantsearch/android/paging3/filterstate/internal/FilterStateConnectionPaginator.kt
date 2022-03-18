@@ -3,8 +3,8 @@ package com.algolia.instantsearch.android.paging3.filterstate.internal
 import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionImpl
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.state.Filters
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.filter.state.Filters
 
 /**
  * Connection between [Paginator] and [FilterState].

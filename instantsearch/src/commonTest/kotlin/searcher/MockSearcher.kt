@@ -2,7 +2,7 @@ package searcher
 
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
-import com.algolia.instantsearch.helper.searcher.SearcherScope
+import com.algolia.instantsearch.searcher.SearcherScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

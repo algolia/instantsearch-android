@@ -4,9 +4,9 @@ import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.android.paging3.sortby.internal.SortByConnectionPaginator
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Searcher
-import com.algolia.instantsearch.helper.searcher.IndexNameHolder
-import com.algolia.instantsearch.helper.sortby.SortByConnector
-import com.algolia.instantsearch.helper.sortby.SortByViewModel
+import com.algolia.instantsearch.searcher.IndexNameHolder
+import com.algolia.instantsearch.sortby.SortByConnector
+import com.algolia.instantsearch.sortby.SortByViewModel
 
 /**
  * Creates a connection between [Paginator] and [SortByViewModel].

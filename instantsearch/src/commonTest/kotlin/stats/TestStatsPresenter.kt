@@ -1,6 +1,6 @@
 package stats
 
-import com.algolia.instantsearch.helper.stats.StatsPresenterImpl
+import com.algolia.instantsearch.stats.StatsPresenterImpl
 import com.algolia.search.model.response.ResponseSearch
 import shouldEqual
 import kotlin.test.Test

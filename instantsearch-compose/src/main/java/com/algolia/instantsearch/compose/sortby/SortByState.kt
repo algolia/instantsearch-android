@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.compose.sortby
 
 import com.algolia.instantsearch.compose.sortby.internal.SortByStateImpl
-import com.algolia.instantsearch.helper.sortby.SortByView
+import com.algolia.instantsearch.sortby.SortByView
 
 /**
  * [SortByView] for compose.

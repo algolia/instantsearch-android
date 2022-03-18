@@ -11,11 +11,11 @@ import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.number.connectView
 import com.algolia.instantsearch.core.number.decrement
 import com.algolia.instantsearch.core.number.increment
-import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.addFacet
-import com.algolia.instantsearch.helper.searcher.connectFilterState
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.filter.numeric.comparison.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.searcher.addFacet
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
