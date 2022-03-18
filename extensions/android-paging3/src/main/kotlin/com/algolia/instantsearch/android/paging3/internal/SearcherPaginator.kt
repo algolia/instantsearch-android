@@ -4,7 +4,6 @@ import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
-import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.android.paging3.Paginator
 
 /**
@@ -20,7 +19,7 @@ internal class SearcherPaginator<T : Any>(
 
     private val invalidatingPagingSourceFactory = InvalidatingPagingSourceFactory(pagingSourceFactory)
 
-    override val flow = Pager(config = pagingConfig, pagingSourceFactory = invalidatingPagingSourceFactory).flow
+    override val pager = Pager(config = pagingConfig, pagingSourceFactory = invalidatingPagingSourceFactory)
 
     override fun invalidate() {
         invalidatingPagingSourceFactory.invalidate()

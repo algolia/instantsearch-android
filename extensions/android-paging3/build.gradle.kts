@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id("kotlinx-serialization")
     id("com.vanniktech.maven.publish")
 }
 
@@ -47,6 +48,6 @@ android {
 dependencies {
     api(project(":instantsearch"))
     api(project(":instantsearch-utils"))
-    api(libs.androidx.paging3.common)
+    api(libs.androidx.paging3)
     testImplementation(kotlin("test-junit"))
 }
