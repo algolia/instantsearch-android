@@ -29,7 +29,6 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += listOf(
             "-Xopt-in=kotlin.RequiresOptIn",
-            "-Xopt-in=com.algolia.instantsearch.ExperimentalInstantSearch",
             "-Xexplicit-api=strict"
         )
     }
@@ -47,7 +46,9 @@ android {
 
 dependencies {
     api(project(":instantsearch"))
-    api(project(":instantsearch-utils"))
-    api(libs.androidx.paging3)
+    api(libs.androidx.swiperefreshlayout)
     testImplementation(kotlin("test-junit"))
+    testImplementation(libs.test.androidx.runner)
+    testImplementation(libs.test.androidx.ext)
+    testImplementation(libs.test.robolectric)
 }

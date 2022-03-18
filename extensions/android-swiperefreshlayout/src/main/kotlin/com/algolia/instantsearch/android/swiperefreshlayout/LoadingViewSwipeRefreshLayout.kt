@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.helper.android.loading
+package com.algolia.instantsearch.android.swiperefreshlayout
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.algolia.instantsearch.core.loading.LoadingView

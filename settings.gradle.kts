@@ -7,6 +7,7 @@ include(":instantsearch-insights")
 include(":instantsearch-compose")
 include(":instantsearch-utils")
 include(":extensions:android-paging3")
+include(":extensions:android-swiperefreshlayout")
 
 val localSettings = file("local.settings.gradle.kts")
 if (localSettings.exists()) {
