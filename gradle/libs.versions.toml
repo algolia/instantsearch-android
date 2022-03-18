@@ -29,7 +29,6 @@ androidx-paging3 = { group = "androidx.paging", name = "paging-runtime", version
 androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.7.0" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.4.0" }
-androidx-paging2 = { group = "androidx.paging", name = "paging-runtime", version = "2.1.2" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version = "1.2.1" }
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version = "1.1.0" }
 google-material = { group = "com.google.android.material", name = "material", version = "1.4.0" }
