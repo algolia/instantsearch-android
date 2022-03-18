@@ -1,8 +1,8 @@
-package com.algolia.instantsearch.compose.filter.facet
+package com.algolia.instantsearch.android.paging3.facet
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.compose.filter.facet.internal.FacetListConnectionPager
-import com.algolia.instantsearch.compose.list.Paginator
+import com.algolia.instantsearch.android.paging3.Paginator
+import com.algolia.instantsearch.android.paging3.facet.internal.FacetListConnectionPager
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
 import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel

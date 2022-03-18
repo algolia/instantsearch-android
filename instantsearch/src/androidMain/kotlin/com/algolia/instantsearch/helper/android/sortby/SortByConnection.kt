@@ -9,10 +9,12 @@ import com.algolia.instantsearch.helper.searcher.IndexNameHolder
 import com.algolia.instantsearch.helper.sortby.SortByConnector
 import com.algolia.instantsearch.helper.sortby.SortByViewModel
 
+@Deprecated("use Paginator from InstantSearch Android Paging3 extension package instead")
 public fun <T> SortByViewModel.connectPagedList(pagedList: LiveData<PagedList<T>>): Connection {
     return SortByConnectionPagedList(this, pagedList)
 }
 
+@Deprecated("use Paginator from InstantSearch Android Paging3 extension package instead")
 public fun <S, T> SortByConnector<S>.connectPagedList(
     pagedList: LiveData<PagedList<T>>
 ): Connection where S : Searcher<*>, S : IndexNameHolder {
