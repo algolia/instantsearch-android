@@ -30,6 +30,7 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += listOf(
             "-Xopt-in=kotlin.RequiresOptIn",
+            "-Xopt-in=com.algolia.instantsearch.ExperimentalInstantSearch",
             "-Xexplicit-api=strict"
         )
     }
