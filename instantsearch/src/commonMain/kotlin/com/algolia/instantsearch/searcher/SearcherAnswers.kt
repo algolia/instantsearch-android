@@ -24,11 +24,11 @@ import kotlinx.coroutines.withContext
 @ExperimentalInstantSearch
 @OptIn(ExperimentalAlgoliaClientAPI::class)
 public class SearcherAnswers(
-    public override var index: Index,
+    public var index: Index,
     public override val query: AnswersQuery = AnswersQuery("", listOf(Language.English)),
     public override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-) : SearcherIndex<AnswersQuery> {
+) : SearcherForHits<AnswersQuery> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
