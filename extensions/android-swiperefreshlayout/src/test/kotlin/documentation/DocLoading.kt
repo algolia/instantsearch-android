@@ -1,13 +1,13 @@
-package documentation.widget
+package documentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.algolia.instantsearch.android.loading.LoadingViewSwipeRefreshLayout
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.loading.LoadingView
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.loading.connectView
-import com.algolia.instantsearch.android.loading.LoadingViewSwipeRefreshLayout
 import com.algolia.instantsearch.loading.connectSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch

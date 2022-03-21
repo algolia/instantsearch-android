@@ -2,6 +2,7 @@ package filter.current
 
 import com.algolia.instantsearch.filter.current.FilterCurrentViewModel
 import com.algolia.instantsearch.filter.current.connectFilterState
+import com.algolia.instantsearch.filter.current.toFilterAndIds
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.search.model.Attribute

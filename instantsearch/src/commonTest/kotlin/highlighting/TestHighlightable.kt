@@ -1,5 +1,6 @@
 package highlighting
 
+import JsonNoDefaults
 import com.algolia.instantsearch.core.highlighting.HighlightToken
 import com.algolia.instantsearch.highlighting.Highlightable
 import com.algolia.search.model.search.HighlightResult

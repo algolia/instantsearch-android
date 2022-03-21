@@ -6,6 +6,7 @@ import com.algolia.instantsearch.filter.facet.connectFilterState
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.filter.state.toFilter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import shouldEqual
