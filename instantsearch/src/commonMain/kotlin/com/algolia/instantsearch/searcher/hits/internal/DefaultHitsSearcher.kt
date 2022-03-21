@@ -6,6 +6,7 @@ import com.algolia.instantsearch.extension.traceHitsSearcher
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
+import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.withUserAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
 import com.algolia.search.model.IndexName
@@ -16,7 +17,6 @@ import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,7 +32,7 @@ internal class DefaultHitsSearcher(
     override val requestOptions: RequestOptions? = null,
     override val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-    override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)

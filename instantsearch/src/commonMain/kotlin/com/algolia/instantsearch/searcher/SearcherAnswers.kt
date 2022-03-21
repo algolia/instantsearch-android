@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceAnswersSearcher
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
+import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.withUserAgent
 import com.algolia.search.ExperimentalAlgoliaClientAPI
 import com.algolia.search.client.Index
@@ -14,7 +15,6 @@ import com.algolia.search.model.search.Language
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,7 +29,7 @@ public class SearcherAnswers(
     public override val query: AnswersQuery = AnswersQuery("", listOf(Language.English)),
     public override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-    override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
 ) : SearcherForHits<AnswersQuery> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)

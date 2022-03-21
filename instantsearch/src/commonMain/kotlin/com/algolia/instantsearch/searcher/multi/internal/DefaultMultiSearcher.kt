@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceMultiSearcher
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
+import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.withUserAgent
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.extension.asResultSearchList
@@ -16,7 +17,6 @@ import com.algolia.search.model.response.ResultSearch
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,7 +29,7 @@ internal class DefaultMultiSearcher(
     internal val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     internal val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-    override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
 ) : MultiSearcher() {
 
     override val client: ClientSearch get() = searchService.client

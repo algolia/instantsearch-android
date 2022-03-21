@@ -6,6 +6,7 @@ import com.algolia.instantsearch.extension.traceFacetsSearcher
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
+import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.withUserAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
 import com.algolia.search.model.Attribute
@@ -16,7 +17,6 @@ import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,7 +33,7 @@ internal class DefaultFacetsSearcher(
     override var facetQuery: String? = null,
     override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
-    override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
 ) : FacetsSearcher, MultiSearchComponent<FacetIndexQuery, ResponseSearchForFacets> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
