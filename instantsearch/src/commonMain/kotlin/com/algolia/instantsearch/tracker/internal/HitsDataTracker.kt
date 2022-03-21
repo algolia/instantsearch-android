@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.tracker.internal
 
-import com.algolia.instantsearch.tracker.HitsTracker
 import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
+import com.algolia.instantsearch.tracker.HitsTracker
 import com.algolia.search.model.QueryID
 import com.algolia.search.model.indexing.Indexable
 import com.algolia.search.model.insights.EventName

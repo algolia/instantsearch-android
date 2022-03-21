@@ -2,8 +2,8 @@ package documentation.widget
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.android.filter.current.FilterCurrentViewImpl
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.filter.current.FilterCurrentView
 import com.algolia.instantsearch.filter.current.FilterCurrentViewModel
 import com.algolia.instantsearch.filter.current.connectFilterState

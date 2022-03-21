@@ -4,9 +4,9 @@ import android.os.Build
 import android.widget.EditText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.algolia.instantsearch.android.searchbox.SearchBoxViewEditText
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
-import com.algolia.instantsearch.android.searchbox.SearchBoxViewEditText
 import instrumented.applicationContext
 import org.junit.Test
 import org.junit.runner.RunWith

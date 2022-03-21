@@ -8,9 +8,9 @@ import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
-import kotlin.test.Test
 import shouldBeEmpty
 import shouldEqual
+import kotlin.test.Test
 
 class TestFilterClearConnectFilterState {
 

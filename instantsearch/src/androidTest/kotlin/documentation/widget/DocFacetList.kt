@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.android.filter.facet.FacetListAdapter
 import com.algolia.instantsearch.android.filter.facet.FacetListViewHolder
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.filter.facet.FacetListPresenterImpl
 import com.algolia.instantsearch.filter.facet.FacetListView
 import com.algolia.instantsearch.filter.facet.FacetListViewModel

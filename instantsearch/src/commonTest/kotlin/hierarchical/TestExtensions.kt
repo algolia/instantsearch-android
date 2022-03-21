@@ -3,9 +3,9 @@ package hierarchical
 import com.algolia.instantsearch.core.tree.Node
 import com.algolia.instantsearch.hierarchical.internal.findNode
 import com.algolia.search.model.search.Facet
-import kotlin.test.Test
 import shouldBeNull
 import shouldEqual
+import kotlin.test.Test
 
 class TestExtensions {
     private fun Facet.toNode() = Node(this)

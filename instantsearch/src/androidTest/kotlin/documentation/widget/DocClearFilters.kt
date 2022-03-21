@@ -3,8 +3,8 @@ package documentation.widget
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.android.filter.clear.FilterClearViewImpl
+import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.filter.clear.FilterClearView
 import com.algolia.instantsearch.filter.clear.FilterClearViewModel
 import com.algolia.instantsearch.filter.clear.connectFilterState

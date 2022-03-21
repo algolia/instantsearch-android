@@ -3,11 +3,11 @@ package com.algolia.instantsearch.android.hits.internal
 import android.os.Build
 import android.widget.AutoCompleteTextView
 import androidx.annotation.RequiresApi
+import com.algolia.instantsearch.android.hits.HitsArrayAdapter
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.ConnectionImpl
 import com.algolia.instantsearch.core.searcher.Searcher
-import com.algolia.instantsearch.android.hits.HitsArrayAdapter
 
 @RequiresApi(Build.VERSION_CODES.Q)
 internal data class HitsArrayAdapterConnection<R, T>(

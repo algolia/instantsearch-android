@@ -2,8 +2,8 @@ package com.algolia.instantsearch.android.filter.current
 
 import android.view.View
 import androidx.annotation.LayoutRes
-import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.android.inflate
+import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.filter.current.FilterAndID
 import com.algolia.instantsearch.filter.current.FilterCurrentView
 import com.google.android.material.chip.Chip

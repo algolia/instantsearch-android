@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.tracker.internal
 
 import com.algolia.instantsearch.filter.state.toFilter
-import com.algolia.instantsearch.tracker.FilterTracker
 import com.algolia.instantsearch.insights.FilterTrackable
+import com.algolia.instantsearch.tracker.FilterTracker
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName

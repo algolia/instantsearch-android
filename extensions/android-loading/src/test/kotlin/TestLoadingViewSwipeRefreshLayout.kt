@@ -6,11 +6,11 @@ import androidx.test.filters.SmallTest
 import com.algolia.instantsearch.android.loading.LoadingViewSwipeRefreshLayout
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.loading.connectView
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @SmallTest
 @Config(sdk = [Build.VERSION_CODES.P])

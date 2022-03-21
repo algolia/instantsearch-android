@@ -3,11 +3,11 @@
 package com.algolia.instantsearch.tracker
 
 import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.instantsearch.tracker.internal.HitsDataTracker
 import com.algolia.instantsearch.tracker.internal.InsightsScope
 import com.algolia.instantsearch.tracker.internal.TrackableSearcher
-import com.algolia.instantsearch.insights.Insights
 import com.algolia.search.model.indexing.Indexable
 import com.algolia.search.model.insights.EventName
 import kotlinx.coroutines.CoroutineScope
