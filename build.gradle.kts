@@ -44,4 +44,6 @@ tasks.register("runDebugUnitTest") {
     dependsOn(":instantsearch:testDebugUnitTest")
     dependsOn(":instantsearch-insights:testDebugUnitTest")
     dependsOn(":instantsearch-compose:testDebugUnitTest")
+    dependsOn("::extensions:android-paging3:testDebugUnitTest")
+    dependsOn("::extensions:android-swiperefreshlayout:testDebugUnitTest")
 }
