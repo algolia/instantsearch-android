@@ -42,6 +42,13 @@ android {
     }
 
     resourcePrefix = "alg_is_"
+
+    publishing {
+        multipleVariants {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 kotlin {

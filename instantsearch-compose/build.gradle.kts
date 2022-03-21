@@ -48,6 +48,13 @@ android {
     }
 
     resourcePrefix = "alg_is_compose_"
+
+    publishing {
+        multipleVariants {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 tasks.withType<Test> {

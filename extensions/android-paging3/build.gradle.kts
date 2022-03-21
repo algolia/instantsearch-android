@@ -42,6 +42,13 @@ android {
         isIncludeAndroidResources = true
         isReturnDefaultValues = true
     }
+
+    publishing {
+        multipleVariants {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 
