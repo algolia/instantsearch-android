@@ -14,6 +14,7 @@ import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.response.ResponseMultiSearch
 import com.algolia.search.model.response.ResultSearch
 import com.algolia.search.transport.RequestOptions
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -27,7 +28,8 @@ internal class DefaultMultiSearcher(
     private val searchService: MultiSearchService,
     internal val strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     internal val requestOptions: RequestOptions? = null,
-    override val coroutineScope: CoroutineScope = SearcherScope()
+    override val coroutineScope: CoroutineScope = SearcherScope(),
+    override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : MultiSearcher() {
 
     override val client: ClientSearch get() = searchService.client
@@ -70,23 +72,24 @@ internal class DefaultMultiSearcher(
 
     override suspend fun search(): ResponseMultiSearch {
         val queries = components.flatMap { it.collect().first }
-        val request = MultiSearchService.Request(queries, strategy)
-        return searchService.search(request, options)
+        return search(queries)
     }
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
             isLoading.value = true
             val (queries, completion) = collect()
-            val response = withContext(Dispatchers.Default) {
-                val request = MultiSearchService.Request(queries, strategy)
-                searchService.search(request, options)
-            }
+            val response = search(queries)
             onSearchResponse(response, completion)
             isLoading.value = false
         }.also {
             sequencer.addOperation(it)
         }
+    }
+
+    private suspend fun search(queries: List<IndexedQuery>): ResponseMultiSearch = withContext(coroutineDispatcher) {
+        val request = MultiSearchService.Request(queries, strategy)
+        searchService.search(request, options)
     }
 
     /**

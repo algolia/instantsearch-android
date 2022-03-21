@@ -12,6 +12,7 @@ import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.AnswersQuery
 import com.algolia.search.model.search.Language
 import com.algolia.search.transport.RequestOptions
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -28,6 +29,7 @@ public class SearcherAnswers(
     public override val query: AnswersQuery = AnswersQuery("", listOf(Language.English)),
     public override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
+    override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : SearcherForHits<AnswersQuery> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
@@ -49,15 +51,15 @@ public class SearcherAnswers(
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
             isLoading.value = true
-            response.value = withContext(Dispatchers.Default) { search() }
+            response.value = search()
             isLoading.value = false
         }.also {
             sequencer.addOperation(it)
         }
     }
 
-    override suspend fun search(): ResponseSearch {
-        return index.findAnswers(answersQuery = query, requestOptions = options)
+    override suspend fun search(): ResponseSearch = withContext(coroutineDispatcher) {
+        index.findAnswers(answersQuery = query, requestOptions = options)
     }
 
     override fun cancel() {

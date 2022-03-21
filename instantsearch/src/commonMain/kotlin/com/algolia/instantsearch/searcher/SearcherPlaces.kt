@@ -9,6 +9,7 @@ import com.algolia.search.model.places.PlacesQuery
 import com.algolia.search.model.response.ResponseSearchPlacesMono
 import com.algolia.search.model.search.Language
 import com.algolia.search.transport.RequestOptions
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -25,6 +26,7 @@ public class SearcherPlaces(
     public val query: PlacesQuery = PlacesQuery(),
     public val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
+    override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : Searcher<ResponseSearchPlacesMono> {
 
     private val sequencer = Sequencer()
@@ -42,15 +44,15 @@ public class SearcherPlaces(
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
             isLoading.value = true
-            response.value = withContext(Dispatchers.Default) { search() }
+            response.value = search()
             isLoading.value = false
         }.also {
             sequencer.addOperation(it)
         }
     }
 
-    override suspend fun search(): ResponseSearchPlacesMono {
-        return client.searchPlaces(language, query, requestOptions)
+    override suspend fun search(): ResponseSearchPlacesMono = withContext(coroutineDispatcher) {
+        client.searchPlaces(language, query, requestOptions)
     }
 
     override fun cancel() {

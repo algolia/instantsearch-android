@@ -14,6 +14,7 @@ import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -31,6 +32,7 @@ internal class DefaultHitsSearcher(
     override val requestOptions: RequestOptions? = null,
     override val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
+    override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
@@ -54,15 +56,15 @@ internal class DefaultHitsSearcher(
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
             isLoading.value = true
-            response.value = withContext(Dispatchers.Default) { search() }
+            response.value = search()
             isLoading.value = false
         }.also {
             sequencer.addOperation(it)
         }
     }
 
-    override suspend fun search(): ResponseSearch {
-        return searchService.search(HitsSearchService.Request(indexedQuery, isDisjunctiveFacetingEnabled), options)
+    override suspend fun search(): ResponseSearch = withContext(coroutineDispatcher) {
+        searchService.search(HitsSearchService.Request(indexedQuery, isDisjunctiveFacetingEnabled), options)
     }
 
     override fun collect(): Pair<List<IndexQuery>, (List<ResponseSearch>) -> Unit> {

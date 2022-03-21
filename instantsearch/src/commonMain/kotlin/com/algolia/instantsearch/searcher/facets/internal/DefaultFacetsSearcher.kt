@@ -14,6 +14,7 @@ import com.algolia.search.model.multipleindex.FacetIndexQuery
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,6 +33,7 @@ internal class DefaultFacetsSearcher(
     override var facetQuery: String? = null,
     override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
+    override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : FacetsSearcher, MultiSearchComponent<FacetIndexQuery, ResponseSearchForFacets> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
@@ -58,15 +60,15 @@ internal class DefaultFacetsSearcher(
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
             isLoading.value = true
-            response.value = withContext(Dispatchers.Default) { search() }
+            response.value = search()
             isLoading.value = false
         }.also {
             sequencer.addOperation(it)
         }
     }
 
-    override suspend fun search(): ResponseSearchForFacets {
-        return searchService.search(indexedQuery, options)
+    override suspend fun search(): ResponseSearchForFacets = withContext(coroutineDispatcher) {
+        searchService.search(indexedQuery, options)
     }
 
     override fun cancel() {

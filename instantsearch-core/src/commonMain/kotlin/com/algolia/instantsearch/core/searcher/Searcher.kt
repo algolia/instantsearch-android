@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.core.searcher
 
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
@@ -11,9 +12,14 @@ import kotlinx.coroutines.Job
 public interface Searcher<R> {
 
     /**
-     * Searcher's coroutine scope.
+     * Searcher's coroutine scope for asynchronous search.
      */
     public val coroutineScope: CoroutineScope
+
+    /**
+     * Search operations dispatcher.
+     */
+    public val coroutineDispatcher: CoroutineDispatcher
 
     /**
      * Loading status subscription value.
@@ -43,6 +49,8 @@ public interface Searcher<R> {
 
     /**
      * Triggers the search and returns a search response.
+     *
+     * The search is executed on the [coroutineDispatcher].
      */
     public suspend fun search(): R
 
