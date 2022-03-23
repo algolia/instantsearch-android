@@ -8,6 +8,7 @@ include(":instantsearch-compose")
 include(":instantsearch-utils")
 include(":extensions:android-paging3")
 include(":extensions:android-loading")
+include(":extensions:coroutines-extensions")
 
 val localSettings = file("local.settings.gradle.kts")
 if (localSettings.exists()) {

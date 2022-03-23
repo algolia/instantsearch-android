@@ -2,7 +2,7 @@ package com.algolia.instantsearch.core.subscription
 
 import com.algolia.instantsearch.core.internal.frozenCopyOnWriteSet
 
-public open class Subscription<T> {
+public sealed class Subscription<T> {
 
     internal val subscriptions: MutableSet<(T) -> Unit> = frozenCopyOnWriteSet()
 
