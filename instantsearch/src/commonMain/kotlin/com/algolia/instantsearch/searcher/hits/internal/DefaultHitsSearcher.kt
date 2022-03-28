@@ -56,7 +56,9 @@ internal class DefaultHitsSearcher(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
-            isLoading.runAsLoading(::search)
+            isLoading.runAsLoading {
+                response.value = search()
+            }
         }.also {
             sequencer.addOperation(it)
         }
