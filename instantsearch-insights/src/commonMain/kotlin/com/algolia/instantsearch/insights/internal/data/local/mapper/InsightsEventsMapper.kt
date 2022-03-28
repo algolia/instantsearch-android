@@ -24,6 +24,7 @@ internal object InsightsEventsMapper : Mapper<InsightsEvent, InsightsEventDO> {
         when (val resources = input.resources) {
             is InsightsEvent.Resources.ObjectIDs -> objectIDs = resources.objectIDs
             is InsightsEvent.Resources.Filters -> filters = resources.filters.map { FilterFacetMapper.map(it) }
+            else -> Unit
         }
     }
 
