@@ -6,6 +6,7 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceAnswersSearcher
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
+import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withUserAgent
 import com.algolia.search.ExperimentalAlgoliaClientAPI
 import com.algolia.search.client.Index
@@ -50,9 +51,7 @@ public class SearcherAnswers(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
-            isLoading.value = true
-            response.value = search()
-            isLoading.value = false
+            isLoading.runAsLoading(::search)
         }.also {
             sequencer.addOperation(it)
         }

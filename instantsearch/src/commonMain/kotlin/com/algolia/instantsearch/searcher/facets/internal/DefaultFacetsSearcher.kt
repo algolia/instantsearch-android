@@ -7,6 +7,7 @@ import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
+import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withUserAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
 import com.algolia.search.model.Attribute
@@ -59,9 +60,7 @@ internal class DefaultFacetsSearcher(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
-            isLoading.value = true
-            response.value = search()
-            isLoading.value = false
+            isLoading.runAsLoading(::search)
         }.also {
             sequencer.addOperation(it)
         }

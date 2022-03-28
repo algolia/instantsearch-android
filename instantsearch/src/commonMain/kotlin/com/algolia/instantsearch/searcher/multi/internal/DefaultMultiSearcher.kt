@@ -6,6 +6,7 @@ import com.algolia.instantsearch.extension.traceMultiSearcher
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
+import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withUserAgent
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.extension.asResultSearchList
@@ -77,11 +78,11 @@ internal class DefaultMultiSearcher(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
-            isLoading.value = true
-            val (queries, completion) = collect()
-            val response = search(queries)
-            onSearchResponse(response, completion)
-            isLoading.value = false
+            isLoading.runAsLoading {
+                val (queries, completion) = collect()
+                val response = search(queries)
+                onSearchResponse(response, completion)
+            }
         }.also {
             sequencer.addOperation(it)
         }

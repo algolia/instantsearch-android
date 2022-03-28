@@ -5,7 +5,6 @@ import androidx.paging.PagingState
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.search.model.params.SearchParameters
 import com.algolia.search.model.response.ResponseSearch
-import kotlinx.coroutines.withContext
 
 /**
  * Implementation of [PagingSource] with [SearcherForHits].
@@ -45,17 +44,13 @@ internal class SearcherPagingSource<T : Any>(
         try {
             searcher.isLoading.value = true
             val response = searcher.search()
-            withContext(searcher.coroutineScope.coroutineContext) {
-                searcher.response.value = response
-                searcher.isLoading.value = false
-            }
+            searcher.response.value = response
+            searcher.isLoading.value = false
             return response
-        } catch (throwable: Throwable) {
-            withContext(searcher.coroutineScope.coroutineContext) {
-                searcher.error.value = throwable
-                searcher.isLoading.value = false
-            }
-            throw throwable
+        } catch (exception: Exception) {
+            searcher.error.value = exception
+            searcher.isLoading.value = false
+            throw exception
         }
     }
 }

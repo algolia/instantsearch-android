@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.searcher.internal
 
 import com.algolia.instantsearch.core.searcher.Searcher
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineExceptionHandler
 
 /**
  * Searcher exception handler.

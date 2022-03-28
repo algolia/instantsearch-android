@@ -5,6 +5,7 @@ import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
+import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.search.client.ClientPlaces
 import com.algolia.search.model.places.PlacesQuery
 import com.algolia.search.model.response.ResponseSearchPlacesMono
@@ -43,9 +44,7 @@ public class SearcherPlaces(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
-            isLoading.value = true
-            response.value = search()
-            isLoading.value = false
+            isLoading.runAsLoading(::search)
         }.also {
             sequencer.addOperation(it)
         }
