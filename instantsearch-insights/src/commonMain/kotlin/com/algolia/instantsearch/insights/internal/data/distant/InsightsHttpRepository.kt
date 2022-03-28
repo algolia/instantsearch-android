@@ -3,6 +3,7 @@ package com.algolia.instantsearch.insights.internal.data.distant
 import com.algolia.instantsearch.insights.internal.event.EventResponse
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.search.client.ClientInsights
+import com.algolia.search.configuration.Credentials
 import com.algolia.search.model.insights.InsightsEvent
 import io.ktor.client.features.ClientRequestException
 import io.ktor.http.isSuccess
@@ -10,7 +11,7 @@ import io.ktor.utils.io.readUTF8Line
 
 internal class InsightsHttpRepository(
     private val clientInsights: ClientInsights,
-) : InsightsDistantRepository {
+) : InsightsDistantRepository, Credentials by clientInsights {
 
     override suspend fun send(event: InsightsEvent): EventResponse {
         val (code: Int, message: String) = try {
