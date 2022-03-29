@@ -3,7 +3,7 @@ package loading
 import blocking
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
-import com.algolia.instantsearch.helper.loading.connectSearcher
+import com.algolia.instantsearch.loading.connectSearcher
 import com.algolia.search.model.IndexName
 import mockClient
 import searcher.MockSearcher

@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.compose.hierarchical
 
 import androidx.compose.runtime.snapshots.Snapshot
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalItem
+import com.algolia.instantsearch.hierarchical.HierarchicalItem
 import com.algolia.search.model.search.Facet
 import kotlin.test.Test
 import kotlin.test.assertEquals

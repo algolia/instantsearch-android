@@ -1,6 +1,6 @@
 package documentation.guide
 
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.dsl.analyticsTags
 import com.algolia.search.dsl.query

@@ -1,9 +1,9 @@
 package filter.state
 
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterOperator
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.state.toFilterGroups
+import com.algolia.instantsearch.filter.state.FilterGroupID
+import com.algolia.instantsearch.filter.state.FilterOperator
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.filter.state.toFilterGroups
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup

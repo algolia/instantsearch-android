@@ -7,11 +7,11 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.number.range.connectView
-import com.algolia.instantsearch.helper.filter.range.FilterRangeViewModel
-import com.algolia.instantsearch.helper.filter.range.connectFilterState
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.connectFilterState
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.filter.range.FilterRangeViewModel
+import com.algolia.instantsearch.filter.range.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID

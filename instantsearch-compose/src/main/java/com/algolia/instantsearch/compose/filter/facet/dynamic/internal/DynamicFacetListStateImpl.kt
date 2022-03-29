@@ -4,8 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.algolia.instantsearch.compose.filter.facet.dynamic.DynamicFacetListState
-import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
-import com.algolia.instantsearch.helper.filter.facet.dynamic.SelectionsPerAttribute
+import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
+import com.algolia.instantsearch.filter.facet.dynamic.SelectionsPerAttribute
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 

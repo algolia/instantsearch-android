@@ -2,7 +2,7 @@ package com.algolia.instantsearch.compose.filter.toggle
 
 import com.algolia.instantsearch.compose.filter.toggle.internal.FilterToggleStateImpl
 import com.algolia.instantsearch.compose.selectable.SelectableItemState
-import com.algolia.instantsearch.helper.filter.toggle.FilterToggleView
+import com.algolia.instantsearch.filter.toggle.FilterToggleView
 
 /**
  * [FilterToggleView] for compose.

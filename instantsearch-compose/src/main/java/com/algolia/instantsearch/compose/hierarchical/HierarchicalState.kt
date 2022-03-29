@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.compose.hierarchical
 
 import com.algolia.instantsearch.compose.hierarchical.internal.HierarchicalStateImpl
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalItem
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalView
+import com.algolia.instantsearch.hierarchical.HierarchicalItem
+import com.algolia.instantsearch.hierarchical.HierarchicalView
 
 /**
  * [HierarchicalView] for compose.

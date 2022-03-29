@@ -2,10 +2,10 @@ package filter.facet
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
-import com.algolia.instantsearch.helper.filter.facet.FacetListItem
-import com.algolia.instantsearch.helper.filter.facet.FacetListView
-import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
-import com.algolia.instantsearch.helper.filter.facet.connectView
+import com.algolia.instantsearch.filter.facet.FacetListItem
+import com.algolia.instantsearch.filter.facet.FacetListView
+import com.algolia.instantsearch.filter.facet.FacetListViewModel
+import com.algolia.instantsearch.filter.facet.connectView
 import com.algolia.search.model.search.Facet
 import shouldEqual
 import shouldNotBeNull

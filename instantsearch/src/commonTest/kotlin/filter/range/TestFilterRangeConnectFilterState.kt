@@ -2,9 +2,9 @@ package filter.range
 
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.helper.filter.range.connectFilterState
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.filter.range.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterGroupID
+import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import shouldBeNull

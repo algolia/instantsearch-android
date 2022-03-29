@@ -1,12 +1,12 @@
 package filter.facet
 
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
-import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
-import com.algolia.instantsearch.helper.filter.facet.connectFilterState
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterOperator
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.state.toFilter
+import com.algolia.instantsearch.filter.facet.FacetListViewModel
+import com.algolia.instantsearch.filter.facet.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterGroupID
+import com.algolia.instantsearch.filter.state.FilterOperator
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.filter.state.toFilter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import shouldEqual

@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.compose.filter.facet.dynamic
 
 import com.algolia.instantsearch.compose.filter.facet.dynamic.internal.DynamicFacetListStateImpl
-import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
-import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetListView
-import com.algolia.instantsearch.helper.filter.facet.dynamic.SelectionsPerAttribute
+import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
+import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListView
+import com.algolia.instantsearch.filter.facet.dynamic.SelectionsPerAttribute
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 

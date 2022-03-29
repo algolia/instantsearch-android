@@ -2,7 +2,8 @@ package searcher
 
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
-import com.algolia.instantsearch.helper.searcher.SearcherScope
+import com.algolia.instantsearch.searcher.SearcherScope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,6 +19,7 @@ class MockSearcher : Searcher<Unit> {
     override val error = SubscriptionValue<Throwable?>(null)
     override val response = SubscriptionValue<Unit?>(null)
     override val coroutineScope: CoroutineScope = SearcherScope(Dispatchers.Default)
+    override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.Default
 
     override fun setQuery(text: String?) {
         string = text

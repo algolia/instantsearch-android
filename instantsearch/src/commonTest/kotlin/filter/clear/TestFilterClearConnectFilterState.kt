@@ -1,11 +1,11 @@
 package filter.clear
 
-import com.algolia.instantsearch.helper.filter.clear.ClearMode
-import com.algolia.instantsearch.helper.filter.clear.FilterClearViewModel
-import com.algolia.instantsearch.helper.filter.clear.connectFilterState
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterOperator
-import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.filter.clear.ClearMode
+import com.algolia.instantsearch.filter.clear.FilterClearViewModel
+import com.algolia.instantsearch.filter.clear.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterGroupID
+import com.algolia.instantsearch.filter.state.FilterOperator
+import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import shouldBeEmpty

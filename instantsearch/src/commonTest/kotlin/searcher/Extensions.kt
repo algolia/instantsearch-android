@@ -1,9 +1,9 @@
 package searcher
 
-import com.algolia.instantsearch.helper.searcher.SearcherAnswers
-import com.algolia.instantsearch.helper.searcher.SearcherScope
-import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.searcher.SearcherAnswers
+import com.algolia.instantsearch.searcher.SearcherScope
+import com.algolia.instantsearch.searcher.facets.FacetsSearcher
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute

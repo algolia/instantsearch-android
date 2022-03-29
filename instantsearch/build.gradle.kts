@@ -42,6 +42,13 @@ android {
     }
 
     resourcePrefix = "alg_is_"
+
+    publishing {
+        multipleVariants {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 kotlin {
@@ -90,8 +97,6 @@ kotlin {
                 api(libs.ktor.client.okhttp)
                 api(libs.androidx.core)
                 api(libs.androidx.appcompat)
-                api(libs.androidx.swiperefreshlayout)
-                api(libs.androidx.paging)
                 api(libs.kotlinx.coroutines.android)
                 api(libs.google.material)
             }

@@ -1,7 +1,7 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 
 buildscript {
-    val kotlinVersion by extra("1.5.31")
+    val kotlinVersion by extra("1.6.10")
     repositories {
         mavenCentral()
         google()
@@ -9,9 +9,9 @@ buildscript {
     dependencies {
         classpath(kotlin("gradle-plugin", version = kotlinVersion))
         classpath(kotlin("serialization", version = kotlinVersion))
-        classpath("com.android.tools.build:gradle:7.1.0")
+        classpath("com.android.tools.build:gradle:7.1.2")
         classpath("com.vanniktech:gradle-maven-publish-plugin:0.18.0")
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:5.15.0")
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
     }
 }
 
@@ -44,4 +44,6 @@ tasks.register("runDebugUnitTest") {
     dependsOn(":instantsearch:testDebugUnitTest")
     dependsOn(":instantsearch-insights:testDebugUnitTest")
     dependsOn(":instantsearch-compose:testDebugUnitTest")
+    dependsOn(":extensions:android-paging3:testDebugUnitTest")
+    dependsOn(":extensions:android-loading:testDebugUnitTest")
 }

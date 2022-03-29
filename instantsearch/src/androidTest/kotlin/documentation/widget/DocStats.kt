@@ -3,12 +3,12 @@ package documentation.widget
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.android.item.StatsTextView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.helper.android.item.StatsTextView
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.helper.stats.StatsViewModel
-import com.algolia.instantsearch.helper.stats.connectSearcher
-import com.algolia.instantsearch.helper.stats.connectView
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.stats.StatsViewModel
+import com.algolia.instantsearch.stats.connectSearcher
+import com.algolia.instantsearch.stats.connectView
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID

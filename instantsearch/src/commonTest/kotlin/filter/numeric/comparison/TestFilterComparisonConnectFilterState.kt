@@ -1,10 +1,10 @@
 package filter.numeric.comparison
 
 import com.algolia.instantsearch.core.number.NumberViewModel
-import com.algolia.instantsearch.helper.filter.numeric.comparison.connectFilterState
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterOperator
-import com.algolia.instantsearch.helper.filter.state.FilterState
+import com.algolia.instantsearch.filter.numeric.comparison.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterGroupID
+import com.algolia.instantsearch.filter.state.FilterOperator
+import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator

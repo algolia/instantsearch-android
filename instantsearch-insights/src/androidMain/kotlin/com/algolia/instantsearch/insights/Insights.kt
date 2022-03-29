@@ -18,6 +18,7 @@ import com.algolia.search.helper.toIndexName
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
+import io.ktor.client.features.logging.LogLevel
 
 /**
  * Access the latest registered `Insights` instance, if any, otherwise throws  [InsightsException.IndexNotRegistered].
@@ -53,8 +54,16 @@ public fun registerInsights(
     apiKey: String,
     indexName: String,
     configuration: Insights.Configuration? = null,
+    clientLogLevel: LogLevel = LogLevel.NONE
 ): Insights {
-    return registerInsights(context, appId.toApplicationID(), apiKey.toAPIKey(), indexName.toIndexName(), configuration)
+    return registerInsights(
+        context = context,
+        appId = appId.toApplicationID(),
+        apiKey = apiKey.toAPIKey(),
+        indexName = indexName.toIndexName(),
+        configuration = configuration,
+        clientLogLevel = clientLogLevel
+    )
 }
 
 /**
@@ -65,6 +74,7 @@ public fun registerInsights(
  * @param apiKey The API Key for your `appId`.
  * @param indexName The index that is being tracked.
  * @param configuration insights configuration
+ * @param clientLogLevel insights API client log level
  */
 public fun registerInsights(
     context: Context,
@@ -72,11 +82,12 @@ public fun registerInsights(
     apiKey: APIKey,
     indexName: IndexName,
     configuration: Insights.Configuration? = null,
+    clientLogLevel: LogLevel = LogLevel.NONE
 ): Insights {
     val localRepository = InsightsPrefsRepository(context.insightsSharedPreferences(indexName))
     val settings = InsightsEventSettings(context.insightsSettingsPreferences())
     val config = configuration ?: defaultConfiguration(settings)
-    val distantRepository = InsightsHttpRepository(clientInsights(appId, apiKey, config))
+    val distantRepository = InsightsHttpRepository(clientInsights(appId, apiKey, config, clientLogLevel))
     val workManager = WorkManager.getInstance(context)
     return registerInsightsController(
         indexName = indexName,
@@ -86,76 +97,4 @@ public fun registerInsights(
         settings = settings,
         configuration = config
     )
-}
-
-/**
- * Access an already registered `Insights` without having to pass the `apiKey` and `appId`.
- *
- * If the index was not register before, it will throw an [InsightsException.IndexNotRegistered] exception.
- * @param indexName The index that is being tracked.
- * @return An Insights instance.
- * @throws InsightsException.IndexNotRegistered if no index was registered as indexName before.
- */
-@Deprecated("use sharedInsights instead", replaceWith = ReplaceWith("sharedInsights(indexName)"))
-@JvmName("shared")
-public fun Insights.Companion.shared(indexName: IndexName): Insights {
-    return sharedInsights(indexName)
-}
-
-/**
- * Access the latest registered `Insights` instance, if any.
- */
-@Deprecated("use sharedInsights instead", replaceWith = ReplaceWith("sharedInsights"))
-public var Insights.Companion.shared: Insights?
-    get() = sharedInsights
-    set(value) {
-        sharedInsights = value
-    }
-
-/**
- * Register your index with a given appId and apiKey.
- *
- * @param context An Android Context.
- * @param appId The given app id for which you want to track the events.
- * @param apiKey The API Key for your `appId`.
- * @param indexName The index that is being tracked.
- * @param configuration A Configuration class.
- */
-@Deprecated(
-    "use insightsRegister instead",
-    replaceWith = ReplaceWith("registerInsights(context, appId, apiKey, indexName, configuration)")
-)
-@JvmName("register")
-public fun Insights.Companion.register(
-    context: Context,
-    appId: String,
-    apiKey: String,
-    indexName: String,
-    configuration: Insights.Configuration? = null,
-): Insights {
-    return registerInsights(context, appId.toApplicationID(), apiKey.toAPIKey(), indexName.toIndexName(), configuration)
-}
-
-/**
- * Register your index with a given appId and apiKey.
- *
- * @param context An Android Context.
- * @param appId The given app id for which you want to track the events.
- * @param apiKey The API Key for your `appId`.
- * @param indexName The index that is being tracked.
- * @param configuration insights configuration
- */
-@Deprecated(
-    "use insightsRegister instead",
-    replaceWith = ReplaceWith("registerInsights(context, appId, apiKey, indexName, configuration)")
-)
-@JvmName("register")
-public fun Insights.Companion.register(
-    context: Context,
-    appId: ApplicationID,
-    apiKey: APIKey,
-    indexName: IndexName,
-    configuration: Insights.Configuration? = null,
-): Insights {
-    return registerInsights(context, appId, apiKey, indexName, configuration)
 }

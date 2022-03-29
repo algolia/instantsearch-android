@@ -1,8 +1,8 @@
 package filter.range
 
 import com.algolia.instantsearch.core.number.range.NumberRangeViewModel
-import com.algolia.instantsearch.helper.filter.range.connectSearcher
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.filter.range.connectSearcher
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearch

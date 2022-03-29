@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.compose.filter.map
 
 import com.algolia.instantsearch.compose.filter.map.internal.FilterMapStateImpl
-import com.algolia.instantsearch.helper.filter.map.FilterMapView
+import com.algolia.instantsearch.filter.map.FilterMapView
 
 /**
  * [FilterMapView] for compose.

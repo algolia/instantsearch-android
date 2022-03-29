@@ -1,6 +1,6 @@
 package index
 
-import com.algolia.instantsearch.helper.index.IndexPresenterImpl
+import com.algolia.instantsearch.index.IndexPresenterImpl
 import com.algolia.search.model.IndexName
 import mockClient
 import shouldEqual

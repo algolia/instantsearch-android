@@ -48,6 +48,13 @@ android {
     }
 
     resourcePrefix = "alg_is_insights_"
+
+    publishing {
+        multipleVariants {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 kotlin {
