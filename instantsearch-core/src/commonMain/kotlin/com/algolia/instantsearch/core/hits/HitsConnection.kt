@@ -7,7 +7,8 @@ import com.algolia.instantsearch.core.searcher.Searcher
 
 public fun <R, T> Searcher<R>.connectHitsView(
     adapter: HitsView<T>,
+    past: Boolean = false,
     presenter: Presenter<R, List<T>>
 ): Connection {
-    return HitsConnectionView(this, adapter, presenter)
+    return HitsConnectionView(this, adapter, presenter, past)
 }
