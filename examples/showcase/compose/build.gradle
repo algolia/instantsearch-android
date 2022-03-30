@@ -6,7 +6,7 @@ plugins {
 
 android {
     compileSdk 31
-    buildToolsVersion build_tools_version
+    buildToolsVersion "32.0.0"
 
     defaultConfig {
         applicationId "com.algolia.instantsearch.showcase.compose"
@@ -31,38 +31,37 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-        useIR = true
-    }
     buildFeatures {
         compose true
     }
     composeOptions {
-        kotlinCompilerVersion kotlin_version
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion "1.1.1"
     }
 }
 
 dependencies {
-    implementation "com.algolia:instantsearch-compose:$instantsearch"
-    implementation "com.algolia:instantsearch-android-paging3:$instantsearch"
+    //implementation "com.algolia:instantsearch-compose:$instantsearch"
+    implementation project(":instantsearch-compose")
+    //implementation "com.algolia:instantsearch-android-paging3:$instantsearch"
+    implementation project(":extensions:android-paging3")
 
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation "androidx.compose.ui:ui:1.1.1"
+    implementation "androidx.compose.material:material:1.1.1"
+    implementation "androidx.compose.material:material-icons-extended:1.1.1"
     implementation 'androidx.paging:paging-compose:1.0.0-alpha14'
     implementation 'androidx.activity:activity-compose:1.4.0'
     implementation 'io.coil-kt:coil-compose:1.4.0'
     implementation 'com.google.accompanist:accompanist-swiperefresh:0.20.3'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$canary"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.1.1"
+
+    debugImplementation "androidx.compose.ui:ui-tooling:1.1.1"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.8.1"
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {

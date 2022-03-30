@@ -39,13 +39,12 @@ android {
 
 dependencies {
 
-    implementation project(":instantsearch")
-    implementation project(":extensions:android-paging3")
-    implementation project(":extensions:android-loading")
-
     // implementation "com.algolia:instantsearch-android:$instantsearch"
+    implementation project(":instantsearch")
     // implementation "com.algolia:instantsearch-android-paging3:$instantsearch"
+    implementation project(":extensions:android-paging3")
     // implementation "com.algolia:instantsearch-android-loading:$instantsearch"
+    implementation project(":extensions:android-loading")
 
     implementation "androidx.fragment:fragment-ktx:1.4.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
