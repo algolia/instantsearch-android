@@ -156,5 +156,3 @@ class FilterToggleShowcase : AppCompatActivity() {
         connections.clear()
     }
 }
-
-

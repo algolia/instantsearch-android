@@ -11,7 +11,7 @@ buildscript {
         classpath(kotlin("serialization", version = kotlinVersion))
         classpath("com.android.tools.build:gradle:7.1.2")
         classpath("com.vanniktech:gradle-maven-publish-plugin:0.18.0")
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:6.4.1")
     }
 }
 
@@ -24,7 +24,6 @@ subprojects {
     configure<SpotlessExtension> {
         kotlin {
             target("**/*.kt")
-            ktlint("0.43.0")
             trimTrailingWhitespace()
             endWithNewline()
         }

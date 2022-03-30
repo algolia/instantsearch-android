@@ -54,5 +54,3 @@ class HeaderFilterConnector(
         connections.forEach { it.disconnect() }
     }
 }
-
-

@@ -194,5 +194,3 @@ fun MovieCardItem(modifier: Modifier = Modifier, movie: Movie) {
         }
     }
 }
-
-

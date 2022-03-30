@@ -177,4 +177,3 @@ class FilterRangeShowcase : AppCompatActivity() {
         connections.clear()
     }
 }
-

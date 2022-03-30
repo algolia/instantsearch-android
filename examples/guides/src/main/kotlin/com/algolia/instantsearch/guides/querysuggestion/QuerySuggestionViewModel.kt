@@ -23,7 +23,7 @@ class QuerySuggestionViewModel : ViewModel() {
     val multiSearcher = MultiSearcher(client)
     val productSearcher = multiSearcher.addHitsSearcher(
         indexName = IndexName("STAGING_native_ecom_demo_products")
-    ) 
+    )
     val suggestionSearcher = multiSearcher.addHitsSearcher(
         indexName = IndexName("STAGING_native_ecom_demo_products_query_suggestions")
     )
