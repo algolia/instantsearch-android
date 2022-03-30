@@ -121,10 +121,6 @@
             android:parentActivityName=".directory.DirectoryShowcase" />
 
         <activity
-            android:name="com.algolia.instantsearch.showcase.suggestion.QuerySuggestionShowcase"
-            android:parentActivityName=".directory.DirectoryShowcase" />
-
-        <activity
             android:name=".customdata.TemplateActivity"
             android:exported="true">
             <intent-filter>
