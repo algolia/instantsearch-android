@@ -14,7 +14,6 @@ import com.algolia.instantsearch.voice.ui.Voice.shouldExplainPermission
 import com.algolia.instantsearch.voice.ui.Voice.showPermissionRationale
 import com.algolia.instantsearch.voice.ui.VoiceInputDialogFragment
 import com.algolia.instantsearch.voice.ui.VoicePermissionDialogFragment
-import java.util.*
 
 class VoiceSearchActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener {
 
@@ -22,29 +21,27 @@ class VoiceSearchActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_voice_search)
 
-        findViewById<Button>(R.id.buttonVoice).setOnClickListener { _ ->
-            if (!isRecordAudioPermissionGranted()) {
-                VoicePermissionDialogFragment().show(supportFragmentManager, Tag.Permission.name)
-            } else {
-                showVoiceDialog()
-            }
-        }
+        val buttonVoice = findViewById<Button>(R.id.buttonVoice)
+        buttonVoice.setOnClickListener { onMicClick() }
 
-        findViewById<Button>(R.id.buttonPermission).setOnClickListener {
-            VoicePermissionDialogFragment().show(supportFragmentManager, Tag.Permission.name)
-        }
+        val buttonPermission = findViewById<Button>(R.id.buttonPermission)
+        buttonPermission.setOnClickListener { showPermissionDialog() }
+    }
+
+    private fun onMicClick() {
+        if (isRecordAudioPermissionGranted()) showVoiceDialog() else showPermissionDialog()
+    }
+
+    private fun showPermissionDialog() {
+        VoicePermissionDialogFragment().show(supportFragmentManager, Tag.Permission.name)
     }
 
     override fun onResults(possibleTexts: Array<out String>) {
-        findViewById<TextView>(R.id.results).text = possibleTexts.firstOrNull()
-            ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        val results = findViewById<TextView>(R.id.results)
+        results.text = possibleTexts.firstOrNull()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (Voice.isRecordPermissionWithResults(requestCode, grantResults)) {
             when {
@@ -64,18 +61,19 @@ class VoiceSearchActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsLi
         }
     }
 
-    private fun getVoiceDialog() =
-        supportFragmentManager.findFragmentByTag(Tag.Voice.name) as? VoiceInputDialogFragment
+    private fun getVoiceDialog(): VoiceInputDialogFragment? {
+        return supportFragmentManager.findFragmentByTag(Tag.Voice.name) as? VoiceInputDialogFragment
+    }
 
-    private fun getPermissionDialog() =
-        supportFragmentManager.findFragmentByTag(Tag.Permission.name) as? VoicePermissionDialogFragment
+    private fun getPermissionDialog(): VoicePermissionDialogFragment? {
+        return supportFragmentManager.findFragmentByTag(Tag.Permission.name) as? VoicePermissionDialogFragment
+    }
 
-    private fun getPermissionView(): View = requireNotNull(getPermissionDialog())
-        .requireView()
-        .findViewById(R.id.positive)
+    private fun getPermissionView(): View {
+        return getPermissionDialog()?.requireView()?.findViewById(R.id.positive) ?: error("permission view not found")
+    }
 
     private enum class Tag {
-        Permission,
-        Voice
+        Permission, Voice
     }
 }
