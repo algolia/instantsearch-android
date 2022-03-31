@@ -22,7 +22,7 @@ import com.algolia.instantsearch.samples.showcase.compose.list.merged.MergedList
 import com.algolia.instantsearch.samples.showcase.compose.list.paging.PagingMultipleIndexShowcase
 import com.algolia.instantsearch.samples.showcase.compose.list.paging.PagingSingleIndexShowcase
 import com.algolia.instantsearch.samples.showcase.compose.loading.LoadingShowcase
-import com.algolia.instantsearch.samples.Relateditems.RelatedItemsShowcase
+import com.algolia.instantsearch.samples.showcase.compose.relateditems.RelatedItemsShowcase
 import com.algolia.instantsearch.samples.showcase.compose.search.SearchAsYouTypeShowcase
 import com.algolia.instantsearch.samples.showcase.compose.search.SearchAutoCompleteShowcase
 import com.algolia.instantsearch.samples.showcase.compose.search.SearchOnSubmitShowcase

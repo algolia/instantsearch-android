@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.samples.Relateditems
+package com.algolia.instantsearch.samples.showcase.compose.relateditems
 
 import android.os.Bundle
 import androidx.activity.compose.setContent

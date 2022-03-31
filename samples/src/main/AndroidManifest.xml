@@ -275,6 +275,12 @@
                     android:scheme="algoliademo" />
             </intent-filter>
         </activity>
+
+        <!-- Code Exchange -->
+
+        <activity
+            android:name=".codex.query.categories.hits.MainActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
     </application>
 
     <queries>
