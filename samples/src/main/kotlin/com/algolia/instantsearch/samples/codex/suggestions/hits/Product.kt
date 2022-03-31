@@ -1,4 +1,4 @@
-package com.algolia.exchange.query.suggestions.hits
+package com.algolia.instantsearch.samples.codex.suggestions.hits
 
 import com.algolia.search.model.ObjectID
 import com.algolia.search.model.indexing.Indexable

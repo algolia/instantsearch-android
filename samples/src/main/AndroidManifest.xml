@@ -290,6 +290,9 @@
         <activity
             android:name=".codex.suggestions.categories.MainActivity"
             android:parentActivityName=".directory.DirectoryActivity" />
+        <activity
+            android:name=".codex.suggestions.hits.MainActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
 
     </application>
 
