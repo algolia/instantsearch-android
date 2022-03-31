@@ -1,4 +1,4 @@
-package com.algolia.exchange.query.suggestions.categories
+package com.algolia.instantsearch.samples.codex.suggestions.recent
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

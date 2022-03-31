@@ -1,4 +1,4 @@
-package com.algolia.exchange.query.suggestions.categories
+package com.algolia.instantsearch.samples.codex.suggestions.recent
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
@@ -9,7 +9,6 @@ import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
