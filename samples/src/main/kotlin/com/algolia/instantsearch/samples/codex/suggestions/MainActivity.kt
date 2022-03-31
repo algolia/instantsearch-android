@@ -1,4 +1,4 @@
-package com.algolia.exchange.query.suggestions
+package com.algolia.instantsearch.samples.codex.suggestions
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

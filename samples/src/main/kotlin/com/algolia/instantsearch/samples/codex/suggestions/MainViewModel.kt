@@ -1,10 +1,11 @@
-package com.algolia.exchange.query.suggestions
+package com.algolia.instantsearch.samples.codex.suggestions
 
 import androidx.lifecycle.ViewModel
 import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
+import com.algolia.instantsearch.samples.codex.suggestions.Suggestion
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
