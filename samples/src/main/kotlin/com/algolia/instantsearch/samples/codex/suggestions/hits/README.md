@@ -1,4 +1,4 @@
-# Query suggestions & Hits implementation example
+#  Query suggestions & Hits implementation example
 
 Search experience consisting of two results sections:
 - Query suggestions list
@@ -6,4 +6,4 @@ Search experience consisting of two results sections:
 
 Demonstrates simultaneous search in multiple indices
 
-<img src="./demo.gif" width="300"/>
+<img src="/docs/codex/query_suggestions_hits.gif" width="300"/>
