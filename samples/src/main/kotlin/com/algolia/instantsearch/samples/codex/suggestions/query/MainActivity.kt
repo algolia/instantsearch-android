@@ -1,4 +1,4 @@
-package com.algolia.exchange.query.suggestions.categories
+package com.algolia.instantsearch.samples.codex.suggestions.query
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,7 +17,6 @@ class MainActivity : ComponentActivity() {
                 SearchScreen(
                     searchBoxState = viewModel.searchBoxState,
                     suggestionsState = viewModel.suggestionsState,
-                    categoriesState = viewModel.categoriesState,
                 )
             }
         }

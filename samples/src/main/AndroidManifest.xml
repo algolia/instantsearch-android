@@ -285,7 +285,10 @@
             android:name=".codex.multipleindex.MainActivity"
             android:parentActivityName=".directory.DirectoryActivity" />
         <activity
-            android:name=".codex.suggestions.MainActivity"
+            android:name=".codex.suggestions.query.MainActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+        <activity
+            android:name=".codex.suggestions.categories.MainActivity"
             android:parentActivityName=".directory.DirectoryActivity" />
 
     </application>

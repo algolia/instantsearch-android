@@ -10,7 +10,8 @@ import com.algolia.instantsearch.samples.showcase.compose.directory.ComposeDirec
 import com.algolia.instantsearch.samples.showcase.view.directory.AndroidViewDirectoryShowcase
 import com.algolia.instantsearch.samples.codex.categorieshits.MainActivity as CategoriesHitsCodex
 import com.algolia.instantsearch.samples.codex.multipleindex.MainActivity as MultipleIndexCodex
-import com.algolia.instantsearch.samples.codex.suggestions.MainActivity as QuerySuggestionsCodex
+import com.algolia.instantsearch.samples.codex.suggestions.query.MainActivity as QuerySuggestionsCodex
+import com.algolia.instantsearch.samples.codex.suggestions.categories.MainActivity as QuerySuggestionsCategoriesCodex
 import com.algolia.search.model.ObjectID
 
 val guides = mapOf(
@@ -25,7 +26,7 @@ val guides = mapOf(
     ObjectID("codex_categories_hits") to CategoriesHitsCodex::class,
     ObjectID("codex_multiple_index") to MultipleIndexCodex::class,
     ObjectID("codex_query_suggestions") to QuerySuggestionsCodex::class,
-    //ObjectID("codex_query_suggestions_categories") to TODO(),
+    ObjectID("codex_query_suggestions_categories") to QuerySuggestionsCategoriesCodex::class,
     //ObjectID("codex_query_suggestions_hits") to TODO(),
     //ObjectID("codex_query_suggestions_recent") to TODO(),
     //ObjectID("codex_voice_search") to TODO(),

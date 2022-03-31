@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.samples.codex.suggestions
+package com.algolia.instantsearch.samples.codex.suggestions.categories
 
 import com.algolia.instantsearch.core.highlighting.HighlightedString
 import com.algolia.instantsearch.highlighting.Highlightable
