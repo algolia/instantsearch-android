@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">Guides for InstantSearch</string>
-    <string name="suggestions">Suggestions</string>
-    <string name="results">Results</string>
-    <string name="buy">Buy</string>
-    <string name="search_items">Search for items</string>
-    <string name="button_request_permission">Show permission fragment</string>
-    <string name="button_voice">Start using voice</string>
-</resources>
