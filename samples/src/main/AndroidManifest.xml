@@ -296,6 +296,9 @@
         <activity
             android:name=".codex.suggestions.recent.MainActivity"
             android:parentActivityName=".directory.DirectoryActivity" />
+        <activity
+            android:name=".codex.voice.MainActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
 
     </application>
 
