@@ -6,7 +6,8 @@ import com.algolia.instantsearch.samples.guides.insights.InsightsActivity
 import com.algolia.instantsearch.samples.guides.places.PlacesActivity
 import com.algolia.instantsearch.samples.guides.querysuggestion.QuerySuggestionActivity
 import com.algolia.instantsearch.samples.guides.voice.VoiceSearchActivity
-import com.algolia.instantsearch.samples.showcase.view.directory.DirectoryShowcase
+import com.algolia.instantsearch.samples.showcase.compose.directory.ComposeDirectoryShowcase
+import com.algolia.instantsearch.samples.showcase.view.directory.AndroidViewDirectoryShowcase
 import com.algolia.search.model.ObjectID
 
 val guides = mapOf(
@@ -16,5 +17,6 @@ val guides = mapOf(
     ObjectID("guide_insights") to InsightsActivity::class,
     ObjectID("guide_declarative_ui") to ComposeActivity::class,
     ObjectID("guide_voice_search") to VoiceSearchActivity::class,
-    ObjectID("showcase_imperative_ui") to DirectoryShowcase::class,
+    ObjectID("showcase_imperative_ui") to AndroidViewDirectoryShowcase::class,
+    ObjectID("showcase_declarative_ui") to ComposeDirectoryShowcase::class,
 )

@@ -40,4 +40,5 @@
     <string name="redirect_via_submit">Redirect via submit</string>
     <string name="actors">Actors</string>
     <string name="movies">Movies</string>
+    <string name="dynamic_facet_help">Type \"<b>6</b>\", \"<b>61</b>\" or \"<b>616</b>\"</string>
 </resources>

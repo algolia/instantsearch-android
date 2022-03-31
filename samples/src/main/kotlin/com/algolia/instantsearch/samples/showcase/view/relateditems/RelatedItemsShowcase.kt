@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.samples.Relateditems
+package com.algolia.instantsearch.samples.showcase.view.relateditems
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

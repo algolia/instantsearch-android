@@ -13,7 +13,7 @@ import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
 
-class DirectoryShowcase : AppCompatActivity() {
+class AndroidViewDirectoryShowcase : AppCompatActivity() {
 
     private val searcher = HitsSearcher(
         client = client,
