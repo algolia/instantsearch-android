@@ -279,7 +279,10 @@
         <!-- Code Exchange -->
 
         <activity
-            android:name=".codex.query.categories.hits.MainActivity"
+            android:name="com.algolia.instantsearch.samples.codex.categorieshits.MainActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+        <activity
+            android:name="com.algolia.instantsearch.samples.codex.multipleindex.MainActivity"
             android:parentActivityName=".directory.DirectoryActivity" />
     </application>
 
