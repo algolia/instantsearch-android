@@ -1,4 +1,29 @@
-# InstantSearch Android: Showcase
-> A showcase of widgets available in algolia/instantsearch-android.
+# InstantSearch Android Showcase
 
-<img src="/docs/showcase/showcase.gif" width="500"/>
+A showcase of widgets available in `com.algolia:instantsearch-android`.
+
+<img src="/docs/showcase/showcase-view.gif" width="500"/>
+
+## How to run this example
+
+### 1. Clone this repository
+
+```sh
+git clone git@github.com:algolia/instantsearch-android.git
+```
+
+### 2. Build the project
+
+```sh
+./gradlew :examples:assembleDebug
+```
+
+### 3. Install the app
+
+```sh
+./gradlew :examples:installDebug
+```
+
+### 4. Launch the example
+
+The widgets showcase is under `Showcase > Imperative UI`.
