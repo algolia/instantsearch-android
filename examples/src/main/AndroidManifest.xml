@@ -1,0 +1,313 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.algolia.instantsearch.examples">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/InstantSearchSamples"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <activity
+            android:name=".directory.DirectoryActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Guides -->
+
+        <activity
+            android:name=".guides.gettingstarted.GettingStartedGuide"
+            android:parentActivityName=".directory.DirectoryActivity" />
+
+        <activity
+            android:name=".guides.places.PlacesActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+
+        <activity
+            android:name=".guides.querysuggestion.QuerySuggestionActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+
+        <activity
+            android:name=".guides.insights.InsightsActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+
+        <activity
+            android:name=".guides.compose.ComposeActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+
+        <activity
+            android:name=".guides.voice.VoiceSearchActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+
+        <!-- Showcase: Android View -->
+
+        <activity
+            android:name=".showcase.view.directory.AndroidViewDirectoryShowcase"
+            android:parentActivityName=".directory.DirectoryActivity" />
+
+        <activity
+            android:name=".showcase.view.highlighting.HighlightingShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.clear.FilterClearShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.current.ShowcaseFilterCurrent"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.toggle.FilterToggleShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.range.FilterRangeShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.map.FilterMapShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.list.FilterListAllShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.list.FilterListFacetShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.list.FilterListNumericShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.list.FilterListTagShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.facet.FacetListShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.facet.FacetListSearchShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.facet.FacetListPersistentShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.numeric.comparison.FilterComparisonShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.search.SearchOnSubmitShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.search.SearchAsYouTypeShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.search.SearchAutoCompleteTextView"
+            android:exported="true"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.list.paging.PagingSingleIndexShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.sortby.SortByShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.stats.StatsShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.loading.LoadingShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.list.paging.PagingMultipleIndexShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.list.merged.MergedListShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.hierarchical.HierarchicalShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.relateditems.RelatedItemsShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.customdata.QueryRuleCustomDataShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+        <activity
+            android:name=".showcase.view.filter.rating.RatingShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+
+        <activity
+            android:name=".showcase.view.filter.facet.dynamic.DynamicFacetShowcase"
+            android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
+
+        <activity
+            android:name=".showcase.view.customdata.TemplateActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "algoliademo://discounts” -->
+                <data
+                    android:host="discounts"
+                    android:scheme="algoliademo" />
+                <data
+                    android:host="help"
+                    android:scheme="algoliademo" />
+            </intent-filter>
+        </activity>
+
+        <!-- Showcase: Compose -->
+
+        <activity
+            android:name=".showcase.compose.directory.ComposeDirectoryShowcase"
+            android:parentActivityName=".directory.DirectoryActivity" />
+
+        <activity
+            android:name=".showcase.compose.filter.current.FilterCurrentShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+
+        <activity
+            android:name=".showcase.compose.filter.current.FilterCurrentShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.clear.FilterClearShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.facet.FacetListShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.facet.FacetListSearchShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.facet.FacetListPersistentShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.list.FilterListAllShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.list.FilterListFacetShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.list.FilterListNumericShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.list.FilterListTagShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.map.FilterMapShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.numeric.comparison.FilterComparisonShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.range.FilterRangeShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.rating.RatingShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.toggle.FilterToggleShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.hierarchical.HierarchicalShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.highlighting.HighlightingShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.list.merged.MergedListShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.list.paging.PagingSingleIndexShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.list.paging.PagingMultipleIndexShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.loading.LoadingShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.relateditems.RelatedItemsShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.search.SearchAsYouTypeShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.search.SearchOnSubmitShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.search.SearchAutoCompleteShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.sortby.SortByShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.stats.StatsShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.customdata.QueryRuleCustomDataShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.filter.facet.DynamicFacetShowcase"
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+        <activity
+            android:name=".showcase.compose.customdata.TemplateActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "algoliademo://discounts” -->
+                <data
+                    android:host="discounts"
+                    android:scheme="algoliademo" />
+                <data
+                    android:host="help"
+                    android:scheme="algoliademo" />
+            </intent-filter>
+        </activity>
+
+        <!-- Code Exchange -->
+
+        <activity
+            android:name=".codex.categorieshits.MainActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+        <activity
+            android:name=".codex.multipleindex.MainActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+        <activity
+            android:name=".codex.suggestions.query.MainActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+        <activity
+            android:name=".codex.suggestions.categories.MainActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+        <activity
+            android:name=".codex.suggestions.hits.MainActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+        <activity
+            android:name=".codex.suggestions.recent.MainActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+        <activity
+            android:name=".codex.voice.MainActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+
+    </application>
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
+</manifest>
