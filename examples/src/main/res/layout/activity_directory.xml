@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:iconifiedByDefault="false"
-            app:queryHint="Search Guides"/>
+            app:queryHint="Search examples"/>
 
     </androidx.appcompat.widget.Toolbar>
 

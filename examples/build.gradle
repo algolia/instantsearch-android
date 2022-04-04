@@ -46,13 +46,13 @@ android {
 dependencies {
     //implementation "com.algolia:instantsearch-android:$instantsearch"
     implementation project(":instantsearch")
-//implementation "com.algolia:instantsearch-compose:$instantsearch"
+    //implementation "com.algolia:instantsearch-compose:$instantsearch"
     implementation project(":instantsearch-compose")
-//implementation "com.algolia:instantsearch-insights-android:$instantsearch"
+    //implementation "com.algolia:instantsearch-insights-android:$instantsearch"
     implementation project(":instantsearch-insights")
-//implementation "com.algolia:instantsearch-android-paging3:$instantsearch"
+    //implementation "com.algolia:instantsearch-android-paging3:$instantsearch"
     implementation project(":extensions:android-paging3")
-// implementation "com.algolia:instantsearch-android-loading:$instantsearch"
+    // implementation "com.algolia:instantsearch-android-loading:$instantsearch"
     implementation project(":extensions:android-loading")
     implementation "com.algolia.instantsearch:voice:1.1.0"
 

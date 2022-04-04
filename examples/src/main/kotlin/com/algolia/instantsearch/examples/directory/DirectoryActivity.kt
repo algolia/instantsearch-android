@@ -23,7 +23,6 @@ class DirectoryActivity : AppCompatActivity() {
     private val client = ClientSearch(
         applicationID = ApplicationID("latency"),
         apiKey = APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        logLevel = LogLevel.ALL
     )
     private val searcher = HitsSearcher(client = client, indexName = IndexName("mobile_demos"))
     private val connector = SearchBoxConnector(searcher)
