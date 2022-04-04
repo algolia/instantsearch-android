@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.examples.showcase.compose.customdata
+package com.algolia.instantsearch.examples.showcase.shared.customdata
 
 import android.os.Bundle
 import androidx.activity.compose.setContent

@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 data class Banner(
     val title: String?,
     val banner: String?,
-    val link: String
+    val link: String,
+    val redirect: String?
 )

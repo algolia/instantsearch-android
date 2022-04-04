@@ -5,21 +5,26 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
-import com.algolia.instantsearch.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.customdata.QueryRuleCustomDataConnector
 import com.algolia.instantsearch.examples.R
+import com.algolia.instantsearch.examples.databinding.IncludeSearchInfoBinding
+import com.algolia.instantsearch.examples.databinding.ShowcaseQueryRuleCustomDataBinding
+import com.algolia.instantsearch.examples.showcase.shared.customdata.TemplateActivity.Companion.EXTRA_CONTENT
+import com.algolia.instantsearch.examples.showcase.view.client
+import com.algolia.instantsearch.examples.showcase.view.configureRecyclerView
+import com.algolia.instantsearch.examples.showcase.view.configureSearchView
+import com.algolia.instantsearch.examples.showcase.view.configureSearcher
+import com.algolia.instantsearch.examples.showcase.view.configureToolbar
+import com.algolia.instantsearch.examples.showcase.view.list.product.Product
+import com.algolia.instantsearch.examples.showcase.view.list.product.ProductAdapter
+import com.algolia.instantsearch.examples.showcase.view.stubIndexName
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.SearchMode
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.examples.showcase.view.*
-import com.algolia.instantsearch.examples.showcase.view.customdata.TemplateActivity.Companion.EXTRA_CONTENT
-import com.algolia.instantsearch.examples.databinding.IncludeSearchInfoBinding
-import com.algolia.instantsearch.examples.databinding.ShowcaseQueryRuleCustomDataBinding
-import com.algolia.instantsearch.examples.showcase.view.list.product.Product
-import com.algolia.instantsearch.examples.showcase.view.list.product.ProductAdapter
 import com.algolia.search.helper.deserialize
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -57,8 +62,8 @@ class QueryRuleCustomDataShowcase : AppCompatActivity() {
 
         searchBox.viewModel.eventSubmit.subscribe {
             val model = queryRuleCustomData.viewModel.item.value ?: return@subscribe
-            if (model.banner == null && model.title == null) {
-                redirect(model.link, resources.getString(R.string.redirect_via_submit))
+            if (model.banner == null && model.title == null && model.redirect != null) {
+                redirect(model.redirect, resources.getString(R.string.redirect_via_submit))
             }
         }
 

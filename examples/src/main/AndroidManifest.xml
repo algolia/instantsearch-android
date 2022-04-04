@@ -145,24 +145,6 @@
             android:name=".showcase.view.filter.facet.dynamic.DynamicFacetShowcase"
             android:parentActivityName=".showcase.view.directory.AndroidViewDirectoryShowcase" />
 
-        <activity
-            android:name=".showcase.view.customdata.TemplateActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "algoliademo://discounts” -->
-                <data
-                    android:host="discounts"
-                    android:scheme="algoliademo" />
-                <data
-                    android:host="help"
-                    android:scheme="algoliademo" />
-            </intent-filter>
-        </activity>
-
         <!-- Showcase: Compose -->
 
         <activity
@@ -253,8 +235,11 @@
         <activity
             android:name=".showcase.compose.filter.facet.DynamicFacetShowcase"
             android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
+
+        <!-- Showcase: shared -->
+
         <activity
-            android:name=".showcase.compose.customdata.TemplateActivity"
+            android:name=".showcase.shared.customdata.TemplateActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
