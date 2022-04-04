@@ -23,7 +23,7 @@ fun DropdownTextField(
     AndroidView(
         modifier = modifier,
         factory = { context ->
-            (View.inflate(context, layout.autocompletetextfield, null) as TextInputLayout).apply {
+            (View.inflate(context, R.layout.autocompletetextfield, null) as TextInputLayout).apply {
                 findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView).apply {
                     inputType = EditorInfo.TYPE_NULL
                     onItemClickListener = onItemClickOf(sortByState)

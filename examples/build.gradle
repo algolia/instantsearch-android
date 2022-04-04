@@ -6,7 +6,7 @@ android {
     compileSdkVersion 31
     buildToolsVersion "32.0.0"
     defaultConfig {
-        applicationId "com.algolia.instantsearch.samples"
+        applicationId "com.algolia.instantsearch.examples"
         minSdkVersion 23
         targetSdkVersion 31
         versionCode 1

@@ -29,6 +29,7 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.examples.R
 import com.algolia.instantsearch.examples.showcase.compose.ui.GreyLight
 import com.algolia.instantsearch.examples.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.showcase.compose.ui.White

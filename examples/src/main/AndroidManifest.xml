@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/InstantSearchSamples"
+        android:theme="@style/InstantSearchExamples"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
 
@@ -169,10 +169,6 @@
         <activity
             android:name=".showcase.compose.directory.ComposeDirectoryShowcase"
             android:parentActivityName=".directory.DirectoryActivity" />
-
-        <activity
-            android:name=".showcase.compose.filter.current.FilterCurrentShowcase"
-            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
 
         <activity
             android:name=".showcase.compose.filter.current.FilterCurrentShowcase"

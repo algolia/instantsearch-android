@@ -3,6 +3,7 @@ package com.algolia.instantsearch.examples.showcase.view.hierarchical
 import android.graphics.Typeface
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.instantsearch.examples.showcase.view.dip
 import com.algolia.instantsearch.hierarchical.HierarchicalItem
 import com.algolia.instantsearch.examples.databinding.ListItemSelectableBinding
 
