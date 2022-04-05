@@ -7,7 +7,7 @@ Search experience consisting of two sections:
 When a search query submitted, it's added to the recent searches list.
 Selection of a suggestion or a recent search input updates the search query.
 
-<img src="/docs/codex/query_suggestions_recent.gif" width="300"/>
+<img src="/docs/img/codex/query_suggestions_recent.gif" width="300"/>
 
 ## How to run this example
 

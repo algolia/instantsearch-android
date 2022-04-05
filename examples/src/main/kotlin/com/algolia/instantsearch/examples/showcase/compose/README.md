@@ -2,7 +2,7 @@
 
 A showcase of widgets available in `com.algolia:instantsearch-compose`.
 
-<img src="/docs/showcase/showcase-compose.gif" width="500"/>
+<img src="/docs/img/showcase/showcase-compose.gif" width="500"/>
 
 ## How to run this example
 

@@ -2,7 +2,7 @@
 
 A showcase of widgets available in `com.algolia:instantsearch-android`.
 
-<img src="/docs/showcase/showcase-view.gif" width="500"/>
+<img src="/docs/img/showcase/showcase-view.gif" width="500"/>
 
 ## How to run this example
 

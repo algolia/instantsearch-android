@@ -3,7 +3,7 @@
 Search for query suggestions.
 Selection of a suggestions updates the search query.
 
-<img src="/docs/codex/query_suggestions.gif" width="300"/>
+<img src="/docs/img/codex/query_suggestions.gif" width="300"/>
 
 ## How to run this example
 

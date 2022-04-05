@@ -6,7 +6,7 @@ Search experience consisting of search in two indices:
 
 Demonstrates simultaneous search in multiple indices
 
-<img src="/docs/codex/multiple_index.gif" width="300"/>
+<img src="/docs/img/codex/multiple_index.gif" width="300"/>
 
 ## How to run this example
 
