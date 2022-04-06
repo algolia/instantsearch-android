@@ -32,3 +32,6 @@ git clone git@github.com:algolia/instantsearch-android.git
 ### 4. Launch the example
 
 The example is under `Code Exchange > Query Suggestions Recent`.
+
+## Additional resources
+Learn more about [Query Suggestions in InstantSearch Android](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/query-suggestions/android/) in the Algolia documentation.

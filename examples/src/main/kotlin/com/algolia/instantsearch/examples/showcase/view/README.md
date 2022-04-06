@@ -27,3 +27,6 @@ git clone git@github.com:algolia/instantsearch-android.git
 ### 4. Launch the example
 
 The widgets showcase is under `Showcase > Imperative UI`.
+
+## Additional resources
+Learn more about InstantSearch Android [widgets](https://www.algolia.com/doc/guides/building-search-ui/widgets/showcase/android/) in the Algolia documentation.

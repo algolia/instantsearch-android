@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.algolia.instantsearch.android.searchbox.SearchBoxViewAppCompat
@@ -29,7 +31,7 @@ class QuerySuggestionActivity : AppCompatActivity() {
 
         // Switch fragments on search box focus
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
-            if (hasFocus) showSuggestions() else showProducts()
+            if (hasFocus) showSuggestions() else supportFragmentManager.popBackStack()
         }
 
         // Observe suggestions
@@ -42,16 +44,16 @@ class QuerySuggestionActivity : AppCompatActivity() {
     /** display suggestions fragment */
     private fun showSuggestions() {
         supportFragmentManager.commit {
-            replace<SuggestionFragment>(R.id.container)
+            add<SuggestionFragment>(R.id.container)
             setReorderingAllowed(true)
+            addToBackStack("suggestions")
         }
     }
 
     /** display products fragment */
     private fun showProducts() {
         supportFragmentManager.commit {
-            replace<ProductFragment>(R.id.container)
-            setReorderingAllowed(true)
+            add<ProductFragment>(R.id.container)
         }
     }
 

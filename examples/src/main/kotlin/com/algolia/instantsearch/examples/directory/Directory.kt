@@ -24,6 +24,7 @@ val guides = mapOf(
     ObjectID("guide_insights") to InsightsActivity::class,
     ObjectID("guide_declarative_ui") to ComposeActivity::class,
     ObjectID("guide_voice_search") to VoiceSearchActivity::class,
+    ObjectID("guide_places") to PlacesActivity::class,
     ObjectID("showcase_imperative_ui") to AndroidViewDirectoryShowcase::class,
     ObjectID("showcase_declarative_ui") to ComposeDirectoryShowcase::class,
     ObjectID("codex_categories_hits") to CategoriesHitsCodex::class,

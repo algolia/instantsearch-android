@@ -27,3 +27,6 @@ git clone git@github.com:algolia/instantsearch-android.git
 ### 4. Launch the example
 
 The example is under `Code Exchange > Voice Search`.
+
+## Additional resources
+Learn more about [Voice Search with InstantSearch Android](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/voice-search/android/) in the Algolia documentation.
