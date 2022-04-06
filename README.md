@@ -1,5 +1,5 @@
 
-<img src="docs/banner.png" alt="InstantSearch Android" />
+<img src="docs/img/banner.png" alt="InstantSearch Android" />
 
 [ ![Download](https://img.shields.io/maven-central/v/com.algolia/instantsearch-android?label=Download) ](https://search.maven.org/search?q=a:instantsearch-android)
 [![Build Status](https://travis-ci.org/algolia/instantsearch-android.svg?branch=master)](https://travis-ci.org/algolia/instantsearch-android)
@@ -9,9 +9,9 @@ InstantSearch family: **InstantSearch Android** | [InstantSearch iOS][instantsea
 **InstantSearch Android** is a library providing widgets and helpers to help you build the best instant-search experience on Android with Algolia.
 It is built on top of Algolia's [Kotlin API Client][kotlin-client] to provide you a high-level solution to quickly build various search interfaces.
 
-# Showcases
+# Examples
 
-You can see InstantSearch Android in action in our [examples repository][instantsearch-android-examples], have a look at it to see concrete examples of all the available widgets.
+You can see InstantSearch Android in action in our [examples app][examples-url], have a look at it to see concrete examples of all the available widgets.
 
 # Usage
 
@@ -73,12 +73,8 @@ InstantSearch Android is [licensed under Apache V2](LICENSE).
 [doc]: https://algolia.com/doc/guides/building-search-ui/what-is-instantsearch/android/
 [getting-started]: https://algolia.com/doc/guides/building-search-ui/getting-started/android/
 [kotlin-client]: https://github.com/algolia/algoliasearch-client-kotlin
-[media-gif]: ./docs/media.gif
-[ecommerce-gif]: ./docs/ecommerce.gif
-[media-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/media
-[ecommerce-url]: https://github.com/algolia/instantsearch-android-examples/tree/master/ecommerce
 [showcase-url]: https://algolia.com/doc/guides/building-search-ui/widgets/showcase/android/
-[examples-url]: https://github.com/algolia/instantsearch-android-examples
+[examples-url]: /examples
 [react-instantsearch-github]: https://github.com/algolia/react-instantsearch/
 [instantsearch-ios-github]: https://github.com/algolia/instantsearch-ios
 [instantsearch-js-github]: https://github.com/algolia/instantsearch.js

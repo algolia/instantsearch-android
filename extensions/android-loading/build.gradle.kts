@@ -52,7 +52,7 @@ android {
 
 
 dependencies {
-    api(project(":instantsearch-core"))
+    api(project(":instantsearch"))
     api(libs.androidx.swiperefreshlayout)
     testImplementation(kotlin("test-junit"))
     testImplementation(libs.test.androidx.runner)
