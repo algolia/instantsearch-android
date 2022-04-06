@@ -9,9 +9,9 @@ InstantSearch family: **InstantSearch Android** | [InstantSearch iOS][instantsea
 **InstantSearch Android** is a library providing widgets and helpers to help you build the best instant-search experience on Android with Algolia.
 It is built on top of Algolia's [Kotlin API Client][kotlin-client] to provide you a high-level solution to quickly build various search interfaces.
 
-# Showcases
+# Examples
 
-You can see InstantSearch Android in action in our [examples app][instantsearch-android-examples], have a look at it to see concrete examples of all the available widgets.
+You can see InstantSearch Android in action in our [examples app][examples-url], have a look at it to see concrete examples of all the available widgets.
 
 # Usage
 
