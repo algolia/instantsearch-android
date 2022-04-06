@@ -6,19 +6,12 @@ plugins {
 }
 
 android {
+    namespace = "com.algolia.instantsearch.android"
     compileSdk = 31
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        getByName("release"){
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
     }
 
     compileOptions {
@@ -35,20 +28,7 @@ android {
         isReturnDefaultValues = true
     }
 
-    sourceSets {
-        getByName("main") {
-            manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        }
-    }
-
     resourcePrefix = "alg_is_"
-
-    publishing {
-        multipleVariants {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
 kotlin {
