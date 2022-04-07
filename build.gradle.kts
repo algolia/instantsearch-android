@@ -4,9 +4,12 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 plugins {
     alias(libs.plugins.kotlin.multiplaform) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
-    alias(libs.plugins.android) apply false
+    alias(libs.plugins.android.library) apply false
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.spotless) apply false
+    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.firebase.perf) apply false
 }
 
 subprojects {

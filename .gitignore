@@ -8,3 +8,4 @@ local.properties
 .bundle/
 local.settings.gradle.kts
 */release
+*/google-services.json
