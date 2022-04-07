@@ -7,13 +7,4 @@ local.properties
 *.hprof
 .bundle/
 local.settings.gradle.kts
-
-# fastlane
-**/fastlane/report.xml
-**/fastlane/Preview.html
-**/fastlane/screenshots
-**/fastlane/test_output
-
-# bitrise
-.bitrise.yml
-bitrise.yml
+*/release

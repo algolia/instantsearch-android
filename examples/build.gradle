@@ -14,11 +14,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug {
-            matchingFallbacks = ['release']
-        }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -31,6 +29,7 @@ android {
     }
     packagingOptions {
         exclude("META-INF/*.kotlin_module")
+        resources.excludes += "DebugProbesKt.bin"
     }
     buildFeatures {
         viewBinding true
