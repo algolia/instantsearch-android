@@ -1,5 +1,6 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.kotlin.multiplaform) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
