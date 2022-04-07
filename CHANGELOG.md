@@ -1,10 +1,33 @@
+# 3.0.0-beta01
+
+### Added
+* Extension modules:
+    * `instantsearch-android-paging3` supporting Paging 3
+    * `instantsearch-android-loading` as separate module for SwipeRefreshLayout
+    * `instantsearch-coroutines-extensions`: coroutines extensions for Instant Search
+* Searchers: `connectHitsView`  optional `past` parameter
+
+### Changed
+* Instant Search Android package from `com.algolia.instantsearch.helper.android` to `com.algolia.instantsearch.android`
+* Promote experimental Searchers (`MultiSearcher`, `HitsSearcher` and `FacetsSearcher`)  to stable
+* Compose `SearchBox`: update widget params
+* Searchers' `search()` [main safe](https://developer.android.com/kotlin/coroutines/coroutines-best-practices#main-safe)
+* Update Kotlin to `1.6.10`
+
+### Fixed
+* facets searcher: `setQuery` function to set `facetQuery` field
+
+### Removed
+* Paging 2 support
+* Deprecated searchers `SearcherMultipleIndex`, `SearcherSingleIndex` and `SearcherForFacets`
+
 # 2.11.4
 
-# Added
+### Added
 - *Experimental*: `MultiSearch`, `HitsSearcher` and `FacetsSearcher`
 - Telemetry collection
 
-# Changed
+### Changed
 - Ktor `1.6.7`
 - atomicfu `0.16.3`
 - androidx core `1.7.0`
