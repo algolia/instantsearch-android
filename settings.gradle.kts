@@ -16,3 +16,18 @@ include(":examples")
 
 val localSettings = file("local.settings.gradle.kts")
 if (localSettings.exists()) apply(from = localSettings)
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
