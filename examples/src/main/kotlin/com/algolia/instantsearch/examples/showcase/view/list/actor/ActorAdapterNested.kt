@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.algolia.instantsearch.examples.databinding.ListItemActorBinding
+import com.algolia.instantsearch.examples.showcase.shared.model.Actor
 import com.algolia.instantsearch.examples.showcase.view.layoutInflater
 
 class ActorAdapterNested : PagingDataAdapter<Actor, ActorViewHolder>(this) {

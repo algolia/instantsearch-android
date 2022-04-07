@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
-import com.algolia.instantsearch.examples.showcase.compose.model.Actor
+import com.algolia.instantsearch.examples.showcase.shared.model.Actor
 
 
 @Composable

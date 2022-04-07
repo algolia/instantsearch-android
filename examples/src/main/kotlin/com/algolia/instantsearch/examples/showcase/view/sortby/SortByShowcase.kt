@@ -14,7 +14,7 @@ import com.algolia.instantsearch.examples.showcase.view.client
 import com.algolia.instantsearch.examples.showcase.view.configureRecyclerView
 import com.algolia.instantsearch.examples.showcase.view.configureToolbar
 import com.algolia.instantsearch.examples.databinding.ShowcaseSortByBinding
-import com.algolia.instantsearch.examples.showcase.view.list.movie.Movie
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.algolia.instantsearch.examples.showcase.view.list.movie.MovieAdapter
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName

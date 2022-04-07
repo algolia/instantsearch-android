@@ -6,6 +6,7 @@ import androidx.core.text.italic
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.android.highlighting.toSpannedString
 import com.algolia.instantsearch.examples.databinding.ListItemLargeBinding
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.bumptech.glide.Glide
 
 class MovieViewHolder(private val binding: ListItemLargeBinding) : RecyclerView.ViewHolder(binding.root) {

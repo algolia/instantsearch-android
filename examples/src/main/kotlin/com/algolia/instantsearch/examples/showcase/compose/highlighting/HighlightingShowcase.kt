@@ -16,7 +16,7 @@ import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.showcase.compose.client
 import com.algolia.instantsearch.examples.showcase.compose.configureSearcher
-import com.algolia.instantsearch.examples.showcase.compose.model.Movie
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.algolia.instantsearch.examples.showcase.compose.stubIndexName
 import com.algolia.instantsearch.examples.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.showcase.compose.ui.White

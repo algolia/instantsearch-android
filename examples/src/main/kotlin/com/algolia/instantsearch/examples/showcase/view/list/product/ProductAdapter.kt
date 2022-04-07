@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.examples.databinding.ListItemProductBinding
+import com.algolia.instantsearch.examples.showcase.shared.model.Product
 import com.algolia.instantsearch.examples.showcase.view.layoutInflater
 import com.bumptech.glide.Glide
 

@@ -9,17 +9,20 @@ import com.algolia.instantsearch.android.paging3.searchbox.connectPaginator
 import com.algolia.instantsearch.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.examples.R
+import com.algolia.instantsearch.examples.databinding.IncludeSearchBinding
+import com.algolia.instantsearch.examples.databinding.ShowcaseSearchBinding
+import com.algolia.instantsearch.examples.showcase.shared.model.Actor
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
+import com.algolia.instantsearch.examples.showcase.view.client
+import com.algolia.instantsearch.examples.showcase.view.configureRecyclerView
+import com.algolia.instantsearch.examples.showcase.view.configureSearchView
+import com.algolia.instantsearch.examples.showcase.view.configureToolbar
+import com.algolia.instantsearch.examples.showcase.view.list.actor.ActorAdapterNested
+import com.algolia.instantsearch.examples.showcase.view.list.movie.MovieAdapterNested
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.addHitsSearcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
-import com.algolia.instantsearch.examples.showcase.view.*
-import com.algolia.instantsearch.examples.databinding.IncludeSearchBinding
-import com.algolia.instantsearch.examples.databinding.ShowcaseSearchBinding
-import com.algolia.instantsearch.examples.showcase.view.list.actor.Actor
-import com.algolia.instantsearch.examples.showcase.view.list.actor.ActorAdapterNested
-import com.algolia.instantsearch.examples.showcase.view.list.movie.Movie
-import com.algolia.instantsearch.examples.showcase.view.list.movie.MovieAdapterNested
 import com.algolia.search.model.IndexName
 
 class PagingMultipleIndexShowcase : AppCompatActivity() {

@@ -9,6 +9,7 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.showcase.view.*
 import com.algolia.instantsearch.examples.databinding.IncludeSearchBinding
 import com.algolia.instantsearch.examples.databinding.ShowcaseDirectoryBinding
+import com.algolia.instantsearch.examples.showcase.shared.model.DirectoryHit
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query

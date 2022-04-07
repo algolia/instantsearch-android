@@ -14,7 +14,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import com.algolia.instantsearch.examples.showcase.compose.model.Product
+import com.algolia.instantsearch.examples.showcase.shared.model.Product
 
 @Composable
 fun ProductList(

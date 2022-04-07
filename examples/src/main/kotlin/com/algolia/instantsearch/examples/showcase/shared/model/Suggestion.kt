@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.examples.showcase.view.list.suggestion
+package com.algolia.instantsearch.examples.showcase.shared.model
 
 import com.algolia.instantsearch.core.highlighting.HighlightedString
 import com.algolia.instantsearch.highlighting.Highlightable

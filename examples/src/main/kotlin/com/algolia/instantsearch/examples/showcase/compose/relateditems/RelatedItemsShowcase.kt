@@ -20,7 +20,7 @@ import com.algolia.instantsearch.relateditems.connectRelatedHitsView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.showcase.compose.client
 import com.algolia.instantsearch.examples.showcase.compose.configureSearcher
-import com.algolia.instantsearch.examples.showcase.compose.model.Product
+import com.algolia.instantsearch.examples.showcase.shared.model.Product
 import com.algolia.instantsearch.examples.showcase.compose.showcaseTitle
 import com.algolia.instantsearch.examples.showcase.compose.stubIndexName
 import com.algolia.instantsearch.examples.showcase.compose.ui.GreyLight

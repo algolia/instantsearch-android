@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.examples.showcase.compose.directory
+package com.algolia.instantsearch.examples.showcase.shared.model
 
 import com.algolia.instantsearch.highlighting.Highlightable
 import com.algolia.search.model.Attribute
@@ -14,7 +14,7 @@ data class DirectoryHit(
     val type: String,
     val index: String,
     override val _highlightResult: JsonObject? = null
-) : Indexable, Highlightable {
+): Indexable, Highlightable {
 
     public val highlightedName
         get() = getHighlight(Attribute("name"), preTag = "<b>", postTag = "</b>")

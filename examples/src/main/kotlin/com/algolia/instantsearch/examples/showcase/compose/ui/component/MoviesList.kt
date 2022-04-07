@@ -21,7 +21,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.rememberImagePainter
 import com.algolia.instantsearch.compose.highlighting.toAnnotatedString
-import com.algolia.instantsearch.examples.showcase.compose.model.Movie
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.algolia.instantsearch.examples.showcase.compose.ui.GreyDark
 import java.util.*
 

@@ -2,6 +2,7 @@ package com.algolia.instantsearch.examples.showcase.view.list.actor
 
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.examples.databinding.ListItemActorBinding
+import com.algolia.instantsearch.examples.showcase.shared.model.Actor
 
 class ActorViewHolder(private val binding: ListItemActorBinding) :
     RecyclerView.ViewHolder(binding.root) {

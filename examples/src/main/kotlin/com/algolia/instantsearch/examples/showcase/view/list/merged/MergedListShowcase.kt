@@ -13,8 +13,8 @@ import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.examples.showcase.view.*
 import com.algolia.instantsearch.examples.databinding.IncludeSearchBinding
 import com.algolia.instantsearch.examples.databinding.ShowcaseMultisearchBinding
-import com.algolia.instantsearch.examples.showcase.view.list.actor.Actor
-import com.algolia.instantsearch.examples.showcase.view.list.movie.Movie
+import com.algolia.instantsearch.examples.showcase.shared.model.Actor
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.algolia.instantsearch.examples.showcase.view.list.movie.MovieAdapter
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName

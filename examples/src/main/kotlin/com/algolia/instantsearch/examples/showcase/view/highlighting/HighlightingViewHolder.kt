@@ -10,7 +10,7 @@ import androidx.core.text.italic
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.android.highlighting.toSpannedString
 import com.algolia.instantsearch.examples.databinding.ListItemHighlightingBinding
-import com.algolia.instantsearch.examples.showcase.view.list.movie.Movie
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.bumptech.glide.Glide
 
 class HighlightingViewHolder(private val binding: ListItemHighlightingBinding) :

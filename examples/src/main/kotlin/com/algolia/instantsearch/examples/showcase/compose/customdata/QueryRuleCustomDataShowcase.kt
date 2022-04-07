@@ -36,8 +36,8 @@ import com.algolia.instantsearch.customdata.QueryRuleCustomDataConnector
 import com.algolia.instantsearch.examples.R
 import com.algolia.instantsearch.examples.showcase.compose.client
 import com.algolia.instantsearch.examples.showcase.compose.configureSearcher
-import com.algolia.instantsearch.examples.showcase.compose.model.Banner
-import com.algolia.instantsearch.examples.showcase.compose.model.Product
+import com.algolia.instantsearch.examples.showcase.shared.model.Banner
+import com.algolia.instantsearch.examples.showcase.shared.model.Product
 import com.algolia.instantsearch.examples.showcase.compose.stubIndexName
 import com.algolia.instantsearch.examples.showcase.compose.ui.BlueDark
 import com.algolia.instantsearch.examples.showcase.compose.ui.ShowcaseTheme
@@ -74,8 +74,8 @@ class QueryRuleCustomDataShowcase : AppCompatActivity() {
 
         searchBox.viewModel.eventSubmit.subscribe {
             val model = queryRuleCustomData.viewModel.item.value ?: return@subscribe
-            if (model.banner == null && model.title == null) {
-                redirect(model.link, resources.getString(R.string.redirect_via_submit))
+            if (model.banner == null && model.title == null && model.redirect != null) {
+                redirect(model.redirect, resources.getString(R.string.redirect_via_submit))
             }
         }
     }

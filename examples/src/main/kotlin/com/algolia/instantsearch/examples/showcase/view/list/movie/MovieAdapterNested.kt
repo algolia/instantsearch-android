@@ -3,6 +3,7 @@ package com.algolia.instantsearch.examples.showcase.view.list.movie
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.algolia.instantsearch.examples.databinding.ListItemMovieBinding
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.algolia.instantsearch.examples.showcase.view.dip
 import com.algolia.instantsearch.examples.showcase.view.layoutInflater
 

@@ -12,13 +12,14 @@ import com.algolia.instantsearch.customdata.QueryRuleCustomDataConnector
 import com.algolia.instantsearch.examples.R
 import com.algolia.instantsearch.examples.databinding.IncludeSearchInfoBinding
 import com.algolia.instantsearch.examples.databinding.ShowcaseQueryRuleCustomDataBinding
+import com.algolia.instantsearch.examples.showcase.shared.model.Banner
 import com.algolia.instantsearch.examples.showcase.shared.customdata.TemplateActivity.Companion.EXTRA_CONTENT
+import com.algolia.instantsearch.examples.showcase.shared.model.Product
 import com.algolia.instantsearch.examples.showcase.view.client
 import com.algolia.instantsearch.examples.showcase.view.configureRecyclerView
 import com.algolia.instantsearch.examples.showcase.view.configureSearchView
 import com.algolia.instantsearch.examples.showcase.view.configureSearcher
 import com.algolia.instantsearch.examples.showcase.view.configureToolbar
-import com.algolia.instantsearch.examples.showcase.view.list.product.Product
 import com.algolia.instantsearch.examples.showcase.view.list.product.ProductAdapter
 import com.algolia.instantsearch.examples.showcase.view.stubIndexName
 import com.algolia.instantsearch.searchbox.SearchBoxConnector

@@ -4,13 +4,17 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
+import com.algolia.instantsearch.examples.databinding.ShowcaseRelateditemsBinding
+import com.algolia.instantsearch.examples.showcase.shared.model.Product
+import com.algolia.instantsearch.examples.showcase.view.client
+import com.algolia.instantsearch.examples.showcase.view.configureRecyclerView
+import com.algolia.instantsearch.examples.showcase.view.configureSearcher
+import com.algolia.instantsearch.examples.showcase.view.configureToolbar
+import com.algolia.instantsearch.examples.showcase.view.list.product.ProductAdapter
+import com.algolia.instantsearch.examples.showcase.view.stubIndexName
 import com.algolia.instantsearch.relateditems.MatchingPattern
 import com.algolia.instantsearch.relateditems.connectRelatedHitsView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.examples.showcase.view.*
-import com.algolia.instantsearch.examples.databinding.ShowcaseRelateditemsBinding
-import com.algolia.instantsearch.examples.showcase.view.list.product.Product
-import com.algolia.instantsearch.examples.showcase.view.list.product.ProductAdapter
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.Attribute
 
@@ -43,7 +47,11 @@ class RelatedItemsShowcase : AppCompatActivity() {
             MatchingPattern(Attribute("categories"), 2, Product::categories)
         )
         hitsAdapter.callback = { product ->
-            connection += relatedItemsSearcher.connectRelatedHitsView(relatedItemsAdapter, product, matchingPatterns) { response ->
+            connection += relatedItemsSearcher.connectRelatedHitsView(
+                relatedItemsAdapter,
+                product,
+                matchingPatterns
+            ) { response ->
                 response.hits.deserialize(Product.serializer())
             }
             relatedItemsSearcher.searchAsync()

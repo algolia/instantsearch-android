@@ -2,6 +2,7 @@ package com.algolia.instantsearch.examples.showcase.view.list.movie
 
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.examples.databinding.ListItemMovieBinding
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.bumptech.glide.Glide
 
 class MovieViewHolderNested(private val binding: ListItemMovieBinding) :

@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.examples.databinding.ListItemSmallBinding
+import com.algolia.instantsearch.examples.showcase.shared.model.Actor
 import com.algolia.instantsearch.examples.showcase.view.layoutInflater
-import com.algolia.instantsearch.examples.showcase.view.list.actor.Actor
 import com.algolia.instantsearch.examples.showcase.view.list.actor.ActorViewHolderSmall
 
 class ActorsAdapter : ListAdapter<Actor, ActorViewHolderSmall>(ActorsAdapter), HitsView<Actor> {

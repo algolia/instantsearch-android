@@ -15,7 +15,7 @@ import com.algolia.instantsearch.examples.R
 import com.algolia.instantsearch.examples.databinding.IncludeSearchBinding
 import com.algolia.instantsearch.examples.databinding.ShowcaseLoadingBinding
 import com.algolia.instantsearch.examples.showcase.view.*
-import com.algolia.instantsearch.examples.showcase.view.list.movie.Movie
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.algolia.instantsearch.examples.showcase.view.list.movie.MovieAdapterPaged
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView

@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.examples.showcase.view.customdata
+package com.algolia.instantsearch.examples.showcase.shared.model
 
 import kotlinx.serialization.Serializable
 
@@ -9,3 +9,4 @@ data class Banner(
     val link: String,
     val redirect: String?
 )
+

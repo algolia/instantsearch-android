@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.examples.databinding.ListItemHighlightingBinding
 import com.algolia.instantsearch.examples.showcase.view.layoutInflater
-import com.algolia.instantsearch.examples.showcase.view.list.movie.Movie
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.algolia.instantsearch.examples.showcase.view.list.movie.MovieDiffUtil
 
 class HighlightingAdapter : ListAdapter<Movie, HighlightingViewHolder>(MovieDiffUtil),

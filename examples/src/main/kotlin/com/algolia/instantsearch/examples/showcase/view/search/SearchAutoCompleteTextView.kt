@@ -16,7 +16,7 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.showcase.view.client
 import com.algolia.instantsearch.examples.showcase.view.configureSearcher
 import com.algolia.instantsearch.examples.databinding.ShowcaseSearchAutocompleteBinding
-import com.algolia.instantsearch.examples.showcase.view.list.movie.Movie
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.algolia.instantsearch.examples.showcase.view.stubIndexName
 import com.algolia.search.helper.deserialize
 

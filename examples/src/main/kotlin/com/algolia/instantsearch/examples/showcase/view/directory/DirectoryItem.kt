@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.examples.showcase.view.directory
 
+import com.algolia.instantsearch.examples.showcase.shared.model.DirectoryHit
+
 
 sealed class DirectoryItem {
 

@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.examples.showcase.compose.model
+package com.algolia.instantsearch.examples.showcase.shared.model
 
 import com.algolia.search.model.ObjectID
 import com.algolia.search.model.indexing.Indexable

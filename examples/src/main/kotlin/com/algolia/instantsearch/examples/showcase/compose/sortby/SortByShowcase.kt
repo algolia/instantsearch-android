@@ -19,7 +19,7 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.sortby.SortByConnector
 import com.algolia.instantsearch.sortby.connectView
 import com.algolia.instantsearch.examples.showcase.compose.client
-import com.algolia.instantsearch.examples.showcase.compose.model.Movie
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.algolia.instantsearch.examples.showcase.compose.showcaseTitle
 import com.algolia.instantsearch.examples.showcase.compose.ui.component.DropdownTextField
 import com.algolia.instantsearch.examples.showcase.compose.ui.component.MoviesList

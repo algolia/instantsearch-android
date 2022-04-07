@@ -9,7 +9,7 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.showcase.view.*
 import com.algolia.instantsearch.examples.databinding.IncludeSearchBinding
 import com.algolia.instantsearch.examples.databinding.ShowcaseHighlightingBinding
-import com.algolia.instantsearch.examples.showcase.view.list.movie.Movie
+import com.algolia.instantsearch.examples.showcase.shared.model.Movie
 import com.algolia.search.helper.deserialize
 
 class HighlightingShowcase : AppCompatActivity() {
