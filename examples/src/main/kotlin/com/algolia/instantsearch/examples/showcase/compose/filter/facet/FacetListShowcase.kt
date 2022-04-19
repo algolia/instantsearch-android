@@ -15,7 +15,7 @@ import com.algolia.instantsearch.compose.filter.facet.FacetListState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.filter.facet.FacetListConnector
-import com.algolia.instantsearch.filter.facet.FacetListPresenterImpl
+import com.algolia.instantsearch.filter.facet.DefaultFacetListPresenter
 import com.algolia.instantsearch.filter.facet.FacetSortCriterion
 import com.algolia.instantsearch.filter.facet.connectView
 import com.algolia.instantsearch.filter.state.filterState
@@ -46,7 +46,7 @@ class FacetListShowcase : AppCompatActivity() {
     private val searcher = HitsSearcher(client, stubIndexName)
 
     private val facetListStateColor = FacetListState()
-    private val colorPresenter = FacetListPresenterImpl(
+    private val colorPresenter = DefaultFacetListPresenter(
         listOf(
             FacetSortCriterion.IsRefined,
             FacetSortCriterion.AlphabeticalAscending
@@ -62,7 +62,7 @@ class FacetListShowcase : AppCompatActivity() {
 
     private val facetListStatePromotions = FacetListState()
     private val promotionPresenter =
-        FacetListPresenterImpl(listOf(FacetSortCriterion.CountDescending))
+        DefaultFacetListPresenter(listOf(FacetSortCriterion.CountDescending))
     private val facetListPromotions = FacetListConnector(
         searcher = searcher,
         filterState = filterState,
@@ -72,7 +72,7 @@ class FacetListShowcase : AppCompatActivity() {
     )
 
     private val facetListStateCategory = FacetListState()
-    private val categoryPresenter = FacetListPresenterImpl(
+    private val categoryPresenter = DefaultFacetListPresenter(
         listOf(
             FacetSortCriterion.CountDescending,
             FacetSortCriterion.AlphabeticalAscending

@@ -2,7 +2,7 @@ package com.algolia.instantsearch.stats
 
 import com.algolia.search.model.response.ResponseSearch
 
-public class StatsPresenterImpl(
+public class DefaultStatsPresenter(
     private val default: String = "",
 ) : StatsPresenter<String> {
 

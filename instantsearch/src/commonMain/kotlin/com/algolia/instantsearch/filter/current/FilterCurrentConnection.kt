@@ -8,7 +8,7 @@ import com.algolia.instantsearch.filter.state.FilterState
 
 public fun FilterCurrentViewModel.connectView(
     view: FilterCurrentView,
-    presenter: FilterCurrentPresenter = FilterCurrentPresenterImpl(),
+    presenter: FilterCurrentPresenter = DefaultFilterCurrentPresenter(),
 ): Connection {
     return FilterCurrentConnectionView(this, view, presenter)
 }
@@ -21,7 +21,7 @@ public fun FilterCurrentViewModel.connectView(
  */
 public fun FilterCurrentConnector.connectView(
     view: FilterCurrentView,
-    presenter: FilterCurrentPresenter = FilterCurrentPresenterImpl(),
+    presenter: FilterCurrentPresenter = DefaultFilterCurrentPresenter(),
 ): Connection {
     return viewModel.connectView(view, presenter)
 }

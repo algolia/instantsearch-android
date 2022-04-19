@@ -1,6 +1,9 @@
 package com.algolia.instantsearch.core.connection
 
-public open class ConnectionImpl : Connection {
+/**
+ * Abstract [Connection] implementation.
+ */
+public abstract class AbstractConnection : Connection {
 
     final override var isConnected: Boolean = false
         private set
@@ -13,3 +16,6 @@ public open class ConnectionImpl : Connection {
         isConnected = false
     }
 }
+
+@Deprecated("use AbstractConnection instead", replaceWith = ReplaceWith("AbstractConnection"))
+public typealias ConnectionImpl = AbstractConnection

@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.facet.dynamic.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListView
 import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListViewModel
@@ -18,7 +18,7 @@ import com.algolia.search.model.search.Facet
 internal class DynamicFacetListConnectionView(
     val viewModel: DynamicFacetListViewModel,
     val view: DynamicFacetListView,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val didSelect: (Attribute, Facet) -> Unit = { attribute, facet ->
         viewModel.toggleSelection(attribute = attribute, facetValue = facet.value)

@@ -8,7 +8,7 @@ import com.algolia.instantsearch.hierarchical.HierarchicalFilter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 
-internal data class MutableFiltersImpl(
+internal data class DefaultMutableFilters(
     private val facetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(),
     private val tagGroups: MutableMap<FilterGroupID, Set<Filter.Tag>> = mutableMapOf(),
     private val numericGroups: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf(),
@@ -16,7 +16,7 @@ internal data class MutableFiltersImpl(
 ) : MutableFilters, Filters by FiltersImpl(facetGroups, tagGroups, numericGroups, hierarchicalGroups) {
 
     private fun <T : Filter> Map<FilterGroupID, Set<T>>.getOrDefault(groupID: FilterGroupID): Set<T> {
-        return getOrElse(groupID, { setOf() })
+        return getOrElse(groupID) { setOf() }
     }
 
     private fun <T : Filter> MutableMap<FilterGroupID, Set<T>>.modify(
@@ -30,11 +30,11 @@ internal data class MutableFiltersImpl(
     }
 
     private fun <T : Filter> MutableMap<FilterGroupID, Set<T>>.add(groupID: FilterGroupID, filter: T) {
-        modify(groupID, filter, { plus(it) })
+        modify(groupID, filter) { plus(it) }
     }
 
     private fun <T : Filter> MutableMap<FilterGroupID, Set<T>>.remove(groupID: FilterGroupID, filter: T) {
-        modify(groupID, filter, { minus(it) })
+        modify(groupID, filter) { minus(it) }
     }
 
     private fun <T : Filter> MutableMap<FilterGroupID, Set<T>>.clear(groupID: FilterGroupID) {

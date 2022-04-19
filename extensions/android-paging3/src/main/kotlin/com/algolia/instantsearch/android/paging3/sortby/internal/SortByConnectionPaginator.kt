@@ -2,7 +2,7 @@ package com.algolia.instantsearch.android.paging3.sortby.internal
 
 import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.sortby.SortByViewModel
 
 /**
@@ -14,7 +14,7 @@ import com.algolia.instantsearch.sortby.SortByViewModel
 internal class SortByConnectionPaginator<T : Any>(
     private val viewModel: SortByViewModel,
     private val paginator: Paginator<T>,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val onSelection: Callback<Int?> = {
         paginator.invalidate()

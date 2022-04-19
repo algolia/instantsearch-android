@@ -2,7 +2,7 @@ package com.algolia.instantsearch.searcher.internal
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
@@ -16,7 +16,7 @@ internal data class SearcherAnswersConnectionFilterState(
     private val searcher: SearcherAnswers,
     private val filterState: FilterState,
     private val debouncer: Debouncer,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val updateSearcher: Callback<Filters> = { filters ->
         searcher.updateFilters(filters)

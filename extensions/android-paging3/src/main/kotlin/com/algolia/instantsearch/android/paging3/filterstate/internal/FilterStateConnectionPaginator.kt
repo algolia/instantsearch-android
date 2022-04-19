@@ -2,7 +2,7 @@ package com.algolia.instantsearch.android.paging3.filterstate.internal
 
 import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
 
@@ -15,7 +15,7 @@ import com.algolia.instantsearch.filter.state.Filters
 internal data class FilterStateConnectionPaginator<T : Any>(
     private val paginator: Paginator<T>,
     private val filterState: FilterState,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val updateFilterState: Callback<Filters> = {
         paginator.invalidate()

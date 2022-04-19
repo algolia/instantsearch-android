@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.range
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.extension.traceNumberRangeFilterConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
@@ -23,7 +23,7 @@ public data class FilterRangeConnector<T>(
     public val filterState: FilterState,
     public val attribute: Attribute,
     public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
-) : ConnectionImpl() where T : Number, T : Comparable<T> {
+) : AbstractConnection() where T : Number, T : Comparable<T> {
 
     /**
      * @param filterState the FilterState that will hold your filters

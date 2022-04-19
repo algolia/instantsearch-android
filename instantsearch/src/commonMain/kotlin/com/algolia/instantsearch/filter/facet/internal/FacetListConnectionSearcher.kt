@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.facet.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.searcher.SearcherQuery
 import com.algolia.instantsearch.searcher.addFacet
@@ -12,7 +12,7 @@ internal data class FacetListConnectionSearcher(
     private val viewModel: FacetListViewModel,
     private val searcher: SearcherQuery<*, ResponseSearch>,
     private val attribute: Attribute,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val updateItems: Callback<ResponseSearch?> = { response ->
         if (response != null) {

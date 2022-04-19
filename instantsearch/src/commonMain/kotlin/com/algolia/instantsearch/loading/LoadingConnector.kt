@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.loading
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
@@ -18,7 +18,7 @@ public data class LoadingConnector<R>(
     public val searcher: Searcher<R>,
     public val viewModel: LoadingViewModel = LoadingViewModel(),
     public val debouncer: Debouncer = Debouncer(debounceLoadingInMillis),
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     init {
         traceLoadingConnector()

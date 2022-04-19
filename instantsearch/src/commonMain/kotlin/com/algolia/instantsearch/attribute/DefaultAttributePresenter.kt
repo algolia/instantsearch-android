@@ -2,7 +2,7 @@ package com.algolia.instantsearch.attribute
 
 import com.algolia.search.model.Attribute
 
-public class AttributePresenterImpl(
+public class DefaultAttributePresenter(
     private val transform: (Attribute) -> String = { attribute -> attribute.raw },
 ) : AttributePresenter {
 

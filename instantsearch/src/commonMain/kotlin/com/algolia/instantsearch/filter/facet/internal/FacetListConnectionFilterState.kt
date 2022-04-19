@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.facet.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.filter.state.FilterGroupID
@@ -18,7 +18,7 @@ internal data class FacetListConnectionFilterState(
     private val filterState: FilterState,
     private val attribute: Attribute,
     private val groupID: FilterGroupID,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val updateSelections: Callback<Filters> = { filters ->
         viewModel.selections.value = filters.getFacetFilters(groupID).map { it.getValue() }.toSet()

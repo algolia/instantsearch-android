@@ -10,7 +10,7 @@ import kotlin.jvm.JvmName
 @JvmName("connectViewString")
 public fun StatsViewModel.connectView(
     view: StatsView<String>,
-    presenter: StatsPresenter<String> = StatsPresenterImpl(),
+    presenter: StatsPresenter<String> = DefaultStatsPresenter(),
 ): Connection {
     return StatsConnectionView(this, view, presenter)
 }

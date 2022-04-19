@@ -23,6 +23,7 @@ android {
         freeCompilerArgs += listOf(
             "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=com.algolia.instantsearch.ExperimentalInstantSearch",
+            "-Xopt-in=com.algolia.instantsearch.InternalInstantSearch",
             "-Xexplicit-api=strict"
         )
     }

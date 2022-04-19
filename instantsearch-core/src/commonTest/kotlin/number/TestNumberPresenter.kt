@@ -1,6 +1,6 @@
 package number
 
-import com.algolia.instantsearch.core.number.NumberPresenterImpl
+import com.algolia.instantsearch.core.number.DefaultNumberPresenter
 import shouldEqual
 import kotlin.test.Test
 
@@ -8,11 +8,11 @@ class TestNumberPresenter {
 
     @Test
     fun isNull() {
-        NumberPresenterImpl(null) shouldEqual "-"
+        DefaultNumberPresenter(null) shouldEqual "-"
     }
 
     @Test
     fun other() {
-        NumberPresenterImpl(0) shouldEqual "0"
+        DefaultNumberPresenter(0) shouldEqual "0"
     }
 }

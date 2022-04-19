@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.facet.dynamic
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.extension.traceDynamicFacetConnector
 import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
@@ -24,7 +24,7 @@ public class DynamicFacetListConnector(
     public val filterState: FilterState,
     public val viewModel: DynamicFacetListViewModel = DynamicFacetListViewModel(),
     filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap()
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     /**
      * @param searcher searcher handling searches

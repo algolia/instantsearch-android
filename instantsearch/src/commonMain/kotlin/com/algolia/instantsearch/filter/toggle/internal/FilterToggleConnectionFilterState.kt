@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.toggle.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
@@ -11,7 +11,7 @@ internal data class FilterToggleConnectionFilterState(
     private val viewModel: FilterToggleViewModel,
     private val filterState: FilterState,
     private val groupID: FilterGroupID,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val updateIsSelected: Callback<Filters> = { filters ->
         viewModel.isSelected.value = filters.contains(groupID, viewModel.item.value)

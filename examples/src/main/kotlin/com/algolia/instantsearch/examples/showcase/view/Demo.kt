@@ -26,7 +26,7 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.algolia.instantsearch.android.filter.clear.FilterClearViewImpl
+import com.algolia.instantsearch.android.filter.clear.DefaultFilterClearView
 import com.algolia.instantsearch.android.list.autoScrollToStart
 import com.algolia.instantsearch.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.android.stats.StatsTextViewSpanned
@@ -107,7 +107,7 @@ fun AppCompatActivity.onClearAllThenClearFilters(
     val connector = FilterClearConnector(filterState)
 
     connection += connector
-    connection += connector.connectView(FilterClearViewImpl(filtersClearAll))
+    connection += connector.connectView(DefaultFilterClearView(filtersClearAll))
 }
 
 fun AppCompatActivity.onErrorThenUpdateFiltersText(

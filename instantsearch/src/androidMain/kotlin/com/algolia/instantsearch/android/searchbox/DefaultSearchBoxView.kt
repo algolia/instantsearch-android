@@ -4,7 +4,7 @@ import android.widget.SearchView
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 
-public class SearchBoxViewImpl(
+public class DefaultSearchBoxView(
     public val searchView: SearchView,
 ) : SearchBoxView {
 

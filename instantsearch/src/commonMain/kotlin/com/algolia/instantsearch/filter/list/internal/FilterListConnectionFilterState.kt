@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.list.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.filter.list.FilterListViewModel
 import com.algolia.instantsearch.filter.state.FilterGroupID
@@ -15,7 +15,7 @@ internal data class FilterListConnectionFilterState<T : Filter>(
     private val filterState: FilterState,
     private val groupID: FilterGroupID,
     private val getSelections: Filters.() -> Set<T>,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val updateSelections: Callback<Filters> = { filters ->
         viewModel.selections.value = filters.getSelections()

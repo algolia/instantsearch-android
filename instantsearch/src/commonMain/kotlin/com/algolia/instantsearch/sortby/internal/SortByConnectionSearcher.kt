@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.sortby.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.sortby.SortByViewModel
@@ -12,7 +12,7 @@ import com.algolia.instantsearch.sortby.SortByViewModel
 internal data class SortByConnectionSearcher<S>(
     private val viewModel: SortByViewModel,
     private val searcher: S,
-) : ConnectionImpl() where S : Searcher<*>, S : IndexNameHolder {
+) : AbstractConnection() where S : Searcher<*>, S : IndexNameHolder {
 
     init {
         viewModel.updateSelection()

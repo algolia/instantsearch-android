@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.android.filter.facet.FacetListAdapter
 import com.algolia.instantsearch.android.filter.facet.FacetListViewHolder
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.filter.facet.FacetListPresenterImpl
+import com.algolia.instantsearch.filter.facet.DefaultFacetListPresenter
 import com.algolia.instantsearch.filter.facet.FacetListView
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.filter.facet.FacetSortCriterion
@@ -56,7 +56,7 @@ internal class DocFacetList {
         val filterState = FilterState()
         val attribute = Attribute("facetName")
         val viewModel = FacetListViewModel()
-        val presenter = FacetListPresenterImpl(listOf(FacetSortCriterion.CountDescending), limit = 5)
+        val presenter = DefaultFacetListPresenter(listOf(FacetSortCriterion.CountDescending), limit = 5)
         val connection = ConnectionHandler()
 
         override fun onCreate(savedInstanceState: Bundle?) {

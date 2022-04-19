@@ -9,7 +9,7 @@ import com.algolia.instantsearch.filter.current.FilterCurrentView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
-public class FilterCurrentViewImpl(
+public class DefaultFilterCurrentView(
     public val view: ChipGroup,
     @LayoutRes public val chipLayout: Int? = null,
 ) : FilterCurrentView {

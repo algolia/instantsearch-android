@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.current
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.extension.traceCurrentFilters
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
@@ -19,7 +19,7 @@ public data class FilterCurrentConnector(
     public val filterState: FilterState,
     public val groupIDs: List<FilterGroupID> = emptyList(),
     public val viewModel: FilterCurrentViewModel = FilterCurrentViewModel(),
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     /**
      * @param filters the default filters to display

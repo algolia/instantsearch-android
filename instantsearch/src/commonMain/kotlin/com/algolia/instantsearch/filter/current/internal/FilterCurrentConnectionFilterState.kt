@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.current.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.filter.current.FilterAndID
 import com.algolia.instantsearch.filter.current.FilterCurrentViewModel
 import com.algolia.instantsearch.filter.state.FilterGroupID
@@ -13,7 +13,7 @@ internal data class FilterCurrentConnectionFilterState(
     private val viewModel: FilterCurrentViewModel,
     private val filterState: FilterState,
     private val groupIDs: List<FilterGroupID>,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val updateMap: Callback<Filters> = { filters ->
         val groups = filters.getGroups().filter { if (groupIDs.isNotEmpty()) groupIDs.contains(it.key) else true }

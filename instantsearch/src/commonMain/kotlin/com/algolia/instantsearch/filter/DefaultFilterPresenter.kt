@@ -1,12 +1,12 @@
 package com.algolia.instantsearch.filter
 
 import com.algolia.instantsearch.attribute.AttributePresenter
-import com.algolia.instantsearch.attribute.AttributePresenterImpl
+import com.algolia.instantsearch.attribute.DefaultAttributePresenter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.NumericOperator
 
-public class FilterPresenterImpl(
-    private val attributePresenter: AttributePresenter = AttributePresenterImpl(),
+public class DefaultFilterPresenter(
+    private val attributePresenter: AttributePresenter = DefaultAttributePresenter(),
     override val facetString: (Attribute, String, Boolean) -> String = { _, value, _ ->
         value
     },

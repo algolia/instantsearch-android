@@ -3,7 +3,7 @@ package com.algolia.instantsearch.examples.showcase.view.filter.clear
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.android.filter.clear.FilterClearViewImpl
+import com.algolia.instantsearch.android.filter.clear.DefaultFilterClearView
 import com.algolia.instantsearch.filter.clear.ClearMode
 import com.algolia.instantsearch.filter.clear.FilterClearConnector
 import com.algolia.instantsearch.filter.clear.connectView
@@ -53,9 +53,9 @@ class FilterClearShowcase : AppCompatActivity() {
         setContentView(binding.root)
         val headerBinding = HeaderFilterBinding.bind(binding.headerFilter.root)
 
-        connection += clearAll.connectView(FilterClearViewImpl(headerBinding.filtersClearAll))
-        connection += clearSpecified.connectView(FilterClearViewImpl(binding.buttonClearSpecified))
-        connection += clearExcept.connectView(FilterClearViewImpl(binding.buttonClearExcept))
+        connection += clearAll.connectView(DefaultFilterClearView(headerBinding.filtersClearAll))
+        connection += clearSpecified.connectView(DefaultFilterClearView(binding.buttonClearSpecified))
+        connection += clearExcept.connectView(DefaultFilterClearView(binding.buttonClearExcept))
 
         configureToolbar(binding.toolbar)
         configureSearcher(searcher)

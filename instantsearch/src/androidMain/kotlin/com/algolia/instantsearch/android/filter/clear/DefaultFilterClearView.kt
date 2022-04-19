@@ -4,7 +4,7 @@ import android.view.View
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.filter.clear.FilterClearView
 
-public class FilterClearViewImpl(
+public class DefaultFilterClearView(
     public val view: View,
 ) : FilterClearView {
 

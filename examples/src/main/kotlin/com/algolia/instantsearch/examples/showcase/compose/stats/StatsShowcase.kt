@@ -23,7 +23,7 @@ import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.stats.StatsConnector
-import com.algolia.instantsearch.stats.StatsPresenterImpl
+import com.algolia.instantsearch.stats.DefaultStatsPresenter
 import com.algolia.instantsearch.stats.connectView
 import com.algolia.instantsearch.examples.R
 import com.algolia.instantsearch.examples.showcase.compose.client
@@ -46,7 +46,7 @@ class StatsShowcase : AppCompatActivity() {
 
     init {
         connections += searchBox.connectView(searchBoxState)
-        connections += stats.connectView(statsA, StatsPresenterImpl())
+        connections += stats.connectView(statsA, DefaultStatsPresenter())
         connections += stats.connectView(statsB) { response ->
             with(AnnotatedString.Builder()) {
                 if (response != null) {

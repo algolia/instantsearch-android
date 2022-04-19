@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.range.internal
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.filter.range.FilterRangeViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
@@ -22,7 +22,7 @@ internal class FilterRangeConnectionSearcherImpl<T>(
     private val searcher: SearcherForHits<*>,
     private val attribute: Attribute,
     private val mapper: (Number) -> T,
-) : ConnectionImpl() where T : Number, T : Comparable<T> {
+) : AbstractConnection() where T : Number, T : Comparable<T> {
 
     private val responseSubscription: (ResponseSearch?) -> Unit = { response ->
         viewModel.computeBoundsFromFacetStats(attribute, response?.facetStats, mapper)

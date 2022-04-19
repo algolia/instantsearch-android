@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.filter.list.FilterListState
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.filter.FilterPresenter
-import com.algolia.instantsearch.filter.FilterPresenterImpl
+import com.algolia.instantsearch.filter.DefaultFilterPresenter
 import com.algolia.instantsearch.examples.showcase.compose.ui.BlueDark
 import com.algolia.instantsearch.examples.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.showcase.compose.ui.White
@@ -45,7 +45,7 @@ fun FilterListPreview() {
 @Composable
 fun <T : Filter> FilterList(
     modifier: Modifier = Modifier,
-    presenter: FilterPresenter = FilterPresenterImpl(),
+    presenter: FilterPresenter = DefaultFilterPresenter(),
     filterListState: FilterListState<T>
 ) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
@@ -73,7 +73,7 @@ fun <T : Filter> FilterList(
 fun <T : Filter> FilterRow(
     modifier: Modifier = Modifier,
     selectableFilter: SelectableItem<T>,
-    presenter: FilterPresenter = FilterPresenterImpl(),
+    presenter: FilterPresenter = DefaultFilterPresenter(),
     onClick: (T) -> Unit = {}
 ) {
     val (filter, isSelected) = selectableFilter

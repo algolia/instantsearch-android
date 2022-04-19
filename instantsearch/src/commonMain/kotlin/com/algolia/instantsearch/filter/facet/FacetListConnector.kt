@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.facet
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.extension.traceFacetListConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
@@ -24,7 +24,7 @@ public data class FacetListConnector internal constructor(
     public val viewModel: FacetListViewModel,
     public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
     private val wrapper: Wrapper,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     internal sealed class Wrapper {
 

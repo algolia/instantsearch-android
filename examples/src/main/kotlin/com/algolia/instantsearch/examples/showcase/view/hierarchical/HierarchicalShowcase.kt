@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.hierarchical.HierarchicalConnector
-import com.algolia.instantsearch.hierarchical.HierarchicalPresenterImpl
+import com.algolia.instantsearch.hierarchical.DefaultHierarchicalPresenter
 import com.algolia.instantsearch.hierarchical.connectView
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
@@ -47,7 +47,7 @@ class HierarchicalShowcase : AppCompatActivity() {
         setContentView(binding.root)
 
         val view = HierarchicalAdapter()
-        connection += hierarchical.connectView(view, HierarchicalPresenterImpl(separator))
+        connection += hierarchical.connectView(view, DefaultHierarchicalPresenter(separator))
 
         configureRecyclerView(binding.hits, view)
         configureToolbar(binding.toolbar)

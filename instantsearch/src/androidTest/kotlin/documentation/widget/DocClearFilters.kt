@@ -3,7 +3,7 @@ package documentation.widget
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.android.filter.clear.FilterClearViewImpl
+import com.algolia.instantsearch.android.filter.clear.DefaultFilterClearView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.filter.clear.FilterClearView
 import com.algolia.instantsearch.filter.clear.FilterClearViewModel
@@ -37,7 +37,7 @@ internal class DocClearFilters {
 
             val someView = View(this)
             val view: FilterClearView =
-                FilterClearViewImpl(someView)
+                DefaultFilterClearView(someView)
 
             connection += searcher.connectFilterState(filterState)
             connection += viewModel.connectFilterState(filterState)

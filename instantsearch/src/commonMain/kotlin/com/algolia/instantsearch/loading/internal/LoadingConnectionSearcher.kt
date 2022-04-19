@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.loading.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
@@ -10,7 +10,7 @@ internal data class LoadingConnectionSearcher<R>(
     private val viewModel: LoadingViewModel,
     private val searcher: Searcher<R>,
     private val debouncer: Debouncer,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val eventReload: Callback<Unit> = {
         searcher.searchAsync()

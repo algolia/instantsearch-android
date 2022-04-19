@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.examples.showcase.view.*
-import com.algolia.instantsearch.android.filter.current.FilterCurrentViewImpl
+import com.algolia.instantsearch.android.filter.current.DefaultFilterCurrentView
 import com.algolia.instantsearch.filter.current.FilterCurrentConnector
 import com.algolia.instantsearch.filter.current.connectView
 import com.algolia.instantsearch.filter.state.FilterGroupID
@@ -57,8 +57,8 @@ class ShowcaseFilterCurrent : AppCompatActivity() {
         setContentView(binding.root)
         val headerBinding = HeaderFilterBinding.bind(binding.headerFilter.root)
 
-        connection += currentFiltersAll.connectView(FilterCurrentViewImpl(binding.chipGroupAll, R.layout.filter_chip))
-        connection += currentFiltersColor.connectView(FilterCurrentViewImpl(binding.chipGroupColors, R.layout.filter_chip))
+        connection += currentFiltersAll.connectView(DefaultFilterCurrentView(binding.chipGroupAll, R.layout.filter_chip))
+        connection += currentFiltersColor.connectView(DefaultFilterCurrentView(binding.chipGroupColors, R.layout.filter_chip))
 
         configureSearcher(searcher)
         configureToolbar(binding.toolbar)

@@ -1,6 +1,6 @@
 package filter.facet
 
-import com.algolia.instantsearch.filter.facet.FacetListPresenterImpl
+import com.algolia.instantsearch.filter.facet.DefaultFacetListPresenter
 import com.algolia.instantsearch.filter.facet.FacetSortCriterion.AlphabeticalAscending
 import com.algolia.instantsearch.filter.facet.FacetSortCriterion.AlphabeticalDescending
 import com.algolia.instantsearch.filter.facet.FacetSortCriterion.CountAscending
@@ -22,7 +22,7 @@ class TestFacetListPresenter {
 
     @Test
     fun alphaAsc() {
-        FacetListPresenterImpl(listOf(AlphabeticalAscending)).apply {
+        DefaultFacetListPresenter(listOf(AlphabeticalAscending)).apply {
             invoke(facets) shouldEqual listOf(
                 Facet("a", 4) to false,
                 Facet("b", 3) to true,
@@ -35,7 +35,7 @@ class TestFacetListPresenter {
 
     @Test
     fun alphaDesc() {
-        FacetListPresenterImpl(listOf(AlphabeticalDescending)).apply {
+        DefaultFacetListPresenter(listOf(AlphabeticalDescending)).apply {
             invoke(facets) shouldEqual listOf(
                 Facet("e", 3) to false,
                 Facet("d", 1) to true,
@@ -48,7 +48,7 @@ class TestFacetListPresenter {
 
     @Test
     fun countAsc() {
-        FacetListPresenterImpl(listOf(CountAscending)).apply {
+        DefaultFacetListPresenter(listOf(CountAscending)).apply {
             invoke(facets) shouldEqual listOf(
                 Facet("c", 0) to false,
                 Facet("d", 1) to true,
@@ -61,7 +61,7 @@ class TestFacetListPresenter {
 
     @Test
     fun countDesc() {
-        FacetListPresenterImpl(listOf(CountDescending)).apply {
+        DefaultFacetListPresenter(listOf(CountDescending)).apply {
             invoke(facets) shouldEqual listOf(
                 Facet("a", 4) to false,
                 Facet("e", 3) to false,
@@ -74,7 +74,7 @@ class TestFacetListPresenter {
 
     @Test
     fun isRefined() {
-        FacetListPresenterImpl(listOf(IsRefined)).apply {
+        DefaultFacetListPresenter(listOf(IsRefined)).apply {
             invoke(facets) shouldEqual listOf(
                 Facet("d", 1) to true,
                 Facet("b", 3) to true,
@@ -87,7 +87,7 @@ class TestFacetListPresenter {
 
     @Test
     fun isRefinedThenAlphaAsc() {
-        FacetListPresenterImpl(listOf(IsRefined, AlphabeticalAscending)).apply {
+        DefaultFacetListPresenter(listOf(IsRefined, AlphabeticalAscending)).apply {
             invoke(facets) shouldEqual listOf(
                 Facet("b", 3) to true,
                 Facet("d", 1) to true,
@@ -100,7 +100,7 @@ class TestFacetListPresenter {
 
     @Test
     fun countDescThenIsRefined() {
-        FacetListPresenterImpl(listOf(CountDescending, IsRefined)).apply {
+        DefaultFacetListPresenter(listOf(CountDescending, IsRefined)).apply {
             invoke(facets) shouldEqual listOf(
                 Facet("a", 4) to false,
                 Facet("b", 3) to true,
@@ -113,7 +113,7 @@ class TestFacetListPresenter {
 
     @Test
     fun firstAlphaIsFinal() {
-        FacetListPresenterImpl(listOf(AlphabeticalAscending, AlphabeticalDescending)).apply {
+        DefaultFacetListPresenter(listOf(AlphabeticalAscending, AlphabeticalDescending)).apply {
             invoke(facets) shouldEqual listOf(
                 Facet("a", 4) to false,
                 Facet("b", 3) to true,

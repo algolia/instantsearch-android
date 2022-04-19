@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.map
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.extension.traceFilterMapConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
@@ -19,7 +19,7 @@ public data class FilterMapConnector(
     public val filterState: FilterState,
     public val viewModel: FilterMapViewModel = FilterMapViewModel(),
     public val groupID: FilterGroupID = FilterGroupID(FilterOperator.And),
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     /**
      * @param filters the map of filters to be held. The key is an unique identifier for the filter value

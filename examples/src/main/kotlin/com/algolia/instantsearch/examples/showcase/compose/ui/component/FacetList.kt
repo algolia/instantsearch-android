@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.filter.facet.FacetListState
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
-import com.algolia.instantsearch.filter.facet.FacetListPresenterImpl
+import com.algolia.instantsearch.filter.facet.DefaultFacetListPresenter
 import com.algolia.instantsearch.filter.facet.FacetSortCriterion
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
@@ -30,7 +30,7 @@ import com.algolia.search.model.search.Facet
 fun FacetListPreview() {
     val color = Attribute("color")
     val groupColor = groupAnd(color)
-    val presenter = FacetListPresenterImpl(
+    val presenter = DefaultFacetListPresenter(
         listOf(
             FacetSortCriterion.IsRefined,
             FacetSortCriterion.AlphabeticalAscending
@@ -54,7 +54,7 @@ fun FacetListPreview() {
 @Composable
 fun FacetList(
     modifier: Modifier = Modifier,
-    presenter: FacetListPresenterImpl,
+    presenter: DefaultFacetListPresenter,
     filterGroupID: FilterGroupID,
     titleColor: Color,
     facetListState: FacetListState,
@@ -140,7 +140,7 @@ fun FacetRow(
     }
 }
 
-private fun formatTitle(presenter: FacetListPresenterImpl, filterGroupID: FilterGroupID): String {
+private fun formatTitle(presenter: DefaultFacetListPresenter, filterGroupID: FilterGroupID): String {
     val criteria = presenter.sortBy.joinToString("-") { it.format() }
     val operator = when (filterGroupID.operator) {
         FilterOperator.And -> "And"
