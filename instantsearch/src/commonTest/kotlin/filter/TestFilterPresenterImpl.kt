@@ -1,6 +1,6 @@
 package filter
 
-import com.algolia.instantsearch.filter.FilterPresenterImpl
+import com.algolia.instantsearch.filter.DefaultFilterPresenter
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
@@ -13,7 +13,7 @@ class TestFilterPresenterImpl {
 
     @Test
     fun facet() {
-        val presenter = FilterPresenterImpl()
+        val presenter = DefaultFilterPresenter()
         val string = Filter.Facet(attribute, "value")
         val integer = Filter.Facet(attribute, 0)
         val boolean = Filter.Facet(attribute, true)
@@ -25,7 +25,7 @@ class TestFilterPresenterImpl {
 
     @Test
     fun tag() {
-        val presenter = FilterPresenterImpl()
+        val presenter = DefaultFilterPresenter()
         val filter = Filter.Tag("value")
 
         presenter(filter) shouldEqual "value"
@@ -33,7 +33,7 @@ class TestFilterPresenterImpl {
 
     @Test
     fun numeric() {
-        val presenter = FilterPresenterImpl()
+        val presenter = DefaultFilterPresenter()
         val range = Filter.Numeric(attribute, 0 until 10)
         val comparison = Filter.Numeric(attribute, NumericOperator.Greater, 1f)
 

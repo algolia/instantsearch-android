@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.clear.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.filter.clear.ClearMode
 import com.algolia.instantsearch.filter.clear.FilterClearViewModel
 import com.algolia.instantsearch.filter.state.FilterGroupID
@@ -12,7 +12,7 @@ internal data class FilterClearConnectionFilterState(
     private val filterState: FilterState,
     private val groupIDs: List<FilterGroupID>,
     private val mode: ClearMode,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val updateFilterState: Callback<Unit> = {
         filterState.notify {

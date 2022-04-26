@@ -2,7 +2,7 @@ package com.algolia.instantsearch.core.selectable.internal
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.Presenter
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.SelectableItemView
 import com.algolia.instantsearch.core.selectable.SelectableItemViewModel
 
@@ -10,7 +10,7 @@ internal data class SelectableItemConnectionView<I, O>(
     private val viewModel: SelectableItemViewModel<I>,
     private val view: SelectableItemView<O>,
     private val presenter: Presenter<I, O>
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val updateItem: Callback<I> = { item ->
         view.setItem(presenter(item))

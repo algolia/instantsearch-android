@@ -2,7 +2,7 @@ package com.algolia.instantsearch.filter.numeric.comparison
 
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.number.NumberPresenter
-import com.algolia.instantsearch.core.number.NumberPresenterImpl
+import com.algolia.instantsearch.core.number.DefaultNumberPresenter
 import com.algolia.instantsearch.core.number.NumberView
 import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.number.connectView
@@ -30,7 +30,7 @@ public fun <T> NumberViewModel<T>.connectFilterState(
  */
 public fun <T> FilterComparisonConnector<T>.connectView(
     view: NumberView<T>,
-    presenter: NumberPresenter<T> = NumberPresenterImpl,
+    presenter: NumberPresenter<T> = DefaultNumberPresenter,
 ): Connection where T : Number, T : Comparable<T> {
     return viewModel.connectView(view, presenter)
 }

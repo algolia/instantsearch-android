@@ -13,7 +13,7 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.examples.R
 import com.algolia.instantsearch.examples.guides.extension.configure
 import com.algolia.instantsearch.searchbox.connectView
-import com.algolia.instantsearch.stats.StatsPresenterImpl
+import com.algolia.instantsearch.stats.DefaultStatsPresenter
 import com.algolia.instantsearch.stats.connectView
 
 class ProductFragment : Fragment(R.layout.fragment_product) {
@@ -36,7 +36,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         connection += viewModel.searchBox.connectView(searchBoxView)
 
         val statsView = StatsTextView(view.findViewById(R.id.stats))
-        connection += viewModel.stats.connectView(statsView, StatsPresenterImpl())
+        connection += viewModel.stats.connectView(statsView, DefaultStatsPresenter())
 
         view.findViewById<Button>(R.id.filters).setOnClickListener {
             viewModel.displayFilters.value = Unit

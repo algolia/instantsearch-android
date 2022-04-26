@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.stats.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.stats.StatsPresenter
 import com.algolia.instantsearch.stats.StatsView
 import com.algolia.instantsearch.stats.StatsViewModel
@@ -11,7 +11,7 @@ internal data class StatsConnectionView<T>(
     private val viewModel: StatsViewModel,
     private val view: StatsView<T>,
     private val presenter: StatsPresenter<T>,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val updateText: Callback<ResponseSearch?> = { response ->
         view.setText(presenter(response))

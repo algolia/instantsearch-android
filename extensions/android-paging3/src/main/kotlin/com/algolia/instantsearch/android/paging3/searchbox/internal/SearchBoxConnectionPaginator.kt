@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.android.paging3.searchbox.internal
 
 import com.algolia.instantsearch.android.paging3.Paginator
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.searchbox.SearchMode
 
@@ -16,7 +16,7 @@ internal class SearchBoxConnectionPaginator<T : Any>(
     private val viewModel: SearchBoxViewModel,
     private val paginator: Paginator<T>,
     private val searchMode: SearchMode,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val querySubscription: (String?) -> Unit = { paginator.invalidate() }
 

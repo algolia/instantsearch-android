@@ -34,7 +34,7 @@ import com.algolia.instantsearch.examples.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.showcase.compose.ui.component.MoviesList
 import com.algolia.instantsearch.examples.showcase.compose.ui.component.SearchTopBar
 import com.algolia.instantsearch.stats.StatsConnector
-import com.algolia.instantsearch.stats.StatsPresenterImpl
+import com.algolia.instantsearch.stats.DefaultStatsPresenter
 import com.algolia.instantsearch.stats.connectView
 import kotlinx.coroutines.flow.Flow
 
@@ -55,7 +55,7 @@ class PagingSingleIndexShowcase : AppCompatActivity() {
     init {
         connections += searchBox.connectView(searchBoxState)
         connections += searchBox.connectPaginator(paginator)
-        connections += stats.connectView(statsState, StatsPresenterImpl())
+        connections += stats.connectView(statsState, DefaultStatsPresenter())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

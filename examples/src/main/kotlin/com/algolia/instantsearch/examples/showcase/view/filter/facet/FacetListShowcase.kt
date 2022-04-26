@@ -7,7 +7,7 @@ import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.examples.showcase.view.*
 import com.algolia.instantsearch.android.filter.facet.FacetListAdapter
 import com.algolia.instantsearch.filter.facet.FacetListConnector
-import com.algolia.instantsearch.filter.facet.FacetListPresenterImpl
+import com.algolia.instantsearch.filter.facet.DefaultFacetListPresenter
 import com.algolia.instantsearch.filter.facet.FacetSortCriterion
 import com.algolia.instantsearch.filter.facet.FacetSortCriterion.*
 import com.algolia.instantsearch.filter.facet.connectView
@@ -56,11 +56,11 @@ class FacetListShowcase : AppCompatActivity() {
         facetListCategory,
         searcher.connectFilterState(filterState)
     )
-    private val colorPresenter = FacetListPresenterImpl(listOf(IsRefined, AlphabeticalAscending), limit = 3)
+    private val colorPresenter = DefaultFacetListPresenter(listOf(IsRefined, AlphabeticalAscending), limit = 3)
     private val colorAdapter = FacetListAdapter(FacetListViewHolderImpl.Factory)
-    private val promotionPresenter = FacetListPresenterImpl(listOf(CountDescending))
+    private val promotionPresenter = DefaultFacetListPresenter(listOf(CountDescending))
     private val promotionAdapter = FacetListAdapter(FacetListViewHolderImpl.Factory)
-    private val categoryPresenter = FacetListPresenterImpl(listOf(CountDescending, AlphabeticalAscending))
+    private val categoryPresenter = DefaultFacetListPresenter(listOf(CountDescending, AlphabeticalAscending))
     private val categoryAdapter = FacetListAdapter(FacetListViewHolderImpl.Factory)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,7 +106,7 @@ class FacetListShowcase : AppCompatActivity() {
         }
     }
 
-    private fun formatTitle(presenter: FacetListPresenterImpl, filterGroupID: FilterGroupID): String {
+    private fun formatTitle(presenter: DefaultFacetListPresenter, filterGroupID: FilterGroupID): String {
         val criteria = presenter.sortBy.joinToString("-") { it.format() }
         val operator = when (filterGroupID.operator) {
             FilterOperator.And -> "And"

@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.core.relevantsort.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPresenter
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority
 import com.algolia.instantsearch.core.relevantsort.RelevantSortView
@@ -18,7 +18,7 @@ internal class RelevantSortConnectionView<T>(
     private val viewModel: RelevantSortViewModel,
     private val view: RelevantSortView<T>,
     private val presenter: RelevantSortPresenter<T>,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     val callback: Callback<RelevantSortPriority?> = { priority ->
         view.updateView(presenter(priority))

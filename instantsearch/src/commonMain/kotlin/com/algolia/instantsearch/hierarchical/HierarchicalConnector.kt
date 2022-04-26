@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.hierarchical
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.extension.traceHierarchicalFacetsConnector
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.SearcherForHits
@@ -19,7 +19,7 @@ public data class HierarchicalConnector(
     public val searcher: SearcherForHits<*>,
     public val filterState: FilterState,
     public val viewModel: HierarchicalViewModel,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     /**
      * @param searcher the Searcher that handles your searches

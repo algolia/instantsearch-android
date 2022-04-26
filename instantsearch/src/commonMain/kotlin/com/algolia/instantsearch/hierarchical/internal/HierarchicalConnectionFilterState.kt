@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.hierarchical.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.hierarchical.HierarchicalFilter
@@ -12,7 +12,7 @@ import com.algolia.search.model.filter.Filter
 internal data class HierarchicalConnectionFilterState(
     private val viewModel: HierarchicalViewModel,
     private val filterState: FilterState,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val updateSelections: Callback<Filters> = { filters ->
         val hierarchicalFilter = filters.getHierarchicalFilters(viewModel.attribute)

@@ -12,7 +12,7 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.tree.connectView
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.hierarchical.HierarchicalItem
-import com.algolia.instantsearch.hierarchical.HierarchicalPresenterImpl
+import com.algolia.instantsearch.hierarchical.DefaultHierarchicalPresenter
 import com.algolia.instantsearch.hierarchical.HierarchicalView
 import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
 import com.algolia.instantsearch.hierarchical.connectFilterState
@@ -100,7 +100,7 @@ internal class DocHierarchicalMenu {
             connection += searcher.connectFilterState(filterState)
             connection += viewModel.connectFilterState(filterState)
             connection += viewModel.connectSearcher(searcher)
-            connection += viewModel.connectView(view, HierarchicalPresenterImpl(separator))
+            connection += viewModel.connectView(view, DefaultHierarchicalPresenter(separator))
 
             searcher.searchAsync()
         }

@@ -2,7 +2,7 @@ package com.algolia.instantsearch.hierarchical
 
 import com.algolia.instantsearch.core.tree.asTree
 
-public class HierarchicalPresenterImpl(
+public class DefaultHierarchicalPresenter(
     public val separator: String,
     public val comparator: Comparator<HierarchicalItem> = Comparator { a, b -> a.facet.value.compareTo(b.facet.value) },
 ) : HierarchicalPresenter<List<HierarchicalItem>> {
@@ -18,3 +18,9 @@ public class HierarchicalPresenterImpl(
         }
     }
 }
+
+@Deprecated(
+    message = "use DefaultHierarchicalPresenter instead",
+    replaceWith = ReplaceWith("DefaultHierarchicalPresenter")
+)
+public typealias HierarchicalPresenterImpl = DefaultHierarchicalPresenter

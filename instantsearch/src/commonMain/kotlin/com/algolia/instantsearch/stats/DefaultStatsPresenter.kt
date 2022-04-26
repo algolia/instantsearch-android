@@ -2,7 +2,7 @@ package com.algolia.instantsearch.stats
 
 import com.algolia.search.model.response.ResponseSearch
 
-public class StatsPresenterImpl(
+public class DefaultStatsPresenter(
     private val default: String = "",
 ) : StatsPresenter<String> {
 
@@ -17,3 +17,6 @@ public class StatsPresenterImpl(
         }
     }
 }
+
+@Deprecated(message = "use DefaultStatsPresenter instead", replaceWith = ReplaceWith("DefaultStatsPresenter"))
+public typealias StatsPresenterImpl = DefaultStatsPresenter

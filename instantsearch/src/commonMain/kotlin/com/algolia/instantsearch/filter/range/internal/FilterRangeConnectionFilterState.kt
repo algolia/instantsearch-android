@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.range.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.filter.range.FilterRangeViewModel
 import com.algolia.instantsearch.filter.state.FilterGroupID
@@ -16,7 +16,7 @@ internal data class FilterRangeConnectionFilterState<T>(
     private val filterState: FilterState,
     private val attribute: Attribute,
     private val groupID: FilterGroupID,
-) : ConnectionImpl() where T : Number, T : Comparable<T> {
+) : AbstractConnection() where T : Number, T : Comparable<T> {
 
     @Suppress("UNCHECKED_CAST")
     private val updateRange: Callback<Filters> = { filters ->

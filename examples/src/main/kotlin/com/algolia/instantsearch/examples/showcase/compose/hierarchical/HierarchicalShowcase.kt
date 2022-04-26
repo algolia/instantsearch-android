@@ -21,7 +21,7 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.hierarchical.HierarchicalConnector
 import com.algolia.instantsearch.hierarchical.HierarchicalItem
-import com.algolia.instantsearch.hierarchical.HierarchicalPresenterImpl
+import com.algolia.instantsearch.hierarchical.DefaultHierarchicalPresenter
 import com.algolia.instantsearch.hierarchical.connectView
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
@@ -67,7 +67,7 @@ class HierarchicalShowcase : AppCompatActivity() {
     init {
         connections += searcher.connectFilterState(filterState)
         connections += hierarchical.connectView(
-            hierarchicalState, HierarchicalPresenterImpl(separator)
+            hierarchicalState, DefaultHierarchicalPresenter(separator)
         )
     }
 

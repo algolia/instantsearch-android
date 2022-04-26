@@ -1,14 +1,14 @@
 package com.algolia.instantsearch.core.selectable.list.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.list.SelectableListView
 import com.algolia.instantsearch.core.selectable.list.SelectableListViewModel
 
 internal data class SelectableListConnectionView<T>(
     private val viewModel: SelectableListViewModel<T, T>,
     private val view: SelectableListView<T>
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val updateItems: Callback<List<T>> = { items ->
         val item = items.map { it to viewModel.selections.value.contains(it) }

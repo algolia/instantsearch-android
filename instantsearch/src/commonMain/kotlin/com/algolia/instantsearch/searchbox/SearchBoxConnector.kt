@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.searchbox
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
@@ -21,7 +21,7 @@ public data class SearchBoxConnector<R>(
     public val viewModel: SearchBoxViewModel = SearchBoxViewModel(),
     public val searchMode: SearchMode = SearchMode.AsYouType,
     public val debouncer: Debouncer = Debouncer(debounceSearchInMillis),
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val connectionSearcher = viewModel.connectSearcher(searcher, searchMode, debouncer)
 

@@ -12,7 +12,7 @@ import com.algolia.instantsearch.examples.R
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.stats.StatsPresenter
-import com.algolia.instantsearch.stats.StatsPresenterImpl
+import com.algolia.instantsearch.stats.DefaultStatsPresenter
 import com.algolia.instantsearch.stats.connectView
 import com.algolia.instantsearch.examples.showcase.view.*
 import com.algolia.instantsearch.examples.databinding.IncludeSearchBinding
@@ -46,7 +46,7 @@ class StatsShowcase : AppCompatActivity() {
             }
         }
 
-        connection += stats.connectView(statsViewA, StatsPresenterImpl())
+        connection += stats.connectView(statsViewA, DefaultStatsPresenter())
         connection += stats.connectView(statsViewB, presenter)
 
         configureToolbar(binding.toolbar)

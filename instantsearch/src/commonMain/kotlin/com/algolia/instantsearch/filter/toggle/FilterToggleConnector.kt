@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.toggle
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.extension.traceFilterToggleConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
@@ -20,7 +20,7 @@ public data class FilterToggleConnector(
     public val filterState: FilterState,
     public val viewModel: FilterToggleViewModel,
     public val groupID: FilterGroupID = FilterGroupID(viewModel.item.value.attribute, FilterOperator.And),
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     /**
      * @param filterState the current state of the filters

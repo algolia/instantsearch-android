@@ -2,7 +2,7 @@ package com.algolia.instantsearch.relateditems.internal
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.Presenter
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.extension.traceRelatedItems
 import com.algolia.instantsearch.relateditems.MatchingPattern
@@ -18,7 +18,7 @@ internal data class RelatedItemsConnectionView<S, T>(
     private val hit: T,
     private val matchingPatterns: List<MatchingPattern<T>>,
     private val presenter: Presenter<ResponseSearch, List<T>>,
-) : ConnectionImpl() where T : Indexable, S : SearcherForHits<*> {
+) : AbstractConnection() where T : Indexable, S : SearcherForHits<*> {
 
     init {
         searcher.configureRelatedItems(hit, matchingPatterns)

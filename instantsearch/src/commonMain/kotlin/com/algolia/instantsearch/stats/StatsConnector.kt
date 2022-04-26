@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.stats
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.extension.traceStatsConnector
 import com.algolia.search.model.response.ResponseSearch
@@ -22,7 +22,7 @@ import com.algolia.search.model.response.ResponseSearch
 public data class StatsConnector(
     public val searcher: Searcher<ResponseSearch>,
     public val viewModel: StatsViewModel = StatsViewModel(),
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     /**
      * @param searcher the Searcher that handles your searches

@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.facet
 
-public class FacetListPresenterImpl(
+public class DefaultFacetListPresenter(
     public val sortBy: List<FacetSortCriterion> = listOf(FacetSortCriterion.CountDescending),
     public val limit: Int = 5,
 ) : FacetListPresenter {
@@ -21,3 +21,6 @@ public class FacetListPresenterImpl(
         return selectableItems.sortedWith(comparator).take(limit)
     }
 }
+
+@Deprecated(message = "use DefaultFacetListPresenter instead", replaceWith = ReplaceWith("DefaultFacetListPresenter"))
+public typealias FacetListPresenterImpl = DefaultFacetListPresenter

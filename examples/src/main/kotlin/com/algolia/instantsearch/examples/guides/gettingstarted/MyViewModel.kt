@@ -9,7 +9,7 @@ import com.algolia.instantsearch.android.paging3.searchbox.connectPaginator
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.filter.facet.FacetListConnector
-import com.algolia.instantsearch.filter.facet.FacetListPresenterImpl
+import com.algolia.instantsearch.filter.facet.DefaultFacetListPresenter
 import com.algolia.instantsearch.filter.facet.FacetSortCriterion
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.examples.guides.model.Product
@@ -46,7 +46,7 @@ class MyViewModel : ViewModel() {
         attribute = Attribute("categories"),
         selectionMode = SelectionMode.Single
     )
-    val facetPresenter = FacetListPresenterImpl(
+    val facetPresenter = DefaultFacetListPresenter(
         sortBy = listOf(FacetSortCriterion.CountDescending, FacetSortCriterion.IsRefined),
         limit = 100
     )

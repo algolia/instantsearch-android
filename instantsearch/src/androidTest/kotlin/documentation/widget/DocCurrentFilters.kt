@@ -2,7 +2,7 @@ package documentation.widget
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.algolia.instantsearch.android.filter.current.FilterCurrentViewImpl
+import com.algolia.instantsearch.android.filter.current.DefaultFilterCurrentView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.filter.current.FilterCurrentView
 import com.algolia.instantsearch.filter.current.FilterCurrentViewModel
@@ -37,7 +37,7 @@ internal class DocCurrentFilters {
 
             val chipGroup = ChipGroup(this)
             val view: FilterCurrentView =
-                FilterCurrentViewImpl(chipGroup)
+                DefaultFilterCurrentView(chipGroup)
 
             connection += searcher.connectFilterState(filterState)
             connection += viewModel.connectFilterState(filterState)

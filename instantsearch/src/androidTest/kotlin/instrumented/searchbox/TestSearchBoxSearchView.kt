@@ -4,7 +4,7 @@ import android.os.Build
 import android.widget.SearchView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.algolia.instantsearch.android.searchbox.SearchBoxViewImpl
+import com.algolia.instantsearch.android.searchbox.DefaultSearchBoxView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searchbox.connectView
 import instrumented.applicationContext
@@ -20,7 +20,7 @@ class TestSearchBoxSearchView {
 
     private val text = "text"
 
-    private fun view() = SearchBoxViewImpl(SearchView(applicationContext))
+    private fun view() = DefaultSearchBoxView(SearchView(applicationContext))
 
     @Test
     fun connectShouldUpdateQuery() {

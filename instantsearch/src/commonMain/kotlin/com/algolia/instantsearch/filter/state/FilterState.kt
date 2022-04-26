@@ -2,7 +2,7 @@ package com.algolia.instantsearch.filter.state
 
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceFilterState
-import com.algolia.instantsearch.filter.state.internal.MutableFiltersImpl
+import com.algolia.instantsearch.filter.state.internal.DefaultMutableFilters
 import com.algolia.search.model.filter.Filter
 
 /**
@@ -11,12 +11,12 @@ import com.algolia.search.model.filter.Filter
  * [Documentation](https://www.algolia.com/doc/api-reference/widgets/filter-state/android/)
  */
 public class FilterState internal constructor(
-    filters: MutableFilters = MutableFiltersImpl(),
+    filters: MutableFilters = DefaultMutableFilters(),
 ) : MutableFilters by filters {
 
     public val filters: SubscriptionValue<Filters> = SubscriptionValue(filters)
 
-    public constructor() : this(MutableFiltersImpl())
+    public constructor() : this(DefaultMutableFilters())
 
     init {
         traceFilterState()

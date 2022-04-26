@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.list
 
 import com.algolia.instantsearch.core.connection.Connection
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.extension.traceFacetFilterListConnector
 import com.algolia.instantsearch.extension.traceFilterListConnector
@@ -17,7 +17,7 @@ import com.algolia.search.model.filter.Filter
  * Compared to the RefinementList, which takes its values from the search response facets, this widget displays filters
  * that you add yourself.
  */
-public abstract class FilterListConnector<T : Filter> : ConnectionImpl() {
+public abstract class FilterListConnector<T : Filter> : AbstractConnection() {
 
     public abstract val filterState: FilterState
     public abstract val viewModel: FilterListViewModel<T>

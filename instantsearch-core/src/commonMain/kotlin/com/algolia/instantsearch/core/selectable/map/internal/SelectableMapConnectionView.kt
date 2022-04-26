@@ -2,7 +2,7 @@ package com.algolia.instantsearch.core.selectable.map.internal
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.Presenter
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.map.SelectableMapView
 import com.algolia.instantsearch.core.selectable.map.SelectableMapViewModel
 
@@ -10,7 +10,7 @@ internal data class SelectableMapConnectionView<K, I, O>(
     private val viewModel: SelectableMapViewModel<K, I>,
     private val view: SelectableMapView<K, O>,
     private val presenter: Presenter<I, O>
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private fun Map<K, I>.present(): Map<K, O> {
         return map { it.key to presenter(it.value) }.toMap()

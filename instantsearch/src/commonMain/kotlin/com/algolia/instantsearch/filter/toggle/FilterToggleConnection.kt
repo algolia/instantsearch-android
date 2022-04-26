@@ -3,7 +3,7 @@ package com.algolia.instantsearch.filter.toggle
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.selectable.connectView
 import com.algolia.instantsearch.filter.FilterPresenter
-import com.algolia.instantsearch.filter.FilterPresenterImpl
+import com.algolia.instantsearch.filter.DefaultFilterPresenter
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
@@ -11,7 +11,7 @@ import com.algolia.instantsearch.filter.toggle.internal.FilterToggleConnectionFi
 
 public fun FilterToggleViewModel.connectView(
     view: FilterToggleView,
-    presenter: FilterPresenter = FilterPresenterImpl(),
+    presenter: FilterPresenter = DefaultFilterPresenter(),
 ): Connection {
     return connectView(view, presenter)
 }
@@ -31,7 +31,7 @@ public fun FilterToggleViewModel.connectFilterState(
  */
 public fun FilterToggleConnector.connectView(
     view: FilterToggleView,
-    presenter: FilterPresenter = FilterPresenterImpl(),
+    presenter: FilterPresenter = DefaultFilterPresenter(),
 ): Connection {
     return viewModel.connectView(view, presenter)
 }

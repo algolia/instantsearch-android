@@ -19,7 +19,7 @@ import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.stats.StatsConnector
-import com.algolia.instantsearch.stats.StatsPresenterImpl
+import com.algolia.instantsearch.stats.DefaultStatsPresenter
 import com.algolia.instantsearch.stats.connectView
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
@@ -66,7 +66,7 @@ class MainViewModel : ViewModel() {
 
     init {
         connections += searchBoxConnector.connectView(searchBoxState)
-        connections += statsConnector.connectView(statsText, StatsPresenterImpl())
+        connections += statsConnector.connectView(statsText, DefaultStatsPresenter())
         connections += searcher.connectFilterState(filterState)
         connections += facetListConnector.connectView(facetList)
         connections += facetListConnector.connectPaginator(hitsPaginator)

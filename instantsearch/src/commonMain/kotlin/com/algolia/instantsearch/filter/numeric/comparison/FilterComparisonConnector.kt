@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.numeric.comparison
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.extension.traceNumberFilterConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
@@ -24,7 +24,7 @@ public data class FilterComparisonConnector<T>(
     public val attribute: Attribute,
     public val operator: NumericOperator,
     public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
-) : ConnectionImpl() where T : Number, T : Comparable<T> {
+) : AbstractConnection() where T : Number, T : Comparable<T> {
 
     /**
      * @param filterState the FilterState that holds filters

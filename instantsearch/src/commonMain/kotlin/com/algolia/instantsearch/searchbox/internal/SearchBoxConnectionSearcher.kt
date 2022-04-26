@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.searchbox.internal
 
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
@@ -12,7 +12,7 @@ internal data class SearchBoxConnectionSearcher<R>(
     private val searcher: Searcher<R>,
     private val searchMode: SearchMode,
     private val debouncer: Debouncer,
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     private val searchAsYouType: Callback<String?> = { query ->
         searcher.setQuery(query)
