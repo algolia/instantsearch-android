@@ -17,3 +17,6 @@ public class DefaultStatsPresenter(
         }
     }
 }
+
+@Deprecated(message = "use DefaultStatsPresenter instead", replaceWith = ReplaceWith("DefaultStatsPresenter"))
+public typealias StatsPresenterImpl = DefaultStatsPresenter

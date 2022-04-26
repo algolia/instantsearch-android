@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.current
 
-import com.algolia.instantsearch.filter.FilterPresenter
 import com.algolia.instantsearch.filter.DefaultFilterPresenter
+import com.algolia.instantsearch.filter.FilterPresenter
 import com.algolia.search.model.filter.Filter
 
 public class DefaultFilterCurrentPresenter(
@@ -13,3 +13,9 @@ public class DefaultFilterCurrentPresenter(
         return filterAndIDs.map { (key, value) -> key to presenter(value) }.sortedWith(comparator)
     }
 }
+
+@Deprecated(
+    message = "use DefaultFilterCurrentPresenter instead",
+    replaceWith = ReplaceWith("DefaultFilterCurrentPresenter")
+)
+public typealias FilterCurrentPresenterImpl = DefaultFilterCurrentPresenter

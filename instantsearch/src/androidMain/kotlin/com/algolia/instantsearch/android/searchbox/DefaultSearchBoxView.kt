@@ -3,6 +3,7 @@ package com.algolia.instantsearch.android.searchbox
 import android.widget.SearchView
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
+import com.algolia.instantsearch.stats.DefaultStatsPresenter
 
 public class DefaultSearchBoxView(
     public val searchView: SearchView,
@@ -30,3 +31,6 @@ public class DefaultSearchBoxView(
         searchView.setQuery(text, submitQuery)
     }
 }
+
+@Deprecated(message = "use DefaultSearchBoxView instead", replaceWith = ReplaceWith("DefaultSearchBoxView"))
+public typealias SearchBoxViewImpl = DefaultSearchBoxView

@@ -14,3 +14,6 @@ public class DefaultFilterClearView(
         view.setOnClickListener { onClear?.invoke(Unit) }
     }
 }
+
+@Deprecated(message = "use DefaultFilterClearView instead", replaceWith = ReplaceWith("DefaultFilterClearView"))
+public typealias FilterClearViewImpl = DefaultFilterClearView

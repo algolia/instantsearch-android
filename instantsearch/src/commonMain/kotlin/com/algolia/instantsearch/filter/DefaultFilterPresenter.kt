@@ -24,3 +24,6 @@ public class DefaultFilterPresenter(
         "${attributePresenter(attribute)}: $lowerBound to $upperBound"
     },
 ) : FilterPresenter
+
+@Deprecated(message = "use DefaultFilterPresenter instead", replaceWith = ReplaceWith("DefaultFilterPresenter"))
+public typealias FilterPresenterImpl = DefaultFilterPresenter

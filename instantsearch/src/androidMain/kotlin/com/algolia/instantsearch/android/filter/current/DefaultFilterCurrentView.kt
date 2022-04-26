@@ -32,3 +32,6 @@ public class DefaultFilterCurrentView(
         }
     }
 }
+
+@Deprecated(message = "use DefaultFilterCurrentView instead", replaceWith = ReplaceWith("DefaultFilterCurrentView"))
+public typealias FilterCurrentViewImpl = DefaultFilterCurrentView

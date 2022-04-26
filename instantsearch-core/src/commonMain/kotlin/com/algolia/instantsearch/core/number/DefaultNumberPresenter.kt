@@ -6,3 +6,6 @@ public object DefaultNumberPresenter : NumberPresenter<Number> {
         return number?.toString() ?: "-"
     }
 }
+
+@Deprecated(message = "use DefaultNumberPresenter instead", replaceWith = ReplaceWith("DefaultNumberPresenter"))
+public typealias NumberPresenterImpl = DefaultNumberPresenter

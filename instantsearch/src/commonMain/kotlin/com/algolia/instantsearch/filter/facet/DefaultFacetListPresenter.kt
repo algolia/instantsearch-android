@@ -21,3 +21,6 @@ public class DefaultFacetListPresenter(
         return selectableItems.sortedWith(comparator).take(limit)
     }
 }
+
+@Deprecated(message = "use DefaultFacetListPresenter instead", replaceWith = ReplaceWith("DefaultFacetListPresenter"))
+public typealias FacetListPresenterImpl = DefaultFacetListPresenter

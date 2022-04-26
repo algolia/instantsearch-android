@@ -18,3 +18,9 @@ public class DefaultHierarchicalPresenter(
         }
     }
 }
+
+@Deprecated(
+    message = "use DefaultHierarchicalPresenter instead",
+    replaceWith = ReplaceWith("DefaultHierarchicalPresenter")
+)
+public typealias HierarchicalPresenterImpl = DefaultHierarchicalPresenter

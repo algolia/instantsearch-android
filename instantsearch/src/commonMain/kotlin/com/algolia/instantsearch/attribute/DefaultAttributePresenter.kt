@@ -10,3 +10,6 @@ public class DefaultAttributePresenter(
         return transform(attribute)
     }
 }
+
+@Deprecated(message = "use DefaultAttributePresenter instead", replaceWith = ReplaceWith("DefaultAttributePresenter"))
+public typealias AttributePresenterImpl = DefaultAttributePresenter
