@@ -15,11 +15,11 @@ internal val ViewModel.lifecycleOwner: LifecycleOwner
     get() = getTag(JOB_KEY) ?: setTagIfAbsent(JOB_KEY, CloseableLifecycleOwner())
 
 private fun ViewModel.findViewModelClass(): Class<in ViewModel> {
-    var superclass = this.javaClass.superclass
-    while (superclass != null && superclass.name.toString() != "androidx.lifecycle.ViewModel") {
+    var superclass = javaClass.superclass
+    while (superclass != ViewModel::class.java) {
         superclass = superclass.superclass
     }
-    return superclass ?: throw ClassNotFoundException("Couldn't find ViewModel class from super classes")
+    return superclass
 }
 
 private fun ViewModel.getTag(tag: String): LifecycleOwner? =
