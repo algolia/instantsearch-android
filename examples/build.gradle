@@ -56,6 +56,8 @@ dependencies {
     implementation project(":extensions:android-loading")
     implementation "com.algolia.instantsearch:voice:1.1.0"
 
+    implementation project(":extensions:android-lifecycle")
+
     implementation "androidx.fragment:fragment-ktx:1.4.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"

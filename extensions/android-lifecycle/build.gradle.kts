@@ -39,6 +39,7 @@ android {
 
 dependencies {
     api(project(":instantsearch"))
+    api(project(":instantsearch-utils"))
     api(libs.androidx.lifecycle)
     testImplementation(kotlin("test-junit"))
     testImplementation(libs.test.androidx.runner)
