@@ -11,6 +11,7 @@ include(":instantsearch-utils")
 include(":extensions:android-paging3")
 include(":extensions:android-loading")
 include(":extensions:coroutines-extensions")
+include(":extensions:android-lifecycle")
 // Examples: showcases, guides and codex
 include(":examples")
 
@@ -31,4 +32,3 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-include(":extensions:android-lifecycle")
