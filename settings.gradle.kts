@@ -31,3 +31,4 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+include(":extensions:android-lifecycle")
