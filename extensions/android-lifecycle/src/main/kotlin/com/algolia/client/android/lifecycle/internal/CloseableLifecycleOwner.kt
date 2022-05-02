@@ -6,11 +6,13 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.ViewModel
 import java.io.Closeable
 
-private const val TagKey = "com.algolia.instantsearch.android.lifecycle.CloseableLifecycleOwner.JOB_KEY"
+private const val JOB_KEY = "com.algolia.instantsearch.android.LifecycleOwner.JOB_KEY"
 
-/** Get a [LifecycleOwner] of a [ViewModel] */
+/**
+ * [LifecycleOwner] tied to this [ViewModel].
+ */
 internal val ViewModel.lifecycleOwner: LifecycleOwner
-    get() = getTag(TagKey) ?: setTagIfAbsent(TagKey, CloseableLifecycleOwner())
+    get() = getTag(JOB_KEY) ?: setTagIfAbsent(JOB_KEY, CloseableLifecycleOwner())
 
 private fun ViewModel.findViewModelClass(): Class<in ViewModel> {
     var superclass = this.javaClass.superclass
