@@ -22,16 +22,18 @@ private fun ViewModel.findViewModelClass(): Class<in ViewModel> {
     return superclass
 }
 
-private fun ViewModel.getTag(tag: String): LifecycleOwner? =
+@Suppress("UNCHECKED_CAST")
+private fun <T> ViewModel.getTag(tag: String): T? =
     findViewModelClass().getDeclaredMethod("getTag", String::class.java).run {
         isAccessible = true
-        invoke(this@getTag, tag) as? CloseableLifecycleOwner
+        invoke(this@getTag, tag) as? T
     }
 
-private fun ViewModel.setTagIfAbsent(tag: String, obj: Any): CloseableLifecycleOwner =
+@Suppress("UNCHECKED_CAST")
+private fun <T> ViewModel.setTagIfAbsent(tag: String, obj: T): T =
     findViewModelClass().getDeclaredMethod("setTagIfAbsent", String::class.java, Any::class.java).run {
         isAccessible = true
-        invoke(this@setTagIfAbsent, tag, obj) as CloseableLifecycleOwner
+        invoke(this@setTagIfAbsent, tag, obj) as T
     }
 
 private class CloseableLifecycleOwner : LifecycleOwner, Closeable {
