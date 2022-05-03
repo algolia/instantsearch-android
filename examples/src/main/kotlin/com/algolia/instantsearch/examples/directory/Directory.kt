@@ -11,7 +11,7 @@ import com.algolia.instantsearch.examples.guides.compose.ComposeActivity
 import com.algolia.instantsearch.examples.guides.gettingstarted.GettingStartedGuide
 import com.algolia.instantsearch.examples.guides.insights.InsightsActivity
 import com.algolia.instantsearch.examples.showcase.compose.directory.ComposeDirectoryShowcase
-import com.algolia.instantsearch.examples.showcase.view.directory.AndroidViewDirectoryShowcase
+import com.algolia.instantsearch.examples.showcase.androidview.directory.AndroidViewDirectoryShowcase
 import com.algolia.search.model.ObjectID
 
 val guides = mapOf(
