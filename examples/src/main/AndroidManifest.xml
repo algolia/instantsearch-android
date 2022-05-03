@@ -44,10 +44,6 @@
             android:name=".guides.compose.ComposeActivity"
             android:parentActivityName=".directory.DirectoryActivity" />
 
-        <activity
-            android:name=".guides.voice.VoiceSearchActivity"
-            android:parentActivityName=".directory.DirectoryActivity" />
-
         <!-- Showcase: Android View -->
 
         <activity
