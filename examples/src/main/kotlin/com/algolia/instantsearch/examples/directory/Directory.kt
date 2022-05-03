@@ -1,5 +1,7 @@
 package com.algolia.instantsearch.examples.directory
 
+import android.content.Context
+import android.content.Intent
 import androidx.activity.ComponentActivity
 import com.algolia.instantsearch.examples.codex.categorieshits.MainActivity as CategoriesHitsCodex
 import com.algolia.instantsearch.examples.codex.multipleindex.MainActivity as MultipleIndexCodex
@@ -16,6 +18,8 @@ import com.algolia.instantsearch.examples.showcase.compose.directory.ComposeDire
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.ObjectID
 import com.algolia.search.model.response.ResponseSearch
+import com.algolia.search.serialize.KeyIndexName
+import com.algolia.search.serialize.KeyName
 import kotlin.reflect.KClass
 
 val guides = mapOf(
@@ -33,12 +37,20 @@ val guides = mapOf(
     ObjectID("codex_voice_search") to VoiceSearchCodex::class,
 )
 
-fun directoryItems(response: ResponseSearch, mappings: Map<ObjectID, KClass<out ComponentActivity>>) =
+internal fun directoryItems(response: ResponseSearch, mappings: Map<ObjectID, KClass<out ComponentActivity>>) =
     response.hits.deserialize(DirectoryHit.serializer())
         .filter { mappings.containsKey(it.objectID) }
         .groupBy { it.type }
         .toSortedMap()
         .flatMap { (key, value) ->
-            listOf(DirectoryItem.Header(key)) + value.map { DirectoryItem.Item(it) }
+            listOf(DirectoryItem.Header(key)) + value.map { DirectoryItem.Item(it, mappings.getValue(it.objectID)) }
                 .sortedBy { it.hit.objectID.raw }
         }
+
+internal fun Context.navigateTo(item: DirectoryItem.Item) {
+    val intent = Intent(this, item.dest.java).apply {
+        putExtra(KeyIndexName, item.hit.index)
+        putExtra(KeyName, item.hit.name)
+    }
+    startActivity(intent)
+}
