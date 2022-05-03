@@ -146,9 +146,6 @@
             android:name=".showcase.compose.filter.facet.FacetListPersistentShowcase"
             android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
         <activity
-            android:name=".showcase.compose.filter.list.FilterListAllShowcase"
-            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
-        <activity
             android:name=".showcase.compose.filter.list.FilterListFacetShowcase"
             android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
         <activity
@@ -179,9 +176,6 @@
             android:name=".showcase.compose.highlighting.HighlightingShowcase"
             android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
         <activity
-            android:name=".showcase.compose.list.merged.MergedListShowcase"
-            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
-        <activity
             android:name=".showcase.compose.list.paging.PagingSingleIndexShowcase"
             android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
         <activity
@@ -198,9 +192,6 @@
             android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
         <activity
             android:name=".showcase.compose.search.SearchOnSubmitShowcase"
-            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
-        <activity
-            android:name=".showcase.compose.search.SearchAutoCompleteShowcase"
             android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
         <activity
             android:name=".showcase.compose.sortby.SortByShowcase"
