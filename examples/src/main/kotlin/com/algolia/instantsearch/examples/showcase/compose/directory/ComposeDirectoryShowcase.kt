@@ -8,11 +8,13 @@ import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
-import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.examples.directory.DirectoryItem
+import com.algolia.instantsearch.examples.directory.directoryItems
+import com.algolia.instantsearch.examples.directory.guides
 import com.algolia.instantsearch.examples.showcase.compose.client
 import com.algolia.instantsearch.examples.showcase.compose.configureSearchBox
 import com.algolia.instantsearch.examples.showcase.compose.ui.ShowcaseTheme
-import com.algolia.search.helper.deserialize
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
 import com.algolia.search.serialize.KeyIndexName
@@ -27,16 +29,7 @@ class ComposeDirectoryShowcase : ComponentActivity() {
     private val connections = ConnectionHandler()
 
     init {
-        connections += searcher.connectHitsView(hitsState) { response ->
-            response.hits.deserialize(DirectoryHit.serializer())
-                .filter { showcases.containsKey(it.objectID) }
-                .groupBy { it.type }
-                .toSortedMap()
-                .flatMap { (key, value) ->
-                    listOf(DirectoryItem.Header(key)) + value.map { DirectoryItem.Item(it) }
-                        .sortedBy { it.hit.objectID.raw }
-                }
-        }
+        connections += searcher.connectHitsView(hitsState) { directoryItems(it, showcases) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

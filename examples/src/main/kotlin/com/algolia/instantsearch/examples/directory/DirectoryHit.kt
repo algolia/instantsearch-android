@@ -12,6 +12,7 @@ data class DirectoryHit(
     override val objectID: ObjectID,
     val name: String,
     val type: String,
+    val index: String? = null,
     override val _highlightResult: JsonObject? = null
 ) : Indexable, Highlightable {
 

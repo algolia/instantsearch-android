@@ -5,11 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.examples.R
-import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.examples.showcase.androidview.*
 import com.algolia.instantsearch.examples.databinding.IncludeSearchBinding
 import com.algolia.instantsearch.examples.databinding.ShowcaseDirectoryBinding
-import com.algolia.search.helper.deserialize
+import com.algolia.instantsearch.examples.directory.DirectoryAdapter
+import com.algolia.instantsearch.examples.directory.directoryItems
+import com.algolia.instantsearch.examples.showcase.androidview.client
+import com.algolia.instantsearch.examples.showcase.androidview.configureRecyclerView
+import com.algolia.instantsearch.examples.showcase.androidview.configureSearchBox
+import com.algolia.instantsearch.examples.showcase.androidview.configureSearchView
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
 
@@ -29,20 +33,10 @@ class AndroidViewDirectoryShowcase : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ShowcaseDirectoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        connection += searcher.connectHitsView(adapter) { directoryItems(it, showcases) }
+
         val searchBinding = IncludeSearchBinding.bind(binding.searchBox.root)
-
-
-        connection += searcher.connectHitsView(adapter) { response ->
-            response.hits.deserialize(DirectoryHit.serializer())
-                .filter { showcases.containsKey(it.objectID) }
-                .groupBy { it.type }
-                .toSortedMap()
-                .flatMap { (key, value) ->
-                    listOf(DirectoryItem.Header(key)) + value.map { DirectoryItem.Item(it) }
-                        .sortedBy { it.hit.objectID.raw }
-                }
-        }
-
         configureRecyclerView(binding.hits, adapter)
         configureSearchView(searchBinding.searchView, getString(R.string.search_showcases))
         configureSearchBox(searchBinding.searchView, searcher, connection)
