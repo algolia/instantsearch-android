@@ -65,9 +65,6 @@
             android:name=".showcase.androidview.filter.map.FilterMapShowcase"
             android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
         <activity
-            android:name=".showcase.androidview.filter.list.FilterListAllShowcase"
-            android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
-        <activity
             android:name=".showcase.androidview.filter.list.FilterListFacetShowcase"
             android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
         <activity
@@ -94,10 +91,7 @@
         <activity
             android:name=".showcase.androidview.search.SearchAsYouTypeShowcase"
             android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
-        <activity
-            android:name=".showcase.androidview.search.SearchAutoCompleteTextView"
-            android:exported="true"
-            android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
+
         <activity
             android:name=".showcase.androidview.list.paging.PagingSingleIndexShowcase"
             android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
@@ -112,9 +106,6 @@
             android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
         <activity
             android:name=".showcase.androidview.list.paging.PagingMultipleIndexShowcase"
-            android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
-        <activity
-            android:name=".showcase.androidview.list.merged.MergedListShowcase"
             android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
         <activity
             android:name=".showcase.androidview.hierarchical.HierarchicalShowcase"
