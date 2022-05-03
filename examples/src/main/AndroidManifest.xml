@@ -33,10 +33,6 @@
             android:parentActivityName=".directory.DirectoryActivity" />
 
         <activity
-            android:name=".guides.places.PlacesActivity"
-            android:parentActivityName=".directory.DirectoryActivity" />
-
-        <activity
             android:name=".guides.querysuggestion.QuerySuggestionActivity"
             android:parentActivityName=".directory.DirectoryActivity" />
 
