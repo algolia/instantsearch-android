@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 
 @Serializable
-data class Movie(
+internal data class Movie(
     val title: String,
     val genres: List<String>,
     @SerialName("poster_path") val posterPath: String,
@@ -22,4 +22,12 @@ data class Movie(
 
     val posterUrl
         get() = "https://image.tmdb.org/t/p/w500/$posterPath"
+
+    companion object {
+        val attributes = listOf(
+            Attribute("title"),
+            Attribute("genres"),
+            Attribute("poster_path")
+        )
+    }
 }
