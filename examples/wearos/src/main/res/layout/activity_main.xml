@@ -18,29 +18,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
+            <ImageView
                 android:id="@+id/text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/hello_world"
-                android:maxLines="3"
-                android:ellipsize="end"
-                android:gravity="center"
+                android:src="@drawable/logo"
                 app:layout_constraintBottom_toTopOf="@+id/microphone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.wear.widget.WearableRecyclerView
-                android:id="@+id/list"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/microphone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:scrollbars="vertical" />
 
             <ImageButton
                 android:id="@+id/microphone"
