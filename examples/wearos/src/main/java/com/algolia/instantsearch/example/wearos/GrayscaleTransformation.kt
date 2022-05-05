@@ -12,7 +12,7 @@ import coil.transform.Transformation
 /**
  * A [Transformation] that converts an image to shades of gray.
  */
-class GrayscaleTransformation(greyScale: Float) : Transformation {
+internal class GrayscaleTransformation(greyScale: Float) : Transformation {
 
     private val grayColorFilter = ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(greyScale) })
 

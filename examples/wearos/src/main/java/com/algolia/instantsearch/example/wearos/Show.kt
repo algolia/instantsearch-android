@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 
 @Serializable
-internal data class Movie(
+internal data class Show(
     val title: String,
     val genres: List<String>,
     @SerialName("poster_path") val posterPath: String,

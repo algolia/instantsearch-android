@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
         <activity
-            android:name=".MoviesActivity"
+            android:name=".ShowsActivity"
             android:exported="false" />
 
         <uses-library

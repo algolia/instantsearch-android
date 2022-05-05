@@ -5,7 +5,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.wear.widget.WearableLinearLayoutManager
 import kotlin.math.abs
 
-internal class CustomScrollingLayoutCallback : WearableLinearLayoutManager.LayoutCallback() {
+/**
+ * Layout callback to create a curved layout.
+ *
+ * @param maxIconProgress How much should we scale the icon at most.
+ */
+internal class CustomScrollingLayoutCallback(
+    val maxIconProgress: Float = 0.65f
+) : WearableLinearLayoutManager.LayoutCallback() {
 
     private var progressToCenter: Float = 0f
 
@@ -18,15 +25,10 @@ internal class CustomScrollingLayoutCallback : WearableLinearLayoutManager.Layou
             // Normalize for center
             progressToCenter = abs(0.5f - yRelativeToCenterOffset)
             // Adjust to the maximum scale
-            progressToCenter = progressToCenter.coerceAtMost(MaxIconProgress)
+            progressToCenter = progressToCenter.coerceAtMost(maxIconProgress)
 
             scaleX = 1 - progressToCenter
             scaleY = 1 - progressToCenter
         }
-    }
-
-    companion object {
-        /** How much should we scale the icon at most.  */
-        private const val MaxIconProgress = 0.65f
     }
 }

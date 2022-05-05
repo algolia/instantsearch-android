@@ -13,29 +13,28 @@ import coil.transform.RoundedCornersTransformation
 import com.algolia.instantsearch.android.highlighting.toSpannedString
 import com.algolia.instantsearch.android.inflate
 import com.algolia.instantsearch.core.hits.HitsView
-import com.algolia.instantsearch.example.wearos.MovieAdapter.MovieViewHolder
+import com.algolia.instantsearch.example.wearos.ShowAdapter.ShowViewHolder
 
-internal class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieDiffUtil), HitsView<Movie> {
+internal class ShowAdapter : ListAdapter<Show, ShowViewHolder>(ShowDiffUtil), HitsView<Show> {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        return MovieViewHolder(parent.inflate(R.layout.list_item))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {
+        return ShowViewHolder(parent.inflate(R.layout.list_item))
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ShowViewHolder, position: Int) {
         val item = getItem(position)
         if (item != null) holder.bind(item)
     }
 
-    override fun setHits(hits: List<Movie>) {
+    override fun setHits(hits: List<Show>) {
         submitList(hits)
     }
 
-    class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    class ShowViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(movie: Movie) {
-            val movieTitle = view.findViewById<TextView>(R.id.movie_title)
-            movieTitle.text = movie.highlightedTitle?.toSpannedString()
-            view.findViewById<ImageView>(R.id.movie_image).load(movie.posterUrl) {
+        fun bind(show: Show) {
+            view.findViewById<TextView>(R.id.show_title).text = show.highlightedTitle?.toSpannedString()
+            view.findViewById<ImageView>(R.id.show_poster).load(show.posterUrl) {
                 placeholder(android.R.drawable.ic_media_play)
                 transformations(RoundedCornersTransformation(), GrayscaleTransformation(0.25f))
                 scale(Scale.FILL)
@@ -44,13 +43,13 @@ internal class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieDiffUtil)
         }
     }
 
-    object MovieDiffUtil : DiffUtil.ItemCallback<Movie>() {
+    object ShowDiffUtil : DiffUtil.ItemCallback<Show>() {
 
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        override fun areItemsTheSame(oldItem: Show, newItem: Show): Boolean {
             return oldItem.objectID == newItem.objectID
         }
 
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        override fun areContentsTheSame(oldItem: Show, newItem: Show): Boolean {
             return oldItem == newItem
         }
     }
