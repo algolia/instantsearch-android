@@ -14,6 +14,7 @@ import com.algolia.instantsearch.android.highlighting.toSpannedString
 import com.algolia.instantsearch.android.inflate
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.example.wearos.ShowAdapter.ShowViewHolder
+import com.algolia.instantsearch.example.wearos.internal.GrayscaleTransformation
 
 internal class ShowAdapter : ListAdapter<Show, ShowViewHolder>(ShowDiffUtil), HitsView<Show> {
 

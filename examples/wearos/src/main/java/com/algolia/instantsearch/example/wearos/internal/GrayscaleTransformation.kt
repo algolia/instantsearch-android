@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.example.wearos
+package com.algolia.instantsearch.example.wearos.internal
 
 import android.graphics.Bitmap
 import android.graphics.ColorMatrix
@@ -11,10 +11,13 @@ import coil.transform.Transformation
 
 /**
  * A [Transformation] that converts an image to shades of gray.
+ *
+ * @param greyScale a value of 0 maps the color to gray-scale, 1 is identity.
  */
 internal class GrayscaleTransformation(greyScale: Float) : Transformation {
 
-    private val grayColorFilter = ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(greyScale) })
+    private val grayColorFilter =
+        ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(greyScale) })
 
     override val cacheKey: String = GrayscaleTransformation::class.java.name
 

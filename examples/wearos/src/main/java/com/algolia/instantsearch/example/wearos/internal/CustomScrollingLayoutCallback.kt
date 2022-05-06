@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.example.wearos
+package com.algolia.instantsearch.example.wearos.internal
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +11,7 @@ import kotlin.math.abs
  * @param maxIconProgress How much should we scale the icon at most.
  */
 internal class CustomScrollingLayoutCallback(
-    val maxIconProgress: Float = 0.65f
+    private val maxIconProgress: Float = 0.65f
 ) : WearableLinearLayoutManager.LayoutCallback() {
 
     private var progressToCenter: Float = 0f

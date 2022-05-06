@@ -4,22 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.widget.ImageButton
-import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
-import coil.load
-import coil.size.Scale
-import coil.transform.RoundedCornersTransformation
-import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.core.searcher.connectView
-import com.algolia.search.helper.deserialize
 
 class MainActivity : ComponentActivity() {
-
-    private val showsViewModel: ShowsViewModel by viewModels()
-    private val connections = ConnectionHandler()
 
     private val startSpeech =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -35,28 +24,6 @@ class MainActivity : ComponentActivity() {
 
         findViewById<ImageButton>(R.id.microphone).setOnClickListener {
             displaySpeechRecognizer()
-        }
-
-        connections += showsViewModel.searcher.connectView(view = ::mostSearchedShows) {
-            it?.hits?.deserialize(Show.serializer()) ?: emptyList()
-        }
-        showsViewModel.searcher.query.hitsPerPage = 4
-        showsViewModel.search("")
-    }
-
-    private fun mostSearchedShows(shows: List<Show>) {
-        listOf<ImageView>(
-            findViewById(R.id.up_left),
-            findViewById(R.id.up_right),
-            findViewById(R.id.down_left),
-            findViewById(R.id.down_right)
-        ).zip(shows).forEach { (imageView, show) -> poster(imageView, show.posterUrl) }
-    }
-
-    private fun poster(imageView: ImageView, posterUrl: String) {
-        imageView.load(posterUrl) {
-            transformations(RoundedCornersTransformation(), GrayscaleTransformation(0.10f))
-            scale(Scale.FILL)
         }
     }
 
@@ -74,10 +41,5 @@ class MainActivity : ComponentActivity() {
         val intent = Intent(this, ShowsActivity::class.java)
         intent.putExtra(ShowsActivity.ExtraQuery, query)
         startActivity(intent)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        connections.disconnect()
     }
 }

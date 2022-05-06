@@ -2,16 +2,24 @@ package com.algolia.instantsearch.example.wearos
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.viewModels
 import androidx.wear.widget.WearableLinearLayoutManager
 import androidx.wear.widget.WearableRecyclerView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
+import com.algolia.instantsearch.example.wearos.internal.CustomScrollingLayoutCallback
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.helper.deserialize
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
+import com.algolia.search.model.IndexName
 
 class ShowsActivity : ComponentActivity() {
 
-    private val showsViewModel: ShowsViewModel by viewModels()
+    private val searcher = HitsSearcher(
+        applicationID = ApplicationID("latency"),
+        apiKey = APIKey("3832e8fcaf80b1c7085c59fa3e4d266d"),
+        indexName = IndexName("tmdb_movies_shows")
+    )
     private val connections = ConnectionHandler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,16 +27,18 @@ class ShowsActivity : ComponentActivity() {
         setContentView(R.layout.activity_shows)
 
         val showAdapter = ShowAdapter()
-        connections += showsViewModel.searcher.connectHitsView(showAdapter) {
-            it.hits.deserialize(Show.serializer())
-        }
-
         findViewById<WearableRecyclerView>(R.id.list).apply {
             adapter = showAdapter
             layoutManager = WearableLinearLayoutManager(this@ShowsActivity, CustomScrollingLayoutCallback())
         }
 
-        showsViewModel.search(query)
+        connections += searcher.connectHitsView(showAdapter) {
+            it.hits.deserialize(Show.serializer())
+        }
+
+        searcher.query.attributesToRetrieve = Show.attributes
+        searcher.setQuery(query)
+        searcher.searchAsync()
     }
 
     private val query: String
