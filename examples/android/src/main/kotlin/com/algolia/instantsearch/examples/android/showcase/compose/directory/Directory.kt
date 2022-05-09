@@ -7,7 +7,6 @@ import com.algolia.instantsearch.examples.android.showcase.compose.filter.facet.
 import com.algolia.instantsearch.examples.android.showcase.compose.filter.facet.FacetListPersistentShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.filter.facet.FacetListSearchShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.filter.facet.FacetListShowcase
-import com.algolia.instantsearch.examples.android.showcase.compose.filter.list.FilterListAllShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.filter.list.FilterListFacetShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.filter.list.FilterListNumericShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.filter.list.FilterListTagShowcase
@@ -18,45 +17,48 @@ import com.algolia.instantsearch.examples.android.showcase.compose.filter.rating
 import com.algolia.instantsearch.examples.android.showcase.compose.filter.toggle.FilterToggleShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.hierarchical.HierarchicalShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.highlighting.HighlightingShowcase
-import com.algolia.instantsearch.examples.android.showcase.compose.list.merged.MergedListShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.list.paging.PagingMultipleIndexShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.list.paging.PagingSingleIndexShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.loading.LoadingShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.relateditems.RelatedItemsShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.search.SearchAsYouTypeShowcase
-import com.algolia.instantsearch.examples.android.showcase.compose.search.SearchAutoCompleteShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.search.SearchOnSubmitShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.sortby.SortByShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.stats.StatsShowcase
 import com.algolia.search.model.ObjectID
 
 val showcases = mapOf(
-    ObjectID("filter_current") to FilterCurrentShowcase::class,
-    ObjectID("filter_clear") to FilterClearShowcase::class,
+    // Facet
+    ObjectID("dynamic_facets") to DynamicFacetShowcase::class,
     ObjectID("facet_list") to FacetListShowcase::class,
-    ObjectID("facet_list_search") to FacetListSearchShowcase::class,
     ObjectID("facet_list_persistent") to FacetListPersistentShowcase::class,
-    ObjectID("filter_list_all") to FilterListAllShowcase::class,
+    ObjectID("facet_list_search") to FacetListSearchShowcase::class,
+    ObjectID("filter_hierarchical") to HierarchicalShowcase::class,
+    // Filter
+    ObjectID("filter_clear") to FilterClearShowcase::class,
+    ObjectID("filter_current") to FilterCurrentShowcase::class,
+    ObjectID("filter_numeric_range") to FilterRangeShowcase::class,
+    ObjectID("filter_numeric_comparison") to FilterComparisonShowcase::class,
+    ObjectID("filter_rating") to RatingShowcase::class,
+    ObjectID("filter_segment") to FilterMapShowcase::class,
+    ObjectID("filter_toggle") to FilterToggleShowcase::class,
+    // Filter List
     ObjectID("filter_list_facet") to FilterListFacetShowcase::class,
     ObjectID("filter_list_numeric") to FilterListNumericShowcase::class,
     ObjectID("filter_list_tag") to FilterListTagShowcase::class,
-    ObjectID("filter_segment") to FilterMapShowcase::class,
-    ObjectID("filter_numeric_comparison") to FilterComparisonShowcase::class,
-    ObjectID("filter_numeric_range") to FilterRangeShowcase::class,
-    ObjectID("filter_rating") to RatingShowcase::class,
-    ObjectID("filter_toggle") to FilterToggleShowcase::class,
-    ObjectID("filter_hierarchical") to HierarchicalShowcase::class,
+    // Other
     ObjectID("highlighting") to HighlightingShowcase::class,
-    ObjectID("merged_list") to MergedListShowcase::class,
+    ObjectID("loading") to LoadingShowcase::class,
+    ObjectID("query_rule_custom_data") to QueryRuleCustomDataShowcase::class,
+    ObjectID("stats") to StatsShowcase::class,
+    // Paging
     ObjectID("paging_single_index") to PagingSingleIndexShowcase::class,
     ObjectID("paging_multiple_index") to PagingMultipleIndexShowcase::class,
-    ObjectID("loading") to LoadingShowcase::class,
+    // Personalization
     ObjectID("personalisation_related_items") to RelatedItemsShowcase::class,
+    // Search
     ObjectID("search_as_you_type") to SearchAsYouTypeShowcase::class,
     ObjectID("search_on_submit") to SearchOnSubmitShowcase::class,
-    ObjectID("search_auto_complete_text_view") to SearchAutoCompleteShowcase::class,
+    // Sort
     ObjectID("sort_by") to SortByShowcase::class,
-    ObjectID("stats") to StatsShowcase::class,
-    ObjectID("query_rule_custom_data") to QueryRuleCustomDataShowcase::class,
-    ObjectID("dynamic_facets") to DynamicFacetShowcase::class,
 )

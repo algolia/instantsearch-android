@@ -20,6 +20,7 @@ import com.algolia.instantsearch.compose.searchbox.SearchBox
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.compose.searchbox.defaultSearchBoxColors
 import com.algolia.instantsearch.examples.android.R
+import com.algolia.instantsearch.examples.android.directory.DirectoryItem
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.GreyLight
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.White
 

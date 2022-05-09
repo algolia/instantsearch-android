@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.examples.android.showcase.compose.directory
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,15 +7,15 @@ import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
-import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.examples.android.directory.DirectoryItem
+import com.algolia.instantsearch.examples.android.directory.directoryItems
+import com.algolia.instantsearch.examples.android.directory.navigateTo
 import com.algolia.instantsearch.examples.android.showcase.compose.client
 import com.algolia.instantsearch.examples.android.showcase.compose.configureSearchBox
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
-import com.algolia.search.helper.deserialize
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
-import com.algolia.search.serialize.KeyIndexName
-import com.algolia.search.serialize.KeyName
 
 class ComposeDirectoryShowcase : ComponentActivity() {
 
@@ -27,35 +26,18 @@ class ComposeDirectoryShowcase : ComponentActivity() {
     private val connections = ConnectionHandler()
 
     init {
-        connections += searcher.connectHitsView(hitsState) { response ->
-            response.hits.deserialize(DirectoryHit.serializer())
-                .filter { showcases.containsKey(it.objectID) }
-                .groupBy { it.type }
-                .toSortedMap()
-                .flatMap { (key, value) ->
-                    listOf(DirectoryItem.Header(key)) + value.map { DirectoryItem.Item(it) }
-                        .sortedBy { it.hit.objectID.raw }
-                }
-        }
+        connections += searcher.connectHitsView(hitsState) { directoryItems(it, showcases) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ShowcaseTheme {
-                Directory(searchBoxState, hitsState, ::navigateToShowcase)
+                Directory(searchBoxState, hitsState, ::navigateTo)
             }
         }
         configureSearchBox(searcher, searchBoxState, connections)
         searcher.searchAsync()
-    }
-
-    private fun navigateToShowcase(item: DirectoryItem.Item) {
-        val intent = Intent(this, showcases.getValue(item.hit.objectID).java).apply {
-            putExtra(KeyIndexName, item.hit.index)
-            putExtra(KeyName, item.hit.name)
-        }
-        startActivity(intent)
     }
 
     override fun onDestroy() {

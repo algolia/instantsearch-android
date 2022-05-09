@@ -1,5 +1,8 @@
 package com.algolia.instantsearch.examples.android.directory
 
+import android.content.Context
+import android.content.Intent
+import androidx.activity.ComponentActivity
 import com.algolia.instantsearch.examples.android.codex.categorieshits.MainActivity as CategoriesHitsCodex
 import com.algolia.instantsearch.examples.android.codex.multipleindex.MainActivity as MultipleIndexCodex
 import com.algolia.instantsearch.examples.android.codex.suggestions.categories.MainActivity as QuerySuggestionsCategoriesCodex
@@ -10,21 +13,19 @@ import com.algolia.instantsearch.examples.android.codex.voice.MainActivity as Vo
 import com.algolia.instantsearch.examples.android.guides.compose.ComposeActivity
 import com.algolia.instantsearch.examples.android.guides.gettingstarted.GettingStartedGuide
 import com.algolia.instantsearch.examples.android.guides.insights.InsightsActivity
-import com.algolia.instantsearch.examples.android.guides.places.PlacesActivity
-import com.algolia.instantsearch.examples.android.guides.querysuggestion.QuerySuggestionActivity
-import com.algolia.instantsearch.examples.android.guides.voice.VoiceSearchActivity
+import com.algolia.instantsearch.examples.android.showcase.androidview.directory.AndroidViewDirectoryShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.directory.ComposeDirectoryShowcase
-import com.algolia.instantsearch.examples.android.showcase.view.directory.AndroidViewDirectoryShowcase
+import com.algolia.search.helper.deserialize
 import com.algolia.search.model.ObjectID
+import com.algolia.search.model.response.ResponseSearch
+import com.algolia.search.serialize.KeyIndexName
+import com.algolia.search.serialize.KeyName
+import kotlin.reflect.KClass
 
 val guides = mapOf(
     ObjectID("guide_getting_started") to GettingStartedGuide::class,
-    ObjectID("guide_places") to PlacesActivity::class,
-    ObjectID("guide_query_suggestion") to QuerySuggestionActivity::class,
     ObjectID("guide_insights") to InsightsActivity::class,
     ObjectID("guide_declarative_ui") to ComposeActivity::class,
-    ObjectID("guide_voice_search") to VoiceSearchActivity::class,
-    ObjectID("guide_places") to PlacesActivity::class,
     ObjectID("showcase_imperative_ui") to AndroidViewDirectoryShowcase::class,
     ObjectID("showcase_declarative_ui") to ComposeDirectoryShowcase::class,
     ObjectID("codex_categories_hits") to CategoriesHitsCodex::class,
@@ -35,3 +36,21 @@ val guides = mapOf(
     ObjectID("codex_query_suggestions_recent") to QuerySuggestionsRecentCodex::class,
     ObjectID("codex_voice_search") to VoiceSearchCodex::class,
 )
+
+internal fun directoryItems(response: ResponseSearch, mappings: Map<ObjectID, KClass<out ComponentActivity>>) =
+    response.hits.deserialize(DirectoryHit.serializer())
+        .filter { mappings.containsKey(it.objectID) }
+        .groupBy { it.type }
+        .toSortedMap()
+        .flatMap { (key, value) ->
+            listOf(DirectoryItem.Header(key)) + value.map { DirectoryItem.Item(it, mappings.getValue(it.objectID)) }
+                .sortedBy { it.hit.objectID.raw }
+        }
+
+internal fun Context.navigateTo(item: DirectoryItem.Item) {
+    val intent = Intent(this, item.dest.java).apply {
+        putExtra(KeyIndexName, item.hit.index)
+        putExtra(KeyName, item.hit.name)
+    }
+    startActivity(intent)
+}
