@@ -1,4 +1,4 @@
-# InstantSearch Examples: Android
+# InstantSearch examples for Android
 
 ![InstantSearch Examples for Android](/docs/img/examples/android.png)
 

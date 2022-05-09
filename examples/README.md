@@ -1,4 +1,4 @@
-# InstantSearch Examples
+# InstantSearch examples
 
 * [InstantSearch examples for Android](android)
 * [InstantSearch examples for WearOS](wearos)

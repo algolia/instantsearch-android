@@ -1,4 +1,4 @@
-# InstantSearch Examples: WearOS
+# InstantSearch examples for WearOS
 
 ![InstantSearch Examples for WearOS](/docs/img/examples/wearos.png)
 
