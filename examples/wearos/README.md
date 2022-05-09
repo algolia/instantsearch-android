@@ -1,6 +1,6 @@
 # InstantSearch Examples: WearOS
 
-![InstantSearch Examples for WearOS][/docs/img/examples/wearos.png]
+![InstantSearch Examples for WearOS](/docs/img/examples/wearos.png)
 
 ## How to run this example
 

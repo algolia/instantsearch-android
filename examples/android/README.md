@@ -1,6 +1,6 @@
 # InstantSearch Examples: Android
 
-![InstantSearch Examples for Android][/docs/img/examples/android.png]
+![InstantSearch Examples for Android](/docs/img/examples/android.png)
 
 ## Guides code examples
 
