@@ -8,6 +8,7 @@ import kotlin.reflect.KClass
  * @param clazz the numeric type class to get its mapper.
  */
 @Suppress("UNCHECKED_CAST")
+@PublishedApi
 internal fun <T> mapperOf(clazz: KClass<T>): (Number) -> T where T : Number, T : Comparable<T> {
     return when (clazz) {
         Int::class -> { number -> number.toInt() as T }
