@@ -15,6 +15,7 @@
 * Searchers' `search()` [main safe](https://developer.android.com/kotlin/coroutines/coroutines-best-practices#main-safe)
 * Update Kotlin to `1.6.10`
 * Update Algolia API Kotlin Client to `1.13.0`
+* Update Ktor Http Client to `1.6.8`
 
 ### Fixed
 * facets searcher: `setQuery` function to set `facetQuery` field
