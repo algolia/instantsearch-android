@@ -8,15 +8,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.isActive
+
 
 @OptIn(ExperimentalInstantSearch::class, ExperimentalCoroutinesApi::class)
 class TestSubscription {
 
     @Test
-    fun testSubscriptionEventAsFlow() = runBlockingTest {
+    fun testSubscriptionEventAsFlow() = runTest {
         val subscriptionEvent = SubscriptionEvent<String?>()
         subscriptionEvent.asFlow().test {
             // send : "event1"
@@ -31,7 +33,7 @@ class TestSubscription {
     }
 
     @Test
-    fun testSubscriptionValueAsFlow() = runBlockingTest {
+    fun testSubscriptionValueAsFlow() = runTest {
         val subscriptionEvent = SubscriptionValue<String?>("event0")
         subscriptionEvent.asFlow().test {
             // send : "event1"
@@ -46,10 +48,11 @@ class TestSubscription {
     }
 
     @Test
-    fun testSubscriptionValueToStateFlow() = runBlockingTest {
+    fun testSubscriptionValueToStateFlow() = runTest {
         val subscriptionEvent = SubscriptionValue<String?>("event0")
         val job = Job()
-        val flow = subscriptionEvent.stateIn(CoroutineScope(job))
+        val scope = CoroutineScope(job)
+        val flow = subscriptionEvent.stateIn(scope)
         flow.test {
             assertEquals("event0", awaitItem())
             // send : "event1"

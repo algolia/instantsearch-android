@@ -4,9 +4,14 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.sortby.SortByViewModel
 import com.algolia.instantsearch.sortby.connectSearcher
 import com.algolia.search.model.IndexName
-import mockClient
-import shouldEqual
 import kotlin.test.Test
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import mockClient
+import setUnconfinedMain
+import shouldEqual
 
 class TestSortByConnectSearcher {
 
@@ -30,7 +35,8 @@ class TestSortByConnectSearcher {
     }
 
     @Test
-    fun onSelectedComputedShouldUpdateIndex() {
+    fun onSelectedComputedShouldUpdateIndex() = runTest {
+        setUnconfinedMain()
         val searcher = HitsSearcher(client, indexNameA)
         val viewModel = SortByViewModel(
             map = mapOf(

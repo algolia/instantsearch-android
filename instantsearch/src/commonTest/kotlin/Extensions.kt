@@ -1,5 +1,3 @@
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.runBlocking
 import kotlin.reflect.KClass
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -8,6 +6,12 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.setMain
 
 infix fun <T> T.shouldEqual(expected: T) {
     assertEquals(expected, this)
@@ -67,4 +71,9 @@ infix fun <T : Throwable> KClass<T>.shouldFailWith(block: suspend () -> Unit): T
 
 fun blocking(block: suspend CoroutineScope.() -> Unit) {
     runBlocking(block = block)
+}
+
+fun TestScope.setUnconfinedMain() {
+    val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+    Dispatchers.setMain(testDispatcher)
 }
