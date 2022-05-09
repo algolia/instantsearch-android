@@ -23,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
@@ -31,8 +30,10 @@ import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBox
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.compose.searchbox.defaultSearchBoxColors
+import com.algolia.instantsearch.examples.androidtv.ui.searchBackground
 import com.algolia.instantsearch.examples.androidtv.ui.golden
 import com.algolia.instantsearch.examples.androidtv.ui.grey
+import com.algolia.instantsearch.examples.androidtv.ui.white
 
 @Composable
 fun SearchScreen(
@@ -41,8 +42,6 @@ fun SearchScreen(
     hitsState: HitsState<Show>,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        val onBackgroundColor = colorResource(id = R.color.background_gradient_end)
-        val backgroundColor = colorResource(id = R.color.default_background)
         SearchBox(
             modifier = Modifier
                 .fillMaxWidth()
@@ -50,10 +49,10 @@ fun SearchScreen(
             searchBoxState = searchBoxState,
             colors = defaultSearchBoxColors(
                 textColor = grey,
-                backgroundColor = backgroundColor,
-                onBackgroundColor = onBackgroundColor
+                backgroundColor = searchBackground,
+                onBackgroundColor = white
             ),
-            trailingIcon = { TrailingIcon(searchBoxState, onBackgroundColor)}
+            trailingIcon = { TrailingIcon(searchBoxState, white) }
         )
         Hits(modifier = Modifier.fillMaxSize(), hitsState = hitsState)
     }
