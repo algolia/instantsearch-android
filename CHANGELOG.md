@@ -1,4 +1,4 @@
-# 3.0.0-beta01
+# 3.0.0-beta02
 
 ### Added
 * Extension modules:
@@ -6,6 +6,7 @@
     * `instantsearch-android-loading` as separate module for SwipeRefreshLayout
     * `instantsearch-coroutines-extensions`: coroutines extensions for Instant Search
 * Searchers: `connectHitsView`  optional `past` parameter
+* Add `setBoundsFromFacetStats` to `FilterComparisonConnector`
 
 ### Changed
 * Instant Search Android package from `com.algolia.instantsearch.helper.android` to `com.algolia.instantsearch.android`
@@ -13,6 +14,7 @@
 * Compose `SearchBox`: update widget params
 * Searchers' `search()` [main safe](https://developer.android.com/kotlin/coroutines/coroutines-best-practices#main-safe)
 * Update Kotlin to `1.6.10`
+* Update Algolia API Kotlin Client to `1.13.0`
 
 ### Fixed
 * facets searcher: `setQuery` function to set `facetQuery` field
