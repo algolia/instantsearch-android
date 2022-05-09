@@ -12,11 +12,9 @@ import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
-import com.algolia.search.helper.deserialize
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
-import io.ktor.client.features.logging.LogLevel
 
 class DirectoryActivity : AppCompatActivity() {
 
@@ -34,16 +32,7 @@ class DirectoryActivity : AppCompatActivity() {
         connection += connector.connectView(SearchBoxViewAppCompat(findViewById(R.id.searchView)))
 
         val adapter = DirectoryAdapter()
-        connection += searcher.connectHitsView(adapter) { response ->
-            response.hits.deserialize(DirectoryHit.serializer())
-                .filter { guides.containsKey(it.objectID) }
-                .groupBy { it.type }
-                .toSortedMap()
-                .flatMap { (key, value) ->
-                    listOf(DirectoryItem.Header(key)) + value.map { DirectoryItem.Item(it) }
-                        .sortedBy { it.hit.objectID.raw }
-                }
-        }
+        connection += searcher.connectHitsView(adapter) { directoryItems(it, guides) }
 
         findViewById<RecyclerView>(R.id.list).configure(adapter)
 
