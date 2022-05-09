@@ -2,12 +2,12 @@ package com.algolia.instantsearch.examples.androidtv
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
 import androidx.fragment.app.FragmentActivity
 import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
+import com.algolia.instantsearch.examples.androidtv.ui.AppTheme
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
@@ -32,7 +32,7 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
+            AppTheme {
                 SearchScreen(searchBoxState = searchBoxState, hitsState = hitsState)
             }
         }
