@@ -15,13 +15,13 @@ git clone git@github.com:algolia/instantsearch-android.git
 ### 2. Build the project
 
 ```sh
-./gradlew :examples:assembleDebug
+./gradlew :examples:android:assembleDebug
 ```
 
 ### 3. Install the app
 
 ```sh
-./gradlew :examples:installDebug
+./gradlew :examples:android:installDebug
 ```
 
 ### 4. Launch the example

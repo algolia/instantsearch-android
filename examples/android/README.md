@@ -26,6 +26,27 @@ The set of examples used on the [Code Exchange](https://www.algolia.com/develope
 - [Query Suggestions with Hits][Codex Query Suggestion hits]
 - [Query Suggestions with Categories][Codex Query Suggestion categories]
 
+## How to run this example
+
+### 1. Clone this repository
+
+```sh
+git clone git@github.com:algolia/instantsearch-android.git
+```
+
+### 2. Build the project
+
+```sh
+./gradlew :examples:android:assembleDebug
+```
+
+### 3. Install the app
+
+```sh
+./gradlew :examples:android:installDebug
+```
+
+
 [Android View Guide]: /examples/android/src/main/kotlin/com/algolia/instantsearch/examples/android/guides/compose
 [Compose Guide]: /examples/android/src/main/kotlin/com/algolia/instantsearch/examples/android/guides/gettingstarted
 [Android View Showcase]: /examples/android/src/main/kotlin/com/algolia/instantsearch/examples/android/showcase/androidview
