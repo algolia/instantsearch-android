@@ -1,6 +1,8 @@
 package com.algolia.instantsearch.examples.androidtv
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,19 +16,23 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Category
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBox
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
+import com.algolia.instantsearch.compose.searchbox.defaultSearchBoxColors
 import com.algolia.instantsearch.examples.androidtv.ui.golden
+import com.algolia.instantsearch.examples.androidtv.ui.grey
 
 @Composable
 fun SearchScreen(
@@ -35,11 +41,19 @@ fun SearchScreen(
     hitsState: HitsState<Show>,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
+        val onBackgroundColor = colorResource(id = R.color.background_gradient_end)
+        val backgroundColor = colorResource(id = R.color.default_background)
         SearchBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(12.dp),
             searchBoxState = searchBoxState,
+            colors = defaultSearchBoxColors(
+                textColor = grey,
+                backgroundColor = backgroundColor,
+                onBackgroundColor = onBackgroundColor
+            ),
+            trailingIcon = { TrailingIcon(searchBoxState, onBackgroundColor)}
         )
         Hits(modifier = Modifier.fillMaxSize(), hitsState = hitsState)
     }
@@ -97,5 +111,21 @@ private fun HitRow(modifier: Modifier = Modifier, hit: Show) {
             }
 
         }
+    }
+}
+
+@Composable
+internal fun TrailingIcon(searchBoxState: SearchBoxState, tint: Color) {
+    if (searchBoxState.query.isNotEmpty()) {
+        Icon(
+            imageVector = Icons.Default.Clear,
+            contentDescription = null,
+            tint = tint,
+            modifier = Modifier.clickable(
+                onClick = { searchBoxState.setText(null) },
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+            )
+        )
     }
 }
