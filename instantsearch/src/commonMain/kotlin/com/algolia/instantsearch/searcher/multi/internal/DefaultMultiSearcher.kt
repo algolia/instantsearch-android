@@ -15,6 +15,7 @@ import com.algolia.search.model.multipleindex.IndexedQuery
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.response.ResponseMultiSearch
 import com.algolia.search.model.response.ResultSearch
+import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -31,6 +32,7 @@ internal class DefaultMultiSearcher(
     internal val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    private val triggerSearchForQuery: ((List<Query>) -> Boolean)? = null
 ) : MultiSearcher() {
 
     override val client: ClientSearch get() = searchService.client
@@ -78,8 +80,9 @@ internal class DefaultMultiSearcher(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
+            val (queries, completion) = collect()
+            if (triggerSearchForQuery?.invoke(queries.map(IndexedQuery::query)) == false) return@launch
             isLoading.runAsLoading {
-                val (queries, completion) = collect()
                 val response = search(queries)
                 onSearchResponse(response, completion)
             }

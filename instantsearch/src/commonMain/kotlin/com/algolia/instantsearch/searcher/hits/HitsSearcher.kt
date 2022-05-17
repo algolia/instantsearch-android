@@ -71,6 +71,7 @@ public fun HitsSearcher(
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
+    shouldTriggerSearchForQuery: ((Query) -> Boolean)? = null
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client = ClientSearch(applicationID, apiKey)),
     indexName = indexName,
@@ -78,6 +79,7 @@ public fun HitsSearcher(
     requestOptions = requestOptions,
     isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
     coroutineScope = coroutineScope,
+    triggerSearchForQuery = shouldTriggerSearchForQuery
 )
 
 /**

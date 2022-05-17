@@ -34,6 +34,7 @@ internal class DefaultHitsSearcher(
     override val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    private val triggerSearchForQuery: ((Query) -> Boolean)? = null
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
@@ -56,6 +57,7 @@ internal class DefaultHitsSearcher(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
+            if (triggerSearchForQuery?.invoke(query) == false) return@launch
             isLoading.runAsLoading {
                 response.value = search()
             }

@@ -35,6 +35,7 @@ internal class DefaultFacetsSearcher(
     override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    private val triggerSearchForQuery: ((Query) -> Boolean)? = null
 ) : FacetsSearcher, MultiSearchComponent<FacetIndexQuery, ResponseSearchForFacets> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
@@ -60,6 +61,7 @@ internal class DefaultFacetsSearcher(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
+            if (triggerSearchForQuery?.invoke(query) == false) return@launch
             isLoading.runAsLoading {
                 response.value = search()
             }

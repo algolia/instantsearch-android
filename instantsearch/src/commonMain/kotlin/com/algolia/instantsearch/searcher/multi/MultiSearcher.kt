@@ -12,6 +12,7 @@ import com.algolia.search.model.multipleindex.IndexedQuery
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.response.ResponseMultiSearch
 import com.algolia.search.model.response.ResultSearch
+import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
 
@@ -43,12 +44,14 @@ public fun MultiSearcher(
     client: ClientSearch,
     strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     requestOptions: RequestOptions? = null,
-    coroutineScope: CoroutineScope = SearcherScope()
+    coroutineScope: CoroutineScope = SearcherScope(),
+    triggerSearchForQuery: ((List<Query>) -> Boolean)? = null,
 ): MultiSearcher = DefaultMultiSearcher(
     searchService = DefaultMultiSearchService(client),
     strategy = strategy,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
+    triggerSearchForQuery = triggerSearchForQuery
 )
 
 /**
@@ -65,10 +68,12 @@ public fun MultiSearcher(
     apiKey: APIKey,
     strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     requestOptions: RequestOptions? = null,
-    coroutineScope: CoroutineScope = SearcherScope()
+    coroutineScope: CoroutineScope = SearcherScope(),
+    triggerSearchForQuery: ((List<Query>) -> Boolean)? = null,
 ): MultiSearcher = DefaultMultiSearcher(
     searchService = DefaultMultiSearchService(client = ClientSearch(applicationID, apiKey)),
     strategy = strategy,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
+    triggerSearchForQuery = triggerSearchForQuery,
 )
