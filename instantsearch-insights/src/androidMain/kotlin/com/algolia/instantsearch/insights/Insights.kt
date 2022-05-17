@@ -15,10 +15,10 @@ import com.algolia.instantsearch.insights.internal.registerInsightsController
 import com.algolia.search.helper.toAPIKey
 import com.algolia.search.helper.toApplicationID
 import com.algolia.search.helper.toIndexName
+import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
-import io.ktor.client.features.logging.LogLevel
 
 /**
  * Access the latest registered `Insights` instance, if any, otherwise throws  [InsightsException.IndexNotRegistered].
@@ -54,7 +54,7 @@ public fun registerInsights(
     apiKey: String,
     indexName: String,
     configuration: Insights.Configuration? = null,
-    clientLogLevel: LogLevel = LogLevel.NONE
+    clientLogLevel: LogLevel = LogLevel.None
 ): Insights {
     return registerInsights(
         context = context,
@@ -82,7 +82,7 @@ public fun registerInsights(
     apiKey: APIKey,
     indexName: IndexName,
     configuration: Insights.Configuration? = null,
-    clientLogLevel: LogLevel = LogLevel.NONE
+    clientLogLevel: LogLevel = LogLevel.None
 ): Insights {
     val localRepository = InsightsPrefsRepository(context.insightsSharedPreferences(indexName))
     val settings = InsightsEventSettings(context.insightsSettingsPreferences())
