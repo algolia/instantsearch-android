@@ -17,21 +17,19 @@ import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.*
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
+import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.filter.FilterGroupsConverter
-import com.algolia.search.serialize.KeyIndexName
-import com.algolia.search.serialize.KeyName
-import io.ktor.client.features.logging.*
 
 val client = ClientSearch(
     ConfigurationSearch(
         ApplicationID("latency"),
         APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        logLevel = LogLevel.ALL
+        logLevel = LogLevel.All
     )
 )
 
@@ -45,7 +43,7 @@ fun Activity.configureSearcher(searcher: IndexNameHolder) {
     searcher.indexName = intent.indexName
 }
 
-val Intent.indexName: IndexName get() = IndexName(extras!!.getString(KeyIndexName)!!)
+val Intent.indexName: IndexName get() = IndexName(extras!!.getString("indexName")!!)
 
 fun <R> configureSearchBox(
     searcher: Searcher<R>,
@@ -93,4 +91,4 @@ fun filterColors(vararg attributes: Attribute): Map<String, Color> {
 }
 
 val Activity.showcaseTitle: String
-    get() = intent.extras?.getString(KeyName) ?: ""
+    get() = intent.extras?.getString("name") ?: ""

@@ -1,10 +1,10 @@
 [versions]
 kotlin = "1.6.10"
-algolia-client = "1.13.0"
+algolia-client = "2.0.0"
 algolia-telemetry = "0.1.0"
 compose = "1.1.1"
-coroutines = "1.5.2-native-mt"
-ktor = "1.6.8"
+coroutines = "1.6.1"
+ktor = "2.0.1"
 work = "2.7.1"
 
 [libraries]

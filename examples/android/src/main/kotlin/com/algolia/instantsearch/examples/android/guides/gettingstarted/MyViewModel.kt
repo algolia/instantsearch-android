@@ -18,18 +18,18 @@ import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.search.client.ClientSearch
+import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import io.ktor.client.features.logging.*
 
 class MyViewModel : ViewModel() {
 
     val client = ClientSearch(
         ApplicationID("latency"),
         APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        LogLevel.ALL
+        LogLevel.All
     )
     val searcher = HitsSearcher(client = client, indexName = IndexName("instant_search"))
     val paginator = Paginator(

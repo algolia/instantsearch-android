@@ -32,12 +32,12 @@ import com.algolia.instantsearch.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.android.stats.StatsTextViewSpanned
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.searcher.Searcher
+import com.algolia.instantsearch.examples.android.R
 import com.algolia.instantsearch.filter.clear.FilterClearConnector
 import com.algolia.instantsearch.filter.clear.connectView
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.toFilterGroups
-import com.algolia.instantsearch.examples.android.R
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.IndexNameHolder
@@ -46,6 +46,7 @@ import com.algolia.instantsearch.stats.StatsPresenter
 import com.algolia.instantsearch.stats.connectView
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
+import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
@@ -54,16 +55,13 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.filter.FilterGroupsConverter
 import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.serialize.KeyIndexName
-import com.algolia.search.serialize.KeyName
-import io.ktor.client.features.logging.*
 
 
 val client = ClientSearch(
     ConfigurationSearch(
         ApplicationID("latency"),
         APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        logLevel = LogLevel.ALL
+        logLevel = LogLevel.All
     )
 )
 
@@ -73,7 +71,7 @@ val stubIndex = client.initIndex(stubIndexName)
 fun AppCompatActivity.configureToolbar(toolbar: Toolbar) {
     setSupportActionBar(toolbar)
     supportActionBar?.let {
-        it.title = intent.extras?.getString(KeyName)
+        it.title = intent.extras?.getString("name")
         it.setDisplayHomeAsUpEnabled(true)
 
     }
@@ -190,7 +188,7 @@ fun RecyclerView.configure(
     autoScrollToStart(recyclerViewAdapter)
 }
 
-val Intent.indexName: IndexName get() = IndexName(extras!!.getString(KeyIndexName)!!)
+val Intent.indexName: IndexName get() = IndexName(extras!!.getString("indexName")!!)
 
 fun <R> AppCompatActivity.configureSearchBox(
     searchView: SearchView,

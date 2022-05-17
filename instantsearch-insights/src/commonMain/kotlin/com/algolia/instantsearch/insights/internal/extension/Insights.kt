@@ -5,10 +5,10 @@ import com.algolia.instantsearch.insights.internal.data.settings.InsightsSetting
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.search.client.ClientInsights
 import com.algolia.search.configuration.ConfigurationInsights
+import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.insights.UserToken
-import io.ktor.client.features.logging.LogLevel
 
 /**
  * Create new Insights API Client.

@@ -9,24 +9,24 @@ import com.algolia.instantsearch.compose.item.StatsTextState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.examples.android.guides.model.Product
 import com.algolia.instantsearch.filter.facet.FacetListConnector
 import com.algolia.instantsearch.filter.facet.connectView
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.examples.android.guides.model.Product
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.stats.DefaultStatsPresenter
+import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.stats.connectView
 import com.algolia.search.client.ClientSearch
+import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import io.ktor.client.features.logging.*
 
 
 class MainViewModel : ViewModel() {
@@ -34,7 +34,7 @@ class MainViewModel : ViewModel() {
     val client = ClientSearch(
         ApplicationID("latency"),
         APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        LogLevel.ALL
+        LogLevel.All
     )
     val indexName = IndexName("instant_search")
     val searcher = HitsSearcher(client, indexName)

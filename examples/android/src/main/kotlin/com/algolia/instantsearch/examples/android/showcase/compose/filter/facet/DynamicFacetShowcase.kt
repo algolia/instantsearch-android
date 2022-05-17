@@ -37,19 +37,19 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HelpDialog
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchTopBar
 import com.algolia.search.client.ClientSearch
+import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Facet
-import io.ktor.client.features.logging.*
 
 class DynamicFacetShowcase : AppCompatActivity() {
 
     private val client = ClientSearch(
         ApplicationID("RVURKQXRHU"),
         APIKey("937e4e6ec422ff69fe89b569dba30180"),
-        LogLevel.ALL
+        LogLevel.All
     )
     private val searcher = HitsSearcher(client, IndexName("test_facet_ordering"))
     private val filterState = FilterState()
