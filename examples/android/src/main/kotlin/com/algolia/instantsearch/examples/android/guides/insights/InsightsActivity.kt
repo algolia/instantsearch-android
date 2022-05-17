@@ -19,9 +19,9 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.tracker.HitsTracker
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.helper.deserialize
+import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.insights.EventName
-import io.ktor.client.features.logging.*
 
 class InsightsActivity : AppCompatActivity() {
 
@@ -30,7 +30,7 @@ class InsightsActivity : AppCompatActivity() {
     private val client = ClientSearch(
         applicationID = insights.applicationID,
         apiKey = insights.apiKey,
-        logLevel = LogLevel.ALL
+        logLevel = LogLevel.All
     )
     private val searcher = HitsSearcher(client, indexName)
     private val searchBox = SearchBoxConnector(searcher, searchMode = SearchMode.AsYouType)

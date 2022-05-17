@@ -18,8 +18,6 @@ import com.algolia.instantsearch.examples.android.showcase.compose.directory.Com
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.ObjectID
 import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.serialize.KeyIndexName
-import com.algolia.search.serialize.KeyName
 import kotlin.reflect.KClass
 
 val guides = mapOf(
@@ -49,8 +47,8 @@ internal fun directoryItems(response: ResponseSearch, mappings: Map<ObjectID, KC
 
 internal fun Context.navigateTo(item: DirectoryItem.Item) {
     val intent = Intent(this, item.dest.java).apply {
-        putExtra(KeyIndexName, item.hit.index)
-        putExtra(KeyName, item.hit.name)
+        putExtra("indexName", item.hit.index)
+        putExtra("name", item.hit.name)
     }
     startActivity(intent)
 }
