@@ -5,11 +5,13 @@ import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceHitsSearcher
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.searcher.hits.TriggerSearchForQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withUserAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
+import com.algolia.instantsearch.searcher.multi.internal.MultiSearchOperation
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.FilterGroup
 import com.algolia.search.model.multipleindex.IndexQuery
@@ -34,7 +36,7 @@ internal class DefaultHitsSearcher(
     override val isDisjunctiveFacetingEnabled: Boolean = true,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
-    private val triggerSearchForQuery: ((Query) -> Boolean)? = null
+    private val triggerSearchFor: TriggerSearchForQuery? = null
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
@@ -44,8 +46,10 @@ internal class DefaultHitsSearcher(
 
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
+
     private val options get() = requestOptions.withUserAgent()
-    private val indexedQuery: IndexQuery get() = IndexQuery(indexName, query)
+    private val indexedQuery get() = IndexQuery(indexName, query)
+    private val shouldTrigger get() = triggerSearchFor?.triggerFor(query) != false
 
     init {
         traceHitsSearcher()
@@ -57,7 +61,6 @@ internal class DefaultHitsSearcher(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
-            if (triggerSearchForQuery?.invoke(query) == false) return@launch
             isLoading.runAsLoading {
                 response.value = search()
             }
@@ -66,20 +69,34 @@ internal class DefaultHitsSearcher(
         }
     }
 
-    override suspend fun search(): ResponseSearch = withContext(coroutineDispatcher) {
-        searchService.search(HitsSearchService.Request(indexedQuery, isDisjunctiveFacetingEnabled), options)
+    override suspend fun search(): ResponseSearch? {
+        if (!shouldTrigger) return null
+        return withContext(coroutineDispatcher) {
+            searchService.search(HitsSearchService.Request(indexedQuery, isDisjunctiveFacetingEnabled), options)
+        }
     }
 
-    override fun collect(): Pair<List<IndexQuery>, (List<ResponseSearch>) -> Unit> {
+    override fun collect(): MultiSearchOperation<IndexQuery, ResponseSearch> {
         return if (isDisjunctiveFacetingEnabled) disjunctiveSearch() else singleQuerySearch()
     }
 
-    private fun disjunctiveSearch(): Pair<List<IndexQuery>, (List<ResponseSearch>) -> Unit> {
+
+    private fun disjunctiveSearch(): MultiSearchOperation<IndexQuery, ResponseSearch> {
         val (queries, disjunctiveFacetCount) = searchService.advancedQueryOf(indexedQuery)
-        return queries to { response.value = searchService.aggregateResult(it, disjunctiveFacetCount) }
+        return MultiSearchOperation(
+            requests = queries,
+            completion = { response.value = searchService.aggregateResult(it, disjunctiveFacetCount) },
+            shouldTrigger = shouldTrigger
+        )
     }
 
-    private fun singleQuerySearch() = listOf(indexedQuery) to ::onSingleQuerySearchResponse
+    private fun singleQuerySearch(): MultiSearchOperation<IndexQuery, ResponseSearch> {
+        return MultiSearchOperation(
+            requests = listOf(indexedQuery),
+            completion = ::onSingleQuerySearchResponse,
+            shouldTrigger = shouldTrigger
+        )
+    }
 
     private fun onSingleQuerySearchResponse(responses: List<ResponseSearch>) {
         response.value = responses.firstOrNull()

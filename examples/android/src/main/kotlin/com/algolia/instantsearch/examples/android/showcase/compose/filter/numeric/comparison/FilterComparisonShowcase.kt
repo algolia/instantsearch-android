@@ -94,7 +94,7 @@ class FilterComparisonShowcase : AppCompatActivity() {
 
         searcher.coroutineScope.launch {
             val response = searcher.search()
-            response.facetStatsOrNull?.let {
+            response?.facetStatsOrNull?.let {
                 comparisonPrice.viewModel.setBoundsFromFacetStatsLong(price, it)
                 comparisonYear.viewModel.setBoundsFromFacetStatsInt(year, it)
                 withContext(Dispatchers.Main) {

@@ -32,7 +32,7 @@ internal class DefaultMultiSearcher(
     internal val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
-    private val triggerSearchForQuery: ((List<Query>) -> Boolean)? = null
+    private val triggerSearchForQueries: ((List<Query>) -> Boolean)? = null
 ) : MultiSearcher() {
 
     override val client: ClientSearch get() = searchService.client
@@ -73,15 +73,15 @@ internal class DefaultMultiSearcher(
         components.forEach { it.setQuery(text) }
     }
 
-    override suspend fun search(): ResponseMultiSearch {
-        val queries = components.flatMap { it.collect().first }
-        return search(queries)
+    override suspend fun search(): ResponseMultiSearch? {
+        val queries = components.map { it.collect() }.filter { it.shouldTrigger }.flatMap { it.requests }
+        return if (queries.isNotEmpty()) search(queries) else null
     }
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
             val (queries, completion) = collect()
-            if (triggerSearchForQuery?.invoke(queries.map(IndexedQuery::query)) == false) return@launch
+            if (triggerSearchForQueries?.invoke(queries.map(IndexedQuery::query)) == false) return@launch
             isLoading.runAsLoading {
                 val response = search(queries)
                 onSearchResponse(response, completion)
@@ -112,7 +112,9 @@ internal class DefaultMultiSearcher(
      * Collects lists of requests and callbacks from all its search components.
      */
     private fun collect(): Pair<List<IndexedQuery>, (List<ResultSearch>) -> Unit> {
-        val (requests, completions: List<(List<ResultSearch>) -> Unit>) = components.map { it.collect() }.unzip()
+        val operations = components.map { it.collect() }.filter { it.shouldTrigger }
+        val requests = operations.map { it.requests }
+        val completions = operations.map { it.completion }
         val rangePerCompletion = completions.zip(requests.flatRanges())
         val requestsList = requests.flatten()
         val completionsList: (List<ResultSearch>) -> Unit = { results ->

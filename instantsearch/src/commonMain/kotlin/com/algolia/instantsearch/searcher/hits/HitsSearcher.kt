@@ -12,6 +12,7 @@ import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
+import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +45,7 @@ public fun HitsSearcher(
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
+    triggerSearchFor: TriggerSearchForQuery? = null
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client),
     indexName = indexName,
@@ -51,6 +53,7 @@ public fun HitsSearcher(
     requestOptions = requestOptions,
     isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
     coroutineScope = coroutineScope,
+    triggerSearchFor = triggerSearchFor
 )
 
 /**
@@ -71,15 +74,15 @@ public fun HitsSearcher(
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
-    triggerSearchForQuery: ((Query) -> Boolean)? = null
-): HitsSearcher = DefaultHitsSearcher(
-    searchService = DefaultHitsSearchService(client = ClientSearch(applicationID, apiKey)),
+    triggerSearchFor: TriggerSearchForQuery? = null
+): HitsSearcher = HitsSearcher(
+    client = ClientSearch(applicationID, apiKey),
     indexName = indexName,
     query = query,
     requestOptions = requestOptions,
     isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
     coroutineScope = coroutineScope,
-    triggerSearchForQuery = triggerSearchForQuery
+    triggerSearchFor = triggerSearchFor
 )
 
 /**
@@ -94,6 +97,7 @@ public fun MultiSearcher.addHitsSearcher(
     query: Query = Query(),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
+    triggerSearchFor: TriggerSearchForQuery? = null
 ): HitsSearcher {
     return DefaultHitsSearcher(
         searchService = DefaultHitsSearchService(client),
@@ -102,5 +106,6 @@ public fun MultiSearcher.addHitsSearcher(
         requestOptions = requestOptions,
         isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
         coroutineScope = coroutineScope,
+        triggerSearchFor = triggerSearchFor
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }
