@@ -5,7 +5,7 @@ import com.algolia.search.model.search.Query
 /**
  * Search query execution condition logic.
  */
-public fun interface TriggerSearchForQuery {
+public fun interface SearchForQuery {
 
     /**
      * Search trigger logic. Return `true` to run search operations.
@@ -17,6 +17,6 @@ public fun interface TriggerSearchForQuery {
     public companion object {
 
         /** Trigger if the query text is not empty.*/
-        public val NotEmpty: TriggerSearchForQuery = TriggerSearchForQuery { it.query?.isNotEmpty() == true }
+        public val NotEmpty: SearchForQuery = SearchForQuery { it.query?.isNotEmpty() == true }
     }
 }

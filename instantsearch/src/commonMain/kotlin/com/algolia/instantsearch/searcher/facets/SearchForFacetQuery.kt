@@ -6,7 +6,7 @@ import com.algolia.search.model.search.Query
 /**
  * Facets search query execution condition logic.
  */
-public fun interface TriggerSearchForFacetQuery {
+public fun interface SearchForFacetQuery {
 
     /**
      * Search trigger logic. Return `true` to run search operations.
@@ -20,7 +20,7 @@ public fun interface TriggerSearchForFacetQuery {
     public companion object {
 
         /** Trigger if the facet query is not empty.*/
-        public val NotEmpty: TriggerSearchForFacetQuery = TriggerSearchForFacetQuery { _, _, facetQuery ->
+        public val NotEmpty: SearchForFacetQuery = SearchForFacetQuery { _, _, facetQuery ->
             facetQuery?.isNotEmpty() == true
         }
     }

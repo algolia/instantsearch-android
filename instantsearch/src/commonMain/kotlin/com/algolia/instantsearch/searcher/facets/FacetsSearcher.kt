@@ -47,7 +47,7 @@ public fun FacetsSearcher(
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
-    triggerSearchFor: TriggerSearchForFacetQuery? = null,
+    triggerSearchFor: SearchForFacetQuery? = null,
 ): FacetsSearcher = DefaultFacetsSearcher(
     searchService = DefaultFacetsSearchService(client),
     indexName = indexName,
@@ -80,7 +80,7 @@ public fun FacetsSearcher(
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
-    triggerSearchFor: TriggerSearchForFacetQuery? = null
+    triggerSearchFor: SearchForFacetQuery? = null
 ): FacetsSearcher = DefaultFacetsSearcher(
     searchService = DefaultFacetsSearchService(client = ClientSearch(applicationID, apiKey)),
     indexName = indexName,
@@ -107,7 +107,7 @@ public fun MultiSearcher.addFacetsSearcher(
     query: Query = Query(),
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
-    triggerSearchFor: TriggerSearchForFacetQuery? = null
+    triggerSearchFor: SearchForFacetQuery? = null
 ): FacetsSearcher {
     return DefaultFacetsSearcher(
         searchService = DefaultFacetsSearchService(client),

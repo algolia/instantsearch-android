@@ -12,7 +12,6 @@ import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineScope
@@ -45,7 +44,7 @@ public fun HitsSearcher(
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
-    triggerSearchFor: TriggerSearchForQuery? = null
+    triggerSearchFor: SearchForQuery? = null
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client),
     indexName = indexName,
@@ -74,7 +73,7 @@ public fun HitsSearcher(
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
-    triggerSearchFor: TriggerSearchForQuery? = null
+    triggerSearchFor: SearchForQuery? = null
 ): HitsSearcher = HitsSearcher(
     client = ClientSearch(applicationID, apiKey),
     indexName = indexName,
@@ -97,7 +96,7 @@ public fun MultiSearcher.addHitsSearcher(
     query: Query = Query(),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
-    triggerSearchFor: TriggerSearchForQuery? = null
+    triggerSearchFor: SearchForQuery? = null
 ): HitsSearcher {
     return DefaultHitsSearcher(
         searchService = DefaultHitsSearchService(client),
