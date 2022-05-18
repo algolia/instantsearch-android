@@ -19,9 +19,13 @@ public fun interface SearchForFacetQuery {
 
     public companion object {
 
-        /** Trigger if the facet query is not empty.*/
-        public val NotEmpty: SearchForFacetQuery = SearchForFacetQuery { _, _, facetQuery ->
-            facetQuery?.isNotEmpty() == true
+        /**
+         * Trigger if the facet query length is greater or equals to [length].
+         *
+         * @param length minimal query length
+         */
+        public fun lengthAtLeast(length: Int): SearchForFacetQuery = SearchForFacetQuery { _, _, facetQuery ->
+            (facetQuery?.length ?: 0) >= length
         }
     }
 }

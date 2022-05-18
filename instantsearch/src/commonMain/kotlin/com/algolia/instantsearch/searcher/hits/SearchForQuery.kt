@@ -16,7 +16,11 @@ public fun interface SearchForQuery {
 
     public companion object {
 
-        /** Trigger if the query text is not empty.*/
-        public val NotEmpty: SearchForQuery = SearchForQuery { it.query?.isNotEmpty() == true }
+        /**
+         * Trigger if the query length is greater or equals to [length].
+         *
+         * @param length minimal query length
+         */
+        public fun lengthAtLeast(length: Int): SearchForQuery = SearchForQuery { (it.query?.length ?: 0) >= length }
     }
 }
