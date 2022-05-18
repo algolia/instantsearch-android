@@ -27,7 +27,7 @@ internal class SearcherPagingSource<T : Any>(
             searcher.query.page = pageNumber
             searcher.query.hitsPerPage = params.loadSize
 
-            val response = search()
+            val response = search() ?: return LoadResult.Invalid()
             val data = response.hits.map(transformer)
             val nextKey = if (pageNumber < response.nbPages) pageNumber + 1 else null
             LoadResult.Page(
@@ -40,7 +40,7 @@ internal class SearcherPagingSource<T : Any>(
         }
     }
 
-    private suspend fun search(): ResponseSearch {
+    private suspend fun search(): ResponseSearch? {
         try {
             searcher.isLoading.value = true
             val response = searcher.search()
