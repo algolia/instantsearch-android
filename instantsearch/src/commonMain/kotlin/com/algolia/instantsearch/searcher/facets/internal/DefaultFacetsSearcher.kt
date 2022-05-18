@@ -49,7 +49,7 @@ internal class DefaultFacetsSearcher(
 
     private val options get() = requestOptions.withUserAgent()
     private val indexedQuery get() = FacetIndexQuery(indexName, query, attribute, facetQuery)
-    private val shouldTrigger get() = triggerSearchFor?.triggerFor(query, attribute, facetQuery) != false
+    private val shouldTrigger get() = triggerSearchFor?.trigger(query, attribute, facetQuery) != false
 
     init {
         traceFacetsSearcher()

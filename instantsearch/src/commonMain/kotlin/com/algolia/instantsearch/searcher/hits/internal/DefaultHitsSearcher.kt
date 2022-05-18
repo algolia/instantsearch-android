@@ -49,7 +49,7 @@ internal class DefaultHitsSearcher(
 
     private val options get() = requestOptions.withUserAgent()
     private val indexedQuery get() = IndexQuery(indexName, query)
-    private val shouldTrigger get() = triggerSearchFor?.triggerFor(query) != false
+    private val shouldTrigger get() = triggerSearchFor?.trigger(query) != false
 
     init {
         traceHitsSearcher()
