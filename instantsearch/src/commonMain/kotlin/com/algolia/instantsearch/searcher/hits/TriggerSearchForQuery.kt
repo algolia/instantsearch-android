@@ -13,4 +13,10 @@ public fun interface TriggerSearchForQuery {
      * @param query query for search operations
      */
     public fun trigger(query: Query): Boolean
+
+    public companion object {
+
+        /** Trigger if the query text is not empty.*/
+        public val NotEmpty: TriggerSearchForQuery = TriggerSearchForQuery { it.query?.isNotEmpty() == true }
+    }
 }

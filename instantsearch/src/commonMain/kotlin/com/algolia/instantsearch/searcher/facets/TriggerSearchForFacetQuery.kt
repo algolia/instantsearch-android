@@ -16,4 +16,12 @@ public fun interface TriggerSearchForFacetQuery {
      * @param facetQuery facets query
      */
     public fun trigger(query: Query, attribute: Attribute, facetQuery: String?): Boolean
+
+    public companion object {
+
+        /** Trigger if the facet query is not empty.*/
+        public val NotEmpty: TriggerSearchForFacetQuery = TriggerSearchForFacetQuery { _, _, facetQuery ->
+            facetQuery?.isNotEmpty() == true
+        }
+    }
 }
