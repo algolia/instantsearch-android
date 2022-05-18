@@ -27,7 +27,7 @@ internal class SearcherPagingSource<T : Any>(
             searcher.query.page = pageNumber
             searcher.query.hitsPerPage = params.loadSize
 
-            val response = search() ?: return LoadResult.Invalid()
+            val response = search() ?: return emptyPage()
             val data = response.hits.map(transformer)
             val nextKey = if (pageNumber < response.nbPages) pageNumber + 1 else null
             LoadResult.Page(
@@ -53,4 +53,6 @@ internal class SearcherPagingSource<T : Any>(
             throw exception
         }
     }
+
+    private fun <T : Any> emptyPage() = LoadResult.Page<Int, T>(emptyList(), null, null)
 }
