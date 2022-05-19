@@ -44,6 +44,7 @@ public fun HitsSearcher(
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
+    triggerSearchFor: SearchForQuery? = null
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client),
     indexName = indexName,
@@ -51,6 +52,7 @@ public fun HitsSearcher(
     requestOptions = requestOptions,
     isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
     coroutineScope = coroutineScope,
+    triggerSearchFor = triggerSearchFor
 )
 
 /**
@@ -71,13 +73,15 @@ public fun HitsSearcher(
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
-): HitsSearcher = DefaultHitsSearcher(
-    searchService = DefaultHitsSearchService(client = ClientSearch(applicationID, apiKey)),
+    triggerSearchFor: SearchForQuery? = null
+): HitsSearcher = HitsSearcher(
+    client = ClientSearch(applicationID, apiKey),
     indexName = indexName,
     query = query,
     requestOptions = requestOptions,
     isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
     coroutineScope = coroutineScope,
+    triggerSearchFor = triggerSearchFor
 )
 
 /**
@@ -92,6 +96,7 @@ public fun MultiSearcher.addHitsSearcher(
     query: Query = Query(),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
+    triggerSearchFor: SearchForQuery? = null
 ): HitsSearcher {
     return DefaultHitsSearcher(
         searchService = DefaultHitsSearchService(client),
@@ -100,5 +105,6 @@ public fun MultiSearcher.addHitsSearcher(
         requestOptions = requestOptions,
         isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
         coroutineScope = coroutineScope,
+        triggerSearchFor = triggerSearchFor
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }

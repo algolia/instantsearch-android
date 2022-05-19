@@ -43,7 +43,7 @@ public fun MultiSearcher(
     client: ClientSearch,
     strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     requestOptions: RequestOptions? = null,
-    coroutineScope: CoroutineScope = SearcherScope()
+    coroutineScope: CoroutineScope = SearcherScope(),
 ): MultiSearcher = DefaultMultiSearcher(
     searchService = DefaultMultiSearchService(client),
     strategy = strategy,
@@ -65,7 +65,7 @@ public fun MultiSearcher(
     apiKey: APIKey,
     strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     requestOptions: RequestOptions? = null,
-    coroutineScope: CoroutineScope = SearcherScope()
+    coroutineScope: CoroutineScope = SearcherScope(),
 ): MultiSearcher = DefaultMultiSearcher(
     searchService = DefaultMultiSearchService(client = ClientSearch(applicationID, apiKey)),
     strategy = strategy,

@@ -51,7 +51,7 @@ public interface Searcher<R> {
      * Triggers the search and returns a search response.
      * The search is executed on the [coroutineDispatcher].
      */
-    public suspend fun search(): R
+    public suspend fun search(): R?
 
     /**
      * Cancels the ongoing search requests.

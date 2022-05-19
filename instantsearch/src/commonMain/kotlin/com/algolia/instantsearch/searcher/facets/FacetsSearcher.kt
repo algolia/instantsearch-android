@@ -47,6 +47,7 @@ public fun FacetsSearcher(
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
+    triggerSearchFor: SearchForFacetQuery? = null,
 ): FacetsSearcher = DefaultFacetsSearcher(
     searchService = DefaultFacetsSearchService(client),
     indexName = indexName,
@@ -55,6 +56,7 @@ public fun FacetsSearcher(
     facetQuery = facetQuery,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
+    triggerSearchFor = triggerSearchFor,
 )
 
 /**
@@ -78,6 +80,7 @@ public fun FacetsSearcher(
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
+    triggerSearchFor: SearchForFacetQuery? = null
 ): FacetsSearcher = DefaultFacetsSearcher(
     searchService = DefaultFacetsSearchService(client = ClientSearch(applicationID, apiKey)),
     indexName = indexName,
@@ -86,6 +89,7 @@ public fun FacetsSearcher(
     facetQuery = facetQuery,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
+    triggerSearchFor = triggerSearchFor,
 )
 
 /**
@@ -102,7 +106,8 @@ public fun MultiSearcher.addFacetsSearcher(
     attribute: Attribute,
     query: Query = Query(),
     facetQuery: String? = null,
-    requestOptions: RequestOptions? = null
+    requestOptions: RequestOptions? = null,
+    triggerSearchFor: SearchForFacetQuery? = null
 ): FacetsSearcher {
     return DefaultFacetsSearcher(
         searchService = DefaultFacetsSearchService(client),
@@ -112,5 +117,6 @@ public fun MultiSearcher.addFacetsSearcher(
         facetQuery = facetQuery,
         requestOptions = requestOptions,
         coroutineScope = coroutineScope,
+        triggerSearchFor = triggerSearchFor
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }

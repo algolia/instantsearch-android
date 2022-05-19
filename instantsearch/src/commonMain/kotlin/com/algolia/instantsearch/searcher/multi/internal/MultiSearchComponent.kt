@@ -12,7 +12,7 @@ internal interface MultiSearchComponent<out Request : IndexedQuery, Response : R
     /**
      * Collects requests list and a callback for responses list.
      */
-    fun collect(): Pair<List<Request>, (List<Response>) -> Unit>
+    fun collect(): MultiSearchOperation<Request, Response>
 }
 
 /**
