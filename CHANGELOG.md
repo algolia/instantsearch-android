@@ -1,24 +1,25 @@
-# 3.0.0-beta02
+# 3.0.0
 
 ### Added
+* Conditional search: `triggerSearchFor` param for hits and facets searchers
+* Searchers: `connectHitsView` optional `past` parameter
+* Extension function(s) `setBoundsFromFacetStats` to `FilterComparisonConnector`
 * Extension modules:
-    * `instantsearch-android-paging3` supporting Paging 3
-    * `instantsearch-android-loading` as separate module for SwipeRefreshLayout
+    * `instantsearch-android-paging3` supporting [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
+    * `instantsearch-android-loading` as separate module for [SwipeRefreshLayout](https://developer.android.com/jetpack/androidx/releases/swiperefreshlayout)
     * `instantsearch-coroutines-extensions`: coroutines extensions for Instant Search
-* Searchers: `connectHitsView`  optional `past` parameter
-* Add `setBoundsFromFacetStats` to `FilterComparisonConnector`
 
 ### Changed
 * Instant Search Android package from `com.algolia.instantsearch.helper.android` to `com.algolia.instantsearch.android`
 * Promote experimental Searchers (`MultiSearcher`, `HitsSearcher` and `FacetsSearcher`)  to stable
-* Compose `SearchBox`: update widget params
 * Searchers' `search()` [main safe](https://developer.android.com/kotlin/coroutines/coroutines-best-practices#main-safe)
+* Compose `SearchBox`: update widget params
 * Update Kotlin to `1.6.10`
-* Update Algolia API Kotlin Client to `1.13.0`
-* Update Ktor Http Client to `1.6.8`
+* Update Algolia API Kotlin Client to [2.0](https://github.com/algolia/algoliasearch-client-kotlin/releases/tag/2.0.0)
+* Update Ktor Http Client to [2.0](https://blog.jetbrains.com/ktor/2022/04/11/ktor-2-0-released/)
 
 ### Fixed
-* facets searcher: `setQuery` function to set `facetQuery` field
+* Facets searcher: `setQuery` function to set `facetQuery` field
 
 ### Removed
 * Paging 2 support
