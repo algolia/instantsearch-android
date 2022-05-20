@@ -23,12 +23,6 @@ You can add InstantSearch to your Android application by adding the following li
 implementation "com.algolia:instantsearch-android:$instantsearch_version"
 ```
 
-ℹ️ Please follow the [migration guide](docs/guide/Migration_2.x_3.x.md) to migrate from `2.x` to the latest version.
-
-See the [documentation][doc]. You can start with the [Getting Started Guide][getting-started].
-
-<!-- vale Google.Spacing = YES -->
-
 <details>
   <summary><strong>Compose</strong></summary>
 
@@ -59,6 +53,10 @@ implementation "com.algolia:instantsearch-insights-android:$instantsearch_versio
 
 Please refer to the [library](instantsearch-insights/README.md) for more details.
 </details>
+
+ℹ️ Please follow the [migration guide](docs/guide/Migration_2.x_3.x.md) to migrate from `2.x` to the latest version.
+
+See the [documentation][doc]. You can start with the [Getting Started Guide][getting-started].
 
 ## Requirements
 
