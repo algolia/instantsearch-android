@@ -6,19 +6,12 @@ plugins {
 }
 
 android {
+    namespace = "com.algolia.instantsearch.android"
     compileSdk = 31
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        getByName("release"){
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
     }
 
     compileOptions {
@@ -33,12 +26,6 @@ android {
     testOptions.unitTests.apply {
         isIncludeAndroidResources = true
         isReturnDefaultValues = true
-    }
-
-    sourceSets {
-        getByName("main") {
-            manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        }
     }
 
     resourcePrefix = "alg_is_"
@@ -67,6 +54,7 @@ kotlin {
                 api(project(":instantsearch-insights"))
                 api(project(":instantsearch-utils"))
                 implementation(libs.algolia.client)
+                implementation(libs.algolia.telemetry)
             }
         }
         val commonTest by getting {
@@ -89,8 +77,6 @@ kotlin {
                 api(libs.ktor.client.okhttp)
                 api(libs.androidx.core)
                 api(libs.androidx.appcompat)
-                api(libs.androidx.swiperefreshlayout)
-                api(libs.androidx.paging)
                 api(libs.kotlinx.coroutines.android)
                 api(libs.google.material)
             }

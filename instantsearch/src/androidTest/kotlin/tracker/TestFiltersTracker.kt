@@ -1,19 +1,19 @@
 package tracker
 
-import com.algolia.instantsearch.helper.tracker.internal.FilterDataTracker
-import com.algolia.instantsearch.helper.tracker.internal.TrackableSearcher
 import com.algolia.instantsearch.insights.FilterTrackable
+import com.algolia.instantsearch.tracker.internal.FilterDataTracker
+import com.algolia.instantsearch.tracker.internal.TrackableSearcher
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.search.Facet
-import extension.MainCoroutineRule
-import extension.runBlocking
+import MainCoroutineRule
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import org.junit.Rule
 import kotlin.test.Test
+import kotlinx.coroutines.test.runTest
 
 class TestFiltersTracker {
 
@@ -27,7 +27,7 @@ class TestFiltersTracker {
     private val filtersTracker = FilterDataTracker(eventName, trackableSearcher, filterTrackable, testCoroutineScope)
 
     @Test
-    fun testTrackClick() = coroutineRule.runBlocking {
+    fun testTrackClick() = runTest {
         val eventName = EventName("customEventName")
         val filter = Filter.Facet(attribute = Attribute("attribute"), value = "value")
 
@@ -43,7 +43,7 @@ class TestFiltersTracker {
     }
 
     @Test
-    fun testTrackClickFacet() = coroutineRule.runBlocking {
+    fun testTrackClickFacet() = runTest {
         val eventName = EventName("customEventName")
         val attribute = Attribute("attribute")
         val value = "value"
@@ -62,7 +62,7 @@ class TestFiltersTracker {
     }
 
     @Test
-    fun testTrackConversion() = coroutineRule.runBlocking {
+    fun testTrackConversion() = runTest {
         val eventName = EventName("customEventName")
         val value = "value"
         val filter = Filter.Facet(attribute = Attribute("attribute"), value = value)

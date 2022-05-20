@@ -7,11 +7,11 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.range.NumberRangeView
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.number.range.connectView
-import com.algolia.instantsearch.helper.filter.range.FilterRangeViewModel
-import com.algolia.instantsearch.helper.filter.range.connectFilterState
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.filter.range.FilterRangeViewModel
+import com.algolia.instantsearch.filter.range.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -20,7 +20,7 @@ import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
 @Ignore
-class DocNumericRange {
+internal class DocNumericRange {
 
     private class MySliderNumberRangeView : NumberRangeView<Int> {
 
@@ -35,8 +35,7 @@ class DocNumericRange {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
         val attribute = Attribute("price")
         val viewModel = FilterRangeViewModel<Int>()

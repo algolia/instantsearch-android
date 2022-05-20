@@ -6,12 +6,12 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.core.selectable.list.connectView
-import com.algolia.instantsearch.helper.filter.list.FilterListView
-import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
-import com.algolia.instantsearch.helper.filter.list.connectFilterState
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.filter.list.FilterListView
+import com.algolia.instantsearch.filter.list.FilterListViewModel
+import com.algolia.instantsearch.filter.list.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -21,7 +21,7 @@ import com.algolia.search.model.filter.Filter
 import org.junit.Ignore
 
 @Ignore
-class DocFilterListFacet {
+internal class DocFilterListFacet {
 
     private class MyFilterListRecyclerViewAdapter : FilterListView.Facet {
 
@@ -36,8 +36,7 @@ class DocFilterListFacet {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
         val color = Attribute("color")
         val filters = listOf(

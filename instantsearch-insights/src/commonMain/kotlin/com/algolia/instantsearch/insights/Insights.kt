@@ -1,9 +1,10 @@
 package com.algolia.instantsearch.insights
 
+import com.algolia.search.configuration.Credentials
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
 
-public interface Insights : HitsAfterSearchTrackable, FilterTrackable {
+public interface Insights : HitsAfterSearchTrackable, FilterTrackable, Credentials {
 
     /**
      * Change this variable to `true` or `false` to disable Insights, opting-out the current session from tracking.

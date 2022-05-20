@@ -2,7 +2,7 @@ package com.algolia.instantsearch.core.hits.internal
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.Presenter
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.core.internal.traceHits
 import com.algolia.instantsearch.core.searcher.Searcher
@@ -10,8 +10,9 @@ import com.algolia.instantsearch.core.searcher.Searcher
 internal data class HitsConnectionView<R, T>(
     private val searcher: Searcher<R>,
     private val view: HitsView<T>,
-    private val presenter: Presenter<R, List<T>>
-) : ConnectionImpl() {
+    private val presenter: Presenter<R, List<T>>,
+    private val past: Boolean
+) : AbstractConnection() {
 
     init {
         traceHits()
@@ -25,7 +26,10 @@ internal data class HitsConnectionView<R, T>(
 
     override fun connect() {
         super.connect()
-        searcher.response.subscribe(callback)
+        when {
+            past -> searcher.response.subscribePast(callback)
+            else -> searcher.response.subscribe(callback)
+        }
     }
 
     override fun disconnect() {

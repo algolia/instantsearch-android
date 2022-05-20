@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.algolia.instantsearch.compose.filter.current.FilterCurrentState
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.helper.filter.current.FilterAndID
+import com.algolia.instantsearch.filter.current.FilterAndID
 
 /**
  * Implementation of [FilterCurrentState].

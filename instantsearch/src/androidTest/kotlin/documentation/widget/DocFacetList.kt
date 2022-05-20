@@ -4,20 +4,20 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.android.filter.facet.FacetListAdapter
+import com.algolia.instantsearch.android.filter.facet.FacetListViewHolder
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.helper.android.filter.facet.FacetListAdapter
-import com.algolia.instantsearch.helper.android.filter.facet.FacetListViewHolder
-import com.algolia.instantsearch.helper.filter.facet.FacetListPresenterImpl
-import com.algolia.instantsearch.helper.filter.facet.FacetListView
-import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
-import com.algolia.instantsearch.helper.filter.facet.FacetSortCriterion
-import com.algolia.instantsearch.helper.filter.facet.connectFilterState
-import com.algolia.instantsearch.helper.filter.facet.connectSearcher
-import com.algolia.instantsearch.helper.filter.facet.connectView
-import com.algolia.instantsearch.helper.filter.state.FilterOperator
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.filter.facet.DefaultFacetListPresenter
+import com.algolia.instantsearch.filter.facet.FacetListView
+import com.algolia.instantsearch.filter.facet.FacetListViewModel
+import com.algolia.instantsearch.filter.facet.FacetSortCriterion
+import com.algolia.instantsearch.filter.facet.connectFilterState
+import com.algolia.instantsearch.filter.facet.connectSearcher
+import com.algolia.instantsearch.filter.facet.connectView
+import com.algolia.instantsearch.filter.state.FilterOperator
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -27,7 +27,7 @@ import com.algolia.search.model.search.Facet
 import org.junit.Ignore
 
 @Ignore
-class DocFacetList {
+internal class DocFacetList {
 
     class MyActivity : AppCompatActivity() {
 
@@ -52,12 +52,11 @@ class DocFacetList {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
         val attribute = Attribute("facetName")
         val viewModel = FacetListViewModel()
-        val presenter = FacetListPresenterImpl(listOf(FacetSortCriterion.CountDescending), limit = 5)
+        val presenter = DefaultFacetListPresenter(listOf(FacetSortCriterion.CountDescending), limit = 5)
         val connection = ConnectionHandler()
 
         override fun onCreate(savedInstanceState: Bundle?) {

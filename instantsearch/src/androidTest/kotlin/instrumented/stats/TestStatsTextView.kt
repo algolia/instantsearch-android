@@ -4,7 +4,7 @@ import android.os.Build
 import android.widget.TextView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.algolia.instantsearch.helper.android.stats.StatsTextView
+import com.algolia.instantsearch.android.stats.StatsTextView
 import instrumented.applicationContext
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -6,6 +6,7 @@ import com.algolia.instantsearch.insights.internal.cache.InsightsCache
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.uploader.InsightsUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
+import com.algolia.search.configuration.Credentials
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.ObjectID
 import com.algolia.search.model.QueryID
@@ -24,7 +25,7 @@ internal class InsightsController(
     private val worker: InsightsManager,
     private val cache: InsightsCache,
     internal val uploader: InsightsUploader,
-) : Insights {
+) : Insights, Credentials by uploader {
 
     override var enabled: Boolean = true
     override var userToken: UserToken? = null

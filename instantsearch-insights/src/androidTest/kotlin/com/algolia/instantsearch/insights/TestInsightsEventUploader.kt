@@ -5,6 +5,8 @@ import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepos
 import com.algolia.instantsearch.insights.internal.event.EventResponse
 import com.algolia.instantsearch.insights.internal.extension.randomUUID
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.ObjectID
@@ -114,5 +116,7 @@ public class TestInsightsEventUploader {
             eventsSent += event
             return EventResponse(event, 200)
         }
+        override val apiKey = APIKey("apiKey")
+        override val applicationID = ApplicationID("applicationID")
     }
 }

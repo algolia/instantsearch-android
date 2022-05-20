@@ -15,13 +15,13 @@ import kotlin.test.Test
 class TestSearcherSingleIndex {
 
     private val client = mockClient()
-    private val index = client.initIndex(IndexName("index"))
+    private val indexName = IndexName("index")
     private val clientError = respondBadRequest()
-    private val indexError = clientError.initIndex(IndexName("index"))
+    private val indexNameError = IndexName("index")
 
     @Test
     fun searchShouldUpdateLoading() {
-        val searcher = TestSearcherSingle(index)
+        val searcher = TestSearcherSingle(client, indexName)
         var count = 0
 
         searcher.isLoading.subscribe { if (it) count++ }
@@ -32,7 +32,7 @@ class TestSearcherSingleIndex {
 
     @Test
     fun searchShouldUpdateResponse() {
-        val searcher = TestSearcherSingle(index)
+        val searcher = TestSearcherSingle(client, indexName)
         var responded = false
 
         searcher.response.subscribe { responded = true }
@@ -45,7 +45,7 @@ class TestSearcherSingleIndex {
 
     @Test
     fun searchShouldUpdateError() {
-        val searcher = TestSearcherSingle(indexError)
+        val searcher = TestSearcherSingle(clientError, indexNameError)
         var error = false
 
         searcher.error.subscribe { error = true }

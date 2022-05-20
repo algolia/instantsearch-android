@@ -1,13 +1,13 @@
 package com.algolia.instantsearch.core.searchbox.internal
 
-import com.algolia.instantsearch.core.connection.ConnectionImpl
+import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.searchbox.SearchBoxView
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 
 internal data class SearchBoxConnectionView(
     private val viewModel: SearchBoxViewModel,
     private val view: SearchBoxView
-) : ConnectionImpl() {
+) : AbstractConnection() {
 
     override fun connect() {
         super.connect()

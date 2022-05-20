@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.number.internal.NumberConnectionView
 
 public fun <T> NumberViewModel<T>.connectView(
     view: NumberView<T>,
-    presenter: NumberPresenter<T> = NumberPresenterImpl
+    presenter: NumberPresenter<T> = DefaultNumberPresenter
 ): Connection where T : Number, T : Comparable<T> {
     return NumberConnectionView(this, view, presenter)
 }

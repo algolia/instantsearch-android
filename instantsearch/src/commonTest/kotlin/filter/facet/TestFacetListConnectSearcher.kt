@@ -1,8 +1,8 @@
 package filter.facet
 
 import blocking
-import com.algolia.instantsearch.helper.filter.facet.FacetListViewModel
-import com.algolia.instantsearch.helper.filter.facet.connectSearcher
+import com.algolia.instantsearch.filter.facet.FacetListViewModel
+import com.algolia.instantsearch.filter.facet.connectSearcher
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearch
@@ -20,11 +20,11 @@ class TestFacetListConnectSearcher {
     private val facets = listOf(red)
     private val response = ResponseSearch(facetsOrNull = mapOf(color to facets))
     private val client = mockClient(respondSearch(response))
-    private val index = client.initIndex(IndexName("index"))
+    private val indexName = IndexName("index")
 
     @Test
     fun connectShouldSetQueryFacets() {
-        val searcher = TestSearcherSingle(index)
+        val searcher = TestSearcherSingle(client, indexName)
         val viewModel = FacetListViewModel()
         val connection = viewModel.connectSearcher(searcher, color)
 
@@ -34,7 +34,7 @@ class TestFacetListConnectSearcher {
 
     @Test
     fun connectShouldUpdateItems() {
-        val searcher = TestSearcherSingle(index).also {
+        val searcher = TestSearcherSingle(client, indexName).also {
             it.response.value = response
         }
         val viewModel = FacetListViewModel()
@@ -46,7 +46,7 @@ class TestFacetListConnectSearcher {
 
     @Test
     fun onResponseChangedShouldUpdateItems() {
-        val searcher = TestSearcherSingle(index)
+        val searcher = TestSearcherSingle(client, indexName)
         val viewModel = FacetListViewModel()
         val connection = viewModel.connectSearcher(searcher, color)
 

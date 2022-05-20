@@ -4,7 +4,7 @@ import android.os.Build
 import android.view.View
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.algolia.instantsearch.helper.android.filter.clear.FilterClearViewImpl
+import com.algolia.instantsearch.android.filter.clear.DefaultFilterClearView
 import instrumented.applicationContext
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,7 +17,7 @@ import shouldBeTrue
 class TestFilterClearViewImpl {
 
     private fun view() =
-        FilterClearViewImpl(View(applicationContext))
+        DefaultFilterClearView(View(applicationContext))
 
     @Test
     fun onViewClickCallsClearFilters() {

@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.tree.connectView
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalItem
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalPresenterImpl
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalView
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel
-import com.algolia.instantsearch.helper.hierarchical.connectFilterState
-import com.algolia.instantsearch.helper.hierarchical.connectSearcher
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.hierarchical.HierarchicalItem
+import com.algolia.instantsearch.hierarchical.DefaultHierarchicalPresenter
+import com.algolia.instantsearch.hierarchical.HierarchicalView
+import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
+import com.algolia.instantsearch.hierarchical.connectFilterState
+import com.algolia.instantsearch.hierarchical.connectSearcher
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -27,7 +27,7 @@ import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
 @Ignore
-class DocHierarchicalMenu {
+internal class DocHierarchicalMenu {
 
     class HierarchicalViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
@@ -76,8 +76,7 @@ class DocHierarchicalMenu {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
 
         val hierarchicalCategory = Attribute("hierarchicalCategories")
@@ -101,7 +100,7 @@ class DocHierarchicalMenu {
             connection += searcher.connectFilterState(filterState)
             connection += viewModel.connectFilterState(filterState)
             connection += viewModel.connectSearcher(searcher)
-            connection += viewModel.connectView(view, HierarchicalPresenterImpl(separator))
+            connection += viewModel.connectView(view, DefaultHierarchicalPresenter(separator))
 
             searcher.searchAsync()
         }

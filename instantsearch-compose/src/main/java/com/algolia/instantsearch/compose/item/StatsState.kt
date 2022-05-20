@@ -4,7 +4,7 @@ package com.algolia.instantsearch.compose.item
 
 import androidx.compose.runtime.Stable
 import com.algolia.instantsearch.compose.item.internal.StatsStateImpl
-import com.algolia.instantsearch.helper.stats.StatsView
+import com.algolia.instantsearch.stats.StatsView
 
 /**
  * [StatsView] for compose.

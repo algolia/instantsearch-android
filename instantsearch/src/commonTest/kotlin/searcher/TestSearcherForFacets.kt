@@ -23,13 +23,13 @@ class TestSearcherForFacets {
         processingTimeMS = 0
     )
     private val client = mockClient(respondJson(response, ResponseSearchForFacets.serializer()))
-    private val index = client.initIndex(IndexName("index"))
+    private val indexName = IndexName("index")
     private val clientError = respondBadRequest()
-    private val indexError = clientError.initIndex(IndexName("index"))
+    private val indexNameError = IndexName("index")
 
     @Test
     fun searchShouldUpdateLoading() {
-        val searcher = TestSearcherForFacets(index, attribute)
+        val searcher = TestSearcherForFacets(client, indexName, attribute)
         var count = 0
 
         searcher.isLoading.subscribe { if (it) count++ }
@@ -40,7 +40,7 @@ class TestSearcherForFacets {
 
     @Test
     fun searchShouldUpdateResponse() {
-        val searcher = TestSearcherForFacets(index, attribute)
+        val searcher = TestSearcherForFacets(client, indexName, attribute)
         var responded = false
 
         searcher.response.subscribe { responded = true }
@@ -53,7 +53,7 @@ class TestSearcherForFacets {
 
     @Test
     fun searchShouldUpdateError() {
-        val searcher = TestSearcherForFacets(indexError, attribute)
+        val searcher = TestSearcherForFacets(clientError, indexNameError, attribute)
         var error = false
 
         searcher.error.subscribe { error = true }

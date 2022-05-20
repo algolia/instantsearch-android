@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.algolia.instantsearch.compose.hierarchical.HierarchicalState
 import com.algolia.instantsearch.core.Callback
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalItem
+import com.algolia.instantsearch.hierarchical.HierarchicalItem
 
 /**
  * Implementation of [HierarchicalState].

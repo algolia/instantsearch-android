@@ -2,9 +2,9 @@ package hierarchical
 
 import com.algolia.instantsearch.core.tree.Node
 import com.algolia.instantsearch.core.tree.Tree
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalItem
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalPresenterImpl
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalViewModel
+import com.algolia.instantsearch.hierarchical.HierarchicalItem
+import com.algolia.instantsearch.hierarchical.DefaultHierarchicalPresenter
+import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import shouldEqual
@@ -13,7 +13,7 @@ import kotlin.test.Test
 class TestHierarchicalPresenter {
 
     private val separator = " > "
-    private val presenter = HierarchicalPresenterImpl(separator)
+    private val presenter = DefaultHierarchicalPresenter(separator)
     private val attribute = Attribute("type")
     private val facetShoes = Facet("Shoes", 3)
     private val facetShoesRunning = Facet("Shoes > Running", 2)

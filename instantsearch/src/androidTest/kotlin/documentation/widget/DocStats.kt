@@ -3,12 +3,12 @@ package documentation.widget
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.android.item.StatsTextView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.helper.android.item.StatsTextView
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.stats.StatsViewModel
-import com.algolia.instantsearch.helper.stats.connectSearcher
-import com.algolia.instantsearch.helper.stats.connectView
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.stats.StatsViewModel
+import com.algolia.instantsearch.stats.connectSearcher
+import com.algolia.instantsearch.stats.connectView
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -16,7 +16,7 @@ import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
 @Ignore
-class DocStats {
+internal class DocStats {
 
     class MyActivity : AppCompatActivity() {
 
@@ -24,8 +24,7 @@ class DocStats {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val statsViewModel = StatsViewModel()
         val connection = ConnectionHandler()
 

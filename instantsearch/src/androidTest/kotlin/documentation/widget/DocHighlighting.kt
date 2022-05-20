@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.text.style.BackgroundColorSpan
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.instantsearch.android.highlighting.toSpannedString
 import com.algolia.instantsearch.core.highlighting.HighlightedString
-import com.algolia.instantsearch.helper.android.highlighting.toSpannedString
-import com.algolia.instantsearch.helper.highlighting.Highlightable
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
+import com.algolia.instantsearch.highlighting.Highlightable
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.APIKey
@@ -20,7 +20,7 @@ import kotlinx.serialization.json.JsonObject
 import org.junit.Ignore
 
 @Ignore
-class DocHighlighting {
+internal class DocHighlighting {
 
     @Serializable
     data class MyMovie(
@@ -40,8 +40,7 @@ class DocHighlighting {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)

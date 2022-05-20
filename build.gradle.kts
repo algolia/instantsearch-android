@@ -1,30 +1,19 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 
-buildscript {
-    val kotlinVersion by extra("1.5.31")
-    repositories {
-        mavenCentral()
-        google()
-    }
-    dependencies {
-        classpath(kotlin("gradle-plugin", version = kotlinVersion))
-        classpath(kotlin("serialization", version = kotlinVersion))
-        classpath("com.android.tools.build:gradle:7.0.3")
-        classpath("com.vanniktech:gradle-maven-publish-plugin:0.18.0")
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:5.15.0")
-    }
+@Suppress("DSL_SCOPE_VIOLATION")
+plugins {
+    alias(libs.plugins.kotlin.multiplaform) apply false
+    alias(libs.plugins.kotlinx.serialization) apply false
+    alias(libs.plugins.android) apply false
+    alias(libs.plugins.maven.publish) apply false
+    alias(libs.plugins.spotless) apply false
 }
 
 subprojects {
     apply(plugin = "com.diffplug.spotless")
-    repositories {
-        mavenCentral()
-        google()
-    }
     configure<SpotlessExtension> {
         kotlin {
             target("**/*.kt")
-            ktlint("0.43.0")
             trimTrailingWhitespace()
             endWithNewline()
         }
@@ -44,4 +33,7 @@ tasks.register("runDebugUnitTest") {
     dependsOn(":instantsearch:testDebugUnitTest")
     dependsOn(":instantsearch-insights:testDebugUnitTest")
     dependsOn(":instantsearch-compose:testDebugUnitTest")
+    dependsOn(":extensions:android-paging3:testDebugUnitTest")
+    dependsOn(":extensions:android-loading:testDebugUnitTest")
+    dependsOn(":extensions:coroutines-extensions:jvmTest")
 }

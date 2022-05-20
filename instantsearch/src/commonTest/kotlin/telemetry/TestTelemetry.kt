@@ -9,36 +9,35 @@ import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
-import com.algolia.instantsearch.helper.customdata.QueryRuleCustomDataConnector
-import com.algolia.instantsearch.helper.filter.clear.ClearMode
-import com.algolia.instantsearch.helper.filter.clear.FilterClearConnector
-import com.algolia.instantsearch.helper.filter.current.FilterCurrentConnector
-import com.algolia.instantsearch.helper.filter.facet.FacetListConnector
-import com.algolia.instantsearch.helper.filter.facet.dynamic.AttributedFacets
-import com.algolia.instantsearch.helper.filter.facet.dynamic.DynamicFacetListConnector
-import com.algolia.instantsearch.helper.filter.list.FilterListConnector
-import com.algolia.instantsearch.helper.filter.map.FilterMapConnector
-import com.algolia.instantsearch.helper.filter.numeric.comparison.FilterComparisonConnector
-import com.algolia.instantsearch.helper.filter.range.FilterRangeConnector
-import com.algolia.instantsearch.helper.filter.range.FilterRangeViewModel
-import com.algolia.instantsearch.helper.filter.state.FilterGroupID
-import com.algolia.instantsearch.helper.filter.state.FilterOperator
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.filter.toggle.FilterToggleConnector
-import com.algolia.instantsearch.helper.hierarchical.HierarchicalConnector
-import com.algolia.instantsearch.helper.loading.LoadingConnector
-import com.algolia.instantsearch.helper.relateditems.MatchingPattern
-import com.algolia.instantsearch.helper.relateditems.connectRelatedHitsView
-import com.algolia.instantsearch.helper.relevantsort.RelevantSortConnector
-import com.algolia.instantsearch.helper.searchbox.SearchBoxConnector
-import com.algolia.instantsearch.helper.searchbox.SearchMode
-import com.algolia.instantsearch.helper.searcher.SearcherAnswers
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.facets.FacetsSearcher
-import com.algolia.instantsearch.helper.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.helper.searcher.multi.MultiSearcher
-import com.algolia.instantsearch.helper.sortby.SortByConnector
-import com.algolia.instantsearch.helper.stats.StatsConnector
+import com.algolia.instantsearch.customdata.QueryRuleCustomDataConnector
+import com.algolia.instantsearch.filter.clear.ClearMode
+import com.algolia.instantsearch.filter.clear.FilterClearConnector
+import com.algolia.instantsearch.filter.current.FilterCurrentConnector
+import com.algolia.instantsearch.filter.facet.FacetListConnector
+import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
+import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListConnector
+import com.algolia.instantsearch.filter.list.FilterListConnector
+import com.algolia.instantsearch.filter.map.FilterMapConnector
+import com.algolia.instantsearch.filter.numeric.comparison.FilterComparisonConnector
+import com.algolia.instantsearch.filter.range.FilterRangeConnector
+import com.algolia.instantsearch.filter.range.FilterRangeViewModel
+import com.algolia.instantsearch.filter.state.FilterGroupID
+import com.algolia.instantsearch.filter.state.FilterOperator
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.filter.toggle.FilterToggleConnector
+import com.algolia.instantsearch.hierarchical.HierarchicalConnector
+import com.algolia.instantsearch.loading.LoadingConnector
+import com.algolia.instantsearch.relateditems.MatchingPattern
+import com.algolia.instantsearch.relateditems.connectRelatedHitsView
+import com.algolia.instantsearch.relevantsort.RelevantSortConnector
+import com.algolia.instantsearch.searchbox.SearchBoxConnector
+import com.algolia.instantsearch.searchbox.SearchMode
+import com.algolia.instantsearch.searcher.SearcherAnswers
+import com.algolia.instantsearch.searcher.facets.FacetsSearcher
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.searcher.multi.MultiSearcher
+import com.algolia.instantsearch.sortby.SortByConnector
+import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.telemetry.Component
 import com.algolia.instantsearch.telemetry.ComponentParam
 import com.algolia.instantsearch.telemetry.ComponentType
@@ -51,11 +50,11 @@ import com.algolia.search.model.filter.NumericOperator
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.search.Facet
 import com.algolia.search.transport.RequestOptions
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import mockClient
 import relatedItems.SimpleProduct
 import relatedItems.mockHitsView
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @OptIn(ExperimentalInstantSearch::class, InternalInstantSearch::class)
 class TestTelemetry { // instrumented because it uses android's Base64
@@ -64,7 +63,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     val indexName = IndexName("myIndex")
 
     val filterState = FilterState()
-    val searcherSingleIndex = SearcherSingleIndex(client.initIndex(indexName), isDisjunctiveFacetingEnabled = false)
+    val hitsSearcher = HitsSearcher(client, indexName, isDisjunctiveFacetingEnabled = false)
     val attribute = Attribute("attr")
 
     @Test
@@ -119,7 +118,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     @Test
     fun testDynamicFilters() {
         DynamicFacetListConnector(
-            searcher = searcherSingleIndex,
+            searcher = hitsSearcher,
             filterState = filterState,
             orderedFacets = listOf(AttributedFacets(attribute, listOf())),
             selections = mapOf(attribute to setOf()),
@@ -140,7 +139,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     @Test
     fun testHierarchicalFacets() {
-        HierarchicalConnector(searcherSingleIndex, attribute, filterState, listOf(attribute), "")
+        HierarchicalConnector(hitsSearcher, attribute, filterState, listOf(attribute), "")
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.HierarchicalFacets)
         assertEquals(emptySet(), component.parameters)
     }
@@ -148,7 +147,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     @Test
     fun testFacetList() {
         FacetListConnector(
-            searcherSingleIndex,
+            hitsSearcher,
             filterState,
             attribute,
             SelectionMode.Single,
@@ -272,28 +271,28 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     @Test
     fun testStats() {
-        StatsConnector(searcherSingleIndex)
+        StatsConnector(hitsSearcher)
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.Stats)
         assertEquals(emptySet(), component.parameters)
     }
 
     @Test
     fun testQueryRuleCustomData() {
-        QueryRuleCustomDataConnector(searcherSingleIndex, "init")
+        QueryRuleCustomDataConnector(hitsSearcher, "init")
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.QueryRuleCustomData)
         assertEquals(setOf(ComponentParam.Item), component.parameters)
     }
 
     @Test
     fun testRelevantSort() {
-        RelevantSortConnector(searcherSingleIndex, RelevantSortViewModel(RelevantSortPriority.HitsCount))
+        RelevantSortConnector(hitsSearcher, RelevantSortViewModel(RelevantSortPriority.HitsCount))
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.RelevantSort)
         assertEquals(setOf(ComponentParam.Priority), component.parameters)
     }
 
     @Test
     fun testSortBy() {
-        SortByConnector(searcherSingleIndex)
+        SortByConnector(hitsSearcher)
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.SortBy)
         assertEquals(emptySet(), component.parameters)
     }
@@ -307,7 +306,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     @Test
     fun testSearchBox() {
-        SearchBoxConnector(searcherSingleIndex, searchMode = SearchMode.OnSubmit)
+        SearchBoxConnector(hitsSearcher, searchMode = SearchMode.OnSubmit)
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.SearchBox)
         assertEquals(setOf(ComponentParam.SearchMode), component.parameters)
     }
@@ -315,7 +314,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     @Test
     fun testRelatedItems() {
         val patternBrand = MatchingPattern(Attribute("attBrand"), 1, SimpleProduct::brand)
-        searcherSingleIndex.connectRelatedHitsView(
+        hitsSearcher.connectRelatedHitsView(
             mockHitsView(),
             SimpleProduct(ObjectID("id"), "brand"),
             listOf(patternBrand)
@@ -328,7 +327,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     @Test
     fun testHits() {
-        searcherSingleIndex.connectHitsView(mockHitsView()) { it.hits }
+        hitsSearcher.connectHitsView(mockHitsView()) { it.hits }
         val component = Telemetry.shared.validateAndGet(ComponentType.Hits)
         assertEquals(emptySet(), component.parameters)
     }

@@ -6,12 +6,12 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.core.selectable.list.connectView
-import com.algolia.instantsearch.helper.filter.list.FilterListView
-import com.algolia.instantsearch.helper.filter.list.FilterListViewModel
-import com.algolia.instantsearch.helper.filter.list.connectFilterState
-import com.algolia.instantsearch.helper.filter.state.FilterState
-import com.algolia.instantsearch.helper.searcher.SearcherSingleIndex
-import com.algolia.instantsearch.helper.searcher.connectFilterState
+import com.algolia.instantsearch.filter.list.FilterListView
+import com.algolia.instantsearch.filter.list.FilterListViewModel
+import com.algolia.instantsearch.filter.list.connectFilterState
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
@@ -22,7 +22,7 @@ import com.algolia.search.model.filter.NumericOperator
 import org.junit.Ignore
 
 @Ignore
-class DocFilterListNumeric {
+internal class DocFilterListNumeric {
 
     private class MyFilterListRecyclerViewAdapter : FilterListView.Numeric {
 
@@ -37,8 +37,7 @@ class DocFilterListNumeric {
             ApplicationID("YourApplicationID"),
             APIKey("YourAPIKey")
         )
-        val index = client.initIndex(IndexName("YourIndexName"))
-        val searcher = SearcherSingleIndex(index)
+        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
         val price = Attribute("price")
         val filters = listOf(
