@@ -20,10 +20,7 @@ You can see InstantSearch Android in action in our [examples app][examples-url],
 You can add InstantSearch to your Android application by adding the following line to your build.gradle's dependencies:
 
 ```groovy
-dependencies {
-	// [...]
-	implementation "com.algolia:instantsearch-android:$instantsearch_version"
-}
+implementation "com.algolia:instantsearch-android:$instantsearch_version"
 ```
 
 ℹ️ Please follow the [migration guide](docs/guide/Migration_2.x_3.x.md) to migrate from `2.x` to the latest version.
@@ -37,10 +34,7 @@ See the [documentation][doc]. You can start with the [Getting Started Guide][get
 You can add [Compose UI](https://developer.android.com/jetpack/androidx/releases/compose-ui) support by adding the following line to your build.gradle's dependencies:
 
 ```groovy
-dependencies {
-	// [...]
-	implementation "com.algolia:instantsearch-compose:$instantsearch_version"
-}
+implementation "com.algolia:instantsearch-compose:$instantsearch_version"
 ```
 
 ### Paging 3
@@ -48,10 +42,7 @@ dependencies {
 You can add [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) support by adding the following line to your build.gradle's dependencies:
 
 ```groovy
-dependencies {
-	// [...]
-	implementation "com.algolia:instantsearch-android-paging3:$instantsearch_version"
-}
+implementation "com.algolia:instantsearch-android-paging3:$instantsearch_version"
 ```
 
 ### Insights
