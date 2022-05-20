@@ -59,6 +59,6 @@ Multiple extensions have been extracted to modules:
 |-----------------------------|:--------------------------------------------|
 | Androidx SwipeRefreshLayout | `com.algolia:instantsearch-android-loading` |
 | Androidx Paging 3           | `com.algolia:instantsearch-android-paging3` |
-| Androidx Paging 2           | __Removed__                                 |
+| Androidx Paging 2           | _Removed_                                   |
 
 [1]: https://github.com/algolia/algoliasearch-client-kotlin/blob/master/docs/guide/Migrate_1.x_2.x.md
