@@ -52,13 +52,13 @@ You can add **InstantSearch Insights** to your Android application by adding the
 implementation "com.algolia:instantsearch-insights-android:$instantsearch_version"
 ```
 
+Please refer to the [library](instantsearch-insights/README.md) for more details.
+
 ## Requirements
 
 * Kotlin 1.6+
 * Android SDK 21+
 * Java 8+
-
-Please refer to the [library](instantsearch-insights/README.md) for more details.
 
 ### R8 / Proguard rules
 
