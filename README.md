@@ -29,23 +29,28 @@ See the [documentation][doc]. You can start with the [Getting Started Guide][get
 
 <!-- vale Google.Spacing = YES -->
 
-### Compose
+<details>
+  <summary><strong>Compose</strong></summary>
 
 You can add [Compose UI](https://developer.android.com/jetpack/androidx/releases/compose-ui) support by adding the following line to your build.gradle's dependencies:
 
 ```groovy
 implementation "com.algolia:instantsearch-compose:$instantsearch_version"
 ```
+</details>
 
-### Paging 3
+<details>
+  <summary><strong>Paging 3</strong></summary>
 
 You can add [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) support by adding the following line to your build.gradle's dependencies:
 
 ```groovy
 implementation "com.algolia:instantsearch-android-paging3:$instantsearch_version"
 ```
+</details>
 
-### Insights
+<details>
+  <summary><strong>Insights</strong></summary>
 
 You can add **InstantSearch Insights** to your Android application by adding the following line to your `build.gradle`'s dependencies.
 ```groovy
@@ -53,6 +58,7 @@ implementation "com.algolia:instantsearch-insights-android:$instantsearch_versio
 ```
 
 Please refer to the [library](instantsearch-insights/README.md) for more details.
+</details>
 
 ## Requirements
 
