@@ -15,20 +15,39 @@ You can see InstantSearch Android in action in our [examples app][examples-url],
 
 # Usage
 
-You can add InstantSearch to your Android application by adding the following line to your `build.gradle`'s dependencies.
+## Installing InstantSearch Android
+
+You can add InstantSearch to your Android application by adding the following line to your build.gradle's dependencies:
+
 ```groovy
 implementation "com.algolia:instantsearch-android:$instantsearch_version"
-// or, for Compose UI
+```
+
+ℹ️ Please follow the [migration guide](docs/guide/Migration_2.x_3.x.md) to migrate from `2.x` to the latest version.  
+▶️ See the [documentation][doc]. You can start with the [Getting Started Guide][getting-started].
+
+<details>
+  <summary><strong>Compose</strong></summary>
+
+You can add [Compose UI](https://developer.android.com/jetpack/androidx/releases/compose-ui) support by adding the following line to your build.gradle's dependencies:
+
+```groovy
 implementation "com.algolia:instantsearch-compose:$instantsearch_version"
 ```
-<!--TODO Document using com.algolia.instantsearch.helper.helper-jvm / using core directly -->
+</details>
 
-⚠️ Important: starting from version `2.4.0`, the library is compatible only with kotlin version `1.3.70` or higher; for previous versions of kotlin, please use version `2.3.1` of the library.  
-ℹ️ Please follow the [migration guide](docs/guide/Migration_2.5.x_2.6.x.md) to migrate from `2.5.x` or below to the latest version.
+<details>
+  <summary><strong>Paging 3</strong></summary>
 
-See the [documentation][doc]. You can start with the [Getting Started Guide][getting-started].
+You can add [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) support by adding the following line to your build.gradle's dependencies:
 
-### Insights
+```groovy
+implementation "com.algolia:instantsearch-android-paging3:$instantsearch_version"
+```
+</details>
+
+<details>
+  <summary><strong>Insights</strong></summary>
 
 You can add **InstantSearch Insights** to your Android application by adding the following line to your `build.gradle`'s dependencies.
 ```groovy
@@ -36,6 +55,13 @@ implementation "com.algolia:instantsearch-insights-android:$instantsearch_versio
 ```
 
 Please refer to the [library](instantsearch-insights/README.md) for more details.
+</details>
+
+## Requirements
+
+* Kotlin 1.6+
+* Android SDK 21+
+* Java 8+
 
 ### R8 / Proguard rules
 
