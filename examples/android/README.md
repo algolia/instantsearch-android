@@ -47,8 +47,8 @@ git clone git@github.com:algolia/instantsearch-android.git
 ```
 
 
-[Android View Guide]: /examples/android/src/main/kotlin/com/algolia/instantsearch/examples/android/guides/compose
-[Compose Guide]: /examples/android/src/main/kotlin/com/algolia/instantsearch/examples/android/guides/gettingstarted
+[Android View Guide]: /examples/android/src/main/kotlin/com/algolia/instantsearch/examples/android/guides/gettingstarted
+[Compose Guide]: /examples/android/src/main/kotlin/com/algolia/instantsearch/examples/android/guides/compose
 [Android View Showcase]: /examples/android/src/main/kotlin/com/algolia/instantsearch/examples/android/showcase/androidview
 [Compose Showcase]: /examples/android/src/main/kotlin/com/algolia/instantsearch/examples/android/showcase/compose
 [Codex Multi-index]: /examples/android/src/main/kotlin/com/algolia/instantsearch/examples/android/codex/multipleindex
