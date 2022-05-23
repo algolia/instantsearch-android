@@ -25,12 +25,12 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         super.onViewCreated(view, savedInstanceState)
 
         val adapterProduct = ProductAdapter()
-
         viewModel.paginator.liveData.observe(viewLifecycleOwner) { pagingData ->
             adapterProduct.submitData(lifecycle, pagingData)
         }
 
-        view.findViewById<RecyclerView>(R.id.productList).configure(adapterProduct)
+        val productList = view.findViewById<RecyclerView>(R.id.productList)
+        productList.configure(adapterProduct)
 
         val searchBoxView = SearchBoxViewAppCompat(view.findViewById(R.id.searchView))
         connection += viewModel.searchBox.connectView(searchBoxView)
@@ -39,7 +39,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         connection += viewModel.stats.connectView(statsView, DefaultStatsPresenter())
 
         view.findViewById<Button>(R.id.filters).setOnClickListener {
-            viewModel.displayFilters.value = Unit
+            viewModel.navigateToFilters()
         }
     }
 

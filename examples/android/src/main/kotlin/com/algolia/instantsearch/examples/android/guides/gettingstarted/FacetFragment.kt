@@ -8,9 +8,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.android.filter.facet.FacetListAdapter
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.filter.facet.connectView
 import com.algolia.instantsearch.examples.android.R
 import com.algolia.instantsearch.examples.android.guides.extension.configure
+import com.algolia.instantsearch.filter.facet.connectView
 
 class FacetFragment : Fragment(R.layout.fragment_facet) {
 
