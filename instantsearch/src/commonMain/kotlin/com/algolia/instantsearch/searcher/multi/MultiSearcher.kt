@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.searcher.multi
 
+import com.algolia.instantsearch.core.logging.EventListener
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
@@ -48,12 +49,14 @@ public fun MultiSearcher(
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    eventListener: EventListener = EventListener.None,
 ): MultiSearcher = DefaultMultiSearcher(
     searchService = DefaultMultiSearchService(client),
     strategy = strategy,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
     coroutineDispatcher = coroutineDispatcher,
+    eventListener = eventListener,
 )
 
 /**
@@ -73,10 +76,12 @@ public fun MultiSearcher(
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    eventListener: EventListener = EventListener.None,
 ): MultiSearcher = DefaultMultiSearcher(
     searchService = DefaultMultiSearchService(client = ClientSearch(applicationID, apiKey)),
     strategy = strategy,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
     coroutineDispatcher = coroutineDispatcher,
+    eventListener = eventListener,
 )

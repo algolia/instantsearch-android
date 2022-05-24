@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.core.searcher
 
+import com.algolia.instantsearch.core.logging.EventListener
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -57,4 +58,9 @@ public interface Searcher<R> {
      * Cancels the ongoing search requests.
      */
     public fun cancel()
+
+    /**
+     * Listener for events.
+     */
+    public val eventListener: EventListener
 }

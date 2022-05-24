@@ -1,13 +1,12 @@
 package com.algolia.instantsearch.searcher.facets.internal
 
+import com.algolia.instantsearch.core.logging.EventListener
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceFacetsSearcher
-import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.facets.SearchForFacetQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
-import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withUserAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
@@ -37,14 +36,15 @@ internal class DefaultFacetsSearcher(
     override val requestOptions: RequestOptions?,
     override val coroutineScope: CoroutineScope,
     override val coroutineDispatcher: CoroutineDispatcher,
-    private val triggerSearchFor: SearchForFacetQuery
+    override val eventListener: EventListener,
+    private val triggerSearchFor: SearchForFacetQuery,
 ) : FacetsSearcher, MultiSearchComponent<FacetIndexQuery, ResponseSearchForFacets> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseSearchForFacets?> = SubscriptionValue(null)
 
-    private val exceptionHandler = SearcherExceptionHandler(this)
+    private val exceptionHandler = SearcherExceptionHandler(this, eventListener)
     private val sequencer = Sequencer()
 
     private val options get() = requestOptions.withUserAgent()

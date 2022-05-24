@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.searcher.multi.internal
 
+import com.algolia.instantsearch.core.logging.EventListener
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceMultiSearcher
@@ -30,6 +31,7 @@ internal class DefaultMultiSearcher(
     internal val strategy: MultipleQueriesStrategy,
     internal val requestOptions: RequestOptions?,
     override val coroutineScope: CoroutineScope,
+    override val eventListener: EventListener,
     override val coroutineDispatcher: CoroutineDispatcher,
 ) : MultiSearcher() {
 
@@ -38,7 +40,7 @@ internal class DefaultMultiSearcher(
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseMultiSearch?> = SubscriptionValue(null)
 
-    private val exceptionHandler = SearcherExceptionHandler(this)
+    private val exceptionHandler = SearcherExceptionHandler(this, eventListener)
     private val components: MutableList<MultiSearchComponent<IndexedQuery, ResultSearch>> = mutableListOf()
     private val sequencer = Sequencer()
     private val options get() = requestOptions.withUserAgent()

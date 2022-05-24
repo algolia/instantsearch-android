@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.searcher.facets
 
+import com.algolia.instantsearch.core.logging.EventListener
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.searcher.SearcherForFacets
 import com.algolia.instantsearch.searcher.SearcherScope
@@ -52,6 +53,7 @@ public fun FacetsSearcher(
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    eventListener: EventListener = EventListener.None,
     triggerSearchFor: SearchForFacetQuery = SearchForFacetQuery.All,
 ): FacetsSearcher = DefaultFacetsSearcher(
     searchService = DefaultFacetsSearchService(client),
@@ -62,6 +64,7 @@ public fun FacetsSearcher(
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
     coroutineDispatcher = coroutineDispatcher,
+    eventListener = eventListener,
     triggerSearchFor = triggerSearchFor,
 )
 
@@ -89,6 +92,7 @@ public fun FacetsSearcher(
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    eventListener: EventListener = EventListener.None,
     triggerSearchFor: SearchForFacetQuery = SearchForFacetQuery.All
 ): FacetsSearcher = DefaultFacetsSearcher(
     searchService = DefaultFacetsSearchService(client = ClientSearch(applicationID, apiKey)),
@@ -99,6 +103,7 @@ public fun FacetsSearcher(
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
     coroutineDispatcher = coroutineDispatcher,
+    eventListener = eventListener,
     triggerSearchFor = triggerSearchFor,
 )
 
@@ -118,7 +123,7 @@ public fun MultiSearcher.addFacetsSearcher(
     query: Query = Query(),
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
-    triggerSearchFor: SearchForFacetQuery = SearchForFacetQuery.All
+    triggerSearchFor: SearchForFacetQuery = SearchForFacetQuery.All,
 ): FacetsSearcher {
     return DefaultFacetsSearcher(
         searchService = DefaultFacetsSearchService(client),
@@ -129,6 +134,7 @@ public fun MultiSearcher.addFacetsSearcher(
         requestOptions = requestOptions,
         coroutineScope = coroutineScope,
         coroutineDispatcher = coroutineDispatcher,
-        triggerSearchFor = triggerSearchFor
+        eventListener = eventListener,
+        triggerSearchFor = triggerSearchFor,
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }

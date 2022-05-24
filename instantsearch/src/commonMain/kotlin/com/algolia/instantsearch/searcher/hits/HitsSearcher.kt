@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.searcher.hits
 
+import com.algolia.instantsearch.core.logging.EventListener
 import com.algolia.instantsearch.searcher.FilterGroupsHolder
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.searcher.SearcherForHits
@@ -49,6 +50,7 @@ public fun HitsSearcher(
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    eventListener: EventListener = EventListener.None,
     triggerSearchFor: SearchForQuery = SearchForQuery.All
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client),
@@ -58,6 +60,7 @@ public fun HitsSearcher(
     isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
     coroutineScope = coroutineScope,
     coroutineDispatcher = coroutineDispatcher,
+    eventListener = eventListener,
     triggerSearchFor = triggerSearchFor,
 )
 
@@ -82,6 +85,7 @@ public fun HitsSearcher(
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    eventListener: EventListener = EventListener.None,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
 ): HitsSearcher = HitsSearcher(
     client = ClientSearch(applicationID, apiKey),
@@ -91,6 +95,7 @@ public fun HitsSearcher(
     isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
     coroutineScope = coroutineScope,
     coroutineDispatcher = coroutineDispatcher,
+    eventListener = eventListener,
     triggerSearchFor = triggerSearchFor,
 )
 
@@ -117,6 +122,7 @@ public fun MultiSearcher.addHitsSearcher(
         isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
         coroutineScope = coroutineScope,
         coroutineDispatcher = coroutineDispatcher,
+        eventListener = eventListener,
         triggerSearchFor = triggerSearchFor,
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }

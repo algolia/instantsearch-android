@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.searcher.hits.internal
 
+import com.algolia.instantsearch.core.logging.EventListener
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceHitsSearcher
@@ -34,7 +35,8 @@ internal class DefaultHitsSearcher(
     override val isDisjunctiveFacetingEnabled: Boolean,
     override val coroutineScope: CoroutineScope,
     override val coroutineDispatcher: CoroutineDispatcher,
-    private val triggerSearchFor: SearchForQuery
+    override val eventListener: EventListener,
+    private val triggerSearchFor: SearchForQuery,
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
@@ -42,7 +44,7 @@ internal class DefaultHitsSearcher(
     override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
     override var filterGroups: Set<FilterGroup<*>> by searchService::filterGroups
 
-    private val exceptionHandler = SearcherExceptionHandler(this)
+    private val exceptionHandler = SearcherExceptionHandler(this, eventListener)
     private val sequencer = Sequencer()
 
     private val options get() = requestOptions.withUserAgent()
