@@ -2,6 +2,7 @@ package com.algolia.instantsearch.searcher.multi
 
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.searcher.SearcherScope
+import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.multi.internal.DefaultMultiSearchService
 import com.algolia.instantsearch.searcher.multi.internal.DefaultMultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
@@ -13,6 +14,7 @@ import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.response.ResponseMultiSearch
 import com.algolia.search.model.response.ResultSearch
 import com.algolia.search.transport.RequestOptions
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -38,17 +40,20 @@ public abstract class MultiSearcher : Searcher<ResponseMultiSearch> {
  * @param strategy multi-queries search strategy
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
+ * @param coroutineDispatcher async search dispatcher
  */
 public fun MultiSearcher(
     client: ClientSearch,
     strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
+    coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
 ): MultiSearcher = DefaultMultiSearcher(
     searchService = DefaultMultiSearchService(client),
     strategy = strategy,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
+    coroutineDispatcher = coroutineDispatcher,
 )
 
 /**
@@ -59,6 +64,7 @@ public fun MultiSearcher(
  * @param strategy multi-queries search strategy
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
+ * @param coroutineDispatcher async search dispatcher
  */
 public fun MultiSearcher(
     applicationID: ApplicationID,
@@ -66,9 +72,11 @@ public fun MultiSearcher(
     strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
+    coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
 ): MultiSearcher = DefaultMultiSearcher(
     searchService = DefaultMultiSearchService(client = ClientSearch(applicationID, apiKey)),
     strategy = strategy,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
+    coroutineDispatcher = coroutineDispatcher,
 )

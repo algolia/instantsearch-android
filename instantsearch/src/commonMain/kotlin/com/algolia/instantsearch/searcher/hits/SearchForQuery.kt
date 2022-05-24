@@ -17,6 +17,11 @@ public fun interface SearchForQuery {
     public companion object {
 
         /**
+         * Trigger search for all queries.
+         */
+        public val All: SearchForQuery = SearchForQuery { true }
+
+        /**
          * Trigger if the query length is greater or equals to [length].
          *
          * @param length minimal query length
