@@ -6,6 +6,7 @@ import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.hits.internal.DefaultHitsSearchService
 import com.algolia.instantsearch.searcher.hits.internal.DefaultHitsSearcher
+import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.asMultiSearchComponent
 import com.algolia.search.client.ClientSearch
@@ -14,6 +15,7 @@ import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -36,6 +38,8 @@ public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterG
  * @param query the query used for search
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
+ * @param coroutineDispatcher async search dispatcher
+ * @param triggerSearchFor request condition
  */
 public fun HitsSearcher(
     client: ClientSearch,
@@ -44,7 +48,8 @@ public fun HitsSearcher(
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
-    triggerSearchFor: SearchForQuery? = null
+    coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    triggerSearchFor: SearchForQuery = SearchForQuery.All
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client),
     indexName = indexName,
@@ -52,7 +57,8 @@ public fun HitsSearcher(
     requestOptions = requestOptions,
     isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
     coroutineScope = coroutineScope,
-    triggerSearchFor = triggerSearchFor
+    coroutineDispatcher = coroutineDispatcher,
+    triggerSearchFor = triggerSearchFor,
 )
 
 /**
@@ -64,6 +70,8 @@ public fun HitsSearcher(
  * @param query the query used for search
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
+ * @param coroutineDispatcher async search dispatcher
+ * @param triggerSearchFor request condition
  */
 public fun HitsSearcher(
     applicationID: ApplicationID,
@@ -73,7 +81,8 @@ public fun HitsSearcher(
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
-    triggerSearchFor: SearchForQuery? = null
+    coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    triggerSearchFor: SearchForQuery = SearchForQuery.All,
 ): HitsSearcher = HitsSearcher(
     client = ClientSearch(applicationID, apiKey),
     indexName = indexName,
@@ -81,7 +90,8 @@ public fun HitsSearcher(
     requestOptions = requestOptions,
     isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
     coroutineScope = coroutineScope,
-    triggerSearchFor = triggerSearchFor
+    coroutineDispatcher = coroutineDispatcher,
+    triggerSearchFor = triggerSearchFor,
 )
 
 /**
@@ -90,13 +100,14 @@ public fun HitsSearcher(
  * @param indexName index name
  * @param query the query used for search
  * @param requestOptions request local configuration
+ * @param triggerSearchFor request condition
  */
 public fun MultiSearcher.addHitsSearcher(
     indexName: IndexName,
     query: Query = Query(),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
-    triggerSearchFor: SearchForQuery? = null
+    triggerSearchFor: SearchForQuery = SearchForQuery.All
 ): HitsSearcher {
     return DefaultHitsSearcher(
         searchService = DefaultHitsSearchService(client),
@@ -105,6 +116,7 @@ public fun MultiSearcher.addHitsSearcher(
         requestOptions = requestOptions,
         isDisjunctiveFacetingEnabled = isDisjunctiveFacetingEnabled,
         coroutineScope = coroutineScope,
-        triggerSearchFor = triggerSearchFor
+        coroutineDispatcher = coroutineDispatcher,
+        triggerSearchFor = triggerSearchFor,
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }

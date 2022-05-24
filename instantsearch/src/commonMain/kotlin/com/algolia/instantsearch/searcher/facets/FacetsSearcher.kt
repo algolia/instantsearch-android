@@ -5,6 +5,7 @@ import com.algolia.instantsearch.searcher.SearcherForFacets
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.facets.internal.DefaultFacetsSearchService
 import com.algolia.instantsearch.searcher.facets.internal.DefaultFacetsSearcher
+import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.asMultiSearchComponent
 import com.algolia.search.client.ClientSearch
@@ -14,6 +15,7 @@ import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -38,6 +40,8 @@ public interface FacetsSearcher : SearcherForFacets<Query>, IndexNameHolder {
  * @param facetQuery the facet query used to search for facets
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
+ * @param coroutineDispatcher async search dispatcher
+ * @param triggerSearchFor request condition
  */
 public fun FacetsSearcher(
     client: ClientSearch,
@@ -47,7 +51,8 @@ public fun FacetsSearcher(
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
-    triggerSearchFor: SearchForFacetQuery? = null,
+    coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    triggerSearchFor: SearchForFacetQuery = SearchForFacetQuery.All,
 ): FacetsSearcher = DefaultFacetsSearcher(
     searchService = DefaultFacetsSearchService(client),
     indexName = indexName,
@@ -56,6 +61,7 @@ public fun FacetsSearcher(
     facetQuery = facetQuery,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
+    coroutineDispatcher = coroutineDispatcher,
     triggerSearchFor = triggerSearchFor,
 )
 
@@ -70,6 +76,8 @@ public fun FacetsSearcher(
  * @param facetQuery the facet query used to search for facets
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
+ * @param coroutineDispatcher async search dispatcher
+ * @param triggerSearchFor request condition
  */
 public fun FacetsSearcher(
     applicationID: ApplicationID,
@@ -80,7 +88,8 @@ public fun FacetsSearcher(
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
-    triggerSearchFor: SearchForFacetQuery? = null
+    coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
+    triggerSearchFor: SearchForFacetQuery = SearchForFacetQuery.All
 ): FacetsSearcher = DefaultFacetsSearcher(
     searchService = DefaultFacetsSearchService(client = ClientSearch(applicationID, apiKey)),
     indexName = indexName,
@@ -89,6 +98,7 @@ public fun FacetsSearcher(
     facetQuery = facetQuery,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
+    coroutineDispatcher = coroutineDispatcher,
     triggerSearchFor = triggerSearchFor,
 )
 
@@ -100,6 +110,7 @@ public fun FacetsSearcher(
  * @param query the query used for search
  * @param facetQuery the facet query used to search for facets
  * @param requestOptions request local configuration
+ * @param triggerSearchFor request condition
  */
 public fun MultiSearcher.addFacetsSearcher(
     indexName: IndexName,
@@ -107,7 +118,7 @@ public fun MultiSearcher.addFacetsSearcher(
     query: Query = Query(),
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
-    triggerSearchFor: SearchForFacetQuery? = null
+    triggerSearchFor: SearchForFacetQuery = SearchForFacetQuery.All
 ): FacetsSearcher {
     return DefaultFacetsSearcher(
         searchService = DefaultFacetsSearchService(client),
@@ -117,6 +128,7 @@ public fun MultiSearcher.addFacetsSearcher(
         facetQuery = facetQuery,
         requestOptions = requestOptions,
         coroutineScope = coroutineScope,
+        coroutineDispatcher = coroutineDispatcher,
         triggerSearchFor = triggerSearchFor
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }

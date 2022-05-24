@@ -3,11 +3,9 @@ package com.algolia.instantsearch.searcher.hits.internal
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceHitsSearcher
-import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.hits.SearchForQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
-import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withUserAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
@@ -32,11 +30,11 @@ internal class DefaultHitsSearcher(
     private val searchService: HitsSearchService,
     override var indexName: IndexName,
     override val query: Query,
-    override val requestOptions: RequestOptions? = null,
-    override val isDisjunctiveFacetingEnabled: Boolean = true,
-    override val coroutineScope: CoroutineScope = SearcherScope(),
-    override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
-    private val triggerSearchFor: SearchForQuery? = null
+    override val requestOptions: RequestOptions?,
+    override val isDisjunctiveFacetingEnabled: Boolean,
+    override val coroutineScope: CoroutineScope,
+    override val coroutineDispatcher: CoroutineDispatcher,
+    private val triggerSearchFor: SearchForQuery
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
@@ -49,7 +47,6 @@ internal class DefaultHitsSearcher(
 
     private val options get() = requestOptions.withUserAgent()
     private val indexedQuery get() = IndexQuery(indexName, query)
-    private val shouldTrigger get() = triggerSearchFor?.trigger(query) != false
 
     init {
         traceHitsSearcher()
@@ -70,7 +67,7 @@ internal class DefaultHitsSearcher(
     }
 
     override suspend fun search(): ResponseSearch? {
-        if (!shouldTrigger) return null
+        if (triggerSearchFor.trigger(query)) return null
         return withContext(coroutineDispatcher) {
             searchService.search(HitsSearchService.Request(indexedQuery, isDisjunctiveFacetingEnabled), options)
         }
@@ -86,7 +83,7 @@ internal class DefaultHitsSearcher(
         return MultiSearchOperation(
             requests = queries,
             completion = { response.value = searchService.aggregateResult(it, disjunctiveFacetCount) },
-            shouldTrigger = shouldTrigger
+            shouldTrigger = triggerSearchFor.trigger(query)
         )
     }
 
@@ -94,7 +91,7 @@ internal class DefaultHitsSearcher(
         return MultiSearchOperation(
             requests = listOf(indexedQuery),
             completion = ::onSingleQuerySearchResponse,
-            shouldTrigger = shouldTrigger
+            shouldTrigger = triggerSearchFor.trigger(query)
         )
     }
 

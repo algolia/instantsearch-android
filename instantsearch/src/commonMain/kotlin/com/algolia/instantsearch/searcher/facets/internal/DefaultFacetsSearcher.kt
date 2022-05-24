@@ -33,11 +33,11 @@ internal class DefaultFacetsSearcher(
     override var indexName: IndexName,
     override val query: Query,
     override val attribute: Attribute,
-    override var facetQuery: String? = null,
-    override val requestOptions: RequestOptions? = null,
-    override val coroutineScope: CoroutineScope = SearcherScope(),
-    override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
-    private val triggerSearchFor: SearchForFacetQuery? = null
+    override var facetQuery: String?,
+    override val requestOptions: RequestOptions?,
+    override val coroutineScope: CoroutineScope,
+    override val coroutineDispatcher: CoroutineDispatcher,
+    private val triggerSearchFor: SearchForFacetQuery
 ) : FacetsSearcher, MultiSearchComponent<FacetIndexQuery, ResponseSearchForFacets> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
@@ -49,7 +49,6 @@ internal class DefaultFacetsSearcher(
 
     private val options get() = requestOptions.withUserAgent()
     private val indexedQuery get() = FacetIndexQuery(indexName, query, attribute, facetQuery)
-    private val shouldTrigger get() = triggerSearchFor?.trigger(query, attribute, facetQuery) != false
 
     init {
         traceFacetsSearcher()
@@ -59,7 +58,7 @@ internal class DefaultFacetsSearcher(
         return MultiSearchOperation(
             requests = listOf(indexedQuery),
             completion = { response.value = it.firstOrNull() },
-            shouldTrigger = shouldTrigger
+            shouldTrigger = triggerSearchFor.trigger(query, attribute, facetQuery)
         )
     }
 
@@ -78,7 +77,7 @@ internal class DefaultFacetsSearcher(
     }
 
     override suspend fun search(): ResponseSearchForFacets? {
-        if (!shouldTrigger) return null
+        if (!triggerSearchFor.trigger(query, attribute, facetQuery)) return null
         return withContext(coroutineDispatcher) {
             searchService.search(indexedQuery, options)
         }

@@ -19,6 +19,12 @@ public fun interface SearchForFacetQuery {
 
     public companion object {
 
+
+        /**
+         * Trigger search for all queries.
+         */
+        public val All: SearchForFacetQuery = SearchForFacetQuery { _, _, _ -> true }
+
         /**
          * Trigger if the facet query length is greater or equals to [length].
          *
