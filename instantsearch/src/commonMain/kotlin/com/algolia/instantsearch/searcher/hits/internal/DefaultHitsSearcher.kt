@@ -67,7 +67,7 @@ internal class DefaultHitsSearcher(
     }
 
     override suspend fun search(): ResponseSearch? {
-        if (triggerSearchFor.trigger(query)) return null
+        if (!triggerSearchFor.trigger(query)) return null
         return withContext(coroutineDispatcher) {
             searchService.search(HitsSearchService.Request(indexedQuery, isDisjunctiveFacetingEnabled), options)
         }
