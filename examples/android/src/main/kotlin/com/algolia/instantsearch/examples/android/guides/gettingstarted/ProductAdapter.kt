@@ -22,12 +22,12 @@ class ProductAdapter : PagingDataAdapter<Product, ProductViewHolder>(ProductDiff
         getItem(position)?.let { holder.bind(it) }
     }
 
-    class ProductViewHolder(val view: View) :
-        RecyclerView.ViewHolder(view) {
+    class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        private val itemName = view.findViewById<TextView>(R.id.itemName)
 
         fun bind(product: Product) {
-            view.findViewById<TextView>(R.id.itemName).text =
-                product.highlightedName?.toSpannedString() ?: product.name
+            itemName.text = product.highlightedName?.toSpannedString() ?: product.name
         }
     }
 }
