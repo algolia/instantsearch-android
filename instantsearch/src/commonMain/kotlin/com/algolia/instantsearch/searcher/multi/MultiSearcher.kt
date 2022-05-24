@@ -2,6 +2,7 @@ package com.algolia.instantsearch.searcher.multi
 
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.searcher.SearcherScope
+import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.multi.internal.DefaultMultiSearchService
 import com.algolia.instantsearch.searcher.multi.internal.DefaultMultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
@@ -46,7 +47,7 @@ public fun MultiSearcher(
     strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
-    coroutineDispatcher: CoroutineDispatcher,
+    coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
 ): MultiSearcher = DefaultMultiSearcher(
     searchService = DefaultMultiSearchService(client),
     strategy = strategy,
@@ -71,7 +72,7 @@ public fun MultiSearcher(
     strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
-    coroutineDispatcher: CoroutineDispatcher,
+    coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
 ): MultiSearcher = DefaultMultiSearcher(
     searchService = DefaultMultiSearchService(client = ClientSearch(applicationID, apiKey)),
     strategy = strategy,
