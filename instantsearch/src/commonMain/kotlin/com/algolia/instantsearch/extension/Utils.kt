@@ -7,3 +7,5 @@ internal fun <T> tryOrNull(block: () -> T): T? {
         null
     }
 }
+
+internal expect fun printError(message: String)
