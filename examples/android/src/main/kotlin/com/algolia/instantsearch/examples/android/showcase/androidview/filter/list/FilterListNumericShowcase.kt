@@ -3,17 +3,25 @@ package com.algolia.instantsearch.examples.android.showcase.androidview.filter.l
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.filter.list.FilterListConnector
-import com.algolia.instantsearch.filter.list.connectView
-import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.filter.state.groupAnd
-import com.algolia.instantsearch.searcher.connectFilterState
-import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.examples.android.showcase.androidview.*
+import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.examples.android.databinding.HeaderFilterBinding
 import com.algolia.instantsearch.examples.android.databinding.IncludeListBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFilterListBinding
+import com.algolia.instantsearch.examples.android.showcase.androidview.client
+import com.algolia.instantsearch.examples.android.showcase.androidview.configureRecyclerView
+import com.algolia.instantsearch.examples.android.showcase.androidview.configureSearcher
+import com.algolia.instantsearch.examples.android.showcase.androidview.configureToolbar
+import com.algolia.instantsearch.examples.android.showcase.androidview.onClearAllThenClearFilters
+import com.algolia.instantsearch.examples.android.showcase.androidview.onErrorThenUpdateFiltersText
+import com.algolia.instantsearch.examples.android.showcase.androidview.onFilterChangedThenUpdateFiltersText
+import com.algolia.instantsearch.examples.android.showcase.androidview.onResponseChangedThenUpdateNbHits
+import com.algolia.instantsearch.examples.android.showcase.androidview.stubIndexName
+import com.algolia.instantsearch.filter.list.FilterListConnector
+import com.algolia.instantsearch.filter.list.connectView
+import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.groupOr
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
@@ -31,7 +39,12 @@ class FilterListNumericShowcase : AppCompatActivity() {
         Filter.Numeric(price, 25..100),
         Filter.Numeric(price, NumericOperator.Greater, 100)
     )
-    private val filterList = FilterListConnector.Numeric(filters, filterState, groupID = groupPrice)
+    private val filterList = FilterListConnector.Numeric(
+        filters = filters,
+        filterState = filterState,
+        groupID = groupPrice,
+        selectionMode = SelectionMode.Multiple
+    )
     private val connection = ConnectionHandler(filterList, searcher.connectFilterState(filterState))
 
     override fun onCreate(savedInstanceState: Bundle?) {

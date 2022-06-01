@@ -5,6 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.compose.filter.list.FilterListState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
+import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.examples.android.showcase.compose.client
 import com.algolia.instantsearch.examples.android.showcase.compose.configureSearcher
 import com.algolia.instantsearch.examples.android.showcase.compose.filterColors
@@ -36,8 +37,12 @@ class FilterListNumericShowcase : AppCompatActivity() {
     )
 
     private val filterListState = FilterListState<Filter.Numeric>()
-    private val filterList = FilterListConnector.Numeric(filters, filterState, groupID = groupPrice)
-
+    private val filterList = FilterListConnector.Numeric(
+        filters = filters,
+        filterState = filterState,
+        groupID = groupPrice,
+        selectionMode = SelectionMode.Multiple
+    )
     private val filterHeader = HeaderFilterConnector(
         searcher = searcher,
         filterState = filterState,
