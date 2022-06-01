@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.core.searcher
 
+import com.algolia.instantsearch.core.internal.AbortException
 import kotlinx.atomicfu.atomicArrayOfNulls
 import kotlinx.coroutines.Job
 
@@ -52,7 +53,7 @@ public class Sequencer(
             repeat(maxOperations) {
                 val afterIndex = index + it + 1
 
-                if (it < index) operations[it].value!!.cancel()
+                if (it < index) operations[it].value!!.cancel(cause = AbortException("Sequencer"))
                 operations[it].value = if (afterIndex < maxOperations) operations[afterIndex].value else null
             }
         }
@@ -63,7 +64,7 @@ public class Sequencer(
      */
     public fun cancelAll() {
         repeat(maxOperations) {
-            operations[it].getAndSet(null)?.cancel()
+            operations[it].getAndSet(null)?.cancel(cause = AbortException("Sequencer"))
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.core.searcher
 
+import com.algolia.instantsearch.core.internal.AbortException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -14,7 +15,7 @@ public class Debouncer(
         coroutineScope: CoroutineScope,
         block: suspend () -> Unit
     ) {
-        job?.cancel()
+        job?.cancel(cause = AbortException("Debouncer"))
         job = coroutineScope.launch {
             delay(debounceTimeInMillis)
             block()
