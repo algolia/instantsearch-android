@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.searcher.internal
 
 import com.algolia.instantsearch.core.searcher.Searcher
-import com.algolia.instantsearch.extension.printError
+import com.algolia.instantsearch.extension.printDebug
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -15,7 +15,7 @@ internal class SearcherExceptionHandler<R>(
 ) : AbstractCoroutineContextElement(CoroutineExceptionHandler), CoroutineExceptionHandler {
 
     override fun handleException(context: CoroutineContext, exception: Throwable) {
-        printError(exception.stackTraceToString())
+        printDebug(exception.stackTraceToString())
         searcher.error.value = exception
         searcher.isLoading.value = false
     }
