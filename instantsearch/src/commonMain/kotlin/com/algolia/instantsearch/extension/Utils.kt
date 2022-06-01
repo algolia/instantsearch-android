@@ -8,4 +8,4 @@ internal fun <T> tryOrNull(block: () -> T): T? {
     }
 }
 
-internal expect fun printError(message: String)
+internal expect fun printDebug(message: String)

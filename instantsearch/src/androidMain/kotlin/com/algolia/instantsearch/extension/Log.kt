@@ -2,6 +2,6 @@ package com.algolia.instantsearch.extension
 
 import android.util.Log
 
-internal actual fun printError(message: String) {
-    Log.e("InstantSearch", message)
+internal actual fun printDebug(message: String) {
+    Log.d("InstantSearch", message)
 }
