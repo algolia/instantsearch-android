@@ -181,7 +181,7 @@ internal fun FilterListViewModel.Numeric.traceNumericFilterList() {
 /** Telemetry: trace facet filter list connector */
 internal fun FilterListConnector.Numeric.traceNumericFilterListConnector() {
     val params = buildSet {
-        if (groupID.operator != FilterOperator.And) add(ComponentParam.Operator)
+        if (groupID.operator != FilterOperator.Or) add(ComponentParam.Operator)
     }
     Telemetry.shared.traceConnector(ComponentType.NumericFilterList, params)
 }

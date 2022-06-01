@@ -5,17 +5,17 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.algolia.instantsearch.compose.filter.list.FilterListState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.filter.list.FilterListConnector
-import com.algolia.instantsearch.filter.list.connectView
-import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.filter.state.groupAnd
-import com.algolia.instantsearch.searcher.connectFilterState
-import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.android.showcase.compose.client
 import com.algolia.instantsearch.examples.android.showcase.compose.configureSearcher
 import com.algolia.instantsearch.examples.android.showcase.compose.filterColors
 import com.algolia.instantsearch.examples.android.showcase.compose.stubIndexName
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
+import com.algolia.instantsearch.filter.list.FilterListConnector
+import com.algolia.instantsearch.filter.list.connectView
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.filter.state.groupOr
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.filter.NumericOperator
@@ -24,7 +24,7 @@ import com.algolia.search.model.filter.NumericOperator
 class FilterListNumericShowcase : AppCompatActivity() {
 
     private val price = Attribute("price")
-    private val groupPrice = groupAnd(price)
+    private val groupPrice = groupOr(price)
     private val searcher = HitsSearcher(client, stubIndexName)
     private val filterState = FilterState()
     private val filters = listOf(

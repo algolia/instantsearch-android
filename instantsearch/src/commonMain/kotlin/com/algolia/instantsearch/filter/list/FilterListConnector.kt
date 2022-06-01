@@ -92,7 +92,7 @@ public abstract class FilterListConnector<T : Filter> : AbstractConnection() {
             filters: List<Filter.Numeric>,
             filterState: FilterState,
             selectionMode: SelectionMode = SelectionMode.Single,
-            groupID: FilterGroupID = FilterGroupID(FilterOperator.And),
+            groupID: FilterGroupID = FilterGroupID(FilterOperator.Or),
         ) : this(filterState, FilterListViewModel.Numeric(filters, selectionMode), groupID)
 
         init {
