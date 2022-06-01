@@ -189,7 +189,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
             listOf(Filter.Numeric(attribute, 1..4)),
             filterState,
             SelectionMode.Multiple,
-            FilterGroupID(FilterOperator.Or)
+            FilterGroupID(FilterOperator.And)
         )
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.NumericFilterList)
         assertEquals(
