@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application>
         <!-- enable profiling by shell for non-intrusive profiling tools -->
-        <profileable android:shell="true"/>
+        <profileable android:shell="true" />
         <activity android:name="androidx.activity.ComponentActivity" />
     </application>
 </manifest>
