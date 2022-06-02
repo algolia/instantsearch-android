@@ -15,6 +15,8 @@ include(":extensions:coroutines-extensions")
 include(":examples:android")
 include(":examples:wearos")
 include(":examples:androidtv")
+// Benchmark
+include(":benchmark")
 
 val localSettings = file("local.settings.gradle.kts")
 if (localSettings.exists()) apply(from = localSettings)

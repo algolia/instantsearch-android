@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.algolia.instantsearch.examples.android">
@@ -5,15 +6,28 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
     <application
         android:name=".App"
         android:allowBackup="false"
-        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/InstantSearchExamples"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <profileable
+            android:shell="true"
+            tools:targetApi="q" />
 
         <activity
             android:name=".directory.DirectoryActivity"
@@ -24,28 +38,19 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Guides -->
-
+        </activity> <!-- Guides -->
         <activity
             android:name=".guides.gettingstarted.GettingStartedGuide"
             android:parentActivityName=".directory.DirectoryActivity" />
-
         <activity
             android:name=".guides.insights.InsightsActivity"
             android:parentActivityName=".directory.DirectoryActivity" />
-
         <activity
             android:name=".guides.compose.ComposeActivity"
-            android:parentActivityName=".directory.DirectoryActivity" />
-
-        <!-- Showcase: Android View -->
-
+            android:parentActivityName=".directory.DirectoryActivity" /> <!-- Showcase: Android View -->
         <activity
             android:name=".showcase.androidview.directory.AndroidViewDirectoryShowcase"
             android:parentActivityName=".directory.DirectoryActivity" />
-
         <activity
             android:name=".showcase.androidview.highlighting.HighlightingShowcase"
             android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
@@ -91,7 +96,6 @@
         <activity
             android:name=".showcase.androidview.search.SearchAsYouTypeShowcase"
             android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
-
         <activity
             android:name=".showcase.androidview.list.paging.PagingSingleIndexShowcase"
             android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
@@ -119,17 +123,12 @@
         <activity
             android:name=".showcase.androidview.filter.rating.RatingShowcase"
             android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
-
         <activity
             android:name=".showcase.androidview.filter.facet.dynamic.DynamicFacetShowcase"
-            android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" />
-
-        <!-- Showcase: Compose -->
-
+            android:parentActivityName=".showcase.androidview.directory.AndroidViewDirectoryShowcase" /> <!-- Showcase: Compose -->
         <activity
             android:name=".showcase.compose.directory.ComposeDirectoryShowcase"
             android:parentActivityName=".directory.DirectoryActivity" />
-
         <activity
             android:name=".showcase.compose.filter.current.FilterCurrentShowcase"
             android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
@@ -204,10 +203,7 @@
             android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
         <activity
             android:name=".showcase.compose.filter.facet.DynamicFacetShowcase"
-            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
-
-        <!-- Showcase: shared -->
-
+            android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" /> <!-- Showcase: shared -->
         <activity
             android:name=".showcase.shared.customdata.TemplateActivity"
             android:exported="true">
@@ -224,10 +220,7 @@
                     android:host="help"
                     android:scheme="algoliademo" />
             </intent-filter>
-        </activity>
-
-        <!-- Code Exchange -->
-
+        </activity> <!-- Code Exchange -->
         <activity
             android:name=".codex.categorieshits.MainActivity"
             android:parentActivityName=".directory.DirectoryActivity" />
@@ -249,15 +242,6 @@
         <activity
             android:name=".codex.voice.MainActivity"
             android:parentActivityName=".directory.DirectoryActivity" />
-
     </application>
-
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" />
-        </intent>
-    </queries>
 
 </manifest>
