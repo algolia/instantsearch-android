@@ -25,6 +25,7 @@
         android:theme="@style/InstantSearchExamples"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+
         <profileable
             android:shell="true"
             tools:targetApi="q" />

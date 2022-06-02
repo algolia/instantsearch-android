@@ -1,35 +1,52 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    id("com.android.test")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "com.algolia.instantsearch.benchmark"
     compileSdk = 32
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 
     defaultConfig {
         minSdk = 23
+        targetSdk = 32
 
-        testInstrumentationRunner = "androidx.benchmark.junit4.AndroidBenchmarkRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"
     }
 
-    buildFeatures {
-        compose = true
+    buildTypes {
+        // This benchmark buildType is used for benchmarking, and should function like your
+        // release build (for example, with minification on). It"s signed with a debug key
+        // for easy local/CI testing.
+        create("benchmark") {
+            isDebuggable = true
+            signingConfig = getByName("debug").signingConfig
+            matchingFallbacks += listOf("release")
+        }
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.1"
-    }
+
+    targetProjectPath = ":examples:android"
+    experimentalProperties["android.experimental.self-instrumenting"] = true
 }
 
 dependencies {
-    implementation(project(":instantsearch-compose"))
+    implementation("androidx.test.ext:junit:1.1.3")
+    implementation("androidx.test.espresso:espresso-core:3.4.0")
+    implementation("androidx.test.uiautomator:uiautomator:2.2.0")
+    implementation("androidx.benchmark:benchmark-macro-junit4:1.1.0-rc03")
+}
 
-    androidTestImplementation("androidx.benchmark:benchmark-junit4:1.0.0")
-
-    androidTestImplementation("androidx.activity:activity-compose:1.4.0")
-    androidTestImplementation("androidx.compose.ui:ui:1.1.1")
-    androidTestImplementation("androidx.compose.material:material:1.1.1")
-
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test:rules:1.4.0")
+androidComponents {
+    beforeVariants(selector().all()) {
+        it.enable = it.buildType == "benchmark"
+    }
 }

@@ -15,6 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -103,7 +105,8 @@ fun Search(
                     SearchBox(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(top = 12.dp, start = 12.dp),
+                            .padding(top = 12.dp, start = 12.dp)
+                            .semantics { contentDescription = "search box" },
                         searchBoxState = searchBoxState,
                         onValueChange = { _, _ -> scope.launch { listState.scrollToItem(0) } },
                     )
@@ -115,7 +118,7 @@ fun Search(
                                 .padding(horizontal = 12.dp)
                                 .height(56.dp),
                             imageVector = Icons.Default.FilterList,
-                            contentDescription = null,
+                            contentDescription = "filters list",
                         )
                     }
                 }

@@ -12,7 +12,10 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.hits.HitsState
@@ -44,7 +47,7 @@ fun Directory(
                 )
             )
         }
-        LazyColumn {
+        LazyColumn(modifier = Modifier.semantics { contentDescription = "directory_items" }) {
             items(hitsState.hits) { item ->
                 when (item) {
                     is DirectoryItem.Header -> Text(
@@ -66,7 +69,8 @@ fun Directory(
                                 .fillMaxWidth()
                                 .background(White)
                                 .clickable(onClick = { onClick(item) })
-                                .padding(horizontal = 12.dp, vertical = 12.dp),
+                                .padding(horizontal = 12.dp, vertical = 12.dp)
+                                .testTag(item.hit.objectID.raw),
                             text = item.hit.name,
                             style = MaterialTheme.typography.body1,
                             maxLines = 1,

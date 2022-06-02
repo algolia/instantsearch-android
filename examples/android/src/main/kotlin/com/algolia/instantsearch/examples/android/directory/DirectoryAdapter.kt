@@ -74,7 +74,9 @@ sealed class DirectoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(item: DirectoryItem.Item) {
             val text = item.hit.highlightedName?.toSpannedString() ?: item.hit.name
-            view.findViewById<TextView>(R.id.itemName).text = text
+            val textView = view.findViewById<TextView>(R.id.itemName)
+            textView.text = text
+            textView.contentDescription = item.hit.objectID.raw
 
             view.setOnClickListener {
                 view.context.navigateTo(item)
