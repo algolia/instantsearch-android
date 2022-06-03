@@ -26,32 +26,12 @@ import org.junit.runner.RunWith
  */
 @OptIn(ExperimentalBaselineProfilesApi::class)
 @RunWith(AndroidJUnit4::class)
-class InstantSearchBenchmark {
-
-    @get:Rule
-    val benchmarkRule = MacrobenchmarkRule()
+class InstantSearchBaselineProfile {
 
     @get:Rule
     val baselineProfileRule = BaselineProfileRule()
 
     val appPackageName = "com.algolia.instantsearch.examples.android"
-
-    @Test
-    fun startup() {
-        benchmarkRule.measureRepeated(
-            packageName = appPackageName,
-            metrics = listOf(StartupTimingMetric()),
-            iterations = 5,
-            startupMode = StartupMode.COLD
-        ) {
-            pressHome()
-            startActivityAndWait()
-
-            val recyclerHasChild = By.hasChild(By.res(packageName, "list"))
-            val hasObject = Until.hasObject(recyclerHasChild)
-            device.wait(hasObject, 5_000)
-        }
-    }
 
     @Test
     fun baseline() =
