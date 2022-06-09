@@ -3,6 +3,7 @@ package com.algolia.instantsearch.insights.internal
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.exception.InsightsException
 import com.algolia.instantsearch.insights.internal.cache.InsightsCache
+import com.algolia.instantsearch.insights.internal.extension.copy
 import com.algolia.instantsearch.insights.internal.extension.currentTimeMillis
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.uploader.InsightsUploader
@@ -58,7 +59,7 @@ internal class InsightsController(
             indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
-            timestamp = effectiveTimestamp(timestamp),
+            timestamp = timestamp,
             resources = InsightsEvent.Resources.ObjectIDs(objectIDs)
         )
     )
@@ -72,7 +73,7 @@ internal class InsightsController(
             indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
-            timestamp = effectiveTimestamp(timestamp),
+            timestamp = timestamp,
             resources = InsightsEvent.Resources.Filters(filters)
         )
     )
@@ -86,7 +87,7 @@ internal class InsightsController(
             indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
-            timestamp = effectiveTimestamp(timestamp),
+            timestamp = timestamp,
             resources = InsightsEvent.Resources.ObjectIDs(objectIDs)
         )
     )
@@ -100,7 +101,7 @@ internal class InsightsController(
             indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
-            timestamp = effectiveTimestamp(timestamp),
+            timestamp = timestamp,
             resources = InsightsEvent.Resources.Filters(filters)
         )
     )
@@ -116,7 +117,7 @@ internal class InsightsController(
             indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
-            timestamp = effectiveTimestamp(timestamp),
+            timestamp = timestamp,
             resources = InsightsEvent.Resources.ObjectIDs(objectIDs),
             queryID = queryID,
             positions = positions
@@ -132,7 +133,7 @@ internal class InsightsController(
             indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
-            timestamp = effectiveTimestamp(timestamp),
+            timestamp = timestamp,
             resources = InsightsEvent.Resources.Filters(filters)
         )
     )
@@ -146,7 +147,7 @@ internal class InsightsController(
             indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
-            timestamp = effectiveTimestamp(timestamp),
+            timestamp = timestamp,
             resources = InsightsEvent.Resources.ObjectIDs(objectIDs)
         )
     )
@@ -161,7 +162,7 @@ internal class InsightsController(
             indexName = indexName,
             eventName = eventName,
             userToken = userTokenOrThrow(),
-            timestamp = effectiveTimestamp(timestamp),
+            timestamp = timestamp,
             resources = InsightsEvent.Resources.ObjectIDs(objectIDs),
             queryID = queryID
         )
@@ -174,8 +175,9 @@ internal class InsightsController(
     override fun converted(event: InsightsEvent.Conversion): Unit = track(event)
 
     override fun track(event: InsightsEvent) {
+        val insightEvent = effectiveEvent(event)
         if (enabled) {
-            cache.save(event)
+            cache.save(insightEvent)
             if (cache.size() >= minBatchSize) {
                 worker.startOneTimeUpload()
             }
@@ -185,10 +187,10 @@ internal class InsightsController(
     // endregion
 
     /**
-     * Get effective timestamp.
-     * Defaults to [currentTimeMillis] if [timestamp] is `null` and timestamp generation is enabled.
+     * Get effective insight event.
+     * Timestamp defaults to [currentTimeMillis] if [event]'s timestamp is `null` and timestamp generation is enabled.
      */
-    private fun effectiveTimestamp(timestamp: Long?): Long? {
-        return timestamp ?: if (generateTimestamps) currentTimeMillis else null
+    private fun effectiveEvent(event: InsightsEvent): InsightsEvent {
+        return if (generateTimestamps && event.timestamp == null) event.copy(timestamp = currentTimeMillis) else event
     }
 }

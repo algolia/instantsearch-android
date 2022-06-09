@@ -72,12 +72,12 @@ public interface Insights : HitsAfterSearchTrackable, FilterTrackable, Credentia
         /**
          * Maximum amount of time in milliseconds before a connect timeout
          */
-        public val connectTimeoutInMilliseconds: Long,
+        public val connectTimeoutInMilliseconds: Long = 5000,
 
         /**
          * Maximum amount of time in milliseconds before a read timeout.
          */
-        public val readTimeoutInMilliseconds: Long,
+        public val readTimeoutInMilliseconds: Long = 5000,
 
         /**
          * Default User Token.

@@ -30,6 +30,8 @@ import java.time.ZoneId
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
@@ -239,6 +241,43 @@ internal class InsightsTest {
             count++
             database.clear()
         }
+    }
+
+    @Test
+    fun testTimeStampGenerationEnabled() {
+        val events = mutableListOf<InsightsEvent>()
+        val localRepository = MockLocalRepository(events)
+        val distantRepository = MockDistantRepository()
+        val eventUploader = MinBatchSizeWorker(events, distantRepository, localRepository)
+        val cache = InsightsEventCache(localRepository)
+        val uploader = InsightsEventUploader(localRepository, distantRepository)
+        val insights = InsightsController(indexName, eventUploader, cache, uploader, true)
+
+        insights.clicked(eventClick)
+        insights.clicked(eventClick.copy(timestamp = null))
+        insights.converted(eventConversion.copy(timestamp = null))
+        insights.viewed(eventView.copy(timestamp = null))
+
+        localRepository.read().forEach {
+            assertNotNull(it.timestamp)
+        }
+    }
+
+    @Test
+    fun testTimeStampGenerationDisabled() {
+        val events = mutableListOf<InsightsEvent>()
+        val localRepository = MockLocalRepository(events)
+        val distantRepository = MockDistantRepository()
+        val eventUploader = MinBatchSizeWorker(events, distantRepository, localRepository)
+        val cache = InsightsEventCache(localRepository)
+        val uploader = InsightsEventUploader(localRepository, distantRepository)
+        val insights = InsightsController(indexName, eventUploader, cache, uploader, false)
+
+        insights.clicked(eventClick.copy(timestamp = null))
+        insights.converted(eventConversion.copy(timestamp = null))
+        insights.viewed(eventView.copy(timestamp = null))
+
+        localRepository.read().forEach { assertNull(it.timestamp) }
     }
 
     /**

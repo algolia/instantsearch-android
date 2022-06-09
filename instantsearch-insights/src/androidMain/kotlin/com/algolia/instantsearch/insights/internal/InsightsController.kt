@@ -18,7 +18,7 @@ internal fun registerInsightsController(
     distantRepository: InsightsDistantRepository,
     workManager: WorkManager,
     settings: InsightsSettings,
-    configuration: Insights.Configuration = Insights.Configuration(5000, 5000),
+    configuration: Insights.Configuration = Insights.Configuration(),
 ): Insights {
     val saver = InsightsEventCache(localRepository)
     val uploader = InsightsEventUploader(localRepository, distantRepository)
