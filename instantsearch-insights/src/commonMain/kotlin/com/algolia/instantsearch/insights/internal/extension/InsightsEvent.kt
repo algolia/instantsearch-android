@@ -9,4 +9,3 @@ internal fun InsightsEvent.copy(timestamp: Long?): InsightsEvent {
         is InsightsEvent.Conversion -> copy(timestamp = timestamp)
     }
 }
-
