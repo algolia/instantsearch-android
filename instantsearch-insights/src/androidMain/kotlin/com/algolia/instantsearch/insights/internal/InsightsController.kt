@@ -23,7 +23,7 @@ internal fun registerInsightsController(
     val saver = InsightsEventCache(localRepository)
     val uploader = InsightsEventUploader(localRepository, distantRepository)
     val worker = InsightsWorkManager(workManager, settings)
-    return InsightsController(indexName, worker, saver, uploader).also {
+    return InsightsController(indexName, worker, saver, uploader, configuration.generateTimestamps).also {
         it.userToken = configuration.defaultUserToken
         sharedInsights = it
         InsightsMap[indexName] = it
