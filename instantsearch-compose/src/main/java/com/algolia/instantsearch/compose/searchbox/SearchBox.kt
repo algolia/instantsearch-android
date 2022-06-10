@@ -35,6 +35,7 @@ import com.algolia.instantsearch.compose.searchbox.internal.DefaultTrailingIcon
  * @param placeHolderText the placeholder to be displayed when the the input text is empty
  * @param elevation controls the size of the shadow below the surface
  */
+@Deprecated("implement your search box manually instead")
 @Composable
 public fun SearchBox(
     modifier: Modifier = Modifier,
