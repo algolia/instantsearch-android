@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.algolia.instantsearch.compose.searchbox.SearchBox
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
 import kotlinx.coroutines.CoroutineScope
@@ -132,10 +131,12 @@ fun SearchTopBar(
         },
         actions = {
             icon?.let {
-                Icon(it, null,
+                Icon(
+                    it, null,
                     Modifier
                         .padding(4.dp)
-                        .clickable(onClick = onIconClick))
+                        .clickable(onClick = onIconClick)
+                )
             }
         }
     )

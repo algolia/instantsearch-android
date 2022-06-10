@@ -27,12 +27,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.algolia.instantsearch.compose.hits.HitsState
-import com.algolia.instantsearch.compose.searchbox.SearchBox
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.compose.searchbox.defaultSearchBoxColors
-import com.algolia.instantsearch.examples.androidtv.ui.searchBackground
+import com.algolia.instantsearch.examples.androidtv.ui.SearchBox
 import com.algolia.instantsearch.examples.androidtv.ui.golden
 import com.algolia.instantsearch.examples.androidtv.ui.grey
+import com.algolia.instantsearch.examples.androidtv.ui.searchBackground
 import com.algolia.instantsearch.examples.androidtv.ui.white
 
 @Composable
