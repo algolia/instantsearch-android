@@ -14,11 +14,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.algolia.instantsearch.examples.android.showcase.compose.model.Product
 
 @Composable
@@ -47,12 +46,10 @@ fun ProductItem(modifier: Modifier = Modifier, product: Product) {
     Row(modifier) {
         AsyncImage(
             modifier = Modifier.size(64.dp),
+            model = product.image,
+            placeholder = painterResource(id = android.R.drawable.ic_menu_report_image),
+            error = painterResource(id = android.R.drawable.ic_menu_report_image),
             contentScale = ContentScale.Crop,
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(product.image)
-                .placeholder(android.R.drawable.ic_menu_report_image)
-                .error(android.R.drawable.ic_menu_report_image)
-                .build(),
             contentDescription = "product image",
         )
         Column(Modifier.padding(start = 16.dp)) {
