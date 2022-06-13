@@ -1,8 +1,21 @@
 package com.algolia.instantsearch.examples.android.showcase.compose.ui.component
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import android.R
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -12,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -19,7 +33,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.algolia.instantsearch.compose.highlighting.toAnnotatedString
 import com.algolia.instantsearch.examples.android.showcase.compose.model.Movie
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.GreyDark
@@ -71,18 +86,16 @@ fun MoviesList(
 @Composable
 fun MovieItem(modifier: Modifier = Modifier, movie: Movie) {
     Row(modifier, verticalAlignment = Alignment.CenterVertically) {
-        Image(
+        AsyncImage(
             modifier = Modifier.size(68.dp),
-            painter = rememberImagePainter(
-                data = movie.image,
-                builder = {
-                    placeholder(android.R.drawable.ic_media_play)
-                    error(android.R.drawable.ic_media_play)
-                },
-            ),
-            contentDescription = "movie image",
+            contentScale = ContentScale.Crop,
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(movie.image)
+                .placeholder(R.drawable.ic_media_play)
+                .error(R.drawable.ic_media_play)
+                .build(),
+            contentDescription = "movie image"
         )
-
         Column(
             Modifier
                 .padding(start = 16.dp)
@@ -158,17 +171,15 @@ fun MoviesHorizontalList(
 fun MovieCardItem(modifier: Modifier = Modifier, movie: Movie) {
     Card(modifier) {
         Column {
-            Image(
+            AsyncImage(
                 modifier = Modifier.size(192.dp),
                 contentScale = ContentScale.Crop,
-                painter = rememberImagePainter(
-                    data = movie.image,
-                    builder = {
-                        placeholder(android.R.drawable.ic_media_play)
-                        error(android.R.drawable.ic_media_play)
-                    },
-                ),
-                contentDescription = "movie image",
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(movie.image)
+                    .placeholder(R.drawable.ic_media_play)
+                    .error(R.drawable.ic_media_play)
+                    .build(),
+                contentDescription = "movie image"
             )
             Column(Modifier.padding(8.dp)) {
                 Text(

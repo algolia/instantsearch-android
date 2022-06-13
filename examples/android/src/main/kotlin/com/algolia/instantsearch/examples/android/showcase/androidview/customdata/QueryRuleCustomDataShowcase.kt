@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import coil.load
+import coil.size.Scale
 import com.algolia.instantsearch.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
@@ -12,7 +14,6 @@ import com.algolia.instantsearch.customdata.QueryRuleCustomDataConnector
 import com.algolia.instantsearch.examples.android.R
 import com.algolia.instantsearch.examples.android.databinding.IncludeSearchInfoBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseQueryRuleCustomDataBinding
-import com.algolia.instantsearch.examples.android.showcase.shared.customdata.TemplateActivity.Companion.EXTRA_CONTENT
 import com.algolia.instantsearch.examples.android.showcase.androidview.client
 import com.algolia.instantsearch.examples.android.showcase.androidview.configureRecyclerView
 import com.algolia.instantsearch.examples.android.showcase.androidview.configureSearchView
@@ -21,12 +22,12 @@ import com.algolia.instantsearch.examples.android.showcase.androidview.configure
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.product.Product
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.product.ProductAdapter
 import com.algolia.instantsearch.examples.android.showcase.androidview.stubIndexName
+import com.algolia.instantsearch.examples.android.showcase.shared.customdata.TemplateActivity.Companion.EXTRA_CONTENT
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.SearchMode
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.helper.deserialize
-import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class QueryRuleCustomDataShowcase : AppCompatActivity() {
@@ -84,11 +85,7 @@ class QueryRuleCustomDataShowcase : AppCompatActivity() {
 
     private fun showBannerImage(model: Banner) {
         binding.bannerImage.visibility = View.VISIBLE
-        Glide.with(this)
-            .load(model.banner)
-            .fitCenter()
-            .into(binding.bannerImage)
-
+        binding.bannerImage.load(model.banner) { scale(Scale.FIT) }
         binding.bannerImage.setOnClickListener {
             redirect(model.link, resources.getString(R.string.redirect_via_banner_tap))
         }

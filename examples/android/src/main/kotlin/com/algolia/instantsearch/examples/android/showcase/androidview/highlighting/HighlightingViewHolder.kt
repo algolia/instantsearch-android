@@ -8,10 +8,10 @@ import android.widget.TextView
 import androidx.core.text.buildSpannedString
 import androidx.core.text.italic
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.algolia.instantsearch.android.highlighting.toSpannedString
 import com.algolia.instantsearch.examples.android.databinding.ListItemHighlightingBinding
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.movie.Movie
-import com.bumptech.glide.Glide
 
 class HighlightingViewHolder(private val binding: ListItemHighlightingBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -43,9 +43,9 @@ class HighlightingViewHolder(private val binding: ListItemHighlightingBinding) :
     }
 
     private fun Movie.bindImageTo(view: ImageView) {
-        Glide.with(view)
-            .load(image).placeholder(android.R.drawable.ic_media_play)
-            .centerCrop()
-            .into(view)
+        view.load(image) {
+            placeholder(android.R.drawable.ic_media_play)
+            error(android.R.drawable.ic_media_play)
+        }
     }
 }

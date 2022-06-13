@@ -4,10 +4,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.examples.android.databinding.ListItemProductBinding
 import com.algolia.instantsearch.examples.android.showcase.androidview.layoutInflater
-import com.bumptech.glide.Glide
 
 class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffUtil),
     HitsView<Product> {
@@ -39,10 +39,10 @@ class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(Pr
             binding.itemName.text = product.name
             binding.itemBrand.text = product.brand
             binding.itemType.text = product.type
-            Glide.with(binding.root)
-                .load(product.image).placeholder(android.R.drawable.ic_media_play)
-                .centerCrop()
-                .into(binding.itemImage)
+            binding.itemImage.load(product.image) {
+                placeholder(android.R.drawable.ic_media_play)
+                error(android.R.drawable.ic_media_play)
+            }
         }
     }
 

@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.examples.android.showcase.androidview.list.movie
 
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.algolia.instantsearch.examples.android.databinding.ListItemMovieBinding
-import com.bumptech.glide.Glide
 
 class MovieViewHolderNested(private val binding: ListItemMovieBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -11,9 +11,9 @@ class MovieViewHolderNested(private val binding: ListItemMovieBinding) :
         binding.itemTitle.text = movie.title
         binding.itemSubtitle.text = movie.genre.sorted().joinToString { it }
         binding.itemCaption.text = movie.year
-        Glide.with(binding.root)
-            .load(movie.image).placeholder(android.R.drawable.ic_media_play)
-            .centerCrop()
-            .into(binding.itemImage)
+        binding.itemImage.load(movie.image) {
+            placeholder(android.R.drawable.ic_media_play)
+            error(android.R.drawable.ic_media_play)
+        }
     }
 }
