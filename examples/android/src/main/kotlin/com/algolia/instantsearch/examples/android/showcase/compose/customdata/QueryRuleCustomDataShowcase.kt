@@ -20,14 +20,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.algolia.instantsearch.compose.customdata.QueryRuleCustomDataState
 import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
@@ -148,9 +146,7 @@ class QueryRuleCustomDataShowcase : AppCompatActivity() {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable(onClick = { onClick(banner.link) }),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(banner.banner)
-                .build(),
+            model = banner.banner,
             contentDescription = "movie image",
             contentScale = ContentScale.FillWidth
         )
