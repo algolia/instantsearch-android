@@ -23,6 +23,7 @@ import kotlinx.coroutines.withContext
 /**
  * The component handling Algolia Answers search requests and managing the search sessions.
  */
+@Deprecated("Answers feature is deprecated")
 @ExperimentalInstantSearch
 @OptIn(ExperimentalAlgoliaClientAPI::class)
 public class SearcherAnswers(
