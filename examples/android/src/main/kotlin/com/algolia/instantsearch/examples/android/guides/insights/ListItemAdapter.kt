@@ -3,9 +3,11 @@ package com.algolia.instantsearch.examples.android.guides.insights
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.algolia.instantsearch.android.inflate
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.examples.android.R
@@ -13,8 +15,6 @@ import com.algolia.instantsearch.examples.android.guides.extension.ProductDiffUt
 import com.algolia.instantsearch.examples.android.guides.insights.ListItemAdapter.ListItemViewHolder
 import com.algolia.instantsearch.examples.android.guides.model.Product
 import com.algolia.instantsearch.tracker.HitsTracker
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class ListItemAdapter(private val hitsTracker: HitsTracker) :
     ListAdapter<Product, ListItemViewHolder>(ProductDiffUtil),
@@ -41,12 +41,7 @@ class ListItemAdapter(private val hitsTracker: HitsTracker) :
             view.findViewById<Button>(R.id.buy).setOnClickListener { hitsTracker.trackConvert(model) }
             // The first object in the list of search results has a position of 1 (not zero)
             itemView.setOnClickListener { hitsTracker.trackClick(model, position + 1) }
-
-            Glide
-                .with(view.context)
-                .load(model.image)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(view.findViewById(R.id.itemImage))
+            view.findViewById<ImageView>(R.id.itemImage).load(model.image) { crossfade(true) }
         }
     }
 }
