@@ -21,6 +21,7 @@ import kotlinx.coroutines.withContext
  * The component handling search requests and managing the search sessions.
  * This implementation searches for places.
  */
+@Deprecated("Places feature is deprecated")
 public class SearcherPlaces(
     public val client: ClientPlaces = ClientPlaces(),
     public val language: Language = Language.English,
