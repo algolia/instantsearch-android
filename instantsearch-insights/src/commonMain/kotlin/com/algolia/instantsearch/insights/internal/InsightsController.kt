@@ -3,6 +3,8 @@ package com.algolia.instantsearch.insights.internal
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.exception.InsightsException
 import com.algolia.instantsearch.insights.internal.cache.InsightsCache
+import com.algolia.instantsearch.insights.internal.extension.copy
+import com.algolia.instantsearch.insights.internal.extension.currentTimeMillis
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.uploader.InsightsUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
@@ -25,6 +27,7 @@ internal class InsightsController(
     private val worker: InsightsManager,
     private val cache: InsightsCache,
     internal val uploader: InsightsUploader,
+    private val generateTimestamps: Boolean
 ) : Insights, Credentials by uploader {
 
     override var enabled: Boolean = true
@@ -50,7 +53,7 @@ internal class InsightsController(
     override fun viewedObjectIDs(
         eventName: EventName,
         objectIDs: List<ObjectID>,
-        timestamp: Long,
+        timestamp: Long?,
     ): Unit = viewed(
         InsightsEvent.View(
             indexName = indexName,
@@ -64,7 +67,7 @@ internal class InsightsController(
     override fun viewedFilters(
         eventName: EventName,
         filters: List<Filter.Facet>,
-        timestamp: Long,
+        timestamp: Long?,
     ): Unit = viewed(
         InsightsEvent.View(
             indexName = indexName,
@@ -78,7 +81,7 @@ internal class InsightsController(
     override fun clickedObjectIDs(
         eventName: EventName,
         objectIDs: List<ObjectID>,
-        timestamp: Long,
+        timestamp: Long?,
     ): Unit = clicked(
         InsightsEvent.Click(
             indexName = indexName,
@@ -92,7 +95,7 @@ internal class InsightsController(
     override fun clickedFilters(
         eventName: EventName,
         filters: List<Filter.Facet>,
-        timestamp: Long,
+        timestamp: Long?,
     ): Unit = clicked(
         InsightsEvent.Click(
             indexName = indexName,
@@ -108,7 +111,7 @@ internal class InsightsController(
         queryID: QueryID,
         objectIDs: List<ObjectID>,
         positions: List<Int>,
-        timestamp: Long,
+        timestamp: Long?,
     ): Unit = clicked(
         InsightsEvent.Click(
             indexName = indexName,
@@ -124,7 +127,7 @@ internal class InsightsController(
     override fun convertedFilters(
         eventName: EventName,
         filters: List<Filter.Facet>,
-        timestamp: Long,
+        timestamp: Long?,
     ): Unit = converted(
         InsightsEvent.Conversion(
             indexName = indexName,
@@ -138,7 +141,7 @@ internal class InsightsController(
     override fun convertedObjectIDs(
         eventName: EventName,
         objectIDs: List<ObjectID>,
-        timestamp: Long,
+        timestamp: Long?,
     ): Unit = converted(
         InsightsEvent.Conversion(
             indexName = indexName,
@@ -153,7 +156,7 @@ internal class InsightsController(
         eventName: EventName,
         queryID: QueryID,
         objectIDs: List<ObjectID>,
-        timestamp: Long,
+        timestamp: Long?,
     ): Unit = converted(
         InsightsEvent.Conversion(
             indexName = indexName,
@@ -172,8 +175,9 @@ internal class InsightsController(
     override fun converted(event: InsightsEvent.Conversion): Unit = track(event)
 
     override fun track(event: InsightsEvent) {
+        val insightEvent = effectiveEvent(event)
         if (enabled) {
-            cache.save(event)
+            cache.save(insightEvent)
             if (cache.size() >= minBatchSize) {
                 worker.startOneTimeUpload()
             }
@@ -181,4 +185,12 @@ internal class InsightsController(
     }
 
     // endregion
+
+    /**
+     * Get effective insight event.
+     * Timestamp defaults to [currentTimeMillis] if [event]'s timestamp is `null` and timestamp generation is enabled.
+     */
+    private fun effectiveEvent(event: InsightsEvent): InsightsEvent {
+        return if (generateTimestamps && event.timestamp == null) event.copy(timestamp = currentTimeMillis) else event
+    }
 }

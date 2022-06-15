@@ -30,6 +30,8 @@ import java.time.ZoneId
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
@@ -155,7 +157,7 @@ internal class InsightsTest {
         }
         val cache = InsightsEventCache(localRepository)
         val uploader = InsightsEventUploader(localRepository, distantRepository)
-        val insights = InsightsController(indexName, eventUploader, cache, uploader)
+        val insights = InsightsController(indexName, eventUploader, cache, uploader, true)
         insights.userToken = UserToken("foo") // TODO: git stash apply to use default UUID token
         insights.clickedObjectIDs(eventClick.eventName, objectIDs)
         insights.clickedObjectIDsAfterSearch(
@@ -187,7 +189,7 @@ internal class InsightsTest {
         }
         val cache = InsightsEventCache(localRepository)
         val uploader = InsightsEventUploader(localRepository, distantRepository)
-        val insights = InsightsController(indexName, eventUploader, cache, uploader)
+        val insights = InsightsController(indexName, eventUploader, cache, uploader, true)
         insights.minBatchSize = 1 // Given an Insights that uploads every event
 
         insights.enabled = false // When a firstEvent is sent with insight disabled
@@ -204,7 +206,7 @@ internal class InsightsTest {
         val eventUploader = MinBatchSizeWorker(events, distantRepository, localRepository)
         val cache = InsightsEventCache(localRepository)
         val uploader = InsightsEventUploader(localRepository, distantRepository)
-        val insights = InsightsController(indexName, eventUploader, cache, uploader)
+        val insights = InsightsController(indexName, eventUploader, cache, uploader, true)
 
         // Given a minBatchSize of one and one event
         insights.minBatchSize = 1
@@ -241,6 +243,43 @@ internal class InsightsTest {
         }
     }
 
+    @Test
+    fun testTimeStampGenerationEnabled() {
+        val events = mutableListOf<InsightsEvent>()
+        val localRepository = MockLocalRepository(events)
+        val distantRepository = MockDistantRepository()
+        val eventUploader = MinBatchSizeWorker(events, distantRepository, localRepository)
+        val cache = InsightsEventCache(localRepository)
+        val uploader = InsightsEventUploader(localRepository, distantRepository)
+        val insights = InsightsController(indexName, eventUploader, cache, uploader, true)
+
+        insights.clicked(eventClick)
+        insights.clicked(eventClick.copy(timestamp = null))
+        insights.converted(eventConversion.copy(timestamp = null))
+        insights.viewed(eventView.copy(timestamp = null))
+
+        localRepository.read().forEach {
+            assertNotNull(it.timestamp)
+        }
+    }
+
+    @Test
+    fun testTimeStampGenerationDisabled() {
+        val events = mutableListOf<InsightsEvent>()
+        val localRepository = MockLocalRepository(events)
+        val distantRepository = MockDistantRepository()
+        val eventUploader = MinBatchSizeWorker(events, distantRepository, localRepository)
+        val cache = InsightsEventCache(localRepository)
+        val uploader = InsightsEventUploader(localRepository, distantRepository)
+        val insights = InsightsController(indexName, eventUploader, cache, uploader, false)
+
+        insights.clicked(eventClick.copy(timestamp = null))
+        insights.converted(eventConversion.copy(timestamp = null))
+        insights.viewed(eventView.copy(timestamp = null))
+
+        localRepository.read().forEach { assertNull(it.timestamp) }
+    }
+
     /**
      * Tests the integration of events, WebService and Database.
      */
@@ -252,7 +291,7 @@ internal class InsightsTest {
         val eventUploader = IntegrationWorker(events, distantRepository, localRepository)
         val cache = InsightsEventCache(localRepository)
         val uploader = InsightsEventUploader(localRepository, distantRepository)
-        val insights = InsightsController(indexName, eventUploader, cache, uploader).apply {
+        val insights = InsightsController(indexName, eventUploader, cache, uploader, true).apply {
             minBatchSize = 1
         }
 

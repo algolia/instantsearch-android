@@ -72,17 +72,24 @@ public interface Insights : HitsAfterSearchTrackable, FilterTrackable, Credentia
         /**
          * Maximum amount of time in milliseconds before a connect timeout
          */
-        public val connectTimeoutInMilliseconds: Long,
+        public val connectTimeoutInMilliseconds: Long = 5000,
 
         /**
          * Maximum amount of time in milliseconds before a read timeout.
          */
-        public val readTimeoutInMilliseconds: Long,
+        public val readTimeoutInMilliseconds: Long = 5000,
 
         /**
          * Default User Token.
          */
         public val defaultUserToken: UserToken? = null,
+
+        /**
+         * Defines if the timestamps of the events should be automatically attributed if not provided while calling the
+         * event capturing function. If set to `false`, the events will be sent without timestamp value and will be
+         * automatically attributed on the server, which may affect the accuracy of the events.
+         */
+        public val generateTimestamps: Boolean = true,
     )
 
     public companion object
