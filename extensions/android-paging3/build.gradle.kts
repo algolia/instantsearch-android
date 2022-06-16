@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.algolia.instantsearch.android.paging3"
-    compileSdk = 31
+    compileSdk = 32
 
     defaultConfig {
         minSdk = 21

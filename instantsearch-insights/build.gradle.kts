@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.algolia.instantsearch.insights"
-    compileSdk = 31
+    compileSdk = 32
 
     defaultConfig {
         minSdk = 21
