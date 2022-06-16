@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.examples.android.codex.suggestions.hits
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,10 +14,11 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
 import com.algolia.instantsearch.compose.highlighting.toAnnotatedString
 import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchBox
@@ -118,16 +118,12 @@ private fun ProductRow(modifier: Modifier = Modifier, product: Product) {
             .background(MaterialTheme.colors.surface)
             .padding(12.dp)
     ) {
-        Image(
+        AsyncImage(
             modifier = Modifier.size(64.dp),
+            model = product.image,
+            placeholder = painterResource(id = android.R.drawable.ic_menu_report_image),
+            error = painterResource(id = android.R.drawable.ic_menu_report_image),
             contentScale = ContentScale.Crop,
-            painter = rememberImagePainter(
-                data = product.image,
-                builder = {
-                    placeholder(android.R.drawable.ic_menu_report_image)
-                    error(android.R.drawable.ic_menu_report_image)
-                },
-            ),
             contentDescription = product.name,
         )
 
