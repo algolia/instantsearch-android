@@ -1,5 +1,8 @@
+@file:Suppress("DEPRECATION")
+
 package searcher
 
+import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.searcher.SearcherAnswers
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
@@ -26,7 +29,7 @@ fun TestSearcherForFacets(client: ClientSearch, indexName: IndexName, attribute:
     coroutineScope = TestCoroutineScope
 )
 
-@OptIn(com.algolia.instantsearch.ExperimentalInstantSearch::class)
+@OptIn(ExperimentalInstantSearch::class)
 fun TestSearcherAnswers(index: Index) = SearcherAnswers(
     index = index,
     coroutineScope = TestCoroutineScope

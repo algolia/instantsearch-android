@@ -11,6 +11,7 @@ import com.algolia.instantsearch.searcher.internal.FacetsSearcherConnectionFilte
 import com.algolia.instantsearch.searcher.internal.HitsSearcherConnectionFilterState
 import com.algolia.instantsearch.searcher.internal.SearcherAnswersConnectionFilterState
 
+@Deprecated("Answers feature is deprecated")
 @ExperimentalInstantSearch
 public fun SearcherAnswers.connectFilterState(
     filterState: FilterState,
