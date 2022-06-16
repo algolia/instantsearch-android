@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.algolia.instantsearch.searcher.internal
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
@@ -11,6 +13,7 @@ import com.algolia.instantsearch.searcher.SearcherAnswers
 import com.algolia.search.ExperimentalAlgoliaClientAPI
 import com.algolia.search.model.filter.FilterGroupsConverter
 
+@Deprecated("Answers feature is deprecated")
 @ExperimentalInstantSearch
 internal data class SearcherAnswersConnectionFilterState(
     private val searcher: SearcherAnswers,

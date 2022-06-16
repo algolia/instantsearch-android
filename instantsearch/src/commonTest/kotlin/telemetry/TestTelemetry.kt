@@ -50,11 +50,11 @@ import com.algolia.search.model.filter.NumericOperator
 import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
 import com.algolia.search.model.search.Facet
 import com.algolia.search.transport.RequestOptions
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import mockClient
 import relatedItems.SimpleProduct
 import relatedItems.mockHitsView
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 @OptIn(ExperimentalInstantSearch::class, InternalInstantSearch::class)
 class TestTelemetry { // instrumented because it uses android's Base64
@@ -107,6 +107,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
         assertEquals(false, component.isConnector)
     }
 
+    @Suppress("DEPRECATION")
     @Test
     fun testAnswersSearcher() {
         SearcherAnswers(client.initIndex(indexName), requestOptions = RequestOptions())
