@@ -52,7 +52,10 @@ kotlin {
     jvm()
     sourceSets {
         all {
-            languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
+            languageSettings {
+                optIn("kotlinx.serialization.ExperimentalSerializationApi")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
         }
         val commonMain by getting {
             dependencies {
@@ -63,6 +66,7 @@ kotlin {
             dependencies {
                 implementation(libs.test.kotlin.common)
                 implementation(libs.test.kotlin.annotations)
+                implementation(libs.test.coroutines)
             }
         }
         val jvmMain by getting {

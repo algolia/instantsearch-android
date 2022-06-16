@@ -1,15 +1,15 @@
 package stats
 
-import blocking
 import com.algolia.instantsearch.stats.StatsViewModel
 import com.algolia.instantsearch.stats.connectSearcher
 import com.algolia.search.model.IndexName
+import kotlin.test.Test
+import kotlinx.coroutines.test.runTest
 import mockClient
 import responseSearch
 import searcher.TestSearcherSingle
 import shouldBeNull
 import shouldEqual
-import kotlin.test.Test
 
 class TestStatsConnectSearcher {
 
@@ -30,14 +30,14 @@ class TestStatsConnectSearcher {
     }
 
     @Test
-    fun onResponseChangedShouldSetItem() {
+    fun onResponseChangedShouldSetItem() = runTest {
         val searcher = TestSearcherSingle(client, indexName)
         val viewModel = StatsViewModel()
         val connection = viewModel.connectSearcher(searcher)
 
         connection.connect()
         viewModel.response.value.shouldBeNull()
-        blocking { searcher.searchAsync().join() }
+        searcher.searchAsync().join()
         viewModel.response.value shouldEqual responseSearch
     }
 }

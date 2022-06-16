@@ -22,9 +22,6 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
-import kotlinx.coroutines.runBlocking
-import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 import java.time.LocalDateTime
 import java.time.ZoneId
 import kotlin.test.Test
@@ -33,6 +30,10 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
+import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.P])
@@ -109,27 +110,21 @@ internal class InsightsTest {
     }
 
     @Test
-    fun testClickEvent() {
-        runBlocking {
-            val response = webService.send(eventClick)
-            assertEquals(200, response.code)
-        }
+    fun testClickEvent() = runTest {
+        val response = webService.send(eventClick)
+        assertEquals(200, response.code)
     }
 
     @Test
-    fun testViewEvent() {
-        runBlocking {
-            val response = webService.send(eventView)
-            assertEquals(200, response.code)
-        }
+    fun testViewEvent() = runTest {
+        val response = webService.send(eventView)
+        assertEquals(200, response.code)
     }
 
     @Test
-    fun testConversionEvent() {
-        runBlocking {
-            val response = webService.send(eventConversion)
-            assertEquals(200, response.code)
-        }
+    fun testConversionEvent() = runTest {
+        val response = webService.send(eventConversion)
+        assertEquals(200, response.code)
     }
 
     @Test

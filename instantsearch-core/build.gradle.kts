@@ -12,6 +12,7 @@ kotlin {
                 optIn("kotlin.RequiresOptIn")
                 optIn("com.algolia.instantsearch.InternalInstantSearch")
                 optIn("com.algolia.instantsearch.ExperimentalInstantSearch")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             }
         }
         val commonMain by getting {
@@ -26,6 +27,7 @@ kotlin {
             dependencies {
                 implementation(libs.test.kotlin.common)
                 implementation(libs.test.kotlin.annotations)
+                implementation(libs.test.coroutines)
             }
         }
         val jvmTest by getting {

@@ -1,14 +1,10 @@
-import kotlin.reflect.KClass
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.setMain
@@ -59,18 +55,6 @@ fun <K, V> Map<K, V>.shouldBeEmpty() {
 
 fun <K, V> Map<K, V>.shouldNotBeEmpty() {
     this.isNotEmpty().shouldBeTrue()
-}
-
-infix fun <T : Throwable> KClass<T>.shouldFailWith(block: suspend () -> Unit): T {
-    return assertFailsWith(this, null) {
-        blocking {
-            block()
-        }
-    }
-}
-
-fun blocking(block: suspend CoroutineScope.() -> Unit) {
-    runBlocking(block = block)
 }
 
 fun TestScope.setUnconfinedMain() {

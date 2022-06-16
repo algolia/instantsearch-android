@@ -15,16 +15,16 @@ import com.algolia.search.model.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.insights.InsightsEvent
 import com.algolia.search.model.insights.UserToken
-import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 import java.time.ZoneId
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.test.runTest
 
 public class TestInsightsEventUploader {
 
     @Test
-    public fun testUploadAll(): Unit = runBlocking {
+    public fun testUploadAll(): Unit = runTest {
         val localRepository = TestInsightsLocalRepository()
         val distantRepository = TestInsightsDistantRepository()
         val uploader = InsightsEventUploader(localRepository, distantRepository)
@@ -116,6 +116,7 @@ public class TestInsightsEventUploader {
             eventsSent += event
             return EventResponse(event, 200)
         }
+
         override val apiKey = APIKey("apiKey")
         override val applicationID = ApplicationID("applicationID")
     }

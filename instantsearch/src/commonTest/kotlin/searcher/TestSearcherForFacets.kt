@@ -1,9 +1,10 @@
 package searcher
 
-import blocking
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearchForFacets
+import kotlin.test.Test
+import kotlinx.coroutines.test.runTest
 import mockClient
 import respondBadRequest
 import respondJson
@@ -12,7 +13,6 @@ import shouldBeNull
 import shouldBeTrue
 import shouldEqual
 import shouldNotBeNull
-import kotlin.test.Test
 
 class TestSearcherForFacets {
 
@@ -28,37 +28,37 @@ class TestSearcherForFacets {
     private val indexNameError = IndexName("index")
 
     @Test
-    fun searchShouldUpdateLoading() {
+    fun searchShouldUpdateLoading() = runTest {
         val searcher = TestSearcherForFacets(client, indexName, attribute)
         var count = 0
 
         searcher.isLoading.subscribe { if (it) count++ }
         searcher.isLoading.value.shouldBeFalse()
-        blocking { searcher.searchAsync().join() }
+        searcher.searchAsync().join()
         count shouldEqual 1
     }
 
     @Test
-    fun searchShouldUpdateResponse() {
+    fun searchShouldUpdateResponse() = runTest {
         val searcher = TestSearcherForFacets(client, indexName, attribute)
         var responded = false
 
         searcher.response.subscribe { responded = true }
         searcher.response.value.shouldBeNull()
-        blocking { searcher.searchAsync().join() }
+        searcher.searchAsync().join()
         searcher.response.value shouldEqual response
         responded.shouldBeTrue()
         searcher.error.value.shouldBeNull()
     }
 
     @Test
-    fun searchShouldUpdateError() {
+    fun searchShouldUpdateError() = runTest {
         val searcher = TestSearcherForFacets(clientError, indexNameError, attribute)
         var error = false
 
         searcher.error.subscribe { error = true }
         searcher.error.value.shouldBeNull()
-        blocking { searcher.searchAsync().join() }
+        searcher.searchAsync().join()
         searcher.error.value.shouldNotBeNull()
         searcher.response.value.shouldBeNull()
         error.shouldBeTrue()

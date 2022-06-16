@@ -1,17 +1,17 @@
 package filter.facet
 
-import blocking
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.filter.facet.connectSearcherForFacet
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.response.ResponseSearchForFacets
 import com.algolia.search.model.search.Facet
+import kotlin.test.Test
+import kotlinx.coroutines.test.runTest
 import mockClient
 import respondJson
 import searcher.TestSearcherForFacets
 import shouldEqual
-import kotlin.test.Test
 
 class TestFacetListConnectSearcherForFacets {
 
@@ -39,13 +39,13 @@ class TestFacetListConnectSearcherForFacets {
     }
 
     @Test
-    fun onResponseChangedShouldUpdateItems() {
+    fun onResponseChangedShouldUpdateItems() = runTest {
         val viewModel = FacetListViewModel()
         val searcher = TestSearcherForFacets(client, indexName, attribute)
         val connection = viewModel.connectSearcherForFacet(searcher)
 
         connection.connect()
-        blocking { searcher.searchAsync().join() }
+        searcher.searchAsync().join()
         viewModel.items.value shouldEqual facets
     }
 }

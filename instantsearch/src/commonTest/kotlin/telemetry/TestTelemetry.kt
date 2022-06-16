@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package telemetry
 
 import com.algolia.instantsearch.ExperimentalInstantSearch
@@ -107,7 +109,6 @@ class TestTelemetry { // instrumented because it uses android's Base64
         assertEquals(false, component.isConnector)
     }
 
-    @Suppress("DEPRECATION")
     @Test
     fun testAnswersSearcher() {
         SearcherAnswers(client.initIndex(indexName), requestOptions = RequestOptions())

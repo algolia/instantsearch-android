@@ -1,16 +1,16 @@
 package loading
 
-import blocking
 import com.algolia.instantsearch.core.loading.LoadingViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.loading.connectSearcher
 import com.algolia.search.model.IndexName
+import kotlin.test.Test
+import kotlinx.coroutines.test.runTest
 import mockClient
 import searcher.MockSearcher
 import searcher.TestSearcherSingle
 import shouldBeFalse
 import shouldEqual
-import kotlin.test.Test
 
 class TestLoadingConnectSearcher {
 
@@ -32,7 +32,7 @@ class TestLoadingConnectSearcher {
     }
 
     @Test
-    fun onLoadingChangedShouldSetItem() {
+    fun onLoadingChangedShouldSetItem() = runTest {
         val debouncer = Debouncer(100)
         val searcher = TestSearcherSingle(client, indexName)
         val viewModel = LoadingViewModel()
@@ -42,12 +42,12 @@ class TestLoadingConnectSearcher {
         viewModel.isLoading.value.shouldBeFalse()
         connection.connect()
         searcher.isLoading.value = true
-        blocking { debouncer.job!!.join() }
+        debouncer.job!!.join()
         viewModel.isLoading.value shouldEqual expected
     }
 
     @Test
-    fun onEventSentShouldCallSearch() {
+    fun onEventSentShouldCallSearch() = runTest {
         val searcher = MockSearcher()
         val viewModel = LoadingViewModel()
         val debouncer = Debouncer(200)
@@ -56,7 +56,7 @@ class TestLoadingConnectSearcher {
         searcher.searchCount shouldEqual 0
         connection.connect()
         viewModel.eventReload.send(Unit)
-        blocking { searcher.job?.join() }
+        searcher.job?.join()
         searcher.searchCount shouldEqual 1
     }
 }

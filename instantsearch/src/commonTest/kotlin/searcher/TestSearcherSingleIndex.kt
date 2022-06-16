@@ -1,7 +1,8 @@
 package searcher
 
-import blocking
 import com.algolia.search.model.IndexName
+import kotlin.test.Test
+import kotlinx.coroutines.test.runTest
 import mockClient
 import respondBadRequest
 import responseSearch
@@ -10,7 +11,6 @@ import shouldBeNull
 import shouldBeTrue
 import shouldEqual
 import shouldNotBeNull
-import kotlin.test.Test
 
 class TestSearcherSingleIndex {
 
@@ -20,37 +20,37 @@ class TestSearcherSingleIndex {
     private val indexNameError = IndexName("index")
 
     @Test
-    fun searchShouldUpdateLoading() {
+    fun searchShouldUpdateLoading() = runTest {
         val searcher = TestSearcherSingle(client, indexName)
         var count = 0
 
         searcher.isLoading.subscribe { if (it) count++ }
         searcher.isLoading.value.shouldBeFalse()
-        blocking { searcher.searchAsync().join() }
+        searcher.searchAsync().join()
         count shouldEqual 1
     }
 
     @Test
-    fun searchShouldUpdateResponse() {
+    fun searchShouldUpdateResponse() = runTest {
         val searcher = TestSearcherSingle(client, indexName)
         var responded = false
 
         searcher.response.subscribe { responded = true }
         searcher.response.value.shouldBeNull()
-        blocking { searcher.searchAsync().join() }
+        searcher.searchAsync().join()
         searcher.response.value shouldEqual responseSearch
         responded.shouldBeTrue()
         searcher.error.value.shouldBeNull()
     }
 
     @Test
-    fun searchShouldUpdateError() {
+    fun searchShouldUpdateError() = runTest {
         val searcher = TestSearcherSingle(clientError, indexNameError)
         var error = false
 
         searcher.error.subscribe { error = true }
         searcher.error.value.shouldBeNull()
-        blocking { searcher.searchAsync().join() }
+        searcher.searchAsync().join()
         searcher.error.value.shouldNotBeNull()
         searcher.response.value.shouldBeNull()
         error.shouldBeTrue()

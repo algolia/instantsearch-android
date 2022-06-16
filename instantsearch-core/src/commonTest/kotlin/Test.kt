@@ -1,6 +1,4 @@
-import kotlin.reflect.KClass
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
@@ -49,12 +47,4 @@ internal fun <T> Collection<T>.shouldNotBeEmpty() {
 
 internal infix fun <T> Collection<T>.shouldContain(element: T) {
     this.contains(element)
-}
-
-internal infix fun <T : Throwable> KClass<T>.shouldFailWith(block: suspend () -> Unit): T {
-    return assertFailsWith(this, null) {
-        blocking {
-            block()
-        }
-    }
 }

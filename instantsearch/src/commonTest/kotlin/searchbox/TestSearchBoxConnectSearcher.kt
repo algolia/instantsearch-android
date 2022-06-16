@@ -1,13 +1,13 @@
 package searchbox
 
-import blocking
 import com.algolia.instantsearch.core.searchbox.SearchBoxViewModel
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.searchbox.SearchMode
 import com.algolia.instantsearch.searchbox.connectSearcher
+import kotlin.test.Test
+import kotlinx.coroutines.test.runTest
 import searcher.MockSearcher
 import shouldEqual
-import kotlin.test.Test
 
 class TestSearchBoxConnectSearcher {
 
@@ -15,33 +15,33 @@ class TestSearchBoxConnectSearcher {
     private val debouncer = Debouncer(100)
 
     @Test
-    fun searchAsYouType() {
+    fun searchAsYouType() = runTest {
         val searcher = MockSearcher()
         val viewModel = SearchBoxViewModel()
         val connection = viewModel.connectSearcher(searcher, SearchMode.AsYouType, debouncer)
 
         connection.connect()
         viewModel.query.value = text
-        blocking { debouncer.job!!.join() }
+        debouncer.job!!.join()
         searcher.searchCount shouldEqual 1
         searcher.string shouldEqual text
     }
 
     @Test
-    fun onEventSend() {
+    fun onEventSend() = runTest {
         val searcher = MockSearcher()
         val viewModel = SearchBoxViewModel()
         val connection = viewModel.connectSearcher(searcher, SearchMode.OnSubmit, debouncer)
 
         connection.connect()
         viewModel.eventSubmit.send(text)
-        blocking { searcher.job!!.join() }
+        searcher.job!!.join()
         searcher.searchCount shouldEqual 1
         searcher.string shouldEqual text
     }
 
     @Test
-    fun debounce() {
+    fun debounce() = runTest {
         val searcher = MockSearcher()
         val viewModel = SearchBoxViewModel()
         val connection = viewModel.connectSearcher(searcher, SearchMode.AsYouType, debouncer)
@@ -50,7 +50,7 @@ class TestSearchBoxConnectSearcher {
         viewModel.query.value = "a"
         viewModel.query.value = "ab"
         viewModel.query.value = "abc"
-        blocking { debouncer.job!!.join() }
+        debouncer.job!!.join()
         searcher.searchCount shouldEqual 1
         searcher.string shouldEqual "abc"
     }
