@@ -27,7 +27,7 @@ androidx-compose-material-icons-extended = { group = "androidx.compose.material"
 androidx-compose-paging = { group = "androidx.paging", name = "paging-compose", version = "1.0.0-alpha15" }
 androidx-paging3 = { group = "androidx.paging", name = "paging-runtime", version = "3.1.1" }
 androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
-androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.7.0" }
+androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.8.0" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.4.2" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version = "1.2.1" }
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version = "1.1.0" }
