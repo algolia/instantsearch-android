@@ -21,7 +21,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.highlighting.toAnnotatedString
 import com.algolia.instantsearch.compose.hits.HitsState
-import com.algolia.instantsearch.compose.searchbox.SearchBox
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchBox
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.highlighting.DefaultPostTag
 import com.algolia.instantsearch.core.highlighting.DefaultPreTag

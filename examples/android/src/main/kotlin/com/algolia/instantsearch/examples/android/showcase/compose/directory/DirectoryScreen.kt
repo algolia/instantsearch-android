@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.hits.HitsState
-import com.algolia.instantsearch.compose.searchbox.SearchBox
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchBox
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.compose.searchbox.defaultSearchBoxColors
 import com.algolia.instantsearch.examples.android.R

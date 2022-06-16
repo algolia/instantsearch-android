@@ -1,7 +1,10 @@
-package com.algolia.instantsearch.compose.searchbox
+package com.algolia.instantsearch.examples.androidtv.ui
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Icon
 import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.LocalTextStyle
@@ -11,7 +14,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -21,23 +28,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.R
-import com.algolia.instantsearch.compose.searchbox.internal.DefaultLeadingIcon
-import com.algolia.instantsearch.compose.searchbox.internal.DefaultTrailingIcon
+import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 
-/**
- * Search Box compose component.
- *
- * @param modifier Modifier to be applied
- * @param textStyle the style to be applied to the input text
- * @param searchBoxState search box query component
- * @param onValueChange callback triggered on each text update
- * @param colors will be used to resolve color of the text, content and background
- * @param placeHolderText the placeholder to be displayed when the the input text is empty
- * @param elevation controls the size of the shadow below the surface
- */
-@Deprecated("implement your search box manually instead")
 @Composable
-public fun SearchBox(
+fun SearchBox(
     modifier: Modifier = Modifier,
     searchBoxState: SearchBoxState = SearchBoxState(),
     onValueChange: ((String, Boolean) -> Unit)? = null,
@@ -77,7 +71,7 @@ public fun SearchBox(
 }
 
 @Composable
-public fun defaultSearchBoxColors(
+fun defaultSearchBoxColors(
     textColor: Color = LocalContentColor.current.copy(LocalContentAlpha.current),
     backgroundColor: Color = MaterialTheme.colors.surface,
     onBackgroundColor: Color = MaterialTheme.colors.onSurface,
@@ -91,4 +85,28 @@ public fun defaultSearchBoxColors(
         leadingIconColor = onBackgroundColor,
         placeholderColor = onBackgroundColor.copy(alpha = 0.2f),
     )
+}
+
+@Composable
+fun DefaultLeadingIcon() {
+    Icon(
+        imageVector = Icons.Filled.Search,
+        contentDescription = null,
+    )
+}
+
+@Composable
+fun DefaultTrailingIcon(searchBoxState: SearchBoxState) {
+    if (searchBoxState.query.isNotEmpty()) {
+        Icon(
+            imageVector = Icons.Default.Clear,
+            contentDescription = null,
+            tint = MaterialTheme.colors.onBackground,
+            modifier = Modifier.clickable(
+                onClick = { searchBoxState.setText(null) },
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+            )
+        )
+    }
 }
