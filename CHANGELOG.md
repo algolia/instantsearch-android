@@ -1,3 +1,19 @@
+# 3.1.0
+
+### Added
+- Searchers: add `coroutineDispatcher` param (#306)
+- Searchers: log exceptions' stacktrace (#309, #310)
+- Insights: timestamps generation configuration (#311)
+
+### Changed
+- Update `triggerSearchFor` defaults (#306)
+- Update Algolia Kotlin API client to `2.1.0` (#334) 
+
+### Deprecated
+- `SearcherPlaces` (#315)
+- `SearcherAnswers` (#316)
+- `SearchBox` for compose (#312)
+
 # 3.0.0
 
 ### Added
