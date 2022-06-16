@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.examples.androidtv
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -23,9 +22,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
 import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.compose.searchbox.defaultSearchBoxColors
@@ -71,16 +71,12 @@ private fun Hits(modifier: Modifier = Modifier, hitsState: HitsState<Show>) {
 @Composable
 private fun HitRow(modifier: Modifier = Modifier, hit: Show) {
     Row(modifier.padding(12.dp)) {
-        Image(
+        AsyncImage(
             modifier = Modifier.size(width = 84.dp, height = 128.dp),
+            model = hit.posterUrl,
+            placeholder = painterResource(id = android.R.drawable.ic_menu_report_image),
+            error = painterResource(id = android.R.drawable.ic_menu_report_image),
             contentScale = ContentScale.Crop,
-            painter = rememberImagePainter(
-                data = hit.posterUrl,
-                builder = {
-                    placeholder(android.R.drawable.ic_menu_report_image)
-                    error(android.R.drawable.ic_menu_report_image)
-                },
-            ),
             contentDescription = hit.title,
         )
 

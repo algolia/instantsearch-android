@@ -24,7 +24,6 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose" }
-androidx-compose-paging = { group = "androidx.paging", name = "paging-compose", version = "1.0.0-alpha15" }
 androidx-paging3 = { group = "androidx.paging", name = "paging-runtime", version = "3.1.1" }
 androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.8.0" }
