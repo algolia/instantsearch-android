@@ -3,7 +3,7 @@ kotlin = "1.6.10"
 algolia-client = "2.0.0-mt"
 algolia-telemetry = "0.1.0"
 compose = "1.1.1"
-coroutines = "1.6.1"
+coroutines = "1.6.2"
 ktor = "2.0.1"
 work = "2.7.1"
 
