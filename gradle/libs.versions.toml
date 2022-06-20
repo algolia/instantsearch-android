@@ -37,7 +37,7 @@ test-androidx-ext = { group = "androidx.test.ext", name = "junit", version = "1.
 test-androidx-runner = { group = "androidx.test", name = "runner", version = "1.4.0" }
 test-androidx-espresso = { group = "androidx.test.espresso", name = "espresso", version = "3.2.0" }
 test-androidx-work = { group = "androidx.work", name = "work-testing", version.ref = "work" }
-test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version = "1.6.2" }
+test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 test-ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
 test-kotlin-common = { module = "org.jetbrains.kotlin:kotlin-test-common" }
 test-kotlin-annotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common" }
