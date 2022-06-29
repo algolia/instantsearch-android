@@ -25,13 +25,14 @@ class TestHierarchicalNode {
     private val category312 = "Clothing > Men > Hats".toNode()
     private val category321 = "Clothing > Women > Shoes".toNode()
     private val category322 = "Clothing > Women > Bags".toNode()
+    private val separator = " > "
 
     private val isMatchingString: (String, Node<String>, String) -> Boolean = { str, node, _ ->
         str.startsWith(node.content)
     }
 
     private fun List<Node<String>>.findNode(content: String) =
-        findNode(content = content, isMatchingNode = isMatchingString)
+        findNode(content = content, separator = separator, isMatchingNode = isMatchingString)
 
     @Test
     fun findNodeShouldBeNull() {
@@ -65,7 +66,7 @@ class TestHierarchicalNode {
     @Test
     fun toNodes() {
         val values = listOf(category1.content, category2.content, category21.content, category22.content)
-        val nodes = values.toNodes(isMatchingString)
+        val nodes = values.toNodes(separator, isMatchingString)
         nodes shouldEqual Tree(
             mutableListOf(category1, category2.copy(children = mutableListOf(category21, category22)))
         )
@@ -74,7 +75,7 @@ class TestHierarchicalNode {
     @Test
     fun toNodesWithSelectedNode() {
         val values = listOf(category1, category2, category21, category22).map { it.content }
-        val nodes = values.toNodes(isMatchingString) {
+        val nodes = values.toNodes(separator, isMatchingString) {
             category21.content == it
         }
 
@@ -89,7 +90,8 @@ class TestHierarchicalNode {
             category311, category312, category321, category322
         )
 
-        nodes.asTree(" . ", isMatchingString) shouldEqual Tree(
+
+        nodes.asTree(separator, isMatchingString) shouldEqual Tree(
             mutableListOf(
                 category1,
                 category2.copy(children = mutableListOf(category21, category22)),

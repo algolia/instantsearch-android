@@ -1,12 +1,10 @@
 package com.algolia.instantsearch.core.tree
 
-import com.algolia.instantsearch.core.tree.internal.DefaultSeparator
-
 public fun <T> Tree<T>.findNode(
+    separator: String,
     content: T,
-    separator: String = DefaultSeparator,
     isMatchingNode: (T, Node<T>, String) -> Boolean
-): Node<T>? = children.findNode(content, separator, isMatchingNode)
+): Node<T>? = children.findNode(separator, content, isMatchingNode)
 
 public fun <T> Tree<T>.findNode(
     content: T,
@@ -14,13 +12,13 @@ public fun <T> Tree<T>.findNode(
 ): Node<T>? = children.findNode(content, isMatchingNode)
 
 public fun <T> List<Node<T>>.findNode(
+    separator: String,
     content: T,
-    separator: String = DefaultSeparator,
     isMatchingNode: (T, Node<T>, String) -> Boolean
 ): Node<T>? {
     forEach { node ->
         if (isMatchingNode(content, node, separator))
-            return node.children.findNode(content, separator, isMatchingNode) ?: node
+            return node.children.findNode(separator, content, isMatchingNode) ?: node
     }
     return null
 }
@@ -36,8 +34,8 @@ public fun <T> List<Node<T>>.findNode(
 }
 
 public fun <T> List<T>.toNodes(
+    separator: String,
     isMatchingNode: (T, Node<T>, String) -> Boolean,
-    separator: String = DefaultSeparator,
     isSelected: ((T) -> Boolean)? = null
 ): Tree<T> {
     return map { Node(it, isSelected != null && isSelected.invoke(it)) }.asTree(separator, isMatchingNode)
@@ -51,11 +49,11 @@ public fun <T> List<T>.toNodes(
 }
 
 public fun <T> List<Node<T>>.asTree(
-    separator: String = DefaultSeparator,
+    separator: String,
     isMatchingNode: (T, Node<T>, String) -> Boolean
 ): Tree<T> = Tree<T>().also { tree ->
     forEach { node ->
-        val root = tree.findNode(node.content, separator, isMatchingNode)
+        val root = tree.findNode(separator, node.content, isMatchingNode)
 
         if (root != null) {
             root.children += node

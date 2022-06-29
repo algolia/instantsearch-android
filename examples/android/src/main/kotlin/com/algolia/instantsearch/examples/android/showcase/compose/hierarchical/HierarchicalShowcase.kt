@@ -5,10 +5,19 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
@@ -18,20 +27,32 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.hierarchical.HierarchicalState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.hierarchical.HierarchicalConnector
-import com.algolia.instantsearch.hierarchical.HierarchicalItem
-import com.algolia.instantsearch.hierarchical.DefaultHierarchicalPresenter
-import com.algolia.instantsearch.hierarchical.connectView
-import com.algolia.instantsearch.searcher.connectFilterState
-import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.examples.android.showcase.compose.*
+import com.algolia.instantsearch.core.tree.Node
+import com.algolia.instantsearch.examples.android.showcase.compose.filterColors
+import com.algolia.instantsearch.examples.android.showcase.compose.showcaseTitle
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.White
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilter
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.TitleTopBar
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.hierarchical.DefaultHierarchicalPresenter
+import com.algolia.instantsearch.hierarchical.HierarchicalConnector
+import com.algolia.instantsearch.hierarchical.HierarchicalItem
+import com.algolia.instantsearch.hierarchical.HierarchicalPresenter
+import com.algolia.instantsearch.hierarchical.HierarchicalTree
+import com.algolia.instantsearch.hierarchical.connectView
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.search.client.ClientSearch
+import com.algolia.search.configuration.ConfigurationSearch
+import com.algolia.search.logging.LogLevel
+import com.algolia.search.logging.Logger
+import com.algolia.search.model.APIKey
+import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
+import com.algolia.search.model.IndexName
+import com.algolia.search.model.search.Query
 
 class HierarchicalShowcase : AppCompatActivity() {
 
@@ -44,7 +65,33 @@ class HierarchicalShowcase : AppCompatActivity() {
         hierarchicalCategoryLvl1,
         hierarchicalCategoryLvl2
     )
-    private val searcher = HitsSearcher(client, stubIndexName)
+
+    val languageTradeInnCode = "eng"
+    val hierarchicalCategoriesAttribute = Attribute("hierarchicalCategories")
+    val hierarchicalCategoriesAttributeLvl1 = Attribute("$hierarchicalCategoriesAttribute.${languageTradeInnCode}.lvl1")
+    val hierarchicalCategoriesAttributeLvl2 = Attribute("$hierarchicalCategoriesAttribute.${languageTradeInnCode}.lvl2")
+    val hierarchicalCategoriesAttributes = listOf(
+        hierarchicalCategoriesAttributeLvl1,
+        hierarchicalCategoriesAttributeLvl2
+    )
+
+    private val client = ClientSearch(
+        configuration = ConfigurationSearch(
+            applicationID = ApplicationID("N6VYUYLE6W"),
+            apiKey = APIKey("3d27121f3a7b3f34890f408160aa0f04"),
+            logLevel = LogLevel.All,
+            logger = Logger.messageLengthLimiting()
+        )
+    )
+
+    private val searcher = HitsSearcher(
+        client = client,
+        query = Query(
+            attributesToRetrieve = listOf(Attribute("objectID")),
+            attributesToHighlight = listOf(Attribute("objectID"))
+        ),
+        indexName = IndexName("products_search"),
+    )
     private val filterState = FilterState()
     private val separator = " > "
     private val hierarchicalState = HierarchicalState()
@@ -52,7 +99,7 @@ class HierarchicalShowcase : AppCompatActivity() {
         searcher = searcher,
         attribute = hierarchicalCategory,
         filterState = filterState,
-        hierarchicalAttributes = hierarchicalAttributes,
+        hierarchicalAttributes = hierarchicalCategoriesAttributes,
         separator = separator
     )
 
@@ -78,7 +125,7 @@ class HierarchicalShowcase : AppCompatActivity() {
                 HierarchicalScreen()
             }
         }
-        configureSearcher(searcher)
+        //configureSearcher(searcher)
         searcher.searchAsync()
     }
 
@@ -164,5 +211,36 @@ class HierarchicalShowcase : AppCompatActivity() {
         super.onDestroy()
         searcher.cancel()
         connections.clear()
+    }
+}
+
+public class MyHierarchicalPresenter(
+    public val separator: String,
+    public val comparator: Comparator<HierarchicalItem> = Comparator { a, b -> a.facet.value.compareTo(b.facet.value) },
+) : HierarchicalPresenter<List<HierarchicalItem>> {
+
+    override fun invoke(tree: HierarchicalTree): List<HierarchicalItem> {
+        //children.asTree(0, transform).sortedWith(comparator)
+
+        return tree.children.asTree(1) { node, level, _ ->
+            HierarchicalItem(
+                facet = node.content,
+                displayName = node.content.value.split(separator)[level],
+                level = level,
+                isSelected = node.isSelected
+            )
+        }.sortedWith(comparator)
+    }
+
+    private fun <I, O> List<Node<I>>.asTree(
+        level: Int = 0,
+        transform: (Node<I>, Int, Boolean) -> O
+    ): List<O> {
+        return mutableListOf<O>().also { list ->
+            forEach { node ->
+                list += transform(node, level, node.children.isEmpty())
+                list += node.children.asTree(level + 1, transform)
+            }
+        }
     }
 }

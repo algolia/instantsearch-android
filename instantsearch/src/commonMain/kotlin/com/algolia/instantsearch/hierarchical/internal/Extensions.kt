@@ -28,16 +28,16 @@ private val isMatchingFacetNode: (Facet, Node<Facet>, String) -> Boolean =
     }
 
 internal fun HierarchicalTree.findNode(facet: Facet, separator: String = DefaultSeparator) =
-    findNode(facet, separator, isMatchingFacetNode)
+    findNode(separator, facet, isMatchingFacetNode)
 
 internal fun List<HierarchicalNode>.findNode(facet: Facet, separator: String = DefaultSeparator): HierarchicalNode? =
-    findNode(facet, separator, isMatchingFacetNode)
+    findNode(separator, facet, isMatchingFacetNode)
 
 internal fun List<Facet>.toNodes(
     hierarchicalValue: String? = null,
     separator: String = DefaultSeparator
 ): HierarchicalTree {
-    return toNodes(isMatchingFacetNode, separator) { hierarchicalValue != null && it.value == hierarchicalValue }
+    return toNodes(separator, isMatchingFacetNode) { hierarchicalValue != null && it.value == hierarchicalValue }
 }
 
 internal fun List<HierarchicalNode>.asTree(separator: String = DefaultSeparator): HierarchicalTree =
