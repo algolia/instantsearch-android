@@ -23,7 +23,7 @@ class TestTreeConnectView {
     private val expectedSelection = shoesRunning
 
     private val presenter: TreePresenter<String, List<String>> = {
-        it.asTree(Comparator { a, b -> a.compareTo(b) }) { node, _, _ ->
+        it.asTree({ a, b -> a.compareTo(b) }) { node, _, _ ->
             node.content
         }
     }

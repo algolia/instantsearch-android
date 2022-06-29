@@ -9,9 +9,11 @@ import com.algolia.instantsearch.hierarchical.HierarchicalTree
 import com.algolia.search.model.search.Facet
 import kotlin.math.min
 
-private val isMatchingFacetNode: (Facet, Node<Facet>) -> Boolean =
-    { content, node ->
-        val regexSeparator = Regex(" . ")
+internal const val DefaultSeparator = " . "
+
+private val isMatchingFacetNode: (Facet, Node<Facet>, String) -> Boolean =
+    { content, node, pattern ->
+        val regexSeparator = Regex(pattern)
         val splitContent: List<String> = content.value.split(regexSeparator)
         val splitNode: List<String> = node.content.value.split(regexSeparator)
         var isMatching = true
@@ -25,12 +27,18 @@ private val isMatchingFacetNode: (Facet, Node<Facet>) -> Boolean =
         isMatching
     }
 
-internal fun HierarchicalTree.findNode(facet: Facet) = findNode(facet, isMatchingFacetNode)
+internal fun HierarchicalTree.findNode(facet: Facet, separator: String = DefaultSeparator) =
+    findNode(facet, separator, isMatchingFacetNode)
 
-internal fun List<HierarchicalNode>.findNode(facet: Facet): HierarchicalNode? = findNode(facet, isMatchingFacetNode)
+internal fun List<HierarchicalNode>.findNode(facet: Facet, separator: String = DefaultSeparator): HierarchicalNode? =
+    findNode(facet, separator, isMatchingFacetNode)
 
-internal fun List<Facet>.toNodes(hierarchicalValue: String? = null): HierarchicalTree {
-    return toNodes(isMatchingFacetNode) { hierarchicalValue != null && it.value == hierarchicalValue }
+internal fun List<Facet>.toNodes(
+    hierarchicalValue: String? = null,
+    separator: String = DefaultSeparator
+): HierarchicalTree {
+    return toNodes(isMatchingFacetNode, separator) { hierarchicalValue != null && it.value == hierarchicalValue }
 }
 
-internal fun List<HierarchicalNode>.asTree(): HierarchicalTree = asTree(isMatchingFacetNode)
+internal fun List<HierarchicalNode>.asTree(separator: String = DefaultSeparator): HierarchicalTree =
+    asTree(separator, isMatchingFacetNode)

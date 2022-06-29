@@ -5,10 +5,10 @@ import com.algolia.instantsearch.core.tree.Tree
 import com.algolia.instantsearch.core.tree.asTree
 import com.algolia.instantsearch.core.tree.findNode
 import com.algolia.instantsearch.core.tree.toNodes
+import kotlin.test.Test
 import shouldBeNull
 import shouldBeTrue
 import shouldEqual
-import kotlin.test.Test
 
 class TestHierarchicalNode {
 
@@ -26,11 +26,12 @@ class TestHierarchicalNode {
     private val category321 = "Clothing > Women > Shoes".toNode()
     private val category322 = "Clothing > Women > Bags".toNode()
 
-    private val isMatchingString: (String, Node<String>) -> Boolean = { str, node ->
+    private val isMatchingString: (String, Node<String>, String) -> Boolean = { str, node, _ ->
         str.startsWith(node.content)
     }
 
-    private fun List<Node<String>>.findNode(content: String) = findNode(content, isMatchingString)
+    private fun List<Node<String>>.findNode(content: String) =
+        findNode(content = content, isMatchingNode = isMatchingString)
 
     @Test
     fun findNodeShouldBeNull() {
@@ -88,7 +89,7 @@ class TestHierarchicalNode {
             category311, category312, category321, category322
         )
 
-        nodes.asTree(isMatchingString) shouldEqual Tree(
+        nodes.asTree(" . ", isMatchingString) shouldEqual Tree(
             mutableListOf(
                 category1,
                 category2.copy(children = mutableListOf(category21, category22)),
