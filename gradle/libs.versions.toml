@@ -4,7 +4,7 @@ algolia-client = "2.1.0"
 algolia-telemetry = "0.1.0"
 compose = "1.1.1"
 coroutines = "1.6.3"
-ktor = "2.0.2"
+ktor = "2.0.3"
 work = "2.7.1"
 
 [libraries]
