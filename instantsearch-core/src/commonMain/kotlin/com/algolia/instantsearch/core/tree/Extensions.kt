@@ -1,9 +1,27 @@
 package com.algolia.instantsearch.core.tree
 
 public fun <T> Tree<T>.findNode(
+    separator: String,
+    content: T,
+    isMatchingNode: (T, Node<T>, String) -> Boolean
+): Node<T>? = children.findNode(separator, content, isMatchingNode)
+
+public fun <T> Tree<T>.findNode(
     content: T,
     isMatchingNode: (T, Node<T>) -> Boolean
 ): Node<T>? = children.findNode(content, isMatchingNode)
+
+public fun <T> List<Node<T>>.findNode(
+    separator: String,
+    content: T,
+    isMatchingNode: (T, Node<T>, String) -> Boolean
+): Node<T>? {
+    forEach { node ->
+        if (isMatchingNode(content, node, separator))
+            return node.children.findNode(separator, content, isMatchingNode) ?: node
+    }
+    return null
+}
 
 public fun <T> List<Node<T>>.findNode(
     content: T,
@@ -16,10 +34,33 @@ public fun <T> List<Node<T>>.findNode(
 }
 
 public fun <T> List<T>.toNodes(
+    separator: String,
+    isMatchingNode: (T, Node<T>, String) -> Boolean,
+    isSelected: ((T) -> Boolean)? = null
+): Tree<T> {
+    return map { Node(it, isSelected != null && isSelected.invoke(it)) }.asTree(separator, isMatchingNode)
+}
+
+public fun <T> List<T>.toNodes(
     isMatchingNode: (T, Node<T>) -> Boolean,
     isSelected: ((T) -> Boolean)? = null
 ): Tree<T> {
     return map { Node(it, isSelected != null && isSelected.invoke(it)) }.asTree(isMatchingNode)
+}
+
+public fun <T> List<Node<T>>.asTree(
+    separator: String,
+    isMatchingNode: (T, Node<T>, String) -> Boolean
+): Tree<T> = Tree<T>().also { tree ->
+    forEach { node ->
+        val root = tree.findNode(separator, node.content, isMatchingNode)
+
+        if (root != null) {
+            root.children += node
+        } else {
+            tree.children += node
+        }
+    }
 }
 
 public fun <T> List<Node<T>>.asTree(

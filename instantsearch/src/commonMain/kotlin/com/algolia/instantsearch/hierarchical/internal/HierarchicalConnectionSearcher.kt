@@ -22,7 +22,7 @@ internal data class HierarchicalConnectionSearcher(
                 .mapNotNull { facets[it]?.toMutableList() }
                 .filterUnprefixed()
                 .flatten()
-                .toNodes(selectedHierarchicalValue)
+                .toNodes(selectedHierarchicalValue, viewModel.separator)
         }
     }
 
