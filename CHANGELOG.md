@@ -1,3 +1,11 @@
+# 3.1.1
+
+### Changed
+- Update Ktor to `2.0.3`
+
+### Fixed
+- Support of hierarchical nodes with specific separator
+
 # 3.1.0
 
 ### Added
