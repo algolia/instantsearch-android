@@ -36,15 +36,25 @@ public open class HierarchicalViewModel(
      */
     override fun computeSelections(key: String) {
         val selections = key.toSelectionList()
-        val hierarchicalPath = hierarchicalAttributes.mapIndexed { index, item ->
-            selections.getOrNull(index)?.let { item to it }
-        }.filterNotNull()
+        val updatedHierarchicalPath = hierarchicalAttributes
+            .mapIndexed { index, item -> selections.getOrNull(index)?.let { item to it } }
+            .filterNotNull()
+            .updateIfDeselect(hierarchicalPath.value)
 
-        this.hierarchicalPath.value = hierarchicalPath
-        eventHierarchicalPath.send(hierarchicalPath)
+        hierarchicalPath.value = updatedHierarchicalPath
+        eventHierarchicalPath.send(updatedHierarchicalPath)
     }
 
     private fun String.toSelectionList(): List<String> = split(separator).fold(listOf()) { acc, s ->
         acc + if (acc.isEmpty()) s else acc.last() + separator + s
+    }
+
+    /**
+     * Remove the last item from the hierarchical path if it's a deselection operation.
+     * Returning an empty list indicates that no item is selected.
+     */
+    private fun HierarchicalPath.updateIfDeselect(current: HierarchicalPath): HierarchicalPath {
+        if (this != current) return this // new path selected, nothing to do
+        return dropLast(1)
     }
 }

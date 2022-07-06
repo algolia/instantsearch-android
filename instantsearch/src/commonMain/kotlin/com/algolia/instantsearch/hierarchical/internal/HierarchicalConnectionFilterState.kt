@@ -23,6 +23,11 @@ internal data class HierarchicalConnectionFilterState(
 
     private val updateFilterState: Callback<HierarchicalPath> = { selections ->
         filterState.notify {
+            if (selections.isEmpty()) { // No item selected
+                remove(viewModel.attribute)
+                return@notify
+            }
+
             val last = selections.last()
             val filter = Filter.Facet(last.first, last.second)
             val path = selections.map { Filter.Facet(it.first, it.second) }
