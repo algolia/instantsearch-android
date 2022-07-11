@@ -1,3 +1,8 @@
+# 3.1.2
+
+### Fixed
+- hierarchical: deselect item (#342)
+
 # 3.1.1
 
 ### Changed
