@@ -9,9 +9,9 @@ import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
 import com.algolia.instantsearch.hierarchical.connectFilterState
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
+import kotlin.test.Test
 import shouldBeNull
 import shouldEqual
-import kotlin.test.Test
 
 class TestHierarchicalConnectFilterState {
 
@@ -87,5 +87,33 @@ class TestHierarchicalConnectFilterState {
             )
         }
         viewModel.selections.value shouldEqual listOf(facetBags.value)
+    }
+
+    @Test
+    fun onDeselectShouldUpdateFilterState() {
+        val viewModel = HierarchicalViewModel(category, categories, separator, tree)
+        val filterState = FilterState()
+        val connection = viewModel.connectFilterState(filterState)
+        connection.connect()
+
+        // Select from last level (lvl1)
+        viewModel.computeSelections(facetShoesRunning.value)
+        filterState.getHierarchicalFilters(category) shouldEqual HierarchicalFilter(
+            attributes = viewModel.hierarchicalAttributes,
+            filter = filterShoesRunning,
+            path = listOf(filterShoes, filterShoesRunning)
+        )
+
+        // Deselect the same item (lvl1) -> get up one level (lvl0)
+        viewModel.computeSelections(facetShoesRunning.value)
+        filterState.getHierarchicalFilters(category) shouldEqual HierarchicalFilter(
+            attributes = viewModel.hierarchicalAttributes,
+            filter = filterShoes,
+            path = listOf(filterShoes)
+        )
+
+        // Deselect the last item from (lvl0)
+        viewModel.computeSelections(facetShoes.value)
+        filterState.getHierarchicalFilters(category) shouldEqual null // corresponding filter should be removed
     }
 }
