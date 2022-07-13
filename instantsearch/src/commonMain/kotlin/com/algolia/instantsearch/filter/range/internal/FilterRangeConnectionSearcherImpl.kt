@@ -43,12 +43,13 @@ internal class FilterRangeConnectionSearcherImpl<T>(
     override fun connect() {
         super.connect()
         searcher.query.updateQueryFacets(attribute)
-        searcher.response.subscribePast(responseSubscription)
+        searcher.response.subscribePastOnce(subscription = responseSubscription)
     }
 
     private fun CommonSearchParameters.updateQueryFacets(attribute: Attribute) {
         val current = facets?.toMutableSet() ?: mutableSetOf()
-        facets = if (!current.contains(attribute)) current + attribute else setOf(attribute)
+        current.add(attribute)
+        facets = current
     }
 
     override fun disconnect() {
