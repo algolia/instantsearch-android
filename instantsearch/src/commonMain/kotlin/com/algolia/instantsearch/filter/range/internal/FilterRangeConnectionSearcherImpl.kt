@@ -38,6 +38,9 @@ internal class FilterRangeConnectionSearcherImpl<T>(
             val max = mapper(it.max)
             Range(min, max)
         }
+        if (range.value == null) { // if no range is specified, match the bounds.
+            range.value = bounds.value
+        }
     }
 
     override fun connect() {
