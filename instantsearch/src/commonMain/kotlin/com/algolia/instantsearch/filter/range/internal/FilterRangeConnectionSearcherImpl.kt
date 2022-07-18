@@ -50,9 +50,7 @@ internal class FilterRangeConnectionSearcherImpl<T>(
     }
 
     private fun CommonSearchParameters.updateQueryFacets(attribute: Attribute) {
-        val current = facets?.toMutableSet() ?: mutableSetOf()
-        current.add(attribute)
-        facets = current
+        facets = (facets?.toMutableSet() ?: mutableSetOf()).apply { add(attribute) }
     }
 
     override fun disconnect() {

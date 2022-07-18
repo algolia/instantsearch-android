@@ -47,17 +47,10 @@ public data class FilterRangeConnector<T>(
         range: ClosedRange<T>? = null,
     ) : this(
         FilterRangeViewModel(
-            range = range?.let { Range(it) } ?: bounds?.let { Range(it) },
-            bounds = bounds?.let { Range(it) } ?: range?.let { Range(it) }
+            range = range?.let { Range(it) },
+            bounds = bounds?.let { Range(it) }
         ),
         filterState, attribute
-    )
-
-    public constructor(
-        filterState: FilterState,
-        attribute: Attribute
-    ) : this(
-        FilterRangeViewModel(), filterState, attribute
     )
 
     private val connectionFilterState = viewModel.connectFilterState(filterState, attribute, groupID)
