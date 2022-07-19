@@ -38,17 +38,19 @@ internal class FilterRangeConnectionSearcherImpl<T>(
             val max = mapper(it.max)
             Range(min, max)
         }
+        if (range.value == null) { // if no range is specified, match the bounds.
+            range.value = bounds.value
+        }
     }
 
     override fun connect() {
         super.connect()
         searcher.query.updateQueryFacets(attribute)
-        searcher.response.subscribePast(responseSubscription)
+        searcher.response.subscribePastOnce(subscription = responseSubscription)
     }
 
     private fun CommonSearchParameters.updateQueryFacets(attribute: Attribute) {
-        val current = facets?.toMutableSet() ?: mutableSetOf()
-        facets = if (!current.contains(attribute)) current + attribute else setOf(attribute)
+        facets = (facets?.toMutableSet() ?: mutableSetOf()).apply { add(attribute) }
     }
 
     override fun disconnect() {

@@ -26,7 +26,9 @@ internal data class FilterRangeConnectionFilterState<T>(
             .filterIsInstance<Filter.Numeric.Value.Range>()
             .firstOrNull()
 
-        viewModel.range.value = if (filter != null) Range(filter.lowerBound as T, filter.upperBound as T) else null
+        if (filter != null) { // avoid default range override to null
+            viewModel.range.value = Range(filter.lowerBound as T, filter.upperBound as T)
+        }
     }
     private val updateFilterState: Callback<Range<T>?> = { range ->
         filterState.notify {

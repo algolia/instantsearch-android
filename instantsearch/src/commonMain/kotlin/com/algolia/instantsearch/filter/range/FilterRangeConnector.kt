@@ -26,6 +26,15 @@ public data class FilterRangeConnector<T>(
 ) : AbstractConnection() where T : Number, T : Comparable<T> {
 
     /**
+     * ```
+     * | Bounds/Range | connectSearcher | Behavior                                                                                                       |
+     * |--------------|-----------------|----------------------------------------------------------------------------------------------------------------|
+     * | Yes          | Yes             | The bounds retrieved from the first search operation, the range will match the value set using the constructor |
+     * | No           | Yes             | The bounds retrieved from the first search operation, the range will match the bounds                          |
+     * | Yes          | No              | The bounds/range from the constructor are used                                                                 |
+     * | No           | No              | Undefined behavior                                                                                             |
+     * ```
+     *
      * @param filterState the FilterState that will hold your filters
      * @param attribute the attribute to filter
      * @param bounds the limits of the acceptable range within which values will be coerced
