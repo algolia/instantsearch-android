@@ -1,12 +1,15 @@
 package com.algolia.instantsearch.extension
 
-internal expect object Console {
+import com.algolia.instantsearch.InternalInstantSearch
 
-    fun debug(message: String, throwable: Throwable? = null)
+@InternalInstantSearch
+public expect object Console {
 
-    fun info(message: String, throwable: Throwable? = null)
+    public fun debug(message: String, throwable: Throwable? = null)
 
-    fun warn(message: String, throwable: Throwable? = null)
+    public fun info(message: String, throwable: Throwable? = null)
 
-    fun error(message: String, throwable: Throwable? = null)
+    public fun warn(message: String, throwable: Throwable? = null)
+
+    public fun error(message: String, throwable: Throwable? = null)
 }

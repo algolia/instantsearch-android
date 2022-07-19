@@ -2,6 +2,7 @@ package com.algolia.instantsearch.android.paging3.internal
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.algolia.instantsearch.extension.Console
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.search.model.params.SearchParameters
 import com.algolia.search.model.response.ResponseSearch
@@ -35,22 +36,23 @@ internal class SearcherPagingSource<T : Any>(
                 prevKey = null, // no paging backward
                 nextKey = nextKey
             )
-        } catch (throwable: Throwable) {
-            LoadResult.Error(throwable)
+        } catch (exception: Exception) {
+            Console.warn("Paging search operation failed", exception)
+            LoadResult.Error(exception)
         }
     }
 
-    private suspend fun search(): ResponseSearch? {
+    private suspend fun search(): ResponseSearch? = with(searcher) {
         try {
-            searcher.isLoading.value = true
-            val response = searcher.search()
-            searcher.response.value = response
-            searcher.isLoading.value = false
-            return response
+            isLoading.value = true
+            val searchResponse = search()
+            response.value = searchResponse
+            return searchResponse
         } catch (exception: Exception) {
-            searcher.error.value = exception
-            searcher.isLoading.value = false
+            error.value = exception
             throw exception
+        } finally {
+            isLoading.value = false
         }
     }
 
