@@ -1,3 +1,11 @@
+# 3.1.3
+
+### Added
+- Paging: logging on fail (#347)
+
+### Fixed
+- FilterRange: bounds initialization (#346)
+
 # 3.1.2
 
 ### Fixed
