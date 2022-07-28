@@ -42,7 +42,7 @@ test-ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.
 test-kotlin-common = { module = "org.jetbrains.kotlin:kotlin-test-common" }
 test-kotlin-annotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common" }
 test-kotlin-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
-test-mockk = { group = "io.mockk", name = "mockk", version = "1.12.4" }
+test-mockk = { group = "io.mockk", name = "mockk", version = "1.12.5" }
 test-robolectric = { group = "org.robolectric", name = "robolectric", version = "4.8.1" }
 test-turbine = { group = "app.cash.turbine", name = "turbine", version = "0.8.0" }
 
