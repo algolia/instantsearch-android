@@ -44,7 +44,7 @@ test-kotlin-annotations = { module = "org.jetbrains.kotlin:kotlin-test-annotatio
 test-kotlin-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
 test-mockk = { group = "io.mockk", name = "mockk", version = "1.12.5" }
 test-robolectric = { group = "org.robolectric", name = "robolectric", version = "4.8.1" }
-test-turbine = { group = "app.cash.turbine", name = "turbine", version = "0.8.0" }
+test-turbine = { group = "app.cash.turbine", name = "turbine", version = "0.9.0" }
 
 # logging
 slf4j = { group = "org.slf4j", name = "slf4j-api", version = "1.7.36" }
