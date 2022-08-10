@@ -2,7 +2,8 @@
 kotlin = "1.7.0"
 algolia-client = "2.1.0"
 algolia-telemetry = "0.1.0"
-compose = "1.2.0"
+composeUi = "1.2.0"
+composeCompiler = "1.2.0"
 coroutines = "1.6.4"
 ktor = "2.0.3"
 work = "2.7.1"
@@ -21,9 +22,9 @@ kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 
 # android
-androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
-androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose" }
-androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "composeUi" }
+androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "composeUi" }
+androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "composeUi" }
 androidx-paging3 = { group = "androidx.paging", name = "paging-runtime", version = "3.1.1" }
 androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.8.0" }
