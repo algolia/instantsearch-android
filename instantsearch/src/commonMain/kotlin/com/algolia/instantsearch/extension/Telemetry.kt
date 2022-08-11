@@ -1,10 +1,5 @@
-@file:OptIn(InternalInstantSearch::class, ExperimentalInstantSearch::class, ExperimentalStdlibApi::class)
-@file:Suppress("DEPRECATION")
-
 package com.algolia.instantsearch.extension
 
-import com.algolia.instantsearch.ExperimentalInstantSearch
-import com.algolia.instantsearch.InternalInstantSearch
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.encode.gzip
 import com.algolia.instantsearch.filter.clear.ClearMode
