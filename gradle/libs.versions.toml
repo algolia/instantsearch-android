@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.7.0"
+kotlin = "1.7.10"
 algolia-client = "2.1.0"
 algolia-telemetry = "0.1.0"
 composeUi = "1.2.1"
