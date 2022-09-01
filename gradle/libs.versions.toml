@@ -1,7 +1,5 @@
 [versions]
 kotlin = "1.7.10"
-algolia-client = "2.1.0"
-algolia-telemetry = "0.1.0"
 composeUi = "1.2.1"
 composeCompiler = "1.3.0"
 coroutines = "1.6.4"
@@ -10,8 +8,8 @@ work = "2.7.1"
 
 [libraries]
 # algolia
-algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version.ref = "algolia-client" }
-algolia-telemetry = { group = "com.algolia", name = "instantsearch-telemetry", version.ref = "algolia-telemetry" }
+algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version = "2.1.0" }
+algolia-telemetry = { group = "com.algolia", name = "instantsearch-telemetry", version = "0.2.0" }
 
 # network
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }

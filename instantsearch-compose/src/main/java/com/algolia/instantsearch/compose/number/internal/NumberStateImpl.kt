@@ -3,6 +3,7 @@ package com.algolia.instantsearch.compose.number.internal
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.algolia.instantsearch.compose.internal.trace
 import com.algolia.instantsearch.compose.number.NumberState
 import com.algolia.instantsearch.core.number.Computation
 
@@ -22,6 +23,10 @@ internal class NumberStateImpl<T>(
 
     @set:JvmName("_computation")
     override var computation: Computation<T> by mutableStateOf(computation)
+
+    init {
+        trace()
+    }
 
     override fun setText(text: String) {
         this.text = text

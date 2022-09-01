@@ -54,6 +54,9 @@ import com.algolia.search.model.search.Facet
 import com.algolia.search.transport.RequestOptions
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
 import mockClient
 import relatedItems.SimpleProduct
 import relatedItems.mockHitsView
@@ -61,15 +64,22 @@ import relatedItems.mockHitsView
 @OptIn(ExperimentalInstantSearch::class, InternalInstantSearch::class)
 class TestTelemetry { // instrumented because it uses android's Base64
 
+    val scope = TestScope()
+
     val client = mockClient()
     val indexName = IndexName("myIndex")
+    val attribute = Attribute("attr")
+
+    init {
+        val telemetry = Telemetry(scope)
+        Telemetry.set(telemetry)
+    }
 
     val filterState = FilterState()
     val hitsSearcher = HitsSearcher(client, indexName, isDisjunctiveFacetingEnabled = false)
-    val attribute = Attribute("attr")
 
     @Test
-    fun testHitsSearcher() {
+    fun testHitsSearcher() = scope.runTest {
         // initiated at top level
         val component = Telemetry.shared.validateAndGet(ComponentType.HitsSearcher)
         assertEquals(setOf(ComponentParam.IsDisjunctiveFacetingEnabled), component.parameters)
@@ -77,7 +87,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testFilterState() {
+    fun testFilterState() = scope.runTest {
         // initiated at top level
         val component = Telemetry.shared.validateAndGet(ComponentType.FilterState)
         assertEquals(emptySet(), component.parameters)
@@ -85,16 +95,15 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testLoading() {
-        val searcher = HitsSearcher(client, indexName)
+    fun testLoading() = scope.runTest {
         val viewModel = LoadingViewModel(isLoading = true)
-        LoadingConnector(searcher, viewModel)
+        LoadingConnector(hitsSearcher, viewModel)
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.Loading)
         assertEquals(setOf(ComponentParam.IsLoading), component.parameters)
     }
 
     @Test
-    fun testFacetsSearcher() {
+    fun testFacetsSearcher() = scope.runTest {
         FacetsSearcher(client, indexName, facetQuery = "a", attribute = attribute)
         val component = Telemetry.shared.validateAndGet(ComponentType.FacetSearcher)
         assertEquals(setOf(ComponentParam.FacetsQuery), component.parameters)
@@ -102,7 +111,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testMultiSearcher() {
+    fun testMultiSearcher() = scope.runTest {
         MultiSearcher(client, MultipleQueriesStrategy.StopIfEnoughMatches)
         val component = Telemetry.shared.validateAndGet(ComponentType.MultiSearcher)
         assertEquals(setOf(ComponentParam.Strategy), component.parameters)
@@ -110,7 +119,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testAnswersSearcher() {
+    fun testAnswersSearcher() = scope.runTest {
         SearcherAnswers(client.initIndex(indexName), requestOptions = RequestOptions())
         val component = Telemetry.shared.validateAndGet(ComponentType.AnswersSearcher)
         assertEquals(setOf(ComponentParam.RequestOptions), component.parameters)
@@ -118,7 +127,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testDynamicFilters() {
+    fun testDynamicFilters() = scope.runTest {
         DynamicFacetListConnector(
             searcher = hitsSearcher,
             filterState = filterState,
@@ -140,14 +149,14 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testHierarchicalFacets() {
+    fun testHierarchicalFacets() = scope.runTest {
         HierarchicalConnector(hitsSearcher, attribute, filterState, listOf(attribute), "")
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.HierarchicalFacets)
         assertEquals(emptySet(), component.parameters)
     }
 
     @Test
-    fun testFacetList() {
+    fun testFacetList() = scope.runTest {
         FacetListConnector(
             hitsSearcher,
             filterState,
@@ -164,14 +173,14 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testFilterClear() {
+    fun testFilterClear() = scope.runTest {
         FilterClearConnector(filterState, listOf(FilterGroupID(attribute)), ClearMode.Except)
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.FilterClear)
         assertEquals(setOf(ComponentParam.GroupIDs, ComponentParam.ClearMode), component.parameters)
     }
 
     @Test
-    fun testFacetFilterList() {
+    fun testFacetFilterList() = scope.runTest {
         FilterListConnector.Facet(
             listOf(Filter.Facet(attribute, "attr")),
             filterState,
@@ -186,7 +195,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testNumericFilterList() {
+    fun testNumericFilterList() = scope.runTest {
         FilterListConnector.Numeric(
             listOf(Filter.Numeric(attribute, 1..4)),
             filterState,
@@ -201,7 +210,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testTagFilterList() {
+    fun testTagFilterList() = scope.runTest {
         FilterListConnector.Tag(
             listOf(Filter.Tag("tag")),
             filterState,
@@ -216,7 +225,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testFilterList() {
+    fun testFilterList() = scope.runTest {
         FilterListConnector.All(
             listOf(Filter.Tag("tag")),
             filterState,
@@ -231,14 +240,14 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testFilterToggle() {
+    fun testFilterToggle() = scope.runTest {
         FilterToggleConnector(filterState, Filter.Facet(attribute, "attr"), true, FilterGroupID(FilterOperator.Or))
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.FilterToggle)
         assertEquals(setOf(ComponentParam.Operator, ComponentParam.IsSelected), component.parameters)
     }
 
     @Test
-    fun testNumberRangeFilter() {
+    fun testNumberRangeFilter() = scope.runTest {
         FilterComparisonConnector(
             NumberViewModel(12, Range(10, 42)),
             filterState,
@@ -251,7 +260,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testNumberRangeFilterConnector() {
+    fun testNumberRangeFilterConnector() = scope.runTest {
         FilterRangeConnector(
             FilterRangeViewModel(Range(1..10), Range(4..6)),
             filterState,
@@ -263,7 +272,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testCurrentFilters() {
+    fun testCurrentFilters() = scope.runTest {
         val filter = Filter.Facet(attribute, "attr")
         val filterGroupID = FilterGroupID(attribute, FilterOperator.And)
         FilterCurrentConnector(mapOf((filterGroupID to filter) to filter), filterState, listOf(filterGroupID))
@@ -272,49 +281,49 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testStats() {
+    fun testStats() = scope.runTest {
         StatsConnector(hitsSearcher)
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.Stats)
         assertEquals(emptySet(), component.parameters)
     }
 
     @Test
-    fun testQueryRuleCustomData() {
+    fun testQueryRuleCustomData() = scope.runTest {
         QueryRuleCustomDataConnector(hitsSearcher, "init")
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.QueryRuleCustomData)
         assertEquals(setOf(ComponentParam.Item), component.parameters)
     }
 
     @Test
-    fun testRelevantSort() {
+    fun testRelevantSort() = scope.runTest {
         RelevantSortConnector(hitsSearcher, RelevantSortViewModel(RelevantSortPriority.HitsCount))
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.RelevantSort)
         assertEquals(setOf(ComponentParam.Priority), component.parameters)
     }
 
     @Test
-    fun testSortBy() {
+    fun testSortBy() = scope.runTest {
         SortByConnector(hitsSearcher)
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.SortBy)
         assertEquals(emptySet(), component.parameters)
     }
 
     @Test
-    fun testFilterMap() {
+    fun testFilterMap() = scope.runTest {
         FilterMapConnector(filterState, groupID = FilterGroupID(FilterOperator.Or))
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.FilterMap)
         assertEquals(setOf(ComponentParam.Operator), component.parameters)
     }
 
     @Test
-    fun testSearchBox() {
+    fun testSearchBox() = scope.runTest {
         SearchBoxConnector(hitsSearcher, searchMode = SearchMode.OnSubmit)
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.SearchBox)
         assertEquals(setOf(ComponentParam.SearchMode), component.parameters)
     }
 
     @Test
-    fun testRelatedItems() {
+    fun testRelatedItems() = scope.runTest {
         val patternBrand = MatchingPattern(Attribute("attBrand"), 1, SimpleProduct::brand)
         hitsSearcher.connectRelatedHitsView(
             mockHitsView(),
@@ -328,19 +337,20 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testHits() {
+    fun testHits() = scope.runTest {
         hitsSearcher.connectHitsView(mockHitsView()) { it.hits }
         val component = Telemetry.shared.validateAndGet(ComponentType.Hits)
         assertEquals(emptySet(), component.parameters)
     }
 
-    private fun Telemetry.validateAndGet(type: ComponentType): Component {
+    private suspend fun Telemetry.validateAndGet(type: ComponentType): Component {
+        delay(100)
         val components = schema()?.components?.filter { it.type == type } ?: error("component of type $type not found")
         assertEquals(1, components.size, "should be only one component of type $type")
         return components.first()
     }
 
-    private fun Telemetry.validateConnectorAndGet(type: ComponentType): Component {
+    private suspend fun Telemetry.validateConnectorAndGet(type: ComponentType): Component {
         val component = validateAndGet(type)
         assertEquals(true, component.isConnector, "the component is not a connector")
         return component
