@@ -20,7 +20,7 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += listOf("-Xexplicit-api=strict")
+        freeCompilerArgs += listOf("-Xexplicit-api=strict", "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
     }
 
     buildFeatures {
@@ -47,7 +47,9 @@ tasks.withType<Test> {
 dependencies {
     api(project(":instantsearch"))
     api(project(":instantsearch-utils"))
+    implementation(libs.algolia.telemetry)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material)
-    testImplementation(kotlin("test-junit"))
+    testImplementation(libs.test.kotlin.junit)
+    testImplementation(libs.test.coroutines)
 }

@@ -3,6 +3,7 @@ package com.algolia.instantsearch.compose.number.range.internal
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.algolia.instantsearch.compose.internal.trace
 import com.algolia.instantsearch.compose.number.range.NumberRangeState
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.number.range.Range
@@ -22,6 +23,10 @@ internal class NumberRangeStateImpl<T>(
     override var bounds: Range<T>? by mutableStateOf(bounds)
 
     override var onRangeChanged: Callback<Range<T>>? = null
+
+    init {
+        trace()
+    }
 
     override fun setRange(range: Range<T>?) {
         this.range = range
