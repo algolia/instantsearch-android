@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import com.algolia.instantsearch.examples.android.codex.categorieshits.MainActivity as CategoriesHitsCodex
 import com.algolia.instantsearch.examples.android.codex.multipleindex.MainActivity as MultipleIndexCodex
+import com.algolia.instantsearch.examples.android.codex.multisearch.MainActivity as MultiSearchCodex
 import com.algolia.instantsearch.examples.android.codex.suggestions.categories.MainActivity as QuerySuggestionsCategoriesCodex
 import com.algolia.instantsearch.examples.android.codex.suggestions.hits.MainActivity as QuerySuggestionsHitsCodex
 import com.algolia.instantsearch.examples.android.codex.suggestions.query.MainActivity as QuerySuggestionsCodex
@@ -28,6 +29,7 @@ val guides = mapOf(
     ObjectID("showcase_declarative_ui") to ComposeDirectoryShowcase::class,
     ObjectID("codex_categories_hits") to CategoriesHitsCodex::class,
     ObjectID("codex_multiple_index") to MultipleIndexCodex::class,
+    ObjectID("codex_multiple_index_legacy") to MultiSearchCodex::class,
     ObjectID("codex_query_suggestions") to QuerySuggestionsCodex::class,
     ObjectID("codex_query_suggestions_categories") to QuerySuggestionsCategoriesCodex::class,
     ObjectID("codex_query_suggestions_hits") to QuerySuggestionsHitsCodex::class,
