@@ -1,3 +1,11 @@
+# 3.1.4
+
+### Changed
+- Kotlin to `1.7.10` (#313)
+- Compose UI to `1.2.1` (#358)
+- Compose compiler to `1.3.1` (#365)
+- Algolia Kotlin API client to `2.1.1` (#366)
+
 # 3.1.3
 
 ### Added
