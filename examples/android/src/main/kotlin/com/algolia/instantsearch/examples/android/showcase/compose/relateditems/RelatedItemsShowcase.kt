@@ -15,9 +15,6 @@ import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.hits.connectHitsView
-import com.algolia.instantsearch.relateditems.MatchingPattern
-import com.algolia.instantsearch.relateditems.connectRelatedHitsView
-import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.android.showcase.compose.client
 import com.algolia.instantsearch.examples.android.showcase.compose.configureSearcher
 import com.algolia.instantsearch.examples.android.showcase.compose.model.Product
@@ -27,6 +24,9 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.GreyLight
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.ProductList
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.TitleTopBar
+import com.algolia.instantsearch.relateditems.MatchingPattern
+import com.algolia.instantsearch.relateditems.connectRelatedHitsView
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.Attribute
 
@@ -73,14 +73,13 @@ class RelatedItemsShowcase : AppCompatActivity() {
         onProductClick: (Product) -> Unit,
     ) {
         Scaffold(
-            topBar = {
-                TitleTopBar(
-                    title = title,
-                    onBackPressed = ::onBackPressed,
-                )
-            },
-            content = {
-                Column(Modifier.fillMaxWidth()) {
+            topBar = { TitleTopBar(title = title) },
+            content = { padding ->
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(padding)
+                ) {
                     ProductList(products = hits, onItemClick = onProductClick)
                     Text(
                         text = "Related Items",

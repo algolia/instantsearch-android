@@ -85,12 +85,11 @@ class PagingMultipleIndexShowcase : AppCompatActivity() {
                 SearchTopBar(
                     placeHolderText = "Search for movies",
                     searchBoxState = searchBoxState,
-                    onBackPressed = ::onBackPressed,
                     lazyListStates = listOf(moviesListState, actorsListState)
                 )
             },
-            content = {
-                Column(Modifier.fillMaxWidth()) {
+            content = { padding ->
+                Column(Modifier.fillMaxWidth().padding(padding)) {
                     Text(
                         text = "Movies", style = MaterialTheme.typography.subtitle2,
                         color = GreyLight,

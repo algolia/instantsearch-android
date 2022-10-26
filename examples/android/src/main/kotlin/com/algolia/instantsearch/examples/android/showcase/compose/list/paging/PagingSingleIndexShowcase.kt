@@ -22,9 +22,6 @@ import com.algolia.instantsearch.android.paging3.searchbox.connectPaginator
 import com.algolia.instantsearch.compose.item.StatsTextState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.searchbox.SearchBoxConnector
-import com.algolia.instantsearch.searchbox.connectView
-import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.android.showcase.compose.client
 import com.algolia.instantsearch.examples.android.showcase.compose.configureSearcher
 import com.algolia.instantsearch.examples.android.showcase.compose.model.Movie
@@ -33,8 +30,11 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.GreyLight
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.MoviesList
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchTopBar
-import com.algolia.instantsearch.stats.StatsConnector
+import com.algolia.instantsearch.searchbox.SearchBoxConnector
+import com.algolia.instantsearch.searchbox.connectView
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.stats.DefaultStatsPresenter
+import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.stats.connectView
 import kotlinx.coroutines.flow.Flow
 
@@ -79,12 +79,14 @@ class PagingSingleIndexShowcase : AppCompatActivity() {
                 SearchTopBar(
                     placeHolderText = "Search for movies",
                     searchBoxState = searchBoxState,
-                    onBackPressed = ::onBackPressed,
                     lazyListState = moviesListState
                 )
             },
-            content = {
-                Column(Modifier.fillMaxWidth()) {
+            content = { padding ->
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(padding)) {
                     Text(
                         modifier = Modifier.padding(12.dp),
                         text = stats,

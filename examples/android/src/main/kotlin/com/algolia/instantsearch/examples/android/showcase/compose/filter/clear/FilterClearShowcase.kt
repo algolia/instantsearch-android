@@ -3,7 +3,11 @@ package com.algolia.instantsearch.examples.android.showcase.compose.filter.clear
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults.buttonColors
 import androidx.compose.material.MaterialTheme
@@ -14,6 +18,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.filter.clear.FilterClear
 import com.algolia.instantsearch.core.connection.ConnectionHandler
+import com.algolia.instantsearch.examples.android.showcase.compose.client
+import com.algolia.instantsearch.examples.android.showcase.compose.configureSearcher
+import com.algolia.instantsearch.examples.android.showcase.compose.filterColors
+import com.algolia.instantsearch.examples.android.showcase.compose.showcaseTitle
+import com.algolia.instantsearch.examples.android.showcase.compose.stubIndexName
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilter
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.RestoreFab
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.TitleTopBar
 import com.algolia.instantsearch.filter.clear.ClearMode
 import com.algolia.instantsearch.filter.clear.FilterClearConnector
 import com.algolia.instantsearch.filter.clear.connectView
@@ -22,12 +36,6 @@ import com.algolia.instantsearch.filter.state.filters
 import com.algolia.instantsearch.filter.state.groupOr
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.examples.android.showcase.compose.*
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilter
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.RestoreFab
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.TitleTopBar
 import com.algolia.search.model.Attribute
 
 class FilterClearShowcase : AppCompatActivity() {
@@ -84,14 +92,13 @@ class FilterClearShowcase : AppCompatActivity() {
     @Composable
     fun FilterClearScreen(title: String = showcaseTitle) {
         Scaffold(
-            topBar = {
-                TitleTopBar(
-                    title = title,
-                    onBackPressed = ::onBackPressed
-                )
-            },
-            content = {
-                Column(Modifier.fillMaxWidth()) {
+            topBar = { TitleTopBar(title = title) },
+            content = { padding ->
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(padding)
+                ) {
                     HeaderFilter(
                         modifier = Modifier.padding(16.dp),
                         filterHeader = filterHeader,

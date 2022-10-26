@@ -13,6 +13,13 @@ import com.algolia.instantsearch.compose.number.range.NumberRangeState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.searcher.Debouncer
+import com.algolia.instantsearch.examples.android.R
+import com.algolia.instantsearch.examples.android.showcase.compose.*
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilter
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.RestoreFab
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.TitleTopBar
 import com.algolia.instantsearch.filter.range.FilterRangeConnector
 import com.algolia.instantsearch.filter.range.connectView
 import com.algolia.instantsearch.filter.state.FilterGroupID
@@ -20,13 +27,6 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.filters
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.examples.android.showcase.compose.*
-import com.algolia.instantsearch.examples.android.R
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilter
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.RestoreFab
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.TitleTopBar
 import com.algolia.search.model.Attribute
 import java.util.*
 
@@ -102,13 +102,13 @@ class FilterRangeShowcase : AppCompatActivity() {
     ) {
         Scaffold(
             topBar = {
-                TitleTopBar(
-                    title = title,
-                    onBackPressed = ::onBackPressed
-                )
+                TitleTopBar(title = title)
             },
-            content = {
-                Column(Modifier.fillMaxWidth()) {
+            content = { padding ->
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(padding)) {
                     HeaderFilter(
                         modifier = Modifier.padding(16.dp),
                         filterHeader = filterHeader,
@@ -136,7 +136,7 @@ class FilterRangeShowcase : AppCompatActivity() {
                                 .fillMaxWidth()
                                 .padding(vertical = 4.dp),
                             steps = steps,
-                            values = sliderPosition,
+                            value = sliderPosition,
                             onValueChange = { sliderPosition = it },
                             valueRange = bounds,
                             onValueChangeFinished = {

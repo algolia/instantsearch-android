@@ -4,10 +4,20 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
@@ -25,6 +35,16 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.decrement
 import com.algolia.instantsearch.core.number.increment
 import com.algolia.instantsearch.core.number.just
+import com.algolia.instantsearch.examples.android.R
+import com.algolia.instantsearch.examples.android.showcase.compose.client
+import com.algolia.instantsearch.examples.android.showcase.compose.configureSearcher
+import com.algolia.instantsearch.examples.android.showcase.compose.filterColors
+import com.algolia.instantsearch.examples.android.showcase.compose.showcaseTitle
+import com.algolia.instantsearch.examples.android.showcase.compose.stubIndexName
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilter
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.TitleTopBar
 import com.algolia.instantsearch.filter.numeric.comparison.FilterComparisonConnector
 import com.algolia.instantsearch.filter.numeric.comparison.connectView
 import com.algolia.instantsearch.filter.numeric.comparison.setBoundsFromFacetStatsInt
@@ -33,12 +53,6 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.addFacet
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.examples.android.showcase.compose.*
-import com.algolia.instantsearch.examples.android.R
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilter
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.TitleTopBar
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.filter.NumericOperator
 import kotlinx.coroutines.Dispatchers
@@ -109,13 +123,13 @@ class FilterComparisonShowcase : AppCompatActivity() {
     fun FilterComparisonScreen(title: String = showcaseTitle) {
         Scaffold(
             topBar = {
-                TitleTopBar(
-                    title = title,
-                    onBackPressed = ::onBackPressed
-                )
+                TitleTopBar(title = title)
             },
-            content = {
-                Column(Modifier.fillMaxWidth()) {
+            content = { padding ->
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(padding)) {
                     HeaderFilter(
                         modifier = Modifier.padding(16.dp),
                         filterHeader = filterHeader

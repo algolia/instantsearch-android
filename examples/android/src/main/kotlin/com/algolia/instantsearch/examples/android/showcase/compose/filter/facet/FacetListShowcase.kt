@@ -14,16 +14,11 @@ import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.filter.facet.FacetListState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
-import com.algolia.instantsearch.filter.facet.FacetListConnector
-import com.algolia.instantsearch.filter.facet.DefaultFacetListPresenter
-import com.algolia.instantsearch.filter.facet.FacetSortCriterion
-import com.algolia.instantsearch.filter.facet.connectView
-import com.algolia.instantsearch.filter.state.filterState
-import com.algolia.instantsearch.filter.state.groupAnd
-import com.algolia.instantsearch.filter.state.groupOr
-import com.algolia.instantsearch.searcher.connectFilterState
-import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.examples.android.showcase.compose.*
+import com.algolia.instantsearch.examples.android.showcase.compose.client
+import com.algolia.instantsearch.examples.android.showcase.compose.configureSearcher
+import com.algolia.instantsearch.examples.android.showcase.compose.filterColors
+import com.algolia.instantsearch.examples.android.showcase.compose.showcaseTitle
+import com.algolia.instantsearch.examples.android.showcase.compose.stubIndexName
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.HoloBlueDark
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.HoloGreenDark
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.HoloRedDark
@@ -32,6 +27,15 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilter
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.TitleTopBar
+import com.algolia.instantsearch.filter.facet.DefaultFacetListPresenter
+import com.algolia.instantsearch.filter.facet.FacetListConnector
+import com.algolia.instantsearch.filter.facet.FacetSortCriterion
+import com.algolia.instantsearch.filter.facet.connectView
+import com.algolia.instantsearch.filter.state.filterState
+import com.algolia.instantsearch.filter.state.groupAnd
+import com.algolia.instantsearch.filter.state.groupOr
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.model.Attribute
 
 class FacetListShowcase : AppCompatActivity() {
@@ -118,14 +122,13 @@ class FacetListShowcase : AppCompatActivity() {
     @Composable
     fun FilterListScreen(title: String = showcaseTitle) {
         Scaffold(
-            topBar = {
-                TitleTopBar(
-                    title = title,
-                    onBackPressed = ::onBackPressed
-                )
-            },
-            content = {
-                Column(Modifier.fillMaxWidth()) {
+            topBar = { TitleTopBar(title = title) },
+            content = { padding ->
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(padding)
+                ) {
                     HeaderFilter(
                         modifier = Modifier.padding(16.dp),
                         filterHeader = filterHeader

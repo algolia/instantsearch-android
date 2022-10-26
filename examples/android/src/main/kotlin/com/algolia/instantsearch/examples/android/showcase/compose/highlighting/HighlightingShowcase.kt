@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -57,12 +58,11 @@ class HighlightingShowcase : AppCompatActivity() {
                 SearchTopBar(
                     placeHolderText = "Search for movies",
                     searchBoxState = searchBoxState,
-                    onBackPressed = ::onBackPressed
                 )
             },
-            content = {
+            content = { padding ->
                 MoviesList(
-                    modifier = Modifier.background(White),
+                    modifier = Modifier.background(White).padding(padding),
                     movies = hitsState.hits
                 )
             }
