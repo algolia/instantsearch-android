@@ -88,11 +88,10 @@ class FacetListSearchShowcase : AppCompatActivity() {
             topBar = {
                 SearchTopBar(
                     searchBoxState = searchBoxState,
-                    onBackPressed = ::onBackPressed
                 )
             },
-            content = {
-                Column(Modifier.fillMaxWidth()) {
+            content = { padding ->
+                Column(Modifier.fillMaxWidth().padding(padding)) {
                     HeaderFilter(
                         modifier = Modifier.padding(16.dp),
                         filterHeader = filterHeader

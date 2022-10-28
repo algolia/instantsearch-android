@@ -8,7 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
@@ -21,6 +25,13 @@ import com.algolia.instantsearch.compose.filter.facet.dynamic.DynamicFacetListSt
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.examples.android.R
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.GreyLight
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.White
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.FacetRow
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HelpDialog
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchTopBar
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListConnector
 import com.algolia.instantsearch.filter.facet.dynamic.connectView
@@ -29,13 +40,6 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.examples.android.R
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.GreyLight
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.White
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.FacetRow
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HelpDialog
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchTopBar
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.APIKey
@@ -104,13 +108,15 @@ class DynamicFacetShowcase : AppCompatActivity() {
             topBar = {
                 SearchTopBar(
                     searchBoxState = searchBoxState,
-                    onBackPressed = ::onBackPressed,
                     icon = Icons.Default.Info,
                     onIconClick = { openDialog.value = true }
                 )
             },
-            content = {
-                Column(Modifier.verticalScroll(rememberScrollState())) {
+            content = { padding ->
+                Column(
+                    Modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(padding)) {
                     dynamicFacetListState.orderedFacets.onEach { attributedFacet ->
                         OrderedFacets(Modifier.padding(8.dp), attributedFacet) { facet, attribute ->
                             dynamicFacetListState.toggle(facet, attribute)

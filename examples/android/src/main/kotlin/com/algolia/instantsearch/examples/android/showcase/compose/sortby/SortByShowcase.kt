@@ -3,7 +3,11 @@ package com.algolia.instantsearch.examples.android.showcase.compose.sortby
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -15,15 +19,15 @@ import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.sortby.SortByState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
-import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.sortby.SortByConnector
-import com.algolia.instantsearch.sortby.connectView
 import com.algolia.instantsearch.examples.android.showcase.compose.client
 import com.algolia.instantsearch.examples.android.showcase.compose.model.Movie
 import com.algolia.instantsearch.examples.android.showcase.compose.showcaseTitle
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.DropdownTextField
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.MoviesList
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.TitleTopBar
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.sortby.SortByConnector
+import com.algolia.instantsearch.sortby.connectView
 import com.algolia.search.helper.deserialize
 import com.algolia.search.model.IndexName
 
@@ -66,14 +70,9 @@ class SortByShowcase : AppCompatActivity() {
     @Composable
     fun SortByScreen(title: String = showcaseTitle) {
         Scaffold(
-            topBar = {
-                TitleTopBar(
-                    title = title,
-                    onBackPressed = ::onBackPressed
-                )
-            },
-            content = {
-                Column {
+            topBar = { TitleTopBar(title = title) },
+            content = { padding ->
+                Column(Modifier.padding(padding)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             modifier = Modifier.padding(12.dp),

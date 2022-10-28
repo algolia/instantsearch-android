@@ -3,9 +3,11 @@ package com.algolia.instantsearch.examples.android.showcase.compose.loading
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.algolia.instantsearch.android.paging3.Paginator
@@ -76,12 +78,12 @@ class LoadingShowcase : AppCompatActivity() {
                 SearchTopBar(
                     placeHolderText = "Search for movies",
                     searchBoxState = searchBoxState,
-                    onBackPressed = ::onBackPressed,
                     lazyListState = moviesListState
                 )
             },
-            content = {
+            content = { padding ->
                 SwipeRefresh(
+                    modifier = Modifier.padding(padding),
                     state = rememberSwipeRefreshState(loadingState.loading),
                     onRefresh = { loadingState.reload() },
                 ) {

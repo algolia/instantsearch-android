@@ -109,13 +109,12 @@ class QueryRuleCustomDataShowcase : AppCompatActivity() {
             topBar = {
                 SearchTopBar(
                     searchBoxState = searchBoxState,
-                    onBackPressed = ::onBackPressed,
                     icon = Icons.Default.Info,
                     onIconClick = { openDialog.value = true }
                 )
             },
-            content = {
-                Column {
+            content = { padding ->
+                Column(Modifier.padding(padding)) {
                     Banner(queryRuleCustomDataState, onBannerClick)
                     ProductList(
                         modifier = Modifier.fillMaxWidth(),

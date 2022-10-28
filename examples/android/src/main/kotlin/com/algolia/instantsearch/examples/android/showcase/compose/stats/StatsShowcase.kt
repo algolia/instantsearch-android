@@ -19,18 +19,18 @@ import com.algolia.instantsearch.compose.item.StatsState
 import com.algolia.instantsearch.compose.item.StatsTextState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
-import com.algolia.instantsearch.searchbox.SearchBoxConnector
-import com.algolia.instantsearch.searchbox.connectView
-import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.instantsearch.stats.StatsConnector
-import com.algolia.instantsearch.stats.DefaultStatsPresenter
-import com.algolia.instantsearch.stats.connectView
 import com.algolia.instantsearch.examples.android.R
 import com.algolia.instantsearch.examples.android.showcase.compose.client
 import com.algolia.instantsearch.examples.android.showcase.compose.configureSearcher
 import com.algolia.instantsearch.examples.android.showcase.compose.stubIndexName
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchTopBar
+import com.algolia.instantsearch.searchbox.SearchBoxConnector
+import com.algolia.instantsearch.searchbox.connectView
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.instantsearch.stats.DefaultStatsPresenter
+import com.algolia.instantsearch.stats.StatsConnector
+import com.algolia.instantsearch.stats.connectView
 
 class StatsShowcase : AppCompatActivity() {
 
@@ -81,13 +81,14 @@ class StatsShowcase : AppCompatActivity() {
             topBar = {
                 SearchTopBar(
                     searchBoxState = searchBoxState,
-                    onBackPressed = ::onBackPressed
                 )
             },
-            content = {
+            content = { padding ->
                 Column {
                     Text(
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier
+                            .padding(padding)
+                            .padding(8.dp),
                         text = statsA.stats,
                         style = MaterialTheme.typography.caption
                     )

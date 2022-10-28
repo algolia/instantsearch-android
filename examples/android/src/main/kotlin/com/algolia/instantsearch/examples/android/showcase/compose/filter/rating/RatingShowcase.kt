@@ -3,8 +3,16 @@ package com.algolia.instantsearch.examples.android.showcase.compose.filter.ratin
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
@@ -17,13 +25,6 @@ import com.algolia.instantsearch.compose.number.range.NumberRangeState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.core.searcher.Debouncer
-import com.algolia.instantsearch.filter.range.FilterRangeConnector
-import com.algolia.instantsearch.filter.range.connectView
-import com.algolia.instantsearch.filter.state.FilterGroupID
-import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.filter.state.filters
-import com.algolia.instantsearch.searcher.connectFilterState
-import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.android.showcase.compose.client
 import com.algolia.instantsearch.examples.android.showcase.compose.filterColors
 import com.algolia.instantsearch.examples.android.showcase.compose.showcaseTitle
@@ -32,6 +33,13 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.RatingBar
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.TitleTopBar
+import com.algolia.instantsearch.filter.range.FilterRangeConnector
+import com.algolia.instantsearch.filter.range.connectView
+import com.algolia.instantsearch.filter.state.FilterGroupID
+import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.filter.state.filters
+import com.algolia.instantsearch.searcher.connectFilterState
+import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.filter.Filter
@@ -86,14 +94,13 @@ class RatingShowcase : AppCompatActivity() {
         ResetInitialRangeIfNeeded()
 
         Scaffold(
-            topBar = {
-                TitleTopBar(
-                    title = title,
-                    onBackPressed = ::onBackPressed
-                )
-            },
-            content = {
-                Column(Modifier.fillMaxWidth()) {
+            topBar = { TitleTopBar(title = title) },
+            content = { padding ->
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(padding)
+                ) {
                     HeaderFilter(
                         modifier = Modifier.padding(16.dp),
                         filterHeader = filterHeader,

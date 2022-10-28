@@ -5,6 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -22,11 +23,13 @@ class TemplateActivity : AppCompatActivity() {
             ShowcaseTheme {
                 Scaffold(
                     topBar = {
-                        TitleTopBar(onBackPressed = ::onBackPressed)
+                        TitleTopBar()
                     },
-                    content = {
+                    content = { padding ->
                         Box(
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(padding),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
