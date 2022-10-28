@@ -1,14 +1,18 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.algolia.instantsearch.examples.android.codex.multipleindex
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -19,8 +23,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.highlighting.toAnnotatedString
 import com.algolia.instantsearch.compose.hits.HitsState
-import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchBox
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
+import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchBox
 
 @Composable
 fun SearchScreen(
@@ -29,44 +33,30 @@ fun SearchScreen(
     actorsState: HitsState<Actor>,
     moviesState: HitsState<Movie>,
 ) {
-    val scrollState = rememberScrollState()
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .verticalScroll(scrollState)
-    ) {
+    Scaffold(modifier = modifier, topBar = {
         SearchBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(12.dp),
             searchBoxState = searchBoxState,
         )
+    }) { paddings ->
+        LazyColumn(
+            Modifier
+                .padding(paddings)
+                .fillMaxSize()
+        ) {
+            stickyHeader { SectionTitle(title = "Actors") }
+            items(actorsState.hits) { actor -> ActorItem(actor = actor) }
 
-        Actors(actors = actorsState.hits)
-        Movies(movies = moviesState.hits)
-    }
-}
-
-@Composable
-private fun Actors(
-    modifier: Modifier = Modifier,
-    actors: List<Actor>,
-) {
-    if (actors.isEmpty()) return
-
-    Column(modifier) {
-        SectionTitle(
-            modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 4.dp),
-            title = "Actors"
-        )
-        actors.forEach { actor ->
-            Actor(actor = actor)
+            stickyHeader { SectionTitle(title = "Movies") }
+            items(moviesState.hits) { movie -> MovieItem(movie = movie) }
         }
     }
 }
 
 @Composable
-private fun Actor(
+private fun ActorItem(
     modifier: Modifier = Modifier,
     actor: Actor
 ) {
@@ -88,27 +78,8 @@ private fun Actor(
     }
 }
 
-
 @Composable
-private fun Movies(
-    modifier: Modifier = Modifier,
-    movies: List<Movie>
-) {
-    if (movies.isEmpty()) return
-
-    Column(modifier) {
-        SectionTitle(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-            title = "Movies"
-        )
-        movies.forEach { movie ->
-            Movie(movie = movie)
-        }
-    }
-}
-
-@Composable
-private fun Movie(modifier: Modifier = Modifier, movie: Movie) {
+private fun MovieItem(modifier: Modifier = Modifier, movie: Movie) {
     Row(
         modifier
             .fillMaxWidth()
@@ -130,7 +101,10 @@ private fun Movie(modifier: Modifier = Modifier, movie: Movie) {
 @Composable
 private fun SectionTitle(modifier: Modifier = Modifier, title: String) {
     Text(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.background)
+            .padding(horizontal = 12.dp, vertical = 6.dp),
         text = title, style = MaterialTheme.typography.subtitle2,
         color = MaterialTheme.colors.onBackground.copy(alpha = 0.4f),
     )
