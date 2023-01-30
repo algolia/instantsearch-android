@@ -30,7 +30,7 @@ public fun DynamicFacetListViewModel.connectSearcher(searcher: SearcherForHits<*
 public fun DynamicFacetListViewModel.connectFilterState(
     filterState: FilterState,
     filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap(),
-    defaultFilterOperator: FilterOperator,
+    defaultFilterOperator: FilterOperator = FilterOperator.And,
 ): Connection =
     DynamicFacetListConnectionFilterState(this, filterState, filterGroupForAttribute, defaultFilterOperator)
 
