@@ -20,11 +20,13 @@ import com.algolia.search.model.filter.Filter
  * @param filterGroupForAttribute mapping between a facet attribute and a descriptor of a filter group where the
  * corresponding facet filters stored in the filter state. If no filter group descriptor provided, the filters for
  * attribute will be automatically stored in the conjunctive (`and`) group with the facet attribute name.
+ * @param defaultFilterOperator type of filter group created by default for a facet attribute
  */
 internal class DynamicFacetListConnectionFilterState(
     val viewModel: DynamicFacetListViewModel,
     val filterState: FilterState,
-    val filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor>
+    val filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor>,
+    val defaultFilterOperator: FilterOperator,
 ) : AbstractConnection() {
 
     private val filterStateSubscription: Callback<Filters> = {
@@ -56,7 +58,7 @@ internal class DynamicFacetListConnectionFilterState(
     }
 
     private fun groupID(attribute: Attribute): FilterGroupID {
-        val (groupName, refinementOperator) = filterGroupForAttribute[attribute] ?: attribute to FilterOperator.And
+        val (groupName, refinementOperator) = filterGroupForAttribute[attribute] ?: (attribute to defaultFilterOperator)
         return when (refinementOperator) {
             FilterOperator.And -> FilterGroupID(groupName, FilterOperator.And)
             FilterOperator.Or -> FilterGroupID(groupName, FilterOperator.Or)

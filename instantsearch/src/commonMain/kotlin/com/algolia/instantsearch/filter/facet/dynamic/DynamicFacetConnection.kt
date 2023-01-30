@@ -5,6 +5,7 @@ import com.algolia.instantsearch.filter.facet.dynamic.internal.DynamicFacetListC
 import com.algolia.instantsearch.filter.facet.dynamic.internal.DynamicFacetListConnectionSearcherIndex
 import com.algolia.instantsearch.filter.facet.dynamic.internal.DynamicFacetListConnectionView
 import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
+import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.search.model.Attribute
@@ -26,9 +27,12 @@ public fun DynamicFacetListViewModel.connectSearcher(searcher: SearcherForHits<*
  * corresponding facet filters stored in the filter state. If no filter group descriptor provided, the filters for
  * attribute will be automatically stored in the conjunctive (`and`) group with the facet attribute name.
  */
-public fun DynamicFacetListViewModel.connectFilterState(filterState: FilterState, filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap()): Connection {
-    return DynamicFacetListConnectionFilterState(this, filterState, filterGroupForAttribute)
-}
+public fun DynamicFacetListViewModel.connectFilterState(
+    filterState: FilterState,
+    filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap(),
+    defaultFilterOperator: FilterOperator,
+): Connection =
+    DynamicFacetListConnectionFilterState(this, filterState, filterGroupForAttribute, defaultFilterOperator)
 
 /**
  * Establishes connection with a [DynamicFacetListView] implementation.
