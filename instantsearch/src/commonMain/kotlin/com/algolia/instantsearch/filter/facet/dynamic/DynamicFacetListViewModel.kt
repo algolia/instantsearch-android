@@ -16,11 +16,16 @@ import kotlin.properties.Delegates
  * @param orderedFacets ordered list of attributed facets
  * @param selections mapping between a facet attribute and a set of selected facet values
  * @param selectionModeForAttribute Mapping between a facet attribute and a facet values selection mode
+ * @param defaultSelectionMode selection mode to apply for a facet list
  */
 public class DynamicFacetListViewModel(
     orderedFacets: List<AttributedFacets> = emptyList(),
     selections: SelectionsPerAttribute = mutableMapOf(),
-    selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap()
+    selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap(),
+    /**
+     * Selection mode to apply for a facet list..
+     */
+    public val defaultSelectionMode: SelectionMode = SelectionMode.Single,
 ) {
 
     init {
@@ -116,7 +121,7 @@ public class DynamicFacetListViewModel(
      * Create a facet selectable list for a given attribute.
      */
     private fun createFacetList(attribute: Attribute): SelectableListViewModel<String, Facet> {
-        val selectionMode = selectionModeForAttribute[attribute] ?: SelectionMode.Single
+        val selectionMode = selectionModeForAttribute[attribute] ?: defaultSelectionMode
         val facetList = SelectableListViewModel<String, Facet>(selectionMode = selectionMode)
         facetList.eventSelection.subscribe { selection ->
             val currentSelections = selections.toMutableMap()
