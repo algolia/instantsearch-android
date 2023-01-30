@@ -21,23 +21,23 @@ class MainViewModel : ViewModel() {
 
     private val multiSearcher = MultiSearcher(
         applicationID = ApplicationID("latency"),
-        apiKey = APIKey("1f6fd3a6fb973cb08419fe7d288fa4db")
+        apiKey = APIKey("6be0576ff61c053d5f9a3225e2a90f76")
     )
     private val indexName = IndexName("instant_search")
     private val attribute = Attribute("categories")
-    private val suggestionsSearcher = multiSearcher.addHitsSearcher(indexName)
+    private val productsSearcher = multiSearcher.addHitsSearcher(indexName)
     private val categoriesSearcher = multiSearcher.addFacetsSearcher(indexName, attribute)
     private val searchBoxConnector = SearchBoxConnector(multiSearcher)
     private val connections = ConnectionHandler(searchBoxConnector)
 
     val searchBoxState = SearchBoxState()
     val categoriesState = HitsState<Facet>()
-    val hitsState = HitsState<Product>()
+    val productsState = HitsState<Product>()
 
     init {
         connections += searchBoxConnector.connectView(searchBoxState)
         connections += categoriesSearcher.connectHitsView(categoriesState) { it.facets }
-        connections += suggestionsSearcher.connectHitsView(hitsState) { it.hits.deserialize(Product.serializer()) }
+        connections += productsSearcher.connectHitsView(productsState) { it.hits.deserialize(Product.serializer()) }
         multiSearcher.searchAsync()
     }
 

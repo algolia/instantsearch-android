@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.R
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
+import com.algolia.instantsearch.examples.android.AppColors
 
 @Composable
 fun SearchBox(
@@ -92,6 +93,7 @@ fun DefaultLeadingIcon() {
     Icon(
         imageVector = Icons.Filled.Search,
         contentDescription = null,
+        tint = AppColors.nebulaBlue
     )
 }
 
@@ -101,7 +103,7 @@ fun DefaultTrailingIcon(searchBoxState: SearchBoxState) {
         Icon(
             imageVector = Icons.Default.Clear,
             contentDescription = null,
-            tint = MaterialTheme.colors.onBackground,
+            tint = AppColors.mars,
             modifier = Modifier.clickable(
                 onClick = { searchBoxState.setText(null) },
                 interactionSource = remember { MutableInteractionSource() },

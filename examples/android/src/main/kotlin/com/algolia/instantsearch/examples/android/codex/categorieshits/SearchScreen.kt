@@ -1,15 +1,20 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.algolia.instantsearch.examples.android.codex.categorieshits
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Category
@@ -18,15 +23,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.algolia.instantsearch.compose.highlighting.toAnnotatedString
 import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
-import com.algolia.instantsearch.core.highlighting.DefaultPostTag
-import com.algolia.instantsearch.core.highlighting.DefaultPreTag
 import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
+import com.algolia.instantsearch.examples.android.AppColors
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchBox
 import com.algolia.search.model.search.Facet
 
@@ -34,52 +39,39 @@ import com.algolia.search.model.search.Facet
 fun SearchScreen(
     modifier: Modifier = Modifier,
     searchBoxState: SearchBoxState,
-    hitsState: HitsState<Product>,
     categoriesState: HitsState<Facet>,
+    productsState: HitsState<Product>,
 ) {
-    val scrollState = rememberScrollState()
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .verticalScroll(scrollState)
-    ) {
+    Scaffold(modifier = modifier, topBar = {
         SearchBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(12.dp),
             searchBoxState = searchBoxState,
         )
+    }) { paddings ->
+        LazyColumn(
+            Modifier
+                .padding(paddings)
+                .fillMaxSize()
+        ) {
+            stickyHeader { SectionTitle(title = "Categories") }
+            items(categoriesState.hits) { category -> CategoryItem(category = category) }
 
-        Categories(categories = categoriesState.hits)
-        Products(products = hitsState.hits)
-    }
-}
-
-@Composable
-private fun Categories(
-    modifier: Modifier = Modifier,
-    categories: List<Facet>,
-) {
-    Column(modifier) {
-        SectionTitle(
-            modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 4.dp),
-            title = "Categories"
-        )
-        categories.forEach { category ->
-            CategoryRow(category = category)
+            stickyHeader { SectionTitle(title = "Products") }
+            items(productsState.hits) { product -> ProductItem(product = product) }
         }
     }
 }
 
 @Composable
-private fun CategoryRow(
-    modifier: Modifier = Modifier,
-    category: Facet
+private fun CategoryItem(
+    modifier: Modifier = Modifier, category: Facet
 ) {
     Row(
         modifier
-            .background(MaterialTheme.colors.surface)
             .fillMaxWidth()
+            .background(MaterialTheme.colors.surface)
             .padding(horizontal = 24.dp, vertical = 12.dp)
     ) {
         Icon(
@@ -88,7 +80,7 @@ private fun CategoryRow(
             contentDescription = null
         )
         Text(
-            text = category.highlighted.toAnnotatedString(),
+            text = category.highlightedString(),
             modifier = Modifier.padding(start = 12.dp),
         )
     }
@@ -96,22 +88,15 @@ private fun CategoryRow(
 
 
 @Composable
-private fun Products(products: List<Product>) {
-    SectionTitle(
-        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-        title = "Products"
-    )
-    products.forEach { product ->
-        ProductRow(product = product)
-    }
-}
-
-@Composable
-private fun ProductRow(modifier: Modifier = Modifier, product: Product) {
+private fun ProductItem(
+    modifier: Modifier = Modifier,
+    product: Product,
+) {
     Row(
         modifier
+            .fillMaxWidth()
             .background(MaterialTheme.colors.surface)
-            .padding(12.dp)
+            .padding(horizontal = 24.dp, vertical = 12.dp)
     ) {
         AsyncImage(
             modifier = Modifier.size(64.dp),
@@ -124,13 +109,15 @@ private fun ProductRow(modifier: Modifier = Modifier, product: Product) {
 
         Column(Modifier.padding(start = 8.dp)) {
             Text(
-                text = product.name,
+                text = product.highlightedName?.toAnnotatedString(spanStyle = SpanStyle(color = AppColors.nebulaBlue))
+                    ?: AnnotatedString(product.name),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.subtitle2
             )
             Text(
-                text = product.description,
+                text = product.highlightedDescription?.toAnnotatedString(spanStyle = SpanStyle(color = AppColors.nebulaBlue))
+                    ?: AnnotatedString(product.description),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.caption,
@@ -142,12 +129,13 @@ private fun ProductRow(modifier: Modifier = Modifier, product: Product) {
 @Composable
 private fun SectionTitle(modifier: Modifier = Modifier, title: String) {
     Text(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.background)
+            .padding(horizontal = 12.dp, vertical = 6.dp),
         text = title, style = MaterialTheme.typography.subtitle2,
         color = MaterialTheme.colors.onBackground.copy(alpha = 0.4f),
     )
 }
 
-private fun String.toAnnotatedString(): AnnotatedString {
-    return HighlightTokenizer(DefaultPreTag, DefaultPostTag)(this).toAnnotatedString()
-}
+private fun Facet.highlightedString(): AnnotatedString = HighlightTokenizer()(highlighted).toAnnotatedString()
