@@ -8,7 +8,7 @@ work = "2.7.1"
 
 [libraries]
 # algolia
-algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version = "2.1.1" }
+algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version = "2.1.2" }
 algolia-telemetry = { group = "com.algolia", name = "instantsearch-telemetry", version = "0.2.0" }
 
 # network
@@ -34,7 +34,7 @@ google-material = { group = "com.google.android.material", name = "material", ve
 # test
 test-androidx-ext = { group = "androidx.test.ext", name = "junit", version = "1.1.5" }
 test-androidx-runner = { group = "androidx.test", name = "runner", version = "1.5.2" }
-test-androidx-espresso = { group = "androidx.test.espresso", name = "espresso", version = "3.2.0" }
+test-androidx-espresso = { group = "androidx.test.espresso", name = "espresso-core", version = "3.5.1" }
 test-androidx-work = { group = "androidx.work", name = "work-testing", version.ref = "work" }
 test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 test-ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
