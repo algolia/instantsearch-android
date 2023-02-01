@@ -6,6 +6,7 @@ plugins {
 
 android {
     compileSdk 33
+    namespace "com.algolia.instantsearch.example.wearos"
 
     defaultConfig {
         applicationId "com.algolia.instantsearch.example.wearos"

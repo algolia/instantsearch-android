@@ -4,6 +4,7 @@ apply plugin: 'kotlinx-serialization'
 
 android {
     compileSdkVersion 33
+    namespace "com.algolia.instantsearch.examples.android"
 
     defaultConfig {
         applicationId "com.algolia.instantsearch.examples.android"
