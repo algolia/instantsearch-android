@@ -3,13 +3,11 @@ package com.algolia.instantsearch.searcher.facets.internal
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceFacetsSearcher
-import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.facets.SearchForFacetQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
-import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.runAsLoading
-import com.algolia.instantsearch.searcher.internal.withUserAgent
+import com.algolia.instantsearch.searcher.internal.withAlgoliaAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchOperation
 import com.algolia.search.model.Attribute
@@ -47,7 +45,7 @@ internal class DefaultFacetsSearcher(
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
 
-    private val options get() = requestOptions.withUserAgent()
+    private val options get() = requestOptions.withAlgoliaAgent()
     private val indexedQuery get() = FacetIndexQuery(indexName, query, attribute, facetQuery)
 
     init {

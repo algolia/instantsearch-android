@@ -7,7 +7,7 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.hits.SearchForQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.searcher.internal.runAsLoading
-import com.algolia.instantsearch.searcher.internal.withUserAgent
+import com.algolia.instantsearch.searcher.internal.withAlgoliaAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchOperation
 import com.algolia.search.model.IndexName
@@ -45,7 +45,7 @@ internal class DefaultHitsSearcher(
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
 
-    private val options get() = requestOptions.withUserAgent()
+    private val options get() = requestOptions.withAlgoliaAgent()
     private val indexedQuery get() = IndexQuery(indexName, query)
 
     init {

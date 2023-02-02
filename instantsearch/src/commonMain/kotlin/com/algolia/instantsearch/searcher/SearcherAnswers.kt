@@ -7,7 +7,7 @@ import com.algolia.instantsearch.extension.traceAnswersSearcher
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.runAsLoading
-import com.algolia.instantsearch.searcher.internal.withUserAgent
+import com.algolia.instantsearch.searcher.internal.withAlgoliaAgent
 import com.algolia.search.ExperimentalAlgoliaClientAPI
 import com.algolia.search.client.Index
 import com.algolia.search.model.response.ResponseSearch
@@ -39,7 +39,7 @@ public class SearcherAnswers(
     override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
 
     private val sequencer = Sequencer()
-    private val options get() = requestOptions.withUserAgent()
+    private val options get() = requestOptions.withAlgoliaAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)
 
     init {
