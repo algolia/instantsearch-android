@@ -1,3 +1,13 @@
+# 3.1.5
+
+### Fixed
+- Add algolia agent to insights (#381)
+
+### Changed
+- Kotlin to `1.8.10` (#380)
+- Compose compiler to `1.4.2` (#380)
+- Algolia Kotlin API client to `2.1.3` (#366)
+
 # 3.1.4
 
 ### Changed
