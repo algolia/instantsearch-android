@@ -37,14 +37,3 @@ kotlin {
         }
     }
 }
-
-tasks {
-    val copyTemplates = register<Copy>("copyTemplates") {
-        from("src/commonMain/templates")
-        into("$buildDir/generated/sources/templates/kotlin/main")
-        val version = project.extensions.extraProperties["VERSION_NAME"] as String // require clean build
-        expand("projectVersion" to version)
-        filteringCharset = "UTF-8"
-    }
-    kotlin.sourceSets.commonMain.get().kotlin.srcDir(copyTemplates)
-}
