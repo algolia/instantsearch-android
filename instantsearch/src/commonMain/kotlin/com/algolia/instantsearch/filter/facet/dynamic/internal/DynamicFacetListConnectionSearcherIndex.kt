@@ -23,8 +23,9 @@ internal class DynamicFacetListConnectionSearcherIndex(
 
     private val responseSubscription: Callback<ResponseSearch?> = { response ->
         val facetOrdering = response?.renderingContentOrNull?.facetOrdering
-        val facets = response?.facetsOrNull
-        viewModel.orderedFacets = buildOrder(facetOrdering, facets)
+        val facets = response?.facetsOrNull ?: emptyMap()
+        val disjunctiveFacets = response?.disjunctiveFacetsOrNull ?: emptyMap()
+        viewModel.orderedFacets = buildOrder(facetOrdering, facets.plus(disjunctiveFacets))
     }
 
     private fun buildOrder(ordering: FacetOrdering?, facets: Map<Attribute, List<Facet>>?): List<AttributedFacets> {
