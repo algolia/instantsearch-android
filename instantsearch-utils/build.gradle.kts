@@ -34,8 +34,10 @@ kotlin {
     android {
         publishAllLibraryVariants()
         publishLibraryVariantsGroupedByFlavor = true
+        compilations.all {
+            kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+        }
     }
-
     sourceSets {
         all {
             languageSettings.optIn("com.algolia.instantsearch.InternalInstantSearch")
