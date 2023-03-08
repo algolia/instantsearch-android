@@ -1,3 +1,9 @@
+# 3.1.6
+
+### Fixed
+- DynamicFacetList: add default selection & faceting parameters (#379)
+- DynamicFacetList: ignoring of disjunctive facets when updating orderedFacets (#385)
+
 # 3.1.5
 
 ### Fixed
