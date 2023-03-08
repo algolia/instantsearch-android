@@ -4,6 +4,7 @@ import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.extension.traceDynamicFacetConnector
 import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
+import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.search.model.Attribute
@@ -23,7 +24,8 @@ public class DynamicFacetListConnector(
     public val searcher: SearcherForHits<*>,
     public val filterState: FilterState,
     public val viewModel: DynamicFacetListViewModel = DynamicFacetListViewModel(),
-    filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap()
+    filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap(),
+    defaultFilterOperator: FilterOperator = FilterOperator.And,
 ) : AbstractConnection() {
 
     /**
@@ -42,15 +44,24 @@ public class DynamicFacetListConnector(
         orderedFacets: List<AttributedFacets> = emptyList(),
         selections: SelectionsPerAttribute = mutableMapOf(),
         selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap(),
-        filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap()
-    ) : this(searcher, filterState, DynamicFacetListViewModel(orderedFacets, selections, selectionModeForAttribute), filterGroupForAttribute)
+        defaultSelectionMode: SelectionMode = SelectionMode.Single,
+        filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap(),
+        defaultFilterOperator: FilterOperator = FilterOperator.And,
+    ) : this(
+        searcher,
+        filterState,
+        DynamicFacetListViewModel(orderedFacets, selections, selectionModeForAttribute, defaultSelectionMode),
+        filterGroupForAttribute,
+        defaultFilterOperator
+    )
 
     init {
         traceDynamicFacetConnector(filterGroupForAttribute)
     }
 
     private val searcherConnection = viewModel.connectSearcher(searcher)
-    private val filterStateConnection = viewModel.connectFilterState(filterState, filterGroupForAttribute)
+    private val filterStateConnection =
+        viewModel.connectFilterState(filterState, filterGroupForAttribute, defaultFilterOperator)
 
     override fun connect() {
         super.connect()
