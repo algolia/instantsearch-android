@@ -1,3 +1,8 @@
+# 3.1.7
+
+### Fixed
+- Compatibility: compile binaries using Java 11
+
 # 3.1.6
 
 ### Fixed
