@@ -7,6 +7,7 @@ import com.algolia.instantsearch.searcher.SearcherAnswers
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.search.client.ClientInsights
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
@@ -15,8 +16,9 @@ import kotlinx.coroutines.Dispatchers
 
 val TestCoroutineScope = SearcherScope(Dispatchers.Default)
 
-fun TestSearcherSingle(client: ClientSearch, indexName: IndexName) = HitsSearcher(
+fun TestSearcherSingle(client: ClientSearch, insights: ClientInsights, indexName: IndexName) = HitsSearcher(
     client = client,
+    insights = insights,
     indexName = indexName,
     isDisjunctiveFacetingEnabled = false,
     coroutineScope = TestCoroutineScope

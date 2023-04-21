@@ -4,6 +4,7 @@ import com.algolia.search.model.IndexName
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
 import mockClient
+import mockInsights
 import respondBadRequest
 import responseSearch
 import shouldBeFalse
@@ -15,13 +16,14 @@ import shouldNotBeNull
 class TestSearcherSingleIndex {
 
     private val client = mockClient()
+    private val insights = mockInsights()
     private val indexName = IndexName("index")
     private val clientError = respondBadRequest()
     private val indexNameError = IndexName("index")
 
     @Test
     fun searchShouldUpdateLoading() = runTest {
-        val searcher = TestSearcherSingle(client, indexName)
+        val searcher = TestSearcherSingle(client, insights, indexName)
         var count = 0
 
         searcher.isLoading.subscribe { if (it) count++ }
@@ -32,7 +34,7 @@ class TestSearcherSingleIndex {
 
     @Test
     fun searchShouldUpdateResponse() = runTest {
-        val searcher = TestSearcherSingle(client, indexName)
+        val searcher = TestSearcherSingle(client, insights, indexName)
         var responded = false
 
         searcher.response.subscribe { responded = true }
@@ -45,7 +47,7 @@ class TestSearcherSingleIndex {
 
     @Test
     fun searchShouldUpdateError() = runTest {
-        val searcher = TestSearcherSingle(clientError, indexNameError)
+        val searcher = TestSearcherSingle(clientError, insights, indexNameError)
         var error = false
 
         searcher.error.subscribe { error = true }
@@ -54,5 +56,10 @@ class TestSearcherSingleIndex {
         searcher.error.value.shouldNotBeNull()
         searcher.response.value.shouldBeNull()
         error.shouldBeTrue()
+    }
+
+    @Test
+    fun searchShouldTriggerViewEvents() = runTest {
+        var searcher = TestSearcherSingle(client, insights, indexName)
     }
 }

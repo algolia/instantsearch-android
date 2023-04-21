@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.searcher.hits
 
+import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.searcher.FilterGroupsHolder
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.searcher.SearcherForHits
@@ -9,10 +10,12 @@ import com.algolia.instantsearch.searcher.hits.internal.DefaultHitsSearcher
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.asMultiSearchComponent
+import com.algolia.search.client.ClientInsights
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
+import com.algolia.search.model.insights.UserToken
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
@@ -34,24 +37,31 @@ public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterG
  * Creates an instance of [HitsSearcher].
  *
  * @param client search client instance
+ * @param insights insights client instance
  * @param indexName index name
  * @param query the query used for search
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
  * @param coroutineDispatcher async search dispatcher
  * @param triggerSearchFor request condition
+ * @param areEventsEnabled whether automatic view events sending for incoming hits is enabled
+ * @param userToken the unique identifier for the user who triggered the view event
  */
 public fun HitsSearcher(
     client: ClientSearch,
+    insights: ClientInsights,
     indexName: IndexName,
     query: Query = Query(),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
-    triggerSearchFor: SearchForQuery = SearchForQuery.All
+    triggerSearchFor: SearchForQuery = SearchForQuery.All,
+    areEventsEnabled: Boolean = true,
+    userToken: UserToken? = null,
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client),
+    insights = insights,
     indexName = indexName,
     query = query,
     requestOptions = requestOptions,
@@ -59,6 +69,8 @@ public fun HitsSearcher(
     coroutineScope = coroutineScope,
     coroutineDispatcher = coroutineDispatcher,
     triggerSearchFor = triggerSearchFor,
+    areEventsEnabled = areEventsEnabled,
+    userToken = userToken
 )
 
 /**
@@ -70,8 +82,8 @@ public fun HitsSearcher(
  * @param query the query used for search
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
- * @param coroutineDispatcher async search dispatcher
- * @param triggerSearchFor request condition
+ * @param areEventsEnabled whether automatic view events sending for incoming hits is enabled
+ * @param userToken the unique identifier for the user who triggered the view event
  */
 public fun HitsSearcher(
     applicationID: ApplicationID,
@@ -83,8 +95,11 @@ public fun HitsSearcher(
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
+    areEventsEnabled: Boolean = true,
+    userToken: UserToken? = null,
 ): HitsSearcher = HitsSearcher(
     client = ClientSearch(applicationID, apiKey),
+    insights = ClientInsights(applicationID, apiKey),
     indexName = indexName,
     query = query,
     requestOptions = requestOptions,
@@ -92,6 +107,8 @@ public fun HitsSearcher(
     coroutineScope = coroutineScope,
     coroutineDispatcher = coroutineDispatcher,
     triggerSearchFor = triggerSearchFor,
+    areEventsEnabled = areEventsEnabled,
+    userToken = userToken,
 )
 
 /**
@@ -101,16 +118,21 @@ public fun HitsSearcher(
  * @param query the query used for search
  * @param requestOptions request local configuration
  * @param triggerSearchFor request condition
+ * @param areEventsEnabled whether automatic view events sending for incoming hits is enabled
+ * @param userToken the unique identifier for the user who triggered the view event
  */
 public fun MultiSearcher.addHitsSearcher(
     indexName: IndexName,
     query: Query = Query(),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
-    triggerSearchFor: SearchForQuery = SearchForQuery.All
+    triggerSearchFor: SearchForQuery = SearchForQuery.All,
+    areEventsEnabled: Boolean = true,
+    userToken: UserToken?,
 ): HitsSearcher {
     return DefaultHitsSearcher(
         searchService = DefaultHitsSearchService(client),
+        insights = ClientInsights(applicationID = client.applicationID, apiKey = client.apiKey),
         indexName = indexName,
         query = query,
         requestOptions = requestOptions,
@@ -118,5 +140,7 @@ public fun MultiSearcher.addHitsSearcher(
         coroutineScope = coroutineScope,
         coroutineDispatcher = coroutineDispatcher,
         triggerSearchFor = triggerSearchFor,
+        areEventsEnabled = areEventsEnabled,
+        userToken = userToken,
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }
