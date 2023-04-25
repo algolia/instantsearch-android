@@ -35,7 +35,7 @@ internal class DynamicFacetListConnectionFilterState(
             .map { it.attribute }
             .map { it to facetValuesOf(it) }
             .toMap()
-        viewModel.selections = selectionsPerAttribute
+        viewModel.selections += selectionsPerAttribute
     }
 
     private fun facetValuesOf(attribute: Attribute): Set<String> {
