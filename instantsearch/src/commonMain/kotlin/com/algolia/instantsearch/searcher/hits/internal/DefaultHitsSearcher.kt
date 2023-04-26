@@ -123,11 +123,16 @@ internal class DefaultHitsSearcher(
     }
 
     private fun onSingleQuerySearchResponse(responses: List<ResponseSearch>) {
-        response.value = responses.firstOrNull()
-        val objectIDs = response.value?.hits?.map {
-            it["objectID"].toString()
+        val responseSearch = responses.firstOrNull()
+        response.value = responseSearch
+        if (responseSearch != null && isAutoSendingHitsViewEvents) {
+            val events = getViewEvents(responseSearch)
+            if (events.isNotEmpty()) {
+                coroutineScope.launch(exceptionHandler) {
+                    insights.sendEvents(events)
+                }
+            }
         }
-        println(">>> $objectIDs")
     }
 
     override fun cancel() {

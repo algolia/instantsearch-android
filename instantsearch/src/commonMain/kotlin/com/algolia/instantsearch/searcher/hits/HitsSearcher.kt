@@ -89,6 +89,8 @@ public fun HitsSearcher(
  * @param query the query used for search
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
+ * @param coroutineDispatcher async search dispatcher
+ * @param triggerSearchFor request condition
  * @param isAutoSendingHitsViewEvents flag defining whether the automatic hits view Insights events sending is enabled
  * @param userToken the unique identifier for the user who triggered the view event
  */
