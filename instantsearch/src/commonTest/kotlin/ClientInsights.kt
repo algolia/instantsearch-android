@@ -3,19 +3,19 @@ import com.algolia.search.configuration.ConfigurationInsights
 import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
-import io.ktor.client.engine.mock.*
-import io.ktor.client.request.*
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.request.HttpResponseData
 
-fun mockInsights(
+fun mockClientInsights(
     response: HttpResponseData? = null,
 ): ClientInsights {
     val mockEngine = if (response != null) MockEngine { response } else {
         defaultMockEngine
     }
-    return mockInsights(mockEngine)
+    return mockClientInsights(mockEngine)
 }
 
-fun mockInsights(
+fun mockClientInsights(
     mockEngine: MockEngine,
 ): ClientInsights {
     return ClientInsights(

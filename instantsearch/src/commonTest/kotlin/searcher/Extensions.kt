@@ -12,16 +12,22 @@ import com.algolia.search.client.ClientSearch
 import com.algolia.search.client.Index
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
 val TestCoroutineScope = SearcherScope(Dispatchers.Default)
 
-fun TestSearcherSingle(client: ClientSearch, insights: ClientInsights, indexName: IndexName) = HitsSearcher(
+fun TestSearcherSingle(
+    client: ClientSearch,
+    indexName: IndexName,
+    insights: ClientInsights = ClientInsights(client.applicationID, client.apiKey),
+    coroutineScope: CoroutineScope = TestCoroutineScope,
+) = HitsSearcher(
     client = client,
     insights = insights,
     indexName = indexName,
     isDisjunctiveFacetingEnabled = false,
-    coroutineScope = TestCoroutineScope
+    coroutineScope = coroutineScope
 )
 
 fun TestSearcherForFacets(client: ClientSearch, indexName: IndexName, attribute: Attribute) = FacetsSearcher(

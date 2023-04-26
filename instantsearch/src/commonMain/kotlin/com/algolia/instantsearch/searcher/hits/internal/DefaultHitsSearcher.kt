@@ -3,7 +3,6 @@ package com.algolia.instantsearch.searcher.hits.internal
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceHitsSearcher
-import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.hits.SearchForQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
@@ -22,8 +21,6 @@ import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
-import java.util.logging.Level
-import java.util.logging.Logger
 import kotlinx.coroutines.*
 
 /**
@@ -40,7 +37,7 @@ internal class DefaultHitsSearcher(
     override val coroutineScope: CoroutineScope,
     override val coroutineDispatcher: CoroutineDispatcher,
     private val triggerSearchFor: SearchForQuery,
-    private val areEventsEnabled: Boolean,
+    override var isAutoSendingHitsViewEvents: Boolean,
     private var userToken: UserToken? = null,
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
@@ -55,6 +52,8 @@ internal class DefaultHitsSearcher(
     private val options get() = requestOptions.withAlgoliaAgent()
     private val indexedQuery get() = IndexQuery(indexName, query)
 
+    private val maxObjectIDsPerEvent = 10
+
     init {
         traceHitsSearcher()
     }
@@ -68,10 +67,11 @@ internal class DefaultHitsSearcher(
             isLoading.runAsLoading {
                 val responseSearch = search()
                 response.value = responseSearch
-                if (areEventsEnabled) {
-                    responseSearch?.hits
-                        ?.map { hit -> ObjectID(hit["objectID"].toString()) }
-                        ?.let { viewedObjectIDs(it) }
+                if (responseSearch != null && isAutoSendingHitsViewEvents) {
+                    val events = getViewEvents(responseSearch)
+                    if (events.isNotEmpty()) {
+                        insights.sendEvents(events)
+                    }
                 }
             }
         }.also {
@@ -86,16 +86,18 @@ internal class DefaultHitsSearcher(
         }
     }
 
-    private fun viewedObjectIDs(objectIDs: List<ObjectID>) {
-        coroutineScope.launch(coroutineDispatcher) {
-            val event = InsightsEvent.View(
-                eventName = EventName("Hits Viewed"),
-                indexName = indexName,
-                userToken = userToken,
-                resources = InsightsEvent.Resources.ObjectIDs(objectIDs),
-            )
-            insights.sendEvent(event)
-        }
+    private fun getViewEvents(response: ResponseSearch): List<InsightsEvent.View> {
+        return response.hitsOrNull
+            ?.map { hit -> ObjectID(hit["objectID"].toString()) }
+            ?.chunked(maxObjectIDsPerEvent)
+            ?.map {
+                InsightsEvent.View(
+                    eventName = EventName("Hits Viewed"),
+                    indexName = indexName,
+                    userToken = userToken,
+                    resources = InsightsEvent.Resources.ObjectIDs(it),
+                )
+            } ?: listOf()
     }
 
     override fun collect(): MultiSearchOperation<IndexQuery, ResponseSearch> {

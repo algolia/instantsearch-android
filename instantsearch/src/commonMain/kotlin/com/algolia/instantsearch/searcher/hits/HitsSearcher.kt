@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.searcher.hits
 
-import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.searcher.FilterGroupsHolder
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.searcher.SearcherForHits
@@ -31,6 +30,14 @@ public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterG
      * Flag defining if disjunctive faceting is enabled.
      */
     public val isDisjunctiveFacetingEnabled: Boolean
+
+    /**
+     * Flag defining whether the automatic hits view Insights events sending is enabled.
+     *
+     * When this flag is set to true (default), the HitsSearcher automatically send Insights events
+     * with object IDs received from search results hits.
+     */
+    public var isAutoSendingHitsViewEvents: Boolean
 }
 
 /**
@@ -44,20 +51,20 @@ public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterG
  * @param coroutineScope scope of coroutine operations
  * @param coroutineDispatcher async search dispatcher
  * @param triggerSearchFor request condition
- * @param areEventsEnabled whether automatic view events sending for incoming hits is enabled
+ * @param isAutoSendingHitsViewEvents flag defining whether the automatic hits view Insights events sending is enabled
  * @param userToken the unique identifier for the user who triggered the view event
  */
 public fun HitsSearcher(
     client: ClientSearch,
-    insights: ClientInsights,
     indexName: IndexName,
     query: Query = Query(),
+    insights: ClientInsights = ClientInsights(client.applicationID, client.apiKey),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
-    areEventsEnabled: Boolean = true,
+    isAutoSendingHitsViewEvents: Boolean = true,
     userToken: UserToken? = null,
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client),
@@ -69,7 +76,7 @@ public fun HitsSearcher(
     coroutineScope = coroutineScope,
     coroutineDispatcher = coroutineDispatcher,
     triggerSearchFor = triggerSearchFor,
-    areEventsEnabled = areEventsEnabled,
+    isAutoSendingHitsViewEvents = isAutoSendingHitsViewEvents,
     userToken = userToken
 )
 
@@ -82,7 +89,7 @@ public fun HitsSearcher(
  * @param query the query used for search
  * @param requestOptions request local configuration
  * @param coroutineScope scope of coroutine operations
- * @param areEventsEnabled whether automatic view events sending for incoming hits is enabled
+ * @param isAutoSendingHitsViewEvents flag defining whether the automatic hits view Insights events sending is enabled
  * @param userToken the unique identifier for the user who triggered the view event
  */
 public fun HitsSearcher(
@@ -95,7 +102,7 @@ public fun HitsSearcher(
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
-    areEventsEnabled: Boolean = true,
+    isAutoSendingHitsViewEvents: Boolean = true,
     userToken: UserToken? = null,
 ): HitsSearcher = HitsSearcher(
     client = ClientSearch(applicationID, apiKey),
@@ -107,7 +114,7 @@ public fun HitsSearcher(
     coroutineScope = coroutineScope,
     coroutineDispatcher = coroutineDispatcher,
     triggerSearchFor = triggerSearchFor,
-    areEventsEnabled = areEventsEnabled,
+    isAutoSendingHitsViewEvents = isAutoSendingHitsViewEvents,
     userToken = userToken,
 )
 
@@ -118,7 +125,7 @@ public fun HitsSearcher(
  * @param query the query used for search
  * @param requestOptions request local configuration
  * @param triggerSearchFor request condition
- * @param areEventsEnabled whether automatic view events sending for incoming hits is enabled
+ * @param isAutoSendingHitsViewEvents flag defining whether the automatic hits view Insights events sending is enabled
  * @param userToken the unique identifier for the user who triggered the view event
  */
 public fun MultiSearcher.addHitsSearcher(
@@ -127,8 +134,8 @@ public fun MultiSearcher.addHitsSearcher(
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
-    areEventsEnabled: Boolean = true,
-    userToken: UserToken?,
+    isAutoSendingHitsViewEvents: Boolean = true,
+    userToken: UserToken? = null,
 ): HitsSearcher {
     return DefaultHitsSearcher(
         searchService = DefaultHitsSearchService(client),
@@ -140,7 +147,7 @@ public fun MultiSearcher.addHitsSearcher(
         coroutineScope = coroutineScope,
         coroutineDispatcher = coroutineDispatcher,
         triggerSearchFor = triggerSearchFor,
-        areEventsEnabled = areEventsEnabled,
+        isAutoSendingHitsViewEvents = isAutoSendingHitsViewEvents,
         userToken = userToken,
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }
