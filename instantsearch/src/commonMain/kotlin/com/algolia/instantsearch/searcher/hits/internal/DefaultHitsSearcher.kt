@@ -38,7 +38,7 @@ internal class DefaultHitsSearcher(
     override val coroutineDispatcher: CoroutineDispatcher,
     private val triggerSearchFor: SearchForQuery,
     override var isAutoSendingHitsViewEvents: Boolean,
-    private var userToken: UserToken? = null,
+    override var userToken: UserToken,
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)

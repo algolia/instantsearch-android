@@ -2,6 +2,7 @@ package searcher
 
 import JsonNoDefaults
 import com.algolia.search.model.IndexName
+import com.algolia.search.model.insights.UserToken
 import com.algolia.search.model.response.ResponseSearch
 import io.ktor.client.engine.mock.*
 import io.ktor.http.*
@@ -68,13 +69,15 @@ class TestSearcherSingleIndex {
     @Test
     fun searchShouldTriggerViewEvents() = runTest {
         var fetchedObjectIDs = listOf<String>();
+        var userToken = "";
 
         val mockInsightsEngine = MockEngine { request ->
             val json = JsonNoDefaults.decodeFromString(JsonObject.serializer(), (request.body as TextContent).text)
-            fetchedObjectIDs =
-                json["events"]?.jsonArray?.first()?.jsonObject?.get("objectIDs")?.jsonArray?.toList()
+            val event = json["events"]?.jsonArray?.first()?.jsonObject
+            fetchedObjectIDs = event?.get("objectIDs")?.jsonArray?.toList()
                     ?.map { it.jsonPrimitive.content }
                     ?: listOf();
+            userToken = event?.get("userToken")?.jsonPrimitive?.content ?: ""
             respondOk()
         }
         val mockSearchEngine = MockEngine { request ->
@@ -97,6 +100,7 @@ class TestSearcherSingleIndex {
         val searcher =
             TestSearcherSingle(mockClient(mockSearchEngine), indexName, mockClientInsights(mockInsightsEngine), this)
         searcher.searchAsync().join()
+        userToken.startsWith("anonymous-").shouldBeTrue()
         fetchedObjectIDs shouldEqual listOf("\"obj1\"", "\"obj2\"", "\"obj3\"")
     }
 
@@ -163,6 +167,41 @@ class TestSearcherSingleIndex {
         searcher.isAutoSendingHitsViewEvents = false
         searcher.searchAsync().join()
         calledInsights.shouldBeFalse()
+    }
+
+    @Test
+    fun shouldPropagateExplicitlyProvidedUserToken() = runTest {
+        var userToken = "";
+
+        val mockInsightsEngine = MockEngine { request ->
+            val json = JsonNoDefaults.decodeFromString(JsonObject.serializer(), (request.body as TextContent).text)
+            userToken =
+                json["events"]?.jsonArray?.first()?.jsonObject?.get("userToken")?.jsonPrimitive?.content.toString()
+            respondOk()
+        }
+        val mockSearchEngine = MockEngine { request ->
+            val responseString = JsonNoDefaults.encodeToString(
+                ResponseSearch.serializer(), ResponseSearch(
+                    hitsOrNull = (1..11).map { "obj$it" }.map {
+                        ResponseSearch.Hit(
+                            buildJsonObject { put("objectID", it) })
+                    }
+                )
+            )
+            respond(
+                headers = headersOf(
+                    "Content-Type",
+                    listOf(ContentType.Application.Json.toString())
+                ),
+                content = ByteReadChannel(responseString)
+            )
+        }
+        val searcher =
+            TestSearcherSingle(mockClient(mockSearchEngine), indexName, mockClientInsights(mockInsightsEngine), this)
+        searcher.userToken = UserToken("my-user-token");
+        searcher.searchAsync().join()
+
+        userToken shouldEqual "my-user-token"
     }
 
 }

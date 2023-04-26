@@ -17,6 +17,7 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.insights.UserToken
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
+import java.util.UUID
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 
@@ -38,6 +39,18 @@ public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterG
      * with object IDs received from search results hits.
      */
     public var isAutoSendingHitsViewEvents: Boolean
+
+    /**
+     * User token assigned to automatically sent Insights events in the HitsSearcher component.
+     *
+     * This user token is used to identify unique users and associate their interactions with the
+     * search results, which helps in generating accurate and personalized analytics data.
+     *
+     * Set this property to a specific user token to associate the automatically sent hits view
+     * Insights events with a unique user. If not set explicitly during initialization, the Algolia client
+     * should generate and assign a default user token.
+     */
+    public var userToken: UserToken
 }
 
 /**
@@ -52,7 +65,7 @@ public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterG
  * @param coroutineDispatcher async search dispatcher
  * @param triggerSearchFor request condition
  * @param isAutoSendingHitsViewEvents flag defining whether the automatic hits view Insights events sending is enabled
- * @param userToken the unique identifier for the user who triggered the view event
+ * @param userToken user token assigned to automatically sent Insights events in the HitsSearcher component
  */
 public fun HitsSearcher(
     client: ClientSearch,
@@ -65,7 +78,7 @@ public fun HitsSearcher(
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
     isAutoSendingHitsViewEvents: Boolean = true,
-    userToken: UserToken? = null,
+    userToken: UserToken = UserToken.anonymous(),
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client),
     insights = insights,
@@ -92,7 +105,7 @@ public fun HitsSearcher(
  * @param coroutineDispatcher async search dispatcher
  * @param triggerSearchFor request condition
  * @param isAutoSendingHitsViewEvents flag defining whether the automatic hits view Insights events sending is enabled
- * @param userToken the unique identifier for the user who triggered the view event
+ * @param userToken user token assigned to automatically sent Insights events in the HitsSearcher component
  */
 public fun HitsSearcher(
     applicationID: ApplicationID,
@@ -105,7 +118,7 @@ public fun HitsSearcher(
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
     isAutoSendingHitsViewEvents: Boolean = true,
-    userToken: UserToken? = null,
+    userToken: UserToken = UserToken.anonymous(),
 ): HitsSearcher = HitsSearcher(
     client = ClientSearch(applicationID, apiKey),
     insights = ClientInsights(applicationID, apiKey),
@@ -128,7 +141,7 @@ public fun HitsSearcher(
  * @param requestOptions request local configuration
  * @param triggerSearchFor request condition
  * @param isAutoSendingHitsViewEvents flag defining whether the automatic hits view Insights events sending is enabled
- * @param userToken the unique identifier for the user who triggered the view event
+ * @param userToken user token assigned to automatically sent Insights events in the HitsSearcher component
  */
 public fun MultiSearcher.addHitsSearcher(
     indexName: IndexName,
@@ -137,7 +150,7 @@ public fun MultiSearcher.addHitsSearcher(
     isDisjunctiveFacetingEnabled: Boolean = true,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
     isAutoSendingHitsViewEvents: Boolean = true,
-    userToken: UserToken? = null,
+    userToken: UserToken = UserToken.anonymous(),
 ): HitsSearcher {
     return DefaultHitsSearcher(
         searchService = DefaultHitsSearchService(client),
@@ -152,4 +165,8 @@ public fun MultiSearcher.addHitsSearcher(
         isAutoSendingHitsViewEvents = isAutoSendingHitsViewEvents,
         userToken = userToken,
     ).also { addSearcher(it.asMultiSearchComponent()) }
+}
+
+private fun UserToken.Companion.anonymous(): UserToken {
+    return UserToken("anonymous-${UUID.randomUUID()}")
 }
