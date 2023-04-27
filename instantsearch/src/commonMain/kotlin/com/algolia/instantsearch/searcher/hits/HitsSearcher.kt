@@ -47,8 +47,8 @@ public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterG
      * search results, which helps in generating accurate and personalized analytics data.
      *
      * Set this property to a specific user token to associate the automatically sent hits view
-     * Insights events with a unique user. If not set explicitly during initialization, the Algolia client
-     * should generate and assign a default user token.
+     * Insights events with a unique user. If not explicitly set during initialization, the HitsSearcher
+     * generates and assigns a default user token.
      */
     public var userToken: UserToken
 }
