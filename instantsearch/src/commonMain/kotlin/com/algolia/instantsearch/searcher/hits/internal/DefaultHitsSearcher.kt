@@ -128,7 +128,7 @@ internal class DefaultHitsSearcher(
         if (responseSearch != null && isAutoSendingHitsViewEvents) {
             val events = getViewEvents(responseSearch)
             if (events.isNotEmpty()) {
-                coroutineScope.launch(exceptionHandler) {
+                coroutineScope.launch() {
                     insights.sendEvents(events)
                 }
             }
