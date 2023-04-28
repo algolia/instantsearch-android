@@ -64,16 +64,11 @@ internal class DefaultHitsSearcher(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
-            isLoading.runAsLoading {
-                val responseSearch = search()
-                response.value = responseSearch
-                if (responseSearch != null && isAutoSendingHitsViewEvents) {
-                    val events = getViewEvents(responseSearch)
-                    if (events.isNotEmpty()) {
-                        insights.sendEvents(events)
-                    }
-                }
-            }
+            isLoading.value = true
+            val responseSearch = search()
+            response.value = responseSearch
+            isLoading.value = false
+            sendInsightsEvents(responseSearch)
         }.also {
             sequencer.addOperation(it)
         }
@@ -86,6 +81,14 @@ internal class DefaultHitsSearcher(
         }
     }
 
+    private suspend fun sendInsightsEvents(response: ResponseSearch?) {
+        if (response != null && isAutoSendingHitsViewEvents) {
+            val events = getViewEvents(response)
+            if (events.isNotEmpty()) {
+                insights.sendEvents(events)
+            }
+        }
+    }
     private fun getViewEvents(response: ResponseSearch): List<InsightsEvent.View> {
         return response.hitsOrNull
             ?.map { hit -> ObjectID(hit["objectID"].toString()) }
@@ -125,13 +128,8 @@ internal class DefaultHitsSearcher(
     private fun onSingleQuerySearchResponse(responses: List<ResponseSearch>) {
         val responseSearch = responses.firstOrNull()
         response.value = responseSearch
-        if (responseSearch != null && isAutoSendingHitsViewEvents) {
-            val events = getViewEvents(responseSearch)
-            if (events.isNotEmpty()) {
-                coroutineScope.launch() {
-                    insights.sendEvents(events)
-                }
-            }
+        coroutineScope.launch {
+            sendInsightsEvents(responseSearch)
         }
     }
 
