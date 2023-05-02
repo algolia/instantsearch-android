@@ -9,6 +9,7 @@ import com.algolia.instantsearch.searcher.hits.internal.DefaultHitsSearcher
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.asMultiSearchComponent
+import com.algolia.instantsearch.util.randomUuid
 import com.algolia.search.client.ClientInsights
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.model.APIKey
@@ -17,7 +18,6 @@ import com.algolia.search.model.IndexName
 import com.algolia.search.model.insights.UserToken
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
-import java.util.UUID
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 
@@ -168,5 +168,5 @@ public fun MultiSearcher.addHitsSearcher(
 }
 
 private fun UserToken.Companion.anonymous(): UserToken {
-    return UserToken("anonymous-${UUID.randomUUID()}")
+    return UserToken("anonymous-${randomUuid()}")
 }
