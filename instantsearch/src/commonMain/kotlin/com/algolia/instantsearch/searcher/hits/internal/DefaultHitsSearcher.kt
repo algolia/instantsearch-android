@@ -10,17 +10,18 @@ import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withAlgoliaAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchOperation
+import com.algolia.search.client.ClientInsights
 import com.algolia.search.model.IndexName
+import com.algolia.search.model.ObjectID
 import com.algolia.search.model.filter.FilterGroup
+import com.algolia.search.model.insights.EventName
+import com.algolia.search.model.insights.InsightsEvent
+import com.algolia.search.model.insights.UserToken
 import com.algolia.search.model.multipleindex.IndexQuery
 import com.algolia.search.model.response.ResponseSearch
 import com.algolia.search.model.search.Query
 import com.algolia.search.transport.RequestOptions
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 /**
  * The component handling search requests and managing the search sessions.
@@ -28,13 +29,16 @@ import kotlinx.coroutines.withContext
  */
 internal class DefaultHitsSearcher(
     private val searchService: HitsSearchService,
+    private val insights: ClientInsights,
     override var indexName: IndexName,
     override val query: Query,
     override val requestOptions: RequestOptions?,
     override val isDisjunctiveFacetingEnabled: Boolean,
     override val coroutineScope: CoroutineScope,
     override val coroutineDispatcher: CoroutineDispatcher,
-    private val triggerSearchFor: SearchForQuery
+    private val triggerSearchFor: SearchForQuery,
+    override var isAutoSendingHitsViewEvents: Boolean,
+    override var userToken: UserToken,
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
@@ -48,6 +52,8 @@ internal class DefaultHitsSearcher(
     private val options get() = requestOptions.withAlgoliaAgent()
     private val indexedQuery get() = IndexQuery(indexName, query)
 
+    private val maxObjectIDsPerEvent = 10
+
     init {
         traceHitsSearcher()
     }
@@ -58,9 +64,11 @@ internal class DefaultHitsSearcher(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
-            isLoading.runAsLoading {
-                response.value = search()
-            }
+            isLoading.value = true
+            val responseSearch = search()
+            response.value = responseSearch
+            isLoading.value = false
+            sendInsightsEvents(responseSearch)
         }.also {
             sequencer.addOperation(it)
         }
@@ -71,6 +79,28 @@ internal class DefaultHitsSearcher(
         return withContext(coroutineDispatcher) {
             searchService.search(HitsSearchService.Request(indexedQuery, isDisjunctiveFacetingEnabled), options)
         }
+    }
+
+    private suspend fun sendInsightsEvents(response: ResponseSearch?) {
+        if (response != null && isAutoSendingHitsViewEvents) {
+            val events = getViewEvents(response)
+            if (events.isNotEmpty()) {
+                insights.sendEvents(events)
+            }
+        }
+    }
+    private fun getViewEvents(response: ResponseSearch): List<InsightsEvent.View> {
+        return response.hitsOrNull
+            ?.map { hit -> ObjectID(hit["objectID"].toString()) }
+            ?.chunked(maxObjectIDsPerEvent)
+            ?.map {
+                InsightsEvent.View(
+                    eventName = EventName("Hits Viewed"),
+                    indexName = indexName,
+                    userToken = userToken,
+                    resources = InsightsEvent.Resources.ObjectIDs(it),
+                )
+            } ?: listOf()
     }
 
     override fun collect(): MultiSearchOperation<IndexQuery, ResponseSearch> {
@@ -96,10 +126,18 @@ internal class DefaultHitsSearcher(
     }
 
     private fun onSingleQuerySearchResponse(responses: List<ResponseSearch>) {
-        response.value = responses.firstOrNull()
+        val responseSearch = responses.firstOrNull()
+        response.value = responseSearch
+        coroutineScope.launch {
+            sendInsightsEvents(responseSearch)
+        }
     }
 
     override fun cancel() {
         sequencer.cancelAll()
+    }
+
+    companion object {
+        private val ViewEventObjects = EventName("View Objects")
     }
 }
