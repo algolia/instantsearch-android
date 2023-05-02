@@ -1,3 +1,8 @@
+# 3.2.0
+
+### Added
+- HitsSearcher: auto-sending hits view Insights events for incoming hits
+
 # 3.1.7
 
 ### Fixed
