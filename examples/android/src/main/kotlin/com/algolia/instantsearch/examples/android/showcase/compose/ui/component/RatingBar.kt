@@ -17,7 +17,7 @@ fun RatingBar(
     AndroidView(
         modifier = modifier,
         factory = { context ->
-            RatingBarView(context, null, R.attr.ratingBarStyleIndicator).apply {
+            RatingBarView(context, null, androidx.appcompat.R.attr.ratingBarStyleIndicator).apply {
                 setIsIndicator(false)
                 step?.let { stepSize = it }
                 setOnRatingBarChangeListener { ratingBar, rating, _ ->
