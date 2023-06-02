@@ -2,6 +2,7 @@ package com.algolia.instantsearch.filter.facet.dynamic.internal
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
+import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListViewModel
 import com.algolia.instantsearch.filter.facet.dynamic.SelectionsPerAttribute
 import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
@@ -30,6 +31,13 @@ internal class DynamicFacetListConnectionFilterState(
 ) : AbstractConnection() {
 
     private val filterStateSubscription: Callback<Filters> = {
+        updateSelections()
+    }
+
+    private val facetOrderSubscription: Callback<List<AttributedFacets>> = {
+        updateSelections()
+    }
+    private fun updateSelections() {
         val selectionsPerAttribute = viewModel.orderedFacets
             .asSequence()
             .map { it.attribute }
@@ -67,12 +75,14 @@ internal class DynamicFacetListConnectionFilterState(
 
     override fun connect() {
         super.connect()
+        viewModel.onFacetOrderChanged.subscribe(facetOrderSubscription)
         viewModel.onSelectionsComputed.subscribePast(onSelectionsComputedSubscription)
         filterState.filters.subscribePast(filterStateSubscription)
     }
 
     override fun disconnect() {
         super.disconnect()
+        viewModel.onFacetOrderChanged.unsubscribe(facetOrderSubscription)
         viewModel.onSelectionsComputed.unsubscribe(onSelectionsComputedSubscription)
         filterState.filters.unsubscribe(filterStateSubscription)
     }
