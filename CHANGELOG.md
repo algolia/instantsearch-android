@@ -1,3 +1,8 @@
+# 3.2.1
+
+### Fixed
+- DynamicFacetList: update selections of facet order change (#393)
+
 # 3.2.0
 
 ### Added
