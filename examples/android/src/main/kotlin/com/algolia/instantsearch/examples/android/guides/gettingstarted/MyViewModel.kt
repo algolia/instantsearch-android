@@ -32,10 +32,10 @@ class MyViewModel : ViewModel() {
     )
     val paginator = Paginator(
         searcher = searcher,
-        pagingConfig = PagingConfig(pageSize = 50, enablePlaceholders = false),
+        pagingConfig = PagingConfig(pageSize = 20, enablePlaceholders = false),
         transformer = { hit -> hit.deserialize(Product.serializer()) }
     )
-    val searchBox = SearchBoxConnector(searcher)
+    val searchBox = SearchBoxConnector(searcher, searchOnQueryUpdate = false)
     val stats = StatsConnector(searcher)
 
     val filterState = FilterState()

@@ -12,15 +12,20 @@ internal data class SearchBoxConnectionSearcher<R>(
     private val searcher: Searcher<R>,
     private val searchMode: SearchMode,
     private val debouncer: Debouncer,
+    private val searchOnQueryUpdate: Boolean,
 ) : AbstractConnection() {
 
     private val searchAsYouType: Callback<String?> = { query ->
         searcher.setQuery(query)
-        debouncer.debounce(searcher) { searchAsync() }
+        if (searchOnQueryUpdate) {
+            debouncer.debounce(searcher) { searchAsync() }
+        }
     }
     private val searchOnSubmit: Callback<String?> = { query ->
         searcher.setQuery(query)
-        searcher.searchAsync()
+        if (searchOnQueryUpdate) {
+            searcher.searchAsync()
+        }
     }
 
     override fun connect() {
