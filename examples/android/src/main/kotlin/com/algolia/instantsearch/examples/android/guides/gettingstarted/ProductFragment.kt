@@ -10,6 +10,7 @@ import com.algolia.instantsearch.android.paging3.liveData
 import com.algolia.instantsearch.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.android.stats.StatsTextView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
+import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.examples.android.R
 import com.algolia.instantsearch.examples.android.guides.extension.configure
 import com.algolia.instantsearch.searchbox.connectView
