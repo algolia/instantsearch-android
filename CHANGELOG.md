@@ -1,3 +1,8 @@
+# 3.3.0
+
+### Added
+- SearchBoxConnector: flag to disable automatic search
+
 # 3.2.1
 
 ### Fixed
