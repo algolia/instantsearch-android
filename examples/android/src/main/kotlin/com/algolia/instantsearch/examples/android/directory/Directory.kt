@@ -14,6 +14,7 @@ import com.algolia.instantsearch.examples.android.codex.voice.MainActivity as Vo
 import com.algolia.instantsearch.examples.android.guides.compose.ComposeActivity
 import com.algolia.instantsearch.examples.android.guides.gettingstarted.GettingStartedGuide
 import com.algolia.instantsearch.examples.android.guides.insights.InsightsActivity
+import com.algolia.instantsearch.examples.android.guides.querysuggestion.QuerySuggestionActivity
 import com.algolia.instantsearch.examples.android.showcase.androidview.directory.AndroidViewDirectoryShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.directory.ComposeDirectoryShowcase
 import com.algolia.search.helper.deserialize
@@ -25,6 +26,7 @@ val guides = mapOf(
     ObjectID("guide_getting_started") to GettingStartedGuide::class,
     ObjectID("guide_insights") to InsightsActivity::class,
     ObjectID("guide_declarative_ui") to ComposeActivity::class,
+    ObjectID("guide_query_suggestion") to QuerySuggestionActivity::class,
     ObjectID("showcase_imperative_ui") to AndroidViewDirectoryShowcase::class,
     ObjectID("showcase_declarative_ui") to ComposeDirectoryShowcase::class,
     ObjectID("codex_categories_hits") to CategoriesHitsCodex::class,
