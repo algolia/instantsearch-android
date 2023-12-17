@@ -24,7 +24,6 @@ android {
     }
 
     buildFeatures {
-        buildConfig = false
         compose = true
     }
 

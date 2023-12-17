@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(), VoiceSpeechRecognizer.ResultsListener 
     }
 
     private fun getPermissionView(): View {
-        return getPermissionDialog()?.requireView()?.findViewById(R.id.positive) ?: error("permission view not found")
+        return getPermissionDialog()?.requireView()?.findViewById(com.algolia.instantsearch.voice.R.id.positive) ?: error("permission view not found")
     }
 
     private enum class Tag {

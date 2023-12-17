@@ -30,7 +30,7 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += ['META-INF/*.kotlin_module']
         }

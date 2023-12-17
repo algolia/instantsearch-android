@@ -225,7 +225,7 @@ fun SearchView.showQueryHintIcon(
     queryHint = if (!showIconHint) {
         hintText
     } else {
-        val textView = findViewById<AutoCompleteTextView>(R.id.search_src_text)
+        val textView = findViewById<AutoCompleteTextView>(androidx.appcompat.R.id.search_src_text)
         val textSize = (textView.textSize * 1.25).toInt()
 
         hintIcon.setBounds(0, 0, textSize, textSize)

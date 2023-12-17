@@ -23,10 +23,6 @@ android {
         freeCompilerArgs += listOf("-Xexplicit-api=strict")
     }
 
-    buildFeatures {
-        buildConfig = false
-    }
-
     testOptions.unitTests.apply {
         isIncludeAndroidResources = true
         isReturnDefaultValues = true
