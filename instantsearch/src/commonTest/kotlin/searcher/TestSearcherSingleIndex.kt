@@ -98,7 +98,13 @@ class TestSearcherSingleIndex {
             )
         }
         val searcher =
-            TestSearcherSingle(mockClient(mockSearchEngine), indexName, mockClientInsights(mockInsightsEngine), this)
+            TestSearcherSingle(
+                client = mockClient(mockSearchEngine),
+                indexName = indexName,
+                insights = mockClientInsights(mockInsightsEngine),
+                coroutineScope = this,
+                isAutoSendingHitsViewEvents = true,
+            )
         searcher.searchAsync().join()
         userToken.startsWith("anonymous-").shouldBeTrue()
         fetchedObjectIDs shouldEqual listOf("\"obj1\"", "\"obj2\"", "\"obj3\"")
@@ -131,7 +137,13 @@ class TestSearcherSingleIndex {
             )
         }
         val searcher =
-            TestSearcherSingle(mockClient(mockSearchEngine), indexName, mockClientInsights(mockInsightsEngine), this)
+            TestSearcherSingle(
+                client = mockClient(mockSearchEngine),
+                indexName = indexName,
+                insights = mockClientInsights(mockInsightsEngine),
+                coroutineScope = this,
+                isAutoSendingHitsViewEvents = true,
+            )
 
         searcher.searchAsync().join()
         eventsCount shouldEqual 2
@@ -163,7 +175,13 @@ class TestSearcherSingleIndex {
             )
         }
         val searcher =
-            TestSearcherSingle(mockClient(mockSearchEngine), indexName, mockClientInsights(mockInsightsEngine), this)
+            TestSearcherSingle(
+                client = mockClient(mockSearchEngine),
+                indexName = indexName,
+                insights = mockClientInsights(mockInsightsEngine),
+                coroutineScope = this,
+                isAutoSendingHitsViewEvents = true,
+            )
         searcher.isAutoSendingHitsViewEvents = false
         searcher.searchAsync().join()
         calledInsights.shouldBeFalse()
@@ -197,11 +215,16 @@ class TestSearcherSingleIndex {
             )
         }
         val searcher =
-            TestSearcherSingle(mockClient(mockSearchEngine), indexName, mockClientInsights(mockInsightsEngine), this)
+            TestSearcherSingle(
+                client = mockClient(mockSearchEngine),
+                indexName = indexName,
+                insights = mockClientInsights(mockInsightsEngine),
+                coroutineScope = this,
+                isAutoSendingHitsViewEvents = true,
+            )
         searcher.userToken = UserToken("my-user-token");
         searcher.searchAsync().join()
 
         userToken shouldEqual "my-user-token"
     }
-
 }
