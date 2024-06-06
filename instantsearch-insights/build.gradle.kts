@@ -65,6 +65,7 @@ kotlin {
             dependencies {
                 implementation(project(":instantsearch-utils"))
                 api(libs.algolia.client)
+                api(libs.ktor.client.serialization.json)
             }
         }
         val commonTest by getting {
@@ -78,6 +79,7 @@ kotlin {
             dependencies {
                 implementation(libs.test.kotlin.junit)
                 implementation(libs.ktor.client.okhttp)
+                implementation(libs.kotlinx.coroutines.android)
             }
         }
         val jvmTest by getting {
@@ -90,6 +92,7 @@ kotlin {
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.androidx.core)
                 implementation(libs.androidx.work)
+                implementation(libs.kotlinx.coroutines.android)
             }
         }
         val androidUnitTest by getting {
