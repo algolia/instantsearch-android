@@ -9,7 +9,7 @@ serialization = "1.5.1"
 
 [libraries]
 # algolia
-algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version = "2.1.3" }
+algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version = "2.1.12" }
 algolia-telemetry = { group = "com.algolia", name = "instantsearch-telemetry", version = "0.2.0" }
 
 # network
