@@ -39,7 +39,7 @@ public interface Paginator<T : Any> {
  */
 public fun <T : Any> Paginator(
     searcher: SearcherForHits<out SearchParameters>,
-    pagingConfig: PagingConfig = PagingConfig(pageSize = 10),
+    pagingConfig: PagingConfig = PagingConfig(pageSize = 10, initialLoadSize = 10),
     transformer: (ResponseSearch.Hit) -> T
 ): Paginator<T> = SearcherPaginator(
     pagingConfig = pagingConfig,
