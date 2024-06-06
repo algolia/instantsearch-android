@@ -1,3 +1,9 @@
+# 3.3.1
+
+### Fixed
+- Insights: disable events auto sending by default (#406)
+- Insights: add serializer parameters (#401) (#402)
+
 # 3.3.0
 
 ### Added
