@@ -32,7 +32,7 @@ android {
     }
     packaging {
         resources {
-            excludes += ['META-INF/*.kotlin_module']
+            excludes += ['META-INF/*.kotlin_module', 'META-INF/kotlinx_coroutines_core.version']
         }
     }
     buildFeatures {

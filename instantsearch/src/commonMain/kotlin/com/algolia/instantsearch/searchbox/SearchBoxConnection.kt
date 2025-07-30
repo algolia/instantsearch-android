@@ -13,8 +13,9 @@ public fun <R> SearchBoxViewModel.connectSearcher(
     searcher: Searcher<R>,
     searchMode: SearchMode = SearchMode.AsYouType,
     debouncer: Debouncer = Debouncer(debounceSearchInMillis),
+    searchOnQueryUpdate: Boolean = true,
 ): Connection {
-    return SearchBoxConnectionSearcher(this, searcher, searchMode, debouncer)
+    return SearchBoxConnectionSearcher(this, searcher, searchMode, debouncer, searchOnQueryUpdate)
 }
 
 /**

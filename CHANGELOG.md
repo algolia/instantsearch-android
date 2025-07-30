@@ -1,3 +1,19 @@
+# 3.3.1
+
+### Fixed
+- Insights: disable events auto sending by default (#406)
+- Insights: add serializer parameters (#401) (#402)
+
+# 3.3.0
+
+### Added
+- SearchBoxConnector: flag to disable automatic search
+
+# 3.2.1
+
+### Fixed
+- DynamicFacetList: update selections of facet order change (#393)
+
 # 3.2.0
 
 ### Added

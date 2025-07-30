@@ -62,7 +62,7 @@ kotlin {
             dependencies {
                 implementation(project(":instantsearch-utils"))
                 api(libs.algolia.client)
-                implementation(libs.kotlinx.serialization.json)
+                api(libs.ktor.client.serialization.json)
             }
         }
         commonTest {
@@ -76,6 +76,7 @@ kotlin {
             dependencies {
                 implementation(libs.test.kotlin.junit)
                 implementation(libs.ktor.client.okhttp)
+                implementation(libs.kotlinx.coroutines.android)
             }
         }
         named("jvmTest") {
@@ -88,6 +89,7 @@ kotlin {
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.androidx.core)
                 implementation(libs.androidx.work)
+                implementation(libs.kotlinx.coroutines.android)
             }
         }
         named("androidUnitTest") {

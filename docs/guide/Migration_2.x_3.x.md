@@ -15,7 +15,7 @@ The library version `2.0` uses Kotlin version `1.6` and Algolia Kotlin API Clien
 
 InstantSearch Android package has changed. Please update your imports accordingly:
 
-| Module                | 1.x                                        | 2.x                                 |
+| Module                | 2.x                                        | 3.x                                 |
 |-----------------------|:-------------------------------------------|:------------------------------------|
 | InstantSearch Android | `com.algolia.instantsearch.helper.android` | `com.algolia.instantsearch.android` |
 
@@ -28,7 +28,7 @@ its [migration guide][1], or apply the following changes:
 
 The library uses `LogLevel` from the Kotlin API client instead of Ktor's `Loglevel`:
 
-| Subsystem   | 1.x                                        |                  2.x                  |
+| Subsystem   | 2.x                                        |                  3.x                  |
 |-------------|:-------------------------------------------|:-------------------------------------:|
 | Loglevel    | `io.ktor.client.features.logging.LogLevel` | `com.algolia.search.logging.LogLevel` |
 
@@ -45,7 +45,7 @@ Refer to Ktor's [migration guide](https://ktor.io/docs/migrating-2.html#feature-
 
 Legacy searchers are removed; please migrate as follows:
 
-| Searcher              | 1.x                     | 2.x              |
+| Searcher              | 2.x                     | 3.x              |
 |-----------------------|:------------------------|:-----------------|
 | Single Index Searcher | `SearcherSingleIndex`   | `HitsSearcher`   |
 | Facets Searcher       | `SearcherForFacets`     | `FacetsSearcher` |

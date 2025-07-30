@@ -77,7 +77,7 @@ public fun HitsSearcher(
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
-    isAutoSendingHitsViewEvents: Boolean = true,
+    isAutoSendingHitsViewEvents: Boolean = false,
     userToken: UserToken = UserToken.anonymous(),
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client),
@@ -117,7 +117,7 @@ public fun HitsSearcher(
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
-    isAutoSendingHitsViewEvents: Boolean = true,
+    isAutoSendingHitsViewEvents: Boolean = false,
     userToken: UserToken = UserToken.anonymous(),
 ): HitsSearcher = HitsSearcher(
     client = ClientSearch(applicationID, apiKey),
@@ -149,7 +149,7 @@ public fun MultiSearcher.addHitsSearcher(
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
-    isAutoSendingHitsViewEvents: Boolean = true,
+    isAutoSendingHitsViewEvents: Boolean = false,
     userToken: UserToken = UserToken.anonymous(),
 ): HitsSearcher {
     return DefaultHitsSearcher(

@@ -22,12 +22,14 @@ fun TestSearcherSingle(
     indexName: IndexName,
     insights: ClientInsights = ClientInsights(client.applicationID, client.apiKey),
     coroutineScope: CoroutineScope = TestCoroutineScope,
+    isAutoSendingHitsViewEvents: Boolean = false,
 ) = HitsSearcher(
     client = client,
     insights = insights,
     indexName = indexName,
     isDisjunctiveFacetingEnabled = false,
-    coroutineScope = coroutineScope
+    coroutineScope = coroutineScope,
+    isAutoSendingHitsViewEvents = isAutoSendingHitsViewEvents,
 )
 
 fun TestSearcherForFacets(client: ClientSearch, indexName: IndexName, attribute: Attribute) = FacetsSearcher(
