@@ -17,6 +17,7 @@ jobs:
             -   name: Configure JDK
                 uses: actions/setup-java@v3
                 with:
+                    distribution: temurin
                     java-version-file: .tool-versions
 
             -   name: Setup Android SDK
