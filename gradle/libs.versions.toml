@@ -1,7 +1,7 @@
 [versions]
-kotlin = "1.8.21"
+kotlin = "1.9.20"
 composeUi = "1.4.3"
-composeCompiler = "1.4.7"
+composeCompiler = "1.5.5"
 coroutines = "1.7.1"
 ktor = "2.3.0"
 work = "2.8.0"
@@ -55,5 +55,5 @@ logback-classic = { group = "ch.qos.logback", name = "logback-classic", version 
 kotlin-multiplaform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 android = { id = "com.android.library", version = "8.7.2" }
-maven-publish = { id = "com.vanniktech.maven.publish", version = "0.27.0" }
+maven-publish = { id = "com.vanniktech.maven.publish", version = "0.34.0" }
 spotless = { id = "com.diffplug.gradle.spotless", version = "6.16.0" }
