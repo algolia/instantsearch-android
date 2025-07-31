@@ -19,10 +19,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    buildFeatures {
-        buildConfig = false
-    }
-
     testOptions.unitTests.apply {
         isIncludeAndroidResources = true
         isReturnDefaultValues = true
@@ -51,16 +47,17 @@ kotlin {
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             }
         }
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(project(":instantsearch-core"))
                 api(project(":instantsearch-insights"))
                 api(project(":instantsearch-utils"))
                 implementation(libs.algolia.client)
                 implementation(libs.algolia.telemetry)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(libs.test.kotlin.common)
                 implementation(libs.test.kotlin.annotations)
@@ -68,14 +65,13 @@ kotlin {
                 implementation(libs.test.ktor.client.mock)
             }
         }
-        val jvmMain by getting
-        val jvmTest by getting {
+        named("jvmTest") {
             dependencies {
                 implementation(libs.test.kotlin.junit)
                 implementation(libs.test.mockk)
             }
         }
-        val androidMain by getting {
+        named("androidMain") {
             dependencies {
                 api(libs.ktor.client.okhttp)
                 api(libs.androidx.core)
@@ -84,7 +80,7 @@ kotlin {
                 api(libs.google.material)
             }
         }
-        val androidUnitTest by getting {
+        named("androidUnitTest") {
             dependencies {
                 implementation(libs.test.kotlin.junit)
                 implementation(libs.test.androidx.runner)

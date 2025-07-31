@@ -27,10 +27,6 @@ android {
         )
     }
 
-    buildFeatures {
-        buildConfig = false
-    }
-
     testOptions.unitTests.apply {
         isIncludeAndroidResources = true
         isReturnDefaultValues = true
