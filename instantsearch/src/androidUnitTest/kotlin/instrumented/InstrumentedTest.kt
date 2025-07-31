@@ -6,5 +6,5 @@ import com.algolia.instantsearch.android.R
 
 val applicationContext: Application
     get() = ApplicationProvider.getApplicationContext<Application>().apply {
-        setTheme(R.style.Theme_MaterialComponents)
+        setTheme(com.google.android.material.R.style.Theme_MaterialComponents)
     }

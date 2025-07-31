@@ -9,7 +9,7 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.examples.android.R
 import com.algolia.instantsearch.examples.android.guides.extension.configure
-import com.algolia.instantsearch.examples.android.guides.insights.extension.configureSearchView
+import com.algolia.instantsearch.examples.android.guides.extension.configureSearchView
 import com.algolia.instantsearch.examples.android.guides.model.Product
 import com.algolia.instantsearch.insights.sharedInsights
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
