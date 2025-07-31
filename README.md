@@ -59,7 +59,7 @@ Please refer to the [library](instantsearch-insights/README.md) for more details
 
 ## Requirements
 
-* Kotlin 1.6+
+* Kotlin 1.9+
 * Android SDK 21+
 * Java 8+
 
