@@ -1,3 +1,14 @@
+# 3.3.2
+
+### Added
+
+- Update the project to AGP 8.x (flamingo) (#391)
+
+### Fixed
+
+- Paging: default initial load value (#404)
+- Paging: force initial load size to match page size (#411)
+
 # 3.3.1
 
 ### Fixed
