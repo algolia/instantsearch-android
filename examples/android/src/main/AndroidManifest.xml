@@ -7,8 +7,8 @@
     <application
         android:name=".App"
         android:allowBackup="false"
-        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/InstantSearchExamples"
         android:usesCleartextTraffic="true"
@@ -37,6 +37,10 @@
 
         <activity
             android:name=".guides.compose.ComposeActivity"
+            android:parentActivityName=".directory.DirectoryActivity" />
+
+        <activity
+            android:name=".guides.querysuggestion.QuerySuggestionActivity"
             android:parentActivityName=".directory.DirectoryActivity" />
 
         <!-- Showcase: Android View -->
