@@ -30,7 +30,7 @@ internal class SearcherPagingSource<T : Any>(
 
             val response = search() ?: return emptyPage()
             val data = response.hits.map(transformer)
-            val nextKey = if (pageNumber < response.nbPages) pageNumber + 1 else null
+            val nextKey = if (pageNumber < response.nbPages - 1) pageNumber + 1 else null
             LoadResult.Page(
                 data = data,
                 prevKey = null, // no paging backward
