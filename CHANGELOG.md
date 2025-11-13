@@ -1,3 +1,9 @@
+# 3.3.3
+
+### Fixed
+
+- Paging: `nextKey` calculation for pagination (#416)
+
 # 3.3.2
 
 ### Added
