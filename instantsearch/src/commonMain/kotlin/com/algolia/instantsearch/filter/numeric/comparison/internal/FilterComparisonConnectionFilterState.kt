@@ -6,9 +6,9 @@ import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.migration2to3.NumericOperator
 
 internal data class FilterComparisonConnectionFilterState<T>(
     private val viewModel: NumberViewModel<T>,

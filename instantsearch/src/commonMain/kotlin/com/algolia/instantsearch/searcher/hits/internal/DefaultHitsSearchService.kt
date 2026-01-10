@@ -1,21 +1,19 @@
 package com.algolia.instantsearch.searcher.hits.internal
 
+import com.algolia.client.api.SearchClient
+import com.algolia.client.model.search.FacetStats
+import com.algolia.instantsearch.filter.state.filters
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Facet
+import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.migration2to3.FilterGroup
+import com.algolia.instantsearch.migration2to3.IndexQuery
+import com.algolia.instantsearch.migration2to3.RequestOptions
+import com.algolia.instantsearch.migration2to3.ResponseSearch
 import com.algolia.instantsearch.searcher.hits.internal.HitsSearchService.AdvancedQuery
 import com.algolia.instantsearch.searcher.hits.internal.HitsSearchService.Request
 import com.algolia.instantsearch.searcher.multi.internal.SearchService
 import com.algolia.instantsearch.searcher.multi.internal.extension.asResponseSearchList
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.dsl.filters
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.filter.FilterGroupsConverter
-import com.algolia.search.model.multipleindex.IndexQuery
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.Facet
-import com.algolia.search.model.search.FacetStats
-import com.algolia.search.transport.RequestOptions
-
 /**
  * Search service for hits.
  */
@@ -24,7 +22,7 @@ internal interface HitsSearchService : SearchService<Request, ResponseSearch> {
     /**
      * Client to perform search operations.
      */
-    val client: ClientSearch
+    val client: SearchClient
 
     /**
      * Contains a [Set] of [FilterGroup], used for disjunctive and hierarchical faceting.
@@ -63,7 +61,7 @@ internal interface HitsSearchService : SearchService<Request, ResponseSearch> {
  * Default implementation of [HitsSearchService].
  */
 internal class DefaultHitsSearchService(
-    override val client: ClientSearch,
+    override val client: SearchClient,
     override var filterGroups: Set<FilterGroup<*>> = setOf()
 ) : HitsSearchService {
 

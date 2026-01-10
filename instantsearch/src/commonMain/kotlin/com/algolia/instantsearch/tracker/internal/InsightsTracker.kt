@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.tracker.internal
 
-import com.algolia.search.model.insights.EventName
+import com.algolia.instantsearch.migration2to3.EventName
 import kotlinx.coroutines.CoroutineScope
 
 /**

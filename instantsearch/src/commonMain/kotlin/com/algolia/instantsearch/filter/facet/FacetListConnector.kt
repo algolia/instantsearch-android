@@ -6,10 +6,10 @@ import com.algolia.instantsearch.extension.traceFacetListConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Facet
 import com.algolia.instantsearch.searcher.SearcherForFacets
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.Facet
 
 /**
  * RefinementList is a filtering view that displays facets, and lets the user refine their search results by filtering

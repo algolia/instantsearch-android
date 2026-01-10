@@ -3,6 +3,17 @@ package com.algolia.instantsearch.searcher.hits.internal
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceHitsSearcher
+import com.algolia.instantsearch.migration2to3.ClientInsights
+import com.algolia.instantsearch.migration2to3.EventName
+import com.algolia.instantsearch.migration2to3.FilterGroup
+import com.algolia.instantsearch.migration2to3.IndexName
+import com.algolia.instantsearch.migration2to3.IndexQuery
+import com.algolia.instantsearch.migration2to3.InsightsEvent
+import com.algolia.instantsearch.migration2to3.ObjectID
+import com.algolia.instantsearch.migration2to3.Query
+import com.algolia.instantsearch.migration2to3.RequestOptions
+import com.algolia.instantsearch.migration2to3.ResponseSearch
+import com.algolia.instantsearch.migration2to3.UserToken
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.hits.SearchForQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
@@ -10,17 +21,6 @@ import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withAlgoliaAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchOperation
-import com.algolia.search.client.ClientInsights
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.ObjectID
-import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.insights.EventName
-import com.algolia.search.model.insights.InsightsEvent
-import com.algolia.search.model.insights.UserToken
-import com.algolia.search.model.multipleindex.IndexQuery
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.Query
-import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.*
 
 /**

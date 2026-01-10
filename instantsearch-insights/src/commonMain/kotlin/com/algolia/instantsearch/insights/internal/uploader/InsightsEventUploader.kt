@@ -5,8 +5,8 @@ import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepos
 import com.algolia.instantsearch.insights.internal.event.EventResponse
 import com.algolia.instantsearch.insights.internal.extension.currentTimeMillis
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
-import com.algolia.search.configuration.Credentials
-import com.algolia.search.model.insights.InsightsEvent
+import com.algolia.instantsearch.migration2to3.Credentials
+import com.algolia.instantsearch.migration2to3.InsightsEvent
 
 internal class InsightsEventUploader(
     private val localRepository: InsightsLocalRepository,

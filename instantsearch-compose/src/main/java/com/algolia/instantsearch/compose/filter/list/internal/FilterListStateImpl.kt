@@ -4,7 +4,7 @@ import com.algolia.instantsearch.compose.filter.list.FilterListState
 import com.algolia.instantsearch.compose.internal.trace
 import com.algolia.instantsearch.compose.selectable.list.SelectableListState
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.migration2to3.Filter
 
 /**
  * [FilterListState] implementation.

@@ -6,7 +6,7 @@ import com.algolia.instantsearch.extension.traceNumberRangeFilterConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.search.model.Attribute
+import com.algolia.instantsearch.migration2to3.Attribute
 
 /**
  * Filter Numeric Range is a filtering view made to filter between two numeric values.

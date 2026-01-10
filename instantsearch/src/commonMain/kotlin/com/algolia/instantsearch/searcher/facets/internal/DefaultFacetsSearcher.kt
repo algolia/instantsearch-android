@@ -1,8 +1,16 @@
+@file:OptIn(InternalSerializationApi::class)
+
 package com.algolia.instantsearch.searcher.facets.internal
 
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceFacetsSearcher
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.FacetIndexQuery
+import com.algolia.instantsearch.migration2to3.IndexName
+import com.algolia.instantsearch.migration2to3.Query
+import com.algolia.instantsearch.migration2to3.RequestOptions
+import com.algolia.instantsearch.migration2to3.ResponseSearchForFacets
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.facets.SearchForFacetQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
@@ -10,17 +18,12 @@ import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withAlgoliaAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchOperation
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.multipleindex.FacetIndexQuery
-import com.algolia.search.model.response.ResponseSearchForFacets
-import com.algolia.search.model.search.Query
-import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.InternalSerializationApi
 
 /**
  * The component handling search requests and managing the search sessions.

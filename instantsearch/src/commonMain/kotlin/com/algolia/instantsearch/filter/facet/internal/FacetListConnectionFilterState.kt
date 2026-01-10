@@ -10,8 +10,9 @@ import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.filter.state.add
 import com.algolia.instantsearch.filter.state.getValue
 import com.algolia.instantsearch.filter.state.remove
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Filter
+import kotlinx.serialization.InternalSerializationApi
 
 internal data class FacetListConnectionFilterState(
     private val viewModel: FacetListViewModel,
@@ -35,6 +36,7 @@ internal data class FacetListConnectionFilterState(
         }
     }
 
+    @OptIn(InternalSerializationApi::class)
     private fun FacetListViewModel.getFiltersToRemove(): Set<Filter.Facet> {
         val currentFilters = items.value.map { Filter.Facet(attribute, it.value) }.toSet()
         val currentSelections = selections.value.map { Filter.Facet(attribute, it) }

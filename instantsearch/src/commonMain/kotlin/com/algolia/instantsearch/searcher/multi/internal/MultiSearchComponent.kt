@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.searcher.multi.internal
 
 import com.algolia.instantsearch.core.searcher.Searcher
-import com.algolia.search.model.multipleindex.IndexedQuery
-import com.algolia.search.model.response.ResultSearch
+import com.algolia.instantsearch.migration2to3.IndexedQuery
+import com.algolia.instantsearch.migration2to3.ResultSearch
 
 /**
  * Multi Searcher Component providing a list of requests to perform, and get a list of results as a response.

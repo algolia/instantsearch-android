@@ -1,14 +1,14 @@
 package com.algolia.instantsearch.insights.internal.extension
 
+import com.algolia.client.model.querysuggestions.LogLevel
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.internal.data.settings.InsightsSettings
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
-import com.algolia.search.client.ClientInsights
-import com.algolia.search.configuration.ConfigurationInsights
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.insights.UserToken
+import com.algolia.instantsearch.migration2to3.APIKey
+import com.algolia.instantsearch.migration2to3.ApplicationID
+import com.algolia.instantsearch.migration2to3.ClientInsights
+import com.algolia.instantsearch.migration2to3.ConfigurationInsights
+import com.algolia.instantsearch.migration2to3.UserToken
 
 /**
  * Create new Insights API Client.

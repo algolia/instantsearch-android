@@ -4,8 +4,8 @@ import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.tree.TreeViewModel
 import com.algolia.instantsearch.extension.traceHierarchicalFacets
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Facet
 
 /**
  * @param hierarchicalAttributes attributes of the hierarchy.

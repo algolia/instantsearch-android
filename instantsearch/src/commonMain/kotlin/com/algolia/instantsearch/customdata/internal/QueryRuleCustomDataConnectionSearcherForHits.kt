@@ -3,8 +3,8 @@ package com.algolia.instantsearch.customdata.internal
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.customdata.QueryRuleCustomDataViewModel
+import com.algolia.instantsearch.migration2to3.ResponseSearch
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.response.ResponseSearch
 
 /**
  * Connection between a rule custom data logic and a single index searcher.

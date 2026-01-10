@@ -1,11 +1,11 @@
 package com.algolia.instantsearch.searcher.multi.internal
 
+import com.algolia.client.api.SearchClient
+import com.algolia.instantsearch.migration2to3.IndexedQuery
+import com.algolia.instantsearch.migration2to3.MultipleQueriesStrategy
+import com.algolia.instantsearch.migration2to3.RequestOptions
+import com.algolia.instantsearch.migration2to3.ResponseMultiSearch
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchService.Request
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.multipleindex.IndexedQuery
-import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
-import com.algolia.search.model.response.ResponseMultiSearch
-import com.algolia.search.transport.RequestOptions
 
 /**
  * Search service for multi search operations.
@@ -15,7 +15,7 @@ internal interface MultiSearchService : SearchService<Request, ResponseMultiSear
     /**
      * Client to perform search operations.
      */
-    val client: ClientSearch
+    val client: SearchClient
 
     /**
      * Request for multi search operations.
@@ -29,7 +29,7 @@ internal interface MultiSearchService : SearchService<Request, ResponseMultiSear
 /**
  * Default implementation of [MultiSearchService].
  */
-internal class DefaultMultiSearchService(override val client: ClientSearch) : MultiSearchService {
+internal class DefaultMultiSearchService(override val client: SearchClient) : MultiSearchService {
 
     override suspend fun search(
         request: Request,

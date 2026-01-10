@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.insights.internal.logging
 
 import android.util.Log
-import com.algolia.search.model.IndexName
+import com.algolia.instantsearch.migration2to3.IndexName
 
 internal actual object InsightsLogger {
 

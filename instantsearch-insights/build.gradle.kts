@@ -41,13 +41,7 @@ android {
 
 kotlin {
     explicitApi()
-    android {
-        publishAllLibraryVariants()
-        publishLibraryVariantsGroupedByFlavor = true
-        compilations.all {
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
-        }
-    }
+    androidTarget ()
     jvm()
     sourceSets {
         all {
@@ -61,6 +55,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":instantsearch-utils"))
+                implementation(project(":migration2to3"))
                 api(libs.algolia.client)
                 api(libs.ktor.client.serialization.json)
             }

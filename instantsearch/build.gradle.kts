@@ -30,13 +30,7 @@ android {
 kotlin {
     explicitApi()
     jvm()
-    android {
-        publishAllLibraryVariants()
-        publishLibraryVariantsGroupedByFlavor = true
-        compilations.all {
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
-        }
-    }
+    androidTarget()
     sourceSets {
         all {
             languageSettings {
@@ -52,6 +46,7 @@ kotlin {
                 api(project(":instantsearch-core"))
                 api(project(":instantsearch-insights"))
                 api(project(":instantsearch-utils"))
+                implementation(project(":migration2to3"))
                 implementation(libs.algolia.client)
                 implementation(libs.algolia.telemetry)
                 implementation(libs.kotlinx.coroutines.core)
@@ -65,13 +60,13 @@ kotlin {
                 implementation(libs.test.ktor.client.mock)
             }
         }
-        named("jvmTest") {
+        jvmTest {
             dependencies {
                 implementation(libs.test.kotlin.junit)
                 implementation(libs.test.mockk)
             }
         }
-        named("androidMain") {
+        androidMain {
             dependencies {
                 api(libs.ktor.client.okhttp)
                 api(libs.androidx.core)
@@ -80,7 +75,7 @@ kotlin {
                 api(libs.google.material)
             }
         }
-        named("androidUnitTest") {
+        androidNativeTest {
             dependencies {
                 implementation(libs.test.kotlin.junit)
                 implementation(libs.test.androidx.runner)

@@ -18,6 +18,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":instantsearch-utils"))
+                implementation(project(":migration2to3"))
                 implementation(libs.algolia.telemetry)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.atomicfu)

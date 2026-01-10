@@ -1,8 +1,11 @@
+@file:OptIn(InternalSerializationApi::class)
+
 package com.algolia.instantsearch.insights.internal.data.local.mapper
 
 import com.algolia.instantsearch.insights.internal.data.local.model.FilterFacetDO
 import com.algolia.instantsearch.insights.internal.data.local.model.FilterFacetDO.ValueType
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.migration2to3.Filter
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.double

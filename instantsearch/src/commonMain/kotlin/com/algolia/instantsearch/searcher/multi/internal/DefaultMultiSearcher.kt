@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.searcher.multi.internal
 
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceMultiSearcher
@@ -31,7 +32,7 @@ internal class DefaultMultiSearcher(
     override val coroutineDispatcher: CoroutineDispatcher,
 ) : MultiSearcher() {
 
-    override val client: ClientSearch get() = searchService.client
+    override val client: SearchClient get() = searchService.client
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
     override val response: SubscriptionValue<ResponseMultiSearch?> = SubscriptionValue(null)

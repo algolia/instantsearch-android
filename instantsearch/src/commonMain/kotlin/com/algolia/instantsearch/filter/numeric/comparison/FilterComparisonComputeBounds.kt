@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.filter.numeric.comparison
 
+import com.algolia.client.model.search.FacetStats
 import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.filter.range.internal.mapperOf
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.FacetStats
+import com.algolia.instantsearch.migration2to3.Attribute
 
 private fun <T> NumberViewModel<T>.setBoundsFromFacetStats(
     attribute: Attribute,

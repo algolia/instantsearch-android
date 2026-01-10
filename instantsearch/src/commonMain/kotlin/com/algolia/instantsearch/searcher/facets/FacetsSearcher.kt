@@ -1,5 +1,12 @@
 package com.algolia.instantsearch.searcher.facets
 
+import com.algolia.client.api.SearchClient
+import com.algolia.instantsearch.migration2to3.APIKey
+import com.algolia.instantsearch.migration2to3.ApplicationID
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.IndexName
+import com.algolia.instantsearch.migration2to3.Query
+import com.algolia.instantsearch.migration2to3.RequestOptions
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.searcher.SearcherForFacets
 import com.algolia.instantsearch.searcher.SearcherScope
@@ -8,13 +15,6 @@ import com.algolia.instantsearch.searcher.facets.internal.DefaultFacetsSearcher
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.asMultiSearchComponent
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.search.Query
-import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 
@@ -44,7 +44,7 @@ public interface FacetsSearcher : SearcherForFacets<Query>, IndexNameHolder {
  * @param triggerSearchFor request condition
  */
 public fun FacetsSearcher(
-    client: ClientSearch,
+    client: SearchClient,
     indexName: IndexName,
     attribute: Attribute,
     query: Query = Query(),
@@ -91,7 +91,7 @@ public fun FacetsSearcher(
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForFacetQuery = SearchForFacetQuery.All
 ): FacetsSearcher = DefaultFacetsSearcher(
-    searchService = DefaultFacetsSearchService(client = ClientSearch(applicationID, apiKey)),
+    searchService = DefaultFacetsSearchService(client = SearchClient(applicationID, apiKey)),
     indexName = indexName,
     query = query,
     attribute = attribute,

@@ -10,7 +10,7 @@ import com.algolia.instantsearch.extension.traceTagFilterListConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.migration2to3.Filter
 
 /**
  * Filtering view that displays any kind of tag filters and lets the user refine the search results by selecting them.

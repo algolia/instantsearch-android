@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.searcher.multi.internal
 
-import com.algolia.search.transport.RequestOptions
+import com.algolia.client.transport.RequestOptions
 
 /**
  * Service for search operations.

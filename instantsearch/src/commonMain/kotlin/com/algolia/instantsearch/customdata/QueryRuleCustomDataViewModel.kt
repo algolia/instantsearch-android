@@ -3,7 +3,7 @@ package com.algolia.instantsearch.customdata
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceQueryRuleCustomData
 import com.algolia.instantsearch.extension.tryOrNull
-import com.algolia.search.model.response.ResponseSearch
+import com.algolia.instantsearch.migration2to3.ResponseSearch
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer

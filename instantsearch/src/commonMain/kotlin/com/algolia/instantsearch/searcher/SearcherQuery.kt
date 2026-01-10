@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.searcher
 
+import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.core.searcher.Searcher
-import com.algolia.search.model.params.CommonSearchParameters
-import com.algolia.search.transport.RequestOptions
+import com.algolia.instantsearch.migration2to3.CommonSearchParameters
 
 /**
  * Searcher with request capabilities.

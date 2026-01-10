@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.attribute
 
-import com.algolia.search.model.Attribute
+import com.algolia.instantsearch.migration2to3.Attribute
 
 public class AttributeMatchAndReplace(
     private val match: Attribute,

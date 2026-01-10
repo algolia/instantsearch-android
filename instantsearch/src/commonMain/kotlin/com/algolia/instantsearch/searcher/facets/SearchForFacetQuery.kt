@@ -1,7 +1,8 @@
 package com.algolia.instantsearch.searcher.facets
 
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.Query
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Query
+
 
 /**
  * Facets search query execution condition logic.

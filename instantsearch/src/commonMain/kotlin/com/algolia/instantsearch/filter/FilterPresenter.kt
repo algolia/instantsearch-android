@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.filter
 
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.NumericOperator
 import com.algolia.instantsearch.core.Presenter
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.migration2to3.Filter
 
 public interface FilterPresenter : Presenter<Filter, String> {
 

@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.current
 
 import com.algolia.instantsearch.filter.state.FilterGroupID
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.migration2to3.Filter
 
 public typealias FilterAndID = Pair<FilterGroupID, Filter>
 

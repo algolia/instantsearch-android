@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.tracker.internal
 
-import com.algolia.search.model.QueryID
+import com.algolia.instantsearch.migration2to3.QueryID
 
 /**
  * A container for query ID.

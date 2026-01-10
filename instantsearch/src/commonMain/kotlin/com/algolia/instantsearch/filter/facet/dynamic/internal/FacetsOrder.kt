@@ -1,11 +1,9 @@
 package com.algolia.instantsearch.filter.facet.dynamic.internal
 
+import com.algolia.client.model.search.FacetOrdering
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.rule.FacetOrdering
-import com.algolia.search.model.rule.FacetValuesOrder
-import com.algolia.search.model.rule.SortRule
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Facet
 
 /**
  * Apply the algorithm transforming the received facets and facet ordering rules to the list of ordered facet attributes

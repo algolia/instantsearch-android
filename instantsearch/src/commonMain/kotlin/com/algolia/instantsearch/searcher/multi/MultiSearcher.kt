@@ -1,21 +1,21 @@
+@file:OptIn(InternalSerializationApi::class)
+
 package com.algolia.instantsearch.searcher.multi
 
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.core.searcher.Searcher
+import com.algolia.instantsearch.migration2to3.IndexedQuery
+import com.algolia.instantsearch.migration2to3.RequestOptions
+import com.algolia.instantsearch.migration2to3.ResponseMultiSearch
+import com.algolia.instantsearch.migration2to3.ResultSearch
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.multi.internal.DefaultMultiSearchService
 import com.algolia.instantsearch.searcher.multi.internal.DefaultMultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.multipleindex.IndexedQuery
-import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
-import com.algolia.search.model.response.ResponseMultiSearch
-import com.algolia.search.model.response.ResultSearch
-import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.serialization.InternalSerializationApi
 
 /**
  *  Extracts queries from queries sources, performs search request and dispatches the results to the corresponding receivers.
@@ -25,7 +25,7 @@ public abstract class MultiSearcher : Searcher<ResponseMultiSearch> {
     /**
      * Client to perform operations on indices.
      */
-    internal abstract val client: ClientSearch
+    internal abstract val client: SearchClient
 
     /**
      * Adds a search component to the multi-searcher.
@@ -43,7 +43,7 @@ public abstract class MultiSearcher : Searcher<ResponseMultiSearch> {
  * @param coroutineDispatcher async search dispatcher
  */
 public fun MultiSearcher(
-    client: ClientSearch,
+    client: SearchClient,
     strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),

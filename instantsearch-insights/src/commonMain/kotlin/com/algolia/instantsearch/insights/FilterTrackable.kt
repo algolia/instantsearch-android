@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.insights
 
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.insights.EventName
+import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.migration2to3.EventName
 
 public interface FilterTrackable {
 

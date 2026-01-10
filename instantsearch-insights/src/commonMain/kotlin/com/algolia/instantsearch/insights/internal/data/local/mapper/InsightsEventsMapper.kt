@@ -1,10 +1,13 @@
+@file:OptIn(InternalSerializationApi::class)
+
 package com.algolia.instantsearch.insights.internal.data.local.mapper
 
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventType.Click
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventType.Conversion
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventType.View
-import com.algolia.search.model.insights.InsightsEvent
+import com.algolia.instantsearch.migration2to3.InsightsEvent
+import kotlinx.serialization.InternalSerializationApi
 
 internal object InsightsEventsMapper : Mapper<InsightsEvent, InsightsEventDO> {
 

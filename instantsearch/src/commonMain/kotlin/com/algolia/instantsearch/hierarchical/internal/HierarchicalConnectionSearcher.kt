@@ -3,10 +3,9 @@ package com.algolia.instantsearch.hierarchical.internal
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
+import com.algolia.instantsearch.migration2to3.ResponseSearch
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.instantsearch.searcher.addFacet
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.Facet
 
 internal data class HierarchicalConnectionSearcher(
     private val viewModel: HierarchicalViewModel,

@@ -27,13 +27,7 @@ android {
 kotlin {
     explicitApi()
     jvm()
-    android {
-        publishAllLibraryVariants()
-        publishLibraryVariantsGroupedByFlavor = true
-        compilations.all {
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
-        }
-    }
+    androidTarget()
     sourceSets {
         all {
             languageSettings.optIn("com.algolia.instantsearch.InternalInstantSearch")

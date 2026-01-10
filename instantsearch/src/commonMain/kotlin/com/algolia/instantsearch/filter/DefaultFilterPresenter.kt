@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.filter
 
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.NumericOperator
 import com.algolia.instantsearch.attribute.AttributePresenter
 import com.algolia.instantsearch.attribute.DefaultAttributePresenter
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.NumericOperator
 
 public class DefaultFilterPresenter(
     private val attributePresenter: AttributePresenter = DefaultAttributePresenter(),

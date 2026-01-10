@@ -1,10 +1,13 @@
+@file:OptIn(InternalSerializationApi::class)
+
 package com.algolia.instantsearch.searcher.facets.internal
 
+import com.algolia.client.api.SearchClient
+import com.algolia.client.transport.RequestOptions
+import com.algolia.instantsearch.migration2to3.FacetIndexQuery
+import com.algolia.instantsearch.migration2to3.ResponseSearchForFacets
 import com.algolia.instantsearch.searcher.multi.internal.SearchService
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.multipleindex.FacetIndexQuery
-import com.algolia.search.model.response.ResponseSearchForFacets
-import com.algolia.search.transport.RequestOptions
+import kotlinx.serialization.InternalSerializationApi
 
 /**
  * Search service for facets.
@@ -14,18 +17,20 @@ internal interface FacetsSearchService : SearchService<FacetIndexQuery, Response
     /**
      * Client to perform search operations.
      */
-    val client: ClientSearch
+    val client: SearchClient
 }
 
 /**
  * Default implementation of [FacetsSearchService].
  */
 internal class DefaultFacetsSearchService(
-    override val client: ClientSearch
+    override val client: SearchClient
 ) : FacetsSearchService {
 
     override suspend fun search(request: FacetIndexQuery, requestOptions: RequestOptions?): ResponseSearchForFacets {
-        val index = client.initIndex(request.indexName)
-        return index.searchForFacets(request.facetAttribute, request.facetQuery, request.query, requestOptions)
+        return client.searchSingleIndex(
+            indexName = TODO(),
+            searchParams = TODO(),
+        )
     }
 }

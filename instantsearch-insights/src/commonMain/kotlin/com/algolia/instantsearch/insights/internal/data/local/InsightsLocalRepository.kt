@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.insights.internal.data.local
 
-import com.algolia.search.model.insights.InsightsEvent
+import com.algolia.instantsearch.migration2to3.InsightsEvent
 
 internal interface InsightsLocalRepository {
 

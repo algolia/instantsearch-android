@@ -1,9 +1,7 @@
 package com.algolia.instantsearch.filter.state
 
-import com.algolia.search.dsl.DSL
-import com.algolia.search.dsl.filtering.DSLGroupFilter
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Filter
 
 public class FilterGroupsDSL(
     private val groups: MutableMap<FilterGroupID, Set<Filter>> = mutableMapOf(),

@@ -1,13 +1,13 @@
 package com.algolia.instantsearch.filter.range.internal
 
+import com.algolia.client.model.composition.FacetStats
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.filter.range.FilterRangeViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.params.CommonSearchParameters
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.FacetStats
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.CommonSearchParameters
+import com.algolia.instantsearch.migration2to3.ResponseSearch
 
 /**
  * Connection implementation between a Searcher and filter range components to enable a dynamic behavior.

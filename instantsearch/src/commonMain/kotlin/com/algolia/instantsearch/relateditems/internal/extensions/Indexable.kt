@@ -1,10 +1,9 @@
 package com.algolia.instantsearch.relateditems.internal.extensions
 
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.filter.FilterGroupsConverter
-import com.algolia.search.model.indexing.Indexable
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.migration2to3.FilterGroup
+
 
 internal fun Indexable.toFacetFilter(isNegated: Boolean = false): List<List<String>> {
     val filter = Filter.Facet(Attribute("objectID"), objectID.toString(), isNegated = isNegated)

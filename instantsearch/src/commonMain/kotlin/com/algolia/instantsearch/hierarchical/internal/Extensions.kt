@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.tree.findNode
 import com.algolia.instantsearch.core.tree.toNodes
 import com.algolia.instantsearch.hierarchical.HierarchicalNode
 import com.algolia.instantsearch.hierarchical.HierarchicalTree
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.migration2to3.Facet
 import kotlin.math.min
 
 internal const val DefaultSeparator = " . "

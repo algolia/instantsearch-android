@@ -1,10 +1,13 @@
+@file:OptIn(InternalSerializationApi::class)
+
 package com.algolia.instantsearch.insights.internal.data.local
 
 import android.content.SharedPreferences
 import com.algolia.instantsearch.insights.internal.data.local.mapper.InsightsEventDOMapper
 import com.algolia.instantsearch.insights.internal.data.local.mapper.InsightsEventsMapper
 import com.algolia.instantsearch.insights.internal.extension.events
-import com.algolia.search.model.insights.InsightsEvent
+import com.algolia.instantsearch.migration2to3.InsightsEvent
+import kotlinx.serialization.InternalSerializationApi
 
 internal class InsightsPrefsRepository(
     private val preferences: SharedPreferences,

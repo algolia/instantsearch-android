@@ -8,14 +8,15 @@ import com.algolia.instantsearch.insights.internal.extension.currentTimeMillis
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.uploader.InsightsUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
-import com.algolia.search.configuration.Credentials
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.ObjectID
-import com.algolia.search.model.QueryID
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.insights.EventName
-import com.algolia.search.model.insights.InsightsEvent
-import com.algolia.search.model.insights.UserToken
+import com.algolia.instantsearch.migration2to3.Credentials
+import com.algolia.instantsearch.migration2to3.EventName
+import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.migration2to3.IndexName
+import com.algolia.instantsearch.migration2to3.InsightsEvent
+import com.algolia.instantsearch.migration2to3.ObjectID
+import com.algolia.instantsearch.migration2to3.QueryID
+import com.algolia.instantsearch.migration2to3.UserToken
+
 
 /**
  * Main class used for interacting with the InstantSearch Insights library.

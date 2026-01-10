@@ -1,5 +1,13 @@
 package com.algolia.instantsearch.searcher.hits
 
+import com.algolia.client.api.SearchClient
+import com.algolia.instantsearch.migration2to3.APIKey
+import com.algolia.instantsearch.migration2to3.ApplicationID
+import com.algolia.instantsearch.migration2to3.ClientInsights
+import com.algolia.instantsearch.migration2to3.IndexName
+import com.algolia.instantsearch.migration2to3.Query
+import com.algolia.instantsearch.migration2to3.RequestOptions
+import com.algolia.instantsearch.migration2to3.UserToken
 import com.algolia.instantsearch.searcher.FilterGroupsHolder
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.searcher.SearcherForHits
@@ -10,14 +18,6 @@ import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.asMultiSearchComponent
 import com.algolia.instantsearch.util.randomUuid
-import com.algolia.search.client.ClientInsights
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.insights.UserToken
-import com.algolia.search.model.search.Query
-import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 
@@ -68,10 +68,10 @@ public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterG
  * @param userToken user token assigned to automatically sent Insights events in the HitsSearcher component
  */
 public fun HitsSearcher(
-    client: ClientSearch,
+    client: SearchClient,
     indexName: IndexName,
     query: Query = Query(),
-    insights: ClientInsights = ClientInsights(client.applicationID, client.apiKey),
+    insights: ClientInsights = ClientInsights(client.appId, client.apiKey),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
@@ -120,7 +120,7 @@ public fun HitsSearcher(
     isAutoSendingHitsViewEvents: Boolean = false,
     userToken: UserToken = UserToken.anonymous(),
 ): HitsSearcher = HitsSearcher(
-    client = ClientSearch(applicationID, apiKey),
+    client = SearchClient(applicationID, apiKey),
     insights = ClientInsights(applicationID, apiKey),
     indexName = indexName,
     query = query,

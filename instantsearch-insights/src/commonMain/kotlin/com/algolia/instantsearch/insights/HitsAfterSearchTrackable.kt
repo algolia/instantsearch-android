@@ -1,8 +1,9 @@
 package com.algolia.instantsearch.insights
 
-import com.algolia.search.model.ObjectID
-import com.algolia.search.model.QueryID
-import com.algolia.search.model.insights.EventName
+import com.algolia.instantsearch.migration2to3.EventName
+import com.algolia.instantsearch.migration2to3.ObjectID
+import com.algolia.instantsearch.migration2to3.QueryID
+
 
 public interface HitsAfterSearchTrackable {
 

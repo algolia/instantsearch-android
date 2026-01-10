@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.tracker.internal
 
 import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
+import com.algolia.instantsearch.migration2to3.EventName
+import com.algolia.instantsearch.migration2to3.Indexable
+import com.algolia.instantsearch.migration2to3.QueryID
 import com.algolia.instantsearch.tracker.HitsTracker
-import com.algolia.search.model.QueryID
-import com.algolia.search.model.indexing.Indexable
-import com.algolia.search.model.insights.EventName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

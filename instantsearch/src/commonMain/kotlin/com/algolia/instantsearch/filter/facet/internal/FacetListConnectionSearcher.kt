@@ -3,10 +3,10 @@ package com.algolia.instantsearch.filter.facet.internal
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.ResponseSearch
 import com.algolia.instantsearch.searcher.SearcherQuery
 import com.algolia.instantsearch.searcher.addFacet
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.response.ResponseSearch
 
 internal data class FacetListConnectionSearcher(
     private val viewModel: FacetListViewModel,

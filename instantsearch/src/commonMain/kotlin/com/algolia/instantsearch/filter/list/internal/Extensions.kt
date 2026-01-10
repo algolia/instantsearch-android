@@ -5,7 +5,7 @@ import com.algolia.instantsearch.filter.list.FilterListViewModel
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.migration2to3.Filter
 
 internal inline fun <reified T : Filter> FilterListViewModel<T>.connect(
     filterState: FilterState,

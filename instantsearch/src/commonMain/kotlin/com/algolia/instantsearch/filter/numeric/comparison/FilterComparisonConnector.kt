@@ -6,8 +6,8 @@ import com.algolia.instantsearch.extension.traceNumberFilterConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.NumericOperator
 
 /**
  * Filter Numeric Comparison is a view to filter on a numeric value using a comparison operator.

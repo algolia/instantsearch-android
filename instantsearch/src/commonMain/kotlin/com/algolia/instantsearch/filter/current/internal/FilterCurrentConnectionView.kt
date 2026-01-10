@@ -7,7 +7,7 @@ import com.algolia.instantsearch.filter.current.FilterCurrentPresenter
 import com.algolia.instantsearch.filter.current.DefaultFilterCurrentPresenter
 import com.algolia.instantsearch.filter.current.FilterCurrentView
 import com.algolia.instantsearch.filter.current.FilterCurrentViewModel
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.migration2to3.Filter
 
 internal data class FilterCurrentConnectionView(
     private val viewModel: FilterCurrentViewModel,

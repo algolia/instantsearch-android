@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.stats
 
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.stats.internal.StatsConnectionSearcher
 import com.algolia.instantsearch.stats.internal.StatsConnectionView
-import com.algolia.search.model.response.ResponseSearch
 import kotlin.jvm.JvmName
 
 @JvmName("connectViewString")
@@ -23,7 +23,7 @@ public fun <T> StatsViewModel.connectView(
 }
 
 public fun StatsViewModel.connectSearcher(
-    searcher: Searcher<ResponseSearch>,
+    searcher: Searcher<SearchResponse>,
 ): Connection {
     return StatsConnectionSearcher(this, searcher)
 }

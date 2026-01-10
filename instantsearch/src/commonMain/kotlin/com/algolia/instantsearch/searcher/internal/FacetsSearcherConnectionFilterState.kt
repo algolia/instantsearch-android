@@ -7,8 +7,8 @@ import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.filter.state.toFilterGroups
+import com.algolia.instantsearch.migration2to3.FilterGroupsConverter
 import com.algolia.instantsearch.searcher.SearcherForFacets
-import com.algolia.search.model.filter.FilterGroupsConverter
 
 /**
  * Connection between facets searcher (searcher w/ query) and filter state.

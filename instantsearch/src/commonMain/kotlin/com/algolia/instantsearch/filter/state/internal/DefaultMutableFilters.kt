@@ -5,8 +5,8 @@ import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.filter.state.MutableFilters
 import com.algolia.instantsearch.filter.state.add
 import com.algolia.instantsearch.hierarchical.HierarchicalFilter
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Filter
 
 internal data class DefaultMutableFilters(
     private val facetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(),

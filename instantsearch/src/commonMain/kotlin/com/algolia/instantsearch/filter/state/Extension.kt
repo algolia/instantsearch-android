@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.filter.state
 
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.migration2to3.FilterGroup
+
 
 public fun Filters.toFilterGroups(): Set<FilterGroup<*>> {
     return (

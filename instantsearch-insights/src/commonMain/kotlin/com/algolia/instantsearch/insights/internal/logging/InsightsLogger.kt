@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.insights.internal.logging
 
-import com.algolia.search.model.IndexName
+import com.algolia.instantsearch.migration2to3.IndexName
 
 internal expect object InsightsLogger {
 

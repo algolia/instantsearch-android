@@ -8,9 +8,9 @@ import com.algolia.instantsearch.core.relevantsort.RelevantSortPresenter
 import com.algolia.instantsearch.core.relevantsort.RelevantSortView
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.core.relevantsort.connectView
+import com.algolia.instantsearch.migration2to3.Query
 import com.algolia.instantsearch.relevantsort.internal.RelevantSortConnectionSearcherForHits
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.search.Query
 
 /**
  * Create a connection between a view model and a searcher.

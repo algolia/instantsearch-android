@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.insights.internal.logging
 
 import com.algolia.instantsearch.insights.Insights
-import com.algolia.search.model.IndexName
+import com.algolia.instantsearch.migration2to3.IndexName
 import org.slf4j.LoggerFactory
 
 internal actual object InsightsLogger {

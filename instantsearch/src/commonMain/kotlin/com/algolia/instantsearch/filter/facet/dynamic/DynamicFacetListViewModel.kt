@@ -5,9 +5,10 @@ import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceDynamicFacet
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Facet
 import kotlin.properties.Delegates
+import kotlinx.serialization.InternalSerializationApi
 
 /**
  * Dynamic facets business logic.
@@ -71,6 +72,7 @@ public class DynamicFacetListViewModel(
     /**
      * Storage for selectable facet list logic per attribute.
      */
+    @OptIn(InternalSerializationApi::class)
     private var facetListPerAttribute: MutableMap<Attribute, SelectableListViewModel<String, Facet>> = mutableMapOf()
 
     init {
@@ -93,6 +95,7 @@ public class DynamicFacetListViewModel(
      * @param attribute facet attribute
      * @param facetValue facet value
      */
+    @OptIn(InternalSerializationApi::class)
     public fun toggleSelection(attribute: Attribute, facetValue: String) {
         facetListPerAttribute[attribute]?.select(facetValue)
     }
@@ -100,6 +103,7 @@ public class DynamicFacetListViewModel(
     /**
      * Update all facet lists.
      */
+    @OptIn(InternalSerializationApi::class)
     private fun updateFacetLists() {
         orderedFacets.forEach { attributedFacet ->
             val attribute = attributedFacet.attribute
@@ -112,6 +116,7 @@ public class DynamicFacetListViewModel(
     /**
      * Get or create a facet selectable list for a given attribute.
      */
+    @OptIn(InternalSerializationApi::class)
     private fun getOrCreateSelectableFacetList(attribute: Attribute): SelectableListViewModel<String, Facet> {
         return facetListPerAttribute[attribute]
             ?: createFacetList(attribute).also { facetListPerAttribute[attribute] = it }
@@ -120,6 +125,7 @@ public class DynamicFacetListViewModel(
     /**
      * Create a facet selectable list for a given attribute.
      */
+    @OptIn(InternalSerializationApi::class)
     private fun createFacetList(attribute: Attribute): SelectableListViewModel<String, Facet> {
         val selectionMode = selectionModeForAttribute[attribute] ?: defaultSelectionMode
         val facetList = SelectableListViewModel<String, Facet>(selectionMode = selectionMode)

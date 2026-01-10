@@ -1,13 +1,13 @@
 package com.algolia.instantsearch.insights.internal.data.distant
 
+import com.algolia.client.exception.AlgoliaApiException
 import com.algolia.instantsearch.insights.internal.event.EventResponse
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
+import com.algolia.instantsearch.migration2to3.ClientInsights
+import com.algolia.instantsearch.migration2to3.Credentials
+import com.algolia.instantsearch.migration2to3.InsightsEvent
+import com.algolia.instantsearch.migration2to3.requestOptions
 import com.algolia.instantsearch.util.algoliaAgent
-import com.algolia.search.client.ClientInsights
-import com.algolia.search.configuration.Credentials
-import com.algolia.search.dsl.requestOptions
-import com.algolia.search.exception.AlgoliaApiException
-import com.algolia.search.model.insights.InsightsEvent
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.isSuccess
 

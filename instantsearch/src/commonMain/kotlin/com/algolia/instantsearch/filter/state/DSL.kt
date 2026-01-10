@@ -1,7 +1,8 @@
 package com.algolia.instantsearch.filter.state
 
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Filter
+
 
 public fun groupOr(attribute: Attribute): FilterGroupID {
     return groupOr(attribute.raw)

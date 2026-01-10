@@ -4,9 +4,9 @@ package com.algolia.instantsearch.relevantsort
 
 import com.algolia.instantsearch.core.relevantsort.RelevantSortConnector
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
+import com.algolia.instantsearch.migration2to3.Query
 import com.algolia.instantsearch.relevantsort.internal.RelevantSortConnectorSearcherForHits
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.search.Query
 
 /**
  * Creates a [RelevantSortConnector] instance.

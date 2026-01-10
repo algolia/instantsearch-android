@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.filter.state
 
+import com.algolia.instantsearch.Filter
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceFilterState
 import com.algolia.instantsearch.filter.state.internal.DefaultMutableFilters
-import com.algolia.search.model.filter.Filter
 
 /**
  * A FilterState is a class that holds one or several filters, organized in groups. The FilterState can be modified

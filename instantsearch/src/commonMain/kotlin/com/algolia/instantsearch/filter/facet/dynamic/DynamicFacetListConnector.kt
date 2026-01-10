@@ -6,8 +6,8 @@ import com.algolia.instantsearch.extension.traceDynamicFacetConnector
 import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.migration2to3.Attribute
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.Attribute
 
 /**
  * Component to display ordered facets automatically, their ordered values, and lets the user refine the search results

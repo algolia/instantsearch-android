@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.hierarchical
 
-import com.algolia.search.model.Attribute
+import com.algolia.instantsearch.migration2to3.Attribute
 
 /**
  * Hierarchical path in a tree.

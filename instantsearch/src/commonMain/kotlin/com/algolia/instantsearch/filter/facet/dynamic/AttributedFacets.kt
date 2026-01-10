@@ -1,7 +1,8 @@
 package com.algolia.instantsearch.filter.facet.dynamic
 
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Facet
+
 
 /**
  * List of ordered facets with their attributes.

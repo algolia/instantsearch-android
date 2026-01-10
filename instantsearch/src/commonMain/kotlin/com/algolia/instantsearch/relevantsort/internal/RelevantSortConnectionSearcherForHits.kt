@@ -4,9 +4,9 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
+import com.algolia.instantsearch.migration2to3.Query
+import com.algolia.instantsearch.migration2to3.ResponseSearch
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.Query
 
 /**
  * Connection between relevant sort's view model and a single index searcher.

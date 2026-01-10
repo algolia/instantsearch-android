@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.searcher.hits
 
-import com.algolia.search.model.search.Query
+import com.algolia.instantsearch.migration2to3.Query
+
 
 /**
  * Search query execution condition logic.

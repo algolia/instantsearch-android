@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    alias(libs.plugins.compose.compiler)
     id("com.vanniktech.maven.publish")
 }
 
@@ -18,11 +19,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += listOf("-Xexplicit-api=strict", "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
-    }
-
     buildFeatures {
         compose = true
     }
@@ -32,11 +28,13 @@ android {
         isReturnDefaultValues = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
-
     resourcePrefix = "alg_is_compose_"
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        freeCompilerArgs.addAll(listOf("-Xexplicit-api=strict", "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"))
+    }
 }
 
 tasks.withType<Test> {
@@ -46,6 +44,7 @@ tasks.withType<Test> {
 dependencies {
     api(project(":instantsearch"))
     api(project(":instantsearch-utils"))
+    implementation(project(":migration2to3"))
     implementation(libs.algolia.telemetry)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material)

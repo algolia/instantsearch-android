@@ -4,8 +4,8 @@ import com.algolia.instantsearch.compose.filter.facet.dynamic.internal.DynamicFa
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListView
 import com.algolia.instantsearch.filter.facet.dynamic.SelectionsPerAttribute
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Facet
 
 /**
  * [DynamicFacetListView] for compose.

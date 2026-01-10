@@ -9,9 +9,8 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.filter.state.toFilterGroups
+import com.algolia.instantsearch.migration2to3.FilterGroupsConverter
 import com.algolia.instantsearch.searcher.SearcherAnswers
-import com.algolia.search.ExperimentalAlgoliaClientAPI
-import com.algolia.search.model.filter.FilterGroupsConverter
 
 @Deprecated("Answers feature is deprecated")
 @ExperimentalInstantSearch

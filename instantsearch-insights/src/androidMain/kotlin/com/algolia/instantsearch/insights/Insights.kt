@@ -2,6 +2,7 @@ package com.algolia.instantsearch.insights
 
 import android.content.Context
 import androidx.work.WorkManager
+import com.algolia.client.model.querysuggestions.LogLevel
 import com.algolia.instantsearch.insights.exception.InsightsException
 import com.algolia.instantsearch.insights.internal.InsightsMap
 import com.algolia.instantsearch.insights.internal.data.distant.InsightsHttpRepository
@@ -12,13 +13,12 @@ import com.algolia.instantsearch.insights.internal.extension.defaultConfiguratio
 import com.algolia.instantsearch.insights.internal.extension.insightsSettingsPreferences
 import com.algolia.instantsearch.insights.internal.extension.insightsSharedPreferences
 import com.algolia.instantsearch.insights.internal.registerInsightsController
-import com.algolia.search.helper.toAPIKey
-import com.algolia.search.helper.toApplicationID
-import com.algolia.search.helper.toIndexName
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
+import com.algolia.instantsearch.migration2to3.APIKey
+import com.algolia.instantsearch.migration2to3.ApplicationID
+import com.algolia.instantsearch.migration2to3.IndexName
+import com.algolia.instantsearch.migration2to3.toAPIKey
+import com.algolia.instantsearch.migration2to3.toIndexName
+
 
 /**
  * Access the latest registered `Insights` instance, if any, otherwise throws  [InsightsException.IndexNotRegistered].
@@ -54,12 +54,12 @@ public fun registerInsights(
     apiKey: String,
     indexName: String,
     configuration: Insights.Configuration? = null,
-    clientLogLevel: LogLevel = LogLevel.None
+    clientLogLevel: LogLevel = LogLevel.SKIP
 ): Insights {
     return registerInsights(
         context = context,
-        appId = appId.toApplicationID(),
-        apiKey = apiKey.toAPIKey(),
+        appId = appId,
+        apiKey = apiKey,
         indexName = indexName.toIndexName(),
         configuration = configuration,
         clientLogLevel = clientLogLevel
@@ -82,7 +82,7 @@ public fun registerInsights(
     apiKey: APIKey,
     indexName: IndexName,
     configuration: Insights.Configuration? = null,
-    clientLogLevel: LogLevel = LogLevel.None
+    clientLogLevel: LogLevel = LogLevel.SKIP
 ): Insights {
     val localRepository = InsightsPrefsRepository(context.insightsSharedPreferences(indexName))
     val settings = InsightsEventSettings(context.insightsSettingsPreferences())

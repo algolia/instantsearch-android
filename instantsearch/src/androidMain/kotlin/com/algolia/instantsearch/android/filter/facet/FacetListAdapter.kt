@@ -8,7 +8,7 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.filter.facet.FacetListItem
 import com.algolia.instantsearch.filter.facet.FacetListView
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.migration2to3.Facet
 
 public class FacetListAdapter(
     private val factory: FacetListViewHolder.Factory,

@@ -3,8 +3,8 @@ package com.algolia.instantsearch.filter.state.internal
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.hierarchical.HierarchicalFilter
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Filter
 
 internal data class FiltersImpl(
     private val facetGroups: Map<FilterGroupID, Set<Filter.Facet>>,

@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.filter.state
 
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Filter
 import com.algolia.instantsearch.hierarchical.HierarchicalFilter
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
 
 public interface MutableFilters : Filters {
 

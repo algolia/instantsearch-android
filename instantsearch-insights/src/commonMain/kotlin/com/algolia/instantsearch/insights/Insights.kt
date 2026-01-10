@@ -1,8 +1,9 @@
 package com.algolia.instantsearch.insights
 
-import com.algolia.search.configuration.Credentials
-import com.algolia.search.model.insights.InsightsEvent
-import com.algolia.search.model.insights.UserToken
+import com.algolia.instantsearch.migration2to3.Credentials
+import com.algolia.instantsearch.migration2to3.InsightsEvent
+import com.algolia.instantsearch.migration2to3.UserToken
+
 
 public interface Insights : HitsAfterSearchTrackable, FilterTrackable, Credentials {
 

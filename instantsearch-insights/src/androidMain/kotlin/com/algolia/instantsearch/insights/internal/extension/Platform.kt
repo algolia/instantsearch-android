@@ -2,7 +2,7 @@ package com.algolia.instantsearch.insights.internal.extension
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.algolia.search.model.IndexName
+import com.algolia.instantsearch.migration2to3.IndexName
 
 internal var SharedPreferences.events: Set<String> by SharedPreferencesDelegate.StringSet(setOf())
 

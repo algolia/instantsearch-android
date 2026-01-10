@@ -18,21 +18,21 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += listOf(
-            "-Xopt-in=com.algolia.instantsearch.ExperimentalInstantSearch",
-            "-Xopt-in=com.algolia.instantsearch.InternalInstantSearch",
-            "-Xexplicit-api=strict"
-        )
-    }
-
     testOptions.unitTests.apply {
         isIncludeAndroidResources = true
         isReturnDefaultValues = true
     }
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        freeCompilerArgs.addAll(listOf(
+            "-Xopt-in=com.algolia.instantsearch.ExperimentalInstantSearch",
+            "-Xopt-in=com.algolia.instantsearch.InternalInstantSearch",
+            "-Xexplicit-api=strict"
+        ))
+    }
+}
 
 dependencies {
     api(project(":instantsearch"))

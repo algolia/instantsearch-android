@@ -4,10 +4,9 @@ import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.core.searcher.Searcher
+import com.algolia.instantsearch.migration2to3.ResponseSearch
 import com.algolia.instantsearch.relateditems.internal.RelatedItemsConnectionView
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.indexing.Indexable
-import com.algolia.search.model.response.ResponseSearch
 
 /**
  * Connects [Searcher] to [HitsView] to display related items.

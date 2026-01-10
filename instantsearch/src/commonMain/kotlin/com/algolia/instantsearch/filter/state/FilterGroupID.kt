@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.state
 
-import com.algolia.search.model.Attribute
+import com.algolia.instantsearch.migration2to3.Attribute
 
 /**
  * Identifier of a group of filters.

@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.searcher
 
-import com.algolia.search.model.IndexName
+import com.algolia.instantsearch.migration2to3.IndexName
 
 /**
  * Component holding [IndexName].

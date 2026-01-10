@@ -1,9 +1,10 @@
 package com.algolia.instantsearch.searcher.internal
 
+import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.extension.telemetrySchema
+import com.algolia.instantsearch.migration2to3.requestOptions
 import com.algolia.instantsearch.util.algoliaAgent
-import com.algolia.search.dsl.requestOptions
-import com.algolia.search.transport.RequestOptions
+
 
 internal fun RequestOptions?.withAlgoliaAgent(): RequestOptions {
     return requestOptions(this) {

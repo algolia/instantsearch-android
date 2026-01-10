@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.relateditems
 
-import com.algolia.search.model.Attribute
+import com.algolia.instantsearch.migration2to3.Attribute
 import kotlin.reflect.KProperty1
 
 /**

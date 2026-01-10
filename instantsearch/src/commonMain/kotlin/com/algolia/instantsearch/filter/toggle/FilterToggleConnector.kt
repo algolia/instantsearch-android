@@ -1,11 +1,11 @@
 package com.algolia.instantsearch.filter.toggle
 
+import com.algolia.instantsearch.migration2to3.Filter
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.extension.traceFilterToggleConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.search.model.filter.Filter
 
 /**
  * Filter Toggle is a filtering view that displays any kind of filter, and lets the user refine the search results

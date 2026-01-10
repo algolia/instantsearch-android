@@ -1,12 +1,12 @@
 package com.algolia.instantsearch.stats
 
-import com.algolia.search.model.response.ResponseSearch
+import com.algolia.client.model.search.SearchResponse
 
 public class DefaultStatsPresenter(
     private val default: String = "",
 ) : StatsPresenter<String> {
 
-    override fun invoke(response: ResponseSearch?): String {
+    override fun invoke(response: SearchResponse?): String {
         return buildString {
             if (response != null) {
                 val exhaustive = if (response.exhaustiveNbHitsOrNull == false) "~" else ""

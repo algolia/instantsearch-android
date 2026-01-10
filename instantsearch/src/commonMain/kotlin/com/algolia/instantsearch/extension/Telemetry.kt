@@ -16,6 +16,10 @@ import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.toggle.FilterToggleConnector
+import com.algolia.instantsearch.migration2to3.Attribute
+import com.algolia.instantsearch.migration2to3.Facet
+import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.migration2to3.MultipleQueriesStrategy
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.SearchMode
 import com.algolia.instantsearch.searcher.SearcherAnswers
@@ -27,10 +31,6 @@ import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.instantsearch.telemetry.Schema
 import com.algolia.instantsearch.telemetry.Telemetry
 import com.algolia.instantsearch.telemetry.toByteArray
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
-import com.algolia.search.model.search.Facet
 import io.ktor.util.encodeBase64
 
 /** Get telemetry schema header **/
@@ -39,7 +39,6 @@ internal fun telemetrySchema(): String? {
 }
 
 /** Compress [Schema] structure (gzip + base64) */
-@OptIn(io.ktor.util.InternalAPI::class)
 private fun Schema.compress(): String {
     return toByteArray().gzip().encodeBase64() // TODO: replace ktor's encodeBase64
 }

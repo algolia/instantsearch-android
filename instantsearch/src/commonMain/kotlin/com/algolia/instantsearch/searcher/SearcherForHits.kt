@@ -1,7 +1,8 @@
 package com.algolia.instantsearch.searcher
 
-import com.algolia.search.model.params.CommonSearchParameters
-import com.algolia.search.model.response.ResponseSearch
+import com.algolia.instantsearch.migration2to3.CommonSearchParameters
+import com.algolia.instantsearch.migration2to3.ResponseSearch
+
 
 /**
  * Implementation of [SearcherQuery] with [CommonSearchParameters] and [ResponseSearch].
