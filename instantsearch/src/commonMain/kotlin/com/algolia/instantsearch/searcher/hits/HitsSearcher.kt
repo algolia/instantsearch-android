@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.searcher.hits
 
+import com.algolia.client.api.InsightsClient
 import com.algolia.client.api.SearchClient
 import com.algolia.client.model.search.SearchParamsObject
 import com.algolia.instantsearch.migration2to3.APIKey
@@ -154,7 +155,7 @@ public fun MultiSearcher.addHitsSearcher(
 ): HitsSearcher {
     return DefaultHitsSearcher(
         searchService = DefaultHitsSearchService(client),
-        insights = ClientInsights(applicationID = client.appId, apiKey = client.apiKey),
+        insights = InsightsClient(appId = client.appId, apiKey = client.apiKey),
         indexName = indexName,
         query = query,
         requestOptions = requestOptions,

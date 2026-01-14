@@ -3,11 +3,12 @@
 package com.algolia.instantsearch.searcher.multi
 
 import com.algolia.client.api.SearchClient
+import com.algolia.client.model.search.SearchResult
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.migration2to3.IndexedQuery
+import com.algolia.instantsearch.migration2to3.MultipleQueriesStrategy
 import com.algolia.instantsearch.migration2to3.RequestOptions
 import com.algolia.instantsearch.migration2to3.ResponseMultiSearch
-import com.algolia.instantsearch.migration2to3.ResultSearch
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.multi.internal.DefaultMultiSearchService
@@ -30,7 +31,7 @@ public abstract class MultiSearcher : Searcher<ResponseMultiSearch> {
     /**
      * Adds a search component to the multi-searcher.
      */
-    internal abstract fun addSearcher(component: MultiSearchComponent<IndexedQuery, ResultSearch>)
+    internal abstract fun addSearcher(component: MultiSearchComponent<IndexedQuery, SearchResult>)
 }
 
 /**
@@ -59,7 +60,7 @@ public fun MultiSearcher(
 /**
  * Creates an instance of [MultiSearcher].
  *
- * @param applicationID application ID
+ * @param appId application ID
  * @param apiKey API Key
  * @param strategy multi-queries search strategy
  * @param requestOptions request local configuration
@@ -67,14 +68,14 @@ public fun MultiSearcher(
  * @param coroutineDispatcher async search dispatcher
  */
 public fun MultiSearcher(
-    applicationID: ApplicationID,
-    apiKey: APIKey,
+    appId: String,
+    apiKey: String,
     strategy: MultipleQueriesStrategy = MultipleQueriesStrategy.None,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
 ): MultiSearcher = DefaultMultiSearcher(
-    searchService = DefaultMultiSearchService(client = ClientSearch(applicationID, apiKey)),
+    searchService = DefaultMultiSearchService(client = SearchClient(appId, apiKey)),
     strategy = strategy,
     requestOptions = requestOptions,
     coroutineScope = coroutineScope,
