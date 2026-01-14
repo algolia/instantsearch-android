@@ -2,11 +2,7 @@ package com.algolia.instantsearch.searcher.facets
 
 import com.algolia.client.api.SearchClient
 import com.algolia.client.model.search.SearchParamsObject
-import com.algolia.instantsearch.migration2to3.APIKey
-import com.algolia.instantsearch.migration2to3.ApplicationID
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.IndexName
-import com.algolia.instantsearch.migration2to3.RequestOptions
+import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.searcher.SearcherForFacets
 import com.algolia.instantsearch.searcher.SearcherScope
@@ -45,9 +41,9 @@ public interface FacetsSearcher : SearcherForFacets<SearchParamsObject>, IndexNa
  */
 public fun FacetsSearcher(
     client: SearchClient,
-    indexName: IndexName,
-    attribute: Attribute,
-    query: Query = Query(),
+    indexName: String,
+    attribute: String,
+    query: SearchParamsObject = SearchParamsObject(),
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
@@ -68,7 +64,7 @@ public fun FacetsSearcher(
 /**
  * Creates an instance of [FacetsSearcher].
  *
- * @param applicationID application ID
+ * @param appId application ID
  * @param apiKey API Key
  * @param indexName index name
  * @param attribute facet attribute
@@ -80,18 +76,18 @@ public fun FacetsSearcher(
  * @param triggerSearchFor request condition
  */
 public fun FacetsSearcher(
-    applicationID: ApplicationID,
-    apiKey: APIKey,
-    indexName: IndexName,
-    attribute: Attribute,
-    query: Query = Query(),
+    appId: String,
+    apiKey: String,
+    indexName: String,
+    attribute: String,
+    query: SearchParamsObject = SearchParamsObject(),
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForFacetQuery = SearchForFacetQuery.All
 ): FacetsSearcher = DefaultFacetsSearcher(
-    searchService = DefaultFacetsSearchService(client = SearchClient(applicationID, apiKey)),
+    searchService = DefaultFacetsSearchService(client = SearchClient(appId, apiKey)),
     indexName = indexName,
     query = query,
     attribute = attribute,
@@ -113,9 +109,9 @@ public fun FacetsSearcher(
  * @param triggerSearchFor request condition
  */
 public fun MultiSearcher.addFacetsSearcher(
-    indexName: IndexName,
-    attribute: Attribute,
-    query: Query = Query(),
+    indexName: String,
+    attribute: String,
+    query: SearchParamsObject = SearchParamsObject(),
     facetQuery: String? = null,
     requestOptions: RequestOptions? = null,
     triggerSearchFor: SearchForFacetQuery = SearchForFacetQuery.All
