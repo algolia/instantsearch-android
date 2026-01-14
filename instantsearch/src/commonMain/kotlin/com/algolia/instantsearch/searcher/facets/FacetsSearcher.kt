@@ -1,11 +1,11 @@
 package com.algolia.instantsearch.searcher.facets
 
 import com.algolia.client.api.SearchClient
+import com.algolia.client.model.search.SearchParamsObject
 import com.algolia.instantsearch.migration2to3.APIKey
 import com.algolia.instantsearch.migration2to3.ApplicationID
 import com.algolia.instantsearch.migration2to3.Attribute
 import com.algolia.instantsearch.migration2to3.IndexName
-import com.algolia.instantsearch.migration2to3.Query
 import com.algolia.instantsearch.migration2to3.RequestOptions
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.searcher.SearcherForFacets
@@ -22,7 +22,7 @@ import kotlinx.coroutines.CoroutineScope
  * The component handling search requests and managing the search sessions.
  * This implementation searches for facet values.
  */
-public interface FacetsSearcher : SearcherForFacets<Query>, IndexNameHolder {
+public interface FacetsSearcher : SearcherForFacets<SearchParamsObject>, IndexNameHolder {
 
     /**
      * Facets query.

@@ -1,17 +1,16 @@
 package com.algolia.instantsearch.searcher
 
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.CommonSearchParameters
-import com.algolia.instantsearch.migration2to3.ResponseSearchForFacets
+import com.algolia.client.model.search.SearchForFacetValuesResponse
+import com.algolia.client.model.search.SearchParams
 
 
 /**
- * Implementation of [SearcherQuery] with [CommonSearchParameters] and [ResponseSearchForFacets].
+ * Implementation of [SearcherQuery] with [SearchParams] and [SearchForFacetValuesResponse].
  */
-public interface SearcherForFacets<T : CommonSearchParameters> : SearcherQuery<T, ResponseSearchForFacets> {
+public interface SearcherForFacets<T : SearchParams> : SearcherQuery<T, SearchForFacetValuesResponse> {
 
     /**
      * Facets attribute.
      */
-    public val attribute: Attribute
+    public val attribute: String
 }
