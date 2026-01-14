@@ -1,9 +1,11 @@
 package com.algolia.instantsearch.searcher
 
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceAnswersSearcher
+import com.algolia.instantsearch.migration2to3.Index
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.runAsLoading
@@ -36,7 +38,7 @@ public class SearcherAnswers(
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
-    override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
+    override val response: SubscriptionValue<SearchResponse?> = SubscriptionValue(null)
 
     private val sequencer = Sequencer()
     private val options get() = requestOptions.withAlgoliaAgent()
@@ -60,7 +62,7 @@ public class SearcherAnswers(
         }
     }
 
-    override suspend fun search(): ResponseSearch = withContext(coroutineDispatcher) {
+    override suspend fun search(): SearchResponse = withContext(coroutineDispatcher) {
         index.findAnswers(answersQuery = query, requestOptions = options)
     }
 

@@ -34,7 +34,7 @@ internal fun clientInsights(
  * Generate a default insights configuration.
  */
 internal fun defaultConfiguration(settings: InsightsSettings): Insights.Configuration {
-    val userToken = UserToken(settings.storedUserToken())
+    val userToken = settings.storedUserToken()
     InsightsLogger.log("Insights user token: $userToken")
     return Insights.Configuration(defaultUserToken = userToken)
 }

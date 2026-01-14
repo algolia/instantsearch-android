@@ -24,7 +24,7 @@ public interface Highlightable {
         findHighlight: (JsonObject) -> JsonObject = { it },
         preTag: String = DefaultPreTag,
         postTag: String = DefaultPostTag,
-    ): HighlightedString? = getHighlight(key.raw, findHighlight, preTag, postTag)
+    ): HighlightedString? = getHighlight(key, findHighlight, preTag, postTag)
 
     public fun getHighlight(
         key: String,

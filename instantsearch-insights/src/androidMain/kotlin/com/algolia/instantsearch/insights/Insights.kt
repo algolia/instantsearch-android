@@ -13,11 +13,7 @@ import com.algolia.instantsearch.insights.internal.extension.defaultConfiguratio
 import com.algolia.instantsearch.insights.internal.extension.insightsSettingsPreferences
 import com.algolia.instantsearch.insights.internal.extension.insightsSharedPreferences
 import com.algolia.instantsearch.insights.internal.registerInsightsController
-import com.algolia.instantsearch.migration2to3.APIKey
-import com.algolia.instantsearch.migration2to3.ApplicationID
 import com.algolia.instantsearch.migration2to3.IndexName
-import com.algolia.instantsearch.migration2to3.toAPIKey
-import com.algolia.instantsearch.migration2to3.toIndexName
 
 
 /**
@@ -46,41 +42,14 @@ public fun sharedInsights(indexName: IndexName): Insights {
  * @param appId The given app id for which you want to track the events.
  * @param apiKey The API Key for your `appId`.
  * @param indexName The index that is being tracked.
- * @param configuration A Configuration class.
+ * @param configuration insights configuration
+ * @param clientLogLevel insights API client log level
  */
 public fun registerInsights(
     context: Context,
     appId: String,
     apiKey: String,
     indexName: String,
-    configuration: Insights.Configuration? = null,
-    clientLogLevel: LogLevel = LogLevel.SKIP
-): Insights {
-    return registerInsights(
-        context = context,
-        appId = appId,
-        apiKey = apiKey,
-        indexName = indexName.toIndexName(),
-        configuration = configuration,
-        clientLogLevel = clientLogLevel
-    )
-}
-
-/**
- * Register your index with a given appId and apiKey.
- *
- * @param context An Android Context.
- * @param appId The given app id for which you want to track the events.
- * @param apiKey The API Key for your `appId`.
- * @param indexName The index that is being tracked.
- * @param configuration insights configuration
- * @param clientLogLevel insights API client log level
- */
-public fun registerInsights(
-    context: Context,
-    appId: ApplicationID,
-    apiKey: APIKey,
-    indexName: IndexName,
     configuration: Insights.Configuration? = null,
     clientLogLevel: LogLevel = LogLevel.SKIP
 ): Insights {
