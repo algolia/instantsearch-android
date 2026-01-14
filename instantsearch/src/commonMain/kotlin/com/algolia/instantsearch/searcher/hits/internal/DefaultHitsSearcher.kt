@@ -1,5 +1,8 @@
 package com.algolia.instantsearch.searcher.hits.internal
 
+import com.algolia.client.api.InsightsClient
+import com.algolia.client.model.search.SearchParamsObject
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceHitsSearcher
@@ -29,9 +32,9 @@ import kotlinx.coroutines.*
  */
 internal class DefaultHitsSearcher(
     private val searchService: HitsSearchService,
-    private val insights: ClientInsights,
+    private val insights: InsightsClient,
     override var indexName: IndexName,
-    override val query: Query,
+    override val query: SearchParamsObject,
     override val requestOptions: RequestOptions?,
     override val isDisjunctiveFacetingEnabled: Boolean,
     override val coroutineScope: CoroutineScope,
@@ -39,7 +42,7 @@ internal class DefaultHitsSearcher(
     private val triggerSearchFor: SearchForQuery,
     override var isAutoSendingHitsViewEvents: Boolean,
     override var userToken: UserToken,
-) : HitsSearcher, MultiSearchComponent<IndexQuery, ResponseSearch> {
+) : HitsSearcher, MultiSearchComponent<IndexQuery, SearchResponse> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
