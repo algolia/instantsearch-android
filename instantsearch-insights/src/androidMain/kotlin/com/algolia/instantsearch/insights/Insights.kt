@@ -2,7 +2,6 @@ package com.algolia.instantsearch.insights
 
 import android.content.Context
 import androidx.work.WorkManager
-import com.algolia.client.model.querysuggestions.LogLevel
 import com.algolia.instantsearch.insights.exception.InsightsException
 import com.algolia.instantsearch.insights.internal.InsightsMap
 import com.algolia.instantsearch.insights.internal.data.distant.InsightsHttpRepository
@@ -14,6 +13,7 @@ import com.algolia.instantsearch.insights.internal.extension.insightsSettingsPre
 import com.algolia.instantsearch.insights.internal.extension.insightsSharedPreferences
 import com.algolia.instantsearch.insights.internal.registerInsightsController
 import com.algolia.instantsearch.migration2to3.IndexName
+import io.ktor.client.plugins.logging.LogLevel
 
 
 /**
@@ -51,7 +51,7 @@ public fun registerInsights(
     apiKey: String,
     indexName: String,
     configuration: Insights.Configuration? = null,
-    clientLogLevel: LogLevel = LogLevel.SKIP
+    clientLogLevel: LogLevel = LogLevel.NONE
 ): Insights {
     val localRepository = InsightsPrefsRepository(context.insightsSharedPreferences(indexName))
     val settings = InsightsEventSettings(context.insightsSettingsPreferences())

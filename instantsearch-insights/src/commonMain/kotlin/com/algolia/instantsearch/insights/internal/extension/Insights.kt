@@ -1,14 +1,15 @@
 package com.algolia.instantsearch.insights.internal.extension
 
-import com.algolia.client.model.querysuggestions.LogLevel
+import com.algolia.client.api.InsightsClient
+import com.algolia.client.configuration.ClientOptions
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.internal.data.settings.InsightsSettings
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.migration2to3.APIKey
 import com.algolia.instantsearch.migration2to3.ApplicationID
-import com.algolia.instantsearch.migration2to3.ClientInsights
-import com.algolia.instantsearch.migration2to3.ConfigurationInsights
-import com.algolia.instantsearch.migration2to3.UserToken
+import io.ktor.client.plugins.logging.LogLevel
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 /**
  * Create new Insights API Client.
@@ -18,14 +19,14 @@ internal fun clientInsights(
     apiKey: APIKey,
     configuration: Insights.Configuration,
     clientLogLevel: LogLevel,
-): ClientInsights {
-    return ClientInsights(
-        ConfigurationInsights(
-            applicationID = appId,
-            apiKey = apiKey,
-            writeTimeout = configuration.connectTimeoutInMilliseconds,
-            readTimeout = configuration.readTimeoutInMilliseconds,
-            logLevel = clientLogLevel
+): InsightsClient {
+    return InsightsClient(
+        appId = appId,
+        apiKey = apiKey,
+        options = ClientOptions(
+            writeTimeout = configuration.connectTimeoutInMilliseconds.toDuration(DurationUnit.MILLISECONDS),
+            readTimeout = configuration.readTimeoutInMilliseconds.toDuration(DurationUnit.MILLISECONDS),
+            logLevel = clientLogLevel,
         )
     )
 }
