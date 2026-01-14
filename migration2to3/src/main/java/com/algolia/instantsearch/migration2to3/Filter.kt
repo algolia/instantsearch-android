@@ -28,7 +28,7 @@ public sealed class Filter {
      * [FilterGroup].
      * [Read further on scoring][https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#filters-scoring]
      */
-    public data class Facet internal constructor(
+    public data class Facet constructor(
         override val attribute: Attribute,
         override val isNegated: Boolean,
         val value: Value,
@@ -90,7 +90,7 @@ public sealed class Filter {
     /**
      * A [Filter.Tag] filters on a specific [value]. It uses a reserved keywords "_tags" as [attribute].
      */
-    public data class Tag internal constructor(
+    public data class Tag constructor(
         override val attribute: Attribute,
         override val isNegated: Boolean,
         val value: String
@@ -99,7 +99,7 @@ public sealed class Filter {
         public constructor(
             value: String,
             isNegated: Boolean = false
-        ) : this(Attribute("_tags"), isNegated, value)
+        ) : this("_tags", isNegated, value)
 
         /**
          * Operator to negates a [Filter.Tag].

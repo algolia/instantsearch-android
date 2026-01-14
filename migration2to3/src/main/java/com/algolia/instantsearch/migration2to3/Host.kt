@@ -14,15 +14,15 @@ internal val ApplicationID.searchHosts
     ).apply { shuffle() }
 
 internal val insightHosts = listOf(RetryableHost("insights.algolia.io"))
-internal val Region.Analytics.hosts get() = listOf(RetryableHost("analytics.$this.algolia.com"))
-internal val Region.Personalization.hosts get() = listOf(RetryableHost("personalization.$this.algolia.com"))
-internal val placesHosts = listOf(
-    RetryableHost("places-dsn.algolia.net"),
-) + mutableListOf(
-    RetryableHost("places-1.algolianet.com"),
-    RetryableHost("places-2.algolianet.com"),
-    RetryableHost("places-3.algolianet.com")
-).apply { shuffle() }
+//internal val Region.Analytics.hosts get() = listOf(RetryableHost("analytics.$this.algolia.com"))
+//internal val Region.Personalization.hosts get() = listOf(RetryableHost("personalization.$this.algolia.com"))
+//internal val placesHosts = listOf(
+//    RetryableHost("places-dsn.algolia.net"),
+//) + mutableListOf(
+//    RetryableHost("places-1.algolianet.com"),
+//    RetryableHost("places-2.algolianet.com"),
+//    RetryableHost("places-3.algolianet.com")
+//).apply { shuffle() }
 
 @PublishedApi
 internal fun RetryableHost.reset() {

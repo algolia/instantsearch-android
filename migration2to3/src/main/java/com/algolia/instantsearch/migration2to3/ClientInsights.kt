@@ -33,8 +33,8 @@ public interface ClientInsights : EndpointInsights, Configuration, Credentials, 
  * @param apiKey API Key
  */
 public fun ClientInsights(
-    applicationID: ApplicationID,
-    apiKey: APIKey,
+    applicationID: String,
+    apiKey: String,
 ): ClientInsights = ClientInsightsImpl(
     Transport(
         ConfigurationInsights(applicationID, apiKey),

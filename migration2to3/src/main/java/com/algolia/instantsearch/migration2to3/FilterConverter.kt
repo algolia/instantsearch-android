@@ -3,8 +3,6 @@ package com.algolia.instantsearch.migration2to3
 internal fun String.escape() = "\"${this.escapeQuotation()}\""
 internal fun String.escapeQuotation() = this.replace("\"", "\\\"")
 
-internal fun Attribute.escape() = raw.escape()
-
 internal fun Filter.Facet.Value.toSQL(): String {
     return when (this) {
         is Filter.Facet.Value.String -> raw.escape()
@@ -63,7 +61,7 @@ internal fun Filter.Numeric.Value.Comparison.toLegacy(
         }
     } else operator
 
-    val stringAttribute = if (escape) attribute.escape() else attribute.raw
+    val stringAttribute = if (escape) attribute.escape() else attribute
     return listOf("$stringAttribute ${operator.raw} $number")
 }
 
@@ -72,7 +70,7 @@ internal fun Filter.Numeric.Value.Range.toLegacy(
     isNegated: Boolean,
     escape: Boolean
 ): List<String> {
-    val stringAttribute: String = if (escape) attribute.escape() else attribute.raw
+    val stringAttribute: String = if (escape) attribute.escape() else attribute
 
     return if (isNegated) {
         listOf("$stringAttribute < $lowerBound", "$stringAttribute > $upperBound")
@@ -99,7 +97,7 @@ internal fun Filter.Facet.Value.toLegacy(isNegated: Boolean, escape: Boolean): S
 
 internal fun Filter.Facet.toLegacy(escape: Boolean): List<String> {
     val value = value.toLegacy(isNegated, escape)
-    val attribute = if (escape) attribute.escape() else attribute.raw
+    val attribute = if (escape) attribute.escape() else attribute
     val score = if (score != null) "<score=$score>" else ""
 
     return listOf("$attribute:$value$score")
