@@ -5,8 +5,6 @@ import com.algolia.client.configuration.ClientOptions
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.internal.data.settings.InsightsSettings
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
-import com.algolia.instantsearch.migration2to3.APIKey
-import com.algolia.instantsearch.migration2to3.ApplicationID
 import io.ktor.client.plugins.logging.LogLevel
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -15,8 +13,8 @@ import kotlin.time.toDuration
  * Create new Insights API Client.
  */
 internal fun insightsClient(
-    appId: ApplicationID,
-    apiKey: APIKey,
+    appId: String,
+    apiKey: String,
     configuration: Insights.Configuration,
     clientLogLevel: LogLevel,
 ): InsightsClient {
