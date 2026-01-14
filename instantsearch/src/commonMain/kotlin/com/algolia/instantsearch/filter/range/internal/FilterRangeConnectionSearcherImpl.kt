@@ -6,7 +6,6 @@ import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.filter.range.FilterRangeViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.CommonSearchParameters
 import com.algolia.instantsearch.migration2to3.ResponseSearch
 
 /**
@@ -47,10 +46,6 @@ internal class FilterRangeConnectionSearcherImpl<T>(
         super.connect()
         searcher.query.updateQueryFacets(attribute)
         searcher.response.subscribePastOnce(subscription = responseSubscription)
-    }
-
-    private fun CommonSearchParameters.updateQueryFacets(attribute: Attribute) {
-        facets = (facets?.toMutableSet() ?: mutableSetOf()).apply { add(attribute) }
     }
 
     override fun disconnect() {
