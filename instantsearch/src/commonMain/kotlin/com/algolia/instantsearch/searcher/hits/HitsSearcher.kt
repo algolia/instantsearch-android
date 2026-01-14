@@ -1,11 +1,11 @@
 package com.algolia.instantsearch.searcher.hits
 
 import com.algolia.client.api.SearchClient
+import com.algolia.client.model.search.SearchParamsObject
 import com.algolia.instantsearch.migration2to3.APIKey
 import com.algolia.instantsearch.migration2to3.ApplicationID
 import com.algolia.instantsearch.migration2to3.ClientInsights
 import com.algolia.instantsearch.migration2to3.IndexName
-import com.algolia.instantsearch.migration2to3.Query
 import com.algolia.instantsearch.migration2to3.RequestOptions
 import com.algolia.instantsearch.migration2to3.UserToken
 import com.algolia.instantsearch.searcher.FilterGroupsHolder
@@ -25,7 +25,7 @@ import kotlinx.coroutines.CoroutineScope
  * The component handling search requests and managing the search sessions.
  * This implementation searches for hits.
  */
-public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterGroupsHolder {
+public interface HitsSearcher : SearcherForHits<SearchParamsObject>, IndexNameHolder, FilterGroupsHolder {
 
     /**
      * Flag defining if disjunctive faceting is enabled.
@@ -70,7 +70,7 @@ public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterG
 public fun HitsSearcher(
     client: SearchClient,
     indexName: IndexName,
-    query: Query = Query(),
+    query: SearchParamsObject = SearchParamsObject(),
     insights: ClientInsights = ClientInsights(client.appId, client.apiKey),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
@@ -111,7 +111,7 @@ public fun HitsSearcher(
     applicationID: ApplicationID,
     apiKey: APIKey,
     indexName: IndexName,
-    query: Query = Query(),
+    query: SearchParamsObject = SearchParamsObject(),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
@@ -145,16 +145,16 @@ public fun HitsSearcher(
  */
 public fun MultiSearcher.addHitsSearcher(
     indexName: IndexName,
-    query: Query = Query(),
+    query: SearchParamsObject = SearchParamsObject(),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
     isAutoSendingHitsViewEvents: Boolean = false,
-    userToken: UserToken = UserToken.anonymous(),
+    userToken: UserToken = String.anonymous(),
 ): HitsSearcher {
     return DefaultHitsSearcher(
         searchService = DefaultHitsSearchService(client),
-        insights = ClientInsights(applicationID = client.applicationID, apiKey = client.apiKey),
+        insights = ClientInsights(applicationID = client.appId, apiKey = client.apiKey),
         indexName = indexName,
         query = query,
         requestOptions = requestOptions,
@@ -167,6 +167,6 @@ public fun MultiSearcher.addHitsSearcher(
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }
 
-private fun UserToken.Companion.anonymous(): UserToken {
-    return UserToken("anonymous-${randomUuid()}")
+private fun String.Companion.anonymous(): UserToken {
+    return "anonymous-${randomUuid()}"
 }

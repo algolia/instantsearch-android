@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.filter.state
 
-import com.algolia.instantsearch.migration2to3.Attribute
 
 /**
  * Identifier of a group of filters.
@@ -12,8 +11,4 @@ public data class FilterGroupID(
 
     public constructor(operator: FilterOperator) : this("", operator = operator)
 
-    public constructor(
-        attribute: Attribute,
-        operator: FilterOperator = FilterOperator.And,
-    ) : this(attribute.raw, operator)
 }

@@ -1,5 +1,15 @@
 package com.algolia.instantsearch.migration2to3
 
+
+// Filter class to be replaced with:
+
+//com.algolia.client.model.search.AutomaticFacetFilter
+//
+//com.algolia.client.model.search.TagFilters
+//
+//com.algolia.client.model.search.NumericFilters
+
+
 public sealed class Filter {
 
     /**

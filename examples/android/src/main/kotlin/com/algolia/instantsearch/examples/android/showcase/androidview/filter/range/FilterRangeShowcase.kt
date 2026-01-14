@@ -20,7 +20,7 @@ import com.algolia.search.model.Attribute
 class FilterRangeShowcase : AppCompatActivity() {
 
     private val searcher = HitsSearcher(client, stubIndexName)
-    private val price = Attribute("price")
+    private val price = "price"
     private val groupID = FilterGroupID(price)
     private val primaryBounds = 0..15
     private val secondaryBounds = 0..10

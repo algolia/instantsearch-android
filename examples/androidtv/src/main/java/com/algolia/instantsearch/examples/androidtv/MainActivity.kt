@@ -19,9 +19,9 @@ import com.algolia.search.model.IndexName
 class MainActivity : FragmentActivity() {
 
     private val searcher = HitsSearcher(
-        applicationID = ApplicationID("latency"),
-        apiKey = APIKey("3832e8fcaf80b1c7085c59fa3e4d266d"),
-        indexName = IndexName("tmdb_movies_shows")
+        applicationID = "latency",
+        apiKey = "3832e8fcaf80b1c7085c59fa3e4d266d",
+        indexName = "tmdb_movies_shows"
     )
     private val searchBoxState = SearchBoxState()
     private val hitsState = HitsState<Show>()
