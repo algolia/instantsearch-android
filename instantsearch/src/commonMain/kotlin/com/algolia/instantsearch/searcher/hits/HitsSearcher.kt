@@ -3,10 +3,6 @@ package com.algolia.instantsearch.searcher.hits
 import com.algolia.client.api.InsightsClient
 import com.algolia.client.api.SearchClient
 import com.algolia.client.model.search.SearchParamsObject
-import com.algolia.instantsearch.migration2to3.APIKey
-import com.algolia.instantsearch.migration2to3.ApplicationID
-import com.algolia.instantsearch.migration2to3.ClientInsights
-import com.algolia.instantsearch.migration2to3.IndexName
 import com.algolia.instantsearch.migration2to3.RequestOptions
 import com.algolia.instantsearch.migration2to3.UserToken
 import com.algolia.instantsearch.searcher.FilterGroupsHolder
@@ -70,9 +66,9 @@ public interface HitsSearcher : SearcherForHits<SearchParamsObject>, IndexNameHo
  */
 public fun HitsSearcher(
     client: SearchClient,
-    indexName: IndexName,
+    indexName: String,
     query: SearchParamsObject = SearchParamsObject(),
-    insights: ClientInsights = ClientInsights(client.appId, client.apiKey),
+    insights: InsightsClient = InsightsClient(client.appId, client.apiKey),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
@@ -109,9 +105,9 @@ public fun HitsSearcher(
  * @param userToken user token assigned to automatically sent Insights events in the HitsSearcher component
  */
 public fun HitsSearcher(
-    applicationID: ApplicationID,
-    apiKey: APIKey,
-    indexName: IndexName,
+    applicationID: String,
+    apiKey: String,
+    indexName: String,
     query: SearchParamsObject = SearchParamsObject(),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
@@ -122,7 +118,7 @@ public fun HitsSearcher(
     userToken: UserToken = UserToken.anonymous(),
 ): HitsSearcher = HitsSearcher(
     client = SearchClient(applicationID, apiKey),
-    insights = ClientInsights(applicationID, apiKey),
+    insights = InsightsClient(applicationID, apiKey),
     indexName = indexName,
     query = query,
     requestOptions = requestOptions,
@@ -145,7 +141,7 @@ public fun HitsSearcher(
  * @param userToken user token assigned to automatically sent Insights events in the HitsSearcher component
  */
 public fun MultiSearcher.addHitsSearcher(
-    indexName: IndexName,
+    indexName: String,
     query: SearchParamsObject = SearchParamsObject(),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
