@@ -25,7 +25,7 @@ public sealed class InsightsEvent {
 
     public abstract val eventName: String
     public abstract val indexName: String
-    public abstract val userToken: UserToken?
+    public abstract val userToken: String?
     public abstract val timestamp: Long?
     public abstract val queryID: String?
     public abstract val resources: Resources?
@@ -33,7 +33,7 @@ public sealed class InsightsEvent {
     public data class View(
         override val eventName: String,
         override val indexName: String,
-        override val userToken: UserToken? = null,
+        override val userToken: String? = null,
         override val timestamp: Long? = null,
         override val queryID: QueryID? = null,
         override val resources: Resources? = null,
@@ -42,7 +42,7 @@ public sealed class InsightsEvent {
     public data class Click(
         override val eventName: String,
         override val indexName: String,
-        override val userToken: UserToken? = null,
+        override val userToken: String? = null,
         override val timestamp: Long? = null,
         override val queryID: QueryID? = null,
         override val resources: Resources? = null,
@@ -58,7 +58,7 @@ public sealed class InsightsEvent {
     public data class Conversion(
         override val eventName: String,
         override val indexName: String,
-        override val userToken: UserToken? = null,
+        override val userToken: String? = null,
         override val timestamp: Long? = null,
         override val queryID: QueryID? = null,
         override val resources: Resources? = null,

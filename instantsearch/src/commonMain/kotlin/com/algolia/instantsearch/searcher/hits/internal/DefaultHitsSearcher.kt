@@ -10,7 +10,6 @@ import com.algolia.instantsearch.extension.traceHitsSearcher
 import com.algolia.instantsearch.migration2to3.FilterGroup
 import com.algolia.instantsearch.migration2to3.IndexQuery
 import com.algolia.instantsearch.migration2to3.InsightsEvent
-import com.algolia.instantsearch.migration2to3.UserToken
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.hits.SearchForQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
@@ -34,7 +33,7 @@ internal class DefaultHitsSearcher(
     override val coroutineDispatcher: CoroutineDispatcher,
     private val triggerSearchFor: SearchForQuery,
     override var isAutoSendingHitsViewEvents: Boolean,
-    override var userToken: UserToken,
+    override var userToken: String,
 ) : HitsSearcher, MultiSearchComponent<IndexQuery, SearchResponse> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)

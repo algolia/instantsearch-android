@@ -2,7 +2,6 @@ package com.algolia.instantsearch.insights
 
 import com.algolia.instantsearch.migration2to3.Credentials
 import com.algolia.instantsearch.migration2to3.InsightsEvent
-import com.algolia.instantsearch.migration2to3.UserToken
 
 
 public interface Insights : HitsAfterSearchTrackable, FilterTrackable, Credentials {
@@ -23,7 +22,7 @@ public interface Insights : HitsAfterSearchTrackable, FilterTrackable, Credentia
      * Depending if the user is logged-in or not, several strategies can be used from a sessionId to a technical identifier.
      * You should always send pseudonymous or anonymous userTokens.
      */
-    public var userToken: UserToken?
+    public var userToken: String?
 
     /**
      * Change this variable to change the default amount of event sent at once.
@@ -83,7 +82,7 @@ public interface Insights : HitsAfterSearchTrackable, FilterTrackable, Credentia
         /**
          * Default User Token.
          */
-        public val defaultUserToken: UserToken? = null,
+        public val defaultUserToken: String? = null,
 
         /**
          * Defines if the timestamps of the events should be automatically attributed if not provided while calling the

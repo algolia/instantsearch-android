@@ -3,8 +3,7 @@ package com.algolia.instantsearch.searcher.hits
 import com.algolia.client.api.InsightsClient
 import com.algolia.client.api.SearchClient
 import com.algolia.client.model.search.SearchParamsObject
-import com.algolia.instantsearch.migration2to3.RequestOptions
-import com.algolia.instantsearch.migration2to3.UserToken
+import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.searcher.FilterGroupsHolder
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.searcher.SearcherForHits
@@ -47,7 +46,7 @@ public interface HitsSearcher : SearcherForHits<SearchParamsObject>, IndexNameHo
      * Insights events with a unique user. If not explicitly set during initialization, the HitsSearcher
      * generates and assigns a default user token.
      */
-    public var userToken: UserToken
+    public var userToken: String
 }
 
 /**
@@ -75,7 +74,7 @@ public fun HitsSearcher(
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
     isAutoSendingHitsViewEvents: Boolean = false,
-    userToken: UserToken = UserToken.anonymous(),
+    userToken: String = String.anonymous(),
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client),
     insights = insights,
@@ -115,7 +114,7 @@ public fun HitsSearcher(
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
     isAutoSendingHitsViewEvents: Boolean = false,
-    userToken: UserToken = UserToken.anonymous(),
+    userToken: String = String.anonymous(),
 ): HitsSearcher = HitsSearcher(
     client = SearchClient(applicationID, apiKey),
     insights = InsightsClient(applicationID, apiKey),
@@ -147,7 +146,7 @@ public fun MultiSearcher.addHitsSearcher(
     isDisjunctiveFacetingEnabled: Boolean = true,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
     isAutoSendingHitsViewEvents: Boolean = false,
-    userToken: UserToken = String.anonymous(),
+    userToken: String = String.anonymous(),
 ): HitsSearcher {
     return DefaultHitsSearcher(
         searchService = DefaultHitsSearchService(client),
@@ -164,6 +163,6 @@ public fun MultiSearcher.addHitsSearcher(
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }
 
-private fun String.Companion.anonymous(): UserToken {
+private fun String.Companion.anonymous(): String {
     return "anonymous-${randomUuid()}"
 }
