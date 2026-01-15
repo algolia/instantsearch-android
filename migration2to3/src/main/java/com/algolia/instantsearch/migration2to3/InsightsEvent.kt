@@ -24,7 +24,7 @@ import kotlinx.serialization.json.put
 public sealed class InsightsEvent {
 
     public abstract val eventName: EventName
-    public abstract val indexName: IndexName
+    public abstract val indexName: String
     public abstract val userToken: UserToken?
     public abstract val timestamp: Long?
     public abstract val queryID: QueryID?
@@ -32,7 +32,7 @@ public sealed class InsightsEvent {
 
     public data class View(
         override val eventName: EventName,
-        override val indexName: IndexName,
+        override val indexName: String,
         override val userToken: UserToken? = null,
         override val timestamp: Long? = null,
         override val queryID: QueryID? = null,
@@ -41,7 +41,7 @@ public sealed class InsightsEvent {
 
     public data class Click(
         override val eventName: EventName,
-        override val indexName: IndexName,
+        override val indexName: String,
         override val userToken: UserToken? = null,
         override val timestamp: Long? = null,
         override val queryID: QueryID? = null,
@@ -57,7 +57,7 @@ public sealed class InsightsEvent {
 
     public data class Conversion(
         override val eventName: EventName,
-        override val indexName: IndexName,
+        override val indexName: String,
         override val userToken: UserToken? = null,
         override val timestamp: Long? = null,
         override val queryID: QueryID? = null,
