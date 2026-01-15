@@ -6,13 +6,13 @@ plugins {
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
-    compileSdk 33
+    compileSdk 36
     namespace "com.algolia.instantsearch.example.wearos"
 
     defaultConfig {
         applicationId "com.algolia.instantsearch.example.wearos"
         minSdk 30
-        targetSdk 33
+        targetSdk 35
         versionCode 1
         versionName "1.0"
     }

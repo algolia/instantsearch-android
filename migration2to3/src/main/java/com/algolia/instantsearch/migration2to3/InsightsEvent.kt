@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonArray
@@ -139,7 +140,7 @@ public sealed class InsightsEvent {
                             Key.ObjectData,
                             buildJsonArray {
                                 it.forEach {
-                                    add(JsonNoDefaults.encodeToJsonElement(ObjectData.serializer(), it))
+                                    add(Json {  }.encodeToJsonElement(ObjectData.serializer(), it))
                                 }
                             }
                         )
