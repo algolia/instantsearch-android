@@ -12,7 +12,6 @@ import com.algolia.instantsearch.insights.internal.extension.defaultConfiguratio
 import com.algolia.instantsearch.insights.internal.extension.insightsSettingsPreferences
 import com.algolia.instantsearch.insights.internal.extension.insightsSharedPreferences
 import com.algolia.instantsearch.insights.internal.registerInsightsController
-import com.algolia.instantsearch.migration2to3.IndexName
 import io.ktor.client.plugins.logging.LogLevel
 
 
@@ -31,7 +30,7 @@ public var sharedInsights: Insights? = null
  * @return An Insights instance.
  * @throws InsightsException.IndexNotRegistered if no index was registered as indexName before.
  */
-public fun sharedInsights(indexName: IndexName): Insights {
+public fun sharedInsights(indexName: String): Insights {
     return InsightsMap[indexName] ?: throw InsightsException.IndexNotRegistered()
 }
 

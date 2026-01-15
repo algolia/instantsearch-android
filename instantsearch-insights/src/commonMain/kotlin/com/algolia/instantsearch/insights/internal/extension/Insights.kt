@@ -12,7 +12,7 @@ import kotlin.time.toDuration
 /**
  * Create new Insights API Client.
  */
-internal fun insightsClient(
+internal fun clientInsights(
     appId: String,
     apiKey: String,
     configuration: Insights.Configuration,

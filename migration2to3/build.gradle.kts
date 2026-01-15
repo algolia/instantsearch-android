@@ -24,6 +24,13 @@ android {
         isReturnDefaultValues = true
     }
 
+    sourceSets {
+        getByName("main") {
+            java.setSrcDirs(emptyList<String>())
+            kotlin.setSrcDirs(emptyList<String>())
+        }
+    }
+
     resourcePrefix = "alg_is_"
 }
 
@@ -45,7 +52,6 @@ kotlin {
         commonMain {
             kotlin.srcDirs("src/main/java")
             dependencies {
-
                 implementation(libs.algolia.client)
                 implementation(libs.algolia.telemetry)
                 implementation(libs.kotlinx.coroutines.core)
@@ -74,15 +80,5 @@ kotlin {
                 api(libs.google.material)
             }
         }
-        androidNativeTest {
-            dependencies {
-                implementation(libs.test.kotlin.junit)
-                implementation(libs.test.androidx.runner)
-                implementation(libs.test.androidx.ext)
-                implementation(libs.test.robolectric)
-                implementation(libs.test.mockk)
-            }
-        }
     }
-
 }
