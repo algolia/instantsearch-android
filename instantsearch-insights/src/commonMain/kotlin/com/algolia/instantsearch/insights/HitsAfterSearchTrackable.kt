@@ -1,10 +1,5 @@
 package com.algolia.instantsearch.insights
 
-import com.algolia.instantsearch.migration2to3.EventName
-import com.algolia.instantsearch.migration2to3.ObjectID
-import com.algolia.instantsearch.migration2to3.QueryID
-
-
 public interface HitsAfterSearchTrackable {
 
     /**
@@ -15,8 +10,8 @@ public interface HitsAfterSearchTrackable {
      * @param timestamp the time at which the view happened. Defaults to current time.
      */
     public fun viewedObjectIDs(
-        eventName: EventName,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        objectIDs: List<String>,
         timestamp: Long? = null,
     )
 
@@ -28,8 +23,8 @@ public interface HitsAfterSearchTrackable {
      * @param timestamp the time at which the click happened.
      */
     public fun clickedObjectIDs(
-        eventName: EventName,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        objectIDs: List<String>,
         timestamp: Long? = null,
     )
 
@@ -41,8 +36,8 @@ public interface HitsAfterSearchTrackable {
      * @param timestamp the time at which the conversion happened.
      */
     public fun convertedObjectIDs(
-        eventName: EventName,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        objectIDs: List<String>,
         timestamp: Long? = null,
     )
 
@@ -56,9 +51,9 @@ public interface HitsAfterSearchTrackable {
      * @param timestamp the time at which the click happened.
      */
     public fun clickedObjectIDsAfterSearch(
-        eventName: EventName,
-        queryID: QueryID,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        queryID: String,
+        objectIDs: List<String>,
         positions: List<Int>,
         timestamp: Long? = null,
     )
@@ -72,9 +67,9 @@ public interface HitsAfterSearchTrackable {
      * @param timestamp the time at which the conversion happened.
      */
     public fun convertedObjectIDsAfterSearch(
-        eventName: EventName,
-        queryID: QueryID,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        queryID: String,
+        objectIDs: List<String>,
         timestamp: Long? = null,
     )
 }

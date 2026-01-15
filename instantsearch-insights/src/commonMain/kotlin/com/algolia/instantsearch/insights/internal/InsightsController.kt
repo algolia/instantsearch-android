@@ -9,13 +9,8 @@ import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.uploader.InsightsUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
 import com.algolia.instantsearch.migration2to3.Credentials
-import com.algolia.instantsearch.migration2to3.EventName
 import com.algolia.instantsearch.migration2to3.Filter
-import com.algolia.instantsearch.migration2to3.IndexName
 import com.algolia.instantsearch.migration2to3.InsightsEvent
-import com.algolia.instantsearch.migration2to3.ObjectID
-import com.algolia.instantsearch.migration2to3.QueryID
-import com.algolia.instantsearch.migration2to3.UserToken
 
 
 /**
@@ -24,7 +19,7 @@ import com.algolia.instantsearch.migration2to3.UserToken
  * Once registered, you can simply call `Insights.shared(index: String)` to send your events.
  */
 internal class InsightsController(
-    private val indexName: IndexName,
+    private val indexName: String,
     private val worker: InsightsManager,
     private val cache: InsightsCache,
     internal val uploader: InsightsUploader,
@@ -32,7 +27,7 @@ internal class InsightsController(
 ) : Insights, Credentials by uploader {
 
     override var enabled: Boolean = true
-    override var userToken: UserToken? = null
+    override var userToken: String? = null
     override var minBatchSize: Int = 10
     override var debouncingIntervalInMinutes: Long? = null
         set(value) {
@@ -44,7 +39,7 @@ internal class InsightsController(
             InsightsLogger.enabled[indexName] = value
         }
 
-    private fun userTokenOrThrow(): UserToken = userToken ?: throw InsightsException.NoUserToken()
+    private fun userTokenOrThrow(): String = userToken ?: throw InsightsException.NoUserToken()
 
     init {
         worker.startPeriodicUpload()
@@ -52,8 +47,8 @@ internal class InsightsController(
 
     // region Event tracking methods
     override fun viewedObjectIDs(
-        eventName: EventName,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        objectIDs: List<String>,
         timestamp: Long?,
     ): Unit = viewed(
         InsightsEvent.View(
@@ -66,7 +61,7 @@ internal class InsightsController(
     )
 
     override fun viewedFilters(
-        eventName: EventName,
+        eventName: String,
         filters: List<Filter.Facet>,
         timestamp: Long?,
     ): Unit = viewed(
@@ -80,8 +75,8 @@ internal class InsightsController(
     )
 
     override fun clickedObjectIDs(
-        eventName: EventName,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        objectIDs: List<String>,
         timestamp: Long?,
     ): Unit = clicked(
         InsightsEvent.Click(
@@ -94,7 +89,7 @@ internal class InsightsController(
     )
 
     override fun clickedFilters(
-        eventName: EventName,
+        eventName: String,
         filters: List<Filter.Facet>,
         timestamp: Long?,
     ): Unit = clicked(
@@ -108,9 +103,9 @@ internal class InsightsController(
     )
 
     override fun clickedObjectIDsAfterSearch(
-        eventName: EventName,
-        queryID: QueryID,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        queryID: String,
+        objectIDs: List<String>,
         positions: List<Int>,
         timestamp: Long?,
     ): Unit = clicked(
@@ -126,7 +121,7 @@ internal class InsightsController(
     )
 
     override fun convertedFilters(
-        eventName: EventName,
+        eventName: String,
         filters: List<Filter.Facet>,
         timestamp: Long?,
     ): Unit = converted(
@@ -140,8 +135,8 @@ internal class InsightsController(
     )
 
     override fun convertedObjectIDs(
-        eventName: EventName,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        objectIDs: List<String>,
         timestamp: Long?,
     ): Unit = converted(
         InsightsEvent.Conversion(
@@ -154,9 +149,9 @@ internal class InsightsController(
     )
 
     override fun convertedObjectIDsAfterSearch(
-        eventName: EventName,
-        queryID: QueryID,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        queryID: String,
+        objectIDs: List<String>,
         timestamp: Long?,
     ): Unit = converted(
         InsightsEvent.Conversion(
