@@ -8,7 +8,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 @Serializable(MultipleQueriesStrategy.Companion::class)
-public sealed class   MultipleQueriesStrategy(override val raw: String) : Raw<String> {
+public sealed class MultipleQueriesStrategy(override val raw: String) : Raw<String> {
 
     /**
      * Execute the sequence of queries until the end. This is recommended when each query is of equal importance,

@@ -41,9 +41,6 @@ internal fun HttpRequestBuilder.applicationId(applicationID: ApplicationID?) {
     header(Key.AlgoliaApplicationID, applicationID)
 }
 
-internal fun HttpRequestBuilder.apiKey(apiKey: APIKey?) {
-    header(Key.AlgoliaAPIKey, apiKey)
-}
 
 internal fun HttpRequestBuilder.requestOptions(requestOptions: RequestOptions?) {
     requestOptions?.headers?.forEach { header(it.key, it.value) }

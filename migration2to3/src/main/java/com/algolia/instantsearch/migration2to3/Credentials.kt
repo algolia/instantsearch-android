@@ -10,7 +10,7 @@ public interface Credentials {
     public val applicationID: String
 
     /**
-     * [APIKey] for a given [ApplicationID]. Is passed as a HTTP header.
+     * ApiKey for a given ApplicationId. Is passed as a HTTP header.
      * To maintain security, never use your Admin [APIKey] on your front end or share it with anyone.
      * In your front end, use the Search-only [APIKey] or any other key that has search-only rights.
      */

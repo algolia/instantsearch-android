@@ -9,4 +9,3 @@ internal fun Decoder.asJsonDecoder() = this as JsonDecoder
 internal fun Encoder.asJsonOutput() = this as JsonEncoder
 internal fun Decoder.asJsonInput() = asJsonDecoder().decodeJsonElement()
 
-public typealias AroundPrecision = com.algolia.client.model.search.AroundPrecision
