@@ -1,6 +1,5 @@
 package com.algolia.instantsearch.relateditems
 
-import com.algolia.instantsearch.migration2to3.Attribute
 import kotlin.reflect.KProperty1
 
 /**
@@ -11,7 +10,7 @@ import kotlin.reflect.KProperty1
  * @param property hit's property
  */
 public data class MatchingPattern<T>(
-    val attribute: Attribute,
+    val attribute: String,
     val score: Int,
     val property: KProperty1<T, *>,
 )
