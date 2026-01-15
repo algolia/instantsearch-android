@@ -28,7 +28,7 @@ public interface HitsTracker : Connection {
      * @param hit hit to track
      * @param customEventName custom event name, overrides the default value.
      */
-    public fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: EventName? = null)
+    public fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: String? = null)
 
     /**
      * Track a hit convert event.
@@ -36,7 +36,7 @@ public interface HitsTracker : Connection {
      * @param hit hit to track
      * @param customEventName custom event name, overrides the default event name
      */
-    public fun <T : Indexable> trackConvert(hit: T, customEventName: EventName? = null)
+    public fun <T : Indexable> trackConvert(hit: T, customEventName: String? = null)
 
     /**
      * Track a hit view event.
@@ -44,7 +44,7 @@ public interface HitsTracker : Connection {
      * @param hit hit to track
      * @param customEventName custom event name, overrides the default event name
      */
-    public fun <T : Indexable> trackView(hit: T, customEventName: EventName? = null)
+    public fun <T : Indexable> trackView(hit: T, customEventName: String? = null)
 }
 
 /**
@@ -55,7 +55,7 @@ public interface HitsTracker : Connection {
  * @param insights actual events handler
  */
 public fun HitsTracker(
-    eventName: EventName,
+    eventName: String,
     searcher: SearcherForHits<*>,
     insights: Insights,
     coroutineScope: CoroutineScope = InsightsScope(),

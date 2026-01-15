@@ -1,9 +1,7 @@
 package com.algolia.instantsearch.tracker.internal
 
 import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
-import com.algolia.instantsearch.migration2to3.EventName
 import com.algolia.instantsearch.migration2to3.Indexable
-import com.algolia.instantsearch.migration2to3.QueryID
 import com.algolia.instantsearch.tracker.HitsTracker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -12,20 +10,20 @@ import kotlinx.coroutines.launch
  * Tracker of hits events insights.
  */
 internal class HitsDataTracker(
-    override val eventName: EventName,
+    override val eventName: String,
     override val trackableSearcher: TrackableSearcher<*>,
     override val tracker: HitsAfterSearchTrackable,
     override val trackerScope: CoroutineScope,
 ) : HitsTracker, InsightsTracker<HitsAfterSearchTrackable>, QueryIDContainer {
 
-    public override var queryID: QueryID? = null
+    override var queryID: String? = null
 
     init {
         trackableSearcher.setClickAnalyticsOn(true)
     }
 
     // region Hits tracking methods
-    public override fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: EventName?) {
+    override fun <T : Indexable> trackClick(hit: T, position: Int, customEventName: String?) {
         trackerScope.launch {
             val id = queryID ?: return@launch
             tracker.clickedObjectIDsAfterSearch(
@@ -37,7 +35,7 @@ internal class HitsDataTracker(
         }
     }
 
-    public override fun <T : Indexable> trackConvert(hit: T, customEventName: EventName?) {
+    override fun <T : Indexable> trackConvert(hit: T, customEventName: String?) {
         trackerScope.launch {
             val id = queryID ?: return@launch
             tracker.convertedObjectIDsAfterSearch(
@@ -48,7 +46,7 @@ internal class HitsDataTracker(
         }
     }
 
-    public override fun <T : Indexable> trackView(hit: T, customEventName: EventName?) {
+    override fun <T : Indexable> trackView(hit: T, customEventName: String?) {
         trackerScope.launch {
             tracker.viewedObjectIDs(
                 eventName = customEventName ?: eventName,
