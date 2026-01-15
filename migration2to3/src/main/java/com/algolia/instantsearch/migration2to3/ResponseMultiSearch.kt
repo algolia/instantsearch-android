@@ -55,7 +55,7 @@ internal class ResultMultiSearchDeserializer<T : SearchResult>(dataSerializer: K
     @Suppress("UNCHECKED_CAST")
     private fun multiSearchResult(json: Json, jsonObject: JsonObject): ResultMultiSearch<T> {
         return if (jsonObject.keys.contains(Key.FacetHits)) {
-            ResultMultiSearch.Facets(json.decodeFromJsonElement(ResponseSearchForFacets.serializer(), jsonObject))
+            ResultMultiSearch.Facets(json.decodeFromJsonElement(SearchForFacetValuesResponse.serializer(), jsonObject))
         } else {
             ResultMultiSearch.Hits(json.decodeFromJsonElement(SearchResponse.serializer(), jsonObject))
         } as ResultMultiSearch<T>
@@ -65,7 +65,7 @@ internal class ResultMultiSearchDeserializer<T : SearchResult>(dataSerializer: K
         val json = encoder.asJsonOutput().json
         when (value) {
             is ResultMultiSearch.Hits -> json.encodeToString(SearchResponse.serializer(), value.response)
-            is ResultMultiSearch.Facets -> json.encodeToString(ResponseSearchForFacets.serializer(), value.response)
+            is ResultMultiSearch.Facets -> json.encodeToString(SearchForFacetValuesResponse.serializer(), value.response)
         }
     }
 }
