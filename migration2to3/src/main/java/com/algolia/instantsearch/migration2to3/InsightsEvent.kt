@@ -35,7 +35,7 @@ public sealed class InsightsEvent {
         override val indexName: String,
         override val userToken: String? = null,
         override val timestamp: Long? = null,
-        override val queryID: QueryID? = null,
+        override val queryID: String? = null,
         override val resources: Resources? = null,
     ) : InsightsEvent()
 
@@ -44,7 +44,7 @@ public sealed class InsightsEvent {
         override val indexName: String,
         override val userToken: String? = null,
         override val timestamp: Long? = null,
-        override val queryID: QueryID? = null,
+        override val queryID: String? = null,
         override val resources: Resources? = null,
         val positions: List<Int>? = null,
     ) : InsightsEvent() {
@@ -60,7 +60,7 @@ public sealed class InsightsEvent {
         override val indexName: String,
         override val userToken: String? = null,
         override val timestamp: Long? = null,
-        override val queryID: QueryID? = null,
+        override val queryID: String? = null,
         override val resources: Resources? = null,
         val objectData: List<ObjectData>? = null
     ) : InsightsEvent()
