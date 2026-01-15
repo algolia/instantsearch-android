@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.searcher.facets
 
+import com.algolia.client.model.search.SearchParamsObject
 import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Query
 
 
 /**
@@ -16,7 +16,7 @@ public fun interface SearchForFacetQuery {
      * @param attribute facets attribute
      * @param facetQuery facets query
      */
-    public fun trigger(query: Query, attribute: Attribute, facetQuery: String?): Boolean
+    public fun trigger(query: SearchParamsObject, attribute: Attribute, facetQuery: String?): Boolean
 
     public companion object {
 

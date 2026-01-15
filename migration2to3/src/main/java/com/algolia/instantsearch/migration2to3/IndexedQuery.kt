@@ -10,7 +10,7 @@ public sealed interface IndexedQuery {
 }
 
  /**
- * Associate a [Query] to a specific [IndexName].
+ * Associate a [SearchParamsObject] to a specific indexName.
  */
 @InternalSerializationApi
 @Serializable
@@ -20,7 +20,7 @@ public data class IndexQuery(
 ) : IndexedQuery
 
 /**
- * Associate a facets [Query] to a specific [IndexName].
+ * Associate a facets [SearchParamsObject] to a specific indexName.
  */
 public class FacetIndexQuery(
     override val indexName: IndexName,
