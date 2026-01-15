@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.insights
 
 import com.algolia.instantsearch.migration2to3.Filter
-import com.algolia.instantsearch.migration2to3.EventName
 
 public interface FilterTrackable {
 
@@ -13,7 +12,7 @@ public interface FilterTrackable {
      * @param timestamp the time at which the view happened.
      */
     public fun viewedFilters(
-        eventName: EventName,
+        eventName: String,
         filters: List<Filter.Facet>,
         timestamp: Long? = null,
     )
@@ -26,7 +25,7 @@ public interface FilterTrackable {
      * @param timestamp the time at which the click happened.
      */
     public fun clickedFilters(
-        eventName: EventName,
+        eventName: String,
         filters: List<Filter.Facet>,
         timestamp: Long? = null,
     )
@@ -39,7 +38,7 @@ public interface FilterTrackable {
      * @param filters the converted filter(s).
      */
     public fun convertedFilters(
-        eventName: EventName,
+        eventName: String,
         filters: List<Filter.Facet>,
         timestamp: Long? = null,
     )

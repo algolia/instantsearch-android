@@ -23,15 +23,15 @@ import kotlinx.serialization.json.put
 @Serializable(InsightsEvent.Companion::class)
 public sealed class InsightsEvent {
 
-    public abstract val eventName: EventName
+    public abstract val eventName: String
     public abstract val indexName: String
     public abstract val userToken: UserToken?
     public abstract val timestamp: Long?
-    public abstract val queryID: QueryID?
+    public abstract val queryID: String?
     public abstract val resources: Resources?
 
     public data class View(
-        override val eventName: EventName,
+        override val eventName: String,
         override val indexName: String,
         override val userToken: UserToken? = null,
         override val timestamp: Long? = null,
@@ -40,7 +40,7 @@ public sealed class InsightsEvent {
     ) : InsightsEvent()
 
     public data class Click(
-        override val eventName: EventName,
+        override val eventName: String,
         override val indexName: String,
         override val userToken: UserToken? = null,
         override val timestamp: Long? = null,
@@ -56,7 +56,7 @@ public sealed class InsightsEvent {
     }
 
     public data class Conversion(
-        override val eventName: EventName,
+        override val eventName: String,
         override val indexName: String,
         override val userToken: UserToken? = null,
         override val timestamp: Long? = null,
