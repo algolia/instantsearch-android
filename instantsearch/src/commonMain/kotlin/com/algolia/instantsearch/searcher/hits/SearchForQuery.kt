@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.searcher.hits
 
-import com.algolia.instantsearch.migration2to3.Query
+import com.algolia.client.model.search.SearchParamsObject
 
 
 /**
@@ -13,7 +13,7 @@ public fun interface SearchForQuery {
      *
      * @param query query for search operations
      */
-    public fun trigger(query: Query): Boolean
+    public fun trigger(query: SearchParamsObject): Boolean
 
     public companion object {
 

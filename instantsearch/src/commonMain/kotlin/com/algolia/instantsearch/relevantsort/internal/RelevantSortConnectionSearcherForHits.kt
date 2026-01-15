@@ -1,11 +1,11 @@
 package com.algolia.instantsearch.relevantsort.internal
 
+import com.algolia.client.model.search.SearchParamsObject
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
-import com.algolia.instantsearch.migration2to3.Query
-import com.algolia.instantsearch.migration2to3.ResponseSearch
 import com.algolia.instantsearch.searcher.SearcherForHits
 
 /**
@@ -13,7 +13,7 @@ import com.algolia.instantsearch.searcher.SearcherForHits
  */
 internal class RelevantSortConnectionSearcherForHits(
     val viewModel: RelevantSortViewModel,
-    val searcher: SearcherForHits<Query>,
+    val searcher: SearcherForHits<SearchParamsObject>,
 ) : AbstractConnection() {
 
     private val priorityCallback: Callback<RelevantSortPriority?> = callback@{ priority ->
@@ -22,7 +22,7 @@ internal class RelevantSortConnectionSearcherForHits(
         searcher.searchAsync()
     }
 
-    private val responseCallback: Callback<ResponseSearch?> = callback@{ response ->
+    private val responseCallback: Callback<SearchResponse?> = callback@{ response ->
         if (response == null) return@callback
         val receivedRelevancyStrictness = response.appliedRelevancyStrictnessOrNull ?: run {
             viewModel.priority.value = null

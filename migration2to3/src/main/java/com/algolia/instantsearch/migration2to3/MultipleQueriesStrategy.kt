@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.migration2to3
 
+import com.algolia.client.model.search.SearchParamsObject
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.serializer
@@ -17,7 +18,7 @@ public sealed class MultipleQueriesStrategy(override val raw: String) : Raw<Stri
     public object None : MultipleQueriesStrategy(Key.None)
 
     /**
-     * Execute queries one by one, but stop as soon as the cumulated number of hits is at least [Query.hitsPerPage].
+     * Execute queries one by one, but stop as soon as the cumulated number of hits is at least [SearchParamsObject.hitsPerPage].
      * This is recommended when each query is an alternative, and where, if the first returns enough records,
      * there is no need to perform the remaining queries.
      */
