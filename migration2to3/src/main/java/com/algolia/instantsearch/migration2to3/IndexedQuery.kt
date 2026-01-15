@@ -15,7 +15,7 @@ public sealed interface IndexedQuery {
 @InternalSerializationApi
 @Serializable
 public data class IndexQuery(
-    override val indexName: IndexName,
+    override val indexName: String,
     override val query: SearchParamsObject = SearchParamsObject()
 ) : IndexedQuery
 
@@ -23,7 +23,7 @@ public data class IndexQuery(
  * Associate a facets [SearchParamsObject] to a specific indexName.
  */
 public class FacetIndexQuery(
-    override val indexName: IndexName,
+    override val indexName: String,
     override val query: SearchParamsObject,
     public val facetAttribute: Attribute,
     public val facetQuery: String? = null

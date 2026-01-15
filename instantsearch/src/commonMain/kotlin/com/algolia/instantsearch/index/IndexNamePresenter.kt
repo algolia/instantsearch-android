@@ -1,19 +1,18 @@
 package com.algolia.instantsearch.index
 
 import com.algolia.instantsearch.core.Presenter
-import com.algolia.instantsearch.migration2to3.IndexName
 
 /**
- * Presents [IndexName] as [String].
+ * Presents indexName as [String].
  */
-public typealias IndexNamePresenter = Presenter<IndexName, String>
+public typealias IndexNamePresenter = Presenter<String, String>
 
 /**
  * Default implementation of [IndexNamePresenter].
  */
 public object DefaultIndexPresenter : IndexNamePresenter {
 
-    override fun invoke(indexName: IndexName): String {
-        return indexName.raw
+    override fun invoke(indexName: String): String {
+        return indexName
     }
 }

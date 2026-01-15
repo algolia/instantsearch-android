@@ -3,22 +3,20 @@ package com.algolia.instantsearch.searcher.hits.internal
 import com.algolia.client.api.InsightsClient
 import com.algolia.client.model.search.SearchParamsObject
 import com.algolia.client.model.search.SearchResponse
+import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceHitsSearcher
 import com.algolia.instantsearch.migration2to3.EventName
 import com.algolia.instantsearch.migration2to3.FilterGroup
-import com.algolia.instantsearch.migration2to3.IndexName
 import com.algolia.instantsearch.migration2to3.IndexQuery
 import com.algolia.instantsearch.migration2to3.InsightsEvent
 import com.algolia.instantsearch.migration2to3.ObjectID
-import com.algolia.instantsearch.migration2to3.RequestOptions
 import com.algolia.instantsearch.migration2to3.ResponseSearch
 import com.algolia.instantsearch.migration2to3.UserToken
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.hits.SearchForQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
-import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withAlgoliaAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchOperation
@@ -31,7 +29,7 @@ import kotlinx.coroutines.*
 internal class DefaultHitsSearcher(
     private val searchService: HitsSearchService,
     private val insights: InsightsClient,
-    override var indexName: IndexName,
+    override var indexName: String,
     override val query: SearchParamsObject,
     override val requestOptions: RequestOptions?,
     override val isDisjunctiveFacetingEnabled: Boolean,
@@ -86,17 +84,17 @@ internal class DefaultHitsSearcher(
         if (response != null && isAutoSendingHitsViewEvents) {
             val events = getViewEvents(response)
             if (events.isNotEmpty()) {
-                insights.sendEvents(events)
+                insights.customPost(events)
             }
         }
     }
-    private fun getViewEvents(response: ResponseSearch): List<InsightsEvent.View> {
-        return response.hitsOrNull
-            ?.map { hit -> ObjectID(hit["objectID"].toString()) }
+    private fun getViewEvents(response: SearchResponse): List<InsightsEvent.View> {
+        return response.hits
+            ?.map { hit -> hit.objectID }
             ?.chunked(maxObjectIDsPerEvent)
             ?.map {
                 InsightsEvent.View(
-                    eventName = EventName("Hits Viewed"),
+                    eventName = "Hits Viewed",
                     indexName = indexName,
                     userToken = userToken,
                     resources = InsightsEvent.Resources.ObjectIDs(it),
@@ -104,12 +102,12 @@ internal class DefaultHitsSearcher(
             } ?: listOf()
     }
 
-    override fun collect(): MultiSearchOperation<IndexQuery, ResponseSearch> {
+    override fun collect(): MultiSearchOperation<IndexQuery, SearchResponse> {
         return if (isDisjunctiveFacetingEnabled) disjunctiveSearch() else singleQuerySearch()
     }
 
 
-    private fun disjunctiveSearch(): MultiSearchOperation<IndexQuery, ResponseSearch> {
+    private fun disjunctiveSearch(): MultiSearchOperation<IndexQuery, SearchResponse> {
         val (queries, disjunctiveFacetCount) = searchService.advancedQueryOf(indexedQuery)
         return MultiSearchOperation(
             requests = queries,
@@ -118,7 +116,7 @@ internal class DefaultHitsSearcher(
         )
     }
 
-    private fun singleQuerySearch(): MultiSearchOperation<IndexQuery, ResponseSearch> {
+    private fun singleQuerySearch(): MultiSearchOperation<IndexQuery, SearchResponse> {
         return MultiSearchOperation(
             requests = listOf(indexedQuery),
             completion = ::onSingleQuerySearchResponse,
@@ -126,7 +124,7 @@ internal class DefaultHitsSearcher(
         )
     }
 
-    private fun onSingleQuerySearchResponse(responses: List<ResponseSearch>) {
+    private fun onSingleQuerySearchResponse(responses: List<SearchResponse>) {
         val responseSearch = responses.firstOrNull()
         response.value = responseSearch
         coroutineScope.launch {
@@ -139,6 +137,6 @@ internal class DefaultHitsSearcher(
     }
 
     companion object {
-        private val ViewEventObjects = EventName("View Objects")
+        private val ViewEventObjects = "View Objects"
     }
 }

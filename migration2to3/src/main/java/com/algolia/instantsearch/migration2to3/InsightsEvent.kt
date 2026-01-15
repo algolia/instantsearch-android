@@ -67,7 +67,7 @@ public sealed class InsightsEvent {
 
     public sealed class Resources {
 
-        public data class ObjectIDs(val objectIDs: List<ObjectID>) : Resources() {
+        public data class ObjectIDs(val objectIDs: List<String>) : Resources() {
 
             init {
                 if (objectIDs.size > 20)
@@ -93,7 +93,7 @@ public sealed class InsightsEvent {
             when (resources) {
                 is Resources.ObjectIDs -> put(
                     Key.ObjectIDs,
-                    buildJsonArray { resources.objectIDs.forEach { add(it.raw) } }
+                    buildJsonArray { resources.objectIDs.forEach { add(it) } }
                 )
                 is Resources.Filters -> put(
                     Key.Filters,
