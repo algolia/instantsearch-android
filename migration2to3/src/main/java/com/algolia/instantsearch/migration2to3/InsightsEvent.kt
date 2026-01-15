@@ -14,6 +14,11 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.put
 
+// InsightsEvent.View ->  com.algolia.client.model.insights.ViewEvent
+// InsightsEvent.Click ->  com.algolia.client.model.insights.ClickEvent
+
+
+
 @Serializable(InsightsEvent.Companion::class)
 public sealed class InsightsEvent {
 
@@ -114,11 +119,11 @@ public sealed class InsightsEvent {
         override fun serialize(encoder: Encoder, value: InsightsEvent) {
             val json = buildJsonObject {
                 this eventType value
-                put(Key.EventName, value.eventName.raw)
+                put(Key.EventName, value.eventName)
                 value.timestamp?.let { put(Key.Timestamp, it) }
-                put(Key.Index, value.indexName.raw)
-                value.userToken?.let { put(Key.UserToken, it.raw) }
-                value.queryID?.let { put(Key.QueryID, it.raw) }
+                put(Key.Index, value.indexName)
+                value.userToken?.let { put(Key.UserToken, it) }
+                value.queryID?.let { put(Key.QueryID, it) }
                 this stringify value.resources
                 if (value is Click) {
                     value.positions?.let {

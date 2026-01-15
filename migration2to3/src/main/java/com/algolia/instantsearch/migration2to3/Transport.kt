@@ -26,27 +26,10 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-internal fun Throwable.asClientException(): AlgoliaClientException {
-    return AlgoliaClientException(message = message, cause = this)
-}
-
-/**
- * Coerce a [ResponseException] to a [AlgoliaRuntimeException].
- */
-internal fun ResponseException.asApiException(): AlgoliaApiException {
-    return AlgoliaApiException(message = message, cause = this, httpErrorCode = response.status.value)
-}
-
-internal fun HttpRequestBuilder.applicationId(applicationID: ApplicationID?) {
-    header(Key.AlgoliaApplicationID, applicationID)
-}
 
 
-internal fun HttpRequestBuilder.requestOptions(requestOptions: RequestOptions?) {
-    requestOptions?.headers?.forEach { header(it.key, it.value) }
-    requestOptions?.urlParameters?.forEach { parameter(it.key, it.value) }
-    requestOptions?.body?.let { setBody(it) }
-}
+
+
 
 
 //internal class Transport(
