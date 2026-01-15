@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.customdata.internal
 
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.customdata.QueryRuleCustomDataViewModel
-import com.algolia.instantsearch.migration2to3.ResponseSearch
 import com.algolia.instantsearch.searcher.SearcherForHits
 
 /**
@@ -17,7 +17,7 @@ internal class QueryRuleCustomDataConnectionSearcherForHits<T>(
     val searcher: SearcherForHits<*>,
 ) : AbstractConnection() {
 
-    private val callback: Callback<ResponseSearch?> = { response ->
+    private val callback: Callback<SearchResponse?> = { response ->
         response?.let { viewModel.extractModel(it) }
     }
 

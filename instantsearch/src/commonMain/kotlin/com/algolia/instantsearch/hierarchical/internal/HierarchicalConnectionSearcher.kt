@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.hierarchical.internal
 
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
-import com.algolia.instantsearch.migration2to3.ResponseSearch
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.instantsearch.searcher.addFacet
 
@@ -12,7 +12,7 @@ internal data class HierarchicalConnectionSearcher(
     private val searcher: SearcherForHits<*>,
 ) : AbstractConnection() {
 
-    private val updateTree: Callback<ResponseSearch?> = { response ->
+    private val updateTree: Callback<SearchResponse?> = { response ->
         if (response != null) {
             val facets = response.hierarchicalFacetsOrNull
                 ?: response.facetsOrNull?.filter { it.key == viewModel.hierarchicalAttributes.first() } ?: mapOf()
