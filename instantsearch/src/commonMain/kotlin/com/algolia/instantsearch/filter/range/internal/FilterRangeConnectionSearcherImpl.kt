@@ -1,12 +1,11 @@
 package com.algolia.instantsearch.filter.range.internal
 
 import com.algolia.client.model.composition.FacetStats
+import com.algolia.client.model.composition.SearchResponse
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.filter.range.FilterRangeViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.ResponseSearch
 
 /**
  * Connection implementation between a Searcher and filter range components to enable a dynamic behavior.
@@ -19,17 +18,17 @@ import com.algolia.instantsearch.migration2to3.ResponseSearch
 internal class FilterRangeConnectionSearcherImpl<T>(
     private val viewModel: FilterRangeViewModel<T>,
     private val searcher: SearcherForHits<*>,
-    private val attribute: Attribute,
+    private val attribute: String,
     private val mapper: (Number) -> T,
 ) : AbstractConnection() where T : Number, T : Comparable<T> {
 
-    private val responseSubscription: (ResponseSearch?) -> Unit = { response ->
+    private val responseSubscription: (SearchResponse?) -> Unit = { response ->
         viewModel.computeBoundsFromFacetStats(attribute, response?.facetStats, mapper)
     }
 
     private fun <T> FilterRangeViewModel<T>.computeBoundsFromFacetStats(
-        attribute: Attribute,
-        facetStats: Map<Attribute, FacetStats>?,
+        attribute: String,
+        facetStats: Map<String, FacetStats>?,
         mapper: (Number) -> T,
     ) where T : Number, T : Comparable<T> {
         bounds.value = facetStats?.get(attribute)?.let {

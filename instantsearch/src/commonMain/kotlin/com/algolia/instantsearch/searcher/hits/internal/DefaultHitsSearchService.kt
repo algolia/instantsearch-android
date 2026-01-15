@@ -2,6 +2,7 @@ package com.algolia.instantsearch.searcher.hits.internal
 
 import com.algolia.client.api.SearchClient
 import com.algolia.client.model.search.FacetStats
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.filter.state.filters
 import com.algolia.instantsearch.migration2to3.Attribute
 import com.algolia.instantsearch.migration2to3.Facet
@@ -9,7 +10,6 @@ import com.algolia.instantsearch.migration2to3.Filter
 import com.algolia.instantsearch.migration2to3.FilterGroup
 import com.algolia.instantsearch.migration2to3.IndexQuery
 import com.algolia.instantsearch.migration2to3.RequestOptions
-import com.algolia.instantsearch.migration2to3.ResponseSearch
 import com.algolia.instantsearch.searcher.hits.internal.HitsSearchService.AdvancedQuery
 import com.algolia.instantsearch.searcher.hits.internal.HitsSearchService.Request
 import com.algolia.instantsearch.searcher.multi.internal.SearchService
@@ -17,7 +17,7 @@ import com.algolia.instantsearch.searcher.multi.internal.extension.asResponseSea
 /**
  * Search service for hits.
  */
-internal interface HitsSearchService : SearchService<Request, ResponseSearch> {
+internal interface HitsSearchService : SearchService<Request, SearchResponse> {
 
     /**
      * Client to perform search operations.
@@ -37,7 +37,7 @@ internal interface HitsSearchService : SearchService<Request, ResponseSearch> {
     /**
      * Aggregate multiple [ResponseSearch]s into one [ResponseSearch].
      */
-    fun aggregateResult(responses: List<ResponseSearch>, disjunctiveFacetCount: Int): ResponseSearch
+    fun aggregateResult(responses: List<SearchResponse>, disjunctiveFacetCount: Int): SearchResponse
 
     /**
      * Hits service's request.

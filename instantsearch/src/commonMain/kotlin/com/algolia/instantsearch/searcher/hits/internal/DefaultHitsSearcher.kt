@@ -7,12 +7,9 @@ import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceHitsSearcher
-import com.algolia.instantsearch.migration2to3.EventName
 import com.algolia.instantsearch.migration2to3.FilterGroup
 import com.algolia.instantsearch.migration2to3.IndexQuery
 import com.algolia.instantsearch.migration2to3.InsightsEvent
-import com.algolia.instantsearch.migration2to3.ObjectID
-import com.algolia.instantsearch.migration2to3.ResponseSearch
 import com.algolia.instantsearch.migration2to3.UserToken
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.hits.SearchForQuery
@@ -42,7 +39,7 @@ internal class DefaultHitsSearcher(
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
-    override val response: SubscriptionValue<ResponseSearch?> = SubscriptionValue(null)
+    override val response: SubscriptionValue<SearchResponse?> = SubscriptionValue(null)
     override var filterGroups: Set<FilterGroup<*>> by searchService::filterGroups
 
     private val exceptionHandler = SearcherExceptionHandler(this)
@@ -73,14 +70,14 @@ internal class DefaultHitsSearcher(
         }
     }
 
-    override suspend fun search(): ResponseSearch? {
+    override suspend fun search(): SearchResponse? {
         if (!triggerSearchFor.trigger(query)) return null
         return withContext(coroutineDispatcher) {
             searchService.search(HitsSearchService.Request(indexedQuery, isDisjunctiveFacetingEnabled), options)
         }
     }
 
-    private suspend fun sendInsightsEvents(response: ResponseSearch?) {
+    private suspend fun sendInsightsEvents(response: SearchResponse?) {
         if (response != null && isAutoSendingHitsViewEvents) {
             val events = getViewEvents(response)
             if (events.isNotEmpty()) {
