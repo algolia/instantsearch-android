@@ -3,14 +3,12 @@
 package com.algolia.instantsearch.tracker
 
 import com.algolia.instantsearch.insights.Insights
+import com.algolia.instantsearch.migration2to3.Facet
+import com.algolia.instantsearch.migration2to3.Filter
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.instantsearch.tracker.internal.FilterDataTracker
 import com.algolia.instantsearch.tracker.internal.InsightsScope
 import com.algolia.instantsearch.tracker.internal.TrackableSearcher
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.insights.EventName
-import com.algolia.search.model.search.Facet
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -29,7 +27,7 @@ public interface FilterTracker {
      * @param filter filter to track
      * @param customEventName custom event name, overrides the default event name
      */
-    public fun trackClick(filter: Filter.Facet, customEventName: EventName? = null)
+    public fun trackClick(filter: Filter.Facet, customEventName: String? = null)
 
     /**
      * Track a filter view event.
@@ -37,7 +35,7 @@ public interface FilterTracker {
      * @param filter filter to track
      * @param customEventName custom event name, overrides the default event name
      */
-    public fun trackView(filter: Filter.Facet, customEventName: EventName? = null)
+    public fun trackView(filter: Filter.Facet, customEventName: String? = null)
 
     /**
      * Track a filter conversion event.
@@ -45,7 +43,7 @@ public interface FilterTracker {
      * @param filter filter to track
      * @param customEventName custom event name, overrides the default event name
      */
-    public fun trackConversion(filter: Filter.Facet, customEventName: EventName? = null)
+    public fun trackConversion(filter: Filter.Facet, customEventName: String? = null)
 
     /**
      * Track a facet click event.
@@ -54,7 +52,7 @@ public interface FilterTracker {
      * @param attribute facet attribute
      * @param customEventName custom event name, overrides the default event name
      */
-    public fun trackClick(facet: Facet, attribute: Attribute, customEventName: EventName? = null)
+    public fun trackClick(facet: Facet, attribute: String, customEventName: String? = null)
 
     /**
      * Track a facet view event.
@@ -63,7 +61,7 @@ public interface FilterTracker {
      * @param attribute facet attribute
      * @param customEventName custom event name, overrides the default event name
      */
-    public fun trackView(facet: Facet, attribute: Attribute, customEventName: EventName? = null)
+    public fun trackView(facet: Facet, attribute: String, customEventName: String? = null)
 
     /**
      * Track a facet conversion event.
@@ -72,7 +70,7 @@ public interface FilterTracker {
      * @param attribute facet attribute
      * @param customEventName custom event name, overrides the default event name
      */
-    public fun trackConversion(facet: Facet, attribute: Attribute, customEventName: EventName? = null)
+    public fun trackConversion(facet: Facet, attribute: String, customEventName: String? = null)
 }
 
 /**
@@ -84,7 +82,7 @@ public interface FilterTracker {
  * @param coroutineScope coroutine scope to execute tracking operations
  */
 public fun FilterTracker(
-    eventName: EventName,
+    eventName: String,
     searcher: SearcherForHits<*>,
     insights: Insights,
     coroutineScope: CoroutineScope = InsightsScope(),

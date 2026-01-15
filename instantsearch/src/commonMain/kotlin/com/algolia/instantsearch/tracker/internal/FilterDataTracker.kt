@@ -3,7 +3,6 @@ package com.algolia.instantsearch.tracker.internal
 import com.algolia.instantsearch.filter.state.toFilter
 import com.algolia.instantsearch.insights.FilterTrackable
 import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.EventName
 import com.algolia.instantsearch.migration2to3.Facet
 import com.algolia.instantsearch.migration2to3.Filter
 import com.algolia.instantsearch.tracker.FilterTracker
@@ -14,14 +13,14 @@ import kotlinx.coroutines.launch
  * Tracker of filter events insights.
  */
 internal class FilterDataTracker(
-    override val eventName: EventName,
+    override val eventName: String,
     override val trackableSearcher: TrackableSearcher<*>,
     override val tracker: FilterTrackable,
     override val trackerScope: CoroutineScope = InsightsScope(),
 ) : FilterTracker, InsightsTracker<FilterTrackable> {
 
     // region Filter tracking methods
-    public override fun trackClick(filter: Filter.Facet, customEventName: EventName?) {
+    public override fun trackClick(filter: Filter.Facet, customEventName: String?) {
         trackerScope.launch {
             tracker.clickedFilters(
                 eventName = customEventName ?: eventName,
@@ -30,7 +29,7 @@ internal class FilterDataTracker(
         }
     }
 
-    public override fun trackView(filter: Filter.Facet, customEventName: EventName?) {
+    public override fun trackView(filter: Filter.Facet, customEventName: String?) {
         trackerScope.launch {
             tracker.viewedFilters(
                 eventName = customEventName ?: eventName,
@@ -39,7 +38,7 @@ internal class FilterDataTracker(
         }
     }
 
-    public override fun trackConversion(filter: Filter.Facet, customEventName: EventName?) {
+    public override fun trackConversion(filter: Filter.Facet, customEventName: String?) {
         trackerScope.launch {
             tracker.convertedFilters(
                 eventName = customEventName ?: eventName,
@@ -50,17 +49,17 @@ internal class FilterDataTracker(
     // endregion
 
     // region Facet tracking methods
-    public override fun trackClick(facet: Facet, attribute: Attribute, customEventName: EventName?) {
+    public override fun trackClick(facet: Facet, attribute: Attribute, customEventName: String?) {
         val filterFacet = facet.toFilter(attribute)
         trackClick(filter = filterFacet, customEventName = customEventName)
     }
 
-    public override fun trackView(facet: Facet, attribute: Attribute, customEventName: EventName?) {
+    public override fun trackView(facet: Facet, attribute: Attribute, customEventName: String?) {
         val filterFacet = facet.toFilter(attribute)
         trackView(filter = filterFacet, customEventName = customEventName)
     }
 
-    public override fun trackConversion(facet: Facet, attribute: Attribute, customEventName: EventName?) {
+    public override fun trackConversion(facet: Facet, attribute: Attribute, customEventName: String?) {
         val filterFacet = facet.toFilter(attribute)
         trackConversion(filter = filterFacet, customEventName = customEventName)
     }
