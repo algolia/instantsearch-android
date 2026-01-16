@@ -2,6 +2,7 @@ package com.algolia.instantsearch.insights.internal.data.distant
 
 import com.algolia.client.api.InsightsClient
 import com.algolia.client.exception.AlgoliaApiException
+import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.insights.internal.event.EventResponse
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.migration2to3.Credentials
@@ -9,6 +10,7 @@ import com.algolia.instantsearch.migration2to3.InsightsEvent
 import com.algolia.instantsearch.util.algoliaAgent
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.isSuccess
+import kotlinx.serialization.json.JsonObject
 
 internal class InsightsHttpRepository(
     private val insightsClient: InsightsClient,
@@ -18,7 +20,16 @@ internal class InsightsHttpRepository(
         "X-Algolia-Agent" to algoliaAgent("Algolia insights for Android")
     )
 
-    override suspend fun send(event: InsightsEvent): EventResponse {
+    override suspend fun customPost(
+        path: String,
+        parameters: Map<String, Any>?,
+        body: JsonObject?,
+        requestOptions: RequestOptions?
+    ): JsonObject {
+        TODO("Not yet implemented")
+    }
+
+    suspend fun send(event: InsightsEvent): EventResponse {
         TODO()
 //        val (code: Int, message: String) = try {
 //            val response = insightsClient.customPost(event, requestOptions)
