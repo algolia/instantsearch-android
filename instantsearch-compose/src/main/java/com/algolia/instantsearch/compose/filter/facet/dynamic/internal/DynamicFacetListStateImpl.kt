@@ -26,7 +26,7 @@ internal class DynamicFacetListStateImpl(
     @set:JvmName("_orderedFacets")
     override var orderedFacets: List<AttributedFacets> by mutableStateOf(orderedFacets)
 
-    override var didSelect: ((Attribute, Facet) -> Unit)? = null
+    override var didSelect: ((String, Facet) -> Unit)? = null
 
     override fun setOrderedFacets(facetOrder: List<AttributedFacets>) {
         this.orderedFacets = facetOrder

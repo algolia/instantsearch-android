@@ -32,7 +32,7 @@ public data class HierarchicalConnector(
         searcher: SearcherForHits<*>,
         attribute: String,
         filterState: FilterState,
-        hierarchicalAttributes: List<Attribute>,
+        hierarchicalAttributes: List<String>,
         separator: String,
     ) : this(searcher, filterState, HierarchicalViewModel(attribute, hierarchicalAttributes, separator))
 

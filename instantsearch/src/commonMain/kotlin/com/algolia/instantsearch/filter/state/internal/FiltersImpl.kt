@@ -10,7 +10,7 @@ internal data class FiltersImpl(
     private val facetGroups: Map<FilterGroupID, Set<Filter.Facet>>,
     private val tagGroups: Map<FilterGroupID, Set<Filter.Tag>>,
     private val numericGroups: Map<FilterGroupID, Set<Filter.Numeric>>,
-    private val hierarchicalGroups: Map<Attribute, HierarchicalFilter>,
+    private val hierarchicalGroups: Map<String, HierarchicalFilter>,
 ) : Filters {
 
     override fun getFacetFilters(groupID: FilterGroupID): Set<Filter.Facet> {
@@ -41,7 +41,7 @@ internal data class FiltersImpl(
         return numericGroups
     }
 
-    override fun getHierarchicalGroups(): Map<Attribute, HierarchicalFilter> {
+    override fun getHierarchicalGroups(): Map<String, HierarchicalFilter> {
         return hierarchicalGroups
     }
 

@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.state
 
 import com.algolia.instantsearch.core.number.range.Range
-
+import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.FilterGroup
 
@@ -28,7 +28,7 @@ public fun Filters.toFilterGroups(): Set<FilterGroup<*>> {
                 filters = setOf(value.filter),
                 path = value.path,
                 attributes = value.attributes,
-                name = key.raw
+                name = key
             )
         }
         ).toSet()
