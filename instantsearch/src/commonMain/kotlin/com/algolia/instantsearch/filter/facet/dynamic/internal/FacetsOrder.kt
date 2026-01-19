@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.filter.facet.dynamic.internal
 
 import com.algolia.client.model.search.FacetOrdering
+import com.algolia.client.model.search.SortRemainingBy
 import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.Facet
@@ -28,14 +29,14 @@ internal fun facetsOrder(facets: Map<Attribute, List<Facet>>, facetOrdering: Fac
  * @param rule the ordering rule for facets
  * @return list of ordered facets
  */
-private fun order(facets: List<Facet>, rule: FacetValuesOrder): List<Facet> {
+private fun order(facets: List<Facet>, rule: com.algolia.client.model.search.Value): List<Facet> {
     if (facets.size <= 1) return facets
-    val pinnedFacets = rule.order.mapNotNull { value -> facets.firstOrNull { it.value == value } }
+    val pinnedFacets = rule.order?.mapNotNull { value -> facets.firstOrNull { it.value == value } } ?: listOf()
     val remainingFacets = facets.filter { !pinnedFacets.contains(it) }
-    val facetsTail: List<Facet> = when (rule.sortRemainingBy ?: SortRule.Count) {
-        SortRule.Alpha -> remainingFacets.sortedBy { it.value }
-        SortRule.Count -> remainingFacets.sortedByDescending { it.count }
-        SortRule.Hidden -> emptyList()
+    val facetsTail: List<Facet> = when (rule.sortRemainingBy ?: SortRemainingBy.Count) {
+        SortRemainingBy.Alpha -> remainingFacets.sortedBy { it.value }
+        SortRemainingBy.Count -> remainingFacets.sortedByDescending { it.count }
+        SortRemainingBy.Hidden -> emptyList()
     }
     return pinnedFacets + facetsTail
 }
