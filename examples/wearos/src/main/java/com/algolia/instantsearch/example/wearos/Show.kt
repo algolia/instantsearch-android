@@ -18,16 +18,16 @@ internal data class Show(
 ) : Indexable, Highlightable {
 
     val highlightedTitle
-        get() = getHighlight(Attribute("title"))
+        get() = getHighlight(String("title"))
 
     val posterUrl
         get() = "https://image.tmdb.org/t/p/w500/$posterPath"
 
     companion object {
         val attributes = listOf(
-            Attribute("title"),
-            Attribute("genres"),
-            Attribute("poster_path")
+            String("title"),
+            String("genres"),
+            String("poster_path")
         )
     }
 }

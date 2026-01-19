@@ -15,7 +15,7 @@ import shouldEqual
 
 class TestFacetListConnectSearcher {
 
-    private val color = Attribute("color")
+    private val color = String("color")
     private val red = Facet("red", 1)
     private val facets = listOf(red)
     private val response = ResponseSearch(facetsOrNull = mapOf(color to facets))

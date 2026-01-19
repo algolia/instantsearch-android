@@ -3,7 +3,7 @@ package com.algolia.instantsearch.android.filter.facet
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.algolia.instantsearch.migration2to3.Facet
+import com.algolia.instantsearch.filter.Facet
 
 public abstract class FacetListViewHolder(public val view: View) : RecyclerView.ViewHolder(view) {
 

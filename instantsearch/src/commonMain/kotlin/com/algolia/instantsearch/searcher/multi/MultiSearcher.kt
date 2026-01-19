@@ -1,14 +1,12 @@
-@file:OptIn(InternalSerializationApi::class)
-
 package com.algolia.instantsearch.searcher.multi
 
 import com.algolia.client.api.SearchClient
 import com.algolia.client.model.search.SearchResult
+import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.core.searcher.Searcher
-import com.algolia.instantsearch.migration2to3.IndexedQuery
-import com.algolia.instantsearch.migration2to3.MultipleQueriesStrategy
-import com.algolia.instantsearch.migration2to3.RequestOptions
-import com.algolia.instantsearch.migration2to3.ResponseMultiSearch
+import com.algolia.instantsearch.searcher.multi.internal.types.IndexedQuery
+import com.algolia.instantsearch.searcher.multi.internal.types.MultipleQueriesStrategy
+import com.algolia.instantsearch.searcher.multi.internal.types.ResponseMultiSearch
 import com.algolia.instantsearch.searcher.SearcherScope
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.multi.internal.DefaultMultiSearchService
@@ -16,7 +14,6 @@ import com.algolia.instantsearch.searcher.multi.internal.DefaultMultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.serialization.InternalSerializationApi
 
 /**
  *  Extracts queries from queries sources, performs search request and dispatches the results to the corresponding receivers.

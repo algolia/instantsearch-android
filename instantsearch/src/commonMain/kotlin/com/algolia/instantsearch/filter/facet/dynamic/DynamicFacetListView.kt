@@ -2,8 +2,8 @@
 
 package com.algolia.instantsearch.filter.facet.dynamic
 
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Facet
+import com.algolia.instantsearch.filter.Attribute
+import com.algolia.instantsearch.filter.Facet
 import kotlinx.serialization.InternalSerializationApi
 
 /**

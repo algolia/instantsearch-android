@@ -3,7 +3,7 @@ package com.algolia.instantsearch.hierarchical
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.extension.traceHierarchicalFacetsConnector
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.migration2to3.Attribute
+
 import com.algolia.instantsearch.searcher.SearcherForHits
 
 /**
@@ -30,7 +30,7 @@ public data class HierarchicalConnector(
      */
     public constructor(
         searcher: SearcherForHits<*>,
-        attribute: Attribute,
+        attribute: String,
         filterState: FilterState,
         hierarchicalAttributes: List<Attribute>,
         separator: String,

@@ -3,10 +3,10 @@ package com.algolia.instantsearch.filter.facet.dynamic
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.extension.traceDynamicFacetConnector
+import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.migration2to3.Attribute
 import com.algolia.instantsearch.searcher.SearcherForHits
 
 /**
@@ -42,7 +42,7 @@ public class DynamicFacetListConnector(
         searcher: SearcherForHits<*>,
         filterState: FilterState,
         orderedFacets: List<AttributedFacets> = emptyList(),
-        selections: SelectionsPerAttribute = mutableMapOf(),
+        selections: SelectionsPerAttribute = mutableMapOf<Attribute, Set<String>>(),
         selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap(),
         defaultSelectionMode: SelectionMode = SelectionMode.Single,
         filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap(),

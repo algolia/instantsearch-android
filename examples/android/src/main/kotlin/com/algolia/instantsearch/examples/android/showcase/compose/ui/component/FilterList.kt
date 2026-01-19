@@ -24,8 +24,8 @@ import com.algolia.search.model.filter.NumericOperator
 @Preview
 @Composable
 fun FilterListPreview() {
-    val price = Attribute("price")
-    val color = Attribute("color")
+    val price = String("price")
+    val color = String("color")
     ShowcaseTheme {
         FilterList(
             filterListState = FilterListState(

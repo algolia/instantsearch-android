@@ -20,7 +20,7 @@ import shouldEqual
 @RunWith(AndroidJUnit4::class)
 class TestFilterCurrentViewImpl {
 
-    private val color = Attribute("color")
+    private val color = String("color")
     private val groupID = FilterGroupID(color)
     private val filterRed = Filter.Facet(color, "red")
     private val filterGreen = Filter.Facet(color, "green")

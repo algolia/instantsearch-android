@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.migration2to3
+package com.algolia.instantsearch.searcher.multi.internal.types
 
 import com.algolia.client.model.search.SearchParamsObject
 import kotlinx.serialization.InternalSerializationApi
@@ -9,7 +9,7 @@ public sealed interface IndexedQuery {
     public val query: SearchParamsObject
 }
 
- /**
+/**
  * Associate a [SearchParamsObject] to a specific indexName.
  */
 @InternalSerializationApi
@@ -28,3 +28,4 @@ public class FacetIndexQuery(
     public val facetAttribute: String,
     public val facetQuery: String? = null
 ) : IndexedQuery
+

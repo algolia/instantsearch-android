@@ -10,8 +10,9 @@ import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Filter
+
+import com.algolia.instantsearch.filter.Attribute
+import com.algolia.instantsearch.filter.Filter
 
 /**
  * Connection between a dynamic facets business logic and a filter state.
@@ -46,7 +47,7 @@ internal class DynamicFacetListConnectionFilterState(
         viewModel.selections = selectionsPerAttribute
     }
 
-    private fun facetValuesOf(attribute: Attribute): Set<String> {
+    private fun facetValuesOf(attribute: String): Set<String> {
         return filterState.getFilters(groupID(attribute))
             .asSequence()
             .filterIsInstance<Filter.Facet>()
@@ -65,7 +66,7 @@ internal class DynamicFacetListConnectionFilterState(
         filterState.notifyChange()
     }
 
-    private fun groupID(attribute: Attribute): FilterGroupID {
+    private fun groupID(attribute: String): FilterGroupID {
         val (groupName, refinementOperator) = filterGroupForAttribute[attribute] ?: (attribute to defaultFilterOperator)
         return when (refinementOperator) {
             FilterOperator.And -> FilterGroupID(groupName, FilterOperator.And)

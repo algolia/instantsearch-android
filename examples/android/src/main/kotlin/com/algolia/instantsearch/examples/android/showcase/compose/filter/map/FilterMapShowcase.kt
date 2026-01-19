@@ -37,7 +37,7 @@ import com.algolia.search.model.filter.Filter
 
 class FilterMapShowcase : AppCompatActivity() {
 
-    private val gender = Attribute("gender")
+    private val gender = String("gender")
     private val groupGender = groupAnd(gender)
     private val filterState = FilterState()
     private val searcher = HitsSearcher(client, stubIndexName)

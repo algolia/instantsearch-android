@@ -10,7 +10,7 @@ import kotlin.test.Test
 
 class TestFilterComparisonComputeBounds {
 
-    private val price = Attribute("price")
+    private val price = String("price")
     private val facetStats = mapOf(
         price to FacetStats(min = 0f, max = 10f, sum = 10f, average = 5f)
     )

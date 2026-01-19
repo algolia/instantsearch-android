@@ -20,7 +20,7 @@ public class DynamicFacetListStateTest {
     public fun testOrderedFacets() {
         assertEquals(initOrderedFacets, dynamicFacetListState.orderedFacets)
         Snapshot.takeSnapshot {
-            val orderedFacets = listOf(AttributedFacets(Attribute("os"), listOf(Facet("android", 1))))
+            val orderedFacets = listOf(AttributedFacets(String("os"), listOf(Facet("android", 1))))
             dynamicFacetListState.setOrderedFacets(orderedFacets)
             assertEquals(orderedFacets, dynamicFacetListState.orderedFacets)
         }
@@ -31,7 +31,7 @@ public class DynamicFacetListStateTest {
     public fun testSelections() {
         assertEquals(initSelections, dynamicFacetListState.selections)
         Snapshot.takeSnapshot {
-            val selections = mapOf(Attribute("os") to setOf("android"))
+            val selections = mapOf(String("os") to setOf("android"))
             dynamicFacetListState.setSelections(selections)
             assertEquals(selections, dynamicFacetListState.selections)
         }
@@ -41,13 +41,13 @@ public class DynamicFacetListStateTest {
     @Test
     public fun testToggle() {
         var selectedFacet: Facet? = null
-        var selectedAttribute: Attribute? = null
+        var selectedAttribute: String? = null
         dynamicFacetListState.didSelect = { attribute, facet ->
             selectedFacet = facet
             selectedAttribute = attribute
         }
         val facet = Facet("Android", 1)
-        val attribute = Attribute("os")
+        val attribute = String("os")
         dynamicFacetListState.toggle(facet, attribute)
 
         assertEquals(facet, selectedFacet)
@@ -57,7 +57,7 @@ public class DynamicFacetListStateTest {
     @Test
     public fun testIsSelected() {
         Snapshot.takeSnapshot {
-            val attribute = Attribute("os")
+            val attribute = String("os")
             val facetAndroid = Facet("android", 1)
             val facetIOS = Facet("ios", 1)
             val selections = mapOf(attribute to setOf(facetAndroid.value))

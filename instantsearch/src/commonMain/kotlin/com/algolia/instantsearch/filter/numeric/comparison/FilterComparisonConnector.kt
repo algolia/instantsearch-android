@@ -6,8 +6,8 @@ import com.algolia.instantsearch.extension.traceNumberFilterConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.NumericOperator
+
+import com.algolia.instantsearch.filter.NumericOperator
 
 /**
  * Filter Numeric Comparison is a view to filter on a numeric value using a comparison operator.
@@ -21,7 +21,7 @@ import com.algolia.instantsearch.migration2to3.NumericOperator
 public data class FilterComparisonConnector<T>(
     public val viewModel: NumberViewModel<T>,
     public val filterState: FilterState,
-    public val attribute: Attribute,
+    public val attribute: String,
     public val operator: NumericOperator,
     public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
 ) : AbstractConnection() where T : Number, T : Comparable<T> {
@@ -35,7 +35,7 @@ public data class FilterComparisonConnector<T>(
      */
     public constructor(
         filterState: FilterState,
-        attribute: Attribute,
+        attribute: String,
         operator: NumericOperator,
         number: T? = null,
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),

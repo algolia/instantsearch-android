@@ -16,8 +16,8 @@ class TestMachingPattern {
         val categories = listOf("category")
         val product = Product(objectID, name, brand, categories)
 
-        val patternBrand = MatchingPattern(Attribute("brand"), 1, Product::brand)
-        val patternCategories = MatchingPattern(Attribute("categories"), 1, Product::categories)
+        val patternBrand = MatchingPattern(String("brand"), 1, Product::brand)
+        val patternCategories = MatchingPattern(String("categories"), 1, Product::categories)
 
         assertEquals(brand, patternBrand.property.get(product))
         assertEquals(categories, patternCategories.property.get(product))

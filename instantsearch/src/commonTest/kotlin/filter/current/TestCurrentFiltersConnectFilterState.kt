@@ -12,8 +12,8 @@ import kotlin.test.Test
 
 class TestCurrentFiltersConnectFilterState {
 
-    private val color = Attribute("color")
-    private val brand = Attribute("brand")
+    private val color = String("color")
+    private val brand = String("brand")
     private val colorID = FilterGroupID(color)
     private val brandID = FilterGroupID(brand)
     private val filterRed = Filter.Facet(color, "red")

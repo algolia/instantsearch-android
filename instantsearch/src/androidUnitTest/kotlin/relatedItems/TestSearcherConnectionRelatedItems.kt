@@ -21,8 +21,8 @@ internal class TestSearcherConnectionRelatedItems {
         val searcher = HitsSearcher(client, IndexName("Index"))
         val adapter = mockHitsView<Product>()
 
-        val patternBrand = MatchingPattern(Attribute("attBrand"), 1, Product::brand)
-        val patternCategories = MatchingPattern(Attribute("attCategories"), 2, Product::categories)
+        val patternBrand = MatchingPattern(String("attBrand"), 1, Product::brand)
+        val patternCategories = MatchingPattern(String("attCategories"), 2, Product::categories)
         val matchingPatterns = listOf(patternBrand, patternCategories)
 
         val product = Product(ObjectID("objectID"), "product", "brand", listOf("category1", "category2"))

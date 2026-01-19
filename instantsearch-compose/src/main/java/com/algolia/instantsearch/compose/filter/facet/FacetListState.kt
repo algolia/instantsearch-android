@@ -4,7 +4,7 @@ import com.algolia.instantsearch.compose.filter.facet.internal.FacetListStateImp
 import com.algolia.instantsearch.compose.selectable.list.SelectableListState
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.filter.facet.FacetListView
-import com.algolia.instantsearch.migration2to3.Facet
+import com.algolia.instantsearch.filter.Facet
 
 /**
  * [FacetListView] for compose.

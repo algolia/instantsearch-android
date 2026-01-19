@@ -10,10 +10,10 @@ import kotlinx.serialization.json.JsonObject
 @Serializable
 data class Actor(
     val name: String,
-    override val objectID: ObjectID,
+    override val objectID: String,
     override val _highlightResult: JsonObject?
 ) : Indexable, Highlightable {
 
     val highlightedName
-        get() = getHighlight(Attribute("name"))
+        get() = getHighlight(String("name"))
 }

@@ -28,8 +28,8 @@ import com.algolia.search.model.filter.NumericOperator
 @Preview
 @Composable
 fun HeaderFilterPreview() {
-    val color = Attribute("color")
-    val price = Attribute("price")
+    val color = String("color")
+    val price = String("price")
     ShowcaseTheme {
         HeaderFilter(
             filterGroups = setOf(

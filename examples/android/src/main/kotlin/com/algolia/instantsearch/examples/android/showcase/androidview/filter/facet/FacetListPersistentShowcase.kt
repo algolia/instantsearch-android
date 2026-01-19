@@ -20,8 +20,8 @@ import com.algolia.search.model.Attribute
 
 class FacetListPersistentShowcase : AppCompatActivity() {
 
-    private val color = Attribute("color")
-    private val category = Attribute("category")
+    private val color = String("color")
+    private val category = String("category")
     private val filterState = FilterState()
     private val searcher = HitsSearcher(client, stubIndexName)
     private val facetListColor = FacetListConnector(

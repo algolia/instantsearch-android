@@ -3,7 +3,7 @@ package com.algolia.instantsearch.relateditems.internal.extensions
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.groupAnd
 import com.algolia.instantsearch.filter.state.groupOr
-import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.relateditems.MatchingPattern
 import com.algolia.instantsearch.relateditems.internal.FilterFacetAndID
 

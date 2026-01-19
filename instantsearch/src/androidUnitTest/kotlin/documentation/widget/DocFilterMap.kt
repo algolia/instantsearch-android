@@ -57,7 +57,7 @@ internal class DocFilterMap {
 
     class MyActivity : AppCompatActivity() {
 
-        val gender = Attribute("gender")
+        val gender = String("gender")
         val filterState = FilterState()
         val client = ClientSearch(
             ApplicationID("YourApplicationID"),

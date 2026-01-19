@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.migration2to3
+package com.algolia.instantsearch.filter
 
 internal fun String.escape() = "\"${this.escapeQuotation()}\""
 internal fun String.escapeQuotation() = this.replace("\"", "\\\"")

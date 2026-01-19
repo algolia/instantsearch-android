@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListViewModel
-import com.algolia.instantsearch.migration2to3.Facet
+import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.searcher.SearcherForHits
 
 /**
@@ -21,10 +21,14 @@ internal class DynamicFacetListConnectionSearcherIndex(
 ) : AbstractConnection() {
 
     private val responseSubscription: Callback<SearchResponse?> = { response ->
-        val facetOrdering = response?.renderingContentOrNull?.facetOrdering
-        val facets = response?.facetsOrNull ?: emptyMap()
-        val disjunctiveFacets = response?.disjunctiveFacetsOrNull ?: emptyMap()
-        viewModel.orderedFacets = buildOrder(facetOrdering, facets + disjunctiveFacets)
+        val facetOrdering = response?.renderingContent?.facetOrdering
+        val facetsRaw = response?.facets ?: emptyMap()
+        // Convert v3 facets format (Map<String, Map<String, Int>>) to our format (Map<String, List<Facet>>)
+        val facets = facetsRaw.mapValues { (_, counts) ->
+            counts.map { (value, count) -> Facet(value, count) }
+        }
+        // In v3, there's no separate disjunctiveFacets - all facets are in the facets map
+        viewModel.orderedFacets = buildOrder(facetOrdering, facets)
     }
 
     private fun buildOrder(ordering: FacetOrdering?, facets: Map<String, List<Facet>>?): List<AttributedFacets> {

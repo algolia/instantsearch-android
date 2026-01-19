@@ -5,6 +5,7 @@ import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
+import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.facets.addFacetsSearcher
@@ -20,11 +21,11 @@ import com.algolia.search.model.search.Facet
 class MainViewModel : ViewModel() {
 
     private val multiSearcher = MultiSearcher(
-        applicationID = ApplicationID("latency"),
-        apiKey = APIKey("6be0576ff61c053d5f9a3225e2a90f76")
+        applicationID = "latency",
+        apiKey = "6be0576ff61c053d5f9a3225e2a90f76"
     )
-    private val indexName = IndexName("instant_search")
-    private val attribute = Attribute("categories")
+    private val indexName = "instant_search"
+    private val attribute = "categories"
     private val productsSearcher = multiSearcher.addHitsSearcher(indexName)
     private val categoriesSearcher = multiSearcher.addFacetsSearcher(indexName, attribute)
     private val searchBoxConnector = SearchBoxConnector(multiSearcher)

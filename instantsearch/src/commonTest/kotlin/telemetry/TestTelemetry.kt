@@ -68,7 +68,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     val client = mockClient()
     val indexName = IndexName("myIndex")
-    val attribute = Attribute("attr")
+    val attribute = String("attr")
 
     init {
         val telemetry = Telemetry(scope)
@@ -324,7 +324,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     @Test
     fun testRelatedItems() = scope.runTest {
-        val patternBrand = MatchingPattern(Attribute("attBrand"), 1, SimpleProduct::brand)
+        val patternBrand = MatchingPattern(String("attBrand"), 1, SimpleProduct::brand)
         hitsSearcher.connectRelatedHitsView(
             mockHitsView(),
             SimpleProduct(ObjectID("id"), "brand"),

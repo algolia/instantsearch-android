@@ -14,7 +14,7 @@ import kotlin.test.Test
 
 class TestFacetListConnectFilterState {
 
-    private val color = Attribute("color")
+    private val color = String("color")
     private val red = Facet("red", 1)
     private val green = Facet("green", 2)
     private val groupID = FilterGroupID(color, FilterOperator.Or)

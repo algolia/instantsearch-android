@@ -38,7 +38,7 @@ internal class DocFilterListFacet {
         )
         val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
-        val color = Attribute("color")
+        val color = String("color")
         val filters = listOf(
             Filter.Facet(color, "red"),
             Filter.Facet(color, "green"),

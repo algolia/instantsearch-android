@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform")
+    id("kotlinx-serialization")
     id("com.vanniktech.maven.publish")
 }
 
@@ -19,9 +20,11 @@ kotlin {
             dependencies {
                 api(project(":instantsearch-utils"))
                 implementation(project(":migration2to3"))
+                api(libs.algolia.client)
                 implementation(libs.algolia.telemetry)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.atomicfu)
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
             }
         }
         val commonTest by getting {

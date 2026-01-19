@@ -8,14 +8,14 @@ import com.algolia.instantsearch.filter.facet.internal.FacetListConnectionView
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.migration2to3.Attribute
+
 import com.algolia.instantsearch.searcher.SearcherForFacets
 import com.algolia.instantsearch.searcher.SearcherForHits
 
 
 public fun FacetListViewModel.connectFilterState(
     filterState: FilterState,
-    attribute: Attribute,
+    attribute: String,
     groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
 ): Connection {
     return FacetListConnectionFilterState(this, filterState, attribute, groupID)
@@ -23,7 +23,7 @@ public fun FacetListViewModel.connectFilterState(
 
 public fun FacetListViewModel.connectFilterState(
     filterState: FilterState,
-    attribute: Attribute,
+    attribute: String,
     operator: FilterOperator = FilterOperator.Or,
 ): Connection {
     return FacetListConnectionFilterState(this, filterState, attribute, FilterGroupID(attribute, operator))
@@ -31,7 +31,7 @@ public fun FacetListViewModel.connectFilterState(
 
 public fun FacetListViewModel.connectSearcher(
     searcher: SearcherForHits<*>,
-    attribute: Attribute,
+    attribute: String,
 ): Connection {
     return FacetListConnectionSearcher(this, searcher, attribute)
 }

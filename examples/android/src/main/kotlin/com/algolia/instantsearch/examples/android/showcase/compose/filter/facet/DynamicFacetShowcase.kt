@@ -57,10 +57,10 @@ class DynamicFacetShowcase : AppCompatActivity() {
     )
     private val searcher = HitsSearcher(client, IndexName("test_facet_ordering"))
     private val filterState = FilterState()
-    private val color = Attribute("color")
-    private val country = Attribute("country")
-    private val brand = Attribute("brand")
-    private val size = Attribute("size")
+    private val color = String("color")
+    private val country = String("country")
+    private val brand = String("brand")
+    private val size = String("size")
     private val dynamicFacetListState = DynamicFacetListState()
     private val dynamicFacets = DynamicFacetListConnector(
         searcher = searcher,
@@ -131,7 +131,7 @@ class DynamicFacetShowcase : AppCompatActivity() {
     @Composable
     fun OrderedFacets(
         modifier: Modifier = Modifier,
-        attributedFacet: AttributedFacets,
+        attributedFacet: StringdFacets,
         onClick: (Facet, Attribute) -> Unit
     ) {
         Text(
@@ -145,7 +145,7 @@ class DynamicFacetShowcase : AppCompatActivity() {
 
     @Composable
     fun FacetItems(
-        attributedFacet: AttributedFacets,
+        attributedFacet: StringdFacets,
         onClick: (Facet, Attribute) -> Unit
     ) {
         Surface(

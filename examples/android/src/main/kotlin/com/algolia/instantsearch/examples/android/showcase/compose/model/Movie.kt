@@ -18,11 +18,11 @@ data class Movie(
 ) : Indexable, Highlightable {
 
     val highlightedTitle
-        get() = getHighlight(Attribute("title"))
+        get() = getHighlight(String("title"))
 
     val highlightedGenres
-        get() = getHighlights(Attribute("genre"))
+        get() = getHighlights(String("genre"))
 
     val highlightedActors
-        get() = getHighlights(Attribute("actors"))
+        get() = getHighlights(String("actors"))
 }

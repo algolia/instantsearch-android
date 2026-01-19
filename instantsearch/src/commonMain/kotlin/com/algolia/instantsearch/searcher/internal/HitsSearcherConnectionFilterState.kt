@@ -8,7 +8,7 @@ import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.filter.state.toFilterGroups
 import com.algolia.instantsearch.searcher.FilterGroupsHolder
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.filter.FilterGroupsConverter
+import com.algolia.instantsearch.filter.FilterGroupsConverter
 
 /**
  * Connection between Hits Searcher (searcher w/ query and filterGroups) and filter state.
@@ -40,6 +40,7 @@ internal data class HitsSearcherConnectionFilterState<S>(
 
     private fun S.updateFilters(filters: Filters = filterState) {
         filterGroups = filters.toFilterGroups()
-        query.filters = FilterGroupsConverter.SQL(filterGroups)
+        // TODO: In v3, query is immutable. Need to update searcher to use mutable query or create new query instances
+        // query.filters = FilterGroupsConverter.SQL(filterGroups)
     }
 }

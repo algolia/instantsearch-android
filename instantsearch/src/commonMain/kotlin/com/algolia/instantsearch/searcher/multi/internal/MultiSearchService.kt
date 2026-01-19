@@ -1,10 +1,11 @@
 package com.algolia.instantsearch.searcher.multi.internal
 
 import com.algolia.client.api.SearchClient
-import com.algolia.instantsearch.migration2to3.IndexedQuery
-import com.algolia.instantsearch.migration2to3.MultipleQueriesStrategy
-import com.algolia.instantsearch.migration2to3.RequestOptions
-import com.algolia.instantsearch.migration2to3.ResponseMultiSearch
+import com.algolia.client.transport.RequestOptions
+import com.algolia.instantsearch.searcher.multi.internal.types.IndexedQuery
+import com.algolia.instantsearch.searcher.multi.internal.types.MultipleQueriesStrategy
+import com.algolia.instantsearch.searcher.multi.internal.types.ResponseMultiSearch
+import com.algolia.instantsearch.searcher.internal.search
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchService.Request
 
 /**

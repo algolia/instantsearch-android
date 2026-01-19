@@ -61,8 +61,8 @@ import kotlinx.coroutines.withContext
 
 class FilterComparisonShowcase : AppCompatActivity() {
 
-    private val price = Attribute("price")
-    private val year = Attribute("year")
+    private val price = String("price")
+    private val year = String("year")
     private val filterState = FilterState()
     private val searcher = HitsSearcher(client, stubIndexName)
 

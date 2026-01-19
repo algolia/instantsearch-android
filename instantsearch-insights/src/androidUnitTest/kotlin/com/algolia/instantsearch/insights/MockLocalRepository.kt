@@ -7,7 +7,7 @@ internal class MockLocalRepository(
     private val events: MutableList<InsightsEvent>,
 ) : InsightsLocalRepository {
 
-    override fun append(event: InsightsEvent) {
+    override fun append(event: com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO) {
         events.add(event)
     }
 

@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.subscription.mergeSubscription
 import com.algolia.instantsearch.extension.traceFacetList
-import com.algolia.instantsearch.migration2to3.Facet
+import com.algolia.instantsearch.filter.Facet
 
 public class FacetListViewModel(
     items: List<Facet> = emptyList(),

@@ -36,10 +36,10 @@ class DynamicFacetShowcase : AppCompatActivity() {
     val searcher = HitsSearcher(client, IndexName("test_facet_ordering"))
     val filterState = FilterState()
     val searchBox = SearchBoxConnector(searcher)
-    val color = Attribute("color")
-    val country = Attribute("country")
-    val brand = Attribute("brand")
-    val size = Attribute("size")
+    val color = String("color")
+    val country = String("country")
+    val brand = String("brand")
+    val size = String("size")
     val dynamicFacets = DynamicFacetListConnector(
         searcher = searcher,
         filterState = filterState,

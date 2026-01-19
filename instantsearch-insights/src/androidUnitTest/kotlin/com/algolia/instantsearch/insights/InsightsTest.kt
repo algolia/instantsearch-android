@@ -50,15 +50,15 @@ internal class InsightsTest {
     private val userToken = UserToken(randomUUID())
     private val positions = listOf(1)
     private val objectIDs = listOf(ObjectID("54675051"))
-    private val resourcesObjectIDs = InsightsEvent.Resources.ObjectIDs(objectIDs)
-    private val filters = listOf(Filter.Facet(Attribute("foo"), "bar"))
-    private val resourcesFilters = InsightsEvent.Resources.Filters(filters)
+    private val resourcesObjectIDs = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Resources.ObjectIDs(objectIDs)
+    private val filters = listOf(Filter.Facet(String("foo"), "bar"))
+    private val resourcesFilters = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Resources.Filters(filters)
     private val timestamp = System.currentTimeMillis()
     private val configuration = Insights.Configuration(
         connectTimeoutInMilliseconds = 5000,
         readTimeoutInMilliseconds = 5000
     )
-    private val eventClick = InsightsEvent.Click(
+    private val eventClick = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Click(
         eventName = eventA,
         indexName = indexName,
         userToken = userToken,
@@ -67,7 +67,7 @@ internal class InsightsTest {
         resources = resourcesObjectIDs,
         positions = positions
     )
-    private val eventConversion = InsightsEvent.Conversion(
+    private val eventConversion = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Conversion(
         eventName = eventB,
         indexName = indexName,
         userToken = userToken,
@@ -75,7 +75,7 @@ internal class InsightsTest {
         resources = resourcesObjectIDs,
         queryID = queryID
     )
-    private val eventView = InsightsEvent.View(
+    private val eventView = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.View(
         eventName = eventC,
         indexName = indexName,
         userToken = userToken,
@@ -83,7 +83,7 @@ internal class InsightsTest {
         resources = resourcesFilters,
         queryID = queryID
     )
-    private val expiredEventClick = InsightsEvent.Click(
+    private val expiredEventClick = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Click(
         eventName = eventD,
         indexName = indexName,
         userToken = userToken,
@@ -331,7 +331,7 @@ internal class InsightsTest {
 
         override fun startOneTimeUpload() {
             runBlocking {
-                val clickEventNotForSearch = InsightsEvent.Click(
+                val clickEventNotForSearch = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Click(
                     eventName = eventA,
                     indexName = indexName,
                     userToken = userToken,

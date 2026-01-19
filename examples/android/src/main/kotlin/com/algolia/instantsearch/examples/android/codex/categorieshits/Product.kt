@@ -17,8 +17,8 @@ data class Product(
 ) : Indexable, Highlightable {
 
     val highlightedName
-        get() = getHighlight(Attribute("name"))
+        get() = getHighlight(String("name"))
 
     val highlightedDescription
-        get() = getHighlight(Attribute("description"))
+        get() = getHighlight(String("description"))
 }

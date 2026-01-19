@@ -9,7 +9,7 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.filter.state.toFilterGroups
-import com.algolia.instantsearch.migration2to3.FilterGroupsConverter
+import com.algolia.instantsearch.filter.FilterGroupsConverter
 import com.algolia.instantsearch.searcher.SearcherAnswers
 
 @Deprecated("Answers feature is deprecated")
@@ -39,9 +39,9 @@ internal data class SearcherAnswersConnectionFilterState(
         filterState.filters.unsubscribe(updateSearcher)
     }
 
-    @OptIn(ExperimentalAlgoliaClientAPI::class)
     private fun SearcherAnswers.updateFilters(filters: Filters = filterState) {
         val filterGroups = filters.toFilterGroups()
-        query.filters = FilterGroupsConverter.SQL(filterGroups)
+        // TODO: In v3, query is immutable. Need to update searcher to use mutable query or create new query instances
+        // query.filters = FilterGroupsConverter.SQL(filterGroups)
     }
 }

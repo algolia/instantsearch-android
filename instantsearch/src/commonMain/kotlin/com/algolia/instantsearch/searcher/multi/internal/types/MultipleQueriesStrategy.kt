@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.migration2to3
+package com.algolia.instantsearch.searcher.multi.internal.types
 
 import com.algolia.client.model.search.SearchParamsObject
 import kotlinx.serialization.KSerializer
@@ -48,5 +48,16 @@ public sealed class MultipleQueriesStrategy(override val raw: String) : Raw<Stri
             }
         }
     }
+}
+
+internal interface Raw<T> {
+    val raw: T
+}
+
+internal object Key {
+    const val None = "none"
+    const val StopIfEnoughMatches = "stopIfEnoughMatches"
+    const val Results = "results"
+    const val FacetHits = "facetHits"
 }
 

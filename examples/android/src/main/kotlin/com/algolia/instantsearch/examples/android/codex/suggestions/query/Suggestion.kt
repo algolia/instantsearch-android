@@ -13,5 +13,5 @@ data class Suggestion(
 ) : Highlightable {
 
     val highlightedQuery: HighlightedString?
-        get() = getHighlight(Attribute("query"))
+        get() = getHighlight(String("query"))
 }

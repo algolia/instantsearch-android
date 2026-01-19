@@ -6,7 +6,7 @@ import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.extension.traceRelatedItems
-import com.algolia.instantsearch.migration2to3.Indexable
+import com.algolia.instantsearch.core.Indexable
 import com.algolia.instantsearch.relateditems.MatchingPattern
 import com.algolia.instantsearch.relateditems.internal.extensions.toFacetFilter
 import com.algolia.instantsearch.relateditems.internal.extensions.toOptionalFilters

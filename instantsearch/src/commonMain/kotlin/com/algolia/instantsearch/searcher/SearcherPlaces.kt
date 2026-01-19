@@ -1,10 +1,9 @@
 package com.algolia.instantsearch.searcher
 
+import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
-import com.algolia.instantsearch.migration2to3.Language
-import com.algolia.instantsearch.migration2to3.RequestOptions
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.runAsLoading
@@ -12,7 +11,6 @@ import com.algolia.search.client.ClientPlaces
 import com.algolia.search.model.places.PlacesQuery
 import com.algolia.search.model.response.ResponseSearchPlacesMono
 import com.algolia.search.model.search.Language
-import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -26,7 +24,7 @@ import kotlinx.coroutines.withContext
 @Deprecated("Places feature is deprecated")
 public class SearcherPlaces(
     public val client: ClientPlaces = ClientPlaces(),
-    public val language: Language = Language.English,
+    public val language: com.algolia.search.model.search.Language = com.algolia.search.model.search.Language.English,
     public val query: PlacesQuery = PlacesQuery(),
     public val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),

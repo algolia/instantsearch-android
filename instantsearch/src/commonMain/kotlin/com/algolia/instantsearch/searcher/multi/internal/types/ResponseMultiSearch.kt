@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.migration2to3
+package com.algolia.instantsearch.searcher.multi.internal.types
 
 import com.algolia.client.model.search.SearchForFacetValuesResponse
 import com.algolia.client.model.search.SearchResponse
@@ -10,15 +10,21 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonEncoder
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
+
+internal fun Decoder.asJsonDecoder() = this as JsonDecoder
+internal fun Encoder.asJsonOutput() = this as JsonEncoder
+internal fun Decoder.asJsonInput() = asJsonDecoder().decodeJsonElement()
 
 @InternalSerializationApi @Serializable
 public data class ResponseMultiSearch(
     /**
      * List of result in the order they were submitted, one element for each [IndexedQuery].
      */
-    @SerialName(Key.Results) public val results: List<ResultMultiSearch<*>>
+    @SerialName("results") public val results: List<ResultMultiSearch<*>>
 )
 
 /**
@@ -54,7 +60,7 @@ internal class ResultMultiSearchDeserializer<T : SearchResult>(dataSerializer: K
 
     @Suppress("UNCHECKED_CAST")
     private fun multiSearchResult(json: Json, jsonObject: JsonObject): ResultMultiSearch<T> {
-        return if (jsonObject.keys.contains(Key.FacetHits)) {
+        return if (jsonObject.keys.contains("facetHits")) {
             ResultMultiSearch.Facets(json.decodeFromJsonElement(SearchForFacetValuesResponse.serializer(), jsonObject))
         } else {
             ResultMultiSearch.Hits(json.decodeFromJsonElement(SearchResponse.serializer(), jsonObject))
@@ -69,3 +75,4 @@ internal class ResultMultiSearchDeserializer<T : SearchResult>(dataSerializer: K
         }
     }
 }
+

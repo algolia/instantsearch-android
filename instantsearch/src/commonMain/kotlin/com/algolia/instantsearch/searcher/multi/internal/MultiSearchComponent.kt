@@ -2,7 +2,7 @@ package com.algolia.instantsearch.searcher.multi.internal
 
 import com.algolia.client.model.search.SearchResult
 import com.algolia.instantsearch.core.searcher.Searcher
-import com.algolia.instantsearch.migration2to3.IndexedQuery
+import com.algolia.instantsearch.searcher.multi.internal.types.IndexedQuery
 
 /**
  * Multi Searcher Component providing a list of requests to perform, and get a list of results as a response.

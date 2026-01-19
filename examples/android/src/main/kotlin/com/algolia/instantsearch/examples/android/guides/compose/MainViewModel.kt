@@ -53,7 +53,7 @@ class MainViewModel : ViewModel() {
     // Filters
     val facetList = FacetListState()
     val filterState = FilterState()
-    val categories = Attribute("categories")
+    val categories = String("categories")
     val searcherForFacet = FacetsSearcher(client, indexName, categories)
     val facetListConnector = FacetListConnector(
         searcher = searcherForFacet,

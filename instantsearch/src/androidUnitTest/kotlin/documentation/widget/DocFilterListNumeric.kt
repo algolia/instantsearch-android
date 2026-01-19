@@ -39,7 +39,7 @@ internal class DocFilterListNumeric {
         )
         val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
-        val price = Attribute("price")
+        val price = String("price")
         val filters = listOf(
             Filter.Numeric(price, NumericOperator.Less, 5),
             Filter.Numeric(price, 5..10),

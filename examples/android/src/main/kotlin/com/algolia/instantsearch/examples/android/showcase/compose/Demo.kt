@@ -78,7 +78,7 @@ fun Set<FilterGroup<*>>.highlight(
     }
 }
 
-fun filterColors(vararg attributes: Attribute): Map<String, Color> {
+fun filterColors(vararg attributes: String): Map<String, Color> {
     return attributes.mapIndexed { index, attribute ->
         attribute.raw to when (index) {
             0 -> HoloRedDark

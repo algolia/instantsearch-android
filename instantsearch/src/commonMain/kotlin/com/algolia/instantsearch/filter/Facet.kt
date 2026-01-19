@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.migration2to3
+package com.algolia.instantsearch.filter
 
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerialName
@@ -9,15 +9,15 @@ public data class Facet(
     /**
      * Name of the facet. Is equal to the value associated to an [Attribute].
      */
-    @SerialName(Key.Value) val value: String,
+    @SerialName("value") val value: String,
     /**
      * Number of times this [value] occurs for a given [Attribute].
      */
-    @SerialName(Key.Count) val count: Int,
+    @SerialName("count") val count: Int,
     /**
      * Highlighted value.
      */
-    @SerialName(Key.Highlighted) val highlightedOrNull: String? = null
+    @SerialName("highlighted") val highlightedOrNull: String? = null
 ) {
 
     val highlighted: String

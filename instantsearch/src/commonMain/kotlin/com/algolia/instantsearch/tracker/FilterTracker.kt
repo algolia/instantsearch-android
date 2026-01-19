@@ -3,8 +3,8 @@
 package com.algolia.instantsearch.tracker
 
 import com.algolia.instantsearch.insights.Insights
-import com.algolia.instantsearch.migration2to3.Facet
-import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.filter.Facet
+import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.instantsearch.tracker.internal.FilterDataTracker
 import com.algolia.instantsearch.tracker.internal.InsightsScope

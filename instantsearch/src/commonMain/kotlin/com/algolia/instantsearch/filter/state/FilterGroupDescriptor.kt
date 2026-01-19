@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.state
 
-import com.algolia.instantsearch.migration2to3.Attribute
+
 
 
 /**

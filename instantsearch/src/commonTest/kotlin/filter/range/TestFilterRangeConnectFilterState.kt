@@ -13,7 +13,7 @@ import kotlin.test.Test
 
 class TestFilterRangeConnectFilterState {
 
-    private val attribute = Attribute("foo")
+    private val attribute = String("foo")
     private val filterGroupID = FilterGroupID(attribute)
 
     @Test

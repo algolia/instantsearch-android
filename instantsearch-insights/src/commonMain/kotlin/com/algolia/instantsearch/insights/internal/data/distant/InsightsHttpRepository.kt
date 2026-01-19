@@ -1,3 +1,4 @@
+
 package com.algolia.instantsearch.insights.internal.data.distant
 
 import com.algolia.client.api.InsightsClient
@@ -5,16 +6,18 @@ import com.algolia.client.exception.AlgoliaApiException
 import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.insights.internal.event.EventResponse
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
-import com.algolia.instantsearch.migration2to3.Credentials
-import com.algolia.instantsearch.migration2to3.InsightsEvent
 import com.algolia.instantsearch.util.algoliaAgent
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.isSuccess
 import kotlinx.serialization.json.JsonObject
 
 internal class InsightsHttpRepository(
     private val insightsClient: InsightsClient,
-) : InsightsDistantRepository by insightsClient {
+) : InsightsDistantRepository {
+
+    override val applicationID: String get() = insightsClient.appId
+    override val apiKey: String get() = insightsClient.apiKey
 
     private val requestOptions = mapOf<String, String>(
         "X-Algolia-Agent" to algoliaAgent("Algolia insights for Android")
@@ -29,7 +32,7 @@ internal class InsightsHttpRepository(
         TODO("Not yet implemented")
     }
 
-    suspend fun send(event: InsightsEvent): EventResponse {
+    override suspend fun send(event: InsightsEventDO): EventResponse {
         TODO()
 //        val (code: Int, message: String) = try {
 //            val response = insightsClient.customPost(event, requestOptions)

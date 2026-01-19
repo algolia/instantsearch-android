@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonPrimitive
 
-@kotlinx.serialization.InternalSerializationApi @Serializable
+@Serializable
 internal data class FilterFacetDO(
     @SerialName("attribute") val attribute: String,
     @SerialName("isNegated") val isNegated: Boolean,

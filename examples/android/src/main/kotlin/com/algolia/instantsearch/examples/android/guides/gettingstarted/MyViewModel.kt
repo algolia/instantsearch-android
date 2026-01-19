@@ -42,7 +42,7 @@ class MyViewModel : ViewModel() {
     val facetList = FacetListConnector(
         searcher = searcher,
         filterState = filterState,
-        attribute = Attribute("categories"),
+        attribute = String("categories"),
         selectionMode = SelectionMode.Single
     )
     val facetPresenter = DefaultFacetListPresenter(

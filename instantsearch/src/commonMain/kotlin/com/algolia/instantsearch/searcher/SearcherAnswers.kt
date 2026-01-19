@@ -9,12 +9,6 @@ import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withAlgoliaAgent
-import com.algolia.search.ExperimentalAlgoliaClientAPI
-import com.algolia.search.client.Index
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.AnswersQuery
-import com.algolia.search.model.search.Language
-import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

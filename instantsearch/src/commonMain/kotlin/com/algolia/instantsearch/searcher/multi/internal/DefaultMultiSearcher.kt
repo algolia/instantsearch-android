@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.searcher.multi.internal
 
 import com.algolia.client.api.SearchClient
+import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceMultiSearcher
@@ -9,12 +10,10 @@ import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withAlgoliaAgent
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.extension.asResultSearchList
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.multipleindex.IndexedQuery
-import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
-import com.algolia.search.model.response.ResponseMultiSearch
-import com.algolia.search.model.response.ResultSearch
-import com.algolia.search.transport.RequestOptions
+import com.algolia.instantsearch.searcher.multi.internal.types.IndexedQuery
+import com.algolia.instantsearch.searcher.multi.internal.types.MultipleQueriesStrategy
+import com.algolia.instantsearch.searcher.multi.internal.types.ResponseMultiSearch
+import com.algolia.client.model.search.SearchResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -38,7 +37,7 @@ internal class DefaultMultiSearcher(
     override val response: SubscriptionValue<ResponseMultiSearch?> = SubscriptionValue(null)
 
     private val exceptionHandler = SearcherExceptionHandler(this)
-    private val components: MutableList<MultiSearchComponent<IndexedQuery, ResultSearch>> = mutableListOf()
+    private val components: MutableList<MultiSearchComponent<IndexedQuery, SearchResult>> = mutableListOf()
     private val sequencer = Sequencer()
     private val options get() = requestOptions.withAlgoliaAgent()
 
@@ -62,7 +61,7 @@ internal class DefaultMultiSearcher(
      *
      * @param component multi search component to add
      */
-    override fun addSearcher(component: MultiSearchComponent<IndexedQuery, ResultSearch>) {
+    override fun addSearcher(component: MultiSearchComponent<IndexedQuery, SearchResult>) {
         components += component
     }
 
@@ -95,7 +94,7 @@ internal class DefaultMultiSearcher(
     /**
      * Sets response search and dispatches the results to the multi-search components.
      */
-    private fun onSearchResponse(response: ResponseMultiSearch, completion: (List<ResultSearch>) -> Unit) {
+    private fun onSearchResponse(response: ResponseMultiSearch, completion: (List<SearchResult>) -> Unit) {
         this.response.value = response
         completion(response.asResultSearchList())
     }
@@ -107,13 +106,13 @@ internal class DefaultMultiSearcher(
     /**
      * Collects lists of requests and callbacks from all its search components.
      */
-    private fun collect(): Pair<List<IndexedQuery>, (List<ResultSearch>) -> Unit> {
+    private fun collect(): Pair<List<IndexedQuery>, (List<SearchResult>) -> Unit> {
         val operations = components.map { it.collect() }.filter { it.shouldTrigger }
         val requests = operations.map { it.requests }
         val completions = operations.map { it.completion }
         val rangePerCompletion = completions.zip(requests.flatRanges())
         val requestsList = requests.flatten()
-        val completionsList: (List<ResultSearch>) -> Unit = { results ->
+        val completionsList: (List<SearchResult>) -> Unit = { results ->
             rangePerCompletion.map { (completion, range) ->
                 val resultForCompletion = results.slice(range)
                 completion(resultForCompletion)

@@ -79,10 +79,10 @@ internal class DocHierarchicalMenu {
         val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
 
-        val hierarchicalCategory = Attribute("hierarchicalCategories")
-        val hierarchicalCategoryLvl0 = Attribute("$hierarchicalCategory.lvl0")
-        val hierarchicalCategoryLvl1 = Attribute("$hierarchicalCategory.lvl1")
-        val hierarchicalCategoryLvl2 = Attribute("$hierarchicalCategory.lvl2")
+        val hierarchicalCategory = String("hierarchicalCategories")
+        val hierarchicalCategoryLvl0 = String("$hierarchicalCategory.lvl0")
+        val hierarchicalCategoryLvl1 = String("$hierarchicalCategory.lvl1")
+        val hierarchicalCategoryLvl2 = String("$hierarchicalCategory.lvl2")
         val hierarchicalAttributes = listOf(
             hierarchicalCategoryLvl0,
             hierarchicalCategoryLvl1,

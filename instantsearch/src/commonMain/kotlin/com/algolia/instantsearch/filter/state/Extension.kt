@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.filter.state
 
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Filter
-import com.algolia.instantsearch.migration2to3.FilterGroup
+
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.FilterGroup
 
 
 public fun Filters.toFilterGroups(): Set<FilterGroup<*>> {
@@ -50,10 +50,10 @@ public fun Filter.Facet.getValue(): String {
     }
 }
 
-public fun <T> Range<T>.toFilterNumeric(attribute: Attribute): Filter.Numeric where T : Number, T : Comparable<T> {
+public fun <T> Range<T>.toFilterNumeric(attribute: String): Filter.Numeric where T : Number, T : Comparable<T> {
     return Filter.Numeric(attribute, false, Filter.Numeric.Value.Range(min, max))
 }
 
-public fun Facet.toFilter(attribute: Attribute): Filter.Facet {
+public fun Facet.toFilter(attribute: String): Filter.Facet {
     return Filter.Facet(attribute, value)
 }

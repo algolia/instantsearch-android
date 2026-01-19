@@ -10,7 +10,7 @@ import com.algolia.search.model.filter.NumericOperator
 
 class FilterPriceView(
     val binding: ShowcaseFilterComparisonBinding,
-    price: Attribute,
+    price: String,
     operator: NumericOperator
 ) : NumberView<Long> {
 

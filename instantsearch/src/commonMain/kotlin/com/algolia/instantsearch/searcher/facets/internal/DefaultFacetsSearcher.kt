@@ -6,7 +6,7 @@ import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceFacetsSearcher
-import com.algolia.instantsearch.migration2to3.FacetIndexQuery
+import com.algolia.instantsearch.searcher.multi.internal.types.FacetIndexQuery
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.facets.SearchForFacetQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler

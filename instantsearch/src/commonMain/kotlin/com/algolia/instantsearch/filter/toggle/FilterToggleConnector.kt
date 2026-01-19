@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.toggle
 
-import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.extension.traceFilterToggleConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID

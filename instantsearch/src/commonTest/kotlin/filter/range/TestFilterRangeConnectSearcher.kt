@@ -15,7 +15,7 @@ import kotlin.test.Test
 class TestFilterRangeConnectSearcher {
 
     private val client = mockClient()
-    private val attribute = Attribute("foo")
+    private val attribute = String("foo")
 
     @Test
     fun onConnectUpdateQueryFacets() {

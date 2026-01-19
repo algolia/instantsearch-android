@@ -7,7 +7,7 @@ import com.algolia.instantsearch.filter.current.FilterCurrentViewModel
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
-import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.filter.Filter
 
 internal data class FilterCurrentConnectionFilterState(
     private val viewModel: FilterCurrentViewModel,

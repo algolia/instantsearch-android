@@ -6,7 +6,7 @@ import com.algolia.instantsearch.extension.traceFacetFilterList
 import com.algolia.instantsearch.extension.traceFilterList
 import com.algolia.instantsearch.extension.traceNumericFilterList
 import com.algolia.instantsearch.extension.traceTagFilterList
-import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.filter.Filter
 
 public sealed class FilterListViewModel<T : Filter>(
     items: List<T>,

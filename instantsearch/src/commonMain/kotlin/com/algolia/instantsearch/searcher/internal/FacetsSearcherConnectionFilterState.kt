@@ -7,7 +7,7 @@ import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.filter.state.toFilterGroups
-import com.algolia.instantsearch.migration2to3.FilterGroupsConverter
+import com.algolia.instantsearch.filter.FilterGroupsConverter
 import com.algolia.instantsearch.searcher.SearcherForFacets
 
 /**
@@ -39,6 +39,7 @@ internal data class FacetsSearcherConnectionFilterState(
     }
 
     private fun SearcherForFacets<*>.updateFilters(filters: Filters = filterState) {
-        query.filters = FilterGroupsConverter.SQL(filters.toFilterGroups())
+        // TODO: In v3, query is immutable. Need to update searcher to use mutable query or create new query instances
+        // query.filters = FilterGroupsConverter.SQL(filters.toFilterGroups())
     }
 }

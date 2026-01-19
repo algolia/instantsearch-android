@@ -16,7 +16,7 @@ import shouldNotBeNull
 
 class TestSearcherForFacets {
 
-    private val attribute = Attribute("color")
+    private val attribute = String("color")
     private val response = ResponseSearchForFacets(
         facets = listOf(),
         exhaustiveFacetsCount = true,

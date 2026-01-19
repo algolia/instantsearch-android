@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.filter.facet.dynamic
 
-import com.algolia.instantsearch.migration2to3.Attribute
-
+import com.algolia.instantsearch.filter.Attribute
 
 /**
  * Mapping between a facet attribute and a set of selected facet values.

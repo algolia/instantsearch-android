@@ -14,7 +14,7 @@ import kotlin.test.Test
 
 class TestFilterClearConnectFilterState {
 
-    private val color = Attribute("color")
+    private val color = String("color")
     private val red = Filter.Facet(color, "red")
     private val green = Filter.Facet(color, "green")
     private val groupIDA = FilterGroupID("A", FilterOperator.Or)

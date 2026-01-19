@@ -31,7 +31,7 @@ internal class DocFilterToggle {
         )
         val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
-        val attribute = Attribute("facetName")
+        val attribute = String("facetName")
         val filter = Filter.Facet(attribute, "facetValue")
         val viewModel = FilterToggleViewModel(filter)
         val connection = ConnectionHandler()

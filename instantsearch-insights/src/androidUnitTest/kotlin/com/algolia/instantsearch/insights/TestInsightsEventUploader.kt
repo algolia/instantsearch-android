@@ -37,11 +37,11 @@ public class TestInsightsEventUploader {
         val userToken = UserToken(randomUUID())
         val positions = listOf(1)
         val objectIDs = listOf(ObjectID("54675051"))
-        val resourcesObjectIDs = InsightsEvent.Resources.ObjectIDs(objectIDs)
-        val filters = listOf(Filter.Facet(Attribute("foo"), "bar"))
-        val resourcesFilters = InsightsEvent.Resources.Filters(filters)
+        val resourcesObjectIDs = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Resources.ObjectIDs(objectIDs)
+        val filters = listOf(Filter.Facet(String("foo"), "bar"))
+        val resourcesFilters = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Resources.Filters(filters)
         val timeNow = LocalDateTime.now().atZone(ZoneId.systemDefault())
-        val eventClick = InsightsEvent.Click(
+        val eventClick = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Click(
             eventName = eventA,
             indexName = indexName,
             userToken = userToken,
@@ -50,7 +50,7 @@ public class TestInsightsEventUploader {
             resources = resourcesObjectIDs,
             positions = positions
         )
-        val eventConversion = InsightsEvent.Conversion(
+        val eventConversion = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Conversion(
             eventName = eventB,
             indexName = indexName,
             userToken = userToken,
@@ -58,7 +58,7 @@ public class TestInsightsEventUploader {
             resources = resourcesObjectIDs,
             queryID = queryID
         )
-        val eventView = InsightsEvent.View(
+        val eventView = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.View(
             eventName = eventC,
             indexName = indexName,
             userToken = userToken,
@@ -66,7 +66,7 @@ public class TestInsightsEventUploader {
             resources = resourcesFilters,
             queryID = queryID
         )
-        val expiredEventClick = InsightsEvent.Click(
+        val expiredEventClick = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Click(
             eventName = eventD,
             indexName = indexName,
             userToken = userToken,
@@ -88,7 +88,7 @@ public class TestInsightsEventUploader {
 
         val insightsEvents = mutableListOf<InsightsEvent>()
 
-        override fun append(event: InsightsEvent) {
+        override fun append(event: com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO) {
             insightsEvents.add(event)
         }
 
@@ -112,7 +112,7 @@ public class TestInsightsEventUploader {
 
     private class TestInsightsDistantRepository : InsightsDistantRepository {
         var eventsSent = mutableListOf<InsightsEvent>()
-        override suspend fun send(event: InsightsEvent): EventResponse {
+        override suspend fun send(event: com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO): EventResponse {
             eventsSent += event
             return EventResponse(event, 200)
         }

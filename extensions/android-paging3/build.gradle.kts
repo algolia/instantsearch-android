@@ -6,10 +6,10 @@ plugins {
 
 android {
     namespace = "com.algolia.instantsearch.android.paging3"
-    compileSdk = 33
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

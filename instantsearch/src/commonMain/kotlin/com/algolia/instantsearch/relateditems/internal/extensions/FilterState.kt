@@ -2,8 +2,8 @@ package com.algolia.instantsearch.relateditems.internal.extensions
 
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.migration2to3.Filter
-import com.algolia.instantsearch.migration2to3.FilterGroup
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.FilterGroup
 import com.algolia.instantsearch.relateditems.MatchingPattern
 
 internal fun <T> FilterState.addMatchingPattern(hit: T, matchingPattern: MatchingPattern<T>) {

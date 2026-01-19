@@ -10,7 +10,7 @@ internal class MockDistantRepository : InsightsDistantRepository {
 
     var code = 200
 
-    override suspend fun send(event: InsightsEvent): EventResponse {
+    override suspend fun send(event: com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO): EventResponse {
         return EventResponse(event, code)
     }
 

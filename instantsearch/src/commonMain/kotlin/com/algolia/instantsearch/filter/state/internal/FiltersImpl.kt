@@ -3,8 +3,8 @@ package com.algolia.instantsearch.filter.state.internal
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.hierarchical.HierarchicalFilter
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Filter
+
+import com.algolia.instantsearch.filter.Filter
 
 internal data class FiltersImpl(
     private val facetGroups: Map<FilterGroupID, Set<Filter.Facet>>,
@@ -25,7 +25,7 @@ internal data class FiltersImpl(
         return numericGroups[groupID].orEmpty()
     }
 
-    override fun getHierarchicalFilters(attribute: Attribute): HierarchicalFilter? {
+    override fun getHierarchicalFilters(attribute: String): HierarchicalFilter? {
         return hierarchicalGroups[attribute]
     }
 

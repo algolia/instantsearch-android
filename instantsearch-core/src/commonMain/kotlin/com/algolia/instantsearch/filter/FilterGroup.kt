@@ -1,4 +1,4 @@
-package com.algolia.instantsearch.migration2to3
+package com.algolia.instantsearch.filter
 
 public sealed class FilterGroup<T : Filter> : Set<T> {
 
@@ -62,7 +62,7 @@ public sealed class FilterGroup<T : Filter> : Set<T> {
         public data class Hierarchical(
             override val filters: Set<Filter.Facet>,
             val path: List<Filter.Facet>,
-            val attributes: List<Attribute>,
+            val attributes: List<String>,
             override val name: String? = null
         ) : And<Filter.Facet>(filters, name)
     }

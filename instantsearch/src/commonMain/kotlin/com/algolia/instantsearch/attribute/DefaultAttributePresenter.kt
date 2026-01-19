@@ -1,10 +1,9 @@
 package com.algolia.instantsearch.attribute
 
-import com.algolia.instantsearch.migration2to3.Attribute
-
+import com.algolia.instantsearch.filter.Attribute
 
 public class DefaultAttributePresenter(
-    private val transform: (Attribute) -> String = { attribute -> attribute.raw },
+    private val transform: (Attribute) -> String = { attribute -> attribute },
 ) : AttributePresenter {
 
     override fun invoke(attribute: Attribute): String {

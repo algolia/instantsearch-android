@@ -23,7 +23,7 @@ import com.algolia.search.model.filter.NumericOperator
 
 class FilterListNumericShowcase : AppCompatActivity() {
 
-    private val price = Attribute("price")
+    private val price = String("price")
     private val groupPrice = groupAnd(price)
     private val searcher = HitsSearcher(client, stubIndexName)
     private val filterState = FilterState()

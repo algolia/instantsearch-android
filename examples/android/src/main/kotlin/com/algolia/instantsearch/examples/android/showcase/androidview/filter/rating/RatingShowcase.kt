@@ -22,7 +22,7 @@ import com.algolia.search.model.filter.Filter
 class RatingShowcase : AppCompatActivity() {
 
     private val searcher = HitsSearcher(client, IndexName("instant_search"))
-    private val rating = Attribute("rating")
+    private val rating = String("rating")
     private val groupID = FilterGroupID(rating)
     private val primaryBounds = 0f..5f
     private val initialRange = 3f..5f

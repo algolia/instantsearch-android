@@ -7,10 +7,10 @@ plugins {
 
 android {
     namespace = "com.algolia.instantsearch.insights"
-    compileSdk = 33
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -47,6 +47,7 @@ kotlin {
         all {
             languageSettings {
                 optIn("kotlinx.serialization.ExperimentalSerializationApi")
+                optIn("kotlinx.serialization.InternalSerializationApi")
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
                 optIn("com.algolia.instantsearch.InternalInstantSearch")
             }
@@ -55,6 +56,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":instantsearch-utils"))
+                implementation(project(":instantsearch-core"))
                 implementation(project(":migration2to3"))
                 api(libs.algolia.client)
                 api(libs.ktor.client.serialization.json)

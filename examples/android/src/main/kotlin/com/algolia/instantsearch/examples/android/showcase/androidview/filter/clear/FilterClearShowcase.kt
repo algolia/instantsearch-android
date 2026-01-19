@@ -19,8 +19,8 @@ import com.algolia.search.model.Attribute
 
 class FilterClearShowcase : AppCompatActivity() {
 
-    private val color = Attribute("color")
-    private val category = Attribute("category")
+    private val color = String("color")
+    private val category = String("category")
     private val groupColor = groupOr(color)
     private val groupCategory = groupOr(category)
     private val filters = filters {

@@ -19,7 +19,7 @@ import com.algolia.search.model.filter.Filter
 
 class FilterListFacetShowcase : AppCompatActivity() {
 
-    private val color = Attribute("color")
+    private val color = String("color")
     private val groupColor = groupAnd(color)
     private val filterState = FilterState()
     private val searcher = HitsSearcher(client, stubIndexName)

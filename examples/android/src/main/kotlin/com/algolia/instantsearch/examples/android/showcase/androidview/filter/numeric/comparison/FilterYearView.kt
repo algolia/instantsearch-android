@@ -10,7 +10,7 @@ import com.algolia.search.model.filter.NumericOperator
 
 class FilterYearView(
     val binding: ShowcaseFilterComparisonBinding,
-    year: Attribute,
+    year: String,
     operator: NumericOperator
 ) : NumberView<Int> {
 

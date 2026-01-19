@@ -1,10 +1,18 @@
 package com.algolia.instantsearch.insights
 
-import com.algolia.instantsearch.migration2to3.Credentials
-import com.algolia.instantsearch.migration2to3.InsightsEvent
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
 
+public interface Insights : HitsAfterSearchTrackable, FilterTrackable {
 
-public interface Insights : HitsAfterSearchTrackable, FilterTrackable, Credentials {
+    /**
+     * Application ID for the Insights API
+     */
+    public val applicationID: String
+
+    /**
+     * API key for the Insights API
+     */
+    public val apiKey: String
 
     /**
      * Change this variable to `true` or `false` to disable Insights, opting-out the current session from tracking.
@@ -35,34 +43,8 @@ public interface Insights : HitsAfterSearchTrackable, FilterTrackable, Credentia
      */
     public var loggingEnabled: Boolean
 
-    /**
-     * Tracks a View event constructed manually.
-     *
-     * @param event insights view event to be tracked
-     */
-    public fun viewed(event: InsightsEvent.View)
-
-    /**
-     * Tracks a Click event constructed manually.
-     *
-     * @param event insights click event to be tracked
-     */
-    public fun clicked(event: InsightsEvent.Click)
-
-    /**
-     * Tracks a Conversion event, constructed manually.
-     *
-     * @param event insights conversion event to be tracked
-     */
-    public fun converted(event: InsightsEvent.Conversion)
-
-    /**
-     * Method for tracking an event.
-     * [documentation][https://www.algolia.com/doc/rest-api/insights/?language=android#push-events].
-     *
-     * @param event insights event to be tracked.
-     */
-    public fun track(event: InsightsEvent)
+    // Note: track method removed from public API as InsightsEventDO is internal.
+    // Use the specific tracking methods from HitsAfterSearchTrackable and FilterTrackable instead.
 
     /**
      * Insights configuration.

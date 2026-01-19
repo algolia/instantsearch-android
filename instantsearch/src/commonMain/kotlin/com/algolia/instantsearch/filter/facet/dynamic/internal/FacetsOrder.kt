@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.filter.facet.dynamic.internal
 
 import com.algolia.client.model.search.FacetOrdering
+import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Facet
+import com.algolia.instantsearch.filter.Facet
 
 /**
  * Apply the algorithm transforming the received facets and facet ordering rules to the list of ordered facet attributes
@@ -13,12 +13,12 @@ import com.algolia.instantsearch.migration2to3.Facet
  * @param facetOrdering facets ordering rule
  */
 internal fun facetsOrder(facets: Map<Attribute, List<Facet>>, facetOrdering: FacetOrdering): List<AttributedFacets> {
-    val orderedAttributes = facetOrdering.facets.order.mapNotNull { attribute -> facets.keys.firstOrNull { it.raw == attribute } }
-    return orderedAttributes.map { attribute ->
+    val orderedAttributes = facetOrdering.facets?.order?.mapNotNull { attribute -> facets.keys.firstOrNull { it == attribute } }
+    return orderedAttributes?.map { attribute ->
         val facetValues = facets[attribute] ?: emptyList()
-        val orderedFacetValues = facetOrdering.values[attribute]?.let { order(facetValues, it) } ?: facetValues
+        val orderedFacetValues = facetOrdering.values?.get(attribute)?.let { order(facetValues, it) } ?: facetValues
         AttributedFacets(attribute, orderedFacetValues)
-    }
+    } ?: emptyList()
 }
 
 /**

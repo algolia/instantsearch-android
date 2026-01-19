@@ -39,8 +39,8 @@ class RelatedItemsShowcase : AppCompatActivity() {
     private val relatedItems = HitsState<Product>()
 
     private val matchingPatterns: List<MatchingPattern<Product>> = listOf(
-        MatchingPattern(Attribute("brand"), 1, Product::brand),
-        MatchingPattern(Attribute("categories"), 2, Product::categories)
+        MatchingPattern(String("brand"), 1, Product::brand),
+        MatchingPattern(String("categories"), 2, Product::categories)
     )
 
     private var relatedItemConnection: Connection? = null

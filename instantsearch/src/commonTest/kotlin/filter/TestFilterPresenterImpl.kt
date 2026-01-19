@@ -9,7 +9,7 @@ import kotlin.test.Test
 
 class TestFilterPresenterImpl {
 
-    private val attribute = Attribute("color")
+    private val attribute = String("color")
 
     @Test
     fun facet() {

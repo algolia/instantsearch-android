@@ -18,9 +18,9 @@ import com.algolia.search.model.filter.NumericOperator
 
 class FilterToggleShowcase : AppCompatActivity() {
 
-    private val promotions = Attribute("promotions")
-    private val size = Attribute("size")
-    private val tags = Attribute("_tags")
+    private val promotions = String("promotions")
+    private val size = String("size")
+    private val tags = String("_tags")
     private val filterState = FilterState()
     private val searcher = HitsSearcher(client, stubIndexName)
     private val filterCoupon = Filter.Facet(promotions, "coupon")

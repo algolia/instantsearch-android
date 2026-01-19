@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.searcher
 
-import com.algolia.instantsearch.migration2to3.FilterGroup
+import com.algolia.instantsearch.filter.FilterGroup
 
 /**
  * Component holding filter groups set.

@@ -7,12 +7,12 @@ import com.algolia.instantsearch.filter.range.internal.FilterRangeConnectionFilt
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.migration2to3.Attribute
+
 import com.algolia.instantsearch.searcher.SearcherForHits
 
 public fun <T> FilterRangeViewModel<T>.connectFilterState(
     filterState: FilterState,
-    attribute: Attribute,
+    attribute: String,
     groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
 ): Connection where T : Number, T : Comparable<T> {
     return FilterRangeConnectionFilterState(this, filterState, attribute, groupID)
@@ -37,7 +37,7 @@ public fun <T> FilterRangeConnector<T>.connectView(
  */
 public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
     searcher: SearcherForHits<*>,
-    attribute: Attribute,
+    attribute: String,
 ): Connection where T : Number, T : Comparable<T> {
     return viewModel.connectSearcher(searcher, attribute)
 }
@@ -50,7 +50,7 @@ public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
  */
 public inline fun <reified T> FilterRangeViewModel<T>.connectSearcher(
     searcher: SearcherForHits<*>,
-    attribute: Attribute,
+    attribute: String,
 ): Connection where T : Number, T : Comparable<T> {
     return FilterRangeConnectionSearcher(this, searcher, attribute, T::class)
 }
@@ -64,7 +64,7 @@ public inline fun <reified T> FilterRangeViewModel<T>.connectSearcher(
  */
 public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
     searcher: SearcherForHits<*>,
-    attribute: Attribute,
+    attribute: String,
     noinline mapper: (Number) -> T,
 ): Connection where T : Number, T : Comparable<T> {
     return viewModel.connectSearcher(searcher, attribute, mapper)
@@ -79,7 +79,7 @@ public inline fun <reified T> FilterRangeConnector<T>.connectSearcher(
  */
 public inline fun <reified T> FilterRangeViewModel<T>.connectSearcher(
     searcher: SearcherForHits<*>,
-    attribute: Attribute,
+    attribute: String,
     noinline mapper: (Number) -> T,
 ): Connection where T : Number, T : Comparable<T> {
     return FilterRangeConnectionSearcher(this, searcher, attribute, mapper)

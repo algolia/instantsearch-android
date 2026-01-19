@@ -5,8 +5,9 @@ import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceDynamicFacet
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Facet
+
+import com.algolia.instantsearch.filter.Attribute
+import com.algolia.instantsearch.filter.Facet
 import kotlin.properties.Delegates
 import kotlinx.serialization.InternalSerializationApi
 
@@ -21,7 +22,7 @@ import kotlinx.serialization.InternalSerializationApi
  */
 public class DynamicFacetListViewModel(
     orderedFacets: List<AttributedFacets> = emptyList(),
-    selections: SelectionsPerAttribute = mutableMapOf(),
+    selections: SelectionsPerAttribute = mutableMapOf<Attribute, Set<String>>(),
     selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap(),
     /**
      * Selection mode to apply for a facet list..
@@ -61,7 +62,7 @@ public class DynamicFacetListViewModel(
     /**
      * Event triggered when the facets values selection changed by the business logic.
      */
-    public val onSelectionsComputed: SubscriptionValue<SelectionsPerAttribute> = SubscriptionValue(mutableMapOf())
+    public val onSelectionsComputed: SubscriptionValue<SelectionsPerAttribute> = SubscriptionValue(mutableMapOf<Attribute, Set<String>>())
 
     /**
      * Mapping between a facet attribute and a facet values selection mode.
@@ -85,7 +86,7 @@ public class DynamicFacetListViewModel(
      * @param attribute facet attribute
      * @param facetValue facet value
      */
-    public fun isSelected(attribute: Attribute, facetValue: String): Boolean {
+    public fun isSelected(attribute: String, facetValue: String): Boolean {
         return selections[attribute]?.contains(facetValue) ?: false
     }
 
@@ -96,7 +97,7 @@ public class DynamicFacetListViewModel(
      * @param facetValue facet value
      */
     @OptIn(InternalSerializationApi::class)
-    public fun toggleSelection(attribute: Attribute, facetValue: String) {
+    public fun toggleSelection(attribute: String, facetValue: String) {
         facetListPerAttribute[attribute]?.select(facetValue)
     }
 
@@ -117,7 +118,7 @@ public class DynamicFacetListViewModel(
      * Get or create a facet selectable list for a given attribute.
      */
     @OptIn(InternalSerializationApi::class)
-    private fun getOrCreateSelectableFacetList(attribute: Attribute): SelectableListViewModel<String, Facet> {
+    private fun getOrCreateSelectableFacetList(attribute: String): SelectableListViewModel<String, Facet> {
         return facetListPerAttribute[attribute]
             ?: createFacetList(attribute).also { facetListPerAttribute[attribute] = it }
     }
@@ -126,12 +127,12 @@ public class DynamicFacetListViewModel(
      * Create a facet selectable list for a given attribute.
      */
     @OptIn(InternalSerializationApi::class)
-    private fun createFacetList(attribute: Attribute): SelectableListViewModel<String, Facet> {
+    private fun createFacetList(attribute: String): SelectableListViewModel<String, Facet> {
         val selectionMode = selectionModeForAttribute[attribute] ?: defaultSelectionMode
         val facetList = SelectableListViewModel<String, Facet>(selectionMode = selectionMode)
         facetList.eventSelection.subscribe { selection ->
             val currentSelections = selections.toMutableMap()
-            currentSelections[attribute] = selection
+            currentSelections[attribute as Attribute] = selection
             onSelectionsComputed.value = currentSelections
         }
         onSelectionsChanged.subscribe { selections ->

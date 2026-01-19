@@ -37,9 +37,9 @@ import com.algolia.search.model.filter.NumericOperator
 
 class FilterCurrentShowcase : AppCompatActivity() {
 
-    private val color = Attribute("color")
-    private val price = Attribute("price")
-    private val tags = Attribute("_tags")
+    private val color = String("color")
+    private val price = String("price")
+    private val tags = String("_tags")
     private val groupColor = FilterGroupID(color)
     private val groupPrice = FilterGroupID(price)
     private val groupTags = FilterGroupID(tags)

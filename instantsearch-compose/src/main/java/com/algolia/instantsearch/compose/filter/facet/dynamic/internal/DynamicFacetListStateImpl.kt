@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import com.algolia.instantsearch.compose.filter.facet.dynamic.DynamicFacetListState
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.SelectionsPerAttribute
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Facet
+
+import com.algolia.instantsearch.filter.Facet
 
 /**
  * [DynamicFacetListState] implementation.
@@ -36,11 +36,11 @@ internal class DynamicFacetListStateImpl(
         this.selections = selections
     }
 
-    override fun toggle(facet: Facet, attribute: Attribute) {
+    override fun toggle(facet: Facet, attribute: String) {
         didSelect?.invoke(attribute, facet)
     }
 
-    override fun isSelected(facet: Facet, attribute: Attribute): Boolean {
+    override fun isSelected(facet: Facet, attribute: String): Boolean {
         return selections[attribute]?.contains(facet.value) == true
     }
 }

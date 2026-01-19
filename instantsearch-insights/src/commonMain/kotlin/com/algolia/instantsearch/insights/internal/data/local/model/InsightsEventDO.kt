@@ -1,10 +1,8 @@
 package com.algolia.instantsearch.insights.internal.data.local.model
 
-import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@InternalSerializationApi
 @Serializable
 internal data class InsightsEventDO(
     @SerialName("eventType") val eventType: EventType,
@@ -41,7 +39,7 @@ internal data class InsightsEventDO(
         var positions: List<Int>? = null
         var filters: List<FilterFacetDO>? = null
 
-        fun build(): InsightsEventDO = InsightsEventDO(
+        fun build(): com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO = InsightsEventDO(
             eventType ?: error("eventType can't not be null"),
             eventName ?: error("eventName can't not be null"),
             indexName ?: error("indexName can't not be null"),

@@ -6,14 +6,14 @@ import com.algolia.instantsearch.core.number.NumberViewModel
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Filter
-import com.algolia.instantsearch.migration2to3.NumericOperator
+
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.NumericOperator
 
 internal data class FilterComparisonConnectionFilterState<T>(
     private val viewModel: NumberViewModel<T>,
     private val filterState: FilterState,
-    private val attribute: Attribute,
+    private val attribute: String,
     private val operator: NumericOperator,
     private val groupID: FilterGroupID,
 ) : AbstractConnection() where T : Number, T : Comparable<T> {

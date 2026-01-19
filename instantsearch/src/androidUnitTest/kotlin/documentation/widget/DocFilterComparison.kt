@@ -31,7 +31,7 @@ internal class DocFilterComparison {
         val textView: TextView,
         val arrowUp: ImageView,
         val arrowDown: ImageView,
-        val price: Attribute,
+        val price: String,
         val operator: NumericOperator,
     ) : NumberView<Int> {
 
@@ -61,7 +61,7 @@ internal class DocFilterComparison {
         )
         val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
-        val price = Attribute("price")
+        val price = String("price")
         val operator = NumericOperator.Greater
         val viewModel = NumberViewModel(range = 0..10)
         val connection = ConnectionHandler()

@@ -4,8 +4,8 @@ package com.algolia.instantsearch.searcher.multi.internal.extension
 
 import com.algolia.client.model.search.SearchResponse
 import com.algolia.client.model.search.SearchResult
-import com.algolia.instantsearch.migration2to3.ResponseMultiSearch
-import com.algolia.instantsearch.migration2to3.ResultMultiSearch
+import com.algolia.instantsearch.searcher.multi.internal.types.ResponseMultiSearch
+import com.algolia.instantsearch.searcher.multi.internal.types.ResultMultiSearch
 import kotlinx.serialization.InternalSerializationApi
 
 /**

@@ -13,7 +13,7 @@ import kotlin.test.Test
 
 class TestFilterListConnectFilterState {
 
-    private val color = Attribute("color")
+    private val color = String("color")
     private val red = Filter.Facet(color, "red")
     private val green = Filter.Facet(color, "green")
     private val groupID = FilterGroupID(color, FilterOperator.Or)

@@ -2,12 +2,12 @@ package com.algolia.instantsearch.filter.facet.dynamic.internal
 
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
+import com.algolia.instantsearch.filter.Attribute
+import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListView
 import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListViewModel
 import com.algolia.instantsearch.filter.facet.dynamic.SelectionsPerAttribute
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Facet
 
 /**
  * Connection between a dynamic facets business logic and a controller.

@@ -28,7 +28,7 @@ import com.algolia.search.model.search.Facet
 @Preview
 @Composable
 fun FacetListPreview() {
-    val color = Attribute("color")
+    val color = String("color")
     val groupColor = groupAnd(color)
     val presenter = DefaultFacetListPresenter(
         listOf(

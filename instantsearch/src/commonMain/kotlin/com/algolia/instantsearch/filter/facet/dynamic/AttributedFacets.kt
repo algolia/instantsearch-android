@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.facet.dynamic
 
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Facet
+
+import com.algolia.instantsearch.filter.Facet
 
 
 /**
@@ -11,7 +11,7 @@ public data class AttributedFacets(
     /**
      * Facet attribute.
      */
-    public val attribute: Attribute,
+    public val attribute: String,
     /**
      * List of ordered facet values.
      */

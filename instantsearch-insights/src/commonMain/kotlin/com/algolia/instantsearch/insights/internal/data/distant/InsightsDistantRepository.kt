@@ -1,13 +1,14 @@
+
 package com.algolia.instantsearch.insights.internal.data.distant
 
 import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.insights.internal.event.EventResponse
-import com.algolia.instantsearch.migration2to3.Credentials
-import com.algolia.instantsearch.migration2to3.InsightsEvent
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
 import kotlinx.serialization.json.JsonObject
 
-
-internal interface InsightsDistantRepository : Credentials {
+internal interface InsightsDistantRepository {
+    val applicationID: String
+    val apiKey: String
 
     suspend fun customPost(
         path: String,
@@ -16,5 +17,5 @@ internal interface InsightsDistantRepository : Credentials {
         requestOptions: RequestOptions? = null,
     ): JsonObject
 
-
+    suspend fun send(event: InsightsEventDO): EventResponse
 }

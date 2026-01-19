@@ -15,5 +15,5 @@ data class Movie(
 ) : Indexable, Highlightable {
 
     val highlightedTitle
-        get() = getHighlight(Attribute("title"))
+        get() = getHighlight(String("title"))
 }

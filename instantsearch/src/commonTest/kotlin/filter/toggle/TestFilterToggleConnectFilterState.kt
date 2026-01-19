@@ -12,7 +12,7 @@ import kotlin.test.Test
 
 class TestFilterToggleConnectFilterState {
 
-    private val color = Attribute("color")
+    private val color = String("color")
     private val red = Filter.Facet(color, "red")
     private val groupID = FilterGroupID(color, FilterOperator.And)
     private val expectedFilterState = FilterState(mapOf(groupID to setOf(red)))

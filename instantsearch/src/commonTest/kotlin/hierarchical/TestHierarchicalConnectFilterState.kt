@@ -16,9 +16,9 @@ import shouldEqual
 class TestHierarchicalConnectFilterState {
 
     private val separator = " > "
-    private val category = Attribute("category")
-    private val categoryLvl0 = Attribute("$category.lvl0")
-    private val categoryLvl1 = Attribute("$category.lvl1")
+    private val category = String("category")
+    private val categoryLvl0 = String("$category.lvl0")
+    private val categoryLvl1 = String("$category.lvl1")
     private val categories = listOf(
         categoryLvl0,
         categoryLvl1

@@ -20,7 +20,7 @@ class DocFilterState {
     fun addAndRemove() {
         val filterState = FilterState()
         val filterGroupID = FilterGroupID("myGroup", FilterOperator.And)
-        val color = Attribute("color")
+        val color = String("color")
         val red = Filter.Facet(color, "red")
         val green = Filter.Facet(color, "green")
         val blue = Filter.Facet(color, "blue")
@@ -35,7 +35,7 @@ class DocFilterState {
     fun notification() {
         val filterState = FilterState()
         val filterGroupID = FilterGroupID("myGroup", FilterOperator.And)
-        val color = Attribute("color")
+        val color = String("color")
         val facets = setOf(
             Filter.Facet(color, "red"),
             Filter.Facet(color, "green"),

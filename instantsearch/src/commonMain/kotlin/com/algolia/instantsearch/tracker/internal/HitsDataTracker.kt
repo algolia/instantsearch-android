@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.tracker.internal
 
 import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
-import com.algolia.instantsearch.migration2to3.Indexable
+import com.algolia.instantsearch.core.Indexable
 import com.algolia.instantsearch.tracker.HitsTracker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

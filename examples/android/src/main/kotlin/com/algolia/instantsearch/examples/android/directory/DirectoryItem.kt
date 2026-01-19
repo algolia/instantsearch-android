@@ -24,5 +24,5 @@ data class DirectoryHit(
 ) : Indexable, Highlightable {
 
     val highlightedName
-        get() = getHighlight(Attribute("name"), preTag = "<b>", postTag = "</b>")
+        get() = getHighlight(String("name"), preTag = "<b>", postTag = "</b>")
 }

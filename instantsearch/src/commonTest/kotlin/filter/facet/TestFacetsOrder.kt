@@ -14,7 +14,7 @@ import kotlin.test.assertEquals
 class TestFacetsOrder {
 
     val facets = mapOf(
-        Attribute("size") to listOf(
+        String("size") to listOf(
             Facet(value = "XS", count = 82),
             Facet(value = "L", count = 81),
             Facet(value = "XXXL", count = 73),
@@ -23,13 +23,13 @@ class TestFacetsOrder {
             Facet(value = "S", count = 67),
             Facet(value = "XL", count = 67),
         ),
-        Attribute("brand") to listOf(
+        String("brand") to listOf(
             Facet(value = "Dyson", count = 53),
             Facet(value = "Sony", count = 53),
             Facet(value = "Apple", count = 51),
             Facet(value = "Uniqlo", count = 43),
         ),
-        Attribute("color") to listOf(
+        String("color") to listOf(
             Facet(value = "yellow", count = 65),
             Facet(value = "blue", count = 63),
             Facet(value = "red", count = 58),
@@ -37,7 +37,7 @@ class TestFacetsOrder {
             Facet(value = "orange", count = 54),
             Facet(value = "green", count = 48),
         ),
-        Attribute("country") to listOf(
+        String("country") to listOf(
             Facet(value = "Spain", count = 31),
             Facet(value = "Finland", count = 27),
             Facet(value = "Germany", count = 27),
@@ -72,7 +72,7 @@ class TestFacetsOrder {
         val countries = listOf("UK", "France", "USA", "Germany", "Finland", "Denmark", "Italy", "Spain").shuffled()
         val order = FacetOrdering(
             facets = FacetsOrder(order = listOf("country")),
-            values = mapOf(Attribute("country") to FacetValuesOrder(order = countries, sortRemainingBy = SortRule.Hidden))
+            values = mapOf(String("country") to FacetValuesOrder(order = countries, sortRemainingBy = SortRule.Hidden))
         )
         assertEquals(countries, withOrder(order).first { it.attribute.raw == "country" }.facets.map { it.value })
     }
@@ -82,7 +82,7 @@ class TestFacetsOrder {
         val countries = listOf("UK", "France", "USA").shuffled()
         val order = FacetOrdering(
             facets = FacetsOrder(order = listOf("country")),
-            values = mapOf(Attribute("country") to FacetValuesOrder(order = countries, sortRemainingBy = SortRule.Hidden))
+            values = mapOf(String("country") to FacetValuesOrder(order = countries, sortRemainingBy = SortRule.Hidden))
         )
         assertEquals(countries, withOrder(order).first { it.attribute.raw == "country" }.facets.map { it.value })
     }
@@ -92,17 +92,17 @@ class TestFacetsOrder {
         val countries = listOf("UK", "France", "USA")
         val order = FacetOrdering(
             facets = FacetsOrder(order = listOf("country")),
-            values = mapOf(Attribute("country") to FacetValuesOrder(order = countries, sortRemainingBy = SortRule.Alpha))
+            values = mapOf(String("country") to FacetValuesOrder(order = countries, sortRemainingBy = SortRule.Alpha))
         )
         assertEquals(countries + listOf("Germany", "Finland", "Denmark", "Italy", "Spain").sorted(), withOrder(order).first { it.attribute.raw == "country" }.facets.map { it.value })
     }
 
     @Test
     fun testSortFacetValuesByCount() {
-        val expectedFacetValues = facets[Attribute("country")]?.sortedByDescending { it.count }?.map { it.value }
+        val expectedFacetValues = facets[String("country")]?.sortedByDescending { it.count }?.map { it.value }
         val order = FacetOrdering(
             facets = FacetsOrder(order = listOf("country")),
-            values = mapOf(Attribute("country") to FacetValuesOrder(order = emptyList(), sortRemainingBy = SortRule.Count))
+            values = mapOf(String("country") to FacetValuesOrder(order = emptyList(), sortRemainingBy = SortRule.Count))
         )
         assertEquals(expectedFacetValues, withOrder(order).first { it.attribute.raw == "country" }.facets.map { it.value })
     }

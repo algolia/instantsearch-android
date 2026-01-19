@@ -6,7 +6,7 @@ import com.algolia.instantsearch.extension.traceNumberRangeFilterConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.migration2to3.Attribute
+
 
 /**
  * Filter Numeric Range is a filtering view made to filter between two numeric values.
@@ -21,7 +21,7 @@ import com.algolia.instantsearch.migration2to3.Attribute
 public data class FilterRangeConnector<T>(
     public val viewModel: FilterRangeViewModel<T>,
     public val filterState: FilterState,
-    public val attribute: Attribute,
+    public val attribute: String,
     public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
 ) : AbstractConnection() where T : Number, T : Comparable<T> {
 
@@ -42,7 +42,7 @@ public data class FilterRangeConnector<T>(
      */
     public constructor(
         filterState: FilterState,
-        attribute: Attribute,
+        attribute: String,
         bounds: ClosedRange<T>? = null,
         range: ClosedRange<T>? = null,
     ) : this(

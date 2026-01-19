@@ -9,10 +9,10 @@ public class DefaultStatsPresenter(
     override fun invoke(response: SearchResponse?): String {
         return buildString {
             if (response != null) {
-                val exhaustive = if (response.exhaustiveNbHitsOrNull == false) "~" else ""
+                val exhaustive = if (response.exhaustiveNbHits == false) "~" else ""
 
-                if (response.nbHitsOrNull != null) append("$exhaustive${response.nbHitsOrNull} hits")
-                if (response.processingTimeMSOrNull != null) append(" in ${response.processingTimeMSOrNull}ms")
+                if (response.nbHits != null) append("$exhaustive${response.nbHits} hits")
+                if (response.processingTimeMS != null) append(" in ${response.processingTimeMS}ms")
             } else default
         }
     }

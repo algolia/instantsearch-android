@@ -1,13 +1,13 @@
 package com.algolia.instantsearch.filter.facet.dynamic
 
 import com.algolia.instantsearch.core.connection.Connection
+import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.facet.dynamic.internal.DynamicFacetListConnectionFilterState
 import com.algolia.instantsearch.filter.facet.dynamic.internal.DynamicFacetListConnectionSearcherIndex
 import com.algolia.instantsearch.filter.facet.dynamic.internal.DynamicFacetListConnectionView
 import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.migration2to3.Attribute
 import com.algolia.instantsearch.searcher.SearcherForHits
 
 /**

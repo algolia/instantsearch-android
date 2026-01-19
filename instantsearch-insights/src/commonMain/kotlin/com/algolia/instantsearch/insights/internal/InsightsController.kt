@@ -1,17 +1,17 @@
+
 package com.algolia.instantsearch.insights.internal
 
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.exception.InsightsException
 import com.algolia.instantsearch.insights.internal.cache.InsightsCache
-import com.algolia.instantsearch.insights.internal.extension.copy
+import com.algolia.instantsearch.insights.internal.data.local.mapper.FilterFacetMapper
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventType
 import com.algolia.instantsearch.insights.internal.extension.currentTimeMillis
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.uploader.InsightsUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
-import com.algolia.instantsearch.migration2to3.Credentials
-import com.algolia.instantsearch.migration2to3.Filter
-import com.algolia.instantsearch.migration2to3.InsightsEvent
-
+import com.algolia.instantsearch.filter.Filter
 
 /**
  * Main class used for interacting with the InstantSearch Insights library.
@@ -24,7 +24,10 @@ internal class InsightsController(
     private val cache: InsightsCache,
     internal val uploader: InsightsUploader,
     private val generateTimestamps: Boolean
-) : Insights, Credentials by uploader {
+) : Insights {
+
+    override val applicationID: String get() = uploader.applicationID
+    override val apiKey: String get() = uploader.apiKey
 
     override var enabled: Boolean = true
     override var userToken: String? = null
@@ -50,57 +53,25 @@ internal class InsightsController(
         eventName: String,
         objectIDs: List<String>,
         timestamp: Long?,
-    ): Unit = viewed(
-        InsightsEvent.View(
-            indexName = indexName,
-            eventName = eventName,
-            userToken = userTokenOrThrow(),
-            timestamp = timestamp,
-            resources = InsightsEvent.Resources.ObjectIDs(objectIDs)
-        )
-    )
+    ) = track(buildEventDO(EventType.View, eventName, timestamp, objectIDs = objectIDs))
 
     override fun viewedFilters(
         eventName: String,
         filters: List<Filter.Facet>,
         timestamp: Long?,
-    ): Unit = viewed(
-        InsightsEvent.View(
-            indexName = indexName,
-            eventName = eventName,
-            userToken = userTokenOrThrow(),
-            timestamp = timestamp,
-            resources = InsightsEvent.Resources.Filters(filters)
-        )
-    )
+    ) = track(buildEventDO(EventType.View, eventName, timestamp, filters = filters))
 
     override fun clickedObjectIDs(
         eventName: String,
         objectIDs: List<String>,
         timestamp: Long?,
-    ): Unit = clicked(
-        InsightsEvent.Click(
-            indexName = indexName,
-            eventName = eventName,
-            userToken = userTokenOrThrow(),
-            timestamp = timestamp,
-            resources = InsightsEvent.Resources.ObjectIDs(objectIDs)
-        )
-    )
+    ) = track(buildEventDO(EventType.Click, eventName, timestamp, objectIDs = objectIDs))
 
     override fun clickedFilters(
         eventName: String,
         filters: List<Filter.Facet>,
         timestamp: Long?,
-    ): Unit = clicked(
-        InsightsEvent.Click(
-            indexName = indexName,
-            eventName = eventName,
-            userToken = userTokenOrThrow(),
-            timestamp = timestamp,
-            resources = InsightsEvent.Resources.Filters(filters)
-        )
-    )
+    ) = track(buildEventDO(EventType.Click, eventName, timestamp, filters = filters))
 
     override fun clickedObjectIDsAfterSearch(
         eventName: String,
@@ -108,69 +79,28 @@ internal class InsightsController(
         objectIDs: List<String>,
         positions: List<Int>,
         timestamp: Long?,
-    ): Unit = clicked(
-        InsightsEvent.Click(
-            indexName = indexName,
-            eventName = eventName,
-            userToken = userTokenOrThrow(),
-            timestamp = timestamp,
-            resources = InsightsEvent.Resources.ObjectIDs(objectIDs),
-            queryID = queryID,
-            positions = positions
-        )
-    )
+    ) = track(buildEventDO(EventType.Click, eventName, timestamp, queryID, objectIDs, positions))
 
     override fun convertedFilters(
         eventName: String,
         filters: List<Filter.Facet>,
         timestamp: Long?,
-    ): Unit = converted(
-        InsightsEvent.Conversion(
-            indexName = indexName,
-            eventName = eventName,
-            userToken = userTokenOrThrow(),
-            timestamp = timestamp,
-            resources = InsightsEvent.Resources.Filters(filters)
-        )
-    )
+    ) = track(buildEventDO(EventType.Conversion, eventName, timestamp, filters = filters))
 
     override fun convertedObjectIDs(
         eventName: String,
         objectIDs: List<String>,
         timestamp: Long?,
-    ): Unit = converted(
-        InsightsEvent.Conversion(
-            indexName = indexName,
-            eventName = eventName,
-            userToken = userTokenOrThrow(),
-            timestamp = timestamp,
-            resources = InsightsEvent.Resources.ObjectIDs(objectIDs)
-        )
-    )
+    ) = track(buildEventDO(EventType.Conversion, eventName, timestamp, objectIDs = objectIDs))
 
     override fun convertedObjectIDsAfterSearch(
         eventName: String,
         queryID: String,
         objectIDs: List<String>,
         timestamp: Long?,
-    ): Unit = converted(
-        InsightsEvent.Conversion(
-            indexName = indexName,
-            eventName = eventName,
-            userToken = userTokenOrThrow(),
-            timestamp = timestamp,
-            resources = InsightsEvent.Resources.ObjectIDs(objectIDs),
-            queryID = queryID
-        )
-    )
+    ) = track(buildEventDO(EventType.Conversion, eventName, timestamp, queryID, objectIDs))
 
-    override fun viewed(event: InsightsEvent.View): Unit = track(event)
-
-    override fun clicked(event: InsightsEvent.Click): Unit = track(event)
-
-    override fun converted(event: InsightsEvent.Conversion): Unit = track(event)
-
-    override fun track(event: InsightsEvent) {
+    fun track(event: InsightsEventDO) {
         val insightEvent = effectiveEvent(event)
         if (enabled) {
             cache.save(insightEvent)
@@ -182,11 +112,34 @@ internal class InsightsController(
 
     // endregion
 
+    private fun buildEventDO(
+        eventType: EventType,
+        eventName: String,
+        timestamp: Long?,
+        queryID: String? = null,
+        objectIDs: List<String>? = null,
+        positions: List<Int>? = null,
+        filters: List<Filter.Facet>? = null,
+    ): InsightsEventDO {
+        val builder = InsightsEventDO.Builder().apply {
+            this.eventType = eventType
+            this.eventName = eventName
+            this.indexName = indexName
+            this.userToken = userTokenOrThrow()
+            this.timestamp = timestamp
+            this.queryID = queryID
+            this.objectIDs = objectIDs
+            this.positions = positions
+            this.filters = filters?.map { FilterFacetMapper.map(it) }
+        }
+        return builder.build()
+    }
+
     /**
      * Get effective insight event.
      * Timestamp defaults to [currentTimeMillis] if [event]'s timestamp is `null` and timestamp generation is enabled.
      */
-    private fun effectiveEvent(event: InsightsEvent): InsightsEvent {
+    private fun effectiveEvent(event: InsightsEventDO): InsightsEventDO {
         return if (generateTimestamps && event.timestamp == null) event.copy(timestamp = currentTimeMillis) else event
     }
 }

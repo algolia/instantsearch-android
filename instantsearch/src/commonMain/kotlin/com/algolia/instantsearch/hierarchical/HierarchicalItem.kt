@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.hierarchical
 
-import com.algolia.instantsearch.migration2to3.Facet
+import com.algolia.instantsearch.filter.Facet
 
 public data class HierarchicalItem(
     val facet: Facet,

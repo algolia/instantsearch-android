@@ -1,14 +1,6 @@
-package com.algolia.instantsearch.migration2to3
+package com.algolia.instantsearch.filter
 
-
-// Filter class to be replaced with:
-
-//com.algolia.client.model.search.AutomaticFacetFilter
-//
-//com.algolia.client.model.search.TagFilters
-//
-//com.algolia.client.model.search.NumericFilters
-
+public typealias Attribute = String
 
 public sealed class Filter {
 

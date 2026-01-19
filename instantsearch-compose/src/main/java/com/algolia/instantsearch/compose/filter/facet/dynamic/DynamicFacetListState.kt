@@ -4,8 +4,8 @@ import com.algolia.instantsearch.compose.filter.facet.dynamic.internal.DynamicFa
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListView
 import com.algolia.instantsearch.filter.facet.dynamic.SelectionsPerAttribute
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Facet
+
+import com.algolia.instantsearch.filter.Facet
 
 /**
  * [DynamicFacetListView] for compose.
@@ -28,7 +28,7 @@ public interface DynamicFacetListState : DynamicFacetListView {
      * @param facet selected facet
      * @param attribute facet attribute
      */
-    public fun toggle(facet: Facet, attribute: Attribute)
+    public fun toggle(facet: Facet, attribute: String)
 
     /**
      * Check if the provided facet for attribute is selected.
@@ -37,7 +37,7 @@ public interface DynamicFacetListState : DynamicFacetListView {
      * @param attribute facet attribute
      * @return true value if the provided facet for attribute is selected, otherwise false.
      */
-    public fun isSelected(facet: Facet, attribute: Attribute): Boolean
+    public fun isSelected(facet: Facet, attribute: String): Boolean
 }
 
 /**

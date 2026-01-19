@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.android.filter.facet.dynamic
 
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Facet
+
+import com.algolia.instantsearch.filter.Facet
 
 
 /**
@@ -12,10 +12,10 @@ public sealed class DynamicFacetModel {
     /**
      * Attribute view to be rendered.
      */
-    public data class Header(val attribute: Attribute) : DynamicFacetModel()
+    public data class Header(val attribute: String) : DynamicFacetModel()
 
     /**
      * Facet value view to be rendered.
      */
-    public data class Item(val attribute: Attribute, val facet: Facet, val selected: Boolean) : DynamicFacetModel()
+    public data class Item(val attribute: String, val facet: Facet, val selected: Boolean) : DynamicFacetModel()
 }

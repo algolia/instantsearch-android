@@ -37,7 +37,7 @@ internal class DocNumericRange {
         )
         val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
-        val attribute = Attribute("price")
+        val attribute = String("price")
         val viewModel = FilterRangeViewModel<Int>()
         val connection = ConnectionHandler()
 

@@ -80,7 +80,7 @@ fun AppCompatActivity.configureToolbar(toolbar: Toolbar) {
 fun AppCompatActivity.onFilterChangedThenUpdateFiltersText(
     filterState: FilterState,
     filtersTextView: TextView,
-    vararg attributes: Attribute
+    vararg attributes: String
 ) {
     val colors = attributes.mapIndexed { index, attribute ->
         attribute.raw to when (index) {

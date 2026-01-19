@@ -7,7 +7,7 @@ import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.hierarchical.HierarchicalFilter
 import com.algolia.instantsearch.hierarchical.HierarchicalPath
 import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
-import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.filter.Filter
 
 internal data class HierarchicalConnectionFilterState(
     private val viewModel: HierarchicalViewModel,

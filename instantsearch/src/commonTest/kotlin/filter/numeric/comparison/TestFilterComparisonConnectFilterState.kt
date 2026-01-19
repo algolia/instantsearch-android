@@ -13,7 +13,7 @@ import kotlin.test.Test
 
 class TestFilterComparisonConnectFilterState {
 
-    private val price = Attribute("price")
+    private val price = String("price")
     private val operator = NumericOperator.Greater
     private val filter = Filter.Numeric(price, operator, 5)
     private val groupID = FilterGroupID(price, FilterOperator.And)

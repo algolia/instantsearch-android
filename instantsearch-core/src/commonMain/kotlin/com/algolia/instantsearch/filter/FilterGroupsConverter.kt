@@ -1,4 +1,8 @@
-package com.algolia.instantsearch.migration2to3
+package com.algolia.instantsearch.filter
+
+internal fun interface Converter<I, O> {
+    operator fun invoke(input: I): O
+}
 
 public sealed class FilterGroupsConverter<I, O> : Converter<I, O> {
 

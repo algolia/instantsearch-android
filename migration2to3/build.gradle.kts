@@ -7,10 +7,10 @@ plugins {
 
 android {
     namespace = "com.algolia.instantsearch.migration"
-    compileSdk = 33
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

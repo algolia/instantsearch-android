@@ -5,7 +5,7 @@ import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.core.searcher.Searcher
-import com.algolia.instantsearch.migration2to3.Indexable
+import com.algolia.instantsearch.core.Indexable
 import com.algolia.instantsearch.relateditems.internal.RelatedItemsConnectionView
 import com.algolia.instantsearch.searcher.SearcherForHits
 

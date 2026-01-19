@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.hierarchical
 
-import com.algolia.instantsearch.migration2to3.Filter
+import com.algolia.instantsearch.filter.Filter
 
 
 public data class HierarchicalFilter(

@@ -2,6 +2,7 @@ package com.algolia.instantsearch.extension
 
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.encode.gzip
+import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.clear.ClearMode
 import com.algolia.instantsearch.filter.clear.FilterClearConnector
 import com.algolia.instantsearch.filter.current.FilterCurrentConnector
@@ -16,10 +17,10 @@ import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.toggle.FilterToggleConnector
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Facet
-import com.algolia.instantsearch.migration2to3.Filter
-import com.algolia.instantsearch.migration2to3.MultipleQueriesStrategy
+
+import com.algolia.instantsearch.filter.Facet
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.searcher.multi.internal.types.MultipleQueriesStrategy
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.SearchMode
 import com.algolia.instantsearch.searcher.SearcherAnswers

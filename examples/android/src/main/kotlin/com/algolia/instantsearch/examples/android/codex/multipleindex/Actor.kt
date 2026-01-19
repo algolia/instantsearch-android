@@ -15,5 +15,5 @@ data class Actor(
 ) : Indexable, Highlightable {
 
     val highlightedName
-        get() = getHighlight(Attribute("name"))
+        get() = getHighlight(String("name"))
 }

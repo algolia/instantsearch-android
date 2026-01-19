@@ -13,7 +13,7 @@ import kotlin.test.Test
 
 class TestFilterMapConnectFilterState {
 
-    private val color = Attribute("color")
+    private val color = String("color")
     private val groupID = FilterGroupID(color, FilterOperator.Or)
     private val red = Filter.Facet(color, "red")
     private val id = 0

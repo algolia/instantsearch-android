@@ -10,14 +10,14 @@ import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.filter.state.add
 import com.algolia.instantsearch.filter.state.getValue
 import com.algolia.instantsearch.filter.state.remove
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Filter
+
+import com.algolia.instantsearch.filter.Filter
 import kotlinx.serialization.InternalSerializationApi
 
 internal data class FacetListConnectionFilterState(
     private val viewModel: FacetListViewModel,
     private val filterState: FilterState,
-    private val attribute: Attribute,
+    private val attribute: String,
     private val groupID: FilterGroupID,
 ) : AbstractConnection() {
 

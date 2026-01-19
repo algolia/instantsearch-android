@@ -14,7 +14,7 @@ public class FilterCurrentStateTest {
     private val initFilters = emptyList<Pair<FilterAndID, String>>()
     private val filterCurrentState = FilterCurrentState(initFilters)
     private val filterGroupID = FilterGroupID("os")
-    private val facet = Filter.Facet(Attribute("os"), "android")
+    private val facet = Filter.Facet(String("os"), "android")
 
     @Test
     public fun testFilters() {

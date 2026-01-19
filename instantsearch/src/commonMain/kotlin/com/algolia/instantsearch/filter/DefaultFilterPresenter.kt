@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter
 
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.NumericOperator
+
+import com.algolia.instantsearch.filter.NumericOperator
 import com.algolia.instantsearch.attribute.AttributePresenter
 import com.algolia.instantsearch.attribute.DefaultAttributePresenter
 

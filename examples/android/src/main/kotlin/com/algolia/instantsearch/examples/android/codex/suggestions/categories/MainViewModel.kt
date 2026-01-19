@@ -26,7 +26,7 @@ class MainViewModel : ViewModel() {
     private val suggestionsSearcher = multiSearcher.addHitsSearcher(
         indexName = IndexName("instantsearch_query_suggestions")
     )
-    private val attribute = Attribute("categories")
+    private val attribute = String("categories")
     private val categoriesSearcher = multiSearcher.addFacetsSearcher(
         indexName = IndexName("instant_search"),
         attribute = attribute

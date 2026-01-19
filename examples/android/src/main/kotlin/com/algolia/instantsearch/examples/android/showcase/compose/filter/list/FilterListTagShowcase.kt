@@ -22,7 +22,7 @@ import com.algolia.search.model.filter.Filter
 
 class FilterListTagShowcase : AppCompatActivity() {
 
-    private val tags = Attribute("_tags")
+    private val tags = String("_tags")
     private val groupTags = groupOr(tags)
     private val filterState = FilterState()
     private val searcher = HitsSearcher(client, stubIndexName)

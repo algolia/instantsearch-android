@@ -28,10 +28,10 @@ internal class DocHighlighting {
     ) : Highlightable {
 
         public val highlightedTitle: HighlightedString?
-            get() = getHighlight(Attribute("title"))
+            get() = getHighlight(String("title"))
 
         public val highlightedGenres: List<HighlightedString>?
-            get() = getHighlights(Attribute("genre"))
+            get() = getHighlights(String("genre"))
     }
 
     class MyActivity : AppCompatActivity() {

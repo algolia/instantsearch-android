@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.state
 
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Filter
+
+import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.hierarchical.HierarchicalFilter
 
 public interface MutableFilters : Filters {
@@ -12,9 +12,9 @@ public interface MutableFilters : Filters {
 
     public fun <T : Filter> toggle(groupID: FilterGroupID, filter: T)
 
-    public fun add(attribute: Attribute, hierarchicalFilter: HierarchicalFilter)
+    public fun add(attribute: String, hierarchicalFilter: HierarchicalFilter)
 
-    public fun remove(attribute: Attribute)
+    public fun remove(attribute: String)
 
     public fun set(map: Map<FilterGroupID, Set<Filter>>)
 

@@ -2,9 +2,9 @@ package com.algolia.instantsearch.tracker.internal
 
 import com.algolia.instantsearch.filter.state.toFilter
 import com.algolia.instantsearch.insights.FilterTrackable
-import com.algolia.instantsearch.migration2to3.Attribute
-import com.algolia.instantsearch.migration2to3.Facet
-import com.algolia.instantsearch.migration2to3.Filter
+
+import com.algolia.instantsearch.filter.Facet
+import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.tracker.FilterTracker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -49,17 +49,17 @@ internal class FilterDataTracker(
     // endregion
 
     // region Facet tracking methods
-    public override fun trackClick(facet: Facet, attribute: Attribute, customEventName: String?) {
+    public override fun trackClick(facet: Facet, attribute: String, customEventName: String?) {
         val filterFacet = facet.toFilter(attribute)
         trackClick(filter = filterFacet, customEventName = customEventName)
     }
 
-    public override fun trackView(facet: Facet, attribute: Attribute, customEventName: String?) {
+    public override fun trackView(facet: Facet, attribute: String, customEventName: String?) {
         val filterFacet = facet.toFilter(attribute)
         trackView(filter = filterFacet, customEventName = customEventName)
     }
 
-    public override fun trackConversion(facet: Facet, attribute: Attribute, customEventName: String?) {
+    public override fun trackConversion(facet: Facet, attribute: String, customEventName: String?) {
         val filterFacet = facet.toFilter(attribute)
         trackConversion(filter = filterFacet, customEventName = customEventName)
     }

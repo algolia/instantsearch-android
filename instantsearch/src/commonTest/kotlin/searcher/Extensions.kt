@@ -32,7 +32,7 @@ fun TestSearcherSingle(
     isAutoSendingHitsViewEvents = isAutoSendingHitsViewEvents,
 )
 
-fun TestSearcherForFacets(client: ClientSearch, indexName: IndexName, attribute: Attribute) = FacetsSearcher(
+fun TestSearcherForFacets(client: ClientSearch, indexName: IndexName, attribute: String) = FacetsSearcher(
     client = client,
     indexName = indexName,
     attribute = attribute,

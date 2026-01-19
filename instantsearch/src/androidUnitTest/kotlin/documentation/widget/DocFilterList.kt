@@ -39,8 +39,8 @@ internal class DocFilterList {
         )
         val searcher = HitsSearcher(client, IndexName("YourIndexName"))
         val filterState = FilterState()
-        val color = Attribute("color")
-        val price = Attribute("price")
+        val color = String("color")
+        val price = String("price")
         val filters = listOf(
             Filter.Numeric(price, 5..10),
             Filter.Tag("coupon"),
