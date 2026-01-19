@@ -324,13 +324,13 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     @Test
     fun testRelatedItems() = scope.runTest {
-        val patternBrand = MatchingPattern(String("attBrand"), 1, SimpleProduct::brand)
+        val patternBrand = MatchingPattern("attBrand", 1, SimpleProduct::brand)
         hitsSearcher.connectRelatedHitsView(
             mockHitsView(),
-            SimpleProduct(ObjectID("id"), "brand"),
+            SimpleProduct("id", "brand"),
             listOf(patternBrand)
         ) {
-            listOf(SimpleProduct(ObjectID("objectId"), "brand"))
+            listOf(SimpleProduct("objectId", "brand"))
         }
         val component = Telemetry.shared.validateAndGet(ComponentType.RelatedItems)
         assertEquals(emptySet(), component.parameters)

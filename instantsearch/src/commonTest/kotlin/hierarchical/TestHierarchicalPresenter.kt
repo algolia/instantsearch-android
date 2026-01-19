@@ -5,7 +5,6 @@ import com.algolia.instantsearch.core.tree.Tree
 import com.algolia.instantsearch.hierarchical.HierarchicalItem
 import com.algolia.instantsearch.hierarchical.DefaultHierarchicalPresenter
 import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
-import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 import shouldEqual
 import kotlin.test.Test
@@ -35,7 +34,7 @@ class TestHierarchicalPresenter {
 
     @Test
     fun presenterShouldTransformAndSortHierarchy() {
-        val viewModel = HierarchicalViewModel(attribute, listOf(String("foo")), separator, tree)
+        val viewModel = HierarchicalViewModel(attribute, listOf("foo"), separator, tree)
 
         presenter(viewModel.tree.value) shouldEqual listOf(
             HierarchicalItem(facetBags, facetBags.toDisplayName(), 0),

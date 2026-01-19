@@ -2,7 +2,6 @@ package com.algolia.instantsearch.examples.android.codex.suggestions.hits
 
 import com.algolia.instantsearch.core.highlighting.HighlightedString
 import com.algolia.instantsearch.highlighting.Highlightable
-import com.algolia.search.model.Attribute
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 
@@ -13,5 +12,5 @@ data class Suggestion(
 ) : Highlightable {
 
     val highlightedQuery: HighlightedString?
-        get() = getHighlight(String("query"))
+        get() = getHighlight("query")
 }
