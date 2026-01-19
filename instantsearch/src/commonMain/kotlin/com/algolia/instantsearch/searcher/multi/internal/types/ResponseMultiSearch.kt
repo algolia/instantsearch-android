@@ -75,4 +75,3 @@ internal class ResultMultiSearchDeserializer<T : SearchResult>(dataSerializer: K
         }
     }
 }
-

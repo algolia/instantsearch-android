@@ -166,4 +166,3 @@ internal fun SearchResponses.toResponseMultiSearch(): ResponseMultiSearch {
     }
     return ResponseMultiSearch(results = results)
 }
-

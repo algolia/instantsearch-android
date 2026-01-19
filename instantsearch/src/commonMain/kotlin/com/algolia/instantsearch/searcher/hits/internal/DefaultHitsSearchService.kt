@@ -202,7 +202,7 @@ internal class DefaultHitsSearchService(
     private fun List<SearchResponse>.aggregateFacets(): Map<Attribute, List<Facet>> {
         return fold(emptyMap<Attribute, List<Facet>>()) { acc, result ->
             result.facets?.let { facets ->
-                acc + facets.map { (attr, counts) -> 
+                acc + facets.map { (attr, counts) ->
                     attr to counts.map { (value, count) -> Facet(value, count) }
                 }
             } ?: acc

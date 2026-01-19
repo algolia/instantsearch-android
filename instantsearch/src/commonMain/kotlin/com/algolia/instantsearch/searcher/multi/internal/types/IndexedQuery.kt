@@ -28,4 +28,3 @@ public class FacetIndexQuery(
     public val facetAttribute: String,
     public val facetQuery: String? = null
 ) : IndexedQuery
-

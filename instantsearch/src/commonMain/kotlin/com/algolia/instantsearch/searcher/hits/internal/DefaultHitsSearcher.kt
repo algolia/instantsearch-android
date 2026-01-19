@@ -42,7 +42,7 @@ internal class DefaultHitsSearcher(
 
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
-    
+
     // Mutable query for setQuery() - note: query is val in interface, so we use a private var
     private var mutableQuery: SearchParamsObject = query
 

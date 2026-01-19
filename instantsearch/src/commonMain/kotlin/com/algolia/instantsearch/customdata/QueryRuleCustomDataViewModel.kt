@@ -26,7 +26,7 @@ public class QueryRuleCustomDataViewModel<T>(
     }
 
     public fun extractModel(responseSearch: SearchResponse) {
-        item.value = responseSearch.userData?.let { 
+        item.value = responseSearch.userData?.let {
             tryOrNull { Json.decodeFromJsonElement(deserializer, it) }
         }
     }

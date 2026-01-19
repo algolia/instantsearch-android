@@ -60,4 +60,3 @@ internal object Key {
     const val Results = "results"
     const val FacetHits = "facetHits"
 }
-
