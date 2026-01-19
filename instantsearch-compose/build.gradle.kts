@@ -44,7 +44,6 @@ tasks.withType<Test> {
 dependencies {
     api(project(":instantsearch"))
     api(project(":instantsearch-utils"))
-    implementation(project(":migration2to3"))
     implementation(libs.algolia.telemetry)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material)

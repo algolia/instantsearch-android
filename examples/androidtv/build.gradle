@@ -40,7 +40,6 @@ android {
 dependencies {
     //implementation "com.algolia:instantsearch-compose:$instantsearch"
     implementation project(":instantsearch-compose")
-    implementation project(":migration2to3")
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.leanback:leanback:1.0.0'

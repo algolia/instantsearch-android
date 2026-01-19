@@ -47,7 +47,6 @@ kotlin {
                 api(project(":instantsearch-core"))
                 api(project(":instantsearch-insights"))
                 api(project(":instantsearch-utils"))
-                implementation(project(":migration2to3"))
                 implementation(libs.algolia.client)
                 implementation(libs.algolia.telemetry)
                 implementation(libs.kotlinx.coroutines.core)

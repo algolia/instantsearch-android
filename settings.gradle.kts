@@ -15,9 +15,6 @@ include(":examples:android")
 include(":examples:wearos")
 include(":examples:androidtv")
 
-// Migration 2 to 3
-include(":migration2to3")
-
 val localSettings = file("local.settings.gradle.kts")
 if (localSettings.exists()) apply(from = localSettings)
 

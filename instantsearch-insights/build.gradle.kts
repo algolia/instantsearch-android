@@ -57,7 +57,6 @@ kotlin {
             dependencies {
                 implementation(project(":instantsearch-utils"))
                 implementation(project(":instantsearch-core"))
-                implementation(project(":migration2to3"))
                 api(libs.algolia.client)
                 api(libs.ktor.client.serialization.json)
             }
