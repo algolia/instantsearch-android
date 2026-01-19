@@ -4,6 +4,7 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.groupAnd
 import com.algolia.instantsearch.filter.state.groupOr
 import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.FilterGroupsConverter
 import com.algolia.instantsearch.relateditems.MatchingPattern
 import com.algolia.instantsearch.relateditems.internal.FilterFacetAndID
 

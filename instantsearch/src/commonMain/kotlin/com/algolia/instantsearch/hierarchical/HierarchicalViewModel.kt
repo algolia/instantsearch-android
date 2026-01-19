@@ -13,7 +13,7 @@ import com.algolia.instantsearch.filter.Facet
  */
 public open class HierarchicalViewModel(
     public val attribute: String,
-    public val hierarchicalAttributes: List<Attribute>,
+    public val hierarchicalAttributes: List<String>,
     public val separator: String,
     tree: HierarchicalTree = HierarchicalTree(),
 ) : TreeViewModel<String, Facet>(tree) {
