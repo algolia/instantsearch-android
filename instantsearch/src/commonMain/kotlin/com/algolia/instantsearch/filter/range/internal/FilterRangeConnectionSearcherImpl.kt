@@ -6,6 +6,10 @@ import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.filter.range.FilterRangeViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
+import kotlin.collections.fold
+import kotlin.collections.isNotEmpty
+import kotlin.collections.mapNotNull
+import kotlin.collections.putAll
 
 /**
  * Connection implementation between a Searcher and filter range components to enable a dynamic behavior.
@@ -19,17 +23,23 @@ internal class FilterRangeConnectionSearcherImpl<T>(
     private val viewModel: FilterRangeViewModel<T>,
     private val searcher: SearcherForHits<*>,
     private val attribute: String,
-    private val mapper: (Number) -> T,
+    private val mapper: (Number?) -> T,
 ) : AbstractConnection() where T : Number, T : Comparable<T> {
 
     private val responseSubscription: (SearchResponse?) -> Unit = { response ->
-        viewModel.computeBoundsFromFacetStats(attribute, response?.facetStats, mapper)
+        viewModel.computeBoundsFromFacetStats(
+            attribute, response?.results
+            ?.mapNotNull { it.facetsStats }
+            ?.fold(mutableMapOf<String, FacetStats>()) { acc, map ->
+                acc.apply { putAll(map) }
+            }?.takeIf { it.isNotEmpty() }, mapper
+        )
     }
 
     private fun <T> FilterRangeViewModel<T>.computeBoundsFromFacetStats(
         attribute: String,
         facetStats: Map<String, FacetStats>?,
-        mapper: (Number) -> T,
+        mapper: (Number?) -> T,
     ) where T : Number, T : Comparable<T> {
         bounds.value = facetStats?.get(attribute)?.let {
             val min = mapper(it.min)

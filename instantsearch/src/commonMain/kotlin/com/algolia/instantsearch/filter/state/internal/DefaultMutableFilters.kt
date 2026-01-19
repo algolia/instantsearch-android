@@ -12,7 +12,7 @@ internal data class DefaultMutableFilters(
     private val facetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(),
     private val tagGroups: MutableMap<FilterGroupID, Set<Filter.Tag>> = mutableMapOf(),
     private val numericGroups: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf(),
-    private val hierarchicalGroups: MutableMap<Attribute, HierarchicalFilter> = mutableMapOf(),
+    private val hierarchicalGroups: MutableMap<String, HierarchicalFilter> = mutableMapOf(),
 ) : MutableFilters, Filters by FiltersImpl(facetGroups, tagGroups, numericGroups, hierarchicalGroups) {
 
     private fun <T : Filter> Map<FilterGroupID, Set<T>>.getOrDefault(groupID: FilterGroupID): Set<T> {

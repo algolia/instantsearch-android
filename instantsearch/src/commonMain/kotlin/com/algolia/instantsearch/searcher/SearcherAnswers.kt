@@ -1,6 +1,9 @@
 package com.algolia.instantsearch.searcher
 
+import com.algolia.client.model.search.SearchParamsObject
 import com.algolia.client.model.search.SearchResponse
+import com.algolia.client.model.search.SupportedLanguage
+import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
@@ -22,12 +25,12 @@ import kotlinx.coroutines.withContext
 @ExperimentalInstantSearch
 @OptIn(ExperimentalAlgoliaClientAPI::class)
 public class SearcherAnswers(
-    public var index: Index,
-    public override val query: AnswersQuery = AnswersQuery("", listOf(Language.English)),
+    public var index: String,
+    public override val query: SearchParamsObject = SearchParamsObject("", naturalLanguages =listOf(SupportedLanguage.En)),
     public override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
-) : SearcherForHits<AnswersQuery> {
+) : SearcherForHits<SearchParamsObject> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
