@@ -1,9 +1,7 @@
 package com.algolia.instantsearch.examples.android.codex.multisearch
 
+import com.algolia.instantsearch.core.Indexable
 import com.algolia.instantsearch.highlighting.Highlightable
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.ObjectID
-import com.algolia.search.model.indexing.Indexable
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 
@@ -15,5 +13,5 @@ data class Actor(
 ) : Indexable, Highlightable {
 
     val highlightedName
-        get() = getHighlight(String("name"))
+        get() = getHighlight("name")
 }
