@@ -34,7 +34,7 @@ internal fun convertToEventsItem(
     filters: List<Filter.Facet>?,
 ): EventsItems? {
     val userTokenValue = userToken ?: return null
-    
+
     return when (eventType) {
         "view" -> {
             when {

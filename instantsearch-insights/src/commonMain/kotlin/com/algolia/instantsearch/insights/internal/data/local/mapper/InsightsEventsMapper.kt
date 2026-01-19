@@ -20,7 +20,7 @@ internal object InsightsEventsMapper {
             }
             is EventsItems.ViewedFiltersValue -> {
                 builder.eventType = View
-                builder.filters = input.value.filters.mapNotNull { filterString -> 
+                builder.filters = input.value.filters.mapNotNull { filterString ->
                     // Convert filter string back to Filter.Facet for storage
                     // This is a simplification - in reality you'd parse the string
                     null // TODO: implement filter string parsing if needed

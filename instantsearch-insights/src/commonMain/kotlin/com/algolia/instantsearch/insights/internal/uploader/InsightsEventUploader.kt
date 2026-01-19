@@ -11,7 +11,7 @@ internal class InsightsEventUploader(
     private val localRepository: InsightsLocalRepository,
     private val distantRepository: InsightsDistantRepository,
 ) : InsightsUploader {
-    
+
     override val applicationID: String get() = distantRepository.applicationID
     override val apiKey: String get() = distantRepository.apiKey
 
@@ -27,8 +27,8 @@ internal class InsightsEventUploader(
     }
 
     private suspend fun sendEvents(events: List<com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO>): List<EventResponse> {
-        return events.mapNotNull { event -> 
-            distantRepository.send(event) 
+        return events.mapNotNull { event ->
+            distantRepository.send(event)
         }
     }
 
