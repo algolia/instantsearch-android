@@ -2,6 +2,7 @@ package com.algolia.instantsearch.insights
 
 import android.os.Build
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.insights.internal.InsightsController
 import com.algolia.instantsearch.insights.internal.cache.InsightsEventCache
 import com.algolia.instantsearch.insights.internal.data.distant.InsightsDistantRepository
@@ -39,19 +40,19 @@ import org.robolectric.annotation.Config
 @Config(sdk = [Build.VERSION_CODES.P])
 internal class InsightsTest {
 
-    private val eventA = EventName("EventA")
-    private val eventB = EventName("EventB")
-    private val eventC = EventName("EventC")
-    private val eventD = EventName("EventD")
-    private val indexName = IndexName("latency")
+    private val eventA = "EventA"
+    private val eventB = "EventB"
+    private val eventC = "EventC"
+    private val eventD = "EventD"
+    private val indexName = "latency"
     private val appId = requireNotNull(System.getenv("ALGOLIA_APPLICATION_ID"))
     private val apiKey = requireNotNull(System.getenv("ALGOLIA_API_KEY"))
-    private val queryID = QueryID("6de2f7eaa537fa93d8f8f05b927953b1")
-    private val userToken = UserToken(randomUUID())
+    private val queryID = "6de2f7eaa537fa93d8f8f05b927953b1"
+    private val userToken = randomUUID()
     private val positions = listOf(1)
-    private val objectIDs = listOf(ObjectID("54675051"))
+    private val objectIDs = listOf("54675051")
     private val resourcesObjectIDs = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Resources.ObjectIDs(objectIDs)
-    private val filters = listOf(Filter.Facet(String("foo"), "bar"))
+    private val filters = listOf(Filter.Facet("foo", "bar"))
     private val resourcesFilters = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Resources.Filters(filters)
     private val timestamp = System.currentTimeMillis()
     private val configuration = Insights.Configuration(

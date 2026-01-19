@@ -25,40 +25,39 @@ import com.algolia.instantsearch.examples.android.showcase.compose.search.Search
 import com.algolia.instantsearch.examples.android.showcase.compose.search.SearchOnSubmitShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.sortby.SortByShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.stats.StatsShowcase
-import com.algolia.search.model.ObjectID
 
 val showcases = mapOf(
     // Facet
-    ObjectID("dynamic_facets") to DynamicFacetShowcase::class,
-    ObjectID("facet_list") to FacetListShowcase::class,
-    ObjectID("facet_list_persistent") to FacetListPersistentShowcase::class,
-    ObjectID("facet_list_search") to FacetListSearchShowcase::class,
-    ObjectID("filter_hierarchical") to HierarchicalShowcase::class,
+    "dynamic_facets" to DynamicFacetShowcase::class,
+    "facet_list" to FacetListShowcase::class,
+    "facet_list_persistent" to FacetListPersistentShowcase::class,
+    "facet_list_search" to FacetListSearchShowcase::class,
+    "filter_hierarchical" to HierarchicalShowcase::class,
     // Filter
-    ObjectID("filter_clear") to FilterClearShowcase::class,
-    ObjectID("filter_current") to FilterCurrentShowcase::class,
-    ObjectID("filter_numeric_range") to FilterRangeShowcase::class,
-    ObjectID("filter_numeric_comparison") to FilterComparisonShowcase::class,
-    ObjectID("filter_rating") to RatingShowcase::class,
-    ObjectID("filter_segment") to FilterMapShowcase::class,
-    ObjectID("filter_toggle") to FilterToggleShowcase::class,
+    "filter_clear" to FilterClearShowcase::class,
+    "filter_current" to FilterCurrentShowcase::class,
+    "filter_numeric_range" to FilterRangeShowcase::class,
+    "filter_numeric_comparison" to FilterComparisonShowcase::class,
+    "filter_rating" to RatingShowcase::class,
+    "filter_segment" to FilterMapShowcase::class,
+    "filter_toggle" to FilterToggleShowcase::class,
     // Filter List
-    ObjectID("filter_list_facet") to FilterListFacetShowcase::class,
-    ObjectID("filter_list_numeric") to FilterListNumericShowcase::class,
-    ObjectID("filter_list_tag") to FilterListTagShowcase::class,
+    "filter_list_facet" to FilterListFacetShowcase::class,
+    "filter_list_numeric" to FilterListNumericShowcase::class,
+    "filter_list_tag" to FilterListTagShowcase::class,
     // Other
-    ObjectID("highlighting") to HighlightingShowcase::class,
-    ObjectID("loading") to LoadingShowcase::class,
-    ObjectID("query_rule_custom_data") to QueryRuleCustomDataShowcase::class,
-    ObjectID("stats") to StatsShowcase::class,
+    "highlighting" to HighlightingShowcase::class,
+    "loading" to LoadingShowcase::class,
+    "query_rule_custom_data" to QueryRuleCustomDataShowcase::class,
+    "stats" to StatsShowcase::class,
     // Paging
-    ObjectID("paging_single_index") to PagingSingleIndexShowcase::class,
-    ObjectID("paging_multiple_index") to PagingMultipleIndexShowcase::class,
+    "paging_single_index" to PagingSingleIndexShowcase::class,
+    "paging_multiple_index" to PagingMultipleIndexShowcase::class,
     // Personalization
-    ObjectID("personalisation_related_items") to RelatedItemsShowcase::class,
+    "personalisation_related_items" to RelatedItemsShowcase::class,
     // Search
-    ObjectID("search_as_you_type") to SearchAsYouTypeShowcase::class,
-    ObjectID("search_on_submit") to SearchOnSubmitShowcase::class,
+    "search_as_you_type" to SearchAsYouTypeShowcase::class,
+    "search_on_submit" to SearchOnSubmitShowcase::class,
     // Sort
-    ObjectID("sort_by") to SortByShowcase::class,
+    "sort_by" to SortByShowcase::class,
 )

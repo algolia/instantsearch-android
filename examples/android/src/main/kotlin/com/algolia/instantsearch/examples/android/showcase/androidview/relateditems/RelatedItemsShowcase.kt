@@ -39,8 +39,8 @@ class RelatedItemsShowcase : AppCompatActivity() {
         val relatedItemsAdapter = ProductAdapter()
         configureRecyclerView(binding.relatedItems, relatedItemsAdapter)
         val matchingPatterns: List<MatchingPattern<Product>> = listOf(
-            MatchingPattern(String("brand"), 1, Product::brand),
-            MatchingPattern(String("categories"), 2, Product::categories)
+            MatchingPattern("brand", 1, Product::brand),
+            MatchingPattern("categories", 2, Product::categories)
         )
         hitsAdapter.callback = { product ->
             connection += relatedItemsSearcher.connectRelatedHitsView(relatedItemsAdapter, product, matchingPatterns) { response ->
