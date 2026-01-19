@@ -10,4 +10,3 @@ public interface Indexable {
      */
     public val objectID: String
 }
-
