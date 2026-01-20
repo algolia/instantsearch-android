@@ -181,7 +181,7 @@ internal class DefaultHitsSearchService(
     }
 
     private fun IndexQuery.setFacets(facet: String?): IndexQuery {
-        return copy(query = query.copy(facets = facet?.let { setOf(it) }))
+        return copy(query = query.copy(facets = facet?.let { listOf(it) }))
     }
 
     override fun aggregateResult(responses: List<SearchResponse>, disjunctiveFacetCount: Int): SearchResponse {

@@ -21,11 +21,10 @@ import com.algolia.search.client.ClientSearch
 import com.algolia.search.helper.deserialize
 import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.insights.EventName
 
 class InsightsActivity : AppCompatActivity() {
 
-    private val indexName = IndexName("instant_search")
+    private val indexName = "instant_search"
     private val insights = sharedInsights(indexName)
     private val client = ClientSearch(
         applicationID = insights.applicationID,
@@ -35,7 +34,7 @@ class InsightsActivity : AppCompatActivity() {
     private val searcher = HitsSearcher(client, indexName)
     private val searchBox = SearchBoxConnector(searcher, searchMode = SearchMode.AsYouType)
     private val hitsTracker = HitsTracker(
-        eventName = EventName("demo"),
+        eventName = "demo",
         searcher = searcher,
         insights = insights
     )

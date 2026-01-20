@@ -37,7 +37,6 @@ kotlin {
                 optIn("kotlin.RequiresOptIn")
                 optIn("com.algolia.instantsearch.InternalInstantSearch")
                 optIn("com.algolia.instantsearch.ExperimentalInstantSearch")
-                optIn("com.algolia.search.ExperimentalAlgoliaClientAPI")
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
                 optIn("kotlinx.serialization.InternalSerializationApi")
             }
@@ -84,5 +83,11 @@ kotlin {
                 implementation(libs.test.mockk)
             }
         }
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
     }
 }

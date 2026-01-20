@@ -19,10 +19,10 @@ import com.algolia.search.model.IndexName
 class DirectoryActivity : AppCompatActivity() {
 
     private val client = ClientSearch(
-        applicationID = ApplicationID("latency"),
-        apiKey = APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
+        applicationID = "latency",
+        apiKey = "1f6fd3a6fb973cb08419fe7d288fa4db",
     )
-    private val searcher = HitsSearcher(client = client, indexName = IndexName("mobile_demos"))
+    private val searcher = HitsSearcher(client = client, indexName = "mobile_demos")
     private val connector = SearchBoxConnector(searcher)
     private val connection = ConnectionHandler(connector)
 

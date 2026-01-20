@@ -25,7 +25,7 @@ import com.algolia.search.model.Attribute
 
 class FacetListSearchShowcase : AppCompatActivity() {
 
-    private val brand = String("brand")
+    private val brand = "brand"
     private val filterState = FilterState()
     private val searcher =  HitsSearcher(client, stubIndexName)
     private val searcherForFacet = FacetsSearcher(client, stubIndexName, brand)

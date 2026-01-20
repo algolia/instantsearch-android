@@ -18,12 +18,12 @@ import com.algolia.instantsearch.examples.android.showcase.compose.filterColors
 import com.algolia.instantsearch.examples.android.showcase.compose.stubIndexName
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 
 
 class FilterListFacetShowcase : AppCompatActivity() {
 
-    private val color = String("color")
+    private val color = "color"
     private val groupColor = groupAnd(color)
     private val filterState = FilterState()
     private val searcher = HitsSearcher(client, stubIndexName)

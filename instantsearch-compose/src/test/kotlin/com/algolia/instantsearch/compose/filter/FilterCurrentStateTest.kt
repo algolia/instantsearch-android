@@ -3,9 +3,8 @@ package com.algolia.instantsearch.compose.filter
 import androidx.compose.runtime.snapshots.Snapshot
 import com.algolia.instantsearch.compose.filter.current.FilterCurrentState
 import com.algolia.instantsearch.filter.current.FilterAndID
+import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.state.FilterGroupID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -14,7 +13,7 @@ public class FilterCurrentStateTest {
     private val initFilters = emptyList<Pair<FilterAndID, String>>()
     private val filterCurrentState = FilterCurrentState(initFilters)
     private val filterGroupID = FilterGroupID("os")
-    private val facet = Filter.Facet(String("os"), "android")
+    private val facet = Filter.Facet("os", "android")
 
     @Test
     public fun testFilters() {

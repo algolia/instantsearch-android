@@ -34,14 +34,14 @@ import com.algolia.instantsearch.filter.toggle.connectView
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.NumericOperator
 
 class FilterToggleShowcase : AppCompatActivity() {
 
-    private val promotions = String("promotions")
-    private val size = String("size")
-    private val tags = String("_tags")
+    private val promotions = "promotions"
+    private val size = "size"
+    private val tags = "_tags"
     private val filterState = FilterState()
     private val searcher = HitsSearcher(client, stubIndexName)
 

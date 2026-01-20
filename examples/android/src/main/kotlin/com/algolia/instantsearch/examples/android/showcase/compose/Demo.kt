@@ -22,18 +22,18 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.filter.FilterGroupsConverter
+import com.algolia.instantsearch.filter.FilterGroup
+import com.algolia.instantsearch.filter.FilterGroupsConverter
 
 val client = ClientSearch(
     ConfigurationSearch(
-        ApplicationID("latency"),
-        APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
+        "latency",
+        "1f6fd3a6fb973cb08419fe7d288fa4db",
         logLevel = LogLevel.All
     )
 )
 
-val stubIndexName = IndexName("stub")
+val stubIndexName = "stub"
 
 fun AppCompatActivity.configureSearcher(searcher: IndexNameHolder) {
     searcher.indexName = intent.indexName
@@ -43,7 +43,7 @@ fun Activity.configureSearcher(searcher: IndexNameHolder) {
     searcher.indexName = intent.indexName
 }
 
-val Intent.indexName: IndexName get() = IndexName(extras!!.getString("indexName")!!)
+val Intent.indexName: IndexName get() = extras!!.getString("indexName")!!
 
 fun <R> configureSearchBox(
     searcher: Searcher<R>,
@@ -80,7 +80,7 @@ fun Set<FilterGroup<*>>.highlight(
 
 fun filterColors(vararg attributes: String): Map<String, Color> {
     return attributes.mapIndexed { index, attribute ->
-        attribute.raw to when (index) {
+        attribute to when (index) {
             0 -> HoloRedDark
             1 -> HoloBlueDark
             2 -> HoloGreenDark

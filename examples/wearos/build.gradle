@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlinx-serialization'
 }
-apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
     compileSdk 36
@@ -30,6 +29,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
+        freeCompilerArgs += [
+            '-opt-in=kotlinx.serialization.InternalSerializationApi',
+        ]
     }
 }
 

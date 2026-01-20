@@ -17,7 +17,7 @@ import com.algolia.instantsearch.examples.android.guides.gettingstarted.GettingS
 import com.algolia.instantsearch.examples.android.guides.insights.InsightsActivity
 import com.algolia.instantsearch.examples.android.showcase.androidview.directory.AndroidViewDirectoryShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.directory.ComposeDirectoryShowcase
-import io.ktor.serialization.deserialize
+import com.algolia.search.helper.deserialize
 import kotlin.reflect.KClass
 
 val guides = mapOf(
@@ -43,7 +43,7 @@ internal fun directoryItems(response: SearchResponse, mappings: Map<String, KCla
         .toSortedMap()
         .flatMap { (key, value) ->
             listOf(DirectoryItem.Header(key)) + value.map { DirectoryItem.Item(it, mappings.getValue(it.objectID)) }
-                .sortedBy { it.hit.objectID.raw }
+                .sortedBy { it.hit.objectID }
         }
 
 internal fun Context.navigateTo(item: DirectoryItem.Item) {

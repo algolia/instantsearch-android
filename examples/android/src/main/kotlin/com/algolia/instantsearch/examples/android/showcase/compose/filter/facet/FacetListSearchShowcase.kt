@@ -34,7 +34,7 @@ import com.algolia.search.model.search.Query
 
 class FacetListSearchShowcase : AppCompatActivity() {
 
-    private val brand = String("brand")
+    private val brand = "brand"
     private val searcher = HitsSearcher(client, stubIndexName)
     private val searcherForFacet = FacetsSearcher(client, stubIndexName, brand, Query(maxFacetHits = 15))
     private val filterState = FilterState()

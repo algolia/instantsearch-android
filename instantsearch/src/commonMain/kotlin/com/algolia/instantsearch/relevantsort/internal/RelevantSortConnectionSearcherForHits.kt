@@ -7,6 +7,8 @@ import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.intOrNull
 
 /**
  * Connection between relevant sort's view model and a single index searcher.
@@ -18,7 +20,7 @@ internal class RelevantSortConnectionSearcherForHits(
 
     private val priorityCallback: Callback<RelevantSortPriority?> = callback@{ priority ->
         if (priority == null) return@callback
-        searcher.query.relevancyStrictness = priority.relevancyStrictness
+        searcher.query = searcher.query.copy(relevancyStrictness = priority.relevancyStrictness)
         searcher.searchAsync()
     }
 
@@ -33,6 +35,12 @@ internal class RelevantSortConnectionSearcherForHits(
             viewModel.priority.value = dynamicSortPriority
         }
     }
+
+    private val SearchResponse.appliedRelevancyStrictnessOrNull: Int?
+        get() {
+            val element = additionalProperties?.get("appliedRelevancyStrictness") ?: return null
+            return (element as? JsonPrimitive)?.intOrNull
+        }
 
     override fun connect() {
         super.connect()

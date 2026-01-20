@@ -21,12 +21,13 @@ import com.algolia.instantsearch.examples.android.showcase.androidview.list.acto
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.movie.Movie
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.movie.MovieAdapterNested
 import com.algolia.search.model.IndexName
+import com.algolia.search.helper.deserialize
 
 class PagingMultipleIndexShowcase : AppCompatActivity() {
 
     private val multiSearcher = MultiSearcher(client)
-    private val moviesSearcher = multiSearcher.addHitsSearcher(IndexName("mobile_demo_movies"))
-    private val actorsSearcher = multiSearcher.addHitsSearcher(IndexName("mobile_demo_actors"))
+    private val moviesSearcher = multiSearcher.addHitsSearcher("mobile_demo_movies")
+    private val actorsSearcher = multiSearcher.addHitsSearcher("mobile_demo_actors")
     private val pagingConfig = PagingConfig(pageSize = 10, enablePlaceholders = false)
     private val moviesPaginator = Paginator(moviesSearcher, pagingConfig) { it.deserialize(Movie.serializer()) }
     private val actorsPaginator = Paginator(actorsSearcher, pagingConfig) { it.deserialize(Actor.serializer()) }

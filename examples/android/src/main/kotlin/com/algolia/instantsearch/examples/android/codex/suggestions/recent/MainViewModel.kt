@@ -17,9 +17,9 @@ import com.algolia.search.model.IndexName
 class MainViewModel : ViewModel() {
 
     private val searcherSuggestion = HitsSearcher(
-        applicationID = ApplicationID("latency"),
-        apiKey = APIKey("afc3dd66dd1293e2e2736a5a51b05c0a"),
-        indexName = IndexName("instantsearch_query_suggestions")
+        applicationID = "latency",
+        apiKey = "afc3dd66dd1293e2e2736a5a51b05c0a",
+        indexName = "instantsearch_query_suggestions"
     )
     private val searchBoxConnector = SearchBoxConnector(searcherSuggestion)
     private val connections = ConnectionHandler(searchBoxConnector)

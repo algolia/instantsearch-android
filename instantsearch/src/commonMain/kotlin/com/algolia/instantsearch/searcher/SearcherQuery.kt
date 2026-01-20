@@ -7,12 +7,12 @@ import com.algolia.instantsearch.core.searcher.Searcher
 /**
  * Searcher with request capabilities.
  */
-public interface SearcherQuery<out T : SearchParams, R> : Searcher<R> {
+public interface SearcherQuery<T : SearchParams, R> : Searcher<R> {
 
     /**
      * Query for search operations.
      */
-    public val query: T
+    public var query: T
 
     /**
      * Additional/Custom request options.

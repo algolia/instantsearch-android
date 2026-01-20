@@ -20,15 +20,15 @@ import com.algolia.search.model.search.Facet
 class MainViewModel : ViewModel() {
 
     private val multiSearcher = MultiSearcher(
-        applicationID = ApplicationID("latency"),
-        apiKey = APIKey("afc3dd66dd1293e2e2736a5a51b05c0a"),
+        appId = "latency",
+        apiKey = "afc3dd66dd1293e2e2736a5a51b05c0a",
     )
     private val suggestionsSearcher = multiSearcher.addHitsSearcher(
-        indexName = IndexName("instantsearch_query_suggestions")
+        indexName = "instantsearch_query_suggestions"
     )
-    private val attribute = String("categories")
+    private val attribute = "categories"
     private val categoriesSearcher = multiSearcher.addFacetsSearcher(
-        indexName = IndexName("instant_search"),
+        indexName = "instant_search",
         attribute = attribute
     )
     private val searchBoxConnector = SearchBoxConnector(multiSearcher)
@@ -41,7 +41,9 @@ class MainViewModel : ViewModel() {
 
     init {
         connections += searchBoxConnector.connectView(searchBoxState)
-        connections += categoriesSearcher.connectHitsView(categoriesState) { it.facets }
+        connections += categoriesSearcher.connectHitsView(categoriesState) { response ->
+            response.facetHits.map { Facet(it.value, it.count) }
+        }
         connections += suggestionsSearcher.connectHitsView(suggestionsState) {
             it.hits.deserialize(
                 Suggestion.serializer()

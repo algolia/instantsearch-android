@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.examples.android
 
 import android.app.Application
-import com.algolia.client.model.querysuggestions.LogLevel
+import io.ktor.client.plugins.logging.LogLevel
 import com.algolia.instantsearch.insights.registerInsights
 
 class App : Application() {
@@ -13,7 +13,7 @@ class App : Application() {
             appId = "latency",
             apiKey = "afc3dd66dd1293e2e2736a5a51b05c0a",
             indexName = "instant_search",
-            clientLogLevel = LogLevel.ERROR
+            clientLogLevel = LogLevel.NONE
         ).apply {
             loggingEnabled = true
             userToken = "userToken"

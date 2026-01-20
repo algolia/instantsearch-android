@@ -40,3 +40,7 @@ public interface Highlightable {
 public fun JsonObject.toHighlights(key: String): List<HighlightResultOption>? {
     return this[key]?.jsonArray?.let { Json.decodeFromJsonElement(ListSerializer(HighlightResultOption.serializer()), it) }
 }
+
+public fun JsonObject.toHighlight(key: String): HighlightResultOption? {
+    return this[key]?.let { Json.decodeFromJsonElement(HighlightResultOption.serializer(), it) }
+}

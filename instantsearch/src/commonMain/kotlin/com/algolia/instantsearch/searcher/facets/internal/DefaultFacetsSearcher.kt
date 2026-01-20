@@ -27,7 +27,7 @@ import kotlinx.coroutines.withContext
 internal class DefaultFacetsSearcher(
     private val searchService: FacetsSearchService,
     override var indexName: String,
-    override val query: SearchParamsObject,
+    override var query: SearchParamsObject,
     override val attribute: String,
     override var facetQuery: String?,
     override val requestOptions: RequestOptions?,

@@ -2,8 +2,8 @@ package com.algolia.instantsearch.android.paging3.facet.internal
 
 import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.core.connection.AbstractConnection
+import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
-import com.algolia.search.model.search.Facet
 
 /**
  * Connection implementation between [FacetListViewModel] and [Paginator].

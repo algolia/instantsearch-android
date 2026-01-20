@@ -8,6 +8,7 @@ import com.algolia.instantsearch.filter.facet.FacetListViewModel
 
 import com.algolia.instantsearch.searcher.SearcherQuery
 import com.algolia.instantsearch.searcher.addFacet
+import com.algolia.instantsearch.searcher.updateSearchParamsObject
 
 internal data class FacetListConnectionSearcher(
     private val viewModel: FacetListViewModel,
@@ -23,7 +24,7 @@ internal data class FacetListConnectionSearcher(
     }
 
     init {
-        searcher.query.addFacet(attribute)
+        searcher.updateSearchParamsObject { it.addFacet(attribute) }
     }
 
     override fun connect() {

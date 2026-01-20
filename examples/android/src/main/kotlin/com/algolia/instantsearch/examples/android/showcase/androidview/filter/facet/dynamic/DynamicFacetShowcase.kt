@@ -29,17 +29,17 @@ import com.algolia.search.model.IndexName
 class DynamicFacetShowcase : AppCompatActivity() {
 
     val client = ClientSearch(
-        ApplicationID("RVURKQXRHU"),
-        APIKey("937e4e6ec422ff69fe89b569dba30180"),
+        "RVURKQXRHU",
+        "937e4e6ec422ff69fe89b569dba30180",
         LogLevel.All
     )
-    val searcher = HitsSearcher(client, IndexName("test_facet_ordering"))
+    val searcher = HitsSearcher(client, "test_facet_ordering")
     val filterState = FilterState()
     val searchBox = SearchBoxConnector(searcher)
-    val color = String("color")
-    val country = String("country")
-    val brand = String("brand")
-    val size = String("size")
+    val color = "color"
+    val country = "country"
+    val brand = "brand"
+    val size = "size"
     val dynamicFacets = DynamicFacetListConnector(
         searcher = searcher,
         filterState = filterState,
@@ -73,7 +73,7 @@ class DynamicFacetShowcase : AppCompatActivity() {
         configureSearchView(searchBinding.searchView, getString(R.string.search_brands))
         configureRecyclerView(binding.hits, adapter)
 
-        searcher.query.facets = setOf(brand, color, size, country)
+        searcher.query = searcher.query.copy(facets = listOf(brand, color, size, country))
         searcher.searchAsync()
     }
 

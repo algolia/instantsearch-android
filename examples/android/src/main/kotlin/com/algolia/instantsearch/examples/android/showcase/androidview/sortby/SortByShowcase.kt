@@ -21,9 +21,9 @@ import com.algolia.search.model.IndexName
 
 class SortByShowcase : AppCompatActivity() {
 
-    private val indexTitle = IndexName("mobile_demo_movies")
-    private val indexYearAsc = IndexName("mobile_demo_movies_year_asc")
-    private val indexYearDesc = IndexName("mobile_demo_movies_year_desc")
+    private val indexTitle = "mobile_demo_movies"
+    private val indexYearAsc = "mobile_demo_movies_year_asc"
+    private val indexYearDesc = "mobile_demo_movies_year_desc"
     private val searcher = HitsSearcher(client, indexTitle)
     private val indexes = mapOf(
         0 to indexTitle,
@@ -47,7 +47,7 @@ class SortByShowcase : AppCompatActivity() {
                 indexTitle -> "Default"
                 indexYearAsc -> "Year Asc"
                 indexYearDesc -> "Year Desc"
-                else -> indexName.raw
+                else -> indexName
             }
         }
         connection += searcher.connectHitsView(adapterMovie) { response ->

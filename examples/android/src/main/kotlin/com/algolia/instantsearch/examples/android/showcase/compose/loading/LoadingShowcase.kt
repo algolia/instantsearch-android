@@ -31,6 +31,7 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.flow.Flow
+import com.algolia.search.helper.deserialize
 
 class LoadingShowcase : AppCompatActivity() {
 

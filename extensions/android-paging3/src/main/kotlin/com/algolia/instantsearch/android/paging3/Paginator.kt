@@ -10,9 +10,9 @@ import androidx.paging.liveData
 import com.algolia.instantsearch.android.paging3.internal.SearcherPaginator
 import com.algolia.instantsearch.android.paging3.internal.SearcherPagingSource
 import com.algolia.instantsearch.extension.Console
+import com.algolia.client.model.search.Hit
+import com.algolia.client.model.search.SearchParamsObject
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.params.SearchParameters
-import com.algolia.search.model.response.ResponseSearch
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -39,9 +39,9 @@ public interface Paginator<T : Any> {
  * @param transformer mapping applied to search responses
  */
 public fun <T : Any> Paginator(
-    searcher: SearcherForHits<out SearchParameters>,
+    searcher: SearcherForHits<out SearchParamsObject>,
     pagingConfig: PagingConfig = PagingConfig(pageSize = 10, initialLoadSize = 10),
-    transformer: (ResponseSearch.Hit) -> T
+    transformer: (Hit) -> T
 ): Paginator<T> {
     if (pagingConfig.initialLoadSize != pagingConfig.pageSize) {
         Console.warn("Overriding initialLoadSize (${pagingConfig.initialLoadSize}) to match pageSize (${pagingConfig.pageSize})")

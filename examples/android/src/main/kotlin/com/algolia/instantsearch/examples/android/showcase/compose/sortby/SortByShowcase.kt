@@ -33,9 +33,9 @@ import com.algolia.search.model.IndexName
 
 class SortByShowcase : AppCompatActivity() {
 
-    private val movies = IndexName("mobile_demo_movies")
-    private val moviesAsc = IndexName("mobile_demo_movies_year_asc")
-    private val moviesDesc = IndexName("mobile_demo_movies_year_desc")
+    private val movies = "mobile_demo_movies"
+    private val moviesAsc = "mobile_demo_movies_year_asc"
+    private val moviesDesc = "mobile_demo_movies_year_desc"
     private val hitsState = HitsState<Movie>()
     private val indexes = mapOf(
         0 to movies,
@@ -54,7 +54,7 @@ class SortByShowcase : AppCompatActivity() {
                 movies -> "Default"
                 moviesAsc -> "Year Asc"
                 moviesDesc -> "Year Desc"
-                else -> indexName.raw
+                else -> indexName
             }
         }
     }

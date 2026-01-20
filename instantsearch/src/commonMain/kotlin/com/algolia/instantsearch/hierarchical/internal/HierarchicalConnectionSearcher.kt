@@ -7,6 +7,7 @@ import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.instantsearch.searcher.addFacet
+import com.algolia.instantsearch.searcher.updateSearchParamsObject
 
 internal data class HierarchicalConnectionSearcher(
     private val viewModel: HierarchicalViewModel,
@@ -15,10 +16,12 @@ internal data class HierarchicalConnectionSearcher(
 
     private val updateTree: Callback<SearchResponse?> = { response ->
         if (response != null) {
-            val facets = response.facets?.filter { it.key == viewModel.hierarchicalAttributes.first() } ?: mapOf()
+            val facets = response.facets.orEmpty()
 
             viewModel.tree.value = viewModel.hierarchicalAttributes
-                .mapNotNull { facets[it]?.toMutableList() }
+                .mapNotNull { attribute ->
+                    facets[attribute]?.map { (value, count) -> Facet(value, count) }?.toMutableList()
+                }
                 .filterUnprefixed()
                 .flatten()
                 .toNodes(selectedHierarchicalValue, viewModel.separator)
@@ -53,7 +56,9 @@ internal data class HierarchicalConnectionSearcher(
         }
 
     init {
-        searcher.query.addFacet(*viewModel.hierarchicalAttributes.toTypedArray())
+        searcher.updateSearchParamsObject {
+            it.addFacet(*viewModel.hierarchicalAttributes.toTypedArray())
+        }
     }
 
     override fun connect() {

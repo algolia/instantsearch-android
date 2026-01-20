@@ -11,15 +11,7 @@ public class FilterGroupsDSL(
         groups += groupOr(name) to DSLGroupFilter(block)
     }
 
-    public fun or(name: String, block: DSLGroupFilter.() -> Unit) {
-        groups += groupOr(name) to DSLGroupFilter(block)
-    }
-
     public fun and(name: String = "", block: DSLGroupFilter.() -> Unit) {
-        groups += groupAnd(name) to DSLGroupFilter(block)
-    }
-
-    public fun and(name: String, block: DSLGroupFilter.() -> Unit) {
         groups += groupAnd(name) to DSLGroupFilter(block)
     }
 

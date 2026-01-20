@@ -54,7 +54,9 @@ public class SearcherPlaces(
     }
 
     override suspend fun search(): ResponseSearchPlacesMono = withContext(coroutineDispatcher) {
-        client.searchPlaces(language, query, requestOptions)
+        throw UnsupportedOperationException(
+            "Places is deprecated and not supported with the Kotlin v3 API client."
+        )
     }
 
     override fun cancel() {

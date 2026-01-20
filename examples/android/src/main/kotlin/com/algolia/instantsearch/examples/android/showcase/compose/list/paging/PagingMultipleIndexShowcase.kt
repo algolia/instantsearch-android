@@ -34,13 +34,14 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchTopBar
 import com.algolia.search.model.IndexName
 import kotlinx.coroutines.flow.Flow
+import com.algolia.search.helper.deserialize
 
 
 class PagingMultipleIndexShowcase : AppCompatActivity() {
 
     private val multiSearcher = MultiSearcher(client)
-    private val searcherMovies = multiSearcher.addHitsSearcher(IndexName("mobile_demo_movies"))
-    private val searcherActors = multiSearcher.addHitsSearcher(IndexName("mobile_demo_actors"))
+    private val searcherMovies = multiSearcher.addHitsSearcher("mobile_demo_movies")
+    private val searcherActors = multiSearcher.addHitsSearcher("mobile_demo_actors")
     private val moviesPaginator = Paginator(searcherMovies) {
         it.deserialize(Movie.serializer())
     }

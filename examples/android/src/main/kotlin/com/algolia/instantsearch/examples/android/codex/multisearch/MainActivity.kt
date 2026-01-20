@@ -26,11 +26,11 @@ import com.algolia.search.model.search.Query
 class MainActivity : ComponentActivity() {
 
     private val multiSearcher = MultiSearcher(
-        applicationID = ApplicationID("latency"),
-        apiKey = APIKey("1f6fd3a6fb973cb08419fe7d288fa4db")
+        appId = "latency",
+        apiKey = "1f6fd3a6fb973cb08419fe7d288fa4db"
     )
-    private val actorsSearcher = multiSearcher.addHitsSearcher(IndexName("mobile_demo_actors"), Query(hitsPerPage = 5))
-    private val moviesSearcher = multiSearcher.addHitsSearcher(IndexName("mobile_demo_movies"))
+    private val actorsSearcher = multiSearcher.addHitsSearcher("mobile_demo_actors", Query(hitsPerPage = 5))
+    private val moviesSearcher = multiSearcher.addHitsSearcher("mobile_demo_movies")
     private val searchBoxConnector = SearchBoxConnector(multiSearcher)
     private val connections = ConnectionHandler(searchBoxConnector)
 

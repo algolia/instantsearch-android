@@ -33,13 +33,13 @@ import com.algolia.instantsearch.filter.state.filters
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.NumericOperator
 
 class FilterCurrentShowcase : AppCompatActivity() {
 
-    private val color = String("color")
-    private val price = String("price")
-    private val tags = String("_tags")
+    private val color = "color"
+    private val price = "price"
+    private val tags = "_tags"
     private val groupColor = FilterGroupID(color)
     private val groupPrice = FilterGroupID(price)
     private val groupTags = FilterGroupID(tags)

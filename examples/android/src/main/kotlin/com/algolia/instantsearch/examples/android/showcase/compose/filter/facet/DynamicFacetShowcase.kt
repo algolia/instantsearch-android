@@ -51,16 +51,16 @@ import com.algolia.search.model.search.Facet
 class DynamicFacetShowcase : AppCompatActivity() {
 
     private val client = ClientSearch(
-        ApplicationID("RVURKQXRHU"),
-        APIKey("937e4e6ec422ff69fe89b569dba30180"),
+        "RVURKQXRHU",
+        "937e4e6ec422ff69fe89b569dba30180",
         LogLevel.All
     )
-    private val searcher = HitsSearcher(client, IndexName("test_facet_ordering"))
+    private val searcher = HitsSearcher(client, "test_facet_ordering")
     private val filterState = FilterState()
-    private val color = String("color")
-    private val country = String("country")
-    private val brand = String("brand")
-    private val size = String("size")
+    private val color = "color"
+    private val country = "country"
+    private val brand = "brand"
+    private val size = "size"
     private val dynamicFacetListState = DynamicFacetListState()
     private val dynamicFacets = DynamicFacetListConnector(
         searcher = searcher,
@@ -94,7 +94,7 @@ class DynamicFacetShowcase : AppCompatActivity() {
                 DynamicFacetScreen(searchBoxState, dynamicFacetListState)
             }
         }
-        searcher.query.facets = setOf(brand, color, size, country)
+        searcher.query = searcher.query.copy(facets = listOf(brand, color, size, country))
         searcher.searchAsync()
     }
 
@@ -131,12 +131,12 @@ class DynamicFacetShowcase : AppCompatActivity() {
     @Composable
     fun OrderedFacets(
         modifier: Modifier = Modifier,
-        attributedFacet: StringdFacets,
+        attributedFacet: AttributedFacets,
         onClick: (Facet, Attribute) -> Unit
     ) {
         Text(
             modifier = modifier,
-            text = attributedFacet.attribute.raw,
+            text = attributedFacet.attribute,
             style = MaterialTheme.typography.subtitle2,
             color = GreyLight,
         )
@@ -145,7 +145,7 @@ class DynamicFacetShowcase : AppCompatActivity() {
 
     @Composable
     fun FacetItems(
-        attributedFacet: StringdFacets,
+        attributedFacet: AttributedFacets,
         onClick: (Facet, Attribute) -> Unit
     ) {
         Surface(

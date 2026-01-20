@@ -11,7 +11,6 @@ import com.algolia.instantsearch.extension.traceAnswersSearcher
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
 import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.internal.runAsLoading
-import com.algolia.instantsearch.searcher.internal.withAlgoliaAgent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -23,10 +22,9 @@ import kotlinx.coroutines.withContext
  */
 @Deprecated("Answers feature is deprecated")
 @ExperimentalInstantSearch
-@OptIn(ExperimentalAlgoliaClientAPI::class)
 public class SearcherAnswers(
     public var index: String,
-    public override val query: SearchParamsObject = SearchParamsObject("", naturalLanguages =listOf(SupportedLanguage.En)),
+    public override var query: SearchParamsObject = SearchParamsObject(query = "", naturalLanguages = listOf(SupportedLanguage.En)),
     public override val requestOptions: RequestOptions? = null,
     override val coroutineScope: CoroutineScope = SearcherScope(),
     override val coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
@@ -37,7 +35,6 @@ public class SearcherAnswers(
     override val response: SubscriptionValue<SearchResponse?> = SubscriptionValue(null)
 
     private val sequencer = Sequencer()
-    private val options get() = requestOptions.withAlgoliaAgent()
     private val exceptionHandler = SearcherExceptionHandler(this)
 
     init {
@@ -45,7 +42,7 @@ public class SearcherAnswers(
     }
 
     override fun setQuery(text: String?) {
-        text?.let { query.query = it }
+        query = query.copy(query = text)
     }
 
     override fun searchAsync(): Job {
@@ -59,7 +56,9 @@ public class SearcherAnswers(
     }
 
     override suspend fun search(): SearchResponse = withContext(coroutineDispatcher) {
-        index.findAnswers(answersQuery = query, requestOptions = options)
+        throw UnsupportedOperationException(
+            "Answers is deprecated and not supported with the Kotlin v3 API client."
+        )
     }
 
     override fun cancel() {

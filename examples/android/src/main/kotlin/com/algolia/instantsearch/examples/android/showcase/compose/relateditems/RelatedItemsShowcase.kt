@@ -58,7 +58,7 @@ class RelatedItemsShowcase : AppCompatActivity() {
                 )
             }
         }
-        searcher.query.hitsPerPage = 3 // Limit to 3 results
+        searcher.query = searcher.query.copy(hitsPerPage = 3) // Limit to 3 results
         configureSearcher(searcher)
         configureSearcher(relatedItemsSearcher)
         searcher.searchAsync()

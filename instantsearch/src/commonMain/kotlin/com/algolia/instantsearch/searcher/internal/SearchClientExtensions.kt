@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.searcher.internal
 
 import com.algolia.client.api.SearchClient
-import com.algolia.client.extensions.SearchForHits.Companion.from as searchForHitsFrom
+import com.algolia.client.extensions.from
 import com.algolia.client.model.search.SearchForFacetValuesResponse
 import com.algolia.client.model.search.SearchForFacets
 import com.algolia.client.model.search.SearchMethodParams
@@ -10,6 +10,7 @@ import com.algolia.client.model.search.SearchResponse
 import com.algolia.client.model.search.SearchResponses
 import com.algolia.client.model.search.SearchStrategy
 import com.algolia.client.model.search.SearchTypeFacet
+import com.algolia.client.model.search.SearchForHits
 import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.searcher.multi.internal.types.FacetIndexQuery
 import com.algolia.instantsearch.searcher.multi.internal.types.IndexQuery
@@ -22,7 +23,7 @@ import com.algolia.instantsearch.searcher.multi.internal.types.ResultMultiSearch
  * Convert [IndexQuery] to [SearchQuery] (SearchForHits).
  */
 internal fun IndexQuery.toSearchQuery(): SearchQuery {
-    return SearchQuery.of(searchForHitsFrom(query, indexName))
+    return SearchQuery.of(SearchForHits.from(query, indexName))
 }
 
 /**

@@ -26,6 +26,7 @@ android {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
         freeCompilerArgs.addAll(listOf(
             "-Xopt-in=com.algolia.instantsearch.ExperimentalInstantSearch",
             "-Xopt-in=com.algolia.instantsearch.InternalInstantSearch",

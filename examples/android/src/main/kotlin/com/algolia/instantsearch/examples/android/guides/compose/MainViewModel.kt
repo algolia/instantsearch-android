@@ -27,16 +27,17 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
+import com.algolia.search.helper.deserialize
 
 
 class MainViewModel : ViewModel() {
 
     val client = ClientSearch(
-        ApplicationID("latency"),
-        APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
+        "latency",
+        "1f6fd3a6fb973cb08419fe7d288fa4db",
         LogLevel.All
     )
-    val indexName = IndexName("instant_search")
+    val indexName = "instant_search"
     val searcher = HitsSearcher(client, indexName)
 
     // Search Box
@@ -53,7 +54,7 @@ class MainViewModel : ViewModel() {
     // Filters
     val facetList = FacetListState()
     val filterState = FilterState()
-    val categories = String("categories")
+    val categories = "categories"
     val searcherForFacet = FacetsSearcher(client, indexName, categories)
     val facetListConnector = FacetListConnector(
         searcher = searcherForFacet,

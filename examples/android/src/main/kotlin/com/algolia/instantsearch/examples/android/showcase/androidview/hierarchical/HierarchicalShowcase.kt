@@ -16,10 +16,10 @@ import com.algolia.search.model.Attribute
 
 class HierarchicalShowcase : AppCompatActivity() {
 
-    private val hierarchicalCategory = String("hierarchicalCategories")
-    private val hierarchicalCategoryLvl0 = String("$hierarchicalCategory.lvl0")
-    private val hierarchicalCategoryLvl1 = String("$hierarchicalCategory.lvl1")
-    private val hierarchicalCategoryLvl2 = String("$hierarchicalCategory.lvl2")
+    private val hierarchicalCategory = "hierarchicalCategories"
+    private val hierarchicalCategoryLvl0 = "$hierarchicalCategory.lvl0"
+    private val hierarchicalCategoryLvl1 = "$hierarchicalCategory.lvl1"
+    private val hierarchicalCategoryLvl2 = "$hierarchicalCategory.lvl2"
     private val hierarchicalAttributes = listOf(
         hierarchicalCategoryLvl0,
         hierarchicalCategoryLvl1,

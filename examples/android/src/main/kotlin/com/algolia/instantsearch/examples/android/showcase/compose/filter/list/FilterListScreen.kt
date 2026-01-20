@@ -16,7 +16,7 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilter
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.TitleTopBar
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 
 @Composable
 fun <T : Filter> Activity.FilterListScreen(

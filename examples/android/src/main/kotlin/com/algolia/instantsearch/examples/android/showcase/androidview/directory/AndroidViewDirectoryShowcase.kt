@@ -21,7 +21,7 @@ class AndroidViewDirectoryShowcase : AppCompatActivity() {
 
     private val searcher = HitsSearcher(
         client = client,
-        indexName = IndexName("mobile_demo_home"),
+        indexName = "mobile_demo_home",
         query = Query(hitsPerPage = 100)
     )
     private val connection = ConnectionHandler()

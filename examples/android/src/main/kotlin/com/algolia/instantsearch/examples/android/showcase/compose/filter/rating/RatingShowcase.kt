@@ -42,12 +42,12 @@ import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 
 class RatingShowcase : AppCompatActivity() {
 
-    private val searcher = HitsSearcher(client, IndexName("instant_search"))
-    private val rating = String("rating")
+    private val searcher = HitsSearcher(client, "instant_search")
+    private val rating = "rating"
     private val groupID = FilterGroupID(rating)
     private val primaryBounds = 0f..5f
     private val initialRange = 3f..5f

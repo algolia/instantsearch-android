@@ -20,6 +20,7 @@ import com.algolia.instantsearch.examples.android.showcase.androidview.list.movi
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
+import com.algolia.search.helper.deserialize
 
 class LoadingShowcase : AppCompatActivity() {
 

@@ -21,9 +21,9 @@ import com.algolia.search.model.Attribute
 
 class FacetListShowcase : AppCompatActivity() {
 
-    private val color = String("color")
-    private val promotions = String("promotions")
-    private val category = String("category")
+    private val color = "color"
+    private val promotions = "promotions"
+    private val category = "category"
     private val groupColor = groupAnd(color)
     private val groupPromotions = groupAnd(promotions)
     private val groupCategory = groupOr(category)

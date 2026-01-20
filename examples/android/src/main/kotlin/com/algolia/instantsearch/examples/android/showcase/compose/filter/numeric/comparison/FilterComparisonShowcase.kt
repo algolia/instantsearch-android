@@ -53,16 +53,16 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.addFacet
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.searcher.updateSearchParamsObject
+import com.algolia.instantsearch.filter.NumericOperator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FilterComparisonShowcase : AppCompatActivity() {
 
-    private val price = String("price")
-    private val year = String("year")
+    private val price = "price"
+    private val year = "year"
     private val filterState = FilterState()
     private val searcher = HitsSearcher(client, stubIndexName)
 
@@ -101,14 +101,14 @@ class FilterComparisonShowcase : AppCompatActivity() {
                 FilterComparisonScreen()
             }
         }
-        searcher.query.addFacet(price)
-        searcher.query.addFacet(year)
+        searcher.updateSearchParamsObject { it.addFacet(price) }
+        searcher.updateSearchParamsObject { it.addFacet(year) }
 
         configureSearcher(searcher)
 
         searcher.coroutineScope.launch {
             val response = searcher.search()
-            response?.facetStatsOrNull?.let {
+            response?.facetsStats?.let {
                 comparisonPrice.viewModel.setBoundsFromFacetStatsLong(price, it)
                 comparisonYear.viewModel.setBoundsFromFacetStatsInt(year, it)
                 withContext(Dispatchers.Main) {

@@ -24,7 +24,7 @@ class RelatedItemsShowcase : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ShowcaseRelateditemsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        searcher.query.hitsPerPage = 3 // Limit to 3 results
+        searcher.query = searcher.query.copy(hitsPerPage = 3) // Limit to 3 results
 
         configureToolbar(binding.toolbar)
         configureSearcher(searcher)

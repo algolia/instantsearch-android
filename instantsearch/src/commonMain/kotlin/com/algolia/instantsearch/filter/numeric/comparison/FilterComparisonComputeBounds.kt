@@ -8,11 +8,13 @@ import com.algolia.instantsearch.filter.range.internal.mapperOf
 private fun <T> NumberViewModel<T>.setBoundsFromFacetStats(
     attribute: String,
     facetStats: Map<String, FacetStats>,
-    transform: (Double?) -> T,
+    transform: (Number) -> T,
 ) where T : Number, T : Comparable<T> {
-    facetStats[attribute]?.let {
-        bounds.value = Range(transform(it.min), transform(it.max))
-    }
+    val stats = facetStats[attribute] ?: return
+    val min = stats.min
+    val max = stats.max
+    if (min == null || max == null) return
+    bounds.value = Range(transform(min), transform(max))
 }
 
 public fun NumberViewModel<Int>.setBoundsFromFacetStatsInt(
@@ -33,7 +35,7 @@ public fun NumberViewModel<Float>.setBoundsFromFacetStatsFloat(
     attribute: String,
     facetStats: Map<String, FacetStats>,
 ) {
-    setBoundsFromFacetStats(attribute, facetStats) { it }
+    setBoundsFromFacetStats(attribute, facetStats) { it.toFloat() }
 }
 
 public fun NumberViewModel<Double>.setBoundsFromFacetStatsDouble(

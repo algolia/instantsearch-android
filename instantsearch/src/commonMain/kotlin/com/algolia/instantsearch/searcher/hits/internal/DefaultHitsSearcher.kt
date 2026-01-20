@@ -25,7 +25,7 @@ internal class DefaultHitsSearcher(
     private val searchService: HitsSearchService,
     private val insights: InsightsClient,
     override var indexName: String,
-    override val query: SearchParamsObject,
+    override var query: SearchParamsObject,
     override val requestOptions: RequestOptions?,
     override val isDisjunctiveFacetingEnabled: Boolean,
     override val coroutineScope: CoroutineScope,
@@ -43,11 +43,8 @@ internal class DefaultHitsSearcher(
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
 
-    // Mutable query for setQuery() - note: query is val in interface, so we use a private var
-    private var mutableQuery: SearchParamsObject = query
-
     private val options get() = requestOptions.withAlgoliaAgent()
-    private val indexedQuery get() = IndexQuery(indexName, mutableQuery)
+    private val indexedQuery get() = IndexQuery(indexName, query)
 
     private val maxObjectIDsPerEvent = 10
 
@@ -56,7 +53,7 @@ internal class DefaultHitsSearcher(
     }
 
     override fun setQuery(text: String?) {
-        mutableQuery = mutableQuery.copy(query = text)
+        query = query.copy(query = text)
     }
 
     override fun searchAsync(): Job {
@@ -72,7 +69,7 @@ internal class DefaultHitsSearcher(
     }
 
     override suspend fun search(): SearchResponse? {
-        if (!triggerSearchFor.trigger(mutableQuery)) return null
+        if (!triggerSearchFor.trigger(query)) return null
         return withContext(coroutineDispatcher) {
             searchService.search(HitsSearchService.Request(indexedQuery, isDisjunctiveFacetingEnabled), options)
         }
@@ -94,7 +91,7 @@ internal class DefaultHitsSearcher(
         return MultiSearchOperation(
             requests = queries,
             completion = { response.value = searchService.aggregateResult(it, disjunctiveFacetCount) },
-            shouldTrigger = triggerSearchFor.trigger(mutableQuery)
+            shouldTrigger = triggerSearchFor.trigger(query)
         )
     }
 
@@ -102,7 +99,7 @@ internal class DefaultHitsSearcher(
         return MultiSearchOperation(
             requests = listOf(indexedQuery),
             completion = ::onSingleQuerySearchResponse,
-            shouldTrigger = triggerSearchFor.trigger(mutableQuery)
+            shouldTrigger = triggerSearchFor.trigger(query)
         )
     }
 

@@ -1,15 +1,13 @@
 package com.algolia.instantsearch.filter.range.internal
 
-import com.algolia.client.model.composition.FacetStats
-import com.algolia.client.model.composition.SearchResponse
+import com.algolia.client.model.search.FacetStats
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.filter.range.FilterRangeViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
-import kotlin.collections.fold
-import kotlin.collections.isNotEmpty
-import kotlin.collections.mapNotNull
-import kotlin.collections.putAll
+import com.algolia.instantsearch.searcher.updateSearchParamsObject
+import com.algolia.instantsearch.searcher.updateQueryFacets
 
 /**
  * Connection implementation between a Searcher and filter range components to enable a dynamic behavior.
@@ -28,11 +26,9 @@ internal class FilterRangeConnectionSearcherImpl<T>(
 
     private val responseSubscription: (SearchResponse?) -> Unit = { response ->
         viewModel.computeBoundsFromFacetStats(
-            attribute, response?.results
-            ?.mapNotNull { it.facetsStats }
-            ?.fold(mutableMapOf<String, FacetStats>()) { acc, map ->
-                acc.apply { putAll(map) }
-            }?.takeIf { it.isNotEmpty() }, mapper
+            attribute = attribute,
+            facetStats = response?.facetsStats,
+            mapper = mapper
         )
     }
 
@@ -53,7 +49,7 @@ internal class FilterRangeConnectionSearcherImpl<T>(
 
     override fun connect() {
         super.connect()
-        searcher.query.updateQueryFacets(attribute)
+        searcher.updateSearchParamsObject { it.updateQueryFacets(attribute) }
         searcher.response.subscribePastOnce(subscription = responseSubscription)
     }
 

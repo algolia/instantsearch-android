@@ -18,14 +18,14 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.BlueDark
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.White
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.NumericOperator
 
 @Preview
 @Composable
 fun FilterListPreview() {
-    val price = String("price")
-    val color = String("color")
+    val price = "price"
+    val color = "color"
     ShowcaseTheme {
         FilterList(
             filterListState = FilterListState(
