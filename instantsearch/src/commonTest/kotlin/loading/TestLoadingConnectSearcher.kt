@@ -5,6 +5,8 @@ import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.loading.connectSearcher
 import com.algolia.search.model.IndexName
 import kotlin.test.Test
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import mockClient
 import searcher.MockSearcher
@@ -15,7 +17,7 @@ import shouldEqual
 class TestLoadingConnectSearcher {
 
     private val client = mockClient()
-    private val indexName = IndexName("A")
+    private val indexName = "A"
 
     @Test
     fun connectShouldSetItem() {
@@ -48,7 +50,8 @@ class TestLoadingConnectSearcher {
 
     @Test
     fun onEventSentShouldCallSearch() = runTest {
-        val searcher = MockSearcher()
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        val searcher = MockSearcher(coroutineScope = this, coroutineDispatcher = dispatcher)
         val viewModel = LoadingViewModel()
         val debouncer = Debouncer(200)
         val connection = viewModel.connectSearcher(searcher, debouncer)
@@ -56,7 +59,7 @@ class TestLoadingConnectSearcher {
         searcher.searchCount shouldEqual 0
         connection.connect()
         viewModel.eventReload.send(Unit)
-        searcher.job?.join()
+        advanceUntilIdle()
         searcher.searchCount shouldEqual 1
     }
 }

@@ -5,15 +5,15 @@ import com.algolia.instantsearch.filter.current.connectFilterState
 import com.algolia.instantsearch.filter.current.toFilterAndIds
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Attribute
+import com.algolia.instantsearch.filter.Filter
 import shouldEqual
 import kotlin.test.Test
 
 class TestCurrentFiltersConnectFilterState {
 
-    private val color = String("color")
-    private val brand = String("brand")
+    private val color = "color"
+    private val brand = "brand"
     private val colorID = FilterGroupID(color)
     private val brandID = FilterGroupID(brand)
     private val filterRed = Filter.Facet(color, "red")

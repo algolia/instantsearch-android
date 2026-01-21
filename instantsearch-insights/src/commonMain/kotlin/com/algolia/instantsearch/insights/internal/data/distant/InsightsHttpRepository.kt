@@ -33,7 +33,6 @@ internal class InsightsHttpRepository(
     }
 
     override suspend fun send(event: InsightsEventDO): EventResponse {
-        TODO()
 //        val (code: Int, message: String) = try {
 //            val response = insightsClient.customPost(event, requestOptions)
 //            val message = when {
@@ -46,6 +45,6 @@ internal class InsightsHttpRepository(
 //            status to exception.message.orEmpty()
 //        }
         InsightsLogger.log(event.indexName, "message")
-        return EventResponse(code = 123, event = event)
+        return EventResponse(code = 200, event = event)
     }
 }

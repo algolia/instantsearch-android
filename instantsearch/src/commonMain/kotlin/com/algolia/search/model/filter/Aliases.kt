@@ -11,4 +11,3 @@ public typealias FilterGroupsConverter<I, O> = com.algolia.instantsearch.filter.
 
 @Deprecated("Legacy NumericOperator type. Use com.algolia.instantsearch.filter.NumericOperator.")
 public typealias NumericOperator = com.algolia.instantsearch.filter.NumericOperator
-

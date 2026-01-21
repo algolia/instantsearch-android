@@ -14,4 +14,3 @@ public fun Query(
 ): SearchParamsObject = SearchParamsObject(
     hitsPerPage = hitsPerPage,
 )
-

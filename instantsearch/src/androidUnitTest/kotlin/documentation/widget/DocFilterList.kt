@@ -17,8 +17,8 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.NumericOperator
 import org.junit.Ignore
 
 @Ignore
@@ -34,13 +34,13 @@ internal class DocFilterList {
     class MyActivity : AppCompatActivity() {
 
         val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val searcher = HitsSearcher(client, "YourIndexName")
         val filterState = FilterState()
-        val color = String("color")
-        val price = String("price")
+        val color = "color"
+        val price = "price"
         val filters = listOf(
             Filter.Numeric(price, 5..10),
             Filter.Tag("coupon"),

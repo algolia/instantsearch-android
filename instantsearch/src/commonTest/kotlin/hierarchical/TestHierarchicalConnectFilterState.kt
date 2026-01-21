@@ -7,8 +7,8 @@ import com.algolia.instantsearch.filter.state.toFilter
 import com.algolia.instantsearch.hierarchical.HierarchicalFilter
 import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
 import com.algolia.instantsearch.hierarchical.connectFilterState
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.filter.Attribute
+import com.algolia.instantsearch.filter.Facet
 import kotlin.test.Test
 import shouldBeNull
 import shouldEqual
@@ -16,9 +16,9 @@ import shouldEqual
 class TestHierarchicalConnectFilterState {
 
     private val separator = " > "
-    private val category = String("category")
-    private val categoryLvl0 = String("$category.lvl0")
-    private val categoryLvl1 = String("$category.lvl1")
+    private val category = "category"
+    private val categoryLvl0 = "$category.lvl0"
+    private val categoryLvl1 = "$category.lvl1"
     private val categories = listOf(
         categoryLvl0,
         categoryLvl1

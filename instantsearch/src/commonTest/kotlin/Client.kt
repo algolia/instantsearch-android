@@ -1,9 +1,10 @@
+import com.algolia.client.api.SearchClient
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.response.ResponseSearch
+import com.algolia.client.model.search.SearchResponse
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.respondBadRequest
@@ -18,7 +19,7 @@ val JsonNoDefaults = Json { encodeDefaults = false }
 
 fun mockClient(
     response: HttpResponseData? = null,
-): ClientSearch {
+): SearchClient {
     val mockEngine = if (response != null) MockEngine { response } else {
         defaultMockEngine
     }
@@ -27,18 +28,18 @@ fun mockClient(
 
 fun mockClient(
     mockEngine: MockEngine,
-): ClientSearch {
+): SearchClient {
     return ClientSearch(
         ConfigurationSearch(
-            ApplicationID("A"),
-            APIKey("B"),
+            "A",
+            "B",
             engine = mockEngine,
             logLevel = LogLevel.All
         )
     )
 }
 
-fun respondSearch(response: ResponseSearch = responseSearch) = respondJson(response, ResponseSearch.serializer())
+fun respondSearch(response: SearchResponse = responseSearch) = respondJson(response, SearchResponse.serializer())
 
 fun <T> respondJson(response: T, serializer: KSerializer<T>): MockEngine {
     val responseString = JsonNoDefaults.encodeToString(serializer, response)
@@ -53,14 +54,14 @@ fun <T> respondJson(response: T, serializer: KSerializer<T>): MockEngine {
     }
 }
 
-fun respondBadRequest(): ClientSearch {
+fun respondBadRequest(): SearchClient {
     val mockEngine = MockEngine {
         respondBadRequest()
     }
     return ClientSearch(
         ConfigurationSearch(
-            ApplicationID("A"),
-            APIKey("B"),
+            "A",
+            "B",
             engine = mockEngine,
             logLevel = LogLevel.All
         )
@@ -68,7 +69,7 @@ fun respondBadRequest(): ClientSearch {
 }
 
 val defaultMockEngine = MockEngine {
-    val responseString = JsonNoDefaults.encodeToString(ResponseSearch.serializer(), responseSearch)
+    val responseString = JsonNoDefaults.encodeToString(SearchResponse.serializer(), responseSearch)
 
     respond(
         headers = headersOf(
@@ -79,4 +80,4 @@ val defaultMockEngine = MockEngine {
     )
 }
 
-val responseSearch = ResponseSearch()
+val responseSearch = SearchResponse(hits = emptyList(), query = "", params = "")

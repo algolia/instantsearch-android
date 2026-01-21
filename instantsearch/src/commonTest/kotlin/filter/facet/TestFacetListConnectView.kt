@@ -6,7 +6,7 @@ import com.algolia.instantsearch.filter.facet.FacetListItem
 import com.algolia.instantsearch.filter.facet.FacetListView
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.filter.facet.connectView
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.filter.Facet
 import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test

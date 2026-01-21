@@ -49,12 +49,12 @@ internal class DocFacetList {
         }
 
         val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val searcher = HitsSearcher(client, "YourIndexName")
         val filterState = FilterState()
-        val attribute = String("facetName")
+        val attribute = "facetName"
         val viewModel = FacetListViewModel()
         val presenter = DefaultFacetListPresenter(listOf(FacetSortCriterion.CountDescending), limit = 5)
         val connection = ConnectionHandler()

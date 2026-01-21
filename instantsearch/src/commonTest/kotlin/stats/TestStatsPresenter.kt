@@ -1,7 +1,7 @@
 package stats
 
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.stats.DefaultStatsPresenter
-import com.algolia.search.model.response.ResponseSearch
 import shouldEqual
 import kotlin.test.Test
 
@@ -18,20 +18,28 @@ class TestStatsPresenter {
     fun responseEmpty() {
         val presenter = DefaultStatsPresenter()
 
-        presenter(ResponseSearch()) shouldEqual ""
+        presenter(SearchResponse(hits = emptyList(), query = "", params = "")) shouldEqual ""
     }
 
     @Test
     fun responseNbHits() {
         val presenter = DefaultStatsPresenter()
 
-        presenter(ResponseSearch(nbHitsOrNull = 10)) shouldEqual "10 hits"
+        presenter(SearchResponse(hits = emptyList(), query = "", params = "", nbHits = 10)) shouldEqual "10 hits"
     }
 
     @Test
     fun responseNbHitsAndTimeMS() {
         val presenter = DefaultStatsPresenter()
 
-        presenter(ResponseSearch(nbHitsOrNull = 10, processingTimeMSOrNull = 10)) shouldEqual "10 hits in 10ms"
+        presenter(
+            SearchResponse(
+                hits = emptyList(),
+                query = "",
+                params = "",
+                nbHits = 10,
+                processingTimeMS = 10
+            )
+        ) shouldEqual "10 hits in 10ms"
     }
 }

@@ -3,16 +3,14 @@ package tracker
 import com.algolia.instantsearch.insights.HitsAfterSearchTrackable
 import com.algolia.instantsearch.tracker.internal.HitsDataTracker
 import com.algolia.instantsearch.tracker.internal.TrackableSearcher
-import com.algolia.search.model.QueryID
-import com.algolia.search.model.indexing.Indexable
-import com.algolia.search.model.insights.EventName
+import com.algolia.instantsearch.core.Indexable
 import MainCoroutineRule
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import org.junit.Rule
-import kotlin.test.BeforeTest
-import kotlin.test.Test
+import org.junit.Before
+import org.junit.Test
 import kotlinx.coroutines.test.runTest
 
 class TestHitsTracker {
@@ -21,20 +19,20 @@ class TestHitsTracker {
     val coroutineRule = MainCoroutineRule()
     private val testCoroutineScope = CoroutineScope(coroutineRule.testDispatcher)
 
-    private val eventName = EventName("eventName")
-    private val queryID = QueryID("queryID")
+    private val eventName = "eventName"
+    private val queryID = "queryID"
     private val trackableSearcher = mockk<TrackableSearcher<*>>(relaxed = true)
     private val searchTrackable = mockk<HitsAfterSearchTrackable>(relaxed = true)
     private val hitsTracker = HitsDataTracker(eventName, trackableSearcher, searchTrackable, testCoroutineScope)
 
-    @BeforeTest
+    @Before
     fun setup() {
         hitsTracker.queryID = queryID
     }
 
     @Test
     fun testTrackClick() = runTest {
-        val eventName = EventName("customEventName")
+        val eventName = "customEventName"
         val hit = mockk<Indexable>(relaxed = true)
         val position = 10
         val objectIDs = listOf(hit.objectID)
@@ -55,7 +53,7 @@ class TestHitsTracker {
 
     @Test
     fun testTrackConvert() = runTest {
-        val eventName = EventName("customEventName")
+        val eventName = "customEventName"
         val hit = mockk<Indexable>(relaxed = true)
         val objectIDs = listOf(hit.objectID)
 
@@ -73,7 +71,7 @@ class TestHitsTracker {
 
     @Test
     fun testTrackView() = runTest {
-        val eventName = EventName("customEventName")
+        val eventName = "customEventName"
         val hit = mockk<Indexable>(relaxed = true)
         val objectIDs = listOf(hit.objectID)
 

@@ -1,7 +1,7 @@
 [versions]
-kotlin = "2.3.0"
+kotlin = "2.2.0"
 composeUi = "1.10.0"
-composeCompiler = "2.3.0"
+composeCompiler = "2.2.0"
 coroutines = "1.10.2"
 ktor = "3.3.3"
 work = "2.11.0"

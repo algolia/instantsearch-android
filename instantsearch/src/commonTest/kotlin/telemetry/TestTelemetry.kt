@@ -38,19 +38,20 @@ import com.algolia.instantsearch.searcher.SearcherAnswers
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
+import com.algolia.search.client.initIndex
 import com.algolia.instantsearch.sortby.SortByConnector
 import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.telemetry.Component
 import com.algolia.instantsearch.telemetry.ComponentParam
 import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.instantsearch.telemetry.Telemetry
-import com.algolia.search.model.Attribute
+import com.algolia.instantsearch.filter.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.search.model.ObjectID
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.NumericOperator
-import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.NumericOperator
+import com.algolia.instantsearch.searcher.multi.internal.types.MultipleQueriesStrategy
+import com.algolia.instantsearch.filter.Facet
 import com.algolia.search.transport.RequestOptions
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -67,8 +68,8 @@ class TestTelemetry { // instrumented because it uses android's Base64
     val scope = TestScope()
 
     val client = mockClient()
-    val indexName = IndexName("myIndex")
-    val attribute = String("attr")
+    val indexName = "myIndex"
+    val attribute = "attr"
 
     init {
         val telemetry = Telemetry(scope)
@@ -120,7 +121,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     @Test
     fun testAnswersSearcher() = scope.runTest {
-        SearcherAnswers(client.initIndex(indexName), requestOptions = RequestOptions())
+        SearcherAnswers(indexName, requestOptions = RequestOptions())
         val component = Telemetry.shared.validateAndGet(ComponentType.AnswersSearcher)
         assertEquals(setOf(ComponentParam.RequestOptions), component.parameters)
         assertEquals(false, component.isConnector)

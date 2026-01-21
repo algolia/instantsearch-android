@@ -32,12 +32,12 @@ internal class DocNumericRange {
     class MyActivity : AppCompatActivity() {
 
         val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val searcher = HitsSearcher(client, "YourIndexName")
         val filterState = FilterState()
-        val attribute = String("price")
+        val attribute = "price"
         val viewModel = FilterRangeViewModel<Int>()
         val connection = ConnectionHandler()
 

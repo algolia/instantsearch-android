@@ -4,7 +4,7 @@ import com.algolia.instantsearch.insights.FilterTrackable
 import com.algolia.instantsearch.tracker.internal.FilterDataTracker
 import com.algolia.instantsearch.tracker.internal.TrackableSearcher
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.search.Facet
 import MainCoroutineRule
@@ -29,7 +29,7 @@ class TestFiltersTracker {
     @Test
     fun testTrackClick() = runTest {
         val eventName = EventName("customEventName")
-        val filter = Filter.Facet(attribute = String("attribute"), value = "value")
+        val filter = Filter.Facet(attribute = "attribute", value = "value")
 
         filtersTracker.trackClick(filter = filter, customEventName = eventName)
 
@@ -45,7 +45,7 @@ class TestFiltersTracker {
     @Test
     fun testTrackClickFacet() = runTest {
         val eventName = EventName("customEventName")
-        val attribute = String("attribute")
+        val attribute = "attribute"
         val value = "value"
         val facet = Facet(value = value, count = 0)
         val filter = Filter.Facet(attribute = attribute, value = value)
@@ -65,7 +65,7 @@ class TestFiltersTracker {
     fun testTrackConversion() = runTest {
         val eventName = EventName("customEventName")
         val value = "value"
-        val filter = Filter.Facet(attribute = String("attribute"), value = value)
+        val filter = Filter.Facet(attribute = "attribute", value = value)
 
         filtersTracker.trackConversion(filter = filter, customEventName = eventName)
 
@@ -83,9 +83,9 @@ class TestFiltersTracker {
         val eventName = EventName("customEventName")
         val value = "value"
         val facet = Facet(value = value, count = 0)
-        val filter = Filter.Facet(attribute = String("attribute"), value = value)
+        val filter = Filter.Facet(attribute = "attribute", value = value)
 
-        filtersTracker.trackConversion(facet = facet, attribute = String("attribute"), customEventName = eventName)
+        filtersTracker.trackConversion(facet = facet, attribute = "attribute", customEventName = eventName)
 
         verify {
             filterTrackable.convertedFilters(
@@ -100,7 +100,7 @@ class TestFiltersTracker {
     fun testTrackView() {
         val eventName = EventName("customEventName")
         val value = "value"
-        val filter = Filter.Facet(attribute = String("attribute"), value = value)
+        val filter = Filter.Facet(attribute = "attribute", value = value)
 
         filtersTracker.trackView(filter = filter, customEventName = eventName)
 
@@ -119,9 +119,9 @@ class TestFiltersTracker {
         val attribute = "attribute"
         val value = "value"
         val facet = Facet(value = value, count = 0)
-        val filter = Filter.Facet(attribute = String("attribute"), value = value)
+        val filter = Filter.Facet(attribute = "attribute", value = value)
 
-        filtersTracker.trackView(facet = facet, attribute = String(attribute), customEventName = eventName)
+        filtersTracker.trackView(facet = facet, attribute = attribute, customEventName = eventName)
 
         verify {
             filterTrackable.viewedFilters(

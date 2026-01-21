@@ -1,6 +1,7 @@
 package searcher
 
 import com.algolia.search.model.IndexName
+import org.junit.Ignore
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
 import mockClient
@@ -12,13 +13,14 @@ import shouldBeTrue
 import shouldEqual
 import shouldNotBeNull
 
+@Ignore("Answers feature is deprecated and unsupported with v3 client.")
 @OptIn(com.algolia.instantsearch.ExperimentalInstantSearch::class)
 class TestSearcherAnswers {
 
     private val client = mockClient()
-    private val index = client.initIndex(IndexName("index"))
+    private val index = "index"
     private val clientError = respondBadRequest()
-    private val indexError = clientError.initIndex(IndexName("index"))
+    private val indexError = "index"
 
     @Test
     fun searchShouldUpdateLoading() = runTest {

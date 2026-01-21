@@ -14,7 +14,7 @@ import org.junit.Test
 @Ignore
 internal class GuideAnalyticsTag {
 
-    private val client = ClientSearch(ApplicationID("app"), APIKey("key"))
+    private val client = ClientSearch("app", "key")
 
     @Suppress("UNUSED_VARIABLE")
     @Test
@@ -25,7 +25,7 @@ internal class GuideAnalyticsTag {
             }
         }
 
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"), query)
+        val searcher = HitsSearcher(client, "YourIndexName", query)
     }
 
     fun getAgeGroup(birthYear: Int): String {
@@ -53,7 +53,7 @@ internal class GuideAnalyticsTag {
             }
         }
 
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"), query)
+        val searcher = HitsSearcher(client, "YourIndexName", query)
     }
 
     @Test
@@ -65,6 +65,6 @@ internal class GuideAnalyticsTag {
             }
         }
 
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"), query)
+        val searcher = HitsSearcher(client, "YourIndexName", query)
     }
 }

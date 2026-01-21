@@ -6,8 +6,8 @@ import com.algolia.instantsearch.customdata.connectSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.hits.addHitsSearcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.response.ResponseSearch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
@@ -24,20 +24,25 @@ internal class TestQueryRuleCustomData {
 
     @Test
     fun testSingleIndexSearcherConnection() {
-        val searcher = HitsSearcher(client, IndexName("A"))
+        val searcher = HitsSearcher(client, "A")
         val viewModel = QueryRuleCustomDataViewModel(TestModel.serializer())
         viewModel.connectSearcher(searcher).connect()
         val customData = TestModel(number = 10, text = "test")
 
         val userData = Json.encodeToJsonElement(TestModel.serializer(), customData).jsonObject
-        searcher.response.value = ResponseSearch(userDataOrNull = listOf(userData))
+        searcher.response.value = SearchResponse(
+            hits = emptyList(),
+            query = "",
+            params = "",
+            userData = userData
+        )
 
         viewModel.item.value shouldEqual customData
     }
 
     @Test
     fun testFunctionBuildersSingleIndex() {
-        val searcher = HitsSearcher(client, IndexName("A"))
+        val searcher = HitsSearcher(client, "A")
         val initialModel = TestModel(number = 10, text = "test1")
 
         // explicit
@@ -76,7 +81,7 @@ internal class TestQueryRuleCustomData {
     @Test
     fun testFunctionBuildersMultipleIndex() {
         val multiSearcher = MultiSearcher(client)
-        val hitsSearcher = multiSearcher.addHitsSearcher(IndexName("IndexMovie"))
+        val hitsSearcher = multiSearcher.addHitsSearcher("IndexMovie")
         val initialModel = TestModel(number = 10, text = "test1")
 
         // explicit

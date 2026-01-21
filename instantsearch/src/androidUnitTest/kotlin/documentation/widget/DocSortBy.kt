@@ -23,12 +23,12 @@ internal class DocSortBy {
     class MyActivity : AppCompatActivity() {
 
         val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val index = IndexName("YourIndexName")
-        val indexAsc = IndexName("YourIndexName_ASC")
-        val indexDesc = IndexName("YourIndexName_DESC")
+        val index = "YourIndexName"
+        val indexAsc = "YourIndexName_ASC"
+        val indexDesc = "YourIndexName_DESC"
         val searcher = HitsSearcher(client, index)
         val indexes = mapOf(
             0 to index,

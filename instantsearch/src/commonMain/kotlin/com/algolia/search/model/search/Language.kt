@@ -4,4 +4,3 @@ package com.algolia.search.model.search
 public enum class Language {
     English
 }
-

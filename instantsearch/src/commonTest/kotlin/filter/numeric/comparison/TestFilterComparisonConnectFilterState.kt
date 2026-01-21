@@ -5,15 +5,14 @@ import com.algolia.instantsearch.filter.numeric.comparison.connectFilterState
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.NumericOperator
 import shouldEqual
 import kotlin.test.Test
 
 class TestFilterComparisonConnectFilterState {
 
-    private val price = String("price")
+    private val price = "price"
     private val operator = NumericOperator.Greater
     private val filter = Filter.Numeric(price, operator, 5)
     private val groupID = FilterGroupID(price, FilterOperator.And)

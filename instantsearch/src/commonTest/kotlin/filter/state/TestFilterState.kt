@@ -4,9 +4,9 @@ import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.toFilterGroups
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.FilterGroup
+import com.algolia.instantsearch.filter.Attribute
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.FilterGroup
 import shouldBeEmpty
 import shouldBeFalse
 import shouldBeTrue
@@ -20,8 +20,8 @@ class TestFilterState {
     private val groupAndA = FilterGroupID(nameA, FilterOperator.And)
     private val groupAndB = FilterGroupID(nameB, FilterOperator.And)
     private val groupOrA = FilterGroupID(nameA, FilterOperator.Or)
-    private val attributeA = String(nameA)
-    private val attributeB = String(nameB)
+    private val attributeA = nameA
+    private val attributeB = nameB
     private val facetA = Filter.Facet(attributeA, 0)
     private val facetB = Filter.Facet(attributeB, 0)
     private val tag = Filter.Tag("0")

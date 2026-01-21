@@ -4,4 +4,3 @@ package com.algolia.search.model.response
 public data class ResponseSearchPlacesMono(
     val hits: List<Any> = emptyList(),
 )
-

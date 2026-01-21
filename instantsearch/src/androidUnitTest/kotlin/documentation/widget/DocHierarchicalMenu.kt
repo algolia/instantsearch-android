@@ -73,16 +73,16 @@ internal class DocHierarchicalMenu {
     class MyActivity : AppCompatActivity() {
 
         val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val searcher = HitsSearcher(client, "YourIndexName")
         val filterState = FilterState()
 
-        val hierarchicalCategory = String("hierarchicalCategories")
-        val hierarchicalCategoryLvl0 = String("$hierarchicalCategory.lvl0")
-        val hierarchicalCategoryLvl1 = String("$hierarchicalCategory.lvl1")
-        val hierarchicalCategoryLvl2 = String("$hierarchicalCategory.lvl2")
+        val hierarchicalCategory = "hierarchicalCategories"
+        val hierarchicalCategoryLvl0 = "$hierarchicalCategory.lvl0"
+        val hierarchicalCategoryLvl1 = "$hierarchicalCategory.lvl1"
+        val hierarchicalCategoryLvl2 = "$hierarchicalCategory.lvl2"
         val hierarchicalAttributes = listOf(
             hierarchicalCategoryLvl0,
             hierarchicalCategoryLvl1,

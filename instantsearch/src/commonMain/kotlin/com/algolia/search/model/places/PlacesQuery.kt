@@ -4,4 +4,3 @@ package com.algolia.search.model.places
 public data class PlacesQuery(
     public var query: String? = null,
 )
-

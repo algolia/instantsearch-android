@@ -19,7 +19,7 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 import org.junit.Ignore
 
 @Ignore
@@ -57,13 +57,13 @@ internal class DocFilterMap {
 
     class MyActivity : AppCompatActivity() {
 
-        val gender = String("gender")
+        val gender = "gender"
         val filterState = FilterState()
         val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val searcher = HitsSearcher(client, "YourIndexName")
         val filters = mapOf(
             0 to Filter.Facet(gender, "male"),
             1 to Filter.Facet(gender, "female")

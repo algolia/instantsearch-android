@@ -21,10 +21,10 @@ internal class DocStats {
     class MyActivity : AppCompatActivity() {
 
         val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val searcher = HitsSearcher(client, "YourIndexName")
         val statsViewModel = StatsViewModel()
         val connection = ConnectionHandler()
 

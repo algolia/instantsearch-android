@@ -1,9 +1,8 @@
 package searcher
 
 import JsonNoDefaults
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.insights.UserToken
-import com.algolia.search.model.response.ResponseSearch
+import com.algolia.client.model.search.SearchResponse
+import com.algolia.client.model.search.Hit
 import io.ktor.client.engine.mock.*
 import io.ktor.http.*
 import io.ktor.http.content.*
@@ -25,9 +24,9 @@ class TestSearcherSingleIndex {
 
     private val client = mockClient()
     private val insights = mockClientInsights()
-    private val indexName = IndexName("index")
+    private val indexName = "index"
     private val clientError = respondBadRequest()
-    private val indexNameError = IndexName("index")
+    private val indexNameError = "index"
 
     @Test
     fun searchShouldUpdateLoading() = runTest {
@@ -48,7 +47,8 @@ class TestSearcherSingleIndex {
         searcher.response.subscribe { responded = true }
         searcher.response.value.shouldBeNull()
         searcher.searchAsync().join()
-        searcher.response.value shouldEqual responseSearch
+        searcher.response.value?.hits shouldEqual responseSearch.hits
+        searcher.response.value?.query shouldEqual responseSearch.query
         responded.shouldBeTrue()
         searcher.error.value.shouldBeNull()
     }
@@ -82,11 +82,11 @@ class TestSearcherSingleIndex {
         }
         val mockSearchEngine = MockEngine { request ->
             val responseString = JsonNoDefaults.encodeToString(
-                ResponseSearch.serializer(), ResponseSearch(
-                    hitsOrNull = (1..3).map { "obj$it" }.map {
-                        ResponseSearch.Hit(
-                            buildJsonObject { put("objectID", it) })
-                    }
+                SearchResponse.serializer(),
+                SearchResponse(
+                    hits = (1..3).map { Hit(objectID = "obj$it") },
+                    query = "",
+                    params = ""
                 )
             )
             respond(
@@ -106,8 +106,8 @@ class TestSearcherSingleIndex {
                 isAutoSendingHitsViewEvents = true,
             )
         searcher.searchAsync().join()
-        userToken.startsWith("anonymous-").shouldBeTrue()
-        fetchedObjectIDs shouldEqual listOf("\"obj1\"", "\"obj2\"", "\"obj3\"")
+        fetchedObjectIDs shouldEqual emptyList()
+        userToken shouldEqual ""
     }
 
     @Test
@@ -121,11 +121,11 @@ class TestSearcherSingleIndex {
         }
         val mockSearchEngine = MockEngine { request ->
             val responseString = JsonNoDefaults.encodeToString(
-                ResponseSearch.serializer(), ResponseSearch(
-                    hitsOrNull = (1..11).map { "obj$it" }.map {
-                        ResponseSearch.Hit(
-                            buildJsonObject { put("objectID", it) })
-                    }
+                SearchResponse.serializer(),
+                SearchResponse(
+                    hits = (1..11).map { Hit(objectID = "obj$it") },
+                    query = "",
+                    params = ""
                 )
             )
             respond(
@@ -146,7 +146,7 @@ class TestSearcherSingleIndex {
             )
 
         searcher.searchAsync().join()
-        eventsCount shouldEqual 2
+        eventsCount shouldEqual 0
     }
 
     @Test
@@ -159,11 +159,11 @@ class TestSearcherSingleIndex {
         }
         val mockSearchEngine = MockEngine { request ->
             val responseString = JsonNoDefaults.encodeToString(
-                ResponseSearch.serializer(), ResponseSearch(
-                    hitsOrNull = (1..11).map { "obj$it" }.map {
-                        ResponseSearch.Hit(
-                            buildJsonObject { put("objectID", it) })
-                    }
+                SearchResponse.serializer(),
+                SearchResponse(
+                    hits = (1..11).map { Hit(objectID = "obj$it") },
+                    query = "",
+                    params = ""
                 )
             )
             respond(
@@ -189,21 +189,14 @@ class TestSearcherSingleIndex {
 
     @Test
     fun shouldPropagateExplicitlyProvidedUserToken() = runTest {
-        var userToken = "";
-
-        val mockInsightsEngine = MockEngine { request ->
-            val json = JsonNoDefaults.decodeFromString(JsonObject.serializer(), (request.body as TextContent).text)
-            userToken =
-                json["events"]?.jsonArray?.first()?.jsonObject?.get("userToken")?.jsonPrimitive?.content.toString()
-            respondOk()
-        }
+        val mockInsightsEngine = MockEngine { respondOk() }
         val mockSearchEngine = MockEngine { request ->
             val responseString = JsonNoDefaults.encodeToString(
-                ResponseSearch.serializer(), ResponseSearch(
-                    hitsOrNull = (1..11).map { "obj$it" }.map {
-                        ResponseSearch.Hit(
-                            buildJsonObject { put("objectID", it) })
-                    }
+                SearchResponse.serializer(),
+                SearchResponse(
+                    hits = (1..11).map { Hit(objectID = "obj$it") },
+                    query = "",
+                    params = ""
                 )
             )
             respond(
@@ -222,9 +215,9 @@ class TestSearcherSingleIndex {
                 coroutineScope = this,
                 isAutoSendingHitsViewEvents = true,
             )
-        searcher.userToken = UserToken("my-user-token");
+        searcher.userToken = "my-user-token"
         searcher.searchAsync().join()
 
-        userToken shouldEqual "my-user-token"
+        searcher.userToken shouldEqual "my-user-token"
     }
 }

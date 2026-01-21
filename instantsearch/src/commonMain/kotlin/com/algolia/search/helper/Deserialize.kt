@@ -41,4 +41,3 @@ public fun <T> Hit.deserialize(
     }
     return json.decodeFromJsonElement(serializer, element)
 }
-

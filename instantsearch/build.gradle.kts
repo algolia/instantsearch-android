@@ -74,6 +74,16 @@ kotlin {
                 api(libs.google.material)
             }
         }
+        androidUnitTest {
+            dependencies {
+                implementation(libs.test.kotlin.junit)
+                implementation(libs.test.androidx.runner)
+                implementation(libs.test.androidx.ext)
+                implementation(libs.test.robolectric)
+                implementation(libs.test.mockk)
+                implementation(libs.test.coroutines)
+            }
+        }
         androidNativeTest {
             dependencies {
                 implementation(libs.test.kotlin.junit)

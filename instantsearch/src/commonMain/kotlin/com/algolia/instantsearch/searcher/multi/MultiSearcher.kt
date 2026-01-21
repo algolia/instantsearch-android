@@ -78,4 +78,3 @@ public fun MultiSearcher(
     coroutineScope = coroutineScope,
     coroutineDispatcher = coroutineDispatcher,
 )
-

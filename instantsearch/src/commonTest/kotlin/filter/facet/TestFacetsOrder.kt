@@ -1,20 +1,19 @@
 package filter.facet
 
+import com.algolia.client.model.search.FacetOrdering
+import com.algolia.client.model.search.Facets
+import com.algolia.client.model.search.SortRemainingBy
+import com.algolia.client.model.search.Value
+import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.internal.facetsOrder
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.rule.FacetOrdering
-import com.algolia.search.model.rule.FacetValuesOrder
-import com.algolia.search.model.rule.FacetsOrder
-import com.algolia.search.model.rule.SortRule
-import com.algolia.search.model.search.Facet
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class TestFacetsOrder {
 
     val facets = mapOf(
-        String("size") to listOf(
+        "size" to listOf(
             Facet(value = "XS", count = 82),
             Facet(value = "L", count = 81),
             Facet(value = "XXXL", count = 73),
@@ -23,13 +22,13 @@ class TestFacetsOrder {
             Facet(value = "S", count = 67),
             Facet(value = "XL", count = 67),
         ),
-        String("brand") to listOf(
+        "brand" to listOf(
             Facet(value = "Dyson", count = 53),
             Facet(value = "Sony", count = 53),
             Facet(value = "Apple", count = 51),
             Facet(value = "Uniqlo", count = 43),
         ),
-        String("color") to listOf(
+        "color" to listOf(
             Facet(value = "yellow", count = 65),
             Facet(value = "blue", count = 63),
             Facet(value = "red", count = 58),
@@ -37,7 +36,7 @@ class TestFacetsOrder {
             Facet(value = "orange", count = 54),
             Facet(value = "green", count = 48),
         ),
-        String("country") to listOf(
+        "country" to listOf(
             Facet(value = "Spain", count = 31),
             Facet(value = "Finland", count = 27),
             Facet(value = "Germany", count = 27),
@@ -56,54 +55,54 @@ class TestFacetsOrder {
     @Test
     fun testStrictFacetsOrder() {
         val facets = listOf("size", "brand", "color", "country").shuffled()
-        val order = FacetOrdering(facets = FacetsOrder(order = facets), values = emptyMap())
-        assertEquals(facets, withOrder(order).map { it.attribute.raw })
+        val order = FacetOrdering(facets = Facets(order = facets), values = emptyMap())
+        assertEquals(facets, withOrder(order).map { it.attribute })
     }
 
     @Test
     fun testPartialFacetsOrder() {
         val facets = listOf("size", "country")
-        val order = FacetOrdering(facets = FacetsOrder(order = facets), values = emptyMap())
-        assertEquals(facets, withOrder(order).map { it.attribute.raw })
+        val order = FacetOrdering(facets = Facets(order = facets), values = emptyMap())
+        assertEquals(facets, withOrder(order).map { it.attribute })
     }
 
     @Test
     fun testStrictFacetValuesOrder() {
         val countries = listOf("UK", "France", "USA", "Germany", "Finland", "Denmark", "Italy", "Spain").shuffled()
         val order = FacetOrdering(
-            facets = FacetsOrder(order = listOf("country")),
-            values = mapOf("country" to FacetValuesOrder(order = countries, sortRemainingBy = SortRule.Hidden))
+            facets = Facets(order = listOf("country")),
+            values = mapOf("country" to Value(order = countries, sortRemainingBy = SortRemainingBy.Hidden))
         )
-        assertEquals(countries, withOrder(order).first { it.attribute.raw == "country" }.facets.map { it.value })
+        assertEquals(countries, withOrder(order).first { it.attribute == "country" }.facets.map { it.value })
     }
 
     @Test
     fun testPartialFacetValuesOrder() {
         val countries = listOf("UK", "France", "USA").shuffled()
         val order = FacetOrdering(
-            facets = FacetsOrder(order = listOf("country")),
-            values = mapOf("country" to FacetValuesOrder(order = countries, sortRemainingBy = SortRule.Hidden))
+            facets = Facets(order = listOf("country")),
+            values = mapOf("country" to Value(order = countries, sortRemainingBy = SortRemainingBy.Hidden))
         )
-        assertEquals(countries, withOrder(order).first { it.attribute.raw == "country" }.facets.map { it.value })
+        assertEquals(countries, withOrder(order).first { it.attribute == "country" }.facets.map { it.value })
     }
 
     @Test
     fun testPartiallyStrictFacetValuesOrder() {
         val countries = listOf("UK", "France", "USA")
         val order = FacetOrdering(
-            facets = FacetsOrder(order = listOf("country")),
-            values = mapOf("country" to FacetValuesOrder(order = countries, sortRemainingBy = SortRule.Alpha))
+            facets = Facets(order = listOf("country")),
+            values = mapOf("country" to Value(order = countries, sortRemainingBy = SortRemainingBy.Alpha))
         )
-        assertEquals(countries + listOf("Germany", "Finland", "Denmark", "Italy", "Spain").sorted(), withOrder(order).first { it.attribute.raw == "country" }.facets.map { it.value })
+        assertEquals(countries + listOf("Germany", "Finland", "Denmark", "Italy", "Spain").sorted(), withOrder(order).first { it.attribute == "country" }.facets.map { it.value })
     }
 
     @Test
     fun testSortFacetValuesByCount() {
         val expectedFacetValues = facets["country"]?.sortedByDescending { it.count }?.map { it.value }
         val order = FacetOrdering(
-            facets = FacetsOrder(order = listOf("country")),
-            values = mapOf("country" to FacetValuesOrder(order = emptyList(), sortRemainingBy = SortRule.Count))
+            facets = Facets(order = listOf("country")),
+            values = mapOf("country" to Value(order = emptyList(), sortRemainingBy = SortRemainingBy.Count))
         )
-        assertEquals(expectedFacetValues, withOrder(order).first { it.attribute.raw == "country" }.facets.map { it.value })
+        assertEquals(expectedFacetValues, withOrder(order).first { it.attribute == "country" }.facets.map { it.value })
     }
 }

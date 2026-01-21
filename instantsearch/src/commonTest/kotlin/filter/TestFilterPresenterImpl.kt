@@ -1,15 +1,15 @@
 package filter
 
 import com.algolia.instantsearch.filter.DefaultFilterPresenter
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.Attribute
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.NumericOperator
 import shouldEqual
 import kotlin.test.Test
 
 class TestFilterPresenterImpl {
 
-    private val attribute = String("color")
+    private val attribute = "color"
 
     @Test
     fun facet() {

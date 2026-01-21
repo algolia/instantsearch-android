@@ -1,8 +1,6 @@
 package searcher
 
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.response.ResponseSearchForFacets
+import com.algolia.client.model.search.SearchForFacetValuesResponse
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
 import mockClient
@@ -16,16 +14,16 @@ import shouldNotBeNull
 
 class TestSearcherForFacets {
 
-    private val attribute = String("color")
-    private val response = ResponseSearchForFacets(
-        facets = listOf(),
+    private val attribute = "color"
+    private val response = SearchForFacetValuesResponse(
+        facetHits = emptyList(),
         exhaustiveFacetsCount = true,
         processingTimeMS = 0
     )
-    private val client = mockClient(respondJson(response, ResponseSearchForFacets.serializer()))
-    private val indexName = IndexName("index")
+    private val client = mockClient(respondJson(response, SearchForFacetValuesResponse.serializer()))
+    private val indexName = "index"
     private val clientError = respondBadRequest()
-    private val indexNameError = IndexName("index")
+    private val indexNameError = "index"
 
     @Test
     fun searchShouldUpdateLoading() = runTest {

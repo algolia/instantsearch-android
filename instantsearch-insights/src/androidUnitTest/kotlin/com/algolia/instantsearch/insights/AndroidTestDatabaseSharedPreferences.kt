@@ -7,14 +7,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.algolia.instantsearch.insights.internal.data.local.InsightsPrefsRepository
 import com.algolia.instantsearch.insights.internal.extension.insightsSharedPreferences
 import com.algolia.instantsearch.insights.internal.extension.randomUUID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.ObjectID
-import com.algolia.search.model.QueryID
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.insights.EventName
-import com.algolia.search.model.insights.InsightsEvent
-import com.algolia.search.model.insights.UserToken
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.insights.internal.data.local.mapper.FilterFacetMapper
+import com.algolia.instantsearch.insights.internal.data.local.model.FilterFacetDO
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
@@ -25,42 +21,46 @@ import kotlin.test.assertTrue
 class AndroidTestDatabaseSharedPreferences {
 
     private val context get() = ApplicationProvider.getApplicationContext<Application>()
-    private val eventA = EventName("EventA")
-    private val eventB = EventName("EventB")
-    private val eventC = EventName("EventC")
-    private val indexName = IndexName("latency")
-    private val queryId = QueryID("6de2f7eaa537fa93d8f8f05b927953b1")
-    private val userToken = UserToken(randomUUID())
+    private val eventA = "EventA"
+    private val eventB = "EventB"
+    private val eventC = "EventC"
+    private val indexName = "latency"
+    private val queryId = "6de2f7eaa537fa93d8f8f05b927953b1"
+    private val userToken = randomUUID()
     private val positions = listOf(1)
-    private val objectIDs = listOf(ObjectID("54675051"))
+    private val objectIDs = listOf("54675051")
     private val timestamp = System.currentTimeMillis()
     private val facets = listOf(
-        Filter.Facet(attribute = String("attributeString"), isNegated = true, score = 1, value = "value"),
-        Filter.Facet(attribute = String("attributeNum"), isNegated = true, value = 1.0),
-        Filter.Facet(attribute = String("attributeBoolean"), isNegated = false, value = true)
+        Filter.Facet(attribute = "attributeString", isNegated = true, score = 1, value = "value"),
+        Filter.Facet(attribute = "attributeNum", isNegated = true, value = 1.0),
+        Filter.Facet(attribute = "attributeBoolean", isNegated = false, value = true)
     )
-    private val eventClick = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Click(
+    private val filterFacets: List<FilterFacetDO> = facets.map(FilterFacetMapper::map)
+    private val eventClick = InsightsEventDO(
+        eventType = InsightsEventDO.EventType.Click,
         indexName = indexName,
         eventName = eventA,
         timestamp = timestamp,
-        resources = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Resources.ObjectIDs(objectIDs),
+        objectIDs = objectIDs,
         userToken = userToken,
         positions = positions,
         queryID = queryId
     )
-    private val eventConversion = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Conversion(
+    private val eventConversion = InsightsEventDO(
+        eventType = InsightsEventDO.EventType.Conversion,
         indexName = indexName,
         eventName = eventB,
         userToken = userToken,
         timestamp = timestamp,
-        resources = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Resources.ObjectIDs(objectIDs),
+        objectIDs = objectIDs,
         queryID = queryId
     )
-    private val eventView = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.View(
+    private val eventView = InsightsEventDO(
+        eventType = InsightsEventDO.EventType.View,
         indexName = indexName,
         eventName = eventC,
         timestamp = timestamp,
-        resources = com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.Resources.Filters(facets),
+        filters = filterFacets,
         queryID = queryId,
         userToken = userToken
     )

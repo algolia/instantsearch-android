@@ -21,7 +21,7 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.NumericOperator
 import org.junit.Ignore
 
 @Ignore
@@ -56,12 +56,12 @@ internal class DocFilterComparison {
     class MyActivity : AppCompatActivity() {
 
         val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val searcher = HitsSearcher(client, "YourIndexName")
         val filterState = FilterState()
-        val price = String("price")
+        val price = "price"
         val operator = NumericOperator.Greater
         val viewModel = NumberViewModel(range = 0..10)
         val connection = ConnectionHandler()

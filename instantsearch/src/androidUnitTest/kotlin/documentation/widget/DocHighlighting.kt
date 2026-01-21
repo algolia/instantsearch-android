@@ -28,19 +28,19 @@ internal class DocHighlighting {
     ) : Highlightable {
 
         public val highlightedTitle: HighlightedString?
-            get() = getHighlight(String("title"))
+            get() = getHighlight("title")
 
         public val highlightedGenres: List<HighlightedString>?
-            get() = getHighlights(String("genre"))
+            get() = getHighlights("genre")
     }
 
     class MyActivity : AppCompatActivity() {
 
         val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val searcher = HitsSearcher(client, "YourIndexName")
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)

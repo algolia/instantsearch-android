@@ -8,11 +8,11 @@ import kotlin.test.Test
 
 class TestIndexPresenter {
 
-    private val indexName = IndexName("name")
+    private val indexName = "name"
     private val client = mockClient()
 
     @Test
     fun impl() {
-        DefaultIndexPresenter(indexName) shouldEqual indexName.raw
+        DefaultIndexPresenter(indexName) shouldEqual indexName
     }
 }

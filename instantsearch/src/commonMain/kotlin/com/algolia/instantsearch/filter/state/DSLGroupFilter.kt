@@ -61,4 +61,3 @@ public class DSLGroupFilter internal constructor() : LinkedHashSet<Filter>() {
         add(Filter.Numeric(attribute = attribute, range = range, isNegated = isNegated))
     }
 }
-

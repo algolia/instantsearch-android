@@ -7,7 +7,7 @@ import com.algolia.instantsearch.android.filter.current.DefaultFilterCurrentView
 import com.algolia.instantsearch.filter.current.FilterAndID
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 import com.google.android.material.chip.ChipGroup
 import instrumented.applicationContext
 import org.junit.Test
@@ -20,7 +20,7 @@ import shouldEqual
 @RunWith(AndroidJUnit4::class)
 class TestFilterCurrentViewImpl {
 
-    private val color = String("color")
+    private val color = "color"
     private val groupID = FilterGroupID(color)
     private val filterRed = Filter.Facet(color, "red")
     private val filterGreen = Filter.Facet(color, "green")

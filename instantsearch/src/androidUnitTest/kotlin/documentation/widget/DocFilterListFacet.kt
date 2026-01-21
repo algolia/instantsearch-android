@@ -17,7 +17,7 @@ import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 import org.junit.Ignore
 
 @Ignore
@@ -33,12 +33,12 @@ internal class DocFilterListFacet {
     class MyActivity : AppCompatActivity() {
 
         val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val searcher = HitsSearcher(client, "YourIndexName")
         val filterState = FilterState()
-        val color = String("color")
+        val color = "color"
         val filters = listOf(
             Filter.Facet(color, "red"),
             Filter.Facet(color, "green"),

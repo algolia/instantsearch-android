@@ -16,8 +16,8 @@ import shouldEqual
 class TestSortByConnectSearcher {
 
     private val client = mockClient()
-    private val indexNameA = IndexName("A")
-    private val indexNameB = IndexName("B")
+    private val indexNameA = "A"
+    private val indexNameB = "B"
 
     @Test
     fun connectShouldUpdateSearcherIndex() {
