@@ -138,4 +138,4 @@ private fun SectionTitle(modifier: Modifier = Modifier, title: String) {
     )
 }
 
-private fun Facet.highlightedString(): AnnotatedString = HighlightTokenizer()(highlighted).toAnnotatedString()
+private fun Facet.highlightedString(): AnnotatedString = HighlightTokenizer()(highlighted ?: "").toAnnotatedString()

@@ -36,9 +36,11 @@ fun SearchScreen(
     categoriesState: HitsState<Facet>,
 ) {
     val scrollState = rememberScrollState()
-    Column(modifier = modifier
-        .fillMaxWidth()
-        .verticalScroll(scrollState)) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .verticalScroll(scrollState)
+    ) {
         var showSuggestion by remember { mutableStateOf(false) }
         SearchBox(
             modifier = Modifier
@@ -99,10 +101,13 @@ private fun CategoryRow(
             tint = MaterialTheme.colors.onSurface.copy(alpha = 0.2f),
             contentDescription = null
         )
-        Text(
-            text = category.highlighted.toAnnotatedString(),
-            modifier = Modifier.padding(start = 12.dp),
-        )
+
+        category.highlighted?.let { highlighted ->
+            Text(
+                text = highlighted.toAnnotatedString(),
+                modifier = Modifier.padding(start = 12.dp),
+            )
+        }
     }
 }
 

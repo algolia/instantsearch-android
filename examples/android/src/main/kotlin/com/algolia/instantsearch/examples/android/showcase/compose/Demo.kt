@@ -18,9 +18,6 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.*
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
 import com.algolia.search.model.IndexName
 import com.algolia.instantsearch.filter.FilterGroup
 import com.algolia.instantsearch.filter.FilterGroupsConverter

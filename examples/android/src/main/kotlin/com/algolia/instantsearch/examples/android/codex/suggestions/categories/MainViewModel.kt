@@ -42,7 +42,7 @@ class MainViewModel : ViewModel() {
     init {
         connections += searchBoxConnector.connectView(searchBoxState)
         connections += categoriesSearcher.connectHitsView(categoriesState) { response ->
-            response.facetHits.map { Facet(it.value, it.count) }
+            response.facetHits.map { Facet(it.value, it.count, it.highlighted) }
         }
         connections += suggestionsSearcher.connectHitsView(suggestionsState) {
             it.hits.deserialize(

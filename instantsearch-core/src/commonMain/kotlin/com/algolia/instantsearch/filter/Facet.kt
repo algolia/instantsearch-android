@@ -20,8 +20,8 @@ public data class Facet(
     @SerialName("highlighted") val highlightedOrNull: String? = null
 ) {
 
-    val highlighted: String
-        get() = highlightedOrNull!!
+    val highlighted: String?
+        get() = highlightedOrNull
 }
 
 @OptIn(InternalSerializationApi::class)

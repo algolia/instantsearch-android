@@ -45,11 +45,8 @@ import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.stats.StatsPresenter
 import com.algolia.instantsearch.stats.connectView
 import com.algolia.search.client.ClientSearch
-import com.algolia.search.client.initIndex
 import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
 import com.algolia.search.model.IndexName
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.FilterGroup
