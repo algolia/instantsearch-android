@@ -5,7 +5,6 @@ import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.toggle.FilterToggleViewModel
 import com.algolia.instantsearch.filter.toggle.connectFilterState
-import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.Filter
 import shouldEqual
 import kotlin.test.Test

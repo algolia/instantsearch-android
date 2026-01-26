@@ -5,7 +5,6 @@ import com.algolia.instantsearch.filter.map.connectFilterState
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.Filter
 import shouldBeEmpty
 import shouldEqual

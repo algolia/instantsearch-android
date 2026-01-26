@@ -1,12 +1,11 @@
 import com.algolia.client.api.SearchClient
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
 import com.algolia.client.model.search.SearchResponse
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.respondBadRequest
+import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.request.HttpResponseData
 import io.ktor.http.ContentType
 import io.ktor.http.headersOf
@@ -33,7 +32,7 @@ fun mockClient(
             "A",
             "B",
             engine = mockEngine,
-            logLevel = LogLevel.All
+            logLevel = LogLevel.ALL
         )
     )
 }
@@ -62,7 +61,7 @@ fun respondBadRequest(): SearchClient {
             "A",
             "B",
             engine = mockEngine,
-            logLevel = LogLevel.All
+            logLevel = LogLevel.ALL
         )
     )
 }

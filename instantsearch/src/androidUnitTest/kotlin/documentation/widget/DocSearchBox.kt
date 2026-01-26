@@ -11,9 +11,6 @@ import com.algolia.instantsearch.core.searchbox.connectView
 import com.algolia.instantsearch.searchbox.connectSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
 @Ignore

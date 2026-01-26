@@ -6,8 +6,6 @@ import com.algolia.instantsearch.relateditems.MatchingPattern
 import com.algolia.instantsearch.relateditems.connectRelatedHitsView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.ObjectID
 import mockClient
 import kotlin.test.Test
 import kotlin.test.assertEquals

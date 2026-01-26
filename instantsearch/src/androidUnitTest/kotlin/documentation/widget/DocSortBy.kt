@@ -12,9 +12,6 @@ import com.algolia.instantsearch.sortby.SortByViewModel
 import com.algolia.instantsearch.sortby.connectSearcher
 import com.algolia.instantsearch.sortby.connectView
 import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
 @Ignore

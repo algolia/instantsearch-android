@@ -3,12 +3,8 @@ package sortby
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.sortby.SortByViewModel
 import com.algolia.instantsearch.sortby.connectSearcher
-import com.algolia.search.model.IndexName
 import kotlin.test.Test
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import mockClient
 import setUnconfinedMain
 import shouldEqual

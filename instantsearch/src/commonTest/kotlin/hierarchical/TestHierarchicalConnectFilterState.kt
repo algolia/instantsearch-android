@@ -7,7 +7,6 @@ import com.algolia.instantsearch.filter.state.toFilter
 import com.algolia.instantsearch.hierarchical.HierarchicalFilter
 import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
 import com.algolia.instantsearch.hierarchical.connectFilterState
-import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.Facet
 import kotlin.test.Test
 import shouldBeNull

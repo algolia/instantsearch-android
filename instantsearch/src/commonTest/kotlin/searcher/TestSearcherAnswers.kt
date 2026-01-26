@@ -1,6 +1,5 @@
 package searcher
 
-import com.algolia.search.model.IndexName
 import org.junit.Ignore
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest

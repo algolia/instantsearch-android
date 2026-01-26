@@ -2,7 +2,6 @@ package stats
 
 import com.algolia.instantsearch.stats.StatsViewModel
 import com.algolia.instantsearch.stats.connectSearcher
-import com.algolia.search.model.IndexName
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
 import mockClient
