@@ -4,9 +4,6 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.dsl.analyticsTags
 import com.algolia.search.dsl.query
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
 import org.junit.Ignore
 import org.junit.Test
 

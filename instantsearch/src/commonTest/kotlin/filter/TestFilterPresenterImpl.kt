@@ -1,7 +1,6 @@
 package filter
 
 import com.algolia.instantsearch.filter.DefaultFilterPresenter
-import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.NumericOperator
 import shouldEqual

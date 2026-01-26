@@ -10,9 +10,6 @@ import com.algolia.instantsearch.stats.StatsViewModel
 import com.algolia.instantsearch.stats.connectSearcher
 import com.algolia.instantsearch.stats.connectView
 import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
 @Ignore

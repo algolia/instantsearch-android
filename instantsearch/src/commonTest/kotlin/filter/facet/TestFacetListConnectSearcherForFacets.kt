@@ -2,10 +2,8 @@ package filter.facet
 
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.filter.facet.connectSearcherForFacet
-import com.algolia.instantsearch.filter.Attribute
 import com.algolia.client.model.search.FacetHits
 import com.algolia.client.model.search.SearchForFacetValuesResponse
-import com.algolia.search.model.IndexName
 import com.algolia.instantsearch.filter.Facet
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest

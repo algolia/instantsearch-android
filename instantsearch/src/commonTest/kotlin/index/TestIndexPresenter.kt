@@ -1,7 +1,6 @@
 package index
 
 import com.algolia.instantsearch.index.DefaultIndexPresenter
-import com.algolia.search.model.IndexName
 import mockClient
 import shouldEqual
 import kotlin.test.Test
