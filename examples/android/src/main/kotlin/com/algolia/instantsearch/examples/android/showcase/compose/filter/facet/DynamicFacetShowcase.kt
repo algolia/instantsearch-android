@@ -41,19 +41,15 @@ import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Facet
+import io.ktor.client.plugins.logging.LogLevel
 
 class DynamicFacetShowcase : AppCompatActivity() {
 
     private val client = ClientSearch(
         "RVURKQXRHU",
         "937e4e6ec422ff69fe89b569dba30180",
-        LogLevel.All
+        LogLevel.ALL
     )
     private val searcher = HitsSearcher(client, "test_facet_ordering")
     private val filterState = FilterState()
@@ -132,7 +128,7 @@ class DynamicFacetShowcase : AppCompatActivity() {
     fun OrderedFacets(
         modifier: Modifier = Modifier,
         attributedFacet: AttributedFacets,
-        onClick: (Facet, Attribute) -> Unit
+        onClick: (Facet, String) -> Unit
     ) {
         Text(
             modifier = modifier,
@@ -146,7 +142,7 @@ class DynamicFacetShowcase : AppCompatActivity() {
     @Composable
     fun FacetItems(
         attributedFacet: AttributedFacets,
-        onClick: (Facet, Attribute) -> Unit
+        onClick: (Facet, String) -> Unit
     ) {
         Surface(
             contentColor = White,

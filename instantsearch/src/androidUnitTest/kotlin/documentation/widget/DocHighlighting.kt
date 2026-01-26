@@ -11,10 +11,6 @@ import com.algolia.instantsearch.highlighting.Highlightable
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 import org.junit.Ignore

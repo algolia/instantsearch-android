@@ -20,7 +20,6 @@ import com.algolia.instantsearch.examples.android.showcase.androidview.list.acto
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.actor.ActorAdapterNested
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.movie.Movie
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.movie.MovieAdapterNested
-import com.algolia.search.model.IndexName
 import com.algolia.search.helper.deserialize
 
 class PagingMultipleIndexShowcase : AppCompatActivity() {

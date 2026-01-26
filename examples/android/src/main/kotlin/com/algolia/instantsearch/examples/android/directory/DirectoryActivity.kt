@@ -16,7 +16,7 @@ import com.algolia.search.client.ClientSearch
 class DirectoryActivity : AppCompatActivity() {
 
     private val client = ClientSearch(
-        applicationID = "latency",
+        appId = "latency",
         apiKey = "1f6fd3a6fb973cb08419fe7d288fa4db",
     )
     private val searcher = HitsSearcher(client = client, indexName = "mobile_demos")

@@ -11,7 +11,6 @@ import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
 
-import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.Filter
 
 /**
@@ -27,7 +26,7 @@ import com.algolia.instantsearch.filter.Filter
 internal class DynamicFacetListConnectionFilterState(
     val viewModel: DynamicFacetListViewModel,
     val filterState: FilterState,
-    val filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor>,
+    val filterGroupForAttribute: Map<String, FilterGroupDescriptor>,
     val defaultFilterOperator: FilterOperator,
 ) : AbstractConnection() {
 

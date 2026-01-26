@@ -10,12 +10,7 @@ import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
-import com.algolia.search.client.Index
-import com.algolia.search.client.initIndex
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Ignore
@@ -47,7 +42,6 @@ public class DocHits {
             "YourApplicationID",
             "YourAPIKey"
         )
-        public val index: Index = client.initIndex("YourIndexName")
         public val searcher: HitsSearcher = HitsSearcher(client, "YourIndexName")
         public val connection: ConnectionHandler = ConnectionHandler()
         public val adapter: MovieAdapter = MovieAdapter()

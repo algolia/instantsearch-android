@@ -15,8 +15,6 @@ import com.algolia.instantsearch.examples.android.showcase.androidview.*
 import com.algolia.instantsearch.examples.android.databinding.HeaderFilterBinding
 import com.algolia.instantsearch.examples.android.databinding.IncludePlusMinusBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFilterRatingBinding
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import com.algolia.instantsearch.filter.Filter
 
 class RatingShowcase : AppCompatActivity() {

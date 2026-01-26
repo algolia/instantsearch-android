@@ -11,10 +11,6 @@ import com.algolia.instantsearch.searcher.facets.addFacetsSearcher
 import com.algolia.instantsearch.searcher.hits.addHitsSearcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Facet
 
 class MainViewModel : ViewModel() {

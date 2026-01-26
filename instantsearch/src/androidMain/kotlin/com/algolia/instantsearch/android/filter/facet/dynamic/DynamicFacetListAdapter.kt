@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.ListAdapter
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListView
 import com.algolia.instantsearch.filter.facet.dynamic.SelectionsPerAttribute
-import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.Facet
 
 /**
@@ -18,8 +17,8 @@ public class DynamicFacetListAdapter(
     private val factory: DynamicFacetListViewHolder.Factory,
 ) : ListAdapter<DynamicFacetModel, DynamicFacetListViewHolder<out DynamicFacetModel>>(DiffUtil), DynamicFacetListView {
 
-    override var didSelect: ((Attribute, Facet) -> Unit)? = null
-    private var facetSelections: SelectionsPerAttribute = emptyMap<Attribute, Set<String>>()
+    override var didSelect: ((String, Facet) -> Unit)? = null
+    private var facetSelections: SelectionsPerAttribute = emptyMap<String, Set<String>>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DynamicFacetListViewHolder<out DynamicFacetModel> {
         return factory.createViewHolder(parent, DynamicFacetListViewHolder.ViewType.values()[viewType])

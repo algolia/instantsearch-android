@@ -22,7 +22,6 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.BlueDark
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.HoloRedDark
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.White
-import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Facet
 
 @Preview

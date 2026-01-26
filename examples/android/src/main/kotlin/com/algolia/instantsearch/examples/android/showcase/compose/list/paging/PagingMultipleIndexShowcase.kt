@@ -32,7 +32,6 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTh
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.ActorsHorizontalList
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.MoviesHorizontalList
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchTopBar
-import com.algolia.search.model.IndexName
 import kotlinx.coroutines.flow.Flow
 import com.algolia.search.helper.deserialize
 

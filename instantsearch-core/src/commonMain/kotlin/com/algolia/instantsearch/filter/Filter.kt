@@ -1,13 +1,11 @@
 package com.algolia.instantsearch.filter
 
-public typealias Attribute = String
-
 public sealed class Filter {
 
     /**
      * The [Attribute] this filter applies on.
      */
-    public abstract val attribute: Attribute
+    public abstract val attribute: String
 
     /**
      * Whether or not the filter is negated.
@@ -21,7 +19,7 @@ public sealed class Filter {
      * [Read further on scoring][https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#filters-scoring]
      */
     public data class Facet constructor(
-        override val attribute: Attribute,
+        override val attribute: String,
         override val isNegated: Boolean,
         val value: Value,
         val score: Int? = null
@@ -51,21 +49,21 @@ public sealed class Filter {
         }
 
         public constructor(
-            attribute: Attribute,
+            attribute: String,
             value: String,
             score: Int? = null,
             isNegated: Boolean = false
         ) : this(attribute, isNegated, Value.String(value), score)
 
         public constructor(
-            attribute: Attribute,
+            attribute: String,
             value: Boolean,
             score: Int? = null,
             isNegated: Boolean = false
         ) : this(attribute, isNegated, Value.Boolean(value), score)
 
         public constructor(
-            attribute: Attribute,
+            attribute: String,
             value: Number,
             score: Int? = null,
             isNegated: Boolean = false
@@ -83,7 +81,7 @@ public sealed class Filter {
      * A [Filter.Tag] filters on a specific [value]. It uses a reserved keywords "_tags" as [attribute].
      */
     public data class Tag constructor(
-        override val attribute: Attribute,
+        override val attribute: String,
         override val isNegated: Boolean,
         val value: String
     ) : Filter() {
@@ -105,7 +103,7 @@ public sealed class Filter {
      * A [Filter.Numeric] filters on a numeric [value].
      */
     public data class Numeric(
-        override val attribute: Attribute,
+        override val attribute: String,
         override val isNegated: Boolean,
         val value: Value
     ) : Filter() {
@@ -124,33 +122,33 @@ public sealed class Filter {
         }
 
         public constructor(
-            attribute: Attribute,
+            attribute: String,
             operator: NumericOperator,
             value: Number,
             isNegated: Boolean = false
         ) : this(attribute, isNegated, Value.Comparison(operator, value))
 
         public constructor(
-            attribute: Attribute,
+            attribute: String,
             range: IntRange,
             isNegated: Boolean = false
         ) : this(attribute, isNegated, Value.Range(range.start, range.endInclusive))
 
         public constructor(
-            attribute: Attribute,
+            attribute: String,
             range: LongRange,
             isNegated: Boolean = false
         ) : this(attribute, isNegated, Value.Range(range.start, range.endInclusive))
 
         public constructor(
-            attribute: Attribute,
+            attribute: String,
             lowerBound: Float,
             upperBound: Float,
             isNegated: Boolean = false
         ) : this(attribute, isNegated, Value.Range(lowerBound, upperBound))
 
         public constructor(
-            attribute: Attribute,
+            attribute: String,
             lowerBound: Double,
             upperBound: Double,
             isNegated: Boolean = false

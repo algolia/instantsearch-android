@@ -20,10 +20,6 @@ import com.algolia.instantsearch.hierarchical.connectSearcher
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
 @Ignore

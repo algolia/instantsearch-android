@@ -1,26 +1,24 @@
 package com.algolia.instantsearch.filter
 
-
-import com.algolia.instantsearch.filter.NumericOperator
 import com.algolia.instantsearch.attribute.AttributePresenter
 import com.algolia.instantsearch.attribute.DefaultAttributePresenter
 
 public class DefaultFilterPresenter(
     private val attributePresenter: AttributePresenter = DefaultAttributePresenter(),
-    override val facetString: (Attribute, String, Boolean) -> String = { _, value, _ ->
+    override val facetString: (String, String, Boolean) -> String = { _, value, _ ->
         value
     },
-    override val facetBoolean: (Attribute, Boolean, Boolean) -> String = { attribute, _, _ ->
+    override val facetBoolean: (String, Boolean, Boolean) -> String = { attribute, _, _ ->
         attributePresenter(attribute)
     },
-    override val facetNumber: (Attribute, Number, Boolean) -> String = { attribute, value, _ ->
+    override val facetNumber: (String, Number, Boolean) -> String = { attribute, value, _ ->
         "${attributePresenter(attribute)}: $value"
     },
-    override val tag: (Attribute, String, Boolean) -> String = { _, value, _ -> value },
-    override val numericComparison: (Attribute, NumericOperator, Number, Boolean) -> String = { attribute, operator, value, _ ->
+    override val tag: (String, String, Boolean) -> String = { _, value, _ -> value },
+    override val numericComparison: (String, NumericOperator, Number, Boolean) -> String = { attribute, operator, value, _ ->
         "${attributePresenter(attribute)} ${operator.raw} $value"
     },
-    override val numericRange: (Attribute, Number, Number, Boolean) -> String = { attribute, lowerBound, upperBound, _ ->
+    override val numericRange: (String, Number, Number, Boolean) -> String = { attribute, lowerBound, upperBound, _ ->
         "${attributePresenter(attribute)}: $lowerBound to $upperBound"
     },
 ) : FilterPresenter

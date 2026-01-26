@@ -1,8 +1,6 @@
 package com.algolia.instantsearch.filter.facet.dynamic
 
-
 import com.algolia.instantsearch.filter.Facet
-
 
 /**
  * List of ordered facets with their attributes.

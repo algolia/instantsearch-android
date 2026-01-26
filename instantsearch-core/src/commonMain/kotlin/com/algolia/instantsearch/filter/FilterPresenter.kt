@@ -1,18 +1,15 @@
 package com.algolia.instantsearch.filter
 
-
-import com.algolia.instantsearch.filter.NumericOperator
 import com.algolia.instantsearch.core.Presenter
-import com.algolia.instantsearch.filter.Filter
 
 public interface FilterPresenter : Presenter<Filter, String> {
 
-    public val facetString: (Attribute, String, Boolean) -> String
-    public val facetBoolean: (Attribute, Boolean, Boolean) -> String
-    public val facetNumber: (Attribute, Number, Boolean) -> String
-    public val tag: (Attribute, String, Boolean) -> String
-    public val numericComparison: (Attribute, NumericOperator, Number, Boolean) -> String
-    public val numericRange: (Attribute, Number, Number, Boolean) -> String
+    public val facetString: (attribute: String, String, Boolean) -> String
+    public val facetBoolean: (attribute: String, Boolean, Boolean) -> String
+    public val facetNumber: (attribute: String, Number, Boolean) -> String
+    public val tag: (attribute: String, String, Boolean) -> String
+    public val numericComparison: (attribute: String, NumericOperator, Number, Boolean) -> String
+    public val numericRange: (attribute: String, Number, Number, Boolean) -> String
 
     override fun invoke(filter: Filter): String {
         return when (filter) {

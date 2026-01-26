@@ -2,7 +2,6 @@ package com.algolia.instantsearch.filter.facet.dynamic.internal
 
 import com.algolia.client.model.search.FacetOrdering
 import com.algolia.client.model.search.SortRemainingBy
-import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.Facet
 
@@ -13,7 +12,7 @@ import com.algolia.instantsearch.filter.Facet
  * @param facets facets per attribute
  * @param facetOrdering facets ordering rule
  */
-internal fun facetsOrder(facets: Map<Attribute, List<Facet>>, facetOrdering: FacetOrdering): List<AttributedFacets> {
+internal fun facetsOrder(facets: Map<String, List<Facet>>, facetOrdering: FacetOrdering): List<AttributedFacets> {
     val orderedAttributes = facetOrdering.facets?.order?.mapNotNull { attribute -> facets.keys.firstOrNull { it == attribute } }
     return orderedAttributes?.map { attribute ->
         val facetValues = facets[attribute] ?: emptyList()

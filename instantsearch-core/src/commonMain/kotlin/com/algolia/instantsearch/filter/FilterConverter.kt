@@ -26,13 +26,13 @@ internal fun Filter.Tag.toSQL(): String {
     return if (isNegated) "NOT $expression" else expression
 }
 
-internal fun Filter.Numeric.Value.Comparison.toSQL(attribute: Attribute, isNegated: Boolean): String {
+internal fun Filter.Numeric.Value.Comparison.toSQL(attribute: String, isNegated: Boolean): String {
     val expression = "${attribute.escape()} ${operator.raw} $number"
 
     return if (isNegated) "NOT $expression" else expression
 }
 
-internal fun Filter.Numeric.Value.Range.toSQL(attribute: Attribute, isNegated: Boolean): String {
+internal fun Filter.Numeric.Value.Range.toSQL(attribute: String, isNegated: Boolean): String {
     val expression = "${attribute.escape()}:$lowerBound TO $upperBound"
 
     return if (isNegated) "NOT $expression" else expression
@@ -46,7 +46,7 @@ internal fun Filter.Numeric.toSQL(): String {
 }
 
 internal fun Filter.Numeric.Value.Comparison.toLegacy(
-    attribute: Attribute,
+    attribute: String,
     isNegated: Boolean,
     escape: Boolean
 ): List<String> {
@@ -66,7 +66,7 @@ internal fun Filter.Numeric.Value.Comparison.toLegacy(
 }
 
 internal fun Filter.Numeric.Value.Range.toLegacy(
-    attribute: Attribute,
+    attribute: String,
     isNegated: Boolean,
     escape: Boolean
 ): List<String> {

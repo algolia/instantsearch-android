@@ -46,19 +46,18 @@ import com.algolia.instantsearch.stats.StatsPresenter
 import com.algolia.instantsearch.stats.connectView
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.IndexName
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.FilterGroup
 import com.algolia.instantsearch.filter.FilterGroupsConverter
 import com.algolia.client.model.search.SearchResponse
+import io.ktor.client.plugins.logging.LogLevel
 
 
 val client = ClientSearch(
     ConfigurationSearch(
         "latency",
         "1f6fd3a6fb973cb08419fe7d288fa4db",
-        logLevel = LogLevel.All
+        logLevel = LogLevel.ALL
     )
 )
 
@@ -184,7 +183,7 @@ fun RecyclerView.configure(
     autoScrollToStart(recyclerViewAdapter)
 }
 
-val Intent.indexName: IndexName get() = extras!!.getString("indexName")!!
+val Intent.indexName: String get() = extras!!.getString("indexName")!!
 
 fun <R> AppCompatActivity.configureSearchBox(
     searchView: SearchView,

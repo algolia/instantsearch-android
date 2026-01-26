@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.examples.android.showcase.androidview.list.product
 
-import com.algolia.search.model.ObjectID
-import com.algolia.search.model.indexing.Indexable
+import com.algolia.instantsearch.core.Indexable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,5 +18,5 @@ data class Product(
     @SerialName("free_shipping") val freeShipping: Boolean,
     val rating: Int = 0,
     val popularity: Long,
-    override val objectID: ObjectID
+    override val objectID: String
 ) : Indexable

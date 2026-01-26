@@ -40,8 +40,6 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.filters
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import com.algolia.instantsearch.filter.Filter
 
 class RatingShowcase : AppCompatActivity() {

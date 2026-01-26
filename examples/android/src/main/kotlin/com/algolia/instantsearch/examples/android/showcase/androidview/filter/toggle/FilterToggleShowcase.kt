@@ -12,7 +12,6 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.android.showcase.androidview.*
 import com.algolia.instantsearch.examples.android.databinding.HeaderFilterBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFilterToggleBinding
-import com.algolia.search.model.Attribute
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.NumericOperator
 

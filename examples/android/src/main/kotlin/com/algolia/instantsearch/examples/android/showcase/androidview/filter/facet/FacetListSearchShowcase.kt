@@ -21,7 +21,6 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.android.databinding.HeaderFilterBinding
 import com.algolia.instantsearch.examples.android.databinding.IncludeSearchBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFacetListSearchBinding
-import com.algolia.search.model.Attribute
 
 class FacetListSearchShowcase : AppCompatActivity() {
 

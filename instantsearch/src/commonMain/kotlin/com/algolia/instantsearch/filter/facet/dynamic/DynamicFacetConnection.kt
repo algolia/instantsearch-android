@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.filter.facet.dynamic
 
 import com.algolia.instantsearch.core.connection.Connection
-import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.facet.dynamic.internal.DynamicFacetListConnectionFilterState
 import com.algolia.instantsearch.filter.facet.dynamic.internal.DynamicFacetListConnectionSearcherIndex
 import com.algolia.instantsearch.filter.facet.dynamic.internal.DynamicFacetListConnectionView
@@ -29,7 +28,7 @@ public fun DynamicFacetListViewModel.connectSearcher(searcher: SearcherForHits<*
  */
 public fun DynamicFacetListViewModel.connectFilterState(
     filterState: FilterState,
-    filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap(),
+    filterGroupForAttribute: Map<String, FilterGroupDescriptor> = emptyMap(),
     defaultFilterOperator: FilterOperator = FilterOperator.And,
 ): Connection =
     DynamicFacetListConnectionFilterState(this, filterState, filterGroupForAttribute, defaultFilterOperator)

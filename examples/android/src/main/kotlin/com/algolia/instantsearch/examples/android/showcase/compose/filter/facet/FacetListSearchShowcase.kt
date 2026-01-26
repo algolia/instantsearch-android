@@ -29,7 +29,6 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.android.showcase.compose.*
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.*
-import com.algolia.search.model.Attribute
 import com.algolia.search.model.search.Query
 
 class FacetListSearchShowcase : AppCompatActivity() {

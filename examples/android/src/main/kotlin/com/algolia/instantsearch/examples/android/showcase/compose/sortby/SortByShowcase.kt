@@ -29,7 +29,6 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.sortby.SortByConnector
 import com.algolia.instantsearch.sortby.connectView
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.IndexName
 
 class SortByShowcase : AppCompatActivity() {
 

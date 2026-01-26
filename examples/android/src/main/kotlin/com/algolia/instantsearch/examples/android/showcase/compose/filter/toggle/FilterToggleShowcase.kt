@@ -33,7 +33,6 @@ import com.algolia.instantsearch.filter.toggle.FilterToggleConnector
 import com.algolia.instantsearch.filter.toggle.connectView
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.Attribute
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.NumericOperator
 

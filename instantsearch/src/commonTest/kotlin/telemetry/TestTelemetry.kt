@@ -38,16 +38,12 @@ import com.algolia.instantsearch.searcher.SearcherAnswers
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
-import com.algolia.search.client.initIndex
 import com.algolia.instantsearch.sortby.SortByConnector
 import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.telemetry.Component
 import com.algolia.instantsearch.telemetry.ComponentParam
 import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.instantsearch.telemetry.Telemetry
-import com.algolia.instantsearch.filter.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.ObjectID
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.NumericOperator
 import com.algolia.instantsearch.searcher.multi.internal.types.MultipleQueriesStrategy

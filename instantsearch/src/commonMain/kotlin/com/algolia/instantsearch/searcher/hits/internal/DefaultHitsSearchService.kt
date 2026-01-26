@@ -4,9 +4,6 @@ import com.algolia.client.api.SearchClient
 import com.algolia.client.model.search.FacetStats
 import com.algolia.client.model.search.SearchResponse
 import com.algolia.client.transport.RequestOptions
-import com.algolia.instantsearch.filter.state.filters
-
-import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.FilterGroup
@@ -17,6 +14,7 @@ import com.algolia.instantsearch.searcher.hits.internal.HitsSearchService.Advanc
 import com.algolia.instantsearch.searcher.hits.internal.HitsSearchService.Request
 import com.algolia.instantsearch.searcher.internal.search
 import com.algolia.instantsearch.searcher.multi.internal.SearchService
+
 /**
  * Search service for hits.
  */
@@ -199,8 +197,8 @@ internal class DefaultHitsSearchService(
         )
     }
 
-    private fun List<SearchResponse>.aggregateFacets(): Map<Attribute, List<Facet>> {
-        return fold(emptyMap<Attribute, List<Facet>>()) { acc, result ->
+    private fun List<SearchResponse>.aggregateFacets(): Map<String, List<Facet>> {
+        return fold(emptyMap<String, List<Facet>>()) { acc, result ->
             result.facets?.let { facets ->
                 acc + facets.map { (attr, counts) ->
                     attr to counts.map { (value, count) -> Facet(value, count) }
@@ -209,8 +207,8 @@ internal class DefaultHitsSearchService(
         }
     }
 
-    private fun List<SearchResponse>.aggregateFacetStats(): Map<Attribute, FacetStats> {
-        return fold(emptyMap<Attribute, FacetStats>()) { acc, result ->
+    private fun List<SearchResponse>.aggregateFacetStats(): Map<String, FacetStats> {
+        return fold(emptyMap<String, FacetStats>()) { acc, result ->
             result.facetsStats?.let { acc + it } ?: acc
         }
     }

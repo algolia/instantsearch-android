@@ -16,7 +16,6 @@ import com.algolia.instantsearch.examples.android.databinding.HeaderFilterBindin
 import com.algolia.instantsearch.examples.android.databinding.IncludeListBinding
 import com.algolia.instantsearch.examples.android.databinding.IncludeSearchBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFacetListPersistentBinding
-import com.algolia.search.model.Attribute
 
 class FacetListPersistentShowcase : AppCompatActivity() {
 

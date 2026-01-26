@@ -17,7 +17,6 @@ import com.algolia.instantsearch.filter.DefaultFilterPresenter
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.BlueDark
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.White
-import com.algolia.search.model.Attribute
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.NumericOperator
 

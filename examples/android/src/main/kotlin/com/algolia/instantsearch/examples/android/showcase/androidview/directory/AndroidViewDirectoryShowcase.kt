@@ -14,7 +14,6 @@ import com.algolia.instantsearch.examples.android.showcase.androidview.configure
 import com.algolia.instantsearch.examples.android.showcase.androidview.configureSearchBox
 import com.algolia.instantsearch.examples.android.showcase.androidview.configureSearchView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
 
 class AndroidViewDirectoryShowcase : AppCompatActivity() {

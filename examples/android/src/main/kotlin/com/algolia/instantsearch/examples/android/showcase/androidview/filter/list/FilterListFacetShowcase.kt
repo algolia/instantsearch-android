@@ -14,7 +14,6 @@ import com.algolia.instantsearch.examples.android.showcase.androidview.*
 import com.algolia.instantsearch.examples.android.databinding.HeaderFilterBinding
 import com.algolia.instantsearch.examples.android.databinding.IncludeListBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFilterListBinding
-import com.algolia.search.model.Attribute
 import com.algolia.instantsearch.filter.Filter
 
 class FilterListFacetShowcase : AppCompatActivity() {

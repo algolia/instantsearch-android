@@ -3,9 +3,7 @@ package tracker
 import com.algolia.instantsearch.insights.FilterTrackable
 import com.algolia.instantsearch.tracker.internal.FilterDataTracker
 import com.algolia.instantsearch.tracker.internal.TrackableSearcher
-import com.algolia.search.model.Attribute
 import com.algolia.instantsearch.filter.Filter
-import com.algolia.search.model.insights.EventName
 import com.algolia.search.model.search.Facet
 import MainCoroutineRule
 import io.mockk.mockk
@@ -21,14 +19,14 @@ class TestFiltersTracker {
     val coroutineRule = MainCoroutineRule()
     private val testCoroutineScope = CoroutineScope(coroutineRule.testDispatcher)
 
-    private val eventName = EventName("eventName")
+    private val eventName = "eventName"
     private val trackableSearcher = mockk<TrackableSearcher<*>>()
     private val filterTrackable = mockk<FilterTrackable>(relaxed = true)
     private val filtersTracker = FilterDataTracker(eventName, trackableSearcher, filterTrackable, testCoroutineScope)
 
     @Test
     fun testTrackClick() = runTest {
-        val eventName = EventName("customEventName")
+        val eventName = "customEventName"
         val filter = Filter.Facet(attribute = "attribute", value = "value")
 
         filtersTracker.trackClick(filter = filter, customEventName = eventName)
@@ -44,7 +42,7 @@ class TestFiltersTracker {
 
     @Test
     fun testTrackClickFacet() = runTest {
-        val eventName = EventName("customEventName")
+        val eventName = "customEventName"
         val attribute = "attribute"
         val value = "value"
         val facet = Facet(value = value, count = 0)
@@ -63,7 +61,7 @@ class TestFiltersTracker {
 
     @Test
     fun testTrackConversion() = runTest {
-        val eventName = EventName("customEventName")
+        val eventName = "customEventName"
         val value = "value"
         val filter = Filter.Facet(attribute = "attribute", value = value)
 
@@ -80,7 +78,7 @@ class TestFiltersTracker {
 
     @Test
     fun testTrackConversionFacet() {
-        val eventName = EventName("customEventName")
+        val eventName = "customEventName"
         val value = "value"
         val facet = Facet(value = value, count = 0)
         val filter = Filter.Facet(attribute = "attribute", value = value)
@@ -98,7 +96,7 @@ class TestFiltersTracker {
 
     @Test
     fun testTrackView() {
-        val eventName = EventName("customEventName")
+        val eventName = "customEventName"
         val value = "value"
         val filter = Filter.Facet(attribute = "attribute", value = value)
 
@@ -115,7 +113,7 @@ class TestFiltersTracker {
 
     @Test
     fun testTrackViewFacet() {
-        val eventName = EventName("customEventName")
+        val eventName = "customEventName"
         val attribute = "attribute"
         val value = "value"
         val facet = Facet(value = value, count = 0)

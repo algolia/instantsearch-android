@@ -1,7 +1,6 @@
 import com.algolia.client.api.SearchClient
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import com.algolia.client.model.search.SearchResponse

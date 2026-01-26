@@ -6,7 +6,6 @@ import androidx.test.filters.SmallTest
 import com.algolia.instantsearch.android.filter.current.DefaultFilterCurrentView
 import com.algolia.instantsearch.filter.current.FilterAndID
 import com.algolia.instantsearch.filter.state.FilterGroupID
-import com.algolia.search.model.Attribute
 import com.algolia.instantsearch.filter.Filter
 import com.google.android.material.chip.ChipGroup
 import instrumented.applicationContext

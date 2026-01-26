@@ -17,7 +17,6 @@ import com.algolia.instantsearch.examples.android.databinding.ShowcaseSortByBind
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.movie.Movie
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.movie.MovieAdapter
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.IndexName
 
 class SortByShowcase : AppCompatActivity() {
 

@@ -31,8 +31,6 @@ import com.algolia.instantsearch.filter.facet.connectView
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 
 class FacetListPersistentShowcase : AppCompatActivity() {
 

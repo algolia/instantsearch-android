@@ -3,7 +3,6 @@ package com.algolia.instantsearch.filter.facet.dynamic
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.extension.traceDynamicFacetConnector
-import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
@@ -24,7 +23,7 @@ public class DynamicFacetListConnector(
     public val searcher: SearcherForHits<*>,
     public val filterState: FilterState,
     public val viewModel: DynamicFacetListViewModel = DynamicFacetListViewModel(),
-    filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap(),
+    filterGroupForAttribute: Map<String, FilterGroupDescriptor> = emptyMap(),
     defaultFilterOperator: FilterOperator = FilterOperator.And,
 ) : AbstractConnection() {
 
@@ -42,10 +41,10 @@ public class DynamicFacetListConnector(
         searcher: SearcherForHits<*>,
         filterState: FilterState,
         orderedFacets: List<AttributedFacets> = emptyList(),
-        selections: SelectionsPerAttribute = mutableMapOf<Attribute, Set<String>>(),
-        selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap(),
+        selections: SelectionsPerAttribute = mutableMapOf<String, Set<String>>(),
+        selectionModeForAttribute: Map<String, SelectionMode> = emptyMap(),
         defaultSelectionMode: SelectionMode = SelectionMode.Single,
-        filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap(),
+        filterGroupForAttribute: Map<String, FilterGroupDescriptor> = emptyMap(),
         defaultFilterOperator: FilterOperator = FilterOperator.And,
     ) : this(
         searcher,

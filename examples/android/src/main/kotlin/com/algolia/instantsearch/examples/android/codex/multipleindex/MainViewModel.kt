@@ -10,9 +10,6 @@ import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.addHitsSearcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
 
 class MainViewModel : ViewModel() {
 

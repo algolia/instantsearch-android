@@ -17,16 +17,15 @@ import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.*
 import com.algolia.search.client.ClientSearch
 import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.IndexName
 import com.algolia.instantsearch.filter.FilterGroup
 import com.algolia.instantsearch.filter.FilterGroupsConverter
+import io.ktor.client.plugins.logging.LogLevel
 
 val client = ClientSearch(
     ConfigurationSearch(
         "latency",
         "1f6fd3a6fb973cb08419fe7d288fa4db",
-        logLevel = LogLevel.All
+        logLevel = LogLevel.ALL
     )
 )
 
@@ -40,7 +39,7 @@ fun Activity.configureSearcher(searcher: IndexNameHolder) {
     searcher.indexName = intent.indexName
 }
 
-val Intent.indexName: IndexName get() = extras!!.getString("indexName")!!
+val Intent.indexName: String get() = extras!!.getString("indexName")!!
 
 fun <R> configureSearchBox(
     searcher: Searcher<R>,

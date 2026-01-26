@@ -17,7 +17,6 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.updateSearchParamsObject
 import com.algolia.instantsearch.examples.android.databinding.HeaderFilterBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFilterComparisonBinding
-import com.algolia.search.model.Attribute
 import com.algolia.instantsearch.filter.NumericOperator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,7 +27,7 @@ class FilterComparisonShowcase : AppCompatActivity() {
     private val price = "price"
     private val year = "year"
     private val filterState = FilterState()
-    private val searcher =  HitsSearcher(client, stubIndexName)
+    private val searcher = HitsSearcher(client, stubIndexName)
     private val comparisonPrice = FilterComparisonConnector<Long>(filterState, price, NumericOperator.GreaterOrEquals)
     private val comparisonYear = FilterComparisonConnector<Int>(filterState, year, NumericOperator.Equals)
     private val connection = ConnectionHandler(
@@ -46,8 +45,16 @@ class FilterComparisonShowcase : AppCompatActivity() {
         searcher.updateSearchParamsObject { it.addFacet(price) }
         searcher.updateSearchParamsObject { it.addFacet(year) }
 
-        val priceView = FilterPriceView(ShowcaseFilterComparisonBinding.bind(binding.filterComparison), price, comparisonPrice.operator)
-        val yearView = FilterYearView(ShowcaseFilterComparisonBinding.bind(binding.filterComparison), year, comparisonYear.operator)
+        val priceView = FilterPriceView(
+            ShowcaseFilterComparisonBinding.bind(binding.filterComparison),
+            price,
+            comparisonPrice.operator
+        )
+        val yearView = FilterYearView(
+            ShowcaseFilterComparisonBinding.bind(binding.filterComparison),
+            year,
+            comparisonYear.operator
+        )
 
         connection += comparisonPrice.connectView(priceView)
         connection += comparisonYear.connectView(yearView) { year -> year?.toString() ?: "" }

@@ -36,7 +36,6 @@ import com.algolia.instantsearch.filter.state.groupAnd
 import com.algolia.instantsearch.filter.state.groupOr
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.Attribute
 
 class FacetListShowcase : AppCompatActivity() {
 

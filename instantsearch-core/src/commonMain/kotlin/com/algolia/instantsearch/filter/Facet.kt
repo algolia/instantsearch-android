@@ -7,11 +7,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class Facet(
     /**
-     * Name of the facet. Is equal to the value associated to an [Attribute].
+     * Name of the facet. Is equal to the value associated to an attribute [String].
      */
     @SerialName("value") val value: String,
     /**
-     * Number of times this [value] occurs for a given [Attribute].
+     * Number of times this [value] occurs for a given attribute [String].
      */
     @SerialName("count") val count: Int,
     /**
@@ -30,6 +30,6 @@ public operator fun List<Facet>.get(value: String): Int {
 }
 
 @OptIn(InternalSerializationApi::class)
-public operator fun Map<Attribute, List<Facet>>.get(attribute: Attribute, value: String): Int {
+public operator fun Map<String, List<Facet>>.get(attribute: String, value: String): Int {
     return getValue(attribute).find { it.value == value }!!.count
 }

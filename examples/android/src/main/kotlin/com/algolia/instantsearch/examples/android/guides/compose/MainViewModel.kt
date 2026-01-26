@@ -22,12 +22,8 @@ import com.algolia.instantsearch.stats.DefaultStatsPresenter
 import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.stats.connectView
 import com.algolia.search.client.ClientSearch
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import com.algolia.search.helper.deserialize
+import io.ktor.client.plugins.logging.LogLevel
 
 
 class MainViewModel : ViewModel() {
@@ -35,7 +31,7 @@ class MainViewModel : ViewModel() {
     val client = ClientSearch(
         "latency",
         "1f6fd3a6fb973cb08419fe7d288fa4db",
-        LogLevel.All
+        LogLevel.ALL
     )
     val indexName = "instant_search"
     val searcher = HitsSearcher(client, indexName)

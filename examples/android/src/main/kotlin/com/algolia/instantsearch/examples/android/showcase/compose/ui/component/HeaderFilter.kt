@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.examples.android.R
 import com.algolia.instantsearch.examples.android.showcase.compose.highlight
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
-import com.algolia.search.model.Attribute
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.FilterGroup
 import com.algolia.instantsearch.filter.NumericOperator

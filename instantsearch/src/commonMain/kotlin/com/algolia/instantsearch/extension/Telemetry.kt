@@ -2,7 +2,6 @@ package com.algolia.instantsearch.extension
 
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.encode.gzip
-import com.algolia.instantsearch.filter.Attribute
 import com.algolia.instantsearch.filter.clear.ClearMode
 import com.algolia.instantsearch.filter.clear.FilterClearConnector
 import com.algolia.instantsearch.filter.current.FilterCurrentConnector
@@ -17,7 +16,6 @@ import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.toggle.FilterToggleConnector
-
 import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.searcher.multi.internal.types.MultipleQueriesStrategy
@@ -91,20 +89,20 @@ internal fun SearcherAnswers.traceAnswersSearcher() {
 internal fun traceDynamicFacet(
     orderedFacets: List<AttributedFacets>,
     selections: SelectionsPerAttribute,
-    selectionModeForAttribute: Map<Attribute, SelectionMode>
+    selectionModeForAttribute: Map<String, SelectionMode>
 ) {
     val params = buildSet {
         if (orderedFacets != emptyList<AttributedFacets>()) add(ComponentParam.OrderedFacets)
-        if (selections != emptyMap<Attribute, Set<String>>()) add(ComponentParam.Selections)
-        if (selectionModeForAttribute != emptyMap<Attribute, SelectionMode>()) add(ComponentParam.SelectionModeForAttribute)
+        if (selections != emptyMap<String, Set<String>>()) add(ComponentParam.Selections)
+        if (selectionModeForAttribute != emptyMap<String, SelectionMode>()) add(ComponentParam.SelectionModeForAttribute)
     }
     Telemetry.shared.trace(ComponentType.DynamicFacets, params)
 }
 
 /** Telemetry: trace dynamic facets connector */
-internal fun traceDynamicFacetConnector(filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor>) {
+internal fun traceDynamicFacetConnector(filterGroupForAttribute: Map<String, FilterGroupDescriptor>) {
     val params =
-        if (filterGroupForAttribute != emptyMap<Attribute, FilterGroupDescriptor>()) setOf(ComponentParam.FilterGroupForAttribute) else emptySet()
+        if (filterGroupForAttribute != emptyMap<String, FilterGroupDescriptor>()) setOf(ComponentParam.FilterGroupForAttribute) else emptySet()
     Telemetry.shared.traceConnector(ComponentType.DynamicFacets, params)
 }
 

@@ -17,7 +17,6 @@ import com.algolia.instantsearch.examples.android.showcase.compose.configureSear
 import com.algolia.instantsearch.examples.android.showcase.compose.filterColors
 import com.algolia.instantsearch.examples.android.showcase.compose.stubIndexName
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.HeaderFilterConnector
-import com.algolia.search.model.Attribute
 import com.algolia.instantsearch.filter.Filter
 
 

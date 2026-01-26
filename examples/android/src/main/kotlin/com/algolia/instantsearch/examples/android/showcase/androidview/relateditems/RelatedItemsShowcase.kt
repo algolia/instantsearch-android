@@ -12,7 +12,6 @@ import com.algolia.instantsearch.examples.android.databinding.ShowcaseRelatedite
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.product.Product
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.product.ProductAdapter
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.Attribute
 
 class RelatedItemsShowcase : AppCompatActivity() {
 

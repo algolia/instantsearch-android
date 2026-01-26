@@ -44,7 +44,6 @@ import com.algolia.instantsearch.hierarchical.HierarchicalItem
 import com.algolia.instantsearch.hierarchical.connectView
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.Attribute
 
 class HierarchicalShowcase : AppCompatActivity() {
 

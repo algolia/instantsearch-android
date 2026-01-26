@@ -15,7 +15,6 @@ import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.android.databinding.HeaderFilterBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFilterCurrentBinding
-import com.algolia.search.model.Attribute
 import com.algolia.instantsearch.filter.NumericOperator
 
 class ShowcaseFilterCurrent : AppCompatActivity() {

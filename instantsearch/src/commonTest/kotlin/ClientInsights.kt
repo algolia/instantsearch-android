@@ -1,7 +1,6 @@
 import com.algolia.client.api.InsightsClient
 import com.algolia.search.client.ClientInsights
 import com.algolia.search.configuration.ConfigurationInsights
-import com.algolia.search.logging.LogLevel
 import com.algolia.search.model.APIKey
 import com.algolia.search.model.ApplicationID
 import io.ktor.client.engine.mock.MockEngine
