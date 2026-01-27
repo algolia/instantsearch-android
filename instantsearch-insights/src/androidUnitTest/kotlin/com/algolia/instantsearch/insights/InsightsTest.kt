@@ -15,6 +15,11 @@ import com.algolia.instantsearch.insights.internal.extension.randomUUID
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
 import com.algolia.client.api.InsightsClient
+import com.algolia.client.configuration.ClientOptions
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.respond
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.headersOf
 import java.time.LocalDateTime
 import java.time.ZoneId
 import kotlin.test.Test
@@ -90,13 +95,28 @@ internal class InsightsTest {
         positions = positions
     )
 
-    private val clientInsights = InsightsClient(appId, apiKey)
+    private val clientInsights = createMockInsightsClient()
 
     private val webService
         get() = InsightsHttpRepository(clientInsights)
 
     init {
         System.setProperty("javax.net.ssl.trustStoreType", "JKS")
+    }
+
+    private fun createMockInsightsClient(): InsightsClient {
+        val engine = MockEngine {
+            respond(
+                content = """{"status":200,"message":"ok"}""",
+                status = HttpStatusCode.OK,
+                headers = headersOf("Content-Type", "application/json")
+            )
+        }
+        return InsightsClient(
+            appId = appId,
+            apiKey = apiKey,
+            options = ClientOptions(engine = engine)
+        )
     }
 
     @Test
