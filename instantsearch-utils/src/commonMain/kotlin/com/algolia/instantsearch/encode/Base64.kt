@@ -7,4 +7,3 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 public fun ByteArray.encodeBase64(): String {
     return Base64.UrlSafe.encode(this)
 }
-
