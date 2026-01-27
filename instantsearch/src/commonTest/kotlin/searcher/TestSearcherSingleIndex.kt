@@ -106,8 +106,8 @@ class TestSearcherSingleIndex {
                 isAutoSendingHitsViewEvents = true,
             )
         searcher.searchAsync().join()
-        fetchedObjectIDs shouldEqual emptyList()
-        userToken shouldEqual ""
+        fetchedObjectIDs shouldEqual listOf("obj1", "obj2", "obj3")
+        userToken.startsWith("anonymous-").shouldBeTrue()
     }
 
     @Test
@@ -146,7 +146,7 @@ class TestSearcherSingleIndex {
             )
 
         searcher.searchAsync().join()
-        eventsCount shouldEqual 0
+        eventsCount shouldEqual 2
     }
 
     @Test
