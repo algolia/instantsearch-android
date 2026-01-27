@@ -145,7 +145,6 @@ internal class InsightsTest {
         val uploader = InsightsEventUploader(localRepository, distantRepository)
         val insights = InsightsController(indexName, eventUploader, cache, uploader, true)
             .apply { userToken = this@InsightsTest.userToken }
-        insights.userToken = "foo" // TODO: git stash apply to use default UUID token
         insights.clickedObjectIDs(eventClick.eventName, objectIDs)
         insights.clickedObjectIDsAfterSearch(
             eventName = eventClick.eventName,

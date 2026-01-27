@@ -41,7 +41,6 @@ internal data class SearcherAnswersConnectionFilterState(
 
     private fun SearcherAnswers.updateFilters(filters: Filters = filterState) {
         val filterGroups = filters.toFilterGroups()
-        // TODO: In v3, query is immutable. Need to update searcher to use mutable query or create new query instances
-        // query.filters = FilterGroupsConverter.SQL(filterGroups)
+        query = query.copy(filters = FilterGroupsConverter.SQL(filterGroups))
     }
 }

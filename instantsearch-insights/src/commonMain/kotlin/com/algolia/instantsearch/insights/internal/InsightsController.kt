@@ -2,12 +2,12 @@
 package com.algolia.instantsearch.insights.internal
 
 import com.algolia.instantsearch.insights.Insights
-import com.algolia.instantsearch.insights.exception.InsightsException
 import com.algolia.instantsearch.insights.internal.cache.InsightsCache
 import com.algolia.instantsearch.insights.internal.data.local.mapper.FilterFacetMapper
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventType
 import com.algolia.instantsearch.insights.internal.extension.currentTimeMillis
+import com.algolia.instantsearch.insights.internal.extension.randomUUID
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.uploader.InsightsUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
@@ -42,7 +42,9 @@ internal class InsightsController(
             InsightsLogger.enabled[indexName] = value
         }
 
-    private fun userTokenOrThrow(): String = userToken ?: throw InsightsException.NoUserToken()
+    private fun userTokenOrGenerate(): String {
+        return userToken ?: randomUUID().also { userToken = it }
+    }
 
     init {
         worker.startPeriodicUpload()
@@ -125,7 +127,7 @@ internal class InsightsController(
             this.eventType = eventType
             this.eventName = eventName
             this.indexName = indexName
-            this.userToken = userTokenOrThrow()
+            this.userToken = userTokenOrGenerate()
             this.timestamp = timestamp
             this.queryID = queryID
             this.objectIDs = objectIDs

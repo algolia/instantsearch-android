@@ -1,6 +1,9 @@
 package com.algolia.instantsearch.searcher.hits.internal
 
 import com.algolia.client.api.InsightsClient
+import com.algolia.client.model.insights.InsightsEvents
+import com.algolia.client.model.insights.ViewEvent
+import com.algolia.client.model.insights.ViewedObjectIDs
 import com.algolia.client.model.search.SearchParamsObject
 import com.algolia.client.model.search.SearchResponse
 import com.algolia.client.transport.RequestOptions
@@ -76,9 +79,27 @@ internal class DefaultHitsSearcher(
     }
 
     private suspend fun sendInsightsEvents(response: SearchResponse?) {
-        // TODO: Implement v3 insights events sending
-        // For now, this is disabled as InsightsEvent was removed from migration2to3
-        // Need to use v3 EventsItems API instead
+        if (!isAutoSendingHitsViewEvents || response == null) return
+        if (userToken.isBlank()) return
+        val objectIDs = response.hits.map { it.objectID }
+        if (objectIDs.isEmpty()) return
+
+        val index = response.index ?: indexName
+        val events = objectIDs.chunked(maxObjectIDsPerEvent).map { chunk ->
+            ViewedObjectIDs(
+                eventName = ViewEventObjects,
+                eventType = ViewEvent.View,
+                index = index,
+                objectIDs = chunk,
+                userToken = userToken
+            )
+        }
+        runCatching {
+            insights.pushEvents(
+                insightsEvents = InsightsEvents(events),
+                requestOptions = requestOptions
+            )
+        }
     }
 
     override fun collect(): MultiSearchOperation<IndexQuery, SearchResponse> {

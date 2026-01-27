@@ -3,6 +3,7 @@ package com.algolia.instantsearch.insights.internal.data.local.mapper
 
 import com.algolia.client.model.insights.*
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
+import com.algolia.instantsearch.insights.internal.data.local.model.FilterFacetDO
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventType.Click
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventType.Conversion
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventType.View
@@ -20,11 +21,7 @@ internal object InsightsEventsMapper {
             }
             is EventsItems.ViewedFiltersValue -> {
                 builder.eventType = View
-                builder.filters = input.value.filters.mapNotNull { filterString ->
-                    // Convert filter string back to Filter.Facet for storage
-                    // This is a simplification - in reality you'd parse the string
-                    null // TODO: implement filter string parsing if needed
-                }
+                builder.filters = input.value.filters.mapNotNull(::parseFacetFilter)
             }
             is EventsItems.ClickedObjectIDsAfterSearchValue -> {
                 builder.eventType = Click
@@ -34,7 +31,7 @@ internal object InsightsEventsMapper {
             }
             is EventsItems.ClickedFiltersValue -> {
                 builder.eventType = Click
-                builder.filters = input.value.filters.mapNotNull { null } // TODO: parse filter strings
+                builder.filters = input.value.filters.mapNotNull(::parseFacetFilter)
             }
             is EventsItems.ConvertedObjectIDsAfterSearchValue -> {
                 builder.eventType = Conversion
@@ -43,7 +40,7 @@ internal object InsightsEventsMapper {
             }
             is EventsItems.ConvertedFiltersValue -> {
                 builder.eventType = Conversion
-                builder.filters = input.value.filters.mapNotNull { null } // TODO: parse filter strings
+                builder.filters = input.value.filters.mapNotNull(::parseFacetFilter)
             }
             else -> return builder.build() // Other event types not yet handled
         }
@@ -103,4 +100,59 @@ internal object InsightsEventsMapper {
             filters = input.filters?.map { FilterFacetMapper.unmap(it) }
         )
     }
+
+    private fun parseFacetFilter(filterString: String): FilterFacetDO? {
+        val trimmed = filterString.trim()
+        val (rawAttribute, rawValue) = splitOnFirstColonOutsideQuotes(trimmed) ?: return null
+        val attribute = rawAttribute.trim().unquote()
+        if (attribute.isEmpty()) return null
+
+        var valuePart = rawValue.trim()
+        val scoreMatch = SCORE_REGEX.find(valuePart)
+        val score = scoreMatch?.groupValues?.getOrNull(1)?.toIntOrNull()
+        if (scoreMatch != null) {
+            valuePart = valuePart.removeRange(scoreMatch.range).trim()
+        }
+        val isNegated = valuePart.startsWith("-") && !valuePart.startsWith("-\"")
+        if (isNegated) {
+            valuePart = valuePart.removePrefix("-").trim()
+        }
+        val value = parseFacetValue(valuePart)
+        val facet = Filter.Facet(attribute = attribute, isNegated = isNegated, value = value, score = score)
+        return FilterFacetMapper.map(facet)
+    }
+
+    private fun splitOnFirstColonOutsideQuotes(input: String): Pair<String, String>? {
+        var inQuotes = false
+        input.forEachIndexed { index, char ->
+            if (char == '"' && (index == 0 || input[index - 1] != '\\')) {
+                inQuotes = !inQuotes
+            } else if (char == ':' && !inQuotes) {
+                val left = input.substring(0, index)
+                val right = input.substring(index + 1)
+                return left to right
+            }
+        }
+        return null
+    }
+
+    private fun String.unquote(): String {
+        val trimmed = trim()
+        if (trimmed.length >= 2 && trimmed.first() == '"' && trimmed.last() == '"') {
+            return trimmed.substring(1, trimmed.length - 1)
+                .replace("\\\"", "\"")
+                .replace("\\\\", "\\")
+        }
+        return trimmed
+    }
+
+    private fun parseFacetValue(valuePart: String): Filter.Facet.Value {
+        val raw = valuePart.unquote()
+        raw.toLongOrNull()?.let { return Filter.Facet.Value.Number(it) }
+        raw.toDoubleOrNull()?.let { return Filter.Facet.Value.Number(it) }
+        raw.toBooleanStrictOrNull()?.let { return Filter.Facet.Value.Boolean(it) }
+        return Filter.Facet.Value.String(raw)
+    }
+
+    private val SCORE_REGEX = Regex("<score=(\\d+)>\\s*$")
 }

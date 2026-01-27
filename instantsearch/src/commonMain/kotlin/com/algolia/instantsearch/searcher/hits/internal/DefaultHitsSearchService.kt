@@ -185,16 +185,21 @@ internal class DefaultHitsSearchService(
     override fun aggregateResult(responses: List<SearchResponse>, disjunctiveFacetCount: Int): SearchResponse {
         val resultsDisjunctiveFacets = responses.subList(1, 1 + disjunctiveFacetCount)
         val resultHierarchicalFacets = responses.subList(1 + disjunctiveFacetCount, responses.size)
+        val baseFacets = responses.first().facetsAsList()
         val facets = resultsDisjunctiveFacets.aggregateFacets()
         val facetStats = responses.aggregateFacetStats()
         val hierarchicalFacets = resultHierarchicalFacets.aggregateFacets()
-        // Note: SearchResponse doesn't have copy() with these properties in v3
-        // For now, return the first response with aggregated facets and stats
-        // TODO: Properly merge SearchResponse properties
+        val mergedFacets = baseFacets + facets + hierarchicalFacets
         return responses.first().copy(
             facetsStats = if (facetStats.isEmpty()) null else facetStats,
-            facets = facets.mapValues { (_, facets) -> facets.associate { it.value to it.count } }
+            facets = mergedFacets.mapValues { (_, facets) -> facets.associate { it.value to it.count } }
         )
+    }
+
+    private fun SearchResponse.facetsAsList(): Map<String, List<Facet>> {
+        return facets?.map { (attribute, counts) ->
+            attribute to counts.map { (value, count) -> Facet(value, count) }
+        }?.toMap().orEmpty()
     }
 
     private fun List<SearchResponse>.aggregateFacets(): Map<String, List<Facet>> {

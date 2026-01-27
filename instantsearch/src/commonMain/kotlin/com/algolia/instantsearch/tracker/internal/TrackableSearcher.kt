@@ -2,6 +2,7 @@
 
 package com.algolia.instantsearch.tracker.internal
 
+import com.algolia.client.model.search.SearchParamsObject
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.client.model.search.SearchResponse
@@ -36,9 +37,8 @@ internal sealed class TrackableSearcher<T> where T : Searcher<*> {
     internal class HitsSearcher(override val searcher: SearcherForHits<*>) : TrackableSearcher<SearcherForHits<*>>() {
 
         override fun setClickAnalyticsOn(on: Boolean) {
-            // Note: SearchParamsObject is immutable, so clickAnalytics should be set when creating the query
-            // This is a no-op for now, as the query is already created
-            // TODO: Consider making query mutable or setting clickAnalytics at query creation time
+            val typedSearcher = searcher as? SearcherForHits<SearchParamsObject> ?: return
+            typedSearcher.query = typedSearcher.query.copy(clickAnalytics = on)
         }
 
         override fun <T : QueryIDContainer> subscribeForQueryIDChange(subscriber: T): SubscriptionJob<SearchResponse?> {

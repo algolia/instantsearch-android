@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.extension
 
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.encode.encodeBase64
 import com.algolia.instantsearch.encode.gzip
 import com.algolia.instantsearch.filter.clear.ClearMode
 import com.algolia.instantsearch.filter.clear.FilterClearConnector
@@ -30,7 +31,6 @@ import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.instantsearch.telemetry.Schema
 import com.algolia.instantsearch.telemetry.Telemetry
 import com.algolia.instantsearch.telemetry.toByteArray
-import io.ktor.util.encodeBase64
 
 /** Get telemetry schema header **/
 internal fun telemetrySchema(): String? {
@@ -39,7 +39,7 @@ internal fun telemetrySchema(): String? {
 
 /** Compress [Schema] structure (gzip + base64) */
 private fun Schema.compress(): String {
-    return toByteArray().gzip().encodeBase64() // TODO: replace ktor's encodeBase64
+    return toByteArray().gzip().encodeBase64()
 }
 
 /** Telemetry: trace hits searcher */
