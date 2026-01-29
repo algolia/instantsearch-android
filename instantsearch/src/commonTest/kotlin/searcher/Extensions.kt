@@ -32,4 +32,3 @@ fun TestSearcherForFacets(client: SearchClient, indexName: String, attribute: St
     attribute = attribute,
     coroutineScope = TestCoroutineScope
 )
-
