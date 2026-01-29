@@ -34,7 +34,6 @@ import com.algolia.instantsearch.relateditems.connectRelatedHitsView
 import com.algolia.instantsearch.relevantsort.RelevantSortConnector
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.SearchMode
-import com.algolia.instantsearch.searcher.SearcherAnswers
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
@@ -112,14 +111,6 @@ class TestTelemetry { // instrumented because it uses android's Base64
         MultiSearcher(client, MultipleQueriesStrategy.StopIfEnoughMatches)
         val component = Telemetry.shared.validateAndGet(ComponentType.MultiSearcher)
         assertEquals(setOf(ComponentParam.Strategy), component.parameters)
-        assertEquals(false, component.isConnector)
-    }
-
-    @Test
-    fun testAnswersSearcher() = scope.runTest {
-        SearcherAnswers(indexName, requestOptions = RequestOptions())
-        val component = Telemetry.shared.validateAndGet(ComponentType.AnswersSearcher)
-        assertEquals(setOf(ComponentParam.RequestOptions), component.parameters)
         assertEquals(false, component.isConnector)
     }
 

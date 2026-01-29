@@ -22,7 +22,6 @@ import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.searcher.multi.internal.types.MultipleQueriesStrategy
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.SearchMode
-import com.algolia.instantsearch.searcher.SearcherAnswers
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.multi.internal.DefaultMultiSearcher
@@ -77,12 +76,6 @@ internal fun traceFilterState() {
 /** Telemetry: trace loading connector */
 internal fun traceLoadingConnector() {
     Telemetry.shared.traceConnector(ComponentType.Loading)
-}
-
-/** Telemetry: trace answers searcher */
-internal fun SearcherAnswers.traceAnswersSearcher() {
-    val params = if (requestOptions != null) setOf(ComponentParam.RequestOptions) else emptySet()
-    Telemetry.shared.trace(ComponentType.AnswersSearcher, params)
 }
 
 /** Telemetry: trace dynamic facets */
