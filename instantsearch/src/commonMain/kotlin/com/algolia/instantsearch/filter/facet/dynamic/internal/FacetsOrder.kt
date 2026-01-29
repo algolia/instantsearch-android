@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.filter.facet.dynamic.internal
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.client.model.search.FacetOrdering
 import com.algolia.client.model.search.SortRemainingBy
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
-import com.algolia.instantsearch.filter.Facet
 
 /**
  * Apply the algorithm transforming the received facets and facet ordering rules to the list of ordered facet attributes
@@ -12,7 +12,7 @@ import com.algolia.instantsearch.filter.Facet
  * @param facets facets per attribute
  * @param facetOrdering facets ordering rule
  */
-internal fun facetsOrder(facets: Map<String, List<Facet>>, facetOrdering: FacetOrdering): List<AttributedFacets> {
+internal fun facetsOrder(facets: Map<String, List<FacetHits>>, facetOrdering: FacetOrdering): List<AttributedFacets> {
     val orderedAttributes = facetOrdering.facets?.order?.mapNotNull { attribute -> facets.keys.firstOrNull { it == attribute } }
     return orderedAttributes?.map { attribute ->
         val facetValues = facets[attribute] ?: emptyList()
@@ -28,11 +28,11 @@ internal fun facetsOrder(facets: Map<String, List<Facet>>, facetOrdering: FacetO
  * @param rule the ordering rule for facets
  * @return list of ordered facets
  */
-private fun order(facets: List<Facet>, rule: com.algolia.client.model.search.Value): List<Facet> {
+private fun order(facets: List<FacetHits>, rule: com.algolia.client.model.search.Value): List<FacetHits> {
     if (facets.size <= 1) return facets
     val pinnedFacets = rule.order?.mapNotNull { value -> facets.firstOrNull { it.value == value } } ?: listOf()
     val remainingFacets = facets.filter { !pinnedFacets.contains(it) }
-    val facetsTail: List<Facet> = when (rule.sortRemainingBy ?: SortRemainingBy.Count) {
+    val facetsTail: List<FacetHits> = when (rule.sortRemainingBy ?: SortRemainingBy.Count) {
         SortRemainingBy.Alpha -> remainingFacets.sortedBy { it.value }
         SortRemainingBy.Count -> remainingFacets.sortedByDescending { it.count }
         SortRemainingBy.Hidden -> emptyList()

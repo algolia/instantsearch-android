@@ -4,7 +4,6 @@ import com.algolia.instantsearch.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.filter.facet.connectSearcherForFacet
 import com.algolia.client.model.search.FacetHits
 import com.algolia.client.model.search.SearchForFacetValuesResponse
-import com.algolia.instantsearch.filter.Facet
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
 import mockClient
@@ -15,7 +14,7 @@ import shouldEqual
 class TestFacetListConnectSearcherForFacets {
 
     private val attribute = "color"
-    private val red = Facet("red", 1)
+    private val red = FacetHits("red", "", 1)
     private val facets = listOf(red)
     private val response = SearchForFacetValuesResponse(
         facetHits = listOf(FacetHits(value = red.value, highlighted = red.value, count = red.count)),

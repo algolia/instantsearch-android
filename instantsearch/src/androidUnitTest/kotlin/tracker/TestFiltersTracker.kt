@@ -4,8 +4,8 @@ import com.algolia.instantsearch.insights.FilterTrackable
 import com.algolia.instantsearch.tracker.internal.FilterDataTracker
 import com.algolia.instantsearch.tracker.internal.TrackableSearcher
 import com.algolia.instantsearch.filter.Filter
-import com.algolia.search.model.search.Facet
 import MainCoroutineRule
+import com.algolia.client.model.search.FacetHits
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
@@ -45,7 +45,7 @@ class TestFiltersTracker {
         val eventName = "customEventName"
         val attribute = "attribute"
         val value = "value"
-        val facet = Facet(value = value, count = 0)
+        val facet = FacetHits(value = value, "", count = 0)
         val filter = Filter.Facet(attribute = attribute, value = value)
 
         filtersTracker.trackClick(facet = facet, attribute = attribute, customEventName = eventName)
@@ -80,7 +80,7 @@ class TestFiltersTracker {
     fun testTrackConversionFacet() {
         val eventName = "customEventName"
         val value = "value"
-        val facet = Facet(value = value, count = 0)
+        val facet = FacetHits(value = value, "", count = 0)
         val filter = Filter.Facet(attribute = "attribute", value = value)
 
         filtersTracker.trackConversion(facet = facet, attribute = "attribute", customEventName = eventName)
@@ -116,7 +116,7 @@ class TestFiltersTracker {
         val eventName = "customEventName"
         val attribute = "attribute"
         val value = "value"
-        val facet = Facet(value = value, count = 0)
+        val facet = FacetHits(value = value, "", count = 0)
         val filter = Filter.Facet(attribute = "attribute", value = value)
 
         filtersTracker.trackView(facet = facet, attribute = attribute, customEventName = eventName)

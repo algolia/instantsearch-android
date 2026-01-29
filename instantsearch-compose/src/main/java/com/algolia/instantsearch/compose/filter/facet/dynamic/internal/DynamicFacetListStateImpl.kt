@@ -3,11 +3,10 @@ package com.algolia.instantsearch.compose.filter.facet.dynamic.internal
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.compose.filter.facet.dynamic.DynamicFacetListState
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.SelectionsPerAttribute
-
-import com.algolia.instantsearch.filter.Facet
 
 /**
  * [DynamicFacetListState] implementation.
@@ -26,7 +25,7 @@ internal class DynamicFacetListStateImpl(
     @set:JvmName("_orderedFacets")
     override var orderedFacets: List<AttributedFacets> by mutableStateOf(orderedFacets)
 
-    override var didSelect: ((String, Facet) -> Unit)? = null
+    override var didSelect: ((String, FacetHits) -> Unit)? = null
 
     override fun setOrderedFacets(facetOrder: List<AttributedFacets>) {
         this.orderedFacets = facetOrder
@@ -36,11 +35,11 @@ internal class DynamicFacetListStateImpl(
         this.selections = selections
     }
 
-    override fun toggle(facet: Facet, attribute: String) {
+    override fun toggle(facet: FacetHits, attribute: String) {
         didSelect?.invoke(attribute, facet)
     }
 
-    override fun isSelected(facet: Facet, attribute: String): Boolean {
+    override fun isSelected(facet: FacetHits, attribute: String): Boolean {
         return selections[attribute]?.contains(facet.value) == true
     }
 }
