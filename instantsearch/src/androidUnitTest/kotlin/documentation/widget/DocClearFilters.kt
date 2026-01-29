@@ -3,6 +3,7 @@ package documentation.widget
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.android.filter.clear.DefaultFilterClearView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.filter.clear.FilterClearView
@@ -12,7 +13,6 @@ import com.algolia.instantsearch.filter.clear.connectView
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import org.junit.Ignore
 
 @Ignore
@@ -20,7 +20,7 @@ internal class DocClearFilters {
 
     class MyActivity : AppCompatActivity() {
 
-        val client = ClientSearch(
+        val client = SearchClient(
             "YourApplicationID",
             "YourAPIKey"
         )

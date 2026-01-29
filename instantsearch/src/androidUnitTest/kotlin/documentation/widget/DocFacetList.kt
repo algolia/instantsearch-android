@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
 import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.android.filter.facet.FacetListAdapter
 import com.algolia.instantsearch.android.filter.facet.FacetListViewHolder
@@ -19,7 +20,6 @@ import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import org.junit.Ignore
 
 @Ignore
@@ -44,7 +44,7 @@ internal class DocFacetList {
             }
         }
 
-        val client = ClientSearch(
+        val client = SearchClient(
             "YourApplicationID",
             "YourAPIKey"
         )

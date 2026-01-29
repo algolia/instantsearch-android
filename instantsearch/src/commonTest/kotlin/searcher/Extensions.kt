@@ -5,7 +5,6 @@ import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.client.api.InsightsClient
 import com.algolia.client.api.SearchClient
-import com.algolia.search.client.ClientInsights
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
@@ -14,7 +13,7 @@ val TestCoroutineScope = SearcherScope(Dispatchers.Default)
 fun TestSearcherSingle(
     client: SearchClient,
     indexName: String,
-    insights: InsightsClient = ClientInsights(client.appId, client.apiKey),
+    insights: InsightsClient = InsightsClient(client.appId, client.apiKey),
     coroutineScope: CoroutineScope = TestCoroutineScope,
     isAutoSendingHitsViewEvents: Boolean = false,
 ) = HitsSearcher(

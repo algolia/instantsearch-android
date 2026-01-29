@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.tree.connectView
@@ -19,7 +20,6 @@ import com.algolia.instantsearch.hierarchical.connectFilterState
 import com.algolia.instantsearch.hierarchical.connectSearcher
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import org.junit.Ignore
 
 @Ignore
@@ -68,7 +68,7 @@ internal class DocHierarchicalMenu {
 
     class MyActivity : AppCompatActivity() {
 
-        val client = ClientSearch(
+        val client = SearchClient(
             "YourApplicationID",
             "YourAPIKey"
         )

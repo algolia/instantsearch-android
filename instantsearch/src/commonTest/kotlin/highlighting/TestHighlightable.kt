@@ -1,10 +1,10 @@
 package highlighting
 
 import JsonNoDefaults
+import com.algolia.client.model.search.HighlightResultOption
+import com.algolia.client.model.search.MatchLevel
 import com.algolia.instantsearch.core.highlighting.HighlightToken
 import com.algolia.instantsearch.highlighting.Highlightable
-import com.algolia.search.model.search.HighlightResult
-import com.algolia.search.model.search.MatchLevel
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
@@ -127,8 +127,8 @@ class TestHighlightable {
         }
     }
 
-    private fun highlight(value: String): HighlightResult {
-        return HighlightResult(
+    private fun highlight(value: String): HighlightResultOption {
+        return HighlightResultOption(
             value = value,
             matchLevel = MatchLevel.Full,
             matchedWords = listOf(),
@@ -136,6 +136,6 @@ class TestHighlightable {
         )
     }
 
-    private fun HighlightResult.toJson(): JsonElement =
-        JsonNoDefaults.encodeToJsonElement(HighlightResult.serializer(), this)
+    private fun HighlightResultOption.toJson(): JsonElement =
+        JsonNoDefaults.encodeToJsonElement(HighlightResultOption.serializer(), this)
 }

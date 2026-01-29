@@ -1,7 +1,7 @@
 package documentation.guide
 
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import com.algolia.search.dsl.analyticsTags
 import com.algolia.search.dsl.query
 import org.junit.Ignore
@@ -11,7 +11,7 @@ import org.junit.Test
 @Ignore
 internal class GuideAnalyticsTag {
 
-    private val client = ClientSearch("app", "key")
+    private val client = SearchClient("app", "key")
 
     @Suppress("UNUSED_VARIABLE")
     @Test

@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.text.style.BackgroundColorSpan
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.android.highlighting.toSpannedString
 import com.algolia.instantsearch.core.highlighting.HighlightedString
 import com.algolia.instantsearch.highlighting.Highlightable
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import com.algolia.search.helper.deserialize
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
@@ -32,7 +32,7 @@ internal class DocHighlighting {
 
     class MyActivity : AppCompatActivity() {
 
-        val client = ClientSearch(
+        val client = SearchClient(
             "YourApplicationID",
             "YourAPIKey"
         )

@@ -1,6 +1,5 @@
 import com.algolia.client.api.InsightsClient
-import com.algolia.search.client.ClientInsights
-import com.algolia.search.configuration.ConfigurationInsights
+import com.algolia.client.configuration.ClientOptions
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.request.HttpResponseData
@@ -17,10 +16,11 @@ fun mockClientInsights(
 fun mockClientInsights(
     mockEngine: MockEngine,
 ): InsightsClient {
-    return ClientInsights(
-        ConfigurationInsights(
-            "A",
-            "B",
+    return InsightsClient(
+        "A",
+        "B",
+        region = null,
+        options = ClientOptions(
             engine = mockEngine,
             logLevel = LogLevel.ALL
         )

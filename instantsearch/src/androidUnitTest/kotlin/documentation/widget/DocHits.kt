@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import com.algolia.search.helper.deserialize
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.jsonPrimitive
@@ -21,7 +21,7 @@ public class DocHits {
 
     @Test
     public fun json() {
-        val client = ClientSearch(
+        val client = SearchClient(
             "YourApplicationID",
             "YourAPIKey"
         )
@@ -38,7 +38,7 @@ public class DocHits {
 
     public class MyActivity : AppCompatActivity() {
 
-        public val client = ClientSearch(
+        public val client = SearchClient(
             "YourApplicationID",
             "YourAPIKey"
         )

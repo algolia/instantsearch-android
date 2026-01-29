@@ -2,6 +2,7 @@ package documentation.widget
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.android.filter.current.DefaultFilterCurrentView
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.filter.current.FilterCurrentView
@@ -11,7 +12,6 @@ import com.algolia.instantsearch.filter.current.connectView
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import com.google.android.material.chip.ChipGroup
 import org.junit.Ignore
 
@@ -20,7 +20,7 @@ internal class DocCurrentFilters {
 
     class MyActivity : AppCompatActivity() {
 
-        val client = ClientSearch(
+        val client = SearchClient(
             "YourApplicationID",
             "YourAPIKey"
         )

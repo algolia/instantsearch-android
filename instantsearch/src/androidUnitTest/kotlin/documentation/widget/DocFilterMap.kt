@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.filter.map.FilterMapView
@@ -14,7 +15,6 @@ import com.algolia.instantsearch.filter.map.connectView
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import com.algolia.instantsearch.filter.Filter
 import org.junit.Ignore
 
@@ -55,7 +55,7 @@ internal class DocFilterMap {
 
         val gender = "gender"
         val filterState = FilterState()
-        val client = ClientSearch(
+        val client = SearchClient(
             "YourApplicationID",
             "YourAPIKey"
         )

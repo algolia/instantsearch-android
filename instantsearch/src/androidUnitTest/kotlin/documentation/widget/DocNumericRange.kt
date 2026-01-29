@@ -2,6 +2,7 @@ package documentation.widget
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.range.NumberRangeView
@@ -12,7 +13,6 @@ import com.algolia.instantsearch.filter.range.connectFilterState
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import org.junit.Ignore
 
 @Ignore
@@ -27,7 +27,7 @@ internal class DocNumericRange {
 
     class MyActivity : AppCompatActivity() {
 
-        val client = ClientSearch(
+        val client = SearchClient(
             "YourApplicationID",
             "YourAPIKey"
         )

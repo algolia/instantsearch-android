@@ -2,6 +2,8 @@ package com.algolia.instantsearch.examples.android.showcase.androidview.filter.f
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
+import com.algolia.client.configuration.ClientOptions
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.android.filter.facet.dynamic.DynamicFacetListAdapter
@@ -19,15 +21,16 @@ import com.algolia.instantsearch.examples.android.showcase.androidview.configure
 import com.algolia.instantsearch.examples.android.showcase.androidview.configureToolbar
 import com.algolia.instantsearch.examples.android.databinding.IncludeSearchBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseDynamicFacetListBinding
-import com.algolia.search.client.ClientSearch
 import io.ktor.client.plugins.logging.LogLevel
 
 class DynamicFacetShowcase : AppCompatActivity() {
 
-    val client = ClientSearch(
-        "RVURKQXRHU",
-        "937e4e6ec422ff69fe89b569dba30180",
-        LogLevel.ALL
+    val client = SearchClient(
+        appId = "RVURKQXRHU",
+        apiKey = "937e4e6ec422ff69fe89b569dba30180",
+        options = ClientOptions(
+            logLevel = LogLevel.ALL
+        )
     )
     val searcher = HitsSearcher(client, "test_facet_ordering")
     val filterState = FilterState()

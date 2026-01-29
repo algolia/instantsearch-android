@@ -2,6 +2,7 @@ package documentation.widget
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
@@ -12,7 +13,6 @@ import com.algolia.instantsearch.filter.list.connectFilterState
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.NumericOperator
 import org.junit.Ignore
@@ -29,7 +29,7 @@ internal class DocFilterList {
 
     class MyActivity : AppCompatActivity() {
 
-        val client = ClientSearch(
+        val client = SearchClient(
             "YourApplicationID",
             "YourAPIKey"
         )

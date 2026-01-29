@@ -3,6 +3,7 @@ package documentation.widget
 import android.os.Bundle
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.android.filter.toggle.FilterToggleViewCompoundButton
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.filter.state.FilterState
@@ -12,7 +13,6 @@ import com.algolia.instantsearch.filter.toggle.connectFilterState
 import com.algolia.instantsearch.filter.toggle.connectView
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import com.algolia.instantsearch.filter.Filter
 import org.junit.Ignore
 
@@ -21,7 +21,7 @@ internal class DocFilterToggle {
 
     class MyActivity : AppCompatActivity() {
 
-        val client = ClientSearch(
+        val client = SearchClient(
             "YourApplicationID",
             "YourAPIKey"
         )

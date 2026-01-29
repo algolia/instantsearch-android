@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.Computation
 import com.algolia.instantsearch.core.number.NumberView
@@ -16,7 +17,6 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.addFacet
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
 import com.algolia.instantsearch.filter.NumericOperator
 import org.junit.Ignore
 
@@ -51,7 +51,7 @@ internal class DocFilterComparison {
 
     class MyActivity : AppCompatActivity() {
 
-        val client = ClientSearch(
+        val client = SearchClient(
             "YourApplicationID",
             "YourAPIKey"
         )

@@ -1,6 +1,5 @@
 import com.algolia.client.api.SearchClient
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.configuration.ConfigurationSearch
+import com.algolia.client.configuration.ClientOptions
 import com.algolia.client.model.search.SearchResponse
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -27,10 +26,10 @@ fun mockClient(
 fun mockClient(
     mockEngine: MockEngine,
 ): SearchClient {
-    return ClientSearch(
-        ConfigurationSearch(
-            "A",
-            "B",
+    return SearchClient(
+        appId = "A",
+        apiKey = "B",
+        options = ClientOptions(
             engine = mockEngine,
             logLevel = LogLevel.ALL
         )
@@ -56,10 +55,10 @@ fun respondBadRequest(): SearchClient {
     val mockEngine = MockEngine {
         respondBadRequest()
     }
-    return ClientSearch(
-        ConfigurationSearch(
-            "A",
-            "B",
+    return SearchClient(
+        appId = "A",
+        apiKey = "B",
+        options = ClientOptions(
             engine = mockEngine,
             logLevel = LogLevel.ALL
         )

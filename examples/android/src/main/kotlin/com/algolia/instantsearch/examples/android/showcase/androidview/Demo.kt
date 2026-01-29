@@ -26,6 +26,8 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.client.api.SearchClient
+import com.algolia.client.configuration.ClientOptions
 import com.algolia.instantsearch.android.filter.clear.DefaultFilterClearView
 import com.algolia.instantsearch.android.list.autoScrollToStart
 import com.algolia.instantsearch.android.searchbox.SearchBoxViewAppCompat
@@ -44,8 +46,6 @@ import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.stats.StatsPresenter
 import com.algolia.instantsearch.stats.connectView
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.configuration.ConfigurationSearch
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.FilterGroup
 import com.algolia.instantsearch.filter.FilterGroupsConverter
@@ -53,10 +53,10 @@ import com.algolia.client.model.search.SearchResponse
 import io.ktor.client.plugins.logging.LogLevel
 
 
-val client = ClientSearch(
-    ConfigurationSearch(
-        "latency",
-        "1f6fd3a6fb973cb08419fe7d288fa4db",
+val client = SearchClient(
+    appId = "latency",
+    apiKey = "1f6fd3a6fb973cb08419fe7d288fa4db",
+    options = ClientOptions(
         logLevel = LogLevel.ALL
     )
 )
