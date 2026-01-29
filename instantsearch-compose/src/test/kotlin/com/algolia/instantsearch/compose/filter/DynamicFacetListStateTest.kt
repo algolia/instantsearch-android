@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.compose.filter
 
 import androidx.compose.runtime.snapshots.Snapshot
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.compose.filter.facet.dynamic.DynamicFacetListState
-import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -19,7 +19,7 @@ public class DynamicFacetListStateTest {
     public fun testOrderedFacets() {
         assertEquals(initOrderedFacets, dynamicFacetListState.orderedFacets)
         Snapshot.takeSnapshot {
-            val orderedFacets = listOf(AttributedFacets("os", listOf(Facet("android", 1))))
+            val orderedFacets = listOf(AttributedFacets("os", listOf(FacetHits("android", "", 1))))
             dynamicFacetListState.setOrderedFacets(orderedFacets)
             assertEquals(orderedFacets, dynamicFacetListState.orderedFacets)
         }
@@ -39,13 +39,13 @@ public class DynamicFacetListStateTest {
 
     @Test
     public fun testToggle() {
-        var selectedFacet: Facet? = null
+        var selectedFacet: FacetHits? = null
         var selectedAttribute: String? = null
         dynamicFacetListState.didSelect = { attribute, facet ->
             selectedFacet = facet
             selectedAttribute = attribute
         }
-        val facet = Facet("Android", 1)
+        val facet = FacetHits("Android", "", 1)
         val attribute = "os"
         dynamicFacetListState.toggle(facet, attribute)
 
@@ -57,8 +57,8 @@ public class DynamicFacetListStateTest {
     public fun testIsSelected() {
         Snapshot.takeSnapshot {
             val attribute = "os"
-            val facetAndroid = Facet("android", 1)
-            val facetIOS = Facet("ios", 1)
+            val facetAndroid = FacetHits("android", "", 1)
+            val facetIOS = FacetHits("ios", "", 1)
             val selections = mapOf(attribute to setOf(facetAndroid.value))
             dynamicFacetListState.setSelections(selections)
             assertTrue(dynamicFacetListState.isSelected(facetAndroid, attribute))

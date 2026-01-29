@@ -1,5 +1,6 @@
 package filter.facet
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.filter.facet.connectFilterState
@@ -7,15 +8,14 @@ import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.toFilter
-import com.algolia.instantsearch.filter.Facet
 import shouldEqual
 import kotlin.test.Test
 
 class TestFacetListConnectFilterState {
 
     private val color = "color"
-    private val red = Facet("red", 1)
-    private val green = Facet("green", 2)
+    private val red = FacetHits("red", "", 1)
+    private val green = FacetHits("green", "", 2)
     private val groupID = FilterGroupID(color, FilterOperator.Or)
     private val selections = setOf(red.value)
     private val filterRed = red.toFilter(color)

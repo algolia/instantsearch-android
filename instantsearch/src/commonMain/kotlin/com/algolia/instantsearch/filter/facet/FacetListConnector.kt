@@ -1,13 +1,12 @@
 package com.algolia.instantsearch.filter.facet
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.extension.traceFacetListConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-
-import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.searcher.SearcherForFacets
 import com.algolia.instantsearch.searcher.SearcherForHits
 
@@ -64,7 +63,7 @@ public data class FacetListConnector internal constructor(
         filterState: FilterState,
         attribute: String,
         selectionMode: SelectionMode = SelectionMode.Multiple,
-        items: List<Facet> = listOf(),
+        items: List<FacetHits> = listOf(),
         persistentSelection: Boolean = false,
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
     ) : this(
@@ -80,7 +79,7 @@ public data class FacetListConnector internal constructor(
         filterState: FilterState,
         attribute: String,
         selectionMode: SelectionMode = SelectionMode.Multiple,
-        items: List<Facet> = listOf(),
+        items: List<FacetHits> = listOf(),
         persistentSelection: Boolean = false,
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
     ) : this(

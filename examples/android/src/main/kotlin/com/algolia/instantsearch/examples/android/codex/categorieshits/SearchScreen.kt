@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.algolia.instantsearch.examples.android.codex.categorieshits
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,19 +24,19 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.compose.highlighting.toAnnotatedString
 import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
 import com.algolia.instantsearch.examples.android.AppColors
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchBox
-import com.algolia.search.model.search.Facet
 
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
     searchBoxState: SearchBoxState,
-    categoriesState: HitsState<Facet>,
+    categoriesState: HitsState<FacetHits>,
     productsState: HitsState<Product>,
 ) {
     Scaffold(modifier = modifier, topBar = {
@@ -66,7 +63,7 @@ fun SearchScreen(
 
 @Composable
 private fun CategoryItem(
-    modifier: Modifier = Modifier, category: Facet
+    modifier: Modifier = Modifier, category: FacetHits
 ) {
     Row(
         modifier
@@ -138,4 +135,4 @@ private fun SectionTitle(modifier: Modifier = Modifier, title: String) {
     )
 }
 
-private fun Facet.highlightedString(): AnnotatedString = HighlightTokenizer()(highlighted ?: "").toAnnotatedString()
+private fun FacetHits.highlightedString(): AnnotatedString = HighlightTokenizer()(highlighted ?: "").toAnnotatedString()

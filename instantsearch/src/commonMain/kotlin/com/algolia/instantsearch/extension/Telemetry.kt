@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.extension
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.encode.encodeBase64
 import com.algolia.instantsearch.encode.gzip
@@ -17,7 +18,6 @@ import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.toggle.FilterToggleConnector
-import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.searcher.multi.internal.types.MultipleQueriesStrategy
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
@@ -110,9 +110,9 @@ internal fun traceHierarchicalFacetsConnector() {
 }
 
 /** Telemetry: trace facets list */
-internal fun traceFacetList(items: List<Facet>, selectionMode: SelectionMode, persistentSelection: Boolean) {
+internal fun traceFacetList(items: List<FacetHits>, selectionMode: SelectionMode, persistentSelection: Boolean) {
     val params = buildSet {
-        if (items != emptyList<Facet>()) add(ComponentParam.Items)
+        if (items != emptyList<FacetHits>()) add(ComponentParam.Items)
         if (selectionMode != SelectionMode.Multiple) add(ComponentParam.SelectionMode)
         if (persistentSelection) add(ComponentParam.PersistentSelection)
     }

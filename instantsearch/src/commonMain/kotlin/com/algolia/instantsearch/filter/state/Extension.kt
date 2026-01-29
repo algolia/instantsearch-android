@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.state
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.FilterGroup
 
@@ -54,6 +54,6 @@ public fun <T> Range<T>.toFilterNumeric(attribute: String): Filter.Numeric where
     return Filter.Numeric(attribute, false, Filter.Numeric.Value.Range(min, max))
 }
 
-public fun Facet.toFilter(attribute: String): Filter.Facet {
+public fun FacetHits.toFilter(attribute: String): Filter.Facet {
     return Filter.Facet(attribute, value)
 }

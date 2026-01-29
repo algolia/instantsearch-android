@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.hierarchical.internal
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
-import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.instantsearch.searcher.addFacet
@@ -20,7 +20,7 @@ internal data class HierarchicalConnectionSearcher(
 
             viewModel.tree.value = viewModel.hierarchicalAttributes
                 .mapNotNull { attribute ->
-                    facets[attribute]?.map { (value, count) -> Facet(value, count) }?.toMutableList()
+                    facets[attribute]?.map { (value, count) -> FacetHits(value, "", count) }?.toMutableList()
                 }
                 .filterUnprefixed()
                 .flatten()
@@ -40,7 +40,7 @@ internal data class HierarchicalConnectionSearcher(
      * Level 0: [Clothing, Furniture]
      * Level 1: [Clothing > Men, Clothing > Women]
      */
-    private fun List<MutableList<Facet>>.filterUnprefixed(): List<MutableList<Facet>> {
+    private fun List<MutableList<FacetHits>>.filterUnprefixed(): List<MutableList<FacetHits>> {
         viewModel.hierarchicalPath.value.forEachIndexed { index, (_, item) ->
             getOrNull(index + 1) // Get next level (sub-category)
                 ?.removeAll { !it.value.startsWith(item) } // Remove the items not respecting the prefix convention

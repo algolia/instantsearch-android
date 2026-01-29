@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.filter
 
-public sealed class Filter {
+public sealed class  Filter {
 
     /**
-     * The [Attribute] this filter applies on.
+     * The attribute this filter applies on.
      */
     public abstract val attribute: String
 

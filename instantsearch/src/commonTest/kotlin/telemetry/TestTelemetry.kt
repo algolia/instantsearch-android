@@ -2,6 +2,7 @@
 
 package telemetry
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.InternalInstantSearch
 import com.algolia.instantsearch.core.hits.connectHitsView
@@ -46,8 +47,6 @@ import com.algolia.instantsearch.telemetry.Telemetry
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.NumericOperator
 import com.algolia.instantsearch.searcher.multi.internal.types.MultipleQueriesStrategy
-import com.algolia.instantsearch.filter.Facet
-import com.algolia.search.transport.RequestOptions
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.delay
@@ -150,7 +149,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
             filterState,
             attribute,
             SelectionMode.Single,
-            listOf(Facet("facet", 1)),
+            listOf(FacetHits("facet", "", 1)),
             true
         )
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.FacetList)

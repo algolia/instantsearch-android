@@ -1,3 +1,4 @@
 package com.algolia.search.model.search
 
-public typealias Facet = com.algolia.instantsearch.filter.Facet
+@Deprecated("Use FacetHits instead", ReplaceWith("FacetHits"))
+public typealias Facet = com.algolia.client.model.search.FacetHits

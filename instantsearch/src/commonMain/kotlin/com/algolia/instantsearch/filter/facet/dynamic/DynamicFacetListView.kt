@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.filter.facet.dynamic
 
-import com.algolia.instantsearch.filter.Facet
+import com.algolia.client.model.search.FacetHits
 
 /**
  * View presenting the ordered list of facets and handling user interaction.
@@ -20,5 +20,5 @@ public interface DynamicFacetListView {
     /**
      * Callback to trigger when user selects a facet.
      */
-    public var didSelect: ((attribute: String, Facet) -> Unit)?
+    public var didSelect: ((attribute: String, FacetHits) -> Unit)?
 }

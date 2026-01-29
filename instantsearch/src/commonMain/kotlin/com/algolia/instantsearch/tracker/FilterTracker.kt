@@ -2,8 +2,8 @@
 
 package com.algolia.instantsearch.tracker
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.insights.Insights
-import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.instantsearch.tracker.internal.FilterDataTracker
@@ -52,7 +52,7 @@ public interface FilterTracker {
      * @param attribute facet attribute
      * @param customEventName custom event name, overrides the default event name
      */
-    public fun trackClick(facet: Facet, attribute: String, customEventName: String? = null)
+    public fun trackClick(facet: FacetHits, attribute: String, customEventName: String? = null)
 
     /**
      * Track a facet view event.
@@ -61,7 +61,7 @@ public interface FilterTracker {
      * @param attribute facet attribute
      * @param customEventName custom event name, overrides the default event name
      */
-    public fun trackView(facet: Facet, attribute: String, customEventName: String? = null)
+    public fun trackView(facet: FacetHits, attribute: String, customEventName: String? = null)
 
     /**
      * Track a facet conversion event.
@@ -70,7 +70,7 @@ public interface FilterTracker {
      * @param attribute facet attribute
      * @param customEventName custom event name, overrides the default event name
      */
-    public fun trackConversion(facet: Facet, attribute: String, customEventName: String? = null)
+    public fun trackConversion(facet: FacetHits, attribute: String, customEventName: String? = null)
 }
 
 /**

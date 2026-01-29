@@ -21,6 +21,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.algolia.client.api.SearchClient
+import com.algolia.client.configuration.ClientOptions
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.compose.filter.facet.dynamic.DynamicFacetListState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
@@ -40,16 +43,16 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.search.Facet
 import io.ktor.client.plugins.logging.LogLevel
 
 class DynamicFacetShowcase : AppCompatActivity() {
 
-    private val client = ClientSearch(
-        "RVURKQXRHU",
-        "937e4e6ec422ff69fe89b569dba30180",
-        LogLevel.ALL
+    private val client = SearchClient(
+        appId = "RVURKQXRHU",
+        apiKey = "937e4e6ec422ff69fe89b569dba30180",
+        options = ClientOptions(
+            logLevel = LogLevel.ALL,
+        )
     )
     private val searcher = HitsSearcher(client, "test_facet_ordering")
     private val filterState = FilterState()
@@ -128,7 +131,7 @@ class DynamicFacetShowcase : AppCompatActivity() {
     fun OrderedFacets(
         modifier: Modifier = Modifier,
         attributedFacet: AttributedFacets,
-        onClick: (Facet, String) -> Unit
+        onClick: (FacetHits, String) -> Unit
     ) {
         Text(
             modifier = modifier,
@@ -142,7 +145,7 @@ class DynamicFacetShowcase : AppCompatActivity() {
     @Composable
     fun FacetItems(
         attributedFacet: AttributedFacets,
-        onClick: (Facet, String) -> Unit
+        onClick: (FacetHits, String) -> Unit
     ) {
         Surface(
             contentColor = White,

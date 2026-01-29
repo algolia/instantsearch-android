@@ -31,7 +31,6 @@ internal fun IndexQuery.toSearchQuery(): SearchQuery {
  */
 internal fun FacetIndexQuery.toSearchQuery(): SearchQuery {
     // SearchForFacets needs all params from SearchParamsObject, but it's a data class so we need to copy them
-    // For now, we'll use a simpler approach - convert SearchParamsObject fields to SearchForFacets
     return SearchQuery.of(
         SearchForFacets(
             facet = facetAttribute,

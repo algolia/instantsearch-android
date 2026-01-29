@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.examples.android.codex.categorieshits
 
 import androidx.lifecycle.ViewModel
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
@@ -11,7 +12,6 @@ import com.algolia.instantsearch.searcher.facets.addFacetsSearcher
 import com.algolia.instantsearch.searcher.hits.addHitsSearcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.search.Facet
 
 class MainViewModel : ViewModel() {
 
@@ -27,13 +27,13 @@ class MainViewModel : ViewModel() {
     private val connections = ConnectionHandler(searchBoxConnector)
 
     val searchBoxState = SearchBoxState()
-    val categoriesState = HitsState<Facet>()
+    val categoriesState = HitsState<FacetHits>()
     val productsState = HitsState<Product>()
 
     init {
         connections += searchBoxConnector.connectView(searchBoxState)
         connections += categoriesSearcher.connectHitsView(categoriesState) { response ->
-            response.facetHits.map { Facet(it.value, it.count, it.highlighted) }
+            response.facetHits
         }
         connections += productsSearcher.connectHitsView(productsState) { it.hits.deserialize(Product.serializer()) }
         multiSearcher.searchAsync()

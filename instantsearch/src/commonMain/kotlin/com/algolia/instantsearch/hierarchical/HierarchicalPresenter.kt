@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.hierarchical
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.tree.TreePresenter
-import com.algolia.instantsearch.filter.Facet
 
-public typealias HierarchicalPresenter<T> = TreePresenter<Facet, T>
+public typealias HierarchicalPresenter<T> = TreePresenter<FacetHits, T>

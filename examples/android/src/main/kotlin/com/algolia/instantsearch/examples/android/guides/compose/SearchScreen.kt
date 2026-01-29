@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.android.paging3.flow
 import com.algolia.instantsearch.compose.filter.facet.FacetListState
@@ -31,7 +32,6 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.examples.android.guides.model.Product
-import com.algolia.search.model.search.Facet
 import kotlinx.coroutines.launch
 
 @Composable
@@ -143,7 +143,7 @@ fun Stats(modifier: Modifier = Modifier, stats: String) {
 @Composable
 fun FacetRow(
     modifier: Modifier = Modifier,
-    selectableFacet: SelectableItem<Facet>
+    selectableFacet: SelectableItem<FacetHits>
 ) {
     val (facet, isSelected) = selectableFacet
     Row(

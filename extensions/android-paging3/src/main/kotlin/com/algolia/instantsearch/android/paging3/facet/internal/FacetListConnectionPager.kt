@@ -1,8 +1,8 @@
 package com.algolia.instantsearch.android.paging3.facet.internal
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.core.connection.AbstractConnection
-import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
 
 /**
@@ -16,7 +16,7 @@ internal class FacetListConnectionPager<T : Any>(
     private val paginator: Paginator<T>
 ) : AbstractConnection() {
 
-    private val facetsSubscription: (List<Pair<Facet, Boolean>>) -> Unit = {
+    private val facetsSubscription: (List<Pair<FacetHits, Boolean>>) -> Unit = {
         paginator.invalidate()
     }
 

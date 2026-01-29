@@ -1,11 +1,11 @@
 package com.algolia.instantsearch.filter.facet.dynamic
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.selectable.list.SelectableListViewModel
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceDynamicFacet
-import com.algolia.instantsearch.filter.Facet
 import kotlin.properties.Delegates
 import kotlinx.serialization.InternalSerializationApi
 
@@ -72,7 +72,7 @@ public class DynamicFacetListViewModel(
      * Storage for selectable facet list logic per attribute.
      */
     @OptIn(InternalSerializationApi::class)
-    private var facetListPerAttribute: MutableMap<String, SelectableListViewModel<String, Facet>> = mutableMapOf()
+    private var facetListPerAttribute: MutableMap<String, SelectableListViewModel<String, FacetHits>> = mutableMapOf()
 
     init {
         updateFacetLists()
@@ -116,7 +116,7 @@ public class DynamicFacetListViewModel(
      * Get or create a facet selectable list for a given attribute.
      */
     @OptIn(InternalSerializationApi::class)
-    private fun getOrCreateSelectableFacetList(attribute: String): SelectableListViewModel<String, Facet> {
+    private fun getOrCreateSelectableFacetList(attribute: String): SelectableListViewModel<String, FacetHits> {
         return facetListPerAttribute[attribute]
             ?: createFacetList(attribute).also { facetListPerAttribute[attribute] = it }
     }
@@ -125,9 +125,9 @@ public class DynamicFacetListViewModel(
      * Create a facet selectable list for a given attribute.
      */
     @OptIn(InternalSerializationApi::class)
-    private fun createFacetList(attribute: String): SelectableListViewModel<String, Facet> {
+    private fun createFacetList(attribute: String): SelectableListViewModel<String, FacetHits> {
         val selectionMode = selectionModeForAttribute[attribute] ?: defaultSelectionMode
-        val facetList = SelectableListViewModel<String, Facet>(selectionMode = selectionMode)
+        val facetList = SelectableListViewModel<String, FacetHits>(selectionMode = selectionMode)
         facetList.eventSelection.subscribe { selection ->
             val currentSelections = selections.toMutableMap()
             currentSelections[attribute as String] = selection

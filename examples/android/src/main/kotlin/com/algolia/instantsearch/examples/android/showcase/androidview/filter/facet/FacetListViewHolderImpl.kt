@@ -2,22 +2,22 @@ package com.algolia.instantsearch.examples.android.showcase.androidview.filter.f
 
 import android.view.View
 import android.view.ViewGroup
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
 import com.algolia.instantsearch.android.filter.facet.FacetListViewHolder
 import com.algolia.instantsearch.android.highlighting.toSpannedString
 import com.algolia.instantsearch.examples.android.databinding.ListItemSelectableBinding
 import com.algolia.instantsearch.examples.android.showcase.androidview.layoutInflater
-import com.algolia.search.model.search.Facet
 
 class FacetListViewHolderImpl(private val binding: ListItemSelectableBinding) :
     FacetListViewHolder(binding.root) {
 
-    override fun bind(facet: Facet, selected: Boolean, onClickListener: View.OnClickListener) {
+    override fun bind(facet: FacetHits, selected: Boolean, onClickListener: View.OnClickListener) {
         binding.root.setOnClickListener(onClickListener)
         binding.selectableItemSubtitle.text = facet.count.toString()
         binding.selectableItemSubtitle.visibility = View.VISIBLE
         binding.selectableItemIcon.visibility = if (selected) View.VISIBLE else View.INVISIBLE
-        binding.selectableItemName.text = facet.highlightedOrNull?.let {
+        binding.selectableItemName.text = facet.highlighted.let {
             HighlightTokenizer(preTag = "<b>", postTag = "</b>")(it).toSpannedString()
         } ?: facet.value
     }

@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.searcher.hits.internal
 
 import com.algolia.client.api.SearchClient
+import com.algolia.client.model.search.FacetHits
 import com.algolia.client.model.search.FacetStats
 import com.algolia.client.model.search.SearchResponse
 import com.algolia.client.transport.RequestOptions
-import com.algolia.instantsearch.filter.Facet
 import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.FilterGroup
 import com.algolia.instantsearch.filter.FilterGroupsConverter
@@ -191,22 +191,22 @@ internal class DefaultHitsSearchService(
         val hierarchicalFacets = resultHierarchicalFacets.aggregateFacets()
         val mergedFacets = baseFacets + facets + hierarchicalFacets
         return responses.first().copy(
-            facetsStats = if (facetStats.isEmpty()) null else facetStats,
+            facetsStats = facetStats.ifEmpty { null },
             facets = mergedFacets.mapValues { (_, facets) -> facets.associate { it.value to it.count } }
         )
     }
 
-    private fun SearchResponse.facetsAsList(): Map<String, List<Facet>> {
+    private fun SearchResponse.facetsAsList(): Map<String, List<FacetHits>> {
         return facets?.map { (attribute, counts) ->
-            attribute to counts.map { (value, count) -> Facet(value, count) }
+            attribute to counts.map { (value, count) -> FacetHits(value, "", count) }
         }?.toMap().orEmpty()
     }
 
-    private fun List<SearchResponse>.aggregateFacets(): Map<String, List<Facet>> {
-        return fold(emptyMap<String, List<Facet>>()) { acc, result ->
+    private fun List<SearchResponse>.aggregateFacets(): Map<String, List<FacetHits>> {
+        return fold(emptyMap<String, List<FacetHits>>()) { acc, result ->
             result.facets?.let { facets ->
                 acc + facets.map { (attr, counts) ->
-                    attr to counts.map { (value, count) -> Facet(value, count) }
+                    attr to counts.map { (value, count) -> FacetHits(value, "", count) }
                 }
             } ?: acc
         }

@@ -1,11 +1,10 @@
 package com.algolia.instantsearch.hierarchical
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.subscription.SubscriptionEvent
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.core.tree.TreeViewModel
 import com.algolia.instantsearch.extension.traceHierarchicalFacets
-
-import com.algolia.instantsearch.filter.Facet
 
 /**
  * @param hierarchicalAttributes attributes of the hierarchy.
@@ -16,7 +15,7 @@ public open class HierarchicalViewModel(
     public val hierarchicalAttributes: List<String>,
     public val separator: String,
     tree: HierarchicalTree = HierarchicalTree(),
-) : TreeViewModel<String, Facet>(tree) {
+) : TreeViewModel<String, FacetHits>(tree) {
 
     public val selections: SubscriptionValue<List<String>> = SubscriptionValue(listOf())
     public val eventHierarchicalPath: SubscriptionEvent<HierarchicalPath> = SubscriptionEvent()

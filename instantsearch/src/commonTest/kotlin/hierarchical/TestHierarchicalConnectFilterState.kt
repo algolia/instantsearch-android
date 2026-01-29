@@ -1,5 +1,6 @@
 package hierarchical
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.tree.Node
 import com.algolia.instantsearch.core.tree.Tree
 import com.algolia.instantsearch.filter.state.FilterState
@@ -7,7 +8,6 @@ import com.algolia.instantsearch.filter.state.toFilter
 import com.algolia.instantsearch.hierarchical.HierarchicalFilter
 import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
 import com.algolia.instantsearch.hierarchical.connectFilterState
-import com.algolia.instantsearch.filter.Facet
 import kotlin.test.Test
 import shouldBeNull
 import shouldEqual
@@ -22,16 +22,16 @@ class TestHierarchicalConnectFilterState {
         categoryLvl0,
         categoryLvl1
     )
-    private val facetShoes = Facet("Shoes", 3)
-    private val facetShoesRunning = Facet("Shoes > Running", 2)
-    private val facetShoesCocktail = Facet("Shoes > Cocktail", 1)
-    private val facetBags = Facet("Bags", 1)
+    private val facetShoes = FacetHits("Shoes", "", 3)
+    private val facetShoesRunning = FacetHits("Shoes > Running", "", 2)
+    private val facetShoesCocktail = FacetHits("Shoes > Cocktail", "", 1)
+    private val facetBags = FacetHits("Bags","", 1)
     private val filterShoes = facetShoes.toFilter(categoryLvl0)
     private val filterShoesRunning = facetShoesRunning.toFilter(categoryLvl1)
     private val filterBags = facetBags.toFilter(categoryLvl0)
 
     private val selection = facetShoesRunning.value
-    private val tree: Tree<Facet> = Tree(
+    private val tree: Tree<FacetHits> = Tree(
         mutableListOf(
             Node(facetBags),
             Node(facetShoes).copy(
