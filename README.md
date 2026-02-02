@@ -23,7 +23,10 @@ You can add InstantSearch to your Android application by adding the following li
 implementation "com.algolia:instantsearch-android:$instantsearch_version"
 ```
 
-ℹ️ Please follow the [migration guide](docs/guide/Migration_2.x_3.x.md) to migrate from `2.x` to the latest version.  
+ℹ️ Please follow the migration guides to upgrade to the latest version:
+- [3.x to 4.x migration guide](docs/guide/Migration_3.x_4.x.md)
+- [2.x to 3.x migration guide](docs/guide/Migration_2.x_3.x.md)
+
 ▶️ See the [documentation][doc]. You can start with the [Getting Started Guide][getting-started].
 
 <details>
@@ -59,8 +62,8 @@ Please refer to the [library](instantsearch-insights/README.md) for more details
 
 ## Requirements
 
-* Kotlin 1.9+
-* Android SDK 21+
+* Kotlin 2.2+
+* Android SDK 23+
 * Java 8+
 
 ### R8 / Proguard rules

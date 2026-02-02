@@ -12,11 +12,13 @@
 - Compose UI version to `1.10.0`
 - Compose compiler version to `2.2.0`
 - Coroutines version to `1.10.2`
-- Telemetry: base64 encoding uses internal util; 
+- Android `minSdk` to `23` (was `21`)
+- Android `compileSdk` to `35` (was `33`)
+- Telemetry: base64 encoding uses internal util;
 - Facet list tracing now uses `FacetHits`.
 - Insights: HTTP repository sends events via `pushEvents`
 - Insights: Filter strings are parsed into stored filters
-- Tests: Insights client mocked in `InsightsTest` 
+- Tests: Insights client mocked in `InsightsTest`
 - Single-index searcher tests updated for auto-sent view events
 - Examples: To Support the latest Algolia Kotlin API clients
 
