@@ -1,8 +1,12 @@
 package com.algolia.instantsearch.searcher.facets.internal
 
+import com.algolia.client.model.search.SearchForFacetValuesResponse
+import com.algolia.client.model.search.SearchParamsObject
+import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.core.searcher.Sequencer
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceFacetsSearcher
+import com.algolia.instantsearch.searcher.multi.internal.types.FacetIndexQuery
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.facets.SearchForFacetQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
@@ -10,12 +14,6 @@ import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withAlgoliaAgent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchComponent
 import com.algolia.instantsearch.searcher.multi.internal.MultiSearchOperation
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.multipleindex.FacetIndexQuery
-import com.algolia.search.model.response.ResponseSearchForFacets
-import com.algolia.search.model.search.Query
-import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -28,19 +26,19 @@ import kotlinx.coroutines.withContext
  */
 internal class DefaultFacetsSearcher(
     private val searchService: FacetsSearchService,
-    override var indexName: IndexName,
-    override val query: Query,
-    override val attribute: Attribute,
+    override var indexName: String,
+    override var query: SearchParamsObject,
+    override val attribute: String,
     override var facetQuery: String?,
     override val requestOptions: RequestOptions?,
     override val coroutineScope: CoroutineScope,
     override val coroutineDispatcher: CoroutineDispatcher,
     private val triggerSearchFor: SearchForFacetQuery
-) : FacetsSearcher, MultiSearchComponent<FacetIndexQuery, ResponseSearchForFacets> {
+) : FacetsSearcher, MultiSearchComponent<FacetIndexQuery, SearchForFacetValuesResponse> {
 
     override val isLoading: SubscriptionValue<Boolean> = SubscriptionValue(false)
     override val error: SubscriptionValue<Throwable?> = SubscriptionValue(null)
-    override val response: SubscriptionValue<ResponseSearchForFacets?> = SubscriptionValue(null)
+    override val response: SubscriptionValue<SearchForFacetValuesResponse?> = SubscriptionValue(null)
 
     private val exceptionHandler = SearcherExceptionHandler(this)
     private val sequencer = Sequencer()
@@ -52,7 +50,7 @@ internal class DefaultFacetsSearcher(
         traceFacetsSearcher()
     }
 
-    override fun collect(): MultiSearchOperation<FacetIndexQuery, ResponseSearchForFacets> {
+    override fun collect(): MultiSearchOperation<FacetIndexQuery, SearchForFacetValuesResponse> {
         return MultiSearchOperation(
             requests = listOf(indexedQuery),
             completion = { response.value = it.firstOrNull() },
@@ -74,7 +72,7 @@ internal class DefaultFacetsSearcher(
         }
     }
 
-    override suspend fun search(): ResponseSearchForFacets? {
+    override suspend fun search(): SearchForFacetValuesResponse? {
         if (!triggerSearchFor.trigger(query, attribute, facetQuery)) return null
         return withContext(coroutineDispatcher) {
             searchService.search(indexedQuery, options)

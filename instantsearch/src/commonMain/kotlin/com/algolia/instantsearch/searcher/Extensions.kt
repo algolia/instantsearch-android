@@ -1,16 +1,26 @@
 package com.algolia.instantsearch.searcher
 
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.params.CommonSearchParameters
+import com.algolia.client.model.search.SearchParamsObject
 
-public fun CommonSearchParameters.addFacet(vararg attribute: Attribute) {
-    facets = facets.orEmpty().toMutableSet().also {
-        it += attribute
-    }
+public fun SearchParamsObject.addFacet(vararg attribute: String): SearchParamsObject {
+    val facets = (facets.orEmpty() + attribute).distinct()
+    return copy(facets = facets)
 }
 
-public fun CommonSearchParameters.removeFacet(attribute: Attribute) {
-    facets = facets.orEmpty().toMutableSet().also {
-        it -= attribute
-    }
+public fun SearchParamsObject.removeFacet(attribute: String): SearchParamsObject {
+    val facets = facets.orEmpty().filterNot { it == attribute }
+    return copy(facets = facets)
+}
+
+public fun SearchParamsObject.updateQueryFacets(vararg attribute: String): SearchParamsObject {
+    val facets = (facets.orEmpty() + attribute).distinct()
+    return copy(facets = facets)
+}
+
+@Suppress("UNCHECKED_CAST")
+public fun <R> SearcherQuery<*, R>.updateSearchParamsObject(
+    transform: (SearchParamsObject) -> SearchParamsObject,
+) {
+    val params = query as? SearchParamsObject ?: return
+    (this as? SearcherQuery<SearchParamsObject, R>)?.let { it.query = transform(params) }
 }

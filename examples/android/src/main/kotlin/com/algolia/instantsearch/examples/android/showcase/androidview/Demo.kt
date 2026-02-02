@@ -26,6 +26,8 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.client.api.SearchClient
+import com.algolia.client.configuration.ClientOptions
 import com.algolia.instantsearch.android.filter.clear.DefaultFilterClearView
 import com.algolia.instantsearch.android.list.autoScrollToStart
 import com.algolia.instantsearch.android.searchbox.SearchBoxViewAppCompat
@@ -44,29 +46,22 @@ import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.stats.StatsPresenter
 import com.algolia.instantsearch.stats.connectView
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.filter.FilterGroupsConverter
-import com.algolia.search.model.response.ResponseSearch
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.FilterGroup
+import com.algolia.instantsearch.filter.FilterGroupsConverter
+import com.algolia.client.model.search.SearchResponse
+import io.ktor.client.plugins.logging.LogLevel
 
 
-val client = ClientSearch(
-    ConfigurationSearch(
-        ApplicationID("latency"),
-        APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        logLevel = LogLevel.All
+val client = SearchClient(
+    appId = "latency",
+    apiKey = "1f6fd3a6fb973cb08419fe7d288fa4db",
+    options = ClientOptions(
+        logLevel = LogLevel.ALL
     )
 )
 
-val stubIndexName = IndexName("stub")
-val stubIndex = client.initIndex(stubIndexName)
+val stubIndexName = "stub"
 
 fun AppCompatActivity.configureToolbar(toolbar: Toolbar) {
     setSupportActionBar(toolbar)
@@ -80,10 +75,10 @@ fun AppCompatActivity.configureToolbar(toolbar: Toolbar) {
 fun AppCompatActivity.onFilterChangedThenUpdateFiltersText(
     filterState: FilterState,
     filtersTextView: TextView,
-    vararg attributes: Attribute
+    vararg attributes: String
 ) {
     val colors = attributes.mapIndexed { index, attribute ->
-        attribute.raw to when (index) {
+        attribute to when (index) {
             0 -> ContextCompat.getColor(this, android.R.color.holo_red_dark)
             1 -> ContextCompat.getColor(this, android.R.color.holo_blue_dark)
             2 -> ContextCompat.getColor(this, android.R.color.holo_green_dark)
@@ -118,7 +113,7 @@ fun AppCompatActivity.onErrorThenUpdateFiltersText(
 }
 
 fun AppCompatActivity.onResponseChangedThenUpdateNbHits(
-    searcher: Searcher<ResponseSearch>,
+    searcher: Searcher<SearchResponse>,
     nbHitsView: TextView,
     connection: ConnectionHandler
 ) {
@@ -188,7 +183,7 @@ fun RecyclerView.configure(
     autoScrollToStart(recyclerViewAdapter)
 }
 
-val Intent.indexName: IndexName get() = IndexName(extras!!.getString("indexName")!!)
+val Intent.indexName: String get() = extras!!.getString("indexName")!!
 
 fun <R> AppCompatActivity.configureSearchBox(
     searchView: SearchView,

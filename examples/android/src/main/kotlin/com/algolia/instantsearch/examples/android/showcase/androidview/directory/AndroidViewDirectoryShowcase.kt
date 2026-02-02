@@ -14,14 +14,13 @@ import com.algolia.instantsearch.examples.android.showcase.androidview.configure
 import com.algolia.instantsearch.examples.android.showcase.androidview.configureSearchBox
 import com.algolia.instantsearch.examples.android.showcase.androidview.configureSearchView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
 
 class AndroidViewDirectoryShowcase : AppCompatActivity() {
 
     private val searcher = HitsSearcher(
         client = client,
-        indexName = IndexName("mobile_demo_home"),
+        indexName = "mobile_demo_home",
         query = Query(hitsPerPage = 100)
     )
     private val connection = ConnectionHandler()

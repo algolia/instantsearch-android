@@ -1,11 +1,9 @@
 package filter.facet
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.filter.facet.connectSearcher
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.Facet
+import com.algolia.client.model.search.SearchResponse
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
 import mockClient
@@ -15,12 +13,17 @@ import shouldEqual
 
 class TestFacetListConnectSearcher {
 
-    private val color = Attribute("color")
-    private val red = Facet("red", 1)
+    private val color = "color"
+    private val red = FacetHits("red", "", 1)
     private val facets = listOf(red)
-    private val response = ResponseSearch(facetsOrNull = mapOf(color to facets))
+    private val response = SearchResponse(
+        hits = emptyList(),
+        query = "",
+        params = "",
+        facets = mapOf(color to mapOf(red.value to red.count))
+    )
     private val client = mockClient(respondSearch(response))
-    private val indexName = IndexName("index")
+    private val indexName = "index"
 
     @Test
     fun connectShouldSetQueryFacets() {
@@ -29,7 +32,7 @@ class TestFacetListConnectSearcher {
         val connection = viewModel.connectSearcher(searcher, color)
 
         connection.connect()
-        searcher.query.facets!! shouldEqual setOf(color)
+        searcher.query.facets!! shouldEqual listOf(color)
     }
 
     @Test

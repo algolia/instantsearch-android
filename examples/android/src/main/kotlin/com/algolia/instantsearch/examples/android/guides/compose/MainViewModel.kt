@@ -1,6 +1,8 @@
 package com.algolia.instantsearch.examples.android.guides.compose
 
 import androidx.lifecycle.ViewModel
+import com.algolia.client.api.SearchClient
+import com.algolia.client.configuration.ClientOptions
 import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.android.paging3.facet.connectPaginator
 import com.algolia.instantsearch.android.paging3.searchbox.connectPaginator
@@ -21,22 +23,20 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.stats.DefaultStatsPresenter
 import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.stats.connectView
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
+import com.algolia.search.helper.deserialize
+import io.ktor.client.plugins.logging.LogLevel
 
 
 class MainViewModel : ViewModel() {
 
-    val client = ClientSearch(
-        ApplicationID("latency"),
-        APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        LogLevel.All
+    val client = SearchClient(
+        "latency",
+        "1f6fd3a6fb973cb08419fe7d288fa4db",
+        ClientOptions(
+            logLevel = LogLevel.ALL
+        ),
     )
-    val indexName = IndexName("instant_search")
+    val indexName = "instant_search"
     val searcher = HitsSearcher(client, indexName)
 
     // Search Box
@@ -53,7 +53,7 @@ class MainViewModel : ViewModel() {
     // Filters
     val facetList = FacetListState()
     val filterState = FilterState()
-    val categories = Attribute("categories")
+    val categories = "categories"
     val searcherForFacet = FacetsSearcher(client, indexName, categories)
     val facetListConnector = FacetListConnector(
         searcher = searcherForFacet,

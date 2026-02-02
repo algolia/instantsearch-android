@@ -1,14 +1,13 @@
 package com.algolia.instantsearch.filter.facet.dynamic.internal
 
+import com.algolia.client.model.search.FacetHits
+import com.algolia.client.model.search.FacetOrdering
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.rule.FacetOrdering
-import com.algolia.search.model.search.Facet
 
 /**
  * Connection between a dynamic facets business logic and a searcher.
@@ -21,14 +20,18 @@ internal class DynamicFacetListConnectionSearcherIndex(
     val searcher: SearcherForHits<*>,
 ) : AbstractConnection() {
 
-    private val responseSubscription: Callback<ResponseSearch?> = { response ->
-        val facetOrdering = response?.renderingContentOrNull?.facetOrdering
-        val facets = response?.facetsOrNull ?: emptyMap()
-        val disjunctiveFacets = response?.disjunctiveFacetsOrNull ?: emptyMap()
-        viewModel.orderedFacets = buildOrder(facetOrdering, facets + disjunctiveFacets)
+    private val responseSubscription: Callback<SearchResponse?> = { response ->
+        val facetOrdering = response?.renderingContent?.facetOrdering
+        val facetsRaw = response?.facets ?: emptyMap()
+        // Convert v3 facets format (Map<String, Map<String, Int>>) to our format (Map<String, List<Facet>>)
+        val facets = facetsRaw.mapValues { (_, counts) ->
+            counts.map { (value, count) -> FacetHits(value, "", count) }
+        }
+        // In v3, there's no separate disjunctiveFacets - all facets are in the facets map
+        viewModel.orderedFacets = buildOrder(facetOrdering, facets)
     }
 
-    private fun buildOrder(ordering: FacetOrdering?, facets: Map<Attribute, List<Facet>>?): List<AttributedFacets> {
+    private fun buildOrder(ordering: FacetOrdering?, facets: Map<String, List<FacetHits>>?): List<AttributedFacets> {
         return if (ordering != null && facets != null) facetsOrder(facets, ordering) else emptyList()
     }
 

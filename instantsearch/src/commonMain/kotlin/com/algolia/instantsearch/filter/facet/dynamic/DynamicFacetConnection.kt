@@ -8,7 +8,6 @@ import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.Attribute
 
 /**
  * Establishes connection with a Searcher.
@@ -29,7 +28,7 @@ public fun DynamicFacetListViewModel.connectSearcher(searcher: SearcherForHits<*
  */
 public fun DynamicFacetListViewModel.connectFilterState(
     filterState: FilterState,
-    filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap(),
+    filterGroupForAttribute: Map<String, FilterGroupDescriptor> = emptyMap(),
     defaultFilterOperator: FilterOperator = FilterOperator.And,
 ): Connection =
     DynamicFacetListConnectionFilterState(this, filterState, filterGroupForAttribute, defaultFilterOperator)

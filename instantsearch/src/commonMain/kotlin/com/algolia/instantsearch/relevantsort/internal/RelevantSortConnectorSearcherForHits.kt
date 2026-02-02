@@ -1,15 +1,15 @@
 package com.algolia.instantsearch.relevantsort.internal
 
+import com.algolia.client.model.search.SearchParamsObject
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.relevantsort.RelevantSortConnector
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.extension.traceRelevantSortConnector
 import com.algolia.instantsearch.relevantsort.connectSearcher
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.search.Query
 
 internal class RelevantSortConnectorSearcherForHits(
-    override val searcher: SearcherForHits<Query>,
+    override val searcher: SearcherForHits<SearchParamsObject>,
     override val viewModel: RelevantSortViewModel = RelevantSortViewModel(),
 ) : AbstractConnection(), RelevantSortConnector {
 

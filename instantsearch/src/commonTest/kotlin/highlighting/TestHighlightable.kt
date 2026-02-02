@@ -1,10 +1,10 @@
 package highlighting
 
 import JsonNoDefaults
+import com.algolia.client.model.search.HighlightResultOption
+import com.algolia.client.model.search.MatchLevel
 import com.algolia.instantsearch.core.highlighting.HighlightToken
 import com.algolia.instantsearch.highlighting.Highlightable
-import com.algolia.search.model.search.HighlightResult
-import com.algolia.search.model.search.MatchLevel
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
@@ -34,24 +34,24 @@ class TestHighlightable {
         friendNames = listOf("foo", "bar"),
         pet = Pet("fido", listOf("fifi, dodo")),
         _highlightResult = buildJsonObject {
-            put("name", HighlightResult("<em>to</em>to").toJson())
+            put("name", highlight("<em>to</em>to").toJson())
             put(
                 "friendNames",
                 buildJsonArray {
-                    add(HighlightResult("<em>f</em>oo").toJson())
-                    add(HighlightResult("b<em>a</em>r").toJson())
+                    add(highlight("<em>f</em>oo").toJson())
+                    add(highlight("b<em>a</em>r").toJson())
                 }
             )
-            put("age", HighlightResult("<em>4</em>2").toJson())
+            put("age", highlight("<em>4</em>2").toJson())
             put(
                 "pet",
                 buildJsonObject {
-                    put("name", HighlightResult("fi<em>do</em>").toJson())
+                    put("name", highlight("fi<em>do</em>").toJson())
                     put(
                         "nicknames",
                         buildJsonArray {
-                            add(HighlightResult("<em>fifi</em>").toJson())
-                            add(HighlightResult("dodo").toJson())
+                            add(highlight("<em>fifi</em>").toJson())
+                            add(highlight("dodo").toJson())
                         }
                     )
                 }
@@ -127,8 +127,8 @@ class TestHighlightable {
         }
     }
 
-    private operator fun HighlightResult.Companion.invoke(value: String): HighlightResult {
-        return HighlightResult(
+    private fun highlight(value: String): HighlightResultOption {
+        return HighlightResultOption(
             value = value,
             matchLevel = MatchLevel.Full,
             matchedWords = listOf(),
@@ -136,6 +136,6 @@ class TestHighlightable {
         )
     }
 
-    private fun HighlightResult.toJson(): JsonElement =
-        JsonNoDefaults.encodeToJsonElement(HighlightResult.serializer(), this)
+    private fun HighlightResultOption.toJson(): JsonElement =
+        JsonNoDefaults.encodeToJsonElement(HighlightResultOption.serializer(), this)
 }

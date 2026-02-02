@@ -5,16 +5,13 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.android.sortby.SortByViewAutocomplete
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.sortby.SortByViewModel
 import com.algolia.instantsearch.sortby.connectSearcher
 import com.algolia.instantsearch.sortby.connectView
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
 @Ignore
@@ -22,13 +19,13 @@ internal class DocSortBy {
 
     class MyActivity : AppCompatActivity() {
 
-        val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+        val client = SearchClient(
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val index = IndexName("YourIndexName")
-        val indexAsc = IndexName("YourIndexName_ASC")
-        val indexDesc = IndexName("YourIndexName_DESC")
+        val index = "YourIndexName"
+        val indexAsc = "YourIndexName_ASC"
+        val indexDesc = "YourIndexName_DESC"
         val searcher = HitsSearcher(client, index)
         val indexes = mapOf(
             0 to index,

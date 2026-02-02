@@ -1,7 +1,8 @@
 package com.algolia.instantsearch.searcher.facets
 
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.Query
+import com.algolia.client.model.search.SearchParamsObject
+
+
 
 /**
  * Facets search query execution condition logic.
@@ -15,7 +16,7 @@ public fun interface SearchForFacetQuery {
      * @param attribute facets attribute
      * @param facetQuery facets query
      */
-    public fun trigger(query: Query, attribute: Attribute, facetQuery: String?): Boolean
+    public fun trigger(query: SearchParamsObject, attribute: String, facetQuery: String?): Boolean
 
     public companion object {
 

@@ -3,9 +3,11 @@ package com.algolia.instantsearch.android.paging3.internal
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.algolia.instantsearch.extension.Console
+import com.algolia.client.model.search.Hit
+import com.algolia.client.model.search.SearchParamsObject
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.params.SearchParameters
-import com.algolia.search.model.response.ResponseSearch
+import com.algolia.instantsearch.searcher.updateSearchParamsObject
 
 /**
  * Implementation of [PagingSource] with [SearcherForHits].
@@ -14,8 +16,8 @@ import com.algolia.search.model.response.ResponseSearch
  * @param transformer mapping applied to search responses
  */
 internal class SearcherPagingSource<T : Any>(
-    private val searcher: SearcherForHits<out SearchParameters>,
-    private val transformer: (ResponseSearch.Hit) -> T
+    private val searcher: SearcherForHits<out SearchParamsObject>,
+    private val transformer: (Hit) -> T
 ) : PagingSource<Int, T>() {
 
     override fun getRefreshKey(state: PagingState<Int, T>): Int {
@@ -25,12 +27,14 @@ internal class SearcherPagingSource<T : Any>(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
         return try {
             val pageNumber = params.key ?: 0
-            searcher.query.page = pageNumber
-            searcher.query.hitsPerPage = params.loadSize
+            searcher.updateSearchParamsObject { query ->
+                query.copy(page = pageNumber, hitsPerPage = params.loadSize)
+            }
 
             val response = search() ?: return emptyPage()
             val data = response.hits.map(transformer)
-            val nextKey = if (pageNumber + 1 < response.nbPages) pageNumber + 1 else null
+            val nbPages = response.nbPages ?: 0
+            val nextKey = if (pageNumber + 1 < nbPages) pageNumber + 1 else null
             LoadResult.Page(
                 data = data,
                 prevKey = null, // no paging backward
@@ -42,7 +46,7 @@ internal class SearcherPagingSource<T : Any>(
         }
     }
 
-    private suspend fun search(): ResponseSearch? = with(searcher) {
+    private suspend fun search(): SearchResponse? = with(searcher) {
         try {
             isLoading.value = true
             val searchResponse = search()

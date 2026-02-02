@@ -4,7 +4,7 @@ import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.extension.traceCurrentFilters
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 
 /**
  * Current Refinements shows the currently active refinements within a given FilterState and lets users remove filters

@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.compose.filter.facet.FacetListState
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.filter.facet.DefaultFacetListPresenter
@@ -22,13 +23,11 @@ import com.algolia.instantsearch.examples.android.showcase.compose.ui.BlueDark
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.HoloRedDark
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.White
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.Facet
 
 @Preview
 @Composable
 fun FacetListPreview() {
-    val color = Attribute("color")
+    val color = "color"
     val groupColor = groupAnd(color)
     val presenter = DefaultFacetListPresenter(
         listOf(
@@ -43,8 +42,8 @@ fun FacetListPreview() {
             titleColor = HoloRedDark,
             facetListState = FacetListState(
                 listOf(
-                    Facet("green", 2) to true,
-                    Facet("red", 5) to false,
+                    FacetHits("green", "", 2) to true,
+                    FacetHits("red", "", 5) to false,
                 )
             )
         )
@@ -107,8 +106,8 @@ fun FacetList(
 @Composable
 fun FacetRow(
     modifier: Modifier = Modifier,
-    selectableFacet: SelectableItem<Facet>,
-    onClick: (Facet) -> Unit = {},
+    selectableFacet: SelectableItem<FacetHits>,
+    onClick: (FacetHits) -> Unit = {},
 ) {
     val (facet, isSelected) = selectableFacet
     Row(

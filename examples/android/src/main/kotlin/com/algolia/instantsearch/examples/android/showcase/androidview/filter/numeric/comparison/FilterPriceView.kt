@@ -5,12 +5,11 @@ import com.algolia.instantsearch.core.number.NumberView
 import com.algolia.instantsearch.core.number.decrement
 import com.algolia.instantsearch.core.number.increment
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFilterComparisonBinding
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.NumericOperator
 
 class FilterPriceView(
     val binding: ShowcaseFilterComparisonBinding,
-    price: Attribute,
+    price: String,
     operator: NumericOperator
 ) : NumberView<Long> {
 

@@ -1,31 +1,30 @@
 package com.algolia.instantsearch.insights.internal.extension
 
+import com.algolia.client.api.InsightsClient
+import com.algolia.client.configuration.ClientOptions
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.internal.data.settings.InsightsSettings
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
-import com.algolia.search.client.ClientInsights
-import com.algolia.search.configuration.ConfigurationInsights
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.insights.UserToken
+import io.ktor.client.plugins.logging.LogLevel
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 /**
  * Create new Insights API Client.
  */
 internal fun clientInsights(
-    appId: ApplicationID,
-    apiKey: APIKey,
+    appId: String,
+    apiKey: String,
     configuration: Insights.Configuration,
     clientLogLevel: LogLevel,
-): ClientInsights {
-    return ClientInsights(
-        ConfigurationInsights(
-            applicationID = appId,
-            apiKey = apiKey,
-            writeTimeout = configuration.connectTimeoutInMilliseconds,
-            readTimeout = configuration.readTimeoutInMilliseconds,
-            logLevel = clientLogLevel
+): InsightsClient {
+    return InsightsClient(
+        appId = appId,
+        apiKey = apiKey,
+        options = ClientOptions(
+            writeTimeout = configuration.connectTimeoutInMilliseconds.toDuration(DurationUnit.MILLISECONDS),
+            readTimeout = configuration.readTimeoutInMilliseconds.toDuration(DurationUnit.MILLISECONDS),
+            logLevel = clientLogLevel,
         )
     )
 }
@@ -34,7 +33,7 @@ internal fun clientInsights(
  * Generate a default insights configuration.
  */
 internal fun defaultConfiguration(settings: InsightsSettings): Insights.Configuration {
-    val userToken = UserToken(settings.storedUserToken())
+    val userToken = settings.storedUserToken()
     InsightsLogger.log("Insights user token: $userToken")
     return Insights.Configuration(defaultUserToken = userToken)
 }

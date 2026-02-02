@@ -1,28 +1,30 @@
 package com.algolia.instantsearch.relevantsort.internal
 
+import com.algolia.client.model.search.SearchParamsObject
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPriority
 import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.Query
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.intOrNull
 
 /**
  * Connection between relevant sort's view model and a single index searcher.
  */
 internal class RelevantSortConnectionSearcherForHits(
     val viewModel: RelevantSortViewModel,
-    val searcher: SearcherForHits<Query>,
+    val searcher: SearcherForHits<SearchParamsObject>,
 ) : AbstractConnection() {
 
     private val priorityCallback: Callback<RelevantSortPriority?> = callback@{ priority ->
         if (priority == null) return@callback
-        searcher.query.relevancyStrictness = priority.relevancyStrictness
+        searcher.query = searcher.query.copy(relevancyStrictness = priority.relevancyStrictness)
         searcher.searchAsync()
     }
 
-    private val responseCallback: Callback<ResponseSearch?> = callback@{ response ->
+    private val responseCallback: Callback<SearchResponse?> = callback@{ response ->
         if (response == null) return@callback
         val receivedRelevancyStrictness = response.appliedRelevancyStrictnessOrNull ?: run {
             viewModel.priority.value = null
@@ -33,6 +35,12 @@ internal class RelevantSortConnectionSearcherForHits(
             viewModel.priority.value = dynamicSortPriority
         }
     }
+
+    private val SearchResponse.appliedRelevancyStrictnessOrNull: Int?
+        get() {
+            val element = additionalProperties?.get("appliedRelevancyStrictness") ?: return null
+            return (element as? JsonPrimitive)?.intOrNull
+        }
 
     override fun connect() {
         super.connect()

@@ -20,16 +20,15 @@ import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.examples.android.R
 import com.algolia.instantsearch.examples.android.showcase.compose.highlight
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.FilterGroup
+import com.algolia.instantsearch.filter.NumericOperator
 
 @Preview
 @Composable
 fun HeaderFilterPreview() {
-    val color = Attribute("color")
-    val price = Attribute("price")
+    val color = "color"
+    val price = "price"
     ShowcaseTheme {
         HeaderFilter(
             filterGroups = setOf(

@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.stats
 
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.Presenter
-import com.algolia.search.model.response.ResponseSearch
 
-public typealias StatsPresenter<T> = Presenter<ResponseSearch?, T>
+public typealias StatsPresenter<T> = Presenter<SearchResponse?, T>

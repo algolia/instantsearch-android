@@ -36,13 +36,12 @@ import com.algolia.instantsearch.filter.state.groupAnd
 import com.algolia.instantsearch.filter.state.groupOr
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.Attribute
 
 class FacetListShowcase : AppCompatActivity() {
 
-    private val color = Attribute("color")
-    private val promotions = Attribute("promotions")
-    private val category = Attribute("category")
+    private val color = "color"
+    private val promotions = "promotions"
+    private val category = "category"
     private val groupColor = groupAnd(color)
     private val groupPromotions = groupAnd(promotions)
     private val groupCategory = groupOr(category)

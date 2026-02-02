@@ -3,10 +3,10 @@ package com.algolia.instantsearch.relateditems.internal.extensions
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.groupAnd
 import com.algolia.instantsearch.filter.state.groupOr
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.FilterGroupsConverter
 import com.algolia.instantsearch.relateditems.MatchingPattern
 import com.algolia.instantsearch.relateditems.internal.FilterFacetAndID
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.FilterGroupsConverter
 
 internal fun <T> List<MatchingPattern<T>>.toOptionalFilters(hit: T): List<List<String>>? {
     val filterState = FilterState()

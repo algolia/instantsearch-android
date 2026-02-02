@@ -10,12 +10,12 @@ import com.algolia.instantsearch.filter.numeric.comparison.internal.FilterCompar
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.NumericOperator
+
+import com.algolia.instantsearch.filter.NumericOperator
 
 public fun <T> NumberViewModel<T>.connectFilterState(
     filterState: FilterState,
-    attribute: Attribute,
+    attribute: String,
     operator: NumericOperator,
     groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.And),
 ): Connection where T : Number, T : Comparable<T> {

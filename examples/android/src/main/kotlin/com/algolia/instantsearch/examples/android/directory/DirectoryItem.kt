@@ -1,10 +1,8 @@
 package com.algolia.instantsearch.examples.android.directory
 
 import androidx.activity.ComponentActivity
+import com.algolia.instantsearch.core.Indexable
 import com.algolia.instantsearch.highlighting.Highlightable
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.ObjectID
-import com.algolia.search.model.indexing.Indexable
 import kotlin.reflect.KClass
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
@@ -16,7 +14,7 @@ sealed class DirectoryItem {
 
 @Serializable
 data class DirectoryHit(
-    override val objectID: ObjectID,
+    override val objectID: String,
     val name: String,
     val type: String,
     val index: String? = null,
@@ -24,5 +22,5 @@ data class DirectoryHit(
 ) : Indexable, Highlightable {
 
     val highlightedName
-        get() = getHighlight(Attribute("name"), preTag = "<b>", postTag = "</b>")
+        get() = getHighlight("name", preTag = "<b>", postTag = "</b>")
 }

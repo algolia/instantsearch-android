@@ -8,6 +8,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import com.algolia.client.api.SearchClient
+import com.algolia.client.configuration.ClientOptions
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.searcher.Searcher
@@ -15,25 +17,20 @@ import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.*
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.configuration.ConfigurationSearch
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.filter.FilterGroupsConverter
+import com.algolia.instantsearch.filter.FilterGroup
+import com.algolia.instantsearch.filter.FilterGroupsConverter
+import io.ktor.client.plugins.logging.LogLevel
 
-val client = ClientSearch(
-    ConfigurationSearch(
-        ApplicationID("latency"),
-        APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        logLevel = LogLevel.All
+val client = SearchClient(
+    appId = "latency",
+    apiKey = "1f6fd3a6fb973cb08419fe7d288fa4db",
+    options = ClientOptions(
+        logLevel = LogLevel.ALL
     )
 )
 
-val stubIndexName = IndexName("stub")
+
+val stubIndexName = "stub"
 
 fun AppCompatActivity.configureSearcher(searcher: IndexNameHolder) {
     searcher.indexName = intent.indexName
@@ -43,7 +40,7 @@ fun Activity.configureSearcher(searcher: IndexNameHolder) {
     searcher.indexName = intent.indexName
 }
 
-val Intent.indexName: IndexName get() = IndexName(extras!!.getString("indexName")!!)
+val Intent.indexName: String get() = extras!!.getString("indexName")!!
 
 fun <R> configureSearchBox(
     searcher: Searcher<R>,
@@ -78,9 +75,9 @@ fun Set<FilterGroup<*>>.highlight(
     }
 }
 
-fun filterColors(vararg attributes: Attribute): Map<String, Color> {
+fun filterColors(vararg attributes: String): Map<String, Color> {
     return attributes.mapIndexed { index, attribute ->
-        attribute.raw to when (index) {
+        attribute to when (index) {
             0 -> HoloRedDark
             1 -> HoloBlueDark
             2 -> HoloGreenDark

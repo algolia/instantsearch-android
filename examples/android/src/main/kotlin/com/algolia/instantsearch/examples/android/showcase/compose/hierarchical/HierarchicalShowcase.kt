@@ -44,14 +44,13 @@ import com.algolia.instantsearch.hierarchical.HierarchicalItem
 import com.algolia.instantsearch.hierarchical.connectView
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.Attribute
 
 class HierarchicalShowcase : AppCompatActivity() {
 
-    private val hierarchicalCategory = Attribute("hierarchicalCategories")
-    private val hierarchicalCategoryLvl0 = Attribute("$hierarchicalCategory.lvl0")
-    private val hierarchicalCategoryLvl1 = Attribute("$hierarchicalCategory.lvl1")
-    private val hierarchicalCategoryLvl2 = Attribute("$hierarchicalCategory.lvl2")
+    private val hierarchicalCategory = "hierarchicalCategories"
+    private val hierarchicalCategoryLvl0 = "$hierarchicalCategory.lvl0"
+    private val hierarchicalCategoryLvl1 = "$hierarchicalCategory.lvl1"
+    private val hierarchicalCategoryLvl2 = "$hierarchicalCategory.lvl2"
     private val hierarchicalAttributes = listOf(
         hierarchicalCategoryLvl0,
         hierarchicalCategoryLvl1,

@@ -21,6 +21,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.algolia.client.api.SearchClient
+import com.algolia.client.configuration.ClientOptions
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.compose.filter.facet.dynamic.DynamicFacetListState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
@@ -40,27 +43,23 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.search.Facet
+import io.ktor.client.plugins.logging.LogLevel
 
 class DynamicFacetShowcase : AppCompatActivity() {
 
-    private val client = ClientSearch(
-        ApplicationID("RVURKQXRHU"),
-        APIKey("937e4e6ec422ff69fe89b569dba30180"),
-        LogLevel.All
+    private val client = SearchClient(
+        appId = "RVURKQXRHU",
+        apiKey = "937e4e6ec422ff69fe89b569dba30180",
+        options = ClientOptions(
+            logLevel = LogLevel.ALL,
+        )
     )
-    private val searcher = HitsSearcher(client, IndexName("test_facet_ordering"))
+    private val searcher = HitsSearcher(client, "test_facet_ordering")
     private val filterState = FilterState()
-    private val color = Attribute("color")
-    private val country = Attribute("country")
-    private val brand = Attribute("brand")
-    private val size = Attribute("size")
+    private val color = "color"
+    private val country = "country"
+    private val brand = "brand"
+    private val size = "size"
     private val dynamicFacetListState = DynamicFacetListState()
     private val dynamicFacets = DynamicFacetListConnector(
         searcher = searcher,
@@ -94,7 +93,7 @@ class DynamicFacetShowcase : AppCompatActivity() {
                 DynamicFacetScreen(searchBoxState, dynamicFacetListState)
             }
         }
-        searcher.query.facets = setOf(brand, color, size, country)
+        searcher.query = searcher.query.copy(facets = listOf(brand, color, size, country))
         searcher.searchAsync()
     }
 
@@ -132,11 +131,11 @@ class DynamicFacetShowcase : AppCompatActivity() {
     fun OrderedFacets(
         modifier: Modifier = Modifier,
         attributedFacet: AttributedFacets,
-        onClick: (Facet, Attribute) -> Unit
+        onClick: (FacetHits, String) -> Unit
     ) {
         Text(
             modifier = modifier,
-            text = attributedFacet.attribute.raw,
+            text = attributedFacet.attribute,
             style = MaterialTheme.typography.subtitle2,
             color = GreyLight,
         )
@@ -146,7 +145,7 @@ class DynamicFacetShowcase : AppCompatActivity() {
     @Composable
     fun FacetItems(
         attributedFacet: AttributedFacets,
-        onClick: (Facet, Attribute) -> Unit
+        onClick: (FacetHits, String) -> Unit
     ) {
         Surface(
             contentColor = White,

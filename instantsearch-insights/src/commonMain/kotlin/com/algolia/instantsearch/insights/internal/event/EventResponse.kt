@@ -1,8 +1,9 @@
+
 package com.algolia.instantsearch.insights.internal.event
 
-import com.algolia.search.model.insights.InsightsEvent
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
 
 internal data class EventResponse(
-    val event: InsightsEvent,
+    val event: InsightsEventDO,
     val code: Int,
 )

@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.searcher
 
-import com.algolia.search.model.filter.FilterGroup
+import com.algolia.instantsearch.filter.FilterGroup
 
 /**
  * Component holding filter groups set.

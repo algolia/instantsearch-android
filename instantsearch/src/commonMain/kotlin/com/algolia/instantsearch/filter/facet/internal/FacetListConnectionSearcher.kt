@@ -1,29 +1,36 @@
 package com.algolia.instantsearch.filter.facet.internal
 
+import com.algolia.client.model.search.FacetHits
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
+
 import com.algolia.instantsearch.searcher.SearcherQuery
 import com.algolia.instantsearch.searcher.addFacet
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.response.ResponseSearch
+import com.algolia.instantsearch.searcher.updateSearchParamsObject
 
 internal data class FacetListConnectionSearcher(
     private val viewModel: FacetListViewModel,
-    private val searcher: SearcherQuery<*, ResponseSearch>,
-    private val attribute: Attribute,
+    private val searcher: SearcherQuery<*, SearchResponse>,
+    private val attribute: String,
 ) : AbstractConnection() {
 
-    private val updateItems: Callback<ResponseSearch?> = { response ->
+    private val updateItems: Callback<SearchResponse?> = { response ->
         if (response != null) {
-            val disjunctiveFacets = response.disjunctiveFacetsOrNull?.get(attribute)
 
-            viewModel.items.value = disjunctiveFacets ?: response.facetsOrNull.orEmpty()[attribute].orEmpty()
+            viewModel.items.value = response.facets.orEmpty()[attribute].orEmpty().map { value ->
+                FacetHits(
+                    value.key,
+                    "",
+                    value.value
+                )
+            }
         }
     }
 
     init {
-        searcher.query.addFacet(attribute)
+        searcher.updateSearchParamsObject { it.addFacet(attribute) }
     }
 
     override fun connect() {

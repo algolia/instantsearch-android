@@ -6,10 +6,10 @@ plugins {
 
 android {
     namespace = "com.algolia.instantsearch.android.paging3"
-    compileSdk = 33
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -18,21 +18,22 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += listOf(
-            "-Xopt-in=com.algolia.instantsearch.ExperimentalInstantSearch",
-            "-Xopt-in=com.algolia.instantsearch.InternalInstantSearch",
-            "-Xexplicit-api=strict"
-        )
-    }
-
     testOptions.unitTests.apply {
         isIncludeAndroidResources = true
         isReturnDefaultValues = true
     }
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+        freeCompilerArgs.addAll(listOf(
+            "-Xopt-in=com.algolia.instantsearch.ExperimentalInstantSearch",
+            "-Xopt-in=com.algolia.instantsearch.InternalInstantSearch",
+            "-Xexplicit-api=strict"
+        ))
+    }
+}
 
 dependencies {
     api(project(":instantsearch"))

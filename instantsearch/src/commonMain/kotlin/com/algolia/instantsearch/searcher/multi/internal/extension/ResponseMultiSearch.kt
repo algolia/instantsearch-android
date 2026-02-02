@@ -1,17 +1,20 @@
+@file:OptIn(InternalSerializationApi::class)
+
 package com.algolia.instantsearch.searcher.multi.internal.extension
 
-import com.algolia.search.model.response.ResponseMultiSearch
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.response.ResultMultiSearch
-import com.algolia.search.model.response.ResultSearch
+import com.algolia.client.model.search.SearchResponse
+import com.algolia.client.model.search.SearchResult
+import com.algolia.instantsearch.searcher.multi.internal.types.ResponseMultiSearch
+import com.algolia.instantsearch.searcher.multi.internal.types.ResultMultiSearch
+import kotlinx.serialization.InternalSerializationApi
 
 /**
  * Maps [ResultSearch] to a list of [ResultSearch].
  */
-internal fun ResponseMultiSearch.asResultSearchList(): List<ResultSearch> = results.map { it.response }
+internal fun ResponseMultiSearch.asResultSearchList(): List<SearchResult> = results.map { it.response }
 
 /**
  * Maps [ResultSearch] to a list of [ResponseSearch].
  */
-internal fun ResponseMultiSearch.asResponseSearchList(): List<ResponseSearch> =
+internal fun ResponseMultiSearch.asResponseSearchList(): List<SearchResponse> =
     results.map { (it as ResultMultiSearch.Hits).response }

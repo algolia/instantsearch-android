@@ -30,7 +30,7 @@ class ViewHolderFactory : DynamicFacetListViewHolder.Factory {
     class HeaderViewHolder(view: TextView) : DynamicFacetListHeaderViewHolder(view) {
         override fun bind(item: DynamicFacetModel.Header, onClick: View.OnClickListener?) {
             val textView = view as TextView
-            textView.text = item.attribute.raw
+            textView.text = item.attribute
         }
     }
 

@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform")
+    id("kotlinx-serialization")
     id("com.vanniktech.maven.publish")
 }
 
@@ -18,9 +19,11 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":instantsearch-utils"))
+                api(libs.algolia.client)
                 implementation(libs.algolia.telemetry)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.atomicfu)
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
             }
         }
         val commonTest by getting {
@@ -35,5 +38,11 @@ kotlin {
                 implementation(libs.test.kotlin.junit)
             }
         }
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
     }
 }

@@ -5,8 +5,8 @@ package com.algolia.instantsearch.filter.range
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.filter.range.internal.FilterRangeConnectionSearcherImpl
 import com.algolia.instantsearch.filter.range.internal.mapperOf
+
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.Attribute
 import kotlin.reflect.KClass
 
 /**
@@ -21,7 +21,7 @@ import kotlin.reflect.KClass
 public fun <T> FilterRangeConnectionSearcher(
     viewModel: FilterRangeViewModel<T>,
     searcher: SearcherForHits<*>,
-    attribute: Attribute,
+    attribute: String,
     clazz: KClass<T>,
 ): Connection where T : Number, T : Comparable<T> {
     return FilterRangeConnectionSearcherImpl(viewModel, searcher, attribute, mapperOf(clazz))
@@ -38,7 +38,7 @@ public fun <T> FilterRangeConnectionSearcher(
 public fun <T> FilterRangeConnectionSearcher(
     viewModel: FilterRangeViewModel<T>,
     searcher: SearcherForHits<*>,
-    attribute: Attribute,
+    attribute: String,
     mapper: (Number) -> T,
 ): Connection where T : Number, T : Comparable<T> {
     return FilterRangeConnectionSearcherImpl(viewModel, searcher, attribute, mapper)

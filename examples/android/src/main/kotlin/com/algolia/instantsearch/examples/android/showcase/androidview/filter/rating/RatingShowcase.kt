@@ -15,14 +15,12 @@ import com.algolia.instantsearch.examples.android.showcase.androidview.*
 import com.algolia.instantsearch.examples.android.databinding.HeaderFilterBinding
 import com.algolia.instantsearch.examples.android.databinding.IncludePlusMinusBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFilterRatingBinding
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 
 class RatingShowcase : AppCompatActivity() {
 
-    private val searcher = HitsSearcher(client, IndexName("instant_search"))
-    private val rating = Attribute("rating")
+    private val searcher = HitsSearcher(client, "instant_search")
+    private val rating = "rating"
     private val groupID = FilterGroupID(rating)
     private val primaryBounds = 0f..5f
     private val initialRange = 3f..5f

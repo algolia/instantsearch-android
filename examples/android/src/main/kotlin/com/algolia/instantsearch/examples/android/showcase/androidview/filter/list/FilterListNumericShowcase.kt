@@ -13,13 +13,12 @@ import com.algolia.instantsearch.examples.android.showcase.androidview.*
 import com.algolia.instantsearch.examples.android.databinding.HeaderFilterBinding
 import com.algolia.instantsearch.examples.android.databinding.IncludeListBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFilterListBinding
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.NumericOperator
 
 class FilterListNumericShowcase : AppCompatActivity() {
 
-    private val price = Attribute("price")
+    private val price = "price"
     private val groupPrice = groupAnd(price)
     private val searcher = HitsSearcher(client, stubIndexName)
     private val filterState = FilterState()

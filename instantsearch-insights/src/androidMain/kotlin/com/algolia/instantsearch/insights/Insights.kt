@@ -12,13 +12,8 @@ import com.algolia.instantsearch.insights.internal.extension.defaultConfiguratio
 import com.algolia.instantsearch.insights.internal.extension.insightsSettingsPreferences
 import com.algolia.instantsearch.insights.internal.extension.insightsSharedPreferences
 import com.algolia.instantsearch.insights.internal.registerInsightsController
-import com.algolia.search.helper.toAPIKey
-import com.algolia.search.helper.toApplicationID
-import com.algolia.search.helper.toIndexName
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
+import io.ktor.client.plugins.logging.LogLevel
+
 
 /**
  * Access the latest registered `Insights` instance, if any, otherwise throws  [InsightsException.IndexNotRegistered].
@@ -35,35 +30,8 @@ public var sharedInsights: Insights? = null
  * @return An Insights instance.
  * @throws InsightsException.IndexNotRegistered if no index was registered as indexName before.
  */
-public fun sharedInsights(indexName: IndexName): Insights {
+public fun sharedInsights(indexName: String): Insights {
     return InsightsMap[indexName] ?: throw InsightsException.IndexNotRegistered()
-}
-
-/**
- * Register your index with a given appId and apiKey.
- *
- * @param context An Android Context.
- * @param appId The given app id for which you want to track the events.
- * @param apiKey The API Key for your `appId`.
- * @param indexName The index that is being tracked.
- * @param configuration A Configuration class.
- */
-public fun registerInsights(
-    context: Context,
-    appId: String,
-    apiKey: String,
-    indexName: String,
-    configuration: Insights.Configuration? = null,
-    clientLogLevel: LogLevel = LogLevel.None
-): Insights {
-    return registerInsights(
-        context = context,
-        appId = appId.toApplicationID(),
-        apiKey = apiKey.toAPIKey(),
-        indexName = indexName.toIndexName(),
-        configuration = configuration,
-        clientLogLevel = clientLogLevel
-    )
 }
 
 /**
@@ -78,11 +46,11 @@ public fun registerInsights(
  */
 public fun registerInsights(
     context: Context,
-    appId: ApplicationID,
-    apiKey: APIKey,
-    indexName: IndexName,
+    appId: String,
+    apiKey: String,
+    indexName: String,
     configuration: Insights.Configuration? = null,
-    clientLogLevel: LogLevel = LogLevel.None
+    clientLogLevel: LogLevel = LogLevel.NONE
 ): Insights {
     val localRepository = InsightsPrefsRepository(context.insightsSharedPreferences(indexName))
     val settings = InsightsEventSettings(context.insightsSettingsPreferences())

@@ -15,14 +15,13 @@ import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.android.databinding.HeaderFilterBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFilterCurrentBinding
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.NumericOperator
 
 class ShowcaseFilterCurrent : AppCompatActivity() {
 
-    private val color = Attribute("color")
-    private val price = Attribute("price")
-    private val tags = Attribute("_tags")
+    private val color = "color"
+    private val price = "price"
+    private val tags = "_tags"
     private val groupColor = FilterGroupID(color)
     private val groupPrice = FilterGroupID(price)
     private val groupTags = FilterGroupID(tags)

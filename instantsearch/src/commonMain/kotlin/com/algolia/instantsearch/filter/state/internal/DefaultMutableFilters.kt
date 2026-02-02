@@ -5,14 +5,14 @@ import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.filter.state.MutableFilters
 import com.algolia.instantsearch.filter.state.add
 import com.algolia.instantsearch.hierarchical.HierarchicalFilter
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+
+import com.algolia.instantsearch.filter.Filter
 
 internal data class DefaultMutableFilters(
     private val facetGroups: MutableMap<FilterGroupID, Set<Filter.Facet>> = mutableMapOf(),
     private val tagGroups: MutableMap<FilterGroupID, Set<Filter.Tag>> = mutableMapOf(),
     private val numericGroups: MutableMap<FilterGroupID, Set<Filter.Numeric>> = mutableMapOf(),
-    private val hierarchicalGroups: MutableMap<Attribute, HierarchicalFilter> = mutableMapOf(),
+    private val hierarchicalGroups: MutableMap<String, HierarchicalFilter> = mutableMapOf(),
 ) : MutableFilters, Filters by FiltersImpl(facetGroups, tagGroups, numericGroups, hierarchicalGroups) {
 
     private fun <T : Filter> Map<FilterGroupID, Set<T>>.getOrDefault(groupID: FilterGroupID): Set<T> {
@@ -68,7 +68,7 @@ internal data class DefaultMutableFilters(
         }
     }
 
-    override fun remove(attribute: Attribute) {
+    override fun remove(attribute: String) {
         hierarchicalGroups.remove(attribute)
     }
 
@@ -97,7 +97,7 @@ internal data class DefaultMutableFilters(
         tagGroups.filter { it.key !in groupIDs }.forEach { tagGroups.remove(it.key) }
     }
 
-    override fun add(attribute: Attribute, hierarchicalFilter: HierarchicalFilter) {
+    override fun add(attribute: String, hierarchicalFilter: HierarchicalFilter) {
         hierarchicalGroups[attribute] = hierarchicalFilter
     }
 }

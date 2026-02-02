@@ -1,13 +1,13 @@
 package com.algolia.instantsearch.filter.range.internal
 
+import com.algolia.client.model.search.FacetStats
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.filter.range.FilterRangeViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.params.CommonSearchParameters
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.FacetStats
+import com.algolia.instantsearch.searcher.updateSearchParamsObject
+import com.algolia.instantsearch.searcher.updateQueryFacets
 
 /**
  * Connection implementation between a Searcher and filter range components to enable a dynamic behavior.
@@ -20,22 +20,26 @@ import com.algolia.search.model.search.FacetStats
 internal class FilterRangeConnectionSearcherImpl<T>(
     private val viewModel: FilterRangeViewModel<T>,
     private val searcher: SearcherForHits<*>,
-    private val attribute: Attribute,
+    private val attribute: String,
     private val mapper: (Number) -> T,
 ) : AbstractConnection() where T : Number, T : Comparable<T> {
 
-    private val responseSubscription: (ResponseSearch?) -> Unit = { response ->
-        viewModel.computeBoundsFromFacetStats(attribute, response?.facetStats, mapper)
+    private val responseSubscription: (SearchResponse?) -> Unit = { response ->
+        viewModel.computeBoundsFromFacetStats(
+            attribute = attribute,
+            facetStats = response?.facetsStats,
+            mapper = mapper
+        )
     }
 
     private fun <T> FilterRangeViewModel<T>.computeBoundsFromFacetStats(
-        attribute: Attribute,
-        facetStats: Map<Attribute, FacetStats>?,
+        attribute: String,
+        facetStats: Map<String, FacetStats>?,
         mapper: (Number) -> T,
     ) where T : Number, T : Comparable<T> {
         bounds.value = facetStats?.get(attribute)?.let {
-            val min = mapper(it.min)
-            val max = mapper(it.max)
+            val min = mapper(it.min ?: 0)
+            val max = mapper(it.max ?: 0)
             Range(min, max)
         }
         if (range.value == null) { // if no range is specified, match the bounds.
@@ -45,12 +49,8 @@ internal class FilterRangeConnectionSearcherImpl<T>(
 
     override fun connect() {
         super.connect()
-        searcher.query.updateQueryFacets(attribute)
+        searcher.updateSearchParamsObject { it.updateQueryFacets(attribute) }
         searcher.response.subscribePastOnce(subscription = responseSubscription)
-    }
-
-    private fun CommonSearchParameters.updateQueryFacets(attribute: Attribute) {
-        facets = (facets?.toMutableSet() ?: mutableSetOf()).apply { add(attribute) }
     }
 
     override fun disconnect() {

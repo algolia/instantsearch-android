@@ -32,12 +32,11 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.groupAnd
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 
 class FilterMapShowcase : AppCompatActivity() {
 
-    private val gender = Attribute("gender")
+    private val gender = "gender"
     private val groupGender = groupAnd(gender)
     private val filterState = FilterState()
     private val searcher = HitsSearcher(client, stubIndexName)

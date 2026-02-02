@@ -1,6 +1,8 @@
 package com.algolia.instantsearch.extension
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
+import com.algolia.instantsearch.encode.encodeBase64
 import com.algolia.instantsearch.encode.gzip
 import com.algolia.instantsearch.filter.clear.ClearMode
 import com.algolia.instantsearch.filter.clear.FilterClearConnector
@@ -16,9 +18,10 @@ import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.toggle.FilterToggleConnector
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.searcher.multi.internal.types.MultipleQueriesStrategy
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.SearchMode
-import com.algolia.instantsearch.searcher.SearcherAnswers
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.multi.internal.DefaultMultiSearcher
@@ -27,11 +30,6 @@ import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.instantsearch.telemetry.Schema
 import com.algolia.instantsearch.telemetry.Telemetry
 import com.algolia.instantsearch.telemetry.toByteArray
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
-import com.algolia.search.model.search.Facet
-import io.ktor.util.encodeBase64
 
 /** Get telemetry schema header **/
 internal fun telemetrySchema(): String? {
@@ -39,9 +37,8 @@ internal fun telemetrySchema(): String? {
 }
 
 /** Compress [Schema] structure (gzip + base64) */
-@OptIn(io.ktor.util.InternalAPI::class)
 private fun Schema.compress(): String {
-    return toByteArray().gzip().encodeBase64() // TODO: replace ktor's encodeBase64
+    return toByteArray().gzip().encodeBase64()
 }
 
 /** Telemetry: trace hits searcher */
@@ -81,30 +78,24 @@ internal fun traceLoadingConnector() {
     Telemetry.shared.traceConnector(ComponentType.Loading)
 }
 
-/** Telemetry: trace answers searcher */
-internal fun SearcherAnswers.traceAnswersSearcher() {
-    val params = if (requestOptions != null) setOf(ComponentParam.RequestOptions) else emptySet()
-    Telemetry.shared.trace(ComponentType.AnswersSearcher, params)
-}
-
 /** Telemetry: trace dynamic facets */
 internal fun traceDynamicFacet(
     orderedFacets: List<AttributedFacets>,
     selections: SelectionsPerAttribute,
-    selectionModeForAttribute: Map<Attribute, SelectionMode>
+    selectionModeForAttribute: Map<String, SelectionMode>
 ) {
     val params = buildSet {
         if (orderedFacets != emptyList<AttributedFacets>()) add(ComponentParam.OrderedFacets)
-        if (selections != emptyMap<Attribute, Set<String>>()) add(ComponentParam.Selections)
-        if (selectionModeForAttribute != emptyMap<Attribute, SelectionMode>()) add(ComponentParam.SelectionModeForAttribute)
+        if (selections != emptyMap<String, Set<String>>()) add(ComponentParam.Selections)
+        if (selectionModeForAttribute != emptyMap<String, SelectionMode>()) add(ComponentParam.SelectionModeForAttribute)
     }
     Telemetry.shared.trace(ComponentType.DynamicFacets, params)
 }
 
 /** Telemetry: trace dynamic facets connector */
-internal fun traceDynamicFacetConnector(filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor>) {
+internal fun traceDynamicFacetConnector(filterGroupForAttribute: Map<String, FilterGroupDescriptor>) {
     val params =
-        if (filterGroupForAttribute != emptyMap<Attribute, FilterGroupDescriptor>()) setOf(ComponentParam.FilterGroupForAttribute) else emptySet()
+        if (filterGroupForAttribute != emptyMap<String, FilterGroupDescriptor>()) setOf(ComponentParam.FilterGroupForAttribute) else emptySet()
     Telemetry.shared.traceConnector(ComponentType.DynamicFacets, params)
 }
 
@@ -119,9 +110,9 @@ internal fun traceHierarchicalFacetsConnector() {
 }
 
 /** Telemetry: trace facets list */
-internal fun traceFacetList(items: List<Facet>, selectionMode: SelectionMode, persistentSelection: Boolean) {
+internal fun traceFacetList(items: List<FacetHits>, selectionMode: SelectionMode, persistentSelection: Boolean) {
     val params = buildSet {
-        if (items != emptyList<Facet>()) add(ComponentParam.Items)
+        if (items != emptyList<FacetHits>()) add(ComponentParam.Items)
         if (selectionMode != SelectionMode.Multiple) add(ComponentParam.SelectionMode)
         if (persistentSelection) add(ComponentParam.PersistentSelection)
     }

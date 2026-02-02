@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.filter.state
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.number.range.Range
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.FilterGroup
+
 
 public fun Filters.toFilterGroups(): Set<FilterGroup<*>> {
     return (
@@ -28,7 +28,7 @@ public fun Filters.toFilterGroups(): Set<FilterGroup<*>> {
                 filters = setOf(value.filter),
                 path = value.path,
                 attributes = value.attributes,
-                name = key.raw
+                name = key
             )
         }
         ).toSet()
@@ -50,10 +50,10 @@ public fun Filter.Facet.getValue(): String {
     }
 }
 
-public fun <T> Range<T>.toFilterNumeric(attribute: Attribute): Filter.Numeric where T : Number, T : Comparable<T> {
+public fun <T> Range<T>.toFilterNumeric(attribute: String): Filter.Numeric where T : Number, T : Comparable<T> {
     return Filter.Numeric(attribute, false, Filter.Numeric.Value.Range(min, max))
 }
 
-public fun Facet.toFilter(attribute: Attribute): Filter.Facet {
+public fun FacetHits.toFilter(attribute: String): Filter.Facet {
     return Filter.Facet(attribute, value)
 }

@@ -1,13 +1,13 @@
 package com.algolia.instantsearch.relateditems
 
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.Presenter
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.core.searcher.Searcher
+import com.algolia.instantsearch.core.Indexable
 import com.algolia.instantsearch.relateditems.internal.RelatedItemsConnectionView
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.indexing.Indexable
-import com.algolia.search.model.response.ResponseSearch
 
 /**
  * Connects [Searcher] to [HitsView] to display related items.
@@ -21,7 +21,7 @@ public fun <T : Indexable> SearcherForHits<*>.connectRelatedHitsView(
     adapter: HitsView<T>,
     hit: T,
     matchingPatterns: List<MatchingPattern<T>>,
-    presenter: Presenter<ResponseSearch, List<T>>,
+    presenter: Presenter<SearchResponse, List<T>>,
 ): Connection {
     return RelatedItemsConnectionView(this, adapter, hit, matchingPatterns, presenter)
 }

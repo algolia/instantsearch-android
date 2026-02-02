@@ -37,6 +37,7 @@ import com.algolia.instantsearch.stats.DefaultStatsPresenter
 import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.stats.connectView
 import kotlinx.coroutines.flow.Flow
+import com.algolia.search.helper.deserialize
 
 class PagingSingleIndexShowcase : AppCompatActivity() {
 

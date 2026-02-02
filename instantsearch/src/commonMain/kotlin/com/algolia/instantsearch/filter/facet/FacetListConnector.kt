@@ -1,5 +1,6 @@
 package com.algolia.instantsearch.filter.facet
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.extension.traceFacetListConnector
@@ -8,8 +9,6 @@ import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.SearcherForFacets
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.Facet
 
 /**
  * RefinementList is a filtering view that displays facets, and lets the user refine their search results by filtering
@@ -20,7 +19,7 @@ import com.algolia.search.model.search.Facet
  */
 public data class FacetListConnector internal constructor(
     public val filterState: FilterState,
-    public val attribute: Attribute,
+    public val attribute: String,
     public val viewModel: FacetListViewModel,
     public val groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
     private val wrapper: Wrapper,
@@ -46,7 +45,7 @@ public data class FacetListConnector internal constructor(
     public constructor(
         searcher: SearcherForHits<*>,
         filterState: FilterState,
-        attribute: Attribute,
+        attribute: String,
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
         viewModel: FacetListViewModel = FacetListViewModel(),
     ) : this(filterState, attribute, viewModel, groupID, Wrapper.Single(searcher))
@@ -54,7 +53,7 @@ public data class FacetListConnector internal constructor(
     public constructor(
         searcher: SearcherForFacets<*>,
         filterState: FilterState,
-        attribute: Attribute,
+        attribute: String,
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
         viewModel: FacetListViewModel = FacetListViewModel(),
     ) : this(filterState, searcher.attribute, viewModel, groupID, Wrapper.ForFacet(searcher))
@@ -62,9 +61,9 @@ public data class FacetListConnector internal constructor(
     public constructor(
         searcher: SearcherForHits<*>,
         filterState: FilterState,
-        attribute: Attribute,
+        attribute: String,
         selectionMode: SelectionMode = SelectionMode.Multiple,
-        items: List<Facet> = listOf(),
+        items: List<FacetHits> = listOf(),
         persistentSelection: Boolean = false,
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
     ) : this(
@@ -78,9 +77,9 @@ public data class FacetListConnector internal constructor(
     public constructor(
         searcher: SearcherForFacets<*>,
         filterState: FilterState,
-        attribute: Attribute,
+        attribute: String,
         selectionMode: SelectionMode = SelectionMode.Multiple,
-        items: List<Facet> = listOf(),
+        items: List<FacetHits> = listOf(),
         persistentSelection: Boolean = false,
         groupID: FilterGroupID = FilterGroupID(attribute, FilterOperator.Or),
     ) : this(

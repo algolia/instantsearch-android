@@ -6,10 +6,10 @@ plugins {
 
 android {
     namespace = "com.algolia.instantsearch.utils"
-    compileSdk = 33
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -27,13 +27,7 @@ android {
 kotlin {
     explicitApi()
     jvm()
-    android {
-        publishAllLibraryVariants()
-        publishLibraryVariantsGroupedByFlavor = true
-        compilations.all {
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
-        }
-    }
+    androidTarget()
     sourceSets {
         all {
             languageSettings.optIn("com.algolia.instantsearch.InternalInstantSearch")
@@ -52,6 +46,12 @@ kotlin {
         val jvmMain by getting {
             dependsOn(commonJvm)
         }
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
     }
 }
 

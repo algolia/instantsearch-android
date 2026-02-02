@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.searcher.multi.internal
 
-import com.algolia.search.model.multipleindex.IndexedQuery
-import com.algolia.search.model.response.ResultSearch
+import com.algolia.client.model.search.SearchResult
+import com.algolia.instantsearch.searcher.multi.internal.types.IndexedQuery
 
-internal data class MultiSearchOperation<out Request : IndexedQuery, Response : ResultSearch>(
+internal data class MultiSearchOperation<out Request : IndexedQuery, Response : SearchResult>(
     val requests: List<Request>,
     val completion: (List<Response>) -> Unit,
     val shouldTrigger: Boolean

@@ -9,7 +9,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class MockSearcher : Searcher<Unit> {
+class MockSearcher(
+    override val coroutineScope: CoroutineScope = SearcherScope(Dispatchers.Default),
+    override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.Default,
+) : Searcher<Unit> {
 
     var job: Job? = null
     var string: String? = null
@@ -18,9 +21,6 @@ class MockSearcher : Searcher<Unit> {
     override val isLoading = SubscriptionValue(false)
     override val error = SubscriptionValue<Throwable?>(null)
     override val response = SubscriptionValue<Unit?>(null)
-    override val coroutineScope: CoroutineScope = SearcherScope(Dispatchers.Default)
-    override val coroutineDispatcher: CoroutineDispatcher = Dispatchers.Default
-
     override fun setQuery(text: String?) {
         string = text
     }

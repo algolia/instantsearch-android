@@ -5,15 +5,14 @@ import com.algolia.instantsearch.core.number.range.Range
 import com.algolia.instantsearch.filter.range.connectFilterState
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 import shouldBeNull
 import shouldEqual
 import kotlin.test.Test
 
 class TestFilterRangeConnectFilterState {
 
-    private val attribute = Attribute("foo")
+    private val attribute = "foo"
     private val filterGroupID = FilterGroupID(attribute)
 
     @Test

@@ -1,9 +1,5 @@
 package com.algolia.instantsearch.insights
 
-import com.algolia.search.model.ObjectID
-import com.algolia.search.model.QueryID
-import com.algolia.search.model.insights.EventName
-
 public interface HitsAfterSearchTrackable {
 
     /**
@@ -14,8 +10,8 @@ public interface HitsAfterSearchTrackable {
      * @param timestamp the time at which the view happened. Defaults to current time.
      */
     public fun viewedObjectIDs(
-        eventName: EventName,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        objectIDs: List<String>,
         timestamp: Long? = null,
     )
 
@@ -27,8 +23,8 @@ public interface HitsAfterSearchTrackable {
      * @param timestamp the time at which the click happened.
      */
     public fun clickedObjectIDs(
-        eventName: EventName,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        objectIDs: List<String>,
         timestamp: Long? = null,
     )
 
@@ -40,8 +36,8 @@ public interface HitsAfterSearchTrackable {
      * @param timestamp the time at which the conversion happened.
      */
     public fun convertedObjectIDs(
-        eventName: EventName,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        objectIDs: List<String>,
         timestamp: Long? = null,
     )
 
@@ -55,9 +51,9 @@ public interface HitsAfterSearchTrackable {
      * @param timestamp the time at which the click happened.
      */
     public fun clickedObjectIDsAfterSearch(
-        eventName: EventName,
-        queryID: QueryID,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        queryID: String,
+        objectIDs: List<String>,
         positions: List<Int>,
         timestamp: Long? = null,
     )
@@ -71,9 +67,9 @@ public interface HitsAfterSearchTrackable {
      * @param timestamp the time at which the conversion happened.
      */
     public fun convertedObjectIDsAfterSearch(
-        eventName: EventName,
-        queryID: QueryID,
-        objectIDs: List<ObjectID>,
+        eventName: String,
+        queryID: String,
+        objectIDs: List<String>,
         timestamp: Long? = null,
     )
 }

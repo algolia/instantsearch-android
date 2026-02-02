@@ -1,9 +1,7 @@
 package com.algolia.instantsearch.filter.state
 
-import com.algolia.search.dsl.DSL
-import com.algolia.search.dsl.filtering.DSLGroupFilter
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+
+import com.algolia.instantsearch.filter.Filter
 
 public class FilterGroupsDSL(
     private val groups: MutableMap<FilterGroupID, Set<Filter>> = mutableMapOf(),
@@ -13,15 +11,7 @@ public class FilterGroupsDSL(
         groups += groupOr(name) to DSLGroupFilter(block)
     }
 
-    public fun or(name: Attribute, block: DSLGroupFilter.() -> Unit) {
-        groups += groupOr(name) to DSLGroupFilter(block)
-    }
-
     public fun and(name: String = "", block: DSLGroupFilter.() -> Unit) {
-        groups += groupAnd(name) to DSLGroupFilter(block)
-    }
-
-    public fun and(name: Attribute, block: DSLGroupFilter.() -> Unit) {
         groups += groupAnd(name) to DSLGroupFilter(block)
     }
 

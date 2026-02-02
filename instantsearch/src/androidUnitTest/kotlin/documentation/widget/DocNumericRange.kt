@@ -2,6 +2,7 @@ package documentation.widget
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.range.NumberRangeView
@@ -12,11 +13,6 @@ import com.algolia.instantsearch.filter.range.connectFilterState
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
 import org.junit.Ignore
 
 @Ignore
@@ -31,13 +27,13 @@ internal class DocNumericRange {
 
     class MyActivity : AppCompatActivity() {
 
-        val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+        val client = SearchClient(
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val searcher = HitsSearcher(client, "YourIndexName")
         val filterState = FilterState()
-        val attribute = Attribute("price")
+        val attribute = "price"
         val viewModel = FilterRangeViewModel<Int>()
         val connection = ConnectionHandler()
 

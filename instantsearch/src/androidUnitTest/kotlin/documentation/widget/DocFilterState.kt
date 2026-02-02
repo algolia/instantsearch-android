@@ -5,9 +5,8 @@ import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.add
 import com.algolia.instantsearch.filter.state.toFilterGroups
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.FilterGroupsConverter
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.FilterGroupsConverter
 import com.algolia.search.model.search.Query
 import org.junit.Ignore
 import org.junit.Test
@@ -20,7 +19,7 @@ class DocFilterState {
     fun addAndRemove() {
         val filterState = FilterState()
         val filterGroupID = FilterGroupID("myGroup", FilterOperator.And)
-        val color = Attribute("color")
+        val color = "color"
         val red = Filter.Facet(color, "red")
         val green = Filter.Facet(color, "green")
         val blue = Filter.Facet(color, "blue")
@@ -35,7 +34,7 @@ class DocFilterState {
     fun notification() {
         val filterState = FilterState()
         val filterGroupID = FilterGroupID("myGroup", FilterOperator.And)
-        val color = Attribute("color")
+        val color = "color"
         val facets = setOf(
             Filter.Facet(color, "red"),
             Filter.Facet(color, "green"),
@@ -52,7 +51,6 @@ class DocFilterState {
     @Test
     fun transform() {
         val query = Query()
-
-        query.filters = FilterGroupsConverter.SQL(FilterState().toFilterGroups())
+        val updatedQuery = query.copy(filters = FilterGroupsConverter.SQL(FilterState().toFilterGroups()))
     }
 }

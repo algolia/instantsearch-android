@@ -1,14 +1,15 @@
 package com.algolia.instantsearch.searcher.internal
 
+import com.algolia.client.model.search.SearchParamsObject
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.core.searcher.Debouncer
 import com.algolia.instantsearch.core.searcher.Searcher
+import com.algolia.instantsearch.filter.FilterGroupsConverter
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.filter.state.toFilterGroups
 import com.algolia.instantsearch.searcher.SearcherForFacets
-import com.algolia.search.model.filter.FilterGroupsConverter
 
 /**
  * Connection between facets searcher (searcher w/ query) and filter state.
@@ -39,6 +40,8 @@ internal data class FacetsSearcherConnectionFilterState(
     }
 
     private fun SearcherForFacets<*>.updateFilters(filters: Filters = filterState) {
-        query.filters = FilterGroupsConverter.SQL(filters.toFilterGroups())
+        val filterString = FilterGroupsConverter.SQL(filters.toFilterGroups())
+        val typedSearcher = this as? SearcherForFacets<SearchParamsObject> ?: return
+        typedSearcher.query = typedSearcher.query.copy(filters = filterString)
     }
 }

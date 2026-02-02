@@ -18,17 +18,14 @@ import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.stats.StatsConnector
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
+import com.algolia.search.helper.deserialize
 
 class MyViewModel : ViewModel() {
 
     val searcher = HitsSearcher(
-        applicationID = ApplicationID("latency"),
-        apiKey = APIKey("1f6fd3a6fb973cb08419fe7d288fa4db"),
-        indexName = IndexName("instant_search")
+        applicationID = "latency",
+        apiKey = "1f6fd3a6fb973cb08419fe7d288fa4db",
+        indexName = "instant_search"
     )
     val paginator = Paginator(
         searcher = searcher,
@@ -42,7 +39,7 @@ class MyViewModel : ViewModel() {
     val facetList = FacetListConnector(
         searcher = searcher,
         filterState = filterState,
-        attribute = Attribute("categories"),
+        attribute = "categories",
         selectionMode = SelectionMode.Single
     )
     val facetPresenter = DefaultFacetListPresenter(

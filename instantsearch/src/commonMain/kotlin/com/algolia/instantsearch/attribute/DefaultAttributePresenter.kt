@@ -1,12 +1,10 @@
 package com.algolia.instantsearch.attribute
 
-import com.algolia.search.model.Attribute
-
 public class DefaultAttributePresenter(
-    private val transform: (Attribute) -> String = { attribute -> attribute.raw },
+    private val transform: (String) -> String = { attribute -> attribute },
 ) : AttributePresenter {
 
-    override fun invoke(attribute: Attribute): String {
+    override fun invoke(attribute: String): String {
         return transform(attribute)
     }
 }

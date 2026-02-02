@@ -16,7 +16,7 @@ import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.instantsearch.stats.StatsConnector
 import com.algolia.instantsearch.stats.DefaultStatsPresenter
 import com.algolia.instantsearch.stats.connectView
-import com.algolia.search.model.filter.FilterGroup
+import com.algolia.instantsearch.filter.FilterGroup
 
 class HeaderFilterConnector(
     searcher: SearcherForHits<*>,

@@ -1,5 +1,9 @@
 package com.algolia.instantsearch.searcher.hits
 
+import com.algolia.client.api.InsightsClient
+import com.algolia.client.api.SearchClient
+import com.algolia.client.model.search.SearchParamsObject
+import com.algolia.client.transport.RequestOptions
 import com.algolia.instantsearch.searcher.FilterGroupsHolder
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.searcher.SearcherForHits
@@ -10,14 +14,6 @@ import com.algolia.instantsearch.searcher.internal.defaultDispatcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.instantsearch.searcher.multi.internal.asMultiSearchComponent
 import com.algolia.instantsearch.util.randomUuid
-import com.algolia.search.client.ClientInsights
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.insights.UserToken
-import com.algolia.search.model.search.Query
-import com.algolia.search.transport.RequestOptions
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 
@@ -25,7 +21,7 @@ import kotlinx.coroutines.CoroutineScope
  * The component handling search requests and managing the search sessions.
  * This implementation searches for hits.
  */
-public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterGroupsHolder {
+public interface HitsSearcher : SearcherForHits<SearchParamsObject>, IndexNameHolder, FilterGroupsHolder {
 
     /**
      * Flag defining if disjunctive faceting is enabled.
@@ -50,7 +46,7 @@ public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterG
      * Insights events with a unique user. If not explicitly set during initialization, the HitsSearcher
      * generates and assigns a default user token.
      */
-    public var userToken: UserToken
+    public var userToken: String
 }
 
 /**
@@ -68,17 +64,17 @@ public interface HitsSearcher : SearcherForHits<Query>, IndexNameHolder, FilterG
  * @param userToken user token assigned to automatically sent Insights events in the HitsSearcher component
  */
 public fun HitsSearcher(
-    client: ClientSearch,
-    indexName: IndexName,
-    query: Query = Query(),
-    insights: ClientInsights = ClientInsights(client.applicationID, client.apiKey),
+    client: SearchClient,
+    indexName: String,
+    query: SearchParamsObject = SearchParamsObject(),
+    insights: InsightsClient = InsightsClient(client.appId, client.apiKey),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
     isAutoSendingHitsViewEvents: Boolean = false,
-    userToken: UserToken = UserToken.anonymous(),
+    userToken: String = String.anonymous(),
 ): HitsSearcher = DefaultHitsSearcher(
     searchService = DefaultHitsSearchService(client),
     insights = insights,
@@ -108,20 +104,20 @@ public fun HitsSearcher(
  * @param userToken user token assigned to automatically sent Insights events in the HitsSearcher component
  */
 public fun HitsSearcher(
-    applicationID: ApplicationID,
-    apiKey: APIKey,
-    indexName: IndexName,
-    query: Query = Query(),
+    applicationID: String,
+    apiKey: String,
+    indexName: String,
+    query: SearchParamsObject = SearchParamsObject(),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     coroutineScope: CoroutineScope = SearcherScope(),
     coroutineDispatcher: CoroutineDispatcher = defaultDispatcher,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
     isAutoSendingHitsViewEvents: Boolean = false,
-    userToken: UserToken = UserToken.anonymous(),
+    userToken: String = String.anonymous(),
 ): HitsSearcher = HitsSearcher(
-    client = ClientSearch(applicationID, apiKey),
-    insights = ClientInsights(applicationID, apiKey),
+    client = SearchClient(applicationID, apiKey),
+    insights = InsightsClient(applicationID, apiKey),
     indexName = indexName,
     query = query,
     requestOptions = requestOptions,
@@ -144,17 +140,17 @@ public fun HitsSearcher(
  * @param userToken user token assigned to automatically sent Insights events in the HitsSearcher component
  */
 public fun MultiSearcher.addHitsSearcher(
-    indexName: IndexName,
-    query: Query = Query(),
+    indexName: String,
+    query: SearchParamsObject = SearchParamsObject(),
     requestOptions: RequestOptions? = null,
     isDisjunctiveFacetingEnabled: Boolean = true,
     triggerSearchFor: SearchForQuery = SearchForQuery.All,
     isAutoSendingHitsViewEvents: Boolean = false,
-    userToken: UserToken = UserToken.anonymous(),
+    userToken: String = String.anonymous(),
 ): HitsSearcher {
     return DefaultHitsSearcher(
         searchService = DefaultHitsSearchService(client),
-        insights = ClientInsights(applicationID = client.applicationID, apiKey = client.apiKey),
+        insights = InsightsClient(appId = client.appId, apiKey = client.apiKey),
         indexName = indexName,
         query = query,
         requestOptions = requestOptions,
@@ -167,6 +163,6 @@ public fun MultiSearcher.addHitsSearcher(
     ).also { addSearcher(it.asMultiSearchComponent()) }
 }
 
-private fun UserToken.Companion.anonymous(): UserToken {
-    return UserToken("anonymous-${randomUuid()}")
+private fun String.Companion.anonymous(): String {
+    return "anonymous-${randomUuid()}"
 }

@@ -5,16 +5,11 @@ import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepos
 import com.algolia.instantsearch.insights.internal.event.EventResponse
 import com.algolia.instantsearch.insights.internal.extension.randomUUID
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.ObjectID
-import com.algolia.search.model.QueryID
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.insights.EventName
-import com.algolia.search.model.insights.InsightsEvent
-import com.algolia.search.model.insights.UserToken
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.insights.internal.data.local.mapper.FilterFacetMapper
+import com.algolia.instantsearch.insights.internal.data.local.model.FilterFacetDO
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
+import kotlinx.serialization.json.JsonObject
 import java.time.LocalDateTime
 import java.time.ZoneId
 import kotlin.test.Test
@@ -28,51 +23,54 @@ public class TestInsightsEventUploader {
         val localRepository = TestInsightsLocalRepository()
         val distantRepository = TestInsightsDistantRepository()
         val uploader = InsightsEventUploader(localRepository, distantRepository)
-        val eventA = EventName("EventA")
-        val eventB = EventName("EventB")
-        val eventC = EventName("EventC")
-        val eventD = EventName("EventD")
-        val indexName = IndexName("latency")
-        val queryID = QueryID("6de2f7eaa537fa93d8f8f05b927953b1")
-        val userToken = UserToken(randomUUID())
+        val eventA = "EventA"
+        val eventB = "EventB"
+        val eventC = "EventC"
+        val eventD = "EventD"
+        val indexName = "latency"
+        val queryID = "6de2f7eaa537fa93d8f8f05b927953b1"
+        val userToken = randomUUID()
         val positions = listOf(1)
-        val objectIDs = listOf(ObjectID("54675051"))
-        val resourcesObjectIDs = InsightsEvent.Resources.ObjectIDs(objectIDs)
-        val filters = listOf(Filter.Facet(Attribute("foo"), "bar"))
-        val resourcesFilters = InsightsEvent.Resources.Filters(filters)
+        val objectIDs = listOf("54675051")
+        val filters = listOf(Filter.Facet("foo", "bar"))
+        val filterFacets: List<FilterFacetDO> = filters.map(FilterFacetMapper::map)
         val timeNow = LocalDateTime.now().atZone(ZoneId.systemDefault())
-        val eventClick = InsightsEvent.Click(
+        val eventClick = InsightsEventDO(
+            eventType = InsightsEventDO.EventType.Click,
             eventName = eventA,
             indexName = indexName,
             userToken = userToken,
             timestamp = timeNow.toInstant().toEpochMilli(),
             queryID = queryID,
-            resources = resourcesObjectIDs,
+            objectIDs = objectIDs,
             positions = positions
         )
-        val eventConversion = InsightsEvent.Conversion(
+        val eventConversion = InsightsEventDO(
+            eventType = InsightsEventDO.EventType.Conversion,
             eventName = eventB,
             indexName = indexName,
             userToken = userToken,
             timestamp = timeNow.minusHours(12).toInstant().toEpochMilli(),
-            resources = resourcesObjectIDs,
-            queryID = queryID
+            queryID = queryID,
+            objectIDs = objectIDs
         )
-        val eventView = InsightsEvent.View(
+        val eventView = InsightsEventDO(
+            eventType = InsightsEventDO.EventType.View,
             eventName = eventC,
             indexName = indexName,
             userToken = userToken,
             timestamp = timeNow.minusDays(3).toInstant().toEpochMilli(),
-            resources = resourcesFilters,
-            queryID = queryID
+            queryID = queryID,
+            filters = filterFacets
         )
-        val expiredEventClick = InsightsEvent.Click(
+        val expiredEventClick = InsightsEventDO(
+            eventType = InsightsEventDO.EventType.Click,
             eventName = eventD,
             indexName = indexName,
             userToken = userToken,
             timestamp = timeNow.minusDays(4).toInstant().toEpochMilli(),
             queryID = queryID,
-            resources = resourcesObjectIDs,
+            objectIDs = objectIDs,
             positions = positions
         )
 
@@ -86,18 +84,18 @@ public class TestInsightsEventUploader {
 
     private class TestInsightsLocalRepository : InsightsLocalRepository {
 
-        val insightsEvents = mutableListOf<InsightsEvent>()
+        val insightsEvents = mutableListOf<InsightsEventDO>()
 
-        override fun append(event: InsightsEvent) {
+        override fun append(event: InsightsEventDO) {
             insightsEvents.add(event)
         }
 
-        override fun overwrite(events: List<InsightsEvent>) {
+        override fun overwrite(events: List<InsightsEventDO>) {
             insightsEvents.clear()
             insightsEvents.addAll(events)
         }
 
-        override fun read(): List<InsightsEvent> {
+        override fun read(): List<InsightsEventDO> {
             return insightsEvents
         }
 
@@ -111,13 +109,21 @@ public class TestInsightsEventUploader {
     }
 
     private class TestInsightsDistantRepository : InsightsDistantRepository {
-        var eventsSent = mutableListOf<InsightsEvent>()
-        override suspend fun send(event: InsightsEvent): EventResponse {
+        var eventsSent = mutableListOf<InsightsEventDO>()
+
+        override suspend fun customPost(
+            path: String,
+            parameters: Map<String, Any>?,
+            body: JsonObject?,
+            requestOptions: com.algolia.client.transport.RequestOptions?,
+        ): JsonObject = JsonObject(emptyMap())
+
+        override suspend fun send(event: InsightsEventDO): EventResponse {
             eventsSent += event
             return EventResponse(event, 200)
         }
 
-        override val apiKey = APIKey("apiKey")
-        override val applicationID = ApplicationID("applicationID")
+        override val apiKey = "apiKey"
+        override val applicationID = "applicationID"
     }
 }

@@ -36,13 +36,12 @@ import com.algolia.instantsearch.filter.state.filters
 import com.algolia.instantsearch.filter.state.groupOr
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.Attribute
 
 class FilterClearShowcase : AppCompatActivity() {
 
     private val searcher = HitsSearcher(client, stubIndexName)
-    private val color = Attribute("color")
-    private val category = Attribute("category")
+    private val color = "color"
+    private val category = "category"
     private val groupColor = groupOr(color)
     private val groupCategory = groupOr(category)
     private val filters = filters {

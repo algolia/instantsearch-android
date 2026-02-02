@@ -7,10 +7,10 @@ plugins {
 
 android {
     namespace = "com.algolia.instantsearch.android"
-    compileSdk = 33
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,21 +30,15 @@ android {
 kotlin {
     explicitApi()
     jvm()
-    android {
-        publishAllLibraryVariants()
-        publishLibraryVariantsGroupedByFlavor = true
-        compilations.all {
-            kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
-        }
-    }
+    androidTarget()
     sourceSets {
         all {
             languageSettings {
                 optIn("kotlin.RequiresOptIn")
                 optIn("com.algolia.instantsearch.InternalInstantSearch")
                 optIn("com.algolia.instantsearch.ExperimentalInstantSearch")
-                optIn("com.algolia.search.ExperimentalAlgoliaClientAPI")
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+                optIn("kotlinx.serialization.InternalSerializationApi")
             }
         }
         commonMain {
@@ -65,13 +59,13 @@ kotlin {
                 implementation(libs.test.ktor.client.mock)
             }
         }
-        named("jvmTest") {
+        jvmTest {
             dependencies {
                 implementation(libs.test.kotlin.junit)
                 implementation(libs.test.mockk)
             }
         }
-        named("androidMain") {
+        androidMain {
             dependencies {
                 api(libs.ktor.client.okhttp)
                 api(libs.androidx.core)
@@ -80,7 +74,17 @@ kotlin {
                 api(libs.google.material)
             }
         }
-        named("androidUnitTest") {
+        androidUnitTest {
+            dependencies {
+                implementation(libs.test.kotlin.junit)
+                implementation(libs.test.androidx.runner)
+                implementation(libs.test.androidx.ext)
+                implementation(libs.test.robolectric)
+                implementation(libs.test.mockk)
+                implementation(libs.test.coroutines)
+            }
+        }
+        androidNativeTest {
             dependencies {
                 implementation(libs.test.kotlin.junit)
                 implementation(libs.test.androidx.runner)
@@ -89,5 +93,11 @@ kotlin {
                 implementation(libs.test.mockk)
             }
         }
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
     }
 }

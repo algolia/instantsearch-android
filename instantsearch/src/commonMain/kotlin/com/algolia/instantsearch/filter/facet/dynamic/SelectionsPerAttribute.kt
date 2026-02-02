@@ -1,8 +1,6 @@
 package com.algolia.instantsearch.filter.facet.dynamic
 
-import com.algolia.search.model.Attribute
-
 /**
  * Mapping between a facet attribute and a set of selected facet values.
  */
-public typealias SelectionsPerAttribute = Map<Attribute, Set<String>>
+public typealias SelectionsPerAttribute = Map<String, Set<String>>

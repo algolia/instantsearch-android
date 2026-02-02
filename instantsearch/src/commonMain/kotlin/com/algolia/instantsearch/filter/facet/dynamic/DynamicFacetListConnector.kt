@@ -7,7 +7,6 @@ import com.algolia.instantsearch.filter.state.FilterGroupDescriptor
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.Attribute
 
 /**
  * Component to display ordered facets automatically, their ordered values, and lets the user refine the search results
@@ -24,7 +23,7 @@ public class DynamicFacetListConnector(
     public val searcher: SearcherForHits<*>,
     public val filterState: FilterState,
     public val viewModel: DynamicFacetListViewModel = DynamicFacetListViewModel(),
-    filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap(),
+    filterGroupForAttribute: Map<String, FilterGroupDescriptor> = emptyMap(),
     defaultFilterOperator: FilterOperator = FilterOperator.And,
 ) : AbstractConnection() {
 
@@ -42,10 +41,10 @@ public class DynamicFacetListConnector(
         searcher: SearcherForHits<*>,
         filterState: FilterState,
         orderedFacets: List<AttributedFacets> = emptyList(),
-        selections: SelectionsPerAttribute = mutableMapOf(),
-        selectionModeForAttribute: Map<Attribute, SelectionMode> = emptyMap(),
+        selections: SelectionsPerAttribute = mutableMapOf<String, Set<String>>(),
+        selectionModeForAttribute: Map<String, SelectionMode> = emptyMap(),
         defaultSelectionMode: SelectionMode = SelectionMode.Single,
-        filterGroupForAttribute: Map<Attribute, FilterGroupDescriptor> = emptyMap(),
+        filterGroupForAttribute: Map<String, FilterGroupDescriptor> = emptyMap(),
         defaultFilterOperator: FilterOperator = FilterOperator.And,
     ) : this(
         searcher,

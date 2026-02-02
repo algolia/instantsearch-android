@@ -3,14 +3,14 @@ package com.algolia.instantsearch.filter.state.internal
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.hierarchical.HierarchicalFilter
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+
+import com.algolia.instantsearch.filter.Filter
 
 internal data class FiltersImpl(
     private val facetGroups: Map<FilterGroupID, Set<Filter.Facet>>,
     private val tagGroups: Map<FilterGroupID, Set<Filter.Tag>>,
     private val numericGroups: Map<FilterGroupID, Set<Filter.Numeric>>,
-    private val hierarchicalGroups: Map<Attribute, HierarchicalFilter>,
+    private val hierarchicalGroups: Map<String, HierarchicalFilter>,
 ) : Filters {
 
     override fun getFacetFilters(groupID: FilterGroupID): Set<Filter.Facet> {
@@ -25,7 +25,7 @@ internal data class FiltersImpl(
         return numericGroups[groupID].orEmpty()
     }
 
-    override fun getHierarchicalFilters(attribute: Attribute): HierarchicalFilter? {
+    override fun getHierarchicalFilters(attribute: String): HierarchicalFilter? {
         return hierarchicalGroups[attribute]
     }
 
@@ -41,7 +41,7 @@ internal data class FiltersImpl(
         return numericGroups
     }
 
-    override fun getHierarchicalGroups(): Map<Attribute, HierarchicalFilter> {
+    override fun getHierarchicalGroups(): Map<String, HierarchicalFilter> {
         return hierarchicalGroups
     }
 

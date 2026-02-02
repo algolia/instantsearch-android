@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.examples.android.showcase.compose.ui.component
 
 import android.app.Activity
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
@@ -37,8 +38,18 @@ fun TitleTopBarPreview() {
 }
 
 @Composable
-fun TitleTopBar(modifier: Modifier = Modifier, title: String = "") {
-    val activity = (LocalContext.current as? Activity) // TODO: use navigation instead
+fun TitleTopBar(
+    modifier: Modifier = Modifier,
+    title: String = "",
+    onBackClick: (() -> Unit)? = null,
+) {
+    val activity = (LocalContext.current as? Activity)
+    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    val handleBack: () -> Unit = onBackClick ?: {
+        backDispatcher?.onBackPressed()
+        activity?.finish()
+        Unit
+    }
     TopAppBar(
         modifier = modifier,
         title = { Text(title) },
@@ -50,7 +61,7 @@ fun TitleTopBar(modifier: Modifier = Modifier, title: String = "") {
                 modifier = Modifier
                     .fillMaxHeight()
                     .clickable(
-                        onClick = { activity?.finish() },
+                        onClick = handleBack,
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
                     )
@@ -75,7 +86,8 @@ fun SearchTopBar(
     placeHolderText: String = "Search...",
     searchBoxState: SearchBoxState,
     lazyListState: LazyListState,
-    scope: CoroutineScope = rememberCoroutineScope()
+    scope: CoroutineScope = rememberCoroutineScope(),
+    onBackClick: (() -> Unit)? = null,
 ) {
     SearchTopBar(
         modifier,
@@ -83,6 +95,7 @@ fun SearchTopBar(
         searchBoxState,
         listOf(lazyListState),
         scope,
+        onBackClick = onBackClick,
     )
 }
 
@@ -94,9 +107,16 @@ fun SearchTopBar(
     lazyListStates: List<LazyListState>? = null,
     scope: CoroutineScope = rememberCoroutineScope(),
     icon: ImageVector? = null,
-    onIconClick: () -> Unit = {}
+    onIconClick: () -> Unit = {},
+    onBackClick: (() -> Unit)? = null,
 ) {
-    val activity = (LocalContext.current as? Activity) // TODO: use navigation instead
+    val activity = (LocalContext.current as? Activity)
+    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    val handleBack: () -> Unit = onBackClick ?: {
+        backDispatcher?.onBackPressed()
+        activity?.finish()
+        Unit
+    }
     TopAppBar(
         modifier = modifier,
         title = {
@@ -123,7 +143,7 @@ fun SearchTopBar(
                 modifier = Modifier
                     .fillMaxHeight()
                     .clickable(
-                        onClick = { activity?.finish() },
+                        onClick = handleBack,
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
                     )

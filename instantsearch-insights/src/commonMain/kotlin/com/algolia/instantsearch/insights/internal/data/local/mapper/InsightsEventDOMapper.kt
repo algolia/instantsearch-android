@@ -1,3 +1,4 @@
+
 package com.algolia.instantsearch.insights.internal.data.local.mapper
 
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO

@@ -1,15 +1,16 @@
 [versions]
-kotlin = "1.9.20"
-composeUi = "1.4.3"
-composeCompiler = "1.5.5"
-coroutines = "1.7.1"
-ktor = "2.3.0"
-work = "2.8.0"
+kotlin = "2.2.0"
+composeUi = "1.10.0"
+composeCompiler = "2.2.0"
+coroutines = "1.10.2"
+ktor = "3.3.3"
+work = "2.11.0"
 serialization = "1.5.1"
+junit = "4.13.2"
 
 [libraries]
 # algolia
-algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version = "2.1.12" }
+algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version = "3.37.2" }
 algolia-telemetry = { group = "com.algolia", name = "instantsearch-telemetry", version = "0.2.0" }
 
 # network
@@ -50,10 +51,13 @@ test-turbine = { group = "app.cash.turbine", name = "turbine", version = "0.12.1
 # logging
 slf4j = { group = "org.slf4j", name = "slf4j-api", version = "2.0.6" }
 logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.4.5" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
 kotlin-multiplaform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "composeCompiler" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 android = { id = "com.android.library", version = "8.7.2" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.34.0" }
 spotless = { id = "com.diffplug.gradle.spotless", version = "6.16.0" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

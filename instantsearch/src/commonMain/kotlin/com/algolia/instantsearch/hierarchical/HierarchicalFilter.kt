@@ -1,10 +1,10 @@
 package com.algolia.instantsearch.hierarchical
 
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
+
 
 public data class HierarchicalFilter(
-    val attributes: List<Attribute>,
+    val attributes: List<String>,
     val path: List<Filter.Facet>,
     val filter: Filter.Facet,
 )

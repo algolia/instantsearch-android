@@ -5,16 +5,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.HitsView
 import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.client.Index
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Ignore
@@ -25,26 +21,28 @@ public class DocHits {
 
     @Test
     public fun json() {
-        val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+        val client = SearchClient(
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val searcher = HitsSearcher(client, "YourIndexName")
         val adapter = MovieAdapter()
 
         searcher.connectHitsView(adapter) { response ->
-            response.hits.map { hit -> Movie(hit.json.getValue("title").jsonPrimitive.content) }
+            response.hits.map { hit ->
+                val title = hit.additionalProperties?.get("title")?.jsonPrimitive?.content ?: ""
+                Movie(title)
+            }
         }
     }
 
     public class MyActivity : AppCompatActivity() {
 
-        public val client: ClientSearch = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+        public val client = SearchClient(
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        public val index: Index = client.initIndex(IndexName("YourIndexName"))
-        public val searcher: HitsSearcher = HitsSearcher(client, IndexName("YourIndexName"))
+        public val searcher: HitsSearcher = HitsSearcher(client, "YourIndexName")
         public val connection: ConnectionHandler = ConnectionHandler()
         public val adapter: MovieAdapter = MovieAdapter()
 

@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlinx-serialization'
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 36
     namespace "com.algolia.instantsearch.examples.android"
 
     defaultConfig {
         applicationId "com.algolia.instantsearch.examples.android"
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 35
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -89,6 +90,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
             '-Xopt-in=kotlin.RequiresOptIn',
             '-Xopt-in=com.algolia.instantsearch.ExperimentalInstantSearch',
             '-Xopt-in=androidx.compose.material.ExperimentalMaterialApi',
+            '-opt-in=kotlinx.serialization.InternalSerializationApi',
         ]
     }
 }

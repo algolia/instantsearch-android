@@ -6,7 +6,6 @@ import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.searcher.Searcher
 import com.algolia.instantsearch.searcher.IndexNameHolder
 import com.algolia.instantsearch.sortby.internal.DefaultSortByConnector
-import com.algolia.search.model.IndexName
 
 /**
  * SortBy displays a list of indices, allowing a user to change the way hits are sorted (using replica indices).
@@ -48,7 +47,7 @@ public fun <S> SortByConnector(
  */
 public fun <S> SortByConnector(
     searcher: S,
-    indexes: Map<Int, IndexName>,
+    indexes: Map<Int, String>,
     selected: Int? = null,
 ): SortByConnector<S> where S : Searcher<*>, S : IndexNameHolder = DefaultSortByConnector(
     searcher = searcher,

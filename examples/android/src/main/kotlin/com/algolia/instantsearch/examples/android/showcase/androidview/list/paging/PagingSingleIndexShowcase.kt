@@ -17,6 +17,7 @@ import com.algolia.instantsearch.examples.android.databinding.IncludeSearchBindi
 import com.algolia.instantsearch.examples.android.databinding.ShowcasePagingBinding
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.movie.Movie
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.movie.MovieAdapterPaged
+import com.algolia.search.helper.deserialize
 
 class PagingSingleIndexShowcase : AppCompatActivity() {
 

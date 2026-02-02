@@ -18,7 +18,7 @@ public class DefaultFilterCurrentView(
 
     override fun setFilters(filters: List<Pair<FilterAndID, String>>) {
         view.removeAllViews()
-        filters.forEach { (id, filter) ->
+        for ((id, filter) in filters) {
             val chip: Chip = if (chipLayout != null) view.inflate<Chip>(chipLayout) else Chip(view.context)
             val onClickListener = View.OnClickListener { onFilterSelected?.invoke(id) }
 

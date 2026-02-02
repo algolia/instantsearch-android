@@ -15,5 +15,4 @@ public sealed class InsightsException(override val message: String? = null) : Ex
      * Will be thrown when you call Insights.viewed without Insights.userToken first.
      */
     public class NoUserToken : InsightsException("You need to set Insights.userToken first.")
-    // TODO: Remove exception once default userToken
 }

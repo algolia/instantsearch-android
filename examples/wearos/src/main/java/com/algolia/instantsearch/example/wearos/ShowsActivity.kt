@@ -9,16 +9,13 @@ import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.example.wearos.internal.CustomScrollingLayoutCallback
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
 
 class ShowsActivity : ComponentActivity() {
 
     private val searcher = HitsSearcher(
-        applicationID = ApplicationID("latency"),
-        apiKey = APIKey("3832e8fcaf80b1c7085c59fa3e4d266d"),
-        indexName = IndexName("tmdb_movies_shows")
+        applicationID = "latency",
+        apiKey = "3832e8fcaf80b1c7085c59fa3e4d266d",
+        indexName = "tmdb_movies_shows"
     )
     private val connections = ConnectionHandler()
 
@@ -36,7 +33,7 @@ class ShowsActivity : ComponentActivity() {
             it.hits.deserialize(Show.serializer())
         }
 
-        searcher.query.attributesToRetrieve = Show.attributes
+        searcher.query = searcher.query.copy(attributesToRetrieve = Show.attributes)
         searcher.setQuery(query)
         searcher.searchAsync()
     }

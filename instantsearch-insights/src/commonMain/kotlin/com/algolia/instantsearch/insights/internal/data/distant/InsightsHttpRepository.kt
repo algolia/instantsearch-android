@@ -1,37 +1,60 @@
+
 package com.algolia.instantsearch.insights.internal.data.distant
 
+import com.algolia.client.api.InsightsClient
+import com.algolia.client.exception.AlgoliaApiException
+import com.algolia.client.model.insights.InsightsEvents
+import com.algolia.client.transport.RequestOptions
+import com.algolia.instantsearch.insights.internal.data.local.mapper.InsightsEventsMapper
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
 import com.algolia.instantsearch.insights.internal.event.EventResponse
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.util.algoliaAgent
-import com.algolia.search.client.ClientInsights
-import com.algolia.search.configuration.Credentials
-import com.algolia.search.dsl.requestOptions
-import com.algolia.search.exception.AlgoliaApiException
-import com.algolia.search.model.insights.InsightsEvent
-import io.ktor.client.statement.bodyAsText
-import io.ktor.http.isSuccess
+import kotlinx.serialization.json.JsonObject
 
 internal class InsightsHttpRepository(
-    private val clientInsights: ClientInsights,
-) : InsightsDistantRepository, Credentials by clientInsights {
+    private val insightsClient: InsightsClient,
+) : InsightsDistantRepository {
 
-    private val requestOptions = requestOptions {
-        parameter("X-Algolia-Agent", algoliaAgent("Algolia insights for Android"))
+    override val applicationID: String get() = insightsClient.appId
+    override val apiKey: String get() = insightsClient.apiKey
+
+    private val requestOptions = mapOf<String, String>(
+        "X-Algolia-Agent" to algoliaAgent("Algolia insights for Android")
+    )
+    private val defaultRequestOptions = RequestOptions(headers = requestOptions)
+
+    override suspend fun customPost(
+        path: String,
+        parameters: Map<String, Any>?,
+        body: JsonObject?,
+        requestOptions: RequestOptions?
+    ): JsonObject {
+        return insightsClient.customPost(
+            path = path,
+            parameters = parameters,
+            body = body,
+            requestOptions = defaultRequestOptions + requestOptions
+        )
     }
 
-    override suspend fun send(event: InsightsEvent): EventResponse {
-        val (code: Int, message: String) = try {
-            val response = clientInsights.sendEvent(event, requestOptions)
-            val message = when {
-                response.status.isSuccess() -> "Sync succeeded for $event.\""
-                else -> response.bodyAsText()
-            }
-            response.status.value to message
+    override suspend fun send(event: InsightsEventDO): EventResponse {
+        val eventsItem = InsightsEventsMapper.doToEventsItem(event) ?: run {
+            InsightsLogger.log(event.indexName, "Failed to map event for Insights.")
+            return EventResponse(event, -1)
+        }
+        val (code, message) = try {
+            val response = insightsClient.pushEvents(
+                insightsEvents = InsightsEvents(listOf(eventsItem)),
+                requestOptions = defaultRequestOptions
+            )
+            val status = response.status ?: 200
+            status to (response.message ?: "Sync succeeded for $event.")
         } catch (exception: Exception) {
             val status = (exception as? AlgoliaApiException)?.httpErrorCode ?: -1
             status to exception.message.orEmpty()
         }
         InsightsLogger.log(event.indexName, message)
-        return EventResponse(code = code, event = event)
+        return EventResponse(event, code)
     }
 }

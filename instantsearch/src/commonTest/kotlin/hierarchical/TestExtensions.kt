@@ -1,22 +1,22 @@
 package hierarchical
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.tree.Node
 import com.algolia.instantsearch.hierarchical.internal.findNode
-import com.algolia.search.model.search.Facet
 import shouldBeNull
 import shouldEqual
 import kotlin.test.Test
 
 class TestExtensions {
-    private fun Facet.toNode() = Node(this)
+    private fun FacetHits.toNode() = Node(this)
 
-    private val category1 = Facet("Sport", 5).toNode()
-    private val category11 = Facet("Sport > Bikes", 2).toNode()
-    private val category12 = Facet("Sport > Bikesheds", 3).toNode()
-    private val category11Custom = Facet("Sport | Bikes", 2).toNode()
-    private val category12Custom = Facet("Sport | Bikesheds", 3).toNode()
-    private val category2Mixed = Facet("Sport - Leisure", 5).toNode()
-    private val category21Mixed = Facet("Sport - Leisure > Foo - Bar", 3).toNode()
+    private val category1 = FacetHits("Sport", "", 5).toNode()
+    private val category11 = FacetHits("Sport > Bikes", "", 2).toNode()
+    private val category12 = FacetHits("Sport > Bikesheds", "", 3).toNode()
+    private val category11Custom = FacetHits("Sport | Bikes", "", 2).toNode()
+    private val category12Custom = FacetHits("Sport | Bikesheds", "", 3).toNode()
+    private val category2Mixed = FacetHits("Sport - Leisure", "", 5).toNode()
+    private val category21Mixed = FacetHits("Sport - Leisure > Foo - Bar", "", 3).toNode()
 
     @Test
     fun findNodeMatchingShouldHit() {

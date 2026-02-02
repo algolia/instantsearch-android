@@ -5,14 +5,13 @@ import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.toggle.FilterToggleViewModel
 import com.algolia.instantsearch.filter.toggle.connectFilterState
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 import shouldEqual
 import kotlin.test.Test
 
 class TestFilterToggleConnectFilterState {
 
-    private val color = Attribute("color")
+    private val color = "color"
     private val red = Filter.Facet(color, "red")
     private val groupID = FilterGroupID(color, FilterOperator.And)
     private val expectedFilterState = FilterState(mapOf(groupID to setOf(red)))

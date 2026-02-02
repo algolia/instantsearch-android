@@ -7,8 +7,8 @@ import com.algolia.instantsearch.filter.list.FilterListViewModel
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
+import com.algolia.instantsearch.filter.Filter
 import com.algolia.instantsearch.filter.state.add
-import com.algolia.search.model.filter.Filter
 
 internal data class FilterListConnectionFilterState<T : Filter>(
     private val viewModel: FilterListViewModel<T>,
@@ -26,7 +26,7 @@ internal data class FilterListConnectionFilterState<T : Filter>(
                 SelectionMode.Single -> clear(groupID)
                 SelectionMode.Multiple -> viewModel.items.value.forEach { remove(groupID, it) }
             }
-            add(groupID, selections)
+            add(groupID = groupID, selections)
         }
     }
 

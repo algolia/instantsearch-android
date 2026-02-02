@@ -3,11 +3,10 @@ package com.algolia.instantsearch.android.filter.facet.dynamic
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.filter.facet.dynamic.AttributedFacets
 import com.algolia.instantsearch.filter.facet.dynamic.DynamicFacetListView
 import com.algolia.instantsearch.filter.facet.dynamic.SelectionsPerAttribute
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.Facet
 
 /**
  * [DynamicFacetListView] implementation presenting ordered facets and ordered facet values.
@@ -18,8 +17,8 @@ public class DynamicFacetListAdapter(
     private val factory: DynamicFacetListViewHolder.Factory,
 ) : ListAdapter<DynamicFacetModel, DynamicFacetListViewHolder<out DynamicFacetModel>>(DiffUtil), DynamicFacetListView {
 
-    override var didSelect: ((Attribute, Facet) -> Unit)? = null
-    private var facetSelections: SelectionsPerAttribute = emptyMap()
+    override var didSelect: ((String, FacetHits) -> Unit)? = null
+    private var facetSelections: SelectionsPerAttribute = emptyMap<String, Set<String>>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DynamicFacetListViewHolder<out DynamicFacetModel> {
         return factory.createViewHolder(parent, DynamicFacetListViewHolder.ViewType.values()[viewType])
@@ -74,7 +73,7 @@ public class DynamicFacetListAdapter(
         if (currentList != newList) submitList(newList)
     }
 
-    private fun isSelected(attribute: Attribute, facet: Facet): Boolean {
+    private fun isSelected(attribute: String, facet: FacetHits): Boolean {
         return facetSelections[attribute]?.contains(facet.value) == true
     }
 

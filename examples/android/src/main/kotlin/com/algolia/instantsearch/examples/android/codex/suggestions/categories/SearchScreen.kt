@@ -19,6 +19,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.compose.highlighting.toAnnotatedString
 import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.component.SearchBox
@@ -26,19 +27,20 @@ import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.highlighting.DefaultPostTag
 import com.algolia.instantsearch.core.highlighting.DefaultPreTag
 import com.algolia.instantsearch.core.highlighting.HighlightTokenizer
-import com.algolia.search.model.search.Facet
 
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
     searchBoxState: SearchBoxState,
     suggestionsState: HitsState<Suggestion>,
-    categoriesState: HitsState<Facet>,
+    categoriesState: HitsState<FacetHits>,
 ) {
     val scrollState = rememberScrollState()
-    Column(modifier = modifier
-        .fillMaxWidth()
-        .verticalScroll(scrollState)) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .verticalScroll(scrollState)
+    ) {
         var showSuggestion by remember { mutableStateOf(false) }
         SearchBox(
             modifier = Modifier
@@ -66,7 +68,7 @@ fun SearchScreen(
 @Composable
 private fun Categories(
     modifier: Modifier = Modifier,
-    categories: List<Facet>,
+    categories: List<FacetHits>,
 ) {
     Column(modifier) {
         SectionTitle(
@@ -86,7 +88,7 @@ private fun Categories(
 @Composable
 private fun CategoryRow(
     modifier: Modifier = Modifier,
-    category: Facet
+    category: FacetHits
 ) {
     Row(
         modifier
@@ -99,6 +101,7 @@ private fun CategoryRow(
             tint = MaterialTheme.colors.onSurface.copy(alpha = 0.2f),
             contentDescription = null
         )
+
         Text(
             text = category.highlighted.toAnnotatedString(),
             modifier = Modifier.padding(start = 12.dp),

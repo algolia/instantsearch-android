@@ -15,12 +15,11 @@ import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.examples.android.showcase.androidview.*
 import com.algolia.instantsearch.examples.android.databinding.HeaderFilterBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFilterRangeBinding
-import com.algolia.search.model.Attribute
 
 class FilterRangeShowcase : AppCompatActivity() {
 
     private val searcher = HitsSearcher(client, stubIndexName)
-    private val price = Attribute("price")
+    private val price = "price"
     private val groupID = FilterGroupID(price)
     private val primaryBounds = 0..15
     private val secondaryBounds = 0..10

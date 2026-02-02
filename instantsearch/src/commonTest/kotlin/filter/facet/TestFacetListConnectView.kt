@@ -1,29 +1,29 @@
 package filter.facet
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.filter.facet.FacetListItem
 import com.algolia.instantsearch.filter.facet.FacetListView
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
 import com.algolia.instantsearch.filter.facet.connectView
-import com.algolia.search.model.search.Facet
 import shouldEqual
 import shouldNotBeNull
 import kotlin.test.Test
 
 class TestFacetListConnectView {
 
-    private val red = Facet("red", 1)
+    private val red = FacetHits("red", "", 1)
     private val facets = listOf(red)
     private val selections = setOf(red.value)
 
     private class MockSelectableFacetsView : FacetListView {
 
-        override var onSelection: Callback<Facet>? = null
+        override var onSelection: Callback<FacetHits>? = null
 
         var list: List<FacetListItem> = listOf()
 
-        override fun setItems(items: List<SelectableItem<Facet>>) {
+        override fun setItems(items: List<SelectableItem<FacetHits>>) {
             list = items
         }
     }

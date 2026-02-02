@@ -3,15 +3,16 @@ plugins {
     id 'kotlin-android'
     id 'kotlinx-serialization'
 }
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
-    compileSdk 33
+    compileSdk 36
     namespace "com.algolia.instantsearch.examples.androidtv"
 
     defaultConfig {
         applicationId "com.algolia.instantsearch.examples.androidtv"
-        minSdk 21
-        targetSdk 33
+        minSdk 23
+        targetSdk 35
         versionCode 1
         versionName "1.0"
     }
@@ -33,6 +34,9 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs += [
+            '-opt-in=kotlinx.serialization.InternalSerializationApi',
+        ]
     }
 }
 

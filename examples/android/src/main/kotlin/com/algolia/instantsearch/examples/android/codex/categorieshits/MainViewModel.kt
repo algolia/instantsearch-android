@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.examples.android.codex.categorieshits
 
 import androidx.lifecycle.ViewModel
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.compose.hits.HitsState
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
 import com.algolia.instantsearch.core.connection.ConnectionHandler
@@ -11,32 +12,29 @@ import com.algolia.instantsearch.searcher.facets.addFacetsSearcher
 import com.algolia.instantsearch.searcher.hits.addHitsSearcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.search.Facet
 
 class MainViewModel : ViewModel() {
 
     private val multiSearcher = MultiSearcher(
-        applicationID = ApplicationID("latency"),
-        apiKey = APIKey("6be0576ff61c053d5f9a3225e2a90f76")
+        appId = "latency",
+        apiKey = "6be0576ff61c053d5f9a3225e2a90f76"
     )
-    private val indexName = IndexName("instant_search")
-    private val attribute = Attribute("categories")
+    private val indexName = "instant_search"
+    private val attribute = "categories"
     private val productsSearcher = multiSearcher.addHitsSearcher(indexName)
     private val categoriesSearcher = multiSearcher.addFacetsSearcher(indexName, attribute)
     private val searchBoxConnector = SearchBoxConnector(multiSearcher)
     private val connections = ConnectionHandler(searchBoxConnector)
 
     val searchBoxState = SearchBoxState()
-    val categoriesState = HitsState<Facet>()
+    val categoriesState = HitsState<FacetHits>()
     val productsState = HitsState<Product>()
 
     init {
         connections += searchBoxConnector.connectView(searchBoxState)
-        connections += categoriesSearcher.connectHitsView(categoriesState) { it.facets }
+        connections += categoriesSearcher.connectHitsView(categoriesState) { response ->
+            response.facetHits
+        }
         connections += productsSearcher.connectHitsView(productsState) { it.hits.deserialize(Product.serializer()) }
         multiSearcher.searchAsync()
     }

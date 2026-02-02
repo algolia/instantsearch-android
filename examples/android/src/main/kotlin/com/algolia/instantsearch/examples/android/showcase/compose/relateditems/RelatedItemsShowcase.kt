@@ -28,7 +28,6 @@ import com.algolia.instantsearch.relateditems.MatchingPattern
 import com.algolia.instantsearch.relateditems.connectRelatedHitsView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.Attribute
 
 class RelatedItemsShowcase : AppCompatActivity() {
 
@@ -39,8 +38,8 @@ class RelatedItemsShowcase : AppCompatActivity() {
     private val relatedItems = HitsState<Product>()
 
     private val matchingPatterns: List<MatchingPattern<Product>> = listOf(
-        MatchingPattern(Attribute("brand"), 1, Product::brand),
-        MatchingPattern(Attribute("categories"), 2, Product::categories)
+        MatchingPattern("brand", 1, Product::brand),
+        MatchingPattern("categories", 2, Product::categories)
     )
 
     private var relatedItemConnection: Connection? = null
@@ -59,7 +58,7 @@ class RelatedItemsShowcase : AppCompatActivity() {
                 )
             }
         }
-        searcher.query.hitsPerPage = 3 // Limit to 3 results
+        searcher.query = searcher.query.copy(hitsPerPage = 3) // Limit to 3 results
         configureSearcher(searcher)
         configureSearcher(relatedItemsSearcher)
         searcher.searchAsync()

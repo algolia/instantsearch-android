@@ -10,10 +10,9 @@ import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsWorkManager
 import com.algolia.instantsearch.insights.sharedInsights
-import com.algolia.search.model.IndexName
 
 internal fun registerInsightsController(
-    indexName: IndexName,
+    indexName: String,
     localRepository: InsightsLocalRepository,
     distantRepository: InsightsDistantRepository,
     workManager: WorkManager,

@@ -1,25 +1,27 @@
 package com.algolia.instantsearch.hierarchical.internal
 
+import com.algolia.client.model.search.FacetHits
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.Callback
 import com.algolia.instantsearch.core.connection.AbstractConnection
 import com.algolia.instantsearch.hierarchical.HierarchicalViewModel
 import com.algolia.instantsearch.searcher.SearcherForHits
 import com.algolia.instantsearch.searcher.addFacet
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.Facet
+import com.algolia.instantsearch.searcher.updateSearchParamsObject
 
 internal data class HierarchicalConnectionSearcher(
     private val viewModel: HierarchicalViewModel,
     private val searcher: SearcherForHits<*>,
 ) : AbstractConnection() {
 
-    private val updateTree: Callback<ResponseSearch?> = { response ->
+    private val updateTree: Callback<SearchResponse?> = { response ->
         if (response != null) {
-            val facets = response.hierarchicalFacetsOrNull
-                ?: response.facetsOrNull?.filter { it.key == viewModel.hierarchicalAttributes.first() } ?: mapOf()
+            val facets = response.facets.orEmpty()
 
             viewModel.tree.value = viewModel.hierarchicalAttributes
-                .mapNotNull { facets[it]?.toMutableList() }
+                .mapNotNull { attribute ->
+                    facets[attribute]?.map { (value, count) -> FacetHits(value, "", count) }?.toMutableList()
+                }
                 .filterUnprefixed()
                 .flatten()
                 .toNodes(selectedHierarchicalValue, viewModel.separator)
@@ -38,7 +40,7 @@ internal data class HierarchicalConnectionSearcher(
      * Level 0: [Clothing, Furniture]
      * Level 1: [Clothing > Men, Clothing > Women]
      */
-    private fun List<MutableList<Facet>>.filterUnprefixed(): List<MutableList<Facet>> {
+    private fun List<MutableList<FacetHits>>.filterUnprefixed(): List<MutableList<FacetHits>> {
         viewModel.hierarchicalPath.value.forEachIndexed { index, (_, item) ->
             getOrNull(index + 1) // Get next level (sub-category)
                 ?.removeAll { !it.value.startsWith(item) } // Remove the items not respecting the prefix convention
@@ -54,7 +56,9 @@ internal data class HierarchicalConnectionSearcher(
         }
 
     init {
-        searcher.query.addFacet(*viewModel.hierarchicalAttributes.toTypedArray())
+        searcher.updateSearchParamsObject {
+            it.addFacet(*viewModel.hierarchicalAttributes.toTypedArray())
+        }
     }
 
     override fun connect() {

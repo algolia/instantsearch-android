@@ -2,6 +2,8 @@ package com.algolia.instantsearch.examples.android.showcase.androidview.filter.f
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
+import com.algolia.client.configuration.ClientOptions
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.selectable.list.SelectionMode
 import com.algolia.instantsearch.android.filter.facet.dynamic.DynamicFacetListAdapter
@@ -19,27 +21,24 @@ import com.algolia.instantsearch.examples.android.showcase.androidview.configure
 import com.algolia.instantsearch.examples.android.showcase.androidview.configureToolbar
 import com.algolia.instantsearch.examples.android.databinding.IncludeSearchBinding
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseDynamicFacetListBinding
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
+import io.ktor.client.plugins.logging.LogLevel
 
 class DynamicFacetShowcase : AppCompatActivity() {
 
-    val client = ClientSearch(
-        ApplicationID("RVURKQXRHU"),
-        APIKey("937e4e6ec422ff69fe89b569dba30180"),
-        LogLevel.All
+    val client = SearchClient(
+        appId = "RVURKQXRHU",
+        apiKey = "937e4e6ec422ff69fe89b569dba30180",
+        options = ClientOptions(
+            logLevel = LogLevel.ALL
+        )
     )
-    val searcher = HitsSearcher(client, IndexName("test_facet_ordering"))
+    val searcher = HitsSearcher(client, "test_facet_ordering")
     val filterState = FilterState()
     val searchBox = SearchBoxConnector(searcher)
-    val color = Attribute("color")
-    val country = Attribute("country")
-    val brand = Attribute("brand")
-    val size = Attribute("size")
+    val color = "color"
+    val country = "country"
+    val brand = "brand"
+    val size = "size"
     val dynamicFacets = DynamicFacetListConnector(
         searcher = searcher,
         filterState = filterState,
@@ -73,7 +72,7 @@ class DynamicFacetShowcase : AppCompatActivity() {
         configureSearchView(searchBinding.searchView, getString(R.string.search_brands))
         configureRecyclerView(binding.hits, adapter)
 
-        searcher.query.facets = setOf(brand, color, size, country)
+        searcher.query = searcher.query.copy(facets = listOf(brand, color, size, country))
         searcher.searchAsync()
     }
 

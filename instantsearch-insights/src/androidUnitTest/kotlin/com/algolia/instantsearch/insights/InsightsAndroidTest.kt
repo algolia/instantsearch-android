@@ -6,9 +6,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.algolia.instantsearch.insights.exception.InsightsException
 import com.algolia.instantsearch.insights.util.setupWorkManager
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,8 +23,8 @@ class InsightsAndroidTest {
         readTimeoutInMilliseconds = 5000
     )
 
-    private val appId = ApplicationID("appId")
-    private val apiKey = APIKey("apiKey")
+    private val appId = "appId"
+    private val apiKey = "apiKey"
 
     @Before
     fun init() {
@@ -37,7 +34,7 @@ class InsightsAndroidTest {
     @Test
     fun testSharedWithoutRegister() {
         try {
-            val indexName = IndexName("index")
+            val indexName = "index"
             sharedInsights(indexName)
         } catch (exception: Exception) {
             assertTrue(exception is InsightsException.IndexNotRegistered)
@@ -46,14 +43,14 @@ class InsightsAndroidTest {
 
     @Test
     fun testSharedAfterRegister() {
-        val indexName = IndexName("indexSharedAfter")
+        val indexName = "indexSharedAfter"
         val insights = registerInsights(context, appId, apiKey, indexName, configuration)
         assertEquals(insights, sharedInsights)
     }
 
     @Test
     fun testSharedNamedAfterRegister() {
-        val indexName = IndexName("indexSharedNamedAfter")
+        val indexName = "indexSharedNamedAfter"
         val insights = registerInsights(context, appId, apiKey, indexName, configuration)
         val insightsShared = sharedInsights(indexName)
         assertEquals(insights, insightsShared)
@@ -61,7 +58,7 @@ class InsightsAndroidTest {
 
     @Test
     fun testRegisterGlobalUserToken() {
-        val indexName = IndexName("indexGlobalUserToken")
+        val indexName = "indexGlobalUserToken"
         registerInsights(context, appId, apiKey, indexName, configuration)
         val insightsShared = sharedInsights(indexName)
         assertEquals(configuration.defaultUserToken, insightsShared.userToken)

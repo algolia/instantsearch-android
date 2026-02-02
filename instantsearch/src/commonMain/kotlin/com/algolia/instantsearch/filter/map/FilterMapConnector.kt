@@ -5,7 +5,7 @@ import com.algolia.instantsearch.extension.traceFilterMapConnector
 import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 
 /**
  * Components holding a map of filters, and that can apply a single filter at a time.

@@ -8,13 +8,13 @@ import com.algolia.instantsearch.filter.state.FilterGroupID
 import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.Filters
 import com.algolia.instantsearch.filter.state.toFilterNumeric
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
+
+import com.algolia.instantsearch.filter.Filter
 
 internal data class FilterRangeConnectionFilterState<T>(
     private val viewModel: FilterRangeViewModel<T>,
     private val filterState: FilterState,
-    private val attribute: Attribute,
+    private val attribute: String,
     private val groupID: FilterGroupID,
 ) : AbstractConnection() where T : Number, T : Comparable<T> {
 

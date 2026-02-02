@@ -2,9 +2,9 @@ package com.algolia.instantsearch.relateditems.internal.extensions
 
 import com.algolia.instantsearch.filter.state.FilterOperator
 import com.algolia.instantsearch.filter.state.FilterState
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.FilterGroup
 import com.algolia.instantsearch.relateditems.MatchingPattern
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.FilterGroup
 
 internal fun <T> FilterState.addMatchingPattern(hit: T, matchingPattern: MatchingPattern<T>) {
     val optionalFilter = matchingPattern.toOptionalFilter(hit)

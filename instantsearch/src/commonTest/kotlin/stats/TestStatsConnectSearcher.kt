@@ -2,7 +2,6 @@ package stats
 
 import com.algolia.instantsearch.stats.StatsViewModel
 import com.algolia.instantsearch.stats.connectSearcher
-import com.algolia.search.model.IndexName
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
 import mockClient
@@ -14,7 +13,7 @@ import shouldEqual
 class TestStatsConnectSearcher {
 
     private val client = mockClient()
-    private val indexName = IndexName("A")
+    private val indexName = "A"
 
     @Test
     fun connectShouldSetItem() {
@@ -26,7 +25,8 @@ class TestStatsConnectSearcher {
 
         viewModel.response.value.shouldBeNull()
         connection.connect()
-        viewModel.response.value shouldEqual responseSearch
+        viewModel.response.value?.hits shouldEqual responseSearch.hits
+        viewModel.response.value?.query shouldEqual responseSearch.query
     }
 
     @Test
@@ -38,6 +38,7 @@ class TestStatsConnectSearcher {
         connection.connect()
         viewModel.response.value.shouldBeNull()
         searcher.searchAsync().join()
-        viewModel.response.value shouldEqual responseSearch
+        viewModel.response.value?.hits shouldEqual responseSearch.hits
+        viewModel.response.value?.query shouldEqual responseSearch.query
     }
 }

@@ -1,9 +1,10 @@
 package com.algolia.instantsearch.searcher
 
-import com.algolia.search.model.params.CommonSearchParameters
-import com.algolia.search.model.response.ResponseSearch
+import com.algolia.client.model.search.SearchParams
+import com.algolia.client.model.search.SearchResponse
+
 
 /**
- * Implementation of [SearcherQuery] with [CommonSearchParameters] and [ResponseSearch].
+ * Implementation of [SearcherQuery] with [SearchParams] and [SearchResponse].
  */
-public interface SearcherForHits<T : CommonSearchParameters> : SearcherQuery<T, ResponseSearch>
+public interface SearcherForHits<T : SearchParams> : SearcherQuery<T, SearchResponse>

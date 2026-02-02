@@ -9,7 +9,7 @@ import com.algolia.instantsearch.filter.DefaultFilterPresenter
 import com.algolia.instantsearch.filter.list.FilterListView
 import com.algolia.instantsearch.examples.android.databinding.ListItemSelectableBinding
 import com.algolia.instantsearch.examples.android.showcase.androidview.layoutInflater
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 
 class FilterListAdapter<T : Filter> :
     ListAdapter<SelectableItem<T>, FilterListViewHolder>(DiffUtilItem()),

@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.RecyclerView
+import com.algolia.client.api.SearchClient
+import com.algolia.client.configuration.ClientOptions
 import com.algolia.instantsearch.android.searchbox.SearchBoxViewAppCompat
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
@@ -17,25 +19,24 @@ import com.algolia.instantsearch.searchbox.SearchMode
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.tracker.HitsTracker
-import com.algolia.search.client.ClientSearch
 import com.algolia.search.helper.deserialize
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.insights.EventName
+import io.ktor.client.plugins.logging.LogLevel
 
 class InsightsActivity : AppCompatActivity() {
 
-    private val indexName = IndexName("instant_search")
+    private val indexName = "instant_search"
     private val insights = sharedInsights(indexName)
-    private val client = ClientSearch(
-        applicationID = insights.applicationID,
+    private val client = SearchClient(
+        appId = insights.applicationID,
         apiKey = insights.apiKey,
-        logLevel = LogLevel.All
+        options = ClientOptions(
+            logLevel = LogLevel.ALL,
+        )
     )
     private val searcher = HitsSearcher(client, indexName)
     private val searchBox = SearchBoxConnector(searcher, searchMode = SearchMode.AsYouType)
     private val hitsTracker = HitsTracker(
-        eventName = EventName("demo"),
+        eventName = "demo",
         searcher = searcher,
         insights = insights
     )

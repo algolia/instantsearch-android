@@ -2,6 +2,7 @@
 
 package telemetry
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.ExperimentalInstantSearch
 import com.algolia.instantsearch.InternalInstantSearch
 import com.algolia.instantsearch.core.hits.connectHitsView
@@ -34,7 +35,6 @@ import com.algolia.instantsearch.relateditems.connectRelatedHitsView
 import com.algolia.instantsearch.relevantsort.RelevantSortConnector
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.SearchMode
-import com.algolia.instantsearch.searcher.SearcherAnswers
 import com.algolia.instantsearch.searcher.facets.FacetsSearcher
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
@@ -44,14 +44,9 @@ import com.algolia.instantsearch.telemetry.Component
 import com.algolia.instantsearch.telemetry.ComponentParam
 import com.algolia.instantsearch.telemetry.ComponentType
 import com.algolia.instantsearch.telemetry.Telemetry
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.ObjectID
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.NumericOperator
-import com.algolia.search.model.multipleindex.MultipleQueriesStrategy
-import com.algolia.search.model.search.Facet
-import com.algolia.search.transport.RequestOptions
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.NumericOperator
+import com.algolia.instantsearch.searcher.multi.internal.types.MultipleQueriesStrategy
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.delay
@@ -67,8 +62,8 @@ class TestTelemetry { // instrumented because it uses android's Base64
     val scope = TestScope()
 
     val client = mockClient()
-    val indexName = IndexName("myIndex")
-    val attribute = Attribute("attr")
+    val indexName = "myIndex"
+    val attribute = "attr"
 
     init {
         val telemetry = Telemetry(scope)
@@ -119,14 +114,6 @@ class TestTelemetry { // instrumented because it uses android's Base64
     }
 
     @Test
-    fun testAnswersSearcher() = scope.runTest {
-        SearcherAnswers(client.initIndex(indexName), requestOptions = RequestOptions())
-        val component = Telemetry.shared.validateAndGet(ComponentType.AnswersSearcher)
-        assertEquals(setOf(ComponentParam.RequestOptions), component.parameters)
-        assertEquals(false, component.isConnector)
-    }
-
-    @Test
     fun testDynamicFilters() = scope.runTest {
         DynamicFacetListConnector(
             searcher = hitsSearcher,
@@ -162,7 +149,7 @@ class TestTelemetry { // instrumented because it uses android's Base64
             filterState,
             attribute,
             SelectionMode.Single,
-            listOf(Facet("facet", 1)),
+            listOf(FacetHits("facet", "", 1)),
             true
         )
         val component = Telemetry.shared.validateConnectorAndGet(ComponentType.FacetList)
@@ -324,13 +311,13 @@ class TestTelemetry { // instrumented because it uses android's Base64
 
     @Test
     fun testRelatedItems() = scope.runTest {
-        val patternBrand = MatchingPattern(Attribute("attBrand"), 1, SimpleProduct::brand)
+        val patternBrand = MatchingPattern("attBrand", 1, SimpleProduct::brand)
         hitsSearcher.connectRelatedHitsView(
             mockHitsView(),
-            SimpleProduct(ObjectID("id"), "brand"),
+            SimpleProduct("id", "brand"),
             listOf(patternBrand)
         ) {
-            listOf(SimpleProduct(ObjectID("objectId"), "brand"))
+            listOf(SimpleProduct("objectId", "brand"))
         }
         val component = Telemetry.shared.validateAndGet(ComponentType.RelatedItems)
         assertEquals(emptySet(), component.parameters)

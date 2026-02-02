@@ -1,13 +1,14 @@
+
 package com.algolia.instantsearch.insights.internal.cache
 
 import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepository
-import com.algolia.search.model.insights.InsightsEvent
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
 
 internal class InsightsEventCache(
     private val localRepository: InsightsLocalRepository,
 ) : InsightsCache {
 
-    override fun save(event: InsightsEvent) {
+    override fun save(event: InsightsEventDO) {
         localRepository.append(event)
     }
 

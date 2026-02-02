@@ -1,30 +1,29 @@
 package com.algolia.instantsearch.searcher.hits.internal
 
+import com.algolia.client.api.SearchClient
+import com.algolia.client.model.search.FacetHits
+import com.algolia.client.model.search.FacetStats
+import com.algolia.client.model.search.SearchResponse
+import com.algolia.client.transport.RequestOptions
+import com.algolia.instantsearch.filter.Filter
+import com.algolia.instantsearch.filter.FilterGroup
+import com.algolia.instantsearch.filter.FilterGroupsConverter
+import com.algolia.instantsearch.searcher.multi.internal.types.IndexQuery
+import com.algolia.instantsearch.searcher.multi.internal.types.ResultMultiSearch
 import com.algolia.instantsearch.searcher.hits.internal.HitsSearchService.AdvancedQuery
 import com.algolia.instantsearch.searcher.hits.internal.HitsSearchService.Request
+import com.algolia.instantsearch.searcher.internal.search
 import com.algolia.instantsearch.searcher.multi.internal.SearchService
-import com.algolia.instantsearch.searcher.multi.internal.extension.asResponseSearchList
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.dsl.filters
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.Filter
-import com.algolia.search.model.filter.FilterGroup
-import com.algolia.search.model.filter.FilterGroupsConverter
-import com.algolia.search.model.multipleindex.IndexQuery
-import com.algolia.search.model.response.ResponseSearch
-import com.algolia.search.model.search.Facet
-import com.algolia.search.model.search.FacetStats
-import com.algolia.search.transport.RequestOptions
 
 /**
  * Search service for hits.
  */
-internal interface HitsSearchService : SearchService<Request, ResponseSearch> {
+internal interface HitsSearchService : SearchService<Request, SearchResponse> {
 
     /**
      * Client to perform search operations.
      */
-    val client: ClientSearch
+    val client: SearchClient
 
     /**
      * Contains a [Set] of [FilterGroup], used for disjunctive and hierarchical faceting.
@@ -37,9 +36,9 @@ internal interface HitsSearchService : SearchService<Request, ResponseSearch> {
     fun advancedQueryOf(indexQuery: IndexQuery): AdvancedQuery
 
     /**
-     * Aggregate multiple [ResponseSearch]s into one [ResponseSearch].
+     * Aggregate multiple [SearchResponse]s into one [SearchResponse].
      */
-    fun aggregateResult(responses: List<ResponseSearch>, disjunctiveFacetCount: Int): ResponseSearch
+    fun aggregateResult(responses: List<SearchResponse>, disjunctiveFacetCount: Int): SearchResponse
 
     /**
      * Hits service's request.
@@ -63,11 +62,11 @@ internal interface HitsSearchService : SearchService<Request, ResponseSearch> {
  * Default implementation of [HitsSearchService].
  */
 internal class DefaultHitsSearchService(
-    override val client: ClientSearch,
+    override val client: SearchClient,
     override var filterGroups: Set<FilterGroup<*>> = setOf()
 ) : HitsSearchService {
 
-    override suspend fun search(request: Request, requestOptions: RequestOptions?): ResponseSearch {
+    override suspend fun search(request: Request, requestOptions: RequestOptions?): SearchResponse {
         val (indexQuery, isDisjunctiveFacetingEnabled) = request
         return if (isDisjunctiveFacetingEnabled) {
             multiSearch(indexQuery, requestOptions)
@@ -82,19 +81,22 @@ internal class DefaultHitsSearchService(
     private suspend fun multiSearch(
         indexQuery: IndexQuery,
         requestOptions: RequestOptions?
-    ): ResponseSearch {
+    ): SearchResponse {
         val (queries, disjunctiveFacetCount) = advancedQueryOf(indexQuery)
         val response = client.search(requests = queries, requestOptions = requestOptions)
-        val responses = response.asResponseSearchList()
+        val responses = response.results.mapNotNull { (it as? ResultMultiSearch.Hits)?.response }
         return aggregateResult(responses, disjunctiveFacetCount)
     }
 
     /**
      * Runs a search query to an index.
      */
-    private suspend fun indexSearch(indexQuery: IndexQuery, requestOptions: RequestOptions? = null): ResponseSearch {
-        val index = client.initIndex(indexQuery.indexName)
-        return index.search(indexQuery.query, requestOptions)
+    private suspend fun indexSearch(indexQuery: IndexQuery, requestOptions: RequestOptions? = null): SearchResponse {
+        return client.searchSingleIndex(
+            indexName = indexQuery.indexName,
+            searchParams = indexQuery.query,
+            requestOptions = requestOptions
+        )
     }
 
     override fun advancedQueryOf(indexQuery: IndexQuery): AdvancedQuery {
@@ -141,18 +143,16 @@ internal class DefaultHitsSearchService(
     }
 
     private fun IndexQuery.setFilters(groups: Set<FilterGroup<*>>): IndexQuery {
-        query.filters = FilterGroupsConverter.SQL(groups)
-        return this
+        return copy(query = query.copy(filters = FilterGroupsConverter.SQL(groups)))
     }
 
     private fun IndexQuery.optimize(): IndexQuery {
-        query.apply {
-            attributesToRetrieve = listOf()
-            attributesToHighlight = listOf()
-            hitsPerPage = 0
+        return copy(query = query.copy(
+            attributesToRetrieve = listOf(),
+            attributesToHighlight = listOf(),
+            hitsPerPage = 0,
             analytics = false
-        }
-        return this
+        ))
     }
 
     private fun List<Filter>.combine(hierarchicalFilter: Filter.Facet?): List<Filter> {
@@ -165,45 +165,56 @@ internal class DefaultHitsSearchService(
         filtersOrTag: List<Filter.Tag>,
         filtersOrNumeric: List<Filter.Numeric>,
     ): IndexQuery {
-        query.apply {
-            filters {
-                and { +filtersAnd }
-                orFacet { +filtersOrFacet }
-                orTag { +filtersOrTag }
-                orNumeric { +filtersOrNumeric }
-            }
-        }
-        return this
+        // Note: SearchParamsObject doesn't have a filters {} DSL in v3
+        // We need to build the filters string manually
+        val filterString = FilterGroupsConverter.SQL(
+            setOf(
+                FilterGroup.And.Facet(filtersAnd.filterIsInstance<Filter.Facet>().toSet()),
+                FilterGroup.Or.Facet(filtersOrFacet.toSet()),
+                FilterGroup.Or.Tag(filtersOrTag.toSet()),
+                FilterGroup.Or.Numeric(filtersOrNumeric.toSet())
+            )
+        )
+        return copy(query = query.copy(filters = filterString))
     }
 
-    private fun IndexQuery.setFacets(facet: Attribute?): IndexQuery {
-        if (facet != null) query.facets = setOf(facet)
-        return this
+    private fun IndexQuery.setFacets(facet: String?): IndexQuery {
+        return copy(query = query.copy(facets = facet?.let { listOf(it) }))
     }
 
-    override fun aggregateResult(responses: List<ResponseSearch>, disjunctiveFacetCount: Int): ResponseSearch {
+    override fun aggregateResult(responses: List<SearchResponse>, disjunctiveFacetCount: Int): SearchResponse {
         val resultsDisjunctiveFacets = responses.subList(1, 1 + disjunctiveFacetCount)
         val resultHierarchicalFacets = responses.subList(1 + disjunctiveFacetCount, responses.size)
+        val baseFacets = responses.first().facetsAsList()
         val facets = resultsDisjunctiveFacets.aggregateFacets()
         val facetStats = responses.aggregateFacetStats()
         val hierarchicalFacets = resultHierarchicalFacets.aggregateFacets()
+        val mergedFacets = baseFacets + facets + hierarchicalFacets
         return responses.first().copy(
-            facetStatsOrNull = if (facetStats.isEmpty()) null else facetStats,
-            disjunctiveFacetsOrNull = facets,
-            hierarchicalFacetsOrNull = if (hierarchicalFacets.isEmpty()) null else hierarchicalFacets,
-            exhaustiveFacetsCountOrNull = resultsDisjunctiveFacets.all { it.exhaustiveFacetsCountOrNull == true }
+            facetsStats = facetStats.ifEmpty { null },
+            facets = mergedFacets.mapValues { (_, facets) -> facets.associate { it.value to it.count } }
         )
     }
 
-    private fun List<ResponseSearch>.aggregateFacets(): Map<Attribute, List<Facet>> {
-        return fold(mapOf()) { acc, result ->
-            result.facetsOrNull?.let { acc + it } ?: acc
+    private fun SearchResponse.facetsAsList(): Map<String, List<FacetHits>> {
+        return facets?.map { (attribute, counts) ->
+            attribute to counts.map { (value, count) -> FacetHits(value, "", count) }
+        }?.toMap().orEmpty()
+    }
+
+    private fun List<SearchResponse>.aggregateFacets(): Map<String, List<FacetHits>> {
+        return fold(emptyMap<String, List<FacetHits>>()) { acc, result ->
+            result.facets?.let { facets ->
+                acc + facets.map { (attr, counts) ->
+                    attr to counts.map { (value, count) -> FacetHits(value, "", count) }
+                }
+            } ?: acc
         }
     }
 
-    private fun List<ResponseSearch>.aggregateFacetStats(): Map<Attribute, FacetStats> {
-        return fold(mapOf()) { acc, result ->
-            result.facetStatsOrNull?.let { acc + it } ?: acc
+    private fun List<SearchResponse>.aggregateFacetStats(): Map<String, FacetStats> {
+        return fold(emptyMap<String, FacetStats>()) { acc, result ->
+            result.facetsStats?.let { acc + it } ?: acc
         }
     }
 }

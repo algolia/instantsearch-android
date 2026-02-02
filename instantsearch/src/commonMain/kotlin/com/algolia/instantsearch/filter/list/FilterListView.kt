@@ -1,7 +1,7 @@
 package com.algolia.instantsearch.filter.list
 
 import com.algolia.instantsearch.core.selectable.list.SelectableListView
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 
 public interface FilterListView<T : Filter> : SelectableListView<T> {
 

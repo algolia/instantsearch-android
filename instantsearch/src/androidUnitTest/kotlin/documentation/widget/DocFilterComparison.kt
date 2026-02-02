@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.number.Computation
 import com.algolia.instantsearch.core.number.NumberView
@@ -16,12 +17,7 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.searcher.addFacet
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.client.ClientSearch
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.NumericOperator
 import org.junit.Ignore
 
 @Ignore
@@ -31,7 +27,7 @@ internal class DocFilterComparison {
         val textView: TextView,
         val arrowUp: ImageView,
         val arrowDown: ImageView,
-        val price: Attribute,
+        val price: String,
         val operator: NumericOperator,
     ) : NumberView<Int> {
 
@@ -55,13 +51,13 @@ internal class DocFilterComparison {
 
     class MyActivity : AppCompatActivity() {
 
-        val client = ClientSearch(
-            ApplicationID("YourApplicationID"),
-            APIKey("YourAPIKey")
+        val client = SearchClient(
+            "YourApplicationID",
+            "YourAPIKey"
         )
-        val searcher = HitsSearcher(client, IndexName("YourIndexName"))
+        val searcher = HitsSearcher(client, "YourIndexName")
         val filterState = FilterState()
-        val price = Attribute("price")
+        val price = "price"
         val operator = NumericOperator.Greater
         val viewModel = NumberViewModel(range = 0..10)
         val connection = ConnectionHandler()

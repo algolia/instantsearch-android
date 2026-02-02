@@ -1,12 +1,8 @@
 package com.algolia.instantsearch.examples.android
 
 import android.app.Application
+import io.ktor.client.plugins.logging.LogLevel
 import com.algolia.instantsearch.insights.registerInsights
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
-import com.algolia.search.model.insights.UserToken
 
 class App : Application() {
 
@@ -14,13 +10,13 @@ class App : Application() {
         super.onCreate()
         registerInsights(
             context = this,
-            appId = ApplicationID("latency"),
-            apiKey = APIKey("afc3dd66dd1293e2e2736a5a51b05c0a"),
-            indexName = IndexName("instant_search"),
-            clientLogLevel = LogLevel.All
+            appId = "latency",
+            apiKey = "afc3dd66dd1293e2e2736a5a51b05c0a",
+            indexName = "instant_search",
+            clientLogLevel = LogLevel.NONE
         ).apply {
             loggingEnabled = true
-            userToken = UserToken("userToken")
+            userToken = "userToken"
             minBatchSize = 1
         }
     }

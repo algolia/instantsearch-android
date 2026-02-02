@@ -5,12 +5,11 @@ import com.algolia.instantsearch.core.number.Computation
 import com.algolia.instantsearch.core.number.NumberView
 import com.algolia.instantsearch.core.number.just
 import com.algolia.instantsearch.examples.android.databinding.ShowcaseFilterComparisonBinding
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.filter.NumericOperator
+import com.algolia.instantsearch.filter.NumericOperator
 
 class FilterYearView(
     val binding: ShowcaseFilterComparisonBinding,
-    year: Attribute,
+    year: String,
     operator: NumericOperator
 ) : NumberView<Int> {
 

@@ -1,7 +1,6 @@
 package com.algolia.instantsearch.android.filter.facet.dynamic
 
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.search.Facet
+import com.algolia.client.model.search.FacetHits
 
 /**
  * Facet view model to be rendered.
@@ -11,10 +10,10 @@ public sealed class DynamicFacetModel {
     /**
      * Attribute view to be rendered.
      */
-    public data class Header(val attribute: Attribute) : DynamicFacetModel()
+    public data class Header(val attribute: String) : DynamicFacetModel()
 
     /**
      * Facet value view to be rendered.
      */
-    public data class Item(val attribute: Attribute, val facet: Facet, val selected: Boolean) : DynamicFacetModel()
+    public data class Item(val attribute: String, val facet: FacetHits, val selected: Boolean) : DynamicFacetModel()
 }

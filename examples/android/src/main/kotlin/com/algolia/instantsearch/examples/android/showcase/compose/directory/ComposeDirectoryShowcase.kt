@@ -14,12 +14,11 @@ import com.algolia.instantsearch.examples.android.showcase.compose.client
 import com.algolia.instantsearch.examples.android.showcase.compose.configureSearchBox
 import com.algolia.instantsearch.examples.android.showcase.compose.ui.ShowcaseTheme
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import com.algolia.search.model.IndexName
 import com.algolia.search.model.search.Query
 
 class ComposeDirectoryShowcase : ComponentActivity() {
 
-    private val indexName = IndexName("mobile_demo_home")
+    private val indexName = "mobile_demo_home"
     private val searcher = HitsSearcher(client, indexName, Query(hitsPerPage = 100))
     private val hitsState = HitsState<DirectoryItem>(emptyList())
     private val searchBoxState = SearchBoxState()

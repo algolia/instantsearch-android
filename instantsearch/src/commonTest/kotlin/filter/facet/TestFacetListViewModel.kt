@@ -1,15 +1,15 @@
 package filter.facet
 
+import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.filter.facet.FacetListViewModel
-import com.algolia.search.model.search.Facet
 import shouldEqual
 import kotlin.test.Test
 
 class TestFacetListViewModel {
 
-    private val red = Facet("red", 1)
-    private val green = Facet("green", 2)
-    private val blue = Facet("blue", 3)
+    private val red = FacetHits("red", "", 1)
+    private val green = FacetHits("green", "", 2)
+    private val blue = FacetHits("blue", "", 3)
 
     @Test
     fun getFacetListItems() {

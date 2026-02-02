@@ -1,9 +1,7 @@
 package com.algolia.instantsearch.examples.android.showcase.androidview.list.movie
 
+import com.algolia.instantsearch.core.Indexable
 import com.algolia.instantsearch.highlighting.Highlightable
-import com.algolia.search.model.Attribute
-import com.algolia.search.model.ObjectID
-import com.algolia.search.model.indexing.Indexable
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 
@@ -14,16 +12,16 @@ data class Movie(
     val year: String,
     val genre: List<String>,
     val image: String,
-    override val objectID: ObjectID,
+    override val objectID: String,
     override val _highlightResult: JsonObject?
 ) : Indexable, Highlightable {
 
     public val highlightedTitle
-        get() = getHighlight(Attribute("title"))
+        get() = getHighlight("title")
 
     public val highlightedGenres
-        get() = getHighlights(Attribute("genre"))
+        get() = getHighlights("genre")
 
     public val highlightedActors
-        get() = getHighlights(Attribute("actors"))
+        get() = getHighlights("actors")
 }

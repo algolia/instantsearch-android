@@ -6,7 +6,7 @@ import com.algolia.instantsearch.compose.filter.list.internal.FilterListStateImp
 import com.algolia.instantsearch.compose.selectable.list.SelectableListState
 import com.algolia.instantsearch.core.selectable.list.SelectableItem
 import com.algolia.instantsearch.filter.list.FilterListView
-import com.algolia.search.model.filter.Filter
+import com.algolia.instantsearch.filter.Filter
 
 /**
  * [FilterListView] for compose.

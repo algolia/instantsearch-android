@@ -2,6 +2,7 @@
 
 package com.algolia.instantsearch.relevantsort
 
+import com.algolia.client.model.search.SearchParamsObject
 import com.algolia.instantsearch.core.connection.Connection
 import com.algolia.instantsearch.core.relevantsort.RelevantSortConnector
 import com.algolia.instantsearch.core.relevantsort.RelevantSortPresenter
@@ -10,14 +11,13 @@ import com.algolia.instantsearch.core.relevantsort.RelevantSortViewModel
 import com.algolia.instantsearch.core.relevantsort.connectView
 import com.algolia.instantsearch.relevantsort.internal.RelevantSortConnectionSearcherForHits
 import com.algolia.instantsearch.searcher.SearcherForHits
-import com.algolia.search.model.search.Query
 
 /**
  * Create a connection between a view model and a searcher.
  *
  * @param searcher searcher to connect
  */
-public fun RelevantSortViewModel.connectSearcher(searcher: SearcherForHits<Query>): Connection {
+public fun RelevantSortViewModel.connectSearcher(searcher: SearcherForHits<SearchParamsObject>): Connection {
     return RelevantSortConnectionSearcherForHits(this, searcher)
 }
 

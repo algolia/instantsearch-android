@@ -1,14 +1,12 @@
-import com.algolia.search.client.ClientInsights
-import com.algolia.search.configuration.ConfigurationInsights
-import com.algolia.search.logging.LogLevel
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
+import com.algolia.client.api.InsightsClient
+import com.algolia.client.configuration.ClientOptions
 import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.request.HttpResponseData
 
 fun mockClientInsights(
     response: HttpResponseData? = null,
-): ClientInsights {
+): InsightsClient {
     val mockEngine = if (response != null) MockEngine { response } else {
         defaultMockEngine
     }
@@ -17,13 +15,14 @@ fun mockClientInsights(
 
 fun mockClientInsights(
     mockEngine: MockEngine,
-): ClientInsights {
-    return ClientInsights(
-        ConfigurationInsights(
-            ApplicationID("A"),
-            APIKey("B"),
+): InsightsClient {
+    return InsightsClient(
+        "A",
+        "B",
+        region = null,
+        options = ClientOptions(
             engine = mockEngine,
-            logLevel = LogLevel.All
+            logLevel = LogLevel.ALL
         )
     )
 }

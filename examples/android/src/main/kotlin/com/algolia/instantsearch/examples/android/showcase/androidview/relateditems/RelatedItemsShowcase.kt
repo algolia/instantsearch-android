@@ -12,7 +12,6 @@ import com.algolia.instantsearch.examples.android.databinding.ShowcaseRelatedite
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.product.Product
 import com.algolia.instantsearch.examples.android.showcase.androidview.list.product.ProductAdapter
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.Attribute
 
 class RelatedItemsShowcase : AppCompatActivity() {
 
@@ -24,7 +23,7 @@ class RelatedItemsShowcase : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ShowcaseRelateditemsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        searcher.query.hitsPerPage = 3 // Limit to 3 results
+        searcher.query = searcher.query.copy(hitsPerPage = 3) // Limit to 3 results
 
         configureToolbar(binding.toolbar)
         configureSearcher(searcher)
@@ -39,8 +38,8 @@ class RelatedItemsShowcase : AppCompatActivity() {
         val relatedItemsAdapter = ProductAdapter()
         configureRecyclerView(binding.relatedItems, relatedItemsAdapter)
         val matchingPatterns: List<MatchingPattern<Product>> = listOf(
-            MatchingPattern(Attribute("brand"), 1, Product::brand),
-            MatchingPattern(Attribute("categories"), 2, Product::categories)
+            MatchingPattern("brand", 1, Product::brand),
+            MatchingPattern("categories", 2, Product::categories)
         )
         hitsAdapter.callback = { product ->
             connection += relatedItemsSearcher.connectRelatedHitsView(relatedItemsAdapter, product, matchingPatterns) { response ->

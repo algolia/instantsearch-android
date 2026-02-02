@@ -1,9 +1,9 @@
 package com.algolia.instantsearch.customdata
 
+import com.algolia.client.model.search.SearchResponse
 import com.algolia.instantsearch.core.subscription.SubscriptionValue
 import com.algolia.instantsearch.extension.traceQueryRuleCustomData
 import com.algolia.instantsearch.extension.tryOrNull
-import com.algolia.search.model.response.ResponseSearch
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
@@ -25,10 +25,10 @@ public class QueryRuleCustomDataViewModel<T>(
         traceQueryRuleCustomData(initialItem != null)
     }
 
-    public fun extractModel(responseSearch: ResponseSearch) {
-        item.value = responseSearch.userDataOrNull?.asSequence()
-            ?.mapNotNull { tryOrNull { Json.decodeFromJsonElement(deserializer, it) } }
-            ?.firstOrNull()
+    public fun extractModel(responseSearch: SearchResponse) {
+        item.value = responseSearch.userData?.let {
+            tryOrNull { Json.decodeFromJsonElement(deserializer, it) }
+        }
     }
 }
 

@@ -6,7 +6,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlin.coroutines.CoroutineContext
 
-public class SearcherScope(public val dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate) : CoroutineScope {
+private val defaultDispatcher: CoroutineDispatcher =
+    runCatching { Dispatchers.Main.immediate }.getOrElse { Dispatchers.Default }
+
+public class SearcherScope(public val dispatcher: CoroutineDispatcher = defaultDispatcher) : CoroutineScope {
 
     override val coroutineContext: CoroutineContext = SupervisorJob() + dispatcher
 }

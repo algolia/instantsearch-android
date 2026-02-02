@@ -10,18 +10,15 @@ import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.addHitsSearcher
 import com.algolia.instantsearch.searcher.multi.MultiSearcher
 import com.algolia.search.helper.deserialize
-import com.algolia.search.model.APIKey
-import com.algolia.search.model.ApplicationID
-import com.algolia.search.model.IndexName
 
 class MainViewModel : ViewModel() {
 
     private val multiSearcher = MultiSearcher(
-        applicationID = ApplicationID("latency"),
-        apiKey = APIKey("1f6fd3a6fb973cb08419fe7d288fa4db")
+        appId = "latency",
+        apiKey = "1f6fd3a6fb973cb08419fe7d288fa4db"
     )
-    private val actorsSearcher = multiSearcher.addHitsSearcher(IndexName("mobile_demo_actors"))
-    private val moviesSearcher = multiSearcher.addHitsSearcher(IndexName("mobile_demo_movies"))
+    private val actorsSearcher = multiSearcher.addHitsSearcher("mobile_demo_actors")
+    private val moviesSearcher = multiSearcher.addHitsSearcher("mobile_demo_movies")
     private val searchBoxConnector = SearchBoxConnector(multiSearcher)
     private val connections = ConnectionHandler(searchBoxConnector)
 
