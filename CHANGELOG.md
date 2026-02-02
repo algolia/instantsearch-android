@@ -1,3 +1,30 @@
+# 4.0.0
+
+### Added
+- Insights: v3 events sending for automatic hits view tracking
+- Facets search: serialize `SearchParamsObject` into `params` for SearchForFacetValues requests
+
+### Changed
+- Kotlin version to `2.2.0`
+- Ktor version to `3.3.3`
+- Algolia Kotlin API client version to `3.37.2`
+- AGP version to `8.7.2`
+- Compose UI version to `1.10.0`
+- Compose compiler version to `2.2.0`
+- Coroutines version to `1.10.2`
+- Telemetry: base64 encoding uses internal util; 
+- Facet list tracing now uses `FacetHits`.
+- Insights: HTTP repository sends events via `pushEvents`
+- Insights: Filter strings are parsed into stored filters
+- Tests: Insights client mocked in `InsightsTest` 
+- Single-index searcher tests updated for auto-sent view events
+- Examples: To Support the latest Algolia Kotlin API clients
+
+
+### Removed
+- Answers feature (`SearcherAnswers`, filter-state connection, telemetry hook, tests)
+- Primitive wrapper data classes: `Attribute`, `ObjectID`, `AppID`.
+
 # 3.3.3
 
 ### Fixed
