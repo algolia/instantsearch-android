@@ -3,7 +3,9 @@ package com.algolia.instantsearch.examples.android.showcase.compose.filter.numer
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +25,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -182,9 +185,11 @@ class FilterComparisonShowcase : AppCompatActivity() {
                     contentDescription = null,
                     modifier = Modifier
                         .size(36.dp)
-                        .clickable {
-                            comparisonState.computation.increment()
-                        }
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = LocalIndication.current,
+                            onClick = { comparisonState.computation.increment() }
+                        )
                 )
                 Text(
                     modifier = Modifier.width(36.dp),
@@ -198,9 +203,11 @@ class FilterComparisonShowcase : AppCompatActivity() {
                     contentDescription = null,
                     modifier = Modifier
                         .size(36.dp)
-                        .clickable {
-                            comparisonState.computation.decrement()
-                        }
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = LocalIndication.current,
+                            onClick = { comparisonState.computation.decrement() }
+                        )
                 )
             }
         }

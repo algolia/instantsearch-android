@@ -1,7 +1,9 @@
 package com.algolia.instantsearch.examples.android.codex.suggestions.categories
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -137,7 +139,11 @@ private fun SuggestionRow(
     Row(
         modifier
             .background(MaterialTheme.colors.surface)
-            .clickable { onClick(suggestion.query) }
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = LocalIndication.current,
+                onClick = { onClick(suggestion.query) }
+            )
             .padding(horizontal = 24.dp, vertical = 12.dp)
     ) {
         Icon(

@@ -1,7 +1,9 @@
 package com.algolia.instantsearch.examples.android.codex.suggestions.hits
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -63,7 +65,11 @@ private fun Suggestions(
         LazyColumn {
             items(suggestionsState.hits) { suggestion ->
                 SuggestionRow(
-                    modifier = Modifier.clickable { onClick(suggestion.query) },
+                    modifier = Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = LocalIndication.current,
+                        onClick = { onClick(suggestion.query) }
+                    ),
                     suggestion = suggestion,
                 )
             }

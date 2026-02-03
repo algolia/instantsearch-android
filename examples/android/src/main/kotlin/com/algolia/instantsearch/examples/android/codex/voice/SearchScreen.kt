@@ -1,6 +1,7 @@
 package com.algolia.instantsearch.examples.android.codex.voice
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -9,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -43,13 +45,21 @@ fun SearchScreen(
             trailingIcon = {
                 if (searchBoxState.query.isEmpty()) {
                     Icon(
-                        modifier = Modifier.clickable(onClick = onMicClick),
+                        modifier = Modifier.clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = LocalIndication.current,
+                            onClick = onMicClick
+                        ),
                         imageVector = Icons.Default.Mic,
                         contentDescription = null
                     )
                 } else {
                     Icon(
-                        modifier = Modifier.clickable { searchBoxState.setText("") },
+                        modifier = Modifier.clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = LocalIndication.current,
+                            onClick = { searchBoxState.setText("") }
+                        ),
                         imageVector = Icons.Default.Clear,
                         contentDescription = null
                     )

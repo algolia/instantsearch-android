@@ -1,6 +1,8 @@
 package com.algolia.instantsearch.examples.android.showcase.compose.ui.component
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +14,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -78,7 +81,11 @@ fun HeaderFilter(
                     style = MaterialTheme.typography.h6
                 )
                 Icon(
-                    modifier = Modifier.clickable { onClear() },
+                    modifier = Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = LocalIndication.current,
+                        onClick = onClear
+                    ),
                     imageVector = Icons.Default.Delete,
                     contentDescription = "clear",
                 )

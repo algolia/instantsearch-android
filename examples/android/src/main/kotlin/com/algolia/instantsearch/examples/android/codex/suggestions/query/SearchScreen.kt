@@ -1,7 +1,9 @@
 package com.algolia.instantsearch.examples.android.codex.suggestions.query
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,10 +46,14 @@ fun SearchScreen(
             LazyColumn {
                 items(suggestionsState.hits) { suggestion ->
                     SuggestionRow(
-                        modifier = Modifier.clickable {
-                            searchBoxState.setText(suggestion.query, true)
-                            showSuggestion = false
-                        },
+                        modifier = Modifier.clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = LocalIndication.current,
+                            onClick = {
+                                searchBoxState.setText(suggestion.query, true)
+                                showSuggestion = false
+                            }
+                        ),
                         suggestion = suggestion,
                     )
                 }

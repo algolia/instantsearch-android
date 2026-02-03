@@ -1,11 +1,14 @@
 package com.algolia.instantsearch.examples.android.showcase.compose.ui.component
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -79,7 +82,11 @@ fun <T : Filter> FilterRow(
     Row(
         modifier = modifier
             .height(50.dp)
-            .clickable(onClick = { onClick(filter) })
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = LocalIndication.current,
+                onClick = { onClick(filter) }
+            )
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

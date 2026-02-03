@@ -1,7 +1,9 @@
 package com.algolia.instantsearch.examples.android.codex.suggestions.recent
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -83,7 +85,11 @@ private fun RecentSearches(
             Icon(
                 modifier = Modifier
                     .padding(end = 12.dp)
-                    .clickable(onClick = onClearAll),
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = LocalIndication.current,
+                        onClick = onClearAll
+                    ),
                 imageVector = Icons.Default.ClearAll,
                 tint = MaterialTheme.colors.onSurface.copy(alpha = 0.2f),
                 contentDescription = null
@@ -113,7 +119,11 @@ private fun RecentSearchRow(
         Row(
             Modifier
                 .weight(1.0f)
-                .clickable { onClick(recentSearch) }
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = LocalIndication.current,
+                    onClick = { onClick(recentSearch) }
+                )
         ) {
             Icon(
                 imageVector = Icons.Default.Restore,
@@ -131,7 +141,11 @@ private fun RecentSearchRow(
             imageVector = Icons.Default.Clear,
             tint = MaterialTheme.colors.onSurface.copy(alpha = 0.2f),
             contentDescription = null,
-            modifier = Modifier.clickable { onClear(recentSearch) }
+            modifier = Modifier.clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = LocalIndication.current,
+                onClick = { onClear(recentSearch) }
+            )
         )
     }
 }
@@ -164,7 +178,11 @@ private fun SuggestionRow(
     Row(
         modifier
             .background(MaterialTheme.colors.surface)
-            .clickable { onClick(suggestion.query) }
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = LocalIndication.current,
+                onClick = { onClick(suggestion.query) }
+            )
             .padding(horizontal = 24.dp, vertical = 12.dp)
     ) {
         Icon(

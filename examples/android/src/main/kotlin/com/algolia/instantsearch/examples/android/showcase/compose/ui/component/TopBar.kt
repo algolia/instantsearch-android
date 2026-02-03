@@ -2,6 +2,7 @@ package com.algolia.instantsearch.examples.android.showcase.compose.ui.component
 
 import android.app.Activity
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
@@ -156,7 +157,11 @@ fun SearchTopBar(
                     it, null,
                     Modifier
                         .padding(4.dp)
-                        .clickable(onClick = onIconClick)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = LocalIndication.current,
+                            onClick = onIconClick
+                        )
                 )
             }
         }
