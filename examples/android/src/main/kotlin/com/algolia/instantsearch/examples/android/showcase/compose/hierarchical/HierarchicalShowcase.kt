@@ -3,8 +3,10 @@ package com.algolia.instantsearch.examples.android.showcase.compose.hierarchical
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +23,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -145,7 +148,11 @@ class HierarchicalShowcase : AppCompatActivity() {
     ) {
         Row(
             modifier = modifier
-                .clickable(onClick = onClick)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = LocalIndication.current,
+                    onClick = onClick
+                )
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

@@ -1,7 +1,9 @@
 package com.algolia.instantsearch.examples.android.guides.compose
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -12,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -111,7 +114,11 @@ fun Search(
                     Card(Modifier.padding(top = 12.dp, end = 12.dp, start = 8.dp)) {
                         Icon(
                             modifier = Modifier
-                                .clickable { scope.launch { sheetState.show() } }
+                                .clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication = LocalIndication.current,
+                                    onClick = { scope.launch { sheetState.show() } }
+                                )
                                 .padding(horizontal = 12.dp)
                                 .height(56.dp),
                             imageVector = Icons.Default.FilterList,
@@ -189,7 +196,11 @@ fun FacetList(
             items(facetList.items) { item ->
                 FacetRow(
                     modifier = Modifier
-                        .clickable { facetList.onSelection?.invoke(item.first) }
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = LocalIndication.current,
+                            onClick = { facetList.onSelection?.invoke(item.first) }
+                        )
                         .padding(horizontal = 14.dp),
                     selectableFacet = item,
                 )

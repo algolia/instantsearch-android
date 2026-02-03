@@ -5,8 +5,10 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -144,7 +146,11 @@ class QueryRuleCustomDataShowcase : AppCompatActivity() {
         AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable(onClick = { onClick(banner.link) }),
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = LocalIndication.current,
+                    onClick = { onClick(banner.link) }
+                ),
             model = banner.banner,
             contentDescription = "movie image",
             contentScale = ContentScale.FillWidth
@@ -158,7 +164,11 @@ class QueryRuleCustomDataShowcase : AppCompatActivity() {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(BlueDark)
-                .clickable(onClick = { onClick(banner.link) })
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = LocalIndication.current,
+                    onClick = { onClick(banner.link) }
+                )
                 .padding(8.dp),
             text = banner.title,
             style = MaterialTheme.typography.h5,
