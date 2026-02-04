@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("com.vanniktech.maven.publish")
+    alias(libs.plugins.dokka)
 }
 
 android {
@@ -33,6 +34,18 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
             "-Xexplicit-api=strict"
         ))
     }
+}
+
+tasks.withType<org.jetbrains.dokka.gradle.tasks.DokkaGenerateTask>().configureEach {
+    if (name == "dokkaGeneratePublicationHtml") {
+        outputDirectory.set(layout.buildDirectory.dir("intermediates/javadoc/release"))
+    }
+}
+
+tasks.matching { it.name == "javaDocReleaseGeneration" }.configureEach {
+    dependsOn("dokkaGeneratePublicationHtml")
+    // Avoid AGP embedded Dokka (ASM9 issue).
+    actions.clear()
 }
 
 dependencies {
