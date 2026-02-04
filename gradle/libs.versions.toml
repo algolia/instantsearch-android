@@ -61,3 +61,4 @@ android = { id = "com.android.library", version = "8.7.2" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.34.0" }
 spotless = { id = "com.diffplug.gradle.spotless", version = "6.16.0" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version = "2.1.0" }
