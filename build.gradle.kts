@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.dokka) apply false
 }
 
 subprojects {
@@ -18,6 +19,23 @@ subprojects {
             target("**/*.kt")
             trimTrailingWhitespace()
             endWithNewline()
+        }
+    }
+
+    plugins.withId("com.android.library") {
+        // Use Dokka plugin instead of AGP embedded Dokka (ASM9 issue).
+        pluginManager.apply("org.jetbrains.dokka")
+
+        tasks.matching { it.name == "javaDocReleaseGeneration" }.configureEach {
+            dependsOn("dokkaJavadoc")
+            actions.clear()
+            doLast {
+                val from = layout.buildDirectory.dir("dokka/dokkaJavadoc").get().asFile
+                val to = layout.buildDirectory.dir("intermediates/javadoc/release").get().asFile
+                if (from.exists()) {
+                    from.copyRecursively(to, overwrite = true)
+                }
+            }
         }
     }
 }
