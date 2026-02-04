@@ -20,6 +20,15 @@ subprojects {
             endWithNewline()
         }
     }
+
+    configurations.configureEach {
+        resolutionStrategy.eachDependency {
+            if (requested.group == "org.jetbrains.dokka") {
+                useVersion("1.9.20")
+                because("Dokka needs ASM9+ to read Java 17 sealed classes (PermittedSubclasses).")
+            }
+        }
+    }
 }
 
 tasks.withType<Test> {
