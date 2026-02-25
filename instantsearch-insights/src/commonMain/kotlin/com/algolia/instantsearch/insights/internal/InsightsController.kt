@@ -126,7 +126,7 @@ internal class InsightsController(
         val builder = InsightsEventDO.Builder().apply {
             this.eventType = eventType
             this.eventName = eventName
-            this.indexName = indexName
+            this.indexName = this@InsightsController.indexName
             this.userToken = userTokenOrGenerate()
             this.timestamp = timestamp
             this.queryID = queryID

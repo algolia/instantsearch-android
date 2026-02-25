@@ -462,4 +462,121 @@ internal class InsightsTest {
             }
         }
     }
+
+    private val noOpWorker = object : InsightsManager {
+        override fun startPeriodicUpload() = Unit
+        override fun startOneTimeUpload() = Unit
+    }
+
+    private fun createControllerWithRepository(
+        testIndexName: String = "test-index",
+    ): Pair<InsightsController, MockLocalRepository> {
+        val events = mutableListOf<InsightsEventDO>()
+        val localRepository = MockLocalRepository(events)
+        val distantRepository = MockDistantRepository()
+        val cache = InsightsEventCache(localRepository)
+        val uploader = InsightsEventUploader(localRepository, distantRepository)
+        val controller = InsightsController(testIndexName, noOpWorker, cache, uploader, false)
+            .apply { userToken = this@InsightsTest.userToken }
+        return controller to localRepository
+    }
+
+    @Test
+    fun testClickedObjectIDsAfterSearchSetsIndexName() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.clickedObjectIDsAfterSearch(
+            eventName = eventA,
+            queryID = queryID,
+            objectIDs = objectIDs,
+            positions = positions,
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        assertEquals("test-index", stored[0].indexName)
+    }
+
+    @Test
+    fun testConvertedObjectIDsAfterSearchSetsIndexName() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.convertedObjectIDsAfterSearch(
+            eventName = eventA,
+            queryID = queryID,
+            objectIDs = objectIDs,
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        assertEquals("test-index", stored[0].indexName)
+    }
+
+    @Test
+    fun testViewedObjectIDsSetsIndexName() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.viewedObjectIDs(
+            eventName = eventA,
+            objectIDs = objectIDs,
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        assertEquals("test-index", stored[0].indexName)
+    }
+
+    @Test
+    fun testClickedObjectIDsSetsIndexName() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.clickedObjectIDs(
+            eventName = eventA,
+            objectIDs = objectIDs,
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        assertEquals("test-index", stored[0].indexName)
+    }
+
+    @Test
+    fun testViewedFiltersSetsIndexName() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.viewedFilters(
+            eventName = eventA,
+            filters = filters,
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        assertEquals("test-index", stored[0].indexName)
+    }
+
+    @Test
+    fun testClickedFiltersSetsIndexName() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.clickedFilters(
+            eventName = eventA,
+            filters = filters,
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        assertEquals("test-index", stored[0].indexName)
+    }
+
+    @Test
+    fun testConvertedFiltersSetsIndexName() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.convertedFilters(
+            eventName = eventA,
+            filters = filters,
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        assertEquals("test-index", stored[0].indexName)
+    }
+
+    @Test
+    fun testConvertedObjectIDsSetsIndexName() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.convertedObjectIDs(
+            eventName = eventA,
+            objectIDs = objectIDs,
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        assertEquals("test-index", stored[0].indexName)
+    }
 }
