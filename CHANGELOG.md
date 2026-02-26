@@ -1,3 +1,8 @@
+# 4.0.1
+
+### Fixed
+- IllegalStateException is thrown whenever clickedObjectIDsAfterSearch or other functions which in turn will invoke buildEventDO. Exception is indexName can't not be null.
+
 # 4.0.0
 
 ### Added
