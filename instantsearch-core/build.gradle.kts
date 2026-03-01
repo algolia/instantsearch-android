@@ -23,7 +23,7 @@ kotlin {
                 implementation(libs.algolia.telemetry)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.atomicfu)
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
             }
         }
         val commonTest by getting {
