@@ -13,7 +13,11 @@ internal data class InsightsEventDO(
     @SerialName("queryID") val queryID: String? = null,
     @SerialName("objectIDs") val objectIDs: List<String>? = null,
     @SerialName("positions") val positions: List<Int>? = null,
-    @SerialName("filters") val filters: List<FilterFacetDO>? = null
+    @SerialName("filters") val filters: List<FilterFacetDO>? = null,
+    @SerialName("eventSubtype") val eventSubtype: EventSubtype? = null,
+    @SerialName("objectData") val objectData: List<ObjectDataDO>? = null,
+    @SerialName("currency") val currency: String? = null,
+    @SerialName("value") val value: Double? = null,
 ) {
 
     @Serializable
@@ -28,6 +32,15 @@ internal data class InsightsEventDO(
         Conversion;
     }
 
+    @Serializable
+    internal enum class EventSubtype {
+        @SerialName("purchase")
+        Purchase,
+
+        @SerialName("addToCart")
+        AddToCart;
+    }
+
     class Builder {
         var eventType: EventType? = null
         var eventName: String? = null
@@ -38,8 +51,12 @@ internal data class InsightsEventDO(
         var objectIDs: List<String>? = null
         var positions: List<Int>? = null
         var filters: List<FilterFacetDO>? = null
+        var eventSubtype: EventSubtype? = null
+        var objectData: List<ObjectDataDO>? = null
+        var currency: String? = null
+        var value: Double? = null
 
-        fun build(): com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO = InsightsEventDO(
+        fun build(): InsightsEventDO = InsightsEventDO(
             eventType ?: error("eventType can't not be null"),
             eventName ?: error("eventName can't not be null"),
             indexName ?: error("indexName can't not be null"),
@@ -48,7 +65,11 @@ internal data class InsightsEventDO(
             queryID,
             objectIDs,
             positions,
-            filters
+            filters,
+            eventSubtype,
+            objectData,
+            currency,
+            value,
         )
     }
 }

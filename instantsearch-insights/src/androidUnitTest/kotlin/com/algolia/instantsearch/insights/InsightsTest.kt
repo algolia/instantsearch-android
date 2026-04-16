@@ -9,13 +9,16 @@ import com.algolia.instantsearch.insights.internal.data.distant.InsightsDistantR
 import com.algolia.instantsearch.insights.internal.data.distant.InsightsHttpRepository
 import com.algolia.instantsearch.insights.internal.data.local.InsightsLocalRepository
 import com.algolia.instantsearch.insights.internal.data.local.mapper.FilterFacetMapper
+import com.algolia.instantsearch.insights.internal.data.local.mapper.InsightsEventsMapper
 import com.algolia.instantsearch.insights.internal.data.local.model.FilterFacetDO
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
+import com.algolia.instantsearch.insights.internal.data.local.model.ObjectDataDO
 import com.algolia.instantsearch.insights.internal.extension.randomUUID
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
 import com.algolia.client.api.InsightsClient
 import com.algolia.client.configuration.ClientOptions
+import com.algolia.client.model.insights.*
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.http.HttpStatusCode
@@ -579,4 +582,181 @@ internal class InsightsTest {
         assertEquals(1, stored.size)
         assertEquals("test-index", stored[0].indexName)
     }
+
+    // region Purchase event tests
+
+    private val eventPurchase = InsightsEventDO(
+        eventType = InsightsEventDO.EventType.Conversion,
+        eventSubtype = InsightsEventDO.EventSubtype.Purchase,
+        eventName = eventA,
+        indexName = indexName,
+        userToken = userToken,
+        timestamp = timestamp,
+        queryID = queryID,
+        objectIDs = objectIDs,
+        objectData = listOf(ObjectDataDO(queryID = queryID, price = 19.99, quantity = 2)),
+        currency = "USD",
+        value = 39.98,
+    )
+
+    private val eventAddToCart = InsightsEventDO(
+        eventType = InsightsEventDO.EventType.Conversion,
+        eventSubtype = InsightsEventDO.EventSubtype.AddToCart,
+        eventName = eventB,
+        indexName = indexName,
+        userToken = userToken,
+        timestamp = timestamp,
+        queryID = queryID,
+        objectIDs = objectIDs,
+        objectData = listOf(ObjectDataDO(queryID = queryID, price = 9.99, quantity = 1)),
+        currency = "EUR",
+        value = 9.99,
+    )
+
+    @Test
+    fun testPurchaseEvent() = runTest {
+        val response = webService.send(eventPurchase)
+        assertEquals(200, response.code)
+    }
+
+    @Test
+    fun testAddToCartEvent() = runTest {
+        val response = webService.send(eventAddToCart)
+        assertEquals(200, response.code)
+    }
+
+    @Test
+    fun testPurchasedObjectIDsSetsIndexName() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.purchasedObjectIDs(
+            eventName = eventA,
+            objectIDs = objectIDs,
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        assertEquals("test-index", stored[0].indexName)
+        assertEquals(InsightsEventDO.EventSubtype.Purchase, stored[0].eventSubtype)
+    }
+
+    @Test
+    fun testPurchasedObjectIDsAfterSearchSetsIndexName() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.purchasedObjectIDsAfterSearch(
+            eventName = eventA,
+            queryID = queryID,
+            objectIDs = objectIDs,
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        assertEquals("test-index", stored[0].indexName)
+        assertEquals(InsightsEventDO.EventSubtype.Purchase, stored[0].eventSubtype)
+        assertEquals(queryID, stored[0].queryID)
+    }
+
+    @Test
+    fun testAddedToCartObjectIDsSetsIndexName() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.addedToCartObjectIDs(
+            eventName = eventA,
+            objectIDs = objectIDs,
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        assertEquals("test-index", stored[0].indexName)
+        assertEquals(InsightsEventDO.EventSubtype.AddToCart, stored[0].eventSubtype)
+    }
+
+    @Test
+    fun testAddedToCartObjectIDsAfterSearchSetsIndexName() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.addedToCartObjectIDsAfterSearch(
+            eventName = eventA,
+            queryID = queryID,
+            objectIDs = objectIDs,
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        assertEquals("test-index", stored[0].indexName)
+        assertEquals(InsightsEventDO.EventSubtype.AddToCart, stored[0].eventSubtype)
+        assertEquals(queryID, stored[0].queryID)
+    }
+
+    @Test
+    fun testPurchaseWithObjectData() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.purchasedObjectIDsAfterSearch(
+            eventName = eventA,
+            queryID = queryID,
+            objectIDs = objectIDs,
+            objectData = listOf(
+                ObjectDataAfterSearch(
+                    queryID = queryID,
+                    price = Price.of(19.99),
+                    quantity = 2,
+                    discount = Discount.of(5.0),
+                )
+            ),
+            currency = "USD",
+            value = Value.of(34.98),
+        )
+        val stored = repo.read()
+        assertEquals(1, stored.size)
+        val event = stored[0]
+        assertEquals(InsightsEventDO.EventSubtype.Purchase, event.eventSubtype)
+        assertEquals("USD", event.currency)
+        assertEquals(34.98, event.value)
+        assertNotNull(event.objectData)
+        assertEquals(1, event.objectData!!.size)
+        assertEquals(19.99, event.objectData!![0].price)
+        assertEquals(2, event.objectData!![0].quantity)
+        assertEquals(5.0, event.objectData!![0].discount)
+    }
+
+    @Test
+    fun testPurchaseEventRoundTripThroughMapper() {
+        val eventsItem = InsightsEventsMapper.doToEventsItem(eventPurchase)
+        assertNotNull(eventsItem)
+        assertTrue(eventsItem is EventsItems.PurchasedObjectIDsAfterSearchValue)
+        val roundTripped = InsightsEventsMapper.eventsItemToDO(eventsItem)
+        assertEquals(eventPurchase.eventType, roundTripped.eventType)
+        assertEquals(eventPurchase.eventSubtype, roundTripped.eventSubtype)
+        assertEquals(eventPurchase.eventName, roundTripped.eventName)
+        assertEquals(eventPurchase.indexName, roundTripped.indexName)
+        assertEquals(eventPurchase.objectIDs, roundTripped.objectIDs)
+        assertEquals(eventPurchase.queryID, roundTripped.queryID)
+        assertEquals(eventPurchase.currency, roundTripped.currency)
+    }
+
+    @Test
+    fun testAddToCartEventRoundTripThroughMapper() {
+        val eventsItem = InsightsEventsMapper.doToEventsItem(eventAddToCart)
+        assertNotNull(eventsItem)
+        assertTrue(eventsItem is EventsItems.AddedToCartObjectIDsAfterSearchValue)
+        val roundTripped = InsightsEventsMapper.eventsItemToDO(eventsItem)
+        assertEquals(eventAddToCart.eventType, roundTripped.eventType)
+        assertEquals(eventAddToCart.eventSubtype, roundTripped.eventSubtype)
+        assertEquals(eventAddToCart.eventName, roundTripped.eventName)
+        assertEquals(eventAddToCart.indexName, roundTripped.indexName)
+        assertEquals(eventAddToCart.objectIDs, roundTripped.objectIDs)
+        assertEquals(eventAddToCart.queryID, roundTripped.queryID)
+        assertEquals(eventAddToCart.currency, roundTripped.currency)
+    }
+
+    @Test
+    fun testPurchaseWithoutQueryIDMapsToPurchasedObjectIDs() {
+        val purchaseNoSearch = eventPurchase.copy(queryID = null, objectData = null)
+        val eventsItem = InsightsEventsMapper.doToEventsItem(purchaseNoSearch)
+        assertNotNull(eventsItem)
+        assertTrue(eventsItem is EventsItems.PurchasedObjectIDsValue)
+    }
+
+    @Test
+    fun testAddToCartWithoutQueryIDMapsToAddedToCartObjectIDs() {
+        val addToCartNoSearch = eventAddToCart.copy(queryID = null, objectData = null)
+        val eventsItem = InsightsEventsMapper.doToEventsItem(addToCartNoSearch)
+        assertNotNull(eventsItem)
+        assertTrue(eventsItem is EventsItems.AddedToCartObjectIDsValue)
+    }
+
+    // endregion
 }

@@ -1,11 +1,18 @@
 
 package com.algolia.instantsearch.insights.internal
 
+import com.algolia.client.model.insights.ObjectData
+import com.algolia.client.model.insights.ObjectDataAfterSearch
+import com.algolia.client.model.insights.Value
 import com.algolia.instantsearch.insights.Insights
 import com.algolia.instantsearch.insights.internal.cache.InsightsCache
 import com.algolia.instantsearch.insights.internal.data.local.mapper.FilterFacetMapper
+import com.algolia.instantsearch.insights.internal.data.local.mapper.toObjectDataDO
+import com.algolia.instantsearch.insights.internal.data.local.mapper.toDouble
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventSubtype
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventType
+import com.algolia.instantsearch.insights.internal.data.local.model.ObjectDataDO
 import com.algolia.instantsearch.insights.internal.extension.currentTimeMillis
 import com.algolia.instantsearch.insights.internal.extension.randomUUID
 import com.algolia.instantsearch.insights.internal.logging.InsightsLogger
@@ -102,6 +109,80 @@ internal class InsightsController(
         timestamp: Long?,
     ) = track(buildEventDO(EventType.Conversion, eventName, timestamp, queryID, objectIDs))
 
+    override fun purchasedObjectIDs(
+        eventName: String,
+        objectIDs: List<String>,
+        objectData: List<ObjectData>?,
+        currency: String?,
+        value: Value?,
+        timestamp: Long?,
+    ) = track(
+        buildEventDO(
+            EventType.Conversion, eventName, timestamp,
+            objectIDs = objectIDs,
+            eventSubtype = EventSubtype.Purchase,
+            objectDataDO = objectData?.map { it.toObjectDataDO() },
+            currency = currency,
+            valueDouble = value?.toDouble(),
+        )
+    )
+
+    override fun purchasedObjectIDsAfterSearch(
+        eventName: String,
+        queryID: String,
+        objectIDs: List<String>,
+        objectData: List<ObjectDataAfterSearch>?,
+        currency: String?,
+        value: Value?,
+        timestamp: Long?,
+    ) = track(
+        buildEventDO(
+            EventType.Conversion, eventName, timestamp, queryID,
+            objectIDs = objectIDs,
+            eventSubtype = EventSubtype.Purchase,
+            objectDataDO = objectData?.map { it.toObjectDataDO() },
+            currency = currency,
+            valueDouble = value?.toDouble(),
+        )
+    )
+
+    override fun addedToCartObjectIDs(
+        eventName: String,
+        objectIDs: List<String>,
+        objectData: List<ObjectData>?,
+        currency: String?,
+        value: Value?,
+        timestamp: Long?,
+    ) = track(
+        buildEventDO(
+            EventType.Conversion, eventName, timestamp,
+            objectIDs = objectIDs,
+            eventSubtype = EventSubtype.AddToCart,
+            objectDataDO = objectData?.map { it.toObjectDataDO() },
+            currency = currency,
+            valueDouble = value?.toDouble(),
+        )
+    )
+
+    override fun addedToCartObjectIDsAfterSearch(
+        eventName: String,
+        queryID: String,
+        objectIDs: List<String>,
+        objectData: List<ObjectDataAfterSearch>?,
+        currency: String?,
+        value: Value?,
+        timestamp: Long?,
+    ) = track(
+        buildEventDO(
+            EventType.Conversion, eventName, timestamp, queryID,
+            objectIDs = objectIDs,
+            eventSubtype = EventSubtype.AddToCart,
+            objectDataDO = objectData?.map { it.toObjectDataDO() },
+            currency = currency,
+            valueDouble = value?.toDouble(),
+        )
+    )
+
     fun track(event: InsightsEventDO) {
         val insightEvent = effectiveEvent(event)
         if (enabled) {
@@ -122,6 +203,10 @@ internal class InsightsController(
         objectIDs: List<String>? = null,
         positions: List<Int>? = null,
         filters: List<Filter.Facet>? = null,
+        eventSubtype: EventSubtype? = null,
+        objectDataDO: List<ObjectDataDO>? = null,
+        currency: String? = null,
+        valueDouble: Double? = null,
     ): InsightsEventDO {
         val builder = InsightsEventDO.Builder().apply {
             this.eventType = eventType
@@ -133,6 +218,10 @@ internal class InsightsController(
             this.objectIDs = objectIDs
             this.positions = positions
             this.filters = filters?.map { FilterFacetMapper.map(it) }
+            this.eventSubtype = eventSubtype
+            this.objectData = objectDataDO
+            this.currency = currency
+            this.value = valueDouble
         }
         return builder.build()
     }

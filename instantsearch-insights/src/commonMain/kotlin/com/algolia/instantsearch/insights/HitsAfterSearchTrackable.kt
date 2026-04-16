@@ -1,5 +1,9 @@
 package com.algolia.instantsearch.insights
 
+import com.algolia.client.model.insights.ObjectData
+import com.algolia.client.model.insights.ObjectDataAfterSearch
+import com.algolia.client.model.insights.Value
+
 public interface HitsAfterSearchTrackable {
 
     /**
@@ -70,6 +74,86 @@ public interface HitsAfterSearchTrackable {
         eventName: String,
         queryID: String,
         objectIDs: List<String>,
+        timestamp: Long? = null,
+    )
+
+    /**
+     * Tracks a Purchase event, unrelated to a specific search query.
+     *
+     * @param eventName the event's name, **must not be empty**.
+     * @param objectIDs the purchased object(s)' `objectID`.
+     * @param objectData extra information about the purchased items (price, quantity, discount).
+     * @param currency three-letter [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html) currency code.
+     * @param value total monetary value of this event in units of [currency].
+     * @param timestamp the time at which the purchase happened.
+     */
+    public fun purchasedObjectIDs(
+        eventName: String,
+        objectIDs: List<String>,
+        objectData: List<ObjectData>? = null,
+        currency: String? = null,
+        value: Value? = null,
+        timestamp: Long? = null,
+    )
+
+    /**
+     * Tracks a Purchase event after a search has been done.
+     *
+     * @param eventName the event's name, **must not be empty**.
+     * @param queryID the related query's identifier.
+     * @param objectIDs the purchased object(s)' `objectID`.
+     * @param objectData extra information about the purchased items (price, quantity, discount, per-item queryID).
+     * @param currency three-letter [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html) currency code.
+     * @param value total monetary value of this event in units of [currency].
+     * @param timestamp the time at which the purchase happened.
+     */
+    public fun purchasedObjectIDsAfterSearch(
+        eventName: String,
+        queryID: String,
+        objectIDs: List<String>,
+        objectData: List<ObjectDataAfterSearch>? = null,
+        currency: String? = null,
+        value: Value? = null,
+        timestamp: Long? = null,
+    )
+
+    /**
+     * Tracks an Add to Cart event, unrelated to a specific search query.
+     *
+     * @param eventName the event's name, **must not be empty**.
+     * @param objectIDs the added object(s)' `objectID`.
+     * @param objectData extra information about the added items (price, quantity, discount).
+     * @param currency three-letter [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html) currency code.
+     * @param value total monetary value of this event in units of [currency].
+     * @param timestamp the time at which the add-to-cart happened.
+     */
+    public fun addedToCartObjectIDs(
+        eventName: String,
+        objectIDs: List<String>,
+        objectData: List<ObjectData>? = null,
+        currency: String? = null,
+        value: Value? = null,
+        timestamp: Long? = null,
+    )
+
+    /**
+     * Tracks an Add to Cart event after a search has been done.
+     *
+     * @param eventName the event's name, **must not be empty**.
+     * @param queryID the related query's identifier.
+     * @param objectIDs the added object(s)' `objectID`.
+     * @param objectData extra information about the added items (price, quantity, discount, per-item queryID).
+     * @param currency three-letter [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html) currency code.
+     * @param value total monetary value of this event in units of [currency].
+     * @param timestamp the time at which the add-to-cart happened.
+     */
+    public fun addedToCartObjectIDsAfterSearch(
+        eventName: String,
+        queryID: String,
+        objectIDs: List<String>,
+        objectData: List<ObjectDataAfterSearch>? = null,
+        currency: String? = null,
+        value: Value? = null,
         timestamp: Long? = null,
     )
 }

@@ -44,6 +44,22 @@ public interface HitsTracker : Connection {
      * @param customEventName custom event name, overrides the default event name
      */
     public fun <T : Indexable> trackView(hit: T, customEventName: String? = null)
+
+    /**
+     * Track a hit purchase event after search.
+     *
+     * @param hit hit to track
+     * @param customEventName custom event name, overrides the default event name
+     */
+    public fun <T : Indexable> trackPurchase(hit: T, customEventName: String? = null)
+
+    /**
+     * Track a hit add-to-cart event after search.
+     *
+     * @param hit hit to track
+     * @param customEventName custom event name, overrides the default event name
+     */
+    public fun <T : Indexable> trackAddToCart(hit: T, customEventName: String? = null)
 }
 
 /**

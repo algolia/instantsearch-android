@@ -54,6 +54,28 @@ internal class HitsDataTracker(
             )
         }
     }
+
+    override fun <T : Indexable> trackPurchase(hit: T, customEventName: String?) {
+        trackerScope.launch {
+            val id = queryID ?: return@launch
+            tracker.purchasedObjectIDsAfterSearch(
+                eventName = customEventName ?: eventName,
+                queryID = id,
+                objectIDs = listOf(hit.objectID),
+            )
+        }
+    }
+
+    override fun <T : Indexable> trackAddToCart(hit: T, customEventName: String?) {
+        trackerScope.launch {
+            val id = queryID ?: return@launch
+            tracker.addedToCartObjectIDsAfterSearch(
+                eventName = customEventName ?: eventName,
+                queryID = id,
+                objectIDs = listOf(hit.objectID),
+            )
+        }
+    }
     // endregion
 
     override var isConnected: Boolean = false

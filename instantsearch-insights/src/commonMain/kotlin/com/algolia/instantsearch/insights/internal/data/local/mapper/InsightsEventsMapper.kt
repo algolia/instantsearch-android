@@ -3,16 +3,18 @@ package com.algolia.instantsearch.insights.internal.data.local.mapper
 
 import com.algolia.client.model.insights.*
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
+import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventSubtype
 import com.algolia.instantsearch.insights.internal.data.local.model.FilterFacetDO
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventType.Click
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventType.Conversion
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO.EventType.View
+import com.algolia.instantsearch.insights.internal.data.local.model.ObjectDataDO
 import com.algolia.instantsearch.insights.internal.extension.convertToEventsItem
 import com.algolia.instantsearch.filter.Filter
 
 internal object InsightsEventsMapper {
 
-    fun eventsItemToDO(input: EventsItems): com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO {
+    fun eventsItemToDO(input: EventsItems): InsightsEventDO {
         val builder = InsightsEventDO.Builder()
         when (input) {
             is EventsItems.ViewedObjectIDsValue -> {
@@ -42,7 +44,41 @@ internal object InsightsEventsMapper {
                 builder.eventType = Conversion
                 builder.filters = input.value.filters.mapNotNull(::parseFacetFilter)
             }
-            else -> return builder.build() // Other event types not yet handled
+            is EventsItems.PurchasedObjectIDsValue -> {
+                builder.eventType = Conversion
+                builder.eventSubtype = EventSubtype.Purchase
+                builder.objectIDs = input.value.objectIDs
+                builder.objectData = input.value.objectData?.map { it.toObjectDataDO() }
+                builder.currency = input.value.currency
+                builder.value = input.value.value?.toDouble()
+            }
+            is EventsItems.PurchasedObjectIDsAfterSearchValue -> {
+                builder.eventType = Conversion
+                builder.eventSubtype = EventSubtype.Purchase
+                builder.objectIDs = input.value.objectIDs
+                builder.queryID = input.value.queryID
+                builder.objectData = input.value.objectData.map { it.toObjectDataDO() }
+                builder.currency = input.value.currency
+                builder.value = input.value.value?.toDouble()
+            }
+            is EventsItems.AddedToCartObjectIDsValue -> {
+                builder.eventType = Conversion
+                builder.eventSubtype = EventSubtype.AddToCart
+                builder.objectIDs = input.value.objectIDs
+                builder.objectData = input.value.objectData?.map { it.toObjectDataDO() }
+                builder.currency = input.value.currency
+                builder.value = input.value.value?.toDouble()
+            }
+            is EventsItems.AddedToCartObjectIDsAfterSearchValue -> {
+                builder.eventType = Conversion
+                builder.eventSubtype = EventSubtype.AddToCart
+                builder.objectIDs = input.value.objectIDs
+                builder.queryID = input.value.queryID
+                builder.objectData = input.value.objectData?.map { it.toObjectDataDO() }
+                builder.currency = input.value.currency
+                builder.value = input.value.value?.toDouble()
+            }
+            else -> return builder.build()
         }
         builder.eventName = when (input) {
             is EventsItems.ViewedObjectIDsValue -> input.value.eventName
@@ -51,6 +87,10 @@ internal object InsightsEventsMapper {
             is EventsItems.ClickedFiltersValue -> input.value.eventName
             is EventsItems.ConvertedObjectIDsAfterSearchValue -> input.value.eventName
             is EventsItems.ConvertedFiltersValue -> input.value.eventName
+            is EventsItems.PurchasedObjectIDsValue -> input.value.eventName
+            is EventsItems.PurchasedObjectIDsAfterSearchValue -> input.value.eventName
+            is EventsItems.AddedToCartObjectIDsValue -> input.value.eventName
+            is EventsItems.AddedToCartObjectIDsAfterSearchValue -> input.value.eventName
             else -> ""
         }
         builder.indexName = when (input) {
@@ -60,6 +100,10 @@ internal object InsightsEventsMapper {
             is EventsItems.ClickedFiltersValue -> input.value.index
             is EventsItems.ConvertedObjectIDsAfterSearchValue -> input.value.index
             is EventsItems.ConvertedFiltersValue -> input.value.index
+            is EventsItems.PurchasedObjectIDsValue -> input.value.index
+            is EventsItems.PurchasedObjectIDsAfterSearchValue -> input.value.index
+            is EventsItems.AddedToCartObjectIDsValue -> input.value.index
+            is EventsItems.AddedToCartObjectIDsAfterSearchValue -> input.value.index
             else -> ""
         }
         builder.userToken = when (input) {
@@ -69,6 +113,10 @@ internal object InsightsEventsMapper {
             is EventsItems.ClickedFiltersValue -> input.value.userToken
             is EventsItems.ConvertedObjectIDsAfterSearchValue -> input.value.userToken
             is EventsItems.ConvertedFiltersValue -> input.value.userToken
+            is EventsItems.PurchasedObjectIDsValue -> input.value.userToken
+            is EventsItems.PurchasedObjectIDsAfterSearchValue -> input.value.userToken
+            is EventsItems.AddedToCartObjectIDsValue -> input.value.userToken
+            is EventsItems.AddedToCartObjectIDsAfterSearchValue -> input.value.userToken
             else -> null
         }
         builder.timestamp = when (input) {
@@ -78,12 +126,16 @@ internal object InsightsEventsMapper {
             is EventsItems.ClickedFiltersValue -> input.value.timestamp
             is EventsItems.ConvertedObjectIDsAfterSearchValue -> input.value.timestamp
             is EventsItems.ConvertedFiltersValue -> input.value.timestamp
+            is EventsItems.PurchasedObjectIDsValue -> input.value.timestamp
+            is EventsItems.PurchasedObjectIDsAfterSearchValue -> input.value.timestamp
+            is EventsItems.AddedToCartObjectIDsValue -> input.value.timestamp
+            is EventsItems.AddedToCartObjectIDsAfterSearchValue -> input.value.timestamp
             else -> null
         }
         return builder.build()
     }
 
-    fun doToEventsItem(input: com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO): EventsItems? {
+    fun doToEventsItem(input: InsightsEventDO): EventsItems? {
         return convertToEventsItem(
             eventName = input.eventName,
             indexName = input.indexName,
@@ -92,12 +144,20 @@ internal object InsightsEventsMapper {
                 Click -> "click"
                 Conversion -> "conversion"
             },
+            eventSubtype = when (input.eventSubtype) {
+                EventSubtype.Purchase -> "purchase"
+                EventSubtype.AddToCart -> "addToCart"
+                null -> null
+            },
             userToken = input.userToken,
             timestamp = input.timestamp,
             queryID = input.queryID,
             objectIDs = input.objectIDs,
             positions = input.positions,
-            filters = input.filters?.map { FilterFacetMapper.unmap(it) }
+            filters = input.filters?.map { FilterFacetMapper.unmap(it) },
+            objectData = input.objectData,
+            currency = input.currency,
+            value = input.value,
         )
     }
 
@@ -156,3 +216,31 @@ internal object InsightsEventsMapper {
 
     private val SCORE_REGEX = Regex("<score=(\\d+)>\\s*$")
 }
+
+private fun Price.toDouble(): Double = when (this) {
+    is Price.DoubleValue -> value
+    is Price.StringValue -> value.toDoubleOrNull() ?: 0.0
+}
+
+private fun Discount.toDouble(): Double = when (this) {
+    is Discount.DoubleValue -> value
+    is Discount.StringValue -> value.toDoubleOrNull() ?: 0.0
+}
+
+internal fun Value.toDouble(): Double = when (this) {
+    is Value.DoubleValue -> value
+    is Value.StringValue -> value.toDoubleOrNull() ?: 0.0
+}
+
+internal fun ObjectData.toObjectDataDO(): ObjectDataDO = ObjectDataDO(
+    price = price?.toDouble(),
+    quantity = quantity,
+    discount = discount?.toDouble(),
+)
+
+internal fun ObjectDataAfterSearch.toObjectDataDO(): ObjectDataDO = ObjectDataDO(
+    queryID = queryID,
+    price = price?.toDouble(),
+    quantity = quantity,
+    discount = discount?.toDouble(),
+)
