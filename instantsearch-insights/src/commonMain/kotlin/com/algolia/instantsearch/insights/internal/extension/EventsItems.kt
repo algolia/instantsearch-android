@@ -60,22 +60,22 @@ private fun convertViewEvent(
     objectIDs: List<String>?,
     filters: List<Filter.Facet>?,
 ): EventsItems? = when {
-    objectIDs != null -> ViewedObjectIDs(
+    objectIDs != null -> EventsItems.of(ViewedObjectIDs(
         eventName = eventName,
         eventType = ViewEvent.View,
         index = indexName,
         objectIDs = objectIDs,
         userToken = userToken,
         timestamp = timestamp,
-    )
-    filters != null -> ViewedFilters(
+    ))
+    filters != null -> EventsItems.of(ViewedFilters(
         eventName = eventName,
         eventType = ViewEvent.View,
         index = indexName,
         filters = filters.toFilterStrings(),
         userToken = userToken,
         timestamp = timestamp,
-    )
+    ))
     else -> null
 }
 
@@ -89,7 +89,7 @@ private fun convertClickEvent(
     positions: List<Int>?,
     filters: List<Filter.Facet>?,
 ): EventsItems? = when {
-    queryID != null && objectIDs != null && positions != null -> ClickedObjectIDsAfterSearch(
+    queryID != null && objectIDs != null && positions != null -> EventsItems.of(ClickedObjectIDsAfterSearch(
         eventName = eventName,
         eventType = ClickEvent.Click,
         index = indexName,
@@ -98,15 +98,15 @@ private fun convertClickEvent(
         queryID = queryID,
         userToken = userToken,
         timestamp = timestamp,
-    )
-    filters != null -> ClickedFilters(
+    ))
+    filters != null -> EventsItems.of(ClickedFilters(
         eventName = eventName,
         eventType = ClickEvent.Click,
         index = indexName,
         filters = filters.toFilterStrings(),
         userToken = userToken,
         timestamp = timestamp,
-    )
+    ))
     else -> null
 }
 
@@ -137,7 +137,7 @@ private fun convertPlainConversionEvent(
     objectIDs: List<String>?,
     filters: List<Filter.Facet>?,
 ): EventsItems? = when {
-    queryID != null && objectIDs != null -> ConvertedObjectIDsAfterSearch(
+    queryID != null && objectIDs != null -> EventsItems.of(ConvertedObjectIDsAfterSearch(
         eventName = eventName,
         eventType = ConversionEvent.Conversion,
         index = indexName,
@@ -145,15 +145,15 @@ private fun convertPlainConversionEvent(
         queryID = queryID,
         userToken = userToken,
         timestamp = timestamp,
-    )
-    filters != null -> ConvertedFilters(
+    ))
+    filters != null -> EventsItems.of(ConvertedFilters(
         eventName = eventName,
         eventType = ConversionEvent.Conversion,
         index = indexName,
         filters = filters.toFilterStrings(),
         userToken = userToken,
         timestamp = timestamp,
-    )
+    ))
     else -> null
 }
 
@@ -172,7 +172,7 @@ private fun convertPurchaseEvent(
     return if (queryID != null) {
         val mappedObjectData = objectData?.map { it.toObjectDataAfterSearch() }
             ?: objectIDs.map { ObjectDataAfterSearch(queryID = queryID) }
-        PurchasedObjectIDsAfterSearch(
+        EventsItems.of(PurchasedObjectIDsAfterSearch(
             eventName = eventName,
             eventType = ConversionEvent.Conversion,
             eventSubtype = PurchaseEvent.Purchase,
@@ -183,9 +183,9 @@ private fun convertPurchaseEvent(
             timestamp = timestamp,
             currency = currency,
             value = value,
-        )
+        ))
     } else {
-        PurchasedObjectIDs(
+        EventsItems.of(PurchasedObjectIDs(
             eventName = eventName,
             eventType = ConversionEvent.Conversion,
             eventSubtype = PurchaseEvent.Purchase,
@@ -196,7 +196,7 @@ private fun convertPurchaseEvent(
             timestamp = timestamp,
             currency = currency,
             value = value,
-        )
+        ))
     }
 }
 
@@ -213,7 +213,7 @@ private fun convertAddToCartEvent(
 ): EventsItems? {
     if (objectIDs == null) return null
     return if (queryID != null) {
-        AddedToCartObjectIDsAfterSearch(
+        EventsItems.of(AddedToCartObjectIDsAfterSearch(
             eventName = eventName,
             eventType = ConversionEvent.Conversion,
             eventSubtype = AddToCartEvent.AddToCart,
@@ -225,9 +225,9 @@ private fun convertAddToCartEvent(
             timestamp = timestamp,
             currency = currency,
             value = value,
-        )
+        ))
     } else {
-        AddedToCartObjectIDs(
+        EventsItems.of(AddedToCartObjectIDs(
             eventName = eventName,
             eventType = ConversionEvent.Conversion,
             eventSubtype = AddToCartEvent.AddToCart,
@@ -238,7 +238,7 @@ private fun convertAddToCartEvent(
             timestamp = timestamp,
             currency = currency,
             value = value,
-        )
+        ))
     }
 }
 
