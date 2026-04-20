@@ -170,15 +170,16 @@ private fun convertPurchaseEvent(
 ): EventsItems? {
     if (objectIDs == null) return null
     return if (queryID != null) {
+        val mappedObjectData = objectData?.map { it.toObjectDataAfterSearch() }
+            ?: objectIDs.map { ObjectDataAfterSearch(queryID = queryID) }
         PurchasedObjectIDsAfterSearch(
             eventName = eventName,
             eventType = ConversionEvent.Conversion,
             eventSubtype = PurchaseEvent.Purchase,
             index = indexName,
             objectIDs = objectIDs,
-            queryID = queryID,
             userToken = userToken,
-            objectData = objectData?.map { it.toObjectDataAfterSearch() } ?: objectIDs.map { ObjectDataAfterSearch() },
+            objectData = mappedObjectData,
             timestamp = timestamp,
             currency = currency,
             value = value,

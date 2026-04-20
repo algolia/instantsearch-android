@@ -56,7 +56,7 @@ internal object InsightsEventsMapper {
                 builder.eventType = Conversion
                 builder.eventSubtype = EventSubtype.Purchase
                 builder.objectIDs = input.value.objectIDs
-                builder.queryID = input.value.queryID
+                builder.queryID = input.value.objectData.firstNotNullOfOrNull { it.queryID }
                 builder.objectData = input.value.objectData.map { it.toObjectDataDO() }
                 builder.currency = input.value.currency
                 builder.value = input.value.value?.toDouble()
