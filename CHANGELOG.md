@@ -1,3 +1,10 @@
+# 4.0.2
+
+### Added
+- Insights: support for event subtypes (`purchase`, `addToCart`) with revenue tracking fields (`objectData`, `currency`, `value`)
+- Insights: new public API methods `purchasedObjectIDs`, `purchasedObjectIDsAfterSearch`, `addedToCartObjectIDs`, and `addedToCartObjectIDsAfterSearch` on `HitsAfterSearchTrackable`
+- Insights: high-level `trackPurchase` and `trackAddToCart` convenience methods on `HitsTracker`
+
 # 4.0.1
 
 ### Fixed
