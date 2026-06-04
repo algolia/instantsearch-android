@@ -36,6 +36,7 @@ tasks.register("runDebugUnitTest") {
     dependsOn(":instantsearch:testDebugUnitTest")
     dependsOn(":instantsearch-insights:testDebugUnitTest")
     dependsOn(":instantsearch-compose:testDebugUnitTest")
+    dependsOn(":instantsearch-agent:jvmTest")
     dependsOn(":extensions:android-paging3:testDebugUnitTest")
     dependsOn(":extensions:android-loading:testDebugUnitTest")
     dependsOn(":extensions:coroutines-extensions:jvmTest")
