@@ -18,7 +18,7 @@ internal object ChunkReducer {
 
     fun apply(chunk: UIMessageChunk, message: UIMessage): UIMessage {
         return when (chunk) {
-            is UIMessageChunk.Start, UIMessageChunk.Error -> message
+            is UIMessageChunk.Start, is UIMessageChunk.Error -> message
             UIMessageChunk.StartStep -> message.copy(parts = message.parts + UIMessagePart.StepStart)
             UIMessageChunk.FinishStep, UIMessageChunk.Finish, UIMessageChunk.Abort -> {
                 message.copy(parts = message.parts.map { part ->

@@ -206,6 +206,12 @@
             android:name=".showcase.compose.filter.facet.DynamicFacetShowcase"
             android:parentActivityName=".showcase.compose.directory.ComposeDirectoryShowcase" />
 
+        <!-- Agent Studio (experimental) -->
+
+        <activity
+            android:name=".showcase.compose.agent.AgentStudioShowcase"
+            android:parentActivityName=".directory.DirectoryActivity" />
+
         <!-- Showcase: shared -->
 
         <activity

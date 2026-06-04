@@ -100,6 +100,10 @@ kotlin {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
-        freeCompilerArgs.addAll(listOf("-Xexplicit-api=strict"))
+        // Explicit-api strictness applies to production code only; test sources
+        // (e.g. JUnit `class …Test`) don't need explicit visibility modifiers.
+        if (!name.contains("Test")) {
+            freeCompilerArgs.addAll(listOf("-Xexplicit-api=strict"))
+        }
     }
 }

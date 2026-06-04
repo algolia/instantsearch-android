@@ -1,7 +1,9 @@
 package com.algolia.instantsearch.examples.android.directory
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.algolia.client.api.SearchClient
 import com.algolia.instantsearch.android.searchbox.SearchBoxViewAppCompat
@@ -9,6 +11,7 @@ import com.algolia.instantsearch.core.connection.ConnectionHandler
 import com.algolia.instantsearch.core.hits.connectHitsView
 import com.algolia.instantsearch.examples.android.R
 import com.algolia.instantsearch.examples.android.guides.extension.configure
+import com.algolia.instantsearch.examples.android.showcase.compose.agent.AgentStudioShowcase
 import com.algolia.instantsearch.searchbox.SearchBoxConnector
 import com.algolia.instantsearch.searchbox.connectView
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
@@ -26,6 +29,19 @@ class DirectoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_directory)
+
+        findViewById<Toolbar>(R.id.toolbar).apply {
+            inflateMenu(R.menu.menu_directory)
+            setOnMenuItemClickListener { item ->
+                if (item.itemId == R.id.action_agent_studio) {
+                    startActivity(Intent(this@DirectoryActivity, AgentStudioShowcase::class.java))
+                    true
+                } else {
+                    false
+                }
+            }
+        }
+
         connection += connector.connectView(SearchBoxViewAppCompat(findViewById(R.id.searchView)))
 
         val adapter = DirectoryAdapter()
