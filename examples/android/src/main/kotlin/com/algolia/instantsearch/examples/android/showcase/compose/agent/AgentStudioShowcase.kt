@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -92,6 +94,7 @@ private fun AgentScreen(viewModel: AgentChatViewModel) {
     val messages by store.messages.collectAsState()
     val status by store.status.collectAsState()
     val error by store.error.collectAsState()
+    val suggestions by store.suggestions.collectAsState()
 
     var input by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
@@ -128,6 +131,20 @@ private fun AgentScreen(viewModel: AgentChatViewModel) {
                 )
             }
 
+            // Prompt suggestions ("what to ask next"). Shown only while idle, as
+            // tappable chips; clicking one sends it as a new user message — the
+            // same behavior as the web Chat widget.
+            if (status == ChatStatus.Ready && suggestions.isNotEmpty()) {
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    items(suggestions, key = { it }) { suggestion ->
+                        SuggestionChip(text = suggestion, onClick = { viewModel.send(suggestion) })
+                    }
+                }
+            }
+
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -155,6 +172,23 @@ private fun AgentScreen(viewModel: AgentChatViewModel) {
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun SuggestionChip(text: String, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier.clickable(onClick = onClick),
+        shape = RoundedCornerShape(16.dp),
+        border = BorderStroke(1.dp, MaterialTheme.colors.primary.copy(alpha = 0.5f)),
+        elevation = 0.dp,
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colors.primary,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+        )
     }
 }
 

@@ -13,10 +13,17 @@ import com.algolia.instantsearch.agent.transport.AgentStudioTransport
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonPrimitive
 import kotlin.random.Random
 
 /**
@@ -53,6 +60,16 @@ public class ChatStore(
 
     private val _error = MutableStateFlow<AgentStudioException?>(null)
     public val error: StateFlow<AgentStudioException?> = _error.asStateFlow()
+
+    /**
+     * Prompt suggestions ("what to ask next") streamed by the agent as a
+     * `data-suggestions` part. Derived from the last assistant message, matching
+     * the web `connectChat` behavior. Hosts typically show these as tappable
+     * chips while [status] is [ChatStatus.Ready].
+     */
+    public val suggestions: StateFlow<List<String>> = messages
+        .map { extractSuggestions(it) }
+        .stateIn(scope, SharingStarted.Eagerly, emptyList())
 
     private var streamingJob: Job? = null
     private var assistantIndex: Int? = null
@@ -171,6 +188,15 @@ public class ChatStore(
         private fun randomId(): String {
             val bytes = ByteArray(16).also { Random.nextBytes(it) }
             return bytes.joinToString("") { (it.toInt() and 0xff).toString(16).padStart(2, '0') }
+        }
+
+        private fun extractSuggestions(messages: List<UIMessage>): List<String> {
+            val message = messages.lastOrNull { it.role == MessageRole.Assistant } ?: return emptyList()
+            val part = message.parts
+                .filterIsInstance<UIMessagePart.Data>()
+                .firstOrNull { it.name == "suggestions" } ?: return emptyList()
+            val array = (part.json as? JsonObject)?.get("suggestions") as? JsonArray ?: return emptyList()
+            return array.mapNotNull { it.jsonPrimitive.contentOrNull }
         }
     }
 }

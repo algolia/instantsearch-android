@@ -112,6 +112,22 @@ class ChunkReducerTest {
     }
 
     @Test
+    fun dataSuggestionsChunkBecomesDataPart() {
+        // `data-suggestions` (prompt chips) is stored as a generic data part so
+        // the ChatStore can derive the suggestions list from it.
+        val payload = """{"type":"data-suggestions","data":{"suggestions":["How can I do X?","What about Y?"]}}"""
+        val chunk = UIMessageChunk.decode(payload)
+        assertNotNull(chunk)
+        assertTrue(chunk is UIMessageChunk.Data)
+        assertEquals("suggestions", chunk.name)
+
+        var msg = UIMessage(id = "alg_msg_5", role = MessageRole.Assistant)
+        msg = ChunkReducer.apply(chunk, msg)
+        val part = msg.parts.filterIsInstance<UIMessagePart.Data>().single()
+        assertEquals("suggestions", part.name)
+    }
+
+    @Test
     fun sseExtractionIgnoresKeepalivesAndDoneSentinel() {
         assertEquals("{\"type\":\"finish\"}", SseEventStream.extractJsonPayload("data: {\"type\":\"finish\"}"))
         assertEquals("[DONE]", SseEventStream.extractJsonPayload("data: [DONE]"))
