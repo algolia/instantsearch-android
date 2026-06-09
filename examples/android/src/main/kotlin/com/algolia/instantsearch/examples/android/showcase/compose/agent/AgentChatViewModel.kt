@@ -6,41 +6,26 @@ import com.algolia.instantsearch.agent.chat.ChatStore
 import com.algolia.instantsearch.agent.transport.AgentStudioTransport
 
 /**
- * Owns the [ChatStore] for the Agent Studio showcase and rebuilds it whenever
- * the entered agent id changes.
+ * Owns the [ChatStore] for the Agent Studio showcase.
  *
- * Uses the public demo `latency` credentials shared by the other showcases.
+ * Reuses the same Agent Studio showcase config that ships with the InstantSearch
+ * web examples (`examples/js/showcase`), so the demo works out of the box.
  * In a real app, pass a **search-only** API key — never an admin key.
  */
 class AgentChatViewModel : ViewModel() {
 
-    private var agentId: String = ""
-
-    var store: ChatStore = buildStore(agentId)
-        private set
-
-    fun setAgentId(value: String) {
-        if (value == agentId) return
-        agentId = value
-        store.clear()
-        store = buildStore(value)
-    }
-
-    fun send(text: String) {
-        if (agentId.isBlank()) return
-        store.send(text)
-    }
-
-    fun stop() = store.stop()
-
-    private fun buildStore(agentId: String): ChatStore {
+    val store: ChatStore = run {
         val transport = AgentStudioTransport.fromCredentials(
             appId = APP_ID,
             apiKey = SEARCH_API_KEY,
-            agentId = agentId.ifBlank { "unset" },
+            agentId = AGENT_ID,
         )
-        return ChatStore(transport = transport, scope = viewModelScope)
+        ChatStore(transport = transport, scope = viewModelScope)
     }
+
+    fun send(text: String) = store.send(text)
+
+    fun stop() = store.stop()
 
     override fun onCleared() {
         super.onCleared()
@@ -49,6 +34,7 @@ class AgentChatViewModel : ViewModel() {
 
     private companion object {
         const val APP_ID = "latency"
-        const val SEARCH_API_KEY = "1f6fd3a6fb973cb08419fe7d288fa4db"
+        const val SEARCH_API_KEY = "6be0576ff61c053d5f9a3225e2a90f76"
+        const val AGENT_ID = "eedef238-5468-470d-bc37-f99fa741bd25"
     }
 }

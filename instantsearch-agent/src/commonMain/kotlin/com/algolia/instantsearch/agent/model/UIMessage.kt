@@ -95,6 +95,12 @@ public data class ToolUIPart(
     val toolName: String,
     val toolCallId: String,
     val state: ToolCallState,
+    /**
+     * Raw, possibly-incomplete tool output accumulated from
+     * `data-tool-output-delta` chunks before the final `tool-output-available`
+     * arrives. Internal bookkeeping; the parsed result lives in [state].
+     */
+    val rawOutput: String = "",
 )
 
 /**

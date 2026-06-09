@@ -6,6 +6,8 @@ import com.algolia.instantsearch.agent.model.ToolUIPart
 import com.algolia.instantsearch.agent.model.UIMessage
 import com.algolia.instantsearch.agent.model.UIMessageChunk
 import com.algolia.instantsearch.agent.model.UIMessagePart
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
 
 /**
@@ -15,6 +17,22 @@ import kotlinx.serialization.json.JsonNull
  * in `instantsearch.js/src/lib/ai-lite/abstract-chat.ts`.
  */
 internal object ChunkReducer {
+
+    private val json = Json { ignoreUnknownKeys = true }
+
+    /**
+     * Parse accumulated `data-tool-output-delta` text into a preliminary
+     * [ToolCallState.OutputAvailable]. While the JSON is still incomplete we keep
+     * the part in [ToolCallState.InputAvailable] so the UI shows a running state.
+     */
+    private fun toolStateFromRawOutput(raw: String, previousInput: JsonElement): ToolCallState {
+        val parsed: JsonElement? = runCatching { json.parseToJsonElement(raw) }.getOrNull()
+        return if (parsed != null) {
+            ToolCallState.OutputAvailable(input = previousInput, output = parsed, preliminary = true)
+        } else {
+            ToolCallState.InputAvailable(input = previousInput)
+        }
+    }
 
     fun apply(chunk: UIMessageChunk, message: UIMessage): UIMessage {
         return when (chunk) {
@@ -70,6 +88,24 @@ internal object ChunkReducer {
                     ToolUIPart(chunk.toolName, chunk.toolCallId, ToolCallState.OutputError(chunk.input, chunk.errorText))
                 },
                 update = { it.copy(state = ToolCallState.OutputError(chunk.input, chunk.errorText)) },
+            )
+            is UIMessageChunk.ToolOutputDelta -> upsertTool(message, chunk.toolCallId,
+                insert = {
+                    val raw = chunk.delta
+                    ToolUIPart(
+                        toolName = chunk.toolName ?: "",
+                        toolCallId = chunk.toolCallId,
+                        state = toolStateFromRawOutput(raw, previousInput = JsonNull),
+                        rawOutput = raw,
+                    )
+                },
+                update = { existing ->
+                    val raw = existing.rawOutput + chunk.delta
+                    val previousInput = (existing.state as? ToolCallState.InputAvailable)?.input
+                        ?: (existing.state as? ToolCallState.OutputAvailable)?.input
+                        ?: JsonNull
+                    existing.copy(state = toolStateFromRawOutput(raw, previousInput), rawOutput = raw)
+                },
             )
 
             is UIMessageChunk.SourceUrl -> message.copy(

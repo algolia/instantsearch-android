@@ -53,6 +53,14 @@ public sealed interface UIMessageChunk {
         val input: JsonElement?,
     ) : UIMessageChunk
 
+    /**
+     * Incremental tool output, streamed as `data-tool-output-delta`. The agent
+     * sends the tool's JSON output in string fragments that must be concatenated
+     * and parsed once complete. Used by `algolia_display_results` and, for some
+     * agents, the search tool. Mirrors the same chunk in `ai-lite/types.ts`.
+     */
+    public data class ToolOutputDelta(val toolCallId: String, val toolName: String?, val delta: String) : UIMessageChunk
+
     public data class SourceUrl(val sourceId: String, val url: String, val title: String?) : UIMessageChunk
     public data class File(val url: String, val mediaType: String) : UIMessageChunk
 
@@ -106,8 +114,12 @@ public sealed interface UIMessageChunk {
                     toolName = requireNotNull(str("toolName")),
                     toolCallId = requireNotNull(str("toolCallId")),
                 )
+                // `tool-input-delta`, `tool-output-available` and `tool-error` reference an
+                // existing tool call by `toolCallId`; `toolName` is optional on the wire (the AI
+                // SDK only needs it on `tool-input-start`/`tool-input-available`). Don't require it
+                // here, otherwise these chunks get silently dropped and the products never render.
                 "tool-input-delta" -> ToolInputDelta(
-                    toolName = requireNotNull(str("toolName")),
+                    toolName = str("toolName") ?: "",
                     toolCallId = requireNotNull(str("toolCallId")),
                     inputTextDelta = requireNotNull(str("inputTextDelta")),
                 )
@@ -117,13 +129,13 @@ public sealed interface UIMessageChunk {
                     input = requireNotNull(sub("input")),
                 )
                 "tool-output-available" -> ToolOutputAvailable(
-                    toolName = requireNotNull(str("toolName")),
+                    toolName = str("toolName") ?: "",
                     toolCallId = requireNotNull(str("toolCallId")),
                     output = requireNotNull(sub("output")),
                     preliminary = bool("preliminary") ?: false,
                 )
                 "tool-error" -> ToolError(
-                    toolName = requireNotNull(str("toolName")),
+                    toolName = str("toolName") ?: "",
                     toolCallId = requireNotNull(str("toolCallId")),
                     errorText = requireNotNull(str("errorText")),
                     input = sub("input"),
@@ -139,6 +151,14 @@ public sealed interface UIMessageChunk {
                     mediaType = requireNotNull(str("mediaType")),
                 )
                 "error" -> Error(str("errorText") ?: "Unknown error")
+                "data-tool-output-delta" -> {
+                    val data = sub("data")?.jsonObject
+                    ToolOutputDelta(
+                        toolCallId = requireNotNull(data?.get("toolCallId")?.jsonPrimitive?.contentOrNull),
+                        toolName = data?.get("toolName")?.jsonPrimitive?.contentOrNull,
+                        delta = data?.get("delta")?.jsonPrimitive?.contentOrNull ?: "",
+                    )
+                }
                 else -> {
                     if (type.startsWith("data-")) {
                         Data(

@@ -11,6 +11,8 @@ import com.algolia.instantsearch.agent.transport.AgentStudioEndpoint
 import com.algolia.instantsearch.agent.transport.SseEventStream
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.add
+import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlin.test.Test
@@ -56,6 +58,57 @@ class ChunkReducerTest {
         val state = tool.state
         assertTrue(state is ToolCallState.OutputAvailable, "expected OutputAvailable, got $state")
         assertEquals(output, state.output)
+    }
+
+    @Test
+    fun toolOutputAvailableWithoutToolNameIsNotDropped() {
+        // Agent Studio's ai-sdk-5 stream omits `toolName` on `tool-output-available`
+        // (the call is already identified by `toolCallId`). Decoding must not drop it.
+        val payload = """{"type":"tool-output-available","toolCallId":"c-1",""" +
+            """"output":{"hits":[{"objectID":"1","name":"Laptop"}]}}"""
+        val chunk = UIMessageChunk.decode(payload)
+        assertNotNull(chunk)
+        assertTrue(chunk is UIMessageChunk.ToolOutputAvailable)
+        assertEquals("c-1", chunk.toolCallId)
+    }
+
+    @Test
+    fun toolOutputPreservesNameFromInputStartWhenOutputOmitsIt() {
+        var msg = UIMessage(id = "alg_msg_3", role = MessageRole.Assistant)
+        val output = buildJsonObject {
+            put(
+                "hits",
+                buildJsonArray {
+                    add(buildJsonObject { put("objectID", JsonPrimitive("1")); put("name", JsonPrimitive("Laptop")) })
+                },
+            )
+        }
+        val chunks = listOf(
+            UIMessageChunk.ToolInputStart("algolia_search_index", "c-1"),
+            // `toolName` absent on the wire -> decoded as empty string
+            UIMessageChunk.ToolOutputAvailable(toolName = "", toolCallId = "c-1", output = output, preliminary = false),
+        )
+        for (chunk in chunks) msg = ChunkReducer.apply(chunk, msg)
+
+        val tool = msg.parts.filterIsInstance<UIMessagePart.Tool>().single().part
+        assertEquals("algolia_search_index", tool.toolName)
+        assertTrue(tool.state is ToolCallState.OutputAvailable)
+    }
+
+    @Test
+    fun toolOutputDeltaAccumulatesAndParses() {
+        var msg = UIMessage(id = "alg_msg_4", role = MessageRole.Assistant)
+        val chunks = listOf(
+            UIMessageChunk.ToolInputStart("algolia_display_results", "c-9"),
+            UIMessageChunk.ToolOutputDelta("c-9", "algolia_display_results", "{\"intro\":\"curated\""),
+            UIMessageChunk.ToolOutputDelta("c-9", "algolia_display_results", ",\"groups\":[]}"),
+        )
+        for (chunk in chunks) msg = ChunkReducer.apply(chunk, msg)
+
+        val tool = msg.parts.filterIsInstance<UIMessagePart.Tool>().single().part
+        val state = tool.state
+        assertTrue(state is ToolCallState.OutputAvailable, "expected OutputAvailable, got $state")
+        assertTrue(state.preliminary)
     }
 
     @Test

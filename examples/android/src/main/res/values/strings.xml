@@ -7,7 +7,6 @@
     <string name="button_request_permission">Show permission fragment</string>
     <string name="button_voice">Start using voice</string>
     <string name="hits">hits</string>
-    <string name="menu_agent_studio">Agent Studio (experimental)</string>
     <string name="filters">Filters</string>
     <string name="clear_all">Clear all</string>
     <string name="search_showcases">Search for showcases</string>
