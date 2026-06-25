@@ -11,6 +11,10 @@ import com.algolia.instantsearch.core.highlighting.HighlightedString
  *
  * @param spanStyle applied highlighting style
  */
+// `tokens` is a Kotlin `List`, so `forEach` resolves to the inlined
+// `kotlin.collections.forEach` extension — not `java.lang.Iterable#forEach`
+// (API 24). The NewApi flag here is a lint false positive.
+@Suppress("NewApi")
 public fun HighlightedString.toAnnotatedString(spanStyle: SpanStyle = SpanStyle(fontWeight = FontWeight.Bold)): AnnotatedString {
     return with(AnnotatedString.Builder()) {
         tokens.forEach { (part, isHighlighted) ->

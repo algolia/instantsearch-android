@@ -26,6 +26,7 @@ class DirectoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_directory)
+
         connection += connector.connectView(SearchBoxViewAppCompat(findViewById(R.id.searchView)))
 
         val adapter = DirectoryAdapter()

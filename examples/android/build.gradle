@@ -58,6 +58,8 @@ dependencies {
     implementation project(":extensions:android-paging3")
     //implementation "com.algolia:instantsearch-android-loading:$instantsearch"
     implementation project(":extensions:android-loading")
+    // Experimental, standalone agent SDK (versioned independently, 0.x).
+    implementation project(":instantsearch-agent")
     implementation "com.algolia.instantsearch:voice:1.1.0"
 
     implementation "androidx.fragment:fragment-ktx:1.5.4"
@@ -91,6 +93,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
             '-Xopt-in=com.algolia.instantsearch.ExperimentalInstantSearch',
             '-Xopt-in=androidx.compose.material.ExperimentalMaterialApi',
             '-opt-in=kotlinx.serialization.InternalSerializationApi',
+            '-opt-in=com.algolia.instantsearch.agent.ExperimentalAgentStudioApi',
         ]
     }
 }

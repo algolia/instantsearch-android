@@ -6,6 +6,7 @@ include(":instantsearch-core")
 include(":instantsearch-insights")
 include(":instantsearch-compose")
 include(":instantsearch-utils")
+include(":instantsearch-agent")
 // Extensions
 include(":extensions:android-paging3")
 include(":extensions:android-loading")
