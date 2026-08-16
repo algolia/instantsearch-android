@@ -17,6 +17,7 @@ import com.algolia.instantsearch.examples.android.guides.gettingstarted.GettingS
 import com.algolia.instantsearch.examples.android.guides.insights.InsightsActivity
 import com.algolia.instantsearch.examples.android.showcase.androidview.directory.AndroidViewDirectoryShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.agent.AgentStudioShowcase
+import com.algolia.instantsearch.examples.android.showcase.compose.composition.CompositionShowcase
 import com.algolia.instantsearch.examples.android.showcase.compose.directory.ComposeDirectoryShowcase
 import com.algolia.search.helper.deserialize
 import kotlin.reflect.KClass
@@ -46,6 +47,10 @@ private val experimentalItems = listOf(
     DirectoryItem.Item(
         DirectoryHit(objectID = "experimental_agentic_experience", name = "Agentic Experience", type = "Experimental"),
         AgentStudioShowcase::class,
+    ),
+    DirectoryItem.Item(
+        DirectoryHit(objectID = "experimental_composition_search", name = "Composition Search", type = "Experimental"),
+        CompositionShowcase::class,
     ),
 )
 

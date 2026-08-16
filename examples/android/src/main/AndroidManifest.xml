@@ -212,6 +212,12 @@
             android:name=".showcase.compose.agent.AgentStudioShowcase"
             android:parentActivityName=".directory.DirectoryActivity" />
 
+        <!-- Composition (experimental) -->
+
+        <activity
+            android:name=".showcase.compose.composition.CompositionShowcase"
+            android:parentActivityName=".directory.DirectoryActivity" />
+
         <!-- Showcase: shared -->
 
         <activity
