@@ -9,7 +9,6 @@ import com.algolia.instantsearch.filter.FilterGroup
 import com.algolia.instantsearch.searcher.composition.CompositionSearcher
 import com.algolia.instantsearch.searcher.hits.SearchForQuery
 import com.algolia.instantsearch.searcher.internal.SearcherExceptionHandler
-import com.algolia.instantsearch.searcher.internal.runAsLoading
 import com.algolia.instantsearch.searcher.internal.withAlgoliaAgent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -47,8 +46,13 @@ internal class DefaultCompositionSearcher(
 
     override fun searchAsync(): Job {
         return coroutineScope.launch(exceptionHandler) {
-            isLoading.runAsLoading {
+            isLoading.value = true
+            try {
                 response.value = search()
+            } finally {
+                // Also runs on cancellation, which never reaches the
+                // CoroutineExceptionHandler: the flag can't get stuck to true.
+                isLoading.value = false
             }
         }.also {
             sequencer.addOperation(it)
