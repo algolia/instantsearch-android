@@ -1,3 +1,9 @@
+# 4.1.0
+
+### Added
+- Composition API support: `CompositionSearcher` and `CompositionFacetsSearcher` run an Algolia Composition (`/1/compositions/{compositionID}/run` and `/1/compositions/{compositionID}/facets/{facetName}/query`) while staying compatible with the existing components (search box, hits, stats, facet list, filter state, paging), with server-side disjunctive faceting
+- Experimental `instantsearch-agent` module for Agent Studio: `ChatStore` driving agent conversations over `AgentStudioTransport`, with tool call rendering support
+
 # 4.0.2
 
 ### Added
