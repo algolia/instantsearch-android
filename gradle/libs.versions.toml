@@ -10,7 +10,7 @@ junit = "4.13.2"
 
 [libraries]
 # algolia
-algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version = "3.37.2" }
+algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version = "3.49.0" }
 algolia-telemetry = { group = "com.algolia", name = "instantsearch-telemetry", version = "0.2.0" }
 
 # network
