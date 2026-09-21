@@ -21,7 +21,7 @@ jobs:
                     java-version-file: .tool-versions
 
             -   name: Setup Android SDK
-                uses: android-actions/setup-android@v2
+                uses: android-actions/setup-android@v4
 
             -   name: Setup Gradle
                 uses: gradle/gradle-build-action@v2
