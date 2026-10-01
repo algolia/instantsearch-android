@@ -99,6 +99,14 @@ private fun convertClickEvent(
         userToken = userToken,
         timestamp = timestamp,
     ))
+    objectIDs != null -> EventsItems.of(ClickedObjectIDs(
+        eventName = eventName,
+        eventType = ClickEvent.Click,
+        index = indexName,
+        objectIDs = objectIDs,
+        userToken = userToken,
+        timestamp = timestamp,
+    ))
     filters != null -> EventsItems.of(ClickedFilters(
         eventName = eventName,
         eventType = ClickEvent.Click,
@@ -143,6 +151,14 @@ private fun convertPlainConversionEvent(
         index = indexName,
         objectIDs = objectIDs,
         queryID = queryID,
+        userToken = userToken,
+        timestamp = timestamp,
+    ))
+    objectIDs != null -> EventsItems.of(ConvertedObjectIDs(
+        eventName = eventName,
+        eventType = ConversionEvent.Conversion,
+        index = indexName,
+        objectIDs = objectIDs,
         userToken = userToken,
         timestamp = timestamp,
     ))

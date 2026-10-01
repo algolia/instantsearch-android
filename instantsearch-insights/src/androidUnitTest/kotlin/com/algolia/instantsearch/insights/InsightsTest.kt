@@ -129,6 +129,12 @@ internal class InsightsTest {
     }
 
     @Test
+    fun testClickEventWithoutQueryID() = runTest {
+        val response = webService.send(eventClick.copy(queryID = null))
+        assertEquals(200, response.code)
+    }
+
+    @Test
     fun testViewEvent() = runTest {
         val response = webService.send(eventView)
         assertEquals(200, response.code)
@@ -137,6 +143,12 @@ internal class InsightsTest {
     @Test
     fun testConversionEvent() = runTest {
         val response = webService.send(eventConversion)
+        assertEquals(200, response.code)
+    }
+
+    @Test
+    fun testConversionEventWithoutQueryID() = runTest {
+        val response = webService.send(eventConversion.copy(queryID = null))
         assertEquals(200, response.code)
     }
 
@@ -536,6 +548,29 @@ internal class InsightsTest {
     }
 
     @Test
+    fun testClickedObjectIDsWithoutQueryIDMapsToClickedObjectIDs() {
+        val clickNoSearch = eventClick.copy(queryID = null)
+        val eventsItem = InsightsEventsMapper.doToEventsItem(clickNoSearch)
+        assertNotNull(eventsItem)
+        assertTrue(eventsItem is EventsItems.ClickedObjectIDsValue)
+        assertEquals(objectIDs, (eventsItem as EventsItems.ClickedObjectIDsValue).value.objectIDs)
+    }
+
+    @Test
+    fun testClickedObjectIDsEventRoundTripThroughMapper() {
+        val clickNoSearch = eventClick.copy(queryID = null)
+        val eventsItem = InsightsEventsMapper.doToEventsItem(clickNoSearch)
+        assertNotNull(eventsItem)
+        assertTrue(eventsItem is EventsItems.ClickedObjectIDsValue)
+        val roundTripped = InsightsEventsMapper.eventsItemToDO(eventsItem)
+        assertEquals(clickNoSearch.eventType, roundTripped.eventType)
+        assertEquals(clickNoSearch.eventName, roundTripped.eventName)
+        assertEquals(clickNoSearch.indexName, roundTripped.indexName)
+        assertEquals(clickNoSearch.objectIDs, roundTripped.objectIDs)
+        assertNull(roundTripped.queryID)
+    }
+
+    @Test
     fun testViewedFiltersSetsIndexName() {
         val (controller, repo) = createControllerWithRepository()
         controller.viewedFilters(
@@ -581,6 +616,29 @@ internal class InsightsTest {
         val stored = repo.read()
         assertEquals(1, stored.size)
         assertEquals("test-index", stored[0].indexName)
+    }
+
+    @Test
+    fun testConvertedObjectIDsWithoutQueryIDMapsToConvertedObjectIDs() {
+        val conversionNoSearch = eventConversion.copy(queryID = null)
+        val eventsItem = InsightsEventsMapper.doToEventsItem(conversionNoSearch)
+        assertNotNull(eventsItem)
+        assertTrue(eventsItem is EventsItems.ConvertedObjectIDsValue)
+        assertEquals(objectIDs, (eventsItem as EventsItems.ConvertedObjectIDsValue).value.objectIDs)
+    }
+
+    @Test
+    fun testConvertedObjectIDsEventRoundTripThroughMapper() {
+        val conversionNoSearch = eventConversion.copy(queryID = null)
+        val eventsItem = InsightsEventsMapper.doToEventsItem(conversionNoSearch)
+        assertNotNull(eventsItem)
+        assertTrue(eventsItem is EventsItems.ConvertedObjectIDsValue)
+        val roundTripped = InsightsEventsMapper.eventsItemToDO(eventsItem)
+        assertEquals(conversionNoSearch.eventType, roundTripped.eventType)
+        assertEquals(conversionNoSearch.eventName, roundTripped.eventName)
+        assertEquals(conversionNoSearch.indexName, roundTripped.indexName)
+        assertEquals(conversionNoSearch.objectIDs, roundTripped.objectIDs)
+        assertNull(roundTripped.queryID)
     }
 
     // region Purchase event tests

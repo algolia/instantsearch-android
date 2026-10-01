@@ -31,6 +31,10 @@ internal object InsightsEventsMapper {
                 builder.positions = input.value.positions
                 builder.queryID = input.value.queryID
             }
+            is EventsItems.ClickedObjectIDsValue -> {
+                builder.eventType = Click
+                builder.objectIDs = input.value.objectIDs
+            }
             is EventsItems.ClickedFiltersValue -> {
                 builder.eventType = Click
                 builder.filters = input.value.filters.mapNotNull(::parseFacetFilter)
@@ -39,6 +43,10 @@ internal object InsightsEventsMapper {
                 builder.eventType = Conversion
                 builder.objectIDs = input.value.objectIDs
                 builder.queryID = input.value.queryID
+            }
+            is EventsItems.ConvertedObjectIDsValue -> {
+                builder.eventType = Conversion
+                builder.objectIDs = input.value.objectIDs
             }
             is EventsItems.ConvertedFiltersValue -> {
                 builder.eventType = Conversion
@@ -84,8 +92,10 @@ internal object InsightsEventsMapper {
             is EventsItems.ViewedObjectIDsValue -> input.value.eventName
             is EventsItems.ViewedFiltersValue -> input.value.eventName
             is EventsItems.ClickedObjectIDsAfterSearchValue -> input.value.eventName
+            is EventsItems.ClickedObjectIDsValue -> input.value.eventName
             is EventsItems.ClickedFiltersValue -> input.value.eventName
             is EventsItems.ConvertedObjectIDsAfterSearchValue -> input.value.eventName
+            is EventsItems.ConvertedObjectIDsValue -> input.value.eventName
             is EventsItems.ConvertedFiltersValue -> input.value.eventName
             is EventsItems.PurchasedObjectIDsValue -> input.value.eventName
             is EventsItems.PurchasedObjectIDsAfterSearchValue -> input.value.eventName
@@ -97,8 +107,10 @@ internal object InsightsEventsMapper {
             is EventsItems.ViewedObjectIDsValue -> input.value.index
             is EventsItems.ViewedFiltersValue -> input.value.index
             is EventsItems.ClickedObjectIDsAfterSearchValue -> input.value.index
+            is EventsItems.ClickedObjectIDsValue -> input.value.index
             is EventsItems.ClickedFiltersValue -> input.value.index
             is EventsItems.ConvertedObjectIDsAfterSearchValue -> input.value.index
+            is EventsItems.ConvertedObjectIDsValue -> input.value.index
             is EventsItems.ConvertedFiltersValue -> input.value.index
             is EventsItems.PurchasedObjectIDsValue -> input.value.index
             is EventsItems.PurchasedObjectIDsAfterSearchValue -> input.value.index
@@ -110,8 +122,10 @@ internal object InsightsEventsMapper {
             is EventsItems.ViewedObjectIDsValue -> input.value.userToken
             is EventsItems.ViewedFiltersValue -> input.value.userToken
             is EventsItems.ClickedObjectIDsAfterSearchValue -> input.value.userToken
+            is EventsItems.ClickedObjectIDsValue -> input.value.userToken
             is EventsItems.ClickedFiltersValue -> input.value.userToken
             is EventsItems.ConvertedObjectIDsAfterSearchValue -> input.value.userToken
+            is EventsItems.ConvertedObjectIDsValue -> input.value.userToken
             is EventsItems.ConvertedFiltersValue -> input.value.userToken
             is EventsItems.PurchasedObjectIDsValue -> input.value.userToken
             is EventsItems.PurchasedObjectIDsAfterSearchValue -> input.value.userToken
@@ -123,8 +137,10 @@ internal object InsightsEventsMapper {
             is EventsItems.ViewedObjectIDsValue -> input.value.timestamp
             is EventsItems.ViewedFiltersValue -> input.value.timestamp
             is EventsItems.ClickedObjectIDsAfterSearchValue -> input.value.timestamp
+            is EventsItems.ClickedObjectIDsValue -> input.value.timestamp
             is EventsItems.ClickedFiltersValue -> input.value.timestamp
             is EventsItems.ConvertedObjectIDsAfterSearchValue -> input.value.timestamp
+            is EventsItems.ConvertedObjectIDsValue -> input.value.timestamp
             is EventsItems.ConvertedFiltersValue -> input.value.timestamp
             is EventsItems.PurchasedObjectIDsValue -> input.value.timestamp
             is EventsItems.PurchasedObjectIDsAfterSearchValue -> input.value.timestamp
