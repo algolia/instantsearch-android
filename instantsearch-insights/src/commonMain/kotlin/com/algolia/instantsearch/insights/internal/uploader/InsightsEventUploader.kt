@@ -32,8 +32,12 @@ internal class InsightsEventUploader(
         }
     }
 
+    /**
+     * Keeps only the events worth retrying: those that failed because the request itself couldn't be
+     * performed. Events rejected by the API or that can't be mapped to an API event are dropped.
+     */
     private fun List<EventResponse>.filterEventsWhenException(): List<EventResponse> {
-        return this.filter { it.code == -1 }
+        return this.filter { it.code == EventResponse.CODE_EXCEPTION }
     }
 
     private fun isExpired(timestampMillis: Long): Boolean {

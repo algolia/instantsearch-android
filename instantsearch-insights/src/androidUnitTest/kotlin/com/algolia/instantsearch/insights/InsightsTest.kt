@@ -13,6 +13,7 @@ import com.algolia.instantsearch.insights.internal.data.local.mapper.InsightsEve
 import com.algolia.instantsearch.insights.internal.data.local.model.FilterFacetDO
 import com.algolia.instantsearch.insights.internal.data.local.model.InsightsEventDO
 import com.algolia.instantsearch.insights.internal.data.local.model.ObjectDataDO
+import com.algolia.instantsearch.insights.internal.event.EventResponse
 import com.algolia.instantsearch.insights.internal.extension.randomUUID
 import com.algolia.instantsearch.insights.internal.uploader.InsightsEventUploader
 import com.algolia.instantsearch.insights.internal.worker.InsightsManager
@@ -21,6 +22,7 @@ import com.algolia.client.configuration.ClientOptions
 import com.algolia.client.model.insights.*
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
+import io.ktor.client.engine.mock.toByteArray
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import java.time.LocalDateTime
@@ -583,6 +585,196 @@ internal class InsightsTest {
         assertEquals("test-index", stored[0].indexName)
     }
 
+    // region Events without queryID (#439)
+
+    private val eventClickNoSearch = eventClick.copy(queryID = null, positions = null)
+    private val eventConversionNoSearch = eventConversion.copy(queryID = null)
+
+    @Test
+    fun testClickEventWithoutQueryID() = runTest {
+        val response = webService.send(eventClickNoSearch)
+        assertEquals(200, response.code)
+    }
+
+    @Test
+    fun testConversionEventWithoutQueryID() = runTest {
+        val response = webService.send(eventConversionNoSearch)
+        assertEquals(200, response.code)
+    }
+
+    @Test
+    fun testClickedObjectIDsWithoutQueryIDMapsToClickedObjectIDs() {
+        val eventsItem = InsightsEventsMapper.doToEventsItem(eventClickNoSearch)
+        assertTrue(eventsItem is EventsItems.ClickedObjectIDsValue)
+        assertEquals(objectIDs, eventsItem.value.objectIDs)
+        assertEquals(indexName, eventsItem.value.index)
+        assertEquals(userToken, eventsItem.value.userToken)
+        assertEquals(timestamp, eventsItem.value.timestamp)
+    }
+
+    @Test
+    fun testConvertedObjectIDsWithoutQueryIDMapsToConvertedObjectIDs() {
+        val eventsItem = InsightsEventsMapper.doToEventsItem(eventConversionNoSearch)
+        assertTrue(eventsItem is EventsItems.ConvertedObjectIDsValue)
+        assertEquals(objectIDs, eventsItem.value.objectIDs)
+        assertEquals(indexName, eventsItem.value.index)
+        assertEquals(userToken, eventsItem.value.userToken)
+        assertEquals(timestamp, eventsItem.value.timestamp)
+    }
+
+    @Test
+    fun testClickWithQueryIDButWithoutPositionsIsSentAsPlainClick() {
+        // The Insights API requires positions for after-search clicks; rather than dropping the event
+        // we degrade it to a click unrelated to a search.
+        val eventsItem = InsightsEventsMapper.doToEventsItem(eventClick.copy(positions = null))
+        assertTrue(eventsItem is EventsItems.ClickedObjectIDsValue)
+        assertEquals(objectIDs, eventsItem.value.objectIDs)
+    }
+
+    @Test
+    fun testEventWithoutObjectIDsNorFiltersIsNotMappable() {
+        assertNull(InsightsEventsMapper.doToEventsItem(eventClick.copy(objectIDs = null, positions = null)))
+        assertNull(InsightsEventsMapper.doToEventsItem(eventConversion.copy(objectIDs = null)))
+        assertNull(InsightsEventsMapper.doToEventsItem(eventView.copy(filters = null)))
+    }
+
+    /**
+     * Every event shape the library can store must map to an Insights API event and back without losing
+     * its identifying fields.
+     */
+    @Test
+    fun testAllEventShapesRoundTripThroughMapper() {
+        val viewObjectIDs = eventView.copy(filters = null, queryID = null, objectIDs = objectIDs)
+        val viewFilters = eventView.copy(queryID = null)
+        val clickFilters = eventClick.copy(queryID = null, objectIDs = null, positions = null, filters = filterFacets)
+        val conversionFilters = eventConversion.copy(queryID = null, objectIDs = null, filters = filterFacets)
+        val purchaseNoSearch = eventPurchase.copy(queryID = null, objectData = listOf(ObjectDataDO(price = 19.99, quantity = 2)))
+        val addToCartNoSearch = eventAddToCart.copy(queryID = null, objectData = listOf(ObjectDataDO(price = 9.99, quantity = 1)))
+
+        val expectations: List<Pair<InsightsEventDO, (EventsItems) -> Boolean>> = listOf(
+            viewObjectIDs to { it is EventsItems.ViewedObjectIDsValue },
+            viewFilters to { it is EventsItems.ViewedFiltersValue },
+            eventClick to { it is EventsItems.ClickedObjectIDsAfterSearchValue },
+            eventClickNoSearch to { it is EventsItems.ClickedObjectIDsValue },
+            clickFilters to { it is EventsItems.ClickedFiltersValue },
+            eventConversion to { it is EventsItems.ConvertedObjectIDsAfterSearchValue },
+            eventConversionNoSearch to { it is EventsItems.ConvertedObjectIDsValue },
+            conversionFilters to { it is EventsItems.ConvertedFiltersValue },
+            eventPurchase to { it is EventsItems.PurchasedObjectIDsAfterSearchValue },
+            purchaseNoSearch to { it is EventsItems.PurchasedObjectIDsValue },
+            eventAddToCart to { it is EventsItems.AddedToCartObjectIDsAfterSearchValue },
+            addToCartNoSearch to { it is EventsItems.AddedToCartObjectIDsValue },
+        )
+
+        expectations.forEach { (event, isExpectedType) ->
+            val eventsItem = assertNotNull(InsightsEventsMapper.doToEventsItem(event), "Not mapped: $event")
+            assertTrue(isExpectedType(eventsItem), "Unexpected mapping for $event: $eventsItem")
+            val roundTripped = assertNotNull(InsightsEventsMapper.eventsItemToDO(eventsItem), "Not mapped back: $eventsItem")
+            assertEquals(event.eventType, roundTripped.eventType, "eventType of $event")
+            assertEquals(event.eventSubtype, roundTripped.eventSubtype, "eventSubtype of $event")
+            assertEquals(event.eventName, roundTripped.eventName, "eventName of $event")
+            assertEquals(event.indexName, roundTripped.indexName, "indexName of $event")
+            assertEquals(event.userToken, roundTripped.userToken, "userToken of $event")
+            assertEquals(event.timestamp, roundTripped.timestamp, "timestamp of $event")
+            assertEquals(event.queryID, roundTripped.queryID, "queryID of $event")
+            assertEquals(event.objectIDs, roundTripped.objectIDs, "objectIDs of $event")
+            assertEquals(event.positions, roundTripped.positions, "positions of $event")
+            assertEquals(event.filters, roundTripped.filters, "filters of $event")
+        }
+    }
+
+    /**
+     * Every public tracking method must produce an event that can be sent to the Insights API.
+     */
+    @Test
+    fun testAllTrackingMethodsProduceSendableEvents() {
+        val (controller, repo) = createControllerWithRepository()
+        controller.viewedObjectIDs(eventA, objectIDs)
+        controller.viewedFilters(eventA, filters)
+        controller.clickedObjectIDs(eventA, objectIDs)
+        controller.clickedFilters(eventA, filters)
+        controller.clickedObjectIDsAfterSearch(eventA, queryID, objectIDs, positions)
+        controller.convertedObjectIDs(eventA, objectIDs)
+        controller.convertedFilters(eventA, filters)
+        controller.convertedObjectIDsAfterSearch(eventA, queryID, objectIDs)
+        controller.purchasedObjectIDs(eventA, objectIDs)
+        controller.purchasedObjectIDsAfterSearch(eventA, queryID, objectIDs)
+        controller.addedToCartObjectIDs(eventA, objectIDs)
+        controller.addedToCartObjectIDsAfterSearch(eventA, queryID, objectIDs)
+
+        val stored = repo.read()
+        assertEquals(12, stored.size)
+        stored.forEach { event ->
+            assertNotNull(InsightsEventsMapper.doToEventsItem(event), "Not sendable: $event")
+        }
+        assertTrue(InsightsEventsMapper.doToEventsItem(stored[2]) is EventsItems.ClickedObjectIDsValue)
+        assertTrue(InsightsEventsMapper.doToEventsItem(stored[5]) is EventsItems.ConvertedObjectIDsValue)
+    }
+
+    @Test
+    fun testEventsWithoutQueryIDAreUploaded() = runTest {
+        val sentBodies = mutableListOf<String>()
+        val engine = MockEngine { request ->
+            sentBodies += String(request.body.toByteArray())
+            respond(
+                content = """{"status":200,"message":"ok"}""",
+                status = HttpStatusCode.OK,
+                headers = headersOf("Content-Type", "application/json")
+            )
+        }
+        val distantRepository = InsightsHttpRepository(InsightsClient(appId = appId, apiKey = apiKey, options = ClientOptions(engine = engine)))
+        val localRepository = MockLocalRepository(mutableListOf())
+        val cache = InsightsEventCache(localRepository)
+        val uploader = InsightsEventUploader(localRepository, distantRepository)
+        val controller = InsightsController(indexName, noOpWorker, cache, uploader, false)
+            .apply { userToken = this@InsightsTest.userToken }
+
+        controller.clickedObjectIDs(eventA, objectIDs)
+        controller.convertedObjectIDs(eventB, objectIDs)
+        val failed = uploader.uploadAll()
+
+        assertTrue(failed.isEmpty(), "No event should fail: $failed")
+        assertTrue(localRepository.read().isEmpty(), "Uploaded events should be removed from the queue")
+        assertEquals(2, sentBodies.size)
+        val click = sentBodies.single { it.contains(""""eventType":"click"""") }
+        val conversion = sentBodies.single { it.contains(""""eventType":"conversion"""") }
+        listOf(click, conversion).forEach { body ->
+            assertTrue(body.contains(""""objectIDs":["54675051"]"""), body)
+            assertTrue(body.contains(""""index":"$indexName""""), body)
+            assertTrue(body.contains(""""userToken":"$userToken""""), body)
+            assertFalse(body.contains("queryID"), body)
+        }
+    }
+
+    @Test
+    fun testUnmappableEventIsDroppedInsteadOfRetried() = runTest {
+        val unmappable = eventClick.copy(objectIDs = null, positions = null, filters = null)
+        val localRepository = MockLocalRepository(mutableListOf(eventClickNoSearch, unmappable))
+        val uploader = InsightsEventUploader(localRepository, webService)
+
+        assertEquals(EventResponse.CODE_UNMAPPABLE, webService.send(unmappable).code)
+
+        val retried = uploader.uploadAll()
+
+        assertTrue(retried.isEmpty(), "Unmappable events must not be kept for retry: $retried")
+        assertTrue(localRepository.read().isEmpty(), "Queue should be empty after upload")
+    }
+
+    @Test
+    fun testFailedRequestIsKeptForRetry() = runTest {
+        val failingEngine = MockEngine { throw java.io.IOException("offline") }
+        val offlineRepository = InsightsHttpRepository(InsightsClient(appId = appId, apiKey = apiKey, options = ClientOptions(engine = failingEngine)))
+        val localRepository = MockLocalRepository(mutableListOf(eventClickNoSearch))
+        val uploader = InsightsEventUploader(localRepository, offlineRepository)
+
+        val retried = uploader.uploadAll()
+
+        assertEquals(listOf(EventResponse.CODE_EXCEPTION), retried.map { it.code })
+        assertEquals(listOf(eventClickNoSearch), localRepository.read())
+    }
+
+    // endregion
+
     // region Purchase event tests
 
     private val eventPurchase = InsightsEventDO(
@@ -717,7 +909,7 @@ internal class InsightsTest {
         val eventsItem = InsightsEventsMapper.doToEventsItem(eventPurchase)
         assertNotNull(eventsItem)
         assertTrue(eventsItem is EventsItems.PurchasedObjectIDsAfterSearchValue)
-        val roundTripped = InsightsEventsMapper.eventsItemToDO(eventsItem)
+        val roundTripped = assertNotNull(InsightsEventsMapper.eventsItemToDO(eventsItem))
         assertEquals(eventPurchase.eventType, roundTripped.eventType)
         assertEquals(eventPurchase.eventSubtype, roundTripped.eventSubtype)
         assertEquals(eventPurchase.eventName, roundTripped.eventName)
@@ -732,7 +924,7 @@ internal class InsightsTest {
         val eventsItem = InsightsEventsMapper.doToEventsItem(eventAddToCart)
         assertNotNull(eventsItem)
         assertTrue(eventsItem is EventsItems.AddedToCartObjectIDsAfterSearchValue)
-        val roundTripped = InsightsEventsMapper.eventsItemToDO(eventsItem)
+        val roundTripped = assertNotNull(InsightsEventsMapper.eventsItemToDO(eventsItem))
         assertEquals(eventAddToCart.eventType, roundTripped.eventType)
         assertEquals(eventAddToCart.eventSubtype, roundTripped.eventSubtype)
         assertEquals(eventAddToCart.eventName, roundTripped.eventName)

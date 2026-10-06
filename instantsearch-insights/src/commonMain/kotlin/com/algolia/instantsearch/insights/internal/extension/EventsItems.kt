@@ -99,6 +99,16 @@ private fun convertClickEvent(
         userToken = userToken,
         timestamp = timestamp,
     ))
+    // Click unrelated to a search (no queryID). A queryID without positions can't be expressed as an
+    // after-search event in the Insights API, so it is also sent as a plain click rather than dropped.
+    objectIDs != null -> EventsItems.of(ClickedObjectIDs(
+        eventName = eventName,
+        eventType = ClickEvent.Click,
+        index = indexName,
+        objectIDs = objectIDs,
+        userToken = userToken,
+        timestamp = timestamp,
+    ))
     filters != null -> EventsItems.of(ClickedFilters(
         eventName = eventName,
         eventType = ClickEvent.Click,
@@ -143,6 +153,15 @@ private fun convertPlainConversionEvent(
         index = indexName,
         objectIDs = objectIDs,
         queryID = queryID,
+        userToken = userToken,
+        timestamp = timestamp,
+    ))
+    // Conversion unrelated to a search (no queryID).
+    objectIDs != null -> EventsItems.of(ConvertedObjectIDs(
+        eventName = eventName,
+        eventType = ConversionEvent.Conversion,
+        index = indexName,
+        objectIDs = objectIDs,
         userToken = userToken,
         timestamp = timestamp,
     ))
