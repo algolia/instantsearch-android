@@ -14,126 +14,107 @@ import com.algolia.instantsearch.filter.Filter
 
 internal object InsightsEventsMapper {
 
-    fun eventsItemToDO(input: EventsItems): InsightsEventDO {
-        val builder = InsightsEventDO.Builder()
-        when (input) {
-            is EventsItems.ViewedObjectIDsValue -> {
-                builder.eventType = View
-                builder.objectIDs = input.value.objectIDs
-            }
-            is EventsItems.ViewedFiltersValue -> {
-                builder.eventType = View
-                builder.filters = input.value.filters.mapNotNull(::parseFacetFilter)
-            }
-            is EventsItems.ClickedObjectIDsAfterSearchValue -> {
-                builder.eventType = Click
-                builder.objectIDs = input.value.objectIDs
-                builder.positions = input.value.positions
-                builder.queryID = input.value.queryID
-            }
-            is EventsItems.ClickedFiltersValue -> {
-                builder.eventType = Click
-                builder.filters = input.value.filters.mapNotNull(::parseFacetFilter)
-            }
-            is EventsItems.ConvertedObjectIDsAfterSearchValue -> {
-                builder.eventType = Conversion
-                builder.objectIDs = input.value.objectIDs
-                builder.queryID = input.value.queryID
-            }
-            is EventsItems.ConvertedFiltersValue -> {
-                builder.eventType = Conversion
-                builder.filters = input.value.filters.mapNotNull(::parseFacetFilter)
-            }
-            is EventsItems.PurchasedObjectIDsValue -> {
-                builder.eventType = Conversion
-                builder.eventSubtype = EventSubtype.Purchase
-                builder.objectIDs = input.value.objectIDs
-                builder.objectData = input.value.objectData?.map { it.toObjectDataDO() }
-                builder.currency = input.value.currency
-                builder.value = input.value.value?.toDouble()
-            }
-            is EventsItems.PurchasedObjectIDsAfterSearchValue -> {
-                builder.eventType = Conversion
-                builder.eventSubtype = EventSubtype.Purchase
-                builder.objectIDs = input.value.objectIDs
-                builder.queryID = input.value.objectData.firstNotNullOfOrNull { it.queryID }
-                builder.objectData = input.value.objectData.map { it.toObjectDataDO() }
-                builder.currency = input.value.currency
-                builder.value = input.value.value?.toDouble()
-            }
-            is EventsItems.AddedToCartObjectIDsValue -> {
-                builder.eventType = Conversion
-                builder.eventSubtype = EventSubtype.AddToCart
-                builder.objectIDs = input.value.objectIDs
-                builder.objectData = input.value.objectData?.map { it.toObjectDataDO() }
-                builder.currency = input.value.currency
-                builder.value = input.value.value?.toDouble()
-            }
-            is EventsItems.AddedToCartObjectIDsAfterSearchValue -> {
-                builder.eventType = Conversion
-                builder.eventSubtype = EventSubtype.AddToCart
-                builder.objectIDs = input.value.objectIDs
-                builder.queryID = input.value.queryID
-                builder.objectData = input.value.objectData?.map { it.toObjectDataDO() }
-                builder.currency = input.value.currency
-                builder.value = input.value.value?.toDouble()
-            }
-            else -> return builder.build()
+    /**
+     * Maps a v3 Insights API event back to its local representation.
+     *
+     * Every event shape the Insights API accepts is handled, both "after search" (with a `queryID`)
+     * and plain (without one). Returns `null` for event shapes this library doesn't track.
+     */
+    fun eventsItemToDO(input: EventsItems): InsightsEventDO? = when (input) {
+        // View
+        is EventsItems.ViewedObjectIDsValue -> with(input.value) {
+            buildDO(View, eventName, index, userToken, timestamp) { objectIDs = this@with.objectIDs }
         }
-        builder.eventName = when (input) {
-            is EventsItems.ViewedObjectIDsValue -> input.value.eventName
-            is EventsItems.ViewedFiltersValue -> input.value.eventName
-            is EventsItems.ClickedObjectIDsAfterSearchValue -> input.value.eventName
-            is EventsItems.ClickedFiltersValue -> input.value.eventName
-            is EventsItems.ConvertedObjectIDsAfterSearchValue -> input.value.eventName
-            is EventsItems.ConvertedFiltersValue -> input.value.eventName
-            is EventsItems.PurchasedObjectIDsValue -> input.value.eventName
-            is EventsItems.PurchasedObjectIDsAfterSearchValue -> input.value.eventName
-            is EventsItems.AddedToCartObjectIDsValue -> input.value.eventName
-            is EventsItems.AddedToCartObjectIDsAfterSearchValue -> input.value.eventName
-            else -> ""
+        is EventsItems.ViewedFiltersValue -> with(input.value) {
+            buildDO(View, eventName, index, userToken, timestamp) { filters = parseFacetFilters(this@with.filters) }
         }
-        builder.indexName = when (input) {
-            is EventsItems.ViewedObjectIDsValue -> input.value.index
-            is EventsItems.ViewedFiltersValue -> input.value.index
-            is EventsItems.ClickedObjectIDsAfterSearchValue -> input.value.index
-            is EventsItems.ClickedFiltersValue -> input.value.index
-            is EventsItems.ConvertedObjectIDsAfterSearchValue -> input.value.index
-            is EventsItems.ConvertedFiltersValue -> input.value.index
-            is EventsItems.PurchasedObjectIDsValue -> input.value.index
-            is EventsItems.PurchasedObjectIDsAfterSearchValue -> input.value.index
-            is EventsItems.AddedToCartObjectIDsValue -> input.value.index
-            is EventsItems.AddedToCartObjectIDsAfterSearchValue -> input.value.index
-            else -> ""
+        // Click
+        is EventsItems.ClickedObjectIDsAfterSearchValue -> with(input.value) {
+            buildDO(Click, eventName, index, userToken, timestamp) {
+                objectIDs = this@with.objectIDs
+                positions = this@with.positions
+                queryID = this@with.queryID
+            }
         }
-        builder.userToken = when (input) {
-            is EventsItems.ViewedObjectIDsValue -> input.value.userToken
-            is EventsItems.ViewedFiltersValue -> input.value.userToken
-            is EventsItems.ClickedObjectIDsAfterSearchValue -> input.value.userToken
-            is EventsItems.ClickedFiltersValue -> input.value.userToken
-            is EventsItems.ConvertedObjectIDsAfterSearchValue -> input.value.userToken
-            is EventsItems.ConvertedFiltersValue -> input.value.userToken
-            is EventsItems.PurchasedObjectIDsValue -> input.value.userToken
-            is EventsItems.PurchasedObjectIDsAfterSearchValue -> input.value.userToken
-            is EventsItems.AddedToCartObjectIDsValue -> input.value.userToken
-            is EventsItems.AddedToCartObjectIDsAfterSearchValue -> input.value.userToken
-            else -> null
+        is EventsItems.ClickedObjectIDsValue -> with(input.value) {
+            buildDO(Click, eventName, index, userToken, timestamp) { objectIDs = this@with.objectIDs }
         }
-        builder.timestamp = when (input) {
-            is EventsItems.ViewedObjectIDsValue -> input.value.timestamp
-            is EventsItems.ViewedFiltersValue -> input.value.timestamp
-            is EventsItems.ClickedObjectIDsAfterSearchValue -> input.value.timestamp
-            is EventsItems.ClickedFiltersValue -> input.value.timestamp
-            is EventsItems.ConvertedObjectIDsAfterSearchValue -> input.value.timestamp
-            is EventsItems.ConvertedFiltersValue -> input.value.timestamp
-            is EventsItems.PurchasedObjectIDsValue -> input.value.timestamp
-            is EventsItems.PurchasedObjectIDsAfterSearchValue -> input.value.timestamp
-            is EventsItems.AddedToCartObjectIDsValue -> input.value.timestamp
-            is EventsItems.AddedToCartObjectIDsAfterSearchValue -> input.value.timestamp
-            else -> null
+        is EventsItems.ClickedFiltersValue -> with(input.value) {
+            buildDO(Click, eventName, index, userToken, timestamp) { filters = parseFacetFilters(this@with.filters) }
         }
-        return builder.build()
+        // Conversion
+        is EventsItems.ConvertedObjectIDsAfterSearchValue -> with(input.value) {
+            buildDO(Conversion, eventName, index, userToken, timestamp) {
+                objectIDs = this@with.objectIDs
+                queryID = this@with.queryID
+            }
+        }
+        is EventsItems.ConvertedObjectIDsValue -> with(input.value) {
+            buildDO(Conversion, eventName, index, userToken, timestamp) { objectIDs = this@with.objectIDs }
+        }
+        is EventsItems.ConvertedFiltersValue -> with(input.value) {
+            buildDO(Conversion, eventName, index, userToken, timestamp) { filters = parseFacetFilters(this@with.filters) }
+        }
+        // Conversion / purchase
+        is EventsItems.PurchasedObjectIDsValue -> with(input.value) {
+            buildDO(Conversion, eventName, index, userToken, timestamp) {
+                eventSubtype = EventSubtype.Purchase
+                objectIDs = this@with.objectIDs
+                objectData = this@with.objectData?.map { it.toObjectDataDO() }
+                currency = this@with.currency
+                value = this@with.value?.toDouble()
+            }
+        }
+        is EventsItems.PurchasedObjectIDsAfterSearchValue -> with(input.value) {
+            buildDO(Conversion, eventName, index, userToken, timestamp) {
+                eventSubtype = EventSubtype.Purchase
+                objectIDs = this@with.objectIDs
+                queryID = this@with.objectData.firstNotNullOfOrNull { it.queryID }
+                objectData = this@with.objectData.map { it.toObjectDataDO() }
+                currency = this@with.currency
+                value = this@with.value?.toDouble()
+            }
+        }
+        // Conversion / add to cart
+        is EventsItems.AddedToCartObjectIDsValue -> with(input.value) {
+            buildDO(Conversion, eventName, index, userToken, timestamp) {
+                eventSubtype = EventSubtype.AddToCart
+                objectIDs = this@with.objectIDs
+                objectData = this@with.objectData?.map { it.toObjectDataDO() }
+                currency = this@with.currency
+                value = this@with.value?.toDouble()
+            }
+        }
+        is EventsItems.AddedToCartObjectIDsAfterSearchValue -> with(input.value) {
+            buildDO(Conversion, eventName, index, userToken, timestamp) {
+                eventSubtype = EventSubtype.AddToCart
+                objectIDs = this@with.objectIDs
+                queryID = this@with.queryID
+                objectData = this@with.objectData?.map { it.toObjectDataDO() }
+                currency = this@with.currency
+                value = this@with.value?.toDouble()
+            }
+        }
+        else -> null
     }
+
+    private inline fun buildDO(
+        eventType: InsightsEventDO.EventType,
+        eventName: String,
+        indexName: String,
+        userToken: String?,
+        timestamp: Long?,
+        block: InsightsEventDO.Builder.() -> Unit,
+    ): InsightsEventDO = InsightsEventDO.Builder().apply {
+        this.eventType = eventType
+        this.eventName = eventName
+        this.indexName = indexName
+        this.userToken = userToken
+        this.timestamp = timestamp
+        block()
+    }.build()
+
+    private fun parseFacetFilters(filters: List<String>): List<FilterFacetDO> = filters.mapNotNull(::parseFacetFilter)
 
     fun doToEventsItem(input: InsightsEventDO): EventsItems? {
         return convertToEventsItem(

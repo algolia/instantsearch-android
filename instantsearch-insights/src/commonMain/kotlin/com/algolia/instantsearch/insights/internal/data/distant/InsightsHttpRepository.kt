@@ -40,8 +40,8 @@ internal class InsightsHttpRepository(
 
     override suspend fun send(event: InsightsEventDO): EventResponse {
         val eventsItem = InsightsEventsMapper.doToEventsItem(event) ?: run {
-            InsightsLogger.log(event.indexName, "Failed to map event for Insights.")
-            return EventResponse(event, -1)
+            InsightsLogger.log(event.indexName, "Dropping event that can't be mapped to an Insights API event: $event")
+            return EventResponse(event, EventResponse.CODE_UNMAPPABLE)
         }
         val (code, message) = try {
             val response = insightsClient.pushEvents(
@@ -51,7 +51,7 @@ internal class InsightsHttpRepository(
             val status = response.status ?: 200
             status to (response.message ?: "Sync succeeded for $event.")
         } catch (exception: Exception) {
-            val status = (exception as? AlgoliaApiException)?.httpErrorCode ?: -1
+            val status = (exception as? AlgoliaApiException)?.httpErrorCode ?: EventResponse.CODE_EXCEPTION
             status to exception.message.orEmpty()
         }
         InsightsLogger.log(event.indexName, message)
