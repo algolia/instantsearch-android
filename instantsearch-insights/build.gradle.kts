@@ -1,48 +1,32 @@
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    alias(libs.plugins.android.kotlin.multiplatform.library)
     id("kotlinx-serialization")
     id("com.vanniktech.maven.publish")
 }
 
-android {
-    namespace = "com.algolia.instantsearch.insights"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 23
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    testOptions.unitTests.apply {
-        isIncludeAndroidResources = true
-        isReturnDefaultValues = true
-        all {
-            it.testLogging {
-                events("failed")
-                setExceptionFormat("full")
-            }
-        }
-    }
-
-    sourceSets {
-        getByName("main") {
-            manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        }
-    }
-
-    resourcePrefix = "alg_is_insights_"
-}
-
 kotlin {
     explicitApi()
-    androidTarget ()
-    jvm()
+    jvm {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+        }
+    }
+    android {
+        namespace = "com.algolia.instantsearch.insights"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        compilerOptions {
+            // Current AndroidX artifacts (core, appcompat, work, ...) ship Java 11
+            // bytecode, so the Android target must be compiled for JVM 11 too.
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+        }
+        // Host-side (Robolectric) tests live in `src/androidHostTest`.
+        withHostTest {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
+    }
     sourceSets {
         all {
             languageSettings {
@@ -88,7 +72,7 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.android)
             }
         }
-        named("androidUnitTest") {
+        named("androidHostTest") {
             dependencies {
                 implementation(libs.test.kotlin.junit)
                 implementation(libs.test.androidx.runner)
@@ -101,8 +85,9 @@ kotlin {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+tasks.withType<Test>().configureEach {
+    testLogging {
+        events("failed")
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
     }
 }

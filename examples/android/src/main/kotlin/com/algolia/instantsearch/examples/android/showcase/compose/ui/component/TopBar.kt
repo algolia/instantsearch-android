@@ -1,6 +1,6 @@
 package com.algolia.instantsearch.examples.android.showcase.compose.ui.component
 
-import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
@@ -22,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.algolia.instantsearch.compose.searchbox.SearchBoxState
@@ -44,7 +43,7 @@ fun TitleTopBar(
     title: String = "",
     onBackClick: (() -> Unit)? = null,
 ) {
-    val activity = (LocalContext.current as? Activity)
+    val activity = LocalActivity.current
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     val handleBack: () -> Unit = onBackClick ?: {
         backDispatcher?.onBackPressed()
@@ -111,7 +110,7 @@ fun SearchTopBar(
     onIconClick: () -> Unit = {},
     onBackClick: (() -> Unit)? = null,
 ) {
-    val activity = (LocalContext.current as? Activity)
+    val activity = LocalActivity.current
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     val handleBack: () -> Unit = onBackClick ?: {
         backDispatcher?.onBackPressed()

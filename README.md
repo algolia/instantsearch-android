@@ -62,9 +62,11 @@ Please refer to the [library](instantsearch-insights/README.md) for more details
 
 ## Requirements
 
-* Kotlin 2.2+
-* Android SDK 23+
-* Java 8+
+* Kotlin 2.4+
+* Android `minSdk` 23+, `compileSdk` 37+ (Android 17) with Android Gradle Plugin 9.1.1+
+* Java 11+ for the Android artifacts (the pure-JVM artifacts still target Java 8)
+
+See [Android 17 (API 37) readiness](docs/guide/Android_17_readiness.md) for the behavior-change audit.
 
 ### R8 / Proguard rules
 

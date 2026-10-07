@@ -1,37 +1,39 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
     id 'kotlinx-serialization'
 }
 
 android {
-    compileSdk 36
-    namespace "com.algolia.instantsearch.example.wearos"
+    compileSdk = libs.versions.android.compileSdk.get().toInteger()
+    namespace = "com.algolia.instantsearch.example.wearos"
 
     defaultConfig {
-        applicationId "com.algolia.instantsearch.example.wearos"
-        minSdk 30
-        targetSdk 35
-        versionCode 1
-        versionName "1.0"
+        applicationId = "com.algolia.instantsearch.example.wearos"
+        minSdk = 30
+        targetSdk = 37
+        versionCode = 1
+        versionName = "1.0"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
-        freeCompilerArgs += [
-            '-opt-in=kotlinx.serialization.InternalSerializationApi',
-        ]
+}
+
+// AGP 9 built-in Kotlin: compiler options replace `kotlinOptions` and the
+// `kotlin-android` plugin.
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+        optIn.add('kotlinx.serialization.InternalSerializationApi')
     }
 }
 
@@ -39,10 +41,10 @@ dependencies {
     //implementation "com.algolia:instantsearch-android:$instantsearch"
     implementation project(":instantsearch")
 
-    implementation 'androidx.wear:wear:1.2.0'
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "io.coil-kt:coil:2.1.0"
+    implementation 'androidx.wear:wear:1.4.0'
+    implementation libs.androidx.core
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.recyclerview
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.2'
+    implementation "io.coil-kt:coil:2.7.0"
 }

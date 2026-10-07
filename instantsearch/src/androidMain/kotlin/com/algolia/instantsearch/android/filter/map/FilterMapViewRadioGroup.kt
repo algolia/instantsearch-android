@@ -17,7 +17,7 @@ public class FilterMapViewRadioGroup(
         radioGroup.setOnCheckedChangeListener(this)
     }
 
-    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+    override fun onCheckedChanged(group: RadioGroup, checkedId: Int) {
         onSelectionChange?.invoke(checkedId)
     }
 

@@ -31,7 +31,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import com.algolia.instantsearch.compose.highlighting.toAnnotatedString
 import com.algolia.instantsearch.examples.android.showcase.compose.model.Movie
@@ -66,8 +65,8 @@ fun MoviesList(
     listState: LazyListState = rememberLazyListState()
 ) {
     LazyColumn(modifier, listState) {
-        items(movies) { movie ->
-            movie ?: return@items
+        items(movies.itemCount) { index ->
+            val movie = movies[index] ?: return@items
             Surface(elevation = 1.dp) {
                 MovieItem(
                     modifier = Modifier
@@ -151,8 +150,8 @@ fun MoviesHorizontalList(
     listState: LazyListState = rememberLazyListState(),
 ) {
     LazyRow(modifier, listState) {
-        items(movies) { movie ->
-            movie ?: return@items
+        items(movies.itemCount) { index ->
+            val movie = movies[index] ?: return@items
             MovieCardItem(
                 modifier = Modifier
                     .width(IntrinsicSize.Min)
