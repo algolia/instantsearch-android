@@ -13,6 +13,16 @@
 ### Fixed
 - `FilterMapViewRadioGroup` / `FilterToggleViewCompoundButton`: `onCheckedChanged` parameters are now non-null, matching the API 37 platform signatures
 
+# 4.1.1
+
+### Fixed
+- Insights: `clickedObjectIDs` and `convertedObjectIDs` (the variants without a `queryID`) were never mapped to an Insights API event and silently dropped since 4.0.0; they are now sent as `ClickedObjectIDs`/`ConvertedObjectIDs`. A click with a `queryID` but no positions is sent as a plain click instead of being dropped (#441, fixes #439)
+- Insights: events that cannot be mapped are reported as `EventResponse.CODE_UNMAPPABLE` and removed from the local queue instead of being retried on every flush; network failures are still retried
+- Insights: `InsightsEventsMapper.eventsItemToDO` covers all Insights event shapes and returns `null` for unknown ones instead of throwing `IllegalStateException`
+
+### Changed
+- Algolia Kotlin API client version to `3.49.0` for `kotlinx-datetime` 0.8.0 compatibility (#438, fixes #437)
+
 # 4.1.0
 
 ### Added
