@@ -1,22 +1,21 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
     id("com.vanniktech.maven.publish")
     alias(libs.plugins.dokka)
 }
 
 android {
     namespace = "com.algolia.instantsearch.android.paging3"
-    compileSdk = 35
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 23
+        minSdk = libs.versions.android.minSdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     testOptions.unitTests.apply {
@@ -25,14 +24,18 @@ android {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+// AGP 9 built-in Kotlin: compiler options are configured here instead of
+// through the `kotlin-android` plugin.
+kotlin {
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
-        freeCompilerArgs.addAll(listOf(
-            "-Xopt-in=com.algolia.instantsearch.ExperimentalInstantSearch",
-            "-Xopt-in=com.algolia.instantsearch.InternalInstantSearch",
-            "-Xexplicit-api=strict"
-        ))
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+        freeCompilerArgs.addAll(
+            listOf(
+                "-opt-in=com.algolia.instantsearch.ExperimentalInstantSearch",
+                "-opt-in=com.algolia.instantsearch.InternalInstantSearch",
+                "-Xexplicit-api=strict"
+            )
+        )
     }
 }
 

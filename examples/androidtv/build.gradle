@@ -1,42 +1,44 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
     id 'kotlinx-serialization'
+    id 'org.jetbrains.kotlin.plugin.compose'
 }
-apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
-    compileSdk 36
-    namespace "com.algolia.instantsearch.examples.androidtv"
+    compileSdk = libs.versions.android.compileSdk.get().toInteger()
+    namespace = "com.algolia.instantsearch.examples.androidtv"
 
     defaultConfig {
-        applicationId "com.algolia.instantsearch.examples.androidtv"
-        minSdk 23
-        targetSdk 35
-        versionCode 1
-        versionName "1.0"
+        applicationId = "com.algolia.instantsearch.examples.androidtv"
+        minSdk = libs.versions.android.minSdk.get().toInteger()
+        targetSdk = 37
+        versionCode = 1
+        versionName = "1.0"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
     buildFeatures {
-        compose true
+        compose = true
     }
+}
 
-    composeOptions {
-        kotlinCompilerExtensionVersion libs.versions.composeCompiler.get()
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs += [
-            '-opt-in=kotlinx.serialization.InternalSerializationApi',
-        ]
+// AGP 9 built-in Kotlin: compiler options replace `kotlinOptions` and the
+// `kotlin-android` plugin.
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+        optIn.add('kotlinx.serialization.InternalSerializationApi')
     }
 }
 
@@ -44,17 +46,17 @@ dependencies {
     //implementation "com.algolia:instantsearch-compose:$instantsearch"
     implementation project(":instantsearch-compose")
 
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.leanback:leanback:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation libs.androidx.core
+    implementation 'androidx.leanback:leanback:1.2.0'
+    implementation libs.androidx.appcompat
 
-    implementation "androidx.compose.ui:ui:1.2.0"
-    implementation "androidx.compose.ui:ui-tooling-preview:1.2.0"
-    implementation "androidx.compose.material:material:1.2.0"
-    implementation "androidx.compose.material:material-icons-extended:1.2.0"
-    implementation 'androidx.activity:activity-compose:1.5.1'
-    implementation 'androidx.paging:paging-compose:1.0.0-alpha15'
-    implementation 'io.coil-kt:coil-compose:2.1.0'
+    implementation libs.androidx.compose.ui
+    implementation "androidx.compose.ui:ui-tooling-preview:${libs.versions.composeUi.get()}"
+    implementation libs.androidx.compose.material
+    implementation libs.androidx.compose.material.icons.extended
+    implementation 'androidx.activity:activity-compose:1.13.0'
+    implementation 'androidx.paging:paging-compose:3.5.1'
+    implementation 'io.coil-kt:coil-compose:2.7.0'
 
-    debugImplementation "androidx.compose.ui:ui-tooling:1.2.0"
+    debugImplementation "androidx.compose.ui:ui-tooling:${libs.versions.composeUi.get()}"
 }

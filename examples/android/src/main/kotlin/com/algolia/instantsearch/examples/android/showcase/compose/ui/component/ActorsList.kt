@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.items
 import com.algolia.instantsearch.examples.android.showcase.compose.model.Actor
 
 
@@ -43,8 +42,8 @@ fun ActorsHorizontalList(
     listState: LazyListState = rememberLazyListState()
 ) {
     LazyRow(modifier, listState) {
-        items(actors) { actor ->
-            actor ?: return@items
+        items(actors.itemCount) { index ->
+            val actor = actors[index] ?: return@items
             ActorCardItem(
                 modifier = Modifier.padding(horizontal = 6.dp),
                 actor = actor

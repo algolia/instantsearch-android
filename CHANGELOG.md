@@ -1,3 +1,18 @@
+# Unreleased
+
+### Changed
+- Android 17 (API 37) readiness: `compileSdk` to `37` (was `35`); example apps `targetSdk` to `37`. Consumers need `compileSdk 37` and AGP 9.1.1+
+- AGP version to `9.3.3`, Gradle to `9.5.0`, Kotlin and Compose compiler to `2.4.20`
+- KMP modules migrated to the `com.android.kotlin.multiplatform.library` plugin; Android-only modules use AGP built-in Kotlin
+- Android artifacts now compile to Java 11 bytecode (required by current AndroidX); JVM artifacts remain Java 8
+- Compose UI/Material to `1.12.1`, Material icons to `1.7.8` (`material-icons-core` now an explicit dependency of `instantsearch-compose`)
+- AndroidX: core-ktx `1.19.1`, appcompat `1.8.0`, recyclerview `1.4.0`, swiperefreshlayout `1.2.0`, paging `3.5.1`, work `2.11.2` (2.12 requires minSdk 24), Material Components `1.14.0`
+- Coroutines `1.11.0`, kotlinx-serialization `1.11.0`, Ktor `3.6.0`, atomicfu `0.33.0`
+- Test dependencies: Robolectric `4.17`, androidx.test `1.3.0`/`1.7.0`/`3.7.0`, MockK `1.14.11`, Turbine `1.2.1`
+
+### Fixed
+- `FilterMapViewRadioGroup` / `FilterToggleViewCompoundButton`: `onCheckedChanged` parameters are now non-null, matching the API 37 platform signatures
+
 # 4.1.1
 
 ### Fixed
