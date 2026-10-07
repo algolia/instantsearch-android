@@ -1,7 +1,7 @@
 # Unreleased
 
 ### Changed
-- Android 17 (API 37) readiness: `compileSdk` to `37` (was `35`); example apps `targetSdk` to `37`. Consumers need `compileSdk 37` and AGP 9.1.1+. See [docs/guide/Android_17_readiness.md](docs/guide/Android_17_readiness.md) for the behavior-change audit
+- Android 17 (API 37) readiness: `compileSdk` to `37` (was `35`); example apps `targetSdk` to `37`. Consumers need `compileSdk 37` and AGP 9.1.1+
 - AGP version to `9.3.3`, Gradle to `9.5.0`, Kotlin and Compose compiler to `2.4.20`
 - KMP modules migrated to the `com.android.kotlin.multiplatform.library` plugin; Android-only modules use AGP built-in Kotlin
 - Android artifacts now compile to Java 11 bytecode (required by current AndroidX); JVM artifacts remain Java 8

@@ -66,8 +66,6 @@ Please refer to the [library](instantsearch-insights/README.md) for more details
 * Android `minSdk` 23+, `compileSdk` 37+ (Android 17) with Android Gradle Plugin 9.1.1+
 * Java 11+ for the Android artifacts (the pure-JVM artifacts still target Java 8)
 
-See [Android 17 (API 37) readiness](docs/guide/Android_17_readiness.md) for the behavior-change audit.
-
 ### R8 / Proguard rules
 
 If you use this library in an Android project which uses R8, there is nothing you have to do. The specific rules are 
