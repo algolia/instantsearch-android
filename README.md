@@ -24,6 +24,7 @@ implementation "com.algolia:instantsearch-android:$instantsearch_version"
 ```
 
 ℹ️ Please follow the migration guides to upgrade to the latest version:
+- [4.x to 5.x migration guide](docs/guide/Migration_4.x_5.x.md)
 - [3.x to 4.x migration guide](docs/guide/Migration_3.x_4.x.md)
 - [2.x to 3.x migration guide](docs/guide/Migration_2.x_3.x.md)
 
