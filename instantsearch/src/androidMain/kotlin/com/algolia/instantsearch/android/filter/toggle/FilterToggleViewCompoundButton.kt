@@ -25,7 +25,7 @@ public class FilterToggleViewCompoundButton(
         compoundButton.setOnCheckedChangeListener(this)
     }
 
-    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+    override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
         onSelectionChanged?.invoke(isChecked)
     }
 }

@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    alias(libs.plugins.android.kotlin.multiplatform.library)
     id("kotlinx-serialization")
     id("com.vanniktech.maven.publish")
 }
@@ -11,38 +11,25 @@ plugins {
 group = providers.gradleProperty("GROUP").get()
 version = providers.gradleProperty("VERSION_NAME").get()
 
-android {
-    namespace = "com.algolia.instantsearch.agent"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 23
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    testOptions.unitTests.apply {
-        isIncludeAndroidResources = true
-        isReturnDefaultValues = true
-    }
-
-    sourceSets {
-        getByName("main") {
-            manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        }
-    }
-
-    resourcePrefix = "alg_is_agent_"
-}
-
 kotlin {
     explicitApi()
-    androidTarget()
-    jvm()
+    android {
+        namespace = "com.algolia.instantsearch.agent"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        compilerOptions {
+            // Android target compiles for JVM 11, in line with the other Android
+            // artifacts of this repository and current AndroidX bytecode.
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+        }
+        // Run the shared `commonTest` suite on the Android host as well.
+        withHostTest {}
+    }
+    jvm {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+        }
+    }
     sourceSets {
         all {
             languageSettings {
@@ -59,7 +46,7 @@ kotlin {
             dependencies {
                 api(libs.kotlinx.coroutines.core)
                 api(libs.ktor.client.serialization.json)
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+                implementation(libs.kotlinx.serialization.json)
             }
         }
         commonTest {
@@ -86,12 +73,9 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.android)
             }
         }
-        named("androidUnitTest") {
+        named("androidHostTest") {
             dependencies {
                 implementation(libs.test.kotlin.junit)
-                implementation(libs.test.androidx.runner)
-                implementation(libs.test.androidx.ext)
-                implementation(libs.test.robolectric)
             }
         }
     }
@@ -99,7 +83,6 @@ kotlin {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
         // Explicit-api strictness applies to production code only; test sources
         // (e.g. JUnit `class …Test`) don't need explicit visibility modifiers.
         if (!name.contains("Test")) {

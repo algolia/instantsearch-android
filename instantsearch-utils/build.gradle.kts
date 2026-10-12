@@ -1,33 +1,26 @@
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    alias(libs.plugins.android.kotlin.multiplatform.library)
     id("com.vanniktech.maven.publish")
-}
-
-android {
-    namespace = "com.algolia.instantsearch.utils"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 23
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    testOptions.unitTests.apply {
-        isIncludeAndroidResources = true
-        isReturnDefaultValues = true
-    }
 }
 
 kotlin {
     explicitApi()
-    jvm()
-    androidTarget()
+    jvm {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+        }
+    }
+    android {
+        namespace = "com.algolia.instantsearch.utils"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        compilerOptions {
+            // Current AndroidX artifacts (core, appcompat, work, ...) ship Java 11
+            // bytecode, so the Android target must be compiled for JVM 11 too.
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+        }
+    }
     sourceSets {
         all {
             languageSettings.optIn("com.algolia.instantsearch.InternalInstantSearch")
@@ -49,16 +42,10 @@ kotlin {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
-    }
-}
-
 tasks {
     val copyTemplates = register<Copy>("copyTemplates") {
         from("src/commonMain/templates")
-        into("$buildDir/generated/sources/templates/kotlin/main")
+        into(layout.buildDirectory.dir("generated/sources/templates/kotlin/main"))
         val version = project.extensions.extraProperties["VERSION_NAME"] as String // require clean build
         expand("projectVersion" to version)
         filteringCharset = "UTF-8"

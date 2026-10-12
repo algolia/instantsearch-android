@@ -1,35 +1,31 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
-    compileSdkVersion 36
-    namespace "com.algolia.instantsearch.examples.android"
+    compileSdk = libs.versions.android.compileSdk.get().toInteger()
+    namespace = "com.algolia.instantsearch.examples.android"
 
     defaultConfig {
-        applicationId "com.algolia.instantsearch.examples.android"
-        minSdkVersion 23
-        targetSdkVersion 35
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId = "com.algolia.instantsearch.examples.android"
+        minSdk = libs.versions.android.minSdk.get().toInteger()
+        targetSdk = 37
+        versionCode = 1
+        versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
             matchingFallbacks = ['release']
         }
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     packaging {
         resources {
@@ -37,13 +33,23 @@ android {
         }
     }
     buildFeatures {
-        viewBinding true
+        viewBinding = true
+        compose = true
     }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion libs.versions.composeCompiler.get()
+}
+
+// AGP 9 built-in Kotlin: compiler options replace `kotlinOptions` and the
+// `kotlin-android` plugin.
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+        optIn.addAll(
+            'kotlin.RequiresOptIn',
+            'com.algolia.instantsearch.ExperimentalInstantSearch',
+            'androidx.compose.material.ExperimentalMaterialApi',
+            'kotlinx.serialization.InternalSerializationApi',
+            'com.algolia.instantsearch.agent.ExperimentalAgentStudioApi',
+        )
     }
 }
 
@@ -62,38 +68,25 @@ dependencies {
     implementation project(":instantsearch-agent")
     implementation "com.algolia.instantsearch:voice:1.1.0"
 
-    implementation "androidx.fragment:fragment-ktx:1.5.4"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
-    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
-    implementation "com.google.android.material:material:1.7.0"
+    implementation "androidx.fragment:fragment-ktx:1.9.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.11.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.2.2"
+    implementation libs.google.material
 
+    implementation libs.androidx.compose.ui
+    implementation "androidx.compose.ui:ui-tooling-preview:${libs.versions.composeUi.get()}"
+    implementation libs.androidx.compose.material
+    implementation libs.androidx.compose.material.icons.extended
+    implementation 'androidx.activity:activity-compose:1.13.0'
+    implementation 'androidx.paging:paging-compose:3.5.1'
+    implementation 'io.coil-kt:coil-compose:2.7.0'
+    implementation 'com.google.accompanist:accompanist-swiperefresh:0.36.0'
 
-    implementation "androidx.compose.ui:ui:1.3.0"
-    implementation "androidx.compose.ui:ui-tooling-preview:1.3.0"
-    implementation "androidx.compose.material:material:1.3.0"
-    implementation "androidx.compose.material:material-icons-extended:1.3.0"
-    implementation 'androidx.activity:activity-compose:1.6.1'
-    implementation 'androidx.paging:paging-compose:1.0.0-alpha17'
-    implementation 'io.coil-kt:coil-compose:2.1.0'
-    implementation 'com.google.accompanist:accompanist-swiperefresh:0.23.1'
+    debugImplementation "androidx.compose.ui:ui-tooling:${libs.versions.composeUi.get()}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.14"
 
-    debugImplementation "androidx.compose.ui:ui-tooling:1.3.0"
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.9.1"
-
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-    kotlinOptions {
-        freeCompilerArgs += [
-            '-Xopt-in=kotlin.RequiresOptIn',
-            '-Xopt-in=com.algolia.instantsearch.ExperimentalInstantSearch',
-            '-Xopt-in=androidx.compose.material.ExperimentalMaterialApi',
-            '-opt-in=kotlinx.serialization.InternalSerializationApi',
-            '-opt-in=com.algolia.instantsearch.agent.ExperimentalAgentStudioApi',
-        ]
-    }
+    testImplementation libs.junit
+    androidTestImplementation libs.test.androidx.runner
+    androidTestImplementation libs.test.androidx.espresso
 }

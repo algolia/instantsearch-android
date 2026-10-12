@@ -24,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
 import com.algolia.client.model.search.FacetHits
 import com.algolia.instantsearch.android.paging3.Paginator
 import com.algolia.instantsearch.android.paging3.flow
@@ -44,8 +43,8 @@ fun ProductsList(
     listState: LazyListState
 ) {
     LazyColumn(modifier, listState) {
-        items(pagingHits) { item ->
-            if (item == null) return@items
+        items(pagingHits.itemCount) { index ->
+            val item = pagingHits[index] ?: return@items
             TextAnnotated(
                 modifier = modifier
                     .fillMaxWidth()

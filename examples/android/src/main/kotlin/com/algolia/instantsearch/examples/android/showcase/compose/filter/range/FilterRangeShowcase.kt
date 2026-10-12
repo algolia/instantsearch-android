@@ -27,7 +27,6 @@ import com.algolia.instantsearch.filter.state.FilterState
 import com.algolia.instantsearch.filter.state.filters
 import com.algolia.instantsearch.searcher.connectFilterState
 import com.algolia.instantsearch.searcher.hits.HitsSearcher
-import java.util.*
 
 class FilterRangeShowcase : AppCompatActivity() {
 
@@ -151,14 +150,14 @@ class FilterRangeShowcase : AppCompatActivity() {
                                 enabled = changeButtonEnabled,
                                 onClick = onChangeClick
                             ) {
-                                Text(stringResource(R.string.bounds_change).uppercase(Locale.getDefault()))
+                                Text(stringResource(R.string.bounds_change).uppercase())
                             }
                             Button(
                                 enabled = resetButtonEnabled,
                                 onClick = onResetClick,
                                 colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary)
                             ) {
-                                Text(stringResource(R.string.bounds_reset).uppercase(Locale.getDefault()))
+                                Text(stringResource(R.string.bounds_reset).uppercase())
                             }
                         }
                     }

@@ -1,13 +1,13 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.kotlin.multiplaform) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
     alias(libs.plugins.android) apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.kotlin.multiplatform.library) apply false
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.spotless) apply false
-    alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.dokka) apply false
 }
@@ -28,13 +28,13 @@ tasks.withType<Test> {
 }
 
 tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
+    delete(rootProject.layout.buildDirectory)
 }
 
 tasks.register("runDebugUnitTest") {
     dependsOn(":instantsearch-core:jvmTest")
-    dependsOn(":instantsearch:testDebugUnitTest")
-    dependsOn(":instantsearch-insights:testDebugUnitTest")
+    dependsOn(":instantsearch:testAndroidHostTest")
+    dependsOn(":instantsearch-insights:testAndroidHostTest")
     dependsOn(":instantsearch-compose:testDebugUnitTest")
     dependsOn(":instantsearch-agent:jvmTest")
     dependsOn(":extensions:android-paging3:testDebugUnitTest")

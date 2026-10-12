@@ -21,8 +21,7 @@
             android:banner="@drawable/ic_launcher"
             android:exported="true"
             android:icon="@drawable/ic_launcher"
-            android:logo="@drawable/ic_launcher"
-            android:screenOrientation="landscape">
+            android:logo="@drawable/ic_launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
