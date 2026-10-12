@@ -153,7 +153,7 @@ Widgets, connectors, view models, searchers, filters and Insights keep the 4.x A
 3. **Set Java/Kotlin targets to 11** (`compileOptions` and `jvmTarget`) in those modules.
 4. **Remove the `kotlin-android` plugin** and migrate `kotlinOptions` to `kotlin { compilerOptions }` if you upgraded from AGP 8.
 5. **Bump InstantSearch artifacts** to `5.+`.
-6. **Align Compose**: BOM `2025.12.01`+ or Compose `1.12.1`+, and declare `material-icons-core`/`-extended` if your code uses `Icons.*`.
+6. **Align Compose**: BOM `2026.09.00`+ or Compose `1.12.1`+, and declare `material-icons-core`/`-extended` if your code uses `Icons.*`.
 7. **Fix `OnCheckedChangeListener` overrides** that still use nullable parameters.
 8. **Review Android 17 behavior changes** for your app when you flip `targetSdk` to 37, in particular the large-screen changes (orientation and resizability restrictions are ignored on screens of 600dp and wider) and the local network permission. The library itself declares no Activity, Service or permission, so it is not affected. See the [Android 17 behavior changes](https://developer.android.com/about/versions/17/behavior-changes-17).
 9. **Run your test suite** on an Android 17 emulator or device.
