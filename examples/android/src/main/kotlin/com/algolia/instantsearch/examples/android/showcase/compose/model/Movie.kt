@@ -8,7 +8,7 @@ import kotlinx.serialization.json.JsonObject
 @Serializable
 data class Movie(
     val title: String,
-    val year: String,
+    val year: Int,
     val genre: List<String>,
     val image: String,
     override val objectID: String,
