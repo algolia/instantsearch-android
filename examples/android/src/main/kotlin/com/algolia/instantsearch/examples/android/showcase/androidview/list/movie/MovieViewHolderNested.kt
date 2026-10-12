@@ -10,7 +10,7 @@ class MovieViewHolderNested(private val binding: ListItemMovieBinding) :
     fun bind(movie: Movie) {
         binding.itemTitle.text = movie.title
         binding.itemSubtitle.text = movie.genre.sorted().joinToString { it }
-        binding.itemCaption.text = movie.year
+        binding.itemCaption.text = movie.year.toString()
         binding.itemImage.load(movie.image) {
             placeholder(android.R.drawable.ic_media_play)
             error(android.R.drawable.ic_media_play)

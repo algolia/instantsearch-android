@@ -124,7 +124,7 @@ fun MovieItem(modifier: Modifier = Modifier, movie: Movie) {
 
 private fun titleOf(movie: Movie): AnnotatedString {
     return movie.highlightedTitle?.toAnnotatedString()
-        ?: AnnotatedString(movie.title) + AnnotatedString(" ($movie.year)")
+        ?: AnnotatedString(movie.title) + AnnotatedString(" (${movie.year})")
 }
 
 private fun genresOf(movie: Movie): AnnotatedString {
@@ -189,7 +189,7 @@ fun MovieCardItem(modifier: Modifier = Modifier, movie: Movie) {
                     color = GreyDark
                 )
                 Text(
-                    text = movie.year,
+                    text = movie.year.toString(),
                     maxLines = 1,
                     style = MaterialTheme.typography.caption,
                     color = GreyDark
