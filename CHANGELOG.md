@@ -28,6 +28,7 @@ Android 17 (API 37) release. No InstantSearch API changes; the major bump reflec
 
 ### Changed
 - Algolia Kotlin API client version to `3.49.0` for `kotlinx-datetime` 0.8.0 compatibility (#438, fixes #437)
+- `instantsearch-agent` now shares the root version instead of its own `0.x` line (`0.1.0` → `4.1.1`), so every release publishes a consistent set of artifacts. Maven Central rejects a deployment that re-uploads an already published version, which blocked the 4.1.1 release while the module was still at `0.1.0`
 
 # 4.1.0
 

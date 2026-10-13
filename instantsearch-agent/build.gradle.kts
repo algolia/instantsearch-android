@@ -6,8 +6,8 @@ plugins {
 }
 
 // Agent Studio is an EXPERIMENTAL, standalone library. It is versioned
-// independently from the rest of InstantSearch (0.x line) via the
-// module-local `gradle.properties` `VERSION_NAME` override.
+// together with the rest of InstantSearch (root `VERSION_NAME`); the
+// experimental status is conveyed by the `@ExperimentalAgentStudioApi` opt-in.
 group = providers.gradleProperty("GROUP").get()
 version = providers.gradleProperty("VERSION_NAME").get()
 
