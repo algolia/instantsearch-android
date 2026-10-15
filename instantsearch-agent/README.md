@@ -1,11 +1,11 @@
 # instantsearch-agent
 
 > [!WARNING]
-> **Experimental.** This is a standalone, early-stage library versioned
-> independently (`0.x`) from the main InstantSearch Android library (`4.x`).
-> Its public API is annotated with `@ExperimentalAgentStudioApi` and can change
-> in source- and binary-incompatible ways — including being renamed or
-> removed — before a stable `1.0` release. It is a *beta feature* per
+> **Experimental.** This is a standalone, early-stage library. It is released
+> alongside the main InstantSearch Android library and shares its version
+> number, but its public API is annotated with `@ExperimentalAgentStudioApi`
+> and can change in source- and binary-incompatible ways — including being
+> renamed or removed — in any release. It is a *beta feature* per
 > [Algolia's Terms of Service ("Beta Services")](https://www.algolia.com/policies/terms/).
 
 Minimal native client for [Algolia Agent Studio][1]. Mirrors the AI SDK 5
@@ -21,8 +21,8 @@ Algolia docs.
 
 ```kotlin
 dependencies {
-    // Versioned independently from the main InstantSearch 4.x line.
-    implementation("com.algolia:instantsearch-agent:0.1.0")
+    // Same version as the other InstantSearch Android artifacts.
+    implementation("com.algolia:instantsearch-agent:5.0.0")
     implementation("io.ktor:ktor-client-okhttp:3.3.3") // or your preferred engine
 }
 ```
@@ -132,7 +132,7 @@ private fun ToolCallChip(part: ToolUIPart) {
 }
 ```
 
-## What's in v0.1
+## What's included
 
 | | |
 |---|---|
@@ -151,13 +151,18 @@ private fun ToolCallChip(part: ToolUIPart) {
 
 ## Versioning
 
-This library has its **own version line** (`0.x`), independent of the main
-InstantSearch Android library (`4.x`), so it can iterate quickly while
-experimental. Breaking changes can land in any `0.x` release. The version is
-set via this module's `gradle.properties` (`VERSION_NAME`) and does not affect
-the rest of the InstantSearch artifacts.
+This library is published with every InstantSearch Android release and uses the
+**same version number** as the other `com.algolia:instantsearch-*` artifacts
+(root `VERSION_NAME`). Because the API is experimental, breaking changes can
+land in any release, including patch releases; the `@ExperimentalAgentStudioApi`
+opt-in is the stability signal, not the version number.
+
+Releases up to and including `0.1.0` used a separate `0.x` version line; from
+`4.1.1` onwards the module follows the main version.
 
 ### Changelog
+
+Changes are tracked in the repository's top-level [CHANGELOG](../CHANGELOG.md).
 
 #### 0.1.0
 
