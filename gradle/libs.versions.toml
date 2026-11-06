@@ -1,23 +1,23 @@
 [versions]
 # Android 17 (API 37) toolchain. compileSdk 37 requires AGP >= 9.1.1
 # (https://developer.android.com/build/releases/about-agp#api-level-support).
-agp = "9.3.3"
+agp = "9.5.1"
 android-compileSdk = "37"
 android-minSdk = "23"
-kotlin = "2.4.20"
+kotlin = "2.4.21"
 composeUi = "1.12.1"
 composeIcons = "1.7.8"
-composeCompiler = "2.4.20"
+composeCompiler = "2.4.21"
 coroutines = "1.11.0"
-ktor = "3.6.0"
+ktor = "3.6.1"
 # WorkManager 2.12+ requires minSdk 24; 2.11.x is the last line supporting minSdk 23.
-work = "2.11.2"
-serialization = "1.11.0"
+work = "2.12.0"
+serialization = "1.12.0"
 junit = "4.13.2"
 
 [libraries]
 # algolia
-algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version = "3.49.0" }
+algolia-client = { group = "com.algolia", name = "algoliasearch-client-kotlin", version = "3.51.0" }
 algolia-telemetry = { group = "com.algolia", name = "instantsearch-telemetry", version = "0.2.0" }
 
 # network
@@ -37,7 +37,7 @@ androidx-compose-material = { group = "androidx.compose.material", name = "mater
 # since Compose 1.8) and are frozen at 1.7.x.
 androidx-compose-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "composeIcons" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "composeIcons" }
-androidx-paging3 = { group = "androidx.paging", name = "paging-runtime", version = "3.5.1" }
+androidx-paging3 = { group = "androidx.paging", name = "paging-runtime", version = "3.5.3" }
 androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.19.1" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.8.0" }
@@ -61,7 +61,7 @@ test-turbine = { group = "app.cash.turbine", name = "turbine", version = "1.2.1"
 
 # logging
 slf4j = { group = "org.slf4j", name = "slf4j-api", version = "2.0.20" }
-logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.5.38" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.6.6" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
@@ -72,5 +72,5 @@ android = { id = "com.android.library", version.ref = "agp" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.37.0" }
-spotless = { id = "com.diffplug.spotless", version = "8.10.3" }
-dokka = { id = "org.jetbrains.dokka", version = "2.2.0" }
+spotless = { id = "com.diffplug.spotless", version = "8.11.0" }
+dokka = { id = "org.jetbrains.dokka", version = "2.3.0" }
